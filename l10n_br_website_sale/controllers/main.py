@@ -34,52 +34,47 @@ class L10nBrWebsiteSale(WebsiteSale):
 
         return super(L10nBrWebsiteSale, self).confirm_order(**post)
 
-    def _get_mandatory_billing_fields(self):
-        res = super(L10nBrWebsiteSale, self)._get_mandatory_billing_fields()
-        order = request.website.sale_get_order()
-        if (
-            order.partner_invoice_id.country_id
-            and order.partner_invoice_id.country_id.code == "BR"
-        ):
-            if "city" in res:
-                res.remove("city")
-            extension = [
-                "name",
-                "email",
-                "street",
-                "street_number",
-                "district",
-                "country_id",
-                "state_id",
-                "city_id",
-                "zip",
-                "cnpj_cpf",
-                "company_type",
-            ]
-            res.extend(extension)
-        return res
+    def _get_mandatory_fields_billing(self, country_id=False):
+        req = super()._get_mandatory_fields_billing(country_id)
+        company_country_code = request.website.company_id.country_id.code
+        if country_id:
+            partner_country_code = request.env["res.country"].browse(country_id).code
+            if partner_country_code == "BR" and company_country_code == "BR":
+                req.remove("city")
+                req.remove("street")
+                extension = [
+                    "street_name",
+                    "street_number",
+                    "district",
+                    "country_id",
+                    "state_id",
+                    "city_id",
+                    "zip",
+                    "cnpj_cpf",
+                    "company_type",
+                ]
+                req.extend(extension)
+        return req
 
-    def _get_mandatory_shipping_fields(self):
-        res = super(L10nBrWebsiteSale, self)._get_mandatory_shipping_fields()
-        order = request.website.sale_get_order()
-        if (
-            order.partner_shipping_id.country_id
-            and order.partner_shipping_id.country_id.code == "BR"
-        ):
-            if "city" in res:
-                res.remove("city")
-            extension = [
-                "name",
-                "street",
-                "country_id",
-                "state_id",
-                "city_id",
-                "zip",
-                "street_number",
-                "district",
-            ]
-            res.extend(extension)
-        return res
+    def _get_mandatory_fields_shipping(self, country_id=False):
+        req = super()._get_mandatory_fields_shipping(country_id)
+        company_country_code = request.website.company_id.country_id.code
+        if country_id:
+            partner_country_code = request.env["res.country"].browse(country_id).code
+            if partner_country_code == "BR" and company_country_code == "BR":
+                req.remove("city")
+                req.remove("street")
+                extension = [
+                    "country_id",
+                    "state_id",
+                    "city_id",
+                    "zip",
+                    "street_name",
+                    "street_number",
+                    "district",
+                ]
+                req.extend(extension)
+        return req
 
     @http.route(
         ["/shop/address"],
@@ -133,6 +128,8 @@ class L10nBrWebsiteSale(WebsiteSale):
             new_values["cnpj_cpf"] = values["cnpj_cpf"]
         if "company_type" in values and "company_type" not in errors:
             new_values["company_type"] = values["company_type"]
+        if "street_name" in values:
+            new_values["street_name"] = values["street_name"]
         if "street_number" in values:
             new_values["street_number"] = values["street_number"]
         if "district" in values:
