@@ -14,3 +14,4 @@ satcomum
 unidecode
 workalendar
 xmldiff
+xsdata

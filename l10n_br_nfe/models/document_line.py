@@ -5,7 +5,7 @@
 import sys
 from unicodedata import normalize
 
-from odoo import api, fields
+from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.spec_driven_model.models import spec_models
@@ -13,6 +13,15 @@ from odoo.addons.spec_driven_model.models import spec_models
 ICMSSN_CST_CODES_USE_102 = ("102", "103", "300", "400")
 ICMSSN_CST_CODES_USE_202 = ("202", "203")
 ICMS_ST_CST_CODES = ["60", "10"]
+
+
+class Tipi(models.AbstractModel):
+    _inherit = "nfe.40.tipi"
+
+    # legacy generateds-odoo choice field added manually (not by xsdata-odoo):
+    nfe40_choice3 = fields.Selection(
+        [("nfe40_IPITrib", "IPITrib"), ("nfe40_IPINT", "IPINT")], "IPITrib/IPINT"
+    )
 
 
 class NFeLine(spec_models.StackedModel):
@@ -31,7 +40,7 @@ class NFeLine(spec_models.StackedModel):
     _schema_name = "nfe"
     _schema_version = "4.0.0"
     _odoo_module = "l10n_br_nfe"
-    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
+    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
     _spec_tab_name = "NFe"
     _stacking_points = {}
     # all m2o below this level will be stacked even if not required:
@@ -321,7 +330,30 @@ class NFeLine(spec_models.StackedModel):
     # Grupo N10. Grupo Tributação do ICMS= 90
     #################################################
 
-    nfe40_choice11 = fields.Selection(compute="_compute_choice11", store=True)
+    nfe40_choice11 = fields.Selection(
+        [
+            ("nfe40_ICMS00", "ICMS00"),
+            ("nfe40_ICMS10", "ICMS10"),
+            ("nfe40_ICMS20", "ICMS20"),
+            ("nfe40_ICMS30", "ICMS30"),
+            ("nfe40_ICMS40", "ICMS40"),
+            ("nfe40_ICMS51", "ICMS51"),
+            ("nfe40_ICMS60", "ICMS60"),
+            ("nfe40_ICMS70", "ICMS70"),
+            ("nfe40_ICMS90", "ICMS90"),
+            ("nfe40_ICMSPart", "ICMSPart"),
+            ("nfe40_ICMSST", "ICMSST"),
+            ("nfe40_ICMSSN101", "ICMSSN101"),
+            ("nfe40_ICMSSN102", "ICMSSN102"),
+            ("nfe40_ICMSSN201", "ICMSSN201"),
+            ("nfe40_ICMSSN202", "ICMSSN202"),
+            ("nfe40_ICMSSN500", "ICMSSN500"),
+            ("nfe40_ICMSSN900", "ICMSSN900"),
+        ],
+        "ICMS00/ICMS10/ICMS20/ICMS30/ICMS40/ICMS51/ICMS60/I...",
+        compute="_compute_choice11",
+        store=True,
+    )
 
     nfe40_orig = fields.Selection(related="icms_origin")
 
@@ -426,7 +458,6 @@ class NFeLine(spec_models.StackedModel):
         return icms
 
     def _export_fields_nfe_40_icms(self, xsd_fields, class_obj, export_dict):
-
         # TODO Not Implemented
         if "nfe40_ICMSPart" in xsd_fields:
             xsd_fields.remove("nfe40_ICMSPart")
@@ -436,11 +467,27 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_ICMSST")
 
         xsd_fields = [self.nfe40_choice11]
-        icms_tag = self.nfe40_choice11.replace("nfe40_", "")  # FIXME
+        icms_tag = (
+            self.nfe40_choice11.replace("nfe40_", "")
+            .replace("ICMS", "Icms")
+            .replace("IcmsSN", "Icmssn")
+        )
         binding_module = sys.modules[self._binding_module]
-        icms_binding = getattr(binding_module, icms_tag + "Type")
+        # Tnfe.InfNfe.Det.Imposto.Icms.Icms00
+        # see https://stackoverflow.com/questions/31174295/getattr-and-setattr-on-nested-subobjects-chained-properties
+        tnfe = getattr(binding_module, "Tnfe")
+        infnfe = getattr(tnfe, "InfNfe")
+        det = getattr(infnfe, "Det")
+        imposto = getattr(det, "Imposto")
+        icms = getattr(imposto, "Icms")
+        icms_binding = getattr(icms, icms_tag)
         icms_dict = self._export_fields_icms()
-        export_dict[icms_tag] = icms_binding(**icms_dict)
+        sliced_icms_dict = {
+            key: icms_dict.get(key)
+            for key in icms_binding.__dataclass_fields__.keys()
+            if icms_dict.get(key)
+        }
+        export_dict[icms_tag.upper()] = icms_binding(**sliced_icms_dict)
 
     #######################################
     # NF-e tag: ICMSPart
@@ -489,9 +536,21 @@ class NFeLine(spec_models.StackedModel):
     # Grupo O. Imposto sobre Produtos Industrializados
     ##################################################
 
-    nfe40_choice3 = fields.Selection(compute="_compute_choice3", store=True)
+    nfe40_choice3 = fields.Selection(
+        [("nfe40_IPITrib", "IPITrib"), ("nfe40_IPINT", "IPINT")],
+        "IPITrib/IPINT",
+        compute="_compute_choice3",
+        store=True,
+    )
 
     nfe40_choice20 = fields.Selection(
+        [
+            ("nfe40_vBC", "vBC"),
+            ("nfe40_pIPI", "pIPI"),
+            ("nfe40_qUnid", "qUnid"),
+            ("nfe40_vUnid", "vUnid"),
+        ],
+        "vBC/pIPI/qUnid/vUnid",
         compute="_compute_nfe40_choice20",
         store=True,
     )
@@ -579,9 +638,25 @@ class NFeLine(spec_models.StackedModel):
     # Grupo Q. PIS
     ###############
 
-    nfe40_choice12 = fields.Selection(compute="_compute_choice12", store=True)
+    nfe40_choice12 = fields.Selection(
+        [
+            ("nfe40_PISAliq", "PISAliq"),
+            ("nfe40_PISQtde", "PISQtde"),
+            ("nfe40_PISNT", "PISNT"),
+            ("nfe40_PISOutr", "PISOutr"),
+        ],
+        "PISAliq/PISQtde/PISNT/PISOutr",
+        compute="_compute_choice12",
+        store=True,
+    )
 
     nfe40_choice13 = fields.Selection(
+        [
+            ("nfe40_vBC", "vBC"),
+            ("nfe40_pPIS", "pPIS"),
+            ("nfe40_qBCProd", "qBCProd"),
+            ("nfe40_vAliqProd", "vAliqProd"),
+        ],
         compute="_compute_nfe40_choice13",
         store=True,
         string="Tipo de Tributação do PIS",
@@ -687,9 +762,25 @@ class NFeLine(spec_models.StackedModel):
     # Grupo S. COFINS
     ##################
 
-    nfe40_choice15 = fields.Selection(compute="_compute_choice15", store=True)
+    nfe40_choice15 = fields.Selection(
+        [
+            ("nfe40_COFINSAliq", "COFINSAliq"),
+            ("nfe40_COFINSQtde", "COFINSQtde"),
+            ("nfe40_COFINSNT", "COFINSNT"),
+            ("nfe40_COFINSOutr", "COFINSOutr"),
+        ],
+        "COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr",
+        compute="_compute_choice15",
+        store=True,
+    )
 
     nfe40_choice16 = fields.Selection(
+        [
+            ("nfe40_vBC", "vBC"),
+            ("nfe40_pCOFINS", "pCOFINS"),
+            ("nfe40_qBCProd", "qBCProd"),
+            ("nfe40_vAliqProd", "vAliqProd"),
+        ],
         compute="_compute_nfe40_choice16",
         store=True,
         string="Tipo de Tributação do COFINS",
@@ -854,6 +945,13 @@ class NFeLine(spec_models.StackedModel):
     ########################
 
     nfe40_choice10 = fields.Selection(
+        [
+            ("nfe40_ICMS", "ICMS"),
+            ("nfe40_II", "II"),
+            ("nfe40_IPI", "IPI"),
+            ("nfe40_ISSQN", "ISSQN"),
+        ],
+        "ICMS/II/IPI/ISSQN",
         compute="_compute_nfe40_choice10",
         store=True,
     )
