@@ -16,7 +16,8 @@ from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
-from nfelib.v4_00 import leiauteNFe_sub as nfe_sub, retEnviNFe as leiauteNFe
+from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
+from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
 from requests import Session
 
 from odoo import _, api, fields
@@ -723,12 +724,8 @@ class NFe(spec_models.StackedModel):
             filter_processador_edoc_nfe
         ):
             inf_nfe = record.export_ds()[0]
-
-            tnfe = leiauteNFe.TNFe(infNFe=inf_nfe, infNFeSupl=None, Signature=None)
-            tnfe.original_tagname_ = "NFe"
-
-            edocs.append(tnfe)
-
+            nfe = Nfe(infNFe=inf_nfe, infNFeSupl=None, signature=None)
+            edocs.append(nfe)
         return edocs
 
     def _processador(self):
