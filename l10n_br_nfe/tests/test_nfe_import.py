@@ -17,7 +17,7 @@ class NFeImportTest(SavepointCase):
         hooks.register_hook(
             self.env,
             "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe",
+            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
         res_items = (
             "..",
@@ -43,7 +43,7 @@ class NFeImportTest(SavepointCase):
         hooks.register_hook(
             self.env,
             "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe",
+            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
         res_items = (
             "..",
