@@ -14,3 +14,4 @@ pycep_correios
 unidecode
 workalendar
 xmldiff
+xsdata

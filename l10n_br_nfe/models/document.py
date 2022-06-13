@@ -775,7 +775,7 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             record._export_fields_pagamentos()
             edoc_binding = record.serialize()[0]
-            processador = record._processador()
+            record._processador()
             xml_file = self._render_edoc(edoc_binding)
             _logger.debug(xml_file)
             event_id = self.event_ids.create_event_save_xml(
@@ -789,7 +789,7 @@ class NFe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
             # TODO copy decent assina_raiz method here
-            xml_assinado = "TODO" # processador.assina_raiz(edoc, edoc.InfNfe.id)
+            xml_assinado = "TODO"  # processador.assina_raiz(edoc, edoc.InfNfe.id)
             self._valida_xml(xml_assinado)
 
     def _invert_fiscal_operation_type(self, document, nfe_binding, edoc_type):
@@ -818,13 +818,12 @@ class NFe(spec_models.StackedModel):
 
     def _render_edoc(self, edoc_binding, pretty_print=True):
         "used to be in erpbrasil.edoc, but hacked here for xsdata"
-        from xsdata.formats.dataclass.serializers.config import SerializerConfig
         from xsdata.formats.dataclass.serializers import XmlSerializer
-        from nfelib.nfe.v4_0.proc_nfe_v4_00  import NfeProc
+        from xsdata.formats.dataclass.serializers.config import SerializerConfig
+
         serializer = XmlSerializer(config=SerializerConfig(pretty_print=True))
         xml = serializer.render(
-            obj=edoc_binding,
-            ns_map={None:"http://www.portalfiscal.inf.br/nfe"}
+            obj=edoc_binding, ns_map={None: "http://www.portalfiscal.inf.br/nfe"}
         )
         return xml
 
