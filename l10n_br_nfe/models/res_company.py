@@ -42,6 +42,7 @@ class ResCompany(spec_models.SpecModel):
     )
 
     nfe40_choice6 = fields.Selection(
+        [("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
         string="CNPJ ou CPF?",
         compute="_compute_nfe_data",
     )
