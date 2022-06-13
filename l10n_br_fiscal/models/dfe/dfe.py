@@ -1,8 +1,5 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
-#
-
-from __future__ import division, print_function, unicode_literals
 
 import re
 
@@ -14,15 +11,23 @@ class DFe(models.Model):
     _description = "Consult DF-e"
     _order = "id desc"
 
+    @api.depends('company_id.name', 'last_nsu')
+    def name_get(self):
+        return [(r.id, '{} - NSU: {}'.format(
+            r.company_id.name,
+            r.last_nsu)) for r in self]
+
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
     )
+
     last_nsu = fields.Char(
         string="Last NSU",
         size=25,
         default="0",
     )
+
     last_query = fields.Datetime(
         string="Last query",
     )
@@ -32,12 +37,6 @@ class DFe(models.Model):
         inverse_name="dfe_id",
         string="XML Documents",
     )
-
-    @api.depends("company_id.name", "last_nsu")
-    def name_get(self):
-        return [
-            (r.id, "{} - NSU: {}".format(r.company_id.name, r.last_nsu)) for r in self
-        ]
 
     imported_document_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
@@ -59,7 +58,6 @@ class DFe(models.Model):
     )
 
     def action_manage_manifestations(self):
-
         return {
             "name": self.company_id.legal_name,
             "view_mode": "tree,form",
@@ -71,20 +69,6 @@ class DFe(models.Model):
                 [("company_id", "=", self.company_id.id)]
             ),
         }
-
-    @staticmethod
-    def _mask_cnpj(cnpj):
-        if cnpj:
-            val = re.sub("[^0-9]", "", cnpj)
-            if len(val) == 14:
-                cnpj = "%s.%s.%s/%s-%s" % (
-                    val[0:2],
-                    val[2:5],
-                    val[5:8],
-                    val[8:12],
-                    val[12:14],
-                )
-        return cnpj
 
 
 class DFeXML(models.Model):

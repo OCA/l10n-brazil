@@ -20,4 +20,6 @@
         sequence="10"
     />
 
+  <menuitem id="nfe_import_document" action="l10n_br_nfe_import_xml_action" name="Import XML NF-e" parent="l10n_br_fiscal.document_sub_menu" sequence="46"/>
+
 </odoo>
