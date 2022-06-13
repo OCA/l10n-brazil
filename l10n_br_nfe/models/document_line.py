@@ -5,7 +5,7 @@
 import sys
 from unicodedata import normalize
 
-from odoo import api, fields
+from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.spec_driven_model.models import spec_models
@@ -13,6 +13,15 @@ from odoo.addons.spec_driven_model.models import spec_models
 ICMSSN_CST_CODES_USE_102 = ("102", "103", "300", "400")
 ICMSSN_CST_CODES_USE_202 = ("202", "203")
 ICMS_ST_CST_CODES = ["60", "10"]
+
+
+class Tipi(models.AbstractModel):
+    _inherit = "nfe.40.tipi"
+
+    # legacy generateds-odoo choice field added manually (not by xsdata-odoo):
+    nfe40_choice3 = fields.Selection(
+        [("nfe40_IPITrib", "IPITrib"), ("nfe40_IPINT", "IPINT")], "IPITrib/IPINT"
+    )
 
 
 class NFeLine(spec_models.StackedModel):
@@ -23,7 +32,7 @@ class NFeLine(spec_models.StackedModel):
     _schema_name = "nfe"
     _schema_version = "4.0.0"
     _odoo_module = "l10n_br_nfe"
-    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
+    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
     _spec_tab_name = "NFe"
     _stacking_points = {}
     # all m2o below this level will be stacked even if not required:
@@ -136,43 +145,105 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_choice11 = fields.Selection(
+        [
+            ("nfe40_ICMS00", "ICMS00"),
+            ("nfe40_ICMS10", "ICMS10"),
+            ("nfe40_ICMS20", "ICMS20"),
+            ("nfe40_ICMS30", "ICMS30"),
+            ("nfe40_ICMS40", "ICMS40"),
+            ("nfe40_ICMS51", "ICMS51"),
+            ("nfe40_ICMS60", "ICMS60"),
+            ("nfe40_ICMS70", "ICMS70"),
+            ("nfe40_ICMS90", "ICMS90"),
+            ("nfe40_ICMSPart", "ICMSPart"),
+            ("nfe40_ICMSST", "ICMSST"),
+            ("nfe40_ICMSSN101", "ICMSSN101"),
+            ("nfe40_ICMSSN102", "ICMSSN102"),
+            ("nfe40_ICMSSN201", "ICMSSN201"),
+            ("nfe40_ICMSSN202", "ICMSSN202"),
+            ("nfe40_ICMSSN500", "ICMSSN500"),
+            ("nfe40_ICMSSN900", "ICMSSN900"),
+        ],
+        "ICMS00/ICMS10/ICMS20/ICMS30/ICMS40/ICMS51/ICMS60/I...",
         compute="_compute_choice11",
         store=True,
     )
 
     nfe40_choice12 = fields.Selection(
+        [
+            ("nfe40_PISAliq", "PISAliq"),
+            ("nfe40_PISQtde", "PISQtde"),
+            ("nfe40_PISNT", "PISNT"),
+            ("nfe40_PISOutr", "PISOutr"),
+        ],
+        "PISAliq/PISQtde/PISNT/PISOutr",
         compute="_compute_choice12",
         store=True,
     )
 
     nfe40_choice15 = fields.Selection(
+        [
+            ("nfe40_COFINSAliq", "COFINSAliq"),
+            ("nfe40_COFINSQtde", "COFINSQtde"),
+            ("nfe40_COFINSNT", "COFINSNT"),
+            ("nfe40_COFINSOutr", "COFINSOutr"),
+        ],
+        "COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr",
         compute="_compute_choice15",
         store=True,
     )
 
     nfe40_choice3 = fields.Selection(
+        [("nfe40_IPITrib", "IPITrib"), ("nfe40_IPINT", "IPINT")],
+        "IPITrib/IPINT",
         compute="_compute_choice3",
         store=True,
     )
 
     nfe40_choice20 = fields.Selection(
+        [
+            ("nfe40_vBC", "vBC"),
+            ("nfe40_pIPI", "pIPI"),
+            ("nfe40_qUnid", "qUnid"),
+            ("nfe40_vUnid", "vUnid"),
+        ],
+        "vBC/pIPI/qUnid/vUnid",
         compute="_compute_nfe40_choice20",
         store=True,
     )
 
     nfe40_choice13 = fields.Selection(
+        [
+            ("nfe40_vBC", "vBC"),
+            ("nfe40_pPIS", "pPIS"),
+            ("nfe40_qBCProd", "qBCProd"),
+            ("nfe40_vAliqProd", "vAliqProd"),
+        ],
         compute="_compute_nfe40_choice13",
         store=True,
         string="Tipo de Tributação do PIS",
     )
 
     nfe40_choice16 = fields.Selection(
+        [
+            ("nfe40_vBC", "vBC"),
+            ("nfe40_pCOFINS", "pCOFINS"),
+            ("nfe40_qBCProd", "qBCProd"),
+            ("nfe40_vAliqProd", "vAliqProd"),
+        ],
         compute="_compute_nfe40_choice16",
         store=True,
         string="Tipo de Tributação do COFINS",
     )
 
     nfe40_choice10 = fields.Selection(
+        [
+            ("nfe40_ICMS", "ICMS"),
+            ("nfe40_II", "II"),
+            ("nfe40_IPI", "IPI"),
+            ("nfe40_ISSQN", "ISSQN"),
+        ],
+        "ICMS/II/IPI/ISSQN",
         compute="_compute_nfe40_choice10",
         store=True,
     )
@@ -396,36 +467,36 @@ class NFeLine(spec_models.StackedModel):
         icms = {
             # ICMS
             "orig": self.nfe40_orig,
-            "CST": self.icms_cst_id.code,
-            "modBC": self.icms_base_type,
-            "vBC": str("%.02f" % self.icms_base),
-            "pRedBC": str("%.04f" % self.icms_reduction),
-            "pICMS": str("%.04f" % self.icms_percent),
-            "vICMS": str("%.02f" % self.icms_value),
-            "vICMSSubstituto": str("%.02f" % self.icms_substitute),
+            "cst": self.icms_cst_id.code,
+            "mod_bc": self.icms_base_type,
+            "v_bc": str("%.02f" % self.icms_base),
+            "p_red_bc": str("%.04f" % self.icms_reduction),
+            "p_icms": str("%.04f" % self.icms_percent),
+            "v_icms": str("%.02f" % self.icms_value),
+            "v_icmssubstituto": str("%.02f" % self.icms_substitute),
             # ICMS SUBSTITUIÇÃO TRIBUTÁRIA
-            "modBCST": self.icmsst_base_type,
-            "pMVAST": str("%.04f" % self.icmsst_mva_percent),
-            "pRedBCST": str("%.04f" % self.icmsst_reduction),
-            "vBCST": str("%.02f" % self.icmsst_base),
-            "pICMSST": str("%.04f" % self.icmsst_percent),
-            "vICMSST": str("%.02f" % self.icmsst_value),
-            "UFST": self.partner_id.state_id.code,
+            "mod_bcst": self.icmsst_base_type,
+            "p_mvast": str("%.04f" % self.icmsst_mva_percent),
+            "p_red_bcst": str("%.04f" % self.icmsst_reduction),
+            "v_bcst": str("%.02f" % self.icmsst_base),
+            "p_icmsst": str("%.04f" % self.icmsst_percent),
+            "v_icmsst": str("%.02f" % self.icmsst_value),
+            "ufst": self.partner_id.state_id.code,
             # ICMS COBRADO ANTERIORMENTE POR SUBSTITUIÇÃO TRIBUTÁRIA
-            "vBCSTRet": str("%.02f" % self.icmsst_wh_base),
-            "pST": str("%.04f" % (self.icmsst_wh_percent + self.icmsfcp_wh_percent)),
-            "vICMSSTRet": str("%.02f" % self.icmsst_wh_value),
+            "v_bcst_ret": str("%.02f" % self.icmsst_wh_base),
+            "p_st": str("%.04f" % (self.icmsst_wh_percent + self.icmsfcp_wh_percent)),
+            "v_icmsst_ret": str("%.02f" % self.icmsst_wh_value),
             "vBCFCPSTRet": str("%.02f" % self.icmsfcp_base_wh),
-            "pFCPSTRet": str("%.04f" % self.icmsfcp_wh_percent),
-            "vFCPSTRet": str("%.02f" % self.icmsfcp_value_wh),
-            "pRedBCEfet": str("%.04f" % self.icms_effective_reduction),
-            "vBCEfet": str("%.02f" % self.icms_effective_base),
-            "pICMSEfet": str("%.04f" % self.icms_effective_percent),
-            "vICMSEfet": str("%.02f" % self.icms_effective_value),
+            "v_bcfcpstret": str("%.04f" % self.icmsfcp_wh_percent),
+            "v_fcpstret": str("%.02f" % self.icmsfcp_value_wh),
+            "p_red_bcefet": str("%.04f" % self.icms_effective_reduction),
+            "v_bcefet": str("%.02f" % self.icms_effective_base),
+            "p_icmsefet": str("%.04f" % self.icms_effective_percent),
+            "v_icmsefet": str("%.02f" % self.icms_effective_value),
             # ICMS SIMPLES NACIONAL
-            "CSOSN": self.icms_cst_id.code,
-            "pCredSN": str("%.04f" % self.icmssn_percent),
-            "vCredICMSSN": str("%.02f" % self.icmssn_credit_value),
+            "csosn": self.icms_cst_id.code,
+            "p_cred_sn": str("%.04f" % self.icmssn_percent),
+            "v_cred_icmssn": str("%.02f" % self.icmssn_credit_value),
         }
         if self.icmsfcp_percent:
             icms.update(
@@ -448,11 +519,27 @@ class NFeLine(spec_models.StackedModel):
                 xsd_fields.remove("nfe40_II")
         elif class_obj._name == "nfe.40.icms":
             xsd_fields = [self.nfe40_choice11]
-            icms_tag = self.nfe40_choice11.replace("nfe40_", "")  # FIXME
+            icms_tag = (
+                self.nfe40_choice11.replace("nfe40_", "")
+                .replace("ICMS", "Icms")
+                .replace("IcmsSN", "Icmssn")
+            )  # FIXME
             binding_module = sys.modules[self._binding_module]
-            icms_binding = getattr(binding_module, icms_tag + "Type")
+            # Tnfe.InfNfe.Det.Imposto.Icms.Icms00
+            # see https://stackoverflow.com/questions/31174295/getattr-and-setattr-on-nested-subobjects-chained-properties
+            tnfe = getattr(binding_module, "Tnfe")
+            infnfe = getattr(tnfe, "InfNfe")
+            det = getattr(infnfe, "Det")
+            imposto = getattr(det, "Imposto")
+            icms = getattr(imposto, "Icms")
+            icms_binding = getattr(icms, icms_tag)
             icms_dict = self._export_fields_icms()
-            export_dict[icms_tag] = icms_binding(**icms_dict)
+            # TODO filter icms_dict with icms_binding fields, see in spec_model
+            sliced_icms_dict = {
+                key: icms_dict.get(key)
+                for key in icms_binding.__dataclass_fields__.keys()
+            }
+            export_dict[icms_tag.lower()] = icms_binding(**sliced_icms_dict)
         elif class_obj._name == "nfe.40.icmsufdest":
             # DIFAL
             self.nfe40_vBCUFDest = str("%.02f" % self.icms_destination_base)
@@ -517,7 +604,8 @@ class NFeLine(spec_models.StackedModel):
         return super()._export_fields(xsd_fields, class_obj, export_dict)
 
     # flake8: noqa: C901
-    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+    def _export_field(self, xsd_field, class_obj, field_spec, export_value=None):
+        xsd_type = field_spec.xsd_type if hasattr(field_spec, "xsd_type") else None
         # ISSQN
         if xsd_field == "nfe40_cMunFG":
             return self.issqn_fg_city_id.ibge_code
@@ -573,9 +661,11 @@ class NFeLine(spec_models.StackedModel):
                 field_name = "cofins_base"
             return self._export_float_monetary(
                 field_name,
-                member_spec,
+                xsd_type,
                 class_obj,
-                class_obj._fields[xsd_field].xsd_required,
+                class_obj._fields[xsd_field].xsd_required
+                if hasattr(class_obj._fields[xsd_field], "xsd_required")
+                else False,
             )
         elif xsd_field in (
             "nfe40_vBCSTRet",
@@ -584,11 +674,9 @@ class NFeLine(spec_models.StackedModel):
             "nfe40_vICMSSTRet",
         ):
             if self.icms_cst_id.code in ICMS_ST_CST_CODES:
-                return self._export_float_monetary(
-                    xsd_field, member_spec, class_obj, True
-                )
+                return self._export_float_monetary(xsd_field, xsd_type, class_obj, True)
         else:
-            return super()._export_field(xsd_field, class_obj, member_spec)
+            return super()._export_field(xsd_field, class_obj, field_spec)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         self.ensure_one()
@@ -629,7 +717,7 @@ class NFeLine(spec_models.StackedModel):
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def _export_float_monetary(
-        self, field_name, member_spec, class_obj, xsd_required, export_value=None
+        self, field_name, xsd_type, class_obj, xsd_required, export_value=None
     ):
         if not self[field_name] and not xsd_required:
             if not (
@@ -638,7 +726,7 @@ class NFeLine(spec_models.StackedModel):
                 self[field_name] = False
                 return False
         return super()._export_float_monetary(
-            field_name, member_spec, class_obj, xsd_required
+            field_name, xsd_type, class_obj, xsd_required
         )
 
     def _build_attr(self, node, fields, vals, path, attr):

@@ -11,3 +11,4 @@ phonenumbers
 pycep_correios
 workalendar
 xmldiff
+xsdata
