@@ -20,7 +20,7 @@ class NFeStructure(SavepointCase):
         hooks.register_hook(
             cls.env,
             "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe",
+            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
 
     @classmethod
@@ -30,7 +30,7 @@ class NFeStructure(SavepointCase):
         # - means standard m2o. Eventually followd by the mapped Odoo model
         # ≡ means o2m. Eventually followd by the mapped Odoo model
         """
-        spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
+        spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
         node = SpecModel._odoo_name_to_class(klass._stacked, spec_module)
         tree = StringIO()
         visited = set()
