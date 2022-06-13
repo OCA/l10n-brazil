@@ -455,11 +455,27 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_ICMSST")
 
         xsd_fields = [self.nfe40_choice11]
-        icms_tag = self.nfe40_choice11.replace("nfe40_", "")  # FIXME
+        icms_tag = (
+            self.nfe40_choice11.replace("nfe40_", "")
+            .replace("ICMS", "Icms")
+            .replace("IcmsSN", "Icmssn")
+        )
         binding_module = sys.modules[self._binding_module]
-        icms_binding = getattr(binding_module, icms_tag + "Type")
+        # Tnfe.InfNfe.Det.Imposto.Icms.Icms00
+        # see https://stackoverflow.com/questions/31174295/getattr-and-setattr-on-nested-subobjects-chained-properties
+        tnfe = getattr(binding_module, "Tnfe")
+        infnfe = getattr(tnfe, "InfNfe")
+        det = getattr(infnfe, "Det")
+        imposto = getattr(det, "Imposto")
+        icms = getattr(imposto, "Icms")
+        icms_binding = getattr(icms, icms_tag)
         icms_dict = self._export_fields_icms()
-        export_dict[icms_tag] = icms_binding(**icms_dict)
+        sliced_icms_dict = {
+            key: icms_dict.get(key)
+            for key in icms_binding.__dataclass_fields__.keys()
+            if icms_dict.get(key)
+        }
+        export_dict[icms_tag.upper()] = icms_binding(**sliced_icms_dict)
 
     #######################################
     # NF-e tag: ICMSPart
