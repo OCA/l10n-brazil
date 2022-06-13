@@ -119,6 +119,13 @@ class Certificate(models.Model):
                 c.name = False
                 c.file_name = False
 
+    def update_certificate_data(self, values):
+        cert_file = values.get("file")
+        if isinstance(cert_file, str):
+            cert_file = cert_file.encode()
+        values.update(self._certificate_data(cert_file, values.get("password")))
+        return values
+
     @api.depends("date_expiration")
     def _compute_is_valid(self):
         for c in self:
@@ -128,15 +135,9 @@ class Certificate(models.Model):
 
     @api.model
     def create(self, values):
-        values.update(
-            self._certificate_data(values.get("file"), values.get("password"))
-        )
-
+        values = self.update_certificate_data(values)
         return super(Certificate, self).create(values)
 
     def write(self, values):
-        values.update(
-            self._certificate_data(values.get("file"), values.get("password"))
-        )
-
+        values = self.update_certificate_data(values)
         return super(Certificate, self).write(values)
