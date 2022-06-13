@@ -152,6 +152,11 @@ msgid "Bank"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
+msgid "Bank Statement Label"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "Bank account for alimony"
 msgstr ""
@@ -689,6 +694,15 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__country_enforce_cities
 msgid "Enforce Cities"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
+msgid ""
+"Enter the various label found on your bank statement separated by a ; If one"
+" of this label is include in the bank statement line, the partner will be "
+"automatically filled (as long as you use this method/rules in your statement"
+" profile)."
 msgstr ""
 
 #. module: l10n_br_hr
