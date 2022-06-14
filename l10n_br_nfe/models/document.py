@@ -766,9 +766,9 @@ class NFe(spec_models.StackedModel):
         #     self = self.search([
         #         ('key', '=', infProt.chNFe)
         #     ])
-        if infProt.cStat in AUTORIZADO:
+        if infProt.c_stat in AUTORIZADO:
             state = SITUACAO_EDOC_AUTORIZADA
-        elif infProt.cStat in DENEGADO:
+        elif infProt.c_stat in DENEGADO:
             state = SITUACAO_EDOC_DENEGADA
         else:
             state = SITUACAO_EDOC_REJEITADA
@@ -781,16 +781,16 @@ class NFe(spec_models.StackedModel):
                 )
 
             self.authorization_event_id.set_done(
-                status_code=infProt.cStat,
-                response=infProt.xMotivo,
+                status_code=infProt.c_stat,
+                response=infProt.x_motivo,
                 protocol_date=protocol_date,
                 protocol_number=infProt.nProt,
                 file_response_xml=xml_file,
             )
         self.write(
             {
-                "status_code": infProt.cStat,
-                "status_name": infProt.xMotivo,
+                "status_code": infProt.c_stat,
+                "status_name": infProt.x_motivo,
             }
         )
         self._change_state(state)
@@ -817,11 +817,11 @@ class NFe(spec_models.StackedModel):
                             processo.envio_xml.decode("utf-8"), "xml"
                         )
 
-            if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
+            if processo.resposta.c_stat in LOTE_PROCESSADO + ["100"]:
                 record.atualiza_status_nfe(
                     processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
                 )
-                if processo.protocolo.infProt.cStat in AUTORIZADO:
+                if processo.protocolo.infProt.c_stat in AUTORIZADO:
                     try:
                         record.make_pdf()
                     except Exception as e:
@@ -833,15 +833,15 @@ class NFe(spec_models.StackedModel):
                         # o usuário clicar no gera PDF novamente.
                         _logger.error("DANFE Error \n {}".format(e))
 
-            elif processo.resposta.cStat == "225":
+            elif processo.resposta.c_stat == "225":
                 state = SITUACAO_EDOC_REJEITADA
 
                 record._change_state(state)
 
                 record.write(
                     {
-                        "status_code": processo.resposta.cStat,
-                        "status_name": processo.resposta.xMotivo,
+                        "status_code": processo.resposta.c_stat,
+                        "status_name": processo.resposta.x_motivo,
                     }
                 )
         return
@@ -907,8 +907,8 @@ class NFe(spec_models.StackedModel):
         etree.SubElement(infProt, "dhRecbto").text = None
         etree.SubElement(infProt, "nProt").text = ""
         etree.SubElement(infProt, "digVal").text = ""
-        etree.SubElement(infProt, "cStat").text = ""
-        etree.SubElement(infProt, "xMotivo").text = ""
+        etree.SubElement(infProt, "c_stat").text = ""
+        etree.SubElement(infProt, "x_motivo").text = ""
 
         new_root.append(root)
         new_root.append(protNFe_node)
@@ -961,21 +961,21 @@ class NFe(spec_models.StackedModel):
             if not retevento.infEvento.chNFe == self.document_key:
                 continue
 
-            if retevento.infEvento.cStat not in CANCELADO:
+            if retevento.infEvento.c_stat not in CANCELADO:
                 mensagem = "Erro no cancelamento"
-                mensagem += "\nCódigo: " + retevento.infEvento.cStat
-                mensagem += "\nMotivo: " + retevento.infEvento.xMotivo
+                mensagem += "\nCódigo: " + retevento.infEvento.c_stat
+                mensagem += "\nMotivo: " + retevento.infEvento.x_motivo
                 raise UserError(mensagem)
 
-            if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
+            if retevento.infEvento.c_stat == CANCELADO_FORA_PRAZO:
                 self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-            elif retevento.infEvento.cStat == CANCELADO_DENTRO_PRAZO:
+            elif retevento.infEvento.c_stat == CANCELADO_DENTRO_PRAZO:
                 self.state_fiscal = SITUACAO_FISCAL_CANCELADO
 
             self.state_edoc = SITUACAO_EDOC_CANCELADA
             self.cancel_event_id.set_done(
-                status_code=retevento.infEvento.cStat,
-                response=retevento.infEvento.xMotivo,
+                status_code=retevento.infEvento.c_stat,
+                response=retevento.infEvento.x_motivo,
                 protocol_date=fields.Datetime.to_string(
                     datetime.fromisoformat(retevento.infEvento.dhRegEvento)
                 ),
@@ -1022,15 +1022,15 @@ class NFe(spec_models.StackedModel):
             if not retevento.infEvento.chNFe == self.document_key:
                 continue
 
-            if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
+            if retevento.infEvento.c_stat not in EVENTO_RECEBIDO:
                 mensagem = "Erro na carta de correção"
-                mensagem += "\nCódigo: " + retevento.infEvento.cStat
-                mensagem += "\nMotivo: " + retevento.infEvento.xMotivo
+                mensagem += "\nCódigo: " + retevento.infEvento.c_stat
+                mensagem += "\nMotivo: " + retevento.infEvento.x_motivo
                 raise UserError(mensagem)
 
             event_id.set_done(
-                status_code=retevento.infEvento.cStat,
-                response=retevento.infEvento.xMotivo,
+                status_code=retevento.infEvento.c_stat,
+                response=retevento.infEvento.x_motivo,
                 protocol_date=fields.Datetime.to_string(
                     datetime.fromisoformat(retevento.infEvento.dhRegEvento)
                 ),
