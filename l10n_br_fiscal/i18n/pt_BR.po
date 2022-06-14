@@ -1298,6 +1298,14 @@ msgid "Block period"
 msgstr "Período de Bloqueio"
 
 #. module: l10n_br_fiscal
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_anonimo
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_ministerio_fazenda
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_prefeitura_municipal
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_previdencia_social
+msgid "Brazil"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.module.category,name:l10n_br_fiscal.module_category_l10n_br_fiscal_management
 msgid "Brazilian Fiscal"
 msgstr "Fiscal Brasileiro"
@@ -2673,6 +2681,12 @@ msgid "Customer Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_ii_customhouse_charges
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_ii_customhouse_charges
+msgid "Customhouse Charges"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:product.product,name:l10n_br_fiscal.customized_development_sale
 #: model:product.template,name:l10n_br_fiscal.customized_development_sale_product_template
 msgid "Customized Odoo Development"
@@ -3469,6 +3483,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__ind_final
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__ind_final
 msgid "Final Consumption Operation"
@@ -3803,6 +3818,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Fiscal Profile"
 msgstr "Perfil Fiscal"
 
@@ -4158,6 +4174,12 @@ msgstr "Icms Dest. Valor"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_destination_base
 msgid "ICMS Destination Base"
 msgstr "Base de Destino do ICMS"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_icms_destination_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_icms_destination_value
+msgid "ICMS Destination Value"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_effective_value
@@ -4652,8 +4674,10 @@ msgid "ICMS Origin"
 msgstr "Origem do ICMS"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_icms_origin_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_origin_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_origin_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_icms_origin_value
 msgid "ICMS Origin Value"
 msgstr "Valor de Origem do ICMS"
 
@@ -5043,14 +5067,18 @@ msgid "II %"
 msgstr "II %"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_ii_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ii_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ii_base
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_ii_base
 msgid "II Base"
 msgstr "II Base"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_ii_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ii_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ii_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_ii_value
 msgid "II Value"
 msgstr "II Valor"
 
@@ -6785,6 +6813,7 @@ msgstr "Numeração inutilizada"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__issqn_incentive__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__issqn_incentive__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__ind_final__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__ind_final__0
 msgid "Não"
 msgstr "Não"
@@ -6874,11 +6903,6 @@ msgstr "OK"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_comment__object
 msgid "Object"
 msgstr "Objeto"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__oca
-msgid "Odoo Community"
-msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.invalidate_number_action
@@ -8316,6 +8340,7 @@ msgstr "Mostrar documento"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__issqn_incentive__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__issqn_incentive__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__ind_final__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__ind_final__1
 msgid "Sim"
 msgstr "Sim"
@@ -9509,6 +9534,11 @@ msgid "done"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__oca
+msgid "erpbrasil.edoc"
+msgstr "erpbrasil.edoc"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__file
 msgid "file"
 msgstr "arquivo"
@@ -10013,9 +10043,6 @@ msgstr "{} Estimativa de Imposto Atualizada"
 
 #~ msgid "XML's"
 #~ msgstr "<strong>ID XML</strong>"
-
-#~ msgid "erpbrasil.edoc"
-#~ msgstr "erpbrasil.edoc"
 
 #~ msgid "key"
 #~ msgstr "chave"
