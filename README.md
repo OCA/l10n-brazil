@@ -112,7 +112,7 @@ addon | version | maintainers | summary
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 12.0.5.4.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
 [l10n_br_stock](l10n_br_stock/) | 12.0.1.0.0 |  | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 12.0.5.0.0 |  | Brazilian Localization WMS Accounting
-[l10n_br_stock_account_report](l10n_br_stock_account_report/) | 12.0.1.1.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Stock Account Report
+[l10n_br_stock_account_report](l10n_br_stock_account_report/) | 12.0.1.2.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Stock Account Report
 [l10n_br_website_sale](l10n_br_website_sale/) | 12.0.1.2.0 |  | Website sale localização brasileira.
 [l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 12.0.2.1.0 | [![DiegoParadeda](https://github.com/DiegoParadeda.png?size=30px)](https://github.com/DiegoParadeda) | Implements Brazilian freight values for delivery.
 [l10n_br_zip](l10n_br_zip/) | 12.0.3.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
