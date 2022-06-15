@@ -22,4 +22,25 @@
         </field>
     </record>
 
+    <!-- Imported Documents Action -->
+    <record id="imported_document_action" model="ir.actions.act_window">
+        <field name="name">Imported Document</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="l10n_br_fiscal.document_search" />
+        <field name="view_id" ref="l10n_br_fiscal.document_tree" />
+        <field name="domain">[('imported_document', '=', True)]</field>
+        <field name="context">{'default_fiscal_operation_type': 'in'}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Document
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
 </odoo>
