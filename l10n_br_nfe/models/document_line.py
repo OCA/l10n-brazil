@@ -47,6 +47,10 @@ class NFeLine(spec_models.StackedModel):
         related="product_id.barcode",
     )
 
+    nfe40_xProd = fields.Char(
+        related="product_id.name",
+    )
+
     nfe40_uCom = fields.Char(
         related="uom_id.code",
     )
