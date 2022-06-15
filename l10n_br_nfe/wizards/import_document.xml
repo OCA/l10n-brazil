@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="l10n_br_nfe_import_xml_form" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.import_xml.form</field>
+        <field name="model">l10n_br_nfe.import_xml</field>
+        <field name="arch" type="xml">
+            <form string="Importar XML NF-e">
+                <group>
+                    <field name="company_id" />
+                    <field name="importing_type" />
+                    <field
+                        name="nfe_xml"
+                        attrs="{'invisible': [('importing_type', '!=', 'xml_file')], 'required': [('importing_type', '=', 'xml_file')]}"
+                    />
+                </group>
+                <separator
+                    string="Pré Visualização da NF-e"
+                    attrs="{'invisible': [('nfe_xml', '=', False)]}"
+                />
+                <group attrs="{'invisible': [('nfe_xml', '=', False)]}">
+                    <group>
+                        <field name="document_key" readonly="True" />
+                        <field name="document_number" readonly="True" />
+                        <field name="document_serie" readonly="True" />
+                    </group>
+                    <group>
+                        <field name="partner_cpf_cnpj" readonly="True" />
+                        <field name="partner_name" readonly="True" />
+                        <field name="partner_id" readonly="True" />
+                    </group>
+                </group>
+                <separator
+                    string="NFe XML Products"
+                    attrs="{'invisible': [('nfe_xml', '=', False)]}"
+                />
+                <group attrs="{'invisible': [('nfe_xml', '=', False)]}">
+                    <field name="imported_products_ids" nolabel="1">
+                        <tree string="Views" editable="top">
+                            <field name="product_name" readonly="False" />
+                            <field name="quantity_com" readonly="True" />
+                            <field name="uom_com" readonly="True" />
+                            <field name="price_unit_com" readonly="True" />
+                            <field name="total" readonly="True" />
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button
+                        name="import_nfe_xml"
+                        string="Importar"
+                        class="btn-primary"
+                        type="object"
+                        attrs="{'invisible': [('importing_type', '!=', 'xml_file')]}"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_nfe_import_xml_action" model="ir.actions.act_window">
+        <field name="name">Importar NF-e XML</field>
+        <field name="res_model">l10n_br_nfe.import_xml</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
