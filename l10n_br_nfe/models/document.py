@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import io
 import logging
 import re
 import string
@@ -11,7 +12,7 @@ from io import StringIO
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.base.fiscal.edoc import ChaveEdoc, cnpj_cpf
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -63,6 +64,14 @@ def filter_processador_edoc_nfe(record):
     ]:
         return True
     return False
+
+
+def parse_xml_nfe(xml):
+    arq = io.BytesIO()
+    arq.write(xml)
+    arq.seek(0)
+    nfe_binding = nfe_sub.parse(arq, silence=True)
+    return nfe_binding
 
 
 class NFe(spec_models.StackedModel):
@@ -510,9 +519,17 @@ class NFe(spec_models.StackedModel):
     ##########################
 
     nfe40_infRespTec = fields.Many2one(
-        comodel_name="res.partner",
-        related="company_id.technical_support_id",
+        comodel_name="res.partner", compute="_compute_resp_tec_data"
     )
+
+    def _compute_resp_tec_data(self):
+        for record in self:
+            if record.company_id.technical_support_id:
+                record.nfe40_infRespTec = record.company_id.technical_support_id
+
+    ##########################
+
+    imported_document = fields.Boolean(string="Imported", default=False)
 
     ##########################
     # NF-e tag: autXML
@@ -725,6 +742,30 @@ class NFe(spec_models.StackedModel):
             record.authorization_event_id = event_id
             xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
             self._valida_xml(xml_assinado)
+
+    def _invert_fiscal_operation_type(self, document, nfe_binding, edoc_type):
+        if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
+            nfe_binding.infNFe.emit.CNPJ
+        ):
+            document.fiscal_operation_type = "in"
+            document.issuer = "partner"
+
+    def _import_xml(self, nfe_binding, dry_run, edoc_type="out"):
+        document = (
+            self.env["nfe.40.infnfe"]
+            .with_context(
+                tracking_disable=True,
+                edoc_type=edoc_type,
+                lang="pt_BR",
+            )
+            .build(nfe_binding.infNFe, dry_run=dry_run)
+        )
+        document.imported_document = True
+        self._invert_fiscal_operation_type(document, nfe_binding, edoc_type)
+        return document
+
+    def import_xml(self, nfe_binding, dry_run, edoc_type="out"):
+        return self._import_xml(nfe_binding, dry_run, edoc_type)
 
     def atualiza_status_nfe(self, infProt, xml_file):
         self.ensure_one()
