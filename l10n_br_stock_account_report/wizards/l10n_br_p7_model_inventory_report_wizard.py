@@ -89,6 +89,51 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
 
         return header, footer
 
+    def _prepare_result_line(
+        self,
+        product,
+        price_used,
+        product_inventory_value,
+        tmp_total_value_ncm,
+        tmp_ncm_controler_line,
+        obj_lang,
+        fmt,
+        price_precision,
+        qty_precision,
+        account_precision,
+    ):
+        return {
+            "product_name": product.name,
+            "product_code": product.default_code or "",
+            "product_uom": product.uom_id.name,
+            "product_qty": obj_lang.format(
+                fmt.format(precision=qty_precision),
+                product.qty_available,
+                True,
+                True,
+            ),
+            "price_unit": obj_lang.format(
+                fmt.format(precision=price_precision),
+                round(price_used, price_precision),
+                True,
+                True,
+            ),
+            "partial_total_value": obj_lang.format(
+                fmt.format(precision=account_precision),
+                round(product_inventory_value, account_precision),
+                True,
+                True,
+            ),
+            "ncm": product.ncm_id.code,
+            "total_value_ncm": obj_lang.format(
+                fmt.format(precision=account_precision),
+                tmp_total_value_ncm,
+                True,
+                True,
+            ),
+            "ncm_controller": tmp_ncm_controler_line,
+        }
+
     def lines(self):
 
         # Precision
@@ -109,6 +154,8 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
             .with_context(
                 to_date=self.date,
                 default_compute_at_date=self.env.context["default_compute_at_date"],
+                force_company=self.env.user.company_id.id,
+                company_owned=True,
             )
             .search([("ncm_id", "!=", False), ("qty_available", ">", 0.0)])
         )
@@ -152,37 +199,18 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
                     tmp_ncm_controler_line = True
 
             result_lines.append(
-                {
-                    "product_name": product.name,
-                    "product_code": product.default_code or "",
-                    "product_uom": product.uom_id.name,
-                    "product_qty": obj_lang.format(
-                        fmt.format(precision=qty_precision),
-                        product.qty_available,
-                        True,
-                        True,
-                    ),
-                    "price_unit": obj_lang.format(
-                        fmt.format(precision=price_precision),
-                        round(price_used, price_precision),
-                        True,
-                        True,
-                    ),
-                    "partial_total_value": obj_lang.format(
-                        fmt.format(precision=account_precision),
-                        round(product_inventory_value, account_precision),
-                        True,
-                        True,
-                    ),
-                    "ncm": product.ncm_id.code,
-                    "total_value_ncm": obj_lang.format(
-                        fmt.format(precision=account_precision),
-                        tmp_total_value_ncm,
-                        True,
-                        True,
-                    ),
-                    "ncm_controller": tmp_ncm_controler_line,
-                }
+                self._prepare_result_line(
+                    product=product,
+                    price_used=price_used,
+                    product_inventory_value=product_inventory_value,
+                    tmp_total_value_ncm=tmp_total_value_ncm,
+                    tmp_ncm_controler_line=tmp_ncm_controler_line,
+                    obj_lang=obj_lang,
+                    fmt=fmt,
+                    price_precision=price_precision,
+                    qty_precision=qty_precision,
+                    account_precision=account_precision,
+                )
             )
 
             # Calcula o Valor Total do Inventário
