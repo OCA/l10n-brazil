@@ -108,6 +108,7 @@
                             </tr>
                             <tbody>
                                 <td
+                                    name="ncm_header"
                                     style="border-top: 1px solid #000000;
                                   border-left: 1px
                                   solid #000000; border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -117,6 +118,7 @@
                                     <b>Fiscal Classification</b>
                                 </td>
                                 <td
+                                    name="description_header"
                                     style="border-top: 1px solid #000000; border-left: 1px solid #000000;
                                  border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
                                     t-att-colspan="2"
@@ -126,6 +128,7 @@
                                     <b>Description</b>
                                 </td>
                                 <td
+                                    name="quantity_header"
                                     style="border-top: 1px solid #000000; border-left: 1px solid #000000;
                                  border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
                                     align="center"
@@ -134,6 +137,7 @@
                                     <b>Quantity</b>
                                 </td>
                                 <td
+                                    name="uom_header"
                                     style="border-top: 1px solid #000000; border-left: 1px solid #000000;
                                  border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
                                     align="center"
@@ -142,6 +146,7 @@
                                     <b>Unit</b>
                                 </td>
                                 <td
+                                    name="value_header"
                                     style="border-top: 1px solid #000000;
                                  border-bottom: 1px solid #000000; border-left: 1px
                                   solid #000000; border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -174,6 +179,7 @@
                                   solid #000000; border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
                                 />
                                 <td
+                                    name="price_unit_header"
                                     style="border-top: 1px solid #000000;
                                  border-bottom: 1px solid #000000; border-left: 1px
                                   solid #000000; border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -183,6 +189,7 @@
                                     <b>Unitary</b>
                                 </td>
                                 <td
+                                    name="partial_header"
                                     style="border-top: 1px solid #000000;
                                  border-bottom: 1px solid #000000; border-left: 1px
                                   solid #000000; border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -192,6 +199,7 @@
                                     <b>Partial</b>
                                 </td>
                                 <td
+                                    name="total_header"
                                     style="border-top: 1px solid #000000;
                                  border-bottom: 1px solid #000000; border-left: 1px
                                   solid #000000; border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -207,6 +215,7 @@
                                 <t t-if="l['ncm_controller'] == False">
                                     <tbody>
                                         <td
+                                            name="ncm"
                                             style="border-top: 1px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                           solid #000000; padding: 8px 8px 8px 8px;"
@@ -215,6 +224,7 @@
                                             t-esc="l['ncm']"
                                         />
                                         <td
+                                            name="code"
                                             style="border-top: 1px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000;
                                           border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -223,6 +233,7 @@
                                             t-esc="l['product_code']"
                                         />
                                         <td
+                                            name="name"
                                             style="border-top: 1px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000;
                                           border-right: 1px solid #000000; padding: 8px 8px 8px 8px; margin-bottom:2px; text-align: center; min-width: 250px; max-width: 400px;page-break-inside: avoid;"
@@ -231,6 +242,7 @@
                                             t-esc="l['product_name']"
                                         />
                                         <td
+                                            name="quantity"
                                             style="border-top: 1px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                           solid #000000; padding: 8px 8px 8px 8px;"
@@ -239,6 +251,7 @@
                                             t-esc="l['product_qty']"
                                         />
                                         <td
+                                            name="uom"
                                             style="border-top: 1px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000;
                                           border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -247,6 +260,7 @@
                                             t-esc="l['product_uom']"
                                         />
                                         <td
+                                            name="price_unit"
                                             style="border-top: 1px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                           solid #000000; padding: 8px 8px 8px 8px;"
@@ -255,6 +269,7 @@
                                             t-esc="l['price_unit']"
                                         />
                                         <td
+                                            name="partial"
                                             style="border-top: 1px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                          solid #000000; padding: 8px 8px 8px 8px;"
@@ -263,6 +278,7 @@
                                             t-esc="l['partial_total_value']"
                                         />
                                         <td
+                                            name="total"
                                             style="border-top: 1px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                           solid #000000; padding: 8px 8px 8px 8px;"
@@ -276,6 +292,7 @@
                                 <t t-if="l['ncm_controller'] == True">
                                     <tbody>
                                         <td
+                                            name="ncm_controller"
                                             style="border-top: 3px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                           solid #000000; padding: 8px 8px 8px 8px;"
@@ -284,6 +301,7 @@
                                             t-esc="l['ncm']"
                                         />
                                         <td
+                                            name="code_controller"
                                             style="border-top: 3px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000;
                                           border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -292,6 +310,7 @@
                                             t-esc="l['product_code']"
                                         />
                                         <td
+                                            name="name_controller"
                                             style="border-top: 3px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000;
                                           border-right: 1px solid #000000; padding: 8px 8px 8px 8px; margin-bottom:2px; text-align: center; min-width: 250px;max-width: 400px;page-break-inside: avoid;"
@@ -300,6 +319,7 @@
                                             t-esc="l['product_name']"
                                         />
                                         <td
+                                            name="quantity_controller"
                                             style="border-top: 3px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                           solid #000000; padding: 8px 8px 8px 8px;"
@@ -309,6 +329,7 @@
                                         />
 
                                         <td
+                                            name="uom_controller"
                                             style="border-top: 3px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000;
                                           border-right: 1px solid #000000; padding: 8px 8px 8px 8px;"
@@ -317,6 +338,7 @@
                                             t-esc="l['product_uom']"
                                         />
                                         <td
+                                            name="price_unit_controller"
                                             style="border-top: 3px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                           solid #000000; padding: 8px 8px 8px 8px;"
@@ -326,6 +348,7 @@
                                         />
 
                                         <td
+                                            name="partial_controller"
                                             style="border-top: 3px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                          solid #000000; padding: 8px 8px 8px 8px;"
@@ -334,6 +357,7 @@
                                             t-esc="l['partial_total_value']"
                                         />
                                         <td
+                                            name="total_controller"
                                             style="border-top: 3px solid #000000; border-bottom: 1px
                                          solid #000000; border-left: 1px solid #000000; border-right: 1px
                                           solid #000000; padding: 8px 8px 8px 8px;"
