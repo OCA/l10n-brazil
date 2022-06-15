@@ -20,7 +20,7 @@ IMPORTING_TYPES = [
 
 
 class NfeImport(models.TransientModel):
-    """ Importar XML Nota Fiscal Eletrônica """
+    """Importar XML Nota Fiscal Eletrônica"""
 
     _name = "l10n_br_nfe.import_xml"
     _inherit = "l10n_br_fiscal.base.wizard.mixin"
