@@ -7,17 +7,15 @@ import logging
 import re
 import string
 from datetime import datetime
-from io import StringIO
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
-from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
+from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 
 from odoo import _, api, fields
@@ -616,8 +614,8 @@ class NFe(spec_models.StackedModel):
         return res
 
     def _build_attr(self, node, fields, vals, path, attr):
-        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
-        value = getattr(node, attr.get_name())
+        key = "nfe40_%s" % (attr[0],)  # TODO schema wise
+        value = getattr(node, attr[0])
 
         if key == "nfe40_mod":
             vals["document_type_id"] = (
@@ -751,9 +749,9 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
             processador = record._processador()
-            xml_file = processador._generateds_to_string_etree(
-                edoc, pretty_print=pretty_print
-            )[0]
+            xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
+                0
+            ]
             _logger.debug(xml_file)
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
@@ -807,7 +805,7 @@ class NFe(spec_models.StackedModel):
 
     def _valida_xml(self, xml_file):
         self.ensure_one()
-        erros = nfe_sub.schema_validation(StringIO(xml_file))
+        erros = Nfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 
