@@ -4,12 +4,16 @@
 
 import base64
 import logging
+import os
 import re
 import string
+import xml.etree.ElementTree as ET
 from datetime import datetime
-from io import StringIO
+from pathlib import Path
 from unicodedata import normalize
 
+import nfelib
+import xmlschema
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
@@ -745,7 +749,7 @@ class NFe(spec_models.StackedModel):
             record.authorization_event_id = event_id
             # TODO copy decent assina_raiz method here
             xml_assinado = "TODO"  # processador.assina_raiz(edoc, edoc.InfNfe.id)
-            self._valida_xml(xml_assinado)
+            self._valida_xml(xml_file)
         return result
 
     def _render_edoc(self, edoc_binding, pretty_print=True):
@@ -796,11 +800,17 @@ class NFe(spec_models.StackedModel):
         self._change_state(state)
 
     def _valida_xml(self, xml_file):
-        return True  # FIXME adapt for xsdata
         self.ensure_one()
-        erros = nfe_sub.schema_validation(StringIO(xml_file))
-        erros = "\n".join(erros)
-        self.write({"xml_error_message": erros or False})
+        path = os.path.dirname(nfelib.__file__)
+        module_path = str(Path(path).parents[0])
+        schema_path = os.path.join(module_path, "schemas/nfe/v4_0/nfe_v4.00.xsd")
+        xml_tree = ET.ElementTree(ET.fromstring(xml_file))
+        iter_errors = xmlschema.iter_errors(xml_document=xml_tree, schema=schema_path)
+        errors = ""
+        for error in iter_errors:
+            errors += "(" + re.sub("{.*?}", "", error.path) + ") "
+            errors += error.reason + "\n"
+        self.write({"xml_error_message": errors or False})
 
     def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
         self.ensure_one()
