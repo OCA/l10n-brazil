@@ -613,7 +613,7 @@ class NFe(spec_models.StackedModel):
         for field_data in res:
             i += 1
             if class_obj._fields[field_name].comodel_name == "nfe.40.det":
-                field_data.nItem = i
+                field_data.n_item = i
         return res
 
     def _build_attr(self, node, fields, vals, path, attr):
