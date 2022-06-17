@@ -6,7 +6,7 @@ import time  # You can't send multiple requests at the same time in trial versio
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.l10n_br_cnpj.tests.common import TestCnpjCommon
+from .common import TestCnpjCommon
 
 
 @tagged("post_install", "-at_install")
@@ -56,7 +56,52 @@ class TestTestSerPro(TestCnpjCommon):
         with self.assertRaises(ValidationError):
             invalid.search_cnpj()
 
+    def assert_socios(self, partner, expected_cnpjs):
+        socios = self.model.search_read(
+            [("id", "in", partner.child_ids.ids)],
+            fields=["name", "cnpj_cpf", "function", "company_type"],
+        )
+
+        for s in socios:
+            s.pop("id")
+
+        expected_socios = [
+            {
+                "name": "Joana Alves Mundim Pena",
+                "cnpj_cpf": expected_cnpjs["Joana"],
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+            {
+                "name": "Luiza Aldenora",
+                "cnpj_cpf": expected_cnpjs["Aldenora"],
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+            {
+                "name": "Luiza Araujo De Oliveira",
+                "cnpj_cpf": expected_cnpjs["Araujo"],
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+            {
+                "name": "Luiza Barbosa Bezerra",
+                "cnpj_cpf": expected_cnpjs["Barbosa"],
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+            {
+                "name": "Marcelo Antonio Barros De Cicco",
+                "cnpj_cpf": expected_cnpjs["Marcelo"],
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+        ]
+
+        self.assertEqual(socios, expected_socios)
+
     def test_serpro_empresa(self):
+        self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).unlink()
         self.set_param("serpro_schema", "empresa")
 
         dummy_empresa = self.model.create(
@@ -67,45 +112,34 @@ class TestTestSerPro(TestCnpjCommon):
         dummy_empresa._onchange_cnpj_cpf()
         dummy_empresa.search_cnpj()
 
-        socios = self.model.search_read(
-            [("id", "in", dummy_empresa.child_ids.ids)],
-            fields=["name", "cnpj_cpf", "function", "company_type"],
+        expected_cnpjs = {
+            "Joana": "23982012600",
+            "Aldenora": "76822320300",
+            "Araujo": "07119488449",
+            "Barbosa": "13946994415",
+            "Marcelo": "00031298702",
+        }
+
+        self.assert_socios(dummy_empresa, expected_cnpjs)
+
+    def test_serpro_qsa(self):
+        self.model.search([("cnpj_cpf", "=", "54447820000155")]).unlink()
+        self.set_param("serpro_schema", "qsa")
+
+        dummy_qsa = self.model.create(
+            {"name": "Dummy QSA", "cnpj_cpf": "34.238.864/0001-68"}
         )
 
-        for s in socios:
-            s.pop("id")
+        time.sleep(2)  # Pause
+        dummy_qsa._onchange_cnpj_cpf()
+        dummy_qsa.search_cnpj()
 
-        expected_socios = [
-            {
-                "name": "Joana Alves Mundim Pena",
-                "cnpj_cpf": "23982012600",
-                "function": "Sócio-Administrador",
-                "company_type": "person",
-            },
-            {
-                "name": "Luiza Aldenora",
-                "cnpj_cpf": "76822320300",
-                "function": "Sócio-Administrador",
-                "company_type": "person",
-            },
-            {
-                "name": "Luiza Araujo De Oliveira",
-                "cnpj_cpf": "07119488449",
-                "function": "Sócio-Administrador",
-                "company_type": "person",
-            },
-            {
-                "name": "Luiza Barbosa Bezerra",
-                "cnpj_cpf": "13946994415",
-                "function": "Sócio-Administrador",
-                "company_type": "person",
-            },
-            {
-                "name": "Marcelo Antonio Barros De Cicco",
-                "cnpj_cpf": "00031298702",
-                "function": "Sócio-Administrador",
-                "company_type": "person",
-            },
-        ]
+        expected_cnpjs = {
+            "Joana": False,
+            "Aldenora": False,
+            "Araujo": False,
+            "Barbosa": False,
+            "Marcelo": False,
+        }
 
-        self.assertEqual(socios, expected_socios)
+        self.assert_socios(dummy_qsa, expected_cnpjs)

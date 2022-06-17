@@ -69,33 +69,31 @@ class SerproWebservice(models.Model):
             "cnae_main_id": cnae_id,
         }
 
-        if schema == "empresa":
-            res.update(self.import_empresa(data))
-        elif schema == "qsa":
-            res.update({})  # TODO
+        res.update(self.import_additional_info(data, schema))
 
         return res
 
-    def import_empresa(self, data):
+    def import_additional_info(self, data, schema):
+        if schema not in ["empresa", "qsa"]:
+            return {}
+
         socios = data.get("socios")
         child_ids = []
         for socio in socios:
             socio_name = self.get_data(socio, "nome", title=True)
-            socio_cpf = self.get_data(socio, "cpf")
             socio_qualification = self.get_qualification(socio)
 
-            socio_id = (
-                self.env["res.partner"]
-                .create(
-                    {
-                        "name": socio_name,
-                        "cnpj_cpf": socio_cpf,
-                        "function": socio_qualification,
-                        "company_type": "person",
-                    }
-                )
-                .id
-            )
+            values = {
+                "name": socio_name,
+                "function": socio_qualification,
+                "company_type": "person",
+            }
+
+            if schema == "empresa":
+                socio_cpf = self.get_data(socio, "cpf")
+                values.update({"cnpj_cpf": socio_cpf})
+
+            socio_id = self.env["res.partner"].create(values).id
             child_ids.append(socio_id)
 
         return {
