@@ -139,9 +139,12 @@ class AbstractSpecMixin(models.AbstractModel):
                 class_name=self._stacking_points[field_name].comodel_name
             )
         else:
-            return (self[field_name] or self)._build_generateds(
-                class_obj._fields[field_name].comodel_name
-            )
+            _field = class_obj._fields[field_name]
+            if hasattr(_field, "original_comodel_name"):
+                comodel_name = _field.original_comodel_name
+            else:
+                comodel_name = _field.comodel_name
+            return (self[field_name] or self)._build_generateds(comodel_name)
 
     def _export_one2many(self, field_name, class_obj=None):
         self.ensure_one()
