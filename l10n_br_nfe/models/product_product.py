@@ -9,11 +9,40 @@
 
 
 from odoo import api, models
+from odoo.osv import expression
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
     _nfe_search_keys = ["default_code", "barcode"]
+
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        create_dict = {}
+        domain_name, domain_barcode = [], []
+        if parent_dict.get("nfe40_xProd"):
+            rec_dict["name"] = parent_dict["nfe40_xProd"]
+            domain_name = [("name", "=", rec_dict.get("name"))]
+            create_dict.update(
+                {
+                    "name": rec_dict["name"],
+                }
+            )
+        if (
+            parent_dict.get("nfe40_cEANTrib")
+            and parent_dict["nfe40_cEANTrib"] != "SEM GTIN"
+        ):
+            rec_dict["barcode"] = parent_dict["nfe40_cEANTrib"]
+            domain_barcode = [("barcode", "=", rec_dict.get("barcode"))]
+            create_dict.update({"barcode": rec_dict["barcode"]})
+        domain = expression.OR([domain_name, domain_barcode])
+        match = self.search(domain, limit=1)
+        if match:
+            return match.id
+        if self._context.get("dry_run"):
+            rec_id = self.new(create_dict).id
+        else:
+            rec_id = self.with_context(parent_dict=parent_dict).create(create_dict).id
+        return rec_id
 
     @api.model
     def create(self, values):
