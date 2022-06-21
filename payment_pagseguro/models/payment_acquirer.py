@@ -7,14 +7,16 @@ from odoo import api, fields, models
 class PaymentAcquirerPagseguro(models.Model):
     _inherit = "payment.acquirer"
 
-    provider = fields.Selection(selection_add=[("pagseguro", "Pagseguro")])
+    provider = fields.Selection(
+        selection_add=[("pagseguro", "Pagseguro")],
+        ondelete={"pagseguro": "set default"},
+    )
     pagseguro_token = fields.Char(
         string="Pagseguro Token",
         required_if_provider="pagseguro",
         groups="base.group_user",
     )
 
-    @api.multi
     def pagseguro_s2s_form_validate(self, data):
         """Validates user input"""
         self.ensure_one()
@@ -51,12 +53,11 @@ class PaymentAcquirerPagseguro(models.Model):
 
         Takes environment in consideration.
         """
-        if self.environment == "test":
-            return "sandbox.api.pagseguro.com"
-        if self.environment == "prod":
+        if self.state == "enabled":
             return "api.pagseguro.com"
+        else:
+            return "sandbox.api.pagseguro.com"
 
-    @api.multi
     def _get_pagseguro_api_headers(self):
         """Get pagseguro API headers used in all s2s communication
 
