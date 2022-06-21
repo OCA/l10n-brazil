@@ -54,7 +54,9 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                         holder: formData.cc_holder_name,
                         number: formData.cc_number.replace(/\s+/g, ""),
                         expMonth: formData.cc_expiry.split("/")[0],
-                        expYear: formData.cc_expiry.split("/")[1],
+                        expYear: ""
+                            .concat("20", formData.cc_expiry.split("/")[1])
+                            .replace(/\s/g, ""),
                         securityCode: formData.cc_cvc,
                     });
                 })
@@ -92,7 +94,7 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                         self.el.submit();
                     }
                 })
-                .fail(function (error) {
+                .catch(function (error) {
                     // If the public key rpc fails
                     self.enableButton(button);
 

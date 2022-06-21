@@ -4,17 +4,22 @@
 odoo.define("payment_pagseguro.tour", function (require) {
     "use strict";
 
+    var ajax = require("web.ajax");
+    var session = require("web.session");
     var tour = require("web_tour.tour");
-    var base = require("web_editor.base");
     var rpc = require("web.rpc");
+
+    var domReady = new Promise(function (resolve) {
+        $(resolve);
+    });
+    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
 
     tour.register(
         "shop_buy_pagseguro",
         {
             url: "/shop",
             test: true,
-            wait_for: base.ready(),
-            debug: true,
+            wait_for: ready,
         },
         [
             {
@@ -34,8 +39,7 @@ odoo.define("payment_pagseguro.tour", function (require) {
                                 acquirer,
                                 {
                                     pagseguro_token: "8EC2714B10DC42DE882BC341A5366899",
-                                    environment: "test",
-                                    website_published: true,
+                                    state: "test",
                                     journal_id: 1,
                                     capture_manually: true,
                                     payment_flow: "s2s",
@@ -70,10 +74,6 @@ odoo.define("payment_pagseguro.tour", function (require) {
                     '#product_detail form[action^="/shop/cart/update"] .btn-primary',
             },
             {
-                content: "click in modal on 'Proceed to checkout' button",
-                trigger: 'button:contains("Proceed to Checkout")',
-            },
-            {
                 content: "go to checkout",
                 trigger: 'a[href*="/shop/checkout"]',
             },
@@ -94,7 +94,7 @@ odoo.define("payment_pagseguro.tour", function (require) {
             {
                 content: "insert expiration date",
                 trigger: "input[name='cc_expiry']",
-                run: "text 12/2030",
+                run: "text 12/99",
             },
             {
                 content: "insert security code",
@@ -110,9 +110,9 @@ odoo.define("payment_pagseguro.tour", function (require) {
             },
             {
                 content: "payment authorized",
-                extra_trigger: ".bg-success",
+                extra_trigger: ".alert-success",
                 trigger:
-                    '.bg-success span:contains("Your payment has been authorized.")',
+                    '.alert-success span:contains("Your payment has been authorized.")',
                 timeout: 20000,
             },
             {

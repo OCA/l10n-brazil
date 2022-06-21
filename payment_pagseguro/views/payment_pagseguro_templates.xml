@@ -155,7 +155,7 @@
                         id="cc_expiry"
                         class="form-control"
                         maxlength="9"
-                        placeholder="Expires (MM/YYYY)"
+                        placeholder="Expires (MM/YY)"
                         data-is-required="true"
                     />
                 </div>
