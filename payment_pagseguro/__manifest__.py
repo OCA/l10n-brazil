@@ -11,6 +11,7 @@
     "depends": [
         "sale",  # Used sale order in currency validation
         "web_tour",
+        "website_sale",
     ],
     "data": [
         "views/payment_pagseguro_templates.xml",

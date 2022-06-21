@@ -6,7 +6,7 @@ import pprint
 
 import requests
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -54,14 +54,12 @@ class PaymentTransactionPagseguro(models.Model):
         )
         return res
 
-    @api.multi
     def pagseguro_s2s_do_transaction(self, **kwargs):
         self.ensure_one()
         result = self._create_pagseguro_charge()
 
         return self._pagseguro_s2s_validate_tree(result)
 
-    @api.multi
     def pagseguro_s2s_capture_transaction(self):
         """Captures an authorized transaction."""
         currencies = self.sale_order_ids.currency_id.mapped(
@@ -108,7 +106,6 @@ class PaymentTransactionPagseguro(models.Model):
                 message=res["error_messages"][0]["message"],
             )
 
-    @api.multi
     def pagseguro_s2s_void_transaction(self):
         """Voids an authorized transaction."""
         _logger.info(
@@ -152,7 +149,6 @@ class PaymentTransactionPagseguro(models.Model):
                 message=res["error_messages"][0]["message"],
             )
 
-    @api.multi
     def _pagseguro_s2s_validate_tree(self, tree):
         """Validates the transaction.
 
@@ -200,7 +196,6 @@ class PaymentTransactionPagseguro(models.Model):
 
         return False
 
-    @api.multi
     def _validate_tree_message(self, tree):
         if tree.get("message"):
             error = tree.get("message")
@@ -214,7 +209,6 @@ class PaymentTransactionPagseguro(models.Model):
             )
             self._set_transaction_cancel()
 
-    @api.multi
     def _get_pagseguro_charge_params(self):
         """
         Returns dict containing the required body information to create a

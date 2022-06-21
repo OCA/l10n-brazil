@@ -16,12 +16,10 @@ class PagseguroTest(odoo.tests.HttpCase):
         self.brl_currency = self.env["res.currency"].search([("name", "=", "BRL")])
 
     def test_buy_pagseguro(self):
-        self.browser_js(
+        self.start_tour(
             "/shop",
-            "odoo.__DEBUG__.services['web_tour.tour'].run('shop_buy_pagseguro')",
-            "odoo.__DEBUG__.services['web_tour.tour'].tours.shop_buy_pagseguro.ready",
+            "shop_buy_pagseguro",
             login="admin",
-            timeout=40000,
         )
 
         tx = self.env["payment.transaction"].search([], limit=1, order="id desc")
