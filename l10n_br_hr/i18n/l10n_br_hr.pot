@@ -282,6 +282,11 @@ msgid "CTPS series"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__can_publish
+msgid "Can Publish"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__relative_file
 msgid "Certidão de Nascimento / Casamento / etc"
 msgstr ""
@@ -1047,6 +1052,11 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_published
+msgid "Is Published"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_company
 msgid "Is a Company"
 msgstr ""
@@ -1099,6 +1109,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner____last_update
 msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_website_so_id
+msgid "Last Online Sales Order"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1501,6 +1516,11 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_id
+msgid "Restrict publishing to this website."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
@@ -1720,6 +1740,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_url
+msgid "The full URL to access the document through the website."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__user_id
 msgid "The internal user in charge of this contact."
 msgstr ""
@@ -1893,6 +1918,16 @@ msgid "Vendor Payment Terms"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_published
+msgid "Visible on current website"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__visitor_ids
+msgid "Visitors"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Voter Registration"
 msgstr ""
@@ -1913,6 +1948,11 @@ msgid "Voter zone"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
+msgid "Website"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website
 msgid "Website Link"
 msgstr ""
@@ -1920,6 +1960,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_message_ids
 msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_url
+msgid "Website URL"
 msgstr ""
 
 #. module: l10n_br_hr
