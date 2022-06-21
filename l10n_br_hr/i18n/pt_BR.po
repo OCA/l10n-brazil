@@ -289,6 +289,11 @@ msgid "CTPS series"
 msgstr "Série CTPS"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__can_publish
+msgid "Can Publish"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__relative_file
 msgid "Certidão de Nascimento / Casamento / etc"
 msgstr "Certidão de Nascimento / Casamento / etc"
@@ -1061,6 +1066,11 @@ msgid "Is Follower"
 msgstr "É um seguidor"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_published
+msgid "Is Published"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_company
 msgid "Is a Company"
 msgstr "É uma Empresa"
@@ -1114,6 +1124,11 @@ msgstr "Idioma"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr "Última modificação em"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_website_so_id
+msgid "Last Online Sales Order"
+msgstr "Último Pedido de Vendas Online"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_uid
@@ -1519,6 +1534,11 @@ msgid "Responsible User"
 msgstr "Usuário Responsável"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_id
+msgid "Restrict publishing to this website."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
@@ -1748,6 +1768,11 @@ msgstr ""
 "A posição fiscal determina os impostos / contas usados para esse contato."
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_url
+msgid "The full URL to access the document through the website."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__user_id
 msgid "The internal user in charge of this contact."
 msgstr "O usuário interno responsável por este contato."
@@ -1934,6 +1959,16 @@ msgid "Vendor Payment Terms"
 msgstr "Condições de Pagamento do Fornecedor"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_published
+msgid "Visible on current website"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__visitor_ids
+msgid "Visitors"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Voter Registration"
 msgstr "Registro de Eleitor"
@@ -1954,6 +1989,11 @@ msgid "Voter zone"
 msgstr "Zona do eleitor"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
+msgid "Website"
+msgstr "Site"
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website
 msgid "Website Link"
 msgstr ""
@@ -1962,6 +2002,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_message_ids
 msgid "Website Messages"
 msgstr "Mensagens do Site"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_url
+msgid "Website URL"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_message_ids
@@ -2042,9 +2087,6 @@ msgstr "CEP"
 #~ msgid "Is a Vendor"
 #~ msgstr "É um Fornecedor"
 
-#~ msgid "Last Online Sales Order"
-#~ msgstr "Último Pedido de Vendas Online"
-
 #~ msgid "Legal Cohabitant"
 #~ msgstr "Coabitante Legal"
 
@@ -2120,9 +2162,6 @@ msgstr "CEP"
 #~ msgstr ""
 #~ "Usado pelos aplicativos de vendas e compras para selecionar o endereço "
 #~ "relevante, dependendo do contexto."
-
-#~ msgid "Website"
-#~ msgstr "Site"
 
 #~ msgid "Widower"
 #~ msgstr "Viúvo"
