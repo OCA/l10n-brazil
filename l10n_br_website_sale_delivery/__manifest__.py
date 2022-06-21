@@ -5,7 +5,7 @@
     "name": "Brazilian Localization Website Sale Delivery",
     "summary": """
         Implements Brazilian freight values for delivery.""",
-    "version": "12.0.2.1.0",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "development_status": "Alpha",
