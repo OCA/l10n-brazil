@@ -736,20 +736,25 @@ class NFe(spec_models.StackedModel):
                         )
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
-                record.atualiza_status_nfe(
-                    processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
-                )
-                if processo.protocolo.infProt.cStat in AUTORIZADO:
-                    try:
-                        record.make_pdf()
-                    except Exception as e:
-                        # Não devemos interromper o fluxo
-                        # E dar rollback em um documento
-                        # autorizado, podendo perder dados.
+                if (hasattr(processo, 'protocolo')):
+                    record.atualiza_status_nfe(
+                        processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
+                    )
+                    if processo.protocolo.infProt.cStat in AUTORIZADO:
+                        try:
+                            record.make_pdf()
+                        except Exception as e:
+                            # Não devemos interromper o fluxo
+                            # E dar rollback em um documento
+                            # autorizado, podendo perder dados.
 
-                        # Se der problema que apareça quando
-                        # o usuário clicar no gera PDF novamente.
-                        _logger.error("DANFE Error \n {}".format(e))
+                            # Se der problema que apareça quando
+                            # o usuário clicar no gera PDF novamente.
+                            _logger.error("DANFE Error \n {}".format(e))
+                else:
+                    # Entra aqui qdo a nota ja foi enviada
+                    # TODO : na verdade era pra dar erro de Duplicidade
+                    raise UserError(_("Número de Nota já existente no SEFAZ."))
 
             elif processo.resposta.cStat == "225":
                 state = SITUACAO_EDOC_REJEITADA
