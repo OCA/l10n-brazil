@@ -108,6 +108,38 @@ class AccountInvoice(models.Model):
         store=True,
     )
 
+    withholding_invoice_ids = fields.Many2many(
+        comodel_name="account.invoice",
+        relation="account_invoice_withholding_invoice_rel",
+        column1="invoice_id",
+        column2="withholding_invoice_id",
+        compute="_compute_withholding_invoice_ids",
+        store=True,
+        string="Withholding Invoice",
+    )
+
+    withholding_origin_ids = fields.Many2many(
+        comodel_name="account.invoice",
+        relation="account_invoice_withholding_invoice_rel",
+        column1="withholding_invoice_id",
+        column2="invoice_id",
+        compute="_compute_withholding_invoice_ids",
+        store=True,
+        string="Withholding Origin Invoice",
+    )
+
+    @api.depends("move_id.line_ids")
+    def _compute_withholding_invoice_ids(self):
+        for invoice in self.filtered(lambda i: i.move_id):
+            invoices = (
+                self.env["account.invoice.line"]
+                .search(
+                    [("wh_move_line_id", "in", invoice.move_id.mapped("line_ids").ids)]
+                )
+                .mapped("invoice_id")
+            )
+            invoice.withholding_invoice_ids = invoices
+
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("invoice_line_ids")

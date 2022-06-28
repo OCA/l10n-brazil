@@ -261,6 +261,22 @@
             <field name="amount_tax" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
+            <notebook position="inside">
+                <page
+                    string="Retenções"
+                    name="withholding_invoice"
+                    attrs="{'invisible': [('withholding_invoice_ids', '=', [])]}"
+                >
+                    <field name="withholding_invoice_ids" />
+                </page>
+                <page
+                    string="Retenções Faturas de Origem"
+                    name="withholding_origin"
+                    attrs="{'invisible': [('withholding_origin_ids', '=', [])]}"
+                >
+                    <field name="withholding_origin_ids" />
+                </page>
+            </notebook>
         </field>
     </record>
 
