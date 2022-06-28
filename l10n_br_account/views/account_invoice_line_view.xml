@@ -89,7 +89,7 @@
                                 name="invoice_line_tax_ids"
                                 context="{'type': invoice_type}"
                                 domain="[('type_tax_use','!=','none'),('company_id', '=', company_id)]"
-                                widget="many2many"
+                                widget="many2many_tags"
                                 options="{'no_create': True}"
                             />
                         </group>
