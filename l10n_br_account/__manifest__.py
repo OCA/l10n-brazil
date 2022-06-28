@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "12.0.14.2.2",
+    "version": "12.0.15.0.0",
     "depends": [
         "account_cancel",
         "l10n_br_coa",
