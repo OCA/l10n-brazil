@@ -14,7 +14,7 @@
             <field name="name" position="attributes">
                 <attribute
                     name="filter_domain"
-                >['|','|','|', '|', ('document_number','ilike',self), ('name','ilike',self), ('origin','ilike',self), ('reference', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
+                >['|','|','|', '|', ('document_number','ilike',self), ('name','ilike',self), ('invoice_origin','ilike',self), ('ref', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
                 <attribute name="string">Account Number</attribute>
             </field>
         </field>
