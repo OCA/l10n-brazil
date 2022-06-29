@@ -393,7 +393,7 @@
     </record>
 
     <record id="UOM_PACOTE" model="uom.uom">
-        <field name="category_id" ref="uom.uom_categ_wtime" />
+        <field name="category_id" ref="uom.product_uom_categ_unit" />
         <field name="code">PACOTE</field>
         <field name="name">PACOTE</field>
         <field name="factor" eval="1.0" />
