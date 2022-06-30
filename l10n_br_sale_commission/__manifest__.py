@@ -20,6 +20,7 @@
         "views/res_config_settings_views.xml",
         "wizards/wizard_invoice.xml",
     ],
+    "demo": ["demo/res_config_settings_demo.xml", "demo/sale_order_demo.xml"],
     "installable": True,
     "development_status": "Beta",
 }
