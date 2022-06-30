@@ -17,6 +17,7 @@
     ],
     "data": [
         "views/sale_order.xml",
+        "views/res_config_settings_views.xml",
         "wizards/wizard_invoice.xml",
     ],
     "installable": True,
