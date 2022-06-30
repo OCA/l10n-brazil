@@ -6,3 +6,4 @@
       Database fetch misses ids (('39',)) and has extra ids ((39,)),
       may be caused by a type incoherence in a previous request
   Testar na migração.
+* Para resolver o problema de não gerar comissão quando o CFOP Não Gera Financeiro o ideal seria usar o objeto 'sale.commission.mixin' para assim não precisar repetir código nos objeto mas por alguma razão não funcionou.
