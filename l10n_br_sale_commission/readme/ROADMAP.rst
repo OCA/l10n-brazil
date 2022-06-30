@@ -1,4 +1,3 @@
-* Adicionar testes de geração de NFS-e para pagamento de comissões
 * Verificar erro ao retornar os campos padrões/default diferenças entre usar o search e o browse:
       l10n_br_fiscal.document.type(39,)
       l10n_br_fiscal.document.type('39',)
