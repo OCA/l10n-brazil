@@ -42,7 +42,7 @@
               <field
                                 name="tax_icms_or_issqn"
                                 force_save="1"
-                                attrs="{'readonly': [('product_id', '!=', False), ('tax_icms_or_issqn', '!=', False)], 'required': [('fiscal_tax_ids', '!=', False), ('country_id', '=', %(base.br)d)]}"
+                                attrs="{'readonly': [('product_id', '!=', False), ('tax_icms_or_issqn', '!=', False)], 'required': [('tax_icms_or_issqn', '!=', False), ('fiscal_tax_ids', '!=', False), ('country_id', '=', %(base.br)d)]}"
                             />
             </group>
             <notebook>
