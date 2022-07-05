@@ -34,15 +34,17 @@
               </xpath>
               <xpath
                 expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
-                position="attributes"
-            >
-                  <attribute name="invisible">1</attribute>
-              </xpath>
+                position="replace"
+            />
               <xpath
-                expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
+                expr="//field[@name='order_line']/tree/field[@name='price_unit']"
                 position="before"
             >
-                  <field name="fiscal_tax_ids" widget="many2many_tags" />
+                  <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
               </xpath>
               <xpath
                 expr="//field[@name='order_line']/tree/field[@name='company_id']"
