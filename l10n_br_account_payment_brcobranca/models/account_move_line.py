@@ -155,11 +155,11 @@ class AccountMoveLine(models.Model):
                     }
                 )
 
+            bank_account = move_line.payment_mode_id.fixed_journal_id.bank_account_id
             if bank_account_id.bank_id.code_bc in ("021", "004"):
-                digito_conta_corrente = move_line.payment_mode_id.bank_id.acc_number_dig
                 boleto_cnab_api_data.update(
                     {
-                        "digito_conta_corrente": digito_conta_corrente,
+                        "digito_conta_corrente": bank_account.acc_number_dig,
                     }
                 )
 
@@ -169,6 +169,13 @@ class AccountMoveLine(models.Model):
                     {
                         "byte_idt": move_line.payment_mode_id.boleto_byte_idt,
                         "posto": move_line.payment_mode_id.boleto_post,
+                    }
+                )
+            # Campo usado no Unicred
+            if bank_account_id.bank_id.code_bc == "136":
+                boleto_cnab_api_data.update(
+                    {
+                        "conta_corrente_dv": bank_account.acc_number_dig,
                     }
                 )
 
