@@ -31,7 +31,7 @@ class SaleOrderLine(models.Model):
         comodel_name="l10n_br_fiscal.operation.line",
         string="Operation Line",
         domain="[('fiscal_operation_id', '=', fiscal_operation_id), "
-        "('state', '=', 'approved')]",
+               "('state', '=', 'approved')]",
     )
 
     # Adapt Mixin's fields
@@ -139,21 +139,35 @@ class SaleOrderLine(models.Model):
     )
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
-        super()._compute_amount()
-        for line in self:
-            # Update taxes fields
-            line._update_taxes()
-            # Call mixin compute method
-            line._compute_amounts()
-            # Update record
-            line.update(
-                {
-                    "price_subtotal": line.amount_untaxed,
-                    "price_tax": line.amount_tax,
-                    "price_gross": line.amount_untaxed + line.discount_value,
-                    "price_total": line.amount_total,
-                }
-            )
+        if self.country_id.id != self.env.ref("base.br").id:
+            for line in self:
+                price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                taxes = line.tax_id.compute_all(price, line.order_id.currency_id, line.product_uom_qty,
+                                                product=line.product_id, partner=line.order_id.partner_shipping_id)
+                line.update({
+                    'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                    'price_total': taxes['total_included'],
+                    'price_subtotal': taxes['total_excluded'],
+                })
+                if self.env.context.get('import_file', False) and not self.env.user.user_has_groups(
+                        'account.group_account_manager'):
+                    line.tax_id.invalidate_cache(['invoice_repartition_line_ids'], [line.tax_id.id])
+        else:
+            super()._compute_amount()
+            for line in self:
+                # Update taxes fields
+                line._update_taxes()
+                # Call mixin compute method
+                line._compute_amounts()
+                # Update record
+                line.update(
+                    {
+                        "price_subtotal": line.amount_untaxed,
+                        "price_tax": line.amount_tax,
+                        "price_gross": line.amount_untaxed + line.discount_value,
+                        "price_total": line.amount_total,
+                    }
+                )
 
     def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
@@ -187,7 +201,7 @@ class SaleOrderLine(models.Model):
 
             if line.uom_id != line.uot_id:
                 line.fiscal_qty_delivered = (
-                    line.qty_delivered * line.product_id.uot_factor
+                        line.qty_delivered * line.product_id.uot_factor
                 )
 
     @api.onchange("discount")
@@ -195,7 +209,7 @@ class SaleOrderLine(models.Model):
         """Update discount value"""
         if not self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
             self.discount_value = (self.product_uom_qty * self.price_unit) * (
-                self.discount / 100
+                    self.discount / 100
             )
 
     @api.onchange("discount_value")
@@ -203,7 +217,7 @@ class SaleOrderLine(models.Model):
         """Update discount percent"""
         if self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
             self.discount = (self.discount_value * 100) / (
-                self.product_uom_qty * self.price_unit or 1
+                    self.product_uom_qty * self.price_unit or 1
             )
 
     @api.onchange("fiscal_tax_ids")
