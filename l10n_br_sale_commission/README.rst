@@ -7,9 +7,9 @@ Brazilian Localization Sales commissions
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Mature
+    :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -35,22 +35,30 @@ Esse módulo localiza a geração das faturas de comissão permitindo que seja g
 Installation
 ============
 
+This module depends on:
 
+* sale_commission
+* l10n_br_account
 
 Configuration
 =============
 
-Após a instalação do módulo ao gerar uma fatura para pagamento de comissões você pode definir o documento fiscal e a operação fiscal. O seu usuário deve ser membro do grupo de acesso Gerente Fiscal.
+Após a instalação do módulo vá em:
+  Vendas > Configuração > Configurações
+
+Na seção de Comissão é possível definir os campos "Produto", "Gera Documento Fiscal Brasileiro?", "Tipo do Documento" e "Operação Fiscal" padrões a serem usados na criação do Pagamento de Comissões.
+Ao gerar uma fatura para pagamento de comissões você também pode alterar esses mesmos campos. O seu usuário deve ser membro do grupo de acesso Gerente Fiscal e a opção "Gera Documento Fiscal Brasileiro?" deve estar marcada.
 
 Usage
 =====
 
-Após ter o endereço da empresa configurado, no cadastro do parceiro você encotrar os campos CNPJ, CPF, IE, RG e os campos de endereço formatado para o Brasil. Caso você tenha apenas o módulo base instalado, você pode instalar o módulo Contact para acessar o cadastro de parceiros.
+No wizards de criação de faturas para pagamento das comissões, é possível selecionar o documento fiscal e a operação fiscal, caso o representante emita uma NFS-e.
 
 Known issues / Roadmap
 ======================
 
-
+* Verificar erro ao retornar os campos padrões/default diferenças entre usar o search e o browse, detalhes no arquivo l10n_br_sale_commission/wizards/wizard_invoice.py linha 16, testar na migração.
+* Para resolver o problema de não gerar comissão quando o CFOP Não Gera Financeiro o ideal seria usar o objeto 'sale.commission.mixin' para assim não precisar repetir código nos objeto mas por alguma razão não funcionou.
 
 Changelog
 =========
