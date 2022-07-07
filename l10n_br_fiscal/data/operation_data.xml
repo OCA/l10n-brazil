@@ -217,6 +217,13 @@
         <field name="state">approved</field>
     </record>
 
+    <record id="fo_compras_aquisicao_de_servico" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Aquisição de Serviço</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+        <field name="state">approved</field>
+    </record>
+
     <record id="fo_devolucao_compras" model="l10n_br_fiscal.operation">
         <field name="code">Devolução de Compras</field>
         <field name="name">Devolução de Compras</field>

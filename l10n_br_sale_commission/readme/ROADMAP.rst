@@ -1,0 +1,2 @@
+* Verificar erro ao retornar os campos padrões/default diferenças entre usar o search e o browse, detalhes no arquivo l10n_br_sale_commission/wizards/wizard_invoice.py linha 16, testar na migração.
+* Para resolver o problema de não gerar comissão quando o CFOP Não Gera Financeiro o ideal seria usar o objeto 'sale.commission.mixin' para assim não precisar repetir código nos objeto mas por alguma razão não funcionou.
