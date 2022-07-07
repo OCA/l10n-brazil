@@ -104,7 +104,7 @@ class SaleOrder(models.Model):
                     amount_freight_old = sum(record.order_line.mapped("freight_value"))
                     for line in record.order_line[:-1]:
                         line.freight_value = amount_freight_value * (
-                                line.freight_value / amount_freight_old
+                            line.freight_value / amount_freight_old
                         )
                     record.order_line[-1].freight_value = amount_freight_value - sum(
                         line.freight_value for line in record.order_line[:-1]
@@ -113,7 +113,7 @@ class SaleOrder(models.Model):
                     amount_total = sum(record.order_line.mapped("price_total"))
                     for line in record.order_line[:-1]:
                         line.freight_value = amount_freight_value * (
-                                line.price_total / amount_total
+                            line.price_total / amount_total
                         )
                     record.order_line[-1].freight_value = amount_freight_value - sum(
                         line.freight_value for line in record.order_line[:-1]
@@ -126,7 +126,7 @@ class SaleOrder(models.Model):
                         name: value
                         for name, value in record._cache.items()
                         if record._fields[name].compute == "_amount_all"
-                           and not record._fields[name].inverse
+                        and not record._fields[name].inverse
                     }
                 )
 
@@ -141,7 +141,7 @@ class SaleOrder(models.Model):
                     )
                     for line in record.order_line[:-1]:
                         line.insurance_value = amount_insurance_value * (
-                                line.insurance_value / amount_insurance_old
+                            line.insurance_value / amount_insurance_old
                         )
                     record.order_line[
                         -1
@@ -152,7 +152,7 @@ class SaleOrder(models.Model):
                     amount_total = sum(record.order_line.mapped("price_total"))
                     for line in record.order_line[:-1]:
                         line.insurance_value = amount_insurance_value * (
-                                line.price_total / amount_total
+                            line.price_total / amount_total
                         )
                     record.order_line[
                         -1
@@ -167,7 +167,7 @@ class SaleOrder(models.Model):
                         name: value
                         for name, value in record._cache.items()
                         if record._fields[name].compute == "_amount_all"
-                           and not record._fields[name].inverse
+                        and not record._fields[name].inverse
                     }
                 )
 
@@ -179,7 +179,7 @@ class SaleOrder(models.Model):
                     amount_other_old = sum(record.order_line.mapped("other_value"))
                     for line in record.order_line[:-1]:
                         line.other_value = amount_other_value * (
-                                line.other_value / amount_other_old
+                            line.other_value / amount_other_old
                         )
                     record.order_line[-1].other_value = amount_other_value - sum(
                         line.other_value for line in record.order_line[:-1]
@@ -188,7 +188,7 @@ class SaleOrder(models.Model):
                     amount_total = sum(record.order_line.mapped("price_total"))
                     for line in record.order_line[:-1]:
                         line.other_value = amount_other_value * (
-                                line.price_total / amount_total
+                            line.price_total / amount_total
                         )
                     record.order_line[-1].other_value = amount_other_value - sum(
                         line.other_value for line in record.order_line[:-1]
@@ -201,7 +201,7 @@ class SaleOrder(models.Model):
                         name: value
                         for name, value in record._cache.items()
                         if record._fields[name].compute == "_amount_all"
-                           and not record._fields[name].inverse
+                        and not record._fields[name].inverse
                     }
                 )
 
@@ -224,11 +224,13 @@ class SaleOrder(models.Model):
                 for line in order.order_line:
                     amount_untaxed += line.price_subtotal
                     amount_tax += line.price_tax
-                order.update({
-                    'amount_untaxed': amount_untaxed,
-                    'amount_tax': amount_tax,
-                    'amount_total': amount_untaxed + amount_tax,
-                })
+                order.update(
+                    {
+                        "amount_untaxed": amount_untaxed,
+                        "amount_tax": amount_tax,
+                        "amount_total": amount_untaxed + amount_tax,
+                    }
+                )
             return
 
         for order in self:
@@ -236,7 +238,7 @@ class SaleOrder(models.Model):
 
     @api.model
     def fields_view_get(
-            self, view_id=None, view_type="form", toolbar=False, submenu=False
+        self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
 
         order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
@@ -269,7 +271,7 @@ class SaleOrder(models.Model):
                     continue
                 if self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
                     line.discount_value = (line.product_uom_qty * line.price_unit) * (
-                            order.discount_rate / 100
+                        order.discount_rate / 100
                     )
                     line._onchange_discount_value()
                 else:
@@ -339,7 +341,7 @@ class SaleOrder(models.Model):
 
             # Check if there more than one Document Type
             if (
-                    fiscal_document_type.id != invoice_created_by_super.document_type_id.id
+                fiscal_document_type.id != invoice_created_by_super.document_type_id.id
             ) or (len(document_type_list) > 1):
 
                 # Remove the First Document Type,
@@ -378,9 +380,9 @@ class SaleOrder(models.Model):
                             if order.name not in invoices_origin[group_key]:
                                 invoices_origin[group_key].append(order.name)
                             if (
-                                    order.client_order_ref
-                                    and order.client_order_ref
-                                    not in invoices_name[group_key]
+                                order.client_order_ref
+                                and order.client_order_ref
+                                not in invoices_name[group_key]
                             ):
                                 invoices_name[group_key].append(order.client_order_ref)
 
@@ -432,7 +434,7 @@ class SaleOrder(models.Model):
                     computed_tax = taxes.get(tax.tax_domain)
                     pr = order.currency_id.rounding
                     if computed_tax and not float_is_zero(
-                            computed_tax.get("tax_value", 0.0), precision_rounding=pr
+                        computed_tax.get("tax_value", 0.0), precision_rounding=pr
                     ):
                         group = tax.tax_group_id
                         res.setdefault(group, {"amount": 0.0, "base": 0.0})
