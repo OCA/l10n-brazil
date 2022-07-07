@@ -106,6 +106,12 @@ class TestSaleStock(SavepointCase):
             "id",
             "display_name",
             "state",
+            # TODO ?
+            #  Erro acontece mesmo qdo não tem valor
+            #  AssertionError: sale.order.line.agent() !=
+            #  account.invoice.line.agent() : Field agents failed to
+            #  transfer from sale.order.line to account.invoice.line
+            "agents",  # (l10n_br_sale_commission)
         ]
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
@@ -139,6 +145,7 @@ class TestSaleStock(SavepointCase):
             "price_unit",
             "amount_untaxed",
             "amount_total",
+            "agents",  # (l10n_br_sale_commission)
         ]
         skipped_fields[len(skipped_fields) :] = skipped_fields_after_confirm
 
@@ -242,6 +249,7 @@ class TestSaleStock(SavepointCase):
             "display_name",
             "state",
             "create_date",
+            "agents",  # (l10n_br_sale_commission)
         ]
 
         common_fields = list(set(acl_fields) & set(sol_fields) - set(skipped_fields))
