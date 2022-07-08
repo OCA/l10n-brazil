@@ -211,14 +211,14 @@ class SaleOrder(models.Model):
 
     @api.depends("order_line")
     def _compute_amount(self):
-        if self.country_id.id != self.env.ref("base.br").id:
+        if self.company_id.country_id.id != self.env.ref("base.br").id:
             return
         super()._compute_amount()
 
     @api.depends("order_line.price_total")
     def _amount_all(self):
         """Compute the total amounts of the SO."""
-        if self.country_id.id != self.env.ref("base.br").id:
+        if self.company_id.country_id.id != self.env.ref("base.br").id:
             for order in self:
                 amount_untaxed = amount_tax = 0.0
                 for line in order.order_line:
