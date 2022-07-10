@@ -32,3 +32,7 @@ def load_simples_nacional_demo(env, registry):
             noupdate=True,
             kind="demo",
         )
+
+    # back to the main company as the next modules to be installed
+    # expect this to be the default company.
+    env.user.company_id = env.ref("base.main_company")
