@@ -21,10 +21,11 @@
                     col="4"
                     attrs="{'invisible': [('payment_method_code', 'not in', ('240','400', '500', 'manual_test') )]}"
                 >
-                    <notebook colspan="4" name="l10n_br_account_payment_order">
+                    <notebook name="l10n_br_account_payment_order">
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
                                 <field name="code_convetion" />
+                                <field name="code_convenio_lider" />
                                 <field name="instructions" />
                                 <field name="invoice_print" />
                                 <field name="condition_issuing_paper" />
