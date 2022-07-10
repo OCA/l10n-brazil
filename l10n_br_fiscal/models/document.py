@@ -53,6 +53,7 @@ class Document(models.Model):
         "l10n_br_fiscal.document.invoice.mixin",
     ]
     _description = "Fiscal Document"
+    _check_company_auto = True
 
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
@@ -163,6 +164,7 @@ class Document(models.Model):
         inverse_name="document_id",
         string="Document Lines",
         copy=True,
+        check_company=True,
     )
 
     edoc_purpose = fields.Selection(
