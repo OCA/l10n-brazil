@@ -36,6 +36,7 @@
             eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"
         />
         <field name="bank_account_id" ref="main_company_bank_bradesco" />
+        <field name="company_id" ref="base.main_company" />
     </record>
 
     <!-- Diario Unicred -->
@@ -48,6 +49,7 @@
             eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"
         />
         <field name="bank_account_id" ref="main_company_bank_unicredi" />
+        <field name="company_id" ref="base.main_company" />
     </record>
 
     <!-- Diario Itau -->
@@ -60,6 +62,7 @@
             eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"
         />
         <field name="bank_account_id" ref="main_company_bank_itau" />
+        <field name="company_id" ref="base.main_company" />
     </record>
 
     <!-- Diario Banco do Brasil -->
@@ -72,6 +75,7 @@
             eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"
         />
         <field name="bank_account_id" ref="main_company_bank_bb" />
+        <field name="company_id" ref="base.main_company" />
     </record>
 
     <!-- Diario Banco Caixa Economica Federal -->
@@ -84,6 +88,7 @@
             eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"
         />
         <field name="bank_account_id" ref="main_company_bank_cef" />
+        <field name="company_id" ref="base.main_company" />
     </record>
 
     <!-- Diario Banco SICRED -->
@@ -96,6 +101,7 @@
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
         <field name="bank_account_id" ref="main_company_bank_sicredi" />
+        <field name="company_id" ref="base.main_company" />
     </record>
 
     <!-- Diario Banco AILOS -->
@@ -108,6 +114,7 @@
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
         <field name="bank_account_id" ref="main_company_bank_ailos" />
+        <field name="company_id" ref="base.main_company" />
     </record>
 
     <!-- Diario Banco Teste -->
@@ -120,6 +127,7 @@
             eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
         />
         <field name="bank_account_id" ref="main_company_bank_test" />
+        <field name="company_id" ref="base.main_company" />
     </record>
 
     <!-- Diario Banco Teste -->
