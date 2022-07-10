@@ -45,7 +45,7 @@ class DocumentWorkflow(models.AbstractModel):
                 # TAG - Cobrança
                 duplicatas = record.env["nfe.40.dup"]
                 count = 1
-                for mov in record.invoice_ids.financial_move_line_ids:
+                for mov in record.move_ids.financial_move_line_ids:
                     duplicatas += duplicatas.create(
                         {
                             "nfe40_nDup": str(count).zfill(3),
@@ -57,22 +57,22 @@ class DocumentWorkflow(models.AbstractModel):
                 record.nfe40_dup = [(6, 0, duplicatas.ids)]
 
                 # TAG - Pagamento
-                if not record.invoice_ids.payment_mode_id.fiscal_payment_mode:
+                if not record.move_ids.payment_mode_id.fiscal_payment_mode:
                     raise UserError(
                         _(
                             "Payment Mode {} should has Fiscal Payment Mode"
                             " filled to be used in Fiscal Document!".format(
-                                record.invoice_ids.payment_mode_id.name
+                                record.move_ids.payment_mode_id.name
                             )
                         )
                     )
 
-                moves_terms = record.invoice_ids.financial_move_line_ids.filtered(
+                moves_terms = record.move_ids.financial_move_line_ids.filtered(
                     lambda move_line: move_line.date_maturity > move_line.date
                 )
                 ind_pag = "1" if len(moves_terms) > 0 else "0"
                 fiscal_payment_mode = (
-                    record.invoice_ids.payment_mode_id.fiscal_payment_mode
+                    record.move_ids.payment_mode_id.fiscal_payment_mode
                 )
                 v_pag = record.amount_financial_total
             else:
