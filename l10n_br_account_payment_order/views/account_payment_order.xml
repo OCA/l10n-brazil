@@ -47,6 +47,7 @@
                     attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
                 />
                 <field name="code_convetion" />
+                <field name="code_convenio_lider" />
             </field>
             <field name="company_id" position="after">
                 <field
