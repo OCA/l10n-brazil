@@ -17,6 +17,11 @@ class TestGeneratePaymentInfo(SavepointCase):
 
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
 
+        # set default user company
+        companies = cls.env["res.company"].search([])
+        cls.env.user.company_ids = [(6, 0, companies.ids)]
+        cls.env.user.company_id = cls.company
+
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "Money",
@@ -44,8 +49,7 @@ class TestGeneratePaymentInfo(SavepointCase):
                 "company_id": cls.company.id,
                 "name": "Invoice Journal - (test)",
                 "code": "INVTEST",
-                "type": "purchase",
-                "update_posted": True,
+                "type": "sale",
             }
         )
 
@@ -66,8 +70,18 @@ class TestGeneratePaymentInfo(SavepointCase):
             }
         )
 
-        cls.invoice = cls.env["account.invoice"].create(
+        cls.invoice_line_account_id = cls.env["account.account"].create(
             {
+                "company_id": cls.company.id,
+                "user_type_id": cls.env.ref("account.data_account_type_revenue").id,
+                "code": "705070",
+                "name": "Product revenue account (test)",
+            }
+        )
+
+        cls.invoice = cls.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
                 "company_id": cls.company.id,
                 "partner_id": cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
                 "payment_mode_id": cls.payment_mode.id,
@@ -77,47 +91,50 @@ class TestGeneratePaymentInfo(SavepointCase):
                     "l10n_br_fiscal.empresa_lc_document_55_serie_1"
                 ).id,
                 "journal_id": cls.invoice_journal.id,
-                "payment_term_id": cls.payment_term.id,
+                "invoice_payment_term_id": cls.payment_term.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": cls.env.ref("product.product_product_3").id,
+                            "quantity": 1,
+                            "price_unit": 450.0,
+                            "name": "Product - Invoice Line Test",
+                            "fiscal_operation_id": cls.env.ref(
+                                "l10n_br_fiscal.fo_venda"
+                            ).id,
+                            "fiscal_operation_line_id": cls.env.ref(
+                                "l10n_br_fiscal.fo_venda_venda"
+                            ).id,
+                            "account_id": cls.invoice_line_account_id.id,
+                            "company_id": cls.company.id,
+                            "partner_id": cls.env.ref(
+                                "l10n_br_base.res_partner_cliente1_sp"
+                            ).id,
+                        },
+                    )
+                ],
             }
         )
-
-        cls.invoice_line_account_id = cls.env["account.account"].create(
-            {
-                "company_id": cls.company.id,
-                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
-                "code": "EXPTEST",
-                "name": "Test expense account",
-            }
-        )
-
-        cls.line = cls.env["account.invoice.line"].create(
-            {
-                "product_id": cls.env.ref("product.product_product_3").id,
-                "quantity": 1,
-                "price_unit": 100,
-                "invoice_id": cls.invoice.id,
-                "name": "something",
-                "fiscal_operation_id": cls.env.ref("l10n_br_fiscal.fo_venda").id,
-                "fiscal_operation_line_id": cls.env.ref(
-                    "l10n_br_fiscal.fo_venda_venda"
-                ).id,
-                "account_id": cls.invoice_line_account_id.id,
-            }
-        )
-
-        cls.line._onchange_product_id_fiscal()
-        cls.line._onchange_commercial_quantity()
-        cls.line._onchange_ncm_id()
-        cls.line._onchange_fiscal_operation_id()
-        cls.line._onchange_fiscal_operation_line_id()
-        cls.line._onchange_fiscal_taxes()
-
-        cls.invoice.action_invoice_open()
+        for line in cls.invoice.invoice_line_ids:
+            line.with_context(
+                check_move_validity=False
+            )._onchange_fiscal_operation_line_id()
+            line.with_context(check_move_validity=False)._onchange_fiscal_tax_ids()
+        cls.invoice.action_post()
 
         # Dado de Demonstração
         cls.invoice_demo_data = cls.env.ref(
             "l10n_br_account_nfe.demo_nfe_dados_de_cobranca"
         )
+        cls.env.user.company_id = cls.invoice_demo_data.company_id
+        for line in cls.invoice_demo_data.invoice_line_ids:
+            line.with_context(
+                check_move_validity=False
+            )._onchange_fiscal_operation_line_id()
+            line.with_context(check_move_validity=False)._onchange_fiscal_tax_ids()
+        cls.invoice_demo_data.action_post()
 
     def test_nfe_generate_tag_pag(self):
         """Test NFe generate TAG PAG."""
@@ -128,7 +145,6 @@ class TestGeneratePaymentInfo(SavepointCase):
             self.assertEqual(detPag.nfe40_vPag, 472.5, "Error in nfe40_vPag field.")
 
         # Dados criados no dados de demonstração
-        self.invoice_demo_data.action_invoice_open()
         for detPag in self.invoice_demo_data.nfe40_detPag:
             self.assertEqual(detPag.nfe40_indPag, "1", "Error in nfe40_indPag field.")
             self.assertEqual(detPag.nfe40_tPag, "15", "Error in nfe40_tPag field.")
@@ -143,16 +159,9 @@ class TestGeneratePaymentInfo(SavepointCase):
         self.assertEqual(self.invoice.nfe40_dup[0].nfe40_nDup, "001")
         venc = self.invoice.financial_move_line_ids[0].date_maturity
         self.assertEqual(self.invoice.nfe40_dup[0].nfe40_dVenc, venc)
-        # TODO: por algum motivo o valor da Duplicata está vindo 399.37
-        #  tanto nesse PR quanto no original com rebase, valores abaixo
-        #  amount_total | amount_financial_total | amount_financial_total_gross
-        #  472.5        | 472.5                  | 472.5
-        #  amount_untaxed | amount_tax | aml.debit | aml.amount_residual
-        #  450.0          | 22.5       | 399.37    | 399.37
-        # self.assertEqual(self.invoice.nfe40_dup[0].nfe40_vDup, 472.5)
+        self.assertEqual(self.invoice.nfe40_dup[0].nfe40_vDup, 472.5)
 
         # Dados criados no dados de demonstração
-        self.invoice_demo_data.action_invoice_open()
         self.assertEqual(self.invoice_demo_data.nfe40_vOrig, 1000)
         self.assertEqual(self.invoice_demo_data.nfe40_vDesc, 0.0)
         self.assertEqual(self.invoice_demo_data.nfe40_vLiq, 1000)
@@ -176,4 +185,4 @@ class TestGeneratePaymentInfo(SavepointCase):
         )
         self.invoice_demo_data.payment_mode_id = self.pay_mode.id
         with self.assertRaises(UserError):
-            self.invoice_demo_data.action_invoice_open()
+            self.invoice_demo_data.action_post()
