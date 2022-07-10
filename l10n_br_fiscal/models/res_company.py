@@ -74,13 +74,14 @@ class ResCompany(models.Model):
 
     @api.model
     def _prepare_create_fiscal_dummy_doc(self):
+        company = self.id if self.id else self.env.company.id
         return {
             "document_number": False,
             "active": False,
             "document_type_id": False,
             "fiscal_operation_type": "out",
             "partner_id": self.partner_id.id,
-            "company_id": self.id,
+            "company_id": company,
             "fiscal_line_ids": [(0, 0, {"name": "dummy", "company_id": self.id})],
         }
 
