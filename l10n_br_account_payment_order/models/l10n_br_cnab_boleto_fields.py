@@ -26,6 +26,13 @@ class L10nBrCNABBoletoFields(models.Model):
         track_visibility="always",
     )
 
+    code_convenio_lider = fields.Char(
+        string="Convênio Líder",
+        size=7,
+        help="Código do Convênio Líder, exclusivo para o Banco do Brasil",
+        track_visibility="always",
+    )
+
     condition_issuing_paper = fields.Selection(
         selection=[
             ("1", "Banco emite e Processa"),

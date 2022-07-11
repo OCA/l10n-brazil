@@ -58,6 +58,10 @@ class AccountPaymentOrder(models.Model):
         help="Campo G007 do CNAB",
     )
 
+    code_convenio_lider = fields.Char(
+        string="Convênio Líder", related="payment_mode_id.code_convenio_lider"
+    )
+
     indicative_form_payment = fields.Selection(
         selection=INDICATIVO_FORMA_PAGAMENTO,
         string="Indicativo de Forma de Pagamento",
