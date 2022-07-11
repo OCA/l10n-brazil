@@ -80,8 +80,8 @@ addon | version | maintainers | summary
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Importação de Extrato Bancário CNAB 240 - Segmento E
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 12.0.2.1.0 |  | Brazilian Account Due List
 [l10n_br_account_nfe](l10n_br_account_nfe/) | 12.0.1.1.1 |  | Integration between l10n_br_account and l10n_br_nfe
-[l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 12.0.3.2.1 |  | L10n Br Account Payment BRCobranca
-[l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.8.2.0 |  | Brazilian Payment Order
+[l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 12.0.3.3.0 |  | L10n Br Account Payment BRCobranca
+[l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.8.3.0 |  | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 12.0.4.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
 [l10n_br_coa](l10n_br_coa/) | 12.0.4.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Base do Planos de Contas brasileiros
 [l10n_br_coa_complete](l10n_br_coa_complete/) | 12.0.2.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Plano de Contas Completo para empresas Simples, Presumido, Real, SA, Consolidação
