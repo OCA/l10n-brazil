@@ -348,6 +348,7 @@ class AccountInvoice(models.Model):
                     line["price"] = invoice_line.price_total - (
                         invoice_line.amount_tax_withholding
                         + invoice_line.amount_tax_included
+                        + invoice_line.amount_tax_not_included
                     )
 
             if invoice_line.cfop_id:
