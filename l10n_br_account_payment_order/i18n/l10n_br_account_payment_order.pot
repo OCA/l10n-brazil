@@ -1475,6 +1475,13 @@ msgid "Contem erro de exportação"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__code_convenio_lider
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__code_convenio_lider
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__code_convenio_lider
+msgid "Convênio Líder"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__create_uid
@@ -1572,6 +1579,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_bank_payment_line__complementary_finality_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__complementary_finality_code
 msgid "Código de finalidade complementar"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__code_convenio_lider
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_order__code_convenio_lider
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__code_convenio_lider
+msgid "Código do Convênio Líder, exclusivo para o Banco do Brasil"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
