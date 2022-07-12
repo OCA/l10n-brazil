@@ -52,8 +52,10 @@
                                     attrs="{'required': [('payment_method_code', 'in', ('240', '400', '500')), ('payment_type', '==', 'inbound')]}"
                                 />
                                 <field name="boleto_wallet" />
+                                <field name="boleto_wallet2" />
                                 <field name="boleto_modality" />
                                 <field name="boleto_variation" />
+                                <field name="transmission_code" />
                                 <field name="boleto_accept" />
                                 <field name="boleto_species" />
                                 <field name="payment_method_code" invisible="1" />

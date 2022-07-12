@@ -51,6 +51,21 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         tracking=True,
     )
 
+    boleto_wallet2 = fields.Char(
+        string="Carteira Boleto",
+        help="Código da carteira para ser impresso no boleto, "
+        "quando o mesmo for diferente do impresso na remessa.",
+        size=3,
+        track_visibility="always",
+    )
+
+    transmission_code = fields.Char(
+        string="Código de Transmissão",
+        help="Informação cedida pelo banco que identifica o arquivo remessa do cliente",
+        size=20,
+        track_visibility="always",
+    )
+
     boleto_modality = fields.Char(
         string="Modalidade",
         size=2,
