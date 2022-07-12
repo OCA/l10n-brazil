@@ -36,6 +36,17 @@ class PaymentOrder(models.Model):
             }
         )
 
+    def _prepare_remessa_santander_400(self, remessa_values):
+        remessa_values.update(
+            {
+                "codigo_carteira": str(self.payment_mode_id.boleto_wallet),
+                "codigo_transmissao": self.payment_mode_id.transmission_code,
+                "conta_corrente": misc.punctuation_rm(
+                    self.journal_id.bank_account_id.acc_number
+                ),
+            }
+        )
+
     def _prepare_remessa_caixa_240(self, remessa_values):
         remessa_values.update(
             {
