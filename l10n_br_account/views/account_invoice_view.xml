@@ -83,7 +83,6 @@
                     <field name="fiscal_operation_type" invisible="1" />
                     <field name="number" invisible="1" />
                     <field name="edoc_purpose" invisible="1" />
-                    <field name="ind_final" invisible="1" />
                     <field name="ind_pres" invisible="1" />
                     <field name="fiscal_document_id" required="0" invisible="1" />
                     <field name="create_date" invisible="1" />
@@ -98,6 +97,11 @@
                 <field
                     name="fiscal_operation_id"
                     attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
+                    name="ind_final"
+                    requied="0"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
                     name="issuer"
