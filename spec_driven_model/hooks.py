@@ -86,10 +86,15 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
         # 1st classic Odoo classes
         if hasattr(base_class, "_inherit"):
             injected_models.add(base_class._name)
-            if isinstance(base_class._inherit, list):
-                injected_models = injected_models.union(set(base_class._inherit))
-            elif base_class._inherit is not None:
-                injected_models.add(base_class._inherit)
+            for cls in base_class.mro():
+                if hasattr(cls, "_inherit") and cls._inherit:
+                    if isinstance(cls._inherit, list):
+                        inherit_list = cls._inherit
+                    else:
+                        inherit_list = [cls._inherit]
+                    for inherit in inherit_list:
+                        if inherit.startswith("spec.mixin."):
+                            injected_models.add(cls._name)
 
     # visit_stack will now need the associated spec classes
     injected_classes = set()
