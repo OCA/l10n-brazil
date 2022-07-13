@@ -10,18 +10,7 @@
             <field name="fiscal_operation_id" position="after">
                 <field name="purchase_create_invoice_policy" invisible="1" />
             </field>
-            <xpath
-                expr="//button[@name='action_view_invoice'][1]"
-                position="attributes"
-            >
-                <attribute
-                    name="attrs"
-                >{'invisible': ['|', '|', ('state', 'not in', ('purchase', 'done')), ('purchase_create_invoice_policy', '=', 'stock_picking'), ('invoice_status', 'in', ('no', 'invoiced'))]}</attribute>
-            </xpath>
-            <xpath
-                expr="//button[@name='action_view_invoice'][2]"
-                position="attributes"
-            >
+            <xpath expr="//button[@name='action_view_invoice']" position="attributes">
                 <attribute
                     name="attrs"
                 >{'invisible': ['|', '|', ('state', 'not in', ('purchase', 'done')), ('purchase_create_invoice_policy', '=', 'stock_picking'), ('invoice_status', 'in', ('no', 'invoiced'))]}</attribute>
