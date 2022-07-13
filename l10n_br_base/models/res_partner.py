@@ -21,7 +21,7 @@ class Partner(models.Model):
     _name = "res.partner"
     _inherit = [_name, "l10n_br_base.party.mixin"]
 
-    vat = fields.Char(related="cnpj_cpf")
+    vat = fields.Char()
 
     is_accountant = fields.Boolean(string="Is accountant?")
 
@@ -34,6 +34,25 @@ class Partner(models.Model):
     cei_code = fields.Char(string="CEI Code", size=12)
 
     union_entity_code = fields.Char(string="Union Entity code")
+
+    cnpj_cpf = fields.Char(
+        tracking=True,
+        inverse="_inverse_cpf_vat",
+        compute="_compute_cpf_vat",
+        store=True,
+    )
+
+    @api.depends("vat")
+    def _compute_cpf_vat(self):
+        for record in self:
+            if record.country_id.id == self.env.ref("base.br").id:
+                if record.vat and not record.cnpj_cpf:
+                    record.cnpj_cpf = record.vat
+
+    def _inverse_cpf_vat(self):
+        for record in self:
+            if record.cnpj_cpf:
+                record.vat = record.cnpj_cpf
 
     @api.constrains("cnpj_cpf", "inscr_est")
     def _check_cnpj_inscr_est(self):
