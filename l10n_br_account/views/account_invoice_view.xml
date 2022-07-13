@@ -102,12 +102,10 @@
                 />
                 <field
                     name="document_serie_id"
-                    requied="0"
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
                     name="document_serie"
-                    requied="0"
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
