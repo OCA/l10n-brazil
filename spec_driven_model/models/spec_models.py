@@ -215,12 +215,9 @@ class SpecModel(models.AbstractModel):
 
     def _register_hook(self):
         res = super(SpecModel, self)._register_hook()
-        load_key = "_%s_loaded" % (self._spec_module,)
-        if not hasattr(self.env.registry, load_key):
-            from .. import hooks  # importing here avoids loop
+        from .. import hooks  # importing here avoids loop
 
-            hooks.register_hook(self.env, self._odoo_module, self._spec_module)
-            self.env.registry.load_key = True
+        hooks.register_hook(self.env, self._odoo_module, self._spec_module)
         return res
 
 
