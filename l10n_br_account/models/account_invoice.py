@@ -444,6 +444,7 @@ class AccountInvoice(models.Model):
                 fiscal_quantity=line.fiscal_quantity,
                 uot=line.uot_id,
                 icmssn_range=line.icmssn_range_id,
+                ind_final=line.ind_final,
             )["taxes"]
 
             for tax in computed_taxes:
