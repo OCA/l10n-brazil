@@ -45,6 +45,7 @@
                     <field name="cnab_state" readonly="1" />
                     <field name="payment_situation" readonly="1" />
                     <field name="own_number" readonly="1" />
+                    <field name="own_number_boleto" readonly="1" />
                     <field name="document_number" readonly="1" />
                     <field name="mov_instruction_code_id" readonly="1" />
                     <field name="company_title_identification" readonly="1" />

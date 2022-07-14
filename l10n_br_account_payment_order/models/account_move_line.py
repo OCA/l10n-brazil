@@ -19,7 +19,7 @@ class AccountMoveLine(models.Model):
     )
 
     own_number = fields.Char(
-        string="Nosso Numero",
+        string="Sequencial Nosso Numero",
     )
 
     # No arquivo de retorno do CNAB o campo pode ter um tamanho diferente,
@@ -35,6 +35,11 @@ class AccountMoveLine(models.Model):
         compute="_compute_own_number_without_zfill",
         store=True,
         copy=False,
+    )
+
+    own_number_boleto = fields.Char(
+        string="Nosso Número Completo",
+        help="Conforme impresso no boleto, inclusive com o dígito verificador (DV)",
     )
 
     # Podem existir sequencias do nosso numero/own_number iguais entre bancos
@@ -157,6 +162,16 @@ class AccountMoveLine(models.Model):
             if self.env.context.get("discount_value"):
                 vals["discount_value"] = self.env.context.get("discount_value")
 
+            bank_account_id = self.payment_mode_id.fixed_journal_id.bank_account_id
+
+            # Particularidades Santander
+            if bank_account_id.bank_id.code_bc in ("033"):
+                # O "Nosso número" informado no arquivo de remessa
+                # precisa ter o dígito verificador (DV).
+                # Por isso usamos o mesmo "Nosso Número" que é impresso no boleto.
+                # porém o caractere "-" precisa ser removido.
+                vals["own_number"] = self.own_number_boleto.replace("-", "")
+
         return vals
 
     def create_payment_line_from_move_line(self, payment_order):
@@ -174,6 +189,9 @@ class AccountMoveLine(models.Model):
             record.cnab_state = cnab_state
 
         return super().create_payment_line_from_move_line(payment_order)
+
+    def generate_own_number_boleto(self):
+        raise NotImplementedError
 
     def generate_boleto(self, validate=True):
         raise NotImplementedError
