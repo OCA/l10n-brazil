@@ -8,7 +8,11 @@ from unittest import mock
 
 from odoo.exceptions import UserError
 from odoo.modules import get_resource_path
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import tagged
+
+from odoo.addons.l10n_br_account_payment_order.tests.test_base_class import (
+    TestL10nBrAccountPaymentOder,
+)
 
 _module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
 _provider_class_pay_order = (
@@ -18,7 +22,7 @@ _provider_class_acc_invoice = _module_ns + ".models.account_invoice" + ".Account
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrder(SavepointCase):
+class TestPaymentOrder(TestL10nBrAccountPaymentOder):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -39,7 +43,8 @@ class TestPaymentOrder(SavepointCase):
         )
         cls.partner_akretion = cls.env.ref("l10n_br_base.res_partner_akretion")
         # I validate invoice by creating on
-        cls.invoice_cef.action_invoice_open()
+        with cls.mock_own_number_boleto:
+            cls.invoice_cef.action_invoice_open()
 
         payment_order = cls.env["account.payment.order"].search(
             [("payment_mode_id", "=", cls.invoice_cef.payment_mode_id.id)]
@@ -87,7 +92,8 @@ class TestPaymentOrder(SavepointCase):
     def _run_boleto_remessa(self, invoice, boleto_file, remessa_file):
 
         # I validate invoice
-        invoice.action_invoice_open()
+        with self.mock_own_number_boleto:
+            invoice.action_invoice_open()
 
         # I check that the invoice state is "Open"
         self.assertEqual(invoice.state, "open")
@@ -218,7 +224,8 @@ class TestPaymentOrder(SavepointCase):
             "l10n_br_account_payment_order.demo_invoice_payment_order_itau_cnab240"
         )
         # I validate invoice
-        invoice.action_invoice_open()
+        with self.mock_own_number_boleto:
+            invoice.action_invoice_open()
 
         # I check that the invoice state is "Open"
         self.assertEqual(invoice.state, "open")
@@ -707,7 +714,8 @@ class TestPaymentOrder(SavepointCase):
         """
         self.partner_akretion = self.env.ref("l10n_br_base.res_partner_akretion")
         # I validate invoice by creating on
-        self.invoice_cef.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_cef.action_invoice_open()
 
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
