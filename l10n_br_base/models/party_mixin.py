@@ -23,6 +23,11 @@ class PartyMixin(models.AbstractModel):
         size=18,
     )
 
+    company_cnpj = fields.Char(
+        string="Company CNPJ/CPF",
+        size=18,
+    )
+
     inscr_est = fields.Char(
         string="State Tax Number",
         size=17,

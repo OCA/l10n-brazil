@@ -227,3 +227,48 @@ class Partner(models.Model):
             # see https://github.com/odoo/odoo/pull/71630
             if partner.street != street_value:
                 partner.street = street_value
+
+    @api.model
+    def _commercial_fields(self):
+        return super()._commercial_fields() + [
+            "company_cnpj",
+            "inscr_est",
+            "inscr_mun",
+        ]
+
+    @api.model
+    def create(self, vals):
+        if vals.get("cnpj_cpf") and vals.get("is_company"):
+            vals["company_cnpj"] = vals.get("cnpj_cpf")
+        return super().create(vals)
+
+    def write(self, vals):
+        if vals.get("cnpj_cpf") and self.is_company:
+            vals["company_cnpj"] = vals.get("cnpj_cpf")
+        return super().write(vals)
+
+    def create_company(self):
+        self.ensure_one()
+        if self.company_name:
+            # Create parent company
+            values = dict(
+                name=self.company_name,
+                is_company=True,
+                cnpj_cpf=self.company_cnpj,
+                legal_name=self.company_name,
+                inscr_est=self.inscr_est,
+                inscr_mun=self.inscr_mun,
+            )
+            values.update(self._update_fields_values(self._address_fields()))
+            new_company = self.create(values)
+            # Set new company as my parent
+            self.write(
+                {
+                    "parent_id": new_company.id,
+                    "child_ids": [
+                        (1, partner_id, dict(parent_id=new_company.id))
+                        for partner_id in self.child_ids.ids
+                    ],
+                }
+            )
+        return True
