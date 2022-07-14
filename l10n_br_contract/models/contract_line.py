@@ -49,6 +49,8 @@ class ContractLine(models.Model):
 
         contract = self.contract_id
 
+        self._onchange_fiscal_operation_id()
+
         invoice_line_vals = super()._prepare_invoice_line(move_form)
 
         # Por algum motivo com a localização o campo company_currency_id
