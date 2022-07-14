@@ -1,8 +1,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
@@ -29,31 +28,21 @@ class SaleOrder(models.Model):
     # TODO: Verificar na migração se isso foi alterado
     incoterm_id = fields.Many2one(related="incoterm")
 
-    def set_delivery_line(self):
+    @api.depends("order_line")
+    def _compute_delivery_state(self):
+        for order in self:
+            order.delivery_set = True if order.carrier_id else False
+
+    def set_delivery_line(self, carrier, amount):
         # Remove delivery products from the sales order
         self._remove_delivery_line()
 
         for order in self:
-            if order.state not in ("draft", "sent"):
-                raise UserError(
-                    _("You can add delivery price only on unconfirmed " "quotations.")
-                )
-            elif not order.carrier_id:
-                raise UserError(_("No carrier set for this order."))
-            elif not order.delivery_rating_success:
-                raise UserError(
-                    _(
-                        'Please use "Check price" in order to compute a shipping '
-                        "price for this quotation."
-                    )
-                )
-            else:
-                price_unit = order.carrier_id.rate_shipment(order)["price"]
-                order.amount_freight_value = price_unit
+            order.carrier_id = carrier.id
+            order.amount_freight_value = amount
         return True
 
     def _compute_amount_gross_weight(self):
-
         for record in self:
             amount_gross_weight = 0.0
             for line in record.order_line:
@@ -61,7 +50,6 @@ class SaleOrder(models.Model):
             record.amount_gross_weight = amount_gross_weight
 
     def _compute_amount_volume(self):
-
         for record in self:
             amount_volume = 0.0
             for line in record.order_line:
