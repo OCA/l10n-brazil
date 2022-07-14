@@ -3,11 +3,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 from odoo.exceptions import ValidationError
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import tagged
+
+from .test_base_class import TestL10nBrAccountPaymentOder
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrder(SavepointCase):
+class TestPaymentOrder(TestL10nBrAccountPaymentOder):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -20,7 +22,8 @@ class TestPaymentOrder(SavepointCase):
         """Test Invoice when Payment Mode not generate Payment Order."""
         self.invoice_cheque._onchange_payment_mode_id()
         # I validate invoice by creating on
-        self.invoice_cheque.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_cheque.action_invoice_open()
         # I check that the invoice state is "Open"
         self.assertEqual(self.invoice_cheque.state, "open")
         payment_order = self.env["account.payment.order"].search(

@@ -18,7 +18,8 @@ class TestPaymentOrderManualWorkflow(TestL10nBrAccountPaymentOder):
         )
 
     def _invoice_confirm_flow(self):
-        self.invoice_manual_test.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_manual_test.action_invoice_open()
 
         # I check that the invoice state is "Open"
         self.assertEqual(self.invoice_manual_test.state, "open")

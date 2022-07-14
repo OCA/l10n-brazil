@@ -7,11 +7,13 @@
 import time
 
 from odoo.exceptions import UserError
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import tagged
+
+from .test_base_class import TestL10nBrAccountPaymentOder
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrderInbound(SavepointCase):
+class TestPaymentOrderInbound(TestL10nBrAccountPaymentOder):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -49,7 +51,8 @@ class TestPaymentOrderInbound(SavepointCase):
         self.assertEqual(self.invoice_cef.state, "draft")
 
         # I validate invoice by creating on
-        self.invoice_cef.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_cef.action_invoice_open()
 
         # I check that the invoice state is "Open"
         self.assertEqual(self.invoice_cef.state, "open")
@@ -150,7 +153,8 @@ class TestPaymentOrderInbound(SavepointCase):
         apagar as linhas de pagamentos.
         """
         # I validate invoice by creating on
-        self.invoice_unicred.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_unicred.action_invoice_open()
 
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
@@ -185,7 +189,8 @@ class TestPaymentOrderInbound(SavepointCase):
         gerar erro por ter uma Instrução CNAB a ser enviada.
         """
         # I validate invoice by creating on
-        self.invoice_unicred.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_unicred.action_invoice_open()
 
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
@@ -217,7 +222,8 @@ class TestPaymentOrderInbound(SavepointCase):
         """Test Cancel Invoice when Payment Order Draft."""
 
         # I validate invoice by creating on
-        self.invoice_unicred.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_unicred.action_invoice_open()
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
         )
@@ -236,7 +242,8 @@ class TestPaymentOrderInbound(SavepointCase):
         """
         self.partner_akretion = self.env.ref("l10n_br_base.res_partner_akretion")
         # I validate invoice by creating on
-        self.invoice_cef.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_cef.action_invoice_open()
 
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
@@ -279,7 +286,8 @@ class TestPaymentOrderInbound(SavepointCase):
         self.assertEqual(self.demo_invoice_auto.state, "draft")
 
         # I validate invoice by creating on
-        self.demo_invoice_auto.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.demo_invoice_auto.action_invoice_open()
 
         # I check that the invoice state is "Open"
         self.assertEqual(self.demo_invoice_auto.state, "open")
@@ -336,7 +344,8 @@ class TestPaymentOrderInbound(SavepointCase):
         self.assertEqual(self.demo_invoice_auto.state, "draft")
 
         # I validate invoice by creating on
-        self.demo_invoice_auto.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.demo_invoice_auto.action_invoice_open()
 
         # I check that the invoice state is "Open"
         self.assertEqual(self.demo_invoice_auto.state, "open")
@@ -396,7 +405,8 @@ class TestPaymentOrderInbound(SavepointCase):
         self.assertEqual(self.demo_invoice_auto.state, "draft")
 
         # I validate invoice by creating on
-        self.demo_invoice_auto.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.demo_invoice_auto.action_invoice_open()
 
         # I check that the invoice state is "Open"
         self.assertEqual(self.demo_invoice_auto.state, "open")
