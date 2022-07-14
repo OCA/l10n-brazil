@@ -2,11 +2,19 @@
 # @author Raphaël Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import json
 import logging
 
-from odoo import models
+import requests
 
-from ..constants.br_cobranca import DICT_BRCOBRANCA_CURRENCY, get_brcobranca_bank
+from odoo import models
+from odoo.exceptions import Warning as UserError
+
+from ..constants.br_cobranca import (
+    DICT_BRCOBRANCA_CURRENCY,
+    get_brcobranca_api_url,
+    get_brcobranca_bank,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -168,3 +176,18 @@ class AccountMoveLine(models.Model):
                 }
             )
         return boleto_cnab_api_data
+
+    def generate_own_number_boleto(self):
+        """Consulta a API brcobranca e retorna o nosso número completo
+        conforme o impresso no Boleto"""
+        self.ensure_one()
+        boleto_data = self._prepare_boleto_cnab_vals()
+        bank = boleto_data.pop("bank")
+        data = json.dumps(boleto_data, separators=(",", ":"))
+        brcobranca_api_url = get_brcobranca_api_url()
+        brcobranca_service_url = brcobranca_api_url + "/api/boleto/nosso_numero"
+        res = requests.get(brcobranca_service_url, params={"bank": bank, "data": data})
+        if str(res.status_code)[0] == "2":
+            return res.text.strip('"')
+        else:
+            raise UserError(res.text.encode("utf-8"))
