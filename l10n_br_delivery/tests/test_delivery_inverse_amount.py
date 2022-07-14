@@ -195,7 +195,7 @@ class TestDeliveryInverseAmount(SavepointCase):
             "Fiscal Document",
         )
 
-        for line in fiscal_document_id.line_ids:
+        for line in fiscal_document_id.fiscal_line_ids:
             if line.name == "[FURN_7777] Office Chair":
                 self.assertEqual(
                     line.freight_value,
@@ -216,7 +216,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         # with Form(fiscal_document_id) as doc:
         #    doc.amount_freight_value = 10.0
 
-        # for line in fiscal_document_id.line_ids:
+        # for line in fiscal_document_id.fiscal_line_ids:
         #     if line.name == '[FURN_7777] Office Chair':
         #         self.assertEqual(
         #             line.freight_value, 6.36,
@@ -238,7 +238,7 @@ class TestDeliveryInverseAmount(SavepointCase):
             "Fiscal Document",
         )
 
-        for line in fiscal_document_id.line_ids:
+        for line in fiscal_document_id.fiscal_line_ids:
             if line.name == "[FURN_7777] Office Chair":
                 self.assertEqual(
                     line.freight_value,
@@ -259,7 +259,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         # with Form(fiscal_document_id) as doc:
         #     doc.amount_freight_value = 10.0
 
-        # for line in fiscal_document_id.line_ids:
+        # for line in fiscal_document_id.fiscal_line_ids:
         #     if line.name == '[FURN_7777] Office Chair':
         #         self.assertEqual(
         #             line.freight_value, 8.75,
@@ -281,7 +281,7 @@ class TestDeliveryInverseAmount(SavepointCase):
             "Fiscal Document",
         )
 
-        for line in fiscal_document_id.line_ids:
+        for line in fiscal_document_id.fiscal_line_ids:
             if line.name == "[FURN_7777] Office Chair":
                 self.assertEqual(
                     line.insurance_value,
@@ -302,7 +302,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         # with Form(fiscal_document_id) as doc:
         #    doc.amount_insurance_value = 10.0
 
-        # for line in fiscal_document_id.line_ids:
+        # for line in fiscal_document_id.fiscal_line_ids:
         #     if line.name == '[FURN_7777] Office Chair':
         #         self.assertEqual(
         #             line.insurance_value, 6.36,
@@ -324,7 +324,7 @@ class TestDeliveryInverseAmount(SavepointCase):
             "Fiscal Document",
         )
 
-        for line in fiscal_document_id.line_ids:
+        for line in fiscal_document_id.fiscal_line_ids:
             if line.name == "[FURN_7777] Office Chair":
                 self.assertEqual(
                     line.insurance_value,
@@ -345,7 +345,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         # with Form(fiscal_document_id) as doc:
         #    doc.amount_insurance_value = 10.0
 
-        # for line in fiscal_document_id.line_ids:
+        # for line in fiscal_document_id.fiscal_line_ids:
         #     if line.name == '[FURN_7777] Office Chair':
         #         self.assertEqual(
         #             line.insurance_value, 8.75,
@@ -366,7 +366,7 @@ class TestDeliveryInverseAmount(SavepointCase):
             "Unexpected value for the field other_value from " "Fiscal Document",
         )
 
-        for line in fiscal_document_id.line_ids:
+        for line in fiscal_document_id.fiscal_line_ids:
             if line.name == "[FURN_7777] Office Chair":
                 self.assertEqual(
                     line.other_value,
@@ -387,7 +387,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         # with Form(fiscal_document_id) as doc:
         #    doc.amount_other_value = 10.0
 
-        # for line in fiscal_document_id.line_ids:
+        # for line in fiscal_document_id.fiscal_line_ids:
         #     if line.name == '[FURN_7777] Office Chair':
         #         self.assertEqual(
         #             line.other_value, 6.36,
@@ -408,7 +408,7 @@ class TestDeliveryInverseAmount(SavepointCase):
             "Unexpected value for the field other_value from " "Fiscal Document",
         )
 
-        for line in fiscal_document_id.line_ids:
+        for line in fiscal_document_id.fiscal_line_ids:
             if line.name == "[FURN_7777] Office Chair":
                 self.assertEqual(
                     line.other_value,
@@ -429,7 +429,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         # with Form(fiscal_document_id) as doc:
         #    doc.amount_other_value = 10.0
 
-        # for line in fiscal_document_id.line_ids:
+        # for line in fiscal_document_id.fiscal_line_ids:
         #     if line.name == '[FURN_7777] Office Chair':
         #         self.assertEqual(
         #             line.other_value, 8.75,
@@ -494,13 +494,13 @@ class TestDeliveryInverseAmount(SavepointCase):
         picking.button_validate()
         self.assertEqual(picking.state, "done")
 
-        self.sale_demo.action_invoice_create(final=True)
+        self.sale_demo._create_invoices(final=True)
 
-        self.assertEquals(self.sale_demo.state, "sale", "Error to confirm Sale Order.")
+        self.assertEqual(self.sale_demo.state, "sale", "Error to confirm Sale Order.")
 
         invoice = self.sale_demo.invoice_ids[0]
-        invoice.action_invoice_open()
-        self.assertEquals(invoice.state, "open", "Invoice should be in state Open")
+        invoice.action_post()
+        self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
         for line in invoice.invoice_line_ids:
             other_line = invoice.invoice_line_ids.filtered(
                 lambda o_l: o_l.id != line.id
@@ -524,8 +524,8 @@ class TestDeliveryInverseAmount(SavepointCase):
 
         fiscal_document_id = self.sale_demo.invoice_ids[0].fiscal_document_id
 
-        for line in fiscal_document_id.line_ids:
-            other_line = fiscal_document_id.line_ids.filtered(
+        for line in fiscal_document_id.fiscal_line_ids:
+            other_line = fiscal_document_id.fiscal_line_ids.filtered(
                 lambda o_l: o_l.id != line.id
             )
             self.assertNotEqual(

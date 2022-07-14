@@ -4,8 +4,8 @@
 from odoo import api, models
 
 
-class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
     @api.model
     def _shadowed_fields(self):
