@@ -16,13 +16,14 @@ def load_simples_nacional_demo(env, registry):
     default user company set to this company.
     """
 
-    # Allow all companies for OdooBot user and set default user company
-    companies = env["res.company"].search([])
-    env.user.company_ids = [(6, 0, companies.ids)]
-    env.user.company_id = env.ref("l10n_br_base.empresa_simples_nacional")
-
     # Load XML file with demo data.
     if not tools.config["without_demo"]:
+
+        # Allow all companies for OdooBot user and set default user company
+        companies = env["res.company"].search([])
+        env.user.company_ids = [(6, 0, companies.ids)]
+        env.user.company_id = env.ref("l10n_br_base.empresa_simples_nacional")
+
         tools.convert_file(
             env.cr,
             "l10n_br_account_nfe",
