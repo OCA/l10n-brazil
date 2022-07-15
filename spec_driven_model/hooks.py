@@ -86,16 +86,19 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
         # 1st classic Odoo classes
         if hasattr(base_class, "_inherit"):
             injected_models.add(base_class._name)
-            if isinstance(base_class._inherit, list):
-                injected_models = injected_models.union(set(base_class._inherit))
-            elif base_class._inherit is not None:
-                injected_models.add(base_class._inherit)
+            for cls in base_class.mro():
+                if hasattr(cls, "_inherit") and cls._inherit:
+                    if isinstance(cls._inherit, list):
+                        inherit_list = cls._inherit
+                    else:
+                        inherit_list = [cls._inherit]
+                    for inherit in inherit_list:
+                        if inherit.startswith("spec.mixin."):
+                            injected_models.add(cls._name)
 
     # visit_stack will now need the associated spec classes
     injected_classes = set()
     remaining_models = set()
-    # TODO when using a registry loading, use _stack_skip to find
-    # out which models to leave concrete, see later commented loop
 
     for m in injected_models:
         c = SpecModel._odoo_name_to_class(m, spec_module)
@@ -123,13 +126,18 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
     return remaining_models
 
 
-def register_hook(env, module_name, spec_module):
+def register_hook(env, module_name, spec_module, force=False):
     """
     Called by Model#_register_hook once all modules are loaded.
-    Here we take all spec models that not injected in existing concrete
+    Here we take all spec models that are not injected in existing concrete
     Odoo models and we make them concrete automatically with
     their _auto_init method that will create their SQL DDL structure.
     """
+    load_key = "_%s_loaded" % (spec_module,)
+    if hasattr(env.registry, load_key) and not force:  # already done for registry
+        return
+    setattr(env.registry, load_key, True)
+
     remaining_models = get_remaining_spec_models(
         env.cr, env.registry, module_name, spec_module
     )
@@ -150,7 +158,7 @@ def register_hook(env, module_name, spec_module):
             name,
             (SpecModel, spec_class),
             {
-                "_name": spec_class._name,
+                "_name": name,
                 "_inherit": [spec_class._inherit, "spec.mixin"],
                 "_original_module": "fiscal",
                 "_odoo_module": module_name,
