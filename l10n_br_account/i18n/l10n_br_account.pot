@@ -349,6 +349,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_correction_wizard__invoice_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_status_wizard__invoice_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard__invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_nfe_import_xml__invoice_id
 msgid "Invoice"
 msgstr ""
 
