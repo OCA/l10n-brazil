@@ -8,11 +8,47 @@
             <field name="fiscal_position_id" position="after">
                 <field name="fiscal_operation_id" />
             </field>
+            <xpath
+                expr="//field[@name='contract_line_fixed_ids']"
+                position="attributes"
+            >
+                <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
+            </xpath>
             <xpath expr="//field[@name='contract_line_ids']" position="attributes">
                 <attribute
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
+
+            <xpath
+                expr="//field[@name='contract_line_fixed_ids']/tree/button"
+                position="before"
+            >
+                <field name="fiscal_operation_id" readonly="1" optional="hide" />
+                <field name="fiscal_operation_line_id" readonly="1" optional="hide" />
+                <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    readonly="1"
+                    optional="hide"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='contract_line_ids']/tree/button"
+                position="before"
+            >
+                <field name="fiscal_operation_id" readonly="1" optional="hide" />
+                <field name="fiscal_operation_line_id" readonly="1" optional="hide" />
+                <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    readonly="1"
+                    optional="hide"
+                />
+            </xpath>
+
         </field>
     </record>
 </odoo>
