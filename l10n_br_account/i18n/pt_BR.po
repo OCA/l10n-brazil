@@ -204,7 +204,7 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:612
+#: code:addons/l10n_br_account/models/account_invoice.py:613
 #, python-format
 msgid ""
 "Document without Return Fiscal Operation! \n"
@@ -354,6 +354,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_correction_wizard__invoice_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_status_wizard__invoice_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard__invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_nfe_import_xml__invoice_id
 msgid "Invoice"
 msgstr "Fatura"
 
@@ -401,7 +402,7 @@ msgid "Legal Name"
 msgstr "Razão Social"
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:629
+#: code:addons/l10n_br_account/models/account_invoice.py:630
 #, python-format
 msgid ""
 "Line without Return Fiscal Operation! \n"
@@ -652,7 +653,7 @@ msgid "You can't edit one invoice related a withholding entry"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:512
+#: code:addons/l10n_br_account/models/account_invoice.py:513
 #, python-format
 msgid ""
 "You can't set this document number: {} to draft because this document is "
