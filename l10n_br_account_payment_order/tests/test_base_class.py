@@ -2,6 +2,8 @@
 #   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+from unittest import mock
+
 from odoo.exceptions import UserError
 from odoo.fields import Date
 from odoo.tests import SavepointCase, tagged
@@ -17,6 +19,13 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
 
         cls.chance_view_id = (
             "l10n_br_account_payment_order." "account_move_line_cnab_change_form_view"
+        )
+
+        cls.mock_own_number_boleto = mock.patch.object(
+            cls.env["account.move.line"].__class__,
+            "generate_own_number_boleto",
+            autospec=True,
+            side_effect=lambda move_line: move_line.own_number,
         )
 
     def _payment_order_all_workflow(self, payment_order_id):

@@ -85,6 +85,7 @@ class AccountInvoice(models.Model):
                 interval.own_number = (
                     sequence if interval.payment_mode_id.generate_own_number else "0"
                 )
+                interval.own_number_boleto = interval.generate_own_number_boleto()
                 interval.document_number = numero_documento
                 interval.company_title_identification = hex(interval.id).upper()
                 instructions = ""

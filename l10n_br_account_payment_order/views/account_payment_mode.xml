@@ -47,8 +47,10 @@
                                  'required': [('own_number_type', '==', '2'), ('payment_order_ok', '==', True)]}"
                                 />
                                 <field name="boleto_wallet" />
+                                <field name="boleto_wallet2" />
                                 <field name="boleto_modality" />
                                 <field name="boleto_variation" />
+                                <field name="transmission_code" />
                                 <field name="boleto_accept" />
                                 <field name="boleto_species" />
                                 <field name="payment_method_code" invisible="1" />

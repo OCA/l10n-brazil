@@ -2,11 +2,13 @@
 #   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import tagged
+
+from .test_base_class import TestL10nBrAccountPaymentOder
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrder(SavepointCase):
+class TestPaymentOrder(TestL10nBrAccountPaymentOder):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -17,7 +19,8 @@ class TestPaymentOrder(SavepointCase):
 
     def test_cancel_invoice_no_payment_mode_pay(self):
         """Test Pay Invoice without payment mode in cash"""
-        self.invoice_customer_without_paymeny_mode.action_invoice_open()
+        with self.mock_own_number_boleto:
+            self.invoice_customer_without_paymeny_mode.action_invoice_open()
 
         # I check that the invoice state is "Open"
         self.assertEqual(self.invoice_customer_without_paymeny_mode.state, "open")

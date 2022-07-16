@@ -10,7 +10,11 @@ from unittest import mock
 
 from odoo import tools
 from odoo.modules import get_resource_path
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import tagged
+
+from odoo.addons.l10n_br_account_payment_order.tests.test_base_class import (
+    TestL10nBrAccountPaymentOder,
+)
 
 _module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
 _provider_class_pay_order = (
@@ -20,7 +24,7 @@ _provider_class = _module_ns + ".parser.cnab_file_parser" + ".CNABFileParser"
 
 
 @tagged("post_install", "-at_install")
-class TestReturnImport(SavepointCase):
+class TestReturnImport(TestL10nBrAccountPaymentOder):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -58,9 +62,10 @@ class TestReturnImport(SavepointCase):
         cls.journal = cls.env.ref("l10n_br_account_payment_order.unicred_journal")
 
         # I validate invoice by creating on
-        cls.invoice_unicred_1.action_invoice_open()
-        cls.invoice_unicred_2.action_invoice_open()
-        cls.invoice_ailos_1.action_invoice_open()
+        with cls.mock_own_number_boleto:
+            cls.invoice_unicred_1.action_invoice_open()
+            cls.invoice_unicred_2.action_invoice_open()
+            cls.invoice_ailos_1.action_invoice_open()
 
         # Para evitar erros nos testes de variação da Sequencia do
         # Nosso Numero/own_number quando se roda mais de uma vez ou
