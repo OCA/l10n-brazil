@@ -1476,6 +1476,13 @@ msgid "Contem erro de exportação"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__code_convenio_lider
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__code_convenio_lider
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__code_convenio_lider
+msgid "Convênio Líder"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__create_uid
@@ -1530,8 +1537,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_interest_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_interest_code
 msgid ""
-"Código adotado pela FEBRABAN para identificação do tipo de pagamento de mora"
-" de juros."
+"Código adotado pela FEBRABAN para identificação do tipo de pagamento de mora "
+"de juros."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1576,6 +1583,13 @@ msgid "Código de finalidade complementar"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__code_convenio_lider
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_order__code_convenio_lider
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__code_convenio_lider
+msgid "Código do Convênio Líder, exclusivo para o Banco do Brasil"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__code_convetion
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__code_convetion
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__code_convetion
@@ -1586,8 +1600,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_post
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_post
 msgid ""
-"Código do Posto da Cooperativa de Crédito, usado pelos bancos Sicred/Unicred"
-" e Sicoob."
+"Código do Posto da Cooperativa de Crédito, usado pelos bancos Sicred/Unicred "
+"e Sicoob."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2432,8 +2446,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__own_number_sequence_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__own_number_sequence_id
 msgid ""
-"Para usar essa Sequencia é preciso definir o campo Tipo do Nosso Número como"
-" Sequencial Único por Carteira no cadastro da empresa"
+"Para usar essa Sequencia é preciso definir o campo Tipo do Nosso Número como "
+"Sequencial Único por Carteira no cadastro da empresa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2499,7 +2513,8 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment line added to the existing draft order %s to send CNAB Instruction %s for OWN NUMBER %s.\n"
+"Payment line added to the existing draft order %s to send CNAB Instruction "
+"%s for OWN NUMBER %s.\n"
 "Justification: %s"
 msgstr ""
 
@@ -2507,7 +2522,8 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment line added to the the new draft payment order %s which has been automatically created, to send CNAB Instruction %s for OWN NUMBER %s.\n"
+"Payment line added to the the new draft payment order %s which has been "
+"automatically created, to send CNAB Instruction %s for OWN NUMBER %s.\n"
 "Justification: %s"
 msgstr ""
 
@@ -2606,7 +2622,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__rebate_value
 msgid ""
 "Se o desconto ou abatimento é concedido na entrada do boleto\n"
-"        estes campos são retornados zerados(apesar de corretamente registrados\n"
+"        estes campos são retornados zerados(apesar de corretamente "
+"registrados\n"
 "        no Itaú). Se concedidos após a entrada, retornam com os valores\n"
 "        do desconto ou abatimento.\n"
 "        Na liquidação, desconto e abatimento retornam somados no campo\n"
@@ -2744,9 +2761,9 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"There is a CNAB Payment Order %s in status %s related to invoice %s created,"
-" the CNAB file should be sent to bank, because only after that it is "
-"possible make another CNAB Instruction."
+"There is a CNAB Payment Order %s in status %s related to invoice %s created, "
+"the CNAB file should be sent to bank, because only after that it is possible "
+"make another CNAB Instruction."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
