@@ -6,6 +6,7 @@ from odoo.tools import float_is_zero
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
+    CFOP_DESTINATION_EXTERNAL,
     FINAL_CUSTOMER_NO,
     FINAL_CUSTOMER_YES,
     FISCAL_IN,
@@ -331,6 +332,8 @@ class Tax(models.Model):
         nbm = kwargs.get("nbm")
         cest = kwargs.get("cest")
         operation_line = kwargs.get("operation_line")
+        cfop = kwargs.get("cfop")
+        fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         ind_final = kwargs.get("ind_final", FINAL_CUSTOMER_NO)
 
         # Get Computed IPI Tax
@@ -342,17 +345,36 @@ class Tax(models.Model):
             # Add IPI in ICMS Base
             tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
 
-        # tax_dict.update(self._compute_tax_base(tax, tax_dict, **kwargs))
+        # Adiciona na base de calculo do ICMS nos casos de entrada de importação
+        if (
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict_ii = taxes_dict.get("ii", {})
+            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
+
+            tax_dict_pis = taxes_dict.get("pis", {})
+            tax_dict["add_to_base"] += tax_dict_pis.get("tax_value", 0.00)
+
+            tax_dict_cofins = taxes_dict.get("cofins", {})
+            tax_dict["add_to_base"] += tax_dict_cofins.get("tax_value", 0.00)
+
+            tax_dict["add_to_base"] += kwargs.get("ii_customhouse_charges", 0.00)
+
+            # Calcula a base do ICMS
+            # TODO Tem que incluir o próprio valor do ICMS na base de calculo
+            # Tem que ser criado um parametro no _compute_tax_base para fazer
+            # esse calculo.
 
         tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
-
-        # tax_dict.update({"icms_base_type": tax.icms_base_type})
 
         # DIFAL
         # TODO
         # and operation_line.ind_final == FINAL_CUSTOMER_YES):
         if (
-            company.state_id != partner.state_id
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXTERNAL
             and operation_line.fiscal_operation_type == FISCAL_OUT
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and tax_dict.get("tax_value")
