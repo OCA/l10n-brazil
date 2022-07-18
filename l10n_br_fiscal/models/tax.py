@@ -5,6 +5,7 @@ from odoo import api, fields, models
 from odoo.tools import float_is_zero
 
 from ..constants.fiscal import (
+    CFOP_DESTINATION_EXPORT,
     FINAL_CUSTOMER_NO,
     FINAL_CUSTOMER_YES,
     FISCAL_IN,
@@ -549,6 +550,20 @@ class Tax(models.Model):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
+
+        # Se for entrada de importação o II entra na base de calculo do IPI
+        if (
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict_ii = taxes_dict.get("ii", {})
+            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ii(self, tax, taxes_dict, **kwargs):
