@@ -592,6 +592,7 @@ class Tax(models.Model):
             nbm,
             cest,
             operation_line,
+            cfop,
             icmssn_range,
             icms_origin,
             ind_final,
