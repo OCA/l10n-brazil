@@ -198,6 +198,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             nbm=self.nbm_id,
             cest=self.cest_id,
             operation_line=self.fiscal_operation_line_id,
+            cfop=self.cfop_id,
             icmssn_range=self.icmssn_range_id,
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
