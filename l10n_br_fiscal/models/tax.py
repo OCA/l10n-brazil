@@ -585,6 +585,8 @@ class Tax(models.Model):
             insurance_value,
             other_value,
             freight_value,
+            ii_customhouse_charges,
+            ii_iof_value,
             ncm,
             nbs,
             nbm,
