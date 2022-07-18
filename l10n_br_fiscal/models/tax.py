@@ -220,7 +220,7 @@ class Tax(models.Model):
 
         # Compute Tax Base Amount
         if compute_reduction:
-            base_amount -= base_reduction
+            base_amount = round(base_amount - base_reduction, precision)
 
         if tax_dict.get("icmsst_mva_percent"):
             base_amount *= 1 + (tax_dict["icmsst_mva_percent"] / 100)
@@ -233,7 +233,7 @@ class Tax(models.Model):
         ):
             tax_dict["base"] = 0.00
         else:
-            tax_dict["base"] = base_amount
+            tax_dict["base"] = round(base_amount, precision)
 
         return tax_dict
 
