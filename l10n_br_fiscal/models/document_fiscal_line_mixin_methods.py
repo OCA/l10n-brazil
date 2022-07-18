@@ -189,6 +189,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             uot_id=self.uot_id,
             discount_value=self.discount_value,
             insurance_value=self.insurance_value,
+            ii_customhouse_charges=self.ii_customhouse_charges,
+            ii_iof_value=self.ii_iof_value,
             other_value=self.other_value,
             freight_value=self.freight_value,
             ncm=self.ncm_id,
