@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="l10n_br_nfe_depara_import_xml_form" model="ir.ui.view">
+        <field name="name">l10n_br_nfe_depara.import_xml.form</field>
+        <field name="model">l10n_br_nfe.import_xml</field>
+        <field name="inherit_id" ref="l10n_br_nfe.l10n_br_nfe_import_xml_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='imported_products_ids']/tree/field[@name='product_name']"
+                position="before"
+            >
+                <field
+                    name="product_id"
+                    options="{'no_quick_create': True, 'no_create': True}"
+                    domain="[('purchase_ok', '=', True)]"
+                />
+                <field
+                    name="uom_internal"
+                    options="{'no_quick_create': True, 'no_create': True}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

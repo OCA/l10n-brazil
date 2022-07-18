@@ -101,6 +101,7 @@ class NfeImport(models.TransientModel):
                 .create(
                     {
                         "product_name": product.prod.xProd,
+                        "product_code": product.prod.cProd,
                         "uom_com": product.prod.uCom,
                         "quantity_com": product.prod.qCom,
                         "price_unit_com": product.prod.vUnCom,
@@ -164,6 +165,8 @@ class NfeImportProducts(models.TransientModel):
     _name = "l10n_br_nfe.import_xml.products"
 
     product_name = fields.Char(string="Product Name")
+
+    product_code = fields.Char(string="Partner Product Code")
 
     uom_com = fields.Char(string="UOM Comercial")
 
