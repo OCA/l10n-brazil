@@ -21,6 +21,7 @@
         "data/ir_config_parameter.xml",
         # Security
         "security/nfe_security.xml",
+        "security/ir.model.access.csv",
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
