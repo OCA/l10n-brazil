@@ -172,7 +172,7 @@ class PaymentOrder(models.Model):
         f.close()
         files = {"data": open(f.name, "rb")}
 
-        brcobranca_api_url = get_brcobranca_api_url()
+        brcobranca_api_url = get_brcobranca_api_url(self.env)
         # EX.: "http://boleto_cnab_api:9292/api/remessa"
         brcobranca_service_url = brcobranca_api_url + "/api/remessa"
         logger.info(

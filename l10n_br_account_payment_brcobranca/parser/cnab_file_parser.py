@@ -78,7 +78,7 @@ class CNABFileParser(FileParser):
     def _get_brcobranca_retorno(self, files):
 
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
-        brcobranca_api_url = get_brcobranca_api_url()
+        brcobranca_api_url = get_brcobranca_api_url(self.env)
         # Ex.: "http://boleto_cnab_api:9292/api/retorno"
         brcobranca_service_url = brcobranca_api_url + "/api/retorno"
         logger.info(
