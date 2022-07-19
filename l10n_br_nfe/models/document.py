@@ -526,6 +526,8 @@ class NFe(spec_models.StackedModel):
         for record in self:
             if record.company_id.technical_support_id:
                 record.nfe40_infRespTec = record.company_id.technical_support_id
+            else:
+                record.nfe40_infRespTec = False
 
     ##########################
 
