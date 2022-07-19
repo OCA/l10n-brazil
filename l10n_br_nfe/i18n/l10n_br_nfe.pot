@@ -1154,13 +1154,6 @@ msgid "NFe Version"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xFant
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xFant
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xFant
-msgid "Name"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_det_infNFe_id
 msgid "Nfe40 Det Infnfe"
 msgstr ""
@@ -1175,6 +1168,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
 msgid "Nfe40 Xender"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xFant
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xFant
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xFant
+msgid "Nome Fantasia"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1260,11 +1260,6 @@ msgid ""
 "O hashCSRT é o resultado da função hash (SHA-1 – Base64) do\n"
 "CSRT fornecido pelo fisco mais a Chave de Acesso da\n"
 "NFe."
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOutro
-msgid "Outras Despesas acessórias"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1503,11 +1498,6 @@ msgid "Valor Total da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vDesc
-msgid "Valor Total do Desconto"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFrete
 msgid "Valor Total do Frete"
@@ -1604,6 +1594,11 @@ msgid "Valor do PIS (NFe)"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vDesc
+msgid "Valor do desconto da fatura"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vTotTrib
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vTotTrib
 msgid "Valor estimado total de impostos federais"
@@ -1625,6 +1620,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOrig
 msgid "Valor original da fatura"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOutro
+msgid "Valor outras retenções"
 msgstr ""
 
 #. module: l10n_br_nfe
