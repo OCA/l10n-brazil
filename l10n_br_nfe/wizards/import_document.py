@@ -116,7 +116,6 @@ class NfeImport(models.TransientModel):
         if product_ids:
             self.imported_products_ids = [(6, 0, product_ids)]
 
-    @api.multi
     def import_nfe_xml(self):
 
         parsed_xml, document = self._parse_xml_import_wizard(
@@ -152,7 +151,6 @@ class NfeImport(models.TransientModel):
         vals = {
             "name": "NFe-Importada-{}.xml".format(edoc.document_key),
             "datas": base64.b64decode(self.nfe_xml),
-            "datas_fname": "NFe-Importada-{}.xml".format(edoc.document_key),
             "description": "XML NFe - Importada por XML",
             "res_model": "l10n_br_fiscal.document",
             "res_id": edoc.id,
