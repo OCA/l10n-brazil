@@ -45,7 +45,7 @@ addon | version | maintainers | summary
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.1.0.0 |  | Website sale localização brasileira.
 [l10n_br_zip](l10n_br_zip/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 [payment_pagseguro](payment_pagseguro/) | 14.0.1.0.0 |  | Payment Acquirer: PagSeguro Implementation
-[spec_driven_model](spec_driven_model/) | 14.0.1.0.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
+[spec_driven_model](spec_driven_model/) | 14.0.1.0.2 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
 
