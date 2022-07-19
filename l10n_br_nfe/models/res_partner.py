@@ -65,7 +65,7 @@ class ResPartner(spec_models.SpecModel):
 
     # nfe.40.dest
     nfe40_xNome = fields.Char(related="legal_name")
-    nfe40_xFant = fields.Char(related="name")
+    nfe40_xFant = fields.Char(related="name", string="Nome Fantasia")
     nfe40_enderDest = fields.Many2one(
         comodel_name="res.partner", compute="_compute_nfe40_enderDest"
     )
