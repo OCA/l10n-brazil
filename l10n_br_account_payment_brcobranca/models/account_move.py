@@ -73,7 +73,7 @@ class AccountMove(models.Model):
         f.close()
         files = {"data": open(f.name, "rb")}
 
-        brcobranca_api_url = get_brcobranca_api_url()
+        brcobranca_api_url = get_brcobranca_api_url(self.env)
         brcobranca_service_url = brcobranca_api_url + "/api/boleto/multi"
         logger.info(
             "Connecting to %s to get Boleto of invoice %s",
