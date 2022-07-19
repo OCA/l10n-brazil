@@ -145,7 +145,8 @@ class NfeImport(models.TransientModel):
         }
 
     def _set_partner_as_supplier(self, edoc):
-        edoc.partner_id.supplier = True
+        pass  # FIXME
+        # edoc.partner_id.supplier = True
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         vals = {

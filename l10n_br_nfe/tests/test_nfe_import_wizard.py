@@ -59,11 +59,8 @@ class NFeImportWizardTest(SavepointCase):
     def test_match_country_state_city(self):
         xml = self.xml_2
         wizard = self.wizard
-        product_10 = self.env.ref("product.product_product_10")
         wizard.nfe_xml = base64.b64encode(xml)
         wizard._onchange_partner_id()
-        wizard.imported_products_ids[0].product_id = product_10
-        wizard.imported_products_ids[0].uom_internal = product_10.uom_id
         action = wizard.import_nfe_xml()
         edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
         delivery_adress = edoc.partner_id.child_ids[0]
