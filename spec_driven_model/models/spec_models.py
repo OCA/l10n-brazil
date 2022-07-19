@@ -7,8 +7,26 @@ import sys
 from inspect import getmembers, isclass
 
 from odoo import SUPERUSER_ID, _, api, models
+from odoo.tools import mute_logger
 
 _logger = logging.getLogger(__name__)
+
+
+class SelectionMuteLogger(mute_logger):
+    """
+    The following fields.Selection warnings seem both very hard to
+    avoid and benign in the spec_driven_model framework context.
+    All in all, muting these 2 warnings seems like the best option.
+    """
+
+    def filter(self, record):
+        msg = record.getMessage()
+        if (
+            "selection attribute will be ignored" in msg
+            or "overrides existing selection" in msg
+        ):
+            return 0
+        return super().filter(record)
 
 
 class SpecModel(models.AbstractModel):
@@ -84,6 +102,11 @@ class SpecModel(models.AbstractModel):
                             parent
                         ].__bases__
         return super(SpecModel, cls)._build_model(pool, cr)
+
+    @api.model
+    def _setup_base(self):
+        with SelectionMuteLogger("odoo.fields"):  # mute spurious warnings
+            super()._setup_base()
 
     @api.model
     def _setup_fields(self):
