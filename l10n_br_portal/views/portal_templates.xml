@@ -39,6 +39,7 @@
                             </div>
 
                             <div
+                                t-if="user_id.partner_id.is_company == True"
                                 t-attf-class="form-group #{error.get('legal_name') and 'o_has_error' or ''} col-xl-6"
                             >
                                 <label
@@ -67,9 +68,15 @@
                                 t-attf-class="form-group #{error.get('cnpj_cpf') and 'o_has_error' or ''} col-xl-6"
                             >
                                 <label
+                                    t-if="user_id.partner_id.is_company == True"
                                     class="col-form-label label-optional"
                                     for="cnpj_cpf"
-                                >CNPJ/CPF</label>
+                                >CNPJ/VAT</label>
+                                <label
+                                    t-if="user_id.partner_id.is_company == False"
+                                    class="col-form-label label-optional"
+                                    for="cnpj_cpf"
+                                >CPF</label>
                                 <input
                                     type="text"
                                     name="cnpj_cpf"
@@ -79,38 +86,73 @@
                                     t-att-title="None if partner.can_edit_vat() else 'Changing cnpj/cpf number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'"
                                 />
                             </div>
-
+                            <div class="clearfix" />
+                            <div
+                                t-if="user_id.partner_id.is_company == False"
+                                t-attf-class="form-group #{error.get('company_name') and 'o_has_error' or ''} col-xl-6"
+                            >
+                                <label
+                                    class="col-form-label label-optional"
+                                    for="company_name"
+                                >Company Name</label>
+                                <!-- The <input> is replace by a <p> to avoid sending an unauthorized value on form submit.
+                                     The user might not have rights to change company_name but should still be able to see it.
+                                -->
+<!--                                <p t-if="not partner_can_edit_vat" t-attf-class="form-control" readonly="1" t-esc="partner.commercial_company_name" title="Changing company name is not allowed once document(s) have been issued for your account. Please contact us directly for this operation."/>-->
+                                <input
+                                    type="text"
+                                    name="company_name"
+                                    t-attf-class="form-control #{error.get('company_name') and 'is-invalid' or ''}"
+                                    t-att-value="company_name or partner.commercial_company_name"
+                                    t-att-readonly="None if partner.can_edit_vat() else '1'"
+                                />
+                            </div>
+                            <div
+                                t-if="user_id.partner_id.is_company == False"
+                                t-attf-class="input-cnpj-cpf form-group #{error.get('company_cnpj') and 'o_has_error' or ''} col-xl-6"
+                            >
+                                <label
+                                    class="col-form-label label-optional"
+                                    for="company_cnpj"
+                                >Company CNPJ/VAT</label>
+                                <input
+                                    type="text"
+                                    name="company_cnpj"
+                                    t-attf-class="form-control #{error.get('company_cnpj') and 'is-invalid' or ''}"
+                                    t-att-value="company_cnpj or partner.company_cnpj"
+                                    t-att-readonly="None if partner.can_edit_vat() else '1'"
+                                />
+                            </div>
                             <div
                                 t-attf-class="form-group #{error.get('inscr_est') and 'o_has_error' or ''} col-xl-6"
                             >
                                 <label
                                     class="col-form-label label-optional"
                                     for="inscr_est"
-                                >IE/RG</label>
+                                >State Tax Number</label>
                                 <input
                                     type="text"
                                     name="inscr_est"
                                     t-attf-class="form-control #{error.get('inscr_est') and 'is-invalid' or ''}"
                                     t-att-value="inscr_est or partner.inscr_est"
                                     t-att-readonly="None if partner.can_edit_vat() else '1'"
-                                    t-att-title="None if partner.can_edit_vat() else 'Changing IE/RG number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'"
+                                    t-att-title="None if partner.can_edit_vat() else 'Changing State Tax Number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'"
                                 />
                             </div>
-
                             <div
                                 t-attf-class="form-group #{error.get('inscr_mun') and 'o_has_error' or ''} col-xl-6"
                             >
                                 <label
                                     class="col-form-label label-optional"
                                     for="inscr_mun"
-                                >Inscrição Municipal</label>
+                                >Municipal Tax Number</label>
                                 <input
                                     type="text"
                                     name="inscr_mun"
                                     t-attf-class="form-control #{error.get('inscr_mun') and 'is-invalid' or ''}"
                                     t-att-value="inscr_mun or partner.inscr_mun"
                                     t-att-readonly="None if partner.can_edit_vat() else '1'"
-                                    t-att-title="None if partner.can_edit_vat() else 'Changing nscrição Municipal number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'"
+                                    t-att-title="None if partner.can_edit_vat() else 'Changing Inscrição Municipal number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'"
                                 />
                             </div>
 
