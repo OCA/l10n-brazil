@@ -24,19 +24,29 @@ odoo.define("l10n_br_portal.tour", function (require) {
                 run: "text Mileo",
             },
             {
-                content: "Complete Legal Name",
-                trigger: "input[name='legal_name']",
-                run: "text Luis Felipe Mileo",
-            },
-            {
                 content: "Complete CPF",
                 trigger: "input[name='cnpj_cpf']",
                 run: "text 89604455095",
             },
             {
-                content: "Complete IE",
+                content: "Complete Company Name",
+                trigger: "input[name='company_name']",
+                run: "text Empresa X",
+            },
+            {
+                content: "Complete Company CNPJ/VAT",
+                trigger: "input[name='vat']",
+                run: "text 34565346000159",
+            },
+            {
+                content: "Complete State Tax Number",
                 trigger: "input[name='inscr_est']",
                 run: "text ISENTO",
+            },
+            {
+                content: "Complete Municipal Tax Number",
+                trigger: "input[name='inscr_mun']",
+                run: "text 12345",
             },
             {
                 content: "Complete ZIP",
