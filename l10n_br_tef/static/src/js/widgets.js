@@ -21,8 +21,8 @@ odoo.define("l10n_br_tef.widgets", function (require) {
 
         set_tef_status: function (status) {
             if (status.state === 'connected') {
-                var warning = false;
-                var msg = '';
+                let warning = false;
+                let msg = '';
                 this.set_status(warning ? 'warning' : 'connected', msg);
             } else {
                 this.set_status(status.state, '');
@@ -30,18 +30,18 @@ odoo.define("l10n_br_tef.widgets", function (require) {
         },
 
         start: function () {
-            var self = this;
-
             this.set_tef_status(this.pos.get('tef_status'));
-            this.pos.bind('change:tef_status', function (pos, tef_status) {
-                self.set_status(tef_status.state, tef_status.pending);
+            this.pos.bind('change:tef_status', (pos, tef_status) => {
+                this.set_status(tef_status.state, tef_status.pending);
             });
-            this.$el.click(function () {
-                self.pos.tef_client.connect();
+
+            // Forces reconnection to the TEF client
+            this.$el.click(() => {
+                this.pos.tef_client.connect();
             });
 
             // TODO: Lidar com o cancelamento/estorno;
-            // var cancel_btn = $('.btn-cancelar-pagamento');
+            // let cancel_btn = $('.btn-cancelar-pagamento');
             // cancel_btn.hide();
             //
             // if (this.pos.config.iface_tef) {
@@ -63,14 +63,16 @@ odoo.define("l10n_br_tef.widgets", function (require) {
         },
     });
 
+    // FIXME: Adapt the popup to the new pos structure
     const CancelamentoCompraPopup = PopupWidget.extend({
         template: 'PurchaseCancellationWidget',
 
         show: function (options) {
-            var self = this;
+            let self = this;
             this._super();
 
             $('.btn-report_data').unbind('click');
+            // TODO: Check if this bind makes sense. At first the search_handler is only used for product search.
             this.el.querySelector('.btn-report_data').addEventListener('click', this.search_handler);
             $('.btn-report_data', this.el).click(function (e) {
 
@@ -78,6 +80,7 @@ odoo.define("l10n_br_tef.widgets", function (require) {
             });
 
             $('.btn-cancel-operation').unbind('click');
+            // TODO: Check if this bind makes sense. At first the search_handler is only used for product search.
             this.el.querySelector('.btn-cancel-operation').addEventListener('click', this.search_handler);
             $('.btn-cancel-operation', this.el).click(function (e) {
                 self.pos_widget.product_screen.abort();
@@ -85,11 +88,12 @@ odoo.define("l10n_br_tef.widgets", function (require) {
         },
     });
 
+    // FIXME: Adapt the popup to the new pos structure
     const ConfirmaCancelamentoCompraPopup = PopupWidget.extend({
        template: 'PurchaseCancellationConfirmWidget',
 
         show: function(options){
-           var self = this;
+           let self = this;
            this._super();
 
             this.message = options.message || '';
@@ -97,12 +101,14 @@ odoo.define("l10n_br_tef.widgets", function (require) {
             this.renderElement();
 
             $( '.btn-confirm-cancellation' ).unbind( 'click' );
+            // TODO: Check if this bind makes sense. At first the search_handler is only used for product search.
             this.el.querySelector('.btn-confirm-cancellation').addEventListener('click',this.search_handler);
             $('.btn-confirm-cancellation', this.el).click(function(e){
                 self.pos_widget.product_screen.confirm_proceed_cancellation(true);
             });
 
             $( '.btn-cancel-cancellation' ).unbind( 'click' );
+            // TODO: Check if this bind makes sense. At first the search_handler is only used for product search.
             this.el.querySelector('.btn-cancel-cancellation').addEventListener('click',this.search_handler);
             $('.btn-cancel-cancellation', this.el).click(function(e){
                 self.pos_widget.product_screen.confirm_proceed_cancellation(false);
@@ -112,10 +118,8 @@ odoo.define("l10n_br_tef.widgets", function (require) {
 
     const StatusPagementoPopUp = PopupWidget.extend({
         template: 'PaymentStatusWidget',
-        hotkeys_handlers: {},
 
         show: function(options){
-            var self = this;
             this._super();
             this.message = options.title || '';
             this.comment = options.body || '';
@@ -124,7 +128,6 @@ odoo.define("l10n_br_tef.widgets", function (require) {
     });
 
     gui.define_popup({name: "CancelamentoCompraPopup", widget: CancelamentoCompraPopup});
-    // FIXME: Verificar o pq os outros pop-up estão dando erro!
     gui.define_popup({name: "ConfirmaCancelamentoCompraPopup", widget: ConfirmaCancelamentoCompraPopup});
     gui.define_popup({name: "StatusPagementoPopUp", widget: StatusPagementoPopUp});
 
