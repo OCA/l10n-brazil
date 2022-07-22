@@ -110,3 +110,15 @@ class ResPartner(models.Model):
             if p.ind_ie_dest == NFE_IND_IE_DEST_9:
                 p.inscr_est = False
                 p.state_tax_number_ids = False
+
+    @api.model
+    def _commercial_fields(self):
+        return super()._commercial_fields() + [
+            "tax_framework",
+            "cnae_main_id",
+            "ind_ie_dest",
+            "fiscal_profile_id",
+            "ind_final",
+            "inscr_est",
+            "inscr_mun",
+        ]
