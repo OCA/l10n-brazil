@@ -11,16 +11,23 @@
 odoo.define('l10n_br_tef.models', function (require) {
     "use strict";
 
-    var models = require('point_of_sale.models');
-    var _orderproto = models.Order.prototype;
-    var PosModelSuper = models.PosModel;
-    var devices = require('point_of_sale.devices');
+    let models = require('point_of_sale.models');
+    let tef_devices = require('l10n_br_tef.devices');
 
-    var tef_device = require('l10n_br_tef.devices');
-
+    let _orderproto = models.Order.prototype;
+    let PosModelSuper = models.PosModel;
     let _super_payment_line = models.Paymentline.prototype;
 
     models.load_fields('account.journal', ['tef_payment_mode']);
+
+    models.PosModel = models.PosModel.extend({
+        initialize: function (session, attributes) {
+            let res = PosModelSuper.prototype.initialize.call(this, session, attributes);
+            this.tef_client = new tef_devices.TefProxy({'pos': this});
+            this.set({'tef_status': {state: 'disconnected', pending: 0}});
+            return res;
+        },
+    });
 
     models.Order = models.Order.extend({
         initialize: function () {
@@ -28,17 +35,6 @@ odoo.define('l10n_br_tef.models', function (require) {
             this.tef_in_transaction = false;
         },
     });
-
-    models.PosModel = models.PosModel.extend({
-        initialize: function (session, attributes) {
-            var res = PosModelSuper.prototype.initialize.call(this, session, attributes);
-            this.tef_client = new tef_device.TefProxy({'pos': this});
-            this.tef_queue = new devices.JobQueue();
-            this.set({'tef_status': {state: 'disconnected', pending: 0}});
-            return res;
-        },
-    });
-
 
     models.Paymentline = models.Paymentline.extend({
         initialize: function (attr, options) {
