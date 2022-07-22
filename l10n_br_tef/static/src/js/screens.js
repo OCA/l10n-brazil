@@ -11,23 +11,27 @@
 odoo.define('l10n_br_tef.screens', function (require) {
     "use strict";
 
-    var screens = require('point_of_sale.screens');
+    let screens = require('point_of_sale.screens');
 
     screens.PaymentScreenWidget.include({
 
         render_paymentlines: function () {
+            /*
+            * Button bind to start a new TEF transaction
+            */
             this._super.apply(this, arguments);
-            var self = this;
-            this.$('.paymentlines-container').unbind('click').on('click', '.tef-payment-terminal-transaction-start', function (event) {
-                // Why this "on" thing links severaltime the button to the action
-                // if I don't use "unlink" to reset the button links before ?
-                self.pos.get_order().tef_in_transaction = true;
-                self.order_changes();
-                self.pos.tef_client.start_operation('purchase', self);
+            this.$('.paymentlines-container').unbind('click').on('click', '.tef-payment-terminal-transaction-start', event => {
+                this.pos.get_order().tef_in_transaction = true;
+                this.order_changes();
+                this.pos.tef_client.start_operation('purchase', this);
             });
         },
 
         order_changes: function () {
+            /*
+            * Handles the loading icon for ongoing TEF transactions on
+            *   the payment screen
+            */
             this._super.apply(this, arguments);
             var order = this.pos.get_order();
             if (!order) {
@@ -40,6 +44,9 @@ odoo.define('l10n_br_tef.screens', function (require) {
         },
 
         finalize_validation: function () {
+            /*
+            * Block payment completion if there are pending payments via TEF
+            */
             let payment_lines = this.pos.get_order().get_paymentlines();
             let has_unpaid_lines = payment_lines.reduce((acc, line) => {
                 if (!line.tef_payment_completed) {
