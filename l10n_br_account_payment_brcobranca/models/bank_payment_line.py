@@ -53,6 +53,15 @@ class BankPaymentLine(models.Model):
         if payment_mode_id.boleto_discount_perc:
             linhas_pagamentos["cod_desconto"] = "1"
 
+    def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
+        if (
+            self.mov_instruction_code_id.code
+            == payment_mode_id.cnab_sending_code_id.code
+        ):
+            linhas_pagamentos["cod_primeira_instrucao"] = (
+                payment_mode_id.boleto_protest_code or "00"
+            )
+
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         payment_mode_id = self.order_id.payment_mode_id
         linhas_pagamentos = self._prepare_boleto_bank_line_vals()
