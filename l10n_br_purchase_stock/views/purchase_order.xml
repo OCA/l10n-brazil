@@ -13,7 +13,7 @@
             <xpath expr="//button[@name='action_view_invoice']" position="attributes">
                 <attribute
                     name="attrs"
-                >{'invisible': ['|', '|', ('state', 'not in', ('purchase', 'done')), ('purchase_create_invoice_policy', '=', 'stock_picking'), ('invoice_status', 'in', ('no', 'invoiced'))]}</attribute>
+                >{'invisible': ['|','|', ('invoice_count', '=', 0), ('purchase_create_invoice_policy', '=', 'stock_picking'), ('state', 'in', ('draft','sent','to approve'))]}</attribute>
             </xpath>
         </field>
     </record>
