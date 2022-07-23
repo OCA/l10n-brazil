@@ -390,7 +390,10 @@ class NFe(spec_models.StackedModel):
     # TODO  Verificar as operações de bonificação se o desconto sai correto
     # nfe40_vDesc = fields.Monetary(related="amount_financial_discount_value")
     # nfe40_vDesc = fields.Monetary(related="amount_discount_value")
-    nfe40_vDesc = fields.Monetary(related="amount_discount_value")
+    nfe40_vDesc = fields.Monetary(
+        string="Montante de Desconto",
+        related="amount_discount_value",
+    )
 
     nfe40_vII = fields.Monetary(related="amount_ii_value")
 
@@ -406,7 +409,10 @@ class NFe(spec_models.StackedModel):
         string="valor do COFINS (NFe)", related="amount_cofins_value"
     )
 
-    nfe40_vOutro = fields.Monetary(related="amount_other_value")
+    nfe40_vOutro = fields.Monetary(
+        string="Outros Custos",
+        related="amount_other_value",
+    )
 
     nfe40_vNF = fields.Monetary(related="amount_total")
 
