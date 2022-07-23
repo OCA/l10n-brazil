@@ -1076,6 +1076,11 @@ msgid "Moeda"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vDesc
+msgid "Montante de Desconto"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_nbm
 msgid "NBM"
 msgstr ""
@@ -1264,7 +1269,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOutro
-msgid "Outras Despesas acessórias"
+msgid "Outros Custos"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1500,11 +1505,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vNF
 msgid "Valor Total da NF-e"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vDesc
-msgid "Valor Total do Desconto"
 msgstr ""
 
 #. module: l10n_br_nfe
