@@ -79,7 +79,18 @@
                 <field name="document_type" invisible="1" />
                 <field
                     name="document_type_id"
-                    attrs="{'invisible': [('create_date', '!=', False), ('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                    attrs="{
+                    'invisible': [
+                            '|',
+                            '&amp;',
+                            '|',
+                            ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+                            ('create_date', '=', True),
+                            ('document_type_id', '=', False),
+                            ('currency_id', '!=',  %(base.BRL)d),
+                        ],
+                    'readonly': [('state', '!=', 'draft')]
+                }"
                 />
                 <field
                     name="fiscal_operation_id"
