@@ -62,20 +62,6 @@
                     name="attrs"
                 >{'invisible': [('document_type_id', '!=', False)]}</attribute>
             </xpath>
-            <xpath expr="//form/sheet/div/h1[1]" position="after">
-                <h1 class="mt0">
-                    <div attrs="{'invisible': [('document_type_id', '=', False)]}">
-                        <span class="oe_inline">
-                            <field readonly="1" name="document_type_id" />:
-                            <field
-                                name="document_number"
-                                readonly="1"
-                                attrs="{'invisible': [('state','in',('draft',))]}"
-                            />
-                        </span>
-                    </div>
-                </h1>
-            </xpath>
             <xpath expr="//form/sheet/group" position="after">
                 <group name="l10n_br_fiscal">
                     <field name="id" invisible="1" />
