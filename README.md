@@ -34,7 +34,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal](l10n_br_fiscal/) | 14.0.7.3.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_hr](l10n_br_hr/) | 14.0.1.0.0 |  | Brazilian Localization HR
 [l10n_br_mis_report](l10n_br_mis_report/) | 14.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
-[l10n_br_nfe](l10n_br_nfe/) | 14.0.2.2.0 |  | Brazilian Eletronic Invoice NF-e .
+[l10n_br_nfe](l10n_br_nfe/) | 14.0.2.2.1 |  | Brazilian Eletronic Invoice NF-e .
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 14.0.1.9.1 | [![gabrielcardoso21](https://github.com/gabrielcardoso21.png?size=30px)](https://github.com/gabrielcardoso21) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e
 [l10n_br_portal](l10n_br_portal/) | 14.0.1.0.0 |  | Campos Brasileiros no Portal
