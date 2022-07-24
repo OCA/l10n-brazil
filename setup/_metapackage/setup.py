@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo14-addon-l10n_br_account',
         'odoo14-addon-l10n_br_account_due_list',
+        'odoo14-addon-l10n_br_account_nfe',
         'odoo14-addon-l10n_br_account_payment_brcobranca',
         'odoo14-addon-l10n_br_account_payment_order',
         'odoo14-addon-l10n_br_base',
