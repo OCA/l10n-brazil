@@ -138,7 +138,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:904
+#: code:addons/l10n_br_nfe/models/document.py:910
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
@@ -265,7 +265,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:676
+#: code:addons/l10n_br_nfe/models/document.py:682
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:30
 #, python-format
 msgid "Certificado não encontrado"
@@ -1202,6 +1202,11 @@ msgid "Modalidade do frete\n"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vDesc
+msgid "Montante de Desconto"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_nbm
 msgid "NBM"
 msgstr ""
@@ -1381,6 +1386,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: selection:l10n_br_nfe.import_xml,fiscal_operation_type:0
 msgid "Out"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOutro
+msgid "Outros Custos"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1687,11 +1697,6 @@ msgid "Valor Total da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vDesc
-msgid "Valor Total do Desconto"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFrete
 msgid "Valor Total do Frete"
@@ -1806,11 +1811,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOrig
 msgid "Valor original da fatura"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOutro
-msgid "Valor outras retenções"
 msgstr ""
 
 #. module: l10n_br_nfe
