@@ -828,7 +828,6 @@ class NFe(spec_models.StackedModel):
         self.file_report_id = self.env["ir.attachment"].create(
             {
                 "name": self.document_key + ".pdf",
-                "datas_fname": self.document_key + ".pdf",
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(pdf),
