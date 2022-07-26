@@ -79,7 +79,9 @@ class AccountMoveLine(models.Model):
                 + " "
                 + (move_line.partner_id.city_id.name or "")
                 + " - "
-                + (move_line.partner_id.state_id.name or ""),
+                + (move_line.partner_id.state_id.name or "")
+                + " - "
+                + ("CEP:" + move_line.partner_id.zip or ""),
                 "data_processamento": move_line.move_id.invoice_date.strftime(
                     "%Y/%m/%d"
                 ),
