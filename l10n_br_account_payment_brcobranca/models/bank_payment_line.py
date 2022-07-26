@@ -14,6 +14,10 @@ _logger = logging.getLogger(__name__)
 class BankPaymentLine(models.Model):
     _inherit = "bank.payment.line"
 
+    def _prepare_bank_line_ailos(self, payment_mode_id, linhas_pagamentos):
+        if self.discount_value:
+            linhas_pagamentos["cod_desconto"] = "1"
+
     def _prepare_bank_line_unicred(self, payment_mode_id, linhas_pagamentos):
         # TODO - Valores padrões ?
         #  Estou preenchendo valores que se forem vazios geram erro
