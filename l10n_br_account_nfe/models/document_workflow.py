@@ -10,6 +10,7 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
+    EDOC_PURPOSE_AJUSTE,
     EDOC_PURPOSE_DEVOLUCAO,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
@@ -41,9 +42,9 @@ class DocumentWorkflow(models.AbstractModel):
             ind_pag = "0"
             fiscal_payment_mode = "90"
             v_pag = 0.00
-            if (
-                record.amount_financial_total
-                and record.edoc_purpose != EDOC_PURPOSE_DEVOLUCAO
+            if record.amount_financial_total and record.edoc_purpose not in (
+                EDOC_PURPOSE_DEVOLUCAO,
+                EDOC_PURPOSE_AJUSTE,
             ):
                 # TAG - Cobrança
                 duplicatas = record.env["nfe.40.dup"]
@@ -61,8 +62,8 @@ class DocumentWorkflow(models.AbstractModel):
 
                 # TAG - Pagamento
                 if (
-                    record.invoice_ids.payment_mode_id
-                    and not record.invoice_ids.payment_mode_id.fiscal_payment_mode
+                    record.move_ids.payment_mode_id
+                    and not record.move_ids.payment_mode_id.fiscal_payment_mode
                 ):
                     raise UserError(
                         _(
