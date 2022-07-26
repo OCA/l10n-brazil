@@ -70,6 +70,12 @@ class AccountMoveLine(models.Model):
         default="inicial",
     )
 
+    boleto_discount_perc = fields.Float(
+        string="Percentual de Desconto até a Data de Vencimento",
+        digits="Account",
+        related="payment_mode_id.boleto_discount_perc",
+    )
+
     instructions = fields.Text(
         string="Instruções de cobrança",
         readonly=True,
