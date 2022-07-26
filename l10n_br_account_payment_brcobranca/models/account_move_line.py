@@ -143,7 +143,7 @@ class AccountMoveLine(models.Model):
                     precision_account,
                 )
                 instrucao_desconto_vencimento = (
-                    "CONCEDER ABATIMENTO PERCENTUAL DE" + " %s %% "
+                    "CONCEDER DESCONTO DE" + " %s %% "
                     "ATÉ O VENCIMENTO EM %s ( R$ %s )"
                     % (
                         (
