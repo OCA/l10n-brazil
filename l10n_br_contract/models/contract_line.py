@@ -50,7 +50,8 @@ class ContractLine(models.Model):
 
         contract = self.contract_id
 
-        self._onchange_fiscal_operation_id()
+        if contract.contract_recalculate_taxes_before_invoice:
+            self._onchange_fiscal_operation_id()
 
         invoice_line_vals = super()._prepare_invoice_line(move_form)
 
