@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE
+     Copyright 2021 - TODAY, Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
     <record id="contract_contract_form_view" model="ir.ui.view">
         <field name="name">contract.contract form view (in l10n_br_contract)</field>
@@ -6,7 +9,12 @@
         <field name="inherit_id" ref="contract.contract_contract_form_view" />
         <field name="arch" type="xml">
             <field name="fiscal_position_id" position="after">
-                <field name="fiscal_operation_id" />
+                <field name="country_id" invisible="1" />
+                <field
+                    name="fiscal_operation_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
             </field>
             <xpath
                 expr="//field[@name='contract_line_fixed_ids']"
@@ -21,34 +29,38 @@
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
-
+            <xpath
+                expr="//field[@name='contract_line_fixed_ids']/tree"
+                position="attributes"
+            >
+                <attribute name="editable" />
+            </xpath>
             <xpath
                 expr="//field[@name='contract_line_fixed_ids']/tree/button"
                 position="before"
             >
-                <field name="fiscal_operation_id" readonly="1" optional="hide" />
-                <field name="fiscal_operation_line_id" readonly="1" optional="hide" />
+                <field name="country_id" invisible="1" />
                 <field
                     name="fiscal_tax_ids"
                     widget="many2many_tags"
-                    readonly="1"
+                    options="{'no_create': True}"
                     optional="hide"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
             </xpath>
             <xpath
                 expr="//field[@name='contract_line_ids']/tree/button"
                 position="before"
             >
-                <field name="fiscal_operation_id" readonly="1" optional="hide" />
-                <field name="fiscal_operation_line_id" readonly="1" optional="hide" />
+                <field name="country_id" invisible="1" />
                 <field
                     name="fiscal_tax_ids"
                     widget="many2many_tags"
-                    readonly="1"
+                    options="{'no_create': True}"
                     optional="hide"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
             </xpath>
-
         </field>
     </record>
 </odoo>
