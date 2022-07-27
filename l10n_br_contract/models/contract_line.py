@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
@@ -77,11 +77,3 @@ class ContractLine(models.Model):
             invoice_line_vals["quantity"] = quantity
             invoice_line_vals["tax_ids"] = tax_ids.ids
         return invoice_line_vals
-
-    @api.model
-    def create(self, values):
-        res = super().create(values)
-        if res.contract_id.fiscal_operation_id and not res.fiscal_operation_id:
-            res.fiscal_operation_id = res.contract_id.fiscal_operation_id
-            res._onchange_fiscal_operation_id()
-        return res
