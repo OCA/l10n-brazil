@@ -13,6 +13,7 @@ class ContractLine(models.Model):
     company_id = fields.Many2one(
         related="contract_id.company_id",
     )
+    country_id = fields.Many2one(related="company_id.country_id", store=True)
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
