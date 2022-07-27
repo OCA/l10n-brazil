@@ -15,6 +15,10 @@
                     options="{'no_create': True}"
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
+                <field
+                    name="contract_recalculate_taxes_before_invoice"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
             </field>
             <xpath expr="//field[@name='contract_line_ids']" position="attributes">
                 <attribute

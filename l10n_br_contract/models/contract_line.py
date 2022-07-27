@@ -39,6 +39,10 @@ class ContractLine(models.Model):
 
     @api.multi
     def _prepare_invoice_line(self, invoice_id=False, invoice_values=False):
+        self.ensure_one()
+        contract = self.contract_id
+        if contract.contract_recalculate_taxes_before_invoice:
+            self._onchange_fiscal_operation_id()
         values = super()._prepare_invoice_line(invoice_id, invoice_values)
         quantity = values.get("quantity")
         if values:
