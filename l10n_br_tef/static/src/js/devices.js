@@ -146,8 +146,14 @@ odoo.define('l10n_br_tef.devices', function (require) {
 
                         // Credit without PinPad
                         // Only works if card_number is filled in Debug mode
+                        /*
+                         * TODO: Change the 'card_number' to a boolean to be checked if is with pinpad or not
+                         *  Verify where to set this boolean
+                         */
                         if (card_number) {
                             if (self.check_completed_start_execute()) return;
+                            if (self.check_transaction_card_number()) return;
+                            if (self.check_type_card_number()) return;
                             if (self.check_completed_send_card_number()) return;
                             if (self.check_completed_send_expiring_date()) return;
                         }
@@ -351,17 +357,50 @@ odoo.define('l10n_br_tef.devices', function (require) {
         },
 
         check_completed_start_execute: function () {
-            if ((this.tags.automacao_coleta_palavra_chave == "transacao_cartao_numero") && (this.tags.automacao_coleta_tipo == "N")
-                && (this.tags.automacao_coleta_retorno == "0")) {
+            /*
+             * Message sequence to switch to manual card data input flow
+             */
+            if ((this.tags.automacao_coleta_palavra_chave === "transacao_cartao_numero")
+                && (this.tags.automacao_coleta_retorno === "0") && (this.tags.automacao_coleta_mensagem === "INSIRA OU PASSE O CARTAO")) {
 
-                // Send the card number
+                this.send('automacao_coleta_sequencial="' + this.in_sequential_execute + '"automacao_coleta_retorno="0"');
+                setTimeout(()=>{
+                    this.send('automacao_coleta_sequencial="' + this.in_sequential_execute + '"automacao_coleta_retorno="9"');
+                }, 1000)
+
+
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_transaction_card_number: function () {
+            /*
+             * Confirm the option to manually enter card data
+             */
+            if ((this.tags.automacao_coleta_palavra_chave === "transacao_cartao_numero") && (this.tags.automacao_coleta_tipo === "X")
+                && (this.tags.automacao_coleta_retorno === "0") && (this.tags.automacao_coleta_mensagem === "<SIM> CANCELAR, <NAO> LER")) {
+
+                this.collect('Digitar');
+
+                return true;
+            } else {
+                //Handle Exceptions Here
+                return false;
+            }
+        },
+
+        check_type_card_number: function () {
+            /*
+             * Send card number
+             */
+            if ((this.tags.automacao_coleta_palavra_chave === "transacao_cartao_numero") && (this.tags.automacao_coleta_tipo === "N")
+                && (this.tags.automacao_coleta_retorno === "0") && (this.tags.automacao_coleta_mensagem === "Digite o numero do cartao")) {
+
                 this.collect(card_number);
 
-                this.screenPopupPagamento('Please, enter the password');
-
-                this.tags.automacao_coleta_palavra_chave = '';
-                this.tags.automacao_coleta_tipo = '';
-                this.tags.automacao_coleta_retorno = '';
                 return true;
             } else {
                 //Handle Exceptions Here
@@ -396,7 +435,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
 
         check_completed_execution: function () {
             if ((this.tags.automacao_coleta_palavra_chave === "transacao_cartao_numero") && (this.tags.automacao_coleta_tipo != "N")
-                && (this.tags.automacao_coleta_retorno == "0")) {
+                && (this.tags.automacao_coleta_retorno == "0") && (!card_number)) {
                 this.collect('');
 
                 this.screenPopupPagamento('Please, insert the Card');
