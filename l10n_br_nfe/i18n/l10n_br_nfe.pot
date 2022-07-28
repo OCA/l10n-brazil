@@ -144,6 +144,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice8__nfe40_cnpj
 msgid "CNPJ"
 msgstr ""
 
@@ -157,6 +158,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice2
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice2
 msgid "CNPJ/CPF do Parceiro"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice8
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice8
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice8
+msgid "CNPJ/CPF do Parceiro Autorizado"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -180,6 +188,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice8__nfe40_cpf
 msgid "CPF"
 msgstr ""
 
@@ -795,6 +804,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_accountant_download_xml
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_authorize_accountant_download_xml
+msgid ""
+"Include Accountant Partner data in persons authorized to download NFe XML"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_technical_download_xml
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_authorize_technical_download_xml
+msgid ""
+"Include Technical Support Partner data in persons authorized to download NFe"
+" XML"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_indFinal
 msgid "Indica operação com consumidor final"
 msgstr ""
@@ -1156,6 +1180,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_version
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_version
 msgid "NFe Version"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_autXML_infNFe_id
+msgid "Nfe40 Autxml Infnfe"
 msgstr ""
 
 #. module: l10n_br_nfe
