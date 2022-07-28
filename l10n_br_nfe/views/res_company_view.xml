@@ -19,6 +19,8 @@
                                 name="nfe_default_serie_id"
                                 domain="[('document_type_id', '=', %(l10n_br_fiscal.document_55)d)]"
                             />
+                          <field name="nfe_authorize_accountant_download_xml" />
+                          <field name="nfe_authorize_technical_download_xml" />
                       </group>
                   </group>
               </page>

@@ -41,3 +41,17 @@ class ResConfigSettings(models.TransientModel):
         string="NFe Proc Version",
         config_parameter="l10n_br_nfe.version.name",
     )
+
+    nfe_authorize_accountant_download_xml = fields.Boolean(
+        string="Include Accountant Partner data in persons authorized to "
+        "download NFe XML",
+        related="company_id.nfe_authorize_accountant_download_xml",
+        readonly=False,
+    )
+
+    nfe_authorize_technical_download_xml = fields.Boolean(
+        string="Include Technical Support Partner data in persons authorized to "
+        "download NFe XML",
+        related="company_id.nfe_authorize_technical_download_xml",
+        readonly=False,
+    )
