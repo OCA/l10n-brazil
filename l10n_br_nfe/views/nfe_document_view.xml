@@ -37,6 +37,14 @@
                   <field name="nfe40_detPag" />
               </group>
           </page>
+          <page name="others" position="inside">
+              <group
+                    name="nfe_autxml"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                <field name="nfe40_autXML" widget="many2many" />
+              </group>
+          </page>
 
           <!-- Hide confirm button for imported documents -->
           <xpath expr="//form/field[@name='document_type']" position="after">
