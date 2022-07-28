@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 04:52+0000\n"
+"PO-Revision-Date: 2022-07-28 22:25+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -34,41 +34,41 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_discount_value
 msgid "Amount Discount"
-msgstr ""
+msgstr "Total do Desconto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_estimate_tax
 msgid "Amount Estimate Tax"
-msgstr ""
+msgstr "Total Estimado de Impostos"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_financial_total
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_total
 msgid "Amount Financial"
-msgstr ""
+msgstr "Total Financeiro"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_total_gross
 msgid "Amount Financial Gross"
-msgstr ""
+msgstr "Total Financeiro Bruto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_fiscal
 msgid "Amount Fiscal"
-msgstr ""
+msgstr "Total Fiscal"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_price_gross
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__price_gross
 msgid "Amount Gross"
-msgstr ""
+msgstr "Total Bruto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_tax
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax
 msgid "Amount Tax"
-msgstr ""
+msgstr "Total de Imposto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_included
@@ -78,7 +78,7 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_tax_withholding
 msgid "Amount Tax Withholding"
-msgstr ""
+msgstr "Total de Imposto Retido na Fonte"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_not_included
@@ -88,30 +88,30 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_taxed
 msgid "Amount Taxed"
-msgstr ""
+msgstr "Total Tributado"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_total
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_total
 msgid "Amount Total"
-msgstr ""
+msgstr "Valor Total"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_untaxed
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_untaxed
 msgid "Amount Untaxed"
-msgstr ""
+msgstr "Total sem Impostos"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__amount_price_gross
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__price_gross
 msgid "Amount without discount."
-msgstr ""
+msgstr "Total sem desconto."
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ind_pres
 msgid "Buyer Presence"
-msgstr ""
+msgstr "Presença do Comprador"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cest_id
@@ -336,7 +336,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__comment_ids
 msgid "Comments"
-msgstr ""
+msgstr "Comentários"
 
 #. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_res_company
@@ -352,7 +352,7 @@ msgstr "Empresa"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_company_type
 msgid "Company Type"
-msgstr ""
+msgstr "Tipo de Empresa"
 
 #. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_contract_contract
@@ -379,7 +379,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__currency_id
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Moeda"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__customer_additional_data
@@ -414,19 +414,19 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__discount_value
 msgid "Discount Value"
-msgstr ""
+msgstr "Valor do Desconto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__display_name
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome Exibido"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__estimate_tax
 msgid "Estimate Tax"
-msgstr ""
+msgstr "Estimativa de Imposto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_value_wh
@@ -474,43 +474,43 @@ msgstr "Operação Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
 msgid "Fiscal Operation Type"
-msgstr ""
+msgstr "Tipo de Operação Fiscal"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_price
 msgid "Fiscal Price"
-msgstr ""
+msgstr "Preço Fiscal"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_genre_id
 msgid "Fiscal Product Genre"
-msgstr ""
+msgstr "Gênero Fiscal do Produto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_genre_code
 msgid "Fiscal Product Genre Code"
-msgstr ""
+msgstr "Código do Gênero Fiscal do Produto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_quantity
 msgid "Fiscal Quantity"
-msgstr ""
+msgstr "Quantidade Fiscal"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_tax_ids
 msgid "Fiscal Taxes"
-msgstr ""
+msgstr "Impostos Fiscais"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_type
 msgid "Fiscal Type"
-msgstr ""
+msgstr "Tipo Fiscal"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_freight_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__freight_value
 msgid "Freight Value"
-msgstr ""
+msgstr "Valor do Frete"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_percent
@@ -1325,17 +1325,17 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__price_unit
 msgid "Unit Price"
-msgstr ""
+msgstr "Preço Unitário"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__uom_id
 msgid "Unit of Measure"
-msgstr ""
+msgstr "Unidade de Medida"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__legal_name
 msgid "Used in fiscal documents"
-msgstr ""
+msgstr "Usado nos documentos fiscais"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__icms_substitute
