@@ -138,7 +138,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:910
+#: code:addons/l10n_br_nfe/models/document.py:933
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
@@ -192,6 +192,7 @@ msgstr ""
 #: selection:res.company,nfe40_choice6:0
 #: selection:res.partner,nfe40_choice2:0
 #: selection:res.partner,nfe40_choice7:0
+#: selection:res.partner,nfe40_choice8:0
 msgid "CNPJ"
 msgstr ""
 
@@ -205,6 +206,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice2
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice2
 msgid "CNPJ/CPF do Parceiro"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice8
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice8
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice8
+msgid "CNPJ/CPF do Parceiro Autorizado"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -249,6 +257,7 @@ msgstr ""
 #: selection:res.company,nfe40_choice6:0
 #: selection:res.partner,nfe40_choice2:0
 #: selection:res.partner,nfe40_choice7:0
+#: selection:res.partner,nfe40_choice8:0
 msgid "CPF"
 msgstr ""
 
@@ -265,7 +274,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:682
+#: code:addons/l10n_br_nfe/models/document.py:705
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:30
 #, python-format
 msgid "Certificado não encontrado"
@@ -974,6 +983,18 @@ msgid "In"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_accountant_download_xml
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_authorize_accountant_download_xml
+msgid "Include Accountant Partner data in persons authorized to download NFe XML"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_technical_download_xml
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_authorize_technical_download_xml
+msgid "Include Technical Support Partner data in persons authorized to download NFe XML"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_indFinal
 msgid "Indica operação com consumidor final"
 msgstr ""
@@ -1431,6 +1452,16 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__partner_name
 msgid "Partner Name"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_autXML
+msgid "Pessoas autorizadas para o download do XML da NF"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_autXML
+msgid "Pessoas autorizadas para o download do XML da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
