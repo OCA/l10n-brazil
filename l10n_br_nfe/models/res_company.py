@@ -100,6 +100,18 @@ class ResCompany(spec_models.SpecModel):
         string="NF-e Default Serie",
     )
 
+    nfe_authorize_accountant_download_xml = fields.Boolean(
+        string="Include Accountant Partner data in persons authorized to "
+        "download NFe XML",
+        default=False,
+    )
+
+    nfe_authorize_technical_download_xml = fields.Boolean(
+        string="Include Technical Support Partner data in persons authorized to "
+        "download NFe XML",
+        default=False,
+    )
+
     def _build_attr(self, node, fields, vals, path, attr):
         if attr.get_name() == "enderEmit" and self.env.context.get("edoc_type") == "in":
             # we don't want to try build a related partner_id for enderEmit
