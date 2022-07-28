@@ -514,6 +514,29 @@ class NFe(spec_models.StackedModel):
         related="company_id.technical_support_id",
     )
 
+    ##########################
+    # NF-e tag: autXML
+    # Compute Methods
+    ##########################
+
+    def _default_nfe40_autxml(self):
+        company = self.env.company
+        authorized_partners = []
+        if company.accountant_id and company.nfe_authorize_accountant_download_xml:
+            authorized_partners.append(company.accountant_id.id)
+        if (
+            company.technical_support_id
+            and company.nfe_authorize_technical_download_xml
+        ):
+            authorized_partners.append(company.technical_support_id.id)
+        return authorized_partners
+
+    ##########################
+    # NF-e tag: autXML
+    ##########################
+
+    nfe40_autXML = fields.One2many(default=_default_nfe40_autxml)
+
     ################################
     # Framework Spec model's methods
     ################################

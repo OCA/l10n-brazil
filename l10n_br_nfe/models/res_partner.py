@@ -30,6 +30,7 @@ class ResPartner(spec_models.SpecModel):
         "nfe.40.dest",
         "nfe.40.tenderemi",
         "nfe.40.tinfresptec",
+        "nfe.40.autxml",
     ]
     _nfe_search_keys = ["nfe40_CNPJ", "nfe40_CPF", "nfe40_xNome"]
 
@@ -96,6 +97,11 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_nfe_data",
         compute_sudo=True,
         string="CNPJ/CPF/idEstrangeiro",
+    )
+
+    nfe40_choice8 = fields.Selection(
+        selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
+        string="CNPJ/CPF do Parceiro Autorizado",
     )
 
     def _compute_nfe40_xEnder(self):
