@@ -10,6 +10,7 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
+    EDOC_PURPOSE_AJUSTE,
     EDOC_PURPOSE_DEVOLUCAO,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
@@ -38,9 +39,12 @@ class DocumentWorkflow(models.AbstractModel):
         for record in self.filtered(filter_nfe):
             record.nfe40_dup = [(5,)]
             record.nfe40_detPag = [(5,)]
-            if (
-                record.amount_financial_total
-                and record.edoc_purpose != EDOC_PURPOSE_DEVOLUCAO
+            ind_pag = "0"
+            fiscal_payment_mode = "90"
+            v_pag = 0.00
+            if record.amount_financial_total and record.edoc_purpose not in (
+                EDOC_PURPOSE_DEVOLUCAO,
+                EDOC_PURPOSE_AJUSTE,
             ):
                 # TAG - Cobrança
                 duplicatas = record.env["nfe.40.dup"]
@@ -57,7 +61,10 @@ class DocumentWorkflow(models.AbstractModel):
                 record.nfe40_dup = [(6, 0, duplicatas.ids)]
 
                 # TAG - Pagamento
-                if not record.move_ids.payment_mode_id.fiscal_payment_mode:
+                if (
+                    record.move_ids.payment_mode_id
+                    and not record.move_ids.payment_mode_id.fiscal_payment_mode
+                ):
                     raise UserError(
                         _(
                             "Payment Mode {} should has Fiscal Payment Mode"
@@ -75,10 +82,6 @@ class DocumentWorkflow(models.AbstractModel):
                     record.move_ids.payment_mode_id.fiscal_payment_mode
                 )
                 v_pag = record.amount_financial_total
-            else:
-                ind_pag = "0"
-                fiscal_payment_mode = "90"
-                v_pag = 0.00
 
             pagamentos = record.env["nfe.40.detpag"].create(
                 {
