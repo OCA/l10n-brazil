@@ -1,5 +1,5 @@
 /*
-    l10n_br_tef
+    L10n_br_tef
     Copyright (C) 2018 KMEE INFORMATICA LTDA (http://www.kmee.com.br)
     @author Atilla Graciano da Silva <atilla.silva@kmee.com.br>
     @author Bianca da Rocha Bartolomei <bianca.bartolomei@kmee.com.br>
@@ -8,23 +8,23 @@
     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 */
 
-odoo.define('l10n_br_tef.models', function (require) {
+odoo.define("l10n_br_tef.models", function (require) {
     "use strict";
 
-    let models = require('point_of_sale.models');
-    let tef_devices = require('l10n_br_tef.devices');
+    const models = require("point_of_sale.models");
+    const tef_devices = require("l10n_br_tef.devices");
 
-    let _orderproto = models.Order.prototype;
-    let PosModelSuper = models.PosModel;
-    let _super_payment_line = models.Paymentline.prototype;
+    const _orderproto = models.Order.prototype;
+    const PosModelSuper = models.PosModel;
+    const _super_payment_line = models.Paymentline.prototype;
 
-    models.load_fields('account.journal', ['tef_payment_mode']);
+    models.load_fields("account.journal", ["tef_payment_mode"]);
 
     models.PosModel = models.PosModel.extend({
         after_load_server_data: function () {
-            let res = PosModelSuper.prototype.after_load_server_data.call(this);
-            this.tef_client = new tef_devices.TefProxy({'pos': this});
-            this.set({'tef_status': {state: 'disconnected', pending: 0}});
+            const res = PosModelSuper.prototype.after_load_server_data.call(this);
+            this.tef_client = new tef_devices.TefProxy({pos: this});
+            this.set({tef_status: {state: "disconnected", pending: 0}});
             return res;
         },
     });
@@ -57,5 +57,4 @@ odoo.define('l10n_br_tef.models', function (require) {
             return json;
         },
     });
-
 });

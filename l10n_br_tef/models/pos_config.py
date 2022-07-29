@@ -6,7 +6,7 @@ class PosConfig(models.Model):
 
     iface_tef = fields.Boolean(
         string="TEF",
-        help=_("A TEF terminal is available on the Proxy"),
+        help="A TEF terminal is available on the Proxy",
     )
 
     institution_selection = fields.Selection(
@@ -14,8 +14,8 @@ class PosConfig(models.Model):
             ("Administradora", _("Administrator")),
             ("Estabelecimento", _("Institute")),
         ],
-        string=_("Institution"),
-        help=_("Institution selection for installment payments"),
+        string="Institution",
+        help="Institution selection for installment payments",
         default="Estabelecimento",
     )
 
@@ -24,17 +24,17 @@ class PosConfig(models.Model):
             ("Producao", _("Production")),
             ("Homologacao", _("Homologation")),
         ],
-        string=_("Environment"),
-        help=_("Environment Selection"),
+        string="Environment",
+        help="Environment Selection",
         default="Homologacao",
     )
 
     credit_server = fields.Char(
-        string=_("Credit Approval Server"),
-        help=_("Which credit approval server should be used"),
+        string="Credit Approval Server",
+        help="Which credit approval server should be used",
     )
 
     debit_server = fields.Char(
-        string=_("Debit Approval Server"),
-        help=_("Which debit approval server should be used"),
+        string="Debit Approval Server",
+        help="Which debit approval server should be used",
     )
