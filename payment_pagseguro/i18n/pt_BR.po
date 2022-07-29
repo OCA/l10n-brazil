@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-28 22:25+0000\n"
+"PO-Revision-Date: 2022-07-29 20:47+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -122,6 +122,8 @@ msgid ""
 "Please check if all related sale orders and invoices are in BRL currency "
 "(supported by pagseguro)."
 msgstr ""
+"Por favor, verifique se todos os pedidos de venda e faturas relacionadas "
+"estão em moeda BRL (suportado por pagseguro)."
 
 #. module: payment_pagseguro
 #. openerp-web
