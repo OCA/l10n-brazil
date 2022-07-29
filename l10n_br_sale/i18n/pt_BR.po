@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2022-07-29 01:06+0000\n"
+"PO-Revision-Date: 2022-07-29 20:38+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -25,32 +25,32 @@ msgstr "(-) Total de Retenção de Imposto"
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
 msgid "<strong>Amount Gross</strong>"
-msgstr ""
+msgstr "<strong>Total Bruto</strong>"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
 msgid "<strong>Amount Untaxed</strong>"
-msgstr ""
+msgstr "<strong>Total Sem Impostos</strong>"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
 msgid "<strong>Freight</strong>"
-msgstr ""
+msgstr "<strong>Frete</strong>"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
 msgid "<strong>Insurance</strong>"
-msgstr ""
+msgstr "<strong>Seguro</strong>"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
 msgid "<strong>Other Costs</strong>"
-msgstr ""
+msgstr "<strong>Outros Custos</strong>"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
 msgid "<strong>Taxes</strong>"
-msgstr ""
+msgstr "<strong>Impostos</strong>"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
@@ -398,7 +398,7 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__city_taxation_code_id
 msgid "City Taxation Code"
-msgstr ""
+msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__comment_ids
@@ -533,12 +533,12 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__estimate_tax
 msgid "Estimate Tax"
-msgstr ""
+msgstr "Estimativa de Imposto"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Extra Info"
-msgstr ""
+msgstr "Informação Extra"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcp_value_wh
@@ -1115,7 +1115,7 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__cfop_destination
 msgid "Identifies the operation destination."
-msgstr ""
+msgstr "Identifica o destino da operação."
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
@@ -1127,7 +1127,7 @@ msgstr "Inscr. Estadual"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__insurance_value
 msgid "Insurance Value"
-msgstr ""
+msgstr "Valor do Seguro"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
@@ -1141,7 +1141,7 @@ msgstr "Linhas da Fatura"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__legal_name
@@ -1471,7 +1471,7 @@ msgstr "Relatório de Análise de Vendas"
 #. module: l10n_br_sale
 #: model:ir.model,name:l10n_br_sale.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Pedido de Venda"
 
 #. module: l10n_br_sale
 #: model:ir.model,name:l10n_br_sale.model_sale_order_line
@@ -1496,7 +1496,7 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__sale_fiscal_operation_id
 msgid "Standard Sales Fiscal Operation"
-msgstr ""
+msgstr "Operação Fiscal Padrão de Vendas"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ie
