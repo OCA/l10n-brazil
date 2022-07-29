@@ -10,4 +10,3 @@
       - Já existem as funções que lidam com esse fluxo no módulo, mas com o POS atual não é possível atingi-las
   - Abortar operação
       - Ao abortar um fluxo de pagamento (“Operação cancelada pelo cliente”) o pinpad fica travado na tela “Operação Cancelada”. É preciso verificar qual a última mensagem deve ser enviada para o TEF para que o fluxo seja abortado por completo.
-

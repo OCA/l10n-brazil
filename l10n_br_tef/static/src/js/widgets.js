@@ -1,5 +1,5 @@
 /*
-    l10n_br_tef
+    L10n_br_tef
     Copyright (C) 2018 KMEE INFORMATICA LTDA (http://www.kmee.com.br)
     @author Atilla Graciano da Silva <atilla.silva@kmee.com.br>
     @author Bianca da Rocha Bartolomei <bianca.bartolomei@kmee.com.br>
@@ -20,18 +20,18 @@ odoo.define("l10n_br_tef.widgets", function (require) {
         template: "TefStatusWidget",
 
         set_tef_status: function (status) {
-            if (status.state === 'connected') {
-                let warning = false;
-                let msg = '';
-                this.set_status(warning ? 'warning' : 'connected', msg);
+            if (status.state === "connected") {
+                const warning = false;
+                const msg = "";
+                this.set_status(warning ? "warning" : "connected", msg);
             } else {
-                this.set_status(status.state, '');
+                this.set_status(status.state, "");
             }
         },
 
         start: function () {
-            this.set_tef_status(this.pos.get('tef_status'));
-            this.pos.bind('change:tef_status', (pos, tef_status) => {
+            this.set_tef_status(this.pos.get("tef_status"));
+            this.pos.bind("change:tef_status", (pos, tef_status) => {
                 this.set_status(tef_status.state, tef_status.pending);
             });
 
@@ -50,39 +50,41 @@ odoo.define("l10n_br_tef.widgets", function (require) {
             //         self.pos_widget.payment_screen.cancel_payment()
             //     });
             // }
-
         },
     });
 
     widgets.splice(_.indexOf(_.pluck(widgets, "name"), "notification"), 0, {
-        'name': "l10n_br_tef_status_widget",
-        'widget': TefStatusWidget,
-        'append': ".pos-rightheader",
-        'condition': function () {
+        name: "l10n_br_tef_status_widget",
+        widget: TefStatusWidget,
+        append: ".pos-rightheader",
+        condition: function () {
             return this.pos.config.iface_tef;
         },
     });
 
     // FIXME: Adapt the popup to the new pos structure
     const CancelamentoCompraPopup = PopupWidget.extend({
-        template: 'PurchaseCancellationWidget',
+        template: "PurchaseCancellationWidget",
 
         show: function (options) {
-            let self = this;
-            this._super();
+            const self = this;
+            this._super(options);
 
-            $('.btn-report_data').unbind('click');
+            $(".btn-report_data").unbind("click");
             // TODO: Check if this bind makes sense. At first the search_handler is only used for product search.
-            this.el.querySelector('.btn-report_data').addEventListener('click', this.search_handler);
-            $('.btn-report_data', this.el).click(function (e) {
-
+            this.el
+                .querySelector(".btn-report_data")
+                .addEventListener("click", this.search_handler);
+            $(".btn-report_data", this.el).click(function () {
                 self.pos_widget.product_screen.proceed_cancellation();
             });
 
-            $('.btn-cancel-operation').unbind('click');
+            $(".btn-cancel-operation").unbind("click");
             // TODO: Check if this bind makes sense. At first the search_handler is only used for product search.
-            this.el.querySelector('.btn-cancel-operation').addEventListener('click', this.search_handler);
-            $('.btn-cancel-operation', this.el).click(function (e) {
+            this.el
+                .querySelector(".btn-cancel-operation")
+                .addEventListener("click", this.search_handler);
+            $(".btn-cancel-operation", this.el).click(function () {
                 self.pos_widget.product_screen.abort();
             });
         },
@@ -90,47 +92,56 @@ odoo.define("l10n_br_tef.widgets", function (require) {
 
     // FIXME: Adapt the popup to the new pos structure
     const ConfirmaCancelamentoCompraPopup = PopupWidget.extend({
-       template: 'PurchaseCancellationConfirmWidget',
+        template: "PurchaseCancellationConfirmWidget",
 
-        show: function(options){
-           let self = this;
-           this._super();
+        show: function (options) {
+            const self = this;
+            this._super();
 
-            this.message = options.message || '';
-            this.comment = options.comment || '';
+            this.message = options.message || "";
+            this.comment = options.comment || "";
             this.renderElement();
 
-            $( '.btn-confirm-cancellation' ).unbind( 'click' );
+            $(".btn-confirm-cancellation").unbind("click");
             // TODO: Check if this bind makes sense. At first the search_handler is only used for product search.
-            this.el.querySelector('.btn-confirm-cancellation').addEventListener('click',this.search_handler);
-            $('.btn-confirm-cancellation', this.el).click(function(e){
+            this.el
+                .querySelector(".btn-confirm-cancellation")
+                .addEventListener("click", this.search_handler);
+            $(".btn-confirm-cancellation", this.el).click(function () {
                 self.pos_widget.product_screen.confirm_proceed_cancellation(true);
             });
 
-            $( '.btn-cancel-cancellation' ).unbind( 'click' );
+            $(".btn-cancel-cancellation").unbind("click");
             // TODO: Check if this bind makes sense. At first the search_handler is only used for product search.
-            this.el.querySelector('.btn-cancel-cancellation').addEventListener('click',this.search_handler);
-            $('.btn-cancel-cancellation', this.el).click(function(e){
+            this.el
+                .querySelector(".btn-cancel-cancellation")
+                .addEventListener("click", this.search_handler);
+            $(".btn-cancel-cancellation", this.el).click(function () {
                 self.pos_widget.product_screen.confirm_proceed_cancellation(false);
             });
         },
     });
 
     const StatusPagementoPopUp = PopupWidget.extend({
-        template: 'PaymentStatusWidget',
+        template: "PaymentStatusWidget",
 
-        show: function(options){
+        show: function (options) {
             this._super();
-            this.message = options.title || '';
-            this.comment = options.body || '';
+            this.message = options.title || "";
+            this.comment = options.body || "";
             this.renderElement();
         },
     });
 
-    gui.define_popup({name: "CancelamentoCompraPopup", widget: CancelamentoCompraPopup});
-    gui.define_popup({name: "ConfirmaCancelamentoCompraPopup", widget: ConfirmaCancelamentoCompraPopup});
+    gui.define_popup({
+        name: "CancelamentoCompraPopup",
+        widget: CancelamentoCompraPopup,
+    });
+    gui.define_popup({
+        name: "ConfirmaCancelamentoCompraPopup",
+        widget: ConfirmaCancelamentoCompraPopup,
+    });
     gui.define_popup({name: "StatusPagementoPopUp", widget: StatusPagementoPopUp});
-
 
     return {
         TefStatusWidget: TefStatusWidget,

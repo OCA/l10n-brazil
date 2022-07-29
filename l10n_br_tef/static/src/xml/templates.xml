@@ -1,24 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template" xml:space="preserve">
 
     <t t-name="TefStatusWidget">
         <div class="oe_status js_synch">
             <span class='js_msg oe_hidden'>0</span>
             <div class="js_connected oe_icon oe_green">
-                <i class='fa fa-fw fa-credit-card' role="img" aria-label="Synchronisation Connected"
-                   title="Synchronisation Connected"></i>
+                <i
+                    class='fa fa-fw fa-credit-card'
+                    role="img"
+                    aria-label="Synchronisation Connected"
+                    title="Synchronisation Connected"
+                />
             </div>
             <div class="js_connecting oe_icon oe_hidden">
-                <i class='fa fa-fw fa-spin fa-spinner' role="img" aria-label="Synchronisation Connecting"
-                   title="Synchronisation Connecting"></i>
+                <i
+                    class='fa fa-fw fa-spin fa-spinner'
+                    role="img"
+                    aria-label="Synchronisation Connecting"
+                    title="Synchronisation Connecting"
+                />
             </div>
             <div class="js_disconnected oe_icon oe_red oe_hidden">
-                <i class='fa fa-fw fa-credit-card' role="img" aria-label="Synchronisation Disconnected"
-                   title="Synchronisation Disconnected"></i>
+                <i
+                    class='fa fa-fw fa-credit-card'
+                    role="img"
+                    aria-label="Synchronisation Disconnected"
+                    title="Synchronisation Disconnected"
+                />
             </div>
             <div class="js_error oe_icon oe_red oe_hidden">
-                <i class='fa fa-fw fa-warning' role="img" aria-label="Synchronisation Error"
-                   title="Synchronisation Error"></i>
+                <i
+                    class='fa fa-fw fa-warning'
+                    role="img"
+                    aria-label="Synchronisation Error"
+                    title="Synchronisation Error"
+                />
             </div>
         </div>
     </t>
@@ -29,17 +45,29 @@
             <ul>
                 <li class="status debug_tef_card_number">Card Number</li>
                 <li>
-                    <input class="debug_tef_card_number" type="text" placeholder="5555000011110000"/>
+                    <input
+                        class="debug_tef_card_number"
+                        type="text"
+                        placeholder="5555000011110000"
+                    />
                 </li>
 
                 <li class="status debug_tef_expiring_date">Expiring Date</li>
                 <li>
-                    <input class="debug_tef_expiring_date" type="text" placeholder="01/99"/>
+                    <input
+                        class="debug_tef_expiring_date"
+                        type="text"
+                        placeholder="01/99"
+                    />
                 </li>
 
                 <li class="status debug_tef_security_code">Security Code</li>
                 <li>
-                    <input class="debug_tef_security_code" type="text" placeholder="123"/>
+                    <input
+                        class="debug_tef_security_code"
+                        type="text"
+                        placeholder="123"
+                    />
                 </li>
                 <li class="button debug_tef_btn_pay">Pay</li>
             </ul>
@@ -48,9 +76,14 @@
 
     <t t-extend="PaymentScreenWidget">
         <t t-jquery=".next" t-operation="after">
-            <span class="button tef_in_transaction" style="right: 0px; margin-right: 150px;">
-                <img src="/web/static/src/img/spin.png"
-                     style="animation: fa-spin 1s infinite steps(12);width: 20px;height: auto;vertical-align: middle; "/>
+            <span
+                class="button tef_in_transaction"
+                style="right: 0px; margin-right: 150px;"
+            >
+                <img
+                    src="/web/static/src/img/spin.png"
+                    style="animation: fa-spin 1s infinite steps(12);width: 20px;height: auto;vertical-align: middle; "
+                />
             </span>
         </t>
     </t>
@@ -59,10 +92,13 @@
         <t t-jquery=".col-name" t-operation="append">
             <t t-if="widget.pos.config.iface_tef">
                 <t t-if="!line.tef_payment_completed">
-                   <button class="tef-payment-terminal-transaction-start" t-att-data-cid="line.cid"
-                           title="Start transaction">
-                        <i class="fa fa-credit-card"/>
-                       <i class="fa fa-share-square"/>
+                   <button
+                        class="tef-payment-terminal-transaction-start"
+                        t-att-data-cid="line.cid"
+                        title="Start transaction"
+                    >
+                        <i class="fa fa-credit-card" />
+                       <i class="fa fa-share-square" />
                     </button>
                 </t>
             </t>
@@ -94,19 +130,35 @@
                 </div>
                     <div class="modal-body">
                     <p class="comment">User</p>
-                        <input class="cancellation-user" type="text" placeholder="lojista"/>
+                        <input
+                            class="cancellation-user"
+                            type="text"
+                            placeholder="lojista"
+                        />
 
                         <p class="comment">Password</p>
-                        <input class="cancellation-password" type="password" placeholder="123465"/>
+                        <input
+                            class="cancellation-password"
+                            type="password"
+                            placeholder="123465"
+                        />
 
                         <p class="comment">Transaction Date</p>
-                        <input class="cancellation-date" type="date"/>
+                        <input class="cancellation-date" type="date" />
 
                         <p class="comment">Document Number</p>
-                        <input class="cancellation-password" type="number" placeholder="111"/>
+                        <input
+                            class="cancellation-password"
+                            type="number"
+                            placeholder="111"
+                        />
 
                         <p class="comment">Transaction Value</p>
-                        <input class="cancellation-transaction-value" type="number" placeholder="10.25"/>
+                        <input
+                            class="cancellation-transaction-value"
+                            type="number"
+                            placeholder="10.25"
+                        />
 
                 </div>
                     <div class="footer">

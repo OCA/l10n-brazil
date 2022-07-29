@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" ?>
 <odoo>
         <record id="tef_credit_card" model="account.journal">
             <field name="name">Credit Card</field>
@@ -16,9 +15,11 @@
         </record>
 
         <record model="pos.config" id="point_of_sale.pos_config_main">
-            <field name="iface_tef" eval="True"/>
-            <field name="journal_ids" eval="[(6, 0, [ref('tef_credit_card'), ref('tef_debit_card')])]" />
+            <field name="iface_tef" eval="True" />
+            <field
+            name="journal_ids"
+            eval="[(6, 0, [ref('tef_credit_card'), ref('tef_debit_card')])]"
+        />
         </record>
 
 </odoo>
-
