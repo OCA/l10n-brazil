@@ -21,8 +21,8 @@ odoo.define('l10n_br_tef.models', function (require) {
     models.load_fields('account.journal', ['tef_payment_mode']);
 
     models.PosModel = models.PosModel.extend({
-        initialize: function (session, attributes) {
-            let res = PosModelSuper.prototype.initialize.call(this, session, attributes);
+        after_load_server_data: function () {
+            let res = PosModelSuper.prototype.after_load_server_data.call(this);
             this.tef_client = new tef_devices.TefProxy({'pos': this});
             this.set({'tef_status': {state: 'disconnected', pending: 0}});
             return res;
