@@ -63,7 +63,18 @@ odoo.define('l10n_br_tef.screens', function (require) {
             } else {
                 this._super.apply(this, arguments);
             }
-        }
+        },
+
+        get_selected_paymentline: function () {
+          const order = this.pos.get_order();
+          let paymentline = null;
+          order.get_paymentlines().forEach(function (payment) {
+            if (payment.selected) {
+              paymentline = payment;
+            }
+          });
+          return paymentline;
+        },
     });
 
 });
