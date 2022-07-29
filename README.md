@@ -22,7 +22,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [l10n_br_account](l10n_br_account/) | 14.0.1.5.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Account
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 14.0.1.0.0 |  | Brazilian Account Due List
-[l10n_br_account_nfe](l10n_br_account_nfe/) | 14.0.1.0.0 |  | Integration between l10n_br_account and l10n_br_nfe
+[l10n_br_account_nfe](l10n_br_account_nfe/) | 14.0.1.1.0 |  | Integration between l10n_br_account and l10n_br_nfe
 [l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 14.0.1.3.0 |  | L10n Br Account Payment BRCobranca
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 14.0.1.2.0 |  | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 14.0.2.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
