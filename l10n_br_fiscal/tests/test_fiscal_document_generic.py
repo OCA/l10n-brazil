@@ -1045,6 +1045,19 @@ class TestFiscalDocumentGeneric(SavepointCase):
         with self.assertRaises(UserError):
             dummy_line.unlink()
 
+    def test_create_company_fiscal_dummy(self):
+        """Check Company Consistency in Fiscal Dummy"""
+        company = self.env["res.company"].create(
+            {
+                "name": "Company Test Fiscal BR",
+                "cnpj_cpf": "42.245.642/0001-09",
+                "country_id": self.env.ref("base.br").id,
+                "state_id": self.env.ref("base.state_br_sp").id,
+            }
+        )
+        self.assertEqual(company.fiscal_dummy_id.company_id, company)
+        self.assertEqual(company.fiscal_dummy_id.fiscal_line_ids[0].company_id, company)
+
     def test_nfe_comments(self):
         self.nfe_not_taxpayer._document_comment()
         additional_data = self.nfe_not_taxpayer.fiscal_line_ids[0].additional_data
