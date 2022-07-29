@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-28 22:25+0000\n"
+"PO-Revision-Date: 2022-07-29 20:38+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -19,17 +19,17 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_withholding
 msgid "(-) Amount Tax Withholding"
-msgstr ""
+msgstr "(-) Total de Retenção de Imposto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__additional_data
 msgid "Additional Data"
-msgstr ""
+msgstr "Dados Adicionais"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__manual_additional_data
 msgid "Additional data manually entered by user"
-msgstr ""
+msgstr "Dados adicionais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_discount_value
@@ -453,7 +453,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_financial_discount_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_discount_value
 msgid "Financial Discount Value"
-msgstr ""
+msgstr "Valor do Desconto Financeiro"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_additional_data
@@ -973,13 +973,13 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__cfop_destination
 msgid "Identifies the operation destination."
-msgstr ""
+msgstr "Identifica o destino da operação."
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__insurance_value
 msgid "Insurance Value"
-msgstr ""
+msgstr "Valor do Seguro"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract____last_update
@@ -991,7 +991,7 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__legal_name
 msgid "Legal Name"
-msgstr ""
+msgstr "Razão Social"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__manual_additional_data
@@ -1036,23 +1036,23 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_id
 msgid "Operation"
-msgstr ""
+msgstr "Operação"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_line_id
 msgid "Operation Line"
-msgstr ""
+msgstr "Linha de Operação"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__operation_name
 msgid "Operation Name"
-msgstr ""
+msgstr "Nome da Operação"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_other_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__other_value
 msgid "Other Costs"
-msgstr ""
+msgstr "Outro Custos"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_percent
@@ -1165,27 +1165,27 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_id
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Parceiro"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_order
 msgid "Partner Order (xPed)"
-msgstr ""
+msgstr "Pedido de Parceiro (xPed)"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_order_line
 msgid "Partner Order Line (nItemPed)"
-msgstr ""
+msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__product_id
 msgid "Product"
-msgstr ""
+msgstr "Produto"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__quantity
 msgid "Quantity"
-msgstr ""
+msgstr "Quantidade"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_base
