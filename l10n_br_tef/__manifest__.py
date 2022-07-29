@@ -9,7 +9,10 @@
     "author": "KMEE, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-brazil",
-    "depends": ["point_of_sale"],
+    "depends": [
+        "point_of_sale",
+        "pos_order_mgmt",
+    ],
     "data": [
         "data/account_journal_data.xml",
         "views/l10n_br_tef_view.xml",
