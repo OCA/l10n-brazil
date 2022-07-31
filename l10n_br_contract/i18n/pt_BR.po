@@ -109,6 +109,11 @@ msgid "Amount without discount."
 msgstr "Total sem desconto."
 
 #. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Amounts"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ind_pres
 msgid "Buyer Presence"
 msgstr "Presença do Comprador"
@@ -376,6 +381,12 @@ msgstr ""
 "\"%s\">Fatura</a>"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__country_id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__currency_id
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__currency_id
 msgid "Currency"
@@ -394,6 +405,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ii_customhouse_charges
 msgid "Customhouse Charges"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_recalculate_taxes_before_invoice
+msgid "Dafault recalculate taxes before invoicing"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -427,6 +443,11 @@ msgstr "Nome Exibido"
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__estimate_tax
 msgid "Estimate Tax"
 msgstr "Estimativa de Imposto"
+
+#. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Extra Info"
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_value_wh
@@ -1193,6 +1214,11 @@ msgid "RPJ RET Base"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
+msgid "Recalculate taxes before invoicing"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_value
 msgid "SSQN Value"
 msgstr ""
@@ -1320,6 +1346,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__uot_id
 msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_contract
