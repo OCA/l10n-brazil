@@ -1,8 +1,8 @@
 # Copyright 2020 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# Generated Mon Nov  8 08:22:07 2021 by https://github.com/akretion/generateds-odoo
+# Generated Sun Jul 31 18:14:51 2022 by https://github.com/akretion/generateds-odoo
 # and generateDS.py.
-# Python 3.8.5 (default, Jul 28 2020, 12:59:40)  [GCC 9.3.0]
+# Python 3.10.4 (main, Apr  2 2022, 09:04:19) [GCC 11.2.0]
 #
 import textwrap
 from odoo import fields, models
@@ -269,209 +269,6 @@ CST_IPINT = [
 TAMB = [
     ("1", "1"),
     ("2", "2"),
-]
-
-# Tipo Código da Lista de Serviços LC 116/2003
-TCLISTSERV_ISSQN = [
-    ("01.01", "01.01"),
-    ("01.02", "01.02"),
-    ("01.03", "01.03"),
-    ("01.04", "01.04"),
-    ("01.05", "01.05"),
-    ("01.06", "01.06"),
-    ("01.07", "01.07"),
-    ("01.08", "01.08"),
-    ("01.09", "01.09"),
-    ("02.01", "02.01"),
-    ("03.02", "03.02"),
-    ("03.03", "03.03"),
-    ("03.04", "03.04"),
-    ("03.05", "03.05"),
-    ("04.01", "04.01"),
-    ("04.02", "04.02"),
-    ("04.03", "04.03"),
-    ("04.04", "04.04"),
-    ("04.05", "04.05"),
-    ("04.06", "04.06"),
-    ("04.07", "04.07"),
-    ("04.08", "04.08"),
-    ("04.09", "04.09"),
-    ("04.10", "04.10"),
-    ("04.11", "04.11"),
-    ("04.12", "04.12"),
-    ("04.13", "04.13"),
-    ("04.14", "04.14"),
-    ("04.15", "04.15"),
-    ("04.16", "04.16"),
-    ("04.17", "04.17"),
-    ("04.18", "04.18"),
-    ("04.19", "04.19"),
-    ("04.20", "04.20"),
-    ("04.21", "04.21"),
-    ("04.22", "04.22"),
-    ("04.23", "04.23"),
-    ("05.01", "05.01"),
-    ("05.02", "05.02"),
-    ("05.03", "05.03"),
-    ("05.04", "05.04"),
-    ("05.05", "05.05"),
-    ("05.06", "05.06"),
-    ("05.07", "05.07"),
-    ("05.08", "05.08"),
-    ("05.09", "05.09"),
-    ("06.01", "06.01"),
-    ("06.02", "06.02"),
-    ("06.03", "06.03"),
-    ("06.04", "06.04"),
-    ("06.05", "06.05"),
-    ("06.06", "06.06"),
-    ("07.01", "07.01"),
-    ("07.02", "07.02"),
-    ("07.03", "07.03"),
-    ("07.04", "07.04"),
-    ("07.05", "07.05"),
-    ("07.06", "07.06"),
-    ("07.07", "07.07"),
-    ("07.08", "07.08"),
-    ("07.09", "07.09"),
-    ("07.10", "07.10"),
-    ("07.11", "07.11"),
-    ("07.12", "07.12"),
-    ("07.13", "07.13"),
-    ("07.16", "07.16"),
-    ("07.17", "07.17"),
-    ("07.18", "07.18"),
-    ("07.19", "07.19"),
-    ("07.20", "07.20"),
-    ("07.21", "07.21"),
-    ("07.22", "07.22"),
-    ("08.01", "08.01"),
-    ("08.02", "08.02"),
-    ("09.01", "09.01"),
-    ("09.02", "09.02"),
-    ("09.03", "09.03"),
-    ("10.01", "10.01"),
-    ("10.02", "10.02"),
-    ("10.03", "10.03"),
-    ("10.04", "10.04"),
-    ("10.05", "10.05"),
-    ("10.06", "10.06"),
-    ("10.07", "10.07"),
-    ("10.08", "10.08"),
-    ("10.09", "10.09"),
-    ("10.10", "10.10"),
-    ("11.01", "11.01"),
-    ("11.02", "11.02"),
-    ("11.03", "11.03"),
-    ("11.04", "11.04"),
-    ("12.01", "12.01"),
-    ("12.02", "12.02"),
-    ("12.03", "12.03"),
-    ("12.04", "12.04"),
-    ("12.05", "12.05"),
-    ("12.06", "12.06"),
-    ("12.07", "12.07"),
-    ("12.08", "12.08"),
-    ("12.09", "12.09"),
-    ("12.10", "12.10"),
-    ("12.11", "12.11"),
-    ("12.12", "12.12"),
-    ("12.13", "12.13"),
-    ("12.14", "12.14"),
-    ("12.15", "12.15"),
-    ("12.16", "12.16"),
-    ("12.17", "12.17"),
-    ("13.02", "13.02"),
-    ("13.03", "13.03"),
-    ("13.04", "13.04"),
-    ("13.05", "13.05"),
-    ("14.01", "14.01"),
-    ("14.02", "14.02"),
-    ("14.03", "14.03"),
-    ("14.04", "14.04"),
-    ("14.05", "14.05"),
-    ("14.06", "14.06"),
-    ("14.07", "14.07"),
-    ("14.08", "14.08"),
-    ("14.09", "14.09"),
-    ("14.10", "14.10"),
-    ("14.11", "14.11"),
-    ("14.12", "14.12"),
-    ("14.13", "14.13"),
-    ("14.14", "14.14"),
-    ("15.01", "15.01"),
-    ("15.02", "15.02"),
-    ("15.03", "15.03"),
-    ("15.04", "15.04"),
-    ("15.05", "15.05"),
-    ("15.06", "15.06"),
-    ("15.07", "15.07"),
-    ("15.08", "15.08"),
-    ("15.09", "15.09"),
-    ("15.10", "15.10"),
-    ("15.11", "15.11"),
-    ("15.12", "15.12"),
-    ("15.13", "15.13"),
-    ("15.14", "15.14"),
-    ("15.15", "15.15"),
-    ("15.16", "15.16"),
-    ("15.17", "15.17"),
-    ("15.18", "15.18"),
-    ("16.01", "16.01"),
-    ("16.02", "16.02"),
-    ("17.01", "17.01"),
-    ("17.02", "17.02"),
-    ("17.03", "17.03"),
-    ("17.04", "17.04"),
-    ("17.05", "17.05"),
-    ("17.06", "17.06"),
-    ("17.08", "17.08"),
-    ("17.09", "17.09"),
-    ("17.10", "17.10"),
-    ("17.11", "17.11"),
-    ("17.12", "17.12"),
-    ("17.13", "17.13"),
-    ("17.14", "17.14"),
-    ("17.15", "17.15"),
-    ("17.16", "17.16"),
-    ("17.17", "17.17"),
-    ("17.18", "17.18"),
-    ("17.19", "17.19"),
-    ("17.20", "17.20"),
-    ("17.21", "17.21"),
-    ("17.22", "17.22"),
-    ("17.23", "17.23"),
-    ("17.24", "17.24"),
-    ("17.25", "17.25"),
-    ("18.01", "18.01"),
-    ("19.01", "19.01"),
-    ("20.01", "20.01"),
-    ("20.02", "20.02"),
-    ("20.03", "20.03"),
-    ("21.01", "21.01"),
-    ("22.01", "22.01"),
-    ("23.01", "23.01"),
-    ("24.01", "24.01"),
-    ("25.01", "25.01"),
-    ("25.02", "25.02"),
-    ("25.03", "25.03"),
-    ("25.04", "25.04"),
-    ("25.05", "25.05"),
-    ("26.01", "26.01"),
-    ("27.01", "27.01"),
-    ("28.01", "28.01"),
-    ("29.01", "29.01"),
-    ("30.01", "30.01"),
-    ("31.01", "31.01"),
-    ("32.01", "32.01"),
-    ("33.01", "33.01"),
-    ("34.01", "34.01"),
-    ("35.01", "35.01"),
-    ("36.01", "36.01"),
-    ("37.01", "37.01"),
-    ("38.01", "38.01"),
-    ("39.01", "39.01"),
-    ("40.01", "40.01"),
 ]
 
 # Tipo Código da UF da tabela do IBGE
@@ -1018,6 +815,15 @@ TPARMA_ARMA = [
     ("1", "1"),
 ]
 
+# Tipo do ato concessório
+# Para origem do Processo na SEFAZ (indProc=0), informar o
+# tipo de ato concessório:
+TPATO_PROCREF = [
+    ("08", "08=Termo de Acordo"),
+    ("10", "10=Regime Especial"),
+    ("12", "12=Autorização específica"),
+]
+
 # Forma de emissão da NF-e
 TPEMIS_IDE = [
     ("1", "1 - Normal"),
@@ -1085,8 +891,8 @@ TPREST_VEICPROD = [
 ]
 
 # Via de transporte internacional informada na DI
-# 1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-Rodoviar
-# ia;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;
+# 1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-
+# Rodoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;
 # 11-Courier;12-Em maos;13-Por reboque.
 TPVIATRANSP_DI = [
     ("1", "1"),
@@ -1520,8 +1326,9 @@ class DI(models.AbstractModel):
         string="Via de transporte internacional informada na DI",
         xsd_required=True,
         help="Via de transporte internacional informada na DI"
-        "\n1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-Ro"
-        "\ndoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;"
+        "\n1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-"
+        "\nRodoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida"
+        "\nFicta;"
         "\n11-Courier;12-Em maos;13-Por reboque.")
     nfe40_vAFRMM = fields.Monetary(
         currency_field="brl_currency_id",
@@ -1632,6 +1439,20 @@ class ICMSPart(models.AbstractModel):
     nfe40_vICMSST = fields.Monetary(
         currency_field="brl_currency_id",
         string="Valor do ICMS ST", xsd_required=True,
+        xsd_type="TDec_1302")
+    nfe40_vBCFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
+        string="vBCFCPST",
+        xsd_type="TDec_1302",
+        help="Valor da Base de cálculo do FCP retido por substituicao"
+        "\ntributaria.")
+    nfe40_pFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
+        string="Percentual de FCP retido por substituição tributária",
+        xsd_type="TDec_0302a04Opc")
+    nfe40_vFCPST = fields.Monetary(
+        currency_field="brl_currency_id",
+        string="Valor do FCP retido por substituição tributária",
         xsd_type="TDec_1302")
     nfe40_pBCOp = fields.Monetary(
         currency_field="brl_currency_id",
@@ -2007,7 +1828,7 @@ class IPINT(models.AbstractModel):
         CST_IPINT,
         string="Código da Situação Tributária do IPI",
         xsd_required=True,
-        xsd_type="CSTType84",
+        xsd_type="CSTType90",
         help="Código da Situação Tributária do IPI:"
         "\n01-Entrada tributada com alíquota zero"
         "\n02-Entrada isenta"
@@ -2036,7 +1857,7 @@ class IPITrib(models.AbstractModel):
         CST_IPITRIB,
         string="Código da Situação Tributária do IPI",
         xsd_required=True,
-        xsd_type="CSTType83",
+        xsd_type="CSTType89",
         help="Código da Situação Tributária do IPI:"
         "\n00-Entrada com recuperação de crédito"
         "\n49 - Outras entradas"
@@ -2108,8 +1929,7 @@ class ISSQN(models.AbstractModel):
         "\nUtilizar a Tabela do IBGE (Anexo VII - Tabela de UF,"
         "\nMunicípio e País). “Atenção, não vincular com os"
         "\ncampos B12, C10 ou E10” v2.0")
-    nfe40_cListServ = fields.Selection(
-        TCLISTSERV_ISSQN,
+    nfe40_cListServ = fields.Char(
         string="cListServ", xsd_required=True,
         xsd_type="TCListServ",
         help="Informar o Item da lista de serviços da LC 116/03 em que se"
@@ -2140,8 +1960,8 @@ class ISSQN(models.AbstractModel):
         xsd_required=True,
         xsd_type="indISSType",
         help="Exibilidade do ISS:1-Exigível;2-Não"
-        "\nincidente;3-Isenção;4-Exportação;5-Imunidade;6-Exig.S"
-        "\nusp. Judicial;7-Exig.Susp. ADM")
+        "\nincidente;3-Isenção;4-Exportação;5-Imunidade;6-"
+        "\nExig.Susp. Judicial;7-Exig.Susp. ADM")
     nfe40_cServico = fields.Char(
         string="Código do serviço prestado dentro do município",
         xsd_type="cServicoType")
@@ -2534,40 +2354,40 @@ class TEnderEmi(models.AbstractModel):
     _generateds_type = 'TEnderEmi'
     nfe40_xLgr = fields.Char(
         string="Logradouro", xsd_required=True,
-        xsd_type="xLgrType61")
+        xsd_type="xLgrType67")
     nfe40_nro = fields.Char(
         string="Número", xsd_required=True,
-        xsd_type="nroType62")
+        xsd_type="nroType68")
     nfe40_xCpl = fields.Char(
         string="Complemento",
-        xsd_type="xCplType63")
+        xsd_type="xCplType69")
     nfe40_xBairro = fields.Char(
         string="Bairro", xsd_required=True,
-        xsd_type="xBairroType64")
+        xsd_type="xBairroType70")
     nfe40_cMun = fields.Char(
         string="Código do município", xsd_required=True,
         xsd_type="TCodMunIBGE")
     nfe40_xMun = fields.Char(
         string="Nome do município", xsd_required=True,
-        xsd_type="xMunType65")
+        xsd_type="xMunType71")
     nfe40_UF = fields.Selection(
         TUFEMI,
         string="Sigla da UF", xsd_required=True,
         xsd_type="TUfEmi")
     nfe40_CEP = fields.Char(
         string="CEP - NT 2011/004", xsd_required=True,
-        xsd_type="CEPType66")
+        xsd_type="CEPType72")
     nfe40_cPais = fields.Selection(
         CPAIS_TENDEREMI,
         string="Código do país",
-        xsd_type="cPaisType67")
+        xsd_type="cPaisType73")
     nfe40_xPais = fields.Selection(
         XPAIS_TENDEREMI,
         string="Nome do país",
-        xsd_type="xPaisType68")
+        xsd_type="xPaisType74")
     nfe40_fone = fields.Char(
         string="Preencher com Código DDD + número do telefone",
-        xsd_type="foneType69",
+        xsd_type="foneType75",
         help="Preencher com Código DDD + número do telefone (v.2.0)")
 
 
@@ -2596,7 +2416,7 @@ class TEndereco(models.AbstractModel):
         "\n9999999 para operações com o exterior.")
     nfe40_xMun = fields.Char(
         string="Nome do município", xsd_required=True,
-        xsd_type="xMunType58",
+        xsd_type="xMunType64",
         help="Nome do município, informar EXTERIOR para operações com o"
         "\nexterior.")
     nfe40_UF = fields.Selection(
@@ -2609,13 +2429,13 @@ class TEndereco(models.AbstractModel):
         xsd_type="CEPType")
     nfe40_cPais = fields.Char(
         string="Código de Pais",
-        xsd_type="cPaisType59")
+        xsd_type="cPaisType65")
     nfe40_xPais = fields.Char(
         string="Nome do país",
         xsd_type="xPaisType")
     nfe40_fone = fields.Char(
         string="Telefone",
-        xsd_type="foneType60",
+        xsd_type="foneType66",
         help="Telefone, preencher com Código DDD + número do telefone , nas"
         "\noperações com exterior é permtido informar o código"
         "\ndo país + código da localidade + número do telefone")
@@ -2663,12 +2483,12 @@ class TInfRespTec(models.AbstractModel):
         "\ndocumento fiscal eletrônico.")
     nfe40_email = fields.Char(
         string="Informar o e", xsd_required=True,
-        xsd_type="emailType81",
+        xsd_type="emailType87",
         help="Informar o e-mail da pessoa a ser contatada na empresa"
         "\ndesenvolvedora do sistema.")
     nfe40_fone = fields.Char(
         string="fone", xsd_required=True,
-        xsd_type="foneType82",
+        xsd_type="foneType88",
         help="Informar o telefone da pessoa a ser contatada na empresa"
         "\ndesenvolvedora do sistema. Preencher com o Código DDD"
         "\n+ número do telefone.")
@@ -2742,48 +2562,48 @@ class TLocal(models.AbstractModel):
         xsd_type="TCpf")
     nfe40_xNome = fields.Char(
         string="Razão Social ou Nome do Expedidor/Recebedor",
-        xsd_type="xNomeType70")
+        xsd_type="xNomeType76")
     nfe40_xLgr = fields.Char(
         string="Logradouro", xsd_required=True,
-        xsd_type="xLgrType71")
+        xsd_type="xLgrType77")
     nfe40_nro = fields.Char(
         string="Número", xsd_required=True,
-        xsd_type="nroType72")
+        xsd_type="nroType78")
     nfe40_xCpl = fields.Char(
         string="Complemento",
-        xsd_type="xCplType73")
+        xsd_type="xCplType79")
     nfe40_xBairro = fields.Char(
         string="Bairro", xsd_required=True,
-        xsd_type="xBairroType74")
+        xsd_type="xBairroType80")
     nfe40_cMun = fields.Char(
         string="Código do município", xsd_required=True,
         xsd_type="TCodMunIBGE",
         help="Código do município (utilizar a tabela do IBGE)")
     nfe40_xMun = fields.Char(
         string="Nome do município", xsd_required=True,
-        xsd_type="xMunType75")
+        xsd_type="xMunType81")
     nfe40_UF = fields.Selection(
         TUF,
         string="Sigla da UF", xsd_required=True,
         xsd_type="TUf")
     nfe40_CEP = fields.Char(
         string="CEP",
-        xsd_type="CEPType76")
+        xsd_type="CEPType82")
     nfe40_cPais = fields.Char(
         string="Código de Pais",
-        xsd_type="cPaisType77")
+        xsd_type="cPaisType83")
     nfe40_xPais = fields.Char(
         string="Nome do país",
-        xsd_type="xPaisType78")
+        xsd_type="xPaisType84")
     nfe40_fone = fields.Char(
         string="Telefone",
-        xsd_type="foneType79",
+        xsd_type="foneType85",
         help="Telefone, preencher com Código DDD + número do telefone , nas"
         "\noperações com exterior é permtido informar o código"
         "\ndo país + código da localidade + número do telefone")
     nfe40_email = fields.Char(
         string="Informar o e",
-        xsd_type="emailType80",
+        xsd_type="emailType86",
         help="Informar o e-mail do expedidor/Recebedor. O campo pode ser"
         "\nutilizado para informar o e-mail de recepção da NF-e"
         "\nindicada pelo expedidor")
@@ -2892,12 +2712,12 @@ class TRetConsReciNFe(models.AbstractModel):
         "\ndo recebimento do Lote de NF-e enviado.")
     nfe40_cMsg = fields.Char(
         string="Código da Mensagem (v2.0)",
-        xsd_type="cMsgType56",
+        xsd_type="cMsgType62",
         help="Código da Mensagem (v2.0)"
         "\nalterado para tamanho variavel 1-4. (NT2011/004)")
     nfe40_xMsg = fields.Char(
         string="Mensagem da SEFAZ para o emissor",
-        xsd_type="xMsgType57",
+        xsd_type="xMsgType63",
         help="Mensagem da SEFAZ para o emissor. (v2.0)")
     nfe40_protNFe = fields.One2many(
         "nfe.40.tprotnfe",
@@ -3136,17 +2956,14 @@ class Cana(models.AbstractModel):
         string="Fornecimentos diários",
         xsd_required=True
     )
-    nfe40_qTotMes = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Total do mês", xsd_required=True,
+    nfe40_qTotMes = fields.Float(
+        digits=(11, 10), string="Total do mês", xsd_required=True,
         xsd_type="TDec_1110v")
-    nfe40_qTotAnt = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Total Anterior", xsd_required=True,
+    nfe40_qTotAnt = fields.Float(
+        digits=(11, 10), string="Total Anterior", xsd_required=True,
         xsd_type="TDec_1110v")
-    nfe40_qTotGer = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Total Geral", xsd_required=True,
+    nfe40_qTotGer = fields.Float(
+        digits=(11, 10), string="Total Geral", xsd_required=True,
         xsd_type="TDec_1110v")
     nfe40_deduc = fields.One2many(
         "nfe.40.deduc",
@@ -3302,7 +3119,7 @@ class Compra(models.AbstractModel):
         "\n(NT2011/004)")
     nfe40_xPed = fields.Char(
         string="Informação do pedido",
-        xsd_type="xPedType55")
+        xsd_type="xPedType61")
     nfe40_xCont = fields.Char(
         string="Informação do contrato",
         xsd_type="xContType")
@@ -3466,6 +3283,10 @@ class Det(models.AbstractModel):
         xsd_type="infAdProdType",
         help="Informações adicionais do produto (norma referenciada,"
         "\ninformações complementares, etc)")
+    nfe40_obsItem = fields.Many2one(
+        "nfe.40.obsitem",
+        string="Grupo de observações de uso livre",
+        help="Grupo de observações de uso livre (para o item da NF-e)")
 
 
 class Dup(models.AbstractModel):
@@ -3647,9 +3468,8 @@ class ForDia(models.AbstractModel):
     nfe40_dia = fields.Char(
         string="dia", xsd_required=True,
         xsd_type="string")
-    nfe40_qtde = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Quantidade em quilogramas",
+    nfe40_qtde = fields.Float(
+        digits=(11, 10), string="Quantidade em quilogramas",
         xsd_required=True,
         xsd_type="TDec_1110v",
         help="Quantidade em quilogramas - peso líquido")
@@ -3913,7 +3733,7 @@ class InfAdic(models.AbstractModel):
         string="Informações complementares de interesse do Contribuinte",
         xsd_type="infCplType")
     nfe40_obsCont = fields.One2many(
-        "nfe.40.obscont",
+        "nfe.40.obscont55",
         "nfe40_obsCont_infAdic_id",
         string="Campo de uso livre do contribuinte",
         help="Campo de uso livre do contribuinte"
@@ -3921,7 +3741,7 @@ class InfAdic(models.AbstractModel):
         "\ne o conteúdo do campo no xTexto"
     )
     nfe40_obsFisco = fields.One2many(
-        "nfe.40.obsfisco",
+        "nfe.40.obsfisco58",
         "nfe40_obsFisco_infAdic_id",
         string="Campo de uso exclusivo do Fisco",
         help="Campo de uso exclusivo do Fisco"
@@ -4234,15 +4054,11 @@ class Med(models.AbstractModel):
 
 
 class ObsCont(models.AbstractModel):
-    """Campo de uso livre do contribuinte
-    informar o nome do campo no atributo xCampo
-    e o conteúdo do campo no xTexto"""
+    "Grupo de observações de uso livre (para o item da NF-e)"
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = 'nfe.40.obscont'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'obsContType'
-    nfe40_obsCont_infAdic_id = fields.Many2one(
-        "nfe.40.infadic")
     nfe40_xCampo = fields.Char(
         string="xCampo", xsd_required=True,
         xsd_type="string")
@@ -4251,14 +4067,46 @@ class ObsCont(models.AbstractModel):
         xsd_type="xTextoType")
 
 
-class ObsFisco(models.AbstractModel):
-    """Campo de uso exclusivo do Fisco
+class ObsCont55(models.AbstractModel):
+    """Campo de uso livre do contribuinte
     informar o nome do campo no atributo xCampo
     e o conteúdo do campo no xTexto"""
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = 'nfe.40.obscont55'
+    _inherit = 'spec.mixin.nfe'
+    _generateds_type = 'obsContType55'
+    nfe40_obsCont_infAdic_id = fields.Many2one(
+        "nfe.40.infadic")
+    nfe40_xCampo = fields.Char(
+        string="xCampo", xsd_required=True,
+        xsd_type="string")
+    nfe40_xTexto = fields.Char(
+        string="xTexto", xsd_required=True,
+        xsd_type="xTextoType56")
+
+
+class ObsFisco(models.AbstractModel):
+    "Grupo de observações de uso livre (para o item da NF-e)"
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = 'nfe.40.obsfisco'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'obsFiscoType'
+    nfe40_xCampo = fields.Char(
+        string="xCampo", xsd_required=True,
+        xsd_type="string")
+    nfe40_xTexto = fields.Char(
+        string="xTexto", xsd_required=True,
+        xsd_type="xTextoType51")
+
+
+class ObsFisco58(models.AbstractModel):
+    """Campo de uso exclusivo do Fisco
+    informar o nome do campo no atributo xCampo
+    e o conteúdo do campo no xTexto"""
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = 'nfe.40.obsfisco58'
+    _inherit = 'spec.mixin.nfe'
+    _generateds_type = 'obsFiscoType58'
     nfe40_obsFisco_infAdic_id = fields.Many2one(
         "nfe.40.infadic")
     nfe40_xCampo = fields.Char(
@@ -4266,7 +4114,23 @@ class ObsFisco(models.AbstractModel):
         xsd_type="string")
     nfe40_xTexto = fields.Char(
         string="xTexto", xsd_required=True,
-        xsd_type="xTextoType53")
+        xsd_type="xTextoType59")
+
+
+class ObsItem(models.AbstractModel):
+    "Grupo de observações de uso livre (para o item da NF-e)"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = 'nfe.40.obsitem'
+    _inherit = 'spec.mixin.nfe'
+    _generateds_type = 'obsItemType'
+    nfe40_obsCont = fields.Many2one(
+        "nfe.40.obscont",
+        string="Grupo de observações de uso livre",
+        help="Grupo de observações de uso livre (para o item da NF-e)")
+    nfe40_obsFisco = fields.Many2one(
+        "nfe.40.obsfisco",
+        string="Grupo de observações de uso livre (obsFisco)",
+        help="Grupo de observações de uso livre (para o item da NF-e)")
 
 
 class Pag(models.AbstractModel):
@@ -4312,6 +4176,12 @@ class ProcRef(models.AbstractModel):
         "\n2 - Justiça Estadual;"
         "\n3 - Secex/RFB;"
         "\n9 - Outros")
+    nfe40_tpAto = fields.Selection(
+        TPATO_PROCREF,
+        string="Tipo do ato concessório",
+        help="Tipo do ato concessório"
+        "\nPara origem do Processo na SEFAZ (indProc=0), informar o"
+        "\ntipo de ato concessório:")
 
 
 class Prod(models.AbstractModel):
@@ -4398,9 +4268,8 @@ class Prod(models.AbstractModel):
         xsd_type="TDec_1104v",
         help="Quantidade Comercial do produto, alterado para aceitar de 0 a"
         "\n4 casas decimais e 11 inteiros.")
-    nfe40_vUnCom = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Valor unitário de comercialização",
+    nfe40_vUnCom = fields.Float(
+        digits=(11, 10), string="Valor unitário de comercialização",
         xsd_required=True,
         xsd_type="TDec_1110v",
         help="Valor unitário de comercialização - alterado para aceitar 0 a"
@@ -4429,9 +4298,8 @@ class Prod(models.AbstractModel):
         xsd_type="TDec_1104v",
         help="Quantidade Tributável - alterado para aceitar de 0 a 4 casas"
         "\ndecimais e 11 inteiros")
-    nfe40_vUnTrib = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Valor unitário de tributação",
+    nfe40_vUnTrib = fields.Float(
+        digits=(11, 10), string="Valor unitário de tributação",
         xsd_required=True,
         xsd_type="TDec_1110v",
         help="Valor unitário de tributação - - alterado para aceitar 0 a 10"
@@ -4701,7 +4569,7 @@ class RetTransp(models.AbstractModel):
     nfe40_CFOP = fields.Char(
         string="Código Fiscal de Operações e Prestações",
         xsd_required=True,
-        xsd_type="CFOPType52")
+        xsd_type="CFOPType54")
     nfe40_cMunFG = fields.Char(
         string="Código do Município de Ocorrência do Fato Gerador",
         xsd_required=True,
@@ -4840,7 +4708,7 @@ class Transporta(models.AbstractModel):
         xsd_type="TCpf")
     nfe40_xNome = fields.Char(
         string="Razão Social ou nome do transportador",
-        xsd_type="xNomeType51")
+        xsd_type="xNomeType53")
     nfe40_IE = fields.Char(
         string="Inscrição Estadual (v2.0)",
         xsd_type="TIeDest")
@@ -4957,8 +4825,8 @@ class VeicProd(models.AbstractModel):
         xsd_required=True,
         xsd_type="cCorDENATRANType",
         help="Código da Cor Segundo as regras de pré-cadastro do DENATRAN:"
-        "\n01-AMARELO;02-AZUL;03-BEGE;04-BRANCA;05-CINZA;06-DOUR"
-        "\nADA;07-GRENA"
+        "\n01-AMARELO;02-AZUL;03-BEGE;04-BRANCA;05-CINZA;06-"
+        "\nDOURADA;07-GRENA"
         "\n08-LARANJA;09-MARROM;10-PRATA;11-PRETA;12-ROSA;13-ROXA;14-VERDE;15-"
         "\nVERMELHA;16-FANTASIA")
     nfe40_lota = fields.Char(
