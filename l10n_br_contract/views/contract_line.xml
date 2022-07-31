@@ -1,22 +1,98 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2020 KMEE
+     Copyright 2021 - TODAY, Escodoo
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
     <record id="contract_line_form_view" model="ir.ui.view">
-        <field name="name">contract.line form view (in contract)</field>
+        <field
+            name="name"
+        >contract.contract.line form view (in l10n_br_contract)</field>
         <field name="model">contract.line</field>
         <field name="inherit_id" ref="contract.contract_line_form_view" />
         <field name="arch" type="xml">
              <xpath expr="//field[@name='discount']/.." position="after">
-                 <group name="fiscal">
-                     <field name="fiscal_operation_id" />
-                     <field name="fiscal_operation_line_id" readonly="1" />
-                     <field
-                        name="fiscal_tax_ids"
-                        widget="many2many_tags"
-                        readonly="1"
+                 <group name="fiscal_fields" invisible="1">
+                     <field name="fiscal_operation_type" invisible="1" readonly="1" />
+                     <field name="fiscal_genre_code" invisible="1" />
+                     <field name="tax_framework" invisible="1" />
+                     <field name="tax_icms_or_issqn" invisible="1" />
+                </group>
+                 <group
+                    name="fiscal"
+                    attrs="{'invisible': ['|', ('display_type', '=', 'line_section'), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', 'custom')]}"
+                >
+                    <field
+                        name="fiscal_operation_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    />
+                    <field
+                        name="fiscal_operation_line_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    />
+                    <field
+                        name="cfop_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d)]}"
+                    />
+                    <field
+                        name="service_type_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    />
+                    <field
+                        name="city_taxation_code_id"
+                        attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="cnae_id"
+                        attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                        options="{'no_create': True}"
                     />
                  </group>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <field name="country_id" invisible="1" />
+                <notebook
+                    attrs="{'invisible': ['|', ('display_type', '=', 'line_section'), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', 'custom')]}"
+                >
+                    <page
+                        name="fiscal_taxes"
+                        string="Taxes"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    />
+                    <page
+                        name="amounts"
+                        string="Amounts"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    >
+                        <group>
+                            <group>
+                                <field name="amount_untaxed" />
+                                <field name="amount_fiscal" />
+                                <field name="amount_tax" />
+                                <field name="estimate_tax" readonly="1" />
+                            </group>
+                            <group>
+                                <field name="amount_total" />
+                                <field name="amount_tax_withholding" readonly="1" />
+                                <field name="amount_taxed" />
+                            </group>
+                        </group>
+                    </page>
+                    <page
+                        name="fiscal_line_extra_info"
+                        string="Extra Info"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    />
+                </notebook>
+            </xpath>
+            <xpath expr="//group[@name='recurrence_info']" position="attributes">
+                <attribute name="attrs">
+                    {'invisible': ['|','|', ('display_type', '=', 'line_section'), ('parent.line_recurrence', '!=', True), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', 'custom')]}
+                </attribute>
             </xpath>
         </field>
     </record>

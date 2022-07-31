@@ -11,6 +11,12 @@ class ContractContract(models.Model):
     currency_id = fields.Many2one(
         readonly=False,
     )
+    country_id = fields.Many2one(related="company_id.country_id", store=True)
+
+    contract_recalculate_taxes_before_invoice = fields.Boolean(
+        string="Recalculate taxes before invoicing",
+        default="company.contract_recalculate_taxes_before_invoice",
+    )
 
     @api.model
     def _fiscal_operation_domain(self):
