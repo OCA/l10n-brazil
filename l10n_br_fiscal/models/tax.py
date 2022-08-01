@@ -179,6 +179,7 @@ class Tax(models.Model):
     def _compute_tax_base(self, tax, tax_dict, **kwargs):
         company = kwargs.get("company", tax.env.company)
         currency = kwargs.get("currency", company.currency_id)
+        round_currency = currency.round
         precision = currency.decimal_places
         fiscal_price = kwargs.get("fiscal_price", 0.00)
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
@@ -198,11 +199,13 @@ class Tax(models.Model):
 
         if not tax_dict.get("percent_amount") and tax.percent_amount:
             tax_dict["percent_amount"] = tax.percent_amount
+
+        if not tax_dict.get("value_amount") and tax.value_amount:
             tax_dict["value_amount"] = tax.value_amount
 
         if tax_dict["base_type"] == "percent":
             # Compute initial Tax Base for base_type Percent
-            base = round(fiscal_price * fiscal_quantity, precision)
+            base = round_currency(fiscal_price * fiscal_quantity)
 
         if tax_dict["base_type"] == "quantity":
             # Compute initial Tax Base for base_type Quantity
@@ -210,22 +213,26 @@ class Tax(models.Model):
 
         if tax_dict["base_type"] == "fixed":
             # Compute initial Tax Base
-            base = round(fiscal_price * fiscal_quantity, precision)
+            base = round_currency(tax_dict["value_amount"] * fiscal_quantity)
 
         # Update Base Value
-        base_amount = (base + tax_dict["add_to_base"]) - tax_dict["remove_from_base"]
+        base_amount = round_currency(
+            (base + tax_dict["add_to_base"]) - tax_dict["remove_from_base"]
+        )
 
         # Compute Tax Base Reduction
-        base_reduction = round(
-            base_amount * abs(tax.percent_reduction / 100), precision
+        base_reduction = round_currency(
+            base_amount * abs(tax.percent_reduction / 100)
         )
 
         # Compute Tax Base Amount
         if compute_reduction:
-            base_amount = round(base_amount - base_reduction, precision)
+            base_amount = round_currency(base_amount - base_reduction)
 
         if tax_dict.get("icmsst_mva_percent"):
-            base_amount *= 1 + (tax_dict["icmsst_mva_percent"] / 100)
+            base_amount = round_currency(
+                base_amount * (1 + (tax_dict["icmsst_mva_percent"] / 100))
+            )
 
         if (
             not tax.percent_amount
@@ -235,7 +242,7 @@ class Tax(models.Model):
         ):
             tax_dict["base"] = 0.00
         else:
-            tax_dict["base"] = round(base_amount, precision)
+            tax_dict["base"] = base_amount
 
         return tax_dict
 
