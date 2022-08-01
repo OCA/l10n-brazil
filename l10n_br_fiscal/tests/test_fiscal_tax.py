@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo.tests import common
+from odoo.tools import float_compare
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES
 from ..constants.icms import ICMS_ORIGIN_DEFAULT
@@ -11,10 +12,26 @@ class TestFiscalTax(common.TransactionCase):
     def setUp(self):
         super().setUp()
 
-    def test_compute_taxes_01(self):
-        """Testa o calculo dos impostos venda para pessoa física"""
+    def _check_compute_taxes_result(self, test_result, compute_result, currency):
+        for tax_domain in test_result["taxes"]:
+            for tax_field in test_result["taxes"][tax_domain]:
+                self.assertEqual(
+                    float_compare(
+                        test_result["taxes"][tax_domain][tax_field],
+                        compute_result["taxes"][tax_domain][tax_field],
+                        precision_rounding=currency.rounding,
+                    ),
+                    0,
+                    "{} {} {} {}".format(
+                        tax_domain,
+                        tax_field,
+                        test_result["taxes"][tax_domain][tax_field],
+                        compute_result["taxes"][tax_domain][tax_field],
+                    ),
+                )
 
-        kwargs = {
+    def _create_compute_taxes_kwargs(self):
+        return {
             "company": self.env.ref("l10n_br_base.empresa_lucro_presumido"),
             "partner": self.env.ref("l10n_br_base.res_partner_cliente5_pe"),
             "product": self.env.ref("product.product_product_12"),
@@ -41,6 +58,12 @@ class TestFiscalTax(common.TransactionCase):
             "ind_final": FINAL_CUSTOMER_YES,
         }
 
+    def test_compute_taxes_01(self):
+        """Testa o calculo dos impostos venda para pessoa física"""
+
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+
         fiscal_taxes = self.env["l10n_br_fiscal.tax"]
         fiscal_taxes |= (
             self.env.ref("l10n_br_fiscal.tax_icms_7")
@@ -51,7 +74,7 @@ class TestFiscalTax(common.TransactionCase):
 
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
-        test_results = {
+        test_result = {
             "taxes": {
                 "ipi": {
                     "base": 34.58,
@@ -89,99 +112,14 @@ class TestFiscalTax(common.TransactionCase):
             }
         }
 
-        # ICMS
-        self.assertEqual(
-            compute_result["taxes"]["icms"]["base"],
-            test_results["taxes"]["icms"]["base"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["icms"]["percent_amount"],
-            test_results["taxes"]["icms"]["percent_amount"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["icms"]["tax_value"],
-            test_results["taxes"]["icms"]["tax_value"],
-        )
-
-        # IPI
-        self.assertEqual(
-            compute_result["taxes"]["ipi"]["base"],
-            test_results["taxes"]["ipi"]["base"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["ipi"]["percent_amount"],
-            test_results["taxes"]["ipi"]["percent_amount"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["ipi"]["tax_value"],
-            test_results["taxes"]["ipi"]["tax_value"],
-        )
-
-        # PIS
-        self.assertEqual(
-            compute_result["taxes"]["pis"]["base"],
-            test_results["taxes"]["pis"]["base"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["pis"]["percent_amount"],
-            test_results["taxes"]["pis"]["percent_amount"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["pis"]["tax_value"],
-            test_results["taxes"]["pis"]["tax_value"],
-        )
-
-        # COFINS
-        self.assertEqual(
-            compute_result["taxes"]["cofins"]["base"],
-            test_results["taxes"]["cofins"]["base"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["cofins"]["percent_amount"],
-            test_results["taxes"]["cofins"]["percent_amount"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["cofins"]["tax_value"],
-            test_results["taxes"]["cofins"]["tax_value"],
-        )
+        self._check_compute_taxes_result(test_result, compute_result, currency)
 
     def test_compute_taxes_02(self):
         """Testa o calculo dos impostos venda para pessoa física"""
 
-        kwargs = {
-            "company": self.env.ref("l10n_br_base.empresa_lucro_presumido"),
-            "partner": self.env.ref("l10n_br_base.res_partner_cliente5_pe"),
-            "product": self.env.ref("product.product_product_12"),
-            "price_unit": 3.143539,
-            "quantity": 11.000,
-            "uom_id": self.env.ref("uom.product_uom_unit"),
-            "fiscal_price": 3.143539,
-            "fiscal_quantity": 11.000,
-            "uot_id": self.env.ref("uom.product_uom_unit"),
-            "discount_value": 0.00,
-            "insurance_value": 0.00,
-            "other_value": 0.00,
-            "freight_value": 0.00,
-            "ii_customhouse_charges": 0.00,
-            "ii_iof_value": 0.00,
-            "ncm": self.env.ref("l10n_br_fiscal.ncm_72132000"),
-            "nbs": False,
-            "nbm": False,
-            "cest": False,
-            "operation_line": self.env.ref("l10n_br_fiscal.fo_venda_venda"),
-            "cfop": self.env.ref("l10n_br_fiscal.cfop_6101"),
-            "icmssn_range": False,
-            "icms_origin": ICMS_ORIGIN_DEFAULT,
-            "ind_final": FINAL_CUSTOMER_NO,
-        }
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+        kwargs["ind_final"] = FINAL_CUSTOMER_NO
 
         fiscal_taxes = self.env["l10n_br_fiscal.tax"]
         fiscal_taxes |= (
@@ -193,7 +131,7 @@ class TestFiscalTax(common.TransactionCase):
 
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
-        test_results = {
+        test_result = {
             "taxes": {
                 "ipi": {
                     "base": 34.58,
@@ -231,66 +169,4 @@ class TestFiscalTax(common.TransactionCase):
             }
         }
 
-        # ICMS
-        self.assertEqual(
-            compute_result["taxes"]["icms"]["base"],
-            test_results["taxes"]["icms"]["base"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["icms"]["percent_amount"],
-            test_results["taxes"]["icms"]["percent_amount"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["icms"]["tax_value"],
-            test_results["taxes"]["icms"]["tax_value"],
-        )
-
-        # IPI
-        self.assertEqual(
-            compute_result["taxes"]["ipi"]["base"],
-            test_results["taxes"]["ipi"]["base"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["ipi"]["percent_amount"],
-            test_results["taxes"]["ipi"]["percent_amount"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["ipi"]["tax_value"],
-            test_results["taxes"]["ipi"]["tax_value"],
-        )
-
-        # PIS
-        self.assertEqual(
-            compute_result["taxes"]["pis"]["base"],
-            test_results["taxes"]["pis"]["base"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["pis"]["percent_amount"],
-            test_results["taxes"]["pis"]["percent_amount"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["pis"]["tax_value"],
-            test_results["taxes"]["pis"]["tax_value"],
-        )
-
-        # COFINS
-        self.assertEqual(
-            compute_result["taxes"]["cofins"]["base"],
-            test_results["taxes"]["cofins"]["base"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["cofins"]["percent_amount"],
-            test_results["taxes"]["cofins"]["percent_amount"],
-        )
-
-        self.assertEqual(
-            compute_result["taxes"]["cofins"]["tax_value"],
-            test_results["taxes"]["cofins"]["tax_value"],
-        )
+        self._check_compute_taxes_result(test_result, compute_result, currency)
