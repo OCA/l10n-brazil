@@ -7,18 +7,20 @@ from odoo import models
 class StockRule(models.Model):
     _inherit = "stock.rule"
 
-    def _run_buy(
-        self, product_id, product_qty, product_uom, location_id, name, origin, values
-    ):
-        super()._run_buy(
-            product_id, product_qty, product_uom, location_id, name, origin, values
-        )
-        purchases = self.env["purchase.order"].search([("origin", "=", origin)])
-        for purchase in purchases:
-            for line in purchase.order_line:
-                line._onchange_product_id_fiscal()
-                line._onchange_fiscal_operation_id()
-                line._onchange_fiscal_operation_line_id()
+    def _run_buy(self, procurements):
+        super()._run_buy(procurements)
+
+        for procurement, _rule in procurements:
+            purchases = self.env["purchase.order"].search(
+                [("origin", "=", procurement.origin), ("state", "=", "draft")]
+            )
+            for purchase in purchases:
+                for line in purchase.order_line:
+                    price_unit = line.price_unit
+                    line._onchange_product_id_fiscal()
+                    line.price_unit = price_unit
+                    line._onchange_fiscal_operation_id()
+                    line._onchange_fiscal_operation_line_id()
 
     def _prepare_purchase_order_line(
         self, product_id, product_qty, product_uom, values, po, partner
