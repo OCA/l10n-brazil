@@ -8,7 +8,7 @@
     "depends": ["base"],
     "external_dependencies": {
         "python": [
-            "nfelib",  # (only for tests)
+            "nfelib-xsdata",  # (only for tests)
         ],
     },
     "installable": True,
