@@ -1,0 +1,6 @@
+"id","segment_name","sequence","type","batch_id/id","cnab_file_id/id"
+"cnab_itau_240_header","","0","Header","","cnab_itau_240"
+"cnab_itau_240_trailer","","2","Trailer","","cnab_itau_240"
+"cnab_itau_240_pagamentos_header","","0","Header","cnab_itau_240_pagamentos","cnab_itau_240"
+"cnab_itau_240_pagamentos_segmento_a","Segmento A","1","Segment","cnab_itau_240_pagamentos","cnab_itau_240"
+"cnab_itau_240_pagamentos_trailer","","3","Trailer","cnab_itau_240_pagamentos","cnab_itau_240"
