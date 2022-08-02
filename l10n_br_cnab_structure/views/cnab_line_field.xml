@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="cnab_line_field_tree_view">
+        <field name="model">l10n_br_cnab.line.field</field>
+        <field name="arch" type="xml">
+            <tree default_order='cnab_line_id, start_pos ASC' create="false">
+                <field name="state" invisible="True"/>
+                <field name="name" />
+                <field name="meaning" />
+                <field name="start_pos" />
+                <field name="end_pos" />
+                <field name="type" />
+                <field name="size" />
+                <field name="related_field_id" />
+                <field name="default_value" />
+                <field name="notes" />
+                <field name="cnab_line_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cnab_line_field">
+        <field name="name">CNAB Fields</field>
+        <field name="view_id" ref="cnab_line_field_tree_view" />
+        <field name="res_model">l10n_br_cnab.line.field</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
