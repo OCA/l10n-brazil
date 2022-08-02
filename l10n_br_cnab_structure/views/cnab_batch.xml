@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="cnab_batch_tree_view">
+        <field name="model">l10n_br_cnab.batch</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="state" invisible="True"/>
+                <field name="name"/>
+                <field name="cnab_file_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <record model="ir.ui.view" id="cnab_batch_form_view">
+        <field name="model">l10n_br_cnab.batch</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                        <group>
+                            <field name="cnab_file_id" />
+                        </group>
+                    </group>
+
+                    <separator name="line_ids" string="Lines" />
+                    <field name="line_ids" mode='tree' widget='one2many' context="{'default_batch_id': id,'default_cnab_file_id': cnab_file_id}">
+                        <tree default_order="sequence">
+                            <field name="state" invisible="True"/>
+                            <field name="sequence"  widget="handle"/>
+                            <field name="type" />
+                            <field name="name" />
+                            <field name="cnab_file_id" invisible="1" />
+                            <field name="batch_id" invisible="1" />
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cnab_batch">
+        <field name="name">CNAB Batches</field>
+        <field name="res_model">l10n_br_cnab.batch</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
