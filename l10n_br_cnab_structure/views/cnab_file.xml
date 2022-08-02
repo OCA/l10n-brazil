@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="cnab_file_tree_view">
+        <field name="model">l10n_br_cnab.file</field>
+        <field name="arch" type="xml">
+            <tree edit="0">
+                <field name="state" invisible="True"/>
+                <field name="name" />
+                <field name="cnab_format" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cnab_file_form_view">
+        <field name="model">l10n_br_cnab.file</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_review"
+                        type="object"
+                        string="Review"
+                        class="oe_highlight"
+                        states="draft"
+                    />
+                    <button
+                        name="action_approve"
+                        type="object"
+                        string="Approve"
+                        class="oe_highlight"
+                        states="review"
+                    />
+                    <button
+                        name="action_draft"
+                        type="object"
+                        string="Reset To Draft"
+                        class="oe_highlight"
+                        states="review,approved"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                        <group>
+                            <field name="cnab_format" />
+                            <field name="batch_ids" invisible="True" />
+                        </group>
+                    </group>
+
+                    <separator name="line_ids" string="Lines" />
+                    <field name="line_ids" mode='tree' widget='one2many' context="{'default_cnab_file_id': id}">
+                        <tree default_order="sequence">
+                            <field name="state" invisible="True"/>
+                            <field name="cnab_format" invisible="True" />
+                            <field name="sequence"  widget="handle"/>
+                            <field name="type" />
+                            <field name="name" />
+                            <field name="batch_id" attrs="{'column_invisible': [('parent.cnab_format', '!=', '240')]}"/>
+                            <field name="cnab_file_id" invisible="1" />
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cnab_file">
+        <field name="name">CNAB Files</field>
+        <field name="view_id" ref="cnab_file_tree_view" />
+        <field name="res_model">l10n_br_cnab.file</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
