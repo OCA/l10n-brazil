@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        name="CNAB Structure"
+        id="cnab_structure"
+        parent="account.menu_finance_configuration"
+        groups="l10n_br_cnab_structure.group_cnab_constructor,l10n_br_account_payment_order.group_cnab_manager"
+        sequence="255">
+        <menuitem
+            id="menu_cnab_file"
+            name="CNAB Files"
+            action="action_cnab_file"
+            sequence="10"/>
+        <menuitem
+            id="menu_cnab_batch"
+            name="CNAB Batches"
+            action="action_cnab_batch"
+            sequence="20"/>
+        <menuitem
+            id="menu_cnab_line"
+            name="CNAB Lines"
+            action="action_cnab_line"
+            sequence="30"/>
+        <menuitem
+            id="menu_cnab_line_fields"
+            name="CNAB Fields"
+            action="action_cnab_line_field"
+            sequence="40"/>
+    </menuitem>
+</odoo>
