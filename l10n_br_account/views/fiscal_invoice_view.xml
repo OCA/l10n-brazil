@@ -75,6 +75,16 @@
                     attrs="{'invisible': ['|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"
                 />
         </xpath>
+        <div name="button_box" position="inside">
+            <button
+                    name="open_invoice_document"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                >
+                <span>Invoice Details</span>
+            </button>
+        </div>
         <xpath expr="//page[@name='finance']" position="inside">
             <group>
                 <field name="move_name" invisible="1" />

@@ -485,6 +485,32 @@ class AccountInvoice(models.Model):
         action["res_id"] = self.id
         return action
 
+    def open_invoice_document(self):
+        self.ensure_one()
+        if self.type == "in_invoice":
+            action = self.env.ref("account.action_vendor_bill_template").read()[0]
+        elif self.type == "in_refund":
+            action = self.env.ref("account.action_invoice_in_refund").read()[0]
+        elif self.type == "out_refund":
+            action = self.env.ref("account.action_invoice_out_refund").read()[0]
+        else:
+            action = self.env.ref("account.action_invoice_tree1").read()[0]
+
+        if self.type[:2] == "in":
+            form_view = [(self.env.ref("account.invoice_form").id, "form")]
+        else:
+            form_view = [(self.env.ref("account.invoice_supplier_form").id, "form")]
+
+        if "views" in action:
+            action["views"] = form_view + [
+                (state, view) for state, view in action["views"] if view != "form"
+            ]
+        else:
+            action["views"] = form_view
+
+        action["res_id"] = self.id
+        return action
+
     def action_date_assign(self):
         """Usamos esse método para definir a data de emissão do documento
         fiscal e numeração do documento fiscal para ser usado nas linhas
