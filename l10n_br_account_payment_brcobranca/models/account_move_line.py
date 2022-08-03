@@ -184,7 +184,7 @@ class AccountMoveLine(models.Model):
         boleto_data = self._prepare_boleto_cnab_vals()
         bank = boleto_data.pop("bank")
         data = json.dumps(boleto_data, separators=(",", ":"))
-        brcobranca_api_url = get_brcobranca_api_url()
+        brcobranca_api_url = get_brcobranca_api_url(self.env)
         brcobranca_service_url = brcobranca_api_url + "/api/boleto/nosso_numero"
         res = requests.get(brcobranca_service_url, params={"bank": bank, "data": data})
         if str(res.status_code)[0] == "2":
