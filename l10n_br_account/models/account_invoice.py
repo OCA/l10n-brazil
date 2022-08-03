@@ -483,7 +483,28 @@ class AccountMove(models.Model):
                     )
             if i.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
                 i.fiscal_document_id.action_document_back2draft()
-        return super().button_draft()
+
+        result = super().button_draft()
+
+        # Hack: apagando linhas inseridas no lancamento para suportar as alteraçoes
+        # na 14.0
+        for rec in self:
+            for line in rec.line_ids:
+                if line.name in ["[FREIGHT]", "[INSURANCE]", "[OTHER]"]:
+                    rec.with_context(
+                        check_move_validity=False,
+                        skip_account_move_synchronization=True,
+                        force_delete=True,
+                    ).write(
+                        {
+                            "line_ids": [(2, line.id)],
+                            "to_check": False,
+                        }
+                    )
+
+            rec.with_context(check_move_validity=False)._onchange_currency()
+
+        return result
 
     def action_document_send(self):
         invoices = self.filtered(lambda d: d.document_type_id)
@@ -516,6 +537,47 @@ class AccountMove(models.Model):
 
     def action_post(self):
         result = super().action_post()
+
+        # Hack: Na V14 o frete, seguro e outros custos não estão no lancamento contabil
+        # e isto gera uma diferença entre o lancamento e o documento fiscal
+        # Por ora incluimos linhas com estes valores no movimento
+        for line in self.line_ids:
+            if not line.exclude_from_invoice_tab and line.freight_value > 0:
+                new_line = self.env["account.move.line"].new(
+                    {
+                        "name": "[FREIGHT]",
+                        "account_id": line.account_id.id,
+                        "move_id": self.id,
+                        "exclude_from_invoice_tab": True,
+                        "price_unit": line.freight_value,
+                    }
+                )
+                self.line_ids += new_line
+                self.with_context(check_move_validity=False)._onchange_currency()
+            if not line.exclude_from_invoice_tab and line.insurance_value > 0:
+                new_line = self.env["account.move.line"].new(
+                    {
+                        "name": "[INSURANCE]",
+                        "account_id": line.account_id.id,
+                        "move_id": self.id,
+                        "exclude_from_invoice_tab": True,
+                        "price_unit": line.freight_value,
+                    }
+                )
+                self.line_ids += new_line
+                self.with_context(check_move_validity=False)._onchange_currency()
+            if not line.exclude_from_invoice_tab and line.other_value > 0:
+                new_line = self.env["account.move.line"].new(
+                    {
+                        "name": "[OTHER]",
+                        "account_id": line.account_id.id,
+                        "move_id": self.id,
+                        "exclude_from_invoice_tab": True,
+                        "price_unit": line.freight_value,
+                    }
+                )
+                self.line_ids += new_line
+                self.with_context(check_move_validity=False)._onchange_currency()
 
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
