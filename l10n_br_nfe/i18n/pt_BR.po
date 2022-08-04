@@ -25,15 +25,19 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_config_settings__nfe_transmission
 msgid ""
 "1=Emissão normal (não em contingência);\n"
-"2=Contingência FS-IA, com impressão do DANFE em Formulário de Segurança - Impressor Autônomo;\n"
-"3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional); *Desativado * NT 2015/002\n"
+"2=Contingência FS-IA, com impressão do DANFE em Formulário de Segurança - "
+"Impressor Autônomo;\n"
+"3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional); "
+"*Desativado * NT 2015/002\n"
 "4=Contingência EPEC (Evento Prévio da Emissão em Contingência);\n"
-"5=Contingência FS-DA, com impressão do DANFE em Formulário de Segurança - Documento Auxiliar;\n"
+"5=Contingência FS-DA, com impressão do DANFE em Formulário de Segurança - "
+"Documento Auxiliar;\n"
 "6=Contingência SVC-AN (SEFAZ Virtual de Contingência do AN);\n"
 "7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);\n"
 "9=Contingência off-line da NFC-e;\n"
 "Observação: Para a NFC-e somente é válida a opção de contingência:\n"
-"9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT 2015/002)"
+"9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT "
+"2015/002)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -58,28 +62,36 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">DANFE Print Layout</span>\n"
-"                                <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
+"                                <span class=\"fa fa-lg fa-building-o\" title="
+"\"Values set here are company-specific.\" aria-label=\"Values set here are "
+"company-specific.\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">NF-e Default Environment</span>\n"
-"                            <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
+"                            <span class=\"fa fa-lg fa-building-o\" title="
+"\"Values set here are company-specific.\" aria-label=\"Values set here are "
+"company-specific.\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">NF-e Default Transmission</span>\n"
-"                              <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
+"                              <span class=\"fa fa-lg fa-building-o\" title="
+"\"Values set here are company-specific.\" aria-label=\"Values set here are "
+"company-specific.\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">NF-e Default Version</span>\n"
-"                            <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
+"                            <span class=\"fa fa-lg fa-building-o\" title="
+"\"Values set here are company-specific.\" aria-label=\"Values set here are "
+"company-specific.\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -815,8 +827,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_technical_download_xml
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_authorize_technical_download_xml
 msgid ""
-"Include Technical Support Partner data in persons authorized to download NFe"
-" XML"
+"Include Technical Support Partner data in persons authorized to download NFe "
+"XML"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1686,8 +1698,22 @@ msgid "Valor unitário de comercialização"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnCom
+msgid ""
+"Valor unitário de comercialização - alterado para aceitar 0 a\n"
+"10 casas decimais e 11 inteiros"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnTrib
 msgid "Valor unitário de tributação"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnTrib
+msgid ""
+"Valor unitário de tributação - - alterado para aceitar 0 a 10\n"
+"casas decimais e 11 inteiros"
 msgstr ""
 
 #. module: l10n_br_nfe
