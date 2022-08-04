@@ -1,8 +1,8 @@
 # Copyright 2020 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# Generated Mon Nov  8 08:22:07 2021 by https://github.com/akretion/generateds-odoo
+# Generated Thu Aug  4 11:47:27 2022 by https://github.com/akretion/generateds-odoo
 # and generateDS.py.
-# Python 3.8.5 (default, Jul 28 2020, 12:59:40)  [GCC 9.3.0]
+# Python 3.10.4 (main, Apr  2 2022, 09:04:19) [GCC 11.2.0]
 #
 import textwrap
 from odoo import fields, models
@@ -1085,8 +1085,8 @@ TPREST_VEICPROD = [
 ]
 
 # Via de transporte internacional informada na DI
-# 1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-Rodoviar
-# ia;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;
+# 1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-
+# Rodoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;
 # 11-Courier;12-Em maos;13-Por reboque.
 TPVIATRANSP_DI = [
     ("1", "1"),
@@ -1520,8 +1520,9 @@ class DI(models.AbstractModel):
         string="Via de transporte internacional informada na DI",
         xsd_required=True,
         help="Via de transporte internacional informada na DI"
-        "\n1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-Ro"
-        "\ndoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;"
+        "\n1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-"
+        "\nRodoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida"
+        "\nFicta;"
         "\n11-Courier;12-Em maos;13-Por reboque.")
     nfe40_vAFRMM = fields.Monetary(
         currency_field="brl_currency_id",
@@ -2140,8 +2141,8 @@ class ISSQN(models.AbstractModel):
         xsd_required=True,
         xsd_type="indISSType",
         help="Exibilidade do ISS:1-Exigível;2-Não"
-        "\nincidente;3-Isenção;4-Exportação;5-Imunidade;6-Exig.S"
-        "\nusp. Judicial;7-Exig.Susp. ADM")
+        "\nincidente;3-Isenção;4-Exportação;5-Imunidade;6-"
+        "\nExig.Susp. Judicial;7-Exig.Susp. ADM")
     nfe40_cServico = fields.Char(
         string="Código do serviço prestado dentro do município",
         xsd_type="cServicoType")
@@ -3136,17 +3137,14 @@ class Cana(models.AbstractModel):
         string="Fornecimentos diários",
         xsd_required=True
     )
-    nfe40_qTotMes = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Total do mês", xsd_required=True,
+    nfe40_qTotMes = fields.Float(
+        digits=(11, 10), string="Total do mês", xsd_required=True,
         xsd_type="TDec_1110v")
-    nfe40_qTotAnt = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Total Anterior", xsd_required=True,
+    nfe40_qTotAnt = fields.Float(
+        digits=(11, 10), string="Total Anterior", xsd_required=True,
         xsd_type="TDec_1110v")
-    nfe40_qTotGer = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Total Geral", xsd_required=True,
+    nfe40_qTotGer = fields.Float(
+        digits=(11, 10), string="Total Geral", xsd_required=True,
         xsd_type="TDec_1110v")
     nfe40_deduc = fields.One2many(
         "nfe.40.deduc",
@@ -3647,9 +3645,8 @@ class ForDia(models.AbstractModel):
     nfe40_dia = fields.Char(
         string="dia", xsd_required=True,
         xsd_type="string")
-    nfe40_qtde = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Quantidade em quilogramas",
+    nfe40_qtde = fields.Float(
+        digits=(11, 10), string="Quantidade em quilogramas",
         xsd_required=True,
         xsd_type="TDec_1110v",
         help="Quantidade em quilogramas - peso líquido")
@@ -4398,9 +4395,8 @@ class Prod(models.AbstractModel):
         xsd_type="TDec_1104v",
         help="Quantidade Comercial do produto, alterado para aceitar de 0 a"
         "\n4 casas decimais e 11 inteiros.")
-    nfe40_vUnCom = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Valor unitário de comercialização",
+    nfe40_vUnCom = fields.Float(
+        digits=(11, 10), string="Valor unitário de comercialização",
         xsd_required=True,
         xsd_type="TDec_1110v",
         help="Valor unitário de comercialização - alterado para aceitar 0 a"
@@ -4429,9 +4425,8 @@ class Prod(models.AbstractModel):
         xsd_type="TDec_1104v",
         help="Quantidade Tributável - alterado para aceitar de 0 a 4 casas"
         "\ndecimais e 11 inteiros")
-    nfe40_vUnTrib = fields.Monetary(
-        currency_field="brl_currency_id",
-        string="Valor unitário de tributação",
+    nfe40_vUnTrib = fields.Float(
+        digits=(11, 10), string="Valor unitário de tributação",
         xsd_required=True,
         xsd_type="TDec_1110v",
         help="Valor unitário de tributação - - alterado para aceitar 0 a 10"
@@ -4957,8 +4952,8 @@ class VeicProd(models.AbstractModel):
         xsd_required=True,
         xsd_type="cCorDENATRANType",
         help="Código da Cor Segundo as regras de pré-cadastro do DENATRAN:"
-        "\n01-AMARELO;02-AZUL;03-BEGE;04-BRANCA;05-CINZA;06-DOUR"
-        "\nADA;07-GRENA"
+        "\n01-AMARELO;02-AZUL;03-BEGE;04-BRANCA;05-CINZA;06-"
+        "\nDOURADA;07-GRENA"
         "\n08-LARANJA;09-MARROM;10-PRATA;11-PRETA;12-ROSA;13-ROXA;14-VERDE;15-"
         "\nVERMELHA;16-FANTASIA")
     nfe40_lota = fields.Char(
