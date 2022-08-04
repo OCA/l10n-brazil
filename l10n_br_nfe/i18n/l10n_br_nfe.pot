@@ -1685,8 +1685,22 @@ msgid "Valor unitário de comercialização"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnCom
+msgid ""
+"Valor unitário de comercialização - alterado para aceitar 0 a\n"
+"10 casas decimais e 11 inteiros"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnTrib
 msgid "Valor unitário de tributação"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnTrib
+msgid ""
+"Valor unitário de tributação - - alterado para aceitar 0 a 10\n"
+"casas decimais e 11 inteiros"
 msgstr ""
 
 #. module: l10n_br_nfe
