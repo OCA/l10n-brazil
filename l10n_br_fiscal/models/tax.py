@@ -359,7 +359,6 @@ class Tax(models.Model):
             company.state_id != partner.state_id
             and operation_line.fiscal_operation_type == FISCAL_OUT
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
-            and not partner.is_company
             and tax_dict.get("tax_value")
         ):
             tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
