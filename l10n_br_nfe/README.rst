@@ -62,6 +62,7 @@ Contributors
 
   * Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
   * Luis Felipe Mileo <mileo@kmee.com.br>
+  * Renan Hiroki Bastos <hirokibastos@gmail.com>
 
 * `ESCODOO <https://escodoo.com.br>`_:
 
