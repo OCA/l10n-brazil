@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2022-07-29 20:38+0000\n"
+"PO-Revision-Date: 2022-08-05 19:41+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -208,53 +208,53 @@ msgstr "CNPJ/CPF"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_percent
 msgid "COFINS %"
-msgstr ""
+msgstr "COFINS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_reduction
 msgid "COFINS % Reduction"
-msgstr ""
+msgstr "COFINS % Redução"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_cofins_base
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_base
 msgid "COFINS Base"
-msgstr ""
+msgstr "COFINS Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_base_id
 msgid "COFINS Base Code"
-msgstr ""
+msgstr "COFINS Código da Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_base_type
 msgid "COFINS Base Type"
-msgstr ""
+msgstr "COFINS Tipo da Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_cst_code
 msgid "COFINS CST Code"
-msgstr ""
+msgstr "COFINS CST"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_credit_id
 msgid "COFINS Credit Code"
-msgstr ""
+msgstr "COFINS Código de Crédito"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_percent
 msgid "COFINS RET %"
-msgstr ""
+msgstr "COFINS RET %"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_reduction
 msgid "COFINS RET % Reduction"
-msgstr ""
+msgstr "COFINS RET % Redução"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr ""
+msgstr "COFINS RET Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_value
@@ -1287,58 +1287,58 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_percent
 msgid "PIS %"
-msgstr ""
+msgstr "PIS %"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_reduction
 msgid "PIS % Reduction"
-msgstr ""
+msgstr "PIS % Redução"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_pis_base
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_base
 msgid "PIS Base"
-msgstr ""
+msgstr "PIS Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_base_id
 msgid "PIS Base Code"
-msgstr ""
+msgstr "PIS Código da Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_base_type
 msgid "PIS Base Type"
-msgstr ""
+msgstr "PIS Tipo da Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_cst_code
 msgid "PIS CST Code"
-msgstr ""
+msgstr "PIS CST Código"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_credit_id
 msgid "PIS Credit"
-msgstr ""
+msgstr "PIS Crédito"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_wh_percent
 msgid "PIS RET %"
-msgstr ""
+msgstr "PIS RET %"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_wh_reduction
 msgid "PIS RET % Reduction"
-msgstr ""
+msgstr "PIS RET % Redução"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_wh_base
 msgid "PIS RET Base"
-msgstr ""
+msgstr "PIS RET Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_wh_value
 msgid "PIS RET Value"
-msgstr ""
+msgstr "PIS RET Valor"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_pis_wh_base
@@ -1353,44 +1353,44 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pisst_percent
 msgid "PIS ST %"
-msgstr ""
+msgstr "PIS ST %"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pisst_reduction
 msgid "PIS ST % Reduction"
-msgstr ""
+msgstr "PIS ST % Redução"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pisst_base
 msgid "PIS ST Base"
-msgstr ""
+msgstr "PIS ST Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pisst_base_type
 msgid "PIS ST Base Type"
-msgstr ""
+msgstr "PIS ST Tipo da Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pisst_cst_code
 msgid "PIS ST CST Code"
-msgstr ""
+msgstr "PIS ST CST Código"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pisst_value
 msgid "PIS ST Value"
-msgstr ""
+msgstr "PIS ST Valor"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_pis_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__pis_value
 msgid "PIS Value"
-msgstr ""
+msgstr "PIS Valor"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__pis_wh_base_type
 msgid "PIS WH Base Type"
-msgstr ""
+msgstr "PIS WH Tipo da Base"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_id
@@ -1635,6 +1635,8 @@ msgid ""
 "Terms and conditions... (note: you can setup default ones in the "
 "Configuration menu)"
 msgstr ""
+"Termos e condições... (nota: você pode configurar termos e condições padrões "
+"no menu Configuração)"
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
