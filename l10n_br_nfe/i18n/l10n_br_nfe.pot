@@ -142,6 +142,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CNPJ
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice19__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice8__nfe40_cnpj
@@ -151,6 +152,13 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice6
 msgid "CNPJ ou CPF?"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice19
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice19
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice19
+msgid "CNPJ/CPF"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -186,6 +194,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice19__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice8__nfe40_cpf
@@ -537,6 +546,13 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_emit
 msgid "Emit"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xEnder
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
+msgid "Endereço completo"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1195,13 +1211,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_NFref_ide_id
 msgid "Nfe40 Nfref Ide"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xEnder
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
-msgid "Nfe40 Xender"
 msgstr ""
 
 #. module: l10n_br_nfe
