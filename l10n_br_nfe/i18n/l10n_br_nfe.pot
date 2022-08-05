@@ -190,6 +190,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CNPJ
 #: selection:l10n_br_fiscal.document.related,nfe40_choice5:0
 #: selection:res.company,nfe40_choice6:0
+#: selection:res.partner,nfe40_choice19:0
 #: selection:res.partner,nfe40_choice2:0
 #: selection:res.partner,nfe40_choice7:0
 #: selection:res.partner,nfe40_choice8:0
@@ -199,6 +200,13 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice6
 msgid "CNPJ ou CPF?"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice19
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice19
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice19
+msgid "CNPJ/CPF"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -255,6 +263,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: selection:l10n_br_fiscal.document.related,nfe40_choice5:0
 #: selection:res.company,nfe40_choice6:0
+#: selection:res.partner,nfe40_choice19:0
 #: selection:res.partner,nfe40_choice2:0
 #: selection:res.partner,nfe40_choice7:0
 #: selection:res.partner,nfe40_choice8:0
@@ -606,6 +615,13 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_emit
 msgid "Emit"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xEnder
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
+msgid "Endereço completo"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1324,13 +1340,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: selection:l10n_br_nfe.import_xml,importing_type:0
 msgid "NFe key (Not Implemented)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xEnder
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
-msgid "Nfe40 Xender"
 msgstr ""
 
 #. module: l10n_br_nfe
