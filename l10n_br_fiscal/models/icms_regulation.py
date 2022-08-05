@@ -48,6 +48,12 @@ class ICMSRegulation(models.Model):
         domain=[("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS)],
     )
 
+    icms_imported_with_st_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="ICMS Tax Imported With ST",
+        domain=[("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS)],
+    )
+
     icms_internal_ac_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -1289,7 +1295,14 @@ class ICMSRegulation(models.Model):
             and company.state_id != partner.state_id
             and operation_line.fiscal_operation_type == FISCAL_OUT
         ):
-            icms_taxes |= self.icms_imported_tax_id
+            if self.map_tax_icmsst(
+                company, partner, product, ncm, nbm, cest, operation_line
+            ):
+                # ICMS Imported with ST (CST 10)
+                icms_taxes |= self.icms_imported_with_st_tax_id
+            else:
+                # ICMS Imported without ST (CST 00)
+                icms_taxes |= self.icms_imported_tax_id
         else:
             # ICMS
             if not ncm:

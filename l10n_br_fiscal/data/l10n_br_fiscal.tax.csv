@@ -84,6 +84,7 @@
 "tax_icms_12_red_41_67","ICMS 12% Com Red. 41,67%","percent","12.00","41.67","tax_group_icms","cst_icms_20","cst_icms_20",,,,,"0","4",,
 "tax_icms_12_red_53_33","ICMS 12% Com Red. 53,33%","percent","12.00","53.33","tax_group_icms","cst_icms_20","cst_icms_20",,,,,"0","4",,
 "tax_icms_18_red_68_89","ICMS 18% Com Red. 68,89%","percent","18.00","68.89","tax_group_icms","cst_icms_20","cst_icms_20",,,,,"0","4",,
+"tax_icms_4_st","ICMS 4% c/ ST","percent","4.00","0.00","tax_group_icms","cst_icms_10","cst_icms_10",,,,,"0","4",,
 "tax_icmsst_29_43","ICMS MVA 29,43%","percent","18.00","0.00","tax_group_icmsst",,,,,,,"0","4","29.43",
 "tax_icmsst_40","ICMS MVA 40%","percent","18.00","0.00","tax_group_icmsst",,,,,,,"0","4","40",
 "tax_icmsst_42_73","ICMS MVA 42,73%","percent","18.00","0.00","tax_group_icmsst",,,,,,,"0","4","42.73",
