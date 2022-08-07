@@ -55,27 +55,9 @@ class AbstractSpecMixin(models.AbstractModel):
         Builds a new odoo model instance from a Python binding element or
         sub-element. Iterates over the binding fields to populate the Odoo fields.
         """
-        fields = self._fields
-        # no default image for easier debugging
-        vals = self.default_get(
-            [
-                f
-                for f, v in fields.items()
-                if v.type not in ["binary", "integer", "float", "monetary"]
-            ]
-        )
-        # TODO deal with default values but take them from self._context
-        # if path == '':
-        #    vals.update(defaults)
-        # we sort attrs to be able to define m2o related values
-        sorted_attrs = sorted(
-            node.member_data_items_,
-            key=lambda a: a.get_container() in [0, 1],
-            reverse=True,
-        )
-        for attr in sorted_attrs:
-            self._build_attr(node, fields, vals, path, attr)
-
+        vals = {}
+        for attr in node.member_data_items_:
+            self._build_attr(node, self._fields, vals, path, attr)
         vals = self._prepare_import_dict(vals)
         return vals
 
@@ -187,7 +169,7 @@ class AbstractSpecMixin(models.AbstractModel):
         return key_vals
 
     @api.model
-    def _prepare_import_dict(self, vals, model=None):
+    def _prepare_import_dict(self, vals, model=None, parent_dict=None):
         """
         Set non computed field values based on XML values if required.
         NOTE: this is debatable if we could use an api multi with values in
@@ -196,6 +178,7 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         if model is None:
             model = self
+
         related_many2ones = {}
         fields = model._fields
         for k, v in fields.items():
@@ -228,7 +211,24 @@ class AbstractSpecMixin(models.AbstractModel):
                 vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals)
             else:  # search res.country with Brasil for instance
                 vals[related_m2o] = model.match_or_create_m2o(sub_val, vals, comodel)
-        return vals
+
+        defaults = model.with_context(
+            record_dict=vals,
+            parent_dict=parent_dict,
+        ).default_get(
+            [
+                f
+                for f, v in model._fields.items()
+                if v.type not in ["binary", "integer", "float", "monetary"]
+                and v.name not in vals.keys()
+            ]
+        )
+        vals.update(defaults)
+        # NOTE: also eventually load default values from the context?
+
+        # NOTE: is this filtering still useful?
+        filtered_vals = {k: v for k, v in vals.items() if k in self._fields.keys()}
+        return filtered_vals
 
     @api.model
     def _verify_related_many2ones(self, related_many2ones):
@@ -287,10 +287,9 @@ class AbstractSpecMixin(models.AbstractModel):
         else:
             rec_id = self.match_record(rec_dict, parent_dict, model)
         if not rec_id:
-            rec_dict = self._prepare_import_dict(rec_dict, model)
-            create_dict = {
-                k: v for k, v in rec_dict.items() if k in self._fields.keys()
-            }
+            create_dict = self._prepare_import_dict(
+                rec_dict, model=model, parent_dict=parent_dict
+            )
             if self._context.get("dry_run"):
                 rec_id = model.new(create_dict).id
             else:
