@@ -1,12 +1,5 @@
 # Copyright 2020 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-# The generateDS prod mixin (prod XML tag) cannot be injected in
-# the product.product object because the tag includes attributes from the
-# Odoo fiscal document line. So a part of the mapping is done
-# in the fiscal document line:
-# from Odoo -> XML by using related fields/_compute
-# from XML -> Odoo by overriding the product create method
-
 
 from odoo import api, models
 
@@ -16,7 +9,18 @@ class ProductProduct(models.Model):
     _nfe_search_keys = ["default_code", "barcode"]
 
     @api.model
-    def create(self, values):
+    def default_get(self, default_fields):
+        """
+        The nfe.40.prod mixin (prod XML tag) cannot be injected in
+        the product.product object because the tag includes attributes from the
+        Odoo fiscal document line and because we may have an Nfe with
+        lines decsriptions instead of full blown products.
+        So a part of the mapping is done
+        in the fiscal document line:
+        from Odoo -> XML by using related fields/_compute
+        from XML -> Odoo by overriding the product default_get method
+        """
+        values = super().default_get(default_fields)
         parent_dict = self._context.get("parent_dict", {})
         if parent_dict.get("nfe40_xProd"):
             values["name"] = parent_dict["nfe40_xProd"]
@@ -50,6 +54,4 @@ class ProductProduct(models.Model):
                     )
                 )
                 values["ncm_id"] = ncm.id
-        product = super().create(values)
-        product.product_tmpl_id._onchange_ncm_id()
-        return product
+        return values
