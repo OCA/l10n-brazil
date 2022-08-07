@@ -77,7 +77,7 @@ class NFeLine(spec_models.StackedModel):
     # So a part of the mapping is done
     # in the fiscal document line:
     # from Odoo -> XML by using related fields/_compute
-    # from XML -> Odoo by overriding the product create method
+    # from XML -> Odoo by overriding the product default_get method
     nfe40_cProd = fields.Char(
         related="product_id.default_code",
     )
@@ -378,8 +378,8 @@ class NFeLine(spec_models.StackedModel):
                 record.nfe40_choice10 = "nfe40_ISSQN"
 
     @api.model
-    def _prepare_import_dict(self, values, model=None):
-        values = super()._prepare_import_dict(values, model)
+    def _prepare_import_dict(self, values, model=None, parent_dict=None):
+        values = super()._prepare_import_dict(values, model, parent_dict)
         if not values.get("name"):
             values["name"] = values.get("nfe40_xProd")
             if values.get("product_id"):
