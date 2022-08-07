@@ -53,7 +53,7 @@ def post_init_hook(cr, registry):
             nfe = (
                 env["nfe.40.infnfe"]
                 .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
-                .build(nfe_binding.infNFe)
+                .build_from_binding(nfe_binding.infNFe)
             )
             _logger.info(nfe.nfe40_emit.nfe40_CNPJ)
         except ValidationError:
