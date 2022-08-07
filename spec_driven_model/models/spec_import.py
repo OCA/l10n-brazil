@@ -26,7 +26,7 @@ class AbstractSpecMixin(models.AbstractModel):
     _inherit = "spec.mixin"
 
     @api.model
-    def build(self, node, dry_run=False):
+    def build_from_binding(self, node, dry_run=False):
         """
         Builds an instance of an Odoo Model from a pre-populated
         Python binding object. Binding object such as the ones generated using
