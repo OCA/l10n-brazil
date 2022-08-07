@@ -132,13 +132,13 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
 
         # 3rd we import an Odoo PO from this binding object
         # first we will do a dry run import:
-        imported_po_dry_run = self.env["fake.purchase.order"].build(
+        imported_po_dry_run = self.env["fake.purchase.order"].build_from_binding(
             po_binding, dry_run=True
         )
         assert isinstance(imported_po_dry_run.id, NewId)
 
         # now a real import:
-        imported_po = self.env["fake.purchase.order"].build(po_binding)
+        imported_po = self.env["fake.purchase.order"].build_from_binding(po_binding)
         self.assertEqual(imported_po.partner_id.name, "Wood Corner")
         self.assertEqual(
             imported_po.partner_id.id, self.env.ref("base.res_partner_1").id
