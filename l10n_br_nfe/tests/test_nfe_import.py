@@ -35,7 +35,7 @@ class NFeImportTest(SavepointCase):
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
-            .build(nfe_binding.infNFe, dry_run=True)
+            .build_from_binding(nfe_binding.infNFe, dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
         self.assertEqual(nfe.partner_id.name, "Alimentos Saudaveis")
@@ -62,7 +62,7 @@ class NFeImportTest(SavepointCase):
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
-            .build(nfe_binding.infNFe)
+            .build_from_binding(nfe_binding.infNFe)
         )
         assert isinstance(nfe.id, int)
         self.assertEqual(type(nfe)._name, "l10n_br_fiscal.document")
