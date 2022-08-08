@@ -302,7 +302,7 @@ class StackedModel(SpecModel):
                 continue
 
             force_stacked = any(
-                stack_path in (path + "." + field_path)
+                stack_path in path + "." + field_path
                 for stack_path in cls._force_stack_paths
             )
 
