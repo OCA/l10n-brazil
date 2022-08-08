@@ -31,6 +31,13 @@ class NFeRelated(spec_models.StackedModel):
     # all m2o below this level will be stacked even if not required:
     _rec_name = "nfe40_refNFe"
 
+    # When dynamic stacking is applied, this class has the following structure:
+    NFREF_TREE = """
+> <nfref>
+    > <refNF>
+    > <refNFP>
+    > <refECF>"""
+
     nfe40_choice4 = fields.Selection(
         compute="_compute_nfe_data",
         inverse="_inverse_nfe40_choice4",
