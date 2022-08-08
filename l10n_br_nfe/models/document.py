@@ -78,7 +78,6 @@ class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
     _stacked = "nfe.40.infnfe"
-    _stack_skip = "nfe40_veicTransp"
     _field_prefix = "nfe40_"
     _schema_name = "nfe"
     _schema_version = "4.0.0"
