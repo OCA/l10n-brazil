@@ -30,9 +30,52 @@ class NFeLine(spec_models.StackedModel):
     _force_stack_paths = ("det.imposto.",)
     _stack_skip = ("nfe40_det_infNFe_id",)
 
-    # The generateDS prod mixin (prod XML tag) cannot be inject in
-    # the product.product object because the tag embeded values from the
-    # fiscal document line. So the mapping is done:
+    # When dynamic stacking is applied, the NFe line has the following structure.
+    # NOTE GenerateDS actually has a bug here putting II before IPI
+    # we fixed nfelib for NFe with II here https://github.com/akretion/nfelib/pull/47
+    # fortunately xsdata doesn't have this bug.
+    DET_TREE = """
+> <det>
+    > <prod>
+        ≡ <DI>
+        ≡ <detExport>
+        ≡ <rastro>
+        - <infProdNFF>
+        - <infProdEmb>
+        - <veicProd>
+        - <med>
+        ≡ <arma>
+        - <comb>
+    > <imposto>
+        > <ICMS>
+            > <ICMSPart>
+            > <ICMSST>
+        > <II>
+        > <IPI>
+            > <IPITrib>
+            > <IPINT>
+        > <ISSQN>
+        > <PIS>
+            > <PISAliq>
+            > <PISQtde>
+            > <PISNT>
+            > <PISOutr>
+        > <PISST>
+        > <COFINS>
+            > <COFINSAliq>
+            > <COFINSQtde>
+            > <COFINSNT>
+            > <COFINSOutr>
+        > <COFINSST>
+        > <ICMSUFDest>
+    - <impostoDevol>"""
+
+    # The nfe.40.prod mixin (prod XML tag) cannot be injected in
+    # the product.product object because the tag includes attributes from the
+    # Odoo fiscal document line and because we may have an Nfe with
+    # lines decsriptions instead of full blown products.
+    # So a part of the mapping is done
+    # in the fiscal document line:
     # from Odoo -> XML by using related fields/_compute
     # from XML -> Odoo by overriding the product create method
     nfe40_cProd = fields.Char(
