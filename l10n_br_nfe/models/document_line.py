@@ -25,10 +25,10 @@ class NFeLine(spec_models.StackedModel):
     _odoo_module = "l10n_br_nfe"
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
     _spec_tab_name = "NFe"
-    _stack_skip = "nfe40_det_infNFe_id"
     _stacking_points = {}
     # all m2o below this level will be stacked even if not required:
-    _force_stack_paths = ("det.imposto",)
+    _force_stack_paths = ("det.imposto.",)
+    _stack_skip = ("nfe40_det_infNFe_id",)
 
     # The generateDS prod mixin (prod XML tag) cannot be inject in
     # the product.product object because the tag embeded values from the
