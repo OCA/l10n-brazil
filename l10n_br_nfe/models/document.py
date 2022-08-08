@@ -95,6 +95,44 @@ class NFe(spec_models.StackedModel):
         "infnfe.cobr.fat",
     )
 
+    # When dynamic stacking is applied the NFe structure is:
+    INFNFE_TREE = """
+> <infnfe>
+    > <ide>
+        ≡ <NFref> l10n_br_fiscal.document.related
+    - <emit> res.company
+    - <avulsa>
+    - <dest> res.partner
+    - <retirada> res.partner
+    - <entrega> res.partner
+    ≡ <autXML> res.partner
+    ≡ <det> l10n_br_fiscal.document.line
+    > <total>
+        > <ICMSTot>
+        > <ISSQNtot>
+        > <retTrib>
+    > <transp>
+        - <transporta> res.partner
+        - <retTransp>
+        - <veicTransp>
+        ≡ <reboque>
+        ≡ <vol>
+    > <cobr>
+        > <fat>
+        ≡ <dup>
+    > <pag>
+        ≡ <detPag>
+    - <infIntermed>
+    > <infAdic>
+        ≡ <obsCont>
+        ≡ <obsFisco>
+        ≡ <procRef>
+    > <exporta>
+    - <compra>
+    - <cana>
+    - <infRespTec> res.partner
+    - <infSolicNFF>"""
+
     ##########################
     # NF-e spec related fields
     ##########################
