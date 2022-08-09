@@ -95,7 +95,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     @api.onchange("partner_id")
     def _onchange_partner_id_fiscal(self):
         if self.partner_id:
-            self.ind_final = self.partner_id.ind_final
+            self.ind_final = self.partner_id.commercial_partner_id.ind_final
             for line in self._get_amount_lines():
                 # reload fiscal data, operation line, cfop, taxes, etc.
                 line._onchange_fiscal_operation_id()

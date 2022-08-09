@@ -329,7 +329,11 @@
             </page>
             <page name="recipient" string="Recipient">
               <group name="partner">
-                <field name="partner_id" />
+                <field
+                                    name="partner_id"
+                                    domain="['|', ('is_company', '=', True), ('parent_id', '=', False)]"
+                                    required="1"
+                                />
               </group>
               <group>
                 <group name="partner_left">
