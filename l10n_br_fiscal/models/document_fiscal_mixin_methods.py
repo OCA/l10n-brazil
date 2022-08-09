@@ -90,7 +90,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     @api.onchange("partner_id")
     def _onchange_partner_id_fiscal(self):
         if self.partner_id:
-            self.ind_final = self.partner_id.ind_final
+            self.ind_final = self.partner_id.commercial_partner_id.ind_final
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
