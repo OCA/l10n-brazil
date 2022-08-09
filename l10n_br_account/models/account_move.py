@@ -48,7 +48,7 @@ MOVE_TAX_USER_TYPE = {
     "in_refund": "purchase",
 }
 
-SHADOWED_FIELDS = ["company_id", "currency_id", "user_id", "partner_id"]
+SHADOWED_FIELDS = ["company_id", "currency_id", "user_id"]
 
 
 class InheritsCheckMuteLogger(mute_logger):
@@ -138,10 +138,21 @@ class AccountMove(models.Model):
 
     @api.model
     def _inject_shadowed_fields(self, vals_list):
+        def _assign_fiscal_partner_id(vals, partner_field):
+            # In the invoice context, the 'partner_id' could represent a contact.
+            # However, in the fiscal context, we want to ensure that 'partner_id' always
+            # represents the commercial entity.
+            if vals.get(partner_field):
+                partner = self.env["res.partner"].browse(vals[partner_field])
+                vals[f"fiscal_{partner_field}"] = partner.commercial_partner_id.id
+
         for vals in vals_list:
+            _assign_fiscal_partner_id(vals, "partner_id")
+            _assign_fiscal_partner_id(vals, "partner_shipping_id")
+
             for field in self._shadowed_fields():
                 if field in vals:
-                    vals["fiscal_%s" % (field,)] = vals[field]
+                    vals[f"fiscal_{field}"] = vals[field]
 
     @api.model
     def fields_view_get(
