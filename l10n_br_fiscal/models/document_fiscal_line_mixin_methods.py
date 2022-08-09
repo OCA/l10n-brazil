@@ -189,7 +189,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return taxes.compute_taxes(
             company=self.company_id,
-            partner=self.partner_id,
+            partner=self.partner_id.commercial_partner_id,
             product=self.product_id,
             price_unit=self.price_unit,
             quantity=self.quantity,
@@ -342,7 +342,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self._onchange_commercial_quantity()
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
-                partner=self.partner_id,
+                partner=self.partner_id.commercial_partner_id,
                 product=self.product_id,
             )
             self._onchange_fiscal_operation_line_id()
@@ -354,7 +354,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self.fiscal_operation_line_id:
             mapping_result = self.fiscal_operation_line_id.map_fiscal_taxes(
                 company=self.company_id,
-                partner=self.partner_id,
+                partner=self.partner_id.commercial_partner_id,
                 product=self.product_id,
                 ncm=self.ncm_id,
                 nbm=self.nbm_id,
