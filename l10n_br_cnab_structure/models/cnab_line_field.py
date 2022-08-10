@@ -45,12 +45,32 @@ class CNABField(models.Model):
     )
     notes = fields.Char(readonly=True, states={"draft": [("readonly", "=", False)]})
     size = fields.Integer(compute="_compute_size")
-
     state = fields.Selection(
         selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
         readonly=True,
         default="draft",
     )
+    related_ir_model_id = fields.Many2one(
+        "ir.model", string="Related Model", related="cnab_line_id.related_ir_model_id"
+    )
+    dot_notation_field = fields.Char(
+        string="Related Field",
+    )
+
+    def action_change_field(self):
+        "action for change for field"
+        return {
+            "name": _("Change Dot Notation Field"),
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "view_type": "form",
+            "res_model": "field.select.wizard",
+            "target": "new",
+            "context": {
+                "default_cnab_field_id": self.id,
+                "default_dot_notation_field": self.dot_notation_field,
+            },
+        }
 
     @api.depends("start_pos", "end_pos")
     def _compute_size(self):
