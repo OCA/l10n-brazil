@@ -20,6 +20,21 @@ class CNABLine(models.Model):
         readonly=True, states={"draft": [("readonly", "=", False)]}
     )
 
+    related_ir_model_id = fields.Many2one(
+        "ir.model",
+        string="Related Model",
+        domain="[('model', 'in', ['account.payment.order','bank.payment.line'])]",
+    )
+
+    object_id = fields.Reference(
+        string="Reference",
+        selection=[
+            ("account.payment.order", "Payment Order"),
+            ("bank.payment.line", "Bank Payment Line"),
+        ],
+        ondelete="set null",
+    )
+
     type = fields.Selection(
         [("header", "Header"), ("segment", "Segment"), ("trailer", "Trailer")],
         readonly=True,
