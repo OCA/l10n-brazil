@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="field_select_wizard" model="ir.ui.view">
+        <field name="name">field.select.wizard.form</field>
+        <field name="model">field.select.wizard</field>
+        <field name="arch" type="xml">
+        <form>
+            <field name="dot_notation_field" invisible="1"/>
+            <field name="cnab_field_id" invisible="1"/>
+            <field name="related_ir_model_id" invisible="1"/>
+            <field name="parent_model_id" invisible="1"/>
+            <h1>
+                <field name="dot_notation_field" readonly="1"/>
+            </h1>
+            <div class="content-group">
+                    <field name="new_field_id" options="{'no_create': True, 'no_open': True}"/>
+
+                    <button
+                    string="Add Sub-Field"
+                    name="action_add_field"
+                    type="object"
+                    class="btn-primary"
+                />
+                <button name="action_remove_last_field" string="Remove Last Field" type="object" class="btn btn-secondary"/>
+            </div>
+            <footer>
+                <button name="action_confirm" class="btn-primary" type="object" string="Confirm" />
+                <button string="Cancel" class="btn btn-secondary" special="cancel" />
+            </footer>
+        </form>
+        </field>
+    </record>
+</odoo>

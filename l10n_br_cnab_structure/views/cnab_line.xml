@@ -36,11 +36,13 @@
                             <field name="cnab_format" invisible="True"/>
                             <field name="segment_name" attrs="{'invisible': [('type', '!=', 'segment')], 'required': [('type', '=', 'segment')]}" />
                             <field name="type" />
+                            <field name="related_ir_model_id" />
                         </group>
                         <group>
                             <field name="cnab_file_id" invisible="True"/>
                             <field name="sequence" />
                             <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_file_id': cnab_file_id}"/>
+                            <field name="object_id" />
                         </group>
                     </group>
 
@@ -53,11 +55,17 @@
                             <field name="start_pos" />
                             <field name="end_pos" />
                             <field name="type" />
-                            <field name="size" />
-                            <field name="related_field_id" />
+                            <field name="related_ir_model_id" invisible="True" />
                             <field name="default_value" />
                             <field name="notes" />
+                            <field name="dot_notation_field" />
                             <field name="cnab_line_id" invisible="True" />
+                            <button
+                            name="action_change_field"
+                            type="object"
+                            icon="fa-cogs"
+                            class="oe_highlight"
+                        />
                         </tree>
                     </field>
                 </sheet>
