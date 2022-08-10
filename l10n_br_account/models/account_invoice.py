@@ -210,11 +210,24 @@ class AccountMove(models.Model):
                 defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
         return defaults
 
-    @api.model_create_multi
-    def create(self, values):
-        for vals in values:
+    @api.model
+    def _move_autocomplete_invoice_lines_create(self, vals_list):
+        """
+        This method is called in the original AccountMove#create method.
+        And when the type is "entry" rather than "invoice", we should
+        force the dummy fiscal_document_id again or it would be removed
+        from the values and the _inherits system would create a new one.
+        So in general we always use this method to ensure the dummy is used
+        when document_type_id is empty.
+        """
+        vals_list = super()._move_autocomplete_invoice_lines_create(vals_list)
+        for vals in vals_list:
             if not vals.get("document_type_id"):
                 vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
+        return vals_list
+
+    @api.model_create_multi
+    def create(self, values):
         invoice = super().create(values)
         invoice._write_shadowed_fields()
         return invoice
