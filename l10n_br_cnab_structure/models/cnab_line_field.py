@@ -96,7 +96,6 @@ class CNABField(models.Model):
         if self.start_pos > self.end_pos:
             raise UserError(
                 _(
-                    "%s in %s: Start position is greater than end position."
-                    % (self.name, self.cnab_line_id)
+                    f"{self.name} in {self.cnab_line_id}: Start position is greater than end position."
                 )
             )
