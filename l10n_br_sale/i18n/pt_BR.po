@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2022-08-05 19:41+0000\n"
+"PO-Revision-Date: 2022-08-12 20:04+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -477,6 +477,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
 msgid "Define if Delivery Costs should be informed by Line or by Total"
 msgstr ""
+"Definir se os Custos de Entrega devem ser informados por Linha ou por Total"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_res_company__delivery_costs
@@ -487,6 +488,8 @@ msgid ""
 "Define if costs of Insurance, Freight and Other Costs should be informed in "
 "Line or Total."
 msgstr ""
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados em "
+"Linha ou Total."
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__delivery_costs
@@ -494,7 +497,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__delivery_costs
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__delivery_costs
 msgid "Delivery costs should be define in Line or Total."
-msgstr ""
+msgstr "Os custos de entrega devem ser definidos em Linha ou Total."
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ii_customhouse_charges
@@ -1400,12 +1403,12 @@ msgstr "Parceiro"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_order
 msgid "Partner Order (xPed)"
-msgstr ""
+msgstr "Pedido de Parceiro (xPed)"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_order_line
 msgid "Partner Order Line (nItemPed)"
-msgstr ""
+msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_tax
@@ -1641,7 +1644,7 @@ msgstr ""
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
 msgid "The Delivery Costs should be informed by Line or by Total ?"
-msgstr ""
+msgstr "Os Custos de Entrega devem ser informados por Linha ou por Total ?"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_total
