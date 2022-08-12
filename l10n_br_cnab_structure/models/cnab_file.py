@@ -74,3 +74,44 @@ class CNABFile(models.Model):
 
         for l in self.batch_ids:
             l.check_batch()
+
+        segment_lines = self.line_ids.filtered(
+            lambda l: l.type == "segment" and not l.batch_id
+        )
+        header_line = self.line_ids.filtered(
+            lambda l: l.type == "header" and not l.batch_id
+        )
+        trailer_line = self.line_ids.filtered(
+            lambda l: l.type == "trailer" and not l.batch_id
+        )
+
+        if segment_lines and self.cnab_format == "240":
+            raise UserError(_(f"{self.name}: CNAB 240 files can't have segment lines!"))
+
+        if not segment_lines and self.cnab_format == "400":
+            raise UserError(
+                _(f"{self.name}: CNAB 400  files need to have segment lines!")
+            )
+
+        if len(header_line) != 1:
+            raise UserError(
+                _(f"{self.name}: Files need to have one and only one header line!")
+            )
+
+        if len(trailer_line) != 1:
+            raise UserError(
+                _(f"{self.name}: Files need to have one and only one trailer line!")
+            )
+
+        if self.cnab_format == "240" and not self.batch_ids:
+            raise UserError(
+                _(f"{self.name}: CNAB 240 files need to have at least 1 batch!")
+            )
+
+        lines = self.line_ids.sorted(key=lambda b: b.sequence)
+
+        if lines[0].type != "header":
+            raise UserError(_(f"{self.name}: The first line need to be a header!"))
+
+        if lines[-1].type != "trailer":
+            raise UserError(_(f"{self.name}: The last line need to be a trailer!"))
