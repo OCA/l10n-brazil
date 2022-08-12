@@ -40,5 +40,54 @@ class CNABBatch(models.Model):
         return super(CNABBatch, self).unlink()
 
     def check_batch(self):
-        for l in self.line_ids:
-            l.check_line()
+
+        if self.cnab_file_id.cnab_format != "240":
+            raise UserError(_(f"{self.name}: A batch must belong to a CNAB 240 file!"))
+
+        segment_lines = self.line_ids.filtered(lambda b: b.type == "segment")
+        header_line = self.line_ids.filtered(lambda b: b.type == "header")
+        trailer_line = self.line_ids.filtered(lambda b: b.type == "trailer")
+
+        if not segment_lines:
+            raise UserError(
+                _(
+                    f"Batch {self.name}: Every Batch need to have at least one segment line!"
+                )
+            )
+
+        if len(header_line) != 1:
+            raise UserError(
+                _(
+                    f"Batch {self.name}: One batch need to have one and only one header line!"
+                )
+            )
+
+        if len(trailer_line) != 1:
+            raise UserError(
+                _(
+                    f"Batch {self.name}: One batch need to have one and only one trailer line!"
+                )
+            )
+
+        batch_lines = self.line_ids.sorted(key=lambda b: b.sequence)
+
+        if batch_lines[0].type != "header":
+            raise UserError(
+                _(f"Batch {self.name}: The first line need to be a header!")
+            )
+
+        if batch_lines[-1].type != "trailer":
+            raise UserError(
+                _(f"Batch {self.name}: The last line need to be a trailer!")
+            )
+
+        batch_lines = batch_lines.ids
+        file_lines = self.cnab_file_id.line_ids.sorted(key=lambda f: f.sequence).ids
+        first_line = file_lines.index(batch_lines[0])
+        last_line = first_line + len(batch_lines)
+        file_lines = file_lines[first_line:last_line]
+
+        if batch_lines != file_lines:
+            raise UserError(
+                _(f"Batch {self.name}: The lines of batch must be together!")
+            )
