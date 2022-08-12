@@ -99,7 +99,7 @@ class CNABLine(models.Model):
 
         if cnab_fields[0].start_pos != 1:
             raise UserError(
-                _("%s: The start position of first field must be 1." % self.name)
+                _(f"{self.name}: The start position of first field must be 1.")
             )
 
         ref_pos = 0
@@ -107,9 +107,8 @@ class CNABLine(models.Model):
             if f.start_pos != ref_pos + 1:
                 raise UserError(
                     _(
-                        "%s: Start position of field '%s' is less"
+                        f"{self.name}: Start position of field '{f.name}' is less"
                         " than the end position of the previous one."
-                        % (self.name, f.name)
                     )
                 )
             ref_pos = f.end_pos
@@ -117,13 +116,10 @@ class CNABLine(models.Model):
         last_pos = int(self.cnab_file_id.cnab_format)
         if cnab_fields[-1].end_pos != last_pos:
             raise UserError(
-                _(
-                    "%s: the end position of last field is not %s."
-                    % (self.name, last_pos)
-                )
+                _(f"{self.name}: the end position of last field is not {last_pos}.")
             )
 
         if self.batch_id and self.batch_id.cnab_file_id != self.cnab_file_id:
             raise UserError(
-                _("%s: line cnab file is different of batch cnab file." % (self.name))
+                _(f"{self.name}: line cnab file is different of batch cnab file.")
             )
