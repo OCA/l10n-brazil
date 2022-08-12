@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2020-12-17 04:48+0000\n"
+"PO-Revision-Date: 2022-08-12 20:13+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -787,7 +787,7 @@ msgstr "Amajari"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5000609
 msgid "Amambai"
-msgstr ""
+msgstr "Amambai"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4100905
@@ -2187,7 +2187,7 @@ msgstr "Balneário Piçarras"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4220000
 msgid "Balneário Rincão"
-msgstr ""
+msgstr "Balneário Rincão"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4102307
@@ -2816,7 +2816,7 @@ msgstr "Belém do Piauí"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2601607
 msgid "Belém do São Francisco"
-msgstr ""
+msgstr "Belém do São Francisco"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2201606
@@ -10927,7 +10927,7 @@ msgstr "Inocência"
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "Invalid State Tax Number!"
-msgstr "Número da Inscrição Estadual Inválida!"
+msgstr "Número da Inscrição Estadual Inválido!"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4110201
@@ -23234,7 +23234,7 @@ msgstr "Número da Inscrição Estadual"
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "State Tax Number already used %s"
-msgstr "Inscrição estadual %s já utilizada"
+msgstr "Inscrição Estadual %s já utilizada"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
@@ -23245,7 +23245,7 @@ msgstr "Número da Inscrição Estadual..."
 #: model:ir.model,name:l10n_br_base.model_state_tax_numbers
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__state_tax_number_ids
 msgid "State Tax Numbers"
-msgstr "Números de imposto estadual"
+msgstr "Números de Inscrição Estadual"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
@@ -23261,7 +23261,7 @@ msgstr "Número da Rua..."
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street..."
-msgstr "Logradouro..."
+msgstr "Rua…"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1720853
@@ -25576,7 +25576,7 @@ msgstr "Teófilo Otoni"
 #. module: l10n_br_base
 #: model:ir.model.constraint,message:l10n_br_base.constraint_state_tax_numbers_l10n_br_base_state_tax_numbers_id_uniq
 msgid "The Partner already has a State Tax Number for that State!"
-msgstr "The Partner already has a State Tax Number for that State!"
+msgstr "O Parceiro já possui um número de Inscrição Estadual para esse Estado!"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
@@ -25610,7 +25610,7 @@ msgstr "Já existe um parceiro com este CNPJ !"
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this CPF/RG!"
-msgstr ""
+msgstr "Já existe cadastro de parceiro com este CPF/RG!"
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:0
@@ -26838,7 +26838,7 @@ msgstr "Vespasiano"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4322855
 msgid "Vespasiano Corrêa"
-msgstr ""
+msgstr "Vespasiano Corrêa"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4322905
@@ -27224,7 +27224,7 @@ msgstr "Wenceslau Guimarães"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4323770
 msgid "Westfália"
-msgstr ""
+msgstr "Westfália"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4219408
