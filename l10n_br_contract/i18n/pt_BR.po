@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-29 20:38+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2022-08-12 23:07+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "Total de Imposto Retido na Fonte"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_not_included
 msgid "Amount Tax not Included"
-msgstr ""
+msgstr "Total de Impostos Não Incluídos no Preço"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_taxed
@@ -111,7 +111,7 @@ msgstr "Total sem desconto."
 #. module: l10n_br_contract
 #: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
 msgid "Amounts"
-msgstr ""
+msgstr "Totais"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ind_pres
@@ -120,49 +120,53 @@ msgstr "Presença do Comprador"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cest_id
+#, fuzzy
 msgid "CEST"
-msgstr ""
+msgstr "CEST"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cfop_id
+#, fuzzy
 msgid "CFOP"
-msgstr ""
+msgstr "CFOP"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cfop_destination
 msgid "CFOP Destination"
-msgstr ""
+msgstr "CFOP Destino"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cnae_id
 msgid "CNAE Code"
-msgstr ""
+msgstr "Código CNAE"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__cnpj_cpf
+#, fuzzy
 msgid "CNPJ/CPF"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_percent
+#, fuzzy
 msgid "COFINS %"
-msgstr ""
+msgstr "COFINS %"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_reduction
 msgid "COFINS % Reduction"
-msgstr ""
+msgstr "COFINS % Redução"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofins_base
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_base
 msgid "COFINS Base"
-msgstr ""
+msgstr "Base para COFINS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_base_id
 msgid "COFINS Base Code"
-msgstr ""
+msgstr "COFINS Código da Base"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_base_type
