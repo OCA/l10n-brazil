@@ -68,5 +68,9 @@ class CNABFile(models.Model):
         self.write({"state": "draft"})
 
     def check_file(self):
+
         for l in self.line_ids:
             l.check_line()
+
+        for l in self.batch_ids:
+            l.check_batch()
