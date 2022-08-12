@@ -78,9 +78,11 @@ class CNABLine(models.Model):
                 name = l.segment_name
             else:
                 name = l.type
-            name = "%s -> %s" % (l.cnab_file_id.name, name)
 
-            l.name = name
+            if l.batch_id:
+                l.name = f"{l.cnab_file_id.name} -> {l.batch_id.name} -> {name}"
+            else:
+                l.name = f"{l.cnab_file_id.name} -> {name}"
 
     def unlink(self):
         lines = self.filtered(lambda l: l.state != "draft")
