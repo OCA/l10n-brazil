@@ -128,11 +128,6 @@ msgid "CEP:"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_id
-msgid "CNAE Code"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "CNPJ/CPF"
 msgstr ""
@@ -326,11 +321,6 @@ msgid "Local da Prestação"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_main_id
-msgid "Main CNAE"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,taxation_special_regime:0
 msgid "Microempresa Municipal"
 msgstr ""
@@ -470,11 +460,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Regime esp. Tributação"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_secondary_ids
-msgid "Secondary CNAE"
 msgstr ""
 
 #. module: l10n_br_nfse
