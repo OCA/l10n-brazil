@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cnab_preview_wizard_form" model="ir.ui.view">
+        <field name="name">cnab.preview.wizard.form</field>
+        <field name="model">cnab.preview.wizard</field>
+        <field name="arch" type="xml">
+        <form>
+            <group name="preview" string="Preview">
+                <field name="cnab_line_id" readonly="1"/>
+                <field name="resource_ref"/>
+                <field name="output"/>
+            </group>
+        </form>
+        </field>
+    </record>
+</odoo>
