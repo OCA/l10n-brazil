@@ -202,6 +202,11 @@ msgid "CFOP Destination"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cnae_id
+msgid "CNAE Code"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__cnpj_cpf
 msgid "CNPJ/CPF"
 msgstr ""
