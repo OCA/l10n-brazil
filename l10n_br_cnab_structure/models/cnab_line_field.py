@@ -1,8 +1,12 @@
 # Copyright 2022 Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import operator
+import re
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval, time
 
 
 class CNABField(models.Model):
@@ -57,6 +61,15 @@ class CNABField(models.Model):
         string="Related Field",
     )
 
+    preview_field = fields.Char(compute="_compute_preview_field")
+
+    resource_ref = fields.Reference(
+        string="Reference",
+        related="cnab_line_id.resource_ref",
+    )
+
+    python_code = fields.Text()
+
     def action_change_field(self):
         "action for change for field"
         return {
@@ -71,6 +84,49 @@ class CNABField(models.Model):
                 "default_dot_notation_field": self.dot_notation_field,
             },
         }
+
+    @api.depends("resource_ref", "dot_notation_field", "python_code", "default_value")
+    def _compute_preview_field(self):
+        for rec in self:
+            rec.preview_field = ""
+            if rec.resource_ref:
+                try:
+                    rec.preview_field = rec.compute_output_value(rec.resource_ref)
+                except (ValueError, SyntaxError) as exc:
+                    rec.preview_field = str(exc)
+
+    def compute_output_value(self, resource_ref):
+        "Compute output value for this field"
+        # TODO aqui vamos aplicar todas a regras para montar o valor final.
+        for rec in self:
+            value = ""
+            if rec.dot_notation_field and resource_ref:
+                value = operator.attrgetter(rec.dot_notation_field)(resource_ref)
+                value = str(value)
+                # Tratamento para campos númericos.
+                if rec.type == "num":
+                    value = re.sub(r"\W+", "", value)
+
+            # aplica os valores dafault.
+            if not value and rec.default_value:
+                value = rec.default_value
+
+            # aplica zeros ou brancos para valores não preenchidos.
+            if not value:
+                if rec.type == "num":
+                    value = value.zfill(rec.size)
+                if rec.type == "alpha":
+                    value = value.ljust(rec.size)
+
+            if rec.python_code:
+                value = rec.eval_compute_value(value)
+            return value
+
+    def eval_compute_value(self, value):
+        "Execute python code and return computed value"
+        self.ensure_one()
+        safe_eval_dict = {"value": value, "time": time}
+        return safe_eval(self.python_code, safe_eval_dict)
 
     @api.depends("start_pos", "end_pos")
     def _compute_size(self):
