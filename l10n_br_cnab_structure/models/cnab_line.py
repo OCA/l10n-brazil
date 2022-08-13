@@ -26,15 +26,6 @@ class CNABLine(models.Model):
         domain="[('model', 'in', ['account.payment.order','bank.payment.line'])]",
     )
 
-    object_id = fields.Reference(
-        string="Reference",
-        selection=[
-            ("account.payment.order", "Payment Order"),
-            ("bank.payment.line", "Bank Payment Line"),
-        ],
-        ondelete="set null",
-    )
-
     type = fields.Selection(
         [("header", "Header"), ("segment", "Segment"), ("trailer", "Trailer")],
         readonly=True,
@@ -63,6 +54,18 @@ class CNABLine(models.Model):
         states={"draft": [("readonly", "=", False)]},
     )
 
+    @api.model
+    def _selection_target_model(self):
+        return [
+            ("account.payment.order", "Payment Order"),
+            ("bank.payment.line", "Bank Payment Line"),
+        ]
+
+    resource_ref = fields.Reference(
+        string="Reference",
+        selection="_selection_target_model",
+    )
+
     cnab_format = fields.Selection(related="cnab_file_id.cnab_format")
 
     state = fields.Selection(
@@ -70,6 +73,14 @@ class CNABLine(models.Model):
         readonly=True,
         default="draft",
     )
+
+    def output(self, resource_ref):
+        "Compute CNAB output with all field for this Line"
+        self.ensure_one()
+        cnab_fields_output = []
+        for field_id in self.field_ids:
+            cnab_fields_output.append(field_id.compute_output_value(resource_ref))
+        return "".join(cnab_fields_output)
 
     @api.depends("segment_name", "cnab_file_id", "cnab_file_id.name", "type")
     def _compute_name(self):
