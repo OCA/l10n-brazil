@@ -83,6 +83,11 @@ msgstr "1 - Sim"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "1 - Tributação no <br>município</br>"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid ""
 "1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo "
 "Tomador dos Serviços.<br/>\n"
@@ -93,11 +98,6 @@ msgstr ""
 "Tomador dos Serviços.<br/>\n"
 "                    2- A autenticidade desta Nota Fiscal poderá ser "
 "verificada no site,"
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "1-Tributação no município"
-msgstr "1-Tributação no município"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -143,11 +143,6 @@ msgid "CEP:"
 msgstr "CEP:"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_id
-msgid "CNAE Code"
-msgstr "Código CNAE"
-
-#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
@@ -163,11 +158,9 @@ msgid "CSLL"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__city_taxation_code_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_product__city_taxation_code_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__city_taxation_code_id
-msgid "City Taxation Code"
-msgstr "Código de Taxação da Cidade"
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
+msgid "City Settings"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_res_company
@@ -206,16 +199,6 @@ msgstr "Cupom"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Código ART"
-msgstr "Código ART"
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Código da Obra"
-msgstr "Código da Obra"
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Código de Verificação"
 msgstr "Código de Verificação"
 
@@ -241,11 +224,6 @@ msgstr "Data e Hora da Emissão"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Detalhamento Específico da Construção Civil"
-msgstr "Detalhamento Específico da Construção Civil"
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Discriminação dos serviços"
 msgstr "Discriminação dos serviços"
 
@@ -261,8 +239,8 @@ msgstr "Mensagem Erro do Edoc"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Endereço e Cep"
-msgstr "Endereço e Cep"
+msgid "Endereço"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,taxation_special_regime:0
@@ -292,19 +270,14 @@ msgid "Fiscal Document"
 msgstr "Documento Fiscal"
 
 #. module: l10n_br_nfse
-#: model:ir.actions.act_window,name:l10n_br_nfse.wizard_document_status_act_multi
-msgid "Fiscal Document Inquiry"
-msgstr "Consulta do Documento Fiscal"
-
-#. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document_line
 msgid "Fiscal Document Line"
 msgstr "Linha do Documento Fiscal"
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document_status_wizard
-msgid "Fiscal Document Status"
-msgstr "Situação do Documento Fiscal"
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
+msgid "General Settings"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: selection:res.company,provedor_nfse:0
@@ -333,6 +306,11 @@ msgid "ISS a reter:"
 msgstr "ISS a reter:"
 
 #. module: l10n_br_nfse
+#: selection:res.company,provedor_nfse:0
+msgid "ISSNet / Nota Control"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,operation_nature:0
 msgid "Imune"
 msgstr "Imune"
@@ -358,11 +336,6 @@ msgid "Local da Prestação"
 msgstr "Local da Prestação"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_main_id
-msgid "Main CNAE"
-msgstr "CNAE Principal"
-
-#. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,taxation_special_regime:0
 msgid "Microempresa Municipal"
 msgstr "Microempresa Municipal"
@@ -381,6 +354,11 @@ msgstr "Microempresario e Empresa de Pequeno Porte(ME EPP)"
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Município"
 msgstr "Município"
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
+msgid "NFS-e"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_city_logo
@@ -407,11 +385,6 @@ msgstr "Website NFSe"
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Natureza Operação"
 msgstr "Natureza Operação"
-
-#. module: l10n_br_nfse
-#: selection:res.company,processador_edoc:0
-msgid "Nenhum"
-msgstr "Nenhum"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -459,14 +432,14 @@ msgid "PIS"
 msgstr "PIS"
 
 #. module: l10n_br_nfse
+#: selection:res.company,provedor_nfse:0
+msgid "Paulistana"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Prefeitura do Município de"
 msgstr "Prefeitura do Município de"
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__processador_edoc
-msgid "Processador documentos eletrônicos"
-msgstr "Processador documentos eletrônicos"
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_product_template
@@ -483,12 +456,6 @@ msgstr "Produção"
 #: selection:l10n_br_fiscal.document,rps_type:0
 msgid "RPS Nota Fiscal Conjugada (Mista)"
 msgstr "RPS Nota Fiscal Conjugada (Mista)"
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_number
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_status_wizard__rps_number
-msgid "RPS Number"
-msgstr "Número do RPS"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_type
@@ -509,11 +476,6 @@ msgstr "Recibo provisório de Serviços"
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Regime esp. Tributação"
 msgstr "Regime esp. Tributação"
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_secondary_ids
-msgid "Secondary CNAE"
-msgstr "CNAE Secundário"
 
 #. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,taxation_special_regime:0
@@ -542,8 +504,8 @@ msgstr "Tributação no município"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Tributos Federais"
-msgstr "Tributos Federais"
+msgid "Tributos Federais (Lei 12.741/2012)"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -560,10 +522,53 @@ msgstr "Código de Verificação"
 msgid "com a utilização do Código de Verificação.<br/>"
 msgstr "com a utilização do Código de Verificação.<br/>"
 
-#. module: l10n_br_nfse
-#: selection:res.company,processador_edoc:0
-msgid "erpbrasil.edoc"
-msgstr "erpbrasil.edoc"
+#~ msgid "1-Tributação no município"
+#~ msgstr "1-Tributação no município"
+
+#~ msgid "CNAE Code"
+#~ msgstr "Código CNAE"
+
+#~ msgid "City Taxation Code"
+#~ msgstr "Código de Taxação da Cidade"
+
+#~ msgid "Código ART"
+#~ msgstr "Código ART"
+
+#~ msgid "Código da Obra"
+#~ msgstr "Código da Obra"
+
+#~ msgid "Detalhamento Específico da Construção Civil"
+#~ msgstr "Detalhamento Específico da Construção Civil"
+
+#~ msgid "Endereço e Cep"
+#~ msgstr "Endereço e Cep"
+
+#~ msgid "Fiscal Document Inquiry"
+#~ msgstr "Consulta do Documento Fiscal"
+
+#~ msgid "Fiscal Document Status"
+#~ msgstr "Situação do Documento Fiscal"
+
+#~ msgid "Main CNAE"
+#~ msgstr "CNAE Principal"
+
+#~ msgid "Nenhum"
+#~ msgstr "Nenhum"
+
+#~ msgid "Processador documentos eletrônicos"
+#~ msgstr "Processador documentos eletrônicos"
+
+#~ msgid "RPS Number"
+#~ msgstr "Número do RPS"
+
+#~ msgid "Secondary CNAE"
+#~ msgstr "CNAE Secundário"
+
+#~ msgid "Tributos Federais"
+#~ msgstr "Tributos Federais"
+
+#~ msgid "erpbrasil.edoc"
+#~ msgstr "erpbrasil.edoc"
 
 #~ msgid ""
 #~ "<br/>\n"
