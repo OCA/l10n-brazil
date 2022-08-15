@@ -436,6 +436,11 @@
                     <field name="amount_icms_value" />
                     <field name="amount_icmssn_credit_value" />
                   </group>
+                  <group string="ICMS DIFAL">
+                    <field name="amount_icms_destination_value" />
+                    <field name="amount_icms_origin_value" />
+                    <field name="amount_icmsfcp_value" />
+                  </group>
                   <group string="ICMS ST">
                     <field name="amount_icmsst_base" />
                     <field name="amount_icmsst_value" />
