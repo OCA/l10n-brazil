@@ -110,7 +110,11 @@ class AccountPaymentMode(models.Model):
                     % field
                 )
 
-            if self.bank_code_bc == "341" and not self.boleto_wallet:
+            if (
+                self.bank_code_bc == "341"
+                and self.payment_type == "inbound"
+                and not self.boleto_wallet
+            ):
                 raise ValidationError(_("Carteira no banco Itaú é obrigatória"))
 
     def get_own_number_sequence(self, inv, numero_documento):
