@@ -1,4 +1,4 @@
-"id","segment_name","sequence","type","batch_id/id","cnab_file_id/id"
+"id","segment_name","sequence","type","batch_id/id","cnab_structure_id/id"
 "cnab_itau_240_header","","0","Header","","cnab_itau_240"
 "cnab_itau_240_trailer","","9","Trailer","","cnab_itau_240"
 "cnab_itau_240_pagamentos_header","","3","Header","cnab_itau_240_pagamentos","cnab_itau_240"
