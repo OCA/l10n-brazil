@@ -4160,6 +4160,7 @@ msgstr "Código CST do ICMS"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "ICMS DIFAL"
 msgstr "ICMS DIFAL"
 
