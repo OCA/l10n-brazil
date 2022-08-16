@@ -8,12 +8,12 @@ from odoo.exceptions import UserError
 class CNABBatch(models.Model):
 
     _name = "l10n_br_cnab.batch"
-    _description = "A batch of lines in a CNAB file."
+    _description = "A batch of lines in a CNAB structure."
 
     name = fields.Char(readonly=True, states={"draft": [("readonly", "=", False)]})
 
-    cnab_file_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.file",
+    cnab_structure_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.structure",
         readonly=True,
         states={"draft": [("readonly", "=", False)]},
         domain="[('cnab_format', '=', '240')]",
@@ -41,8 +41,10 @@ class CNABBatch(models.Model):
 
     def check_batch(self):
 
-        if self.cnab_file_id.cnab_format != "240":
-            raise UserError(_(f"{self.name}: A batch must belong to a CNAB 240 file!"))
+        if self.cnab_structure_id.cnab_format != "240":
+            raise UserError(
+                _(f"{self.name}: A batch must belong to a CNAB 240 structure!")
+            )
 
         segment_lines = self.line_ids.filtered(lambda b: b.type == "segment")
         header_line = self.line_ids.filtered(lambda b: b.type == "header")
@@ -82,12 +84,14 @@ class CNABBatch(models.Model):
             )
 
         batch_lines = batch_lines.ids
-        file_lines = self.cnab_file_id.line_ids.sorted(key=lambda f: f.sequence).ids
-        first_line = file_lines.index(batch_lines[0])
+        structure_lines = self.cnab_structure_id.line_ids.sorted(
+            key=lambda f: f.sequence
+        ).ids
+        first_line = structure_lines.index(batch_lines[0])
         last_line = first_line + len(batch_lines)
-        file_lines = file_lines[first_line:last_line]
+        structure_lines = structure_lines[first_line:last_line]
 
-        if batch_lines != file_lines:
+        if batch_lines != structure_lines:
             raise UserError(
                 _(f"Batch {self.name}: The lines of batch must be together!")
             )

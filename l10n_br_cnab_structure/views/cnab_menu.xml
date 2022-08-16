@@ -7,9 +7,9 @@
         groups="l10n_br_cnab_structure.group_cnab_constructor,l10n_br_account_payment_order.group_cnab_manager"
         sequence="255">
         <menuitem
-            id="menu_cnab_file"
-            name="CNAB Files"
-            action="action_cnab_file"
+            id="menu_cnab_structure"
+            name="CNAB Structures"
+            action="action_cnab_structure"
             sequence="10"/>
         <menuitem
             id="menu_cnab_batch"
