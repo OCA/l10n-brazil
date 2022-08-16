@@ -125,11 +125,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         if move.fiscal_operation_line_id:
             # Linhas de Operações Fiscais diferentes
             # não podem ser agrupadas
-            if type(key) is tuple:
-                key = key + (move.fiscal_operation_line_id,)
-            else:
-                # TODO - seria melhor identificar o TYPE para saber se
-                #  o KEY realmente é um objeto nesse caso
-                key = (key, move.fiscal_operation_line_id)
+            key = key + (move.fiscal_operation_line_id,)
 
         return key
