@@ -2,7 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import SavepointCase
+from odoo.tests import Form, SavepointCase
 
 
 class InvoicingPickingTest(SavepointCase):
@@ -94,9 +94,7 @@ class InvoicingPickingTest(SavepointCase):
                 "Relation between invoice and picking are missing.",
             )
         for line in invoice.invoice_line_ids:
-            self.assertTrue(
-                line.invoice_line_tax_ids, "Taxes in invoice lines are missing."
-            )
+            self.assertTrue(line.tax_ids, "Taxes in invoice lines are missing.")
             # No Brasil o caso de Ordens de Entrega que não tem ligação com
             # Pedido de Venda precisam informar o Preço de Custo e não o de
             # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
@@ -117,11 +115,16 @@ class InvoicingPickingTest(SavepointCase):
             "Mapping Fiscal Documentation_id on wizard to create invoice fail.",
         )
 
-        self.return_wizard = self.stock_return_picking.with_context(
-            dict(active_id=self.stock_picking_sp.id)
-        ).create(dict(invoice_state="2binvoiced"))
-
+        picking = self.stock_picking_sp
+        return_wizard_form = Form(
+            self.stock_return_picking.with_context(
+                dict(active_id=picking.id, active_model="stock.picking")
+            )
+        )
+        return_wizard_form.invoice_state = "2binvoiced"
+        self.return_wizard = return_wizard_form.save()
         result_wizard = self.return_wizard.create_returns()
+
         self.assertTrue(result_wizard, "Create returns wizard fail.")
 
         picking_devolution = self.stock_picking.browse(result_wizard.get("res_id"))
@@ -144,30 +147,6 @@ class InvoicingPickingTest(SavepointCase):
             move.quantity_done = move.product_uom_qty
         picking_devolution.button_validate()
         self.assertEqual(picking_devolution.state, "done", "Change state fail.")
-
-    def test_invoicing_picking_overprocessed(self):
-        """Test Invoicing Picking overprocessed EXTRA Fields"""
-
-        self._run_fiscal_onchanges(self.stock_picking_sp)
-
-        for line in self.stock_picking_sp.move_lines:
-            self._run_fiscal_line_onchanges(line)
-
-        self.stock_picking_sp.action_confirm()
-        self.stock_picking_sp.action_assign()
-
-        # Force product availability
-        for move in self.stock_picking_sp.move_ids_without_package:
-            # Overprocessed
-            move.quantity_done = move.product_uom_qty + 1
-
-        res_overprocessed_transfer = self.stock_picking_sp.button_validate()
-        stock_overprocessed_transfer = self.env["stock.overprocessed.transfer"].browse(
-            res_overprocessed_transfer.get("res_id")
-        )
-        stock_overprocessed_transfer.action_confirm()
-
-        self.assertEqual(self.stock_picking_sp.state, "done", "Change state fail.")
 
     def test_picking_invoicing_by_product2(self):
         """
@@ -232,9 +211,7 @@ class InvoicingPickingTest(SavepointCase):
             # Price Unit e Fiscal Price devem ser positivos
             self.assertEqual(inv_line.price_unit, 100.0)
             self.assertEqual(inv_line.fiscal_price, 100.0)
-            self.assertTrue(
-                inv_line.invoice_line_tax_ids, "Error to map Sale Tax in invoice.line."
-            )
+            self.assertTrue(inv_line.tax_ids, "Error to map Sale Tax in invoice.line.")
         # Now test behaviour if the invoice is delete
         invoice.unlink()
         for picking in pickings:
@@ -319,9 +296,7 @@ class InvoicingPickingTest(SavepointCase):
         # Not grouping products with different Operation Fiscal Line
         self.assertEqual(len(invoice_pick_1.invoice_line_ids), 3)
         for inv_line in invoice_pick_1.invoice_line_ids:
-            self.assertTrue(
-                inv_line.invoice_line_tax_ids, "Error to map Sale Tax in invoice.line."
-            )
+            self.assertTrue(inv_line.tax_ids, "Error to map Sale Tax in invoice.line.")
         # Now test behaviour if the invoice is delete
         invoice_pick_1.unlink()
         invoice_pick_2.unlink()
@@ -352,14 +327,15 @@ class InvoicingPickingTest(SavepointCase):
             move.quantity_done = 1
 
         res_dict_for_back_order = picking2.button_validate()
-        backorder_wizard = self.env[(res_dict_for_back_order.get("res_model"))].browse(
-            res_dict_for_back_order.get("res_id")
-        )
+        backorder_wizard = Form(
+            self.env[res_dict_for_back_order["res_model"]].with_context(
+                res_dict_for_back_order["context"]
+            )
+        ).save()
         backorder_wizard.process()
         backorder = self.env["stock.picking"].search(
             [("backorder_id", "=", picking2.id)]
         )
-
         self.assertEqual(backorder.invoice_state, "2binvoiced")
         self.assertTrue(backorder.fiscal_operation_id)
 
