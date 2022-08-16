@@ -46,8 +46,8 @@ class CNABLine(models.Model):
         states={"draft": [("readonly", "=", False)]},
     )
 
-    cnab_file_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.file",
+    cnab_structure_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.structure",
         ondelete="cascade",
         required=True,
         readonly=True,
@@ -66,7 +66,7 @@ class CNABLine(models.Model):
         selection="_selection_target_model",
     )
 
-    cnab_format = fields.Selection(related="cnab_file_id.cnab_format")
+    cnab_format = fields.Selection(related="cnab_structure_id.cnab_format")
 
     state = fields.Selection(
         selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
@@ -82,7 +82,7 @@ class CNABLine(models.Model):
             cnab_fields_output.append(field_id.compute_output_value(resource_ref))
         return "".join(cnab_fields_output)
 
-    @api.depends("segment_name", "cnab_file_id", "cnab_file_id.name", "type")
+    @api.depends("segment_name", "cnab_structure_id", "cnab_structure_id.name", "type")
     def _compute_name(self):
         for l in self:
             if l.type == "segment":
@@ -91,9 +91,9 @@ class CNABLine(models.Model):
                 name = l.type
 
             if l.batch_id:
-                l.name = f"{l.cnab_file_id.name} -> {l.batch_id.name} -> {name}"
+                l.name = f"{l.cnab_structure_id.name} -> {l.batch_id.name} -> {name}"
             else:
-                l.name = f"{l.cnab_file_id.name} -> {name}"
+                l.name = f"{l.cnab_structure_id.name} -> {name}"
 
     def unlink(self):
         lines = self.filtered(lambda l: l.state != "draft")
@@ -124,13 +124,15 @@ class CNABLine(models.Model):
                 )
             ref_pos = f.end_pos
 
-        last_pos = int(self.cnab_file_id.cnab_format)
+        last_pos = int(self.cnab_structure_id.cnab_format)
         if cnab_fields[-1].end_pos != last_pos:
             raise UserError(
                 _(f"{self.name}: the end position of last field is not {last_pos}.")
             )
 
-        if self.batch_id and self.batch_id.cnab_file_id != self.cnab_file_id:
+        if self.batch_id and self.batch_id.cnab_structure_id != self.cnab_structure_id:
             raise UserError(
-                _(f"{self.name}: line cnab file is different of batch cnab file.")
+                _(
+                    f"{self.name}: line cnab structure is different of batch cnab structure."
+                )
             )
