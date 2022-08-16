@@ -15,14 +15,14 @@
     <record model="ir.ui.view" id="cnab_line_tree_view">
         <field name="model">l10n_br_cnab.line</field>
         <field name="arch" type="xml">
-            <tree default_order='cnab_file_id, sequence ASC' create="false">
+            <tree default_order='cnab_structure_id, sequence ASC' create="false">
                 <field name="state" invisible="True" />
                 <field name="cnab_format" invisible="True" />
                 <field name="sequence" />
                 <field name="name" />
                 <field name="type" />
-                <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_file_id': cnab_file_id}" />
-                <field name="cnab_file_id" />
+                <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_structure_id': cnab_structure_id}" />
+                <field name="cnab_structure_id" />
             </tree>
         </field>
     </record>
@@ -51,9 +51,9 @@
                         <field name="resource_ref" />
                     </group>
                     <group>
-                        <field name="cnab_file_id" invisible="True" />
+                        <field name="cnab_structure_id" invisible="True" />
                         <field name="sequence" />
-                        <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_file_id': cnab_file_id}" />
+                        <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_structure_id': cnab_structure_id}" />
                     </group>
                 </group>
 
