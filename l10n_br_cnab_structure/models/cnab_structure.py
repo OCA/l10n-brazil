@@ -6,11 +6,11 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class CNABFile(models.Model):
+class CNABStructure(models.Model):
 
-    _name = "l10n_br_cnab.file"
+    _name = "l10n_br_cnab.structure"
     _description = (
-        "An structure with header, body and trailer that make up the CNAB file."
+        "An structure with header, body and trailer that make up the CNAB structure."
     )
 
     name = fields.Char(readonly=True, states={"draft": [("readonly", "=", False)]})
@@ -24,14 +24,14 @@ class CNABFile(models.Model):
 
     batch_ids = fields.One2many(
         comodel_name="l10n_br_cnab.batch",
-        inverse_name="cnab_file_id",
+        inverse_name="cnab_structure_id",
         readonly=True,
         states={"draft": [("readonly", "=", False)]},
     )
 
     line_ids = fields.One2many(
         comodel_name="l10n_br_cnab.line",
-        inverse_name="cnab_file_id",
+        inverse_name="cnab_structure_id",
         readonly=True,
         states={"draft": [("readonly", "=", False)]},
     )
@@ -45,11 +45,13 @@ class CNABFile(models.Model):
     def unlink(self):
         lines = self.filtered(lambda l: l.state != "draft")
         if lines:
-            raise UserError(_("You cannot delete an CNAB File which is not draft !"))
-        return super(CNABFile, self).unlink()
+            raise UserError(
+                _("You cannot delete an CNAB Structure which is not draft !")
+            )
+        return super(CNABStructure, self).unlink()
 
     def action_review(self):
-        self.check_file()
+        self.check_structure()
         self.line_ids.field_ids.write({"state": "review"})
         self.line_ids.batch_id.write({"state": "review"})
         self.line_ids.write({"state": "review"})
@@ -67,7 +69,7 @@ class CNABFile(models.Model):
         self.line_ids.write({"state": "draft"})
         self.write({"state": "draft"})
 
-    def check_file(self):
+    def check_structure(self):
 
         for l in self.line_ids:
             l.check_line()
@@ -86,26 +88,30 @@ class CNABFile(models.Model):
         )
 
         if segment_lines and self.cnab_format == "240":
-            raise UserError(_(f"{self.name}: CNAB 240 files can't have segment lines!"))
+            raise UserError(
+                _(f"{self.name}: CNAB 240 structures can't have segment lines!")
+            )
 
         if not segment_lines and self.cnab_format == "400":
             raise UserError(
-                _(f"{self.name}: CNAB 400  files need to have segment lines!")
+                _(f"{self.name}: CNAB 400  structures need to have segment lines!")
             )
 
         if len(header_line) != 1:
             raise UserError(
-                _(f"{self.name}: Files need to have one and only one header line!")
+                _(f"{self.name}: Structures need to have one and only one header line!")
             )
 
         if len(trailer_line) != 1:
             raise UserError(
-                _(f"{self.name}: Files need to have one and only one trailer line!")
+                _(
+                    f"{self.name}: Structures need to have one and only one trailer line!"
+                )
             )
 
         if self.cnab_format == "240" and not self.batch_ids:
             raise UserError(
-                _(f"{self.name}: CNAB 240 files need to have at least 1 batch!")
+                _(f"{self.name}: CNAB 240 structures need to have at least 1 batch!")
             )
 
         lines = self.line_ids.sorted(key=lambda b: b.sequence)

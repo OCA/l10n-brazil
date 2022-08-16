@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record model="ir.ui.view" id="cnab_file_tree_view">
-        <field name="model">l10n_br_cnab.file</field>
+    <record model="ir.ui.view" id="cnab_structure_tree_view">
+        <field name="model">l10n_br_cnab.structure</field>
         <field name="arch" type="xml">
             <tree edit="0">
                 <field name="state" invisible="True"/>
@@ -12,8 +12,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="cnab_file_form_view">
-        <field name="model">l10n_br_cnab.file</field>
+    <record model="ir.ui.view" id="cnab_structure_form_view">
+        <field name="model">l10n_br_cnab.structure</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -52,7 +52,7 @@
                     </group>
 
                     <separator name="line_ids" string="Lines" />
-                    <field name="line_ids" mode='tree' widget='one2many' context="{'default_cnab_file_id': id}">
+                    <field name="line_ids" mode='tree' widget='one2many' context="{'default_cnab_structure_id': id}">
                         <tree default_order="sequence">
                             <field name="state" invisible="True"/>
                             <field name="cnab_format" invisible="True" />
@@ -60,7 +60,7 @@
                             <field name="type" />
                             <field name="name" />
                             <field name="batch_id" attrs="{'column_invisible': [('parent.cnab_format', '!=', '240')]}"/>
-                            <field name="cnab_file_id" invisible="1" />
+                            <field name="cnab_structure_id" invisible="1" />
                         </tree>
                     </field>
                 </sheet>
@@ -68,10 +68,10 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="action_cnab_file">
-        <field name="name">CNAB Files</field>
-        <field name="view_id" ref="cnab_file_tree_view" />
-        <field name="res_model">l10n_br_cnab.file</field>
+    <record model="ir.actions.act_window" id="action_cnab_structure">
+        <field name="name">CNAB Structures</field>
+        <field name="view_id" ref="cnab_structure_tree_view" />
+        <field name="res_model">l10n_br_cnab.structure</field>
         <field name="view_mode">tree,form</field>
     </record>
 </odoo>
