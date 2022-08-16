@@ -7,7 +7,7 @@
             <tree>
                 <field name="state" invisible="True"/>
                 <field name="name"/>
-                <field name="cnab_file_id"/>
+                <field name="cnab_structure_id"/>
             </tree>
         </field>
     </record>
@@ -27,18 +27,18 @@
                             <field name="name" />
                         </group>
                         <group>
-                            <field name="cnab_file_id" />
+                            <field name="cnab_structure_id" />
                         </group>
                     </group>
 
                     <separator name="line_ids" string="Lines" />
-                    <field name="line_ids" mode='tree' widget='one2many' context="{'default_batch_id': id,'default_cnab_file_id': cnab_file_id}">
+                    <field name="line_ids" mode='tree' widget='one2many' context="{'default_batch_id': id,'default_cnab_structure_id': cnab_structure_id}">
                         <tree default_order="sequence">
                             <field name="state" invisible="True"/>
                             <field name="sequence"  widget="handle"/>
                             <field name="type" />
                             <field name="name" />
-                            <field name="cnab_file_id" invisible="1" />
+                            <field name="cnab_structure_id" invisible="1" />
                             <field name="batch_id" invisible="1" />
                         </tree>
                     </field>
