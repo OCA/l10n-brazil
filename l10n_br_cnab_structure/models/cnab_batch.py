@@ -10,12 +10,12 @@ class CNABBatch(models.Model):
     _name = "l10n_br_cnab.batch"
     _description = "A batch of lines in a CNAB structure."
 
-    name = fields.Char(readonly=True, states={"draft": [("readonly", "=", False)]})
+    name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
     cnab_structure_id = fields.Many2one(
         comodel_name="l10n_br_cnab.structure",
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
         domain="[('cnab_format', '=', '240')]",
     )
 
@@ -23,7 +23,7 @@ class CNABBatch(models.Model):
         comodel_name="l10n_br_cnab.line",
         inverse_name="batch_id",
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
         domain="[('cnab_format', '=', '240')]",
     )
 

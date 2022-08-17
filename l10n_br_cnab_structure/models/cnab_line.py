@@ -12,12 +12,10 @@ class CNABLine(models.Model):
 
     name = fields.Char(compute="_compute_name", store=True)
 
-    segment_name = fields.Char(
-        readonly=True, states={"draft": [("readonly", "=", False)]}
-    )
+    segment_name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
-    sequence = fields.Integer(
-        readonly=True, states={"draft": [("readonly", "=", False)]}
+    sequence = fields.Integer(readonly=True, states={"draft": [("readonly", False)]})
+
     )
 
     related_ir_model_id = fields.Many2one(
@@ -29,21 +27,21 @@ class CNABLine(models.Model):
     type = fields.Selection(
         [("header", "Header"), ("segment", "Segment"), ("trailer", "Trailer")],
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
 
     field_ids = fields.One2many(
         comodel_name="l10n_br_cnab.line.field",
         inverse_name="cnab_line_id",
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
 
     batch_id = fields.Many2one(
         comodel_name="l10n_br_cnab.batch",
         ondelete="cascade",
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
 
     cnab_structure_id = fields.Many2one(
