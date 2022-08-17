@@ -52,11 +52,11 @@ class CNABField(models.Model):
         readonly=True,
         default="draft",
     )
-    related_ir_model_id = fields.Many2one(
-        "ir.model", string="Related Model", related="cnab_line_id.related_ir_model_id"
+    content_source_model_id = fields.Many2one(
+        comodel_name="ir.model", related="cnab_line_id.content_source_model_id"
     )
     dot_notation_field = fields.Char(
-        string="Related Field",
+        string="Dot Notation Field",
     )
 
     preview_field = fields.Char(compute="_compute_preview_field")
@@ -86,12 +86,14 @@ class CNABField(models.Model):
     @api.depends("resource_ref", "dot_notation_field", "python_code", "default_value")
     def _compute_preview_field(self):
         for rec in self:
-            rec.preview_field = ""
+            preview = ""
             if rec.resource_ref:
                 try:
-                    rec.preview_field = rec.compute_output_value(rec.resource_ref)
+                    preview = rec.compute_output_value(rec.resource_ref)
+                    preview = preview.replace(" ", "⎵")
                 except (ValueError, SyntaxError) as exc:
-                    rec.preview_field = str(exc)
+                    preview = str(exc)
+            rec.preview_field = preview
 
     def compute_output_value(self, resource_ref):
         "Compute output value for this field"
@@ -99,7 +101,7 @@ class CNABField(models.Model):
         for rec in self:
             value = ""
             if rec.dot_notation_field and resource_ref:
-                value = operator.attrgetter(rec.dot_notation_field)(resource_ref)
+                value = operator.attrgetter(rec.dot_notation_field)(resource_ref) or ""
                 value = str(value)
                 # Tratamento para campos númericos.
                 if rec.type == "num":
@@ -109,12 +111,14 @@ class CNABField(models.Model):
             if not value and rec.default_value:
                 value = rec.default_value
 
-            # aplica zeros ou brancos para valores não preenchidos.
-            if not value:
-                if rec.type == "num":
-                    value = value.zfill(rec.size)
-                if rec.type == "alpha":
-                    value = value.ljust(rec.size)
+            # trunca ser for maior que o permitido.
+            value = value[: rec.size]
+
+            # aplica zeros ou brancos para as colunas não preenchidas
+            if rec.type == "num":
+                value = value.zfill(rec.size)
+            if rec.type == "alpha":
+                value = value.ljust(rec.size)
 
             if rec.python_code:
                 value = rec.eval_compute_value(value)
