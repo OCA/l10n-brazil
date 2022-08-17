@@ -14,24 +14,24 @@ class CNABField(models.Model):
     _name = "l10n_br_cnab.line.field"
     _description = "Fields in CNAB lines."
 
-    name = fields.Char(readonly=True, states={"draft": [("readonly", "=", False)]})
-    meaning = fields.Char(readonly=True, states={"draft": [("readonly", "=", False)]})
+    name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
+    meaning = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
     cnab_line_id = fields.Many2one(
         "l10n_br_cnab.line",
         readonly=True,
         ondelete="cascade",
         required=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
     start_pos = fields.Integer(
         string="Start Position",
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
     end_pos = fields.Integer(
         string="End Position",
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
     type = fields.Selection(
         [
@@ -39,15 +39,13 @@ class CNABField(models.Model):
             ("num", _("Numeric")),
         ],
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
     related_field_id = fields.Many2one(
-        "ir.model.fields", readonly=True, states={"draft": [("readonly", "=", False)]}
+        "ir.model.fields", readonly=True, states={"draft": [("readonly", False)]}
     )
-    default_value = fields.Char(
-        readonly=True, states={"draft": [("readonly", "=", False)]}
-    )
-    notes = fields.Char(readonly=True, states={"draft": [("readonly", "=", False)]})
+    default_value = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
+    notes = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
     size = fields.Integer(compute="_compute_size")
     state = fields.Selection(
         selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
