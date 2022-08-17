@@ -28,6 +28,7 @@
         "views/cnab_line.xml",
         "views/cnab_line_field.xml",
         "views/cnab_menu.xml",
+        "views/account_payment_mode.xml",
     ],
     "demo": [],
 }
