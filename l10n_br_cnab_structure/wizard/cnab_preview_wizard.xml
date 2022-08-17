@@ -6,8 +6,9 @@
         <field name="arch" type="xml">
         <form>
             <group name="preview" string="Preview">
-                <field name="cnab_line_id" readonly="1"/>
+                <field name="cnab_structure_id" readonly="1"/>
                 <field name="resource_ref"/>
+                <field name="cnab_file_txt"/>
                 <field name="output"/>
             </group>
         </form>

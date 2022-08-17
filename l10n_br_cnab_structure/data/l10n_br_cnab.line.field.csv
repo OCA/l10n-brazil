@@ -1,96 +1,96 @@
-id,name,meaning,start_pos,end_pos,type,default_value,cnab_line_id/id
-cnab_itau_240_header_1_3,CÓDIGO DO BANCO,CÓDIGO DO BCO NA COMPENSAÇÃO,1,3,num,341,cnab_itau_240_header
-cnab_itau_240_header_4_7,CÓDIGO DO LOTE,LOTE DE SERVIÇO,4,7,num,0,cnab_itau_240_header
-cnab_itau_240_header_8_8,TIPO DE REGISTRO,REGISTRO HEADER DE ARQUIVO,8,8,num,0,cnab_itau_240_header
-cnab_itau_240_header_9_14,BRANCOS,COMPLEMENTO DE REGISTRO,9,14,alpha,,cnab_itau_240_header
-cnab_itau_240_header_15_17,LAYOUT DE ARQUIVO,N. DA VERSÃO DO LAYOUT DO ARQUIVO,15,17,num,80,cnab_itau_240_header
-cnab_itau_240_header_18_18,EMPRESA – INSCRIÇÃO,TIPO DE INSCRIÇÃO DA EMPRESA,18,18,num,,cnab_itau_240_header
-cnab_itau_240_header_19_32,INSCRIÇÃO NÚMERO,CNPJ EMPRESA DEBITADA,19,32,num,,cnab_itau_240_header
-cnab_itau_240_header_33_52,BRANCOS,COMPLEMENTO DE REGISTRO,33,52,alpha,,cnab_itau_240_header
-cnab_itau_240_header_53_57,AGÊNCIA,NÚMERO AGÊNCIA DEBITADA,53,57,num,,cnab_itau_240_header
-cnab_itau_240_header_58_58,BRANCOS,COMPLEMENTO DE REGISTRO,58,58,alpha,,cnab_itau_240_header
-cnab_itau_240_header_59_70,CONTA,NÚMERO DE C/C DEBITADA,59,70,num,,cnab_itau_240_header
-cnab_itau_240_header_71_71,BRANCOS,COMPLEMENTO DE REGISTRO,71,71,alpha,,cnab_itau_240_header
-cnab_itau_240_header_72_72,DAC,DAC DA AGÊNCIA/CONTA DEBITADA,72,72,num,,cnab_itau_240_header
-cnab_itau_240_header_73_102,NOME DA EMPRESA,NOME DA EMPRESA,73,102,alpha,,cnab_itau_240_header
-cnab_itau_240_header_103_132,NOME DO BANCO,NOME DO BANCO,103,132,alpha,,cnab_itau_240_header
-cnab_itau_240_header_133_142,BRANCOS,COMPLEMENTO DE REGISTRO,133,142,alpha,,cnab_itau_240_header
-cnab_itau_240_header_143_143,ARQUIVO-CÓDIGO,CÓDIGO REMESSA/RETORNO,143,143,num,,cnab_itau_240_header
-cnab_itau_240_header_144_151,DATA DE GERAÇÃO,DATA DE GERAÇÃO DO ARQUIVO,144,151,num,,cnab_itau_240_header
-cnab_itau_240_header_152_157,HORA DA GERAÇÃO,HORA DE GERAÇÃO DO ARQUIVO,152,157,num,,cnab_itau_240_header
-cnab_itau_240_header_158_166,ZEROS,COMPLEMENTO DE REGISTRO,158,166,num,,cnab_itau_240_header
-cnab_itau_240_header_167_171,UNIDADE DE DENSIDADE,DENSIDADE DE GRAVAÇÃO DO ARQUIVO,167,171,num,,cnab_itau_240_header
-cnab_itau_240_header_172_240,BRANCOS,COMPLEMENTO DE REGISTRO,172,240,alpha,,cnab_itau_240_header
-cnab_itau_240_trailer_1_3,CÓDIGO DO BANCO,CÓDIGO BANCO NA COMPENSAÇÃO,1,3,num,341,cnab_itau_240_trailer
-cnab_itau_240_trailer_4_7,CÓDIGO DO LOTE,LOTE DE SERVIÇO,4,7,num,9999,cnab_itau_240_trailer
-cnab_itau_240_trailer_8_8,TIPO DE REGISTRO,REGISTRO TRAILER DE ARQUIVO,8,8,num,9,cnab_itau_240_trailer
-cnab_itau_240_trailer_9_17,BRANCOS,COMPLEMENTO DE REGISTRO,9,17,alpha,,cnab_itau_240_trailer
-cnab_itau_240_trailer_18_23,TOTAL QTDE DE LOTES,QTDE LOTES DO ARQUIVO,18,23,num,,cnab_itau_240_trailer
-cnab_itau_240_trailer_24_29,TOTAL QTDE REGISTROS,QTDE REGISTROS DO ARQUIVO,24,29,num,,cnab_itau_240_trailer
-cnab_itau_240_trailer_30_240,BRANCOS,COMPLEMENTO DE REGISTRO,30,240,alpha,,cnab_itau_240_trailer
-cnab_itau_240_pagamentos_header_1_3,CÓDIGO DO BANCO,CÓDIGO BANCO NA COMPENSAÇÃO,1,3,num,341,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_4_7,CÓDIGO DO LOTE,LOTE IDENTIFICAÇÃO DE PAGTOS,4,7,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_8_8,TIPO DE REGISTRO,REGISTRO HEADER DE LOTE,8,8,num,1,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_9_9,TIPO DE OPERAÇÃO,TIPO DA OPERAÇÃO,9,9,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_10_11,TIPO DE PAGAMENTO,TIPO DE PAGTO,10,11,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_12_13,FORMA DE PAGAMENTO,FORMA DE PAGAMENTO,12,13,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_14_16,LAYOUT DO LOTE,N. DA VERSÃO DO LAYOUT DO LOTE,14,16,num,40,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_17_17,BRANCOS,COMPLEMENTO DE REGISTRO,17,17,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_18_18,EMPRESA – INSCRIÇÃO,TIPO INSCRIÇÃO EMPRESA DEBITADA,18,18,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_19_32,INSCRIÇÃO NÚMERO,CNPJ EMPRESA DEBITADA,19,32,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_33_36,IDENTIFICAÇÃO DO LANÇAMENTO,IDENTIFICAÇÃO DO LANÇAMENTO NO EXTRATO DO FAVORECIDO,33,36,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_37_52,BRANCOS,COMPLEMENTO DE REGISTRO,37,52,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_53_57,AGÊNCIA,NÚMERO AGÊNCIA DEBITADA,53,57,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_58_58,BRANCOS,COMPLEMENTO DE REGISTRO,58,58,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_59_70,CONTA,NÚMERO DE C/C DEBITADA,59,70,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_71_71,BRANCOS,COMPLEMENTO DE REGISTRO,71,71,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_72_72,DAC,DAC DA AGÊNCIA/CONTA DEBITAD,72,72,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_73_102,NOME DA EMPRESA,NOME DA EMPRESA DEBITADA,73,102,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_103_132,FINALIDADE DO LOTE,FINALIDADE DOS PAGTOS DO LOTE,103,132,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_133_142,HISTÓRICO DE C/C,COMPLEMENTO HISTÓRICO C/C DEBITADA,133,142,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_143_172,ENDEREÇO DA EMPRESA,"NOME DA RUA, AV, PÇA, ETC...",143,172,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_173_177,NÚMERO,NÚMERO DO LOCAL,173,177,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_178_192,COMPLEMENTO.,"CASA, APTO, SALA, ETC...",178,192,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_193_212,CIDADE,NOME DA CIDADE,193,212,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_213_220,CEP,CEP,213,220,num,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_221_222,ESTADO,SIGLA DO ESTADO,221,222,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_223_230,BRANCOS,COMPLEMENTO DE REGISTRO,223,230,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_header_231_240,OCORRÊNCIAS,CÓDIGO OCORRÊNCIAS P/RETORNO,231,240,alpha,,cnab_itau_240_pagamentos_header
-cnab_itau_240_pagamentos_segmento_a_1_3,CÓDIGO DO BANCO,CÓDIGO BANCO NA COMPENSAÇÃO,1,3,num,341,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_4_7,CÓDIGO DO LOTE,LOTE DE SERVIÇO,4,7,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_8_8,TIPO DE REGISTRO,REGISTRO DETALHE DE LOTE,8,8,num,3,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_9_13,NÚMERO DO REGISTRO,Nº SEQUENCIAL REGISTRO NO LOTE,9,13,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_14_14,SEGMENTO,CÓDIGO SEGMENTO REG. DETALHE,14,14,alpha,A,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_15_17,TIPO DE MOVIMENTO,TIPO DE MOVIMENTO,15,17,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_18_20,CÂMARA,CÓDIGO DA CÂMARA CENTRALIZADORA,18,20,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_21_23,BANCO FAVORECIDO,CÓDIGO BANCO FAVORECIDO,21,23,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_24_43,AGÊNCIA CONTA,AGÊNCIA CONTA FAVORECIDO,24,43,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_44_73,NOME DO FAVORECIDO,NOME DO FAVORECIDO,44,73,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_74_93,SEU NÚMERO,Nº DOCTO ATRIBUÍDO PELA EMPRESA,74,93,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_94_101,DATA DE PAGTO,DATA PREVISTA PARA PAGTO,94,101,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_102_104,MOEDA – TIPO,TIPO DA MOEDA,102,104,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_105_112,CÓDIGO ISPB,IDENTIFICAÇÃO DA INSTITUIÇÃO PARA O SPB,105,112,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_113_114,IDENTI. TRANSFERENCIA,CONTA PAGAMENTO / PIX,113,114,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_115_119,ZEROS,COMPLEMENTO DE REGISTRO,115,119,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_120_134,VALOR DO PAGTO,Nº DOCTO ATRIBUÍDO PELO BANCO,120,134,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_135_149,NOSSO NÚMERO,COMPLEMENTO DE REGISTRO,135,149,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_150_154,BRANCOS,COMPLEMENTO DE REGISTRO,150,154,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_155_162,DATA EFETIVA,DATA REAL EFETIVAÇÃO DO PAGTO,155,162,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_163_177,VALOR EFETIVO,VALOR REAL EFETIVAÇÃO DO PAGTO,163,177,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_178_197,FINALIDADE DETALHE,INFORMAÇÃO COMPLEMENTAR P/ HIST. DE C/C,178,197,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_198_203,N. DO DOCUMENTO,Nº DO DOC/TED/ OP/ CHEQUE NO RETORNO,198,203,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_204_217,N. DE INSCRIÇÃO,N DE INSCRIÇÃO DO FAVORECIDO (CPF/CNPJ),204,217,num,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_218_219,FINALIDADE DOC E STATUS FUNCIONÁRIO,FINALIDADE DO DOC E STATUS DO FUNCIONÁRIO NA EMPRESA,218,219,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_220_224,FINALIDADE TED,FINALIDADE DA TED,220,224,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_225_229,BRANCOS,COMPLEMENTO DE REGISTRO,225,229,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_230_230,AVISO,AVISO AO FAVORECIDO,230,230,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_segmento_a_231_240,OCORRÊNCIAS,CÓDIGO OCORRÊNCIAS NO RETORNO,231,240,alpha,,cnab_itau_240_pagamentos_segmento_a
-cnab_itau_240_pagamentos_trailer_1_3,CÓDIGO DO BANCO,CÓDIGO BANCO NA COMPENSAÇÃO,1,3,num,341,cnab_itau_240_pagamentos_trailer
-cnab_itau_240_pagamentos_trailer_4_7,CÓDIGO DO LOTE,LOTE DE SERVIÇO,4,7,num,,cnab_itau_240_pagamentos_trailer
-cnab_itau_240_pagamentos_trailer_8_8,TIPO DE REGISTRO,REGISTRO TRAILER DE LOTE,8,8,num,5,cnab_itau_240_pagamentos_trailer
-cnab_itau_240_pagamentos_trailer_9_17,BRANCOS,COMPLEMENTO DE REGISTRO,9,17,alpha,,cnab_itau_240_pagamentos_trailer
-cnab_itau_240_pagamentos_trailer_18_23,TOTAL QTDE REGISTROS,QTDE REGISTROS DO LOTE,18,23,num,,cnab_itau_240_pagamentos_trailer
-cnab_itau_240_pagamentos_trailer_24_41,TOTAL VALOR PAGTOS,SOMA VALOR DOS PGTOS DO LOTE,24,41,num,,cnab_itau_240_pagamentos_trailer
-cnab_itau_240_pagamentos_trailer_42_59,ZEROS,COMPLEMENTO DE REGISTRO,42,59,num,,cnab_itau_240_pagamentos_trailer
-cnab_itau_240_pagamentos_trailer_60_230,BRANCOS,COMPLEMENTO DE REGISTRO,60,230,alpha,,cnab_itau_240_pagamentos_trailer
-cnab_itau_240_pagamentos_trailer_231_240,OCORRÊNCIAS,CÓDIGOS OCORRÊNCIAS P/ RETORNO,231,240,alpha,,cnab_itau_240_pagamentos_trailer
+"id","id","name","meaning","start_pos","end_pos","type","default_value","cnab_line_id/id","notes","python_code","dot_notation_field"
+"l10n_br_cnab_structure.cnab_itau_240_header_1_3","l10n_br_cnab_structure.cnab_itau_240_header_1_3","CÓDIGO DO BANCO","CÓDIGO DO BCO NA COMPENSAÇÃO","1","3","Numeric","341","l10n_br_cnab_structure.cnab_itau_240_header","","","company_partner_bank_id.bank_id.code_bc"
+"l10n_br_cnab_structure.cnab_itau_240_header_4_7","l10n_br_cnab_structure.cnab_itau_240_header_4_7","CÓDIGO DO LOTE","LOTE DE SERVIÇO","4","7","Numeric","0","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_8_8","l10n_br_cnab_structure.cnab_itau_240_header_8_8","TIPO DE REGISTRO","REGISTRO HEADER DE ARQUIVO","8","8","Numeric","0","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_9_14","l10n_br_cnab_structure.cnab_itau_240_header_9_14","BRANCOS","COMPLEMENTO DE REGISTRO","9","14","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_15_17","l10n_br_cnab_structure.cnab_itau_240_header_15_17","LAYOUT DE ARQUIVO","N. DA VERSÃO DO LAYOUT DO ARQUIVO","15","17","Numeric","80","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_18_18","l10n_br_cnab_structure.cnab_itau_240_header_18_18","EMPRESA – INSCRIÇÃO","TIPO DE INSCRIÇÃO DA EMPRESA","18","18","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","1 = CPF 2 = CNPJ","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_19_32","l10n_br_cnab_structure.cnab_itau_240_header_19_32","INSCRIÇÃO NÚMERO","CNPJ EMPRESA DEBITADA","19","32","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","","","company_id.cnpj_cpf"
+"l10n_br_cnab_structure.cnab_itau_240_header_33_52","l10n_br_cnab_structure.cnab_itau_240_header_33_52","BRANCOS","COMPLEMENTO DE REGISTRO","33","52","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_53_57","l10n_br_cnab_structure.cnab_itau_240_header_53_57","AGÊNCIA","NÚMERO AGÊNCIA DEBITADA","53","57","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","","","company_partner_bank_id.bra_number"
+"l10n_br_cnab_structure.cnab_itau_240_header_58_58","l10n_br_cnab_structure.cnab_itau_240_header_58_58","BRANCOS","COMPLEMENTO DE REGISTRO","58","58","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_59_70","l10n_br_cnab_structure.cnab_itau_240_header_59_70","CONTA","NÚMERO DE C/C DEBITADA","59","70","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","","","company_partner_bank_id.acc_number"
+"l10n_br_cnab_structure.cnab_itau_240_header_71_71","l10n_br_cnab_structure.cnab_itau_240_header_71_71","BRANCOS","COMPLEMENTO DE REGISTRO","71","71","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_72_72","l10n_br_cnab_structure.cnab_itau_240_header_72_72","DAC","DAC DA AGÊNCIA/CONTA DEBITADA","72","72","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","","","company_partner_bank_id.acc_number_dig"
+"l10n_br_cnab_structure.cnab_itau_240_header_73_102","l10n_br_cnab_structure.cnab_itau_240_header_73_102","NOME DA EMPRESA","NOME DA EMPRESA","73","102","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","","company_id.legal_name"
+"l10n_br_cnab_structure.cnab_itau_240_header_103_132","l10n_br_cnab_structure.cnab_itau_240_header_103_132","NOME DO BANCO","NOME DO BANCO","103","132","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","","company_partner_bank_id.bank_id.name"
+"l10n_br_cnab_structure.cnab_itau_240_header_133_142","l10n_br_cnab_structure.cnab_itau_240_header_133_142","BRANCOS","COMPLEMENTO DE REGISTRO","133","142","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_143_143","l10n_br_cnab_structure.cnab_itau_240_header_143_143","ARQUIVO-CÓDIGO","CÓDIGO REMESSA/RETORNO","143","143","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","1=REMESSA 2=RETORNO","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_144_151","l10n_br_cnab_structure.cnab_itau_240_header_144_151","DATA DE GERAÇÃO","DATA DE GERAÇÃO DO ARQUIVO","144","151","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","DDMMAAAA","time.strftime(""%d%m%Y"")",""
+"l10n_br_cnab_structure.cnab_itau_240_header_152_157","l10n_br_cnab_structure.cnab_itau_240_header_152_157","HORA DA GERAÇÃO","HORA DE GERAÇÃO DO ARQUIVO","152","157","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","HHMMSS","time.strftime(""%H%M%S"")",""
+"l10n_br_cnab_structure.cnab_itau_240_header_158_166","l10n_br_cnab_structure.cnab_itau_240_header_158_166","ZEROS","COMPLEMENTO DE REGISTRO","158","166","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_167_171","l10n_br_cnab_structure.cnab_itau_240_header_167_171","UNIDADE DE DENSIDADE","DENSIDADE DE GRAVAÇÃO DO ARQUIVO","167","171","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_header_172_240","l10n_br_cnab_structure.cnab_itau_240_header_172_240","BRANCOS","COMPLEMENTO DE REGISTRO","172","240","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_trailer_1_3","l10n_br_cnab_structure.cnab_itau_240_trailer_1_3","CÓDIGO DO BANCO","CÓDIGO BANCO NA COMPENSAÇÃO","1","3","Numeric","341","l10n_br_cnab_structure.cnab_itau_240_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_trailer_4_7","l10n_br_cnab_structure.cnab_itau_240_trailer_4_7","CÓDIGO DO LOTE","LOTE DE SERVIÇO","4","7","Numeric","9999","l10n_br_cnab_structure.cnab_itau_240_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_trailer_8_8","l10n_br_cnab_structure.cnab_itau_240_trailer_8_8","TIPO DE REGISTRO","REGISTRO TRAILER DE ARQUIVO","8","8","Numeric","9","l10n_br_cnab_structure.cnab_itau_240_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_trailer_9_17","l10n_br_cnab_structure.cnab_itau_240_trailer_9_17","BRANCOS","COMPLEMENTO DE REGISTRO","9","17","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_trailer_18_23","l10n_br_cnab_structure.cnab_itau_240_trailer_18_23","TOTAL QTDE DE LOTES","QTDE LOTES DO ARQUIVO","18","23","Numeric","","l10n_br_cnab_structure.cnab_itau_240_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_trailer_24_29","l10n_br_cnab_structure.cnab_itau_240_trailer_24_29","TOTAL QTDE REGISTROS","QTDE REGISTROS DO ARQUIVO","24","29","Numeric","","l10n_br_cnab_structure.cnab_itau_240_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_trailer_30_240","l10n_br_cnab_structure.cnab_itau_240_trailer_30_240","BRANCOS","COMPLEMENTO DE REGISTRO","30","240","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_1_3","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_1_3","CÓDIGO DO BANCO","CÓDIGO BANCO NA COMPENSAÇÃO","1","3","Numeric","341","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_partner_bank_id.bank_id.code_bc"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_4_7","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_4_7","CÓDIGO DO LOTE","LOTE IDENTIFICAÇÃO DE PAGTOS","4","7","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","""0001""",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_8_8","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_8_8","TIPO DE REGISTRO","REGISTRO HEADER DE LOTE","8","8","Numeric","1","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_9_9","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_9_9","TIPO DE OPERAÇÃO","TIPO DA OPERAÇÃO","9","9","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","C=CRÉDITO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_10_11","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_10_11","TIPO DE PAGAMENTO","TIPO DE PAGTO","10","11","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","payment_mode_id.service_type"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_12_13","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_12_13","FORMA DE PAGAMENTO","FORMA DE PAGAMENTO","12","13","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","payment_mode_id.release_form"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_14_16","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_14_16","LAYOUT DO LOTE","N. DA VERSÃO DO LAYOUT DO LOTE","14","16","Numeric","40","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_17_17","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_17_17","BRANCOS","COMPLEMENTO DE REGISTRO","17","17","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_18_18","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_18_18","EMPRESA – INSCRIÇÃO","TIPO INSCRIÇÃO EMPRESA DEBITADA","18","18","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","1 = CPF 2 = CNPJ","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_19_32","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_19_32","INSCRIÇÃO NÚMERO","CNPJ EMPRESA DEBITADA","19","32","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_id.cnpj_cpf"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_33_36","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_33_36","IDENTIFICAÇÃO DO LANÇAMENTO","IDENTIFICAÇÃO DO LANÇAMENTO NO EXTRATO DO FAVORECIDO","33","36","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_37_52","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_37_52","BRANCOS","COMPLEMENTO DE REGISTRO","37","52","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_53_57","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_53_57","AGÊNCIA","NÚMERO AGÊNCIA DEBITADA","53","57","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_partner_bank_id.bra_number"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_58_58","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_58_58","BRANCOS","COMPLEMENTO DE REGISTRO","58","58","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_59_70","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_59_70","CONTA","NÚMERO DE C/C DEBITADA","59","70","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_partner_bank_id.acc_number"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_71_71","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_71_71","BRANCOS","COMPLEMENTO DE REGISTRO","71","71","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_72_72","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_72_72","DAC","DAC DA AGÊNCIA/CONTA DEBITAD","72","72","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_partner_bank_id.acc_number_dig"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_73_102","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_73_102","NOME DA EMPRESA","NOME DA EMPRESA DEBITADA","73","102","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_id.legal_name"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_103_132","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_103_132","FINALIDADE DO LOTE","FINALIDADE DOS PAGTOS DO LOTE","103","132","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_133_142","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_133_142","HISTÓRICO DE C/C","COMPLEMENTO HISTÓRICO C/C DEBITADA","133","142","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_143_172","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_143_172","ENDEREÇO DA EMPRESA","NOME DA RUA, AV, PÇA, ETC...","143","172","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_id.street_name"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_173_177","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_173_177","NÚMERO","NÚMERO DO LOCAL","173","177","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_id.street_number"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_178_192","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_178_192","COMPLEMENTO.","CASA, APTO, SALA, ETC...","178","192","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_id.street2"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_193_212","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_193_212","CIDADE","NOME DA CIDADE","193","212","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_id.city_id.name"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_213_220","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_213_220","CEP","CEP","213","220","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_id.zip"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_221_222","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_221_222","ESTADO","SIGLA DO ESTADO","221","222","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_id.state_id.code"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_223_230","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_223_230","BRANCOS","COMPLEMENTO DE REGISTRO","223","230","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_231_240","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_231_240","OCORRÊNCIAS","CÓDIGO OCORRÊNCIAS P/RETORNO","231","240","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_1_3","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_1_3","CÓDIGO DO BANCO","CÓDIGO BANCO NA COMPENSAÇÃO","1","3","Numeric","341","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_4_7","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_4_7","CÓDIGO DO LOTE","LOTE DE SERVIÇO","4","7","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","""0001""",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_8_8","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_8_8","TIPO DE REGISTRO","REGISTRO DETALHE DE LOTE","8","8","Numeric","3","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_9_13","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_9_13","NÚMERO DO REGISTRO","Nº SEQUENCIAL REGISTRO NO LOTE","9","13","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_14_14","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_14_14","SEGMENTO","CÓDIGO SEGMENTO REG. DETALHE","14","14","Alphanumeric","A","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_15_17","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_15_17","TIPO DE MOVIMENTO","TIPO DE MOVIMENTO","15","17","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_18_20","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_18_20","CÂMARA","CÓDIGO DA CÂMARA CENTRALIZADORA","18","20","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_21_23","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_21_23","BANCO FAVORECIDO","CÓDIGO BANCO FAVORECIDO","21","23","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","","partner_bank_id.bra_number"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_24_43","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_24_43","AGÊNCIA CONTA","AGÊNCIA CONTA FAVORECIDO","24","43","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","","partner_bank_id.acc_number"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_44_73","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_44_73","NOME DO FAVORECIDO","NOME DO FAVORECIDO","44","73","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","","partner_bank_id.acc_holder_name"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_74_93","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_74_93","SEU NÚMERO","Nº DOCTO ATRIBUÍDO PELA EMPRESA","74","93","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","","communication"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_94_101","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_94_101","DATA DE PAGTO","DATA PREVISTA PARA PAGTO","94","101","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","tem que arrumar o formato p/ DDMMAAAA","","date"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_102_104","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_102_104","MOEDA – TIPO","TIPO DA MOEDA","102","104","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","""REA""",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_105_112","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_105_112","CÓDIGO ISPB","IDENTIFICAÇÃO DA INSTITUIÇÃO PARA O SPB","105","112","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_113_114","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_113_114","IDENTI. TRANSFERENCIA","CONTA PAGAMENTO / PIX","113","114","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_115_119","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_115_119","ZEROS","COMPLEMENTO DE REGISTRO","115","119","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_120_134","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_120_134","VALOR DO PAGTO","Nº DOCTO ATRIBUÍDO PELO BANCO","120","134","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","arrumar casa decimal","","amount_currency"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_135_149","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_135_149","NOSSO NÚMERO","COMPLEMENTO DE REGISTRO","135","149","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_150_154","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_150_154","BRANCOS","COMPLEMENTO DE REGISTRO","150","154","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_155_162","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_155_162","DATA EFETIVA","DATA REAL EFETIVAÇÃO DO PAGTO","155","162","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_163_177","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_163_177","VALOR EFETIVO","VALOR REAL EFETIVAÇÃO DO PAGTO","163","177","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_178_197","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_178_197","FINALIDADE DETALHE","INFORMAÇÃO COMPLEMENTAR P/ HIST. DE C/C","178","197","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_198_203","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_198_203","N. DO DOCUMENTO","Nº DO DOC/TED/ OP/ CHEQUE NO RETORNO","198","203","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_204_217","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_204_217","N. DE INSCRIÇÃO","N DE INSCRIÇÃO DO FAVORECIDO (CPF/CNPJ)","204","217","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","","partner_id.cnpj_cpf"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_218_219","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_218_219","FINALIDADE DOC E STATUS FUNCIONÁRIO","FINALIDADE DO DOC E STATUS DO FUNCIONÁRIO NA EMPRESA","218","219","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_220_224","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_220_224","FINALIDADE TED","FINALIDADE DA TED","220","224","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","","ted_finality_code"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_225_229","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_225_229","BRANCOS","COMPLEMENTO DE REGISTRO","225","229","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_230_230","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_230_230","AVISO","AVISO AO FAVORECIDO","230","230","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_231_240","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_231_240","OCORRÊNCIAS","CÓDIGO OCORRÊNCIAS NO RETORNO","231","240","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_1_3","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_1_3","CÓDIGO DO BANCO","CÓDIGO BANCO NA COMPENSAÇÃO","1","3","Numeric","341","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","","","company_partner_bank_id.bank_id.code_bc"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_4_7","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_4_7","CÓDIGO DO LOTE","LOTE DE SERVIÇO","4","7","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","TODO","""0001""",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_8_8","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_8_8","TIPO DE REGISTRO","REGISTRO TRAILER DE LOTE","8","8","Numeric","5","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_9_17","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_9_17","BRANCOS","COMPLEMENTO DE REGISTRO","9","17","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_18_23","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_18_23","TOTAL QTDE REGISTROS","QTDE REGISTROS DO LOTE","18","23","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_24_41","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_24_41","TOTAL VALOR PAGTOS","SOMA VALOR DOS PGTOS DO LOTE","24","41","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","TODO","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_42_59","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_42_59","ZEROS","COMPLEMENTO DE REGISTRO","42","59","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_60_230","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_60_230","BRANCOS","COMPLEMENTO DE REGISTRO","60","230","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_231_240","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer_231_240","OCORRÊNCIAS","CÓDIGOS OCORRÊNCIAS P/ RETORNO","231","240","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_trailer","","",""

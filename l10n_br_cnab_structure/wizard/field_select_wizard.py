@@ -16,8 +16,10 @@ class FieldSelectWizard(models.TransientModel):
         string="CNAB Field",
     )
 
-    related_ir_model_id = fields.Many2one(
-        "ir.model", string="Related Model", related="cnab_field_id.related_ir_model_id"
+    content_source_model_id = fields.Many2one(
+        "ir.model",
+        string="Related Model",
+        related="cnab_field_id.content_source_model_id",
     )
 
     new_field_id = fields.Many2one(
@@ -31,9 +33,9 @@ class FieldSelectWizard(models.TransientModel):
         compute="_compute_parent_model_id",
     )
 
-    @api.depends("related_ir_model_id")
+    @api.depends("content_source_model_id")
     def _compute_parent_model_id(self):
-        model = self.related_ir_model_id
+        model = self.content_source_model_id
         if self.dot_notation_field:
             dn_fields = self.dot_notation_field.split(".")
             for fld in dn_fields:
