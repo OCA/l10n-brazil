@@ -7,7 +7,7 @@
         <form>
             <field name="dot_notation_field" invisible="1"/>
             <field name="cnab_field_id" invisible="1"/>
-            <field name="related_ir_model_id" invisible="1"/>
+            <field name="content_source_model_id" invisible="1"/>
             <field name="parent_model_id" invisible="1"/>
             <h1>
                 <field name="dot_notation_field" readonly="1"/>
