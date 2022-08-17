@@ -8,7 +8,7 @@ from odoo import api, models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    @api.constrains('move_type', 'journal_id')
+    @api.constrains("move_type", "journal_id")
     def _check_journal_type(self):
         # A implementação do modulo stock_picking_invoicing é justamente o caso
         # de ser preciso ter um Documento Fiscal mas não ser nem uma Venda nem
