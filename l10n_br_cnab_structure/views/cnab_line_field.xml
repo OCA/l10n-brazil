@@ -38,7 +38,7 @@
                         <field name="cnab_line_id" />
                     </group>
                     <group col="2" name="related value">
-                        <field name="related_ir_model_id" />
+                        <field name="content_source_model_id" />
 
                         <field colspan="4" name="dot_notation_field" />
                         <button
