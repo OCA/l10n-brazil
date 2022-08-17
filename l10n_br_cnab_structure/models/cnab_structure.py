@@ -13,27 +13,27 @@ class CNABStructure(models.Model):
         "An structure with header, body and trailer that make up the CNAB structure."
     )
 
-    name = fields.Char(readonly=True, states={"draft": [("readonly", "=", False)]})
+    name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
     cnab_format = fields.Selection(
         selection=[("240", "240"), ("400", "400")],
         required=True,
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
 
     batch_ids = fields.One2many(
         comodel_name="l10n_br_cnab.batch",
         inverse_name="cnab_structure_id",
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
 
     line_ids = fields.One2many(
         comodel_name="l10n_br_cnab.line",
         inverse_name="cnab_structure_id",
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
 
     state = fields.Selection(
