@@ -9,7 +9,7 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="cnab_preview_wizard_form" />
         <field name="target">new</field>
-        <field name="context">{'default_cnab_line_id': active_id}</field>
+        <field name="context">{'default_cnab_structure_id': active_id}</field>
     </record>
 
     <record model="ir.ui.view" id="cnab_line_tree_view">
@@ -47,7 +47,7 @@
                         <field name="cnab_format" invisible="True" />
                         <field name="segment_name" attrs="{'invisible': [('type', '!=', 'segment')], 'required': [('type', '=', 'segment')]}" />
                         <field name="type" />
-                        <field name="related_ir_model_id" />
+                        <field name="content_source_model_id" />
                         <field name="resource_ref" />
                     </group>
                     <group>
@@ -66,7 +66,7 @@
                         <field name="start_pos" />
                         <field name="end_pos" />
                         <field name="type" />
-                        <field name="related_ir_model_id" invisible="True" />
+                        <field name="content_source_model_id" invisible="True" />
                         <field name="default_value" />
                         <field name="notes" />
                         <field name="dot_notation_field" />
