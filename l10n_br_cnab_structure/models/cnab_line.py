@@ -16,12 +16,19 @@ class CNABLine(models.Model):
 
     sequence = fields.Integer(readonly=True, states={"draft": [("readonly", False)]})
 
+    cnab_structure_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.structure",
+        ondelete="cascade",
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
-    related_ir_model_id = fields.Many2one(
-        "ir.model",
-        string="Related Model",
-        domain="[('model', 'in', ['account.payment.order','bank.payment.line'])]",
+    content_source_model_id = fields.Many2one(
+        comodel_name="ir.model",
+        string="Content Source",
+        help="Related model that will provide the origin of the contents of CNAB files.",
+        compute="_compute_content_source_model_id",
     )
 
     type = fields.Selection(
@@ -71,6 +78,16 @@ class CNABLine(models.Model):
         readonly=True,
         default="draft",
     )
+
+    def _compute_content_source_model_id(self):
+        if self.type in ["header", "trailer"]:
+            self.content_source_model_id = self.env["ir.model"].search(
+                [("model", "=", "account.payment.order")]
+            )
+        else:
+            self.content_source_model_id = self.env["ir.model"].search(
+                [("model", "=", "bank.payment.line")]
+            )
 
     def output(self, resource_ref):
         "Compute CNAB output with all field for this Line"
