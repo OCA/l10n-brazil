@@ -13,6 +13,7 @@ class ContractLine(models.Model):
     company_id = fields.Many2one(
         related="contract_id.company_id",
     )
+    country_id = fields.Many2one(related="company_id.country_id", store=True)
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
@@ -38,6 +39,10 @@ class ContractLine(models.Model):
 
     @api.multi
     def _prepare_invoice_line(self, invoice_id=False, invoice_values=False):
+        self.ensure_one()
+        contract = self.contract_id
+        if contract.contract_recalculate_taxes_before_invoice:
+            self._onchange_fiscal_operation_id()
         values = super()._prepare_invoice_line(invoice_id, invoice_values)
         quantity = values.get("quantity")
         if values:
@@ -47,11 +52,3 @@ class ContractLine(models.Model):
                 self.discount / 100
             )
         return values
-
-    @api.model
-    def create(self, values):
-        res = super().create(values)
-        if res.contract_id.fiscal_operation_id and not res.fiscal_operation_id:
-            res.fiscal_operation_id = res.contract_id.fiscal_operation_id
-            res._onchange_fiscal_operation_id()
-        return res
