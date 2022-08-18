@@ -87,7 +87,7 @@ addon | version | maintainers | summary
 [l10n_br_coa_complete](l10n_br_coa_complete/) | 12.0.2.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Plano de Contas Completo para empresas Simples, Presumido, Real, SA, Consolidação
 [l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.5.0.0 |  | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 12.0.3.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
-[l10n_br_contract](l10n_br_contract/) | 12.0.6.1.1 |  | Customization of Contract module for implementations in Brazil.
+[l10n_br_contract](l10n_br_contract/) | 12.0.7.0.0 |  | Customization of Contract module for implementations in Brazil.
 [l10n_br_crm](l10n_br_crm/) | 12.0.1.0.1 |  | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.2.0.0 |  | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 12.0.3.0.0 |  | This module changes the delivery model strategy to match brazilian standards.
