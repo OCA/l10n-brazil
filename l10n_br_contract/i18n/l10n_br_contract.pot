@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Amounts"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__cnpj_cpf
 msgid "CNPJ/CPF"
 msgstr ""
@@ -45,14 +50,25 @@ msgid "Contract Line"
 msgstr ""
 
 #. module: l10n_br_contract
-#: code:addons/l10n_br_contract/models/contract_contract.py:172
+#: code:addons/l10n_br_contract/models/contract_contract.py:178
 #, python-format
 msgid "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id=\"%s\">Invoice</a>"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__country_id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__currency_id
 msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_recalculate_taxes_before_invoice
+msgid "Dafault recalculate taxes before invoicing"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -63,6 +79,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_sale_fiscal_operation_id
 msgid "Default Contract Sale Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Extra Info"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -91,6 +112,11 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
+msgid "Recalculate taxes before invoicing"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ie
 msgid "State Tax Number/RG"
 msgstr ""
@@ -98,6 +124,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__tax_framework
 msgid "Tax Framework"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
+msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_contract
