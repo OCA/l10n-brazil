@@ -23,7 +23,7 @@ class CNABPreviewWizard(models.TransientModel):
     )
 
     cnab_structure_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.file",
+        comodel_name="l10n_br_cnab.structure",
     )
 
     output = fields.Text(string="CNAB Text Output", compute="_compute_cnab_txt")
