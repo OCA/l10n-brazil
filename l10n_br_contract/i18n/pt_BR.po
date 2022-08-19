@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-12 22:07+0000\n"
+"PO-Revision-Date: 2022-08-19 20:07+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. module: l10n_br_contract
 #: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
 msgid "Amounts"
-msgstr ""
+msgstr "Montantes"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__cnpj_cpf
@@ -67,7 +67,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__country_id
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__country_id
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__currency_id
@@ -77,7 +77,7 @@ msgstr "Moeda"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_recalculate_taxes_before_invoice
 msgid "Dafault recalculate taxes before invoicing"
-msgstr ""
+msgstr "Padrão recalcular impostos antes do faturamento"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_purchase_fiscal_operation_id
@@ -92,12 +92,12 @@ msgstr "Padrão de Operação Fiscal de Vendas em Contratos"
 #. module: l10n_br_contract
 #: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
 msgid "Extra Info"
-msgstr ""
+msgstr "Informação Extra"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ind_final
 msgid "Final Consumption Operation"
-msgstr ""
+msgstr "Operação de Consumo Final"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_id
@@ -107,7 +107,7 @@ msgstr "Operação Fiscal"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_tax_ids
 msgid "Fiscal Taxes"
-msgstr ""
+msgstr "Impostos Fiscais"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__legal_name
@@ -122,12 +122,12 @@ msgstr "Parceiro"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
 msgid "Recalculate taxes before invoicing"
-msgstr ""
+msgstr "Recalcular impostos antes do faturamento"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ie
 msgid "State Tax Number/RG"
-msgstr ""
+msgstr "Número da Inscrição Estadual/RG"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__tax_framework
@@ -137,7 +137,7 @@ msgstr ""
 #. module: l10n_br_contract
 #: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
 msgid "Taxes"
-msgstr ""
+msgstr "Impostos"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__legal_name
