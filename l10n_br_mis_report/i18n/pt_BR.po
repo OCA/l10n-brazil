@@ -6,48 +6,51 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2022-09-16 22:07+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_outras_receitas_despesas_operacionais
+#, fuzzy
 msgid "(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS"
-msgstr ""
+msgstr "(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado_financeiro
 msgid "(+/-) RESULTADO FINANCEIRO"
-msgstr ""
+msgstr "(+/-) RESULTADO FINANCEIRO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_header_custo_vendas
 msgid "(-) CUSTO DAS VENDAS"
-msgstr ""
+msgstr "(-) CUSTO DAS VENDAS"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_header_despesas_operacionais
 msgid "(-) DESPESAS OPERACIONAIS"
-msgstr ""
+msgstr "(-) DESPESAS OPERACIONAIS"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_deducoes_receita
 msgid "(-) Deduções de Tributos, Abatimentos e Devoluções"
-msgstr ""
+msgstr "(-) Deduções de Tributos, Abatimentos e Devoluções"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_depreciacao_amortizacao
 msgid "(-) Depreciação e Amortização Acumuladas"
-msgstr ""
+msgstr "(-) Depreciação e Amortização Acumuladas"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_contribuicao_social
 msgid "(-) Despesa com Contribuição Social"
-msgstr ""
+msgstr "(-) Despesa com Contribuição Social"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_imposto_renda_pj
