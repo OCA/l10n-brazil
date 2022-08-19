@@ -615,25 +615,7 @@ class NFe(spec_models.StackedModel):
         return super()._build_attr(node, fields, vals, path, attr)
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
-        if key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
-            enderEmit_value = self.env["res.partner"].build_attrs(
-                value.enderEmit, path=path
-            )
-            new_value.update(enderEmit_value)
-            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
-                str.maketrans("", "", string.punctuation)
-            )
-            emit_cnpj = new_value.get("nfe40_CNPJ").translate(
-                str.maketrans("", "", string.punctuation)
-            )
-            if company_cnpj != emit_cnpj:
-                vals["issuer"] = "partner"
-            new_value["is_company"] = True
-            new_value["cnpj_cpf"] = emit_cnpj
-            super()._build_many2one(
-                self.env["res.partner"], vals, new_value, "partner_id", value, path
-            )
-        elif key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
+        if key == "nfe40_entrega":
             enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
             new_value.update(enderEntreg_value)
             parent_domain = [("nfe40_CNPJ", "=", new_value.get("nfe40_CNPJ"))]
@@ -650,13 +632,88 @@ class NFe(spec_models.StackedModel):
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, key, value, path
             )
-        elif self.env.context.get("edoc_type") == "in" and key in [
+        elif self.env.context.get("edoc_type") == "in":
+            self._build_many2one_in(comodel, vals, new_value, key, value, path)
+        elif self.env.context.get("edoc_type") == "out":
+            self._build_many2one_out(comodel, vals, new_value, key, value, path)
+        elif (
+            self._name == "account.invoice"
+            and comodel._name == "l10n_br_fiscal.document"
+        ):
+            # module l10n_br_account_nfe
+            # stacked m2o
+            vals.update(new_value)
+        else:
+            super()._build_many2one(comodel, vals, new_value, key, value, path)
+
+    def _build_many2one_in(self, comodel, vals, new_value, key, value, path):
+        if key == "nfe40_emit":
+            enderEmit_value = self.env["res.partner"].build_attrs(
+                value.enderEmit, path=path
+            )
+            new_value.update(enderEmit_value)
+            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            emit_cnpj = new_value.get("nfe40_CNPJ")
+            if emit_cnpj:
+                emit_cnpj = emit_cnpj.translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+            if company_cnpj != emit_cnpj:
+                vals["issuer"] = "partner"
+            new_value["is_company"] = True
+            new_value["cnpj_cpf"] = emit_cnpj
+            super()._build_many2one(
+                self.env["res.partner"], vals, new_value, "partner_id", value, path
+            )
+        elif key in [
             "nfe40_dest",
             "nfe40_enderDest",
         ]:
             # this would be the emit/company data, but we won't update it on
             # NFe import so just do nothing
             return
+        elif (
+            self._name == "account.invoice"
+            and comodel._name == "l10n_br_fiscal.document"
+        ):
+            # module l10n_br_account_nfe
+            # stacked m2o
+            vals.update(new_value)
+        else:
+            super()._build_many2one(comodel, vals, new_value, key, value, path)
+
+    def _build_many2one_out(self, comodel, vals, new_value, key, value, path):
+        if key == "nfe40_emit":
+            # this would be the emit/company data, but we won't update it on
+            # NFe import so just do nothing
+            return
+        elif key in [
+            "nfe40_dest",
+            "nfe40_enderDest",
+        ]:
+            enderDest_value = self.env["res.partner"].build_attrs(
+                value.enderDest, path=path
+            )
+            new_value.update(enderDest_value)
+            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            dest_cnpj = new_value.get("nfe40_CNPJ")
+            if dest_cnpj:
+                dest_cnpj = dest_cnpj.translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+            if company_cnpj != dest_cnpj:
+                vals["issuer"] = "company"
+            else:
+                vals["issuer"] = "partner"
+            new_value["is_company"] = True
+            new_value["cnpj_cpf"] = dest_cnpj
+            super()._build_many2one(
+                self.env["res.partner"], vals, new_value, "partner_id", value, path
+            )
         elif (
             self._name == "account.invoice"
             and comodel._name == "l10n_br_fiscal.document"
