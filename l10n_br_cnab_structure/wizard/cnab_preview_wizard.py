@@ -17,25 +17,47 @@ class CNABPreviewWizard(models.TransientModel):
             ("bank.payment.line", "Bank Payment Line"),
         ]
 
-    resource_ref = fields.Reference(
-        string="Reference",
-        selection="_selection_target_model",
+    payment_order_id = fields.Many2one(
+        comodel_name="account.payment.order",
+        string="Payment Order",
     )
 
     cnab_structure_id = fields.Many2one(
         comodel_name="l10n_br_cnab.structure",
     )
 
-    output = fields.Text(string="CNAB Text Output", compute="_compute_cnab_txt")
+    output = fields.Text(string="CNAB Text Output")
 
-    cnab_file_txt = fields.Binary()
+    cnab_file = fields.Binary(
+        string="CNAB File",
+    )
 
-    @api.depends("cnab_structure_id", "resource_ref")
+    cnab_file_name = fields.Char(compute="_compute_cnab_file_name")
+
+    @api.onchange("payment_order_id")
+    def _onchange_payment_order_id(self):
+        self._compute_cnab_txt()
+
+    def _compute_cnab_file_name(self):
+        for rec in self:
+            file_name = f"CNAB_TEST_{rec.payment_order_id.name}.REM"
+            rec.cnab_file_name = file_name
+
+    @api.depends("cnab_structure_id", "payment_order_id")
     def _compute_cnab_txt(self):
         txt = ""
-        if self.resource_ref:
-            txt = self.cnab_structure_id.output(self.resource_ref)
+        if self.payment_order_id:
+            txt = self.cnab_structure_id.output(self.payment_order_id)
         self.output = txt
-
         file = txt.encode("utf-8")
-        self.cnab_file_txt = base64.b64encode(file)
+        self.cnab_file = base64.b64encode(file)
+
+    def load_file(self):
+        """Action for download CNAB File"""
+        return {
+            "name": "CNAB",
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/?model=cnab.preview.wizard&id={self.id}&field=cnab_file"
+            "&filename_field=cnab_file_name&download=true",
+            "target": "self",
+        }
