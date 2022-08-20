@@ -89,11 +89,6 @@
                     />
                 </notebook>
             </xpath>
-            <xpath expr="//group[@name='recurrence_info']" position="attributes">
-                <attribute name="attrs">
-                    {'invisible': ['|','|', ('display_type', '=', 'line_section'), ('parent.line_recurrence', '!=', True), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', 'custom')]}
-                </attribute>
-            </xpath>
         </field>
     </record>
 </odoo>
