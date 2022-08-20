@@ -98,10 +98,11 @@ class CNABLine(models.Model):
     def output(self, resource_ref, **kwargs):
         "Compute CNAB output with all fields for this Line"
         self.ensure_one()
-        cnab_fields_output = []
+        line_fields = {}
         for field_id in self.field_ids:
-            cnab_fields_output.append(field_id.output(resource_ref, **kwargs))
-        return "".join(cnab_fields_output)
+            field_ref_name, field_value = field_id.output(resource_ref, **kwargs)
+            line_fields[field_ref_name] = field_value
+        return line_fields
 
     @api.depends("segment_name", "cnab_structure_id", "cnab_structure_id.name", "type")
     def _compute_name(self):
