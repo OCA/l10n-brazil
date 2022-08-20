@@ -49,45 +49,23 @@ class CNABStructure(models.Model):
         compute="_compute_content_source_model_id",
     )
 
+    def get_header(self):
+        "Returns the file header record"
+        return self.line_ids.filtered(lambda l: l.type == "header" and not l.batch_id)
+
+    def get_trailer(self):
+        "Returns the file trailer record"
+        return self.line_ids.filtered(lambda l: l.type == "trailer" and not l.batch_id)
+
     def output(self, pay_order):
-        # TODO esse método é uma POC!!
-        cnab_output = []
+        """Generete CNAB Output"""
+        lines = []
+        lines.append(self.get_header().output(pay_order))
         batch_id = pay_order.payment_mode_id.cnab_batch_id
-
-        # HEADER DO ARQUIVO
-        header_file_line = self.line_ids.filtered(
-            lambda l: l.type == "header" and not l.batch_id
-        )
-        cnab_output.append(header_file_line.output(pay_order))
-
-        # HEADER DO LOTE
-        header_batch_line = self.line_ids.filtered(
-            lambda l: l.type == "header" and not l.batch_id
-        )
-        cnab_output.append(header_batch_line.output(pay_order))
-
-        # LINHAS DETALHES
-
-        for bank_line in pay_order.bank_line_ids:
-            struct_lines = self.line_ids.filtered(
-                lambda l: l.type == "segment" and l.batch_id == batch_id
-            )
-            for st_line in struct_lines:
-                cnab_output.append(st_line.output(bank_line))
-
-        # TRAILER DO LOTE
-        trailer_batch_line = self.line_ids.filtered(
-            lambda l: l.type == "trailer" and not l.batch_id
-        )
-        cnab_output.append(trailer_batch_line.output(pay_order))
-
-        # TRAILER DO ARQUIVO
-        trailer_file_line = self.line_ids.filtered(
-            lambda l: l.type == "trailer" and not l.batch_id
-        )
-        cnab_output.append(trailer_file_line.output(pay_order))
-
-        return "\n".join(cnab_output)
+        if batch_id:
+            lines.extend(batch_id.output(pay_order, 1))
+        lines.append(self.get_trailer().output(pay_order))
+        return "\n".join(lines)
 
     def _compute_content_source_model_id(self):
         self.content_source_model_id = self.env["ir.model"].search(
