@@ -37,17 +37,20 @@
                         <field name="notes" />
                         <field name="cnab_line_id" />
                     </group>
-                    <group col="2" name="related value">
+                    <group col="2" name="content" stirng="Content">
                         <field name="content_source_model_id" />
-
-                        <field colspan="4" name="dot_notation_field" />
+                        <field name="content_source_field" />
+                        <label for="action_change_field" />
                         <button
-                            colspan="2"
-                            string="Change Related Field"
                             name="action_change_field"
+                            string="Select Field Wizard"
                             type="object"
                             class="oe_highlight"
+                            icon="fa-search-plus"
                         />
+                    </group>
+                    <group>
+                        <field name="dynamic_content" widget="ace" options="{'mode': 'python'}"/>
                     </group>
                 </sheet>
             </form>

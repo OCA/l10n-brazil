@@ -47,35 +47,39 @@
                         <field name="cnab_format" invisible="True" />
                         <field name="segment_name" attrs="{'invisible': [('type', '!=', 'segment')], 'required': [('type', '=', 'segment')]}" />
                         <field name="type" />
-                        <field name="content_source_model_id" />
-                        <field name="resource_ref" />
+                        <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_structure_id': cnab_structure_id}" />
+                        <field name="communication_flow" />
+                        <field name="requerid" />
                     </group>
                     <group>
                         <field name="cnab_structure_id" invisible="True" />
                         <field name="sequence" />
-                        <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_structure_id': cnab_structure_id}" />
+                        <field name="content_source_model_id" />
+                        <field name="resource_ref" />
                     </group>
                 </group>
-
-                <separator name="field_ids_label" string="Fields" />
-                <field name="field_ids" mode='tree' widget='one2many' context="{'default_cnab_line_id': id}">
-                    <tree editable="bottom">
-                        <field name="state" invisible="True" />
-                        <field name="name" />
-                        <field name="meaning" />
-                        <field name="start_pos" />
-                        <field name="end_pos" />
-                        <field name="type" />
-                        <field name="content_source_model_id" invisible="True" />
-                        <field name="default_value" />
-                        <field name="notes" />
-                        <field name="dot_notation_field" />
-                        <field name="python_code" />
-                        <field name="preview_field" attrs="{'column_invisible': [('parent.resource_ref', '=', False)]}" />
-                        <field name="cnab_line_id" invisible="True" />
-                        <button name="action_change_field" type="object" icon="fa-cogs" class="oe_highlight" />
-                    </tree>
-                </field>
+                <notebook>
+                    <page name="field_page" string="Fields">
+                        <field name="field_ids" mode='tree' widget='one2many' context="{'default_cnab_line_id': id}">
+                            <tree editable="bottom">
+                                <field name="state" invisible="True" />
+                                <field name="name" />
+                                <field name="meaning" />
+                                <field name="start_pos" />
+                                <field name="end_pos" />
+                                <field name="type" />
+                                <field name="content_source_model_id" invisible="True" />
+                                <field name="default_value" />
+                                <field name="notes" />
+                                <field name="content_source_field" />
+                                <field name="dynamic_content"/>
+                                <field name="preview_field" attrs="{'column_invisible': [('parent.resource_ref', '=', False)]}" />
+                                <field name="cnab_line_id" invisible="True" />
+                                <button name="action_change_field" type="object" icon="fa-cogs" class="oe_highlight" />
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
             </form>
         </field>
     </record>

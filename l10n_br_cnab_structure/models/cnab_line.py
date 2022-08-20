@@ -31,6 +31,12 @@ class CNABLine(models.Model):
         compute="_compute_content_source_model_id",
     )
 
+    requerid = fields.Boolean()
+
+    communication_flow = fields.Selection(
+        [("sending", "Sending"), ("return", "Return"), ("both", "Sending and Return")]
+    )
+
     type = fields.Selection(
         [("header", "Header"), ("segment", "Segment"), ("trailer", "Trailer")],
         readonly=True,
@@ -89,26 +95,28 @@ class CNABLine(models.Model):
                 [("model", "=", "bank.payment.line")]
             )
 
-    def output(self, resource_ref):
-        "Compute CNAB output with all field for this Line"
+    def output(self, resource_ref, **kwargs):
+        "Compute CNAB output with all fields for this Line"
         self.ensure_one()
         cnab_fields_output = []
         for field_id in self.field_ids:
-            cnab_fields_output.append(field_id.compute_output_value(resource_ref))
+            cnab_fields_output.append(field_id.output(resource_ref, **kwargs))
         return "".join(cnab_fields_output)
 
     @api.depends("segment_name", "cnab_structure_id", "cnab_structure_id.name", "type")
     def _compute_name(self):
-        for l in self:
-            if l.type == "segment":
-                name = l.segment_name
+        for line in self:
+            if line.type == "segment":
+                name = line.segment_name
             else:
-                name = l.type
+                name = line.type
 
-            if l.batch_id:
-                l.name = f"{l.cnab_structure_id.name} -> {l.batch_id.name} -> {name}"
+            if line.batch_id:
+                line.name = (
+                    f"{line.cnab_structure_id.name} -> {line.batch_id.name} -> {name}"
+                )
             else:
-                l.name = f"{l.cnab_structure_id.name} -> {name}"
+                line.name = f"{line.cnab_structure_id.name} -> {name}"
 
     def unlink(self):
         lines = self.filtered(lambda l: l.state != "draft")
