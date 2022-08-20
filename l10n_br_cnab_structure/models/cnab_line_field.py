@@ -15,6 +15,30 @@ class CNABField(models.Model):
     _description = "Fields in CNAB lines."
 
     name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
+
+    manual_ref_name = fields.Char(
+        string="Manual Reference Name",
+        help="reference name used to get the value of the field, "
+        "can be used to form the python expression in the dynamic content field.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    ref_name = fields.Char(
+        string="Reference Name",
+        help="reference name used to get the value of the field, "
+        "can be used to form the python expression in the dynamic content field.",
+        compute="_compute_ref_name",
+    )
+
+    dynamic_ref_name = fields.Char(
+        string="Dynamic Reference Name",
+        help="If a reference name for the field is not informed, a dynamic reference "
+        "is created, using the starting and ending position of the field as a base. "
+        " ex: '050-058'",
+        compute="_compute_dynamic_ref_name",
+    )
+
     meaning = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
     cnab_line_id = fields.Many2one(
         "l10n_br_cnab.line",
@@ -41,12 +65,14 @@ class CNABField(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
+
     related_field_id = fields.Many2one(
         "ir.model.fields", readonly=True, states={"draft": [("readonly", False)]}
     )
     default_value = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
     notes = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
     size = fields.Integer(compute="_compute_size")
+
     state = fields.Selection(
         selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
         readonly=True,
@@ -92,13 +118,21 @@ class CNABField(models.Model):
             },
         }
 
+    def _compute_ref_name(self):
+        for rec in self:
+            rec.ref_name = rec.manual_ref_name or rec.dynamic_ref_name or ""
+
+    def _compute_dynamic_ref_name(self):
+        for rec in self:
+            rec.dynamic_ref_name = f"{rec.start_pos}-{rec.end_pos}"
+
     @api.depends("resource_ref", "content_source_field", "dynamic_content")
     def _compute_preview_field(self):
         for rec in self:
             preview = ""
             if rec.resource_ref:
                 try:
-                    preview = rec.output(rec.resource_ref)
+                    ref_name, preview = rec.output(rec.resource_ref)
                     preview = preview.replace(" ", "⎵")
                 except (ValueError, SyntaxError) as exc:
                     preview = str(exc)
@@ -115,7 +149,8 @@ class CNABField(models.Model):
             if rec.dynamic_content:
                 value = rec.eval_compute_value(value, **kwargs)
             value = self.format(rec.size, rec.type, value)
-            return value
+
+            return self.ref_name, value
 
     def format(self, size, value_type, value):
         """formats the value according to the specification"""
