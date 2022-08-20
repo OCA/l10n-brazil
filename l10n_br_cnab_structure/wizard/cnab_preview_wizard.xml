@@ -4,13 +4,26 @@
         <field name="name">cnab.preview.wizard.form</field>
         <field name="model">cnab.preview.wizard</field>
         <field name="arch" type="xml">
-        <form>
-            <group name="preview" string="Preview">
+        <form string="CNAB Preview">
+            <group name="preview">
                 <field name="cnab_structure_id" readonly="1"/>
-                <field name="resource_ref"/>
-                <field name="cnab_file_txt"/>
-                <field name="output"/>
+                <field name="payment_order_id"/>
+                <field name="cnab_file" invisible="True"/>
             </group>
+            <notebook>
+                <page name="output" string="output">
+                    <field name="output" widget="ace"  nolabel="1"/>
+                </page>
+            </notebook>
+            <footer>
+                <button
+                    name="load_file"
+                    string="Download File"
+                    type="object"
+                    class="btn btn-primary"
+                    attrs="{'invisible':[('payment_order_id','=',False)]}"/>
+                <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+            </footer>
         </form>
         </field>
     </record>
