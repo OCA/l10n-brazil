@@ -55,8 +55,9 @@ class CNABField(models.Model):
     content_source_model_id = fields.Many2one(
         comodel_name="ir.model", related="cnab_line_id.content_source_model_id"
     )
-    dot_notation_field = fields.Char(
-        string="Dot Notation Field",
+    content_source_field = fields.Char(
+        string="Content Source Field",
+        help="Inform the field with the origin of the content, expressed with dot notation.",
     )
 
     preview_field = fields.Char(compute="_compute_preview_field")
@@ -66,7 +67,15 @@ class CNABField(models.Model):
         related="cnab_line_id.resource_ref",
     )
 
-    python_code = fields.Text()
+    dynamic_content = fields.Char(
+        help="Expression in Python to define the final value of the content,"
+        "you can use the following predefined words: \n\n"
+        "'content' returns the value of the mapped content source field. \n"
+        "'time' class to handle date. \n"
+        "'seq_batch' returns the batch sequence. \n"
+        "'seq_batch_record' returns the batch record sequence."
+        "'qty_batch_record' returns the number of records in the batch"
+    )
 
     def action_change_field(self):
         "action for change for field"
@@ -79,56 +88,58 @@ class CNABField(models.Model):
             "target": "new",
             "context": {
                 "default_cnab_field_id": self.id,
-                "default_dot_notation_field": self.dot_notation_field,
+                "default_content_source_field": self.content_source_field,
             },
         }
 
-    @api.depends("resource_ref", "dot_notation_field", "python_code", "default_value")
+    @api.depends("resource_ref", "content_source_field", "dynamic_content")
     def _compute_preview_field(self):
         for rec in self:
             preview = ""
             if rec.resource_ref:
                 try:
-                    preview = rec.compute_output_value(rec.resource_ref)
+                    preview = rec.output(rec.resource_ref)
                     preview = preview.replace(" ", "⎵")
                 except (ValueError, SyntaxError) as exc:
                     preview = str(exc)
             rec.preview_field = preview
 
-    def compute_output_value(self, resource_ref):
+    def output(self, resource_ref, **kwargs):
         "Compute output value for this field"
-        # TODO aqui vamos aplicar todas a regras para montar o valor final.
         for rec in self:
             value = ""
-            if rec.dot_notation_field and resource_ref:
-                value = operator.attrgetter(rec.dot_notation_field)(resource_ref) or ""
-                value = str(value)
-                # Tratamento para campos númericos.
-                if rec.type == "num":
-                    value = re.sub(r"\W+", "", value)
-
-            # aplica os valores dafault.
-            if not value and rec.default_value:
-                value = rec.default_value
-
-            # trunca ser for maior que o permitido.
-            value = value[: rec.size]
-
-            # aplica zeros ou brancos para as colunas não preenchidas
-            if rec.type == "num":
-                value = value.zfill(rec.size)
-            if rec.type == "alpha":
-                value = value.ljust(rec.size)
-
-            if rec.python_code:
-                value = rec.eval_compute_value(value)
+            if rec.content_source_field and resource_ref:
+                value = (
+                    operator.attrgetter(rec.content_source_field)(resource_ref) or ""
+                )
+            if rec.dynamic_content:
+                value = rec.eval_compute_value(value, **kwargs)
+            value = self.format(rec.size, rec.type, value)
             return value
 
-    def eval_compute_value(self, value):
+    def format(self, size, value_type, value):
+        """formats the value according to the specification"""
+        value = str(value)
+        if value_type == "num":
+            value = re.sub(r"\W+", "", value)
+        value = value[:size]
+        if value_type == "num":
+            value = value.zfill(size)
+        if value_type == "alpha":
+            value = value.ljust(size)
+        return value
+
+    def eval_compute_value(self, value, **kwargs):
         "Execute python code and return computed value"
         self.ensure_one()
-        safe_eval_dict = {"value": value, "time": time}
-        return safe_eval(self.python_code, safe_eval_dict)
+        safe_eval_dict = {
+            "value": value,
+            "time": time,
+            "seq_batch": kwargs.get("seq_batch", ""),
+            "seq_batch_record": kwargs.get("seq_batch_record", ""),
+            "qty_batch_record": kwargs.get("qty_batch_record", ""),
+        }
+        return safe_eval(self.dynamic_content, safe_eval_dict)
 
     @api.depends("start_pos", "end_pos")
     def _compute_size(self):
