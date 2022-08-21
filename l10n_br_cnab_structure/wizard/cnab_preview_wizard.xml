@@ -11,8 +11,11 @@
                 <field name="cnab_file" invisible="True"/>
             </group>
             <notebook>
-                <page name="output" string="output">
+                <page name="output" string="CNAB">
                     <field name="output" widget="ace"  nolabel="1"/>
+                </page>
+                <page name="output_yaml" string="CNAB YAML">
+                    <field name="output_yaml" widget="ace"  nolabel="1"/>
                 </page>
             </notebook>
             <footer>
