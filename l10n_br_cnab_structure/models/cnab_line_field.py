@@ -44,6 +44,11 @@ class CNABField(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
+    assumed_comma = fields.Integer(
+        help="indicates the position of the comma within a numeric field.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
     type = fields.Selection(
         [
             ("alpha", _("Alphanumeric")),
@@ -141,6 +146,8 @@ class CNABField(models.Model):
 
     def format(self, size, value_type, value):
         """formats the value according to the specification"""
+        if isinstance(value, float):
+            value = f"{value:.{self.assumed_comma}f}"
         value = str(value)
         if value_type == "num":
             value = re.sub(r"\W+", "", value)
