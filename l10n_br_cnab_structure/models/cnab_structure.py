@@ -1,6 +1,8 @@
 # Copyright 2022 Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import yaml
+
 from email.policy import default
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -57,15 +59,31 @@ class CNABStructure(models.Model):
         "Returns the file trailer record"
         return self.line_ids.filtered(lambda l: l.type == "trailer" and not l.batch_id)
 
-    def output(self, pay_order):
-        """Generete CNAB Output"""
-        lines = []
-        lines.append(self.get_header().output(pay_order))
+    def output_dicts(self, pay_order):
+        """Receives a Payment Order record and returns a list of dicts,
+        each dict represents a line from the CNAB file."""
+        lines_dicts = []
+        lines_dicts.append(self.get_header().output(pay_order))
         batch_id = pay_order.payment_mode_id.cnab_batch_id
         if batch_id:
-            lines.extend(batch_id.output(pay_order, 1))
-        lines.append(self.get_trailer().output(pay_order))
-        return "\n".join(lines)
+            lines_dicts.extend(batch_id.output(pay_order, 1))
+        lines_dicts.append(self.get_trailer().output(pay_order))
+        return lines_dicts
+
+    def output_yaml(self, pay_order):
+        """Receives a Payment Order record and returns the data in the CNAB structure
+        in YAML format."""
+        lines_dicts = self.output_dicts(pay_order)
+        enum_lines_dicts = dict(enumerate(lines_dicts))
+        return yaml.dump(enum_lines_dicts, sort_keys=False)
+
+    def output(self, pay_order):
+        """Receives a Payment Order record and returns the data in the CNAB structure"""
+        line_values = []
+        lines_dicts = self.output_dicts(pay_order)
+        for line_dict in lines_dicts:
+            line_values.append("".join(list(line_dict.values())))
+        return "\n".join(line_values)
 
     def _compute_content_source_model_id(self):
         self.content_source_model_id = self.env["ir.model"].search(
