@@ -3,6 +3,7 @@
 
 import operator
 import re
+from unidecode import unidecode
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -16,27 +17,13 @@ class CNABField(models.Model):
 
     name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
-    manual_ref_name = fields.Char(
-        string="Manual Reference Name",
-        help="reference name used to get the value of the field, "
-        "can be used to form the python expression in the dynamic content field.",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-
     ref_name = fields.Char(
         string="Reference Name",
-        help="reference name used to get the value of the field, "
-        "can be used to form the python expression in the dynamic content field.",
+        help="Unique reference name to identify the cnab field, can be used to search"
+        " the field content in python expressions in 'Dynamic Content'. "
+        "It is generated automatically by aggregating the field name, starting "
+        "position and ending position. ex:. 'field_name_001-015'",
         compute="_compute_ref_name",
-    )
-
-    dynamic_ref_name = fields.Char(
-        string="Dynamic Reference Name",
-        help="If a reference name for the field is not informed, a dynamic reference "
-        "is created, using the starting and ending position of the field as a base. "
-        " ex: '050-058'",
-        compute="_compute_dynamic_ref_name",
     )
 
     meaning = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
@@ -123,11 +110,8 @@ class CNABField(models.Model):
 
     def _compute_ref_name(self):
         for rec in self:
-            rec.ref_name = rec.manual_ref_name or rec.dynamic_ref_name or ""
-
-    def _compute_dynamic_ref_name(self):
-        for rec in self:
-            rec.dynamic_ref_name = f"{rec.start_pos}-{rec.end_pos}"
+            name = unidecode(rec.name.replace(" ", "_").lower())
+            rec.ref_name = f"{name}_{rec.start_pos}_{rec.end_pos}"
 
     @api.depends("resource_ref", "content_source_field", "dynamic_content")
     def _compute_preview_field(self):
