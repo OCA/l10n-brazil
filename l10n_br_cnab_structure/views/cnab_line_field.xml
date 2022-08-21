@@ -29,7 +29,6 @@
                 <sheet>
                     <group>
                         <field name="ref_name" />
-                        <field name="manual_ref_name" class="oe_edit_only" />
                         <field name="name" />
                         <field name="start_pos" />
                         <field name="end_pos" />
