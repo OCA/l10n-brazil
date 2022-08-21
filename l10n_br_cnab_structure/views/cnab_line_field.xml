@@ -32,6 +32,7 @@
                         <field name="name" />
                         <field name="start_pos" />
                         <field name="end_pos" />
+                        <field name="assumed_comma" />
                         <field name="type" />
                         <field name="size" />
                         <field name="default_value" />
