@@ -99,8 +99,11 @@ class CNABField(models.Model):
         "'content' returns the value of the mapped content source field. \n"
         "'time' class to handle date. \n"
         "'seq_batch' returns the batch sequence. \n"
-        "'seq_batch_record' returns the batch record sequence."
-        "'qty_batch_record' returns the number of records in the batch"
+        "'seq_batch_record' returns the sequence for record in the batch. \n"
+        "'qty_batch_records' returns the number of records in the batch \n"
+        "'batch_lines' returns a list of dicts, each dict corresponds to a record in "
+        "the batch, each item in the dict corresponds to a cnab field. the key is the"
+        " reference name and the value is the content."
     )
 
     def action_change_field(self):
@@ -172,7 +175,8 @@ class CNABField(models.Model):
             "time": time,
             "seq_batch": kwargs.get("seq_batch", ""),
             "seq_batch_record": kwargs.get("seq_batch_record", ""),
-            "qty_batch_record": kwargs.get("qty_batch_record", ""),
+            "qty_batch_records": kwargs.get("qty_batch_records", ""),
+            "batch_lines": kwargs.get("batch_lines", []),
         }
         return safe_eval(self.dynamic_content, safe_eval_dict)
 
