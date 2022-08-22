@@ -3,8 +3,6 @@
 
 from odoo import api, fields, models
 
-from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
-
 
 class StockMove(models.Model):
     _name = "stock.move"
@@ -46,7 +44,6 @@ class StockMove(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         related="picking_id.company_id.tax_framework",
         string="Tax Framework",
     )
