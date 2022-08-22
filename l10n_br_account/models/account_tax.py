@@ -79,9 +79,20 @@ class AccountTax(models.Model):
 
         product = product or self.env["product.product"]
 
-        # FIXME Should get company from document?
+        if len(self) == 0:
+            company = self.env.company
+            if self.env.context.get("default_company_id") or self.env.context.get(
+                "allowed_company_ids"
+            ):
+                company = self.env["res.company"].browse(
+                    self.env.context.get("default_company_id")
+                    or self.env.context.get("allowed_company_ids")[0]
+                )
+        else:
+            company = self[0].company_id
+
         fiscal_taxes_results = fiscal_taxes.compute_taxes(
-            company=self.env.company,
+            company=company,
             partner=partner,
             product=product,
             price_unit=price_unit,
