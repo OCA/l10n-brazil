@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="journal_cnab_import_view_form" model="ir.ui.view">
+        <field name="name">journal.cnab.import.view.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='journal_entries']/group" position="after">
+                <separator string="Import CNAB" />
+                <group>
+                    <field name="used_to_import_cnab" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
