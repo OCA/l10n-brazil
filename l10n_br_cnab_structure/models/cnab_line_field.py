@@ -91,10 +91,14 @@ class CNABField(models.Model):
         "'content' returns the value of the mapped content source field. \n"
         "'time' class to handle date. \n"
         "'seq_batch' returns the batch sequence. \n"
-        "'seq_batch_record' returns the sequence for record in the batch. \n"
-        "'qty_batch_records' returns the number of records in the batch \n"
+        "'seq_record_detail' returns the sequence for detail record in the batch. \n"
+        "'qty_batches' returns the number of batches \n"
+        "'qty_records' returns the number of records \n"
         "'batch_lines' returns a list of dicts, each dict corresponds to a record in "
         "the batch, each item in the dict corresponds to a cnab field. the key is the"
+        " reference name and the value is the content."
+        "'file_lines' returns a list of dicts, each dict corresponds to a record in "
+        "the file, each item in the dict corresponds to a cnab field. the key is the"
         " reference name and the value is the content."
     )
 
@@ -133,7 +137,7 @@ class CNABField(models.Model):
     def output(self, resource_ref, **kwargs):
         "Compute output value for this field"
         for rec in self:
-            value = ""
+            value = rec.default_value or ""
             if rec.content_source_field and resource_ref:
                 value = (
                     operator.attrgetter(rec.content_source_field)(resource_ref) or ""
@@ -141,7 +145,6 @@ class CNABField(models.Model):
             if rec.dynamic_content:
                 value = rec.eval_compute_value(value, **kwargs)
             value = self.format(rec.size, rec.type, value)
-
             return self.ref_name, value
 
     def format(self, size, value_type, value):
@@ -162,12 +165,14 @@ class CNABField(models.Model):
         "Execute python code and return computed value"
         self.ensure_one()
         safe_eval_dict = {
-            "value": value,
+            "content": value,
             "time": time,
             "seq_batch": kwargs.get("seq_batch", ""),
-            "seq_batch_record": kwargs.get("seq_batch_record", ""),
-            "qty_batch_records": kwargs.get("qty_batch_records", ""),
+            "seq_record_detail": kwargs.get("seq_record_detail", ""),
+            "qty_batches": kwargs.get("qty_batches", ""),
+            "qty_records": kwargs.get("qty_records", ""),
             "batch_lines": kwargs.get("batch_lines", []),
+            "file_lines": kwargs.get("batch_lines", []),
         }
         return safe_eval(self.dynamic_content, safe_eval_dict)
 
