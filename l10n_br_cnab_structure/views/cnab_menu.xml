@@ -27,4 +27,42 @@
             action="action_cnab_line_field"
             sequence="40"/>
     </menuitem>
+
+
+    <menuitem
+        name="CNAB"
+        id="cnab_receivables"
+        parent="account.menu_finance_receivables"
+        groups="l10n_br_account_payment_order.group_cnab_user,l10n_br_account_payment_order.group_cnab_manager"
+        sequence="255">
+        <menuitem
+        id="l10n_br_inbound_cnab_return_log_menu"
+        name="CNAB Returns"
+        action="l10n_br_inbound_cnab_return_log_action"
+        />
+        <menuitem
+        id="l10n_br_inbound_cnab_import_menu"
+        name="Import CNAB Returns"
+        action="l10n_br_inbound_cnab_import_action"
+        />
+    </menuitem>
+
+    <menuitem
+        name="CNAB"
+        id="cnab_payables"
+        parent="account.menu_finance_payables"
+        groups="l10n_br_account_payment_order.group_cnab_user,l10n_br_account_payment_order.group_cnab_manager"
+        sequence="255">
+        <menuitem
+        id="l10n_br_outbound_cnab_return_log_menu"
+        name="CNAB Returns"
+        action="l10n_br_outbound_cnab_return_log_action"
+        />
+        <menuitem
+        id="l10n_br_outbound_cnab_import_menu"
+        name="Import CNAB Returns"
+        action="l10n_br_outbound_cnab_import_action"
+        />
+    </menuitem>
+
 </odoo>
