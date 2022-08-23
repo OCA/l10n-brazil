@@ -42,20 +42,18 @@ class CNABBatch(models.Model):
     def output(self, pay_order, batch_sequence):
         """Return a batch output"""
         batch_lines = []
-        record_sequence = 0
         batch_lines.append(
             self.get_header().output(
                 pay_order, seq_batch=batch_sequence, batch_lines=batch_lines
             )
         )
-        for bank_line in pay_order.bank_line_ids:
+        for count, bank_line in enumerate(pay_order.bank_line_ids, 1):
             for segment in self.get_segments():
-                record_sequence += 1
                 batch_lines.append(
                     segment.output(
                         bank_line,
                         seq_batch=batch_sequence,
-                        seq_batch_record=record_sequence,
+                        seq_record_detail=count,
                         batch_lines=batch_lines,
                     )
                 )
@@ -63,7 +61,7 @@ class CNABBatch(models.Model):
             self.get_trailer().output(
                 pay_order,
                 seq_batch=batch_sequence,
-                qty_batch_records=len(batch_lines) + 1,
+                qty_records=len(batch_lines) + 1,
                 batch_lines=batch_lines,
             )
         )
