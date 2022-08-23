@@ -67,7 +67,16 @@ class CNABStructure(models.Model):
         batch_id = pay_order.payment_mode_id.cnab_batch_id
         if batch_id:
             lines_dicts.extend(batch_id.output(pay_order, 1))
-        lines_dicts.append(self.get_trailer().output(pay_order))
+        qty_records = len(lines_dicts) + 1
+        lines_dicts.append(
+            self.get_trailer().output(
+                pay_order,
+                file_lines=lines_dicts,
+                # more than one batch per payment_order is currently not supported:
+                qty_batches=1,
+                qty_records=qty_records,
+            )
+        )
         return lines_dicts
 
     def output_yaml(self, pay_order):
