@@ -1,6 +1,6 @@
 # Copyright 2022 Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-
+# pylint: disable=pointless-statement
 {
     "name": "CNAB Structure",
     "summary": """
@@ -19,6 +19,7 @@
         "data/l10n_br_cnab.batch.csv",
         "data/l10n_br_cnab.line.csv",
         "data/l10n_br_cnab.line.field.csv",
+        "demo/payment_mode.xml",
         "wizard/field_select_wizard.xml",
         "wizard/cnab_preview_wizard.xml",
         "wizard/cnab_import_wizard.xml",
