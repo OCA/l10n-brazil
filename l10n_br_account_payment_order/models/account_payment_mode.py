@@ -91,7 +91,10 @@ class AccountPaymentMode(models.Model):
     )
     def _check_cnab_restriction(self):
         for record in self:
-            if record.payment_method_code not in BR_CODES_PAYMENT_ORDER:
+            if (
+                record.payment_method_code not in BR_CODES_PAYMENT_ORDER
+                or self.payment_type == "outbound"
+            ):
                 return False
             fields_forbidden_cnab = []
             if record.group_lines:
