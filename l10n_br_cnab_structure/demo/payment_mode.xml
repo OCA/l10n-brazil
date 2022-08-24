@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+    <!-- account.payment.method -->
+    <!-- CNAB 240 Outbund -->
+    <record id="payment_mode_type_cnab240_out" model="account.payment.method">
+        <field name="code">240</field>
+        <field name="name">Cnab240</field>
+        <field name="active">True</field>
+        <field name="bank_account_required">False</field>
+        <field name="payment_type">outbound</field>
+    </record>
+    <!-- Diario Itau -->
+    <record id="l10n_br_account_payment_order.itau_journal" model="account.journal">
+        <field
+            name="outbound_payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240_out')])]"
+        />
+    </record>
+    <!-- SISPAG ITAÚ - FORNECEDORES - TED -->
+    <record id="payment_mode_fornecedores_ted_itau" model="account.payment.mode">
+        <field name="name">Fornecedores - TED - Itaú</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="payment_method_id" ref="payment_mode_type_cnab240_out" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="l10n_br_account_payment_order.itau_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="service_type">20</field> <!-- Pagamento Fornecedor -->
+        <field name="release_form">41</field> <!-- Ted - Outra Titularidade -->
+        <field name="cnab_structure_id" ref="cnab_itau_240" />
+        <field name="cnab_batch_id" ref="cnab_itau_240_pagamentos" />
+    </record>
+
+
+</odoo>
