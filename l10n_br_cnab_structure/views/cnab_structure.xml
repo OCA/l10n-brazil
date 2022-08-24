@@ -19,6 +19,7 @@
                 <field name="state" invisible="True"/>
                 <field name="name" />
                 <field name="cnab_format" />
+                <field name="bank_id" />
             </tree>
         </field>
     </record>
@@ -59,11 +60,12 @@
                     <group>
                         <group>
                             <field name="name" />
+                            <field name="bank_id" />
                         </group>
                         <group>
                             <field name="cnab_format" />
                             <field name="batch_ids" invisible="True" />
-                            <field name="content_source_model_id" />
+                            <field name="content_source_model_id" invisible="True" />
                         </group>
                     </group>
 
