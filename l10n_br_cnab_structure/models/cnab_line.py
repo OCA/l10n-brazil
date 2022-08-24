@@ -1,6 +1,7 @@
 # Copyright 2022 Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from email.policy import default
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -34,7 +35,14 @@ class CNABLine(models.Model):
     requerid = fields.Boolean()
 
     communication_flow = fields.Selection(
-        [("sending", "Sending"), ("return", "Return"), ("both", "Sending and Return")]
+        [("sending", "Sending"), ("return", "Return"), ("both", "Sending and Return")],
+        required=True,
+    )
+
+    current_view = fields.Selection(
+        [("general", "General"), ("sending", "Sending"), ("return", "Return")],
+        required=True,
+        default="general",
     )
 
     type = fields.Selection(
@@ -160,3 +168,16 @@ class CNABLine(models.Model):
                     f"{self.name}: line cnab structure is different of batch cnab structure."
                 )
             )
+
+    @api.onchange("communication_flow")
+    def _onchange_communication_flow(self):
+        self.current_view = "general"
+
+    def action_general_view(self):
+        self.current_view = "general"
+
+    def action_sending_view(self):
+        self.current_view = "sending"
+
+    def action_return_view(self):
+        self.current_view = "return"
