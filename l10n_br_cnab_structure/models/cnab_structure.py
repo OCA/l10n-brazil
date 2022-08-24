@@ -17,8 +17,12 @@ class CNABStructure(models.Model):
 
     name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
+    bank_id = fields.Many2one(
+        comodel_name="res.bank", readonly=True, states={"draft": [("readonly", False)]}
+    )
+
     cnab_format = fields.Selection(
-        selection=[("240", "240"), ("400", "400")],
+        selection=[("240", "240"), ("400", "400"), ("500", "500"), ("750", "750")],
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -178,3 +182,6 @@ class CNABStructure(models.Model):
 
         if lines[-1].type != "trailer":
             raise UserError(_(f"{self.name}: The last line need to be a trailer!"))
+
+        if not self.bank_id:
+            raise UserError(_(f"{self.name}: A CNAB Structure need to have a bank!"))
