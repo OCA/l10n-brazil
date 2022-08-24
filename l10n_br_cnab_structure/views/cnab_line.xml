@@ -79,9 +79,9 @@
                                 <field name="assumed_comma" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
                                 <field name="type" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
                                 <field name="content_source_model_id" invisible="True" />
-                                <field name="default_value" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
+                                <field name="default_value" attrs="{'column_invisible': [('parent.current_view', '==', 'return')]}" />
                                 <field name="content_source_field" attrs="{'column_invisible': [('parent.current_view', '!=', 'sending')]}" />
-                                <button name="action_change_field" type="object" string="Change Field" class="oe_highlight" attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}"/>
+                                <button name="action_change_field" type="object" string="Change Field" class="oe_highlight oe_edit_only" attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}"/>
                                 <field name="sending_dynamic_content" attrs="{'column_invisible': [('parent.current_view', '!=', 'sending')]}" />
                                 <field name="preview_field" attrs="{'column_invisible': [('parent.resource_ref', '=', False)]}" />
                                 <field name="notes" />
@@ -89,8 +89,7 @@
                             </tree>
                         </field>
                     </page>
-                </notebook>>
-
+                </notebook>
             </form>
         </field>
     </record>
