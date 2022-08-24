@@ -15,11 +15,6 @@
         "l10n_br_coa_generic",
     ],
     "data": [
-        "data/l10n_br_cnab.structure.csv",
-        "data/l10n_br_cnab.batch.csv",
-        "data/l10n_br_cnab.line.csv",
-        "data/l10n_br_cnab.line.field.csv",
-        "demo/payment_mode.xml",
         "wizard/field_select_wizard.xml",
         "wizard/cnab_preview_wizard.xml",
         "wizard/cnab_import_wizard.xml",
@@ -34,5 +29,6 @@
         "security/ir.model.access.csv",
         "views/cnab_menu.xml",
     ],
-    "demo": [],
+    "demo": ["demo/payment_mode.xml"],
+    "post_init_hook": "post_init_hook",
 }
