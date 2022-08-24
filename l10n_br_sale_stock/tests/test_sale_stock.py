@@ -14,6 +14,7 @@ class TestSaleStock(SavepointCase):
         cls.invoice_wizard = cls.env["stock.invoice.onshipping"]
         cls.stock_return_picking = cls.env["stock.return.picking"]
         cls.stock_picking = cls.env["stock.picking"]
+        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
 
         # TODO: Em uma instalção direta do modulo
         #  $ odoo -d test -i l10n_br_sale_stock --stop-after-init
@@ -299,7 +300,7 @@ class TestSaleStock(SavepointCase):
         wizard_values = wizard_obj.default_get(fields_list)
         wizard = wizard_obj.create(wizard_values)
         wizard.onchange_group()
-        wizard.action_generate()
+        wizard.with_context(default_company_id=self.company.id).action_generate()
         domain = [("picking_ids", "=", picking_devolution.id)]
         invoice_devolution = self.invoice_model.search(domain)
         # Confirmando a Fatura
@@ -358,7 +359,7 @@ class TestSaleStock(SavepointCase):
         )
         wizard = wizard_obj.create(wizard_values)
         wizard.onchange_group()
-        wizard.action_generate()
+        wizard.with_context(default_company_id=self.company.id).action_generate()
         domain = [("picking_ids", "in", (picking.id, picking2.id))]
         invoice = self.invoice_model.search(domain)
         # Fatura Agrupada
