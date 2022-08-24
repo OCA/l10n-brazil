@@ -92,7 +92,7 @@ class CNABStructure(models.Model):
         lines_dicts = self.output_dicts(pay_order)
         for line_dict in lines_dicts:
             line_values.append("".join(list(line_dict.values())))
-        return "\n".join(line_values)
+        return "\r\n".join(line_values) + "\r\n"
 
     def _compute_content_source_model_id(self):
         self.content_source_model_id = self.env["ir.model"].search(
