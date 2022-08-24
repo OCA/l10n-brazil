@@ -17,6 +17,8 @@ class CNABField(models.Model):
 
     name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
+    computed_name = fields.Char(string="Field", compute="_compute_name")
+
     ref_name = fields.Char(
         string="Reference Name",
         help="Unique reference name to identify the cnab field, can be used to search"
@@ -85,7 +87,7 @@ class CNABField(models.Model):
         related="cnab_line_id.resource_ref",
     )
 
-    dynamic_content = fields.Char(
+    sending_dynamic_content = fields.Char(
         help="Expression in Python to define the final value of the content,"
         "you can use the following predefined words: \n\n"
         "'content' returns the value of the mapped content source field. \n"
@@ -122,7 +124,7 @@ class CNABField(models.Model):
             name = unidecode(rec.name.replace(" ", "_").lower())
             rec.ref_name = f"{name}_{rec.start_pos}_{rec.end_pos}"
 
-    @api.depends("resource_ref", "content_source_field", "dynamic_content")
+    @api.depends("resource_ref", "content_source_field", "sending_dynamic_content")
     def _compute_preview_field(self):
         for rec in self:
             preview = ""
@@ -142,7 +144,7 @@ class CNABField(models.Model):
                 value = (
                     operator.attrgetter(rec.content_source_field)(resource_ref) or ""
                 )
-            if rec.dynamic_content:
+            if rec.sending_dynamic_content:
                 value = rec.eval_compute_value(value, **kwargs)
             value = self.format(rec.size, rec.type, value)
             return self.ref_name, value
@@ -174,7 +176,11 @@ class CNABField(models.Model):
             "batch_lines": kwargs.get("batch_lines", []),
             "file_lines": kwargs.get("batch_lines", []),
         }
-        return safe_eval(self.dynamic_content, safe_eval_dict)
+        return safe_eval(self.sending_dynamic_content, safe_eval_dict)
+
+    def _compute_name(self):
+        for f in self:
+            f.computed_name = f"{f.name} - Meaning: {f.meaning} - Pos: {f.start_pos}:{f.end_pos} - Type: {f.type}"
 
     @api.depends("start_pos", "end_pos")
     def _compute_size(self):
