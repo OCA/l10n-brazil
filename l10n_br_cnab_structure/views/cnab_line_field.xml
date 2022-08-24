@@ -52,7 +52,7 @@
                         />
                     </group>
                     <group>
-                        <field name="dynamic_content" widget="ace" options="{'mode': 'python'}"/>
+                        <field name="sending_dynamic_content" widget="ace" options="{'mode': 'python'}"/>
                     </group>
                 </sheet>
             </form>
