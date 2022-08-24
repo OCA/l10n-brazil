@@ -75,7 +75,7 @@ class InvoicingPickingTest(SavepointCase):
         wizard_values = wizard_obj.default_get(fields_list)
         wizard = wizard_obj.create(wizard_values)
         wizard.onchange_group()
-        wizard.action_generate()
+        wizard.with_context(default_company_id=self.company.id).action_generate()
         domain = [("picking_ids", "=", self.stock_picking_sp.id)]
         invoice = self.invoice_model.search(domain)
 
@@ -215,7 +215,7 @@ class InvoicingPickingTest(SavepointCase):
         )
         wizard = wizard_obj.create(wizard_values)
         wizard.onchange_group()
-        wizard.action_generate()
+        wizard.with_context(default_company_id=self.company.id).action_generate()
         domain = [("picking_ids", "=", picking.id)]
         invoice = self.invoice_model.search(domain)
         self.assertEqual(len(invoice), 1)
@@ -289,7 +289,7 @@ class InvoicingPickingTest(SavepointCase):
         )
         wizard = wizard_obj.create(wizard_values)
         wizard.onchange_group()
-        wizard.action_generate()
+        wizard.with_context(default_company_id=self.company.id).action_generate()
         domain = [("picking_ids", "in", (picking.id, picking2.id))]
         invoicies = self.invoice_model.search(domain)
         self.assertEqual(len(invoicies), 2)
