@@ -32,11 +32,9 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button class="oe_highlight" name="%(line_cnab_preview_action)d" icon="fa-search-plus" string="CNAB Preview" type="action" target="new" />
                     <field name="state" widget="statusbar" />
                 </header>
-                <div class="oe_button_box" name="button_box">
-                    <button class="oe_stat_button" name="%(line_cnab_preview_action)d" icon="fa-search-plus" string="CNAB Preview" type="action" target="new" />
-                </div>
                 <div class="oe_title">
                     <h1>
                         <field name="name" />
@@ -44,44 +42,55 @@
                 </div>
                 <group>
                     <group>
-                        <field name="cnab_format" invisible="True" />
                         <field name="segment_name" attrs="{'invisible': [('type', '!=', 'segment')], 'required': [('type', '=', 'segment')]}" />
                         <field name="type" />
                         <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_structure_id': cnab_structure_id}" />
-                        <field name="communication_flow" />
-                        <field name="requerid" />
                     </group>
                     <group>
-                        <field name="cnab_structure_id" invisible="True" />
+                        <field name="communication_flow" />
+                        <field name="requerid" />
                         <field name="sequence" />
-                        <field name="content_source_model_id" />
-                        <field name="resource_ref" />
                     </group>
+                    <field name="current_view" invisible="True" />
+                    <field name="cnab_structure_id" invisible="True" />
+                    <field name="content_source_model_id" invisible="True" />
+                    <field name="resource_ref" invisible="True" />
+                    <field name="cnab_format" invisible="True" />
                 </group>
+
                 <notebook>
-                    <page name="field_page" string="Fields">
+                    <page name="fields_info" string="Fields">
+                        <button name="action_general_view" type="object" string="Structure" class="oe_highlight mx-1" attrs="{'invisible': [('current_view', '=', 'general')]}" />
+                        <button name="action_sending_view" type="object" string="Map Sending" class="oe_highlight mx-1" attrs="{'invisible': ['|',('current_view', '=', 'sending'),('communication_flow', '=', 'return')]}" />
+                        <button name="action_return_view" type="object" string="Map Return" class="oe_highlight mx-1" attrs="{'invisible': ['|',('current_view', '=', 'return'),('communication_flow', '=', 'sending')]}" />
+
+                        <separator name="general_infos" string="Structure" attrs="{'invisible': [('current_view', '!=', 'general')]}" />
+                        <separator name="sending_infos" string="Map Sending" attrs="{'invisible': [('current_view', '!=', 'sending')]}" />
+                        <separator name="return_infos" string="Map Return" attrs="{'invisible': [('current_view', '!=', 'return')]}" />
                         <field name="field_ids" mode='tree' widget='one2many' context="{'default_cnab_line_id': id}">
                             <tree editable="bottom">
                                 <field name="state" invisible="True" />
-                                <field name="ref_name" />
-                                <field name="name" />
-                                <field name="meaning" />
-                                <field name="start_pos" />
-                                <field name="end_pos" />
-                                <field name="assumed_comma" />
-                                <field name="type" />
+                                <field name="ref_name" invisible="True" />
+                                <field name="computed_name" attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}" />
+                                <field name="name" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
+                                <field name="meaning" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
+                                <field name="start_pos" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
+                                <field name="end_pos" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
+                                <field name="assumed_comma" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
+                                <field name="type" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
                                 <field name="content_source_model_id" invisible="True" />
-                                <field name="default_value" />
-                                <field name="notes" />
-                                <field name="content_source_field" />
-                                <field name="dynamic_content"/>
+                                <field name="default_value" attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}" />
+                                <field name="content_source_field" attrs="{'column_invisible': [('parent.current_view', '!=', 'sending')]}" />
+                                <button name="action_change_field" type="object" string="Change Field" class="oe_highlight" attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}"/>
+                                <field name="sending_dynamic_content" attrs="{'column_invisible': [('parent.current_view', '!=', 'sending')]}" />
                                 <field name="preview_field" attrs="{'column_invisible': [('parent.resource_ref', '=', False)]}" />
+                                <field name="notes" />
                                 <field name="cnab_line_id" invisible="True" />
-                                <button name="action_change_field" type="object" icon="fa-cogs" class="oe_highlight" />
                             </tree>
                         </field>
                     </page>
-                </notebook>
+                </notebook>>
+
             </form>
         </field>
     </record>

@@ -1,4 +1,4 @@
-"id","name","meaning","start_pos","end_pos","type","default_value","cnab_line_id/id","notes","dynamic_content","content_source_field"
+"id","name","meaning","start_pos","end_pos","type","default_value","cnab_line_id/id","notes","sending_dynamic_content","content_source_field"
 "l10n_br_cnab_structure.cnab_itau_240_header_1_3","CÓDIGO DO BANCO","CÓDIGO DO BCO NA COMPENSAÇÃO","1","3","Numeric",,"cnab_itau_240_header",,,"company_partner_bank_id.bank_id.code_bc"
 "l10n_br_cnab_structure.cnab_itau_240_header_4_7","CÓDIGO DO LOTE","LOTE DE SERVIÇO","4","7","Numeric","0000","cnab_itau_240_header",,,
 "l10n_br_cnab_structure.cnab_itau_240_header_8_8","TIPO DE REGISTRO","REGISTRO HEADER DE ARQUIVO","8","8","Numeric",,"cnab_itau_240_header",,,
