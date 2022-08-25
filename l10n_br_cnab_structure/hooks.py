@@ -28,3 +28,21 @@ def post_init_hook(cr, registry):
             noupdate=True,
             kind="init",
         )
+
+    if not tools.config["without_demo"]:
+        demofiles = [
+            "demo/payment_mode.xml",
+        ]
+
+        _logger.info(_("Loading l10n_br_cnab_structure demo files."))
+
+        for file in demofiles:
+            tools.convert_file(
+                cr,
+                "l10n_br_cnab_structure",
+                file,
+                None,
+                mode="init",
+                noupdate=True,
+                kind="demo",
+            )
