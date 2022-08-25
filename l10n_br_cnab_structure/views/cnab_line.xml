@@ -68,7 +68,7 @@
                         <separator name="sending_infos" string="Map Sending" attrs="{'invisible': [('current_view', '!=', 'sending')]}" />
                         <separator name="return_infos" string="Map Return" attrs="{'invisible': [('current_view', '!=', 'return')]}" />
                         <field name="field_ids" mode='tree' widget='one2many' context="{'default_cnab_line_id': id}">
-                            <tree editable="bottom">
+                            <tree default_order="start_pos" editable="bottom">
                                 <field name="state" invisible="True" />
                                 <field name="ref_name" invisible="True" />
                                 <field name="computed_name" attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}" />

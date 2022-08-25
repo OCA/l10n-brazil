@@ -14,6 +14,7 @@ class CNABField(models.Model):
 
     _name = "l10n_br_cnab.line.field"
     _description = "Fields in CNAB lines."
+    _order = "start_pos"
 
     name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
