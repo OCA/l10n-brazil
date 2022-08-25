@@ -8,7 +8,6 @@ _logger = logging.getLogger(__name__)
 
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
-    env = api.Environment(cr, SUPERUSER_ID, {})
 
     files = [
         "data/l10n_br_cnab.structure.csv",
@@ -17,7 +16,7 @@ def post_init_hook(cr, registry):
         "data/l10n_br_cnab.line.field.csv",
     ]
 
-    _logger.info(_("Loading l10n_br_cnab_structure data files..."))
+    _logger.info(_("Loading l10n_br_cnab_structure data files."))
 
     for file in files:
         tools.convert_file(
