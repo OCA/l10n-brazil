@@ -74,7 +74,7 @@
                         <tree default_order="sequence">
                             <field name="state" invisible="True"/>
                             <field name="cnab_format" invisible="True" />
-                            <field name="sequence"  widget="handle"/>
+                            <field name="sequence" widget="handle"/>
                             <field name="type" />
                             <field name="name" />
                             <field name="batch_id" attrs="{'column_invisible': [('parent.cnab_format', '!=', '240')]}"/>
