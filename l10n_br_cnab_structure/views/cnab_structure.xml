@@ -18,7 +18,8 @@
             <tree edit="0">
                 <field name="state" invisible="True"/>
                 <field name="name" />
-                <field name="cnab_format" />
+                <field name="payment_method_id" />
+                <field name="cnab_format" invisible="True"/>
                 <field name="bank_id" />
             </tree>
         </field>
@@ -63,7 +64,8 @@
                             <field name="bank_id" />
                         </group>
                         <group>
-                            <field name="cnab_format" />
+                            <field name="payment_method_id" />
+                            <field name="cnab_format" invisible="True"/>
                             <field name="batch_ids" invisible="True" />
                             <field name="content_source_model_id" invisible="True" />
                         </group>

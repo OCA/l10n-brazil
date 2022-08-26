@@ -15,6 +15,7 @@
             name="outbound_payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240_out')])]"
         />
+        <field name="used_to_import_cnab">True</field>
     </record>
     <!-- SISPAG ITAÚ - FORNECEDORES - TED -->
     <record id="payment_mode_fornecedores_ted_itau" model="account.payment.mode">
