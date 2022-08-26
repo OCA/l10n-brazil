@@ -13,6 +13,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         self.invoice_wizard = self.env["stock.invoice.onshipping"]
         self.stock_return_picking = self.env["stock.return.picking"]
         self.stock_picking = self.env["stock.picking"]
+        self.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
 
     def _picking_purchase_order(self, order):
         self.assertEqual(
@@ -85,7 +86,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         )
         wizard = wizard_obj.create(wizard_values)
         wizard.onchange_group()
-        wizard.action_generate()
+        wizard.with_context(default_company_id=self.company.id).action_generate()
         domain = [("picking_ids", "in", (picking_1.id, picking_2.id))]
         invoice = self.invoice_model.search(domain)
         # Fatura Agrupada
@@ -160,7 +161,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         wizard_values = wizard_obj.default_get(fields_list)
         wizard = wizard_obj.create(wizard_values)
         wizard.onchange_group()
-        wizard.action_generate()
+        wizard.with_context(default_company_id=self.company.id).action_generate()
         domain = [("picking_ids", "=", picking_devolution.id)]
         invoice_devolution = self.invoice_model.search(domain)
         # Confirmando a Fatura
