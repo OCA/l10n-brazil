@@ -85,7 +85,7 @@ class CNABLine(models.Model):
         selection="_selection_target_model",
     )
 
-    cnab_format = fields.Selection(related="cnab_structure_id.cnab_format")
+    cnab_format = fields.Char(related="cnab_structure_id.cnab_format")
 
     state = fields.Selection(
         selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
