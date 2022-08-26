@@ -7,6 +7,8 @@ from email.policy import default
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+CNAB_CODES = ["240", "400", "500", "750"]
+
 
 class CNABStructure(models.Model):
 
@@ -21,11 +23,14 @@ class CNABStructure(models.Model):
         comodel_name="res.bank", readonly=True, states={"draft": [("readonly", False)]}
     )
 
-    cnab_format = fields.Selection(
-        selection=[("240", "240"), ("400", "400"), ("500", "500"), ("750", "750")],
-        required=True,
-        readonly=True,
+    payment_method_id = fields.Many2one(
+        comodel_name="account.payment.method",
         states={"draft": [("readonly", False)]},
+        domain=[("code", "in", CNAB_CODES)],
+    )
+
+    cnab_format = fields.Char(
+        related="payment_method_id.code",
     )
 
     batch_ids = fields.One2many(
@@ -137,6 +142,14 @@ class CNABStructure(models.Model):
 
         for l in self.batch_ids:
             l.check_batch()
+
+        if not self.payment_method_id:
+            raise UserError(_(f"{self.name}: Payment Method not found."))
+
+        if self.cnab_format not in CNAB_CODES:
+            raise UserError(
+                _(f"{self.name}: The code of payment method must be {CNAB_CODES}")
+            )
 
         segment_lines = self.line_ids.filtered(
             lambda l: l.type == "segment" and not l.batch_id
