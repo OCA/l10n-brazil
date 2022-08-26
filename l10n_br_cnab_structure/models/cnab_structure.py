@@ -4,6 +4,7 @@
 import yaml
 
 from email.policy import default
+from ..cnab.cnab import Cnab, RecordType
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -71,37 +72,32 @@ class CNABStructure(models.Model):
     def output_dicts(self, pay_order):
         """Receives a Payment Order record and returns a list of dicts,
         each dict represents a line from the CNAB file."""
-        lines_dicts = []
-        lines_dicts.append(self.get_header().output(pay_order))
-        batch_id = pay_order.payment_mode_id.cnab_batch_id
-        if batch_id:
-            lines_dicts.extend(batch_id.output(pay_order, 1))
-        qty_records = len(lines_dicts) + 1
-        lines_dicts.append(
-            self.get_trailer().output(
-                pay_order,
-                file_lines=lines_dicts,
-                # more than one batch per payment_order is currently not supported:
-                qty_batches=1,
-                qty_records=qty_records,
-            )
+        cnab = Cnab()
+        cnab.header = self.get_header().output(pay_order, RecordType.HEADER)
+        batch_template_id = pay_order.payment_mode_id.cnab_batch_id
+        if batch_template_id:
+            batch = batch_template_id.output(pay_order, 1, "1")
+            cnab.batches.append(batch)
+        cnab.trailer = self.get_trailer().output(
+            pay_order,
+            RecordType.TRAILER,
+            cnab=cnab,
         )
-        return lines_dicts
+        return cnab
 
     def output_yaml(self, pay_order):
         """Receives a Payment Order record and returns the data in the CNAB structure
         in YAML format."""
-        lines_dicts = self.output_dicts(pay_order)
-        enum_lines_dicts = dict(enumerate(lines_dicts))
-        return yaml.dump(enum_lines_dicts, sort_keys=False)
+        cnab = self.output_dicts(pay_order)
+        return yaml.dump(
+            [line.asdict() for line in cnab.lines()],
+            sort_keys=False,
+        )
 
     def output(self, pay_order):
         """Receives a Payment Order record and returns the data in the CNAB structure"""
-        line_values = []
-        lines_dicts = self.output_dicts(pay_order)
-        for line_dict in lines_dicts:
-            line_values.append("".join(list(line_dict.values())))
-        return "\r\n".join(line_values) + "\r\n"
+        cnab = self.output_dicts(pay_order)
+        return cnab.output()
 
     def _compute_content_source_model_id(self):
         self.content_source_model_id = self.env["ir.model"].search(
