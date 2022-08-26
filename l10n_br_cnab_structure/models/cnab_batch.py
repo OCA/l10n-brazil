@@ -13,6 +13,7 @@ class CNABBatch(models.Model):
     name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
     cnab_structure_id = fields.Many2one(
+        help="Only structures with code equal to 240 is allowed.",
         comodel_name="l10n_br_cnab.structure",
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -20,6 +21,7 @@ class CNABBatch(models.Model):
     )
 
     line_ids = fields.One2many(
+        help="Only structures with code equal to 240 is allowed.",
         comodel_name="l10n_br_cnab.line",
         inverse_name="batch_id",
         readonly=True,

@@ -1,2 +1,2 @@
-"id","name","bank_id/id","cnab_format"
-"cnab_itau_240","Itaú 240","l10n_br_base.res_bank_652","240"
+"id","name","bank_id/id","payment_method_id/id"
+"cnab_itau_240","Itaú 240","l10n_br_base.res_bank_341","payment_mode_type_cnab240_out"
