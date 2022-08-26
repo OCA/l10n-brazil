@@ -26,7 +26,7 @@ def post_init_hook(cr, registry):
             file,
             None,
             mode="init",
-            noupdate=True,
+            noupdate=False,
             kind="init",
         )
 
@@ -44,6 +44,6 @@ def post_init_hook(cr, registry):
                 file,
                 None,
                 mode="init",
-                noupdate=True,
+                noupdate=False,
                 kind="demo",
             )

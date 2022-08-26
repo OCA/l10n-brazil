@@ -1,6 +1,7 @@
 # Copyright 2022 Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from ..cnab.cnab import CnabBatch, CnabDetailRecord, CnabLine, RecordType
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -41,33 +42,30 @@ class CNABBatch(models.Model):
         "Returns the batch segments records"
         return self.line_ids.filtered(lambda l: l.type == "segment")
 
-    def output(self, pay_order, batch_sequence):
+    def output(self, pay_order, batch_sequence, name):
         """Return a batch output"""
-        batch_lines = []
-        batch_lines.append(
-            self.get_header().output(
-                pay_order, seq_batch=batch_sequence, batch_lines=batch_lines
-            )
+        batch = CnabBatch(name=name)
+        batch.header = self.get_header().output(
+            pay_order, RecordType.HEADER_BATCH, seq_batch=batch_sequence
         )
         for count, bank_line in enumerate(pay_order.bank_line_ids, 1):
-            for segment in self.get_segments():
-                batch_lines.append(
-                    segment.output(
-                        bank_line,
-                        seq_batch=batch_sequence,
-                        seq_record_detail=count,
-                        batch_lines=batch_lines,
-                    )
+            detail_record = CnabDetailRecord(name=str(count))
+            for segment_map in self.get_segments():
+                segment = segment_map.output(
+                    bank_line,
+                    RecordType.DETAIL_RECORD,
+                    seq_batch=batch_sequence,
+                    seq_record_detail=count,
                 )
-        batch_lines.append(
-            self.get_trailer().output(
-                pay_order,
-                seq_batch=batch_sequence,
-                qty_records=len(batch_lines) + 1,
-                batch_lines=batch_lines,
-            )
+                detail_record.segments.append(segment)
+            batch.detail_records.append(detail_record)
+        batch.trailer = self.get_trailer().output(
+            pay_order,
+            RecordType.TRAILER_BATCH,
+            seq_batch=batch_sequence,
+            qty_records=batch.len_records() + 1,
         )
-        return batch_lines
+        return batch
 
     state = fields.Selection(
         selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
