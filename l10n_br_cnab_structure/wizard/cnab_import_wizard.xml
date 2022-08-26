@@ -6,13 +6,13 @@
         <field name="arch" type="xml">
             <form string="Import CNAB">
                 <group name="main">
-                    <!-- <field
-                    name="journal_id"
-                    /> -->
+                    <field name="bank_id" invisible="1" />
                     <field
                         name="journal_id"
                         domain="[('used_to_import_cnab', '=', True)]"
                     />
+                    <field name="payment_method_ids" invisible="1" />
+                    <field name="cnab_structure_id" />
                     <field name="return_file" filename="filename" />
                     <field name="filename" invisible="1" />
                     <field name="type" invisible="1" />
