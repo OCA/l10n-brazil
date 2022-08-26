@@ -5,6 +5,8 @@ from email.policy import default
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from ..cnab.cnab import CnabLine
+
 
 class CNABLine(models.Model):
 
@@ -103,14 +105,14 @@ class CNABLine(models.Model):
                 [("model", "=", "bank.payment.line")]
             )
 
-    def output(self, resource_ref, **kwargs):
+    def output(self, resource_ref, record_type, **kwargs):
         "Compute CNAB output with all fields for this Line"
         self.ensure_one()
-        line_fields = {}
+        line = CnabLine(record_type)
         for field_id in self.field_ids:
-            field_ref_name, field_value = field_id.output(resource_ref, **kwargs)
-            line_fields[field_ref_name] = field_value
-        return line_fields
+            name, value = field_id.output(resource_ref, **kwargs)
+            line.add_field(name, value)
+        return line
 
     @api.depends("segment_name", "cnab_structure_id", "cnab_structure_id.name", "type")
     def _compute_name(self):
