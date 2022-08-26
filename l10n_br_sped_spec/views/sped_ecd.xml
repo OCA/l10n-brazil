@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem name="ECD" parent="menu_root" id="ecd" sequence="2" />
+</odoo>

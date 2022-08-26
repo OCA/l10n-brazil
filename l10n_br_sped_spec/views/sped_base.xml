@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem name="SPED" id="menu_root" sequence="2" />
+    <!-- TODO move ECD, EFD's and ECF root menus here, so we have them no matter the groups -->
+</odoo>
