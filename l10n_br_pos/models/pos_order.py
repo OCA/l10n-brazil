@@ -8,7 +8,8 @@ from satcomum.ersat import ChaveCFeSAT
 
 from odoo import api, fields, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import NFCE_IND_PRES_DEFAULT
+# from odoo.addons.l10n_br_fiscal.constants.fiscal import
+NFCE_IND_PRES_DEFAULT = '1'
 
 _logger = logging.getLogger(__name__)
 

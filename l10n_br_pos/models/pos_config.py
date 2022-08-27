@@ -22,14 +22,6 @@ SIMPLIFIED_INVOICE_TYPE = [
 class PosConfig(models.Model):
     _inherit = "pos.config"
 
-    @api.model
-    def _default_out_pos_fiscal_operation_id(self):
-        return self.company_id.out_pos_fiscal_operation_id
-
-    @api.model
-    def _default_refund_pos_fiscal_operation_id(self):
-        return self.company_id.refund_pos_fiscal_operation_id
-
     @api.depends("out_pos_fiscal_operation_id")
     def _compute_allowed_tax(self):
         for record in self:
@@ -46,7 +38,7 @@ class PosConfig(models.Model):
         string="Operação Padrão de Venda",
         # domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
         # " ('fiscal_type','=','product'), ('type','=','output')]",
-        default=_default_out_pos_fiscal_operation_id,
+        default=lambda self: self.env.company.out_pos_fiscal_operation_id,
     )
 
     partner_id = fields.Many2one(
@@ -74,7 +66,7 @@ class PosConfig(models.Model):
         # domain="[('journal_type','=','sale_refund'),"
         # "('state', '=', 'approved'), ('fiscal_type','=','product'),"
         # " ('type','=','input')]",
-        default=_default_refund_pos_fiscal_operation_id,
+        default=lambda self: self.env.company.refund_pos_fiscal_operation_id,
     )
 
     anonymous_simplified_limit = fields.Float(
