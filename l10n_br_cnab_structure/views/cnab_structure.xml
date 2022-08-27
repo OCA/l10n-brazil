@@ -71,18 +71,54 @@
                         </group>
                     </group>
 
-                    <separator name="line_ids" string="Lines" />
-                    <field name="line_ids" mode='tree' widget='one2many' context="{'default_cnab_structure_id': id}">
-                        <tree default_order="sequence">
-                            <field name="state" invisible="True"/>
-                            <field name="cnab_format" invisible="True" />
-                            <field name="sequence" widget="handle"/>
-                            <field name="type" />
-                            <field name="name" />
-                            <field name="batch_id" attrs="{'column_invisible': [('parent.cnab_format', '!=', '240')]}"/>
-                            <field name="cnab_structure_id" invisible="1" />
-                        </tree>
-                    </field>
+                    <notebook>
+                        <page name="lines" string="Lines">
+                            <field name="line_ids" mode='tree' widget='one2many' context="{'default_cnab_structure_id': id}">
+                                <tree default_order="sequence">
+                                    <field name="state" invisible="True"/>
+                                    <field name="cnab_format" invisible="True" />
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="type" />
+                                    <field name="name" />
+                                    <field name="batch_id" attrs="{'column_invisible': [('parent.cnab_format', '!=', '240')]}"/>
+                                    <field name="cnab_structure_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="conf_fields" string="Configuration Fields">
+                            <group>
+                                <group name="conf_positions" string="Positions">
+                                    <label for="conf_bank_start_pos" string="Bank" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    <div>
+                                        <field name="conf_bank_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                        <field name="conf_bank_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    </div>
+                                    <label for="conf_batch_start_pos" string="Batch" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    <div>
+                                        <field name="conf_batch_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                        <field name="conf_batch_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    </div>
+                                    <label for="conf_record_type_start_pos" string="Record Type" />
+                                    <div>
+                                        <field name="conf_record_type_start_pos" style="width: 50%" required="1" />
+                                        <field name="conf_record_type_end_pos" style="width: 50%" required="1" />
+                                    </div>
+                                    <label for="conf_detail_segment_start_pos" string="Segment" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    <div>
+                                        <field name="conf_detail_segment_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                        <field name="conf_detail_segment_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    </div>
+                                </group>
+                                <group name="record_type_ids" string="Types Identification">
+                                    <field name="record_type_file_header_id" required="1" />
+                                    <field name="record_type_file_trailer_id" required="1" />
+                                    <field name="record_type_batch_header_id" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    <field name="record_type_batch_trailer_id" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    <field name="record_type_detail_id" required="1" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
