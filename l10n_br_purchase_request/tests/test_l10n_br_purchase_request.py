@@ -2,8 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo import SUPERUSER_ID
 from odoo.tests import SavepointCase
-from odoo.tools import SUPERUSER_ID
 
 
 class L10nBrPurchaseRequestBaseTest(SavepointCase):
@@ -40,7 +40,7 @@ class L10nBrPurchaseRequestBaseTest(SavepointCase):
         wiz_id = self.wiz.with_context(
             active_model="purchase.request.line", active_ids=[request.line_ids[0].id]
         ).create(vals)
-        wiz_id.make_purchase_order()
+        wiz_id.with_context(default_company_id=self.company.id).make_purchase_order()
         purchase_order = request.line_ids[0].purchase_lines[0].order_id
         self.assertTrue(purchase_order)
         self.assertTrue(purchase_order.order_line.fiscal_operation_line_id)
