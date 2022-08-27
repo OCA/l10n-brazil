@@ -32,6 +32,8 @@ class PosConfig(models.Model):
                         lambda x: x.cfop_internal_id in record.cfop_ids
                     )
                 )
+            else:
+                record.out_pos_fiscal_operation_line_ids = False
 
     out_pos_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
