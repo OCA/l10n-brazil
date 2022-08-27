@@ -6,7 +6,6 @@ from odoo import api, models
 class MailThread(models.AbstractModel):
     _inherit = 'mail.thread'
 
-    @api.multi
     def message_post_with_view(self, views_or_xmlid, **kwargs):
         try:
             pos_order = self.env["pos.order"].search([
