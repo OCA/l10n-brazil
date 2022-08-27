@@ -15,7 +15,6 @@ class NfeXmlPeriodicExport(models.TransientModel):
 
     zip_sat_file = fields.Binary("Zip SAT", readonly=True)
 
-    @api.multi
     def export(self):
         if not self.create_uid.company_id.parent_id.id:
             pos_order_model = self.env["pos.order"]
