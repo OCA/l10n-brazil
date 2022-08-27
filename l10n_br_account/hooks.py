@@ -97,7 +97,12 @@ def pre_init_hook(cr):
                 company_id=%s
             AND
                 fiscal_document_line_id IS NULL;""",
-            (company.fiscal_dummy_id.fiscal_line_ids[0].id, company.id),
+            (
+                company.fiscal_dummy_id.with_context(active_test=False)
+                .fiscal_line_ids[0]
+                .id,
+                company.id,
+            ),
         )
 
 

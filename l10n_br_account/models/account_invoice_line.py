@@ -134,7 +134,9 @@ class AccountMoveLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
+        dummy_line = fields.first(
+            dummy_doc.with_context(active_test=False).fiscal_line_ids
+        )
         for values in vals_list:
             fiscal_doc_id = (
                 self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
@@ -170,7 +172,9 @@ class AccountMoveLine(models.Model):
 
     def write(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
+        dummy_line = fields.first(
+            dummy_doc.with_context(active_test=False).fiscal_line_ids
+        )
         non_dummy = self.filtered(lambda l: l.fiscal_document_line_id != dummy_line)
         if values.get("move_id") and len(non_dummy) == len(self):
             # we can write the document_id in all lines
