@@ -61,6 +61,134 @@ class CNABStructure(models.Model):
         compute="_compute_content_source_model_id",
     )
 
+    conf_bank_start_pos = fields.Integer(
+        string="Bank Start Position",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_bank_end_pos = fields.Integer(
+        string="Bank Last Position",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_batch_start_pos = fields.Integer(
+        string="Batch Start Position",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_batch_end_pos = fields.Integer(
+        string="Batch Last Position",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_record_type_start_pos = fields.Integer(
+        string="Record Type Start Position",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_record_type_end_pos = fields.Integer(
+        string="Record Type Last Position",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_detail_segment_start_pos = fields.Integer(
+        string="Record Detail Segment Position. Only for detail records.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_detail_segment_end_pos = fields.Integer(
+        string="Record Detail Segment Position. Only for detail records.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    record_type_file_header_id = fields.Integer(
+        string="File Header Type ID",
+        help="What`s the identification for header of file type?",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    record_type_file_trailer_id = fields.Integer(
+        string="File Trailer Type ID",
+        help="What`s the identification for trailer of file type?",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    record_type_batch_header_id = fields.Integer(
+        string="Batch Header Type ID",
+        help="What`s the identification for header of batch type?",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    record_type_batch_trailer_id = fields.Integer(
+        string="Batch Trailer Type ID",
+        help="What`s the identification for trailer of batch type?",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    record_type_detail_id = fields.Integer(
+        string="Detail Type ID",
+        help="What`s the identification for detail type?",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    @api.onchange("cnab_format")
+    def _onchange_cnab_format(self):
+        if self.cnab_format == "240":
+            self.conf_bank_start_pos = 1
+            self.conf_bank_end_pos = 3
+            self.conf_batch_start_pos = 4
+            self.conf_batch_end_pos = 7
+            self.conf_record_type_start_pos = 8
+            self.conf_record_type_end_pos = 8
+            self.conf_detail_segment_start_pos = 14
+            self.conf_detail_segment_end_pos = 14
+            self.record_type_file_header_id = 0
+            self.record_type_file_trailer_id = 9
+            self.record_type_batch_header_id = 1
+            self.record_type_batch_trailer_id = 5
+            self.record_type_detail_id = 3
+        elif self.cnab_format == "400":
+            self.conf_bank_start_pos = None
+            self.conf_bank_end_pos = None
+            self.conf_batch_start_pos = None
+            self.conf_batch_end_pos = None
+            self.conf_record_type_start_pos = 8
+            self.conf_record_type_end_pos = 8
+            self.conf_detail_segment_start_pos = None
+            self.conf_detail_segment_end_pos = None
+            self.record_type_file_header_id = 0
+            self.record_type_file_trailer_id = 9
+            self.record_type_batch_header_id = None
+            self.record_type_batch_trailer_id = None
+            self.record_type_detail_id = 1
+        else:
+            self.conf_bank_start_pos = None
+            self.conf_bank_end_pos = None
+            self.conf_batch_start_pos = None
+            self.conf_batch_end_pos = None
+            self.conf_record_type_start_pos = None
+            self.conf_record_type_end_pos = None
+            self.conf_detail_segment_start_pos = None
+            self.conf_detail_segment_end_pos = None
+            self.record_type_file_header_id = None
+            self.record_type_file_trailer_id = None
+            self.record_type_batch_header_id = None
+            self.record_type_batch_trailer_id = None
+            self.record_type_detail_id = None
+
     def get_header(self):
         "Returns the file header record"
         return self.line_ids.filtered(lambda l: l.type == "header" and not l.batch_id)
@@ -194,3 +322,23 @@ class CNABStructure(models.Model):
 
         if not self.bank_id:
             raise UserError(_(f"{self.name}: A CNAB Structure need to have a bank!"))
+
+        positions = [
+            self.conf_bank_start_pos,
+            self.conf_bank_end_pos,
+            self.conf_batch_start_pos,
+            self.conf_batch_end_pos,
+            self.conf_record_type_start_pos,
+            self.conf_record_type_end_pos,
+            self.conf_detail_segment_start_pos,
+            self.conf_detail_segment_end_pos,
+        ]
+
+        last_position = int(self.cnab_format)
+        for f in positions:
+            if f != None and f < 1 or f > last_position:
+                raise UserError(
+                    _(
+                        f"{self.name}: All the configuration fields positions need to be between 1 and {last_position}!"
+                    )
+                )
