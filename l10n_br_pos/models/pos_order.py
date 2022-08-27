@@ -160,6 +160,14 @@ class PosOrder(models.Model):
         index=True,
     )
 
+    comment_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.comment",
+        relation="pos_order_fiscal_comment_rel",
+        column1="pos_order_id",
+        column2="comment_id",
+        string="Comments",
+    )
+
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("lines")
