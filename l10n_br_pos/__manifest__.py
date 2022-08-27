@@ -9,8 +9,8 @@
     "license": "AGPL-3",
     "category": "Point Of Sale",
     "depends": [
-        "queue_job",
         "l10n_br_stock_account",
+        # "queue_job",
         "l10n_br_zip",
         "l10n_br_base",
         # 'pos_payment_term',

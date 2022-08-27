@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models
 
-from odoo.addons.queue_job.job import job
+# from odoo.addons.queue_job.job import job
 
 
 class ProductTemplate(models.Model):
@@ -15,7 +15,7 @@ class ProductTemplate(models.Model):
         inverse_name="product_tmpl_id",
     )
 
-    @job
+    # @job
     def update_pos_fiscal_map(self):
         for record in self:
             pos_config_ids = record.env["pos.config"].search([('company_id', '=', self.env.user.company_id.id)])
@@ -39,17 +39,17 @@ class ProductTemplate(models.Model):
                 pos_fiscal_map_id._onchange_fiscal_operation_id()
                 pos_fiscal_map_id._onchange_fiscal_operation_line_id()
                 pos_fiscal_map_id._onchange_fiscal_taxes()
-
-
-    @api.model
-    def create(self, vals):
-        product_id = super().create(vals)
-        if vals.get("available_in_pos"):
-            product_id.with_delay().update_pos_fiscal_map()
-        return product_id
-
-    @api.multi
-    def write(self, vals):
-        if vals.get("available_in_pos"):
-            self.with_delay().update_pos_fiscal_map()
-        return super().write(vals)
+    #
+    #
+    # @api.model
+    # def create(self, vals):
+    #     product_id = super().create(vals)
+    #     if vals.get("available_in_pos"):
+    #         product_id.with_delay().update_pos_fiscal_map()
+    #     return product_id
+    #
+    # @api.multi
+    # def write(self, vals):
+    #     if vals.get("available_in_pos"):
+    #         self.with_delay().update_pos_fiscal_map()
+    #     return super().write(vals)
