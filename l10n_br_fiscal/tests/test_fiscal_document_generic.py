@@ -1041,7 +1041,9 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
     def test_unlink_dummy_document_line(self):
         """Test Dummy Fiscal Document Line Unlink Restrictions"""
-        dummy_line = self.env.company.fiscal_dummy_id.fiscal_line_ids[0]
+        dummy_line = self.env.company.fiscal_dummy_id.with_context(
+            active_test=False
+        ).fiscal_line_ids[0]
         with self.assertRaises(UserError):
             dummy_line.unlink()
 
@@ -1056,7 +1058,12 @@ class TestFiscalDocumentGeneric(SavepointCase):
             }
         )
         self.assertEqual(company.fiscal_dummy_id.company_id, company)
-        self.assertEqual(company.fiscal_dummy_id.fiscal_line_ids[0].company_id, company)
+        self.assertEqual(
+            company.fiscal_dummy_id.with_context(active_test=False)
+            .fiscal_line_ids[0]
+            .company_id,
+            company,
+        )
 
     def test_nfe_comments(self):
         self.nfe_not_taxpayer._document_comment()

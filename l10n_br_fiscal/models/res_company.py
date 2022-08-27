@@ -76,7 +76,9 @@ class ResCompany(models.Model):
             "fiscal_operation_type": "out",
             "partner_id": self.partner_id.id,
             "company_id": company,
-            "fiscal_line_ids": [(0, 0, {"name": "dummy", "company_id": self.id})],
+            "fiscal_line_ids": [
+                (0, 0, {"name": "dummy", "company_id": self.id, "active": False})
+            ],
         }
 
     @api.model
