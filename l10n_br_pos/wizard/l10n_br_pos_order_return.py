@@ -16,7 +16,6 @@ class StockPickingReturn(models.TransientModel):
             res.update({"invoice_state": "2binvoiced"})
         return res
 
-    @api.multi
     def _buscar_valor_total_devolucao(self, pos_order):
         precos_produtos_pos_order = {}
         for line in pos_order.lines:
@@ -34,7 +33,6 @@ class StockPickingReturn(models.TransientModel):
 
         return valor_total_devolucao
 
-    @api.multi
     def create_returns(self):
         if self.env.context.get("pos_order_id"):
             pos_order = self.env["pos.order"].browse(self.env.context["pos_order_id"])
@@ -120,7 +118,6 @@ class PorOrderReturn(models.TransientModel):
             "context": ctx,
         }
 
-    @api.multi
     def create_returns(self):
         self.ensure_one()
         active_ids = self._context["active_ids"]

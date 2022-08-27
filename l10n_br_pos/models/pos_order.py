@@ -159,7 +159,6 @@ class PosOrder(models.Model):
         index=True,
     )
 
-    @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("lines")
@@ -432,7 +431,6 @@ class PosOrder(models.Model):
 
         return dados_reimpressao
 
-    @api.multi
     def _populate_cancel_order_fields(self, order_vals):
         self.cancel_document_key = order_vals['chave_cfe']
         self.cancel_document_session_number = order_vals['numSessao']
@@ -447,7 +445,6 @@ class PosOrder(models.Model):
 
             payment_wizard.with_context(active_id=refund_order.id).check()
 
-    @api.multi
     def refund(self):
         res = super(PosOrder, self.with_context(
             mail_create_nolog=True, tracking_disable=True,

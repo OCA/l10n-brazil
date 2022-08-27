@@ -15,7 +15,6 @@ class ResPartner(models.Model):
         partner_id = self.browse(partner)
         return partner_id.credit_limit
 
-    @api.multi
     def _mask_cnpj_cpf(self, cpfcnpj_type, cnpj_cpf):
         if cnpj_cpf:
             if cpfcnpj_type == "cnpj" and len(cnpj_cpf) == 14:

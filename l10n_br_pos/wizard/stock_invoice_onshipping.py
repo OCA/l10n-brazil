@@ -15,7 +15,6 @@ class StockInvoiceOnShippingRelatedDocument(models.TransientModel):
             "move_lines.origin_returned_move_id.picking_id.pos_order_ids",
         ]
 
-    @api.multi
     def compute_all_for_pos_order(self):
         self.document_type = "sat"
         document = self.fiscal_doc_ref
@@ -28,7 +27,6 @@ class StockInvoiceOnShippingRelatedDocument(models.TransientModel):
 class StockInvoiceOnShipping(models.TransientModel):
     _inherit = "stock.invoice.onshipping"
 
-    @api.multi
     def create_invoice(self):
         result = super(StockInvoiceOnShipping, self).create_invoice()
         for document in self.related_document_ids:
