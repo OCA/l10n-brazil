@@ -44,7 +44,8 @@
         "views/product_template_view.xml",
         "views/res_company.xml",
         "views/pos_payment_method_view.xml",
-        # "views/pos_template.xml",
+        # Templates
+        "views/pos_template.xml",
         # TODO: Check this files after alpha version
         #   "views/account_invoice_view.xml"
         #   "views/pos_order_line_view.xml",
