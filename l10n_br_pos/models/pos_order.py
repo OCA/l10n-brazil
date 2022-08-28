@@ -44,6 +44,7 @@ class PosOrder(models.Model):
         string="CNPJ/CPF",
         related=False,
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     legal_name = fields.Char(
@@ -63,6 +64,7 @@ class PosOrder(models.Model):
         copy=False,
         index=True,
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     document_key = fields.Char(
@@ -70,15 +72,19 @@ class PosOrder(models.Model):
         copy=False,
         index=True,
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     ind_pres = fields.Selection(
         default=NFCE_IND_PRES_DEFAULT,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     document_type = fields.Char(
@@ -106,11 +112,13 @@ class PosOrder(models.Model):
         comodel_name="l10n_br_fiscal.document.serie",
         domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     document_serie = fields.Char(
         string="Serie Number",
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     partner_shipping_id = fields.Many2one(
@@ -128,6 +136,7 @@ class PosOrder(models.Model):
         string="Finalidade",
         default="1",
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     document_authorization_date = fields.Datetime(
@@ -157,12 +166,15 @@ class PosOrder(models.Model):
     cancel_document_session_number = fields.Char(
         string="Numero identificador sessao",
         copy=False,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     cancel_document_key = fields.Char(
         string="Key",
         copy=False,
         index=True,
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     cancel_document_file_id = fields.Many2one(
         comodel_name="ir.attachment",
