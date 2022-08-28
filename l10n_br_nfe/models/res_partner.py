@@ -36,8 +36,12 @@ class ResPartner(spec_models.SpecModel):
     _nfe_search_keys = ["nfe40_CNPJ", "nfe40_CPF", "nfe40_xNome"]
 
     @api.model
-    def _prepare_import_dict(self, values, model=None, parent_dict=None):
-        values = super()._prepare_import_dict(values, model, parent_dict)
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        values = super()._prepare_import_dict(
+            values, model, parent_dict, defaults_model
+        )
         if not values.get("name") and values.get("legal_name"):
             values["name"] = values["legal_name"]
         return values
