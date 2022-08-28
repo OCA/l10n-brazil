@@ -23,6 +23,23 @@ class PosOrder(models.Model):
         "l10n_br_fiscal.document.mixin",
     ]
 
+    @api.model
+    def _default_fiscal_operation(self):
+        return self.env.company.out_pos_fiscal_operation_id
+
+    @api.model
+    def _fiscal_operation_domain(self):
+        domain = [("state", "=", "approved")]
+        return domain
+
+    fiscal_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain(),
+    )
+
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
         related=False,
