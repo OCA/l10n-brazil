@@ -18,14 +18,13 @@ odoo.define("l10n_br_pos.models", function (require) {
         "legal_name",
         "cnpj_cpf",
         "inscr_est",
-        "ind_ie_dest",
         "inscr_mun",
         "suframa",
         "tax_framework",
         "street_number",
         "city_id",
     ];
-    models.load_fields("res.partner", partner_company_fields);
+    models.load_fields("res.partner", partner_company_fields.concat(["ind_ie_dest"]));
     models.load_fields(
         "res.company",
         partner_company_fields.concat([
@@ -42,8 +41,9 @@ odoo.define("l10n_br_pos.models", function (require) {
         "icms_origin",
         "fiscal_genre_code",
         "ncm_id",
-        "ncm_code",
-        "ncm_code_exception",
+        // FIXME: Verificar o que houve.
+        // "ncm_code",
+        // "ncm_code_exception",
         "nbm_id",
         "fiscal_genre_id",
         "service_type_id",
@@ -53,7 +53,10 @@ odoo.define("l10n_br_pos.models", function (require) {
         "nbs_id",
         "cest_id",
     ]);
-    models.load_fields("account.journal", ["sat_payment_mode", "sat_card_accrediting"]);
+    models.load_fields("pos.payment.method", [
+        "sat_payment_mode",
+        "sat_card_accrediting",
+    ]);
 
     models.load_models({
         model: "l10n_br_pos.product_fiscal_map",
@@ -355,23 +358,23 @@ odoo.define("l10n_br_pos.models", function (require) {
             const product_fiscal_map = this.pos.fiscal_map_by_template_id[
                 product.product_tmpl_id
             ];
-            if (!product_fiscal_map) {
-                this.pos.gui.show_popup("alert", {
-                    title: _t("Tax Details"),
-                    body: _t(
-                        "There was a problem mapping the item tax. Please contact support."
-                    ),
-                });
-            } else if (!product_fiscal_map.fiscal_operation_line_id) {
-                this.pos.gui.show_popup("alert", {
-                    title: _t("Fiscal Operation Line"),
-                    body: _t(
-                        "The fiscal operation line is not defined for this product. Please contact support."
-                    ),
-                });
-            } else {
-                _super_order.add_product.apply(this, arguments);
-            }
+            //            If (!product_fiscal_map) {
+            //                this.pos.gui.show_popup("alert", {
+            //                    title: _t("Tax Details"),
+            //                    body: _t(
+            //                        "There was a problem mapping the item tax. Please contact support."
+            //                    ),
+            //                });
+            //            } else if (!product_fiscal_map.fiscal_operation_line_id) {
+            //                this.pos.gui.show_popup("alert", {
+            //                    title: _t("Fiscal Operation Line"),
+            //                    body: _t(
+            //                        "The fiscal operation line is not defined for this product. Please contact support."
+            //                    ),
+            //                });
+            //            } else {
+            //            }
+            _super_order.add_product.apply(this, arguments);
         },
         push_new_order_list: async function () {
             return new Promise(function (resolve, reject) {
@@ -452,14 +455,14 @@ odoo.define("l10n_br_pos.models", function (require) {
     models.Paymentline = models.Paymentline.extend({
         export_for_printing: function () {
             var result = _super_payment_line.export_for_printing.apply(this, arguments);
-            result.sat_payment_mode = this.cashregister.journal.sat_payment_mode;
-            result.sat_card_accrediting = this.cashregister.journal.sat_card_accrediting;
+            result.sat_payment_mode = this.payment_method.sat_payment_mode;
+            result.sat_card_accrediting = this.payment_method.sat_card_accrediting;
             return result;
         },
         export_as_JSON: function () {
             var result = _super_payment_line.export_as_JSON.apply(this, arguments);
-            result.sat_payment_mode = this.cashregister.journal.sat_payment_mode;
-            result.sat_card_accrediting = this.cashregister.journal.sat_card_accrediting;
+            result.sat_payment_mode = this.payment_method.sat_payment_mode;
+            result.sat_card_accrediting = this.payment_method.sat_card_accrediting;
             return result;
         },
     });
