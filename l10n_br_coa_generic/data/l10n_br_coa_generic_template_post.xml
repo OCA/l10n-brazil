@@ -7,6 +7,7 @@
         <field name="property_account_payable_id" ref="coa_generic_211101" />
         <field name="property_account_expense_categ_id" ref="coa_generic_511101" />
         <field name="property_account_income_categ_id" ref="coa_generic_611101" />
+        <field name="default_pos_receivable_account_id" ref="coa_generic_112102" />
     </record>
 
     <data noupdate="1">
