@@ -50,7 +50,7 @@ class AbstractSpecMixin(models.AbstractModel):
             return model.create(attrs)
 
     @api.model
-    def build_attrs(self, node, path=""):
+    def build_attrs(self, node, path="", defaults_model=None):
         """
         Builds a new odoo model instance from a Python binding element or
         sub-element. Iterates over the binding fields to populate the Odoo fields.
@@ -58,7 +58,7 @@ class AbstractSpecMixin(models.AbstractModel):
         vals = {}
         for attr in node.member_data_items_:
             self._build_attr(node, self._fields, vals, path, attr)
-        vals = self._prepare_import_dict(vals)
+        vals = self._prepare_import_dict(vals, defaults_model=defaults_model)
         return vals
 
     @api.model
@@ -123,7 +123,9 @@ class AbstractSpecMixin(models.AbstractModel):
                 # o2m
                 lines = []
                 for line in [li for li in value if li]:
-                    line_vals = comodel.build_attrs(line, path=child_path)
+                    line_vals = comodel.build_attrs(
+                        line, path=child_path, defaults_model=comodel
+                    )
                     lines.append((0, 0, line_vals))
                 vals[key] = lines
 
@@ -169,7 +171,9 @@ class AbstractSpecMixin(models.AbstractModel):
         return key_vals
 
     @api.model
-    def _prepare_import_dict(self, vals, model=None, parent_dict=None):
+    def _prepare_import_dict(
+        self, vals, model=None, parent_dict=None, defaults_model=False
+    ):
         """
         Set non computed field values based on XML values if required.
         NOTE: this is debatable if we could use an api multi with values in
@@ -178,6 +182,8 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         if model is None:
             model = self
+
+        vals = {k: v for k, v in vals.items() if k in self._fields.keys()}
 
         related_many2ones = {}
         fields = model._fields
@@ -212,23 +218,22 @@ class AbstractSpecMixin(models.AbstractModel):
             else:  # search res.country with Brasil for instance
                 vals[related_m2o] = model.match_or_create_m2o(sub_val, vals, comodel)
 
-        defaults = model.with_context(
-            record_dict=vals,
-            parent_dict=parent_dict,
-        ).default_get(
-            [
-                f
-                for f, v in model._fields.items()
-                if v.type not in ["binary", "integer", "float", "monetary"]
-                and v.name not in vals.keys()
-            ]
-        )
-        vals.update(defaults)
-        # NOTE: also eventually load default values from the context?
+        if defaults_model is not None:
+            defaults = defaults_model.with_context(
+                record_dict=vals,
+                parent_dict=parent_dict,
+            ).default_get(
+                [
+                    f
+                    for f, v in defaults_model._fields.items()
+                    if v.type not in ["binary", "integer", "float", "monetary"]
+                    and v.name not in vals.keys()
+                ]
+            )
+            vals.update(defaults)
+            # NOTE: also eventually load default values from the context?
 
-        # NOTE: is this filtering still useful?
-        filtered_vals = {k: v for k, v in vals.items() if k in self._fields.keys()}
-        return filtered_vals
+        return vals
 
     @api.model
     def _verify_related_many2ones(self, related_many2ones):
@@ -254,7 +259,7 @@ class AbstractSpecMixin(models.AbstractModel):
             if rec_dict.get(key):
                 # TODO enable to build criteria using parent_dict
                 # such as state_id when searching for a city
-                if hasattr(model, "_nfe_extra_domain"):
+                if hasattr(model, "_nfe_extra_domain"):  # FIXME make generic
                     domain = model._nfe_extra_domain + [(key, "=", rec_dict.get(key))]
                 else:
                     operator = (
@@ -264,7 +269,10 @@ class AbstractSpecMixin(models.AbstractModel):
                 match_ids = model.search(domain)
                 if match_ids:
                     if len(match_ids) > 1:
-                        _logger.warning("!! WARNING more than 1 record found!!")
+                        _logger.warning(
+                            "!! WARNING more than 1 record found!! model: %s, domain: %s"
+                            % (model, domain)
+                        )
                     return match_ids[0].id
         return False
 
@@ -287,13 +295,18 @@ class AbstractSpecMixin(models.AbstractModel):
         else:
             rec_id = self.match_record(rec_dict, parent_dict, model)
         if not rec_id:
-            create_dict = self._prepare_import_dict(
-                rec_dict, model=model, parent_dict=parent_dict
+            vals = self._prepare_import_dict(
+                rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
             )
             if self._context.get("dry_run"):
-                rec_id = model.new(create_dict).id
+                rec_id = model.new(vals).id
             else:
                 rec_id = (
-                    model.with_context(parent_dict=parent_dict).create(create_dict).id
+                    model.with_context(
+                        parent_dict=parent_dict,
+                        lang="en_US",
+                    )
+                    .create(vals)
+                    .id
                 )
         return rec_id
