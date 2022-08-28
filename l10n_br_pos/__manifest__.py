@@ -40,13 +40,13 @@
         # "views/account_invoice_view.xml"
         "views/res_company.xml",
         # "views/pos_order_line_view.xml",
-        "views/account_journal_view.xml",
+        "views/pos_payment_method_view.xml",
         # "views/point_of_sale_report.xml",
         "views/pos_template.xml",
     ],
     "demo": [
         "demo/product_template_demo.xml",
-        "demo/account_journal_demo.xml",
+        "demo/pos_payment_method_demo.xml",
         "demo/pos_config_demo.xml",
     ],
     "qweb": [

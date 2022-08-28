@@ -62,8 +62,8 @@ CREDENCIADORAS_CARTAO = [
 ]
 
 
-class AccountJournal(models.Model):
-    _inherit = "account.journal"
+class PosPaymentMethod(models.Model):
+    _inherit = "pos.payment.method"
 
     sat_payment_mode = fields.Selection(WA03_CMP_MP, "Modo de Pagamento SAT")
     sat_card_accrediting = fields.Selection(

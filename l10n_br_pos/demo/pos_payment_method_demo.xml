@@ -3,161 +3,110 @@
 
     <!--  Crédito  -->
 
-    <record id="presumido_credito_visa" model="account.journal">
-        <field name="code">POS-CV</field>
+    <record id="presumido_credito_visa" model="pos.payment.method">
         <field name="name">Crédito Visa</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">03</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_credito_master" model="account.journal">
-        <field name="code">POS-CM</field>
+    <record id="presumido_credito_master" model="pos.payment.method">
         <field name="name">Crédito Master</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">03</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_credito_elo" model="account.journal">
-        <field name="code">POS-CE</field>
+    <record id="presumido_credito_elo" model="pos.payment.method">
         <field name="name">Crédito Elo</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">03</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_credito_amex" model="account.journal">
-        <field name="code">POS-CA</field>
+    <record id="presumido_credito_amex" model="pos.payment.method">
         <field name="name">Crédito Amex</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">03</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_credito_hipercard" model="account.journal">
-        <field name="code">POS-CH</field>
+    <record id="presumido_credito_hipercard" model="pos.payment.method">
         <field name="name">Crédito Hipercard</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">03</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
     <!--  Débito  -->
 
-    <record id="presumido_debito_visa" model="account.journal">
-        <field name="code">POS-DV</field>
+    <record id="presumido_debito_visa" model="pos.payment.method">
         <field name="name">Débito Visa</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">04</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_debito_master" model="account.journal">
-        <field name="code">POS-DM</field>
+    <record id="presumido_debito_master" model="pos.payment.method">
         <field name="name">Débito Master</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">04</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_debito_elo" model="account.journal">
-        <field name="code">POS-DE</field>
+    <record id="presumido_debito_elo" model="pos.payment.method">
         <field name="name">Débito Elo</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">04</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
     <!--  Alimentação  -->
 
-    <record id="presumido_vale_vr_ben" model="account.journal">
-        <field name="code">POS-VR-Ben</field>
+    <record id="presumido_vale_vr_ben" model="pos.payment.method">
         <field name="name">VR Ben</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">11</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_vale_vr_alelo" model="account.journal">
-        <field name="code">POS-VR-Alelo</field>
+    <record id="presumido_vale_vr_alelo" model="pos.payment.method">
         <field name="name">VR Alelo</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">11</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_vale_vr_alelo" model="account.journal">
-        <field name="code">POS-VR-Alelo</field>
+    <record id="presumido_vale_vr_alelo" model="pos.payment.method">
         <field name="name">VR Alelo</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">11</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_vale_vr_sodexo" model="account.journal">
-        <field name="code">POS-VR-S</field>
+    <record id="presumido_vale_vr_sodexo" model="pos.payment.method">
         <field name="name">VR Sodexo</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">11</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_vale_vr_tr" model="account.journal">
-        <field name="code">POS-VR-TR</field>
+    <record id="presumido_vale_vr_tr" model="pos.payment.method">
         <field name="name">VR TR</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">11</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
     <!--  Outros  -->
 
-    <record id="presumido_pix" model="account.journal">
-        <field name="code">POS-PIX</field>
+    <record id="presumido_pix" model="pos.payment.method">
         <field name="name">PIX</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">04</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_delivery" model="account.journal">
-        <field name="code">POS-Delivery</field>
+    <record id="presumido_delivery" model="pos.payment.method">
         <field name="name">Delivery App</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">99</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_voucher" model="account.journal">
-        <field name="code">POS-Voucher</field>
+    <record id="presumido_voucher" model="pos.payment.method">
         <field name="name">Vouchers</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">05</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <record id="presumido_convenio" model="account.journal">
-        <field name="code">POS-Convenio</field>
+    <record id="presumido_convenio" model="pos.payment.method">
         <field name="name">Convênios</field>
-        <field name="type">bank</field>
-        <field name="journal_user" eval="True" />
         <field name="sat_payment_mode">05</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
