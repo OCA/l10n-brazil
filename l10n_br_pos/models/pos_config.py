@@ -3,8 +3,6 @@
 
 from odoo import api, fields, models
 
-from odoo.addons import decimal_precision as dp
-
 PRINTER = [
     ("epson-tm-t20", "Epson TM-T20"),
     ("bematech-mp4200th", "Bematech MP4200TH"),
@@ -73,14 +71,14 @@ class PosConfig(models.Model):
 
     anonymous_simplified_limit = fields.Float(
         string="Anonymous simplified limit",
-        digits=dp.get_precision("Account"),
+        digits="Account",
         help="Over this amount is not legally posible to create a Anonymous NFC-E / CF-e",
         default=10000,
     )
 
     simplified_invoice_limit = fields.Float(
         string="Simplified invoice limit",
-        digits=dp.get_precision("Account"),
+        digits="Account",
         help="Over this amount is not legally posible to create a simplified invoice",
         default=200000,
     )
