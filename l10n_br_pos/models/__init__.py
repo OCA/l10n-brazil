@@ -3,8 +3,8 @@
 
 from . import pos_order
 from . import pos_order_line
-from . import pos_config
 from . import res_company
+from . import pos_config
 from . import pos_payment_method
 from . import cfop
 from . import document_related
