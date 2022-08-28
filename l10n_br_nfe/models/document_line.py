@@ -378,8 +378,12 @@ class NFeLine(spec_models.StackedModel):
                 record.nfe40_choice10 = "nfe40_ISSQN"
 
     @api.model
-    def _prepare_import_dict(self, values, model=None, parent_dict=None):
-        values = super()._prepare_import_dict(values, model, parent_dict)
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        values = super()._prepare_import_dict(
+            values, model, parent_dict, defaults_model
+        )
         if not values.get("name"):
             values["name"] = values.get("nfe40_xProd")
             if values.get("product_id"):
@@ -772,7 +776,7 @@ class NFeLine(spec_models.StackedModel):
                         ).id
                         # TODO search + log if not found
                     if hasattr(icms, "modBC") and icms.modBC is not None:
-                        icms_vals["icms_base_type"] = float(icms.modBC)
+                        icms_vals["icms_base_type"] = icms.modBC
                     if hasattr(icms, "orig"):
                         icms_vals["icms_origin"] = icms.orig
                     if hasattr(icms, "vBC") and icms.vBC is not None:

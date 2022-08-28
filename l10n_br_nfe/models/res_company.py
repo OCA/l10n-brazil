@@ -123,12 +123,14 @@ class ResCompany(spec_models.SpecModel):
         return super()._build_attr(node, fields, vals, path, attr)
 
     @api.model
-    def _prepare_import_dict(self, values, model=None, parent_dict=None):
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
         # we disable enderEmit related creation with dry_run=True
         context = self._context.copy()
         context["dry_run"] = True
         values = super(ResCompany, self.with_context(context))._prepare_import_dict(
-            values, model, parent_dict
+            values, model, parent_dict, defaults_model
         )
         if not values.get("name"):
             values["name"] = values.get("nfe40_xFant") or values.get("nfe40_xNome")
