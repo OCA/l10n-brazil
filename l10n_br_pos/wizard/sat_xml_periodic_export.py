@@ -5,7 +5,7 @@ import base64
 import os
 import time
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 from odoo.addons.nfe.tools.misc import mount_path_nfe
 

@@ -1,7 +1,7 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class PosOrderLine(models.Model):
@@ -23,7 +23,6 @@ class PosOrderLine(models.Model):
         column2="comment_id",
         string="Comments",
     )
-
 
     # @api.multi
     # def _buscar_produtos_devolvidos(self):

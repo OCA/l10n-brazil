@@ -1,6 +1,5 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-import base64
 import logging
 from datetime import timedelta
 
@@ -9,7 +8,7 @@ from satcomum.ersat import ChaveCFeSAT
 from odoo import api, fields, models
 
 # from odoo.addons.l10n_br_fiscal.constants.fiscal import
-NFCE_IND_PRES_DEFAULT = '1'
+NFCE_IND_PRES_DEFAULT = "1"
 
 _logger = logging.getLogger(__name__)
 
@@ -235,9 +234,15 @@ class PosOrder(models.Model):
 
     @api.model
     def _process_order(self, pos_order_vals):
-        order = super(PosOrder, self.with_context(
-            mail_create_nolog=True, tracking_disable=True, mail_create_nosubscribe=True,
-            mail_notrack=True))._process_order(pos_order_vals)
+        order = super(
+            PosOrder,
+            self.with_context(
+                mail_create_nolog=True,
+                tracking_disable=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+            ),
+        )._process_order(pos_order_vals)
         document_file = pos_order_vals.get("document_file")
         if document_file:
             order.document_file_id = order._save_attachment(
@@ -270,7 +275,7 @@ class PosOrder(models.Model):
             )
         result.update(temp)
         result["fiscal_coupon_date"] = fields.Datetime.from_string(
-                ui_order.get("fiscal_coupon_date", fields.Datetime.now())
+            ui_order.get("fiscal_coupon_date", fields.Datetime.now())
         ) + timedelta(hours=3)
         return result
 
@@ -347,7 +352,8 @@ class PosOrder(models.Model):
     #     order_id = super()._process_order(order)
     #     # order_id = self.browse(order_id)
     #     # for statement in order_id.statement_ids:
-    #     #     if statement.journal_id.sat_payment_mode == '05' and statement.journal_id.pagamento_funcionarios:
+    #     #     if statement.journal_id.sat_payment_mode == '05' and
+    #           statement.journal_id.pagamento_funcionarios:
     #     #         order_id.partner_id.credit_funcionario -= statement.amount
     #     #     elif statement.journal_id.sat_payment_mode == "05":
     #     #         order_id.partner_id.credit_limit -= statement.amount
@@ -460,34 +466,42 @@ class PosOrder(models.Model):
         arquivo_cancelada = order.cancel_document_file_id.datas
 
         dados_reimpressao = {
-            'order_id': order_id,
-            'chaveConsulta': order.document_key,
-            'doc_destinatario': order.cnpj_cpf,
-            'xml_cfe_venda': arquivo,
-            'xml_cfe_cacelada': arquivo_cancelada,
+            "order_id": order_id,
+            "chaveConsulta": order.document_key,
+            "doc_destinatario": order.cnpj_cpf,
+            "xml_cfe_venda": arquivo,
+            "xml_cfe_cacelada": arquivo_cancelada,
         }
 
         return dados_reimpressao
 
     def _populate_cancel_order_fields(self, order_vals):
-        self.cancel_document_key = order_vals['chave_cfe']
-        self.cancel_document_session_number = order_vals['numSessao']
+        self.cancel_document_key = order_vals["chave_cfe"]
+        self.cancel_document_session_number = order_vals["numSessao"]
 
     def _generate_refund_payments(self, refund_order):
         for payment in self.statement_ids:
-            payment_wizard = self.env['pos.make.payment'].create({
-                'session_id': refund_order.session_id.id,
-                'journal_id': payment.journal_id.id,
-                'amount': payment.amount * -1
-            })
+            payment_wizard = self.env["pos.make.payment"].create(
+                {
+                    "session_id": refund_order.session_id.id,
+                    "journal_id": payment.journal_id.id,
+                    "amount": payment.amount * -1,
+                }
+            )
 
             payment_wizard.with_context(active_id=refund_order.id).check()
 
     def refund(self):
-        res = super(PosOrder, self.with_context(
-            mail_create_nolog=True, tracking_disable=True,
-            mail_create_nosubscribe=True, mail_notrack=True)).refund()
-        refund_order = self.browse(res['res_id'])
+        res = super(
+            PosOrder,
+            self.with_context(
+                mail_create_nolog=True,
+                tracking_disable=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+            ),
+        ).refund()
+        refund_order = self.browse(res["res_id"])
         refund_order.amount_total = self.amount_total * -1
 
         self._generate_refund_payments(refund_order)
@@ -496,18 +510,19 @@ class PosOrder(models.Model):
 
     @api.model
     def cancelar_order(self, result):
-        _logger.info(f'Result: {result}')
-        order = self.browse(result['order_id'])
+        _logger.info(f"Result: {result}")
+        order = self.browse(result["order_id"])
 
         order._populate_cancel_order_fields(result)
         order.cancel_document_file_id = order._save_attachment(
-            file_name=result['chave_cfe'] + ".xml",
-            file_content=result['xml']
+            file_name=result["chave_cfe"] + ".xml", file_content=result["xml"]
         ).id
 
         order.with_context(
-            mail_create_nolog=True, tracking_disable=True,
-            mail_create_nosubscribe=True, mail_notrack=True
+            mail_create_nolog=True,
+            tracking_disable=True,
+            mail_create_nosubscribe=True,
+            mail_notrack=True,
         ).refund()
 
     #
