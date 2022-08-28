@@ -27,9 +27,9 @@
 <!--                        type="action" groups="base.group_user"-->
 <!--                        attrs="{'invisible': ['|',('state', 'not in', ['done', 'paid']), ('canceled_order', '=', True)]}"/>-->
 <!--            </xpath>-->
-            <field name="fiscal_position_id" position="replace">
-                <field name="fiscal_operation_id" required="True" />
+            <field name="fiscal_position_id" position="before">
                 <field name="cnpj_cpf" />
+                <field name="fiscal_operation_id" required="True" />
 <!--                <field name="ind_pres" required="True" />-->
 <!--                <field name="cfe_return"/>-->
 <!--                <field name="chave_cfe"/>-->

@@ -9,7 +9,7 @@ odoo.define("l10n_br_pos.devices", function (require) {
     "use strict";
     var devices = require("point_of_sale.devices");
     var core = require("web.core");
-    var rpc = require('web.rpc');
+    var rpc = require("web.rpc");
     var _t = core._t;
 
     var ProxyDeviceSuper = devices.ProxyDevice;
@@ -42,11 +42,14 @@ odoo.define("l10n_br_pos.devices", function (require) {
                         .rpc("/hw_proxy/status_json", {}, {timeout: 2500})
                         .then(
                             function (driver_status) {
-                                if (self.pos.config.iface_fiscal_via_proxy && !driver_status.hasOwnProperty("hw_fiscal")) {
+                                if (
+                                    self.pos.config.iface_fiscal_via_proxy &&
+                                    !driver_status.hasOwnProperty("hw_fiscal")
+                                ) {
                                     self.pos.proxy.init_sat(self.pos.config);
                                 } else {
-                                    let status = self.pos.proxy.get('status');
-                                    if ('scanner' in status.drivers) {
+                                    const status = self.pos.proxy.get("status");
+                                    if ("scanner" in status.drivers) {
                                         driver_status.scanner = status.drivers.scanner;
                                     }
                                     self.set_connection_status(
@@ -77,14 +80,14 @@ odoo.define("l10n_br_pos.devices", function (require) {
                 "<div data-item-index='3' class='selection-item '>Imprimindo Cupom Fiscal</div>"
             );
             self.message("reprint_cfe", {json: order}, {timeout: 5000}).then(
-                function (result) {
+                function () {
                     return;
                 },
                 function (error) {
                     if (error) {
                         self.gui.show_popup("error-traceback", {
-                            'title': _t("Erro SAT: "),
-                            'body': error.data.message,
+                            title: _t("Erro SAT: "),
+                            body: error.data.message,
                         });
                         return;
                     }
@@ -98,63 +101,77 @@ odoo.define("l10n_br_pos.devices", function (require) {
                 console.log(json);
             }
             this.fiscal_queue.push(json);
-            var aborted = false;
             return new Promise(function (resolve, reject) {
                 if (self.fiscal_queue.length > 0) {
                     var j = self.fiscal_queue.shift();
                     $(".selection").append(
                         "<div data-item-index='2' class='selection-item '>Transmitir CF-e para o SAT</div>"
                     );
-                    self.pos.proxy.message("sessao_sat", {json: self.pos.config.sessao_sat}, {timeout: 5000}).then(
-                        function (result) {
-                            if (result.num_sessao != self.pos.config.sessao_sat) {
-                                self.message("enviar_cfe_sat", {json: j}, {timeout: 5000}).then(
-                                    (response) => {
-                                        console.log("Processing Request");
-                                        try {
-                                            var response_as_json = JSON.parse(response);
-                                        } catch (error) {
-                                            self.pos.gui.show_popup('error-traceback', {
-                                                'title': _t('Erro SAT: '),
-                                                'body': _t(response)
+                    self.pos.proxy
+                        .message(
+                            "sessao_sat",
+                            {json: self.pos.config.sessao_sat},
+                            {timeout: 5000}
+                        )
+                        .then(
+                            function (result) {
+                                if (result.num_sessao != self.pos.config.sessao_sat) {
+                                    self.message(
+                                        "enviar_cfe_sat",
+                                        {json: j},
+                                        {timeout: 5000}
+                                    ).then(
+                                        (response) => {
+                                            console.log("Processing Request");
+                                            try {
+                                                var response_as_json = JSON.parse(
+                                                    response
+                                                );
+                                            } catch (error) {
+                                                self.pos.gui.show_popup(
+                                                    "error-traceback",
+                                                    {
+                                                        title: _t("Erro SAT: "),
+                                                        body: _t(response),
+                                                    }
+                                                );
+                                                return;
+                                            }
+                                            self.reprint_cfe({
+                                                xml_cfe_venda:
+                                                    response_as_json.arquivoCFeSAT,
                                             });
-                                            return;
+                                            var config_id = self.pos.config.id;
+                                            self.pos.config.sessao_sat++;
+                                            rpc.query({
+                                                model: "pos.config",
+                                                method: "update_sessao_sat",
+                                                args: [config_id],
+                                            });
+                                            resolve(response_as_json);
+                                        },
+                                        (error) => {
+                                            reject(error);
                                         }
-                                        self.reprint_cfe({
-                                            xml_cfe_venda: response_as_json.arquivoCFeSAT,
-                                        });
-                                        var config_id = self.pos.config.id;
-                                        self.pos.config.sessao_sat++;
-                                        rpc.query({
-                                            model: 'pos.config',
-                                            method: 'update_sessao_sat',
-                                            args: [config_id]
-                                        })
-                                        resolve(response_as_json);
-                                    },
-                                    (error) => {
-                                        reject(error);
-                                    }
-                                );
-                            } else {
-                                self.pos.gui.show_popup("error-traceback", {
-                                    'title': _t("Erro SAT: "),
-                                    'body': 'Este cupom já foi transmitido!',
-                                });
-                                return;
+                                    );
+                                } else {
+                                    self.pos.gui.show_popup("error-traceback", {
+                                        title: _t("Erro SAT: "),
+                                        body: "Este cupom já foi transmitido!",
+                                    });
+                                    return;
+                                }
+                            },
+                            function (error) {
+                                if (error) {
+                                    self.pos.gui.show_popup("error-traceback", {
+                                        title: _t("Erro SAT: "),
+                                        body: error.data.message,
+                                    });
+                                    return;
+                                }
                             }
-                        },
-                        function (error) {
-                            if (error) {
-                                self.pos.gui.show_popup("error-traceback", {
-                                    'title': _t("Erro SAT: "),
-                                    'body': error.data.message,
-                                });
-                                return;
-                            }
-                        }
-                    );
-
+                        );
                 }
             });
 
@@ -205,78 +222,97 @@ odoo.define("l10n_br_pos.devices", function (require) {
             // send_sat_job();
         },
         cancel_order: function (order) {
-             var self = this;
-             order['cnpj_software_house'] = self.pos.config.cnpj_software_house;
-             self.pos.proxy.message("sessao_sat", {json: self.pos.config.sessao_sat}, {timeout: 5000}).then(
-                function (result) {
-                    if (result.num_sessao != self.pos.config.sessao_sat) {
-                         self.message('cancelar_cfe', {json: order}, {timeout: 5000})
-                         .then(function (result) {
-                             if (result && typeof result === 'object') {
-                                self.reprint_cfe({
-                                    xml_cfe_venda: order.xml_cfe_venda,
-                                    xml_cfe_cacelada: result.xml,
-                                    canceled_order: true
-                                });
-                                rpc.query({
-                                    model: 'pos.order',
-                                    method: 'cancelar_order',
-                                    args: [result],
-                                 }).then(function (orders) {
-                                         self.pos.gui.show_popup('alert', {
-                                             'tittle': _t('Venda Cancelada!'),
-                                             'body': _t('A venda foi cancelada com sucesso.'),
-                                         });
-                                        var config_id = self.pos.config.id;
-                                        self.pos.config.sessao_sat++;
+            var self = this;
+            order.cnpj_software_house = self.pos.config.cnpj_software_house;
+            self.pos.proxy
+                .message(
+                    "sessao_sat",
+                    {json: self.pos.config.sessao_sat},
+                    {timeout: 5000}
+                )
+                .then(
+                    function (result) {
+                        if (result.num_sessao != self.pos.config.sessao_sat) {
+                            self.message(
+                                "cancelar_cfe",
+                                {json: order},
+                                {timeout: 5000}
+                            ).then(
+                                function (result) {
+                                    if (result && typeof result === "object") {
+                                        self.reprint_cfe({
+                                            xml_cfe_venda: order.xml_cfe_venda,
+                                            xml_cfe_cacelada: result.xml,
+                                            canceled_order: true,
+                                        });
                                         rpc.query({
-                                            model: 'pos.config',
-                                            method: 'update_sessao_sat',
-                                            args: [config_id]
-                                        })
-                                     }, function (error, event) {
-                                         event.preventDefault();
-                                         self.pos.gui.show_popup('error', {
-                                             'title': _t('Error: Tempo Excedido'),
-                                             'body': _t('Tempo limite de 30 minutos para cancelamento foi excedido.'),
-                                         });
-                                         return false;
-                                     });
-                             } else {
-                                 self.pos.gui.show_popup('error', {
-                                     'tittle': _t('Erro SAT: '),
-                                     'body': _t(result),
-                                 });
-                             }
-                         }, function (error, event) {
-                             event.preventDefault();
-                             if (error) {
-                                 self.pos.gui.show_popup('error-traceback', {
-                                     'title': _t('Erro SAT: '),
-                                     'body': error.data.message,
-                                 });
-                                 return;
-                             }
-                         });
-                     } else {
-                        self.pos.gui.show_popup("error-traceback", {
-                            'title': _t("Erro SAT: "),
-                            'body': 'Este cupom já foi transmitido!',
-                        });
-                        return;
+                                            model: "pos.order",
+                                            method: "cancelar_order",
+                                            args: [result],
+                                        }).then(
+                                            function () {
+                                                self.pos.gui.show_popup("alert", {
+                                                    tittle: _t("Venda Cancelada!"),
+                                                    body: _t(
+                                                        "A venda foi cancelada com sucesso."
+                                                    ),
+                                                });
+                                                var config_id = self.pos.config.id;
+                                                self.pos.config.sessao_sat++;
+                                                rpc.query({
+                                                    model: "pos.config",
+                                                    method: "update_sessao_sat",
+                                                    args: [config_id],
+                                                });
+                                            },
+                                            function (error, event) {
+                                                event.preventDefault();
+                                                self.pos.gui.show_popup("error", {
+                                                    title: _t("Error: Tempo Excedido"),
+                                                    body: _t(
+                                                        "Tempo limite de 30 minutos para cancelamento foi excedido."
+                                                    ),
+                                                });
+                                                return false;
+                                            }
+                                        );
+                                    } else {
+                                        self.pos.gui.show_popup("error", {
+                                            tittle: _t("Erro SAT: "),
+                                            body: _t(result),
+                                        });
+                                    }
+                                },
+                                function (error, event) {
+                                    event.preventDefault();
+                                    if (error) {
+                                        self.pos.gui.show_popup("error-traceback", {
+                                            title: _t("Erro SAT: "),
+                                            body: error.data.message,
+                                        });
+                                        return;
+                                    }
+                                }
+                            );
+                        } else {
+                            self.pos.gui.show_popup("error-traceback", {
+                                title: _t("Erro SAT: "),
+                                body: "Este cupom já foi transmitido!",
+                            });
+                            return;
                         }
-                },
-                function (error) {
-                    if (error) {
-                        self.gui.show_popup("error-traceback", {
-                            'title': _t("Erro SAT: "),
-                            'body': error.data.message,
-                        });
-                        return;
+                    },
+                    function (error) {
+                        if (error) {
+                            self.gui.show_popup("error-traceback", {
+                                title: _t("Erro SAT: "),
+                                body: error.data.message,
+                            });
+                            return;
+                        }
                     }
-                }
-            );
-         },
+                );
+        },
         //     Remove_document_pontuations: function (document) {
         //         return document.replace(/[^\d]+/g, '');
         //     },

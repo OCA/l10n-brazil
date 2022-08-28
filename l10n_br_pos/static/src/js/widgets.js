@@ -5,7 +5,8 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-odoo.define("l10n_br_pos.widgets", function (require) {
+odoo.define("l10n_br_pos.widgets", function () {
+    "use strict";
     // Var QWeb = instance.web.qweb;
     // var _t = instance.web._t;
     //
