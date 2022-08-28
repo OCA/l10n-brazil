@@ -5,17 +5,17 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-const DOCUMENTO_CFE = "59";
-const DOCUMENTO_NFCE = "65";
+// const DOCUMENTO_CFE = "59";
+// const DOCUMENTO_NFCE = "65";
 
 odoo.define("l10n_br_pos.screens", function (require) {
     "use strict";
     var screens = require("point_of_sale.screens");
     var pos_order_screens = require("pos_order_show_list.screens");
-    var rpc = require('web.rpc');
-    var models = require("point_of_sale.models");
-    var ScreenWidget = screens.ScreenWidget;
-    var utils = require('web.utils');
+    var rpc = require("web.rpc");
+    //    Var models = require("point_of_sale.models");
+    //    var ScreenWidget = screens.ScreenWidget;
+    var utils = require("web.utils");
     const core = require("web.core");
     const _t = core._t;
     var QWeb = core.qweb;
@@ -63,10 +63,10 @@ odoo.define("l10n_br_pos.screens", function (require) {
             //     this.pos_widget.screen_selector.set_current_screen(this.next_screen);
             // }
         },
-        order_nfe_nfse_is_valid: function (order) {
+        order_nfe_nfse_is_valid: function () {
             console.log("NF-E / NFS-E");
         },
-        order_nfce_is_valid: function (order) {
+        order_nfce_is_valid: function () {
             console.log("NFC-E");
         },
         finalize_validation: async function () {
@@ -77,12 +77,15 @@ odoo.define("l10n_br_pos.screens", function (require) {
                 list: [{label: "Iniciando Processo de Transmissão"}],
             });
             var order = this.pos.get_order();
-            var res = await self.order_sat_is_valid(order).then((response) => {
-                _super.apply(self, arguments)
-            }).finally((response) => {
-                self.gui.close_popup();
-                return response;
-            });
+            var res = await self
+                .order_sat_is_valid(order)
+                .then(() => {
+                    _super.apply(self, arguments);
+                })
+                .finally((response) => {
+                    self.gui.close_popup();
+                    return response;
+                });
             return res;
             // Console.log("order_is_valid")
             // console.log("order_is_valid SUPER")
@@ -128,74 +131,95 @@ odoo.define("l10n_br_pos.screens", function (require) {
         save_changes: function () {
             this._super();
             const order = this.pos.get_order();
-            if (this.new_client?.cnpj_cpf) {
+            if (this.new_client && this.new_client.cnpj_cpf) {
                 order.set_cnpj_cpf(this.new_client.cnpj_cpf.replace(/\D/g, ""));
             } else {
-                order.set_cnpj_cpf('');
+                order.set_cnpj_cpf("");
             }
             this.pos.gui.screen_instances.payment.renderElement();
-        }
+        },
     });
 
     pos_order_screens.PosOrderScreenWidget.include({
         show: function () {
             var self = this;
             this._super();
-            this.$('.order-list-contents').delegate('.pos_order_reprint','click',function(event){
-                rpc.query({
-                    model: 'pos.order',
-                    method: 'retornar_order_by_id',
-                    args: [$(this).parent().parent().data('id')],
-                    limit: 1,
-                }).then(function (orders){
-                    self.pos.proxy.reprint_cfe(orders);
-                });
-            });
-            this.$('.order-list-contents').delegate('.pos_order_cancel','click',function(event){
-                rpc.query({
-                    model: 'pos.order',
-                    method: 'retornar_order_by_id',
-                    args: [$(this).parent().parent().data('id')],
-                    limit: 1,
-                }).then(function (orders){
-                    self.cancel_order_sat(orders);
-                });
-            });
+            this.$(".order-list-contents").delegate(
+                ".pos_order_reprint",
+                "click",
+                function () {
+                    rpc.query({
+                        model: "pos.order",
+                        method: "retornar_order_by_id",
+                        args: [$(this).parent().parent().data("id")],
+                        limit: 1,
+                    }).then(function (orders) {
+                        self.pos.proxy.reprint_cfe(orders);
+                    });
+                }
+            );
+            this.$(".order-list-contents").delegate(
+                ".pos_order_cancel",
+                "click",
+                function () {
+                    rpc.query({
+                        model: "pos.order",
+                        method: "retornar_order_by_id",
+                        args: [$(this).parent().parent().data("id")],
+                        limit: 1,
+                    }).then(function (orders) {
+                        self.cancel_order_sat(orders);
+                    });
+                }
+            );
         },
-        cancel_order_sat: function(order){
-            var self = this;
-
-            var status = this.pos.proxy.get('status');
+        cancel_order_sat: function (order) {
             this.pos.proxy.cancel_order(order);
-//            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
-//            if( sat_status == 'connected'){
-//                if(this.pos.config.iface_sat_via_proxy){
-//                    this.pos.proxy.cancel_order(order);
-//                }
-//            }
+            //            Var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            //            if( sat_status == 'connected'){
+            //                if(this.pos.config.iface_sat_via_proxy){
+            //                    this.pos.proxy.cancel_order(order);
+            //                }
+            //            }
         },
-        render_list: function(orders){
-            var contents = this.$el[0].querySelector('.order-list-contents');
+        render_list: function (orders) {
+            var contents = this.$el[0].querySelector(".order-list-contents");
             const rounding = this.pos.currency.rounding;
             contents.innerHTML = "";
-            for(var i = 0, len = Math.min(orders.length,1000); i < len; i++){
-                var order   = orders[i];
+            for (var i = 0, len = Math.min(orders.length, 1000); i < len; i++) {
+                var order = orders[i];
                 order.amount_total = round_pr(parseFloat(order.amount_total), rounding);
 
-                if (!order.fiscal_coupon_date.includes('/')) {
-                    var date = new Date(order.fiscal_coupon_date.replace(" ", "T")+"+00:00");
-                    var new_date = this.add_zero_to_date(date.getDate()) + '/' + this.add_zero_to_date(date.getMonth() + 1) + '/' + this.add_zero_to_date(date.getFullYear()) + ' ' + this.add_zero_to_date(date.getHours()) + ':' + this.add_zero_to_date(date.getMinutes()) + ':' + this.add_zero_to_date(date.getSeconds())
+                if (!order.fiscal_coupon_date.includes("/")) {
+                    var date = new Date(
+                        order.fiscal_coupon_date.replace(" ", "T") + "+00:00"
+                    );
+                    var new_date =
+                        this.add_zero_to_date(date.getDate()) +
+                        "/" +
+                        this.add_zero_to_date(date.getMonth() + 1) +
+                        "/" +
+                        this.add_zero_to_date(date.getFullYear()) +
+                        " " +
+                        this.add_zero_to_date(date.getHours()) +
+                        ":" +
+                        this.add_zero_to_date(date.getMinutes()) +
+                        ":" +
+                        this.add_zero_to_date(date.getSeconds());
                     order.fiscal_coupon_date = new_date;
                 }
 
                 var myHashStates = {
-                    'paid': 'Pago',
-                    'done': 'Pago',
-                    'cancel': 'Cancelado'
+                    paid: "Pago",
+                    done: "Pago",
+                    cancel: "Cancelado",
                 };
                 order.state = myHashStates[order.state];
-                var order_line_html = QWeb.render('PosOrderLine',{widget: this, order:order});
-                var order_line = document.createElement('tbody');
+                var order_line_html = QWeb.render("PosOrderLine", {
+                    widget: this,
+                    order: order,
+                });
+                var order_line = document.createElement("tbody");
                 order_line.innerHTML = order_line_html;
                 order_line = order_line.childNodes[1];
                 contents.appendChild(order_line);

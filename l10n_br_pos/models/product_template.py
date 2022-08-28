@@ -1,7 +1,7 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 # from odoo.addons.queue_job.job import job
 
@@ -18,7 +18,9 @@ class ProductTemplate(models.Model):
     # @job
     def update_pos_fiscal_map(self):
         for record in self:
-            pos_config_ids = record.env["pos.config"].search([('company_id', '=', self.env.user.company_id.id)])
+            pos_config_ids = record.env["pos.config"].search(
+                [("company_id", "=", self.env.user.company_id.id)]
+            )
             with_maps_pos_config_id = record.pos_fiscal_map_ids.mapped("pos_config_id")
             to_create_ids = pos_config_ids - with_maps_pos_config_id
 
@@ -39,6 +41,7 @@ class ProductTemplate(models.Model):
                 pos_fiscal_map_id._onchange_fiscal_operation_id()
                 pos_fiscal_map_id._onchange_fiscal_operation_line_id()
                 pos_fiscal_map_id._onchange_fiscal_taxes()
+
     #
     #
     # @api.model

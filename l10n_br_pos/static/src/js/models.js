@@ -4,9 +4,9 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 */
 
 odoo.define("l10n_br_pos.models", function (require) {
-
+    "use strict";
     const core = require("web.core");
-    const rpc = require('web.rpc');
+    const rpc = require("web.rpc");
     const _t = core._t;
 
     const utils = require("web.utils");
@@ -74,7 +74,10 @@ odoo.define("l10n_br_pos.models", function (require) {
             // 'amount_estimate_tax',
         ],
         domain: function (self) {
-            return [["pos_config_id", "=", self.config.id], ['company_id', '=', self.company && self.company.id || false]];
+            return [
+                ["pos_config_id", "=", self.config.id],
+                ["company_id", "=", (self.company && self.company.id) || false],
+            ];
         },
         loaded: function (self, lines) {
             self.fiscal_map = lines;
@@ -86,18 +89,32 @@ odoo.define("l10n_br_pos.models", function (require) {
     });
 
     models.load_models({
-        model:  'pos.order',
-        fields: ['name', 'partner_id','date_order', 'fiscal_coupon_date', 'amount_total','pos_reference','lines','state','session_id','company_id', 'document_key', 'cnpj_cpf', 'cancel_document_key'],
-        domain: function (self) {
+        model: "pos.order",
+        fields: [
+            "name",
+            "partner_id",
+            "date_order",
+            "fiscal_coupon_date",
+            "amount_total",
+            "pos_reference",
+            "lines",
+            "state",
+            "session_id",
+            "company_id",
+            "document_key",
+            "cnpj_cpf",
+            "cancel_document_key",
+        ],
+        domain: function () {
             var domain = [
                 ["state", "in", ["paid", "done"]],
-                ['amount_total', '>', 0]
+                ["amount_total", ">", 0],
             ];
             return domain;
         },
-        loaded: function(self, orders){
+        loaded: function (self, orders) {
             self.paid_orders = orders;
-        }
+        },
     });
 
     var _super_order = models.Order.prototype;
@@ -137,7 +154,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.document_session_number = json_result.numeroSessao;
             this.document_key = json_result.chaveConsulta;
             this.document_file = json_result.arquivoCFeSAT;
-            this.fiscal_coupon_date = json_result.timeStamp.replace('T', ' ');
+            this.fiscal_coupon_date = json_result.timeStamp.replace("T", " ");
             // TODO: Verificar se outros campos devem ser setados;
         },
         get_return_cfe: function () {
@@ -159,19 +176,17 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.num_sessao_sat = num_sessao_sat;
         },
         set_cnpj_cpf: function (cnpj_cpf) {
-            if (util.validate_cnpj_cpf(cnpj_cpf)){
+            if (util.validate_cnpj_cpf(cnpj_cpf)) {
                 this.assert_editable();
                 this.cnpj_cpf = cnpj_cpf;
                 this.trigger("change", this);
                 return true;
-            } else {
-                this.pos.gui.show_popup("alert", {
-                    title: _t('Invalid CNPJ / CPF !'),
-                    body: _t('Enter a valid CNPJ / CPF number'),
-                });
-                return false;
             }
-
+            this.pos.gui.show_popup("alert", {
+                title: _t("Invalid CNPJ / CPF !"),
+                body: _t("Enter a valid CNPJ / CPF number"),
+            });
+            return false;
         },
         get_cnpj_cpf: function () {
             return this.cnpj_cpf;
@@ -204,26 +219,32 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.document_type_id = json.document_type_id;
         },
         get_taxes_and_percentages: function (order) {
-            taxes = {
+            var taxes = {
                 federal: {
                     percent: 0,
-                    total: 0
+                    total: 0,
                 },
                 estadual: {
                     percent: 0,
-                    total: 0
-                }
-            }
+                    total: 0,
+                },
+            };
             const rounding = this.pos.currency.rounding;
-            line = order.orderlines[0];
-            taxes['federal']['percent'] = line.cofins_percent + line.pis_percent;
-            taxes['federal']['total'] = round_pr(order.total_paid * (taxes['federal']['percent']/100), rounding);
-            taxes['estadual']['percent'] = line.icms_percent;
-            taxes['estadual']['total'] = round_pr(order.total_paid * (taxes['estadual']['percent']/100), rounding);
+            var line = order.orderlines[0];
+            taxes.federal.percent = line.cofins_percent + line.pis_percent;
+            taxes.federal.total = round_pr(
+                order.total_paid * (taxes.federal.percent / 100),
+                rounding
+            );
+            taxes.estadual.percent = line.icms_percent;
+            taxes.estadual.total = round_pr(
+                order.total_paid * (taxes.estadual.percent / 100),
+                rounding
+            );
 
             return taxes;
         },
-        fillTemplate: function(templateString, taxes){
+        fillTemplate: function (templateString, taxes) {
             return new Function(`return \`${templateString}\`;`).call(this, taxes);
         },
         export_for_printing: function () {
@@ -231,7 +252,9 @@ odoo.define("l10n_br_pos.models", function (require) {
             // Result.table = this.table ? this.table.name : undefined;
             // result.floor = this.table ? this.table.floor.name : undefined;
             // result.customer_count = this.get_customer_count();
-            result.orderlines = _.filter(result.orderlines, function (line) {return line.price !== 0; });
+            result.orderlines = _.filter(result.orderlines, function (line) {
+                return line.price !== 0;
+            });
             var company = this.pos.company;
             var pos_config = this.pos.config;
 
@@ -260,7 +283,10 @@ odoo.define("l10n_br_pos.models", function (require) {
             result.configs_sat.printer_params = pos_config.printer_params;
             if (this.pos.config.additional_data) {
                 var taxes = this.get_taxes_and_percentages(result);
-                result.additional_data = this.fillTemplate(this.pos.config.additional_data, taxes);
+                result.additional_data = this.fillTemplate(
+                    this.pos.config.additional_data,
+                    taxes
+                );
             }
 
             return result;
@@ -325,37 +351,50 @@ odoo.define("l10n_br_pos.models", function (require) {
         //         return result;
         //     }
         // },
-        add_product: function (product, options) {
-            const product_fiscal_map = this.pos.fiscal_map_by_template_id[product.product_tmpl_id];
+        add_product: function (product) {
+            const product_fiscal_map = this.pos.fiscal_map_by_template_id[
+                product.product_tmpl_id
+            ];
             if (!product_fiscal_map) {
                 this.pos.gui.show_popup("alert", {
                     title: _t("Tax Details"),
-                    body: _t("There was a problem mapping the item tax. Please contact support."),
+                    body: _t(
+                        "There was a problem mapping the item tax. Please contact support."
+                    ),
                 });
             } else if (!product_fiscal_map.fiscal_operation_line_id) {
                 this.pos.gui.show_popup("alert", {
                     title: _t("Fiscal Operation Line"),
-                    body: _t("The fiscal operation line is not defined for this product. Please contact support.")
+                    body: _t(
+                        "The fiscal operation line is not defined for this product. Please contact support."
+                    ),
                 });
             } else {
                 _super_order.add_product.apply(this, arguments);
             }
         },
-        push_new_order_list: async function(){
-            var self = this;
+        push_new_order_list: async function () {
             return new Promise(function (resolve, reject) {
                 rpc.query({
-                    model: 'pos.order',
-                    method: 'search_read',
-                    args: [[["state", "in", ["paid", "done"]],['amount_total', '>', 0]]],
+                    model: "pos.order",
+                    method: "search_read",
+                    args: [
+                        [
+                            ["state", "in", ["paid", "done"]],
+                            ["amount_total", ">", 0],
+                        ],
+                    ],
                     limit: 40,
-                }).then(function (orders){
-                    posmodel.paid_orders = orders;
-                    resolve(true);
-                },
-                (error) => {
-                    reject(error);
-                })
+                }).then(
+                    function (orders) {
+                        //                        Posmodel.paid_orders = orders;
+                        self.paid_orders = orders;
+                        resolve(true);
+                    },
+                    (error) => {
+                        reject(error);
+                    }
+                );
             });
         },
     });
@@ -365,14 +404,14 @@ odoo.define("l10n_br_pos.models", function (require) {
         export_for_printing: function () {
             var result = _super_order_line.export_for_printing.apply(this, arguments);
             var self = this;
-            product = this.get_product();
+            var product = this.get_product();
             var product_fiscal_map =
                 self.pos.fiscal_map_by_template_id[product.product_tmpl_id];
             // Result["price"] = this.get_unit_price();
             // result["product_name"] = produto.name;
             // result["estimated_taxes"] = produto.estd_national_taxes_perct / 100;
             // result["origin"] = produto.origin;
-            result.additional_data = product_fiscal_map.additional_data || '';
+            result.additional_data = product_fiscal_map.additional_data || "";
             result.amount_estimate_tax = product_fiscal_map.amount_estimate_tax;
             result.cest_id = product.cest_id;
             result.cfop = product_fiscal_map.cfop_code;
@@ -392,7 +431,10 @@ odoo.define("l10n_br_pos.models", function (require) {
             result.ipi_control_seal_id = product.ipi_control_seal_id;
             result.ipi_guideline_class_id = product.ipi_guideline_class_id;
             result.nbs_id = product.nbs_id;
-            result.ncm = product_fiscal_map.ncm_code === "00000000" ? "99999999" : product_fiscal_map.ncm_code;
+            result.ncm =
+                product_fiscal_map.ncm_code === "00000000"
+                    ? "99999999"
+                    : product_fiscal_map.ncm_code;
             result.ncm_code_exception = product_fiscal_map.ncm_code_exception;
             result.pis_base = product_fiscal_map.pis_base;
             result.pis_cst_code = product_fiscal_map.pis_cst_code;
@@ -422,7 +464,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
     });
 
-    var _super_posmodel = models.PosModel.prototype;
+    //    Var _super_posmodel = models.PosModel.prototype;
 
     models.PosModel = models.PosModel.extend({
         // Initialize: function(session, attributes) {

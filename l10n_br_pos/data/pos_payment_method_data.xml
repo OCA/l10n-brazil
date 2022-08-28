@@ -57,11 +57,6 @@
         <field name="sat_payment_mode">11</field>
     </record>
 
-    <record id="main_vale_vr_alelo" model="pos.payment.method">
-        <field name="name">VR Alelo</field>
-        <field name="sat_payment_mode">11</field>
-    </record>
-
     <record id="main_vale_vr_sodexo" model="pos.payment.method">
         <field name="name">VR Sodexo</field>
         <field name="sat_payment_mode">11</field>
