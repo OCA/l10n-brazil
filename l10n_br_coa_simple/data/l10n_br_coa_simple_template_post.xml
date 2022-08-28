@@ -15,6 +15,7 @@
             name="expense_currency_exchange_account_id"
             ref="account_template_32302"
         />
+        <field name="default_pos_receivable_account_id" ref="account_template_11203" />
     </record>
 
     <data noupdate="1">
