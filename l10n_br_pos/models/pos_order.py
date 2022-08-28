@@ -152,7 +152,7 @@ class PosOrder(models.Model):
         comodel_name="ir.attachment",
         string="XML",
         copy=False,
-        readony=True,
+        readonly=True,
     )
     cancel_document_session_number = fields.Char(
         string="Numero identificador sessao",
@@ -168,7 +168,7 @@ class PosOrder(models.Model):
         comodel_name="ir.attachment",
         string="XML",
         copy=False,
-        readony=True,
+        readonly=True,
     )
 
     fiscal_coupon_date = fields.Datetime(
