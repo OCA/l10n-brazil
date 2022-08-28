@@ -89,7 +89,7 @@
             name="assinatura_sat"
         >SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT</field>
         <field
-            name="journal_ids"
+            name="payment_method_ids"
             eval="[(4, ref('l10n_br_pos.presumido_credito_visa')), (4, ref('l10n_br_pos.presumido_credito_master')), (4, ref('l10n_br_pos.presumido_debito_visa')), (4, ref('l10n_br_pos.presumido_pix'))]"
         />
 <!--        <field name="impressora">epson-tm-t20</field>-->
