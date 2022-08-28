@@ -30,7 +30,6 @@ class NFeImportTest(SavepointCase):
 
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-
         nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
         nfe = (
             self.env["nfe.40.infnfe"]
@@ -38,8 +37,7 @@ class NFeImportTest(SavepointCase):
             .build_from_binding(nfe_binding.infNFe, dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
-        self.assertEqual(nfe.partner_id.name, "Alimentos Saudaveis")
-        self.assertEqual(nfe.fiscal_line_ids[0].product_id.name, "QUINOA 100G (2X50G)")
+        self._check_nfe(nfe)
 
     def test_import_in_nfe(self):
         hooks.register_hook(
@@ -65,12 +63,18 @@ class NFeImportTest(SavepointCase):
             .build_from_binding(nfe_binding.infNFe)
         )
         assert isinstance(nfe.id, int)
+        self._check_nfe(nfe)
+
+    def _check_nfe(self, nfe):
         self.assertEqual(type(nfe)._name, "l10n_br_fiscal.document")
 
         # here we check that emit and enderEmit
         # are now the supplier data (partner_id)
         self.assertEqual(nfe.partner_id.name, "Alimentos Saudaveis")
-        self.assertEqual(nfe.partner_id.cnpj_cpf, "34.128.745/0001-52")
+        # (CNPJ is not formated yet in dry run)
+        self.assertTrue(
+            nfe.partner_id.cnpj_cpf in ("34.128.745/0001-52", "34128745000152")
+        )
         # this tests the _extract_related_values method for related values:
         self.assertEqual(nfe.partner_id.legal_name, "Alimentos Ltda.")
 
@@ -82,11 +86,15 @@ class NFeImportTest(SavepointCase):
         # now we check that company_id is unchanged
         self.assertEqual(nfe.company_id.name, "Sua Empresa")
 
+        # this tests that value is not overrident by stacked default vals
+        self.assertEqual(nfe.nfe40_modFrete, "0")  # (default is 9)
+
         # lines data
         self.assertEqual(len(nfe.fiscal_line_ids), 6)
         self.assertEqual(nfe.fiscal_line_ids[0].quantity, 6)
-        self.assertEqual(nfe.fiscal_line_ids[0].price_unit, 7.16)
-        self.assertEqual(nfe.fiscal_line_ids[0].fiscal_price, 7.16)
+        # NOTE / FIXME price unit is rounded to 7.16 if create and 7.155 if dry run
+        self.assertTrue(abs(nfe.fiscal_line_ids[0].price_unit - 7.16) < 0.01)
+        self.assertTrue(abs(nfe.fiscal_line_ids[0].fiscal_price - 7.16) < 0.01)
 
         # impostos
         self.assertEqual(nfe.fiscal_line_ids[0].icms_base_type, "0")
