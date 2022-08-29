@@ -14,7 +14,13 @@
     "depends": [
         "l10n_br_pos",
     ],
+    "external_dependencies": {
+        "python": ["satcomum"],
+    },
     "data": [
+        # Views
+        "views/pos_payment_method_view.xml",
+        # Templates
         "views/pos_template.xml",
     ],
     "demo": [],
