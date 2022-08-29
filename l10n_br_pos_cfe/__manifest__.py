@@ -15,6 +15,7 @@
         "l10n_br_pos",
     ],
     "data": [
+        "views/pos_template.xml",
     ],
     "demo": [],
     "installable": True,
