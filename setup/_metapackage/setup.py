@@ -28,6 +28,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_nfse',
         'odoo14-addon-l10n_br_portal',
         'odoo14-addon-l10n_br_purchase',
+        'odoo14-addon-l10n_br_purchase_request',
         'odoo14-addon-l10n_br_resource',
         'odoo14-addon-l10n_br_sale',
         'odoo14-addon-l10n_br_stock',
