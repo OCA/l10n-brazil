@@ -25,15 +25,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         "city_id",
     ];
     models.load_fields("res.partner", partner_company_fields.concat(["ind_ie_dest"]));
-    models.load_fields(
-        "res.company",
-        partner_company_fields.concat([
-            "ambiente_sat",
-            "cnpj_software_house",
-            "sign_software_house",
-            "tax_framework",
-        ])
-    );
+    models.load_fields("res.company", partner_company_fields.concat(["tax_framework"]));
     models.load_fields("uom.uom", ["code"]);
     models.load_fields("product.product", [
         "tax_icms_or_issqn",
@@ -52,10 +44,6 @@ odoo.define("l10n_br_pos.models", function (require) {
         "ipi_control_seal_id",
         "nbs_id",
         "cest_id",
-    ]);
-    models.load_fields("pos.payment.method", [
-        "sat_payment_mode",
-        "sat_card_accrediting",
     ]);
 
     models.load_models({
@@ -252,38 +240,20 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
         export_for_printing: function () {
             var result = _super_order.export_for_printing.apply(this, arguments);
-            // Result.table = this.table ? this.table.name : undefined;
-            // result.floor = this.table ? this.table.floor.name : undefined;
-            // result.customer_count = this.get_customer_count();
             result.orderlines = _.filter(result.orderlines, function (line) {
                 return line.price !== 0;
             });
             var company = this.pos.company;
-            var pos_config = this.pos.config;
-
-            if (this.pos.company.ambiente_sat == "producao") {
-                company.cnpj = this.pos.company.cnpj_cpf;
-                company.ie = this.pos.company.inscr_est;
-                company.cnpj_software_house = pos_config.cnpj_software_house;
-            } else {
-                company.cnpj = pos_config.cnpj_homologacao;
-                company.ie = pos_config.ie_homologacao;
-                company.cnpj_software_house = pos_config.cnpj_software_house;
-            }
 
             result.company = {};
             result.configs_sat = {};
             result.pos_session_id = this.pos.pos_session.id;
             result.client = this.get_cnpj_cpf();
+
             result.company.cnpj = company.cnpj;
             result.company.ie = company.ie;
-            result.company.cnpj_software_house = company.cnpj_software_house;
             result.company.tax_framework = company.tax_framework;
-            result.configs_sat.sat_path = pos_config.sat_path;
-            result.configs_sat.numero_caixa = pos_config.numero_caixa;
-            result.configs_sat.cod_ativacao = pos_config.cod_ativacao;
-            result.configs_sat.impressora = pos_config.impressora;
-            result.configs_sat.printer_params = pos_config.printer_params;
+
             if (this.pos.config.additional_data) {
                 var taxes = this.get_taxes_and_percentages(result);
                 result.additional_data = this.fillTemplate(
@@ -294,88 +264,28 @@ odoo.define("l10n_br_pos.models", function (require) {
 
             return result;
         },
-        // Export_for_printing: function () {
-        //     var client = this.get("client");
-        //     var status = this.pos.proxy.get("status");
-        //     var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
-        //     var result = PosOrderParent.prototype.export_for_printing.call(this);
-        //     if (sat_status == "connected") {
-        //              CODIGO MIGRADO ACIMA!!!!
-        //     } else {
-        //         result["pos_session_id"] = this.pos.pos_session.id;
-        //         result["client"] = this.attributes.cpf_nota;
-        //         result["cfe_return"] = this.get_return_cfe() ? this.get_return_cfe() : false;
-        //         result["num_sessao_sat"] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
-        //         result["chave_cfe"] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
-        //         result["informacoes_adicionais"] = "";
-        //         return result;
-        //     }
-        // },
-        // export_as_JSON: function () {
-        //     var client = this.get("client");
-        //     var company = this.pos.company;
-        //     var status = this.pos.proxy.get("status");
-        //     var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
-        //     var result = PosOrderParent.prototype.export_as_JSON.call(this);
-        //     if (sat_status == "connected") {
-        //         var pos_config = this.pos.config;
-        //         if (this.pos.company.ambiente_sat == "homologacao") {
-        //             company.cnpj = pos_config.cnpj_homologacao;
-        //             company.ie = pos_config.ie_homologacao;
-        //             company.cnpj_software_house = pos_config.cnpj_software_house;
-        //         } else {
-        //             company.cnpj = this.pos.company.cnpj_cpf;
-        //             company.ie = this.pos.company.inscr_est;
-        //             company.cnpj_software_house = pos_config.cnpj_software_house;
-        //         }
-        //         result["company"] = {};
-        //         result["configs_sat"] = {};
-        //         result["company"]["cnpj"] = company.cnpj;
-        //         result["company"]["ie"] = company.ie;
-        //         result["company"]["cnpj_software_house"] = company.cnpj_software_house;
-        //         result["configs_sat"]["sat_path"] = pos_config.sat_path;
-        //         result["configs_sat"]["numero_caixa"] = pos_config.numero_caixa;
-        //         result["configs_sat"]["cod_ativacao"] = pos_config.cod_ativacao;
-        //         result["configs_sat"]["impressora"] = pos_config.impressora;
-        //         result["configs_sat"]["printer_params"] = pos_config.printer_params;
-        //         result["client"] = this.attributes.cpf_nota;
-        //         result["cfe_return"] = this.get_return_cfe() ? this.get_return_cfe() : false;
-        //         result["num_sessao_sat"] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
-        //         result["chave_cfe"] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
-        //         result["informacoes_adicionais"] = "";
-        //         return result;
-        //     } else {
-        //         result["pos_session_id"] = this.pos.pos_session.id;
-        //         result["client"] = this.attributes.cpf_nota;
-        //         result["cfe_return"] = this.get_return_cfe() ? this.get_return_cfe() : false;
-        //         result["num_sessao_sat"] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
-        //         result["chave_cfe"] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
-        //         result["informacoes_adicionais"] = "";
-        //         return result;
-        //     }
-        // },
-        add_product: function (product) {
-            const product_fiscal_map = this.pos.fiscal_map_by_template_id[
-                product.product_tmpl_id
-            ];
-            //            If (!product_fiscal_map) {
-            //                this.pos.gui.show_popup("alert", {
-            //                    title: _t("Tax Details"),
-            //                    body: _t(
-            //                        "There was a problem mapping the item tax. Please contact support."
-            //                    ),
-            //                });
-            //            } else if (!product_fiscal_map.fiscal_operation_line_id) {
-            //                this.pos.gui.show_popup("alert", {
-            //                    title: _t("Fiscal Operation Line"),
-            //                    body: _t(
-            //                        "The fiscal operation line is not defined for this product. Please contact support."
-            //                    ),
-            //                });
-            //            } else {
-            //            }
-            _super_order.add_product.apply(this, arguments);
-        },
+        //        Add_product: function (product) {
+        //            Const product_fiscal_map = this.pos.fiscal_map_by_template_id[
+        //                product.product_tmpl_id
+        //            ];
+        //            If (!product_fiscal_map) {
+        //                this.pos.gui.show_popup("alert", {
+        //                    title: _t("Tax Details"),
+        //                    body: _t(
+        //                        "There was a problem mapping the item tax. Please contact support."
+        //                    ),
+        //                });
+        //            } else if (!product_fiscal_map.fiscal_operation_line_id) {
+        //                this.pos.gui.show_popup("alert", {
+        //                    title: _t("Fiscal Operation Line"),
+        //                    body: _t(
+        //                        "The fiscal operation line is not defined for this product. Please contact support."
+        //                    ),
+        //                });
+        //            } else {
+        //            }
+        //            _super_order.add_product.apply(this, arguments);
+        //        },
         push_new_order_list: async function () {
             return new Promise(function (resolve, reject) {
                 rpc.query({
@@ -410,10 +320,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             var product = this.get_product();
             var product_fiscal_map =
                 self.pos.fiscal_map_by_template_id[product.product_tmpl_id];
-            // Result["price"] = this.get_unit_price();
-            // result["product_name"] = produto.name;
-            // result["estimated_taxes"] = produto.estd_national_taxes_perct / 100;
-            // result["origin"] = produto.origin;
+
             result.additional_data = product_fiscal_map.additional_data || "";
             result.amount_estimate_tax = product_fiscal_map.amount_estimate_tax;
             result.cest_id = product.cest_id;
@@ -451,22 +358,6 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
     });
 
-    var _super_payment_line = models.Paymentline.prototype;
-    models.Paymentline = models.Paymentline.extend({
-        export_for_printing: function () {
-            var result = _super_payment_line.export_for_printing.apply(this, arguments);
-            result.sat_payment_mode = this.payment_method.sat_payment_mode;
-            result.sat_card_accrediting = this.payment_method.sat_card_accrediting;
-            return result;
-        },
-        export_as_JSON: function () {
-            var result = _super_payment_line.export_as_JSON.apply(this, arguments);
-            result.sat_payment_mode = this.payment_method.sat_payment_mode;
-            result.sat_card_accrediting = this.payment_method.sat_card_accrediting;
-            return result;
-        },
-    });
-
     //    Var _super_posmodel = models.PosModel.prototype;
 
     models.PosModel = models.PosModel.extend({
@@ -491,112 +382,4 @@ odoo.define("l10n_br_pos.models", function (require) {
             self.config.use_proxy = true;
         }
     };
-
-    //     Initialize: function (session, attributes) {
-    //         this._super(this, session, attributes);
-    //         PosModelParent.prototype.initialize.apply(this, arguments);
-    //         arrange_elements(this);
-    //         this.models.push({
-    //             model: "res.country.state",
-    //             fields: ["name", "country_id"],
-    //             loaded: function (self, states) {
-    //                 self.company.state = null;
-    //                 self.states = states;
-    //             }
-    //         });
-    //         this.models.push({
-    //             model: "l10n_br_base.city",
-    //             fields: ["name", "state_id"],
-    //             loaded: function (self, cities) {
-    //                 self.company.city = null;
-    //                 self.cities = cities;
-    //             }
-    //         });
-    //         this.models.push({
-    //             model: "pos.config",
-    //             fields: [],
-    //             domain: function (self) {
-    //                 return [["id", "=", self.pos_session.config_id[0]]];
-    //             },
-    //             loead: function (self, configs) {
-    //                 self.config = configs[0];
-    //                 self.config.use_proxy = self.config.iface_payment_terminal ||
-    //                     self.config.iface_electronic_sale ||
-    //                     self.config.iface_print_via_proxy ||
-    //                     self.config.iface_scan_via_proxy ||
-    //                     self.config.iface_cashdrawer ||
-    //                     self.config.iface_sat_via_proxy;
-    //                 self.barcode_reader.add_barcode_pattern({
-    //                     "product": self.config.barcode_product,
-    //                     "cashier": self.config.barcode_cashier,
-    //                     "client": self.config.barcode_customer,
-    //                     "weight": self.config.barcode_weight,
-    //                     "discount": self.config.barcode_discount,
-    //                     "price": self.config.barcode_price,
-    //                 });
-    //                 if (self.config.company_id[0] !== self.user.company_id[0]) {
-    //                     throw new Error((
-    //                         "Error: The Point of Sale User must belong to the same" +
-    //                         " company as the Point of Sale. You are probably trying" +
-    //                         " to load the point of sale as and administrator in a" +
-    //                         " multi-company setup, with the administrator account" +
-    //                         " set to the wrong company."
-    //                     ));
-    //                 }
-    //             }
-    //         });
-    //         this.models.push({
-    //             model: "res.partner",
-    //             fields: ["name", "data_alteracao", "whatsapp", "gender", "birthdate",
-    //                 "number", "street2", "opt_out", "create_date", "cnpj_cpf", "street",
-    //                 "city", "state_id", "country_id", "phone", "zip", "mobile", "email",
-    //                 "ean13", "write_date", "debit", "credit", "credit_limit",
-    //                 "users_ids", "city_id",
-    //             ],
-    //             domain: [["customer", "=", true]],
-    //             loaded: function (self, partners) {
-    //                 self.partners = partners;
-    //                 self.db.partner_by_id = [];
-    //                 self.db.partner_sorted = [];
-    //                 self.db.add_partner(partners);
-    //             }
-    //         });
-    //         this.models.push({
-    //             model: "res.company",
-    //             fields: ["ambiente_sat", "cnpj_cpf", "inscr_est", "currency_id",
-    //                 "email", "website", "company_registry", "name", "phone",
-    //                 "partner_id", "country_id", "tax_calculation_rounding_method",
-    //             ],
-    //             ids: function (self) {
-    //                 return [self.user.company_id[0]];
-    //             },
-    //             loaded: function (self, companies) {
-    //                 self.company = companies[0];
-    //             }
-    //         });
-    //     },
-    //     find_model: function (model_name) {
-    //         var lookup = {};
-    //         for (var i = 0; i < this.models.length; i++) {
-    //             if (this.models[i].model == model_name) {
-    //                 lookup[i] = self.models[i];
-    //             }
-    //         }
-    //         return lookup;
-    //     },
-    //     cancel_pos_order: function (chave_cfe) {
-    //         var posOrderModel = models.Order;
-    //         var posOrder = posOrderModel.call("cancel_last_order", {
-    //             "chave_cfe": chave_cfe
-    //         })
-    //             .then(function (orders) {
-    //                 console.log("cancel_pos_order");
-    //                 console.log(this);
-    //                 this.pos_widget.screen_selector.show_popup("error", {
-    //                     message: ("Venda cancelada!"),
-    //                     comment: ("A venda foi cancelada com sucesso."),
-    //                 });
-    //             });
-    //     },
-    // });
 });
