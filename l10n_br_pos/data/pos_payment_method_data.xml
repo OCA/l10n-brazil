@@ -5,88 +5,72 @@
 
     <record id="main_credito_visa" model="pos.payment.method">
         <field name="name">Crédito Visa</field>
-        <field name="sat_payment_mode">03</field>
     </record>
 
     <record id="main_credito_master" model="pos.payment.method">
         <field name="name">Crédito Master</field>
-        <field name="sat_payment_mode">03</field>
     </record>
 
     <record id="main_credito_elo" model="pos.payment.method">
         <field name="name">Crédito Elo</field>
-        <field name="sat_payment_mode">03</field>
     </record>
 
     <record id="main_credito_amex" model="pos.payment.method">
         <field name="name">Crédito Amex</field>
-        <field name="sat_payment_mode">03</field>
     </record>
 
     <record id="main_credito_hipercard" model="pos.payment.method">
         <field name="name">Crédito Hipercard</field>
-        <field name="sat_payment_mode">03</field>
     </record>
 
     <!--  Débito  -->
 
     <record id="main_debito_visa" model="pos.payment.method">
         <field name="name">Débito Visa</field>
-        <field name="sat_payment_mode">04</field>
     </record>
 
     <record id="main_debito_master" model="pos.payment.method">
         <field name="name">Débito Master</field>
-        <field name="sat_payment_mode">04</field>
     </record>
 
     <record id="main_debito_elo" model="pos.payment.method">
         <field name="name">Débito Elo</field>
-        <field name="sat_payment_mode">04</field>
     </record>
 
     <!--  Alimentação  -->
 
     <record id="main_vale_vr_ben" model="pos.payment.method">
         <field name="name">VR Ben</field>
-        <field name="sat_payment_mode">11</field>
     </record>
 
     <record id="main_vale_vr_alelo" model="pos.payment.method">
         <field name="name">VR Alelo</field>
-        <field name="sat_payment_mode">11</field>
     </record>
 
     <record id="main_vale_vr_sodexo" model="pos.payment.method">
         <field name="name">VR Sodexo</field>
-        <field name="sat_payment_mode">11</field>
     </record>
 
     <record id="main_vale_vr_tr" model="pos.payment.method">
         <field name="name">VR TR</field>
-        <field name="sat_payment_mode">11</field>
     </record>
 
     <!--  Outros  -->
 
     <record id="main_pix" model="pos.payment.method">
         <field name="name">PIX</field>
-        <field name="sat_payment_mode">04</field>
     </record>
 
     <record id="main_delivery" model="pos.payment.method">
         <field name="name">Delivery App</field>
-        <field name="sat_payment_mode">99</field>
     </record>
 
     <record id="main_voucher" model="pos.payment.method">
         <field name="name">Vouchers</field>
-        <field name="sat_payment_mode">05</field>
     </record>
 
     <record id="main_convenio" model="pos.payment.method">
         <field name="name">Convênios</field>
-        <field name="sat_payment_mode">05</field>
     </record>
 
 </odoo>
