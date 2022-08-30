@@ -1,10 +1,60 @@
 # Copyright 2021 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from io import StringIO
+
 from odoo.tests import SavepointCase
+
+from odoo.addons.spec_driven_model import hooks
+from odoo.addons.spec_driven_model.models.spec_models import SpecModel
+
+from ..models.document import NFe
+from ..models.document_line import NFeLine
+from ..models.document_related import NFeRelated
 
 
 class NFeStructure(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super(NFeStructure, cls).setUpClass()
+        hooks.register_hook(
+            cls.env,
+            "l10n_br_nfe",
+            "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe",
+        )
+
+    @classmethod
+    def get_stacked_tree(cls, klass):
+        """
+        # > means the content of the m2o is stacked in the parent
+        # - means standard m2o. Eventually followd by the mapped Odoo model
+        # ≡ means o2m. Eventually followd by the mapped Odoo model
+        """
+        spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
+        node = SpecModel._odoo_name_to_class(klass._stacked, spec_module)
+        tree = StringIO()
+        visited = set()
+        for kind, n, path, field_path, child_concrete in klass._visit_stack(
+            cls.env, node
+        ):
+            visited.add(n)
+            path_items = path.split(".")
+            indent = "    ".join(["" for i in range(0, len(path_items))])
+            if kind == "stacked":
+                line = "\n%s> <%s>" % (indent, path.split(".")[-1])
+            elif kind == "one2many":
+                line = "\n%s    \u2261 <%s> %s" % (
+                    indent,
+                    field_path,
+                    child_concrete or "",
+                )
+            elif kind == "many2one":
+                line = "\n%s    - <%s> %s" % (indent, field_path, child_concrete or "")
+            tree.write(line.rstrip())
+        tree_txt = tree.getvalue()
+        # print(tree_txt)
+        return tree_txt, visited
+
     def test_inherited_fields(self):
         assert "nfe40_CNPJ" in self.env["res.company"]._fields.keys()
 
@@ -77,6 +127,12 @@ class NFeStructure(SavepointCase):
         keys = [k for k in self.env["l10n_br_fiscal.document"]._stacking_points.keys()]
         self.assertEqual(sorted(keys), sorted(doc_keys))
 
+    def test_doc_tree(self):
+        base_class = self.env["l10n_br_fiscal.document"]
+        tree, visited = self.get_stacked_tree(base_class)
+        self.assertEqual(tree, NFe.INFNFE_TREE)
+        self.assertEqual(len(visited), 12)  # all stacked classes
+
     def test_doc_line_stacking_points(self):
         line_keys = [
             "nfe40_COFINS",
@@ -100,16 +156,25 @@ class NFeStructure(SavepointCase):
             "nfe40_PISOutr",
             "nfe40_PISQtde",
             "nfe40_PISST",
-            "nfe40_comb",
             "nfe40_imposto",
-            "nfe40_med",
             "nfe40_prod",
-            "nfe40_veicProd",
         ]
         keys = [
             k for k in self.env["l10n_br_fiscal.document.line"]._stacking_points.keys()
         ]
         self.assertEqual(sorted(keys), line_keys)
+
+    def test_doc_line_tree(self):
+        base_class = self.env["l10n_br_fiscal.document.line"]
+        tree, visited = self.get_stacked_tree(base_class)
+        self.assertEqual(tree, NFeLine.DET_TREE)
+        self.assertEqual(len(visited), 24)
+
+    def test_nfref_tree(self):
+        base_class = self.env["l10n_br_fiscal.document.related"]
+        tree, visited = self.get_stacked_tree(base_class)
+        self.assertEqual(tree, NFeRelated.NFREF_TREE)
+        self.assertEqual(len(visited), 4)
 
     def test_m2o_force_stack(self):
         pass

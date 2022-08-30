@@ -27,9 +27,16 @@ class NFeRelated(spec_models.StackedModel):
     _odoo_module = "l10n_br_nfe"
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
     _spec_tab_name = "NFe"
-    _stack_skip = "nfe40_NFref_ide_id"
+    _stack_skip = ("nfe40_NFref_ide_id",)
     # all m2o below this level will be stacked even if not required:
     _rec_name = "nfe40_refNFe"
+
+    # When dynamic stacking is applied, this class has the following structure:
+    NFREF_TREE = """
+> <nfref>
+    > <refNF>
+    > <refNFP>
+    > <refECF>"""
 
     nfe40_choice4 = fields.Selection(
         compute="_compute_nfe_data",

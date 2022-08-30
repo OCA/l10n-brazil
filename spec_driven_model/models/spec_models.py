@@ -222,13 +222,18 @@ class SpecModel(models.AbstractModel):
 
 
 class StackedModel(SpecModel):
-    """XML structures are typically deeply nested as this helps xsd
+    """
+    XML structures are typically deeply nested as this helps xsd
     validation. However, deeply nested objects in Odoo suck because that would
     mean crazy joins accross many tables and also an endless cascade of form
-    popups. By inheriting from StackModel instead, your models.Model can
+    popups.
+
+    By inheriting from StackModel instead, your models.Model can
     instead inherit all the mixins that would correspond to the nested xsd
     nodes starting from the _stacked node. _stack_skip allows you to avoid
-    stacking specific nodes. In Brazil it allows us to have mostly the fiscal
+    stacking specific nodes.
+
+    In Brazil it allows us to have mostly the fiscal
     document objects and the fiscal document line object with many details
     stacked in a denormalized way inside these two tables only.
     Because StackedModel has its _build_method overriden to do some magic
@@ -254,10 +259,12 @@ class StackedModel(SpecModel):
         if cls._stacked:
             _logger.info("building StackedModel %s %s" % (cls._name, cls))
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
-            classes = set()
-            cls._visit_stack(node, classes, cls._stacked.split(".")[-1], pool, cr)
-            for klass in [c for c in classes if c not in cls.__bases__]:
-                cls.__bases__ = (klass,) + cls.__bases__
+            env = api.Environment(cr, SUPERUSER_ID, {})
+            for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
+                env, node
+            ):
+                if kind == "stacked" and klass not in cls.__bases__:
+                    cls.__bases__ = (klass,) + cls.__bases__
         return super(StackedModel, cls)._build_model(pool, cr)
 
     @api.model
@@ -268,8 +275,8 @@ class StackedModel(SpecModel):
                     return
         return super()._add_field(name, field)
 
-    @classmethod  # TODO rename with _
-    def _visit_stack(cls, node, classes, path, registry, cr):
+    @classmethod
+    def _visit_stack(cls, env, node, path=None):
         """Pre-order traversal of the stacked models tree.
         1. This method is used to dynamically inherit all the spec models
         stacked together from an XML hierarchy.
@@ -280,36 +287,21 @@ class StackedModel(SpecModel):
         # to avoid translations error
         # https://github.com/OCA/l10n-brazil/pull/1272#issuecomment-821806603
         node._description = None
+        if path is None:
+            path = cls._stacked.split(".")[-1]
+        SpecModel._map_concrete(node._name, cls._name, quiet=True)
+        yield "stacked", node, path, None, None
 
-        # TODO may be an option to print the stack (for debug)
-        # after field mutation happened
-        # path_items = path.split('.')
-        # indent = '    '.join(['' for i in range(0, len(path_items) + 2)])
-
-        concrete_model = SpecModel._get_concrete(node._name)
-        if concrete_model is not None and concrete_model != cls._name:
-            # we won't stack the class but leave the field
-            # as a many2one relation to the existing Odoo class
-            # were the class is already mapped
-            # _logger.info("  %s<%s> %s" % (indent, path, concrete_model))
-            return
-        else:
-            # ok we will stack the class
-            SpecModel._map_concrete(node._name, cls._name, quiet=True)
-            # _logger.info("%s> <%s>  <<-- %s" % (
-            #     indent, path.split('.')[-1], node._name))
-        classes.add(node)
         fields = collections.OrderedDict()
-        env = api.Environment(cr, SUPERUSER_ID, {})
         # this is required when you don't start odoo with -i (update)
         # otherwise the model spec will not have its fields loaded yet.
         # TODO we may pass this env further instead of re-creating it.
         # TODO move setup_base just before the _visit_stack next call
-        if node._name != cls._name or len(registry[node._name]._fields.items() == 0):
+        if node._name != cls._name or len(env[node._name]._fields.items() == 0):
             env[node._name]._prepare_setup()
             env[node._name]._setup_base()
 
-        field_items = [(k, f) for k, f in registry[node._name]._fields.items()]
+        field_items = [(k, f) for k, f in env[node._name]._fields.items()]
         for i in field_items:
             fields[i[0]] = {
                 "type": i[1].type,
@@ -326,34 +318,25 @@ class StackedModel(SpecModel):
             if child is None:  # Not a spec field
                 continue
             child_concrete = SpecModel._get_concrete(child._name)
-            field_path = name.replace(registry[node._name]._field_prefix, "")
-            if path + "." + field_path in cls._force_stack_paths:
-                classes.add(child)
+            field_path = name.replace(env[node._name]._field_prefix, "")
 
             if f["type"] == "one2many":
-                # _logger.info("%s    \u2261 <%s> %s" % (
-                #     indent, field_path, child_concrete or child._name))
+                yield "one2many", node, path, field_path, child_concrete
                 continue
-            # TODO this elif and next elif should in fact be replaced by the
-            # inicial if where we look if node has a concrete model or not.
+
+            force_stacked = any(
+                stack_path in path + "." + field_path
+                for stack_path in cls._force_stack_paths
+            )
+
             # many2one
-            elif (child_concrete is None or child_concrete == cls._name) and (
-                f["xsd_required"]
-                or f["choice"]
-                or path in cls._force_stack_paths
-                or path + "." + field_path in cls._force_stack_paths
+            if (child_concrete is None or child_concrete == cls._name) and (
+                f["xsd_required"] or force_stacked
             ):
                 # then we will STACK the child in the current class
-                # TODO if model not used in any other field!!
                 child._stack_path = path
-                # field.args['_stack_path'] = path  TODO
                 child_path = "%s.%s" % (path, field_path)
-                cls._stacking_points[name] = registry[node._name]._fields.get(name)
-                cls._visit_stack(child, classes, child_path, registry, cr)
-            # else:
-            #     if child_concrete:
-            #         _logger.info("%s    - <%s>  -->%s " % (
-            #             indent, field_path, child_concrete))
-            #     else:
-            #         _logger.info("%s    - <%s> %s" % (
-            #             indent, field_path, child._name))
+                cls._stacking_points[name] = env[node._name]._fields.get(name)
+                yield from cls._visit_stack(env, child, child_path)
+            else:
+                yield "many2one", node, path, field_path, child_concrete
