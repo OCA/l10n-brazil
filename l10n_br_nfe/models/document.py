@@ -78,7 +78,6 @@ class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
     _stacked = "nfe.40.infnfe"
-    _stack_skip = "nfe40_veicTransp"
     _field_prefix = "nfe40_"
     _schema_name = "nfe"
     _schema_version = "4.0.0"
@@ -95,6 +94,44 @@ class NFe(spec_models.StackedModel):
         "infnfe.cobr",
         "infnfe.cobr.fat",
     )
+
+    # When dynamic stacking is applied the NFe structure is:
+    INFNFE_TREE = """
+> <infnfe>
+    > <ide>
+        ≡ <NFref> l10n_br_fiscal.document.related
+    - <emit> res.company
+    - <avulsa>
+    - <dest> res.partner
+    - <retirada> res.partner
+    - <entrega> res.partner
+    ≡ <autXML> res.partner
+    ≡ <det> l10n_br_fiscal.document.line
+    > <total>
+        > <ICMSTot>
+        > <ISSQNtot>
+        > <retTrib>
+    > <transp>
+        - <transporta> res.partner
+        - <retTransp>
+        - <veicTransp>
+        ≡ <reboque>
+        ≡ <vol>
+    > <cobr>
+        > <fat>
+        ≡ <dup>
+    > <pag>
+        ≡ <detPag>
+    - <infIntermed>
+    > <infAdic>
+        ≡ <obsCont>
+        ≡ <obsFisco>
+        ≡ <procRef>
+    > <exporta>
+    - <compra>
+    - <cana>
+    - <infRespTec> res.partner
+    - <infSolicNFF>"""
 
     ##########################
     # NF-e spec related fields
