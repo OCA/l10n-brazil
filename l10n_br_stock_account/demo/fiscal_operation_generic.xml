@@ -18,7 +18,7 @@
             name="res_id"
         />
         <field
-            eval="'account.journal,'+str(ref('l10n_br_coa_generic.general_journal_empresa_lp'))"
+            eval="'account.journal,'+str(ref('l10n_br_stock_account.entrada_remessa_journal_lucro_presumido'))"
             name="value"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
@@ -40,7 +40,7 @@
             name="res_id"
         />
         <field
-            eval="'account.journal,'+str(ref('l10n_br_coa_generic.general_journal_empresa_lp'))"
+            eval="'account.journal,'+str(ref('l10n_br_stock_account.simples_remessa_journal_lucro_presumido'))"
             name="value"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
