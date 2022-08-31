@@ -32,6 +32,7 @@
         # Demo
         "demo/company_demo.xml",
         "demo/l10n_br_stock_account_demo.xml",
+        "demo/account_journal_demo.xml",
     ],
     "installable": True,
     "post_init_hook": "post_init_hook",
