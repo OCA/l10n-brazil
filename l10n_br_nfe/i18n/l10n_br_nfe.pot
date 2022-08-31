@@ -138,7 +138,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:933
+#: code:addons/l10n_br_nfe/models/document.py:970
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
@@ -283,7 +283,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:705
+#: code:addons/l10n_br_nfe/models/document.py:742
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:30
 #, python-format
 msgid "Certificado não encontrado"
