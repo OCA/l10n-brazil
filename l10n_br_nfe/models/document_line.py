@@ -616,17 +616,6 @@ class NFeLine(spec_models.StackedModel):
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
-    def _export_float_monetary(self, field_name, member_spec, class_obj, xsd_required):
-        if not self[field_name] and not xsd_required:
-            if not (
-                class_obj._name == "nfe.40.imposto" and field_name == "nfe40_vTotTrib"
-            ) and not (class_obj._name == "nfe.40.fat"):
-                self[field_name] = False
-                return False
-        return super()._export_float_monetary(
-            field_name, member_spec, class_obj, xsd_required
-        )
-
     def _build_attr(self, node, fields, vals, path, attr):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
         value = getattr(node, attr.get_name())
