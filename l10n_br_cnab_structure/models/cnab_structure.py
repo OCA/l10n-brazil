@@ -34,6 +34,10 @@ class CNABStructure(models.Model):
         related="payment_method_id.code",
     )
 
+    payment_type = fields.Selection(
+        related="payment_method_id.payment_type",
+    )
+
     batch_ids = fields.One2many(
         comodel_name="l10n_br_cnab.batch",
         inverse_name="cnab_structure_id",
@@ -109,6 +113,18 @@ class CNABStructure(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    conf_payment_way_start_pos = fields.Integer(
+        string="Payment Way start position in Header Batch Records. Only for Header Batch Records.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_payment_way_end_pos = fields.Integer(
+        string="Payment Way last position in Header Batch Records. Only for Header Batch Records.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     record_type_file_header_id = fields.Integer(
         string="File Header Type ID",
         help="What`s the identification for header of file type?",
@@ -144,7 +160,7 @@ class CNABStructure(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
-    @api.onchange("cnab_format")
+    @api.onchange("cnab_format", "payment_type")
     def _onchange_cnab_format(self):
         if self.cnab_format == "240":
             self.conf_bank_start_pos = 1
@@ -160,6 +176,13 @@ class CNABStructure(models.Model):
             self.record_type_batch_header_id = 1
             self.record_type_batch_trailer_id = 5
             self.record_type_detail_id = 3
+            if self.payment_type == "outbound":
+                self.conf_payment_way_start_pos = 12
+                self.conf_payment_way_end_pos = 13
+            else:
+                self.conf_payment_way_start_pos = None
+                self.conf_payment_way_end_pos = None
+
         elif self.cnab_format == "400":
             self.conf_bank_start_pos = None
             self.conf_bank_end_pos = None
@@ -174,6 +197,8 @@ class CNABStructure(models.Model):
             self.record_type_batch_header_id = None
             self.record_type_batch_trailer_id = None
             self.record_type_detail_id = 1
+            self.conf_payment_way_start_pos = None
+            self.conf_payment_way_end_pos = None
         else:
             self.conf_bank_start_pos = None
             self.conf_bank_end_pos = None
@@ -188,6 +213,8 @@ class CNABStructure(models.Model):
             self.record_type_batch_header_id = None
             self.record_type_batch_trailer_id = None
             self.record_type_detail_id = None
+            self.conf_payment_way_start_pos = None
+            self.conf_payment_way_end_pos = None
 
     def get_header(self):
         "Returns the file header record"
