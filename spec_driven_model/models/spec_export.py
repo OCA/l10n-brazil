@@ -142,6 +142,8 @@ class AbstractSpecMixin(models.AbstractModel):
 
     def _export_float_monetary(self, field_name, member_spec, class_obj, xsd_required):
         self.ensure_one()
+        if not self[field_name] and not xsd_required:
+            return False
         if member_spec.data_type[0]:
             TDec = "".join(filter(lambda x: x.isdigit(), member_spec.data_type[0]))[-2:]
             my_format = "%.{}f".format(TDec)
