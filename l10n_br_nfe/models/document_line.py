@@ -686,7 +686,13 @@ class NFeLine(spec_models.StackedModel):
         return super()._build_attr(node, fields, vals, path, attr)
 
     def _build_string_not_simple_type(self, key, vals, value, node):
-        if key not in ["nfe40_CST", "nfe40_modBC", "nfe40_CSOSN", "nfe40_vBC"]:
+        if key not in [
+            "nfe40_CST",
+            "nfe40_modBC",
+            "nfe40_CSOSN",
+            "nfe40_vBC",
+            "nfe40_vDespAdu",
+        ]:
             super()._build_string_not_simple_type(key, vals, value, node)
             # TODO avoid collision with cls prefix
         elif key == "nfe40_CST":
@@ -725,6 +731,10 @@ class NFeLine(spec_models.StackedModel):
                 vals["pis_base"] = value
             elif node.original_tagname_.startswith("COFINS"):
                 vals["cofins_base"] = value
+            elif node.original_tagname_.startswith("II"):
+                vals["ii_base"] = value
+        elif key == "nfe40_vDespAdu":
+            vals["ii_customhouse_charges"] = value
 
     # flake8: noqa: C901
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
