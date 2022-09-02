@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo noupdate="0">
+<odoo noupdate="1">
     <!-- account.payment.method -->
     <!-- CNAB 240 Outbund -->
     <record id="payment_mode_type_cnab240_out" model="account.payment.method">
@@ -32,6 +32,4 @@
         <field name="cnab_structure_id" ref="cnab_itau_240" />
         <field name="cnab_batch_id" ref="cnab_itau_240_pagamentos" />
     </record>
-
-
 </odoo>
