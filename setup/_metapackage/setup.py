@@ -44,6 +44,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_sale',
         'odoo12-addon-l10n_br_sale_commission',
         'odoo12-addon-l10n_br_sale_commission_stock',
+        'odoo12-addon-l10n_br_sale_invoice_plan',
         'odoo12-addon-l10n_br_sale_stock',
         'odoo12-addon-l10n_br_stock',
         'odoo12-addon-l10n_br_stock_account',
