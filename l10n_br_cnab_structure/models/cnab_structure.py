@@ -3,7 +3,6 @@
 
 import yaml
 
-from email.policy import default
 from ..cnab.cnab import Cnab, RecordType
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
