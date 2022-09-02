@@ -112,6 +112,7 @@ addon | version | maintainers | summary
 [l10n_br_sale](l10n_br_sale/) | 12.0.7.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
 [l10n_br_sale_commission](l10n_br_sale_commission/) | 12.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Customization of Sales commissions module for implementations in Brazil.
 [l10n_br_sale_commission_stock](l10n_br_sale_commission_stock/) | 12.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sales Commission and Warehouse
+[l10n_br_sale_invoice_plan](l10n_br_sale_invoice_plan/) | 12.0.1.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Sale Invoice Plan
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 12.0.5.4.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
 [l10n_br_stock](l10n_br_stock/) | 12.0.1.0.0 |  | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 12.0.5.0.1 |  | Brazilian Localization WMS Accounting
