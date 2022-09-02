@@ -13,9 +13,11 @@
             <group name="l10n_br_account_payment_order-geral" position="after">
                 <group name="cnab_structure" string="CNAB Structure">
                     <field name="cnab_structure_id" />
-                    <field name="cnab_batch_id" />
                 </group>
             </group>
+            <field name="release_form" position="replace">
+                <field name="cnab_payment_way_id" />
+            </field>
         </field>
     </record>
 </odoo>
