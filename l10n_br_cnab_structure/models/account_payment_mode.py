@@ -16,3 +16,9 @@ class AccountPaymentMode(models.Model):
         comodel_name="l10n_br_cnab.batch",
         domain="[('cnab_structure_id', '=', cnab_structure_id)]",
     )
+
+    cnab_payment_way_id = fields.Many2one(
+        comodel_name="cnab.payment.way",
+        string="Way of Payment",
+        domain="[('cnab_structure_id', '=', cnab_structure_id)]",
+    )
