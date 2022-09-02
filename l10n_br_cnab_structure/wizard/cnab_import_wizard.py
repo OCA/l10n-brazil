@@ -89,6 +89,17 @@ class CNABImportWizard(models.TransientModel):
         }
         return start_pos, end_pos
 
+    def _get_record_type(self):
+        structure_id = self.cnab_structure_id
+        record_type = {
+            "header_file": structure_id.record_type_file_header_id,
+            "trailer_file": structure_id.record_type_file_trailer_id,
+            "header_batch": structure_id.record_type_batch_header_id,
+            "trailer_batch": structure_id.record_type_batch_trailer_id,
+            "detail": structure_id.record_type_detail_id,
+        }
+        return record_type
+
     def _get_content(self, line, field):
         start_pos, end_pos = self._get_conf_positions_240()
         return line[start_pos[field] : end_pos[field]]
@@ -109,9 +120,40 @@ class CNABImportWizard(models.TransientModel):
                 )
             )
 
+    def _filter_lines_from_type(self, lines, type_name):
+        record_type = self._get_record_type()
+        filtered_lines = list(
+            filter(
+                lambda line: self._get_content(line, "record_type")
+                == str(record_type[type_name]),
+                lines,
+            )
+        )
+        return filtered_lines
+
+    def _get_unique_batch_list(self, lines):
+        batch_list = []
+        for line in lines:
+            batch = self._get_content(line, "batch")
+            # Ignore batches from header and trailer of file, they will always be 0000 and 9999.
+            # If there is an exception, it must be handled.
+            if batch not in ["0000", "9999"]:
+                batch_list.append(batch)
+        return list(set(batch_list))
+
+    def _get_batches(self, lines):
+        batch_list = self._get_unique_batch_list(lines)
+        batches = {}
+        for batch in batch_list:
+            pass
+
     def _import_cnab_240(self):
         lines = self._get_lines_from_file(self.return_file)
         self._check_bank(lines[0])
+        header_file_line = self._filter_lines_from_type(lines, "header_file")
+        trailer_file_line = self._filter_lines_from_type(lines, "trailer_file")
+        batches = self._get_batches(lines)
+
         pass
 
     def import_cnab(self):
