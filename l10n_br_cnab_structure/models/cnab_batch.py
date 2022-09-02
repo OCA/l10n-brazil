@@ -30,6 +30,15 @@ class CNABBatch(models.Model):
         domain="[('cnab_format', '=', '240')]",
     )
 
+    cnab_payments_ways = fields.Many2many(
+        comodel_name="cnab.payment.way",
+        string="Payments Ways",
+        help="Payments ways that use the structure of this batch.",
+        domain="[('cnab_structure_id', '=', cnab_structure_id)]",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     def get_header(self):
         "Returns the batch header record"
         return self.line_ids.filtered(lambda l: l.type == "header")
