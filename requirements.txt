@@ -6,7 +6,6 @@ erpbrasil.edoc.pdf
 erpbrasil.transmissao
 nfelib
 num2words
-odoo_test_helper
 pycep_correios
 workalendar
 xmldiff
