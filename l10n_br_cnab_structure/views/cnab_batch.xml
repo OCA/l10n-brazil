@@ -28,6 +28,7 @@
                         </group>
                         <group>
                             <field name="cnab_structure_id" />
+                            <field name="cnab_payments_ways" widget="many2many_tags" />
                         </group>
                     </group>
 
