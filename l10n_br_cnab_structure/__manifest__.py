@@ -29,6 +29,6 @@
         "security/ir.model.access.csv",
         "views/cnab_menu.xml",
     ],
-    "demo": ["demo/payment_mode.xml"],
+    "demo": [],
     "post_init_hook": "post_init_hook",
 }
