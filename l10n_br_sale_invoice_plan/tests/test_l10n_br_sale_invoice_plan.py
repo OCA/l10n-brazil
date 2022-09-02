@@ -26,8 +26,8 @@ class L10nBrSaleInvoicePlanBaseTest(SavepointCase):
             "active_ids": [self.so_service.id],
             "all_remain_invoices": False,
             "default_company_id": self.company.id,
+            "allowed_company_ids": self.company.ids,
         }
-
         self.so_service.action_confirm()
         make_wizard = self.env["sale.make.planned.invoice"].create({})
         make_wizard.with_context(ctx).create_invoices_by_plan()
@@ -41,4 +41,4 @@ class L10nBrSaleInvoicePlanBaseTest(SavepointCase):
         )
         self.assertTrue(line.fiscal_operation_id)
         self.assertTrue(line.fiscal_tax_ids)
-        self.assertTrue(line.invoice_line_tax_ids)
+        self.assertTrue(line.tax_ids)
