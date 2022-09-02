@@ -9,3 +9,4 @@ contract
 manufacture
 delivery-carrier
 purchase-workflow
+sale-workflow
