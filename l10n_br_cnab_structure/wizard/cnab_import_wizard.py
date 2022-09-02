@@ -2,7 +2,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
+from io import StringIO
+import base64
 
 
 class CNABImportWizard(models.TransientModel):
@@ -38,6 +40,9 @@ class CNABImportWizard(models.TransientModel):
         comodel_name="l10n_br_cnab.structure",
         domain="[('bank_id', '=', bank_id),('payment_method_id', 'in', payment_method_ids),('state', '=', 'approved')]",
     )
+    cnab_format = fields.Char(
+        related="cnab_structure_id.cnab_format",
+    )
 
     @api.onchange("journal_id")
     def _onchange_journal_id(self):
@@ -66,5 +71,51 @@ class CNABImportWizard(models.TransientModel):
             else:
                 record.payment_method_ids = [(5, 0, 0)]
 
-    def import_cnab(self):
+    def _get_conf_positions_240(self):
+        structure_id = self.cnab_structure_id
+        start_pos = {
+            "bank": structure_id.conf_bank_start_pos - 1,
+            "batch": structure_id.conf_batch_start_pos - 1,
+            "record_type": structure_id.conf_record_type_start_pos - 1,
+            "segment": structure_id.conf_detail_segment_start_pos - 1,
+            "payment_way": structure_id.conf_payment_way_start_pos - 1,
+        }
+        end_pos = {
+            "bank": structure_id.conf_bank_end_pos,
+            "batch": structure_id.conf_batch_end_pos,
+            "record_type": structure_id.conf_record_type_end_pos,
+            "segment": structure_id.conf_detail_segment_end_pos,
+            "payment_way": structure_id.conf_payment_way_end_pos,
+        }
+        return start_pos, end_pos
+
+    def _get_content(self, line, field):
+        start_pos, end_pos = self._get_conf_positions_240()
+        return line[start_pos[field] : end_pos[field]]
+
+    def _get_lines_from_file(self, file):
+        file = base64.b64decode(self.return_file)
+        string = StringIO(file.decode("utf-8"))
+        lines = string.readlines()
+        return lines
+
+    def _check_bank(self, line):
+        bank_line = self._get_content(line, "bank")
+        bank_structure = self.cnab_structure_id.bank_id.code_bc
+        if bank_line != bank_structure:
+            raise UserError(
+                _(
+                    f"The bank {bank_line} from file is different of the bank os selected structure({bank_structure})."
+                )
+            )
+
+    def _import_cnab_240(self):
+        lines = self._get_lines_from_file(self.return_file)
+        self._check_bank(lines[0])
         pass
+
+    def import_cnab(self):
+        if self.cnab_format == "240":
+            self._import_cnab_240()
+        else:
+            raise UserError(_(f"CNAB Format {self.cnab_format} not implemented."))
