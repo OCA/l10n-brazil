@@ -42,8 +42,9 @@
                 </div>
                 <group>
                     <group>
-                        <field name="segment_name" attrs="{'invisible': [('type', '!=', 'segment')], 'required': [('type', '=', 'segment')]}" />
+
                         <field name="type" />
+                        <field name="segment_code" attrs="{'invisible': [('type', '!=', 'segment')], 'required': [('type', '=', 'segment')]}" />
                         <field name="batch_id" attrs="{'invisible': [('cnab_format', '!=', '240')]}" context="{'default_cnab_structure_id': cnab_structure_id}" />
                     </group>
                     <group>

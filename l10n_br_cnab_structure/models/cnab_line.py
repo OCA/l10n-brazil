@@ -26,6 +26,10 @@ class CNABLine(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    segment_code = fields.Char(
+        states={"draft": [("readonly", False)]},
+    )
+
     content_source_model_id = fields.Many2one(
         comodel_name="ir.model",
         string="Content Source",
