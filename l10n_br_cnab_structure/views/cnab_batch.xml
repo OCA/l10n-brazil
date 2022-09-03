@@ -45,7 +45,7 @@
                             </field>
                         </page>
                         <page name="pay_ways" string="Payments Ways">
-                            <field name="cnab_payments_ways" widget="many2many" options="{'no_create': True}"/>
+                            <field name="cnab_payment_way_ids" widget="many2many" options="{'no_create': True}"/>
                         </page>
                     </notebook>
                 </sheet>

@@ -30,7 +30,7 @@ class CNABBatch(models.Model):
         domain="[('cnab_format', '=', '240')]",
     )
 
-    cnab_payments_ways = fields.One2many(
+    cnab_payment_way_ids = fields.One2many(
         comodel_name="cnab.payment.way",
         string="Payments Ways",
         inverse_name="batch_id",
