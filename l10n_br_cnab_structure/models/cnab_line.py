@@ -14,8 +14,6 @@ class CNABLine(models.Model):
 
     name = fields.Char(compute="_compute_name", store=True)
 
-    segment_name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
-
     sequence = fields.Integer(readonly=True, states={"draft": [("readonly", False)]})
 
     cnab_structure_id = fields.Many2one(
@@ -117,11 +115,11 @@ class CNABLine(models.Model):
             line.add_field(name, value)
         return line
 
-    @api.depends("segment_name", "cnab_structure_id", "cnab_structure_id.name", "type")
+    @api.depends("segment_code", "cnab_structure_id", "cnab_structure_id.name", "type")
     def _compute_name(self):
         for line in self:
             if line.type == "segment":
-                name = line.segment_name
+                name = f"{line.type} {line.segment_code}"
             else:
                 name = line.type
 
