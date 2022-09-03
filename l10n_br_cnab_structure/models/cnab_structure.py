@@ -235,7 +235,14 @@ class CNABStructure(models.Model):
         each dict represents a line from the CNAB file."""
         cnab = Cnab()
         cnab.header = self.get_header().output(pay_order, RecordType.HEADER)
-        batch_template_id = pay_order.payment_mode_id.cnab_batch_id
+
+        payment_way_code = pay_order.payment_mode_id.cnab_payment_way_id
+        batch_domain = [
+            ("cnab_structure_id", "=", self.id),
+            ("cnab_payment_way_ids", "in", [payment_way_code.id]),
+        ]
+        batch_template_id = self.env["l10n_br_cnab.batch"].search(batch_domain, limit=1)
+
         if batch_template_id:
             batch = batch_template_id.output(pay_order, 1, "1")
             cnab.batches.append(batch)
