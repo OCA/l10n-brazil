@@ -94,26 +94,30 @@
                                         <field name="conf_bank_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
                                         <field name="conf_bank_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
                                     </div>
-                                    <label for="conf_batch_start_pos" string="Batch" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
-                                    <div>
-                                        <field name="conf_batch_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
-                                        <field name="conf_batch_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
-                                    </div>
                                     <label for="conf_record_type_start_pos" string="Record Type" />
                                     <div>
                                         <field name="conf_record_type_start_pos" style="width: 50%" required="1" />
                                         <field name="conf_record_type_end_pos" style="width: 50%" required="1" />
                                     </div>
-                                    <label for="conf_detail_segment_start_pos" string="Segment" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    <label for="conf_batch_start_pos" string="Batch" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
                                     <div>
-                                        <field name="conf_detail_segment_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
-                                        <field name="conf_detail_segment_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                        <field name="conf_batch_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                        <field name="conf_batch_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
                                     </div>
-
                                     <label for="conf_payment_way_start_pos" string="Payment Way" attrs="{'required': [('cnab_format', '=', '240'),('payment_type', '=', 'outbound')], 'invisible': ['|',('cnab_format', '!=', '240'),('payment_type', '!=', 'outbound')]}" />
                                     <div>
                                         <field name="conf_payment_way_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240'),('payment_type', '=', 'outbound')], 'invisible': ['|',('cnab_format', '!=', '240'),('payment_type', '!=', 'outbound')]}" />
                                         <field name="conf_payment_way_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240'),('payment_type', '=', 'outbound')], 'invisible': ['|',('cnab_format', '!=', '240'),('payment_type', '!=', 'outbound')]}" />
+                                    </div>
+                                    <label for="conf_detail_start_pos" string="Detail" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    <div>
+                                        <field name="conf_detail_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                        <field name="conf_detail_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    </div>
+                                    <label for="conf_segment_start_pos" string="Segment" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                    <div>
+                                        <field name="conf_segment_start_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
+                                        <field name="conf_segment_end_pos" style="width: 50%" attrs="{'required': [('cnab_format', '=', '240')], 'invisible': [('cnab_format', '!=', '240')]}" />
                                     </div>
                                 </group>
                                 <group name="record_type_ids" string="Types Identification">
