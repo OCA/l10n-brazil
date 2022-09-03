@@ -76,18 +76,6 @@ class CNABStructure(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
-    conf_batch_start_pos = fields.Integer(
-        string="Batch Start Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-
-    conf_batch_end_pos = fields.Integer(
-        string="Batch Last Position",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-
     conf_record_type_start_pos = fields.Integer(
         string="Record Type Start Position",
         readonly=True,
@@ -100,14 +88,14 @@ class CNABStructure(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
-    conf_detail_segment_start_pos = fields.Integer(
-        string="Record Detail Segment Position. Only for detail records.",
+    conf_batch_start_pos = fields.Integer(
+        string="Batch Start Position",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
-    conf_detail_segment_end_pos = fields.Integer(
-        string="Record Detail Segment Position. Only for detail records.",
+    conf_batch_end_pos = fields.Integer(
+        string="Batch Last Position",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -120,6 +108,30 @@ class CNABStructure(models.Model):
 
     conf_payment_way_end_pos = fields.Integer(
         string="Payment Way last position in Header Batch Records. Only for Header Batch Records.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_detail_start_pos = fields.Integer(
+        string="Position of sequencial identification of Detail Records. Only for detail records.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_detail_end_pos = fields.Integer(
+        string="Last position of sequencial identification of Detail Records. Only for detail records.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_segment_start_pos = fields.Integer(
+        string="Start position of segment of an detail record. Only for detail records.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    conf_segment_end_pos = fields.Integer(
+        string="Last position of segment of an detail record. Only for detail records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -169,58 +181,73 @@ class CNABStructure(models.Model):
     @api.onchange("cnab_format", "payment_type")
     def _onchange_cnab_format(self):
         if self.cnab_format == "240":
+            # Default Configuration Fields
             self.conf_bank_start_pos = 1
             self.conf_bank_end_pos = 3
-            self.conf_batch_start_pos = 4
-            self.conf_batch_end_pos = 7
             self.conf_record_type_start_pos = 8
             self.conf_record_type_end_pos = 8
-            self.conf_detail_segment_start_pos = 14
-            self.conf_detail_segment_end_pos = 14
-            self.record_type_file_header_id = 0
-            self.record_type_file_trailer_id = 9
-            self.record_type_batch_header_id = 1
-            self.record_type_batch_trailer_id = 5
-            self.record_type_detail_id = 3
+            self.conf_batch_start_pos = 4
+            self.conf_batch_end_pos = 7
             if self.payment_type == "outbound":
                 self.conf_payment_way_start_pos = 12
                 self.conf_payment_way_end_pos = 13
             else:
                 self.conf_payment_way_start_pos = None
                 self.conf_payment_way_end_pos = None
+            self.conf_detail_start_pos = 9
+            self.conf_detail_end_pos = 13
+            self.conf_segment_start_pos = 14
+            self.conf_segment_end_pos = 14
+
+            # Default Record Types
+            self.record_type_file_header_id = 0
+            self.record_type_file_trailer_id = 9
+            self.record_type_batch_header_id = 1
+            self.record_type_batch_trailer_id = 5
+            self.record_type_detail_id = 3
 
         elif self.cnab_format == "400":
+            # Default Configuration Fields
             self.conf_bank_start_pos = None
             self.conf_bank_end_pos = None
-            self.conf_batch_start_pos = None
-            self.conf_batch_end_pos = None
             self.conf_record_type_start_pos = 8
             self.conf_record_type_end_pos = 8
-            self.conf_detail_segment_start_pos = None
-            self.conf_detail_segment_end_pos = None
+            self.conf_batch_start_pos = None
+            self.conf_batch_end_pos = None
+            self.conf_payment_way_start_pos = None
+            self.conf_payment_way_end_pos = None
+            self.conf_detail_start_pos = None
+            self.conf_detail_end_pos = None
+            self.conf_segment_start_pos = None
+            self.conf_segment_end_pos = None
+
+            # Default Record Types
             self.record_type_file_header_id = 0
             self.record_type_file_trailer_id = 9
             self.record_type_batch_header_id = None
             self.record_type_batch_trailer_id = None
             self.record_type_detail_id = 1
-            self.conf_payment_way_start_pos = None
-            self.conf_payment_way_end_pos = None
         else:
+            # Default Configuration Fields
             self.conf_bank_start_pos = None
             self.conf_bank_end_pos = None
-            self.conf_batch_start_pos = None
-            self.conf_batch_end_pos = None
             self.conf_record_type_start_pos = None
             self.conf_record_type_end_pos = None
-            self.conf_detail_segment_start_pos = None
-            self.conf_detail_segment_end_pos = None
+            self.conf_batch_start_pos = None
+            self.conf_batch_end_pos = None
+            self.conf_payment_way_start_pos = None
+            self.conf_payment_way_end_pos = None
+            self.conf_detail_start_pos = None
+            self.conf_detail_end_pos = None
+            self.conf_segment_start_pos = None
+            self.conf_segment_end_pos = None
+
+            # Default Record Types
             self.record_type_file_header_id = None
             self.record_type_file_trailer_id = None
             self.record_type_batch_header_id = None
             self.record_type_batch_trailer_id = None
             self.record_type_detail_id = None
-            self.conf_payment_way_start_pos = None
-            self.conf_payment_way_end_pos = None
 
     def get_header(self):
         "Returns the file header record"
@@ -366,12 +393,16 @@ class CNABStructure(models.Model):
         positions = [
             self.conf_bank_start_pos,
             self.conf_bank_end_pos,
-            self.conf_batch_start_pos,
-            self.conf_batch_end_pos,
             self.conf_record_type_start_pos,
             self.conf_record_type_end_pos,
-            self.conf_detail_segment_start_pos,
-            self.conf_detail_segment_end_pos,
+            self.conf_batch_start_pos,
+            self.conf_batch_end_pos,
+            self.conf_payment_way_start_pos,
+            self.conf_payment_way_end_pos,
+            self.conf_detail_start_pos,
+            self.conf_detail_end_pos,
+            self.conf_segment_start_pos,
+            self.conf_segment_end_pos,
         ]
 
         last_position = int(self.cnab_format)
