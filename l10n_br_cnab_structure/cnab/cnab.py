@@ -65,11 +65,16 @@ class CnabBatch:
         self.name = name
         self.detail_records = []
 
+    def detail_lines(self) -> List[CnabLine]:
+        lines = []
+        for detail in self.detail_records:
+            lines.extend(detail.lines())
+        return lines
+
     def lines(self) -> List[CnabLine]:
         lines = []
         lines.append(self.header)
-        for detail in self.detail_records:
-            lines.extend(detail.lines())
+        lines.extend(self.detail_lines())
         lines.append(self.trailer)
         return lines
 
@@ -106,6 +111,9 @@ class Cnab:
             lines.extend(batch.lines())
         lines.append(self.trailer)
         return lines
+
+    def len_batches(self) -> int:
+        return len(self.batches)
 
     def len_records(self) -> int:
         count_records = 0
