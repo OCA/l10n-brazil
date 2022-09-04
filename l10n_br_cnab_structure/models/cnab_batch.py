@@ -74,6 +74,7 @@ class CNABBatch(models.Model):
             RecordType.TRAILER_BATCH,
             seq_batch=batch_sequence,
             qty_records=batch.len_records() + 1,
+            batch_detail_lines=batch.detail_lines(),
         )
         return batch
 
