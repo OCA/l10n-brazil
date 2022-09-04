@@ -9,7 +9,7 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="cnab_preview_wizard_form" />
         <field name="target">new</field>
-        <field name="context">{'default_cnab_structure_id': active_id}</field>
+        <field name="context">{'default_cnab_structure_id': cnab_structure_id}</field>
     </record>
 
     <record model="ir.ui.view" id="cnab_line_tree_view">
