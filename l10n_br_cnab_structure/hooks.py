@@ -32,7 +32,11 @@ def post_init_hook(cr, registry):
         )
 
     if not tools.config["without_demo"]:
-        demofiles = ["demo/payment_mode.xml", "demo/account_invoice.xml"]
+        demofiles = [
+            "demo/payment_mode.xml",
+            "demo/res_partner_bank.xml",
+            "demo/account_invoice.xml",
+        ]
 
         _logger.info(_("Loading l10n_br_cnab_structure demo files."))
 
