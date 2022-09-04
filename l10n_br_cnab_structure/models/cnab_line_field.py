@@ -14,7 +14,7 @@ class CNABField(models.Model):
 
     _name = "l10n_br_cnab.line.field"
     _description = "Fields in CNAB lines."
-    _order = "start_pos"
+    _order = "cnab_line_id, start_pos"
 
     name = fields.Char(readonly=True, states={"draft": [("readonly", False)]})
 
@@ -97,12 +97,7 @@ class CNABField(models.Model):
         "'seq_record_detail' returns the sequence for detail record in the batch. \n"
         "'qty_batches' returns the number of batches \n"
         "'qty_records' returns the number of records \n"
-        "'batch_lines' returns a list of dicts, each dict corresponds to a record in "
-        "the batch, each item in the dict corresponds to a cnab field. the key is the"
-        " reference name and the value is the content."
-        "'file_lines' returns a list of dicts, each dict corresponds to a record in "
-        "the file, each item in the dict corresponds to a cnab field. the key is the"
-        " reference name and the value is the content."
+        "'batch_detail_lines' returns a list of batch detail records."
     )
 
     def action_change_field(self):
@@ -174,8 +169,7 @@ class CNABField(models.Model):
             "seq_record_detail": kwargs.get("seq_record_detail", ""),
             "qty_batches": kwargs.get("qty_batches", ""),
             "qty_records": kwargs.get("qty_records", ""),
-            "batch_lines": kwargs.get("batch_lines", []),
-            "file_lines": kwargs.get("batch_lines", []),
+            "batch_detail_lines": kwargs.get("batch_detail_lines", []),
         }
         return safe_eval(self.sending_dynamic_content, safe_eval_dict)
 
