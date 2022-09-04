@@ -22,7 +22,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [l10n_br_account](l10n_br_account/) | 14.0.1.5.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Account
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 14.0.1.0.0 |  | Brazilian Account Due List
-[l10n_br_account_nfe](l10n_br_account_nfe/) | 14.0.1.1.1 |  | Integration between l10n_br_account and l10n_br_nfe
+[l10n_br_account_nfe](l10n_br_account_nfe/) | 14.0.1.1.2 |  | Integration between l10n_br_account and l10n_br_nfe
 [l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 14.0.1.3.2 |  | L10n Br Account Payment BRCobranca
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 14.0.1.3.1 |  | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 14.0.2.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
@@ -42,7 +42,7 @@ addon | version | maintainers | summary
 [l10n_br_purchase](l10n_br_purchase/) | 14.0.1.0.1 |  | Brazilian Localization Purchase
 [l10n_br_purchase_request](l10n_br_purchase_request/) | 14.0.1.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Purchase Request Brazilian Localization Purchase Request
 [l10n_br_resource](l10n_br_resource/) | 14.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![hendixcosta](https://github.com/hendixcosta.png?size=30px)](https://github.com/hendixcosta) [![lfdivino](https://github.com/lfdivino.png?size=30px)](https://github.com/lfdivino) | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
-[l10n_br_sale](l10n_br_sale/) | 14.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
+[l10n_br_sale](l10n_br_sale/) | 14.0.1.1.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
 [l10n_br_stock](l10n_br_stock/) | 14.0.2.0.0 |  | Brazilian Localization Warehouse
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.1.0.0 |  | Website sale localização brasileira.
 [l10n_br_zip](l10n_br_zip/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
