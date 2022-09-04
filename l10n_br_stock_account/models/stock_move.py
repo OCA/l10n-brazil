@@ -85,7 +85,9 @@ class StockMove(models.Model):
         # com mais de uma Operação Fiscal, nesses outros modulos é feita a
         # alteração para usar a Operação Fiscal principal, isso é a do
         # cabeçalho do Pedido
-        result.update({"fiscal_operation_id": self.mapped("fiscal_operation_id")[0].id})
+        fiscal_operations = self.mapped("fiscal_operation_id")
+        if fiscal_operations:
+            result.update({"fiscal_operation_id": fiscal_operations[0].id})
         # A mesma questão do self, aqui se uma linha for
         # 2binvoiced o Picking também será
         result.update({"invoice_state": self.mapped("invoice_state")[0]})
