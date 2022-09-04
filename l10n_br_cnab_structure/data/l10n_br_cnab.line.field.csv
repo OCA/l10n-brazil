@@ -60,7 +60,7 @@
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_4_7","CÓDIGO DO LOTE","LOTE DE SERVIÇO","4","7","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","seq_batch",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_8_8","TIPO DE REGISTRO","REGISTRO DETALHE DE LOTE","8","8","Numeric","3","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_9_13","NÚMERO DO REGISTRO","Nº SEQUENCIAL REGISTRO NO LOTE","9","13","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","seq_record_detail",""
-"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_14_14","SEGMENTO","CÓDIGO SEGMENTO REG. DETALHE","14","14","Alphanumeric","A","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_14_14","SEGMENTO","CÓDIGO SEGMENTO REG. DETALHE","14","14","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","segment_code",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_15_17","TIPO DE MOVIMENTO","TIPO DE MOVIMENTO","15","17","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_18_20","CÂMARA","CÓDIGO DA CÂMARA CENTRALIZADORA","18","20","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_21_23","BANCO FAVORECIDO","CÓDIGO BANCO FAVORECIDO","21","23","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a","","","partner_bank_id.bank_id.code_bc"
