@@ -98,6 +98,7 @@ class CNABField(models.Model):
         "'qty_batches' returns the number of batches \n"
         "'qty_records' returns the number of records \n"
         "'batch_detail_lines' returns a list of batch detail records."
+        "'segment_code' returns the code of the segment defined in the header of the line."
     )
 
     def action_change_field(self):
@@ -170,6 +171,7 @@ class CNABField(models.Model):
             "qty_batches": kwargs.get("qty_batches", ""),
             "qty_records": kwargs.get("qty_records", ""),
             "batch_detail_lines": kwargs.get("batch_detail_lines", []),
+            "segment_code": self.cnab_line_id.segment_code or "",
         }
         return safe_eval(self.sending_dynamic_content, safe_eval_dict)
 
