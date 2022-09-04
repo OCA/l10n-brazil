@@ -276,7 +276,8 @@ class CNABStructure(models.Model):
         cnab.trailer = self.get_trailer().output(
             pay_order,
             RecordType.TRAILER,
-            cnab=cnab,
+            qty_batches=cnab.len_batches(),
+            qty_records=cnab.len_records(),
         )
         return cnab
 
