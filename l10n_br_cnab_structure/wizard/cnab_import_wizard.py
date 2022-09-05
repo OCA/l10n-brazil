@@ -281,24 +281,45 @@ class CNABImportWizard(models.TransientModel):
         data["batches"] = self._get_batches(lines)
         return data
 
-    def _create_return_logs(self, data):
-        # TODO
-        pass
+    def _create_return_log(self, data):
+        return_log_obj = self.env["l10n_br_cnab.return.log"]
+
+        # TODO completar dados dinamicamente
+        return_log_id = return_log_obj.create(
+            {
+                "name": "Banco ",
+                "cnab_date_import": fields.Datetime.now(),
+                "journal_id": self.journal_id.id,
+                "bank_account_id": self.journal_id.bank_account_id.id,
+                "return_file": self.return_file,
+                "type": self.type,
+            }
+        )
+        return return_log_id
 
     def _import_cnab_240(self):
         data = self._get_data_from_file()
-        return_logs = self._create_return_logs(data)
+        return_log_id = self._create_return_log(data)
 
-        return return_logs
+        return return_log_id
 
     def import_cnab(self):
         if self.cnab_format == "240":
-            return_logs = self._import_cnab_240()
+            return_log_id = self._import_cnab_240()
+        # TODO Implementar novos formatos CNABs
         else:
             raise UserError(_(f"CNAB Format {self.cnab_format} not implemented."))
 
         action = {
-            # TODO
+            "type": "ir.actions.act_window",
+            "name": _("Export Data"),
+            "res_model": "l10n_br_cnab.return.log",
+            "res_id": return_log_id.id,
+            "view_mode": "form",
+            "view_id": self.env.ref(
+                "l10n_br_cnab_structure.l10n_br_cnab_return_log_form_view_structure"
+            ).id,
+            "target": "current",
         }
 
-        return False
+        return action

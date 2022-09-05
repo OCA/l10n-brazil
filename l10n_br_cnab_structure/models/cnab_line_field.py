@@ -101,6 +101,15 @@ class CNABField(models.Model):
         "'segment_code' returns the code of the segment defined in the header of the line."
     )
 
+    content_dest_model_id = fields.Many2one(
+        comodel_name="ir.model", related="cnab_line_id.content_dest_model_id"
+    )
+    content_dest_field = fields.Char(
+        string="Content Destination Field",
+        help="Inform the field with the origin of the content, expressed with dot notation.",
+    )
+    return_dynamic_content = fields.Char()
+
     def action_change_field(self):
         "action for change for field"
         return {

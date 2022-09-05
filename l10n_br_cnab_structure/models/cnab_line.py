@@ -35,6 +35,13 @@ class CNABLine(models.Model):
         compute="_compute_content_source_model_id",
     )
 
+    content_dest_model_id = fields.Many2one(
+        comodel_name="ir.model",
+        string="Content Destination",
+        help="Related model that will provide the destination of the contents of return CNAB files.",
+        compute="_compute_dest_source_model_id",
+    )
+
     requerid = fields.Boolean()
 
     communication_flow = fields.Selection(
@@ -104,6 +111,16 @@ class CNABLine(models.Model):
         else:
             self.content_source_model_id = self.env["ir.model"].search(
                 [("model", "=", "bank.payment.line")]
+            )
+
+    def _compute_dest_source_model_id(self):
+        if self.type in ["header", "trailer"] and not self.batch_id:
+            self.content_dest_model_id = self.env["ir.model"].search(
+                [("model", "=", "l10n_br_cnab.return.log")]
+            )
+        else:
+            self.content_dest_model_id = self.env["ir.model"].search(
+                [("model", "=", "l10n_br_cnab.return.event")]
             )
 
     def output(self, resource_ref, record_type, **kwargs):
