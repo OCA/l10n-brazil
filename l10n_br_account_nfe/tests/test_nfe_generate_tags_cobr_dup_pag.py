@@ -128,6 +128,7 @@ class TestGeneratePaymentInfo(SavepointCase):
         del invoice_vals["line_ids"]
         cls.invoice = cls.env["account.move"].create(invoice_vals)
         cls.invoice.invoice_line_ids._onchange_fiscal_tax_ids()
+        cls.invoice.invoice_line_ids._onchange_fiscal_operation_line_id()
         cls.invoice.action_post()
 
         # Dado de Demonstração
@@ -192,3 +193,18 @@ class TestGeneratePaymentInfo(SavepointCase):
         self.invoice_demo_data.payment_mode_id = self.pay_mode.id
         with self.assertRaises(UserError):
             self.invoice_demo_data.action_post()
+
+    def test_invoice_without_payment_mode(self):
+        """Test Invoice without Payment Mode."""
+        invoice = self.env.ref("l10n_br_account_nfe.demo_nfe_sem_dados_de_cobranca")
+        invoice.action_post()
+        self.assertFalse(
+            invoice.nfe40_dup,
+            "Error field nfe40_dup should not filled when Fiscal Operation are Bonificação.",
+        )
+        for detPag in invoice.nfe40_detPag:
+            self.assertEqual(
+                detPag.nfe40_tPag,
+                "90",
+                "Error in nfe40_tPag field, should be 90 - Sem Pagamento.",
+            )
