@@ -77,4 +77,39 @@
         })]"
         />
     </record>
+
+    <!-- Faturas/Invoices de Teste não deve gerar TAG Cobrança -->
+    <record id="demo_nfe_sem_dados_de_cobranca" model="account.move">
+        <field name="name">Teste NFe Sem Dados de Cobrança</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="journal_id" ref="l10n_br_coa_simple.sale_journal_empresa_sn" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="user_id" ref="base.user_admin" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_55_serie_1"
+        />
+        <field name="document_serie">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+        (0, 0, {
+            'product_id': ref('product.product_product_5'),
+            'quantity': 1,
+            'price_unit': 1000,
+            'company_id': ref('l10n_br_base.empresa_simples_nacional'),
+            'partner_id': ref('l10n_br_base.res_partner_akretion'),
+            'uom_id': ref('uom.product_uom_unit'),
+            'fiscal_operation_id': ref('l10n_br_fiscal.fo_bonificacao'),
+            'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_bonificacao_bonificacao'),
+            'cfop_id': ref('l10n_br_fiscal.cfop_5910'),
+            'ncm_id': ref('l10n_br_fiscal.ncm_84714900'),
+        })]"
+        />
+    </record>
+
 </odoo>
