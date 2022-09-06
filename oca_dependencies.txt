@@ -8,3 +8,4 @@ mis-builder
 contract
 manufacture
 purchase-workflow
+sale-workflow
