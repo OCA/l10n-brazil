@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+     <record id="view_l10n_br_stock_invoice_onshipping" model="ir.ui.view">
+        <field name="name">L10n_br_Stock Invoice Onshipping</field>
+        <field name="model">stock.invoice.onshipping</field>
+        <field
+            name="inherit_id"
+            ref="stock_picking_invoicing.view_stock_invoice_onshipping"
+        />
+        <field name="arch" type="xml">
+            <field name="show_sale_journal" position="before">
+                <field name="fiscal_operation_journal" />
+            </field>
+            <field name="sale_journal" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'required': [('fiscal_operation_journal', '=', False)], 'invisible': [('fiscal_operation_journal', '=', True)]}</attribute>
+            </field>
+            <field name="purchase_journal" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'required': [('fiscal_operation_journal', '=', False)], 'invisible': [('fiscal_operation_journal', '=', True)]}</attribute>
+            </field>
+        </field>
+     </record>
+
+</odoo>

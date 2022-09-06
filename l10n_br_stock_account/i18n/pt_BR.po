@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-05 07:08+0000\n"
+"PO-Revision-Date: 2020-11-05 07:08+0000\n"
+"Last-Translator: Eder Brito <britoederr@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.10\n"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "<span class=\"o_stat_text\">Documents</span>"
+msgstr "<span class=\"o_stat_text\">Documentos</span>"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__fiscal_operation_journal
+msgid "Account Jornal from Fiscal Operation"
+msgstr "Diário de Conta a parir da Operação Fiscal"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__comment_ids
+msgid "Comments"
+msgstr "Comentários"
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__fiscal_operation_id
+msgid "Default Fiscal Operation"
+msgstr "Operação Fiscal Padrão"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.l10n_br_stock_account_res_company_form
+msgid "Estoque"
+msgstr "Estoque"
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_l10n_br_fiscal_operation
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
+#: selection:stock.invoice.onshipping,group:0
+msgid "Fiscal Operation"
+msgstr "Operação Fiscal"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_from
+msgid "Fiscal Quantity"
+msgstr "Quantidade Fiscal"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr "Impostos Fiscais"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__group
+msgid "Group"
+msgstr "Grupo"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_invoice_onshipping__group
+msgid ""
+"Group pickings/moves to create invoice(s):\n"
+"Picking: One invoice per picking;\n"
+"Partner: One invoice for each picking's partner;\n"
+"Partner/Product: One invoice per picking's partner and group product into a "
+"single invoice line."
+msgstr ""
+"Agrupar separações/movimentos para criar fatura(s):\n"
+"Separação: Uma fatura por separação;;\n"
+"Parceiro: Uma fatura por cada separação do parceiro;\n"
+"Parceiro/Produto: Uma fatura por separação do parceiro e agrupar produtos em "
+"uma única linha de fatura"
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:35
+#, python-format
+msgid ""
+"Invalid Journal! There is not journal defined for this company: %s in fiscal "
+"operation: %s !"
+msgstr ""
+"Diário Inválido! Não há diário definido para esta empresa: %s na operação "
+"fiscal: %s !"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
+msgid "Invoice Status"
+msgstr "Status da Fatura"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_rule__invoice_state
+msgid ""
+"Invoiced: an invoice already exists\n"
+"To Be Invoiced: need to be invoiced\n"
+"Not Applicable: no invoice to create"
+msgstr ""
+"Faturado: uma fatura já existe\n"
+"Para Faturar: é necessária ser faturado\n"
+"Não Aplicável: sem faturas para criar"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking__invoice_state
+msgid "Invoicing"
+msgstr "Faturamento"
+
+#. module: l10n_br_stock_account
+#: selection:stock.return.picking,invoice_state:0
+msgid "No invoicing"
+msgstr "Nenhum faturamento"
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/models/stock_rule.py:31
+#: selection:stock.rule,invoice_state:0
+#, python-format
+msgid "Not Applicable"
+msgstr "Não Aplicável"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_id
+msgid "Operation"
+msgstr "Operação"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_from
+msgid "Outros Custos"
+msgstr "Outros Custos"
+
+#. module: l10n_br_stock_account
+#: selection:stock.invoice.onshipping,group:0
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_stock_account
+#: selection:stock.invoice.onshipping,group:0
+msgid "Partner/Product"
+msgstr "Parceiro/Produto"
+
+#. module: l10n_br_stock_account
+#: selection:stock.invoice.onshipping,group:0
+msgid "Picking"
+msgstr "Separação"
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Tipo de Separação"
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_procurement_group
+msgid "Procurement Group"
+msgstr "Grupo de Aquisições"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
+msgid "Quantity"
+msgstr "Quantidade"
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
+msgid "Return Picking"
+msgstr "Separação de Retorno"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.fiscal_operation_form
+msgid "Stock"
+msgstr "Estoque"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__stock_fiscal_operation_id
+msgid "Stock Fiscal Operation"
+msgstr "Operação Fiscal de Estoque"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__stock_in_fiscal_operation_id
+msgid "Stock In Fiscal Operation"
+msgstr "Operação Fiscal no Estoque"
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_move
+msgid "Stock Move"
+msgstr "Movimento de Estoque"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__stock_out_fiscal_operation_id
+msgid "Stock Out Fiscal Operation"
+msgstr "Operação Fiscal de Saída de Estoque"
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_rule
+msgid "Stock Rule"
+msgstr "Regra de Estoque"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_framework
+msgid "Tax Framework"
+msgstr "Quadro Fiscal"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_from
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:36
+#, python-format
+msgid "This Fiscal Operation does not has Fiscal Operation for Returns!"
+msgstr "Esta Operação Fiscal não possui Operação Fiscal de Devolução!"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__quantity
+msgid ""
+"This is the quantity of products from an inventory point of view. For moves "
+"in the state 'done', this is the quantity of products that were actually "
+"moved. For other moves, this is the quantity of product that is planned to "
+"be moved. Lowering this quantity does not generate a backorder. Changing "
+"this quantity on assigned moves affects the product reservation, and should "
+"be done with care."
+msgstr ""
+"Esta é a quantidade de produtos do ponto de vista do estoque. Para "
+"movimentos no estado 'concluído', é a quantidade de produtos que realmente "
+"foram movidos. Para outras movimentações, esta é a quantidade de produto "
+"planejada para movimentação. A redução dessa quantidade não gera um pedido "
+"em espera. Alterar essa quantidade em movimentos atribuídos afeta a reserva "
+"do produto e deve ser feito com cuidado."
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/models/stock_rule.py:30
+#: selection:stock.rule,invoice_state:0
+#, python-format
+msgid "To Be Invoiced"
+msgstr "Para ser Faturado"
+
+#. module: l10n_br_stock_account
+#: selection:stock.return.picking,invoice_state:0
+msgid "To be refunded/invoiced"
+msgstr "Para ser reembolsado/faturado"
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__uom_id
+msgid "UOM"
+msgstr "UDM"
