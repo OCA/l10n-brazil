@@ -118,6 +118,10 @@ class CNABLine(models.Model):
             self.content_dest_model_id = self.env["ir.model"].search(
                 [("model", "=", "l10n_br_cnab.return.log")]
             )
+        elif self.type in ["header", "trailer"] and self.batch_id:
+            self.content_dest_model_id = self.env["ir.model"].search(
+                [("model", "=", "l10n_br_cnab.return.lot")]
+            )
         else:
             self.content_dest_model_id = self.env["ir.model"].search(
                 [("model", "=", "l10n_br_cnab.return.event")]
