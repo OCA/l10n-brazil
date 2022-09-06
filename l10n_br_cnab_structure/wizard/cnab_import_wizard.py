@@ -303,22 +303,31 @@ class CNABImportWizard(models.TransientModel):
 
         return value_dict
 
-    def _create_return_events(self, batches, return_log_id):
-        return_event_obj = self.env["l10n_br_cnab.return.event"]
-        for batch in batches:
-            event_value_dict = {}
-            for detail in batch["details"]:
-                for segment in detail:
-                    event_value_dict.update(self._get_dict_value_from_line(segment))
-                event_value_dict.update(
-                    self._get_dict_value_from_line(batch["header_batch_line"])
-                )
-                event_value_dict.update(
-                    self._get_dict_value_from_line(batch["trailer_batch_line"])
-                )
+    def _create_return_events(self, details, return_lot_id, return_log_id):
 
-                event_value_dict["cnab_return_log_id"] = return_log_id.id
-                return_event_obj.create(event_value_dict)
+        return_event_obj = self.env["l10n_br_cnab.return.event"]
+
+        for detail in details:
+            event_value_dict = {}
+            for segment in detail:
+                event_value_dict.update(self._get_dict_value_from_line(segment))
+            event_value_dict["lot_id"] = return_lot_id.id
+            event_value_dict["cnab_return_log_id"] = return_log_id.id
+            return_event_obj.create(event_value_dict)
+
+    def _create_return_lots(self, batches, return_log_id):
+        return_lot_obj = self.env["l10n_br_cnab.return.lot"]
+
+        for batch in batches:
+            lot_value_dict = {}
+            lot_value_dict.update(
+                self._get_dict_value_from_line(batch["header_batch_line"])
+            )
+            lot_value_dict.update(
+                self._get_dict_value_from_line(batch["trailer_batch_line"])
+            )
+            return_lot_id = return_lot_obj.create(lot_value_dict)
+            self._create_return_events(batch["details"], return_lot_id, return_log_id)
 
     def _create_return_log(self, data):
         return_log_obj = self.env["l10n_br_cnab.return.log"]
@@ -334,7 +343,7 @@ class CNABImportWizard(models.TransientModel):
 
         return_log_id = return_log_obj.create(return_dict)
 
-        self._create_return_events(data["batches"], return_log_id)
+        self._create_return_lots(data["batches"], return_log_id)
 
         return return_log_id
 
