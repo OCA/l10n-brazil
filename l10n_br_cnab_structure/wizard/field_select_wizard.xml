@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="field_select_wizard" model="ir.ui.view">
+    <record id="field_select_wizard_form" model="ir.ui.view">
         <field name="name">field.select.wizard.form</field>
         <field name="model">field.select.wizard</field>
         <field name="arch" type="xml">
         <form>
-            <field name="content_source_field" invisible="1"/>
+            <field name="notation_field" invisible="1"/>
             <field name="cnab_field_id" invisible="1"/>
-            <field name="content_source_model_id" invisible="1"/>
+            <field name="model_id" invisible="1"/>
             <field name="parent_model_id" invisible="1"/>
                <group name="name">
-                <label for="content_source_field"/>
-                <div>
-                    <field name="content_source_field" readonly="1"/>
-                </div>
+                <field name="model_id" readonly="1"/>
+                <field name="notation_field" readonly="1"/>
                 <label for="new_field_id" string="New Sub-Field"/>
                 <div>
                     <field name="new_field_id" options="{'no_create': True, 'no_open': True}"/>
