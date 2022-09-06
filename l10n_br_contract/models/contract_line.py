@@ -3,8 +3,6 @@
 
 from odoo import fields, models
 
-from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
-
 
 class ContractLine(models.Model):
     _name = "contract.line"
@@ -24,7 +22,6 @@ class ContractLine(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         related="contract_id.company_id.tax_framework",
         string="Tax Framework",
     )
