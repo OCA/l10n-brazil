@@ -34,28 +34,28 @@ class ResPartner(models.Model):
                 )
         return cnpj_cpf
 
-    @api.model
-    def create_from_ui(self, partner):
-        from erpbrasil.base import misc
+    # @api.model
+    # def create_from_ui(self, partner):
+    #     from erpbrasil.base import misc
 
-        cnpj_cpf = misc.punctuation_rm(partner["cpf-cnpj"])
-        cnpj_cpf_type = "cpf" if len(cnpj_cpf) == 11 else "cnpj"
-        partner["data_alteracao"] = fields.Date.today()
-        partner["cnpj_cpf"] = self._mask_cnpj_cpf(cnpj_cpf_type, cnpj_cpf)
-        if partner.get("whatsapp") and partner.get("opt_out"):
-            partner["whatsapp"] = "sim" == partner["whatsapp"]
-            partner["opt_out"] = "sim" == partner["opt_out"]
-        else:
-            partner["whatsapp"] = False
-            partner["opt_out"] = True
+    #     cnpj_cpf = misc.punctuation_rm(partner["vat"])
+    #     cnpj_cpf_type = "cpf" if len(cnpj_cpf) == 11 else "cnpj"
+    #     partner["data_alteracao"] = fields.Date.today()
+    #     partner["cnpj_cpf"] = self._mask_cnpj_cpf(cnpj_cpf_type, cnpj_cpf)
+    #     if partner.get("whatsapp") and partner.get("opt_out"):
+    #         partner["whatsapp"] = "sim" == partner["whatsapp"]
+    #         partner["opt_out"] = "sim" == partner["opt_out"]
+    #     else:
+    #         partner["whatsapp"] = False
+    #         partner["opt_out"] = True
 
-        res = super(ResPartner, self).create_from_ui(partner)
-        partner_id = self.browse(res)
-        partner_id.legal_name = partner["name"]
-        if partner_id.company_id:
-            partner_id.company_id = False
-        # if cnpj_cpf_type:
-        #     fiscal_type = self.env.ref('l10n_br_account.partner_fiscal_type_4')
-        #     partner_id.partner_fiscal_type_id = fiscal_type.id
+    #     res = super(ResPartner, self).create_from_ui(partner)
+    #     partner_id = self.browse(res)
+    #     partner_id.legal_name = partner["name"]
+    #     if partner_id.company_id:
+    #         partner_id.company_id = False
+    #     # if cnpj_cpf_type:
+    #     #     fiscal_type = self.env.ref('l10n_br_account.partner_fiscal_type_4')
+    #     #     partner_id.partner_fiscal_type_id = fiscal_type.id
 
-        return res
+    #     return res
