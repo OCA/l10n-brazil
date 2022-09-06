@@ -1,9 +1,6 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
-from datetime import timedelta
-
-from satcomum.ersat import ChaveCFeSAT
 
 from odoo import api, fields, models
 
@@ -232,52 +229,52 @@ class PosOrder(models.Model):
         }
         return attachment.create(vals)
 
-    @api.model
-    def _process_order(self, pos_order_vals):
-        order = super(
-            PosOrder,
-            self.with_context(
-                mail_create_nolog=True,
-                tracking_disable=True,
-                mail_create_nosubscribe=True,
-                mail_notrack=True,
-            ),
-        )._process_order(pos_order_vals)
-        document_file = pos_order_vals.get("document_file")
-        if document_file:
-            order.document_file_id = order._save_attachment(
-                file_name=order.document_key + ".xml", file_content=document_file
-            ).id
-        return order
+    # @api.model
+    # def _process_order(self, pos_order_vals):
+    #     order = super(
+    #         PosOrder,
+    #         self.with_context(
+    #             mail_create_nolog=True,
+    #             tracking_disable=True,
+    #             mail_create_nosubscribe=True,
+    #             mail_notrack=True,
+    #         ),
+    #     )._process_order(pos_order_vals)
+    #     document_file = pos_order_vals.get("document_file")
+    #     if document_file:
+    #         order.document_file_id = order._save_attachment(
+    #             file_name=order.document_key + ".xml", file_content=document_file
+    #         ).id
+    #     return order
 
-    @api.model
-    def _order_fields(self, ui_order):
-        result = super()._order_fields(ui_order)
-        ui_order.get("document_type")
-        temp = {
-            "document_authorization_date": ui_order.get("document_authorization_date"),
-            "document_status_code": ui_order.get("document_status_code"),
-            "document_status_name": ui_order.get("document_status_name"),
-            "document_session_number": ui_order.get("document_session_number"),
-            "document_key": ui_order.get("document_key"),
-            "cnpj_cpf": ui_order.get("cnpj_cpf"),
-            "fiscal_operation_id": ui_order.get("fiscal_operation_id"),
-            "document_type_id": ui_order.get("document_type_id"),
-        }
-        document_key = ui_order.get("document_key")
-        if document_key:
-            key = ChaveCFeSAT(document_key)
-            temp.update(
-                {
-                    "document_number": key.numero_cupom_fiscal,
-                    "document_serie": key.numero_serie,
-                }
-            )
-        result.update(temp)
-        result["fiscal_coupon_date"] = fields.Datetime.from_string(
-            ui_order.get("fiscal_coupon_date", fields.Datetime.now())
-        ) + timedelta(hours=3)
-        return result
+    # @api.model
+    # def _order_fields(self, ui_order):
+    #     result = super()._order_fields(ui_order)
+    #     ui_order.get("document_type")
+    #     temp = {
+    #         "document_authorization_date": ui_order.get("document_authorization_date"),
+    #         "document_status_code": ui_order.get("document_status_code"),
+    #         "document_status_name": ui_order.get("document_status_name"),
+    #         "document_session_number": ui_order.get("document_session_number"),
+    #         "document_key": ui_order.get("document_key"),
+    #         "cnpj_cpf": ui_order.get("cnpj_cpf"),
+    #         "fiscal_operation_id": ui_order.get("fiscal_operation_id"),
+    #         "document_type_id": ui_order.get("document_type_id"),
+    #     }
+    #     document_key = ui_order.get("document_key")
+    #     if document_key:
+    #         key = ChaveCFeSAT(document_key)
+    #         temp.update(
+    #             {
+    #                 "document_number": key.numero_cupom_fiscal,
+    #                 "document_serie": key.numero_serie,
+    #             }
+    #         )
+    #     result.update(temp)
+    #     result["fiscal_coupon_date"] = fields.Datetime.from_string(
+    #         ui_order.get("fiscal_coupon_date", fields.Datetime.now())
+    #     ) + timedelta(hours=3)
+    #     return result
 
     # @api.model
     # def _pos_order_type(self):
