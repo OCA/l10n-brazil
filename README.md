@@ -45,6 +45,7 @@ addon | version | maintainers | summary
 [l10n_br_sale](l10n_br_sale/) | 14.0.1.1.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
 [l10n_br_sale_invoice_plan](l10n_br_sale_invoice_plan/) | 14.0.1.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Sale Invoice Plan
 [l10n_br_stock](l10n_br_stock/) | 14.0.2.0.0 |  | Brazilian Localization Warehouse
+[l10n_br_stock_account](l10n_br_stock_account/) | 14.0.1.0.0 |  | Brazilian Localization WMS Accounting
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.1.0.0 |  | Website sale localização brasileira.
 [l10n_br_zip](l10n_br_zip/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 [payment_pagseguro](payment_pagseguro/) | 14.0.1.0.1 |  | Payment Acquirer: PagSeguro Implementation
