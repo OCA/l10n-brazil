@@ -10,6 +10,8 @@ class L10nBrPosProductFiscalMap(models.Model):
     _description = "Pos Product Fiscal Map"
     _inherit = "l10n_br_fiscal.document.line.mixin"
 
+    name = fields.Char()
+
     partner_id = fields.Many2one(
         comodel_name="res.partner",
     )
@@ -79,6 +81,8 @@ class L10nBrPosProductFiscalMap(models.Model):
     company_tax_framework = fields.Selection(
         related="company_id.tax_framework",
     )
+
+    ind_final = fields.Selection(related="partner_id.ind_final")
 
     def _get_product_price(self):
         self.price_unit = 1

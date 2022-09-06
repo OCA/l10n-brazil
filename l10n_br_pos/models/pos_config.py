@@ -188,9 +188,14 @@ class PosConfig(models.Model):
             product_tmpl_ids = self.env["product.template"].search(
                 [("available_in_pos", "=", True)]
             )
-            record.pos_fiscal_map_ids.unlink()
+
+            pos_fiscal_map_ids = record.pos_fiscal_map_ids.search(
+                [("pos_config_id", "=", record.id)]
+            )
+            pos_fiscal_map_ids.unlink()
+
             for product in product_tmpl_ids:
-                product.with_delay().update_pos_fiscal_map()
+                product.update_pos_fiscal_map()
 
     @api.model
     def update_sessao_sat(self, config_id):
