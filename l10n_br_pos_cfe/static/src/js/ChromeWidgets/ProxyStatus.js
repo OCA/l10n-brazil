@@ -13,12 +13,13 @@ odoo.define("l10n_br_pos_cfe.ProxyStatus", function (require) {
         class CFeProxyStatus extends ProxyStatus {
             _setStatus(newStatus) {
                 super._setStatus(newStatus);
-                if (this.pos.config.iface_fiscal_via_proxy) {
-                    var cfeStatus = status.drivers.hw_fiscal
-                        ? status.drivers.hw_fiscal.status
+                var warning = false;
+                var msg = '';
+                if (this.env.pos.config.iface_fiscal_via_proxy) {
+                    var cfeStatus = newStatus.drivers.hw_fiscal
+                        ? newStatus.drivers.hw_fiscal.status
                         : false;
                     if (cfeStatus != "connected" && cfeStatus != "connecting") {
-                        warning = true;
                         if (msg) {
                             msg = this.env._t("Fiscal") + " & " + msg;
                         } else {

@@ -5,22 +5,97 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-odoo.define("l10n_br_pos.devices", function (require) {
+odoo.define("l10n_br_pos_cfe.devices", function (require) {
     "use strict";
     var devices = require("point_of_sale.devices");
-    var core = require("web.core");
-    var rpc = require("web.rpc");
-    var _t = core._t;
+    var FiscalDocumentCFe = require('l10n_br_pos_cfe.FiscalDocumentCFe').FiscalDocumentCFe;
 
     var ProxyDeviceSuper = devices.ProxyDevice;
 
     devices.ProxyDevice = devices.ProxyDevice.extend({
-        init: function (parent, options) {
-            var res = ProxyDeviceSuper.prototype.init.call(this, parent, options);
-            // This.customer_display_proxy = false;
-            this.fiscal_queue = [];
+        init: function () {
+            var res = ProxyDeviceSuper.prototype.init.apply(this, arguments);
+
+            this.on('change:status',this,function(eh,status){
+                status = status.newValue;
+                if(status.status === 'connected' && self.fiscal_device) {
+                    self.fiscal_device.send_order();
+                    // TODO: Criar uma abstração na fila para processar todas as ações.
+                }
+            });
+
             return res;
         },
+        connect: function (url) {
+            var result = ProxyDeviceSuper.prototype.connect.apply(this, arguments);
+            this.connect_to_fiscal_device();
+            return result;
+        },
+        autoconnect: function (options) {
+            var result = ProxyDeviceSuper.prototype.autoconnect.apply(this, arguments);
+            this.connect_to_fiscal_device();
+            return result;
+        },
+        keepalive: function (options) {
+            var result = ProxyDeviceSuper.prototype.keepalive.apply(this, arguments);
+            return result;
+        },
+        connect_to_fiscal_device: function () {
+            if (this.pos.config.iface_fiscal_via_proxy) {
+                this.fiscal_device = new FiscalDocumentCFe(this.host, this.pos);
+                this.fiscal_device_contingency = this.fiscal_device;
+            }
+        },
+
+
+
+//        keepalive: function () {
+//            var self = this;
+//            if (!this.keptalive) {
+//                this.keptalive = true;
+//                function status() {
+//                    self.connection
+//                        .rpc("/hw_proxy/status_json", {}, {timeout: 2500})
+//                        .then(
+//                            function (driver_status) {
+//                                if (
+//                                    self.pos.config.iface_fiscal_via_proxy &&
+//                                    !driver_status.hasOwnProperty("hw_fiscal")
+//                                ) {
+//                                    self.pos.proxy.init_sat(self.pos.config);
+//                                } else {
+//                                    const status = self.pos.proxy.get("status");
+//                                    if ("scanner" in status.drivers) {
+//                                        driver_status.scanner = status.drivers.scanner;
+//                                    }
+//                                    self.set_connection_status(
+//                                        "connected",
+//                                        driver_status
+//                                    );
+//                                }
+//                            },
+//                            function () {
+//                                if (
+//                                    self.get("status").driver_statusstatus !==
+//                                    "connecting"
+//                                ) {
+//                                    self.set_connection_status("disconnected");
+//                                }
+//                            }
+//                        )
+//                        .always(function () {
+//                            setTimeout(status, 5000);
+//                        });
+//                }
+//                status();
+//            }
+//        },
+
+
+
+
+
+
         init_sat: function (config) {
             var self = this;
             var j = {
@@ -32,47 +107,6 @@ odoo.define("l10n_br_pos.devices", function (require) {
                 assinatura: config.assinatura_sat,
             };
             self.message("init", {json: j}, {timeout: 5000});
-        },
-        keepalive: function () {
-            var self = this;
-            if (!this.keptalive) {
-                this.keptalive = true;
-                function status() {
-                    self.connection
-                        .rpc("/hw_proxy/status_json", {}, {timeout: 2500})
-                        .then(
-                            function (driver_status) {
-                                if (
-                                    self.pos.config.iface_fiscal_via_proxy &&
-                                    !driver_status.hasOwnProperty("hw_fiscal")
-                                ) {
-                                    self.pos.proxy.init_sat(self.pos.config);
-                                } else {
-                                    const status = self.pos.proxy.get("status");
-                                    if ("scanner" in status.drivers) {
-                                        driver_status.scanner = status.drivers.scanner;
-                                    }
-                                    self.set_connection_status(
-                                        "connected",
-                                        driver_status
-                                    );
-                                }
-                            },
-                            function () {
-                                if (
-                                    self.get("status").driver_statusstatus !==
-                                    "connecting"
-                                ) {
-                                    self.set_connection_status("disconnected");
-                                }
-                            }
-                        )
-                        .always(function () {
-                            setTimeout(status, 5000);
-                        });
-                }
-                status();
-            }
         },
         reprint_cfe: function (order) {
             var self = this;
