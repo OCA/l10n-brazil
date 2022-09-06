@@ -957,13 +957,13 @@ class NFe(spec_models.StackedModel):
         return etree.tostring(new_root)
 
     def _document_cancel(self, justificative):
-        super(NFe, self)._document_cancel(justificative)
-        online_event = self.filtered(filter_processador_edoc_nfe)
-        if online_event:
-            online_event._nfe_cancel()
+        self.ensure_one()
+        super()._document_cancel(justificative)
+        edoc = self.filtered(filter_processador_edoc_nfe)
+        if edoc.filtered(lambda r: r.issuer == DOCUMENT_ISSUER_COMPANY):
+            edoc._nfe_cancel()
 
     def _nfe_cancel(self):
-        self.ensure_one()
         processador = self._processador()
 
         if not self.authorization_protocol:
