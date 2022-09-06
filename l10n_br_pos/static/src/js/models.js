@@ -246,7 +246,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
         document_send: async function () {
             this.document_event_messages.push({
-                id: 1,
+                id: 1000,
                 label: "Iniciando Processo de Transmissão",
             });
             this._document_status_popup();
@@ -259,7 +259,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 var processor = await this._document_get_processor();
                 if (processor) {
                     // Efetivamente envia o documento fiscal
-                    processor_result = await processor._document_send(this);
+                    processor_result = await processor.send_order(this);
                     // Valida se foi emitido corretamente e salva os dados do resulto
                     result = await this._document_check_result(processor_result);
                 }
@@ -268,7 +268,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
         _document_validate: async function () {
             this.document_event_messages.push({
-                id: 2,
+                id: 1002,
                 label: "Validando documento fiscal",
             });
             this._document_status_popup();
@@ -287,7 +287,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
         _document_get_processor: async function () {
             this.document_event_messages.push({
-                id: 3,
+                id: 1003,
                 label: "Sem processador localizado",
             });
             this._document_status_popup();
@@ -295,21 +295,24 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
         _document_check_result: async function (processor_result) {
             this.document_event_messages.push({
-                id: 4,
+                id: 1004,
                 label: "Validando retorno do envio",
             });
             this._document_status_popup();
         },
         document_cancel: async function (cancel_reason) {
             this.document_event_messages.push({
-                id: 5,
+                id: 2001,
                 label: "Cancelando o documento fiscal",
             });
             this._document_status_popup();
             await this._document_cancel(cancel_reason);
         },
         _document_cancel: async function (cancel_reason) {
-            this.document_event_messages.push({id: 6, label: "Cancelado com sucesso"});
+            this.document_event_messages.push({
+                id: 2002,
+                label: "Cancelado com sucesso",
+            });
             this._document_status_popup();
         },
         add_product: function (product, options) {
