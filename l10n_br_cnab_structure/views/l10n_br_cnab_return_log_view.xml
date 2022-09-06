@@ -32,6 +32,7 @@
                             <field name="return_file" filename="filename" />
                             <field name="filename" invisible="1" />
                             <field name="cnab_date_file" />
+                            <field name="bank_id" />
                             <field name="bank_account_id" />
                             <field name="cnab_date_import" />
                         </group>
