@@ -281,20 +281,61 @@ class CNABImportWizard(models.TransientModel):
         data["batches"] = self._get_batches(lines)
         return data
 
+    def _parse_value(self, value, fld):
+        if fld.type == "num":
+            if fld.assumed_comma > 0:
+                value = float(value) / (10 ^ fld.assumed_comma)
+            else:
+                value = int(value)
+        return value
+
+    def _get_dict_value_from_line(self, data_line):
+        value_dict = {}
+
+        for fld in data_line["line_template"].field_ids:
+            if fld.content_dest_field:
+                value = data_line["raw_line"][fld.start_pos - 1 : fld.end_pos]
+                if fld.return_dynamic_content:
+                    value = fld.eval_compute_value(value)
+                else:
+                    value = self._parse_value(value, fld)
+                value_dict[fld.content_dest_field] = value
+
+        return value_dict
+
+    def _create_return_events(self, batches, return_log_id):
+        return_event_obj = self.env["l10n_br_cnab.return.event"]
+        for batch in batches:
+            event_value_dict = {}
+            for detail in batch["details"]:
+                for segment in detail:
+                    event_value_dict.update(self._get_dict_value_from_line(segment))
+                event_value_dict.update(
+                    self._get_dict_value_from_line(batch["header_batch_line"])
+                )
+                event_value_dict.update(
+                    self._get_dict_value_from_line(batch["trailer_batch_line"])
+                )
+
+                event_value_dict["cnab_return_log_id"] = return_log_id.id
+                return_event_obj.create(event_value_dict)
+
     def _create_return_log(self, data):
         return_log_obj = self.env["l10n_br_cnab.return.log"]
+        return_dict = {
+            "name": f"Banco {self.journal_id.bank_id.short_name} - Conta {self.journal_id.bank_account_id.acc_number}",
+            "filename": self.filename,
+            "cnab_date_import": fields.Datetime.now(),
+            "journal_id": self.journal_id.id,
+            "return_file": self.return_file,
+        }
+        return_dict.update(self._get_dict_value_from_line(data["header_file_line"]))
+        return_dict.update(self._get_dict_value_from_line(data["trailer_file_line"]))
 
-        # TODO completar dados dinamicamente
-        return_log_id = return_log_obj.create(
-            {
-                "name": "Banco ",
-                "cnab_date_import": fields.Datetime.now(),
-                "journal_id": self.journal_id.id,
-                "bank_account_id": self.journal_id.bank_account_id.id,
-                "return_file": self.return_file,
-                "type": self.type,
-            }
-        )
+        return_log_id = return_log_obj.create(return_dict)
+
+        self._create_return_events(data["batches"], return_log_id)
+
         return return_log_id
 
     def _import_cnab_240(self):
