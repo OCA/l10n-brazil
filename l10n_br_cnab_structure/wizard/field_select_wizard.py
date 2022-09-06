@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class FieldSelectWizard(models.TransientModel):
@@ -9,10 +10,12 @@ class FieldSelectWizard(models.TransientModel):
     _name = "field.select.wizard"
     _description = "Field Select Wizard"
 
-    content_source_field = fields.Char()
+    notation_field = fields.Char()
 
-    content_source_field_view = fields.Char(
-        compute="_compute_content_source_field_view",
+    current_view = fields.Char()
+
+    notation_field_view = fields.Char(
+        compute="_compute_notation_field_view",
     )
 
     cnab_field_id = fields.Many2one(
@@ -20,10 +23,9 @@ class FieldSelectWizard(models.TransientModel):
         string="CNAB Field",
     )
 
-    content_source_model_id = fields.Many2one(
+    model_id = fields.Many2one(
         "ir.model",
         string="Related Model",
-        related="cnab_field_id.content_source_model_id",
     )
 
     new_field_id = fields.Many2one(
@@ -37,11 +39,11 @@ class FieldSelectWizard(models.TransientModel):
         compute="_compute_parent_model_id",
     )
 
-    @api.depends("content_source_model_id")
+    @api.depends("model_id")
     def _compute_parent_model_id(self):
-        model = self.content_source_model_id
-        if self.content_source_field:
-            dn_fields = self.content_source_field.split(".")
+        model = self.model_id
+        if self.notation_field:
+            dn_fields = self.notation_field.split(".")
             for fld in dn_fields:
                 field_id = self.env["ir.model.fields"].search(
                     [("model_id", "=", model.id), ("name", "=", fld)]
@@ -51,19 +53,28 @@ class FieldSelectWizard(models.TransientModel):
 
     def _update_dot_notation(self):
         if self.new_field_id:
-            self.content_source_field = self.content_source_field or ""
-            self.content_source_field += "." if self.content_source_field else ""
-            self.content_source_field += self.new_field_id.name
+            if self.current_view == "return" and self.notation_field:
+                raise UserError(
+                    _(
+                        "For the return it is not allowed to map sub-fields in more than one level."
+                    )
+                )
+            self.notation_field = self.notation_field or ""
+            self.notation_field += "." if self.notation_field else ""
+            self.notation_field += self.new_field_id.name
 
     def action_confirm(self):
         "Action Confirm"
-        self.cnab_field_id.content_source_field = self.content_source_field
+        if self.current_view == "sending":
+            self.cnab_field_id.content_source_field = self.notation_field
+        if self.current_view == "return":
+            self.cnab_field_id.content_dest_field = self.notation_field
         return
 
     def action_remove_last_field(self):
         "Action Confirm"
-        strings = self.content_source_field.split(".")[:-1]
-        self.content_source_field = ".".join(strings)
+        strings = self.notation_field.split(".")[:-1]
+        self.notation_field = ".".join(strings)
         return {
             "type": "ir.actions.act_window",
             "view_mode": "form",
@@ -72,12 +83,14 @@ class FieldSelectWizard(models.TransientModel):
             "target": "new",
             "context": {
                 "default_cnab_field_id": self.cnab_field_id.id,
-                "default_content_source_field": self.content_source_field,
+                "default_notation_field": self.notation_field,
+                "default_model_id": self.model_id.id,
+                "default_current_view": self.current_view,
             },
         }
 
-    def _compute_content_source_field_view(self):
-        self.content_source_field_view = self.content_source_field.replace(".", "→")
+    def _compute_notation_field_view(self):
+        self.notation_field_view = self.notation_field.replace(".", "→")
 
     def action_add_field(self):
         "Action Add Field"
@@ -90,6 +103,8 @@ class FieldSelectWizard(models.TransientModel):
             "target": "new",
             "context": {
                 "default_cnab_field_id": self.cnab_field_id.id,
-                "default_content_source_field": self.content_source_field,
+                "default_notation_field": self.notation_field,
+                "default_model_id": self.model_id.id,
+                "default_current_view": self.current_view,
             },
         }

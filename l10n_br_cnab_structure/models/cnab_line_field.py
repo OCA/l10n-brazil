@@ -112,6 +112,12 @@ class CNABField(models.Model):
 
     def action_change_field(self):
         "action for change for field"
+        if self.cnab_line_id.current_view == "sending":
+            notation_field = self.content_source_field
+            model_id = self.content_source_model_id
+        if self.cnab_line_id.current_view == "return":
+            notation_field = self.content_dest_field
+            model_id = self.content_dest_model_id
         return {
             "name": _("Change Dot Notation Field"),
             "type": "ir.actions.act_window",
@@ -121,7 +127,9 @@ class CNABField(models.Model):
             "target": "new",
             "context": {
                 "default_cnab_field_id": self.id,
-                "default_content_source_field": self.content_source_field,
+                "default_notation_field": notation_field,
+                "default_model_id": model_id.id,
+                "default_current_view": self.cnab_line_id.current_view,
             },
         }
 
