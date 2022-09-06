@@ -10,8 +10,7 @@ odoo.define("l10n_br_pos.models", function (require) {
     const utils = require("web.utils");
     const models = require("point_of_sale.models");
     const util = require("l10n_br_pos.util");
-    const { Gui } = require('point_of_sale.Gui');
-
+    const {Gui} = require("point_of_sale.Gui");
 
     const round_pr = utils.round_precision;
     const _t = core._t;
@@ -28,7 +27,7 @@ odoo.define("l10n_br_pos.models", function (require) {
     ];
     models.load_fields("res.partner", partner_company_fields.concat(["ind_ie_dest"]));
     models.load_fields("res.company", partner_company_fields.concat(["tax_framework"]));
-    // models.load_fields("uom.uom", ["code"]); Verificar se o vazio do core pega tudo.
+    // Models.load_fields("uom.uom", ["code"]); Verificar se o vazio do core pega tudo.
     models.load_fields("product.product", [
         "tax_icms_or_issqn",
         "fiscal_type",
@@ -186,7 +185,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         get_cnpj_cpf: function () {
             return this.cnpj_cpf;
         },
-        _prepare_fiscal_json: function(json){
+        _prepare_fiscal_json: function (json) {
             json.cnpj_cpf = this.cnpj_cpf;
             json.fiscal_operation_id = this.fiscal_operation_id;
             json.document_type = this.document_type;
@@ -229,22 +228,27 @@ odoo.define("l10n_br_pos.models", function (require) {
             /* Compute fiscal message */
             return new Function(`return \`${templateString}\`;`).call(this, taxes);
         },
-        _document_status_popup: function(){
+        _document_status_popup: function () {
             var msgs = [];
-            this.document_event_messages.forEach( (element) => {msgs.push({
-                   id: element['id'],
-                   label: element['label'],
-                   item: element['id'],
-            })});
+            this.document_event_messages.forEach((element) => {
+                msgs.push({
+                    id: element.id,
+                    label: element.label,
+                    item: element.id,
+                });
+            });
             const result = Gui.showPopup("SelectionPopup", {
                 title: _t("Status documento fiscal"),
                 list: this.document_event_messages,
-                confirmText: 'Confirm',
-                cancelText: 'Cancel',
+                confirmText: "Confirm",
+                cancelText: "Cancel",
             });
         },
-        document_send: async function() {
-            this.document_event_messages.push({id: 1, label: "Iniciando Processo de Transmissão"});
+        document_send: async function () {
+            this.document_event_messages.push({
+                id: 1,
+                label: "Iniciando Processo de Transmissão",
+            });
             this._document_status_popup();
             var result = false;
             var processor_result = null;
@@ -253,7 +257,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             if (result) {
                 // Obtem o responsável pelo envio do documento fiscal;
                 var processor = await this._document_get_processor();
-                if (processor){
+                if (processor) {
                     // Efetivamente envia o documento fiscal
                     processor_result = await processor._document_send(this);
                     // Valida se foi emitido corretamente e salva os dados do resulto
@@ -262,8 +266,11 @@ odoo.define("l10n_br_pos.models", function (require) {
             }
             return result;
         },
-        _document_validate: async function() {
-            this.document_event_messages.push({id: 2, label: "Validando documento fiscal"});
+        _document_validate: async function () {
+            this.document_event_messages.push({
+                id: 2,
+                label: "Validando documento fiscal",
+            });
             this._document_status_popup();
 
             //     // if (order.is_to_invoice()) {
@@ -278,21 +285,30 @@ odoo.define("l10n_br_pos.models", function (require) {
 
             return true;
         },
-        _document_get_processor: async function() {
-            this.document_event_messages.push({id: 3, label: "Sem processador localizado"});
+        _document_get_processor: async function () {
+            this.document_event_messages.push({
+                id: 3,
+                label: "Sem processador localizado",
+            });
             this._document_status_popup();
             return null;
         },
-        _document_check_result: async function(processor_result){
-            this.document_event_messages.push({id: 4, label: "Validando retorno do envio"});
+        _document_check_result: async function (processor_result) {
+            this.document_event_messages.push({
+                id: 4,
+                label: "Validando retorno do envio",
+            });
             this._document_status_popup();
         },
-        document_cancel: async function(cancel_reason){
-            this.document_event_messages.push({id: 5, label: "Cancelando o documento fiscal"});
+        document_cancel: async function (cancel_reason) {
+            this.document_event_messages.push({
+                id: 5,
+                label: "Cancelando o documento fiscal",
+            });
             this._document_status_popup();
             await this._document_cancel(cancel_reason);
         },
-        _document_cancel: async function(cancel_reason){
+        _document_cancel: async function (cancel_reason) {
             this.document_event_messages.push({id: 6, label: "Cancelado com sucesso"});
             this._document_status_popup();
         },
@@ -316,7 +332,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             //                });
             //            } else {
             //            }
-          return _super_order.add_product.apply(this, arguments);
+            return _super_order.add_product.apply(this, arguments);
         },
     });
 
@@ -329,7 +345,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             var product_fiscal_map =
                 self.pos.fiscal_map_by_template_id[product.product_tmpl_id];
 
-            // result.additional_data = product_fiscal_map.additional_data || "";
+            // Result.additional_data = product_fiscal_map.additional_data || "";
             // result.amount_estimate_tax = product_fiscal_map.amount_estimate_tax;
             // result.cest_id = product.cest_id;
             // result.cfop = product_fiscal_map.cfop_code;
