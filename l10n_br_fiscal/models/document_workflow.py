@@ -337,7 +337,6 @@ class DocumentWorkflow(models.AbstractModel):
 
     def _document_cancel(self, justificative):
         self.ensure_one()
-        self.cancel_reason = justificative
         if self._change_state(SITUACAO_EDOC_CANCELADA):
             self.cancel_reason = justificative
 
