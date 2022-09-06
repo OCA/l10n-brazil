@@ -31,6 +31,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_purchase_request',
         'odoo14-addon-l10n_br_resource',
         'odoo14-addon-l10n_br_sale',
+        'odoo14-addon-l10n_br_sale_invoice_plan',
         'odoo14-addon-l10n_br_stock',
         'odoo14-addon-l10n_br_website_sale',
         'odoo14-addon-l10n_br_zip',
