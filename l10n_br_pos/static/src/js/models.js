@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2016-Today KMEE (https://kmee.com.br)
+@author: Luis Felipe Mileo <mileo@kmee.com.br>
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
@@ -125,11 +126,6 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.init_locked = false;
             this.save_to_db();
         },
-        export_as_JSON: function () {
-            var json = _super_order.export_as_JSON.call(this);
-            this._prepare_fiscal_json(json);
-            return json;
-        },
         init_from_JSON: function (json) {
             _super_order.init_from_JSON.apply(this, arguments);
             this.cnpj_cpf = json.cnpj_cpf;
@@ -137,36 +133,63 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.document_type = json.document_type;
             this.document_type_id = json.document_type_id;
         },
-        clone: function () {
-            var order = _super_order.clone.call(this);
-            order.cnpj_cpf = null;
-            return order;
-        },
-        export_for_printing: function () {
-            var result = _super_order.export_for_printing.apply(this, arguments);
-            result.orderlines = _.filter(result.orderlines, function (line) {
-                return line.price !== 0;
-            });
+        _prepare_fiscal_json: function (json) {
             var company = this.pos.company;
 
-            result.company = {};
-            result.configs_sat = {};
-            result.pos_session_id = this.pos.pos_session.id;
-            result.client = this.get_cnpj_cpf();
+            json.company = {};
+            json.configs_sat = {};
+            json.pos_session_id = this.pos.pos_session.id;
+            json.client = this.get_cnpj_cpf();
 
-            result.company.cnpj = company.cnpj;
-            result.company.ie = company.ie;
-            result.company.tax_framework = company.tax_framework;
+            json.company.cnpj = company.cnpj;
+            json.company.ie = company.ie;
+            json.company.tax_framework = company.tax_framework;
 
             if (this.pos.config.additional_data) {
-                var taxes = this.get_taxes_and_percentages(result);
-                result.additional_data = this.compute_message(
+                var taxes = this.get_taxes_and_percentages(json);
+                json.additional_data = this.compute_message(
                     this.pos.config.additional_data,
                     taxes
                 );
             }
 
-            return result;
+            json.cnpj_cpf = this.cnpj_cpf;
+            json.fiscal_operation_id = this.fiscal_operation_id;
+            json.document_type = this.document_type;
+            json.document_type_id = this.document_type_id;
+            json.document_authorization_date = this.document_authorization_date;
+            json.document_status_code = this.document_status_code;
+            json.document_status_name = this.document_status_name;
+            json.document_session_number = this.document_session_number;
+            json.document_key = this.document_key;
+            json.document_file = this.document_file;
+            json.fiscal_coupon_date = this.fiscal_coupon_date;
+        },
+        // export_as_JSON: function () {
+        //     // TODO: O método export_as_JSON só deve ter os dados
+        //     // necessários para a emissão do cumpom fiscal
+        //     var json = _super_order.export_as_JSON.call(this);
+        //     // Remove lines without price
+        //     json.orderlines = _.filter(json.orderlines, function (line) {
+        //         return line.price !== 0;
+        //     });
+        //     this._prepare_fiscal_json(json);
+        //     return json;
+        // },
+        export_for_printing: function () {
+            // TODO: O método export_for_printing só deve ter os dados para impressão
+            var json = _super_order.export_for_printing.apply(this, arguments);
+            // Remove lines without price
+            json.orderlines = _.filter(json.orderlines, function (line) {
+                return line.price !== 0;
+            });
+            this._prepare_fiscal_json(json);
+            return json;
+        },
+        clone: function () {
+            var order = _super_order.clone.call(this);
+            order.cnpj_cpf = null;
+            return order;
         },
         // FISCAL METHODS
         set_cnpj_cpf: function (cnpj_cpf) {
@@ -184,19 +207,6 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
         get_cnpj_cpf: function () {
             return this.cnpj_cpf;
-        },
-        _prepare_fiscal_json: function (json) {
-            json.cnpj_cpf = this.cnpj_cpf;
-            json.fiscal_operation_id = this.fiscal_operation_id;
-            json.document_type = this.document_type;
-            json.document_type_id = this.document_type_id;
-            json.document_authorization_date = this.document_authorization_date;
-            json.document_status_code = this.document_status_code;
-            json.document_status_name = this.document_status_name;
-            json.document_session_number = this.document_session_number;
-            json.document_key = this.document_key;
-            json.document_file = this.document_file;
-            json.fiscal_coupon_date = this.fiscal_coupon_date;
         },
         get_taxes_and_percentages: function (order) {
             var taxes = {
@@ -341,52 +351,77 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     var _super_order_line = models.Orderline.prototype;
     models.Orderline = models.Orderline.extend({
-        export_for_printing: function () {
-            var result = _super_order_line.export_for_printing.apply(this, arguments);
+        _prepare_fiscal_json: function (json) {
             var self = this;
             var product = this.get_product();
             var product_fiscal_map =
                 self.pos.fiscal_map_by_template_id[product.product_tmpl_id];
 
-            result.cest_id = product.cest_id;
-            result.city_taxation_code_id = product.city_taxation_code_id;
-            result.fiscal_genre_code = product.fiscal_genre_code;
-            result.fiscal_genre_id = product.fiscal_genre_id;
-            result.fiscal_type = product.fiscal_type;
-            result.icms_origin = product.icms_origin;
-            result.ipi_control_seal_id = product.ipi_control_seal_id;
-            result.ipi_guideline_class_id = product.ipi_guideline_class_id;
-            result.nbs_id = product.nbs_id;
-            result.product_default_code = product.default_code;
-            result.product_ean = product.barcode;
-            result.service_type_id = product.service_type_id;
-            result.tax_icms_or_issqn = product.tax_icms_or_issqn;
-            result.unit_code = this.get_unit().code;
+            json.cest_id = product.cest_id;
+            json.city_taxation_code_id = product.city_taxation_code_id;
+            json.fiscal_genre_code = product.fiscal_genre_code;
+            json.fiscal_genre_id = product.fiscal_genre_id;
+            json.fiscal_type = product.fiscal_type;
+            json.icms_origin = product.icms_origin;
+            json.ipi_control_seal_id = product.ipi_control_seal_id;
+            json.ipi_guideline_class_id = product.ipi_guideline_class_id;
+            json.nbs_id = product.nbs_id;
+            json.product_default_code = product.default_code;
+            json.product_ean = product.barcode;
+            json.service_type_id = product.service_type_id;
+            json.tax_icms_or_issqn = product.tax_icms_or_issqn;
+            json.unit_code = this.get_unit().code;
 
             if (product_fiscal_map) {
-                result.additional_data = product_fiscal_map.additional_data || "";
-                result.amount_estimate_tax = product_fiscal_map.amount_estimate_tax;
-                result.cfop = product_fiscal_map.cfop_code;
-                result.cofins_base = product_fiscal_map.cofins_base;
-                result.cofins_cst_code = product_fiscal_map.cofins_cst_code;
-                result.cofins_percent = product_fiscal_map.cofins_percent;
-                result.company_tax_framework = product_fiscal_map.company_tax_framework;
-                result.icms_cst_code = product_fiscal_map.icms_cst_code;
-                result.icms_effective_percent =
+                json.additional_data = product_fiscal_map.additional_data || "";
+                json.amount_estimate_tax = product_fiscal_map.amount_estimate_tax || 0;
+                json.cfop = product_fiscal_map.cfop_code;
+                json.cofins_base = product_fiscal_map.cofins_base;
+                json.cofins_cst_code = product_fiscal_map.cofins_cst_code;
+                json.cofins_percent = product_fiscal_map.cofins_percent;
+                json.company_tax_framework = product_fiscal_map.company_tax_framework;
+                json.icms_cst_code = product_fiscal_map.icms_cst_code;
+                json.icms_effective_percent =
                     product_fiscal_map.icms_effective_percent;
-                result.icms_percent = product_fiscal_map.icms_percent;
-                result.icmssn_percent = product_fiscal_map.icmssn_percent;
-                result.ncm =
+                json.icms_percent = product_fiscal_map.icms_percent;
+                json.icmssn_percent = product_fiscal_map.icmssn_percent;
+                json.ncm =
                     product_fiscal_map.ncm_code === "00000000"
                         ? "99999999"
                         : product_fiscal_map.ncm_code;
-                result.ncm_code_exception = product_fiscal_map.ncm_code_exception;
-                result.pis_base = product_fiscal_map.pis_base;
-                result.pis_cst_code = product_fiscal_map.pis_cst_code;
-                result.pis_percent = product_fiscal_map.pis_percent;
+                json.ncm_code_exception = product_fiscal_map.ncm_code_exception;
+                json.pis_base = product_fiscal_map.pis_base;
+                json.pis_cst_code = product_fiscal_map.pis_cst_code;
+                json.pis_percent = product_fiscal_map.pis_percent;
             }
+        },
+        // export_as_JSON: function () {
+        //     var json = _super_order_line.export_as_JSON.apply(this, arguments);
+        //     this._prepare_fiscal_json(json);
+        //     return json;
+        // },
+        export_for_printing: function () {
+            var json = _super_order_line.export_for_printing.apply(this, arguments);
+            this._prepare_fiscal_json(json);
+            return json;
+        },
+    });
 
-            return result;
+
+    var _super_payment_line = models.Paymentline.prototype;
+    models.Paymentline = models.Paymentline.extend({
+        _prepare_fiscal_json: function (json) {
+            console.log("Verificar dados necessários da payment line");
+        },
+        // export_as_JSON: function () {
+        //     var json = _super_payment_line.export_as_JSON.apply(this, arguments);
+        //     this._prepare_fiscal_json(json);
+        //     return json;
+        // },
+        export_for_printing: function () {
+            var json = _super_payment_line.export_for_printing.apply(this, arguments);
+            this._prepare_fiscal_json(json);
+            return json;
         },
     });
 
