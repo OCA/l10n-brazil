@@ -15,26 +15,26 @@
                     src="/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js"
                     type="text/javascript"
                 />
-                <script
+                <!-- <script
                     src="/l10n_br_pos_cfe/static/src/js/chrome.js"
                     type="text/javascript"
-                />
+                /> -->
                 <script
                     src="/l10n_br_pos_cfe/static/src/js/devices.js"
                     type="text/javascript"
                 />
-                <script
+                <!-- <script
                     src="/l10n_br_pos_cfe/static/src/js/db.js"
                     type="text/javascript"
-                />
+                /> -->
                 <script
                     src="/l10n_br_pos_cfe/static/src/js/models.js"
                     type="text/javascript"
                 />
-                <script
+                <!-- <script
                     src="/l10n_br_pos_cfe/static/src/js/screens.js"
                     type="text/javascript"
-                />
+                /> -->
             </xpath>
         </template>
     </data>

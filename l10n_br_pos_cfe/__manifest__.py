@@ -12,6 +12,7 @@
     "development_status": "Alpha",
     "maintainers": ["mileo", "sadamo", "gabrielcardoso21", "lfdivino"],
     "depends": [
+        "point_of_sale",
         "l10n_br_pos",
     ],
     "external_dependencies": {
