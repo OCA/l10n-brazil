@@ -68,21 +68,27 @@ class ResCompany(models.Model):
 
     @api.model
     def _prepare_create_fiscal_dummy_doc(self):
-        company = self.id if self.id else self.env.company.id
         return {
             "document_number": False,
             "active": False,
             "document_type_id": False,
             "fiscal_operation_type": "out",
             "partner_id": self.partner_id.id,
-            "company_id": company,
+            "company_id": self.id,
             "fiscal_line_ids": [(0, 0, {"name": "dummy", "company_id": self.id})],
         }
 
     @api.model
     def create(self, vals):
-        dummy_doc = self.env["l10n_br_fiscal.document"].create(
-            self._prepare_create_fiscal_dummy_doc()
+        """
+        to satisfy the not-null constraint of the fiscal_dummy_id field,
+        the fiscal dummy is passed without a company_id and updated
+        after it is created.
+        """
+        dummy_doc = (
+            self.env["l10n_br_fiscal.document"]
+            .sudo()
+            .create(self._prepare_create_fiscal_dummy_doc())
         )
         vals.update({"fiscal_dummy_id": dummy_doc.id})
         company = super().create(vals)
