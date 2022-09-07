@@ -293,15 +293,15 @@ class CNABImportWizard(models.TransientModel):
 
     def _get_dict_value_from_line(self, data_line):
         value_dict = {}
-
-        for fld in data_line["line_template"].field_ids:
-            if fld.content_dest_field:
-                value = data_line["raw_line"][fld.start_pos - 1 : fld.end_pos]
-                if fld.return_dynamic_content:
-                    value = fld.eval_compute_value(value, fld.return_dynamic_content)
-                else:
-                    value = self._parse_value(value, fld)
-                value_dict[fld.content_dest_field] = value
+        if data_line["line_template"]:
+            for fld in data_line["line_template"].field_ids:
+                if fld.content_dest_field:
+                    value = data_line["raw_line"][fld.start_pos - 1 : fld.end_pos]
+                    if fld.return_dynamic_content:
+                        value = fld.eval_compute_value(value, fld.return_dynamic_content)
+                    else:
+                        value = self._parse_value(value, fld)
+                    value_dict[fld.content_dest_field] = value
 
         return value_dict
 
@@ -311,8 +311,15 @@ class CNABImportWizard(models.TransientModel):
 
         for detail in details:
             event_value_dict = {}
+            template_not_implemented = False
             for segment in detail:
                 event_value_dict.update(self._get_dict_value_from_line(segment))
+                if not segment["line_template"]:
+                    template_not_implemented = True
+            if template_not_implemented:
+                event_value_dict["occurrences"] = _(
+                    "CNAB structure not recognized for this record. Report to system technical support."
+                )
             event_value_dict["lot_id"] = return_lot_id.id
             event_value_dict["cnab_return_log_id"] = return_log_id.id
             return_event_obj.create(event_value_dict)
