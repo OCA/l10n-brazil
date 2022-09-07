@@ -2,7 +2,6 @@ num2words==0.5.4
 pycep-correios==5.0.0
 workalendar==7.1.1
 erpbrasil.base==2.2.2
-erpbrasil.assinatura==1.2.0
 erpbrasil.transmissao==1.0.0
 erpbrasil.edoc==2.2.1
 erpbrasil.edoc.pdf==1.0.1
@@ -12,6 +11,7 @@ nfselib.paulistana==0.2.0
 nfelib==1.2.0
 xmldiff==2.4
 lxml==4.6.5
+-e git+https://github.com/akretion/erpbrasil.assinatura@relax-dep-versions#egg=erpbrasil.assinatura
 -e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
 -e git+https://github.com/erpbrasil/febraban-python.git@v0.7.1#egg=febraban
 vcrpy
