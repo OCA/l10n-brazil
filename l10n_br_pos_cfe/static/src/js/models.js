@@ -156,7 +156,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             // TODO: converter chave nos outros campos;
         },
         set_document_session_number: function (document_session_number) {
-            // this.pos...
+            this.pos.last_document_session_number = document_session_number;
             this.document_session_number = document_session_number;
         },
     });
