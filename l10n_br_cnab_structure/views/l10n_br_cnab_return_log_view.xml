@@ -35,11 +35,13 @@
                             <field name="bank_id" />
                             <field name="bank_account_id" />
                             <field name="cnab_date_import" />
+
                         </group>
                         <group>
                             <field name="type" />
                             <field name="journal_id" string="Journal" />
                             <field name="bank_account_cnab_id" />
+                            <field name="cnab_structure_id" />
                         </group>
                     </group>
                     <notebook>
