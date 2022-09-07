@@ -8,23 +8,36 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 odoo.define("l10n_br_pos_cfe.devices", function (require) {
     "use strict";
     var devices = require("point_of_sale.devices");
-    var FiscalDocumentCFe = require('l10n_br_pos_cfe.FiscalDocumentCFe').FiscalDocumentCFe;
+    var FiscalDocumentCFe = require("l10n_br_pos_cfe.FiscalDocumentCFe")
+        .FiscalDocumentCFe;
 
     var ProxyDeviceSuper = devices.ProxyDevice;
 
     devices.ProxyDevice = devices.ProxyDevice.extend({
         init: function () {
             var res = ProxyDeviceSuper.prototype.init.apply(this, arguments);
+            var self = this;
 
-            this.on('change:status',this,function(eh,status){
+            this.on("change:status", this, function (eh, status) {
                 status = status.newValue;
-                if(status.status === 'connected' && self.fiscal_device) {
+                if (status.status === "connected" && self.fiscal_device) {
                     self.fiscal_device.send_order();
                     // TODO: Criar uma abstração na fila para processar todas as ações.
                 }
             });
 
             return res;
+        },
+        set_connection_status: function (status, drivers, msg = "") {
+            ProxyDeviceSuper.prototype.set_connection_status.apply(this, arguments);
+            if (status === "connected" && this.fiscal_device) {
+                var oldstatus = this.get("status");
+                if (oldstatus.drivers) {
+                    if (!oldstatus.drivers.hw_fiscal) {
+                        this.fiscal_device.init_job();
+                    }
+                }
+            }
         },
         connect: function (url) {
             var result = ProxyDeviceSuper.prototype.connect.apply(this, arguments);
@@ -45,68 +58,6 @@ odoo.define("l10n_br_pos_cfe.devices", function (require) {
                 this.fiscal_device = new FiscalDocumentCFe(this.host, this.pos);
                 this.fiscal_device_contingency = this.fiscal_device;
             }
-        },
-
-
-
-//        keepalive: function () {
-//            var self = this;
-//            if (!this.keptalive) {
-//                this.keptalive = true;
-//                function status() {
-//                    self.connection
-//                        .rpc("/hw_proxy/status_json", {}, {timeout: 2500})
-//                        .then(
-//                            function (driver_status) {
-//                                if (
-//                                    self.pos.config.iface_fiscal_via_proxy &&
-//                                    !driver_status.hasOwnProperty("hw_fiscal")
-//                                ) {
-//                                    self.pos.proxy.init_sat(self.pos.config);
-//                                } else {
-//                                    const status = self.pos.proxy.get("status");
-//                                    if ("scanner" in status.drivers) {
-//                                        driver_status.scanner = status.drivers.scanner;
-//                                    }
-//                                    self.set_connection_status(
-//                                        "connected",
-//                                        driver_status
-//                                    );
-//                                }
-//                            },
-//                            function () {
-//                                if (
-//                                    self.get("status").driver_statusstatus !==
-//                                    "connecting"
-//                                ) {
-//                                    self.set_connection_status("disconnected");
-//                                }
-//                            }
-//                        )
-//                        .always(function () {
-//                            setTimeout(status, 5000);
-//                        });
-//                }
-//                status();
-//            }
-//        },
-
-
-
-
-
-
-        init_sat: function (config) {
-            var self = this;
-            var j = {
-                sat_path: config.sat_path,
-                codigo_ativacao: config.cod_ativacao,
-                impressora: config.impressora,
-                printer_params: config.printer_params,
-                fiscal_printer_type: config.fiscal_printer_type,
-                assinatura: config.assinatura_sat,
-            };
-            self.message("init", {json: j}, {timeout: 5000});
         },
         reprint_cfe: function (order) {
             var self = this;
