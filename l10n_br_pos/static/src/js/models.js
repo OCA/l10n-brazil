@@ -104,24 +104,57 @@ odoo.define("l10n_br_pos.models", function (require) {
             _super_order.initialize.apply(this, arguments, options);
             this.init_locked = true;
 
-            this.cnpj_cpf = this.cnpj_cpf || null;
-            this.document_authorization_date = this.document_authorization_date || null;
-            this.document_status_code = this.document_status_code || null;
-            this.document_status_name = this.document_status_name || null;
-            this.document_session_number = this.document_session_number || null;
-            this.document_key = this.document_key || null;
-            this.document_file = this.document_file || null;
-            this.fiscal_coupon_date = this.fiscal_coupon_date || null;
+            // Company Details
+            var company = this.pos.company;
+            // Company details
+            this.document_company = {};
+            this.document_company.cnpj = company.cnpj || null;
+            this.document_company.ie = company.ie || null;
+            this.document_company.tax_framework = company.tax_framework || null;
 
+            // L10n_br_fiscal.document.electronic fields
+            //      Informações da transmissão do documento fiscal
+
+            this.status_code = this.status_code || null;
+            this.status_name = this.status_name || null;
+            this.status_description = this.status_description || null;
+
+            this.authorization_date = this.authorization_date || null;
+            this.authorization_protocol = this.authorization_protocol || null;
+            this.authorization_file = this.authorization_file || null;
+
+            this.cancel_date = this.cancel_date || null;
+            this.cancel_protocol_number = this.cancel_protocol_number || null;
+            this.cancel_file = this.cancel_file || null;
+
+            this.is_edoc_printed = this.is_edoc_printed || null;
+
+            // L10n_br_fiscal.document fields
+
+            this.document_state = this.document_state || null;
+            this.document_number = this.document_number || null;
+            this.document_serie = this.document_serie || null;
+            this.document_session_number = this.document_session_number || null;
+            this.document_rps_number = this.document_rps_number || null;
+
+            this.document_key = this.document_key || null;
+            this.document_date = this.document_date || null;
+            this.document_electronic = this.document_electronic || null;
+
+            // NFC-e & CF-e fields
+
+            this.document_qrcode_signature = this.document_qrcode_signature || null;
+            this.document_qrcode_url = this.document_qrcode_url || null;
+
+            // Other POS Fields
+
+            this.cnpj_cpf = this.cnpj_cpf || null;
+            // Campo em que são armazenados as mensagens do processo de comunicação.
             this.document_event_messages = this.document_event_messages || [];
 
-            if (options.json) {
-                this.init_from_JSON(options.json);
-            } else {
-                this.fiscal_operation_id = this.pos.config.out_pos_fiscal_operation_id[0];
-                this.document_type_id = this.pos.config.simplified_document_type_id[0];
-                this.document_type = this.pos.config.simplified_document_type;
-            }
+            this.fiscal_operation_id = this.pos.config.out_pos_fiscal_operation_id[0] || null;
+            this.document_type_id = this.pos.config.simplified_document_type_id[0] || null;
+            this.document_type = this.pos.config.simplified_document_type || null;
 
             this.init_locked = false;
             this.save_to_db();
@@ -134,38 +167,64 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.document_type_id = json.document_type_id;
         },
         _prepare_fiscal_json: function (json) {
-            var company = this.pos.company;
+            // Company details
+            json.company = this.document_company;
 
-            json.company = {};
-            json.configs_sat = {};
-            json.pos_session_id = this.pos.pos_session.id;
-            json.client = this.get_cnpj_cpf();
+            // Dados do documento
+            json.status_code = this.status_code;
+            json.status_name = this.status_name;
+            json.status_description = this.status_description;
 
-            json.company.cnpj = company.cnpj;
-            json.company.ie = company.ie;
-            json.company.tax_framework = company.tax_framework;
+            json.authorization_date = this.authorization_date;
+            json.authorization_protocol = this.authorization_protocol;
+            json.authorization_file = this.authorization_file;
 
+            json.cancel_date = this.cancel_date;
+            json.cancel_protocol_number = this.cancel_protocol_number;
+            json.cancel_file = this.cancel_file;
+
+            json.is_edoc_printed = this.is_edoc_printed;
+
+            // L10n_br_fiscal.document fields
+
+            json.document_state = this.document_state;
+            json.document_number = this.document_number;
+            json.document_serie = this.document_serie;
+            json.document_session_number = this.document_session_number;
+            json.document_rps_number = this.document_rps_number;
+
+            json.document_key = this.document_key;
+            json.document_date = this.document_date;
+            json.document_electronic = this.document_electronic;
+
+            // NFC-e & CF-e fields
+
+            json.document_qrcode_signature = this.document_qrcode_signature;
+            json.document_qrcode_url = this.document_qrcode_url;
+
+            // Campo em que são armazenados as mensagens do processo de comunicação.
+            json.document_event_messages = this.document_event_messages || [];
+
+            json.fiscal_operation_id = this.pos.config.out_pos_fiscal_operation_id[0];
+            json.document_type_id = this.pos.config.simplified_document_type_id[0];
+            json.document_type = this.pos.config.simplified_document_type;
+
+            // Dados do cliente
+            // json.client = this.cnpj_cpf;
+            json.cnpj_cpf = this.cnpj_cpf;
+
+            // Dados adicionais do documento
             if (this.pos.config.additional_data) {
                 var taxes = this.get_taxes_and_percentages(json);
                 json.additional_data = this.compute_message(
                     this.pos.config.additional_data,
                     taxes
                 );
+            } else {
+                json.additional_data = null;
             }
-
-            json.cnpj_cpf = this.cnpj_cpf;
-            json.fiscal_operation_id = this.fiscal_operation_id;
-            json.document_type = this.document_type;
-            json.document_type_id = this.document_type_id;
-            json.document_authorization_date = this.document_authorization_date;
-            json.document_status_code = this.document_status_code;
-            json.document_status_name = this.document_status_name;
-            json.document_session_number = this.document_session_number;
-            json.document_key = this.document_key;
-            json.document_file = this.document_file;
-            json.fiscal_coupon_date = this.fiscal_coupon_date;
         },
-        // export_as_JSON: function () {
+        // Export_as_JSON: function () {
         //     // TODO: O método export_as_JSON só deve ter os dados
         //     // necessários para a emissão do cumpom fiscal
         //     var json = _super_order.export_as_JSON.call(this);
@@ -381,8 +440,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 json.cofins_percent = product_fiscal_map.cofins_percent;
                 json.company_tax_framework = product_fiscal_map.company_tax_framework;
                 json.icms_cst_code = product_fiscal_map.icms_cst_code;
-                json.icms_effective_percent =
-                    product_fiscal_map.icms_effective_percent;
+                json.icms_effective_percent = product_fiscal_map.icms_effective_percent;
                 json.icms_percent = product_fiscal_map.icms_percent;
                 json.icmssn_percent = product_fiscal_map.icmssn_percent;
                 json.ncm =
@@ -395,7 +453,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 json.pis_percent = product_fiscal_map.pis_percent;
             }
         },
-        // export_as_JSON: function () {
+        // Export_as_JSON: function () {
         //     var json = _super_order_line.export_as_JSON.apply(this, arguments);
         //     this._prepare_fiscal_json(json);
         //     return json;
@@ -407,13 +465,12 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
     });
 
-
     var _super_payment_line = models.Paymentline.prototype;
     models.Paymentline = models.Paymentline.extend({
         _prepare_fiscal_json: function (json) {
             console.log("Verificar dados necessários da payment line");
         },
-        // export_as_JSON: function () {
+        // Export_as_JSON: function () {
         //     var json = _super_payment_line.export_as_JSON.apply(this, arguments);
         //     this._prepare_fiscal_json(json);
         //     return json;
