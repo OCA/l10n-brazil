@@ -158,12 +158,9 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
             });
         },
 
-        print_order_job: function (order) {
+        print_order_job: function (order_json) {
             return this.connection.rpc("/hw_proxy/reprint_cfe", {
-                data: {
-                    action: "print_receipt",
-                    receipt: img,
-                },
+                json: order_json,
             });
         },
     });
