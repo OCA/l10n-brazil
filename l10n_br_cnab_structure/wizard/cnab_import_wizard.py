@@ -334,11 +334,13 @@ class CNABImportWizard(models.TransientModel):
     def _create_return_log(self, data):
         return_log_obj = self.env["l10n_br_cnab.return.log"]
         return_dict = {
-            "name": f"Banco {self.journal_id.bank_id.short_name} - Conta {self.journal_id.bank_account_id.acc_number}",
+            "name": f"Banco {self.journal_id.bank_id.short_name}  - "
+            f"Conta {self.journal_id.bank_account_id.acc_number}",
             "filename": self.filename,
             "cnab_date_import": fields.Datetime.now(),
             "journal_id": self.journal_id.id,
             "return_file": self.return_file,
+            "cnab_structure_id": self.cnab_structure_id.id,
         }
         return_dict.update(self._get_dict_value_from_line(data["header_file_line"]))
         return_dict.update(self._get_dict_value_from_line(data["trailer_file_line"]))

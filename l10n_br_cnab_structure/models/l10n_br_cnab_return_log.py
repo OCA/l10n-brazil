@@ -23,6 +23,10 @@ class L10nBrCNABReturnLog(models.Model):
         comodel_name="res.bank",
     )
 
+    cnab_structure_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.structure",
+    )
+
     br_bank_code = fields.Char(
         string="Brazilian Bank Code",
         size=3,
