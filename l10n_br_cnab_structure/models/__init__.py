@@ -5,4 +5,5 @@ from . import cnab_line_field
 from . import account_payment_mode
 from . import account_journal
 from . import l10n_br_cnab_return_log
+from . import l10n_br_cnab_event
 from . import cnab_payment_way
