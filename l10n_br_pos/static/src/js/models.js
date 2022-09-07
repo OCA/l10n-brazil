@@ -152,8 +152,10 @@ odoo.define("l10n_br_pos.models", function (require) {
             // Campo em que são armazenados as mensagens do processo de comunicação.
             this.document_event_messages = this.document_event_messages || [];
 
-            this.fiscal_operation_id = this.pos.config.out_pos_fiscal_operation_id[0] || null;
-            this.document_type_id = this.pos.config.simplified_document_type_id[0] || null;
+            this.fiscal_operation_id =
+                this.pos.config.out_pos_fiscal_operation_id[0] || null;
+            this.document_type_id =
+                this.pos.config.simplified_document_type_id[0] || null;
             this.document_type = this.pos.config.simplified_document_type || null;
 
             this.init_locked = false;
@@ -482,13 +484,16 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
     });
 
-    //    Var _super_posmodel = models.PosModel.prototype;
+    var _super_posmodel = models.PosModel.prototype;
 
     models.PosModel = models.PosModel.extend({
-        // Initialize: function(session, attributes) {
-        //     this.cnpj_cpf = null;
-        //     return _super_posmodel.initialize.call(this,session,attributes);
-        // },
+        initialize: function (session, attributes) {
+            this.cnpj_cpf = null;
+
+            this.last_document_session_number = null;
+
+            return _super_posmodel.initialize.call(this, session, attributes);
+        },
         get_cnpj_cpf: function () {
             var order = this.get_order();
             if (order) {

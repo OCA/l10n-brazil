@@ -53,13 +53,20 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
         },
         send_order: async function (order) {
             if (order) {
-                var json = order.export_for_printing();
-                this.fiscal_queue.push(json);
+                this.fiscal_queue.push(order);
             }
             let sendFiscalResult, sendFiscalResultParsed;
 
             while (this.fiscal_queue.length > 0) {
-                var order_json = this.fiscal_queue.shift();
+                var order = this.fiscal_queue.shift();
+                if (order.document_session_number && this.pos.last_document_session_number === order.document_session_number) {
+                    //  TODO: Melhorar esse método, consultando os dados da sessão em questão.
+                    return this.fiscalDocumentResultGenerator.IoTActionError(
+                        _t("Documento já transmitido.")
+                    );
+                }
+                var order_json = order.export_for_printing();
+
                 try {
                     sendFiscalResult = await this.send_order_job(order_json);
                 } catch (error) {
@@ -78,7 +85,7 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
                     );
                 }
 
-                // Rpc call is okay but printing failed because
+                // Rpc call is okay but iot failed because
                 // IoT box can't find a printer.
                 if (!sendFiscalResult || sendFiscalResult.result === false) {
                     this.fiscal_queue.length = 0;
@@ -89,6 +96,30 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
                 sendFiscalResultParsed
             );
         },
+
+        session_number: async function () {
+            try {
+                sendFiscalResult = await this.session_number_job();
+            } catch (error) {
+                // Error in communicating to the IoT box.
+                return this.fiscalDocumentResultGenerator.IoTActionError(error);
+            }
+            try {
+                sendFiscalResultParsed = JSON.parse(sendFiscalResult);
+            } catch (error) {
+                // Error in communicating to the IoT box.
+                return this.fiscalDocumentResultGenerator.IoTResultError(
+                    sendFiscalResult
+                );
+            }
+            // Rpc call is okay but iot failed because
+            // IoT box can't find a printer.
+            if (!sendFiscalResult || sendFiscalResult.result === false) {
+                this.fiscal_queue.length = 0;
+                return this.fiscalDocumentResultGenerator.IoTResultError();
+            }
+        },
+
         cancel_order: async function (order) {},
         print_order: async function (order) {},
         _onIoTActionResult: function (data) {
