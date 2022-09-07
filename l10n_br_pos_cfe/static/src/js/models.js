@@ -6,7 +6,8 @@ Copyright (C) 2022-Today KMEE (https://kmee.com.br)
 
 odoo.define("l10n_br_pos_cfe.models", function (require) {
     "use strict";
-
+    const CFE_EMITIDO_COM_SUCESSO = "06000";
+    const CFE_EMITIDO_COM_SUCESSO_MENSAGEM = "Autorizado o Uso do CF-e";
     const AMBIENTE_PRODUCAO = "producao";
 
     var models = require("point_of_sale.models");
@@ -100,14 +101,17 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             if (!this.document_type == "59") {
                 return _super_order._document_check_result.call(this);
             }
-            if (processor_result.successful) {
-                this.document_event_messages.push({
-                    id: 1005,
-                    label: processor_result.message,
-                });
-                // TODO: Processar a resposta com sucesso;
-                this._document_status_popup();
-                return true;
+            if (processor_result.successful && processor_result.response) {
+
+                if (processor_result.response.EEEEE == CFE_EMITIDO_COM_SUCESSO) {
+                    this.set_cfe_return(processor_result.response)
+                    return true;
+                } else {
+                    Gui.showPopup('ErrorPopup', {
+                        title: _t("Falha ao emitir o CF-E"),
+                        body: processor_result.response,
+                    });
+                }
             } else {
                 if (processor_result.traceback){
                     Gui.showPopup('ErrorTracebackPopup', processor_result.message);
@@ -117,37 +121,43 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             }
             return false;
         },
-        set_cfe_return: function (json_result) {
-            console.log("set_cfe_return");
-            $(".selection").append(
-                "<div data-item-index='4' class='selection-item '>Salvando Cupom Fiscal no Back Office</div>"
-            );
-            this.document_authorization_date = json_result.timeStamp;
-            this.document_status_code = json_result.EEEEE;
-            this.document_status_name = json_result.mensagem;
-            this.document_session_number = json_result.numeroSessao;
-            this.document_key = json_result.chaveConsulta;
-            this.document_file = json_result.arquivoCFeSAT;
-            this.fiscal_coupon_date = json_result.timeStamp.replace("T", " ");
-            // TODO: Verificar se outros campos devem ser setados;
+        set_cfe_return: function (response) {
+            this.set_document_session_number(response.numeroSessao);
+            this.set_document_key(response.chaveConsulta);
+
+            this.status_code = response.EEEEE;
+            this.status_name = CFE_EMITIDO_COM_SUCESSO_MENSAGEM;
+            this.status_description = response.mensagem;
+            if (response.mensagemSEFAZ) {
+                this.status_description =
+                    this.status_description +
+                    '\n SEFAZ' +
+                    response.mensagemSEFAZ;
+            }
+            this.authorization_date = response.timeStamp;
+            this.authorization_file = response.arquivoCFeSAT;
+            this.document_qrcode_signature = response.assinaturaQRCODE;
+            // this.authorization_protocol =
+            // processor_result.response.CCCC
+            // processor_result.response.cod
+            // processor_result.response.attributos
+            // processor_result.response.valorTotalCFe
+            // processor_result.response.CPFCNPJValue
+            this.document_event_messages.push({
+                id: 1005,
+                label: CFE_EMITIDO_COM_SUCESSO_MENSAGEM,
+            });
+            this._document_status_popup();
+            // TODO: Verificar se o horário no backend esta correto e a necesidade deste campo
+            // this.fiscal_coupon_date = json_result.timeStamp.replace("T", " ");
         },
-        get_return_cfe: function () {
-            return this.cfe_return;
+        set_document_key: function (document_key) {
+            this.document_key = document_key;
+            // TODO: converter chave nos outros campos;
         },
-        set_return_cfe: function (xml) {
-            this.cfe_return = xml;
-        },
-        get_chave_cfe: function () {
-            return this.chave_cfe;
-        },
-        set_chave_cfe: function (chavecfe) {
-            this.chave_cfe = chavecfe;
-        },
-        get_num_sessao_sat: function () {
-            return this.num_sessao_sat;
-        },
-        set_num_sessao_sat: function (num_sessao_sat) {
-            this.num_sessao_sat = num_sessao_sat;
+        set_document_session_number: function (document_session_number) {
+            // this.pos...
+            this.document_session_number = document_session_number;
         },
     });
 
