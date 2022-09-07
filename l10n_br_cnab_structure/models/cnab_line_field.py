@@ -3,6 +3,7 @@
 
 import operator
 import re
+from datetime import datetime
 from unidecode import unidecode
 
 from odoo import _, api, fields, models
@@ -159,7 +160,9 @@ class CNABField(models.Model):
                     operator.attrgetter(rec.content_source_field)(resource_ref) or ""
                 )
             if rec.sending_dynamic_content:
-                value = rec.eval_compute_value(value, **kwargs)
+                value = rec.eval_compute_value(
+                    value, rec.sending_dynamic_content, **kwargs
+                )
             value = self.format(rec.size, rec.type, value)
             return self.ref_name, value
 
@@ -177,12 +180,13 @@ class CNABField(models.Model):
         value = value[:size]
         return value
 
-    def eval_compute_value(self, value, **kwargs):
+    def eval_compute_value(self, content, python_expression, **kwargs):
         "Execute python code and return computed value"
         self.ensure_one()
         safe_eval_dict = {
-            "content": value,
+            "content": content,
             "time": time,
+            "datetime": datetime,
             "seq_batch": kwargs.get("seq_batch", ""),
             "seq_record_detail": kwargs.get("seq_record_detail", ""),
             "qty_batches": kwargs.get("qty_batches", ""),
@@ -190,7 +194,7 @@ class CNABField(models.Model):
             "batch_detail_lines": kwargs.get("batch_detail_lines", []),
             "segment_code": self.cnab_line_id.segment_code or "",
         }
-        return safe_eval(self.sending_dynamic_content, safe_eval_dict)
+        return safe_eval(python_expression, safe_eval_dict)
 
     def _compute_name(self):
         for f in self:
