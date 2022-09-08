@@ -81,22 +81,6 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
     });
 
-    models.load_fields("pos.order", [
-        "name",
-        "partner_id",
-        "date_order",
-        "fiscal_coupon_date",
-        "amount_total",
-        "pos_reference",
-        "lines",
-        "state",
-        "session_id",
-        "company_id",
-        "document_key",
-        "cnpj_cpf",
-        "cancel_document_key",
-    ]);
-
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
@@ -104,7 +88,6 @@ odoo.define("l10n_br_pos.models", function (require) {
             _super_order.initialize.apply(this, arguments, options);
             this.init_locked = true;
 
-            // Company Details
             var company = this.pos.company;
             // Company details
             this.document_company = {};
@@ -112,65 +95,110 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.document_company.ie = company.ie || null;
             this.document_company.tax_framework = company.tax_framework || null;
 
-            // L10n_br_fiscal.document.electronic fields
-            //      Informações da transmissão do documento fiscal
+            if (!options.json) {
+                // Company Details
 
-            this.status_code = this.status_code || null;
-            this.status_name = this.status_name || null;
-            this.status_description = this.status_description || null;
+                // L10n_br_fiscal.document.electronic fields
+                //      Informações da transmissão do documento fiscal
 
-            this.authorization_date = this.authorization_date || null;
-            this.authorization_protocol = this.authorization_protocol || null;
-            this.authorization_file = this.authorization_file || null;
+                this.status_code = this.status_code || null;
+                this.status_name = this.status_name || null;
+                this.status_description = this.status_description || null;
 
-            this.cancel_date = this.cancel_date || null;
-            this.cancel_protocol_number = this.cancel_protocol_number || null;
-            this.cancel_file = this.cancel_file || null;
+                this.authorization_date = this.authorization_date || null;
+                this.authorization_protocol = this.authorization_protocol || null;
+                this.authorization_file = this.authorization_file || null;
 
-            this.is_edoc_printed = this.is_edoc_printed || null;
+                this.cancel_date = this.cancel_date || null;
+                this.cancel_protocol_number = this.cancel_protocol_number || null;
+                this.cancel_file = this.cancel_file || null;
 
-            // L10n_br_fiscal.document fields
+                this.is_edoc_printed = this.is_edoc_printed || null;
 
-            this.document_state = this.document_state || null;
-            this.document_number = this.document_number || null;
-            this.document_serie = this.document_serie || null;
-            this.document_session_number = this.document_session_number || null;
-            this.document_rps_number = this.document_rps_number || null;
+                // L10n_br_fiscal.document fields
 
-            this.document_key = this.document_key || null;
-            this.document_date = this.document_date || null;
-            this.document_electronic = this.document_electronic || null;
+                this.document_state = this.document_state || null;
+                this.document_number = this.document_number || null;
+                this.document_serie = this.document_serie || null;
+                this.document_session_number = this.document_session_number || null;
+                this.document_rps_number = this.document_rps_number || null;
 
-            // NFC-e & CF-e fields
+                this.document_key = this.document_key || null;
+                this.document_date = this.document_date || null;
+                this.document_electronic = this.document_electronic || null;
 
-            this.document_qrcode_signature = this.document_qrcode_signature || null;
-            this.document_qrcode_url = this.document_qrcode_url || null;
+                // NFC-e & CF-e fields
 
-            // Other POS Fields
+                this.document_qrcode_signature = this.document_qrcode_signature || null;
+                this.document_qrcode_url = this.document_qrcode_url || null;
 
-            this.cnpj_cpf = this.cnpj_cpf || null;
+                // Other POS Fields
+
+                this.cnpj_cpf = this.cnpj_cpf || null;
+
+                this.fiscal_operation_id =
+                    this.pos.config.out_pos_fiscal_operation_id[0] || null;
+                this.document_type_id =
+                    this.pos.config.simplified_document_type_id[0] || null;
+                this.document_type = this.pos.config.simplified_document_type || null;
+            }
+
             // Campo em que são armazenados as mensagens do processo de comunicação.
             this.document_event_messages = this.document_event_messages || [];
-
-            this.fiscal_operation_id =
-                this.pos.config.out_pos_fiscal_operation_id[0] || null;
-            this.document_type_id =
-                this.pos.config.simplified_document_type_id[0] || null;
-            this.document_type = this.pos.config.simplified_document_type || null;
 
             this.init_locked = false;
             this.save_to_db();
         },
         init_from_JSON: function (json) {
             _super_order.init_from_JSON.apply(this, arguments);
+
+            // L10n_br_fiscal.document.electronic fields
+            //      Informações da transmissão do documento fiscal
+
+            this.status_code = json.status_code;
+            this.status_name = json.status_name;
+            this.status_description = json.status_description;
+
+            this.authorization_date = json.authorization_date;
+            this.authorization_protocol = json.authorization_protocol;
+            this.authorization_file = json.authorization_file;
+
+            this.cancel_date = json.cancel_date;
+            this.cancel_protocol_number = json.cancel_protocol_number;
+            this.cancel_file = json.cancel_file;
+
+            this.is_edoc_printed = json.is_edoc_printed;
+
+            // L10n_br_fiscal.document fields
+
+            this.document_state = json.document_state;
+            this.document_number = json.document_number;
+            this.document_serie = json.document_serie;
+            this.document_session_number = json.document_session_number;
+            this.document_rps_number = json.document_rps_number;
+
+            this.document_key = json.document_key;
+            this.document_date = json.document_date;
+            this.document_electronic = json.document_electronic;
+
+            // NFC-e & CF-e fields
+
+            this.document_qrcode_signature = json.document_qrcode_signature;
+            this.document_qrcode_url = json.document_qrcode_url;
+
+            // Other POS Fields
+
             this.cnpj_cpf = json.cnpj_cpf;
+
+            // Campo em que são armazenados as mensagens do processo de comunicação.
+
             this.fiscal_operation_id = json.fiscal_operation_id;
-            this.document_type = json.document_type;
             this.document_type_id = json.document_type_id;
+            this.document_type = json.document_type;
         },
         _prepare_fiscal_json: function (json) {
             // Company details
-            json.company = this.document_company;
+            json.company = this.document_company || {};
 
             // Dados do documento
             json.status_code = this.status_code;
@@ -226,17 +254,17 @@ odoo.define("l10n_br_pos.models", function (require) {
                 json.additional_data = null;
             }
         },
-        // Export_as_JSON: function () {
-        //     // TODO: O método export_as_JSON só deve ter os dados
-        //     // necessários para a emissão do cumpom fiscal
-        //     var json = _super_order.export_as_JSON.call(this);
-        //     // Remove lines without price
-        //     json.orderlines = _.filter(json.orderlines, function (line) {
-        //         return line.price !== 0;
-        //     });
-        //     this._prepare_fiscal_json(json);
-        //     return json;
-        // },
+        export_as_JSON: function () {
+            // TODO: O método export_as_JSON só deve ter os dados
+            // necessários para a emissão do cumpom fiscal
+            var json = _super_order.export_as_JSON.call(this);
+            // Remove lines without price
+            json.orderlines = _.filter(json.orderlines, function (line) {
+                return line.price !== 0;
+            });
+            this._prepare_fiscal_json(json);
+            return json;
+        },
         export_for_printing: function () {
             // TODO: O método export_for_printing só deve ter os dados para impressão
             var json = _super_order.export_for_printing.apply(this, arguments);
@@ -371,20 +399,38 @@ odoo.define("l10n_br_pos.models", function (require) {
             });
             this._document_status_popup();
         },
+
+        //
+        // Cancel Workflow
+        //
+        _document_cancel_validate: async function () {
+            this.document_event_messages.push({
+                id: 2002,
+                label: "Validando cancelamento do documento",
+            });
+            this._document_status_popup();
+            return true;
+        },
         document_cancel: async function (cancel_reason) {
             this.document_event_messages.push({
                 id: 2001,
                 label: "Cancelando o documento fiscal",
             });
             this._document_status_popup();
-            await this._document_cancel(cancel_reason);
-        },
-        _document_cancel: async function (cancel_reason) {
-            this.document_event_messages.push({
-                id: 2002,
-                label: "Cancelado com sucesso",
-            });
-            this._document_status_popup();
+            var result = false;
+            var processor_result = null;
+            result = await this._document_cancel_validate();
+            if (result) {
+                // Obtem o responsável pelo envio do documento fiscal;
+                var processor = await this._document_get_processor();
+                if (processor) {
+                    // Efetivamente cancela o documento fiscal
+                    processor_result = await processor.cancel_order(this);
+                    // Valida se foi emitido corretamente e salva os dados do resulto
+                    result = await this._document_check_result(processor_result);
+                }
+            }
+            return result;
         },
         add_product: function (product, options) {
             //            Const product_fiscal_map = this.pos.fiscal_map_by_template_id[
