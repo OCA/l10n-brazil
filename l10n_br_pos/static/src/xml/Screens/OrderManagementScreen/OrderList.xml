@@ -6,7 +6,7 @@
             <div class="header document_serie_number">Documento Fiscal</div>
         </xpath>
         <xpath expr="//div[hasclass('header', 'total')]" position="after">
-            <div class="header document_state">Situação</div>
+            <div class="header edoc_state">Situação</div>
         </xpath>
     </t>
 
