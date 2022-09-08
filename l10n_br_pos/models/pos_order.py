@@ -7,7 +7,8 @@ import pytz
 
 from odoo import api, fields, models
 
-# from odoo.addons.l10n_br_fiscal.constants.fiscal import
+from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC
+
 NFCE_IND_PRES_DEFAULT = "1"
 
 _logger = logging.getLogger(__name__)
@@ -201,9 +202,11 @@ class PosOrder(models.Model):
         readonly=True,
     )
 
-    document_state = fields.Char(
-        string="Numero identificador sessao",
+    state_edoc = fields.Selection(
+        selection=SITUACAO_EDOC,
+        string="Situação e-doc",
         copy=False,
+        index=True,
     )
 
     document_session_number = fields.Char(
@@ -340,7 +343,7 @@ class PosOrder(models.Model):
         order_fields["cancel_protocol"] = ui_order.get("cancel_protocol")
         order_fields["cancel_file"] = ui_order.get("cancel_file")
 
-        order_fields["document_state"] = ui_order.get("document_state")
+        order_fields["state_edoc"] = ui_order.get("state_edoc")
         order_fields["document_number"] = ui_order.get("document_number")
         order_fields["document_serie"] = ui_order.get("document_serie")
         order_fields["document_session_number"] = ui_order.get(
@@ -488,7 +491,7 @@ class PosOrder(models.Model):
         res["cancel_protocol"] = order.cancel_protocol
         res["cancel_file"] = order.cancel_file
 
-        res["document_state"] = order.document_state
+        res["state_edoc"] = order.state_edoc
         res["document_number"] = order.document_number
         res["document_serie"] = order.document_serie
         res["document_session_number"] = order.document_session_number
@@ -512,23 +515,6 @@ class PosOrder(models.Model):
         res["additional_data"] = order.additional_data
 
         return res
-
-    @api.model
-    def retornar_order_by_id(self, order_id):
-        order = self.browse(order_id)
-
-        arquivo = order.document_file_id.datas
-        arquivo_cancelada = order.cancel_document_file_id.datas
-
-        dados_reimpressao = {
-            "order_id": order_id,
-            "chaveConsulta": order.document_key,
-            "doc_destinatario": order.cnpj_cpf,
-            "xml_cfe_venda": arquivo,
-            "xml_cfe_cacelada": arquivo_cancelada,
-        }
-
-        return dados_reimpressao
 
     def _populate_cancel_order_fields(self, order_vals):
         self.cancel_document_key = order_vals["chave_cfe"]

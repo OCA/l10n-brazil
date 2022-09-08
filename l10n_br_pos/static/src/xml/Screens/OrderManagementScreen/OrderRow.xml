@@ -8,7 +8,7 @@
                 /></div>
         </xpath>
         <xpath expr="//div[hasclass('item', 'total')]" position="after">
-            <div class="item document_state"><t t-esc="document_state or ''" /></div>
+            <div class="item edoc_state"><t t-esc="edoc_state or ''" /></div>
         </xpath>
     </t>
 </templates>
