@@ -7,7 +7,6 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 odoo.define("l10n_br_pos.models", function (require) {
     "use strict";
     const core = require("web.core");
-    const rpc = require("web.rpc");
     const utils = require("web.utils");
     const models = require("point_of_sale.models");
     const util = require("l10n_br_pos.util");
@@ -15,6 +14,28 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     const round_pr = utils.round_precision;
     const _t = core._t;
+
+    const SITUACAO_EDOC_EM_DIGITACAO = "em_digitacao";
+    const SITUACAO_EDOC_A_ENVIAR = "a_enviar";
+    const SITUACAO_EDOC_ENVIADA = "enviada";
+    const SITUACAO_EDOC_REJEITADA = "rejeitada";
+    const SITUACAO_EDOC_AUTORIZADA = "autorizada";
+    const SITUACAO_EDOC_CANCELADA = "cancelada";
+    const SITUACAO_EDOC_DENEGADA = "denegada";
+    const SITUACAO_EDOC_INUTILIZADA = "inutilizada";
+
+    const SITUACAO_EDOC = {
+        [SITUACAO_EDOC_EM_DIGITACAO]: "Em digitação",
+        [SITUACAO_EDOC_A_ENVIAR]: "Aguardando envio",
+        [SITUACAO_EDOC_ENVIADA]: "Aguardando processamento",
+        [SITUACAO_EDOC_REJEITADA]: "Rejeitada",
+        [SITUACAO_EDOC_AUTORIZADA]: "Autorizada",
+        [SITUACAO_EDOC_CANCELADA]: "Cancelada",
+        [SITUACAO_EDOC_DENEGADA]: "Denegada",
+        [SITUACAO_EDOC_INUTILIZADA]: "Inutilizada",
+    };
+
+    console.log(SITUACAO_EDOC);
 
     const partner_company_fields = [
         "legal_name",
@@ -117,7 +138,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
                 // L10n_br_fiscal.document fields
 
-                this.document_state = this.document_state || "Em Digitação";
+                this.state_edoc = this.state_edoc || SITUACAO_EDOC_EM_DIGITACAO;
                 this.document_number = this.document_number || null;
                 this.document_serie = this.document_serie || null;
                 this.document_session_number = this.document_session_number || null;
@@ -171,7 +192,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
             // L10n_br_fiscal.document fields
 
-            this.document_state = json.document_state;
+            this.state_edoc = json.state_edoc;
             this.document_number = json.document_number;
             this.document_serie = json.document_serie;
             this.document_session_number = json.document_session_number;
@@ -217,7 +238,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
             // L10n_br_fiscal.document fields
 
-            json.document_state = this.document_state;
+            json.state_edoc = this.state_edoc;
             json.document_number = this.document_number;
             json.document_serie = this.document_serie;
             json.document_session_number = this.document_session_number;
@@ -340,7 +361,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                     item: element.id,
                 });
             });
-            const result = Gui.showPopup("SelectionPopup", {
+            Gui.showPopup("SelectionPopup", {
                 title: _t("Status documento fiscal"),
                 list: this.document_event_messages,
                 confirmText: "Confirm",
@@ -352,6 +373,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 id: 1000,
                 label: "Iniciando Processo de Transmissão",
             });
+            this.state_edoc = SITUACAO_EDOC_A_ENVIAR;
             this._document_status_popup();
             var result = false;
             var processor_result = null;
@@ -396,13 +418,13 @@ odoo.define("l10n_br_pos.models", function (require) {
             this._document_status_popup();
             return null;
         },
-        _document_check_result: async function (processor_result) {
+        _document_check_result: async function () {
             this.document_event_messages.push({
                 id: 1004,
                 label: "Validando retorno do envio",
             });
             this._document_status_popup();
-            this.document_state = "Autorizado";
+            this.state_edoc = SITUACAO_EDOC_AUTORIZADA;
         },
 
         //
@@ -416,15 +438,17 @@ odoo.define("l10n_br_pos.models", function (require) {
             this._document_status_popup();
             return true;
         },
-        _document_cancel_check_result: async function (processor_result) {
+        _document_cancel_check_result: async function () {
             this.document_event_messages.push({
                 id: 1004,
                 label: "Validando retorno do envio",
             });
             this._document_status_popup();
-            this.document_state = "Cancelado";
+            this.state_edoc = SITUACAO_EDOC_CANCELADA;
         },
         document_cancel: async function (cancel_reason) {
+            // TODO implementar campo e salvar no backend.
+            this.cancel_reason = cancel_reason;
             this.document_event_messages.push({
                 id: 2001,
                 label: "Cancelando o documento fiscal",
@@ -445,6 +469,11 @@ odoo.define("l10n_br_pos.models", function (require) {
             }
             return result;
         },
+        get_situacao_edoc: function () {
+            if (this.state_edoc) {
+                return SITUACAO_EDOC[this.state_edoc];
+            }
+            return "";
         },
         // Add_product: function (product, options) {
         //     //            Const product_fiscal_map = this.pos.fiscal_map_by_template_id[
@@ -529,7 +558,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     var _super_payment_line = models.Paymentline.prototype;
     models.Paymentline = models.Paymentline.extend({
-        _prepare_fiscal_json: function (json) {
+        _prepare_fiscal_json: function () {
             console.log("Verificar dados necessários da payment line");
         },
         // Export_as_JSON: function () {

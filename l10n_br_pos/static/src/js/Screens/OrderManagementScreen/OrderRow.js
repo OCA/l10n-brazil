@@ -27,9 +27,6 @@ odoo.define("l10n_br_pos.OrderRow", function (require) {
                 }
                 return null;
             }
-            get cnpj_cpf() {
-                return this.props.order.get_cnpj_cpf();
-            }
             get customer() {
                 const customer = this.order.get("client");
                 const cnpj_cpf = this.props.order.get_cnpj_cpf();
@@ -38,8 +35,8 @@ odoo.define("l10n_br_pos.OrderRow", function (require) {
                 }
                 return null;
             }
-            get document_state() {
-                return this.props.order.document_state;
+            get edoc_state() {
+                return this.props.order.get_situacao_edoc();
             }
         };
 
