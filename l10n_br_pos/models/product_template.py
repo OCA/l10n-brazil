@@ -16,7 +16,7 @@ class ProductTemplate(models.Model):
     )
 
     # @job
-    @api.depends_context('company')
+    @api.depends_context("company")
     def update_pos_fiscal_map(self):
         for record in self:
             pos_config_ids = record.env["pos.config"].search(
@@ -34,7 +34,7 @@ class ProductTemplate(models.Model):
                         "pos_config_id": pos_config_id.id,
                         "product_tmpl_id": record.id,
                         "partner_id": pos_config_id.partner_id.id,
-                        "company_id": self.env.company.id
+                        "company_id": self.env.company.id,
                     }
                 )
 
