@@ -241,7 +241,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
             // Dados do cliente
             // json.client = this.cnpj_cpf;
-            json.cnpj_cpf = this.cnpj_cpf;
+            json.cnpj_cpf = this.get_cnpj_cpf();
 
             // Dados adicionais do documento
             if (this.pos.config.additional_data) {
@@ -295,7 +295,11 @@ odoo.define("l10n_br_pos.models", function (require) {
             return false;
         },
         get_cnpj_cpf: function () {
-            return this.cnpj_cpf;
+            var partner_vat = null;
+            if (this.get_client() && this.get_client().vat) {
+                partner_vat = this.get_client().vat;
+            }
+            return this.cnpj_cpf || partner_vat;
         },
         get_taxes_and_percentages: function (order) {
             var taxes = {
