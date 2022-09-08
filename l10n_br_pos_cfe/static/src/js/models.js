@@ -10,6 +10,9 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
     const CFE_EMITIDO_COM_SUCESSO_MENSAGEM = "Autorizado o Uso do CF-e";
     const AMBIENTE_PRODUCAO = "producao";
 
+    const SITUACAO_EDOC_REJEITADA = "rejeitada";
+    const SITUACAO_EDOC_AUTORIZADA = "autorizada";
+
     var models = require("point_of_sale.models");
     const {Gui} = require("point_of_sale.Gui");
 
@@ -34,7 +37,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
-        // initialize: function (attributes, options) {
+        // Initialize: function (attributes, options) {
         //     // CORE METHODS
         //     _super_order.initialize.apply(this, arguments, options);
         //     this.init_locked = true;
@@ -79,9 +82,8 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             json.configs_sat.cod_ativacao = pos_config.cod_ativacao;
             json.configs_sat.impressora = pos_config.impressora;
             json.configs_sat.printer_params = pos_config.printer_params;
-
         },
-        // export_as_JSON: function () {
+        // Export_as_JSON: function () {
         //     var json = _super_order.export_as_JSON.apply(this, arguments);
         //     this._prepare_fiscal_json(json);
         //     return json;
@@ -92,36 +94,33 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             return json;
         },
         _document_get_processor: function () {
-            if (this.document_type == "59") {
+            if (this.document_type === "59") {
                 return this.pos.proxy.fiscal_device;
             }
             return _super_order._document_get_processor.call(this);
         },
         _document_check_result: async function (processor_result) {
-            if (!this.document_type == "59") {
+            if (!this.document_type === "59") {
                 return _super_order._document_check_result.call(this);
             }
             if (processor_result.successful && processor_result.response) {
-
-                if (processor_result.response.EEEEE == CFE_EMITIDO_COM_SUCESSO) {
-                    this.set_cfe_return(processor_result.response)
+                if (processor_result.response.EEEEE === CFE_EMITIDO_COM_SUCESSO) {
+                    this._set_cfe_send_response(processor_result.response);
                     return true;
-                } else {
-                    Gui.showPopup('ErrorPopup', {
-                        title: _t("Falha ao emitir o CF-E"),
-                        body: processor_result.response,
-                    });
                 }
+                Gui.showPopup("ErrorPopup", {
+                    title: this.pos.env._t("Falha ao emitir o CF-E"),
+                    body: processor_result.response,
+                });
+            } else if (processor_result.traceback) {
+                Gui.showPopup("ErrorTracebackPopup", processor_result.message);
             } else {
-                if (processor_result.traceback){
-                    Gui.showPopup('ErrorTracebackPopup', processor_result.message);
-                } else {
-                    Gui.showPopup('ErrorPopup', processor_result.message);
-                }
+                Gui.showPopup("ErrorPopup", processor_result.message);
             }
+            this.state_edoc = SITUACAO_EDOC_REJEITADA;
             return false;
         },
-        set_cfe_return: function (response) {
+        _set_cfe_send_response: function (response) {
             this.set_document_session_number(response.numeroSessao);
             this.set_document_key(response.chaveConsulta);
 
@@ -130,14 +129,15 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             this.status_description = response.mensagem;
             if (response.mensagemSEFAZ) {
                 this.status_description =
-                    this.status_description +
-                    '\n SEFAZ' +
-                    response.mensagemSEFAZ;
+                    this.status_description + "\n SEFAZ" + response.mensagemSEFAZ;
             }
             this.authorization_date = response.timeStamp;
             this.authorization_file = response.arquivoCFeSAT;
             this.document_qrcode_signature = response.assinaturaQRCODE;
-            // this.authorization_protocol =
+
+            this.state_edoc = SITUACAO_EDOC_AUTORIZADA;
+
+            // This.authorization_protocol =
             // processor_result.response.CCCC
             // processor_result.response.cod
             // processor_result.response.attributos
@@ -150,6 +150,21 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             this._document_status_popup();
             // TODO: Verificar se o horário no backend esta correto e a necesidade deste campo
             // this.fiscal_coupon_date = json_result.timeStamp.replace("T", " ");
+        },
+        _document_cancel_check_result: async function (result) {
+            if (this.backendId === result.response.order_id) {
+                this.cancel_file = result.response.xml;
+                this.cancel_protocol_number = result.response.numeroSessao;
+                this.cancel_document_key = result.response.chave_cfe;
+                // FIXME: cancel_date
+                // this.cancel_date =
+            } else {
+                Gui.showPopup("ErrorTracebackPopup", {
+                    title: this.pos.env._t("Falha ao cancelar o CF-E"),
+                    body: result.response,
+                });
+            }
+            return _super_order._document_cancel_check_result.apply(this, arguments);
         },
         set_document_key: function (document_key) {
             this.document_key = document_key;
@@ -168,7 +183,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             json.sat_payment_mode = this.payment_method.sat_payment_mode;
             json.sat_card_accrediting = this.payment_method.sat_card_accrediting;
         },
-        // export_as_JSON: function () {
+        // Export_as_JSON: function () {
         //     var json = _super_payment_line.export_as_JSON.apply(this, arguments);
         //     this._prepare_fiscal_json(json);
         //     return json;
