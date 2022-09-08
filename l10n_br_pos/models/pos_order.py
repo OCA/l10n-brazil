@@ -1,6 +1,9 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
+from datetime import datetime
+
+import pytz
 
 from odoo import api, fields, models
 
@@ -63,6 +66,14 @@ class PosOrder(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    document_rps_number = fields.Char(
+        string="Document Number",
+        copy=False,
+        index=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     document_key = fields.Char(
         string="Key",
         copy=False,
@@ -97,6 +108,16 @@ class PosOrder(models.Model):
         related="document_type_id.electronic",
         string="Electronic?",
         store=True,
+    )
+
+    document_qrcode_signature = fields.Char(
+        string="QrCode Signature",
+        copy=False,
+    )
+
+    document_qrcode_url = fields.Char(
+        string="QrCode URL",
+        copy=False,
     )
 
     date_in_out = fields.Datetime(
@@ -135,23 +156,63 @@ class PosOrder(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
-    document_authorization_date = fields.Datetime(
+    status_code = fields.Char(
+        string="Status Code",
+        copy=False,
+    )
+
+    status_name = fields.Char(
+        string="Status Name",
+        copy=False,
+    )
+
+    status_description = fields.Char(
+        string="Status Name",
+        copy=False,
+    )
+
+    authorization_date = fields.Datetime(
         string="Authorization Date",
         copy=False,
     )
 
-    document_status_code = fields.Char(
-        string="Status Code",
+    authorization_protocol = fields.Char(
+        string="Authorization Protocol",
+        readonly=True,
+    )
+
+    authorization_file = fields.Binary(
+        string="Authorization File",
+        readonly=True,
+    )
+
+    cancel_date = fields.Datetime(
+        string="Cancel Date",
         copy=False,
     )
-    document_status_name = fields.Char(
-        string="Status Name",
+
+    cancel_protocol = fields.Char(
+        string="Cancel Protocol",
+        readonly=True,
+    )
+
+    cancel_file = fields.Binary(
+        string="Cancel File",
+        readonly=True,
+    )
+
+    document_state = fields.Char(
+        string="Numero identificador sessao",
         copy=False,
     )
+
     document_session_number = fields.Char(
         string="Numero identificador sessao",
         copy=False,
     )
+
+    document_date = fields.Date(string="Data")
+
     # TODO: Trocar para eventos?
     document_file_id = fields.Many2one(
         comodel_name="ir.attachment",
@@ -193,6 +254,8 @@ class PosOrder(models.Model):
         string="Comments",
     )
 
+    additional_data = fields.Text()
+
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("lines")
@@ -229,133 +292,83 @@ class PosOrder(models.Model):
         }
         return attachment.create(vals)
 
-    # @api.model
-    # def _process_order(self, pos_order_vals):
-    #     order = super(
-    #         PosOrder,
-    #         self.with_context(
-    #             mail_create_nolog=True,
-    #             tracking_disable=True,
-    #             mail_create_nosubscribe=True,
-    #             mail_notrack=True,
-    #         ),
-    #     )._process_order(pos_order_vals)
-    #     document_file = pos_order_vals.get("document_file")
-    #     if document_file:
-    #         order.document_file_id = order._save_attachment(
-    #             file_name=order.document_key + ".xml", file_content=document_file
-    #         ).id
-    #     return order
+    @api.model
+    def _process_order(self, order, draft, existing_order):
 
-    # @api.model
-    # def _order_fields(self, ui_order):
-    #     result = super()._order_fields(ui_order)
-    #     ui_order.get("document_type")
-    #     temp = {
-    #         "document_authorization_date": ui_order.get("document_authorization_date"),
-    #         "document_status_code": ui_order.get("document_status_code"),
-    #         "document_status_name": ui_order.get("document_status_name"),
-    #         "document_session_number": ui_order.get("document_session_number"),
-    #         "document_key": ui_order.get("document_key"),
-    #         "cnpj_cpf": ui_order.get("cnpj_cpf"),
-    #         "fiscal_operation_id": ui_order.get("fiscal_operation_id"),
-    #         "document_type_id": ui_order.get("document_type_id"),
-    #     }
-    #     document_key = ui_order.get("document_key")
-    #     if document_key:
-    #         key = ChaveCFeSAT(document_key)
-    #         temp.update(
-    #             {
-    #                 "document_number": key.numero_cupom_fiscal,
-    #                 "document_serie": key.numero_serie,
-    #             }
-    #         )
-    #     result.update(temp)
-    #     result["fiscal_coupon_date"] = fields.Datetime.from_string(
-    #         ui_order.get("fiscal_coupon_date", fields.Datetime.now())
-    #     ) + timedelta(hours=3)
-    #     return result
+        order_id = super(
+            PosOrder,
+            self.with_context(
+                mail_create_nolog=True,
+                tracking_disable=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+            ),
+        )._process_order(order, draft, existing_order)
 
-    # @api.model
-    # def _pos_order_type(self):
-    #     return SIMPLIFIED_INVOICE_TYPE + [('nfe', 'NF-E')]
-    #
-    # simplified = fields.Boolean(string='Simplified invoice', default=True)
-    # fiscal_document_type = fields.Selection(
-    #     string='Fiscal Document Type',
-    #     selection='_pos_order_type',
-    #     states={'draft': [('readonly', False)]},
-    #     readonly=True
-    # )
-    #
-    # cfe_return = fields.Binary('Retorno Cfe')
-    #
-    # chave_cfe = fields.Char('Chave da Cfe')
-    #
-    # num_sessao_sat = fields.Char('Número Sessão SAT envio Cfe')
-    #
-    # pos_order_associated = fields.Many2one('pos.order', 'Venda Associada')
-    #
-    # canceled_order = fields.Boolean('Venda Cancelada', readonly=True)
-    #
-    # cfe_cancelamento_return = fields.Binary('Retorno Cfe Cancelamento')
-    #
-    # chave_cfe_cancelamento = fields.Char('Chave da Cfe Cancelamento')
-    #
-    # num_sessao_sat_cancelamento = fields.Char(
-    #     'Número Sessão SAT Cancelamento'
-    # )
+        if order.get("authorization_file"):
+            order.document_file_id = order._save_attachment(
+                file_name=order.document_key + ".xml",
+                file_content=order.pop("authorization_file"),
+            ).id
 
-    # @api.multi
-    # def write(self, vals):
-    #     result = super(PosOrder, self).write(vals)
-    #     self.simplified_limit_check()
-    #     return result
-    #
-    # @api.model
-    # def create(self, vals):
-    #     order = super(PosOrder, self).create(vals)
-    #     pos_config = order.session_id.config_id
-    #     if pos_config.iface_sat_via_proxy:
-    #         sequence = pos_config.sequence_id
-    #         cfe = ChaveCFeSAT(vals['chave_cfe'])
-    #         order.name = sequence._interpolate_value("%s / %s" % (
-    #             cfe.numero_serie,
-    #             cfe.numero_cupom_fiscal,
-    #         ))
-    #     order.simplified_limit_check()
-    #     return order
+        if order.get("cancel_file"):
+            order.cancel_document_file_id = order._save_attachment(
+                file_name=order.document_key + ".xml",
+                file_content=order.pop("cancel_file"),
+            ).id
 
-    # @api.multi
-    # def create_picking(self):
-    #     super().create_picking()
-    #     fiscal_category = self.session_id.config_id.fiscal_operation_id
-    #     self.picking_id.fiscal_operation_id = \
-    #         fiscal_category.id
-    #     obj_fp_rule = self.env['account.fiscal.position.rule']
-    #     kwargs = {
-    #         'partner_id': self.picking_id.company_id.partner_id.id,
-    #         'partner_shipping_id': self.picking_id.company_id.partner_id.id,
-    #         'fiscal_operation_id': fiscal_category.id,
-    #         'company_id': self.picking_id.company_id.id,
-    #     }
-    #     self.picking_id.fiscal_position = obj_fp_rule.apply_fiscal_mapping(
-    #         {'value': {}}, **kwargs
-    #     )['value']['fiscal_position']
-    #     return True
-    #
-    # @api.model
-    # def _process_order(self, order):
-    #     order_id = super()._process_order(order)
-    #     # order_id = self.browse(order_id)
-    #     # for statement in order_id.statement_ids:
-    #     #     if statement.journal_id.sat_payment_mode == '05' and
-    #           statement.journal_id.pagamento_funcionarios:
-    #     #         order_id.partner_id.credit_funcionario -= statement.amount
-    #     #     elif statement.journal_id.sat_payment_mode == "05":
-    #     #         order_id.partner_id.credit_limit -= statement.amount
-    #     return order_id
-    #
+        return order_id
+
+    @api.model
+    def _order_fields(self, ui_order):
+        order_fields = super(PosOrder, self)._order_fields(ui_order)
+        order_fields["status_code"] = ui_order.get("status_code")
+        order_fields["status_name"] = ui_order.get("status_name")
+        order_fields["status_description"] = ui_order.get("status_description")
+
+        if ui_order.get("authorization_date"):
+            order_fields["authorization_date"] = datetime.fromisoformat(
+                ui_order.get("authorization_date")
+            )
+        order_fields["authorization_protocol"] = ui_order.get("authorization_protocol")
+        order_fields["authorization_file"] = ui_order.get("authorization_file")
+
+        if ui_order.get("cancel_date"):
+            order_fields["cancel_date"] = datetime.fromisoformat(
+                ui_order.get("cancel_date")
+            )
+        order_fields["cancel_protocol"] = ui_order.get("cancel_protocol")
+        order_fields["cancel_file"] = ui_order.get("cancel_file")
+
+        order_fields["document_state"] = ui_order.get("document_state")
+        order_fields["document_number"] = ui_order.get("document_number")
+        order_fields["document_serie"] = ui_order.get("document_serie")
+        order_fields["document_session_number"] = ui_order.get(
+            "document_session_number"
+        )
+        order_fields["document_rps_number"] = ui_order.get("document_rps_number")
+
+        order_fields["document_key"] = ui_order.get("document_key")
+        order_fields["document_date"] = ui_order.get("document_date")
+        order_fields["document_electronic"] = ui_order.get("document_electronic")
+
+        order_fields["document_qrcode_signature"] = ui_order.get(
+            "document_qrcode_signature"
+        )
+        order_fields["document_qrcode_url"] = ui_order.get("document_qrcode_url")
+
+        # order_fields['document_event_messages'] = ui_order.get('document_qrcode_url')
+
+        order_fields["fiscal_operation_id"] = ui_order.get("fiscal_operation_id")
+        order_fields["document_type_id"] = ui_order.get("document_type_id")
+        order_fields["document_type"] = ui_order.get("document_type")
+
+        order_fields["cnpj_cpf"] = ui_order.get("cnpj_cpf")
+
+        order_fields["additional_data"] = ui_order.get("additional_data")
+
+        return order_fields
+
     # @api.model
     # def return_orders_from_session(self, **kwargs):
     #     orders_session = {'Orders': []}
@@ -454,7 +467,52 @@ class PosOrder(models.Model):
     #         })
     #
     #     return True
-    #
+
+    def _export_for_ui(self, order):
+        res = super()._export_for_ui(order)
+
+        timezone = pytz.timezone(self._context.get("tz") or self.env.user.tz or "UTC")
+
+        res["status_code"] = order.status_code
+        res["status_name"] = order.status_name
+        res["status_description"] = order.status_description
+
+        if order.authorization_date:
+            res["authorization_date"] = order.authorization_date.astimezone(timezone)
+
+        res["authorization_protocol"] = order.authorization_protocol
+        res["authorization_file"] = order.authorization_file
+
+        if order.cancel_date:
+            res["cancel_date"] = order.cancel_date.astimezone(timezone)
+        res["cancel_protocol"] = order.cancel_protocol
+        res["cancel_file"] = order.cancel_file
+
+        res["document_state"] = order.document_state
+        res["document_number"] = order.document_number
+        res["document_serie"] = order.document_serie
+        res["document_session_number"] = order.document_session_number
+        res["document_rps_number"] = order.document_rps_number
+
+        res["document_key"] = order.document_key
+        res["document_date"] = order.document_date
+        res["document_electronic"] = order.document_electronic
+
+        res["document_qrcode_signature"] = order.document_qrcode_signature
+        res["document_qrcode_url"] = order.document_qrcode_url
+
+        # res['document_event_messages'] = order.document_event_messages
+
+        res["fiscal_operation_id"] = order.fiscal_operation_id.id
+        res["document_type_id"] = order.document_type_id.id
+        res["document_type"] = order.document_type
+
+        res["cnpj_cpf"] = order.cnpj_cpf
+
+        res["additional_data"] = order.additional_data
+
+        return res
+
     @api.model
     def retornar_order_by_id(self, order_id):
         order = self.browse(order_id)
@@ -521,30 +579,3 @@ class PosOrder(models.Model):
             mail_create_nosubscribe=True,
             mail_notrack=True,
         ).refund()
-
-    #
-    # @api.one
-    # def action_invoice(self):
-    #     self.simplified = False
-    #     self.fiscal_document_type = 'nfe'
-    #
-    # @api.multi
-    # def simplified_limit_check(self):
-    #     for order in self:
-    #         if not order.simplified:
-    #             continue
-    #         limit = order.session_id.config_id.simplified_invoice_limit
-    #         amount_total = order.amount_total
-    #         precision_digits = dp.get_precision('Account')(self.env.cr)[1]
-    #         # -1 or 0: amount_total <= limit, simplified
-    #         #       1: amount_total > limit, can not be simplified
-    #         simplified = (
-    #             float_compare(amount_total, limit,
-    #                           precision_digits=precision_digits) <= 0)
-    #         # Change simplified flag if incompatible
-    #         if not simplified:
-    #             order.write(
-    #                 {'simplified': simplified,
-    #                  'fiscal_document_type':
-    #                      order.session_id.config_id.simplified_invoice_type
-    #                  })
