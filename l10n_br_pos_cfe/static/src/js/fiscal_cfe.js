@@ -55,7 +55,8 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
             if (order) {
                 this.fiscal_queue.push(order);
             }
-            let sendFiscalResult, sendFiscalResultParsed;
+            let sendFiscalResult = null;
+            let sendFiscalResultParsed = null;
 
             while (this.fiscal_queue.length > 0) {
                 var order = this.fiscal_queue.shift();
@@ -102,6 +103,8 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
         },
 
         session_number: async function () {
+            let sendFiscalResult = null;
+            let sendFiscalResultParsed = null;
             try {
                 sendFiscalResult = await this.session_number_job();
             } catch (error) {
@@ -122,18 +125,23 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
                 this.fiscal_queue.length = 0;
                 return this.fiscalDocumentResultGenerator.IoTResultError();
             }
+
+            return this.fiscalDocumentResultGenerator.Successful(
+                sendFiscalResultParsed
+            );
         },
 
         cancel_order: async function (order) {
+            let sendFiscalResult = null;
+            // Const sendFiscalResultParsed = null;
             const order_json = {
-                'order_id': order.backendId,
-                'chaveConsulta': order.document_key,
-                'doc_destinatario': order.cnpj_cpf,
-                'xml_cfe_venda': order.authorization_file,
-                'xml_cfe_cacelada': order.cancel_file,
-                'cnpj_software_house': order.pos.config.cnpj_software_house,
+                order_id: order.backendId,
+                chaveConsulta: order.document_key,
+                doc_destinatario: order.cnpj_cpf,
+                xml_cfe_venda: order.authorization_file,
+                xml_cfe_cacelada: order.cancel_file,
+                cnpj_software_house: order.pos.config.cnpj_software_house,
             };
-            let sendFiscalResult, sendFiscalResultParsed;
 
             try {
                 sendFiscalResult = await this.cancel_order_job(order_json);
@@ -142,26 +150,37 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
                 return this.fiscalDocumentResultGenerator.IoTActionError(error);
             }
 
-            try {
-                sendFiscalResultParsed = JSON.parse(sendFiscalResult);
-            } catch (error) {
-                // Error in communicating to the IoT box.
-                return this.fiscalDocumentResultGenerator.IoTResultError(
-                    sendFiscalResult
-                );
-            }
-
-            // Rpc call is okay but iot failed because
-            // IoT box can't find a printer.
-            if (!sendFiscalResult || sendFiscalResult.result === false) {
+            // Esse trecho deve ser removido.
+            if (!sendFiscalResult) {
                 return this.fiscalDocumentResultGenerator.IoTResultError();
             }
 
-            return this.fiscalDocumentResultGenerator.Successful(
-                sendFiscalResultParsed
-            );
+            return this.fiscalDocumentResultGenerator.Successful(sendFiscalResult);
+            // Fim do trecho a ser removido.
+
+            // A API do IOT esta retornando fora do padrão, por isso o código abaixo
+            // esta comentado, deve ser alterádo lá para que aqui fique padronizado.
+
+            // try {
+            //     sendFiscalResultParsed = JSON.parse(sendFiscalResult);
+            // } catch (error) {
+            //     // Error in communicating to the IoT box.
+            //     return this.fiscalDocumentResultGenerator.IoTResultError(
+            //         sendFiscalResult
+            //     );
+            // }
+
+            // // Rpc call is okay but iot failed because
+            // // IoT box can't find a printer.
+            // if (!sendFiscalResult || sendFiscalResult.result === false) {
+            //     return this.fiscalDocumentResultGenerator.IoTResultError();
+            // }
+
+            // return this.fiscalDocumentResultGenerator.Successful(
+            //     sendFiscalResultParsed
+            // );
         },
-        print_order: async function (order) {},
+        // Print_order: async function (order) {},
         _onIoTActionResult: function (data) {
             if (this.pos && (data === false || data.result === false)) {
                 Gui.showPopup("ErrorPopup", {

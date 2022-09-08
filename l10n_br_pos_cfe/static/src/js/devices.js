@@ -28,7 +28,7 @@ odoo.define("l10n_br_pos_cfe.devices", function (require) {
 
             return res;
         },
-        set_connection_status: function (status, drivers, msg = "") {
+        set_connection_status: function (status) {
             ProxyDeviceSuper.prototype.set_connection_status.apply(this, arguments);
             if (status === "connected" && this.fiscal_device) {
                 var oldstatus = this.get("status");
@@ -39,17 +39,17 @@ odoo.define("l10n_br_pos_cfe.devices", function (require) {
                 }
             }
         },
-        connect: function (url) {
+        connect: function () {
             var result = ProxyDeviceSuper.prototype.connect.apply(this, arguments);
             this.connect_to_fiscal_device();
             return result;
         },
-        autoconnect: function (options) {
+        autoconnect: function () {
             var result = ProxyDeviceSuper.prototype.autoconnect.apply(this, arguments);
             this.connect_to_fiscal_device();
             return result;
         },
-        keepalive: function (options) {
+        keepalive: function () {
             var result = ProxyDeviceSuper.prototype.keepalive.apply(this, arguments);
             return result;
         },
