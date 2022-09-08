@@ -63,6 +63,8 @@
     "qweb": [
         # "static/src/xml/pos.xml",
         "static/src/xml/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.xml",
+        "static/src/xml/Screens/OrderManagementScreen/OrderList.xml",
+        "static/src/xml/Screens/OrderManagementScreen/OrderRow.xml",
     ],
     "installable": True,
 }

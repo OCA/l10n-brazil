@@ -117,7 +117,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
                 // L10n_br_fiscal.document fields
 
-                this.document_state = this.document_state || null;
+                this.document_state = this.document_state || "Em Digitação";
                 this.document_number = this.document_number || null;
                 this.document_serie = this.document_serie || null;
                 this.document_session_number = this.document_session_number || null;
@@ -402,6 +402,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 label: "Validando retorno do envio",
             });
             this._document_status_popup();
+            this.document_state = "Autorizado";
         },
 
         //
@@ -414,6 +415,14 @@ odoo.define("l10n_br_pos.models", function (require) {
             });
             this._document_status_popup();
             return true;
+        },
+        _document_cancel_check_result: async function (processor_result) {
+            this.document_event_messages.push({
+                id: 1004,
+                label: "Validando retorno do envio",
+            });
+            this._document_status_popup();
+            this.document_state = "Cancelado";
         },
         document_cancel: async function (cancel_reason) {
             this.document_event_messages.push({
@@ -431,7 +440,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                     // Efetivamente cancela o documento fiscal
                     processor_result = await processor.cancel_order(this);
                     // Valida se foi emitido corretamente e salva os dados do resulto
-                    result = await this._document_check_result(processor_result);
+                    result = await this._document_cancel_check_result(processor_result);
                 }
             }
             return result;
