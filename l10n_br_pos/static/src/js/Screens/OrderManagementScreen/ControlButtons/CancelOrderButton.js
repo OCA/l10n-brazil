@@ -71,7 +71,7 @@ odoo.define("l10n_br_pos.CancelOrderButton", function (require) {
         async _onClick() {
             const order = this.orderManagementContext.selectedOrder;
             if (!order) return;
-            const cancel_reason = this._show_selection_popup();
+            const cancel_reason = await this._show_selection_popup();
             if (cancel_reason) {
                 order.document_cancel(cancel_reason);
             }
