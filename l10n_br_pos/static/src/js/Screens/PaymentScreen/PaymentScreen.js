@@ -17,7 +17,7 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
             async _isOrderValid(isForceValidate) {
                 var result = super._isOrderValid(isForceValidate);
                 var order = this.env.pos.get_order();
-                result = await order.document_send();
+                result = await order.document_send(this);
                 return result;
             }
         };

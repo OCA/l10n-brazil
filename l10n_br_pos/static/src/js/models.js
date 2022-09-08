@@ -368,7 +368,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 cancelText: "Cancel",
             });
         },
-        document_send: async function () {
+        document_send: async function (component) {
             this.document_event_messages.push({
                 id: 1000,
                 label: "Iniciando Processo de Transmissão",
@@ -387,6 +387,9 @@ odoo.define("l10n_br_pos.models", function (require) {
                     processor_result = await processor.send_order(this);
                     // Valida se foi emitido corretamente e salva os dados do resulto
                     result = await this._document_check_result(processor_result);
+                    if (result) {
+                        component.trigger("close-popup");
+                    }
                 }
             }
             return result;
