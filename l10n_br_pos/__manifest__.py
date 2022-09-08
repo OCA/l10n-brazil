@@ -28,7 +28,7 @@
         #   "pos_order_return",
     ],
     "external_dependencies": {
-        "python": ["satcomum"],
+        "python": ["erpbrasil.base"],
     },
     "data": [
         # security

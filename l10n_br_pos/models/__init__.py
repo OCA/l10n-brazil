@@ -14,5 +14,3 @@ from . import stock_move
 from . import l10n_br_pos_product_fiscal_map
 from . import product_template
 from . import mail_thread
-
-# from . import ir_sequence

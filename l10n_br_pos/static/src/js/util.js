@@ -1,26 +1,28 @@
 odoo.define("l10n_br_pos.util", function () {
     "use strict";
 
-    function validate_cnpj_cpf(val) {
-        val = val.trim();
-        val = val.replace(/\./g, "");
-        val = val.replace("-", "");
-        val = val.replace("/", "");
-        val = val.split("");
+    function validate_cnpj_cpf(value) {
+        var cnpj_cpf = value;
 
-        if (val.length == 11) {
-            const cpf = val;
+        cnpj_cpf = cnpj_cpf.trim();
+        cnpj_cpf = cnpj_cpf.replace(/\./g, "");
+        cnpj_cpf = cnpj_cpf.replace("-", "");
+        cnpj_cpf = cnpj_cpf.replace("/", "");
+        cnpj_cpf = cnpj_cpf.split("");
+
+        if (cnpj_cpf.length === 11) {
+            const cpf = cnpj_cpf;
             let v1 = 0;
             let v2 = 0;
             let aux = false;
 
             for (let i = 1; cpf.length > i; i++) {
-                if (cpf[i - 1] != cpf[i]) {
+                if (cpf[i - 1] !== cpf[i]) {
                     aux = true;
                 }
             }
 
-            if (aux == false) {
+            if (aux === false) {
                 return false;
             }
 
@@ -30,11 +32,11 @@ odoo.define("l10n_br_pos.util", function () {
 
             v1 = (v1 * 10) % 11;
 
-            if (v1 == 10) {
+            if (v1 === 10) {
                 v1 = 0;
             }
 
-            if (v1 != cpf[9]) {
+            if (v1 !== cpf[9]) {
                 return false;
             }
 
@@ -44,27 +46,27 @@ odoo.define("l10n_br_pos.util", function () {
 
             v2 = (v2 * 10) % 11;
 
-            if (v2 == 10) {
+            if (v2 === 10) {
                 v2 = 0;
             }
 
-            if (v2 != cpf[10]) {
+            if (v2 !== cpf[10]) {
                 return false;
             }
             return true;
-        } else if (val.length == 14) {
-            const cnpj = val;
+        } else if (cnpj_cpf.length === 14) {
+            const cnpj = cnpj_cpf;
             let v1 = 0;
             let v2 = 0;
             let aux = false;
 
             for (let i = 1; cnpj.length > i; i++) {
-                if (cnpj[i - 1] != cnpj[i]) {
+                if (cnpj[i - 1] !== cnpj[i]) {
                     aux = true;
                 }
             }
 
-            if (aux == false) {
+            if (aux === false) {
                 return false;
             }
 
@@ -84,7 +86,7 @@ odoo.define("l10n_br_pos.util", function () {
                 v1 = 11 - v1;
             }
 
-            if (v1 != cnpj[12]) {
+            if (v1 !== cnpj[12]) {
                 return false;
             }
 
@@ -104,12 +106,12 @@ odoo.define("l10n_br_pos.util", function () {
                 v2 = 11 - v2;
             }
 
-            if (v2 != cnpj[13]) {
+            if (v2 !== cnpj[13]) {
                 return false;
             }
             return true;
         }
-        return val.length === 0;
+        return cnpj_cpf.length === 0;
     }
 
     return {
