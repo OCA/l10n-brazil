@@ -3,7 +3,7 @@
 
 {
     "name": "l10n_br_tef",
-    "version": "12.0.1.0.0",
+    "version": "14.0.1.0.0",
     "category": "Point Of Sale",
     "summary": "Manage Payment TEF device from POS",
     "author": "KMEE, Odoo Community Association (OCA)",
@@ -11,7 +11,6 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
         "point_of_sale",
-        "pos_order_mgmt",
     ],
     "data": [
         "data/account_journal_data.xml",

@@ -12,6 +12,8 @@ odoo.define("l10n_br_tef.screens", function (require) {
     "use strict";
 
     const screens = require("point_of_sale.screens");
+    const core = require("web.core");
+    const _t = core._t;
 
     screens.PaymentScreenWidget.include({
         render_paymentlines: function () {
@@ -21,7 +23,7 @@ odoo.define("l10n_br_tef.screens", function (require) {
             this._super.apply(this, arguments);
             this.$(".paymentlines-container")
                 .unbind("click")
-                .on("click", ".tef-payment-terminal-transaction-start", (event) => {
+                .on("click", ".tef-payment-terminal-transaction-start", () => {
                     this.pos.get_order().tef_in_transaction = true;
                     this.order_changes();
                     this.pos.tef_client.start_operation("purchase", this);

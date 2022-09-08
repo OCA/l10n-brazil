@@ -12,6 +12,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
     "use strict";
 
     const core = require("web.core");
+    const _t = core._t;
+
     let ls_transaction_global_value = "";
 
     /**
@@ -261,15 +263,14 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_removed_card: function () {
             const self = this;
             if (
-                this.tags.servico == "executar" &&
+                this.tags.servico === "executar" &&
                 this.tags.mensagem &&
                 this.tags.mensagem === "Transacao aprovada, RETIRE O CARTAO"
             ) {
@@ -282,9 +283,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_approval_request: function () {
@@ -299,9 +299,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_chip_processing: function () {
@@ -317,9 +316,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_cancellation_ok: function () {
@@ -331,9 +329,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_cancellation_remove_card: function () {
@@ -348,17 +345,16 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_cancellation_finishes: function () {
             const self = this;
             if (
-                this.tags.retorno == "1" &&
-                this.tags.servico == "executar" &&
-                this.tags.transacao == "Administracao Cancelar"
+                this.tags.retorno === "1" &&
+                this.tags.servico === "executar" &&
+                this.tags.transacao === "Administracao Cancelar"
             ) {
                 self.finish();
 
@@ -370,9 +366,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 }, 2000);
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_inserted_password: function () {
@@ -387,17 +382,16 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_approved_transaction: function () {
             if (
                 this.tags.automacao_coleta_mensagem &&
-                this.tags.automacao_coleta_mensagem == "Transacao aprovada" &&
-                this.tags.servico == "" &&
-                this.tags.transacao == ""
+                this.tags.automacao_coleta_mensagem === "Transacao aprovada" &&
+                this.tags.servico === "" &&
+                this.tags.transacao === ""
             ) {
                 this.screenPopupPagamento("Transaction Approved");
                 this.collect("");
@@ -405,9 +399,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_completed_start_execute: function () {
@@ -435,9 +428,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
 
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_transaction_card_number: function () {
@@ -455,9 +447,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
 
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_type_card_number: function () {
@@ -475,19 +466,18 @@ odoo.define("l10n_br_tef.devices", function (require) {
 
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_completed_send_security_code: function () {
             if (
-                this.tags.automacao_coleta_palavra_chave == "transacao_valor" &&
-                this.tags.automacao_coleta_tipo == "N" &&
-                this.tags.automacao_coleta_retorno == "0"
+                this.tags.automacao_coleta_palavra_chave === "transacao_valor" &&
+                this.tags.automacao_coleta_tipo === "N" &&
+                this.tags.automacao_coleta_retorno === "0"
             ) {
                 // Send the value
-                let transaction_value;
+                let transaction_value = null;
                 if (
                     this.cancelation_info &&
                     this.cancelation_info.cancellation_transaction_value
@@ -507,17 +497,16 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_retorno = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_completed_execution: function () {
             if (
                 this.tags.automacao_coleta_palavra_chave ===
                     "transacao_cartao_numero" &&
-                this.tags.automacao_coleta_tipo != "N" &&
-                this.tags.automacao_coleta_retorno == "0" &&
+                this.tags.automacao_coleta_tipo !== "N" &&
+                this.tags.automacao_coleta_retorno === "0" &&
                 !this.debug_card
             ) {
                 this.collect("");
@@ -529,13 +518,12 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_retorno = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_filled_value: function () {
-            if (this.tags.automacao_coleta_mensagem == "AGUARDE A SENHA") {
+            if (this.tags.automacao_coleta_mensagem === "AGUARDE A SENHA") {
                 this.collect("");
 
                 this.screenPopupPagamento("Please, enter the password");
@@ -543,9 +531,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_request_confirmation: function () {
@@ -565,17 +552,16 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_mensagem = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         finishes_operation: function () {
             const self = this;
             if (
-                this.tags.retorno == "1" &&
-                this.tags.servico == "executar" &&
-                this.tags.transacao == "Cartao Vender"
+                this.tags.retorno === "1" &&
+                this.tags.servico === "executar" &&
+                this.tags.transacao === "Cartao Vender"
             ) {
                 self.finish();
                 self.complete_paymentline();
@@ -588,9 +574,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 }, 2000);
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         disable_order_transaction: function () {
@@ -664,20 +649,19 @@ odoo.define("l10n_br_tef.devices", function (require) {
         },
 
         check_completed_consult: function () {
-            if (this.tags.servico == "consultar" && this.tags.retorno == "0") {
+            if (this.tags.servico === "consultar" && this.tags.retorno === "0") {
                 return true;
             } else if (
-                this.tags.automacao_coleta_mensagem !=
+                this.tags.automacao_coleta_mensagem !==
                     "Fluxo Abortado pelo operador!!" &&
-                this.tags.servico == "" &&
-                this.tags.retorno != "0" &&
+                this.tags.servico === "" &&
+                this.tags.retorno !== "0" &&
                 !this.tags.mensagem
             ) {
                 this.redo_operation(this.tags.sequencial);
                 return false;
             }
-                return false;
-
+            return false;
         },
 
         check_cancelled_transaction: function () {
@@ -685,8 +669,7 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.disable_order_transaction();
                 return true;
             }
-                return false;
-
+            return false;
         },
 
         screenPopupPagamento: function (msg) {
@@ -699,9 +682,9 @@ odoo.define("l10n_br_tef.devices", function (require) {
 
         check_completed_start: function () {
             if (
-                this.tags.servico == "iniciar" &&
-                this.tags.retorno == "1" &&
-                this.tags.aplicacao_tela == "VBIAutomationTest"
+                this.tags.servico === "iniciar" &&
+                this.tags.retorno === "1" &&
+                this.tags.aplicacao_tela === "VBIAutomationTest"
             ) {
                 /*
                  * TODO: Check how an installment purchase is made at the POS.
@@ -730,9 +713,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.aplicacao_tela = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_user_access: function () {
@@ -748,9 +730,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_tipo = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         _get_cancel_date: function (date) {
@@ -817,8 +798,7 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_tipo = "";
                 return true;
             }
-                return false;
-
+            return false;
         },
 
         check_purchase_date: function () {
@@ -834,8 +814,7 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_tipo = "";
                 return true;
             }
-                return false;
-
+            return false;
         },
 
         check_document_number: function () {
@@ -851,8 +830,7 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_tipo = "";
                 return true;
             }
-                return false;
-
+            return false;
         },
 
         check_payment_method: function () {
@@ -868,9 +846,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_tipo = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_institution: function () {
@@ -885,9 +862,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_tipo = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_plots: function () {
@@ -903,9 +879,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_tipo = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
 
         check_for_errors: function () {
@@ -916,7 +891,7 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_retorno === "9" &&
                 this.tags.automacao_coleta_mensagem ===
                     "Fluxo Abortado pelo operador!!" &&
-                this.tags.retorno != "2"
+                this.tags.retorno !== "2"
             ) {
                 return true;
             } else if (
@@ -960,7 +935,8 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.redo_operation(this.tags.sequencial);
                 return true;
             } else {
-                const message = this.tags.message || this.tags.automacao_coleta_mensagem;
+                const message =
+                    this.tags.message || this.tags.automacao_coleta_mensagem;
                 if (message) this.screenPopupPagamento(message);
                 this.abort();
             }
@@ -1058,10 +1034,10 @@ odoo.define("l10n_br_tef.devices", function (require) {
 
         check_completed_send_card_number: function () {
             if (
-                this.tags.automacao_coleta_palavra_chave ==
+                this.tags.automacao_coleta_palavra_chave ===
                     "transacao_cartao_validade" &&
-                this.tags.automacao_coleta_tipo == "D" &&
-                this.tags.automacao_coleta_retorno == "0"
+                this.tags.automacao_coleta_tipo === "D" &&
+                this.tags.automacao_coleta_retorno === "0"
             ) {
                 // Send the card expiring date
                 this.collect(this.debug_card.card_expiring_date);
@@ -1071,16 +1047,15 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_retorno = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
         check_completed_send_expiring_date: function () {
             if (
-                this.tags.automacao_coleta_palavra_chave ==
+                this.tags.automacao_coleta_palavra_chave ===
                     "transacao_cartao_codigo_seguranca" &&
-                this.tags.automacao_coleta_tipo == "X" &&
-                this.tags.automacao_coleta_retorno == "0"
+                this.tags.automacao_coleta_tipo === "X" &&
+                this.tags.automacao_coleta_retorno === "0"
             ) {
                 // Send the card security code
                 this.collect(this.debug_card.card_security_code);
@@ -1090,25 +1065,23 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_retorno = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
         check_completed_send: function () {
-            if (this.tags.automacao_coleta_retorno == "0") {
+            if (this.tags.automacao_coleta_retorno === "0") {
                 // Here the user must insert the card
 
                 this.tags.automacao_coleta_retorno = "";
                 return true;
             }
-                // Handle Exceptions Here
-                return false;
-
+            // Handle Exceptions Here
+            return false;
         },
         check_inserted_card: function () {
             if (
                 this.tags.automacao_coleta_palavra_chave === "transacao_valor" &&
-                this.tags.automacao_coleta_tipo != "N"
+                this.tags.automacao_coleta_tipo !== "N"
             ) {
                 // Transaction Value
                 const transaction_value = this.pos.get("selectedOrder")
@@ -1125,8 +1098,7 @@ odoo.define("l10n_br_tef.devices", function (require) {
                 this.tags.automacao_coleta_retorno = "";
                 return true;
             }
-                return false;
-
+            return false;
         },
         check_filled_value_send: function () {
             // Here the user must enter his password
