@@ -13,13 +13,10 @@
         "point_of_sale",
     ],
     "data": [
-        "data/account_journal_data.xml",
-        "views/l10n_br_tef_view.xml",
+        "views/pos_config_view.xml",
+        "views/pos_payment_method_view.xml",
+
         "views/pos_assets.xml",
-        "views/account_journal_view.xml",
-    ],
-    "demo": [
-        "demo/l10n_br_tef_demo.xml",
     ],
     "qweb": ["static/src/xml/templates.xml"],
 }

@@ -3,20 +3,22 @@
 
     <template id="assets" inherit_id="point_of_sale.assets">
         <xpath expr="." position="inside">
-            <script
+            <!-- <script
                 type="text/javascript"
                 src="/l10n_br_tef/static/src/js/devices.js"
-            />
+            /> -->
+            <script type="text/javascript" src="/l10n_br_tef/static/src/js/payment_destaxa.js" />
             <script type="text/javascript" src="/l10n_br_tef/static/src/js/models.js" />
+            <!--
             <script
                 type="text/javascript"
                 src="/l10n_br_tef/static/src/js/screens.js"
-            />
-            <script
+            /> -->
+            <!-- <script
                 type="text/javascript"
                 src="/l10n_br_tef/static/src/js/widgets.js"
-            />
-            <link rel="stylesheet" href="/l10n_br_tef/static/src/css/l10n_br_tef.css" />
+            /> -->
+            <!-- <link rel="stylesheet" href="/l10n_br_tef/static/src/css/l10n_br_tef.css" /> -->
         </xpath>
     </template>
 

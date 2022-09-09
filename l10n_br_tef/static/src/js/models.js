@@ -12,13 +12,16 @@ odoo.define("l10n_br_tef.models", function (require) {
     "use strict";
 
     const models = require("point_of_sale.models");
+
+    var DestaxaPaymentTerminal = require("l10n_br_tef.PaymentDestaxa");
+    models.register_payment_method("destaxa_payment_terminal", DestaxaPaymentTerminal);
+    models.load_fields("pos.payment.method", ["destaxa_payment_terminal_mode"]);
+
     const tef_devices = require("l10n_br_tef.devices");
 
     const _orderproto = models.Order.prototype;
     const PosModelSuper = models.PosModel;
     const _super_payment_line = models.Paymentline.prototype;
-
-    models.load_fields("account.journal", ["tef_payment_mode"]);
 
     models.PosModel = models.PosModel.extend({
         after_load_server_data: function () {
@@ -29,32 +32,36 @@ odoo.define("l10n_br_tef.models", function (require) {
         },
     });
 
-    models.Order = models.Order.extend({
-        initialize: function () {
-            _orderproto.initialize.apply(this, arguments);
-            this.tef_in_transaction = false;
-        },
-    });
 
-    models.Paymentline = models.Paymentline.extend({
-        initialize: function (attr, options) {
-            _super_payment_line.initialize.call(this, attr, options);
+    // TODO v14: dados irrelevantes devido a arquitetura da V14, verificar
+    // newPaymentline.set_payment_status('pending'); no arquivo models do core.
 
-            // Checks if it is a payment method and a debit or credit to be handled by the TEF
-            if (this.cashregister.journal.tef_payment_mode) {
-                this.tef_payment_completed = this.tef_payment_completed || false;
-            } else {
-                this.tef_payment_completed = true;
-            }
-        },
-        init_from_JSON: function (json) {
-            _super_payment_line.init_from_JSON.apply(this, arguments);
-            this.tef_payment_completed = json.tef_payment_completed;
-        },
-        export_as_JSON: function () {
-            const json = _super_payment_line.export_as_JSON.call(this);
-            json.tef_payment_completed = this.tef_payment_completed;
-            return json;
-        },
-    });
+    // models.Order = models.Order.extend({
+    //     initialize: function () {
+    //         _orderproto.initialize.apply(this, arguments);
+    //         this.tef_in_transaction = false;
+    //     },
+    // });
+
+    // models.Paymentline = models.Paymentline.extend({
+    //     initialize: function (attr, options) {
+    //         _super_payment_line.initialize.call(this, attr, options);
+
+    //         // Checks if it is a payment method and a debit or credit to be handled by the TEF
+    //         if (this.cashregister.journal.tef_payment_mode) {
+    //             this.tef_payment_completed = this.tef_payment_completed || false;
+    //         } else {
+    //             this.tef_payment_completed = true;
+    //         }
+    //     },
+    //     init_from_JSON: function (json) {
+    //         _super_payment_line.init_from_JSON.apply(this, arguments);
+    //         this.tef_payment_completed = json.tef_payment_completed;
+    //     },
+    //     export_as_JSON: function () {
+    //         const json = _super_payment_line.export_as_JSON.call(this);
+    //         json.tef_payment_completed = this.tef_payment_completed;
+    //         return json;
+    //     },
+    // });
 });
