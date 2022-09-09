@@ -80,6 +80,8 @@ class CNABField(models.Model):
     content_source_field = fields.Char(
         string="Content Source Field",
         help="Inform the field with the origin of the content, expressed with dot notation.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     preview_field = fields.Char(compute="_compute_preview_field")
@@ -99,7 +101,9 @@ class CNABField(models.Model):
         "'qty_batches' returns the number of batches \n"
         "'qty_records' returns the number of records \n"
         "'batch_detail_lines' returns a list of batch detail records."
-        "'segment_code' returns the code of the segment defined in the header of the line."
+        "'segment_code' returns the code of the segment defined in the header of the line.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     content_dest_model_id = fields.Many2one(
@@ -108,8 +112,12 @@ class CNABField(models.Model):
     content_dest_field = fields.Char(
         string="Content Destination Field",
         help="Inform the field with the origin of the content, expressed with dot notation.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
-    return_dynamic_content = fields.Char()
+    return_dynamic_content = fields.Char(
+        readonly=True, states={"draft": [("readonly", False)]}
+    )
 
     def action_change_field(self):
         "action for change for field"
