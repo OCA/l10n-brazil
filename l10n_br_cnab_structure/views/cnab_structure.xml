@@ -129,11 +129,20 @@
                                 </group>
                             </group>
                         </page>
-                        <page name="payements_ways" string="Payments Ways" attrs="{'required': [('cnab_format', '=', '240'),('payment_type', '=', 'outbound')], 'invisible': ['|',('cnab_format', '!=', '240'),('payment_type', '!=', 'outbound')]}" >
+                        <page name="payements_ways" string="Payments Ways" attrs="{'invisible': [('payment_type', '!=', 'outbound')]}" >
                             <field name="cnab_payment_way_ids" mode='tree' widget='one2many' context="{'default_cnab_structure_id': id}">
                                 <tree default_order="code" editable="bottom">
                                     <field name="code" />
                                     <field name="description" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="occurrences" string="Ocurrences">
+                            <field name="cnab_occurrence_ids" mode='tree' widget='one2many' context="{'default_cnab_structure_id': id}">
+                                <tree default_order="code" editable="bottom">
+                                    <field name="code" />
+                                    <field name="description" />
+                                    <field name="liquidation_move" />
                                 </tree>
                             </field>
                         </page>
