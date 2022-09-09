@@ -14,6 +14,16 @@ class CNABReturnEvent(models.Model):
     occurrence_code_4 = fields.Char("")
     occurrence_code_5 = fields.Char("")
 
+    liquidation_move = fields.Boolean(
+        string="Liquidation Move",
+        help="If check, this CNAB Event will generate a liquidity move line.",
+    )
+
+    cnab_structure_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.structure",
+        related="cnab_return_log_id.cnab_structure_id",
+    )
+
     @api.model
     def create(self, vals):
         """Override Create Method"""
@@ -24,7 +34,29 @@ class CNABReturnEvent(models.Model):
             return event
         event.load_bank_payment_line()
         event.load_description_occurrences()
+        event.check_liquidation_move()
         return event
+
+    def check_liquidation_move(self):
+        codes = [
+            self.occurrence_code_1,
+            self.occurrence_code_2,
+            self.occurrence_code_3,
+            self.occurrence_code_4,
+            self.occurrence_code_5,
+        ]
+        occurrence_obj = self.env["cnab.occurrence"]
+
+        self.liquidation_move = False
+        for code in codes:
+            occurrence_id = occurrence_obj.search(
+                [
+                    ("cnab_structure_id", "=", self.cnab_structure_id.id),
+                    ("code", "=", code),
+                ]
+            )
+            if occurrence_id.liquidation_move:
+                self.liquidation_move = True
 
     def load_bank_payment_line(self):
         """
