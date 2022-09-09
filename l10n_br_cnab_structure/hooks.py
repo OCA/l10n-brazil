@@ -16,6 +16,7 @@ def post_init_hook(cr, registry):
         "data/l10n_br_cnab.line.csv",
         "data/l10n_br_cnab.line.field.csv",
         "data/cnab.payment.way.csv",
+        "data/cnab.occurrence.csv",
     ]
 
     _logger.info(_("Loading l10n_br_cnab_structure data files."))
