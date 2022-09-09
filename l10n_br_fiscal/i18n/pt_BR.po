@@ -9534,7 +9534,7 @@ msgid "You can note repeat the alternative name"
 msgstr "Você pode notar repetir o nome alternativo"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:386
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:385
 #, python-format
 msgid ""
 "You cannot create a fiscal correction document if this fical document you "
@@ -9566,7 +9566,7 @@ msgid "You cannot delete fiscal document number {} with the status: {}!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:369
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:368
 #, python-format
 msgid "You cannot invalidate this document"
 msgstr ""
