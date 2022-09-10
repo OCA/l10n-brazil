@@ -26,6 +26,10 @@ class CNABReturnEvent(models.Model):
 
     balance = fields.Float(compute="_compute_balance")
 
+    move_line_ids = fields.Many2many(
+        comodel_name="account.move.line", ondelete="restrict"
+    )
+
     @api.depends(
         "liquidation_move",
         "payment_value",
@@ -56,7 +60,13 @@ class CNABReturnEvent(models.Model):
         event.load_bank_payment_line()
         event.load_description_occurrences()
         event.check_liquidation_move()
+        event.set_move_line_ids()
         return event
+
+    def set_move_line_ids(self):
+        payment_lines = self.bank_payment_line_id.payment_line_ids
+        for payment_line in payment_lines:
+            self.move_line_ids = [(4, payment_line.move_line_id.id)]
 
     def check_liquidation_move(self):
         codes = [
