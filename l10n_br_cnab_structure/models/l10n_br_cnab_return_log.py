@@ -18,23 +18,14 @@ class L10nBrCNABReturnLog(models.Model):
         readonly=True,
     )
     return_file = fields.Binary("Return File")
-
-    bank_id = fields.Many2one(
-        comodel_name="res.bank",
+    bank_acc_number = fields.Char(
+        compute="_compute_bank_acc_number",
+        inverse="_inverse_bank_acc_number",
     )
-
+    bank_id = fields.Many2one(comodel_name="res.bank", related="journal_id.bank_id")
     cnab_structure_id = fields.Many2one(
         comodel_name="l10n_br_cnab.structure",
     )
-
-    br_bank_code = fields.Char(
-        string="Brazilian Bank Code",
-        size=3,
-        help="Brazilian Bank Code ex.: 001 is the code of Banco do Brasil",
-        compute="_compute_br_bank_code",
-        inverse="_inverse_br_bank_code",
-    )
-
     type = fields.Selection(
         [
             ("inbound", "Inbound Payment"),
@@ -43,15 +34,15 @@ class L10nBrCNABReturnLog(models.Model):
         string="Type",
     )
 
-    def _compute_br_bank_code(self):
+    def _compute_bank_acc_number(self):
         for rec in self:
-            rec.br_bank_code = rec.bank_id.code_bc
+            rec.bank_acc_number = rec.bank_account_id.acc_number
 
-    def _inverse_br_bank_code(self):
+    def _inverse_bank_acc_number(self):
         for rec in self:
-            rec.bank_id = self.env["res.bank"].search(
-                [("code_bc", "=", rec.br_bank_code)]
+            rec.bank_account_id = self.env["res.partner.bank"].search(
+                [
+                    ("acc_number", "=", rec.bank_acc_number),
+                    ("bank_id", "=", rec.bank_id.id),
+                ]
             )
-
-    def testes(self):
-        return False
