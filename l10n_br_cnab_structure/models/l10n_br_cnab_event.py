@@ -8,11 +8,33 @@ class CNABReturnEvent(models.Model):
 
     _inherit = "l10n_br_cnab.return.event"
 
-    occurrence_code_1 = fields.Char("")
-    occurrence_code_2 = fields.Char("")
-    occurrence_code_3 = fields.Char("")
-    occurrence_code_4 = fields.Char("")
-    occurrence_code_5 = fields.Char("")
+    ### BASE FIELDS ###
+
+    occurrence_code_1 = fields.Char()
+    occurrence_code_2 = fields.Char()
+    occurrence_code_3 = fields.Char()
+    occurrence_code_4 = fields.Char()
+    occurrence_code_5 = fields.Char()
+    bank_code = fields.Char()
+    batch_code = fields.Char()
+    record_type = fields.Char()
+    seq_number = fields.Char()
+    move_type_code = fields.Char()
+    beneficiary_bank_code = fields.Char()
+    # código da câmera centralizadora
+    centralizing_chamber_code = fields.Char()
+    beneficiary_bank_branch = fields.Char()
+    beneficiary_name = fields.Char()
+    beneficiary_document = fields.Char(
+        helps="Beneficiary's document number, it can be a CNPJ or CPF."
+    )
+    beneficiary_bank_account = fields.Char()
+    beneficiary_bank_account_dac = fields.Char()
+    beneficiary_notice = fields.Char()
+    expected_payment_date = fields.Date()
+    additional_info = fields.Char()
+    ted_purpose = fields.Char()
+    doc_purpose = fields.Char()
 
     liquidation_move = fields.Boolean(
         string="Liquidation Move",
