@@ -284,7 +284,7 @@ class CNABImportWizard(models.TransientModel):
     def _parse_value(self, value, fld):
         if fld.type == "num":
             if fld.assumed_comma > 0:
-                value = float(value) / (10 ^ fld.assumed_comma)
+                value = float(value) / (10**fld.assumed_comma)
             else:
                 value = int(value)
         if fld.type == "alpha":
@@ -298,7 +298,9 @@ class CNABImportWizard(models.TransientModel):
                 if fld.content_dest_field:
                     value = data_line["raw_line"][fld.start_pos - 1 : fld.end_pos]
                     if fld.return_dynamic_content:
-                        value = fld.eval_compute_value(value, fld.return_dynamic_content)
+                        value = fld.eval_compute_value(
+                            value, fld.return_dynamic_content
+                        )
                     else:
                         value = self._parse_value(value, fld)
                     value_dict[fld.content_dest_field] = value
