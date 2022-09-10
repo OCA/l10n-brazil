@@ -24,6 +24,27 @@ class CNABReturnEvent(models.Model):
         related="cnab_return_log_id.cnab_structure_id",
     )
 
+    balance = fields.Float(compute="_compute_balance")
+
+    @api.depends(
+        "liquidation_move",
+        "payment_value",
+        "discount_value",
+        "rebate_value",
+        "interest_fee_value",
+    )
+    def _compute_balance(self):
+        for record in self:
+            if record.liquidation_move:
+                record.balance = (
+                    record.payment_value
+                    + record.discount_value
+                    + record.rebate_value
+                    - record.interest_fee_value
+                )
+            else:
+                record.balance = 0
+
     @api.model
     def create(self, vals):
         """Override Create Method"""
