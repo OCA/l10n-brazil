@@ -463,7 +463,7 @@
     <record id="res_partner_exterior" model="res.partner">
         <field name="name">Cliente Exterior</field>
         <field name="is_company">1</field>
-        <field name="street_name">3404  Edgewood Road</field>
+        <field name="street">3404  Edgewood Road</field>
         <field name="city">Jonesboro</field>
         <field
             name="state_id"
