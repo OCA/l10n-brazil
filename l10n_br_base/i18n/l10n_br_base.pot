@@ -26396,12 +26396,6 @@ msgid "União dos Palmares"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "Unrecognized field %s in street format."
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2414605
 msgid "Upanema"
 msgstr ""
