@@ -113,57 +113,62 @@ class ContractContract(models.Model):
         the Fiscal Operation of each contract line
         :return: list of dictionaries (inv_ids)
         """
-        super_inv_vals = super()._prepare_recurring_invoices_values(date_ref=date_ref)
+        invoices_values = super()._prepare_recurring_invoices_values(date_ref=date_ref)
 
-        if not self.fiscal_operation_id:
-            for inv_val in super_inv_vals:
-                inv_val["document_type_id"] = False
-            return super_inv_vals
-
-        if not isinstance(super_inv_vals, list):
-            super_inv_vals = [super_inv_vals]
+        if not isinstance(invoices_values, list):
+            invoices_values = [invoices_values]
 
         inv_vals = []
         document_type_list = []
 
-        for invoice_val in super_inv_vals:
+        for invoice_val in invoices_values:
 
-            # Identify how many Document Types exist
-            for inv_line in invoice_val.get("invoice_line_ids"):
-                if type(inv_line[2]) == list:
-                    continue
+            if not invoice_val.get("fiscal_operation_id"):
+                invoice_val["document_type_id"] = False
+                inv_vals.append(invoice_val)
+            else:
+                # Identify how many Document Types exist
+                for inv_line in invoice_val.get("invoice_line_ids"):
 
-                operation_line_id = self.env["l10n_br_fiscal.operation.line"].browse(
-                    inv_line[2].get("fiscal_operation_line_id")
-                )
-
-                fiscal_document_type = operation_line_id.get_document_type(
-                    self.company_id
-                )
-
-                if fiscal_document_type.id not in document_type_list:
-                    document_type_list.append(fiscal_document_type.id)
-                    inv_to_append = invoice_val.copy()
-                    inv_to_append["invoice_line_ids"] = [inv_line]
-                    inv_to_append["document_type_id"] = fiscal_document_type.id
-                    inv_to_append["document_serie_id"] = (
-                        self.env["l10n_br_fiscal.document.serie"]
-                        .search(
-                            [
-                                (
-                                    "document_type_id",
-                                    "=",
-                                    inv_to_append["document_type_id"],
-                                ),
-                                ("company_id", "=", self.company_id.id),
-                            ],
-                            limit=1,
-                        )
-                        .id
+                    company = self.env["res.company"].browse(
+                        inv_line[2].get("company_id")
                     )
-                    inv_vals.append(inv_to_append)
-                else:
-                    index = document_type_list.index(fiscal_document_type.id)
-                    inv_vals[index]["invoice_line_ids"].append(inv_line)
 
-        return inv_vals
+                    if type(inv_line[2]) == list:
+                        continue
+
+                    operation_line_id = self.env[
+                        "l10n_br_fiscal.operation.line"
+                    ].browse(inv_line[2].get("fiscal_operation_line_id"))
+
+                    fiscal_document_type = operation_line_id.get_document_type(company)
+
+                    if fiscal_document_type.id not in document_type_list:
+                        document_type_list.append(fiscal_document_type.id)
+                        inv_to_append = invoice_val.copy()
+                        inv_to_append["invoice_line_ids"] = [inv_line]
+                        inv_to_append["document_type_id"] = fiscal_document_type.id
+                        inv_to_append["document_serie_id"] = (
+                            self.env["l10n_br_fiscal.document.serie"]
+                            .search(
+                                [
+                                    (
+                                        "document_type_id",
+                                        "=",
+                                        inv_to_append["document_type_id"],
+                                    ),
+                                    ("company_id", "=", company.id),
+                                ],
+                                limit=1,
+                            )
+                            .id
+                        )
+                        inv_vals.append(inv_to_append)
+                    else:
+                        index = document_type_list.index(fiscal_document_type.id)
+                        inv_vals[index]["invoice_line_ids"].append(inv_line)
+
+        if inv_vals:
+            invoice_values = inv_vals
+
+        return invoice_values
