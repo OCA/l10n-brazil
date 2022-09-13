@@ -55,17 +55,13 @@ class StockInvoiceOnshipping(models.TransientModel):
         if move.sale_line_id:
             # Apesar da linha da Fatura permitir ter mais de uma linha de
             # pedido de venda associada(campo sale_line_ids na invoice line)
-            # por enquanto esta sendo separado já que tem questões a serem
-            # verificadas por exemplo datas de entrega diferentes, informações
+            # existe um erro a ser resolvido
+            # Issue https://github.com/odoo/odoo/issues/77028
+            # PR https://github.com/odoo/odoo/pull/77195
+            # Além disso é preciso verificar outras questões
+            # por exemplo datas de entrega diferentes, informações
             # comerciais que são discriminadas por itens e etc.
-            # TODO - verificar se poderia ser feito, é preciso incluir
-            #  dados de demontração e testes com casos de uso para confirmar
-            if type(key) is tuple:
-                key = key + (move.sale_line_id,)
-            else:
-                # TODO - seria melhor identificar o TYPE para saber se
-                #  o KEY realmente é um objeto nesse caso
-                key = (key, move.sale_line_id)
+            key = key + (move.sale_line_id,)
 
         return key
 
