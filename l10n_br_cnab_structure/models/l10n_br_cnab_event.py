@@ -86,7 +86,12 @@ class CNABReturnEvent(models.Model):
         event.load_description_occurrences()
         event.check_liquidation_move()
         event.set_move_line_ids()
+        event.set_occurrence_date()
         return event
+
+    def set_occurrence_date(self):
+        if not self.occurrence_date:
+            self.occurrence_date = self.cnab_return_log_id.cnab_date_file
 
     def set_move_line_ids(self):
         payment_lines = self.bank_payment_line_id.payment_line_ids
