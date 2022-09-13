@@ -46,7 +46,10 @@ class CNABReturnEvent(models.Model):
         related="cnab_return_log_id.cnab_structure_id",
     )
 
-    balance = fields.Float(compute="_compute_balance")
+    balance = fields.Float(
+        compute="_compute_balance",
+        help="Balance = Payment Value + Discount Value + Rebate Value - Fees",
+    )
 
     move_line_ids = fields.Many2many(
         comodel_name="account.move.line", ondelete="restrict"
