@@ -68,6 +68,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]" />
     </function>
@@ -87,6 +91,10 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]" />
@@ -110,6 +118,10 @@
             ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
         />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]" />
@@ -154,6 +166,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]" />
     </function>
@@ -176,6 +192,10 @@
             ref="l10n_br_fiscal.fo_venda_servico_ind"
         />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]" />
@@ -220,6 +240,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]" />
     </function>
@@ -239,6 +263,10 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]" />
@@ -262,6 +290,10 @@
             ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
         />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]" />
@@ -306,6 +338,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]" />
     </function>
@@ -325,6 +361,10 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]" />
@@ -349,6 +389,10 @@
         />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
     </function>
@@ -357,5 +401,71 @@
         <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
     </function>
 
+    <!-- Empresa Lucro Presumido -->
+    <!-- Sale Order with only products test -->
+    <record id="l10n_br_sale_stock_lucro_presumido" model="sale.order">
+        <field name="name">LC l10n_br_sale - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="l10n_br_base.user_demo_presumido" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="l10n_br_sale_stock_lucro_presumido_1_2" model="sale.order.line">
+        <field name="order_id" ref="l10n_br_sale_stock_lucro_presumido" />
+        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_1_2')]" />
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_1_2')]" />
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_1_2')]" />
+    </function>
+
+    <record id="l10n_br_sale_stock_lucro_presumido_2_2" model="sale.order.line">
+        <field name="order_id" ref="l10n_br_sale_stock_lucro_presumido" />
+        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_2_2')]" />
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_2_2')]" />
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_2_2')]" />
+    </function>
 
 </odoo>
