@@ -340,6 +340,34 @@ class CNABImportWizard(models.TransientModel):
             return_lot_id = return_lot_obj.create(lot_value_dict)
             self._create_return_events(batch["details"], return_lot_id, return_log_id)
 
+    def _calculate_totals(self, return_log_id):
+        # Set number of events
+        return_log_id.number_events = len(return_log_id.event_ids)
+
+        # Set number of lots
+        lots = return_log_id.event_ids.mapped("lot_id")
+        unic_lots = list(dict.fromkeys(lots))
+        return_log_id.number_lots = len(unic_lots)
+
+        liq_event_ids = return_log_id.event_ids.filtered(lambda e: e.liquidation_move)
+        if liq_event_ids:
+            return_log_id.amount_total_title = sum(liq_event_ids.mapped("title_value"))
+            return_log_id.amount_total_received = sum(
+                liq_event_ids.mapped("payment_value")
+            )
+            return_log_id.amount_total_tariff_charge = sum(
+                liq_event_ids.mapped("tariff_charge")
+            )
+            return_log_id.amount_total_interest_fee = sum(
+                liq_event_ids.mapped("interest_fee_value")
+            )
+            return_log_id.amount_total_discount = sum(
+                liq_event_ids.mapped("discount_value")
+            )
+            return_log_id.amount_total_rebate = sum(
+                liq_event_ids.mapped("rebate_value")
+            )
+
     def _create_return_log(self, data):
         return_log_obj = self.env["l10n_br_cnab.return.log"]
         return_dict = {
@@ -358,6 +386,7 @@ class CNABImportWizard(models.TransientModel):
 
         self._create_return_lots(data["batches"], return_log_id)
 
+        self._calculate_totals(return_log_id)
         return return_log_id
 
     def _import_cnab_240(self):
