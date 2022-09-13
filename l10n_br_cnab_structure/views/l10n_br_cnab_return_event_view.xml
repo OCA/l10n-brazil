@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_cnab_return_event_form_view_structure" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.event.form.view.structure</field>
+        <field name="model">l10n_br_cnab.return.event</field>
+        <field name="arch" type="xml">
+            <form edit="false">
+                <sheet>
+                    <group>
+                        <group string="Main">
+                            <field name="cnab_return_log_id" invisible="1" />
+                            <field name="lot_id" />
+                            <field name="bank_payment_line_id" />
+                            <field name="cnab_structure_id" />
+                            <field name="company_title_identification" />
+                            <field name="your_number" />
+                            <field name="own_number" />
+                            <field name="occurrences" />
+                            <field name="occurrence_date" />
+                            <field name="due_date" />
+                            <field name="expected_payment_date" />
+                            <field name="real_payment_date" />
+                        </group>
+                        <group string="Values">
+                            <field name="title_value" />
+                            <field name="payment_value" />
+                            <field name="discount_value" />
+                            <field name="rebate_value" />
+                            <field name="interest_fee_value" />
+                            <field name="tariff_charge" />
+                            <field name="balance" />
+                            <field name="other_credits" />
+                            <field name="iof_value" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="move_tab" string="Move Lines">
+                            <field name="move_line_ids" readonly="1" />
+                        </page>
+                        <page name="other_tab" string="Other Infos">
+                            <group>
+                                <group string="Beneficiary">
+                                    <field name="beneficiary_name" />
+                                    <field name="beneficiary_document" />
+                                    <field name="beneficiary_bank_code" />
+                                    <field name="beneficiary_bank_branch" />
+                                    <field name="beneficiary_bank_account" />
+                                    <field name="beneficiary_bank_account_dac" />
+                                    <field name="beneficiary_notification" />
+                                </group>
+                                <group string="Control">
+                                    <field name="seq_number" />
+                                    <field name="batch_code" />
+                                    <field name="segment" />
+                                    <field name="record_type" />
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Other Infos">
+                                    <field name="bank_code" />
+                                    <field name="centralizing_chamber_code" />
+                                    <field name="currency_type" />
+                                    <field name="additional_info" />
+                                    <field name="doc_purpose" />
+                                    <field name="ted_purpose" />
+                                    <field name="move_type_code" />
+                                    <field name="occurrence_code_1" invisible="1" />
+                                    <field name="occurrence_code_2" invisible="1" />
+                                    <field name="occurrence_code_3" invisible="1" />
+                                    <field name="occurrence_code_4" invisible="1" />
+                                    <field name="occurrence_code_5" invisible="1" />
+                                    <field name="str_motiv_a" invisible="1" />
+                                    <field name="str_motiv_b" invisible="1" />
+                                    <field name="str_motiv_c" invisible="1" />
+                                    <field name="str_motiv_d" invisible="1" />
+                                    <field name="str_motiv_e" invisible="1" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
