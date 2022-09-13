@@ -11,6 +11,7 @@ class CNABLine(models.Model):
 
     _name = "l10n_br_cnab.line"
     _description = "Lines that make up the CNAB."
+    _order = "sequence, id"
 
     name = fields.Char(compute="_compute_name", store=True)
 
@@ -33,6 +34,7 @@ class CNABLine(models.Model):
         string="Content Source",
         help="Related model that will provide the origin of the contents of CNAB files.",
         compute="_compute_content_source_model_id",
+        states={"draft": [("readonly", False)]},
     )
 
     content_dest_model_id = fields.Many2one(
@@ -40,19 +42,24 @@ class CNABLine(models.Model):
         string="Content Destination",
         help="Related model that will provide the destination of the contents of return CNAB files.",
         compute="_compute_dest_source_model_id",
+        states={"draft": [("readonly", False)]},
     )
 
-    requerid = fields.Boolean()
+    requerid = fields.Boolean(
+        states={"draft": [("readonly", False)]},
+    )
 
     communication_flow = fields.Selection(
         [("sending", "Sending"), ("return", "Return"), ("both", "Sending and Return")],
         required=True,
+        states={"draft": [("readonly", False)]},
     )
 
     current_view = fields.Selection(
         [("general", "General"), ("sending", "Sending"), ("return", "Return")],
         required=True,
         default="general",
+        states={"draft": [("readonly", False)]},
     )
 
     type = fields.Selection(
@@ -80,7 +87,7 @@ class CNABLine(models.Model):
         ondelete="cascade",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", "=", False)]},
+        states={"draft": [("readonly", False)]},
     )
 
     @api.model
@@ -93,9 +100,13 @@ class CNABLine(models.Model):
     resource_ref = fields.Reference(
         string="Reference",
         selection="_selection_target_model",
+        states={"draft": [("readonly", False)]},
     )
 
-    cnab_format = fields.Char(related="cnab_structure_id.cnab_format")
+    cnab_format = fields.Char(
+        related="cnab_structure_id.cnab_format",
+        states={"draft": [("readonly", False)]},
+    )
 
     state = fields.Selection(
         selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
