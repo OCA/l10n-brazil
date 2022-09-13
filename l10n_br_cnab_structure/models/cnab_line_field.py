@@ -144,7 +144,8 @@ class CNABField(models.Model):
 
     def _compute_ref_name(self):
         for rec in self:
-            name = unidecode(rec.name.replace(" ", "_").lower())
+            name = rec.name or ""
+            name = unidecode(name.replace(" ", "_").lower())
             rec.ref_name = f"{name}_{rec.start_pos}_{rec.end_pos}"
 
     @api.depends("resource_ref", "content_source_field", "sending_dynamic_content")
