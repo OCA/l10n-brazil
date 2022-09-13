@@ -30,7 +30,7 @@ class CNABReturnEvent(models.Model):
     )
     beneficiary_bank_account = fields.Char()
     beneficiary_bank_account_dac = fields.Char()
-    beneficiary_notice = fields.Char()
+    beneficiary_notification = fields.Char()
     expected_payment_date = fields.Date()
     additional_info = fields.Char()
     ted_purpose = fields.Char()
