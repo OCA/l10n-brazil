@@ -188,6 +188,13 @@ class CNABFileParser(FileParser):
         if bank_name_brcobranca == "ailos":
             # No AILOS o código de registro onde ficam as linhas CNAB é o 3.
             registration_code_allowed = 3
+        elif bank_name_brcobranca == "banco_brasil":
+            # No Banco do Brasil o código do registro principal é o 7.
+            # existem registros opcionais porém como não estão mapeados no BRCobrança
+            # e serão ignorados aqui. Teoricamente a verificação do código do registro
+            # nem deveria se feita aqui, cada dict retornado da lib era pra representar
+            # um registro completo do boleto. Esse tratamento deveria estar lá.
+            registration_code_allowed = 7
         else:
             registration_code_allowed = 1
 
