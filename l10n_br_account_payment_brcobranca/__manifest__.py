@@ -4,7 +4,7 @@
 
 {
     "name": "L10n Br Account Payment BRCobranca",
-    "version": "14.0.1.3.2",
+    "version": "14.0.1.3.3",
     "license": "AGPL-3",
     "author": "Akretion, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
