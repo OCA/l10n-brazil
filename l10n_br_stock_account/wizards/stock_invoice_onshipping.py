@@ -38,6 +38,7 @@ class StockInvoiceOnshipping(models.TransientModel):
                 )
         else:
             journal = super()._get_journal()
+
         return journal
 
     def _build_invoice_values_from_pickings(self, pickings):
@@ -63,6 +64,14 @@ class StockInvoiceOnshipping(models.TransientModel):
         # so informado quando é diferente
         if fiscal_vals["partner_id"] != values["partner_id"]:
             values["partner_shipping_id"] = fiscal_vals["partner_id"]
+        else:
+            # Já no modulo stock_picking_invoicing o campo partner_shipping_id
+            # é informado mas para evitar ter a NFe com o Endereço de Entrega
+            # quando esse é o mesmo Endereço, esta sendo removido.
+            # TODO: Deveria ser informado mesmo quando é o mesmo? Isso não
+            #  acontecia na v12.
+            del values["partner_shipping_id"]
+
         # Ser for feito o update como abaixo o campo
         # fiscal_operation_id vai vazio
         # fiscal_vals.update(values)
