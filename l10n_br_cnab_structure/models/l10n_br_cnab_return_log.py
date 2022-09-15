@@ -1,7 +1,7 @@
 # Copyright 2022 Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import _, fields, models, api
 
 
 class L10nBrCNABReturnLog(models.Model):
@@ -33,11 +33,22 @@ class L10nBrCNABReturnLog(models.Model):
         ],
         string="Type",
     )
+    liq_event_ids = fields.Many2many(
+        string="Eventos",
+        comodel_name="l10n_br_cnab.return.event",
+        compute="_compute_liq_event_ids",
+        store=True,
+    )
     cnpj_cpf = fields.Char()
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
     )
+
+    @api.depends("event_ids", "event_ids.liquidation_move")
+    def _compute_liq_event_ids(self):
+        for rec in self:
+            rec.liq_event_ids = rec.event_ids.filtered(lambda a: a.liquidation_move)
 
     def _compute_bank_acc_number(self):
         for rec in self:
@@ -51,3 +62,8 @@ class L10nBrCNABReturnLog(models.Model):
                     ("bank_id", "=", rec.bank_id.id),
                 ]
             )
+
+    def action_create_account_move(self):
+        self.ensure_one()
+        for event in self.liq_event_ids:
+            event.create_account_move()
