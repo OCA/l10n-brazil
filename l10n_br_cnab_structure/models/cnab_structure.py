@@ -3,7 +3,7 @@
 
 import yaml
 
-from ..cnab.cnab import Cnab, RecordType
+from ..cnab.cnab import Cnab, CnabBatch, RecordType
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -178,6 +178,13 @@ class CNABStructure(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    cnab_pix_key_type_ids = fields.One2many(
+        comodel_name="cnab.pix.key.type",
+        inverse_name="cnab_structure_id",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     cnab_occurrence_ids = fields.One2many(
         comodel_name="cnab.occurrence",
         inverse_name="cnab_structure_id",
@@ -270,16 +277,19 @@ class CNABStructure(models.Model):
         cnab = Cnab()
         cnab.header = self.get_header().output(pay_order, RecordType.HEADER)
 
-        payment_way_code = pay_order.payment_mode_id.cnab_payment_way_id
-        batch_domain = [
-            ("cnab_structure_id", "=", self.id),
-            ("cnab_payment_way_ids", "in", [payment_way_code.id]),
-        ]
-        batch_template_id = self.env["l10n_br_cnab.batch"].search(batch_domain, limit=1)
+        grouped_bank_lines = {}
+        for bline in pay_order.bank_line_ids:
+            way_code = bline.cnab_payment_way_id.code
+            type_code = bline.service_type
+            batch_key = tuple([way_code, type_code])
+            grouped_bank_lines[batch_key] = grouped_bank_lines.get(batch_key, [])
+            grouped_bank_lines[batch_key].append(bline)
 
-        if batch_template_id:
-            batch = batch_template_id.output(pay_order, 1, "1")
+        for count, bank_lines in enumerate(grouped_bank_lines.values(), 1):
+            batch_template_id = bank_lines[0].batch_template_id
+            batch = batch_template_id.output(bank_lines, count)
             cnab.batches.append(batch)
+
         cnab.trailer = self.get_trailer().output(
             pay_order,
             RecordType.TRAILER,
