@@ -134,6 +134,16 @@
                                 <tree default_order="code" editable="bottom">
                                     <field name="code" />
                                     <field name="description" />
+                                    <field name="account_payment_way_id" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="pix_types" string="PIX Key Types" attrs="{'invisible': [('payment_type', '!=', 'outbound')]}" >
+                            <field name="cnab_pix_key_type_ids" mode='tree' widget='one2many' context="{'default_cnab_structure_id': id}">
+                                <tree default_order="code" editable="bottom">
+                                    <field name="code" />
+                                    <field name="description" />
+                                    <field name="key_type" />
                                 </tree>
                             </field>
                         </page>
@@ -146,6 +156,7 @@
                                 </tree>
                             </field>
                         </page>
+
                     </notebook>
                 </sheet>
             </form>
