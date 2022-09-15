@@ -26,6 +26,10 @@ class CNABPaymentWay(models.Model):
         string="Cnab Batch",
     )
 
+    account_payment_way_id = fields.Many2one(
+        comodel_name="account.payment.way", string="Payment Way"
+    )
+
     @api.depends("code", "name")
     def _compute_name(self):
         for rec in self:

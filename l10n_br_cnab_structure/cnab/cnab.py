@@ -61,8 +61,7 @@ class CnabBatch:
     detail_records: List[CnabDetailRecord]
     trailer: CnabLine
 
-    def __init__(self, name: str) -> None:
-        self.name = name
+    def __init__(self) -> None:
         self.detail_records = []
 
     def detail_lines(self) -> List[CnabLine]:
@@ -86,7 +85,6 @@ class CnabBatch:
 
     def asdict(self):
         return {
-            "name": self.name,
             "header": self.header.asdict(),
             "detail_records": [d.asdict() for d in self.detail_records],
             "trailer": self.trailer.asdict(),
