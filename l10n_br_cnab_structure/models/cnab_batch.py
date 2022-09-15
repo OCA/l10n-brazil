@@ -52,19 +52,26 @@ class CNABBatch(models.Model):
         "Returns the batch segments records"
         return self.line_ids.filtered(lambda l: l.type == "segment")
 
-    def output(self, pay_order, batch_sequence, name):
+    def output(self, bank_lines, seq_batch):
         """Return a batch output"""
-        batch = CnabBatch(name=name)
+        pay_order = bank_lines[0].order_id
+        way_code = bank_lines[0].cnab_payment_way_id.code
+        type_code = bank_lines[0].service_type
+        batch = CnabBatch()
         batch.header = self.get_header().output(
-            pay_order, RecordType.HEADER_BATCH, seq_batch=batch_sequence
+            pay_order,
+            RecordType.HEADER_BATCH,
+            seq_batch=seq_batch,
+            payment_way_code=way_code,
+            patment_type_code=type_code,
         )
-        for count, bank_line in enumerate(pay_order.bank_line_ids, 1):
+        for count, bank_line in enumerate(bank_lines, 1):
             detail_record = CnabDetailRecord(name=str(count))
             for segment_map in self.get_segments():
                 segment = segment_map.output(
                     bank_line,
                     RecordType.DETAIL_RECORD,
-                    seq_batch=batch_sequence,
+                    seq_batch=seq_batch,
                     seq_record_detail=count,
                 )
                 detail_record.segments.append(segment)
@@ -72,7 +79,7 @@ class CNABBatch(models.Model):
         batch.trailer = self.get_trailer().output(
             pay_order,
             RecordType.TRAILER_BATCH,
-            seq_batch=batch_sequence,
+            seq_batch=seq_batch,
             qty_records=batch.len_records() + 1,
             batch_detail_lines=batch.detail_lines(),
         )
