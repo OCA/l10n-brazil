@@ -54,6 +54,9 @@ class CNABReturnEvent(models.Model):
     move_line_ids = fields.Many2many(
         comodel_name="account.move.line", ondelete="restrict"
     )
+    journal_id = fields.Many2one(
+        comodel_name="account.journal", related="cnab_return_log_id.journal_id"
+    )
 
     @api.depends(
         "liquidation_move",
@@ -160,3 +163,18 @@ class CNABReturnEvent(models.Model):
                     continue
                 occurrences += event.get_description_occurrence(code)
             event.occurrences = occurrences
+
+    def _get_move_vals(self):
+        return {
+            "name": f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - {self.cnab_return_log_id.bank_account_id.acc_number} - REF: {self.your_number}",
+            "ref": self.your_number,
+            "is_cnab": True,
+            "journal_id": self.journal_id.id,
+            "currency_id": self.journal_id.currency_id.id
+            or self.cnab_return_log_id.company_id.currency_id.id,
+        }
+
+    def create_account_move(self):
+        move_obj = self.env["account.move"]
+        move_vals = self._get_move_vals()
+        move = move_obj.create(move_vals)
