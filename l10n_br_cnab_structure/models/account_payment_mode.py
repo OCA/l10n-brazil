@@ -2,23 +2,18 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
+from odoo.addons.l10n_br_account.models.account_invoice import AccountMove
 
 
 class AccountPaymentMode(models.Model):
+    """
+    Override Account Payment Mode
+    """
 
     _inherit = "account.payment.mode"
 
-    cnab_structure_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.structure",
-    )
-
-    cnab_batch_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.batch",
-        domain="[('cnab_structure_id', '=', cnab_structure_id)]",
-    )
-
-    cnab_payment_way_id = fields.Many2one(
-        comodel_name="cnab.payment.way",
-        string="Way of Payment",
-        domain="[('cnab_structure_id', '=', cnab_structure_id)]",
+    account_payment_way_ids = fields.Many2many(
+        comodel_name="account.payment.way",
+        string="Payment Ways",
+        help="Allowed payment ways",
     )
