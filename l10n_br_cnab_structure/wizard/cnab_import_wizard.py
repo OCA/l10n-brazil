@@ -43,6 +43,16 @@ class CNABImportWizard(models.TransientModel):
     cnab_format = fields.Char(
         related="cnab_structure_id.cnab_format",
     )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        required=True,
+        default=lambda self: self._default_company_id(),
+    )
+
+    @api.model
+    def _default_company_id(self):
+        return self.env.company
 
     @api.onchange("journal_id")
     def _onchange_journal_id(self):
@@ -368,6 +378,15 @@ class CNABImportWizard(models.TransientModel):
                 liq_event_ids.mapped("rebate_value")
             )
 
+    def _check_company(self, return_dict):
+        cnpj_cpf = "".join(char for char in self.company_id.cnpj_cpf if char.isdigit())
+        if cnpj_cpf != str(return_dict["cnpj_cpf"]):
+            raise UserError(
+                _(f"CNPJ/CPF of your active company is different of the file.")
+            )
+        if self.company_id != self.journal_id.company_id:
+            raise UserError(_(f"Selected company is different of the Journal company."))
+
     def _create_return_log(self, data):
         return_log_obj = self.env["l10n_br_cnab.return.log"]
         return_dict = {
@@ -378,10 +397,11 @@ class CNABImportWizard(models.TransientModel):
             "journal_id": self.journal_id.id,
             "return_file": self.return_file,
             "cnab_structure_id": self.cnab_structure_id.id,
+            "company_id": self.company_id.id,
         }
         return_dict.update(self._get_dict_value_from_line(data["header_file_line"]))
         return_dict.update(self._get_dict_value_from_line(data["trailer_file_line"]))
-
+        self._check_company(return_dict)
         return_log_id = return_log_obj.create(return_dict)
 
         self._create_return_lots(data["batches"], return_log_id)
