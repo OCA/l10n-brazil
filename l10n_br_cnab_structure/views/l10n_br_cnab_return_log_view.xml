@@ -40,6 +40,7 @@
                         <group>
                             <field name="type" />
                             <field name="journal_id" string="Journal" />
+                            <field name="company_id" />
                             <field name="bank_account_cnab_id" />
                             <field name="cnab_structure_id" />
                         </group>

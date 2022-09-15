@@ -33,6 +33,11 @@ class L10nBrCNABReturnLog(models.Model):
         ],
         string="Type",
     )
+    cnpj_cpf = fields.Char()
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+    )
 
     def _compute_bank_acc_number(self):
         for rec in self:
