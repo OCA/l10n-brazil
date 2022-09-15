@@ -3,13 +3,15 @@
 #   Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo.tests import Form
+
 from odoo.addons.l10n_br_purchase.tests import test_l10n_br_purchase
 
 
 class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
     def setUp(self):
         super().setUp()
-        self.invoice_model = self.env["account.invoice"]
+        self.invoice_model = self.env["account.move"]
         self.invoice_wizard = self.env["stock.invoice.onshipping"]
         self.stock_return_picking = self.env["stock.return.picking"]
         self.stock_picking = self.env["stock.picking"]
@@ -101,7 +103,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         # Validar o price_unit usado
         for inv_line in invoice.invoice_line_ids:
             self.assertTrue(
-                inv_line.invoice_line_tax_ids,
+                inv_line.tax_ids,
                 "Error to map Purchase Tax in invoice.line.",
             )
             # Preço usado na Linha da Invoice deve ser o mesmo
@@ -114,8 +116,8 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
             )
 
         # Confirmando a Fatura
-        invoice.action_invoice_open()
-        self.assertEqual(invoice.state, "open", "Invoice should be in state Open")
+        invoice.action_post()
+        self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
         # Validar Atualização da Quantidade Faturada
         for line in purchase_1.order_line:
             # Apenas a linha de Produto tem a qtd faturada dobrada
@@ -125,11 +127,15 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
                 self.assertEqual(line.product_uom_qty, line.qty_invoiced)
 
         # Teste de Retorno
-        self.return_wizard = self.stock_return_picking.with_context(
-            dict(active_id=picking_1.id)
-        ).create(dict(invoice_state="2binvoiced"))
-
+        return_wizard_form = Form(
+            self.stock_return_picking.with_context(
+                dict(active_id=picking_1.id, active_model="stock.picking")
+            )
+        )
+        return_wizard_form.invoice_state = "2binvoiced"
+        self.return_wizard = return_wizard_form.save()
         result_wizard = self.return_wizard.create_returns()
+
         self.assertTrue(result_wizard, "Create returns wizard fail.")
         picking_devolution = self.stock_picking.browse(result_wizard.get("res_id"))
 
@@ -164,9 +170,9 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         domain = [("picking_ids", "=", picking_devolution.id)]
         invoice_devolution = self.invoice_model.search(domain)
         # Confirmando a Fatura
-        invoice_devolution.action_invoice_open()
+        invoice_devolution.action_post()
         self.assertEqual(
-            invoice_devolution.state, "open", "Invoice should be in state Open"
+            invoice_devolution.state, "posted", "Invoice should be in state Posted"
         )
         # Validar Atualização da Quantidade Faturada
         for line in purchase_1.order_line:
