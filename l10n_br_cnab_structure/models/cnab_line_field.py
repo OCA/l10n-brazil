@@ -98,6 +98,8 @@ class CNABField(models.Model):
         "'time' class to handle date. \n"
         "'seq_batch' returns the batch sequence. \n"
         "'seq_record_detail' returns the sequence for detail record in the batch. \n"
+        "'payment_way_code' return the batch payment way \n"
+        "'patment_type_code' return the batch payment type \n"
         "'qty_batches' returns the number of batches \n"
         "'qty_records' returns the number of records \n"
         "'batch_detail_lines' returns a list of batch detail records."
@@ -198,6 +200,8 @@ class CNABField(models.Model):
             "datetime": datetime,
             "seq_batch": kwargs.get("seq_batch", ""),
             "seq_record_detail": kwargs.get("seq_record_detail", ""),
+            "payment_way_code": kwargs.get("payment_way_code", ""),
+            "patment_type_code": kwargs.get("patment_type_code", ""),
             "qty_batches": kwargs.get("qty_batches", ""),
             "qty_records": kwargs.get("qty_records", ""),
             "batch_detail_lines": kwargs.get("batch_detail_lines", []),
