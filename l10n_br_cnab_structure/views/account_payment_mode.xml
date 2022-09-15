@@ -10,14 +10,9 @@
             ref="l10n_br_account_payment_order.l10n_br_account_payment_mode_form"
         />
         <field name="arch" type="xml">
-            <group name="l10n_br_account_payment_order-geral" position="after">
-                <group name="cnab_structure" string="CNAB Structure">
-                    <field name="cnab_structure_id" />
-                </group>
-            </group>
-            <field name="release_form" position="replace">
-                <field name="cnab_payment_way_id" />
-            </field>
+                <field name="auto_create_payment_order" position="after">
+                    <field name="account_payment_way_ids" widget="many2many_tags" />
+                </field>
         </field>
     </record>
 </odoo>

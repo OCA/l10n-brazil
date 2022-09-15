@@ -2,13 +2,14 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
+from odoo.addons.l10n_br_base.models.res_partner_pix import PartnerPix
 
 
-class CNABPaymentWay(models.Model):
-    """CNAB Payment Way Code"""
+class CNABPixKeyType(models.Model):
+    """CNAB Pix Key Type"""
 
-    _name = "cnab.payment.way"
-    _description = "CNAB Payment Way Code"
+    _name = "cnab.pix.key.type"
+    _description = "CNAB Pix Key Type"
 
     name = fields.Char(compute="_compute_name")
     code = fields.Char(required=True)
@@ -21,13 +22,10 @@ class CNABPaymentWay(models.Model):
         required=True,
     )
 
-    batch_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.batch",
-        string="Cnab Batch",
-    )
-
-    account_payment_way_id = fields.Many2one(
-        comodel_name="account.payment.way", string="Payment Way"
+    key_type = fields.Selection(
+        selection=PartnerPix.KEY_TYPES,
+        string="PIX Key Type",
+        required=True,
     )
 
     @api.depends("code", "name")
