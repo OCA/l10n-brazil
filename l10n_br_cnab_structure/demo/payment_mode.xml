@@ -28,7 +28,5 @@
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
         <field name="service_type">20</field> <!-- Pagamento Fornecedor -->
-        <field name="cnab_payment_way_id" ref="cnab_itau_240_pay_way_41" />
-        <field name="cnab_structure_id" ref="cnab_itau_240" />
     </record>
 </odoo>
