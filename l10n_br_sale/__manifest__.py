@@ -32,6 +32,6 @@
     "installable": True,
     "auto_install": True,
     "post_init_hook": "post_init_hook",
-    "development_status": "Production/Stable",
+    "development_status": "Beta",
     "maintainers": ["renatonlima"],
 }
