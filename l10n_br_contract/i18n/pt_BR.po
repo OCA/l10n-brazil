@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-08-19 21:07+0000\n"
+"PO-Revision-Date: 2022-09-16 22:07+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -171,7 +171,7 @@ msgstr "COFINS Código da Base"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_base_type
 msgid "COFINS Base Type"
-msgstr "Tipo de Base de COFINS"
+msgstr "COFINS Tipo da Base"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_cst_code
@@ -196,22 +196,22 @@ msgstr "% Redução de RETENÇÃO de COFINS"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr "Base de Retenção de COFINS"
+msgstr "Base para COFINS RET"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_value
 msgid "COFINS RET Value"
-msgstr "Valor de RETENÇÃO de COFINS"
+msgstr "Valor RET COFINS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofins_wh_base
 msgid "COFINS Ret Base"
-msgstr "Base de Retenção de COFINS"
+msgstr "Base para RET COFINS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofins_wh_value
 msgid "COFINS Ret Value"
-msgstr "Valor de Retenção de COFINS"
+msgstr "Valor RET COFINS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_percent
@@ -226,7 +226,7 @@ msgstr "% Redução ST COFINS"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_base
 msgid "COFINS ST Base"
-msgstr "Base ST COFINS"
+msgstr "Base para ST COFINS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_base_type
@@ -241,7 +241,7 @@ msgstr "Código CST ST COFINS"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_value
 msgid "COFINS ST Value"
-msgstr "Valor de ST do Cofins"
+msgstr "Valor de ST do COFINS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cofins_value
@@ -268,7 +268,7 @@ msgstr "Redução de % CSLL"
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_csll_base
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_base
 msgid "CSLL Base"
-msgstr "Base da CSLL"
+msgstr "Base para CSLL"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_percent
@@ -283,7 +283,7 @@ msgstr "Redução de % CSLL RET"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_base
 msgid "CSLL RET Base"
-msgstr "Base da CSLL RET"
+msgstr "Base para CSLL RET"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_value
@@ -293,12 +293,12 @@ msgstr "Valor RET CSLL"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_csll_wh_base
 msgid "CSLL Ret Base"
-msgstr "Base da CSLL Ret"
+msgstr "Base para CSLL RET"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_csll_wh_value
 msgid "CSLL Ret Value"
-msgstr "Valor Ret da CSLL"
+msgstr "Valor RET CSLL"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_csll_value
@@ -467,7 +467,7 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_base_wh
 msgid "FCP WH Base"
-msgstr ""
+msgstr "Base para FCP WH"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ind_final
@@ -552,7 +552,7 @@ msgstr "Redução de ICMS %"
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_base
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_base
 msgid "ICMS Base"
-msgstr "ICMS Base"
+msgstr "Base para ICMS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_base_type
@@ -562,7 +562,7 @@ msgstr "Tipo base do ICMS"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_cst_code
 msgid "ICMS CST Code"
-msgstr ""
+msgstr "Código CST do ICMS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_value
@@ -572,37 +572,37 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_base
 msgid "ICMS Destination Base"
-msgstr ""
+msgstr "Base de Destino do ICMS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_destination_value
 msgid "ICMS Destination Value"
-msgstr ""
+msgstr "Valor Destino ICMS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_value
 msgid "ICMS Effective"
-msgstr ""
+msgstr "ICMS Efetivo"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_percent
 msgid "ICMS Effective %"
-msgstr ""
+msgstr "ICMS Efetivo %"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_reduction
 msgid "ICMS Effective % Reduction"
-msgstr ""
+msgstr "ICMS Efetivo % Redução"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_base
 msgid "ICMS Effective Base"
-msgstr ""
+msgstr "Base para ICMS Efetivo"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_percent
 msgid "ICMS External %"
-msgstr ""
+msgstr "ICMS Externo %"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_percent
@@ -613,7 +613,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icmsfcp_base
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_base
 msgid "ICMS FCP Base"
-msgstr ""
+msgstr "Base para ICMS FCP"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcpst_value
