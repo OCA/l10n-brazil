@@ -24,6 +24,13 @@
         <field name="company_id" ref="base.main_company" />
     </record>
 
+    <record id="devolucao_compras_journal_main_company" model="account.journal">
+        <field name="name">Diário Devolução de Compras</field>
+        <field name="code">DDC</field>
+        <field name="type">purchase</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
     <!-- Account Journal for Lucro Presumido -->
     <record id="simples_remessa_journal_lucro_presumido" model="account.journal">
         <field name="name">Diário Simples Remessa</field>
