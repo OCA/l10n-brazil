@@ -272,11 +272,15 @@ class CNABStructure(models.Model):
         return self.line_ids.filtered(lambda l: l.type == "trailer" and not l.batch_id)
 
     def output_dicts(self, pay_order):
-        """Receives a Payment Order record and returns a list of dicts,
-        each dict represents a line from the CNAB file."""
+        """
+        Receives a Payment Order record and returns a Cnab Data Object"
+        """
         cnab = Cnab()
+
+        # HEADER
         cnab.header = self.get_header().output(pay_order, RecordType.HEADER)
 
+        # BATCHES
         grouped_bank_lines = {}
         for bline in pay_order.bank_line_ids:
             way_code = bline.cnab_payment_way_id.code
@@ -284,12 +288,12 @@ class CNABStructure(models.Model):
             batch_key = tuple([way_code, type_code])
             grouped_bank_lines[batch_key] = grouped_bank_lines.get(batch_key, [])
             grouped_bank_lines[batch_key].append(bline)
-
         for count, bank_lines in enumerate(grouped_bank_lines.values(), 1):
             batch_template_id = bank_lines[0].batch_template_id
             batch = batch_template_id.output(bank_lines, count)
             cnab.batches.append(batch)
 
+        # TRAILER
         cnab.trailer = self.get_trailer().output(
             pay_order,
             RecordType.TRAILER,
