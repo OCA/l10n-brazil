@@ -93,6 +93,23 @@ def post_init_hook(cr, registry):
                 )
                 devolucao_vendas_main_company.value_reference = data_journal
 
+                # Devolução de Compras
+                data_op_fiscal = "l10n_br_fiscal.operation," + str(
+                    env.ref("l10n_br_fiscal.fo_devolucao_compras").id
+                )
+                devolucao_compras_main_company = env["ir.property"].search(
+                    [
+                        ("res_id", "=", data_op_fiscal),
+                        ("company_id", "=", main_company.id),
+                    ]
+                )
+                data_journal = "account.journal," + str(
+                    env.ref(
+                        "l10n_br_stock_account.devolucao_compras_journal_main_company"
+                    ).id
+                )
+                devolucao_compras_main_company.value_reference = data_journal
+
         company_lc = env.ref(
             "l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False
         )
