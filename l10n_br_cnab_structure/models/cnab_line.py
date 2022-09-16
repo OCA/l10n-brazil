@@ -114,6 +114,24 @@ class CNABLine(models.Model):
         default="draft",
     )
 
+    cnab_payment_way_ids = fields.Many2many(
+        comodel_name="cnab.payment.way",
+        string="Payments Ways",
+        help="Payment Ways that must use this segment.",
+        domain="[('cnab_structure_id', '=', cnab_structure_id)]",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    def is_requerid(self, payment_way):
+        """
+        checks if the segment is required based on the information provided.
+        """
+        self.ensure_one()
+        if self.requerid:
+            return True
+        return payment_way in self.cnab_payment_way_ids
+
     def _compute_content_source_model_id(self):
         if self.type in ["header", "trailer"]:
             self.content_source_model_id = self.env["ir.model"].search(

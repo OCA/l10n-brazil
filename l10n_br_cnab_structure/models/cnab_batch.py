@@ -40,6 +40,12 @@ class CNABBatch(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    state = fields.Selection(
+        selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
+        readonly=True,
+        default="draft",
+    )
+
     def get_header(self):
         "Returns the batch header record"
         return self.line_ids.filtered(lambda l: l.type == "header")
@@ -53,29 +59,38 @@ class CNABBatch(models.Model):
         return self.line_ids.filtered(lambda l: l.type == "segment")
 
     def output(self, bank_lines, seq_batch):
-        """Return a batch output"""
+        """
+        Generates and returns a batch object with the cnab output data.
+        """
         pay_order = bank_lines[0].order_id
-        way_code = bank_lines[0].cnab_payment_way_id.code
+        payment_way_id = bank_lines[0].cnab_payment_way_id
         type_code = bank_lines[0].service_type
         batch = CnabBatch()
+
+        # HEADER
         batch.header = self.get_header().output(
             pay_order,
             RecordType.HEADER_BATCH,
             seq_batch=seq_batch,
-            payment_way_code=way_code,
+            payment_way_code=payment_way_id.code,
             patment_type_code=type_code,
         )
+
+        # DETAIL RECORDS
         for count, bank_line in enumerate(bank_lines, 1):
             detail_record = CnabDetailRecord(name=str(count))
-            for segment_map in self.get_segments():
-                segment = segment_map.output(
-                    bank_line,
-                    RecordType.DETAIL_RECORD,
-                    seq_batch=seq_batch,
-                    seq_record_detail=count,
-                )
-                detail_record.segments.append(segment)
+            for segment_t in self.get_segments():
+                if segment_t.is_requerid(payment_way_id):
+                    segment = segment_t.output(
+                        bank_line,
+                        RecordType.DETAIL_RECORD,
+                        seq_batch=seq_batch,
+                        seq_record_detail=count,
+                    )
+                    detail_record.segments.append(segment)
             batch.detail_records.append(detail_record)
+
+        # TRAILER
         batch.trailer = self.get_trailer().output(
             pay_order,
             RecordType.TRAILER_BATCH,
@@ -84,12 +99,6 @@ class CNABBatch(models.Model):
             batch_detail_lines=batch.detail_lines(),
         )
         return batch
-
-    state = fields.Selection(
-        selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
-        readonly=True,
-        default="draft",
-    )
 
     def unlink(self):
         lines = self.filtered(lambda l: l.state != "draft")
