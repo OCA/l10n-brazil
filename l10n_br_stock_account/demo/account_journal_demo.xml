@@ -10,6 +10,13 @@
         <field name="company_id" ref="base.main_company" />
     </record>
 
+    <record id="devolucao_vendas_journal_main_company" model="account.journal">
+        <field name="name">Diário de Devolução de Vendas</field>
+        <field name="code">DSR</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
     <record id="entrada_remessa_journal_main_company" model="account.journal">
         <field name="name">Diário Entrada Remessa</field>
         <field name="code">DER</field>
