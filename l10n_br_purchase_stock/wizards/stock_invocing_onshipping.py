@@ -39,12 +39,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         if move.purchase_line_id:
             # TODO: deveria permitir agrupar as linhas ?
             #  Deveria permitir agrupar Pedidos de Compras ?
-            if type(key) is tuple:
-                key = key + (move.purchase_line_id,)
-            else:
-                # TODO - seria melhor identificar o TYPE para saber se
-                #  o KEY realmente é um objeto nesse caso
-                key = (key, move.purchase_line_id)
+            key = key + (move.purchase_line_id,)
 
         return key
 
