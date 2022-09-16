@@ -11,6 +11,6 @@
     "license": "AGPL-3",
     "category": "Financial Management/Configuration",
     "depends": ["currency_rate_update"],
-    "development_status": "Mature",
+    "development_status": "Beta",
     "installable": True,
 }
