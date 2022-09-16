@@ -93,6 +93,15 @@
                             </tree>
                         </field>
                     </page>
+                    <page name="optional_rules" string="Optional Rules" attrs="{'invisible': [('requerid', '==', True)]}">
+                        <span class="o_form_label" modifiers="{}">
+                            Payment Ways
+                        </span>
+                        <div class="text-muted" modifiers="{}">
+                            Choose the payment ways that are required to inform this line.
+                        </div>
+                        <field name="cnab_payment_way_ids" widget="many2many" options="{'no_create': True}"/>
+                    </page>
                 </notebook>
             </form>
         </field>
