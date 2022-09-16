@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-29 20:47+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2022-09-16 22:07+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -190,7 +190,7 @@ msgstr "Imposto dedutível?"
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__display_name
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__display_name
 msgid "Display Name"
-msgstr "Nome de Exibição"
+msgstr "Nome Exibido"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_icms
