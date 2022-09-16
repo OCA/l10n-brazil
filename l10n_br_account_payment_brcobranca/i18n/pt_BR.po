@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-29 01:07+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2022-09-16 22:07+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -31,22 +31,22 @@ msgstr "Linhas de Pagamento Bancário"
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__file_boleto_pdf_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment__file_boleto_pdf_id
 msgid "Boleto PDF"
-msgstr ""
+msgstr "Boleto PDF"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_journal__import_type__cnab240
 msgid "CNAB 240"
-msgstr ""
+msgstr "CNAB 240"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_journal__import_type__cnab400
 msgid "CNAB 400"
-msgstr ""
+msgstr "CNAB 400"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__cnab_returned_ref
 msgid "CNAB Returned Reference"
-msgstr ""
+msgstr "Referência Retornada CNAB"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__import_type
@@ -54,12 +54,14 @@ msgid ""
 "Choose here the method by which you want to import account moves for this "
 "journal."
 msgstr ""
+"Escolha aqui o método pelo qual você deseja importar lançamentos de diário "
+"para este diário."
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_bank_statement_line__payment_method_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__payment_method_code
 msgid "Code (Do Not Modify)"
-msgstr ""
+msgstr "Código (não modificar)"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__display_name
@@ -74,7 +76,7 @@ msgstr "Nome Exibido"
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
 msgid "Enable automatic payment return reconciliation."
-msgstr ""
+msgstr "Habilitar reconciliação do retorno de pagamento automático."
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__id
@@ -84,22 +86,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.ui.menu,name:l10n_br_account_payment_brcobranca.move_importer_menu_brcobranca
 msgid "Import Batch File"
-msgstr ""
+msgstr "Importar Arquivo de Lote"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_credit_statement_import
 msgid "Import Batch File wizard"
-msgstr ""
+msgstr "Importar Arquivo de Lote wizard"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_brcobranca.l10n_br_account_payment_brcobranca_form
 msgid "Imprimir Boleto"
-msgstr ""
+msgstr "Imprimir Boleto"
 
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
@@ -108,6 +110,10 @@ msgid ""
 "Inform the URL where BRCobranca API are running in Odoo Configuration file or if you are using docky in the docker-compose.yml file. Example:\n"
 "BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
 msgstr ""
+"Informar a URL onde a API BR Cobranca está executando no arquivo de "
+"Configuração Odoo ou , caso esteja usando docky no arquivo docker-"
+"compose.yml. Exemplo:\n"
+"BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
 
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_move.py:0
@@ -116,6 +122,9 @@ msgid ""
 "It is not possible generated boletos\n"
 "Make sure the Invoice are in Confirm state and Payment Mode method are CNAB."
 msgstr ""
+"Não é possível gerar boletos\n"
+"Esteja certo de que as Faturas estejam no estado Confirmado e Método do Modo "
+"de Pagamento sejam CNAB."
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_journal
@@ -164,19 +173,19 @@ msgstr "Ordem de Pagamento"
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
 msgid "Statement import error The statement cannot be created: %s"
-msgstr ""
+msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
 
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
 #, python-format
 msgid "The Bank %s CNAB %s is not implemented in BRCobranca."
-msgstr ""
+msgstr "O Banco %s CNAB %s não implementado no BRCobranca."
 
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:0
 #, python-format
 msgid "The CNAB %s for Bank %s are not implemented in BRCobranca."
-msgstr ""
+msgstr "O CNAB %s para Banco %s não implementado no BRCobranca."
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_bank_statement_line__payment_method_code
@@ -190,4 +199,4 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
-msgstr ""
+msgstr "Tipo de importação"
