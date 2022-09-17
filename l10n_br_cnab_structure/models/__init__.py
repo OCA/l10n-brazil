@@ -9,5 +9,6 @@ from . import l10n_br_cnab_event
 from . import cnab_payment_way
 from . import cnab_occurrences
 from . import cnab_pix_key_type
+from . import cnab_pix_transfer_type
 from . import bank_payment_line
 from . import account_payment_oder
