@@ -152,7 +152,7 @@
                                 <tree default_order="code" editable="bottom">
                                     <field name="code" />
                                     <field name="description" />
-                                    <field name="liquidation_move" />
+                                    <field name="gen_liquidation_move" />
                                 </tree>
                             </field>
                         </page>
