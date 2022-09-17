@@ -1,4 +1,4 @@
-"id","code","description","liquidation_move","cnab_structure_id/id"
+"id","code","description","gen_liquidation_move","cnab_structure_id/id"
 "cnab_occurrence_00_itau_240","00","PAGAMENTO EFETUADO","TRUE","l10n_br_cnab_structure.cnab_itau_240"
 "cnab_occurrence_AE_itau_240","AE","DATA DE PAGAMENTO ALTERADA",,"l10n_br_cnab_structure.cnab_itau_240"
 "cnab_occurrence_AG_itau_240","AG","NÚMERO DO LOTE INVÁLIDO",,"l10n_br_cnab_structure.cnab_itau_240"

@@ -21,8 +21,8 @@ class CNABOccurrences(models.Model):
         required=True,
     )
 
-    liquidation_move = fields.Boolean(
-        string="Liquidation Move",
+    gen_liquidation_move = fields.Boolean(
+        string="Generate Liquidation Move",
         help="Mark this option if this occurrence corresponds to a liquidation move.",
     )
 

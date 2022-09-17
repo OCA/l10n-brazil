@@ -20,7 +20,8 @@
                             <field name="due_date" />
                             <field name="expected_payment_date" />
                             <field name="real_payment_date" />
-                            <field name="liquidation_move" />
+                            <field name="gen_liquidation_move" />
+                            <field name="generated_move_id" />
                         </group>
                         <group string="Values">
                             <field name="title_value" />

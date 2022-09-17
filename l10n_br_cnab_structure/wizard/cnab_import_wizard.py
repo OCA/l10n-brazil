@@ -359,7 +359,9 @@ class CNABImportWizard(models.TransientModel):
         unic_lots = list(dict.fromkeys(lots))
         return_log_id.number_lots = len(unic_lots)
 
-        liq_event_ids = return_log_id.event_ids.filtered(lambda e: e.liquidation_move)
+        liq_event_ids = return_log_id.event_ids.filtered(
+            lambda e: e.gen_liquidation_move
+        )
         if liq_event_ids:
             return_log_id.amount_total_title = sum(liq_event_ids.mapped("title_value"))
             return_log_id.amount_total_received = sum(
