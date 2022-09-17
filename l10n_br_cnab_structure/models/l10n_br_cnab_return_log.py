@@ -44,6 +44,9 @@ class L10nBrCNABReturnLog(models.Model):
         comodel_name="res.company",
         string="Company",
     )
+    state = fields.Selection(
+        selection=[("draft", "Draft"), ("error", "Error"), ("confirmed", "Confirmed")]
+    )
 
     @api.depends("event_ids", "event_ids.gen_liquidation_move")
     def _compute_liq_event_ids(self):
