@@ -39,6 +39,7 @@ class L10nBrCNABReturnLog(models.Model):
         compute="_compute_liq_event_ids",
         store=True,
     )
+    header_file = fields.Char()
     cnpj_cpf = fields.Char()
     company_id = fields.Many2one(
         comodel_name="res.company",
