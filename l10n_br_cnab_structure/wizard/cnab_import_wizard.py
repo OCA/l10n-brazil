@@ -389,7 +389,14 @@ class CNABImportWizard(models.TransientModel):
         if self.company_id != self.journal_id.company_id:
             raise UserError(_(f"Selected company is different of the Journal company."))
 
+    def _check_duplicity(self, header_file):
+        return_log_obj = self.env["l10n_br_cnab.return.log"]
+        return_log_id = return_log_obj.search([("header_file", "=", header_file)])
+        if return_log_id:
+            raise UserError(_(f"This CNAB file has already imported."))
+
     def _create_return_log(self, data):
+        self._check_duplicity(data["header_file_line"]["raw_line"])
         return_log_obj = self.env["l10n_br_cnab.return.log"]
         return_dict = {
             "name": f"Banco {self.journal_id.bank_id.short_name}  - "
@@ -401,6 +408,7 @@ class CNABImportWizard(models.TransientModel):
             "cnab_structure_id": self.cnab_structure_id.id,
             "company_id": self.company_id.id,
             "state": "draft",
+            "header_file": data["header_file_line"]["raw_line"],
         }
         return_dict.update(self._get_dict_value_from_line(data["header_file_line"]))
         return_dict.update(self._get_dict_value_from_line(data["trailer_file_line"]))
