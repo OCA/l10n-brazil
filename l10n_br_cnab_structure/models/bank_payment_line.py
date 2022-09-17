@@ -15,6 +15,11 @@ class BankPaymentLine(models.Model):
         compute="_compute_cnab_pix_type_id",
     )
 
+    cnab_pix_transfer_type_id = fields.Many2one(
+        comodel_name="cnab.pix.transfer.type",
+        compute="_compute_cnab_pix_transfer_type_id",
+    )
+
     cnab_payment_way_id = fields.Many2one(
         comodel_name="cnab.payment.way",
         compute="_compute_cnab_payment_way_id",
@@ -48,6 +53,16 @@ class BankPaymentLine(models.Model):
                 )
             )
             self.cnab_pix_type_id = cnab_pix_type_id
+
+    def _compute_cnab_pix_transfer_type_id(self):
+        for bline in self:
+            if bline.payment_way_domain == "pix_transfer":
+                cnab_pix_transfer_type = bline.order_id.cnab_structure_id.cnab_pix_transfer_type_ids.filtered(
+                    lambda t, b=bline: t.type_domain == b.pix_transfer_type
+                )
+                bline.cnab_pix_transfer_type_id = cnab_pix_transfer_type
+            else:
+                bline.cnab_pix_transfer_type_id = False
 
     def _compute_batch_template_id(self):
         for bline in self:
