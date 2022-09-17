@@ -400,6 +400,7 @@ class CNABImportWizard(models.TransientModel):
             "return_file": self.return_file,
             "cnab_structure_id": self.cnab_structure_id.id,
             "company_id": self.company_id.id,
+            "state": "draft",
         }
         return_dict.update(self._get_dict_value_from_line(data["header_file_line"]))
         return_dict.update(self._get_dict_value_from_line(data["trailer_file_line"]))
