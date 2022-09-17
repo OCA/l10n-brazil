@@ -30,6 +30,10 @@ class CNABPaymentWay(models.Model):
         comodel_name="account.payment.way", string="Payment Way"
     )
 
+    clearinghouse_code = fields.Char(
+        help="Centralizing Clearing House Code\n(Código da Câmara Centralizadora)"
+    )
+
     @api.depends("code", "name")
     def _compute_name(self):
         for rec in self:
