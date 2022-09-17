@@ -185,6 +185,13 @@ class CNABStructure(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    cnab_pix_transfer_type_ids = fields.One2many(
+        comodel_name="cnab.pix.transfer.type",
+        inverse_name="cnab_structure_id",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     cnab_occurrence_ids = fields.One2many(
         comodel_name="cnab.occurrence",
         inverse_name="cnab_structure_id",
