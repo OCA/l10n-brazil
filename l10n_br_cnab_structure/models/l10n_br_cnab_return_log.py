@@ -45,10 +45,10 @@ class L10nBrCNABReturnLog(models.Model):
         string="Company",
     )
 
-    @api.depends("event_ids", "event_ids.liquidation_move")
+    @api.depends("event_ids", "event_ids.gen_liquidation_move")
     def _compute_liq_event_ids(self):
         for rec in self:
-            rec.liq_event_ids = rec.event_ids.filtered(lambda a: a.liquidation_move)
+            rec.liq_event_ids = rec.event_ids.filtered(lambda a: a.gen_liquidation_move)
 
     def _compute_bank_acc_number(self):
         for rec in self:
