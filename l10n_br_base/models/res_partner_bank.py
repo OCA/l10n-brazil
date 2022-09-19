@@ -15,6 +15,12 @@ BANK_ACCOUNT_TYPE = [
     ("13", _("Conta depósito judicial/Depósito em consignação conjunta")),
 ]
 
+TRANSACTIONAL_ACCOUNT_TYPE = [
+    ("checking", _("Checking Account (Conta Corrente)")),
+    ("saving", _("Saving Account (Conta Poupança)")),
+    ("payment", _("Prepaid Payment Account (Conta Pagamento)")),
+]
+
 
 class ResPartnerBank(models.Model):
     """Adiciona campos necessários para o cadastramentos de contas
@@ -26,6 +32,19 @@ class ResPartnerBank(models.Model):
         selection=BANK_ACCOUNT_TYPE,
         string="Bank Account Type",
         default="01",
+    )
+
+    transactional_acc_type = fields.Selection(
+        selection=TRANSACTIONAL_ACCOUNT_TYPE,
+        string="Account Type",
+        help="Type of transactional account, classification used in "
+        "the Brazilian instant payment system (PIX)",
+    )
+
+    partner_pix_ids = fields.One2many(
+        comodel_name="res.partner.pix",
+        inverse_name="partner_bank_id",
+        string="Pix Keys",
     )
 
     acc_number = fields.Char(
@@ -55,9 +74,42 @@ class ResPartnerBank(models.Model):
         help="Last part of BIC/Swift Code.",
     )
 
+    company_country_id = fields.Many2one(
+        comodel_name="res.country",
+        string="Company Country",
+        related="company_id.country_id",
+    )
+
     @api.constrains("bra_number")
     def _check_bra_number(self):
         for b in self:
             if b.bank_id.code_bc:
                 if len(b.bra_number) > 4:
                     raise UserError(_("Bank branch code must be four caracteres."))
+
+    @api.constrains(
+        "transactional_acc_type",
+        "bank_id",
+        "acc_number",
+        "bra_number",
+        "acc_number_dig",
+    )
+    def _check_transc_acc_type(self):
+        for rec in self:
+            if rec.transactional_acc_type:
+                if not rec.bank_id or not rec.bank_id.code_bc or not rec.acc_number:
+                    raise UserError(
+                        _(
+                            "a transactional account must contain the bank "
+                            "information (code_bc) and the account number"
+                        )
+                    )
+            if rec.transactional_acc_type in ["checking", "saving"]:
+                if not rec.bra_number or not rec.acc_number_dig:
+                    raise UserError(
+                        _(
+                            "A Checking Account or Saving Account transactional account "
+                            "must contain the branch number and the account verification "
+                            "digit."
+                        )
+                    )

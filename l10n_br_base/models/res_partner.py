@@ -34,6 +34,18 @@ class Partner(models.Model):
 
     union_entity_code = fields.Char(string="Union Entity code")
 
+    pix_key_ids = fields.One2many(
+        string="Pix Keys",
+        comodel_name="res.partner.pix",
+        inverse_name="partner_id",
+        help="Keys for Brazilian instant payment (pix)",
+    )
+
+    show_l10n_br = fields.Boolean(
+        compute="_compute_show_l10n_br",
+        help="Indicates if Brazilian localization fields should be displayed.",
+    )
+
     @api.constrains("cnpj_cpf", "inscr_est")
     def _check_cnpj_inscr_est(self):
         for record in self:
@@ -176,3 +188,13 @@ class Partner(models.Model):
     @api.onchange("city_id")
     def _onchange_city_id(self):
         self.city = self.city_id.name
+
+    def _compute_show_l10n_br(self):
+        """
+        Defines when Brazilian localization fields should be displayed.
+        """
+        for rec in self:
+            if rec.company_id and rec.company_id.country_id != self.env.ref("base.br"):
+                rec.show_l10n_br = False
+            else:
+                rec.show_l10n_br = True
