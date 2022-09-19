@@ -1,6 +1,7 @@
 num2words==0.5.4
 pycep-correios==5.0.0
 workalendar
+email_validator
 erpbrasil.base==2.2.2
 erpbrasil.assinatura
 erpbrasil.transmissao==1.0.0
@@ -16,3 +17,4 @@ openupgradelib
 febraban
 vcrpy
 odoo-test-helper
+phonenumbers
