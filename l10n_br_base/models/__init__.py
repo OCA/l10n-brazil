@@ -12,3 +12,4 @@ from . import res_partner
 from . import state_tax_numbers
 from . import res_company
 from . import res_config_settings
+from . import res_partner_pix
