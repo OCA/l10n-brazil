@@ -62,6 +62,7 @@ class CNABReturnEvent(models.Model):
     state = fields.Selection(
         selection=[
             ("error", "Error"),
+            ("ignored", "Ignored"),
             ("ready", "Ready to Genereta Move"),
             ("confirmed", "Confirmed"),
         ]
@@ -107,16 +108,17 @@ class CNABReturnEvent(models.Model):
         return event
 
     def confirm_event(self):
-        if self.state == "error":
-            raise UserError(
-                _(
-                    f"Event {self.seq_number}: You cannot comfirm an "
-                    f"Return Log with events with state error."
+        if self.state != "ignored":
+            if self.state == "error":
+                raise UserError(
+                    _(
+                        f"Event {self.seq_number}: You cannot comfirm an "
+                        f"Return Log with events with state error."
+                    )
                 )
-            )
-        if self.gen_liquidation_move:
-            self.create_account_move()
-        self.state = "confirmed"
+            if self.gen_liquidation_move:
+                self.create_account_move()
+            self.state = "confirmed"
 
     def set_occurrence_date(self):
         if not self.occurrence_date:
@@ -266,3 +268,6 @@ class CNABReturnEvent(models.Model):
         self.generated_move_id = move_id
         for to_reconcile in to_reconcile_items:
             to_reconcile.reconcile()
+
+    def action_ignore_event(self):
+        self.write({"state": "ignored"})
