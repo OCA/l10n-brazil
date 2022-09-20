@@ -24,10 +24,10 @@
         <field name="arch" type="xml">
             <form edit="false">
                 <header>
-                    <button name="action_create_account_move" id="create_account_move_btn"
+                    <button name="action_confirm_return_log" id="confirm_return_log_btn"
                             type="object" class="oe_highlight"
-                            string="Generate Entries"
-                            attrs="{'invisible': [('liq_event_ids', '=', [])]}"
+                            string="Confirm"
+                            attrs="{'invisible': [('state', '=', 'confirmed')]}"
                             groups="l10n_br_account_payment_order.group_cnab_manager"/>
                     <field name="state" widget="statusbar" readonly="1" />
                 </header>
@@ -55,8 +55,30 @@
                     </group>
                     <notebook>
                         <page name="log_tab" string="Events">
-                            <field name="event_ids" readonly="1" />
-                            <field name="liq_event_ids" invisible="1" />
+                            <field name="event_ids" readonly="1">
+                                <tree string="CNAB Return Events" decoration-danger="state=='error'" decoration-primary="state=='ready'">
+                                    <field name="lot_id" optional="hide" />
+                                    <field name="segment" optional="hide" />
+                                    <field name="bank_payment_line_id" optional="hide" />
+                                    <field name="partner_id" optional="show" />
+                                    <field name="due_date" optional="hide" />
+                                    <field name="expected_payment_date" optional="show" />
+                                    <field name="real_payment_date" optional="show" />
+                                    <field name="own_number" optional="hide" />
+                                    <field name="your_number" optional="show" />
+                                    <field name="company_title_identification" optional="show" />
+                                    <field name="currency_type" optional="hide" />
+                                    <field name="title_value" optional="show" />
+                                    <field name="payment_value" optional="show" />
+                                    <field name="discount_value" optional="hide" />
+                                    <field name="rebate_value" optional="hide" />
+                                    <field name="interest_fee_value" optional="hide" />
+                                    <field name="tariff_charge" optional="hide" />
+                                    <field name="balance" optional="hide" />
+                                    <field name="state" optional="show" />
+                                    <field name="occurrences" optional="show" />
+                                </tree>
+                            </field>
 
                             <group
                                 class="oe_subtotal_footer oe_left"
