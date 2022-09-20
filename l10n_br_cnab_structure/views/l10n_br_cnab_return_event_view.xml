@@ -50,14 +50,14 @@
                         </page>
                         <page name="other_tab" string="Other Infos">
                             <group>
-                                <group string="Beneficiary">
-                                    <field name="beneficiary_name" />
-                                    <field name="beneficiary_document" />
-                                    <field name="beneficiary_bank_code" />
-                                    <field name="beneficiary_bank_branch" />
-                                    <field name="beneficiary_bank_account" />
-                                    <field name="beneficiary_bank_account_dac" />
-                                    <field name="beneficiary_notification" />
+                                <group string="Partner">
+                                    <field name="partner_name" />
+                                    <field name="partner_document" />
+                                    <field name="partner_bank_code" />
+                                    <field name="partner_bank_branch" />
+                                    <field name="partner_bank_account" />
+                                    <field name="partner_bank_account_dac" />
+                                    <field name="partner_notification" />
                                 </group>
                                 <group string="Control">
                                     <field name="seq_number" />
