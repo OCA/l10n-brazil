@@ -65,7 +65,7 @@
                                     <field name="lot_id" optional="hide" />
                                     <field name="segment" optional="hide" />
                                     <field name="bank_payment_line_id" optional="hide" />
-                                    <field name="partner_id" optional="show" />
+                                    <field name="partner_name" optional="show" />
                                     <field name="due_date" optional="hide" />
                                     <field name="expected_payment_date" optional="show" />
                                     <field name="real_payment_date" optional="show" />
