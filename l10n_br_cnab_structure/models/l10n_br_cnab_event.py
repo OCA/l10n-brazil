@@ -21,17 +21,17 @@ class CNABReturnEvent(models.Model):
     record_type = fields.Char()
     seq_number = fields.Char()
     move_type_code = fields.Char()
-    beneficiary_bank_code = fields.Char()
+    partner_bank_code = fields.Char()
     # código da câmera centralizadora
     centralizing_chamber_code = fields.Char()
-    beneficiary_bank_branch = fields.Char()
-    beneficiary_name = fields.Char()
-    beneficiary_document = fields.Char(
-        helps="Beneficiary's document number, it can be a CNPJ or CPF."
+    partner_bank_branch = fields.Char()
+    partner_name = fields.Char()
+    partner_document = fields.Char(
+        helps="Partners's document number, it can be a CNPJ or CPF."
     )
-    beneficiary_bank_account = fields.Char()
-    beneficiary_bank_account_dac = fields.Char()
-    beneficiary_notification = fields.Char()
+    partner_bank_account = fields.Char()
+    partner_bank_account_dac = fields.Char()
+    partner_notification = fields.Char()
     expected_payment_date = fields.Date()
     additional_info = fields.Char()
     ted_purpose = fields.Char()
