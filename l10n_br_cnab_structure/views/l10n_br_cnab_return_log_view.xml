@@ -56,7 +56,12 @@
                     <notebook>
                         <page name="log_tab" string="Events">
                             <field name="event_ids" readonly="1">
-                                <tree string="CNAB Return Events" decoration-danger="state=='error'" decoration-primary="state=='ready'">
+                                <tree
+                                    string="CNAB Return Events"
+                                    decoration-danger="state=='error'"
+                                    decoration-primary="state=='ready'"
+                                    decoration-muted="state=='ignored'"
+                                >
                                     <field name="lot_id" optional="hide" />
                                     <field name="segment" optional="hide" />
                                     <field name="bank_payment_line_id" optional="hide" />
