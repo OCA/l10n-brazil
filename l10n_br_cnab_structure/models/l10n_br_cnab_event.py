@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, fields, models, api
+from odoo.exceptions import UserError
 
 
 class CNABReturnEvent(models.Model):
@@ -58,6 +59,13 @@ class CNABReturnEvent(models.Model):
     journal_id = fields.Many2one(
         comodel_name="account.journal", related="cnab_return_log_id.journal_id"
     )
+    state = fields.Selection(
+        selection=[
+            ("error", "Error"),
+            ("ready", "Ready to Genereta Move"),
+            ("confirmed", "Confirmed"),
+        ]
+    )
 
     @api.depends(
         "gen_liquidation_move",
@@ -86,12 +94,29 @@ class CNABReturnEvent(models.Model):
             # if there is no cnab_structure_id it is because the return file is not being
             # processed by this module, so there is nothing to do here.
             return event
-        event.load_bank_payment_line()
         event.load_description_occurrences()
+        event.load_bank_payment_line()
         event.check_gen_liquidation_move()
         event.set_move_line_ids()
         event.set_occurrence_date()
+        if event.state != "error":
+            if event.gen_liquidation_move:
+                event.state = "ready"
+            else:
+                event.state = "confirmed"
         return event
+
+    def confirm_event(self):
+        if self.state == "error":
+            raise UserError(
+                _(
+                    f"Event {self.seq_number}: You cannot comfirm an "
+                    f"Return Log with events with state error."
+                )
+            )
+        if self.gen_liquidation_move:
+            self.create_account_move()
+        self.state = "confirmed"
 
     def set_occurrence_date(self):
         if not self.occurrence_date:
@@ -133,6 +158,9 @@ class CNABReturnEvent(models.Model):
                 bank_payment_line_id = self.env["bank.payment.line"].search(
                     [("name", "=", event.your_number)]
                 )
+                if not bank_payment_line_id:
+                    event.state = "error"
+                    event.occurrences = "BANK PAYMENT LINE NOT FOUND"
                 event.bank_payment_line_id = bank_payment_line_id
 
     def get_description_occurrence(self, event_code):
@@ -145,6 +173,7 @@ class CNABReturnEvent(models.Model):
         if occurrence_id:
             description = occurrence_id.name
         else:
+            self.state = "error"
             description = event_code + "-" + "DESCRIPTION CODE NOT FOUND"
         return description
 
