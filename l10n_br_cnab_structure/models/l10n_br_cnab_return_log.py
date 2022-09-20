@@ -33,12 +33,6 @@ class L10nBrCNABReturnLog(models.Model):
         ],
         string="Type",
     )
-    liq_event_ids = fields.Many2many(
-        string="Eventos",
-        comodel_name="l10n_br_cnab.return.event",
-        compute="_compute_liq_event_ids",
-        store=True,
-    )
     header_file = fields.Char()
     cnpj_cpf = fields.Char()
     company_id = fields.Many2one(
@@ -48,11 +42,6 @@ class L10nBrCNABReturnLog(models.Model):
     state = fields.Selection(
         selection=[("draft", "Draft"), ("error", "Error"), ("confirmed", "Confirmed")]
     )
-
-    @api.depends("event_ids", "event_ids.gen_liquidation_move")
-    def _compute_liq_event_ids(self):
-        for rec in self:
-            rec.liq_event_ids = rec.event_ids.filtered(lambda a: a.gen_liquidation_move)
 
     def _compute_bank_acc_number(self):
         for rec in self:
@@ -67,7 +56,8 @@ class L10nBrCNABReturnLog(models.Model):
                 ]
             )
 
-    def action_create_account_move(self):
+    def action_confirm_return_log(self):
         self.ensure_one()
-        for event in self.liq_event_ids:
-            event.create_account_move()
+        for event in self.event_ids:
+            event.confirm_event()
+        self.state = "confirmed"
