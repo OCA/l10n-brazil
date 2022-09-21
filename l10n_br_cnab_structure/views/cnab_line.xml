@@ -102,6 +102,16 @@
                         </div>
                         <field name="cnab_payment_way_ids" widget="many2many" options="{'no_create': True}"/>
                     </page>
+                    <page name="fields_groups" string="Field Groups">
+                        <field name="group_ids" mode='tree' widget='one2many' context="{'default_cnab_line_id': id}">
+                            <tree>
+                                <field name="state" invisible="True" />
+                                <field name="name" />
+                                <field name="field_ids" />
+                                <field name="cnab_line_id" invisible="True" />
+                            </tree>
+                        </field>
+                    </page>
                 </notebook>
             </form>
         </field>
