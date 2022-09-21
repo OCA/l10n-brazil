@@ -207,8 +207,10 @@ class CNABReturnEvent(models.Model):
             "currency_id": self.journal_id.currency_id.id
             or self.cnab_return_log_id.company_id.currency_id.id,
             "date": self.real_payment_date,
+            "cnab_return_log_id": self.cnab_return_log_id.id,
         }
 
+    # TODO We aren't handling multi-currency.
     def _get_reconciliation_items(self, move_id):
         move_line_obj = self.env["account.move.line"]
         to_reconcile_amls = []
@@ -233,8 +235,11 @@ class CNABReturnEvent(models.Model):
 
             # TODO ver a logica para fazer o tratamento do multicurrency
             if value > 0:
+                name = move_line.move_id.name
+                if self.company_title_identification:
+                    name += f" - {self.company_title_identification}"
                 vals = {
-                    "name": move_line.move_id.name,
+                    "name": name,
                     "account_id": move_line.account_id.id,
                     "partner_id": move_line.partner_id.id,
                     "move_id": move_id.id,
@@ -245,14 +250,15 @@ class CNABReturnEvent(models.Model):
                     check_move_validity=False
                 ).create(vals)
                 to_reconcile_amls.append(liq_move_line + move_line)
-        self._create_counterpart_move_line(move_id)
+        self._create_counterpart_move_line(move_id, move_lines[0].partner_id)
         return to_reconcile_amls
 
-    def _create_counterpart_move_line(self, move_id):
+    def _create_counterpart_move_line(self, move_id, partner_id):
         debit_or_credit = "credit" if self.move_line_ids[0].balance < 0 else "debit"
         move_line_obj = self.env["account.move.line"]
         counterpart_vals = {
             "move_id": move_id.id,
+            "partner_id": partner_id.id,
             "account_id": self.journal_id.default_account_id.id,
             debit_or_credit: self.balance,
         }
