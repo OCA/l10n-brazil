@@ -38,6 +38,11 @@ class CNABField(models.Model):
         required=True,
         states={"draft": [("readonly", False)]},
     )
+    cnab_group_id = fields.Many2one(
+        "cnab.line.field.group",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
     start_pos = fields.Integer(
         string="Start Position",
         readonly=True,
@@ -122,11 +127,31 @@ class CNABField(models.Model):
     )
 
     def action_change_field(self):
-        "action for change for field"
-        if self.cnab_line_id.current_view == "sending":
+        """
+        Action for open select field wizard"
+        """
+        mapping_type = self.cnab_line_id.current_view
+        return self._open_select_field_wizard(mapping_type)
+
+    def action_change_field_sending(self):
+        """
+        Action for open select field wizard
+        for mapping sending content
+        """
+        return self._open_select_field_wizard("sending")
+
+    def action_change_field_return(self):
+        """
+        Action for open select field wizard
+        for mapping return content
+        """
+        return self._open_select_field_wizard("return")
+
+    def _open_select_field_wizard(self, mapping_type):
+        if mapping_type == "sending":
             notation_field = self.content_source_field
             model_id = self.content_source_model_id
-        if self.cnab_line_id.current_view == "return":
+        if mapping_type == "return":
             notation_field = self.content_dest_field
             model_id = self.content_dest_model_id
         return {
@@ -140,7 +165,7 @@ class CNABField(models.Model):
                 "default_cnab_field_id": self.id,
                 "default_notation_field": notation_field,
                 "default_model_id": model_id.id,
-                "default_current_view": self.cnab_line_id.current_view,
+                "default_current_view": mapping_type,
             },
         }
 
