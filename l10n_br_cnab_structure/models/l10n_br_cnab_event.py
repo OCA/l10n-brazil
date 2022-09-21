@@ -101,7 +101,7 @@ class CNABReturnEvent(models.Model):
         event.set_move_line_ids()
         event.set_occurrence_date()
         if event.state != "error":
-            if event.gen_liquidation_move:
+            if event.gen_liquidation_move or event.tariff_charge > 0:
                 event.state = "ready"
             else:
                 event.state = "confirmed"
@@ -117,7 +117,9 @@ class CNABReturnEvent(models.Model):
                     )
                 )
             if self.gen_liquidation_move:
-                self.create_account_move()
+                self.create_liq_move()
+            elif self.tariff_charge > 0:
+                self.create_tariff_move()
             self.state = "confirmed"
 
     def set_occurrence_date(self):
@@ -196,7 +198,7 @@ class CNABReturnEvent(models.Model):
                 occurrences += event.get_description_occurrence(code)
             event.occurrences = occurrences
 
-    def _get_move_vals(self):
+    def _get_liq_move_vals(self):
         return {
             "name": f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - {self.cnab_return_log_id.bank_account_id.acc_number} - REF: {self.your_number}",
             "ref": self.your_number,
@@ -259,9 +261,54 @@ class CNABReturnEvent(models.Model):
         )
         return aml
 
-    def create_account_move(self):
+    def create_tariff_move_lines(self, move_id):
+
+        move_line_obj = self.env["account.move.line"]
+        move_vals_list = []
+        move_vals_list.append(
+            {
+                "name": "Bank Tariff: " + self.your_number,
+                "credit": self.tariff_charge,
+                "account_id": self.journal_id.default_account_id.id,
+                "partner_id": self.move_line_ids[0].partner_id.id,
+                "move_id": move_id.id,
+            }
+        )
+
+        move_vals_list.append(
+            {
+                "name": "Bank Tariff: " + self.your_number,
+                "debit": self.tariff_charge,
+                "account_id": self.journal_id.default_account_id.id,
+                "partner_id": self.move_line_ids[0].partner_id.id,
+                "move_id": move_id.id,
+            }
+        )
+        move_line_obj.with_context(check_move_validity=False).create(move_vals_list)
+
+    def _get_tariff_move_vals(self):
+        return {
+            "name": f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - {self.cnab_return_log_id.bank_account_id.acc_number} - REF: {self.your_number} - TARIFF: {self.occurrences}",
+            "ref": self.your_number,
+            "is_cnab": True,
+            "journal_id": self.journal_id.id,
+            "currency_id": self.journal_id.currency_id.id
+            or self.cnab_return_log_id.company_id.currency_id.id,
+            "date": self.occurrence_date,
+            "cnab_return_log_id": self.cnab_return_log_id.id,
+        }
+
+    def create_tariff_move(self):
         move_obj = self.env["account.move"]
-        move_vals = self._get_move_vals()
+        move_vals = self._get_tariff_move_vals()
+        move_id = move_obj.create(move_vals)
+        self.create_tariff_move_lines(move_id)
+        move_id.post()
+        self.generated_move_id = move_id
+
+    def create_liq_move(self):
+        move_obj = self.env["account.move"]
+        move_vals = self._get_liq_move_vals()
         move_id = move_obj.create(move_vals)
         to_reconcile_items = self._get_reconciliation_items(move_id)
         move_id.post()
