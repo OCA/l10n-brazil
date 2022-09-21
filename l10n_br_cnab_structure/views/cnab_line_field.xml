@@ -15,6 +15,7 @@
                 <field name="default_value" />
                 <field name="notes" />
                 <field name="cnab_line_id" />
+                <field name="cnab_group_id" />
             </tree>
         </field>
     </record>
@@ -27,33 +28,60 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
-                    <group>
-                        <field name="ref_name" />
-                        <field name="name" />
-                        <field name="start_pos" />
-                        <field name="end_pos" />
-                        <field name="assumed_comma" />
-                        <field name="type" />
-                        <field name="size" />
-                        <field name="default_value" />
-                        <field name="notes" />
-                        <field name="cnab_line_id" />
+                    <group name="field" string="Field Setting">
+                        <group>
+                            <field name="name" />
+                            <field name="meaning" />
+                            <field name="start_pos" />
+                            <field name="end_pos" />
+                            <field name="assumed_comma" />
+                            <field name="type" />
+                        </group>
+                        <group>
+                            <field name="ref_name" />
+                            <field name="cnab_line_id" />
+                            <field name="cnab_group_id" />
+                            <field name="default_value" />
+                            <field name="size" />
+                        </group>
+                        <field name="notes" placeholder="Notes.." widget="text" />
                     </group>
-                    <group col="2" name="content" stirng="Content">
-                        <field name="content_source_model_id" />
-                        <field name="content_source_field" />
-                        <label for="action_change_field" />
-                        <button
-                            name="action_change_field"
-                            string="Select Field Wizard"
-                            type="object"
-                            class="oe_highlight"
-                            icon="fa-search-plus"
-                        />
-                    </group>
-                    <group>
-                        <field name="sending_dynamic_content" widget="ace" options="{'mode': 'python'}"/>
-                    </group>
+                    <notebook>
+                        <page name="send_mapping" string="Send Mapping">
+                            <group col="2" name="content" stirng="Content">
+                                <field name="content_source_model_id" />
+                                <field name="content_source_field" />
+                                <label for="action_change_field_sending" />
+                                <button
+                                    name="action_change_field_sending"
+                                    string="Select Field Wizard"
+                                    type="object"
+                                    class="oe_highlight"
+                                    icon="fa-search-plus"
+                                />
+                            </group>
+                            <group>
+                                <field name="sending_dynamic_content" widget="ace" options="{'mode': 'python'}"/>
+                            </group>
+                        </page>
+                        <page name="return_mapping" string="Return Mapping">
+                            <group col="2" name="content" stirng="Content">
+                                <field name="content_dest_model_id" />
+                                <field name="content_dest_field" />
+                                <label for="action_change_field_return" />
+                                <button
+                                    name="action_change_field_return"
+                                    string="Select Field Wizard"
+                                    type="object"
+                                    class="oe_highlight"
+                                    icon="fa-search-plus"
+                                />
+                            </group>
+                            <group>
+                                <field name="return_dynamic_content" widget="ace" options="{'mode': 'python'}"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

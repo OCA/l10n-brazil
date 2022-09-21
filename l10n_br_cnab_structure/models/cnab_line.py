@@ -1,10 +1,12 @@
 # Copyright 2022 Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import json
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..cnab.cnab import CnabLine
+from odoo.tools.safe_eval import safe_eval
 
 
 class CNABLine(models.Model):
@@ -70,6 +72,13 @@ class CNABLine(models.Model):
 
     field_ids = fields.One2many(
         comodel_name="l10n_br_cnab.line.field",
+        inverse_name="cnab_line_id",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    group_ids = fields.One2many(
+        comodel_name="cnab.line.field.group",
         inverse_name="cnab_line_id",
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -161,6 +170,25 @@ class CNABLine(models.Model):
         self.ensure_one()
         line = CnabLine(record_type)
         for field_id in self.field_ids:
+
+            # skips inserting the field if it does not meet the group condition.
+            if field_id.cnab_group_id:
+                conditions = field_id.cnab_group_id.condition_ids
+                skip = False
+                for cond in conditions:
+                    field_key = cond.field_id.ref_name
+                    field_value = line.fields[field_key]
+                    cond_values = json.loads(cond.json_value)
+                    if cond.operator == "in":
+                        cond_result = field_value in cond_values
+                    if cond.operator == "not in":
+                        cond_result = field_value not in cond_values
+                    if cond_result:
+                        skip = True
+                        break
+                if skip:
+                    continue
+
             name, value = field_id.output(resource_ref, **kwargs)
             line.add_field(name, value)
         return line
@@ -197,17 +225,6 @@ class CNABLine(models.Model):
             raise UserError(
                 _(f"{self.name}: The start position of first field must be 1.")
             )
-
-        ref_pos = 0
-        for f in cnab_fields:
-            if f.start_pos != ref_pos + 1:
-                raise UserError(
-                    _(
-                        f"{self.name}: Start position of field '{f.name}' is less"
-                        " than the end position of the previous one."
-                    )
-                )
-            ref_pos = f.end_pos
 
         last_pos = int(self.cnab_structure_id.cnab_format)
         if cnab_fields[-1].end_pos != last_pos:

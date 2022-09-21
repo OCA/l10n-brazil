@@ -25,6 +25,8 @@
         "views/account_payment_mode.xml",
         "views/l10n_br_cnab_return_log_view.xml",
         "views/l10n_br_cnab_return_event_view.xml",
+        "views/cnab_line_field_group.xml",
+        "views/cnab_line_field_group_condition.xml",
         "views/journal_view.xml",
         "security/cnab_security.xml",
         "security/ir.model.access.csv",
