@@ -9,7 +9,7 @@ from odoo.addons import decimal_precision as dp
 from ..constants import BOLETO_ESPECIE
 
 
-class L10nBrCNABBoletoFields(models.Model):
+class L10nBrCNABBoletoFields(models.AbstractModel):
     _name = "l10n_br_cnab.boleto.fields"
     _description = "CNAB - Boleto Fields."
 
