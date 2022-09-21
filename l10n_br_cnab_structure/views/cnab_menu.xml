@@ -26,6 +26,16 @@
             name="CNAB Fields"
             action="action_cnab_line_field"
             sequence="40"/>
+        <menuitem
+            id="menu_cnab_line_fields_group"
+            name="CNAB Fields Group"
+            action="action_cnab_line_fields_group"
+            sequence="50"/>
+        <menuitem
+            id="menu_cnab_line_fields_group_condition"
+            name="CNAB Fields Group Condition"
+            action="action_cnab_line_fields_group_condition"
+            sequence="60"/>
     </menuitem>
 
 
