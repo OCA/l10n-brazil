@@ -11,7 +11,7 @@ from ..constants import (
 )
 
 
-class L10nBrCNABPaymentFields(models.Model):
+class L10nBrCNABPaymentFields(models.AbstractModel):
     _name = "l10n_br_cnab.payment.fields"
     _description = "CNAB - Payment Fields."
 
