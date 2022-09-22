@@ -89,6 +89,7 @@
                                 <field name="return_dynamic_content" attrs="{'column_invisible': [('parent.current_view', '!=', 'return')]}" />
                                 <field name="content_dest_model_id" invisible="True" />
                                 <field name="notes" />
+                                <field name="cnab_group_id" />
                                 <field name="cnab_line_id" invisible="True" />
                             </tree>
                         </field>
