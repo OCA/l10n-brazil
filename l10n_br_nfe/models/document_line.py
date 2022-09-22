@@ -559,6 +559,8 @@ class NFeLine(spec_models.StackedModel):
                 field_name = "pis_base"
             elif class_obj._name.startswith("nfe.40.cofins"):
                 field_name = "cofins_base"
+            elif class_obj._name.startswith("nfe.40.ii"):
+                field_name = "ii_base"
             return self._export_float_monetary(
                 field_name,
                 member_spec,
@@ -592,8 +594,14 @@ class NFeLine(spec_models.StackedModel):
                 or self.partner_id.country_id != self.company_id.country_id
             ):
                 return False
+            elif field_name == "nfe40_II" and (
+                not self.cfop_id.code.startswith("3")
+                or self.cfop_id.code in ['3201', '3202', '3211', '3503', '3553']
+                or self.fiscal_operation_type == "out"
+            ):
+              return False
             # TODO add condition
-            elif field_name in ["nfe40_II", "nfe40_PISST", "nfe40_COFINSST"]:
+            elif field_name in ["nfe40_PISST", "nfe40_COFINSST"]:
                 return False
 
             elif (not xsd_required) and field_name not in [
@@ -601,6 +609,7 @@ class NFeLine(spec_models.StackedModel):
                 "nfe40_COFINS",
                 "nfe40_IPI",
                 "nfe40_ICMSUFDest",
+                "nfe40_II",
             ]:
                 comodel = self.env[self._stacking_points.get(field_name).comodel_name]
                 fields = [

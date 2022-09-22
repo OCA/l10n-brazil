@@ -68,9 +68,9 @@ class Document(models.Model):
     )
 
     fiscal_operation_id = fields.Many2one(
-        domain="[('state', '=', 'approved'), "
-        "'|', ('fiscal_operation_type', '=', fiscal_operation_type),"
-        " ('fiscal_operation_type', '=', 'all')]",
+        # domain="[('state', '=', 'approved'), "
+        # "'|', ('fiscal_operation_type', '=', fiscal_operation_type),"
+        # " ('fiscal_operation_type', '=', 'all')]",
     )
 
     fiscal_operation_type = fields.Selection(
