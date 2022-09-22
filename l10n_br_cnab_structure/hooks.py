@@ -15,7 +15,9 @@ def post_init_hook(cr, registry):
         "data/l10n_br_cnab.batch.csv",
         "data/cnab.payment.way.csv",
         "data/l10n_br_cnab.line.csv",
+        "data/cnab.line.field.group.csv",
         "data/l10n_br_cnab.line.field.csv",
+        "data/cnab.line.group.field.condition.csv",
         "data/cnab.occurrence.csv",
         "data/cnab.pix.key.type.csv",
     ]
