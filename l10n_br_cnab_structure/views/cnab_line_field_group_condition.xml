@@ -9,6 +9,7 @@
                 <field name="json_value" />
                 <field name="cnab_group_id" />
                 <field name="cnab_line_id" />
+                <field name="state" invisible="True" />
             </tree>
         </field>
     </record>
@@ -21,6 +22,7 @@
                 </header>
                 <sheet>
                     <group>
+                        <field name="state" invisible="True" />
                         <field name="field_id" />
                         <field name="operator" />
                         <field name="json_value" />
