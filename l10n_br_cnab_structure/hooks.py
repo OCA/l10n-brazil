@@ -37,6 +37,8 @@ def post_init_hook(cr, registry):
 
     if not tools.config["without_demo"]:
         demofiles = [
+            "demo/account_account.xml",
+            "demo/account_journal.xml",
             "demo/payment_mode.xml",
             "demo/res_partner_bank.xml",
             "demo/account_invoice.xml",
