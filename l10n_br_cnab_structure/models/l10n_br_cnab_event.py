@@ -267,30 +267,30 @@ class CNABReturnEvent(models.Model):
         )
         return aml
 
-    def create_tariff_move_lines(self, move_id):
+    def _create_tariff_move_lines(self, move_id):
+        if self.tariff_charge > 0:
+            move_line_obj = self.env["account.move.line"]
+            move_vals_list = []
+            move_vals_list.append(
+                {
+                    "name": "Bank Tariff: " + self.your_number,
+                    "credit": self.tariff_charge,
+                    "account_id": self.journal_id.default_account_id.id,
+                    "partner_id": self.move_line_ids[0].partner_id.id,
+                    "move_id": move_id.id,
+                }
+            )
 
-        move_line_obj = self.env["account.move.line"]
-        move_vals_list = []
-        move_vals_list.append(
-            {
-                "name": "Bank Tariff: " + self.your_number,
-                "credit": self.tariff_charge,
-                "account_id": self.journal_id.default_account_id.id,
-                "partner_id": self.move_line_ids[0].partner_id.id,
-                "move_id": move_id.id,
-            }
-        )
-
-        move_vals_list.append(
-            {
-                "name": "Bank Tariff: " + self.your_number,
-                "debit": self.tariff_charge,
-                "account_id": self.journal_id.default_account_id.id,
-                "partner_id": self.move_line_ids[0].partner_id.id,
-                "move_id": move_id.id,
-            }
-        )
-        move_line_obj.with_context(check_move_validity=False).create(move_vals_list)
+            move_vals_list.append(
+                {
+                    "name": "Bank Tariff: " + self.your_number,
+                    "debit": self.tariff_charge,
+                    "account_id": self.journal_id.tariff_charge_account_id.id,
+                    "partner_id": self.move_line_ids[0].partner_id.id,
+                    "move_id": move_id.id,
+                }
+            )
+            move_line_obj.with_context(check_move_validity=False).create(move_vals_list)
 
     def _get_tariff_move_vals(self):
         return {
@@ -308,15 +308,109 @@ class CNABReturnEvent(models.Model):
         move_obj = self.env["account.move"]
         move_vals = self._get_tariff_move_vals()
         move_id = move_obj.create(move_vals)
-        self.create_tariff_move_lines(move_id)
+        self._create_tariff_move_lines(move_id)
         move_id.post()
         self.generated_move_id = move_id
+
+    def _create_rebate_move_lines(self, move_id):
+        if self.rebate_value > 0:
+            move_line_obj = self.env["account.move.line"]
+            credit_move_line = {
+                "name": "Rebate: " + self.your_number,
+                "credit": self.rebate_value,
+                "partner_id": self.move_line_ids[0].partner_id.id,
+                "move_id": move_id.id,
+            }
+            debit_move_line = {
+                "name": "Rebate: " + self.your_number,
+                "credit": self.rebate_value,
+                "partner_id": self.move_line_ids[0].partner_id.id,
+                "move_id": move_id.id,
+            }
+            if self.cnab_return_log_id.type == "inbound":
+                credit_move_line["account_id"] = self.journal_id.default_account_id.id
+                debit_move_line[
+                    "account_id"
+                ] = self.journal_id.inbound_rebate_account_id.id
+            else:
+                credit_move_line[
+                    "account_id"
+                ] = self.journal_id.outbound_rebate_account_id.id
+                debit_move_line["account_id"] = self.journal_id.default_account_id.id
+
+            move_line_obj.with_context(check_move_validity=False).create(
+                [credit_move_line, debit_move_line]
+            )
+
+    def _create_discount_move_lines(self, move_id):
+        if self.discount_value > 0:
+            move_line_obj = self.env["account.move.line"]
+            credit_move_line = {
+                "name": "Discount: " + self.your_number,
+                "credit": self.discount_value,
+                "partner_id": self.move_line_ids[0].partner_id.id,
+                "move_id": move_id.id,
+            }
+            debit_move_line = {
+                "name": "Discount: " + self.your_number,
+                "credit": self.discount_value,
+                "partner_id": self.move_line_ids[0].partner_id.id,
+                "move_id": move_id.id,
+            }
+            if self.cnab_return_log_id.type == "inbound":
+                credit_move_line["account_id"] = self.journal_id.default_account_id.id
+                debit_move_line[
+                    "account_id"
+                ] = self.journal_id.inbound_discount_account_id.id
+            else:
+                credit_move_line[
+                    "account_id"
+                ] = self.journal_id.outbound_discount_account_id.id
+                debit_move_line["account_id"] = self.journal_id.default_account_id.id
+
+            move_line_obj.with_context(check_move_validity=False).create(
+                [credit_move_line, debit_move_line]
+            )
+
+    def _create_fees_move_lines(self, move_id):
+        if self.interest_fee_value > 0:
+            move_line_obj = self.env["account.move.line"]
+            credit_move_line = {
+                "name": "Interest and Fees: " + self.your_number,
+                "credit": self.interest_fee_value,
+                "partner_id": self.move_line_ids[0].partner_id.id,
+                "move_id": move_id.id,
+            }
+            debit_move_line = {
+                "name": "Interest and Fees: " + self.your_number,
+                "credit": self.interest_fee_value,
+                "partner_id": self.move_line_ids[0].partner_id.id,
+                "move_id": move_id.id,
+            }
+            if self.cnab_return_log_id.type == "inbound":
+                credit_move_line[
+                    "account_id"
+                ] = self.journal_id.inbound_interest_fee_account_id.id
+                debit_move_line["account_id"] = self.journal_id.default_account_id.id
+            else:
+                credit_move_line["account_id"] = self.journal_id.default_account_id.id
+                debit_move_line[
+                    "account_id"
+                ] = self.journal_id.outbound_interest_fee_account_id.id
+
+            move_line_obj.with_context(check_move_validity=False).create(
+                [credit_move_line, debit_move_line]
+            )
 
     def create_liq_move(self):
         move_obj = self.env["account.move"]
         move_vals = self._get_liq_move_vals()
         move_id = move_obj.create(move_vals)
         to_reconcile_items = self._get_reconciliation_items(move_id)
+        self._create_rebate_move_lines(move_id)
+        self._create_discount_move_lines(move_id)
+        self._create_fees_move_lines(move_id)
+        self._create_tariff_move_lines(move_id)
         move_id.post()
         self.generated_move_id = move_id
         for to_reconcile in to_reconcile_items:
