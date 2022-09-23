@@ -323,7 +323,7 @@ class CNABReturnEvent(models.Model):
             }
             debit_move_line = {
                 "name": "Rebate: " + self.your_number,
-                "credit": self.rebate_value,
+                "debit": self.rebate_value,
                 "partner_id": self.move_line_ids[0].partner_id.id,
                 "move_id": move_id.id,
             }
@@ -353,7 +353,7 @@ class CNABReturnEvent(models.Model):
             }
             debit_move_line = {
                 "name": "Discount: " + self.your_number,
-                "credit": self.discount_value,
+                "debit": self.discount_value,
                 "partner_id": self.move_line_ids[0].partner_id.id,
                 "move_id": move_id.id,
             }
@@ -383,7 +383,7 @@ class CNABReturnEvent(models.Model):
             }
             debit_move_line = {
                 "name": "Interest and Fees: " + self.your_number,
-                "credit": self.interest_fee_value,
+                "debit": self.interest_fee_value,
                 "partner_id": self.move_line_ids[0].partner_id.id,
                 "move_id": move_id.id,
             }
