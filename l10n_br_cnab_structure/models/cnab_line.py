@@ -169,28 +169,35 @@ class CNABLine(models.Model):
         "Compute CNAB output with all fields for this Line"
         self.ensure_one()
         line = CnabLine(record_type)
-        for field_id in self.field_ids:
 
-            # skips inserting the field if it does not meet the group condition.
-            if field_id.cnab_group_id:
-                conditions = field_id.cnab_group_id.condition_ids
-                skip = False
-                for cond in conditions:
-                    field_key = cond.field_id.ref_name
-                    field_value = line.fields[field_key]
-                    cond_values = json.loads(cond.json_value)
-                    if cond.operator == "in":
-                        cond_result = field_value in cond_values
-                    if cond.operator == "not in":
-                        cond_result = field_value not in cond_values
-                    if cond_result:
-                        skip = True
-                        break
-                if skip:
-                    continue
-
+        def add_field(field_id):
             name, value = field_id.output(resource_ref, **kwargs)
             line.add_field(name, value)
+
+        fields_without_group = self.field_ids.filtered(lambda x: not x.cnab_group_id)
+        for field_id in fields_without_group:
+            # we added the basic fields first (no group)
+            # as they can be used as a condition in a group.
+            add_field(field_id)
+        fields_with_group = self.field_ids.filtered(lambda x: x.cnab_group_id)
+        for field_id in fields_with_group:
+            # skips inserting the field if it does not meet the group condition.
+            conditions = field_id.cnab_group_id.condition_ids
+            skip = False
+            for cond in conditions:
+                field_key = cond.field_id.ref_name
+                field_value = line.fields.get(field_key, "")
+                cond_values = json.loads(cond.json_value)
+                if cond.operator == "in":
+                    cond_result = field_value in cond_values
+                if cond.operator == "not in":
+                    cond_result = field_value not in cond_values
+                if cond_result:
+                    skip = True
+                    break
+            if skip:
+                continue
+            add_field(field_id)
         return line
 
     @api.depends("segment_code", "cnab_structure_id", "cnab_structure_id.name", "type")
