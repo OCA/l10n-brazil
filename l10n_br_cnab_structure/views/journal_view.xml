@@ -11,6 +11,25 @@
                     <field name="used_to_import_cnab" />
                 </group>
             </xpath>
+            <xpath expr="//page[@name='journal_entries']" position="after">
+                <page name="cnab_accounts" string="CNAB Accounts" attrs="{'invisible': [('used_to_import_cnab', '=', False)]}">
+                    <group>
+                        <field name="tariff_charge_account_id" />
+                    </group>
+                    <group>
+                        <group string="Inbound Payments">
+                            <field name="inbound_interest_fee_account_id" />
+                            <field name="inbound_discount_account_id" />
+                            <field name="inbound_rebate_account_id" />
+                        </group>
+                        <group string="Outbound Payments">
+                            <field name="outbound_interest_fee_account_id" />
+                            <field name="outbound_discount_account_id" />
+                            <field name="outbound_rebate_account_id" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 </odoo>
