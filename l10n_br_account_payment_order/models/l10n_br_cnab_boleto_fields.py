@@ -7,8 +7,9 @@ from odoo import fields, models
 from ..constants import BOLETO_ESPECIE
 
 
-class L10nBrCNABBoletoFields(models.Model):
+class L10nBrCNABBoletoFields(models.AbstractModel):
     _name = "l10n_br_cnab.boleto.fields"
+    _inherit = "mail.thread"
     _description = "CNAB - Boleto Fields."
 
     invoice_print = fields.Boolean(string="Gerar relatorio na conclusão da fatura?")
