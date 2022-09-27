@@ -10,9 +10,12 @@
             ref="l10n_br_account_payment_order.l10n_br_account_payment_mode_form"
         />
         <field name="arch" type="xml">
-                <field name="auto_create_payment_order" position="after">
-                    <field name="account_payment_way_ids" widget="many2many_tags" />
-                </field>
+            <field name="cnab_processor" position="after">
+                <field name="cnab_structure_id"  attrs="{'invisible': [('cnab_processor', '!=', 'oca_processor')], 'required': [('cnab_processor', '=', 'oca_processor')]}"/>
+            </field>
+            <field name="auto_create_payment_order" position="after">
+                <field name="account_payment_way_ids" widget="many2many_tags" />
+            </field>
         </field>
     </record>
 </odoo>
