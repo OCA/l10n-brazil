@@ -24,5 +24,6 @@
     "demo": [
         "demo/account_journal_demo.xml",
         "demo/account_move_demo.xml",
+        "demo/account_payment_mode.xml",
     ],
 }
