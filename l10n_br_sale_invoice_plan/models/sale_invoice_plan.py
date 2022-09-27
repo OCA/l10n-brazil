@@ -16,5 +16,7 @@ class SaleInvoicePlan(models.Model):
         if invoice:
             for line in invoice.invoice_line_ids:
                 line.write({"fiscal_quantity": line.quantity})
+                price_unit = line.price_unit
                 line._onchange_fiscal_tax_ids()
+                line.write({"price_unit": price_unit})
             invoice._onchange_invoice_line_ids()
