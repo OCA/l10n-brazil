@@ -20,6 +20,7 @@ def post_init_hook(cr, registry):
         "data/cnab.line.group.field.condition.csv",
         "data/cnab.occurrence.csv",
         "data/cnab.pix.key.type.csv",
+        "data/cnab.pix.transfer.type.csv",
     ]
 
     _logger.info(_("Loading l10n_br_cnab_structure data files."))
