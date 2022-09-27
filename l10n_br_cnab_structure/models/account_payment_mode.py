@@ -17,3 +17,9 @@ class AccountPaymentMode(models.Model):
         string="Payment Ways",
         help="Allowed payment ways",
     )
+
+    cnab_processor = fields.Selection(
+        selection_add=[("oca_processor", "OCA Processor")],
+    )
+
+    cnab_structure_id = fields.Many2one("l10n_br_cnab.structure")
