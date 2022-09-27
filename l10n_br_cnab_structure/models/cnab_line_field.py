@@ -173,7 +173,7 @@ class CNABField(models.Model):
         for rec in self:
             name = rec.name or ""
             name = unidecode(name.replace(" ", "_").lower())
-            rec.ref_name = f"{name}_{rec.start_pos}_{rec.end_pos}"
+            rec.ref_name = f"{rec.start_pos}_{rec.end_pos}_{name}"
 
     @api.depends("resource_ref", "content_source_field", "sending_dynamic_content")
     def _compute_preview_field(self):
