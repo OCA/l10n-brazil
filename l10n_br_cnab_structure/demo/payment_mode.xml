@@ -11,6 +11,8 @@
         <field name="account_payment_way_ids" eval="[(6, 0, [ref('l10n_br_account_payment_order.account_payment_way_ted')])]"/>
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_itau_240" />
     </record>
     <record id="payment_mode_sispag_pix_trasfer" model="account.payment.mode">
         <field name="name">SISPAG Itaú - PIX Transferência</field>
@@ -22,5 +24,7 @@
         <field name="account_payment_way_ids" eval="[(6, 0, [ref('l10n_br_account_payment_order.account_payment_way_pix_transfer')])]"/>
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_itau_240" />
     </record>
 </odoo>
