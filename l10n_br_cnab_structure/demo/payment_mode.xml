@@ -8,18 +8,18 @@
         <field name="bank_account_link">fixed</field>
         <field name="fixed_journal_id" ref="l10n_br_account_payment_order.itau_journal" />
         <field name="payment_order_ok">True</field>
-        <field name="account_payment_way_ids" eval="[(6, 0, [ref('l10n_br_account.account_payment_way_ted')])]"/>
+        <field name="account_payment_way_ids" eval="[(6, 0, [ref('l10n_br_account_payment_order.account_payment_way_ted')])]"/>
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
     </record>
-    <record id="payment_mode_sispag_pix_trasferencia" model="account.payment.mode">
+    <record id="payment_mode_sispag_pix_trasfer" model="account.payment.mode">
         <field name="name">SISPAG Itaú - PIX Transferência</field>
         <field name="company_id" ref="base.main_company" />
         <field name="payment_method_id" ref="payment_mode_type_cnab240_out" />
         <field name="bank_account_link">fixed</field>
         <field name="fixed_journal_id" ref="l10n_br_account_payment_order.itau_journal" />
         <field name="payment_order_ok">True</field>
-        <field name="account_payment_way_ids" eval="[(6, 0, [ref('l10n_br_account.account_payment_way_pix_transfer')])]"/>
+        <field name="account_payment_way_ids" eval="[(6, 0, [ref('l10n_br_account_payment_order.account_payment_way_pix_transfer')])]"/>
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
     </record>
