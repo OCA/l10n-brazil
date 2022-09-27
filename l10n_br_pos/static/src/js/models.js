@@ -46,9 +46,15 @@ odoo.define("l10n_br_pos.models", function (require) {
         "tax_framework",
         "street_number",
         "city_id",
+        "street_name",
+        "zip",
+        "district",
     ];
     models.load_fields("res.partner", partner_company_fields.concat(["ind_ie_dest"]));
-    models.load_fields("res.company", partner_company_fields.concat(["tax_framework"]));
+    models.load_fields(
+        "res.company",
+        partner_company_fields.concat(["tax_framework", "logo"])
+    );
     // Models.load_fields("uom.uom", ["code"]); Verificar se o vazio do core pega tudo.
     models.load_fields("product.product", [
         "tax_icms_or_issqn",
