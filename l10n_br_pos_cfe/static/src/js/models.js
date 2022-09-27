@@ -65,6 +65,18 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             var pos_config = this.pos.config;
             var pos_company = this.pos.company;
 
+            json.company.name = pos_company.name;
+            json.company.legal_name = pos_company.legal_name;
+            json.company.address = {
+                street_name: pos_company.street_name,
+                street_number: pos_company.street_number,
+                district: pos_company.district,
+                city: pos_company.city_id[1],
+                zip: pos_company.zip,
+            };
+            json.company.inscr_mun = pos_company.inscr_mun;
+            json.rounding = this.pos.currency.rounding;
+
             if (pos_company.ambiente_sat === AMBIENTE_PRODUCAO) {
                 json.company.cnpj = pos_company.cnpj_cpf;
                 json.company.ie = pos_company.inscr_est;
@@ -190,6 +202,15 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
         // },
         export_for_printing: function () {
             var json = _super_payment_line.export_for_printing.apply(this, arguments);
+            // This._prepare_fiscal_json(json);
+            return json;
+        },
+    });
+
+    const _super_orderline = models.Orderline.prototype;
+    models.Orderline = models.Orderline.extend({
+        export_for_printing: function () {
+            const json = _super_orderline.export_for_printing.call(this);
             this._prepare_fiscal_json(json);
             return json;
         },

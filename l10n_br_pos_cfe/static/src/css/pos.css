@@ -1,0 +1,128 @@
+.receipt__divider {
+    margin: 0;
+}
+
+/* HEADER */
+
+.header__name {
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+.header__legal-name {
+    text-align: center;
+    font-size: 16px;
+}
+
+.header__address {
+    text-align: center;
+    font-size: 16px;
+}
+
+.header__company-info {
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    justify-content: space-evenly;
+}
+
+.company-info__cnpj-ie {
+    font-size: 10px;
+}
+
+/* SUBTITLE */
+
+.subtitle__extract {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.subtitle__sales-action {
+    text-align: center;
+    font-size: 16px;
+}
+
+/* BODY */
+
+.body__header {
+    font-size: 11px;
+}
+
+.body__orderlines {
+    font-size: 10px;
+    display: flex;
+}
+
+.orderline__element {
+    margin-left: 5px;
+}
+
+/* TOTAL */
+
+.totals {
+    font-size: 14px;
+}
+
+.totals__subtotal {
+    display: flex;
+    justify-content: space-between;
+}
+
+.totals__discounts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.totals__amount {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+/* PAYMENT */
+
+.receipt-paymentline {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.receipt__change {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+/* TAXES */
+
+/* FOOTER */
+
+.footer__sat-info {
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.footer__date {
+    font-size: 16px;
+    text-align: center;
+}
+
+.footer__barcode {
+    font-size: 12px;
+    text-align: center;
+}
+
+.footer__qrcode {
+    font-size: 12px;
+    text-align: center;
+}
+
+.footer__observation {
+    font-size: 10px;
+    text-align: center;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderSubtitleReceipt" owl="1">
+        <div class="subtitle">
+            <div class="subtitle__extract">
+                <span>EXTRATO No. XXXXXXXXX</span>
+            </div>
+
+            <div class="subtitle__sales-action">
+                <span>CUPOM FISCAL ELETRÔNICO - SAT</span>
+            </div>
+        </div>
+    </t>
+
+</templates>
