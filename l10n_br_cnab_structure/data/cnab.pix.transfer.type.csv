@@ -1,0 +1,5 @@
+"id","cnab_structure_id/id","code","description","type_domain"
+"l10n_br_cnab_structure.cnab_pix_transfer_type_01","l10n_br_cnab_structure.cnab_itau_240","01","Conta corrente","checking"
+"l10n_br_cnab_structure.cnab_pix_transfer_type_PG","l10n_br_cnab_structure.cnab_itau_240","PG","Conta Pagamento","payment"
+"l10n_br_cnab_structure.cnab_pix_transfer_type_03","l10n_br_cnab_structure.cnab_itau_240","03","Conta Poupança","saving"
+"l10n_br_cnab_structure.cnab_pix_transfer_type_04","l10n_br_cnab_structure.cnab_itau_240","04","Chave Pix","pix_key"
