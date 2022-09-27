@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="True">
-    <!-- Invoice Itaú  Fornecedor TED -->
-    <record id="demo_bill_itau_20_41" model="account.move">
+    <!-- Invoice Bill - Itaú - TED -->
+    <record id="demo_bill_itau_ted" model="account.move">
         <field
             name="invoice_payment_term_id"
             ref="account.account_payment_term_advance"
@@ -11,8 +11,9 @@
         <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'"/>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="invoice_payment_way_id" ref="l10n_br_account_payment_order.account_payment_way_ted" />
         <field name="payment_mode_id" ref="payment_mode_sispag_ted_doc_op" />
-        <field name="payment_reference">test communication</field>
+        <field name="payment_reference">test ted communication</field>
         <field
             name="invoice_line_ids"
             eval="[
@@ -21,15 +22,49 @@
         />
     </record>
     <function model="account.move" name="action_post">
-        <value eval="[ref('demo_bill_itau_20_41')]" />
+        <value eval="[ref('demo_bill_itau_ted')]" />
     </function>
     <!-- Add and Confirm Payment Order for this Bill-->
     <function model="account.move" name="create_account_payment_line">
-        <value eval="[ref('demo_bill_itau_20_41')]" />
+        <value eval="[ref('demo_bill_itau_ted')]" />
     </function>
     <function model="account.payment.order" name="draft2open">
         <value model="account.payment.order" eval="obj().search([
                 ('payment_mode_id', '=', ref('payment_mode_sispag_ted_doc_op')),
+            ]).id"/>
+    </function>
+
+    <!-- Invoice Bill - Itaú - PIX Transferência -->
+    <record id="demo_bill_itau_pix" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'"/>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="invoice_payment_way_id" ref="l10n_br_account_payment_order.account_payment_way_pix_transfer" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_pix_trasfer" />
+        <field name="payment_reference">test pix communication</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 199, 'quantity': 5})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_itau_pix')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_itau_pix')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value model="account.payment.order" eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_pix_trasfer')),
             ]).id"/>
     </function>
 </odoo>
