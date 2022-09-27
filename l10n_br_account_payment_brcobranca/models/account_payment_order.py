@@ -108,7 +108,10 @@ class PaymentOrder(models.Model):
         cnab_type = self.payment_mode_id.payment_method_code
 
         # Se não for um caso CNAB deve chamar o super
-        if cnab_type not in ("240", "400", "500"):
+        if (
+            cnab_type not in ("240", "400", "500")
+            or self.payment_mode_id.cnab_processor != "brcobranca"
+        ):
             return super().generate_payment_file()
 
         bank_account_id = self.journal_id.bank_account_id
