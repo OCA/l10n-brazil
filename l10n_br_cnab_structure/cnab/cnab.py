@@ -4,7 +4,7 @@
 
 import yaml
 from dataclasses import fields
-from typing import List
+from typing import Dict, List
 from enum import Enum
 
 
@@ -24,14 +24,24 @@ class CnabLine:
         self.type = record_type
         self.fields = {}
 
-    def add_field(self, name: str, value: str) -> None:
-        self.fields[name] = value
+    def add_field(self, name: str, value: str, pos: int) -> None:
+        self.fields[name] = [pos, value]
+
+    def sorted_values(self):
+        # sort the fields according to position
+        sorted_dict = dict(sorted(self.fields.items(), key=lambda item: item[1]))
+        # return dict without position value:
+        values = {}
+        for key, value in sorted_dict.items():
+            values[key] = value[1]
+        return values
 
     def output(self) -> str:
-        return "".join(self.fields.values())
+        return "".join(self.sorted_values().values())
 
     def asdict(self):
-        return {"type": self.type.name, "fields": self.fields}
+
+        return {"type": self.type.name, "fields": self.sorted_values()}
 
 
 class CnabDetailRecord:

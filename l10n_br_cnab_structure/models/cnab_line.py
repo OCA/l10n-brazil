@@ -172,7 +172,7 @@ class CNABLine(models.Model):
 
         def add_field(field_id):
             name, value = field_id.output(resource_ref, **kwargs)
-            line.add_field(name, value)
+            line.add_field(name=name, value=value, pos=field_id.start_pos)
 
         fields_without_group = self.field_ids.filtered(lambda x: not x.cnab_group_id)
         for field_id in fields_without_group:
@@ -192,7 +192,7 @@ class CNABLine(models.Model):
                     cond_result = field_value in cond_values
                 if cond.operator == "not in":
                     cond_result = field_value not in cond_values
-                if cond_result:
+                if not cond_result:
                     skip = True
                     break
             if skip:
