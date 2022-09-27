@@ -56,6 +56,8 @@ class AccountPaymentMode(models.Model):
         related="fixed_journal_id.company_id.own_number_type",
     )
 
+    cnab_processor = fields.Selection(selection=[("none", "None")], default="none")
+
     # Codigos de Retorno do Movimento
 
     # TODO: Campos many2many não estão sendo registrados pelo track_visibility.
