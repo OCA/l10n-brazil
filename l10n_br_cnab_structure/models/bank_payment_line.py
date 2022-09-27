@@ -11,13 +11,15 @@ class BankPaymentLine(models.Model):
     _inherit = "bank.payment.line"
 
     cnab_pix_type_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.batch",
+        comodel_name="cnab.pix.key.type",
         compute="_compute_cnab_pix_type_id",
+        store=False,
     )
 
     cnab_pix_transfer_type_id = fields.Many2one(
         comodel_name="cnab.pix.transfer.type",
         compute="_compute_cnab_pix_transfer_type_id",
+        store=False,
     )
 
     cnab_payment_way_id = fields.Many2one(
@@ -45,6 +47,7 @@ class BankPaymentLine(models.Model):
                 raise UserError(_("Mapping for cnab payment way not found"))
             bline.cnab_payment_way_id = cnab_payment_way_id
 
+    @api.depends("partner_pix_id")
     def _compute_cnab_pix_type_id(self):
         for bline in self:
             cnab_pix_type_id = (
@@ -54,11 +57,16 @@ class BankPaymentLine(models.Model):
             )
             self.cnab_pix_type_id = cnab_pix_type_id
 
+    @api.depends("pix_transfer_type")
     def _compute_cnab_pix_transfer_type_id(self):
         for bline in self:
             if bline.payment_way_domain == "pix_transfer":
-                cnab_pix_transfer_type = bline.order_id.cnab_structure_id.cnab_pix_transfer_type_ids.filtered(
-                    lambda t, b=bline: t.type_domain == b.pix_transfer_type
+                cnab_pix_transfer_type = self.env["cnab.pix.transfer.type"].search(
+                    [
+                        ("cnab_structure_id", "=", bline.order_id.cnab_structure_id.id),
+                        ("type_domain", "=", bline.pix_transfer_type),
+                    ],
+                    limit=1,
                 )
                 bline.cnab_pix_transfer_type_id = cnab_pix_transfer_type
             else:
