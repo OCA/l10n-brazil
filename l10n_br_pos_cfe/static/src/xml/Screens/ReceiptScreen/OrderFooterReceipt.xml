@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderFooterReceipt" owl="1">
+        <div class="footer">
+            <div class="footer__sat-info">
+                SAT No. XXXXXXXXX
+            </div>
+
+            <div class="footer__date">
+                DD/MM/AAAA - HH:MM:SS
+            </div>
+
+            <div class="footer__barcode">
+                ( imagem do código de barras )
+            </div>
+
+            <div class="footer__qrcode">
+                ( imagem do QRCode )
+            </div>
+
+            <div class="footer__observation">
+                Consulte o QRCode pelo aplicativo "De olho na nota", disponível na AppStore (Apple) e PlayStore (Android).
+            </div>
+        </div>
+    </t>
+
+</templates>
