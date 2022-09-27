@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class ContractContract(models.Model):
@@ -162,19 +162,3 @@ class ContractContract(models.Model):
                     inv_vals[index]["invoice_line_ids"].append(inv_line)
 
         return inv_vals
-
-    def recurring_create_invoice(self):
-        """
-        override the contract method to allow posting for more than one invoice
-        """
-        invoices = self._recurring_create_invoice()
-        for invoice in invoices:
-            self.message_post(
-                body=_(
-                    "Contract manually invoiced: "
-                    '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
-                    "</a>"
-                )
-                % (invoice._name, invoice.id)
-            )
-        return invoices
