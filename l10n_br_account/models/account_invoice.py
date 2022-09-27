@@ -10,6 +10,7 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    FISCAL_IN_OUT_ALL,
     FISCAL_OUT,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
@@ -104,6 +105,21 @@ class AccountMove(models.Model):
         string="Document Code",
         store=True,
     )
+
+    fiscal_operation_type = fields.Selection(
+        selection=FISCAL_IN_OUT_ALL,
+        related=None,
+        compute="_compute_fiscal_operation_type",
+    )
+
+    def _compute_fiscal_operation_type(self):
+        for inv in self:
+            if inv.fiscal_operation_id:
+                inv.fiscal_operation_type = (
+                    inv.fiscal_operation_id.fiscal_operation_type
+                )
+            else:
+                inv.fiscal_operation_type = MOVE_TO_OPERATION[inv.move_type]
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
