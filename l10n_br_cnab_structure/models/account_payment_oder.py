@@ -7,34 +7,48 @@ class AccountPaymentOrder(models.Model):
 
     cnab_structure_id = fields.Many2one(
         comodel_name="l10n_br_cnab.structure",
-        compute="_compute_cnab_structure_id",
+        related="payment_mode_id.cnab_structure_id",
     )
 
-    @api.depends("journal_id", "payment_method_id")
-    def _compute_cnab_structure_id(self):
-        for order in self:
-            structure_obj = self.env["l10n_br_cnab.structure"]
-            structure_ids = structure_obj.search(
-                [
-                    ("bank_id", "=", order.journal_id.bank_id.id),
-                    ("payment_method_id", "=", order.payment_method_id.id),
-                    ("state", "=", "approved"),
-                ]
+    def get_file_name(self, cnab_type):
+        context_today = fields.Date.context_today(self)
+        if cnab_type == "240":
+            return "CB%s%s.REM" % (
+                context_today.strftime("%d%m"),
+                str(self.file_number),
             )
-            if len(structure_ids) > 1:
-                raise UserError(
-                    _(
-                        "More than one cnab with the state approved for bank "
-                        f"{order.journal_id.bank_id.name} and payment method "
-                        f"{order.payment_method_id.name}"
-                    )
-                )
-            if not structure_ids:
-                raise UserError(
-                    _(
-                        "Could not find a approved cnab structure for bank "
-                        f"{order.journal_id.bank_id.name} and payment method "
-                        f"{order.payment_method_id.name}"
-                    )
-                )
-            order.cnab_structure_id = structure_ids[0]
+        elif cnab_type == "400":
+            return "CB%s%02d.REM" % (
+                context_today.strftime("%d%m"),
+                self.file_number or 1,
+            )
+        elif cnab_type == "500":
+            return "PG%s%s.REM" % (
+                context_today.strftime("%d%m"),
+                str(self.file_number),
+            )
+
+    def generate_payment_file(self):
+        """Returns (payment file as string, filename)"""
+        self.ensure_one()
+
+        cnab_type = self.payment_mode_id.payment_method_code
+
+        # Se não for um caso CNAB deve chamar o super
+        if (
+            cnab_type not in ("240", "400", "500")
+            or self.payment_mode_id.cnab_processor != "oca_processor"
+        ):
+            return super().generate_payment_file()
+
+        str_file = self.cnab_structure_id.output(self).encode("utf-8")
+        return str_file, self.get_file_name(cnab_type)
+
+    def generated2uploaded(self):
+        super().generated2uploaded()
+        for payment_line in self.payment_line_ids:
+            # No caso de Cancelamento da Invoice a AML é apagada
+            if payment_line.move_line_id:
+                # Importante para saber a situação do CNAB no caso
+                # de um pagto feito por fora ( dinheiro, deposito, etc)
+                payment_line.move_line_id.cnab_state = "exported"
