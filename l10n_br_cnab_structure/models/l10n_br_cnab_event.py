@@ -27,7 +27,7 @@ class CNABReturnEvent(models.Model):
     partner_bank_branch = fields.Char()
     partner_name = fields.Char()
     partner_document = fields.Char(
-        helps="Partners's document number, it can be a CNPJ or CPF."
+        help="Partners's document number, it can be a CNPJ or CPF."
     )
     partner_bank_account = fields.Char()
     partner_bank_account_dac = fields.Char()
