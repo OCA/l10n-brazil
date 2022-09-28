@@ -84,6 +84,11 @@ msgid "Adapted State Tax Number"
 msgstr "Inscrição Estadual"
 
 #. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__all
+msgid "All"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_all_action
 msgid "All Documents"
 msgstr "Todos os Documentos"
@@ -368,6 +373,13 @@ msgid "Fiscal Operation Line"
 msgstr "Linha de Operação Fiscal"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__fiscal_position_id
@@ -436,6 +448,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__cfop_destination
 msgid "Identifies the operation destination."
 msgstr "Identifica o destino da operação."
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__in
+msgid "In"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_in_action
@@ -559,6 +576,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Others"
 msgstr "Outros"
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__out
+msgid "Out"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_out_action
