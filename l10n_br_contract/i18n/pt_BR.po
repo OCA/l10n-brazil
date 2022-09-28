@@ -54,16 +54,6 @@ msgid "Contract Line"
 msgstr "Linha de Contrato"
 
 #. module: l10n_br_contract
-#: code:addons/l10n_br_contract/models/contract_contract.py:178
-#, python-format
-msgid ""
-"Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
-"\"%s\">Invoice</a>"
-msgstr ""
-"Contrato faturado manualmente: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
-"\"%s\">Fatura</a>"
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__country_id
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__country_id
 msgid "Country"
@@ -143,6 +133,13 @@ msgstr "Impostos"
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__legal_name
 msgid "Used in fiscal documents"
 msgstr "Usado em documentos fiscais"
+
+#~ msgid ""
+#~ "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
+#~ "\"%s\">Invoice</a>"
+#~ msgstr ""
+#~ "Contrato faturado manualmente: <a href=\"#\" data-oe-model=\"%s\" data-oe-"
+#~ "id=\"%s\">Fatura</a>"
 
 #~ msgid "Default Fiscal Operation"
 #~ msgstr "Operação Fiscal Padrão"
