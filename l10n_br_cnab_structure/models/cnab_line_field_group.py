@@ -49,7 +49,6 @@ class CNABFieldGroup(models.Model):
     )
 
     state = fields.Selection(
-        selection=[("draft", "Draft"), ("review", "Review"), ("approved", "Approved")],
         readonly=True,
         related="cnab_line_id.state",
     )
