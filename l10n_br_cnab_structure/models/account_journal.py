@@ -20,7 +20,7 @@ class AccountJournal(models.Model):
 
     inbound_interest_fee_account_id = fields.Many2one(
         comodel_name="account.account",
-        string="Interest and Fees Account",
+        string="Inbound Interest and Fees Account",
         help="Interest and Fees Account for CNAB inbound payments.",
         tracking=True,
         check_company=True,
@@ -28,7 +28,7 @@ class AccountJournal(models.Model):
 
     inbound_discount_account_id = fields.Many2one(
         comodel_name="account.account",
-        string="Discount Account",
+        string="Inbound Discount Account",
         help="Discount Account for CNAB inbound payments.",
         tracking=True,
         check_company=True,
@@ -36,7 +36,7 @@ class AccountJournal(models.Model):
 
     inbound_rebate_account_id = fields.Many2one(
         comodel_name="account.account",
-        string="Rebate Account",
+        string="Inbound Rebate Account",
         help="Rebate Account for CNAB inbound payments.",
         tracking=True,
         check_company=True,
@@ -44,7 +44,7 @@ class AccountJournal(models.Model):
 
     outbound_interest_fee_account_id = fields.Many2one(
         comodel_name="account.account",
-        string="Interest and Fees Account",
+        string="Outbound Interest and Fees Account",
         help="Interest and Fees Account for CNAB outbound payments.",
         tracking=True,
         check_company=True,
@@ -52,7 +52,7 @@ class AccountJournal(models.Model):
 
     outbound_discount_account_id = fields.Many2one(
         comodel_name="account.account",
-        string="Discount Account",
+        string="Outbound Discount Account",
         help="Discount Account for CNAB outbound payments.",
         tracking=True,
         check_company=True,
@@ -60,7 +60,7 @@ class AccountJournal(models.Model):
 
     outbound_rebate_account_id = fields.Many2one(
         comodel_name="account.account",
-        string="Rebate Account",
+        string="Outbound Rebate Account",
         help="Rebate Account for CNAB outbound payments.",
         tracking=True,
         check_company=True,
