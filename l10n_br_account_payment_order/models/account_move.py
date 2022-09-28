@@ -15,7 +15,6 @@ class AccountMove(models.Model):
         string="CNAB Return Log",
         comodel_name="l10n_br_cnab.return.log",
         readonly=True,
-        inverse_name="move_id",
     )
 
     # Usado para deixar invisivel o campo
