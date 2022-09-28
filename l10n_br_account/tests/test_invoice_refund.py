@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 class TestInvoiceRefund(TransactionCase):
     def setUp(self):
         super().setUp()
-
+        self.account_account_type_model = self.env["account.account.type"]
         self.sale_account = self.env["account.account"].create(
             dict(
                 code="X1020",
@@ -17,7 +17,20 @@ class TestInvoiceRefund(TransactionCase):
                 reconcile=True,
             )
         )
-
+        self.account_type_receivable = self.account_account_type_model.create(
+            {
+                "name": "Test Receivable",
+                "type": "receivable",
+            }
+        )
+        self.account_receivable = self.env["account.account"].create(
+            {
+                "name": "Test Receivable",
+                "code": "TEST_CR",
+                "user_type_id": self.account_type_receivable.id,
+                "reconcile": True,
+            }
+        )
         self.refund_journal = self.env["account.journal"].create(
             dict(
                 name="Refund Journal - (test)",
@@ -36,6 +49,7 @@ class TestInvoiceRefund(TransactionCase):
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,
                 partner_id=self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
                 journal_id=self.refund_journal.id,
+                account_id=self.account_receivable.id,
                 document_type_id=self.env.ref("l10n_br_fiscal.document_55").id,
                 document_serie_id=self.env.ref(
                     "l10n_br_fiscal.empresa_lc_document_55_serie_1"

@@ -8,6 +8,7 @@ from odoo.tests.common import TransactionCase
 class TestSupplierInvoice(TransactionCase):
     def setUp(self):
         super(TestSupplierInvoice, self).setUp()
+        self.account_account_type_model = self.env["account.account.type"]
         self.purchase_account = self.env["account.account"].create(
             dict(
                 code="X1020",
@@ -15,7 +16,20 @@ class TestSupplierInvoice(TransactionCase):
                 user_type_id=self.env.ref("account.data_account_type_revenue").id,
             )
         )
-
+        self.account_type_receivable = self.account_account_type_model.create(
+            {
+                "name": "Test Receivable",
+                "type": "receivable",
+            }
+        )
+        self.account_receivable = self.env["account.account"].create(
+            {
+                "name": "Test Receivable",
+                "code": "TEST_CR",
+                "user_type_id": self.account_type_receivable.id,
+                "reconcile": True,
+            }
+        )
         self.purchase_journal = self.env["account.journal"].create(
             dict(
                 name="Purchase Journal - (test)",
@@ -32,6 +46,7 @@ class TestSupplierInvoice(TransactionCase):
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,
                 partner_id=self.env.ref("base.res_partner_3").id,
                 journal_id=self.purchase_journal.id,
+                account_id=self.account_receivable.id,
                 invoice_line_ids=[
                     (
                         0,

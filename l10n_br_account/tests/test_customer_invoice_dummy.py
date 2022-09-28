@@ -9,6 +9,7 @@ class TestCustomerInvoice(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.account_account_type_model = cls.env["account.account.type"]
         cls.sale_account = cls.env["account.account"].create(
             dict(
                 code="X1020",
@@ -16,6 +17,20 @@ class TestCustomerInvoice(SavepointCase):
                 user_type_id=cls.env.ref("account.data_account_type_revenue").id,
                 reconcile=True,
             )
+        )
+        cls.account_type_receivable = cls.account_account_type_model.create(
+            {
+                "name": "Test Receivable",
+                "type": "receivable",
+            }
+        )
+        cls.account_receivable = cls.env["account.account"].create(
+            {
+                "name": "Test Receivable",
+                "code": "TEST_CR",
+                "user_type_id": cls.account_type_receivable.id,
+                "reconcile": True,
+            }
         )
         cls.sale_journal = cls.env["account.journal"].create(
             dict(
@@ -33,6 +48,7 @@ class TestCustomerInvoice(SavepointCase):
                 payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
+                account_id=cls.account_receivable.id,
                 invoice_line_ids=[
                     (
                         0,
@@ -101,6 +117,7 @@ class TestCustomerInvoice(SavepointCase):
                 payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
+                account_id=cls.account_receivable.id,
                 invoice_line_ids=[
                     (
                         0,
@@ -161,6 +178,7 @@ class TestCustomerInvoice(SavepointCase):
                 currency_id=cls.env.ref("base.EUR").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
+                account_id=cls.account_receivable.id,
                 invoice_line_ids=[
                     (
                         0,
