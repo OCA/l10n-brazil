@@ -11,6 +11,37 @@
                 <field name="amount_gross_weight" />
                 <field name="amount_volume" />
             </field>
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="id" invisible="1" />
+                <label for="carrier_id" />
+                <div name='carrier_selection'>
+                    <div>
+                        <field
+                            name="carrier_id"
+                            context="{'order_id': id}"
+                            class="oe_inline"
+                            options="{'no_create': True, 'no_open': True}"
+                            attrs="{'readonly':[('state','not in',('draft','sent'))]}"
+                        />
+                    </div>
+                    <div
+                        class="alert alert-info"
+                        role="status"
+                        attrs="{'invisible': ['|',('carrier_id','=', False),('delivery_message','=',False)]}"
+                    >
+                        <field name='delivery_message' force_save="1" />
+                    </div>
+                </div>
+            </xpath>
+
+            <!-- TODO: Os botões para o Wizard do Frete estão invisiveis porque está
+                  pendente uma integração com o Calculo Automatico de Entrega que
+                  existe no modulo delivery, hoje a Transportadora é informada pelo
+                  campo do carrier_id e o valor do Frete informado manualmente,
+                  isso está no Roadmap do modulo -->
+            <xpath expr="//form/sheet/notebook/page/div" position="replace" />
+
         </field>
     </record>
 
