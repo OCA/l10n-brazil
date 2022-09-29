@@ -73,4 +73,8 @@
         <field name="sat_payment_mode">05</field>
     </record>
 
+    <record id="l10n_br_pos.presumido_dinheiro" model="pos.payment.method">
+        <field name="sat_payment_mode">01</field>
+    </record>
+
 </odoo>

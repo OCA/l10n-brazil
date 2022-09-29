@@ -73,4 +73,12 @@
         <field name="sat_payment_mode">05</field>
     </record>
 
+    <function model="pos.payment.method" name="write">
+        <value
+            model="pos.payment.method"
+            search="[('is_cash_count', '=', True), ('cash_journal_id.type', '=', 'cash')]"
+        />
+        <value eval="{'sat_payment_mode': '01'}" />
+    </function>
+
 </odoo>
