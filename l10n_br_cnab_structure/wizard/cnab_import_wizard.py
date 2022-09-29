@@ -382,18 +382,18 @@ class CNABImportWizard(models.TransientModel):
 
     def _check_company(self, return_dict):
         cnpj_cpf = "".join(char for char in self.company_id.cnpj_cpf if char.isdigit())
-        if cnpj_cpf != str(return_dict["cnpj_cpf"]):
+        if cnpj_cpf.zfill(14) != str(return_dict["cnpj_cpf"]).zfill(14):
             raise UserError(
-                _(f"CNPJ/CPF of your active company is different of the file.")
+                _("CNPJ/CPF of your active company is different of the file.")
             )
         if self.company_id != self.journal_id.company_id:
-            raise UserError(_(f"Selected company is different of the Journal company."))
+            raise UserError(_("Selected company is different of the Journal company."))
 
     def _check_duplicity(self, header_file):
         return_log_obj = self.env["l10n_br_cnab.return.log"]
         return_log_id = return_log_obj.search([("header_file", "=", header_file)])
         if return_log_id:
-            raise UserError(_(f"This CNAB file has already imported."))
+            raise UserError(_("This CNAB file has already imported."))
 
     def _create_return_log(self, data):
         self._check_duplicity(data["header_file_line"]["raw_line"])
