@@ -134,7 +134,6 @@ class AccountMoveLine(models.Model):
                     "own_number": self.own_number,
                     "document_number": self.document_number,
                     "company_title_identification": self.company_title_identification,
-                    "payment_mode_id": self.payment_mode_id.id,
                     # Codigo de Instrução do Movimento
                     "mov_instruction_code_id": self.mov_instruction_code_id.id,
                     "communication_type": "cnab",
