@@ -33,6 +33,10 @@
         <field name="insurance_value">30</field>
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_delivery_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_delivery_1_2')]" />
     </function>
@@ -55,6 +59,10 @@
         <field name="freight_value">10</field>
         <field name="insurance_value">15</field>
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_delivery_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_delivery_2_2')]" />
