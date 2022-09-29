@@ -95,7 +95,7 @@ class CNABBatch(models.Model):
             pay_order,
             RecordType.TRAILER_BATCH,
             seq_batch=seq_batch,
-            qty_records=batch.len_records() + 1,
+            qty_records=batch.len_records(),
             batch_detail_lines=batch.detail_lines(),
         )
         return batch
