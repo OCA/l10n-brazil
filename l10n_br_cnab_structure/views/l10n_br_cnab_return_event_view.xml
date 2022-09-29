@@ -24,7 +24,7 @@
                             <field name="company_title_identification" />
                             <field name="your_number" />
                             <field name="own_number" />
-                            <field name="occurrences" />
+                            <field name="occurrences" widget="text" />
                             <field name="occurrence_date" />
                             <field name="due_date" />
                             <field name="expected_payment_date" />
