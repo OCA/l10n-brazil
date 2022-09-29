@@ -1,4 +1,6 @@
 # @ 2020 KMEE - www.kmee.com.br
+# Copyright (C) 2022-Today - Akretion (<http://www.akretion.com>).
+# @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.tests.common import Form, SavepointCase
@@ -33,17 +35,17 @@ class TestDeliveryInverseAmount(SavepointCase):
             with so.order_line.new() as line:
                 line.product_id = cls.env.ref("product.product_delivery_02")
 
-        # Change freight, insurance and other costs amount from
-        # sale_order_total_id
+        # Alteração para permitir do teste
+        cls.sale_order_line_id.company_id.delivery_costs = "total"
+        # Change freight, insurance and other costs amount by Total values
         with Form(cls.sale_order_total_id) as so:
             so.amount_freight_value = 100.0
             so.amount_insurance_value = 100.0
             so.amount_other_value = 100.0
 
-        # Change freight, insurance and other costs amount from
-        # sale_order_lines_id lines
-        # TODO ?: alterando para permitir edição do campo e não falhar o teste
+        # Alteração para permitir do teste
         cls.sale_order_line_id.company_id.delivery_costs = "line"
+        # Change freight, insurance and other costs amount by Lines values
         with Form(cls.sale_order_line_id) as so:
             with so.order_line.edit(0) as line:
                 line.freight_value = 70.00
@@ -211,23 +213,6 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Fiscal Document line",
                 )
 
-        # TODO ? : O documento fiscal so permite os valores serem informados
-        #  por linha, pendente wizard p/ informar total e ratear por linhas
-        # with Form(fiscal_document_id) as doc:
-        #    doc.amount_freight_value = 10.0
-
-        # for line in fiscal_document_id.fiscal_line_ids:
-        #     if line.name == '[FURN_7777] Office Chair':
-        #         self.assertEqual(
-        #             line.freight_value, 6.36,
-        #             "Unexpected value for the field freight_value from "
-        #             "Fiscal Document line")
-        #     if line.name == '[FURN_8888] Office Lamp':
-        #         self.assertEqual(
-        #             line.freight_value, 3.64,
-        #             "Unexpected value for the field freight_value from "
-        #             "Fiscal Document line")
-
     def test_inverse_amount_freight_line(self):
         """Check Fiscal Document freight values for lines"""
         fiscal_document_id = self.sale_order_line_id.invoice_ids[0].fiscal_document_id
@@ -253,23 +238,6 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Unexpected value for the field freight_value from "
                     "Fiscal Document line",
                 )
-
-        # TODO ? : O documento fiscal so permite os valores serem informados
-        #  por linha, pendente wizard p/ informar total e ratear por linhas
-        # with Form(fiscal_document_id) as doc:
-        #     doc.amount_freight_value = 10.0
-
-        # for line in fiscal_document_id.fiscal_line_ids:
-        #     if line.name == '[FURN_7777] Office Chair':
-        #         self.assertEqual(
-        #             line.freight_value, 8.75,
-        #             "Unexpected value for the field freight_value from "
-        #             "Fiscal Document line")
-        #     if line.name == '[FURN_8888] Office Lamp':
-        #         self.assertEqual(
-        #             line.freight_value, 1.25,
-        #             "Unexpected value for the field freight_value from "
-        #             "Fiscal Document line")
 
     def test_inverse_amount_insurance_total(self):
         """Check Fiscal Document insurance values for total"""
@@ -297,23 +265,6 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Fiscal Document line",
                 )
 
-        # TODO ? : O documento fiscal so permite os valores serem informados
-        #  por linha, pendente wizard p/ informar total e ratear por linhas
-        # with Form(fiscal_document_id) as doc:
-        #    doc.amount_insurance_value = 10.0
-
-        # for line in fiscal_document_id.fiscal_line_ids:
-        #     if line.name == '[FURN_7777] Office Chair':
-        #         self.assertEqual(
-        #             line.insurance_value, 6.36,
-        #             "Unexpected value for the field insurance_value from "
-        #             "Fiscal Document line")
-        #     if line.name == '[FURN_8888] Office Lamp':
-        #         self.assertEqual(
-        #             line.insurance_value, 3.64,
-        #             "Unexpected value for the field insurance_value from "
-        #             "Fiscal Document line")
-
     def test_inverse_amount_insurance_line(self):
         """Check Fiscal Document insurance values for lines"""
         fiscal_document_id = self.sale_order_line_id.invoice_ids[0].fiscal_document_id
@@ -340,23 +291,6 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Fiscal Document line",
                 )
 
-        # TODO ? : O documento fiscal so permite os valores serem informados
-        #  por linha, pendente wizard p/ informar total e ratear por linhas
-        # with Form(fiscal_document_id) as doc:
-        #    doc.amount_insurance_value = 10.0
-
-        # for line in fiscal_document_id.fiscal_line_ids:
-        #     if line.name == '[FURN_7777] Office Chair':
-        #         self.assertEqual(
-        #             line.insurance_value, 8.75,
-        #             "Unexpected value for the field insurance_value from "
-        #             "Fiscal Document line")
-        #     if line.name == '[FURN_8888] Office Lamp':
-        #         self.assertEqual(
-        #             line.insurance_value, 1.25,
-        #             "Unexpected value for the field insurance_value from "
-        #             "Fiscal Document line")
-
     def test_inverse_amount_other_costs_total(self):
         """Check Fiscal Document other costs values for total"""
         fiscal_document_id = self.sale_order_total_id.invoice_ids[0].fiscal_document_id
@@ -382,23 +316,6 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Fiscal Document line",
                 )
 
-        # TODO ? : O documento fiscal so permite os valores serem informados
-        #  por linha, pendente wizard p/ informar total e ratear por linhas
-        # with Form(fiscal_document_id) as doc:
-        #    doc.amount_other_value = 10.0
-
-        # for line in fiscal_document_id.fiscal_line_ids:
-        #     if line.name == '[FURN_7777] Office Chair':
-        #         self.assertEqual(
-        #             line.other_value, 6.36,
-        #             "Unexpected value for the field other_value from "
-        #             "Fiscal Document line")
-        #     if line.name == '[FURN_8888] Office Lamp':
-        #         self.assertEqual(
-        #             line.other_value, 3.64,
-        #             "Unexpected value for the field other_value from "
-        #             "Fiscal Document line")
-
     def test_inverse_amount_other_line(self):
         """Check Fiscal Document other other values for lines"""
         fiscal_document_id = self.sale_order_line_id.invoice_ids[0].fiscal_document_id
@@ -423,23 +340,6 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Unexpected value for the field other_value from "
                     "Fiscal Document line",
                 )
-
-        # TODO ? : O documento fiscal so permite os valores serem informados
-        #  por linha, pendente wizard p/ informar total e ratear por linhas
-        # with Form(fiscal_document_id) as doc:
-        #    doc.amount_other_value = 10.0
-
-        # for line in fiscal_document_id.fiscal_line_ids:
-        #     if line.name == '[FURN_7777] Office Chair':
-        #         self.assertEqual(
-        #             line.other_value, 8.75,
-        #             "Unexpected value for the field other_value from "
-        #             "Fiscal Document line")
-        #     if line.name == '[FURN_8888] Office Lamp':
-        #         self.assertEqual(
-        #             line.other_value, 1.25,
-        #             "Unexpected value for the field other_value from "
-        #             "Fiscal Document line")
 
     def test_not_cost_ratio_by_lines(self):
         """
