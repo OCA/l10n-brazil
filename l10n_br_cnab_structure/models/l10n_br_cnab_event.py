@@ -184,7 +184,7 @@ class CNABReturnEvent(models.Model):
     def load_description_occurrences(self):
         """Generate occurrence description for all occurrences"""
         for event in self:
-            occurrences = ""
+            occurrences = []
             event_codes = (
                 event.occurrence_code_1,
                 event.occurrence_code_2,
@@ -195,8 +195,8 @@ class CNABReturnEvent(models.Model):
             for code in event_codes:
                 if not code:
                     continue
-                occurrences += event.get_description_occurrence(code)
-            event.occurrences = occurrences
+                occurrences.append(event.get_description_occurrence(code))
+            event.occurrences = "\n".join(occurrences)
 
     def _get_liq_move_vals(self):
         return {
