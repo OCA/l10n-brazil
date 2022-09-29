@@ -6,7 +6,7 @@ from datetime import datetime
 
 import pytz
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import PRODUCT_FISCAL_TYPE
 
@@ -16,7 +16,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
     _description = "Brazilian P7 Model Inventory Report Wizard"
 
     compute_at_date = fields.Selection(
-        selection=[(0, _("Current Inventory")), (1, _("At a Specific Date"))],
+        selection=[("0", "Current Inventory"), ("1", "At a Specific Date")],
         string="Compute",
         help="Choose to analyze the current inventory or from"
         " a specific date in the past.",

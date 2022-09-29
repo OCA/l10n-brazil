@@ -1,7 +1,7 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="l10n_br_p7_model_inventory_report_wizard_view" model="ir.ui.view">
+    <!--record id="l10n_br_p7_model_inventory_report_wizard_view" model="ir.ui.view">
         <field name="name">Brazilian P7 Model Inventory Report</field>
         <field name="model">l10n_br.p7.model.inventory.report.wizard</field>
         <field name="arch" type="xml">
@@ -26,27 +26,26 @@
                 </footer>
             </form>
         </field>
-    </record>
+    </record-->
 
-    <record
+    <!--record
         id="l10n_br_p7_model_inventory_report_wizard_action"
         model="ir.actions.act_window"
     >
             <field name="name">Brazilian P7 Model Inventory Report</field>
             <field name="res_model">l10n_br.p7.model.inventory.report.wizard</field>
-            <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="l10n_br_p7_model_inventory_report_wizard_view" />
             <field name="target">new</field>
             <field name="context">{'default_compute_at_date': 0}</field>
-    </record>
+    </record-->
 
-    <menuitem
+    <!--menuitem
         action="l10n_br_p7_model_inventory_report_wizard_action"
         id="l10n_p7_model_inventory_report_wizard_menu"
         parent="stock.menu_warehouse_report"
         sequence="100"
         string="Brazilian P7 Model Inventory Report"
-    />
+    /-->
 
 </odoo>
