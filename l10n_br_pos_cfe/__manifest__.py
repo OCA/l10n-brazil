@@ -24,7 +24,10 @@
         # Templates
         "views/pos_template.xml",
     ],
-    "demo": [],
+    "demo": [
+        "demo/pos_config_demo.xml",
+        "demo/pos_payment_method_demo.xml",
+    ],
     "qweb": [
         "static/src/xml/Screens/ReceiptScreen/OrderReceipt.xml",
         "static/src/xml/Screens/ReceiptScreen/OrderRowReceipt.xml",
