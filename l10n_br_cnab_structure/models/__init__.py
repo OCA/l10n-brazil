@@ -9,11 +9,12 @@ from . import cnab_occurrences
 from . import cnab_pix_key_type
 from . import cnab_pix_transfer_type
 
-
 # OVERRIDES
+
 from . import account_payment_mode
 from . import account_journal
 from . import l10n_br_cnab_return_log
 from . import l10n_br_cnab_event
+from . import l10n_br_cnab_lot
 from . import bank_payment_line
 from . import account_payment_oder
