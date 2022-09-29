@@ -90,10 +90,10 @@
 <!--        <field name="printer_params"></field>-->
     </record>
 
-<!--    <function model="pos.config" name="update_pos_fiscal_map">-->
-<!--        <value-->
-<!--            eval="[ref('point_of_sale.pos_config_main'), ref('l10n_br_pos.pos_config_presumido')]"-->
-<!--        />-->
-<!--    </function>-->
+   <function model="pos.config" name="update_pos_fiscal_map">
+       <value
+            eval="[ref('point_of_sale.pos_config_main'), ref('l10n_br_pos.pos_config_presumido')]"
+        />
+   </function>
 
 </odoo>
