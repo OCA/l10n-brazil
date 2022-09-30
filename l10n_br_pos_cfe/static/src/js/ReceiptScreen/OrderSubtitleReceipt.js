@@ -6,7 +6,20 @@ odoo.define("l10n_br_pos_cfe.OrderSubtitleReceipt", function (require) {
 
     class OrderSubtitleReceipt extends PosComponent {
         get order() {
-            return this.props.receipt;
+            return this.props.order;
+        }
+
+        // Getters //
+
+        get document_number() {
+            return this.order.document_number || "";
+        }
+
+        get satAmbiente() {
+            if (this.env.pos.config.sat_ambiente === "homologacao") {
+                return true;
+            }
+            return false;
         }
     }
     OrderSubtitleReceipt.template = "OrderSubtitleReceipt";

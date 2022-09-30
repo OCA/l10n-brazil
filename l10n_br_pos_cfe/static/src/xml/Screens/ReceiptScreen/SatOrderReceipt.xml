@@ -4,22 +4,28 @@
     <t t-name="SatOrderReceipt" owl="1">
         <div class="pos-receipt">
             <OrderHeaderReceipt company="receipt.company" />
-            <p
+            <span
                 class="receipt__divider"
-            >------------------------------------------------</p>
+            >---------------------------------------------------------</span>
             <OrderSubtitleReceipt order="receipt" />
-            <p
+            <span
                 class="receipt__divider"
-            >------------------------------------------------</p>
+            >---------------------------------------------------------</span>
             <div class="body">
                 <div class="body__header">
-                    # | COD | DESC | QTD | UN | VLUN R$ | VLTR R$ | VL ITEM R$
+                    # | COD | DESC | QTD | UN | VL UN R$ | (VL TR R$)* | VL ITEM R$
                 </div>
-                <p
+                <span
                     class="receipt__divider"
-                >------------------------------------------------</p>
+                >---------------------------------------------------------</span>
                 <t t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
                     <OrderRowReceipt line="line" />
+                    <t t-if="line.discount">
+                        <div class="body__line-discount">
+                            <span>desconto sobre o item</span>
+                            <span>- <t t-esc="line.discount.toFixed(2)" /></span>
+                        </div>
+                    </t>
                 </t>
                 <OrderTotalsReceipt order="receipt" rounding="receipt.rounding" />
                 <t
@@ -37,14 +43,22 @@
                         <span>Troco R$</span>
                     </div>
                     <div>
-                        <span><t t-esc="receipt.change" /></span>
+                        <span><t t-esc="receipt.change.toFixed(2)" /></span>
                     </div>
                 </div>
-                <p
+                <div class="body__end">
+                    <span
+                        class="body__message"
+                    >05.07.05.04: Comete crime quem sonega</span>
+                    <span
+                        class="body__caption"
+                    >* Valor aproximado dos tributos do item.</span>
+                </div>
+                <span
                     class="receipt__divider"
-                >------------------------------------------------</p>
+                >---------------------------------------------------------</span>
             </div>
-            <OrderFooterReceipt />
+            <OrderFooterReceipt order="receipt" />
         </div>
     </t>
 
