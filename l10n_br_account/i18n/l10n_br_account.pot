@@ -95,6 +95,11 @@ msgid "Amounts"
 msgstr ""
 
 #. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_partner_form
+msgid "Brazilian Instant Payment Keys (PIX)"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_tax_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_tax_template_form
 msgid "Brazilian Tax"
