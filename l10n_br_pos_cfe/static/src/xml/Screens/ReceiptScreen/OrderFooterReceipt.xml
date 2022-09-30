@@ -4,19 +4,23 @@
     <t t-name="OrderFooterReceipt" owl="1">
         <div class="footer">
             <div class="footer__sat-info">
-                SAT No. XXXXXXXXX
+                SAT No. <t t-esc="satNumber" />
             </div>
 
             <div class="footer__date">
-                DD/MM/AAAA - HH:MM:SS
+                <t t-esc="document_date" />
             </div>
 
             <div class="footer__barcode">
-                ( imagem do código de barras )
+                <div class="footer_barcodeKey">
+                    <t t-esc="document_key" />
+                </div>
+                <div class="satBarcode">
+                    <img id="satBarcode" />
+                </div>
             </div>
 
-            <div class="footer__qrcode">
-                ( imagem do QRCode )
+            <div class="footer__qrcode" id="footer__qrcode">
             </div>
 
             <div class="footer__observation">

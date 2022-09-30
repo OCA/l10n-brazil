@@ -19,7 +19,7 @@
                 </div>
 
                 <div>
-                    <span><t t-esc="total_discount" /></span>
+                    <span>- <t t-esc="total_discount" /></span>
                 </div>
             </div>
 

@@ -136,6 +136,10 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             this.set_document_session_number(response.numeroSessao);
             this.set_document_key(response.chaveConsulta);
 
+            const document_key = response.chaveConsulta.replace("CFe", "");
+            this.set_document_number(document_key);
+            this.set_document_serie(document_key);
+
             this.status_code = response.EEEEE;
             this.status_name = CFE_EMITIDO_COM_SUCESSO_MENSAGEM;
             this.status_description = response.mensagem;
@@ -185,6 +189,12 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
         set_document_session_number: function (document_session_number) {
             this.pos.last_document_session_number = document_session_number;
             this.document_session_number = document_session_number;
+        },
+        set_document_number: function (document_key) {
+            this.document_number = document_key.substring(31, 37);
+        },
+        set_document_serie: function (document_key) {
+            this.document_serie = document_key.substring(22, 31);
         },
     });
 
