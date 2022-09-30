@@ -25,7 +25,7 @@ Brazilian Localization Base
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Este é o módulo raiz da localização brasileira. Ele traz adaptações nos modelos do módulo ``base`` do Odoo como Parceiros, Empresas e Endereços:
+Este é o módulo 'raiz' da localização brasileira. Ele traz adaptações nos modelos do módulo ``base`` do Odoo como Parceiros, Empresas e Endereços:
 
 * Campo CNPJ e CPF com formatação e validação destes campos;
 * Campo de Inscrição Estadual com validação;
@@ -33,6 +33,7 @@ Este é o módulo raiz da localização brasileira. Ele traz adaptações nos mo
 * Código do Banco Central e Siscomex para países;
 * Código do IBGE para estados e municípios;
 * Lista dos Bancos brasileiros;
+* Contas bancarias e chaves PIX dos parceiros;
 * Lista dos municípios brasileiros.
 
 Se trata de um módulo muito simples e maduro. Existem alguns outros módulos simples que dependem apenas desse módulo ou quase como ``l10n_br_crm`` ou ``l10n_br_portal``.
@@ -133,10 +134,19 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-* Renato Lima <renato.lima@akretion.com.br>
-* Raphaël Valyi <raphael.valyi@akretion.com.br>
-* Luis Felipe Mileo <mileo@kmee.com.br>
-* Michell Stuttgart <michell.stuttgart@kmee.com.br>
+* `Akretion <https://www.akretion.com/pt-BR>`_:
+
+  * Renato Lima <renato.lima@akretion.com.br>
+  * Raphaël Valyi <raphael.valyi@akretion.com.br>
+
+* `KMEE <https://www.kmee.com.br>`_:
+
+  * Luis Felipe Mileo <mileo@kmee.com.br>
+  * Michell Stuttgart <michell.stuttgart@kmee.com.br>
+
+* `Engenere <https://engenere.one>`_:
+
+  * Antônio S. Pereira Neto <neto@engenere.one>
 
 Maintainers
 ~~~~~~~~~~~
