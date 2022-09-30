@@ -16,7 +16,6 @@ class Carrier(models.Model):
         comodel_name="l10n_br_delivery.carrier.vehicle",
         inverse_name="carrier_id",
         string="Vehicles",
-        ondelete="cascade",
     )
 
     def rate_shipment(self, order):
