@@ -15,6 +15,8 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         for purchase in purchases:
             if purchase.fiscal_operation_id:
                 for line in purchase.order_line:
+                    description = line.name
                     line._onchange_product_id_fiscal()
                     line._onchange_fiscal_tax_ids()
+                    line.name = description
         return res
