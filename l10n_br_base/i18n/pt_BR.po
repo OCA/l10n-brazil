@@ -18,6 +18,19 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#, python-format
+msgid ""
+"A Checking Account or Saving Account transactional account must contain the "
+"branch number and the account verification digit."
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.constraint,message:l10n_br_base.constraint_res_partner_pix_partner_pix_key_unique
+msgid "A Pix Key with this values already exists in this partner."
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__anp_code
 msgid "ANP Code"
 msgstr "Código ANP"
@@ -143,6 +156,12 @@ msgstr "Dígito da Conta"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number
 msgid "Account Number"
 msgstr "Número da Conta"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__transactional_acc_type
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__transactional_acc_type
+msgid "Account Type"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4300034
@@ -2251,6 +2270,11 @@ msgid "Bank"
 msgstr "Banco"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__partner_bank_id
+msgid "Bank Account"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bank_account_type
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bank_account_type
 msgid "Bank Account Type"
@@ -3581,9 +3605,19 @@ msgstr ""
 "Exemplo de Código Bancário Brasileiro: 001 é o código do Banco do Brasil"
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_bank_form
+msgid "Brazilian Instant Payment Keys (PIX)"
+msgstr ""
+
+#. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Brazilian Localization"
 msgstr "Localização Brasileira"
+
+#. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_res_partner_pix
+msgid "Brazilian instant payment ecosystem (Pix)"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_l10n_br_base_party_mixin
@@ -3920,6 +3954,13 @@ msgstr "COMPE Member"
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "CPF"
 msgstr "CPF"
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__cnpj_cpf
+#, python-format
+msgid "CPF or CNPJ"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_code
@@ -6002,6 +6043,13 @@ msgid "Chaves"
 msgstr "Chaves"
 
 #. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__checking
+#, python-format
+msgid "Checking Account (Conta Corrente)"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3116209
 msgid "Chiador"
 msgstr "Chiador"
@@ -6346,6 +6394,12 @@ msgstr "Comodoro"
 #: model:ir.model,name:l10n_br_base.model_res_company
 msgid "Companies"
 msgstr "Empresas"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__company_country_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__company_country_id
+msgid "Company Country"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
@@ -7017,11 +7071,13 @@ msgid "Craíbas"
 msgstr "Craíbas"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__create_uid
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__create_uid
 msgid "Created by"
 msgstr "Criado por"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__create_date
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__create_date
 msgid "Created on"
 msgstr "Criado em"
@@ -7708,6 +7764,7 @@ msgstr "Desabilitar validação de IE (Inscrição Estadual)"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
@@ -8085,6 +8142,13 @@ msgstr "Durandé"
 #: model:res.city,name:l10n_br_base.city_2910008
 msgid "Dário Meira"
 msgstr "Dário Meira"
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__email
+#, python-format
+msgid "E-mail"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3514700
@@ -10230,6 +10294,7 @@ msgstr "Código do IBGE"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__id
 msgid "ID"
 msgstr "ID"
@@ -10857,6 +10922,12 @@ msgstr "Indiaroba"
 #: model:res.city,name:l10n_br_base.city_5104500
 msgid "Indiavaí"
 msgstr "Indiavaí"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__show_l10n_br
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__show_l10n_br
+msgid "Indicates if Brazilian localization fields should be displayed."
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2607109
@@ -13130,6 +13201,17 @@ msgid "Kaloré"
 msgstr "Kaloré"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__pix_key_ids
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__pix_key_ids
+msgid "Keys for Brazilian instant payment (pix)"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4209201
 msgid "Lacerdópolis"
 msgstr "Lacerdópolis"
@@ -13519,16 +13601,19 @@ msgstr "Lassance"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__write_uid
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__write_uid
 msgid "Last Updated by"
 msgstr "Última Atualização por"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__write_date
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__write_date
 msgid "Last Updated on"
 msgstr "Última Atualização em"
@@ -17211,6 +17296,11 @@ msgid "Ouvidor"
 msgstr "Ouvidor"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner_pix__key
+msgid "PIX Addressing key"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3534906
 msgid "Pacaembu"
 msgstr "Pacaembu"
@@ -17828,6 +17918,7 @@ msgid "Parobé"
 msgstr "Parobé"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__partner_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__partner_id
 msgid "Partner"
 msgstr "Parceiro"
@@ -18504,6 +18595,13 @@ msgid "Peçanha"
 msgstr "Peçanha"
 
 #. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__phone
+#, python-format
+msgid "Phone Number"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3537701
 msgid "Piacatu"
 msgstr "Piacatu"
@@ -18993,6 +19091,14 @@ msgstr "Pium"
 #: model:res.city,name:l10n_br_base.city_3151503
 msgid "Piumhi"
 msgstr "Piumhi"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__partner_pix_ids
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__pix_key_ids
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__partner_pix_ids
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__pix_key_ids
+msgid "Pix Keys"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1505635
@@ -19688,6 +19794,13 @@ msgid "Pratânia"
 msgstr "Pratânia"
 
 #. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__payment
+#, python-format
+msgid "Prepaid Payment Account (Conta Pagamento)"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3541109
 msgid "Presidente Alves"
 msgstr "Presidente Alves"
@@ -20163,6 +20276,13 @@ msgstr "Rancho Alegre D'Oeste"
 #: model:res.city,name:l10n_br_base.city_4214300
 msgid "Rancho Queimado"
 msgstr "Rancho Queimado"
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__evp
+#, python-format
+msgid "Random Key"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2109452
@@ -22517,6 +22637,13 @@ msgid "Saudades"
 msgstr "Saudades"
 
 #. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__saving
+#, python-format
+msgid "Saving Account (Conta Poupança)"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2929800
 msgid "Saúde"
 msgstr "Saúde"
@@ -22715,6 +22842,11 @@ msgstr "Sentinela do Sul"
 #: model:res.city,name:l10n_br_base.city_2930204
 msgid "Sento Sé"
 msgstr "Sento Sé"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__sequence
+msgid "Sequence"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4320404
@@ -22992,6 +23124,12 @@ msgstr "Severínia"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__short_name
 msgid "Short Name"
 msgstr "Nome curto"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__show_l10n_br
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__show_l10n_br
+msgid "Show L10N Br"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4217600
@@ -26185,6 +26323,19 @@ msgid "Tutóia"
 msgstr "Tutóia"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__key_type
+msgid "Type"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_account_setup_bank_manual_config__transactional_acc_type
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner_bank__transactional_acc_type
+msgid ""
+"Type of transactional account, classification used in the Brazilian instant "
+"payment system (PIX)"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1304260
 msgid "Uarini"
 msgstr "Uarini"
@@ -27300,6 +27451,14 @@ msgstr "Zortéa"
 #: model:res.city,name:l10n_br_base.city_2114007
 msgid "Zé Doca"
 msgstr "Zé Doca"
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#, python-format
+msgid ""
+"a transactional account must contain the bank information (code_bc) and the "
+"account number"
+msgstr ""
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:0
