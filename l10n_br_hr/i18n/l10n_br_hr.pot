@@ -987,6 +987,11 @@ msgid "Incapacidade Física ou Mental?"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
+msgid "Indicates if Brazilian localization fields should be displayed."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
 msgid ""
 "Indicates if a blacklisted sanitized phone number is a mobile number. Helps "
@@ -1087,6 +1092,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__journal_item_count
 msgid "Journal Items"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
+msgid "Keys for Brazilian instant payment (pix)"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1424,6 +1434,11 @@ msgid "Phone Blacklisted"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
+msgid "Pix Keys"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_payment_method_id
 msgid ""
 "Preferred payment method when paying this vendor. This is used to filter "
@@ -1604,6 +1619,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_share
 msgid "Share Partner"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
+msgid "Show L10N Br"
 msgstr ""
 
 #. module: l10n_br_hr
