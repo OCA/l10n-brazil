@@ -114,6 +114,10 @@ class AccountMove(models.Model):
 
     def _compute_fiscal_operation_type(self):
         for inv in self:
+            if inv.move_type == "entry":
+                # if it is a Journal Entry there is nothing to do.
+                inv.fiscal_operation_type = False
+                continue
             if inv.fiscal_operation_id:
                 inv.fiscal_operation_type = (
                     inv.fiscal_operation_id.fiscal_operation_type
