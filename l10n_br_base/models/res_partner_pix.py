@@ -1,3 +1,7 @@
+# Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+# @author Antônio S. Pereira Neto <neto@engenere.one>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 import phonenumbers
 from email_validator import EmailSyntaxError, validate_email
 from erpbrasil.base.fiscal import cnpj_cpf
