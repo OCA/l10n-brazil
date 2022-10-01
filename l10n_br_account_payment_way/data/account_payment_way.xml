@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Account Payment Way -->
+
+    <record id="account_payment_way_dinheiro" model="account.payment.way">
+        <field name="name">Dinheiro</field>
+        <field name="domain">dinheiro</field>
+    </record>
+
+    <record id="account_payment_way_cheque" model="account.payment.way">
+        <field name="name">Cheque</field>
+        <field name="domain">cheque</field>
+    </record>
+
+    <record id="account_payment_way_pix_transfer" model="account.payment.way">
+        <field name="name">Pix Transferência</field>
+        <field name="domain">pix_transfer</field>
+    </record>
+
+    <record id="account_payment_way_ted" model="account.payment.way">
+        <field name="name">TED</field>
+        <field name="domain">ted</field>
+    </record>
+
+    <record id="account_payment_way_doc" model="account.payment.way">
+        <field name="name">DOC</field>
+        <field name="domain">doc</field>
+    </record>
+
+    <record id="account_payment_way_boleto" model="account.payment.way">
+        <field name="name">Boleto</field>
+        <field name="domain">boleto</field>
+    </record>
+
+</odoo>

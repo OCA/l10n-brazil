@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_base_move_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_payment_way.account.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form" />
+        <field name="priority">199</field>
+        <field name="arch" type="xml">
+            <field name="move_id" position="after">
+                <field name="payment_way_id" />
+            </field>
+        </field>
+    </record>
+</odoo>
