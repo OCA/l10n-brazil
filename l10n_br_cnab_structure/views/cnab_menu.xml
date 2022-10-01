@@ -38,8 +38,8 @@
             sequence="60"/>
     </menuitem>
 
-
-    <menuitem
+    <!-- TODO Por enquanto não há a implementação para cobrança, então está comentado -->
+    <!-- <menuitem
         name="CNAB"
         id="cnab_receivables"
         parent="account.menu_finance_receivables"
@@ -55,7 +55,7 @@
         name="Import CNAB Returns"
         action="l10n_br_inbound_cnab_import_action"
         />
-    </menuitem>
+    </menuitem> -->
 
     <menuitem
         name="CNAB"
