@@ -11,7 +11,7 @@
         <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'"/>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="partner_bank_id" ref="amd_bank_account" />
-        <field name="invoice_payment_way_id" ref="l10n_br_account_payment_order.account_payment_way_ted" />
+        <field name="invoice_payment_way_id" ref="l10n_br_account_base.account_payment_way_ted" />
         <field name="payment_mode_id" ref="payment_mode_sispag_ted_doc_op" />
         <field name="payment_reference">test ted communication</field>
         <field
@@ -45,7 +45,7 @@
         <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'"/>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="partner_bank_id" ref="amd_bank_account" />
-        <field name="invoice_payment_way_id" ref="l10n_br_account_payment_order.account_payment_way_pix_transfer" />
+        <field name="invoice_payment_way_id" ref="l10n_br_account_base.account_payment_way_pix_transfer" />
         <field name="payment_mode_id" ref="payment_mode_sispag_pix_trasfer" />
         <field name="payment_reference">test pix communication</field>
         <field
