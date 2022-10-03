@@ -574,6 +574,9 @@ class AccountInvoice(models.Model):
     def action_invoice_open(self):
         result = super().action_invoice_open()
 
+        for record in self.filtered(lambda i: i.issuer == DOCUMENT_ISSUER_PARTNER):
+            record.fiscal_document_id._check_number()
+
         for record in self.filtered(lambda i: i.refund_invoice_id):
             if record.state == "open" and record.refund_invoice_id.state == "open":
                 # Ao confirmar uma fatura/documento fiscal se é uma devolução
