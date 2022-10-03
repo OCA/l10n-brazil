@@ -19,18 +19,21 @@
         <field name="dpi">90</field>
     </record>
 
-
     <!-- TODO o print_report_name por algum motivo não funciona -->
-    <report
-        id="l10n_br_p7_model_inventory_report"
-        string="Brazilian P7 Model Invetory Report"
-        model="l10n_br.p7.model.inventory.report.wizard"
-        report_type="qweb-pdf"
-        paperformat="l10n_br_stock_account_report.paperformat_lowmargin"
-        file="l10n_br_stock_account_report.main_l10n_br_p7_model_inventory_report_view"
-        name="l10n_br_stock_account_report.main_l10n_br_p7_model_inventory_report_view"
-        menu="False"
-        print_report_name="'Report Brazilian P7-%s' % (object.date)"
-    />
+    <record id="l10n_br_p7_model_inventory_report" model="ir.actions.report">
+        <field name="name">Brazilian P7 Model Invetory Report</field>
+        <field name="model">l10n_br.p7.model.inventory.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_br_stock_account_report.paperformat_lowmargin"
+        />
+        <field
+            name="report_file"
+        >l10n_br_stock_account_report.main_l10n_br_p7_model_inventory_report_view</field>
+        <field name="print_report_name">'Report Brazilian P7-%s' % (object.date)</field>
+        <field name="report_name">'Report Brazilian P7-%s' % (object.date)</field>
+        <field name="binding_type">report</field>
+    </record>
 
 </odoo>
