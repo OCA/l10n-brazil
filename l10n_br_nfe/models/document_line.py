@@ -227,6 +227,14 @@ class NFeLine(spec_models.StackedModel):
         related="freight_value",
     )
 
+    nfe40_vSeg = fields.Monetary(
+        related="insurance_value",
+    )
+
+    nfe40_vOutro = fields.Monetary(
+        related="other_value",
+    )
+
     nfe40_vTotTrib = fields.Monetary(
         related="estimate_tax",
     )
