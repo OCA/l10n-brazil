@@ -9,6 +9,7 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="electronic" />
+                <field name="type" />                
             </tree>
         </field>
     </record>
