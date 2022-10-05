@@ -254,12 +254,17 @@ class CNABReturnEvent(models.Model):
         return to_reconcile_amls
 
     def _create_counterpart_move_line(self, move_id, partner_id):
-        debit_or_credit = "credit" if self.move_line_ids[0].balance < 0 else "debit"
+        if self.move_line_ids[0].balance < 0:
+            debit_or_credit = "credit"
+            account_id = self.journal_id.payment_credit_account_id
+        else:
+            debit_or_credit = "debit"
+            account_id = self.journal_id.payment_debit_account_id
         move_line_obj = self.env["account.move.line"]
         counterpart_vals = {
             "move_id": move_id.id,
             "partner_id": partner_id.id,
-            "account_id": self.journal_id.default_account_id.id,
+            "account_id": account_id.id,
             debit_or_credit: self.balance,
         }
         aml = move_line_obj.with_context(check_move_validity=False).create(
