@@ -1067,3 +1067,87 @@ class TestFiscalDocumentGeneric(SavepointCase):
             # TODO FIXME changed 0.00 to 0,00 to get tests pass on v13, but not
             # correct
         )
+
+    def test_fields_freight_insurance_other_costs(self):
+        """Test fields Freight, Insurance and Other Costs when
+        defined or By Line or By Total.
+        """
+
+        # Teste definindo os valores Por Linha
+        for line in self.nfe_same_state.fiscal_line_ids:
+            line.freight_value = 10.0
+            line.insurance_value = 10.0
+            line.other_value = 10.0
+
+        self.assertEqual(
+            self.nfe_same_state.amount_freight_value,
+            20.0,
+            "Unexpected value for the field" " Amount Freight in Fiscal Document line",
+        )
+        self.assertEqual(
+            self.nfe_same_state.amount_insurance_value,
+            20.0,
+            "Unexpected value for the field"
+            " Amount Insurance in Fiscal Document line",
+        )
+        self.assertEqual(
+            self.nfe_same_state.amount_other_value,
+            20.0,
+            "Unexpected value for the field"
+            " Amount Other Value in Fiscal Document line",
+        )
+
+        # Teste definindo os valores Por Total
+        # Por padrão a definição dos campos está por Linha
+        self.nfe_same_state.company_id.delivery_costs = "total"
+
+        # Caso que os Campos na Linha tem valor
+        self.nfe_same_state.amount_freight_value = 10.0
+        self.nfe_same_state.amount_insurance_value = 10.0
+        self.nfe_same_state.amount_other_value = 10.0
+
+        for line in self.nfe_same_state.fiscal_line_ids:
+            self.assertEqual(
+                line.freight_value,
+                5.0,
+                "Unexpected value for the field" " Freight in Fiscal Document line",
+            )
+            self.assertEqual(
+                line.insurance_value,
+                5.0,
+                "Unexpected value for the field" " Insurance in Fiscal Document line",
+            )
+            self.assertEqual(
+                line.other_value,
+                5.0,
+                "Unexpected value for the field"
+                " Other Values in Fiscal Document line",
+            )
+
+        # Caso que os Campos na Linha não tem valor
+        for line in self.nfe_same_state.fiscal_line_ids:
+            line.freight_value = 0.0
+            line.insurance_value = 0.0
+            line.other_value = 0.0
+
+        self.nfe_same_state.amount_freight_value = 20.0
+        self.nfe_same_state.amount_insurance_value = 20.0
+        self.nfe_same_state.amount_other_value = 20.0
+
+        for line in self.nfe_same_state.fiscal_line_ids:
+            self.assertEqual(
+                line.freight_value,
+                10.0,
+                "Unexpected value for the field" " Freight in Fiscal Document line",
+            )
+            self.assertEqual(
+                line.insurance_value,
+                10.0,
+                "Unexpected value for the field" " Insurance in Fiscal Document line",
+            )
+            self.assertEqual(
+                line.other_value,
+                10.0,
+                "Unexpected value for the field"
+                " Other Values in Fiscal Document line",
+            )

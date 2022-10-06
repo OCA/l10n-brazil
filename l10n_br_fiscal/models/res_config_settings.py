@@ -54,3 +54,7 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_br_cte = fields.Boolean(
         string="CT-e",
     )
+
+    delivery_costs = fields.Selection(
+        related="company_id.delivery_costs", readonly=False
+    )
