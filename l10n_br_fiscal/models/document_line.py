@@ -87,6 +87,12 @@ class DocumentLine(models.Model):
         compute="_compute_amounts",
     )
 
+    # Usado para tornar Somente Leitura os campos dos custos
+    # de entrega quando a definição for por Total
+    delivery_costs = fields.Selection(
+        related="company_id.delivery_costs",
+    )
+
     def unlink(self):
         dummy_docs = self.env["res.company"].search([]).mapped("fiscal_dummy_id")
         if any(line.document_id in dummy_docs for line in self):
