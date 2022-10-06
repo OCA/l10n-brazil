@@ -57,6 +57,12 @@ class StockPicking(models.Model):
     def _compute_amount(self):
         super()._compute_amount()
 
+    @api.depends("move_lines.price_unit")
+    def _amount_all(self):
+        """Compute the total amounts of the Picking."""
+        for picking in self:
+            picking._compute_amount()
+
     @api.model
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
