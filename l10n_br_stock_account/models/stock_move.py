@@ -64,6 +64,12 @@ class StockMove(models.Model):
 
     ind_final = fields.Selection(related="picking_id.ind_final")
 
+    # Usado para tornar Somente Leitura os campos totais dos custos
+    # de entrega quando a definição for por Linha
+    delivery_costs = fields.Selection(
+        related="company_id.delivery_costs",
+    )
+
     @api.onchange("product_id", "product_uom", "product_uom_qty", "price_unit")
     def _onchange_product_quantity(self):
         """To call the method in the mixin to update
