@@ -57,6 +57,18 @@ class BankPaymentLine(models.Model):
         help="Campo P011 do CNAB",
     )
 
+    partner_pix_id = fields.Many2one(
+        string="Pix Key",
+        comodel_name="res.partner.pix",
+        related="payment_line_ids.partner_pix_id",
+    )
+
+    pix_transfer_type = fields.Selection(
+        string="pix transfer type identification",
+        readonly=True,
+        related="payment_line_ids.pix_transfer_type",
+    )
+
     payment_way_id = fields.Many2one(
         comodel_name="account.payment.way",
         string="Payment Way",
@@ -167,6 +179,7 @@ class BankPaymentLine(models.Model):
     def same_fields_payment_line_and_bank_payment_line(self):
         res = super().same_fields_payment_line_and_bank_payment_line()
         res.append("payment_way_id")
+        res.append("partner_pix_id")
         res.append("service_type")
         return res
 

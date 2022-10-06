@@ -138,6 +138,10 @@ class AccountMoveLine(models.Model):
         vals = super()._prepare_payment_line_vals(payment_order)
         # Preenchendo apenas nos casos CNAB
         if self.payment_mode_id.payment_method_code in BR_CODES_PAYMENT_ORDER:
+            if self.partner_id.pix_key_ids:
+                partner_pix_id = self.partner_id.pix_key_ids[0].id
+            else:
+                partner_pix_id = False
             vals.update(
                 {
                     "own_number": self.own_number,
@@ -154,6 +158,7 @@ class AccountMoveLine(models.Model):
                     "ml_maturity_date": self.date_maturity,
                     "move_id": self.move_id.id,
                     "payment_way_id": self.payment_way_id.id,
+                    "partner_pix_id": partner_pix_id,
                     "service_type": self._get_default_service_type(),
                 }
             )

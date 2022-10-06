@@ -17,6 +17,13 @@ from ..constants import (
 class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
+    PIX_TRANSFER_TYPES = [
+        ("checking", _("Checking Account (Conta Corrente)")),
+        ("saving", _("Saving Account (Conta Poupança)")),
+        ("payment", _("Prepaid Payment Account (Conta Pagamento)")),
+        ("pix_key", _("Instant Payment Key (Chave Pix)")),
+    ]
+
     digitable_line = fields.Char(
         string="Linha Digitável",
     )
@@ -59,6 +66,18 @@ class AccountPaymentLine(models.Model):
     payment_way_id = fields.Many2one(
         comodel_name="account.payment.way",
         string="Payment Way",
+    )
+
+    partner_pix_id = fields.Many2one(
+        string="Pix Key",
+        comodel_name="res.partner.pix",
+    )
+
+    pix_transfer_type = fields.Selection(
+        selection=PIX_TRANSFER_TYPES,
+        string="Pix transfer type",
+        help="Pix transfer type identification",
+        compute="_compute_pix_transfer_type",
     )
 
     service_type = fields.Selection(
@@ -193,6 +212,7 @@ class AccountPaymentLine(models.Model):
         """
         res = super(AccountPaymentLine, self).draft2open_payment_line_check()
         self._check_payment_way()
+        self._check_pix_transfer_type()
         return res
 
     def _check_payment_way(self):
@@ -210,5 +230,41 @@ class AccountPaymentLine(models.Model):
                         f"\nPayment Way: {rec.payment_way_id.name}"
                         f"\nPayment Mode: {rec.payment_mode_id.name}"
                         f"\nPayment Line: {rec.name}"
+                    )
+                )
+
+    @api.onchange("partner_id")
+    def partner_id_change(self):
+        res = super(AccountPaymentLine, self).partner_id_change()
+        partner_pix = False
+        if self.partner_id.pix_key_ids:
+            partner_pix = self.partner_id.pix_key_ids[0]
+        self.partner_pix_id = partner_pix
+        return res
+
+    def _compute_pix_transfer_type(self):
+        for line in self:
+            line.pix_transfer_type = False
+            pay_domain = line.payment_way_id.domain
+            if pay_domain != "pix_transfer":
+                return
+            if line.partner_pix_id:
+                line.pix_transfer_type = "pix_key"
+            elif line.partner_bank_id:
+                acc_type = line.partner_bank_id.transactional_acc_type
+                line.pix_transfer_type = acc_type
+
+    def _check_pix_transfer_type(self):
+        for rec in self:
+            if (
+                rec.payment_way_id.domain == "pix_transfer"
+                and not rec.partner_pix_id
+                and not rec.partner_bank_id.transactional_acc_type
+            ):
+                raise UserError(
+                    _(
+                        "When the payment method is pix transfer, a pix key must be "
+                        "informed, or the bank account with the type of account.\n"
+                        f"Payment Line: {rec.name}"
                     )
                 )

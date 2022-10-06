@@ -26,6 +26,14 @@
                     <field name="payment_way_domain" readonly="1" />
                     <field name="service_type" readonly="1" />
                 </group>
+                <group
+                    name="pix"
+                    string="PIX"
+                    attrs="{'invisible': [('payment_way_domain', '!=', 'pix_transfer')]}"
+                >
+                    <field name="partner_pix_id" readonly="1" />
+                    <field name="pix_transfer_type" readonly="1" />
+                </group>
                 <xpath expr="//group[@name='payment-lines'" position="after">
                     <group
                         string="Histórico de Eventos CNAB Relacionados"
