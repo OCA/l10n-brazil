@@ -512,3 +512,109 @@ class InvoicingPickingTest(SavepointCase):
         nb_invoice_after = self.invoice_model.search_count([])
         # Should be equals because we delete the invoice
         self.assertEqual(nb_invoice_before, nb_invoice_after)
+
+    def test_fields_freight_insurance_other_costs(self):
+        """Test fields Freight, Insurance and Other Costs when
+        defined or By Line or By Total in Stock Picking.
+        """
+
+        self._change_user_company(self.company)
+
+        # Por padrão a definição dos campos está por Linha
+        self.stock_picking_sp.company_id.delivery_costs = "line"
+        # Teste definindo os valores Por Linha
+        for line in self.stock_picking_sp.move_ids_without_package:
+            line.price_unit = 100.0
+            line.freight_value = 10.0
+            line.insurance_value = 10.0
+            line.other_value = 10.0
+            line.quantity_done = line.product_uom_qty
+
+        self.stock_picking_sp.button_validate()
+        self.assertEqual(self.stock_picking_sp.state, "done", "Change state fail.")
+
+        for line in self.stock_picking_sp.move_lines:
+            self._run_fiscal_line_onchanges(line)
+            line._onchange_product_quantity()
+
+        self.stock_picking_sp.action_confirm()
+
+        # TODO: Os campos Totais não estão sendo atualizados mesmo
+        #  rodando os onchanges e confirmando o Picking, na tela esse
+        #  problema não acontece
+        self.stock_picking_sp._amount_all()
+
+        self.assertEqual(
+            self.stock_picking_sp.amount_freight_value,
+            30.0,
+            "Unexpected value for the field Amount Freight in Stock Picking.",
+        )
+        self.assertEqual(
+            self.stock_picking_sp.amount_insurance_value,
+            30.0,
+            "Unexpected value for the field Amount Insurance in Stock Picking.",
+        )
+        self.assertEqual(
+            self.stock_picking_sp.amount_other_value,
+            30.0,
+            "Unexpected value for the field Amount Other in Stock Picking.",
+        )
+
+        # Teste definindo os valores Por Total
+        # Por padrão a definição dos campos está por Linha
+        self.stock_picking_sp.company_id.delivery_costs = "total"
+
+        # Caso que os Campos na Linha tem valor
+        self.stock_picking_sp.amount_freight_value = 9.0
+        self.stock_picking_sp.amount_insurance_value = 9.0
+        self.stock_picking_sp.amount_other_value = 9.0
+
+        for line in self.stock_picking_sp.move_lines:
+
+            self.assertEqual(
+                line.freight_value,
+                3.0,
+                "Unexpected value for the field Freight in Move line.",
+            )
+            self.assertEqual(
+                line.insurance_value,
+                3.0,
+                "Unexpected value for the field Insurance in Move line.",
+            )
+            self.assertEqual(
+                line.other_value,
+                3.0,
+                "Unexpected value for the field Other Values in Move line.",
+            )
+
+        # Caso que os Campos na Linha não tem valor
+        for line in self.stock_picking_sp.move_lines:
+            line.price_unit = 100.0
+            line.freight_value = 0.0
+            line.insurance_value = 0.0
+            line.other_value = 0.0
+
+        self.stock_picking_sp.company_id.delivery_costs = "total"
+
+        self.stock_picking_sp.amount_freight_value = 30.0
+        self.stock_picking_sp.amount_insurance_value = 30.0
+        self.stock_picking_sp.amount_other_value = 30.0
+
+        self.stock_picking_sp.action_confirm()
+
+        for line in self.stock_picking_sp.move_lines:
+            self.assertEqual(
+                line.freight_value,
+                10.0,
+                "Unexpected value for the field Amount Freight in Stock Picking.",
+            )
+            self.assertEqual(
+                line.insurance_value,
+                10.0,
+                "Unexpected value for the field Insurance in Move line.",
+            )
+            self.assertEqual(
+                line.other_value,
+                10.0,
+                "Unexpected value for the field Other Values in Move line.",
+            )
