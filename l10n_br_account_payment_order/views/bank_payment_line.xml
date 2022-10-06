@@ -24,6 +24,7 @@
                     <field name="favored_warning" readonly="1" />
                     <field name="payment_way_id" readonly="1" />
                     <field name="payment_way_domain" readonly="1" />
+                    <field name="service_type" readonly="1" />
                 </group>
                 <xpath expr="//group[@name='payment-lines'" position="after">
                     <group

@@ -67,6 +67,11 @@ class BankPaymentLine(models.Model):
         string="Payment Way Domain",
         related="payment_way_id.domain",
     )
+
+    service_type = fields.Selection(
+        related="payment_line_ids.service_type",
+    )
+
     complementary_finality_code = fields.Char(
         string="Código de finalidade complementar",
         size=2,
@@ -162,6 +167,7 @@ class BankPaymentLine(models.Model):
     def same_fields_payment_line_and_bank_payment_line(self):
         res = super().same_fields_payment_line_and_bank_payment_line()
         res.append("payment_way_id")
+        res.append("service_type")
         return res
 
     # TODO: Implementar métodos para outros tipos cnab.

@@ -10,6 +10,7 @@ from ..constants import (
     CODIGO_FINALIDADE_TED,
     COMPLEMENTO_TIPO_SERVICO,
     TIPO_MOVIMENTO,
+    TIPO_SERVICO,
 )
 
 
@@ -59,6 +60,14 @@ class AccountPaymentLine(models.Model):
         comodel_name="account.payment.way",
         string="Payment Way",
     )
+
+    service_type = fields.Selection(
+        selection=TIPO_SERVICO,
+        string="Tipo de Serviço",
+        help="Campo G025 do CNAB",
+        default="30",
+    )
+
     complementary_finality_code = fields.Char(
         string="Código de finalidade complementar",
         size=2,
