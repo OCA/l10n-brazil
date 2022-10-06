@@ -73,6 +73,12 @@ class PurchaseOrderLine(models.Model):
 
     ind_final = fields.Selection(related="order_id.ind_final")
 
+    # Usado para tornar Somente Leitura os campos totais dos custos
+    # de entrega quando a definição for por Linha
+    delivery_costs = fields.Selection(
+        related="company_id.delivery_costs",
+    )
+
     @api.depends(
         "product_uom_qty",
         "price_unit",
