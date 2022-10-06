@@ -490,9 +490,19 @@
                   <group string="Amounts">
                     <field name="amount_price_gross" />
                     <field name="amount_discount_value" />
-                    <field name="amount_insurance_value" />
-                    <field name="amount_other_value" />
-                    <field name="amount_freight_value" />
+                    <field name="delivery_costs" invisible="1" />
+                    <field
+                                            name="amount_insurance_value"
+                                            attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                                        />
+                    <field
+                                            name="amount_other_value"
+                                            attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                                        />
+                    <field
+                                            name="amount_freight_value"
+                                            attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                                        />
                     <field name="amount_estimate_tax" />
                     <field name="amount_tax" />
                     <field name="amount_total" />
