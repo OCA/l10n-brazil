@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  © 2022 Engenere (https://engenere.one)
+  @author: Antônio S. Pereira Neto <neto@engenere.one>
+  @author Felipe Motter Pereira <felipe@engenere.one>
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="account_payment_line_mass_edit_form" model="ir.ui.view">
+        <field name="name">account_payment_line_mass_edit.form</field>
+        <field name="model">account.payment.line.mass.edit</field>
+        <field name="arch" type="xml">
+            <form string="Mass Editing Payment Lines">
+                <group name="main" string="New values">
+                    <field name="order_id" invisible="1" />
+                    <field name="allowedd_payment_way_ids" invisible="1" />
+                    <field name="account_payment_way_id" />
+                </group>
+                <group name="payment_lines" string="Transactions to edit">
+                    <field
+                        name="payment_line_ids"
+                        nolabel="1"
+                        options="{'no_create': True}"
+                    />
+                </group>
+                <footer>
+                    <button
+                        name="update_payment_lines"
+                        type="object"
+                        string="Apply"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" special="cancel" class="oe_link" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="account_payment_line_mass_edit_action" model="ir.actions.act_window">
+        <field name="name">Mass Editing Transactions</field>
+        <field name="res_model">account.payment.line.mass.edit</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -57,6 +57,16 @@ class BankPaymentLine(models.Model):
         help="Campo P011 do CNAB",
     )
 
+    payment_way_id = fields.Many2one(
+        comodel_name="account.payment.way",
+        string="Payment Way",
+        related="payment_line_ids.payment_way_id",
+    )
+
+    payment_way_domain = fields.Selection(
+        string="Payment Way Domain",
+        related="payment_way_id.domain",
+    )
     complementary_finality_code = fields.Char(
         string="Código de finalidade complementar",
         size=2,
@@ -150,21 +160,9 @@ class BankPaymentLine(models.Model):
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
-        """
-        This list of fields is used both to compute the grouping
-        hashcode and to copy the values from payment line
-        to bank payment line
-        The fields must have the same name on the 2 objects
-        """
-        same_fields = super().same_fields_payment_line_and_bank_payment_line()
-
-        # TODO: Implementar campo brasileiros que permitem mesclar linhas
-
-        same_fields = []  # Por segurança não vamos mesclar nada
-        #     'currency', 'partner_id',
-        #     'bank_id', 'date', 'state']
-
-        return same_fields
+        res = super().same_fields_payment_line_and_bank_payment_line()
+        res.append("payment_way_id")
+        return res
 
     # TODO: Implementar métodos para outros tipos cnab.
     #   _prepare_pagamento_bank_line_vals

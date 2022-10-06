@@ -20,6 +20,22 @@ class AccountPaymentMode(models.Model):
         "mail.thread",
     ]
 
+    account_payment_way_ids = fields.Many2many(
+        comodel_name="account.payment.way",
+        string="Payment Ways",
+        help="Allowed payment ways",
+    )
+
+    default_payment_way_domain = fields.Selection(
+        selection=[
+            ("compatible", "Compatible with the Payment Mode"),
+            ("compatible_or_null", "Compatible or Empty"),
+            ("any", "Any"),
+        ],
+        string="Payment Way on Invoice",
+        default="compatible",
+    )
+
     auto_create_payment_order = fields.Boolean(
         string="Adicionar automaticamente ao validar a fatura",
         help="Cria a ordem de pagamento automaticamente ao confirmar a fatura",

@@ -18,6 +18,11 @@
                     </group>
                 </page>
             </xpath>
+            <field name="payment_mode_id" position="attributes">
+                <attribute name="domain">
+                    [('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id), ('account_payment_way_ids', '=', invoice_payment_way_id)]
+                </attribute>
+            </field>
         </field>
     </record>
 

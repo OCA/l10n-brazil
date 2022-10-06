@@ -14,6 +14,12 @@
                 <separator />
                 <field name="auto_create_payment_order" />
             </field>
+            <group name="main" position="inside">
+                <field name="account_payment_way_ids" widget="many2many_tags" />
+            </group>
+            <field name="default_payment_mode" position="after">
+                <field name="default_payment_way_domain" />
+            </field>
             <xpath expr="//form/sheet/group[@name='note']" position="before">
                 <group
                     string="Configurações Brasileiras - CNAB"

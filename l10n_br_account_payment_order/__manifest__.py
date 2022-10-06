@@ -11,6 +11,7 @@
     "category": "Banking addons",
     "depends": [
         "l10n_br_base",
+        "l10n_br_account_payment_way",
         "account_payment_order",
         "l10n_br_account_due_list",
         "account_due_list_payment_mode",
@@ -34,6 +35,7 @@
         # Wizards
         "wizards/account_payment_line_create_view.xml",
         "wizards/account_move_line_change.xml",
+        "wizards/account_payment_line_mass_edit.xml",
         # Views
         "views/account_journal.xml",
         "views/account_payment_order.xml",

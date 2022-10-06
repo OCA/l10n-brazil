@@ -15,6 +15,15 @@
             ref="account_payment_order.account_payment_order_form"
         />
         <field name="arch" type="xml">
+            <button name="draft2open" position="after">
+                <button
+                    name="%(account_payment_line_mass_edit_action)d"
+                    type="action"
+                    string="Mass Editing Transactions"
+                    states="draft"
+                    class="oe_highlight"
+                />
+            </button>
             <field name="payment_line_ids" position="attributes">
                 <attribute
                     name="context"
@@ -57,7 +66,8 @@
             </field>
             <field name="company_id" position="after">
                 <field
-                    name="indicative_form_payment"
+                    name="account_payment_ways_ids"
+                    widget="many2many_tags"
                     attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
                 />
             </field>

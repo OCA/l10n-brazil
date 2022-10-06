@@ -2,7 +2,8 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from ..constants import (
     AVISO_FAVORECIDO,
@@ -54,6 +55,10 @@ class AccountPaymentLine(models.Model):
         help="Campo P011 do CNAB",
     )
 
+    payment_way_id = fields.Many2one(
+        comodel_name="account.payment.way",
+        string="Payment Way",
+    )
     complementary_finality_code = fields.Char(
         string="Código de finalidade complementar",
         size=2,
@@ -172,3 +177,29 @@ class AccountPaymentLine(models.Model):
             res.update({"favored_warning": mode.favored_warning})
 
         return res
+
+    def draft2open_payment_line_check(self):
+        """
+        Override to add brazilian validations
+        """
+        res = super(AccountPaymentLine, self).draft2open_payment_line_check()
+        self._check_payment_way()
+        return res
+
+    def _check_payment_way(self):
+        for rec in self:
+            if rec.payment_type != "outbound":
+                return
+            if not rec.payment_way_id:
+                raise UserError(
+                    _(f"Payment Way is missing. \nPayment Line: {rec.name}")
+                )
+            if rec.payment_way_id not in rec.payment_mode_id.account_payment_way_ids:
+                raise UserError(
+                    _(
+                        "Payment Way not allowed for the specified payment mode."
+                        f"\nPayment Way: {rec.payment_way_id.name}"
+                        f"\nPayment Mode: {rec.payment_mode_id.name}"
+                        f"\nPayment Line: {rec.name}"
+                    )
+                )

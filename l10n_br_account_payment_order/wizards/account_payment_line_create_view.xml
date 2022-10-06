@@ -9,10 +9,19 @@
             ref="account_payment_order.account_payment_line_create_form"
         />
         <field name="arch" type="xml">
+            <field name="payment_mode" position="after">
+                <field name="payment_way_domain" />
+            </field>
             <field name="allow_blocked" position="after">
                 <field name="allow_error" />
                 <field name="allow_rejected" />
             </field>
+            <xpath
+                expr="//field[@name='move_line_ids']/tree/field[@name='partner_id']"
+                position="after"
+            >
+                <field name="payment_way_id" />
+            </xpath>
         </field>
     </record>
 </odoo>

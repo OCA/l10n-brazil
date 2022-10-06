@@ -92,6 +92,7 @@
                         attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
                     />
                     <field name="favored_warning" />
+                    <field name="payment_way_id" />
                     <field name="payment_method_code" invisible="1" />
                 </group>
             </xpath>

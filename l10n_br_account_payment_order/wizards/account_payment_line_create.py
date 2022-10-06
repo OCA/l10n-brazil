@@ -5,7 +5,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
@@ -14,6 +14,15 @@ class AccountPaymentLineCreate(models.TransientModel):
     allow_error = fields.Boolean(
         string="Permitir linhas com erro na exportação, "
         "já incluidas em outras ordens",
+    )
+
+    payment_way_domain = fields.Selection(
+        selection=[
+            ("compatible", "Compatible with the Payment Mode"),
+            ("compatible_or_null", "Compatible or Empty"),
+            ("any", "Any"),
+        ],
+        string="Payment Way",
     )
 
     allow_rejected = fields.Boolean(
@@ -124,4 +133,41 @@ class AccountPaymentLineCreate(models.TransientModel):
         #         payline.move_line_id.id for payline in paylines
         #     ]
         #     domain += [('id', 'not in', move_lines_ids)]
+
+        if self.payment_way_domain:
+            if self.payment_way_domain == "compatible":
+                domain.append(
+                    (
+                        "payment_way_id",
+                        "in",
+                        self.order_id.payment_mode_id.account_payment_way_ids.ids,
+                    )
+                )
+            elif self.payment_way_domain == "compatible_or_null":
+                domain += [
+                    "|",
+                    ("payment_way_id", "=", False),
+                    (
+                        "payment_way_id",
+                        "in",
+                        self.order_id.payment_mode_id.account_payment_way_ids.ids,
+                    ),
+                ]
         return domain
+
+    @api.model
+    def default_get(self, field_list):
+        res = super(AccountPaymentLineCreate, self).default_get(field_list)
+        context = self.env.context
+        assert (
+            context.get("active_model") == "account.payment.order"
+        ), "active_model should be payment.order"
+        assert context.get("active_id"), "Missing active_id in context !"
+        order = self.env["account.payment.order"].browse(context["active_id"])
+        mode = order.payment_mode_id
+        res.update(
+            {
+                "payment_way_domain": mode.default_payment_way_domain,
+            }
+        )
+        return res

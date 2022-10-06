@@ -10,6 +10,7 @@
         />
         <field name="arch" type="xml">
             <field name="name" position="after">
+                <field name="payment_way_id" optional="show" />
                 <field name="mov_instruction_code_id" />
             </field>
         </field>
