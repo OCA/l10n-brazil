@@ -87,9 +87,19 @@
                   <page name="fiscal_line_extra_info" string="Extra Info" />
                   <page name="others" string="Outros Custos">
                       <group>
-                          <field name="insurance_value" />
-                          <field name="other_value" />
-                          <field name="freight_value" />
+                          <field name="delivery_costs" invisible="1" />
+                          <field
+                            name="freight_value"
+                            attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                        />
+                          <field
+                            name="insurance_value"
+                            attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                        />
+                          <field
+                            name="other_value"
+                            attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                        />
                       </group>
                   </page>
                   <page name="accounting" string="Accounting">
@@ -105,20 +115,24 @@
                   </page>
               </xpath>
               <xpath expr="//field[@name='amount_untaxed']" position="after">
+                  <field name="delivery_costs" invisible="1" />
                   <field
                     name="amount_freight_value"
-                    widget="monetary"
+                    widget='monetary'
                     options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                 />
                   <field
                     name="amount_insurance_value"
-                    widget="monetary"
+                    widget='monetary'
                     options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                 />
                   <field
                     name="amount_other_value"
-                    widget="monetary"
+                    widget='monetary'
                     options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                 />
               </xpath>
           </field>
