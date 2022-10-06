@@ -149,6 +149,16 @@
                                 </group>
                             </group>
                         </page>
+                        <page name="delivery_costs" string="Delivery Costs">
+                            <group>
+                                <group>
+                                    <field name="delivery_costs" />
+                                    <div class="text-muted">
+                                        Define if Delivery Costs (Freight, Insurance and Other Costs) should be informed by Line or by Total
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
                         <page name="edoc" string="Documentos Eletrônicos">
                             <group name="edoc">
                                 <group>
