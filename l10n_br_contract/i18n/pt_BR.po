@@ -375,16 +375,6 @@ msgid "Contract Line"
 msgstr "Linha de Contrato"
 
 #. module: l10n_br_contract
-#: code:addons/l10n_br_contract/models/contract_contract.py:0
-#, python-format
-msgid ""
-"Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
-"\"%s\">Invoice</a>"
-msgstr ""
-"Contrato faturado manualmente: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
-"\"%s\">Fatura</a>"
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__country_id
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__country_id
 msgid "Country"
@@ -1377,6 +1367,13 @@ msgstr "Usado nos documentos fiscais"
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
+
+#~ msgid ""
+#~ "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
+#~ "\"%s\">Invoice</a>"
+#~ msgstr ""
+#~ "Contrato faturado manualmente: <a href=\"#\" data-oe-model=\"%s\" data-oe-"
+#~ "id=\"%s\">Fatura</a>"
 
 #~ msgid "Default Fiscal Operation"
 #~ msgstr "Operação Fiscal Padrão"
