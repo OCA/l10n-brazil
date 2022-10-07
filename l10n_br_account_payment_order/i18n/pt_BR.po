@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-09-16 22:07+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2022-10-07 20:10+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -713,7 +713,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.cnab_view_move_line_form_inherit
 msgid "Amount"
-msgstr ""
+msgstr "Total"
 
 #. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_order_form
@@ -2461,7 +2461,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_partial_reconcile
 msgid "Partial Reconcile"
-msgstr ""
+msgstr "Reconciliação Parcial"
 
 #. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.view_account_invoice_filter_inherit
@@ -2609,7 +2609,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Usuário Responsável"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__cnab_return_line_ids
@@ -2624,7 +2624,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_sms_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Erro de entrega de SMS"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__discount_value
@@ -2652,7 +2652,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_sending_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_sending_code_id
 msgid "Sending Movement Instruction Code"
-msgstr ""
+msgstr "Enviando Código de Instrução de Movimento"
 
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
@@ -2713,7 +2713,7 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/ir_attachment.py:0
 #, python-format
 msgid "Sorry, you are not allowed to delete the attachment."
-msgstr ""
+msgstr "Desculpe, você não tem permissão para excluir o anexo."
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__activity_state
