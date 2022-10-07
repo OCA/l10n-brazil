@@ -83,7 +83,7 @@ class Comment(models.Model):
             return self._search(
                 expression.AND([domain, args]),
                 limit=limit,
-                access_rights_uid=name_get_uid
+                access_rights_uid=name_get_uid,
             )
 
         return super()._name_search(
