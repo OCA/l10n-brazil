@@ -162,20 +162,6 @@ msgid "Buyer Presence"
 msgstr "Presença do Comprador"
 
 #. module: l10n_br_sale
-#: code:addons/l10n_br_sale/models/res_company.py:0
-#: model:ir.model.fields.selection,name:l10n_br_sale.selection__res_company__delivery_costs__line
-#, python-format
-msgid "By Line"
-msgstr "Por Linha"
-
-#. module: l10n_br_sale
-#: code:addons/l10n_br_sale/models/res_company.py:0
-#: model:ir.model.fields.selection,name:l10n_br_sale.selection__res_company__delivery_costs__total
-#, python-format
-msgid "By Total"
-msgstr "Por Total"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cest_id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__cest_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
@@ -474,30 +460,18 @@ msgid "Customhouse Charges"
 msgstr "Encargos alfandegários"
 
 #. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
-msgid "Define if Delivery Costs should be informed by Line or by Total"
-msgstr ""
-"Definir se os Custos de Entrega devem ser informados por Linha ou por Total"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,help:l10n_br_sale.field_res_company__delivery_costs
-#: model:ir.model.fields,help:l10n_br_sale.field_res_config_settings__delivery_costs
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__delivery_costs
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__delivery_costs
 msgid ""
-"Define if costs of Insurance, Freight and Other Costs should be informed in "
-"Line or Total."
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
 msgstr ""
-"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados em "
-"Linha ou Total."
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__delivery_costs
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__delivery_costs
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__delivery_costs
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__delivery_costs
-msgid "Delivery costs should be define in Line or Total."
-msgstr "Os custos de entrega devem ser definidos em Linha ou Total."
+msgid "Delivery Costs"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ii_customhouse_charges
@@ -1642,11 +1616,6 @@ msgstr ""
 "no menu Configuração)"
 
 #. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
-msgid "The Delivery Costs should be informed by Line or by Total ?"
-msgstr "Os Custos de Entrega devem ser informados por Linha ou por Total ?"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_total
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_total
 msgid "Total"
@@ -1681,6 +1650,30 @@ msgstr "Usado nos documentos fiscais"
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
+
+#~ msgid "By Line"
+#~ msgstr "Por Linha"
+
+#~ msgid "By Total"
+#~ msgstr "Por Total"
+
+#~ msgid "Define if Delivery Costs should be informed by Line or by Total"
+#~ msgstr ""
+#~ "Definir se os Custos de Entrega devem ser informados por Linha ou por "
+#~ "Total"
+
+#~ msgid ""
+#~ "Define if costs of Insurance, Freight and Other Costs should be informed "
+#~ "in Line or Total."
+#~ msgstr ""
+#~ "Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
+#~ "em Linha ou Total."
+
+#~ msgid "Delivery costs should be define in Line or Total."
+#~ msgstr "Os custos de entrega devem ser definidos em Linha ou Total."
+
+#~ msgid "The Delivery Costs should be informed by Line or by Total ?"
+#~ msgstr "Os Custos de Entrega devem ser informados por Linha ou por Total ?"
 
 #~ msgid "Copiar Observação no documentos fiscal"
 #~ msgstr "Copiar Observação no documentos fiscal"
