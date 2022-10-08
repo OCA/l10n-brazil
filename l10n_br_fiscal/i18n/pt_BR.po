@@ -1317,6 +1317,16 @@ msgid "Buyer Presence"
 msgstr "Presença do Comprador"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__delivery_costs__line
+msgid "By Line"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__delivery_costs__total
+msgid "By Total"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CX
 msgid "CAIXA"
 msgstr "CAIXA"
@@ -2830,8 +2840,37 @@ msgid "Default Taxes"
 msgstr "Taxas padrão"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid ""
+"Define if Delivery Costs (Freight, Insurance and Other Costs) should be "
+"informed by Line or by Total"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__delivery_costs
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__delivery_costs
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__delivery_costs
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__delivery_costs
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_config_settings__delivery_costs
+msgid ""
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Delivery"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__delivery_costs
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "Delivery Costs"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9042,6 +9081,11 @@ msgstr "Comentário de teste"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.comment_form
 msgid "Test Message"
 msgstr "Mensagem de teste"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "The Delivery Costs should be informed by Line or by Total ?"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_closing_fiscal_closing_unique
