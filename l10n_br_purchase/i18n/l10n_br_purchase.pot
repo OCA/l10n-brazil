@@ -390,6 +390,20 @@ msgid "Default Fiscal Operation for Purchase"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__delivery_costs
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__delivery_costs
+msgid ""
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__delivery_costs
+msgid "Delivery Costs"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_customhouse_charges
 msgid "Despesas Aduaneiras"
 msgstr ""
