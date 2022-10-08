@@ -386,6 +386,14 @@ class ResCompany(models.Model):
         ondelete="restrict",
     )
 
+    delivery_costs = fields.Selection(
+        selection=[("line", "By Line"), ("total", "By Total")],
+        string="Delivery Costs",
+        help="Define if costs of Insurance, Freight and Other Costs"
+        " should be informed by Line or by Total.",
+        default="line",
+    )
+
     def _del_tax_definition(self, tax_domain):
         tax_def = self.tax_definition_ids.filtered(
             lambda d: d.tax_group_id.tax_domain != tax_domain
