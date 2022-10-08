@@ -417,6 +417,18 @@ msgid "Default Contract Sale Fiscal Operation"
 msgstr "Padrão de Operação Fiscal de Contrato de Vendas"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__delivery_costs
+msgid ""
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__delivery_costs
+msgid "Delivery Costs"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_customhouse_charges
 #, fuzzy
 msgid "Despesas Aduaneiras"
