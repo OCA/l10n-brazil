@@ -388,6 +388,21 @@ msgid "Default Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__delivery_costs
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__delivery_costs
+msgid ""
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__delivery_costs
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Delivery Costs"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_customhouse_charges
 msgid "Despesas Aduaneiras"
 msgstr ""
