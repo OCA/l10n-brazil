@@ -45,7 +45,9 @@ class AbstractSpecMixin(models.AbstractModel):
         model = self.env[model_name]
         attrs = model.with_context(dry_run=dry_run).build_attrs(node)
         if dry_run:
-            return model.new(attrs)
+            attrs = model._add_missing_default_values(attrs)  # required on v12
+            rec = model.new(attrs)
+            return rec
         else:
             return model.create(attrs)
 
