@@ -272,8 +272,8 @@ class AbstractSpecMixin(models.AbstractModel):
                 if match_ids:
                     if len(match_ids) > 1:
                         _logger.warning(
-                            "!! WARNING more than 1 record found!! model: %s, domain: %s"
-                            % (model, domain)
+                            "!! WARNING more than 1 record found!"
+                            "model: %s, domain: %s" % (model, domain)
                         )
                     return match_ids[0].id
         return False
