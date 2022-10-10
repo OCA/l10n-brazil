@@ -78,7 +78,7 @@ class SpecModel(models.AbstractModel):
                         )
 
                     cls._map_concrete(parent, cls._name)
-                    if not hasattr(pool[parent], "build"):  # FIXME BRITTLE
+                    if not hasattr(pool[parent], "build_from_binding"):
                         pool[parent]._inherit = super_parents + ["spec.mixin"]
                         pool[parent].__bases__ = (pool["spec.mixin"],) + pool[
                             parent
