@@ -2,12 +2,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 {
-    "name": "Brazilian Localization Delivery",
-    "summary": """
-        This module changes the delivery model strategy to match brazilian
-        standards.""",
+    "name": "delivery module Brazilian Localization",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
+    "maintainers": ["renatonlima", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "14.0.1.0.0",
     "depends": [
