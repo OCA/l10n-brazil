@@ -7,22 +7,26 @@
         <field name="model">l10n_br_delivery.carrier.vehicle</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <form string="Veículo">
-                <separator colspan="4" string="Transportadora" />
-                <field name="carrier_id" colspan="4" />
-                <separator colspan="4" string="Dados do Veículo" />
-                <field name="name" />
-                <field name="active" />
-                <field name="description" />
-                <field name="plate" />
-                <field name="driver" />
-                <field name="rntc_code" />
-                <field name="country_id" />
-                <field name="state_id" />
-                <field name="city_id" />
-                <field name="manufacture_year" />
-                <field name="model_year" />
-                <field name="type" />
+            <form string="Vehicle">
+                <sheet>
+                    <group name="shipping_company" string="Shipping Company">
+                        <field name="carrier_id" />
+                    </group>
+                    <group string="Vehicle Data">
+                        <field name="name" />
+                        <field name="active" />
+                        <field name="description" />
+                        <field name="plate" />
+                        <field name="driver" />
+                        <field name="rntc_code" />
+                        <field name="country_id" />
+                        <field name="state_id" />
+                        <field name="city_id" />
+                        <field name="manufacture_year" />
+                        <field name="model_year" />
+                        <field name="type" />
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
@@ -32,7 +36,7 @@
         <field name="model">l10n_br_delivery.carrier.vehicle</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Veículo">
+            <tree string="Vehicle">
                 <field colspan="4" name="name" />
                 <field name="plate" />
                 <field name="manufacture_year" />
@@ -44,7 +48,7 @@
         model="ir.actions.act_window"
         id="action_l10n_br_delivery_carrier_vehicle_form"
     >
-        <field name="name">Veículo</field>
+        <field name="name">Vehicle</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_delivery.carrier.vehicle</field>
         <field name="view_mode">tree,form</field>
@@ -52,7 +56,7 @@
     </record>
 
     <menuitem
-        name="Veículo"
+        name="Vehicle"
         id="menu_l10n_br_delivery_carrier_vehicle_form"
         parent="delivery.menu_delivery"
         action="action_l10n_br_delivery_carrier_vehicle_form"
