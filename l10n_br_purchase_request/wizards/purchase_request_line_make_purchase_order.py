@@ -16,7 +16,11 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             if purchase.fiscal_operation_id:
                 for line in purchase.order_line:
                     description = line.name
+                    price_unit = line.price_unit
                     line._onchange_product_id_fiscal()
                     line._onchange_fiscal_tax_ids()
                     line.name = description
+                    line.price_unit = price_unit
+                    line.fiscal_price = price_unit
+                    line._compute_amount()
         return res
