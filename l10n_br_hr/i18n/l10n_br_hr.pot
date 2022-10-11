@@ -533,6 +533,11 @@ msgid "Days Before Receipt"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
+msgid "Default delivery method used in sales orders."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_deficiency
 msgid "Deficiencies"
 msgstr ""
@@ -552,6 +557,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__trust
 msgid "Degree of trust you have in this debtor"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
+msgid "Delivery Method"
 msgstr ""
 
 #. module: l10n_br_hr
