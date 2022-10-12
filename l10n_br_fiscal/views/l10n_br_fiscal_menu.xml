@@ -237,16 +237,6 @@
         sequence="900"
     />
 
-    <!-- Fiscal Closing -->
-    <menuitem
-        id="fiscal_closing_menu"
-        name="Fiscal Closing"
-        parent="accountant_menu"
-        action="fiscal_closing_action"
-        groups="l10n_br_fiscal.group_manager"
-        sequence="99"
-    />
-
     <!-- Configuration Menu -->
     <menuitem
         id="configuration_menu"
