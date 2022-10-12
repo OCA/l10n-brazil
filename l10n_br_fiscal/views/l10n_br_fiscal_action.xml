@@ -708,13 +708,6 @@
         <field name="context">{'module': 'l10n_br_fiscal'}</field>
     </record>
 
-    <!-- Fiscal Closing -->
-    <record id="fiscal_closing_action" model="ir.actions.act_window">
-        <field name="name">Fiscal Closing</field>
-        <field name="res_model">l10n_br_fiscal.closing</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
     <!-- City Taxation Code -->
     <record id="city_taxation_code_action" model="ir.actions.act_window">
         <field name="name">City Taxation Code</field>

@@ -65,7 +65,6 @@ from . import res_country_state
 from . import uom_uom
 from . import uom_uom_alternative
 from . import operation_dashboard
-from . import closing
 from . import subsequent_operation
 from . import subsequent_document
 from . import document_email
