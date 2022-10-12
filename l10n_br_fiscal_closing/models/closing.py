@@ -15,7 +15,7 @@ from datetime import datetime
 from odoo import _, api, fields, models
 from odoo.exceptions import RedirectWarning
 
-from ..constants.fiscal import (
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_CFE,
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
     MODELO_FISCAL_EMISSAO_PRODUTO,
