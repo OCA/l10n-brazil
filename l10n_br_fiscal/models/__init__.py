@@ -70,6 +70,3 @@ from . import subsequent_operation
 from . import subsequent_document
 from . import document_email
 from . import city_taxation_code
-
-from . import dfe
-from . import mdfe
