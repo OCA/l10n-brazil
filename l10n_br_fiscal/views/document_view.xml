@@ -370,6 +370,9 @@
             <page name="finance" string="Finance">
             </page>
             <page name="delivery" string="Delivery">
+              <group>
+                <field name="force_compute_delivery_costs_by_total" />
+              </group>
             </page>
             <page name="others" string="Others">
                 <group>
@@ -493,15 +496,15 @@
                     <field name="delivery_costs" invisible="1" />
                     <field
                                             name="amount_insurance_value"
-                                            attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                                            attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
                                         />
                     <field
                                             name="amount_other_value"
-                                            attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                                            attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
                                         />
                     <field
                                             name="amount_freight_value"
-                                            attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                                            attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
                                         />
                     <field name="amount_estimate_tax" />
                     <field name="amount_tax" />
