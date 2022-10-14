@@ -95,6 +95,9 @@ class SaleOrderLine(models.Model):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs",
     )
+    force_compute_delivery_costs_by_total = fields.Boolean(
+        related="order_id.force_compute_delivery_costs_by_total"
+    )
 
     # Fields compute need parameter compute_sudo
     price_subtotal = fields.Monetary(compute_sudo=True)
