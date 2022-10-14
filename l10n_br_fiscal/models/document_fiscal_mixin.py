@@ -422,3 +422,7 @@ class FiscalDocumentMixin(models.AbstractModel):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs",
     )
+
+    force_compute_delivery_costs_by_total = fields.Boolean(
+        "Force compute delivery costs by total", default=False
+    )
