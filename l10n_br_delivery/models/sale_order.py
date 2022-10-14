@@ -40,6 +40,10 @@ class SaleOrder(models.Model):
         for order in self:
             order.carrier_id = carrier.id
             order.amount_freight_value = amount
+            if order.delivery_costs == "line":
+                order.delivery_costs = "total"
+                order.amount_freight_value = amount
+                order.delivery_costs = "line"
         return True
 
     def _compute_amount_gross_weight(self):
