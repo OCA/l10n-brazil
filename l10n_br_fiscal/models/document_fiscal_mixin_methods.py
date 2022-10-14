@@ -53,7 +53,10 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                             values[field] += line[field.replace("amount_", "")]
 
             # Valores definidos pelo Total e não pela Linha
-            if doc.company_id.delivery_costs == "total":
+            if (
+                doc.company_id.delivery_costs == "total"
+                or doc.force_compute_delivery_costs_by_total
+            ):
                 values["amount_freight_value"] = doc.amount_freight_value
                 values["amount_insurance_value"] = doc.amount_insurance_value
                 values["amount_other_value"] = doc.amount_other_value
@@ -97,7 +100,10 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
     def _inverse_amount_freight(self):
         for record in self.filtered(lambda doc: doc._get_amount_lines()):
-            if record.company_id.delivery_costs == "total":
+            if (
+                record.delivery_costs == "total"
+                or record.force_compute_delivery_costs_by_total
+            ):
 
                 amount_freight_value = record.amount_freight_value
                 if all(record._get_amount_lines().mapped("freight_value")):
@@ -138,7 +144,10 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
     def _inverse_amount_insurance(self):
         for record in self.filtered(lambda doc: doc._get_amount_lines()):
-            if record.company_id.delivery_costs == "total":
+            if (
+                record.delivery_costs == "total"
+                or record.force_compute_delivery_costs_by_total
+            ):
 
                 amount_insurance_value = record.amount_insurance_value
                 if all(record._get_amount_lines().mapped("insurance_value")):
@@ -179,7 +188,10 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
     def _inverse_amount_other(self):
         for record in self.filtered(lambda doc: doc._get_amount_lines()):
-            if record.company_id.delivery_costs == "total":
+            if (
+                record.delivery_costs == "total"
+                or record.force_compute_delivery_costs_by_total
+            ):
                 amount_other_value = record.amount_other_value
                 if all(record._get_amount_lines().mapped("other_value")):
                     amount_other_old = sum(
