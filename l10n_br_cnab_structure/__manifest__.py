@@ -8,7 +8,7 @@
     "version": "14.0.0.0.0",
     "author": "Engenere,Odoo Community Association (OCA)",
     "maintainers": ["netosjb", "felipemotter"],
-    "website": "https://engenere.one/",
+    "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
     "depends": [
         "l10n_br_account_payment_order",
@@ -34,4 +34,5 @@
     ],
     "demo": [],
     "post_init_hook": "post_init_hook",
+    "external_dependencies": {"python": ["yaml"]},
 }
