@@ -9,6 +9,7 @@ nfelib
 num2words
 phonenumbers
 pycep_correios
+pyyaml
+unidecode
 workalendar
 xmldiff
-yaml

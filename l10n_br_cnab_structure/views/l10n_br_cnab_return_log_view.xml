@@ -30,11 +30,15 @@
         <field name="arch" type="xml">
             <form edit="false">
                 <header>
-                    <button name="action_confirm_return_log" id="confirm_return_log_btn"
-                            type="object" class="oe_highlight"
-                            string="Confirm"
-                            attrs="{'invisible': [('state', '=', 'confirmed')]}"
-                            groups="l10n_br_account_payment_order.group_cnab_manager"/>
+                    <button
+                        name="action_confirm_return_log"
+                        id="confirm_return_log_btn"
+                        type="object"
+                        class="oe_highlight"
+                        string="Confirm"
+                        attrs="{'invisible': [('state', '=', 'confirmed')]}"
+                        groups="l10n_br_account_payment_order.group_cnab_manager"
+                    />
                     <field name="state" widget="statusbar" readonly="1" />
                 </header>
                 <sheet>
@@ -70,14 +74,23 @@
                                 >
                                     <field name="lot_id" optional="hide" />
                                     <field name="segment" optional="hide" />
-                                    <field name="bank_payment_line_id" optional="hide" />
+                                    <field
+                                        name="bank_payment_line_id"
+                                        optional="hide"
+                                    />
                                     <field name="partner_name" optional="show" />
                                     <field name="due_date" optional="hide" />
-                                    <field name="expected_payment_date" optional="show" />
+                                    <field
+                                        name="expected_payment_date"
+                                        optional="show"
+                                    />
                                     <field name="real_payment_date" optional="show" />
                                     <field name="own_number" optional="hide" />
                                     <field name="your_number" optional="show" />
-                                    <field name="company_title_identification" optional="show" />
+                                    <field
+                                        name="company_title_identification"
+                                        optional="show"
+                                    />
                                     <field name="currency_type" optional="hide" />
                                     <field name="title_value" optional="show" />
                                     <field name="payment_value" optional="show" />
@@ -166,18 +179,24 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="l10n_br_inbound_cnab_return_log_action_tree">
-        <field name="sequence" eval="1"/>
+    <record
+        model="ir.actions.act_window.view"
+        id="l10n_br_inbound_cnab_return_log_action_tree"
+    >
+        <field name="sequence" eval="1" />
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="l10n_br_cnab_return_log_tree_view_structure"/>
-        <field name="act_window_id" ref="l10n_br_inbound_cnab_return_log_action"/>
+        <field name="view_id" ref="l10n_br_cnab_return_log_tree_view_structure" />
+        <field name="act_window_id" ref="l10n_br_inbound_cnab_return_log_action" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="l10n_br_inbound_cnab_return_log_action_form">
-        <field name="sequence" eval="2"/>
+    <record
+        model="ir.actions.act_window.view"
+        id="l10n_br_inbound_cnab_return_log_action_form"
+    >
+        <field name="sequence" eval="2" />
         <field name="view_mode">form</field>
-        <field name="view_id" ref="l10n_br_cnab_return_log_form_view_structure"/>
-        <field name="act_window_id" ref="l10n_br_inbound_cnab_return_log_action"/>
+        <field name="view_id" ref="l10n_br_cnab_return_log_form_view_structure" />
+        <field name="act_window_id" ref="l10n_br_inbound_cnab_return_log_action" />
     </record>
 
     <record model="ir.actions.act_window" id="l10n_br_outbound_cnab_return_log_action">
@@ -186,17 +205,23 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="l10n_br_outbound_cnab_return_log_action_tree">
-        <field name="sequence" eval="1"/>
+    <record
+        model="ir.actions.act_window.view"
+        id="l10n_br_outbound_cnab_return_log_action_tree"
+    >
+        <field name="sequence" eval="1" />
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="l10n_br_cnab_return_log_tree_view_structure"/>
-        <field name="act_window_id" ref="l10n_br_outbound_cnab_return_log_action"/>
+        <field name="view_id" ref="l10n_br_cnab_return_log_tree_view_structure" />
+        <field name="act_window_id" ref="l10n_br_outbound_cnab_return_log_action" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="l10n_br_outbound_cnab_return_log_action_form">
-        <field name="sequence" eval="2"/>
+    <record
+        model="ir.actions.act_window.view"
+        id="l10n_br_outbound_cnab_return_log_action_form"
+    >
+        <field name="sequence" eval="2" />
         <field name="view_mode">form</field>
-        <field name="view_id" ref="l10n_br_cnab_return_log_form_view_structure"/>
-        <field name="act_window_id" ref="l10n_br_outbound_cnab_return_log_action"/>
+        <field name="view_id" ref="l10n_br_cnab_return_log_form_view_structure" />
+        <field name="act_window_id" ref="l10n_br_outbound_cnab_return_log_action" />
     </record>
 </odoo>

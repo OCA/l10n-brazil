@@ -3,7 +3,8 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
+
 from odoo.addons.l10n_br_base.models.res_partner_pix import PartnerPix
 
 
