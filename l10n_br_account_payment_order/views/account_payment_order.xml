@@ -15,6 +15,15 @@
             ref="account_payment_order.account_payment_order_form"
         />
         <field name="arch" type="xml">
+            <button name="draft2open" position="after">
+                <button
+                    name="%(account_payment_line_mass_edit_action)d"
+                    type="action"
+                    string="Mass Editing Transactions"
+                    states="draft"
+                    class="oe_highlight"
+                />
+            </button>
             <field name="payment_line_ids" position="attributes">
                 <attribute
                     name="context"
@@ -37,15 +46,6 @@
             </div>
             <field name="bank_line_count" position="after">
                 <field name="payment_method_code" invisible="1" />
-                <!-- campo referente ao lote só existe no 240 -->
-                <field
-                    name="service_type"
-                    attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
-                />
-                <field
-                    name="release_form"
-                    attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
-                />
                 <field
                     name="code_convetion"
                     attrs="{'invisible': [('payment_type', '=', 'outbound')]}"
@@ -57,7 +57,8 @@
             </field>
             <field name="company_id" position="after">
                 <field
-                    name="indicative_form_payment"
+                    name="account_payment_ways_ids"
+                    widget="many2many_tags"
                     attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
                 />
             </field>
