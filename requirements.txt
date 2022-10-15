@@ -12,3 +12,4 @@ phonenumbers
 pycep_correios
 workalendar
 xmldiff
+yaml
