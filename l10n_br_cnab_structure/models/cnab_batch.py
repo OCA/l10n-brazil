@@ -3,9 +3,10 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from ..cnab.cnab import CnabBatch, CnabDetailRecord, CnabLine, RecordType
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
+
+from ..cnab.cnab import CnabBatch, CnabDetailRecord, RecordType
 
 
 class CNABBatch(models.Model):
