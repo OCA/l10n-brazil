@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_base_invoice_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_payment_way.invoice.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="priority">199</field>
+        <field name="arch" type="xml">
+            <field name="ref" position="after">
+                <field
+                    name="invoice_payment_way_id"
+                    attrs="{'invisible': ['|', ('country_code','!=', 'BR'),
+                ('move_type', 'not in', ['out_invoice', 'out_refund', 'in_invoice', 'in_refund'])]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
