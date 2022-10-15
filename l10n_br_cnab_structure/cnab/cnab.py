@@ -3,10 +3,8 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import yaml
-from dataclasses import fields
-from typing import Dict, List
 from enum import Enum
+from typing import List
 
 
 class RecordType(Enum):
