@@ -22,7 +22,7 @@
 "l10n_br_cnab_structure.cnab_itau_240_header_167_171","UNIDADE DE DENSIDADE","DENSIDADE DE GRAVAÇÃO DO ARQUIVO","167","171","0","Numeric","","l10n_br_cnab_structure.cnab_itau_240_header","","","","","",""
 "l10n_br_cnab_structure.cnab_itau_240_header_172_240","BRANCOS","COMPLEMENTO DE REGISTRO","172","240","0","Alphanumeric","","l10n_br_cnab_structure.cnab_itau_240_header","","","","","",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_1_3","CÓDIGO DO BANCO","CÓDIGO BANCO NA COMPENSAÇÃO","1","3","0","Numeric","341","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","company_partner_bank_id.bank_id.code_bc","","",""
-"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_4_7","CÓDIGO DO LOTE","LOTE IDENTIFICAÇÃO DE PAGTOS","4","7","0","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","seq_batch","","seq_batch","",""
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_4_7","CÓDIGO DO LOTE","LOTE IDENTIFICAÇÃO DE PAGTOS","4","7","0","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","seq_batch","","","seq_number",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_8_8","TIPO DE REGISTRO","REGISTRO HEADER DE LOTE","8","8","0","Numeric","1","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","","","","",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_9_9","TIPO DE OPERAÇÃO","TIPO DA OPERAÇÃO","9","9","0","Alphanumeric","C","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","C=CRÉDITO","","","","",""
 "l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_10_11","TIPO DE PAGAMENTO","TIPO DE PAGTO","10","11","0","Numeric","","l10n_br_cnab_structure.cnab_itau_240_pagamentos_header","","patment_type_code","","","",""
