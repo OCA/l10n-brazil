@@ -56,7 +56,8 @@ class FieldSelectWizard(models.TransientModel):
             if self.current_view == "return" and self.notation_field:
                 raise UserError(
                     _(
-                        "For the return it is not allowed to map sub-fields in more than one level."
+                        "For the return it is not allowed to map "
+                        "sub-fields in more than one level."
                     )
                 )
             self.notation_field = self.notation_field or ""

@@ -4,11 +4,11 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import json
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..cnab.cnab import CnabLine
-from odoo.tools.safe_eval import safe_eval
 
 
 class CNABLine(models.Model):
@@ -44,7 +44,8 @@ class CNABLine(models.Model):
     content_dest_model_id = fields.Many2one(
         comodel_name="ir.model",
         string="Content Destination",
-        help="Related model that will provide the destination of the contents of return CNAB files.",
+        help="Related model that will provide the destination"
+        " of the contents of return CNAB files.",
         compute="_compute_dest_source_model_id",
         states={"draft": [("readonly", False)]},
     )

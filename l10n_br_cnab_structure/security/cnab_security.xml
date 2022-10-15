@@ -9,7 +9,10 @@
 
     <record id="group_cnab_constructor" model="res.groups">
         <field name="name">CNAB Constructor</field>
-        <field name="category_id" ref="l10n_br_account_payment_order.module_category_cnab" />
+        <field
+            name="category_id"
+            ref="l10n_br_account_payment_order.module_category_cnab"
+        />
     </record>
 
     <record id="base.user_admin" model="res.users">

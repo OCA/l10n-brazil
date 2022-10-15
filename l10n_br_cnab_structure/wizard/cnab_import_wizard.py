@@ -1,10 +1,11 @@
 # Copyright 2022 Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import base64
+from io import StringIO
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from io import StringIO
-import base64
 
 
 class CNABImportWizard(models.TransientModel):
@@ -38,7 +39,8 @@ class CNABImportWizard(models.TransientModel):
     )
     cnab_structure_id = fields.Many2one(
         comodel_name="l10n_br_cnab.structure",
-        domain="[('bank_id', '=', bank_id),('payment_method_id', 'in', payment_method_ids),('state', '=', 'approved')]",
+        domain="[('bank_id', '=', bank_id),('payment_method_id', "
+        "'in', payment_method_ids),('state', '=', 'approved')]",
     )
     cnab_format = fields.Char(
         related="cnab_structure_id.cnab_format",
@@ -82,7 +84,10 @@ class CNABImportWizard(models.TransientModel):
                 record.payment_method_ids = [(5, 0, 0)]
 
     def _get_conf_positions_240(self):
-        "Return Start and End position of configuration files. Values pre defined: bank, record_type, batch, payment_way, detail or segment."
+        """
+        Return Start and End position of configuration files.
+        Values pre defined: bank, record_type, batch, payment_way, detail or segment.
+        """
         structure_id = self.cnab_structure_id
         start_pos = {
             "bank": structure_id.conf_bank_start_pos - 1,
@@ -115,7 +120,8 @@ class CNABImportWizard(models.TransientModel):
 
     def _get_content(self, line, conf_field):
         """
-        Get content of configuration field from CNAB line. Values pre defined: bank, record_type, batch, payment_way, detail or segment.
+        Get content of configuration field from CNAB line.
+        Values pre defined: bank, record_type, batch, payment_way, detail or segment.
         """
         start_pos, end_pos = self._get_conf_positions_240()
         return line[start_pos[conf_field] : end_pos[conf_field]]
@@ -133,7 +139,8 @@ class CNABImportWizard(models.TransientModel):
         if bank_line != bank_structure:
             raise UserError(
                 _(
-                    f"The bank {bank_line} from file is different of the bank os selected structure({bank_structure})."
+                    f"The bank {bank_line} from file is different of "
+                    f"the bank os selected structure({bank_structure})."
                 )
             )
 
@@ -146,11 +153,13 @@ class CNABImportWizard(models.TransientModel):
 
     def _filter_lines(self, lines, conf_field, value):
         """
-        Returns CNAB lines filtered by specific values of a configuration field. This fields are set in cnab structure.
+        Returns CNAB lines filtered by specific values of a configuration field.
+        This fields are set in cnab structure.
 
         Args:
             lines (List): A list of strings of CNAB lines.
-            conf_field (string): The name of the configuration field: bank, record_type, batch, payment_way, detail or segment.
+            conf_field (string): The name of the configuration field:
+                bank, record_type, batch, payment_way, detail or segment.
             value (string, int): The value of conf_field to filter.
         Returns:
             List: A list of CNAB lines.
@@ -169,7 +178,8 @@ class CNABImportWizard(models.TransientModel):
 
         Args:
             lines (List): A list of strings of CNAB lines.
-            type_name (string): Name of type: header_file, trailer_file, header_batch, trailer_batch or detail.
+            type_name (string): Name of type:
+                header_file, trailer_file, header_batch, trailer_batch or detail.
         Returns:
             List: A list of CNAB lines.
         """
@@ -330,7 +340,8 @@ class CNABImportWizard(models.TransientModel):
                     template_not_implemented = True
             if template_not_implemented:
                 event_value_dict["occurrences"] = _(
-                    "CNAB structure not recognized for this record. Report to system technical support."
+                    "CNAB structure not recognized for this record."
+                    " Report to system technical support."
                 )
             event_value_dict["lot_id"] = return_lot_id.id
             event_value_dict["cnab_return_log_id"] = return_log_id.id
