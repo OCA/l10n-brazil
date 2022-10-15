@@ -3,7 +3,7 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models, api
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -11,7 +11,7 @@ class CNABReturnEvent(models.Model):
 
     _inherit = "l10n_br_cnab.return.event"
 
-    ### BASE FIELDS ###
+    # BASE FIELDS #
 
     occurrence_code_1 = fields.Char()
     occurrence_code_2 = fields.Char()
@@ -202,7 +202,8 @@ class CNABReturnEvent(models.Model):
 
     def _get_liq_move_vals(self):
         return {
-            "name": f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - {self.cnab_return_log_id.bank_account_id.acc_number} - REF: {self.your_number}",
+            "name": f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - "
+            f"{self.cnab_return_log_id.bank_account_id.acc_number} - REF: {self.your_number}",
             "ref": self.your_number,
             "is_cnab": True,
             "journal_id": self.journal_id.id,
@@ -301,7 +302,11 @@ class CNABReturnEvent(models.Model):
 
     def _get_tariff_move_vals(self):
         return {
-            "name": f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - {self.cnab_return_log_id.bank_account_id.acc_number} - REF: {self.your_number} - TARIFF: {self.occurrences}",
+            "name": (
+                f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - "
+                f"{self.cnab_return_log_id.bank_account_id.acc_number} - "
+                f"REF: {self.your_number} - TARIFF: {self.occurrences}"
+            ),
             "ref": self.your_number,
             "is_cnab": True,
             "journal_id": self.journal_id.id,
