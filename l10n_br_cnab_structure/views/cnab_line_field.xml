@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="cnab_line_field_tree_view">
+        <field name="model">l10n_br_cnab.line.field</field>
+        <field name="arch" type="xml">
+            <tree default_order='cnab_line_id, start_pos ASC' create="false">
+                <field name="state" invisible="True" />
+                <field name="name" />
+                <field name="meaning" />
+                <field name="start_pos" />
+                <field name="end_pos" />
+                <field name="type" />
+                <field name="size" />
+                <field name="default_value" />
+                <field name="notes" />
+                <field name="cnab_line_id" />
+                <field name="cnab_group_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cnab_line_field_form_view">
+        <field name="model">l10n_br_cnab.line.field</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group name="field" string="Field Setting">
+                        <group>
+                            <field name="name" />
+                            <field name="meaning" />
+                            <field name="start_pos" />
+                            <field name="end_pos" />
+                            <field name="assumed_comma" />
+                            <field name="type" />
+                        </group>
+                        <group>
+                            <field name="ref_name" />
+                            <field name="cnab_line_id" />
+                            <field name="cnab_group_id" />
+                            <field name="default_value" />
+                            <field name="size" />
+                        </group>
+                        <field name="notes" placeholder="Notes.." widget="text" />
+                    </group>
+                    <notebook>
+                        <page name="send_mapping" string="Send Mapping">
+                            <group col="2" name="content" stirng="Content">
+                                <field name="content_source_model_id" />
+                                <field name="content_source_field" />
+                                <label for="action_change_field_sending" />
+                                <button
+                                    name="action_change_field_sending"
+                                    string="Select Field Wizard"
+                                    type="object"
+                                    class="oe_highlight"
+                                    icon="fa-search-plus"
+                                />
+                            </group>
+                            <group>
+                                <field
+                                    name="sending_dynamic_content"
+                                    widget="ace"
+                                    options="{'mode': 'python'}"
+                                />
+                            </group>
+                        </page>
+                        <page name="return_mapping" string="Return Mapping">
+                            <group col="2" name="content" stirng="Content">
+                                <field name="content_dest_model_id" />
+                                <field name="content_dest_field" />
+                                <label for="action_change_field_return" />
+                                <button
+                                    name="action_change_field_return"
+                                    string="Select Field Wizard"
+                                    type="object"
+                                    class="oe_highlight"
+                                    icon="fa-search-plus"
+                                />
+                            </group>
+                            <group>
+                                <field
+                                    name="return_dynamic_content"
+                                    widget="ace"
+                                    options="{'mode': 'python'}"
+                                />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cnab_line_field">
+        <field name="name">CNAB Fields</field>
+        <field name="view_id" ref="cnab_line_field_tree_view" />
+        <field name="res_model">l10n_br_cnab.line.field</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

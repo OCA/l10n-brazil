@@ -10,5 +10,7 @@ num2words
 odoo_test_helper
 phonenumbers
 pycep_correios
+pyyaml
+unidecode
 workalendar
 xmldiff

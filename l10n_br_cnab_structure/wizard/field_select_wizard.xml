@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="field_select_wizard_form" model="ir.ui.view">
+        <field name="name">field.select.wizard.form</field>
+        <field name="model">field.select.wizard</field>
+        <field name="arch" type="xml">
+        <form>
+            <field name="notation_field" invisible="1" />
+            <field name="cnab_field_id" invisible="1" />
+            <field name="model_id" invisible="1" />
+            <field name="parent_model_id" invisible="1" />
+               <group name="name">
+                <field name="model_id" readonly="1" />
+                <field name="notation_field" readonly="1" />
+                <label for="new_field_id" string="New Sub-Field" />
+                <div>
+                    <field
+                            name="new_field_id"
+                            options="{'no_create': True, 'no_open': True}"
+                        />
+                    <button
+                            string="Add Sub-Field"
+                            name="action_add_field"
+                            type="object"
+                            class="mr-2 btn-primary"
+                        />
+                    <label for="action_add_field" />
+                    <button
+                            name="action_remove_last_field"
+                            string="Remove Last Field"
+                            type="object"
+                            class="btn btn-secondary"
+                        />
+                    <label for="action_remove_last_field" />
+                </div>
+            </group>
+            <footer>
+                <button
+                        name="action_confirm"
+                        class="btn-primary"
+                        type="object"
+                        string="Confirm"
+                    />
+                <button string="Cancel" class="btn btn-secondary" special="cancel" />
+            </footer>
+        </form>
+        </field>
+    </record>
+</odoo>
