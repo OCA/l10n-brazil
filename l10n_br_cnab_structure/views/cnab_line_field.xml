@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
     @author Antônio S. Pereira Neto <neto@engenere.one>
@@ -11,7 +11,7 @@
         <field name="model">l10n_br_cnab.line.field</field>
         <field name="arch" type="xml">
             <tree default_order='cnab_line_id, start_pos ASC' create="false">
-                <field name="state" invisible="True"/>
+                <field name="state" invisible="True" />
                 <field name="name" />
                 <field name="meaning" />
                 <field name="start_pos" />
@@ -67,7 +67,11 @@
                                 />
                             </group>
                             <group>
-                                <field name="sending_dynamic_content" widget="ace" options="{'mode': 'python'}"/>
+                                <field
+                                    name="sending_dynamic_content"
+                                    widget="ace"
+                                    options="{'mode': 'python'}"
+                                />
                             </group>
                         </page>
                         <page name="return_mapping" string="Return Mapping">
@@ -84,7 +88,11 @@
                                 />
                             </group>
                             <group>
-                                <field name="return_dynamic_content" widget="ace" options="{'mode': 'python'}"/>
+                                <field
+                                    name="return_dynamic_content"
+                                    widget="ace"
+                                    options="{'mode': 'python'}"
+                                />
                             </group>
                         </page>
                     </notebook>
