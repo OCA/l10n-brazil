@@ -18,7 +18,11 @@
                 </group>
             </xpath>
             <xpath expr="//page[@name='journal_entries']" position="after">
-                <page name="cnab_accounts" string="CNAB Accounts" attrs="{'invisible': [('used_to_import_cnab', '=', False)]}">
+                <page
+                    name="cnab_accounts"
+                    string="CNAB Accounts"
+                    attrs="{'invisible': [('used_to_import_cnab', '=', False)]}"
+                >
                     <group>
                         <field name="tariff_charge_account_id" />
                     </group>

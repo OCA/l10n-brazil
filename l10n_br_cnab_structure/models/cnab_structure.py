@@ -5,9 +5,10 @@
 
 import yaml
 
-from ..cnab.cnab import Cnab, CnabBatch, RecordType
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+from ..cnab.cnab import Cnab, RecordType
 
 CNAB_CODES = ["240", "400", "500", "750"]
 
@@ -103,25 +104,29 @@ class CNABStructure(models.Model):
     )
 
     conf_payment_way_start_pos = fields.Integer(
-        string="Payment Way start position in Header Batch Records. Only for Header Batch Records.",
+        string="Payment Way start position in Header Batch Records."
+        " Only for Header Batch Records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     conf_payment_way_end_pos = fields.Integer(
-        string="Payment Way last position in Header Batch Records. Only for Header Batch Records.",
+        string="Payment Way last position in Header Batch Records."
+        " Only for Header Batch Records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     conf_detail_start_pos = fields.Integer(
-        string="Position of sequencial identification of Detail Records. Only for detail records.",
+        string="Position of sequencial identification of Detail Records."
+        " Only for detail records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     conf_detail_end_pos = fields.Integer(
-        string="Last position of sequencial identification of Detail Records. Only for detail records.",
+        string="Last position of sequencial identification of Detail Records."
+        " Only for detail records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -359,11 +364,11 @@ class CNABStructure(models.Model):
 
     def check_structure(self):
 
-        for l in self.line_ids:
-            l.check_line()
+        for line in self.line_ids:
+            line.check_line()
 
-        for l in self.batch_ids:
-            l.check_batch()
+        for batch in self.batch_ids:
+            batch.check_batch()
 
         if not self.payment_method_id:
             raise UserError(_(f"{self.name}: Payment Method not found."))
@@ -438,9 +443,10 @@ class CNABStructure(models.Model):
 
         last_position = int(self.cnab_format)
         for f in positions:
-            if f != None and f < 1 or f > last_position:
+            if f is not None and f < 1 or f > last_position:
                 raise UserError(
                     _(
-                        f"{self.name}: All the configuration fields positions need to be between 1 and {last_position}!"
+                        f"{self.name}: All the configuration fields positions "
+                        f"need to be between 1 and {last_position}!"
                     )
                 )

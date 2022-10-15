@@ -6,6 +6,7 @@
 import operator
 import re
 from datetime import datetime
+
 from unidecode import unidecode
 
 from odoo import _, api, fields, models
@@ -237,8 +238,11 @@ class CNABField(models.Model):
         return safe_eval(python_expression, safe_eval_dict)
 
     def _compute_name(self):
-        for f in self:
-            f.computed_name = f"{f.name} - Meaning: {f.meaning} - Pos: {f.start_pos}:{f.end_pos} - Type: {f.type}"
+        for fld in self:
+            fld.computed_name = (
+                f"{fld.name} - Meaning: {fld.meaning} - Pos: "
+                f"{fld.start_pos}:{fld.end_pos} - Type: {fld.type}"
+            )
 
     @api.depends("start_pos", "end_pos")
     def _compute_size(self):
@@ -264,6 +268,7 @@ class CNABField(models.Model):
         if self.start_pos > self.end_pos:
             raise UserError(
                 _(
-                    f"{self.name} in {self.cnab_line_id}: Start position is greater than end position."
+                    f"{self.name} in {self.cnab_line_id}: Start position is greater than end"
+                    " position."
                 )
             )
