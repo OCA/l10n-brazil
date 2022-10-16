@@ -7,6 +7,16 @@
       <field name="priority">5</field>
       <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
       <field name="arch" type="xml">
+        <xpath expr="//sheet" position="before">
+            <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('nfe_environment','!=','2')]}"
+                >
+            Nf-e Environment: <strong><field name="nfe_environment" /></strong>
+            </div>
+        </xpath>
+
           <page name="delivery" position="inside">
               <group
                     name="nfe_transport"
@@ -89,6 +99,12 @@
                 <field name="nfe40_autXML" widget="many2many" />
               </group>
           </page>
+            <xpath
+                expr="//page[@name='others']//group//field[@name='status_description']"
+                position="after"
+            >
+                <field name="nfe_environment" />
+            </xpath>
       </field>
   </record>
 
