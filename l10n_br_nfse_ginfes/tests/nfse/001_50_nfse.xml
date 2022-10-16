@@ -1,4 +1,7 @@
-<EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd" xmlns:tipos="http://www.ginfes.com.br/tipos_v03.xsd">
+<EnviarLoteRpsEnvio
+    xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd"
+    xmlns:tipos="http://www.ginfes.com.br/tipos_v03.xsd"
+>
     <LoteRps>
         <tipos:Cnpj>59594315000157</tipos:Cnpj>
         <tipos:InscricaoMunicipal>35172</tipos:InscricaoMunicipal>
@@ -37,7 +40,8 @@
                         <ItemListaServico>105</ItemListaServico>
                         <CodigoCnae>3101200</CodigoCnae>
                         <CodigoTributacaoMunicipio>6311900</CodigoTributacaoMunicipio>
-                        <Discriminacao>[ODOO_DEV] Customized Odoo Development</Discriminacao>
+                        <Discriminacao
+                        >[ODOO_DEV] Customized Odoo Development</Discriminacao>
                         <CodigoMunicipio>3132404</CodigoMunicipio>
                     </Servico>
                     <Prestador>

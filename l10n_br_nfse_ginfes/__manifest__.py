@@ -2,25 +2,25 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'NFS-e (Ginfes)',
-    'summary': """
+    "name": "NFS-e (Ginfes)",
+    "summary": """
         NFS-e (Ginfes)""",
-    'version': '12.0.3.0.0',
-    'license': 'AGPL-3',
-    'author': 'KMEE, Odoo Community Association (OCA)',
-    'maintainers': ['gabrielcardoso21', 'mileo', 'luismalta'],
-    'website': 'https://github.com/OCA/l10n-brazil',
+    "version": "12.0.3.0.0",
+    "license": "AGPL-3",
+    "author": "KMEE, Odoo Community Association (OCA)",
+    "maintainers": ["gabrielcardoso21", "mileo", "luismalta"],
+    "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    'external_dependencies': {
-        'python': [
-            'erpbrasil.edoc',
-            'erpbrasil.assinatura',
-            'erpbrasil.transmissao',
-            'erpbrasil.base',
-            'nfselib.ginfes',
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.edoc",
+            "erpbrasil.assinatura",
+            "erpbrasil.transmissao",
+            "erpbrasil.base",
+            "nfselib.ginfes",
         ],
     },
-    'depends': [
-        'l10n_br_nfse',
+    "depends": [
+        "l10n_br_nfse",
     ],
 }
