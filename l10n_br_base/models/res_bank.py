@@ -8,9 +8,7 @@ from odoo import fields, models
 class ResBank(models.Model):
     _inherit = "res.bank"
 
-    short_name = fields.Char(
-        string="Short Name",
-    )
+    short_name = fields.Char()
 
     code_bc = fields.Char(
         string="Brazilian Bank Code",

@@ -44,12 +44,10 @@ class PartyMixin(models.AbstractModel):
     )
 
     suframa = fields.Char(
-        string="Suframa",
         size=18,
     )
 
     legal_name = fields.Char(
-        string="Legal Name",
         size=128,
         help="Used in fiscal documents",
     )
@@ -66,7 +64,6 @@ class PartyMixin(models.AbstractModel):
     )
 
     district = fields.Char(
-        string="District",
         size=32,
     )
 

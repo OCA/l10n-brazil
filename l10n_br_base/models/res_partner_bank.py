@@ -30,7 +30,6 @@ class ResPartnerBank(models.Model):
 
     bank_account_type = fields.Selection(
         selection=BANK_ACCOUNT_TYPE,
-        string="Bank Account Type",
         default="01",
     )
 
