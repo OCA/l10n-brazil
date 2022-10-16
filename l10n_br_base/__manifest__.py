@@ -16,7 +16,6 @@
         "data/res.city.csv",
         "data/res.country.state.csv",
         "data/res.bank.csv",
-        "views/webclient_templates.xml",
         "views/res_partner_address_view.xml",
         "views/res_config_settings_view.xml",
         "data/res_country_data.xml",
@@ -27,6 +26,11 @@
         "views/res_partner_view.xml",
         "views/res_company_view.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_br_base/static/src/less/form_view.less",
+        ],
+    },
     "demo": [
         "demo/l10n_br_base_demo.xml",
         "demo/res_partner_demo.xml",
