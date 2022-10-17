@@ -25,14 +25,6 @@
                 expr="//field[@name='operations']/tree/field[@name='price_unit']"
                 position="after"
             >
-                <field
-                    name="discount"
-                    groups="!l10n_br_repair.group_discount_per_value"
-                />
-                <field
-                    name="discount_value"
-                    groups="l10n_br_repair.group_discount_per_value"
-                />
                 <field name="fiscal_tax_ids" widget="many2many_tags" />
             </xpath>
             <xpath
@@ -82,20 +74,9 @@
                     />
                 </div>
                 <field name="fiscal_price" />
-                <field
-                    name="discount"
-                    groups="!l10n_br_repair.group_discount_per_value"
-                />
-                <field
-                    name="discount_value"
-                    groups="l10n_br_repair.group_discount_per_value"
-                />
             </xpath>
 
-            <xpath
-                expr="//field[@name='operations']/form/notebook/page//group"
-                position="inside"
-            >
+            <xpath expr="//field[@name='operations']/form/group" position="inside">
                 <group>
                     <field
                         name="fiscal_type"
@@ -131,10 +112,7 @@
                 </group>
             </xpath>
 
-            <xpath
-                expr="//field[@name='operations']/form/notebook//page"
-                position="inside"
-            >
+            <xpath expr="//field[@name='operations']/form" position="inside">
                 <label for="name" string="Description" />
                 <field name="name" />
             </xpath>

@@ -1,7 +1,7 @@
 # Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from lxml import etree
+from collections import defaultdict
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -24,12 +24,6 @@ class RepairOrder(models.Model):
     def _fiscal_operation_domain(self):
         domain = [("state", "=", "approved")]
         return domain
-
-    # fiscal_position_id = fields.Many2one(
-    #     comodel_name='account.fiscal.position',
-    #     oldname='fiscal_position',
-    #     string='Fiscal Position'
-    # )
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
@@ -64,12 +58,6 @@ class RepairOrder(models.Model):
         related="partner_id.inscr_est",
     )
 
-    discount_rate = fields.Float(
-        string="Discount",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-
     fiscal_document_count = fields.Integer(
         string="Fiscal Document Count",
         related="invoice_count",
@@ -84,25 +72,26 @@ class RepairOrder(models.Model):
         string="Comments",
     )
 
-    currency_id = fields.Many2one(
-        string="Currency ID", related="partner_id.currency_id"
-    )
-
     invoice_count = fields.Integer(
         string="Invoice Count", compute="_compute_get_invoiced", readonly=True
     )
 
     invoice_ids = fields.Many2many(
-        "account.invoice",
+        "account.move",
         string="Invoices",
         compute="_compute_get_invoiced",
         readonly=True,
         copy=False,
     )
 
+    # TODO: remover
     client_order_ref = fields.Char(string="Customer Reference", copy=False)
 
-    @api.multi
+    operation_name = fields.Char(
+        string="Operation Name",
+        copy=False,
+    )
+
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         lines = []
@@ -113,11 +102,6 @@ class RepairOrder(models.Model):
     @api.depends("operations", "fees_lines")
     def _compute_amount(self):
         super()._compute_amount()
-
-    @api.depends("operations.price_total", "fees_lines.price_total")
-    def _amount_all(self):
-        """Compute the total amounts of the RO."""
-        self._compute_amount()
 
     @api.depends(
         "operations.price_subtotal",
@@ -147,52 +131,36 @@ class RepairOrder(models.Model):
 
     @api.depends("state", "operations.invoice_line_id", "fees_lines.invoice_line_id")
     def _compute_get_invoiced(self):
-        """
-        Compute the invoice status of a SO. Possible statuses:
-        - no: if the SO is not in status 'sale' or 'done', we consider that there is
-          nothing to invoice. This is also the default value if the conditions of no
-          other status is met.
-        - to invoice: if any SO line is 'to invoice', the whole SO is 'to invoice'
-        - invoiced: if all SO lines are invoiced, the SO is invoiced.
-        - upselling: if all SO lines are invoiced or upselling, the status is
-          upselling.
-
-        The invoice_ids are obtained thanks to the invoice lines of the SO lines, and
-        we also search for possible refunds created directly from existing
-        invoices. This is necessary since such a refund is not directly linked to
-        the SO.
-        """
-        # Ignore the status of the deposit product
-        # deposit_product_id = self.env['sale.advance.payment.inv']\
-        #     ._default_product_id()
-
         for order in self:
             invoice_ids = order.operations.mapped("invoice_line_id").mapped(
-                "invoice_id"
+                "move_id"
             ).filtered(
-                lambda r: r.type in ["out_invoice", "out_refund"]
+                lambda r: r.move_type in ["out_invoice", "out_refund"]
             ) + order.fees_lines.mapped(
                 "invoice_line_id"
             ).mapped(
-                "invoice_id"
+                "move_id"
             ).filtered(
-                lambda r: r.type in ["out_invoice", "out_refund"]
+                lambda r: r.move_type in ["out_invoice", "out_refund"]
             )
             # Search for invoices which have been
-            # 'cancelled' (filter_refund = 'modify' in account.invoice.refund')
+            # 'cancelled' (filter_refund = 'modify' in account.move.refund')
             # use like as origin may contains multiple
             # references (e.g. 'SO01, SO02')
             refunds = invoice_ids.search(
                 [
-                    ("origin", "like", order.name),
+                    ("invoice_origin", "like", order.name),
                     ("company_id", "=", order.company_id.id),
-                    ("type", "in", ("out_invoice", "out_refund")),
+                    ("move_type", "in", ("out_invoice", "out_refund")),
                 ]
             )
 
             invoice_ids |= refunds.filtered(
                 lambda r: order.name
-                in [origin.strip() for origin in r.origin.split(",")]
+                in [
+                    invoice_origin.strip()
+                    for invoice_origin in r.invoice_origin.split(",")
+                ]
             )
 
             # Search for refunds as well
@@ -200,25 +168,29 @@ class RepairOrder(models.Model):
                 [
                     [
                         "&",
-                        ("origin", "=", inv.number),
+                        ("invoice_origin", "=", inv.name),
                         ("journal_id", "=", inv.journal_id.id),
                     ]
                     for inv in invoice_ids
-                    if inv.number
+                    if inv.name
                 ]
             )
 
             if domain_inv:
-                refund_ids = self.env["account.invoice"].search(
+                refund_ids = self.env["account.move"].search(
                     expression.AND(
                         [
-                            ["&", ("type", "=", "out_refund"), ("origin", "!=", False)],
+                            [
+                                "&",
+                                ("move_type", "=", "out_refund"),
+                                ("invoice_origin", "!=", False),
+                            ],
                             domain_inv,
                         ]
                     )
                 )
             else:
-                refund_ids = self.env["account.invoice"].browse()
+                refund_ids = self.env["account.move"].browse()
 
             order.update(
                 {
@@ -235,157 +207,100 @@ class RepairOrder(models.Model):
         order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
         if view_type == "form":
-            sub_form_view = (
-                order_view.get("fields", {})
-                .get("operations", {})
-                .get("views", {})
-                .get("form", {})
-                .get("arch", {})
-            )
 
             view = self.env["ir.ui.view"]
 
-            sub_form_node = etree.fromstring(
-                self.env["repair.line"].fiscal_form_view(sub_form_view)
-            )
+            sub_form_view = order_view["fields"]["operations"]["views"]["form"]["arch"]
+
+            sub_form_node = self.env["repair.line"].inject_fiscal_fields(sub_form_view)
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                "repair.line", sub_form_node, None
+                sub_form_node, "repair.line", False
             )
 
-            order_view["fields"]["operations"]["views"]["form"]["fields"] = sub_fields
-
-            order_view["fields"]["operations"]["views"]["form"]["arch"] = sub_arch
+            order_view["fields"]["operations"]["views"]["form"] = {
+                "fields": sub_fields,
+                "arch": sub_arch,
+            }
 
         if view_type == "form":
-            sub_form_view = (
-                order_view.get("fields", {})
-                .get("fees_lines", {})
-                .get("views", {})
-                .get("form", {})
-                .get("arch", {})
-            )
-
             view = self.env["ir.ui.view"]
 
-            sub_form_node = etree.fromstring(
-                self.env["repair.fee"].fiscal_form_view(sub_form_view)
-            )
+            sub_form_view = order_view["fields"]["fees_lines"]["views"]["form"]["arch"]
+
+            sub_form_node = self.env["repair.fee"].inject_fiscal_fields(sub_form_view)
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                "repair.fee", sub_form_node, None
+                sub_form_node, "repair.fee", False
             )
 
-            order_view["fields"]["fees_lines"]["views"]["form"]["fields"] = sub_fields
-
-            order_view["fields"]["fees_lines"]["views"]["form"]["arch"] = sub_arch
+            order_view["fields"]["fees_lines"]["views"]["form"] = {
+                "fields": sub_fields,
+                "arch": sub_arch,
+            }
 
         return order_view
 
-    @api.onchange("discount_rate")
-    def onchange_discount_rate(self):
-        for order in self:
-            for line in order.operations:
-                line.discount = order.discount_rate
-                line._onchange_discount_percent()
-            for line in order.fees_lines:
-                line.discount_value = order.discount_rate
-                line._onchange_discount_percent()
-
-    # @api.onchange('fiscal_operation_id')
-    # def _onchange_fiscal_operation_id(self):
-    #     super()._onchange_fiscal_operation_id()
-    #     self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
-
-    @api.multi
-    def action_view_document(self):
-        invoices = self.mapped("invoice_ids")
-        action = self.env.ref("l10n_br_fiscal.document_out_action").read()[0]
-        if len(invoices) > 1:
-            action["domain"] = [
-                ("id", "in", invoices.mapped("fiscal_document_id").ids),
-            ]
-        elif len(invoices) == 1:
-            form_view = [
-                (self.env.ref("l10n_br_fiscal.document_form").id, "form"),
-            ]
-            if "views" in action:
-                action["views"] = form_view + [
-                    (state, view) for state, view in action["views"] if view != "form"
-                ]
-            else:
-                action["views"] = form_view
-            action["res_id"] = invoices.fiscal_document_id.id
-        else:
-            action = {"type": "ir.actions.act_window_close"}
-        return action
-
-    @api.multi
-    def action_view_invoice(self):
-        invoices = self.mapped("invoice_ids")
-        action = self.env.ref("account.action_invoice_tree1").read()[0]
-        if len(invoices) > 1:
-            action["domain"] = [("id", "in", invoices.ids)]
-        elif len(invoices) == 1:
-            form_view = [(self.env.ref("account.invoice_form").id, "form")]
-            if "views" in action:
-                action["views"] = form_view + [
-                    (state, view) for state, view in action["views"] if view != "form"
-                ]
-            else:
-                action["views"] = form_view
-            action["res_id"] = invoices.ids[0]
-        else:
-            action = {"type": "ir.actions.act_window_close"}
-        return action
-
-    @api.multi
-    def _prepare_invoice(self):
+    def action_created_invoice(self):
         self.ensure_one()
-        # self.update(self._prepare_br_fiscal_dict())
-        company_id = self.company_id.id
+        action = super().action_created_invoice()
+        invoice_ids = self.mapped("invoice_ids").ids
+        if self.invoice_count > 1:
+            del action["view_id"]
+            action["view_mode"] = "tree,form"
+            action["domain"] = [("id", "in", invoice_ids)]
+        return action
 
-        if not self.company_id.document_type_id:
+    def _prepare_invoice(self):
+        """
+        Prepare the dict of values to create the new invoice for a repair order.
+        This method may be overridden to implement custom invoice generation
+        (making sure to call super() to establish a clean extension chain).
+        """
+        self.ensure_one()
+
+        partner_invoice = self.partner_invoice_id or self.partner_id
+        if not partner_invoice:
             raise UserError(
-                _("Please define an default document type for this company.")
+                _("You have to select an invoice address in the repair form.")
             )
 
-        journal_id = (
-            self.env["account.invoice"]
-            .with_context(company_id=company_id or self.env.user.company_id.id)
-            .default_get(["journal_id"])["journal_id"]
+        narration = self.quotation_notes
+        currency = self.pricelist_id.currency_id
+        company = self.env.company
+
+        journal = (
+            self.env["account.move"]
+            .with_context(default_move_type="out_invoice")
+            ._get_default_journal()
         )
-        if not journal_id:
+        if not journal:
             raise UserError(
-                _("Please define an accounting sales journal for this company.")
+                _("Please define an accounting sales journal for the company %s (%s).")
+                % (self.company_id.name, self.company_id.id)
             )
 
-        vinvoice = self.env["account.invoice"].new(
-            {"partner_id": self.partner_invoice_id.id, "type": "out_invoice"}
+        fpos = self.env["account.fiscal.position"].get_fiscal_position(
+            partner_invoice.id, delivery_id=self.address_id.id
         )
 
-        # Get partner extra fields
-        vinvoice._onchange_partner_id()
-        invoice_vals = vinvoice._convert_to_write(vinvoice._cache)
+        invoice_vals = {
+            "move_type": "out_invoice",
+            "partner_id": partner_invoice.id,
+            "partner_shipping_id": self.address_id.id,
+            "currency_id": currency.id,
+            "narration": narration,
+            "invoice_origin": self.name,
+            "repair_ids": [(4, self.id)],
+            "invoice_line_ids": [],
+            "fiscal_position_id": fpos.id,
+            "company_id": company.id,
+        }
 
-        fp_id = self.partner_id.property_account_position_id.id or self.env[
-            "account.fiscal.position"
-        ].get_fiscal_position(self.partner_id.id, delivery_id=self.address_id.id)
-
-        invoice_vals.update(
-            {
-                "name": (self.client_order_ref or "")[:2000],
-                "origin": self.name,
-                "type": "out_invoice",
-                "account_id": self.partner_invoice_id.property_account_receivable_id.id,
-                "journal_id": journal_id,
-                "currency_id": self.pricelist_id.currency_id.id,
-                "company_id": company_id,
-                "comment": self.quotation_notes,
-                "fiscal_position_id": fp_id,
-                "payment_term_id": self.payment_term_id.id,
-            }
-        )
+        if partner_invoice.property_payment_term_id:
+            invoice_vals[
+                "invoice_payment_term_id"
+            ] = partner_invoice.property_payment_term_id.id
 
         invoice_vals.update(self._prepare_br_fiscal_dict())
 
@@ -399,51 +314,186 @@ class RepairOrder(models.Model):
             document_type = self.company_id.document_type_id
             document_type_id = self.company_id.document_type_id.id
 
-        invoice_vals["document_type_id"] = document_type_id
-
-        document_serie = document_type.get_document_serie(
-            self.company_id, self.fiscal_operation_id
-        )
-
-        if document_serie:
-            invoice_vals["document_serie_id"] = document_serie.id
+        if document_type:
+            invoice_vals["document_type_id"] = document_type_id
+            document_serie = document_type.get_document_serie(
+                self.company_id, self.fiscal_operation_id
+            )
+            if document_serie:
+                invoice_vals["document_serie_id"] = document_serie.id
 
         if self.fiscal_operation_id:
             if self.fiscal_operation_id.journal_id:
                 invoice_vals["journal_id"] = self.fiscal_operation_id.journal_id.id
 
-        # if self.fiscal_position_id:
-        #     invoice_vals['fiscal_position_id'] = self.fiscal_position_id
-
         return invoice_vals
 
-    def _action_invoice_create_selection_validation(self, repair):
-        if not repair.partner_id.id and not repair.partner_invoice_id.id:
-            raise UserError(
-                _("You have to select an invoice address in the repair form.")
+    def _create_invoices(self, group=False):
+        """Creates invoice(s) for repair order.
+        @param group: It is set to true when group invoice is to be generated.
+        @return: Invoice Ids.
+        """
+        grouped_invoices_vals = {}
+        repairs = self.filtered(
+            lambda repair: repair.state not in ("draft", "cancel")
+            and not repair.invoice_id
+            and repair.invoice_method != "none"
+        )
+        for repair in repairs:
+            repair = repair.with_company(repair.company_id)
+
+            partner_invoice = repair.partner_invoice_id or repair.partner_id
+            if not partner_invoice:
+                raise UserError(
+                    _("You have to select an invoice address in the repair form.")
+                )
+
+            narration = repair.quotation_notes
+            currency = repair.pricelist_id.currency_id
+            company = repair.env.company
+
+            if (
+                partner_invoice.id,
+                currency.id,
+                company.id,
+            ) not in grouped_invoices_vals:
+                grouped_invoices_vals[
+                    (partner_invoice.id, currency.id, company.id)
+                ] = []
+            current_invoices_list = grouped_invoices_vals[
+                (partner_invoice.id, currency.id, company.id)
+            ]
+
+            invoice_vals = repair._prepare_invoice()
+
+            if not group or len(current_invoices_list) == 0:
+                current_invoices_list.append(invoice_vals)
+            else:
+                invoice_vals["invoice_origin"] += ", " + repair.name
+                invoice_vals["repair_ids"].append((4, repair.id))
+                if not invoice_vals["narration"]:
+                    invoice_vals["narration"] = narration
+                else:
+                    invoice_vals["narration"] += "\n" + narration
+
+            # Create invoice lines from operations.
+            for operation in repair.operations.filtered(lambda op: op.type == "add"):
+                invoice_line_vals = operation._prepare_invoice_line()
+                if group:
+                    invoice_line_vals["name"] = repair.name + "-" + operation.name
+                if currency == company.currency_id:
+                    balance = -(operation.product_uom_qty * operation.price_unit)
+                    invoice_line_vals.update(
+                        {
+                            "debit": balance > 0.0 and balance or 0.0,
+                            "credit": balance < 0.0 and -balance or 0.0,
+                        }
+                    )
+                else:
+                    amount_currency = -(
+                        operation.product_uom_qty * operation.price_unit
+                    )
+                    balance = currency._convert(
+                        amount_currency,
+                        company.currency_id,
+                        company,
+                        fields.Date.today(),
+                    )
+                    invoice_line_vals.update(
+                        {
+                            "amount_currency": amount_currency,
+                            "debit": balance > 0.0 and balance or 0.0,
+                            "credit": balance < 0.0 and -balance or 0.0,
+                            "currency_id": currency.id,
+                        }
+                    )
+                invoice_vals["invoice_line_ids"].append((0, 0, invoice_line_vals))
+
+            # Create invoice lines from fees.
+            for fee in repair.fees_lines:
+                invoice_line_vals = fee._prepare_invoice_line()
+                if group:
+                    invoice_line_vals["name"] = repair.name + "-" + fee.name
+
+                if currency == company.currency_id:
+                    balance = -(fee.product_uom_qty * fee.price_unit)
+                    invoice_line_vals.update(
+                        {
+                            "debit": balance > 0.0 and balance or 0.0,
+                            "credit": balance < 0.0 and -balance or 0.0,
+                        }
+                    )
+                else:
+                    amount_currency = -(fee.product_uom_qty * fee.price_unit)
+                    balance = currency._convert(
+                        amount_currency,
+                        company.currency_id,
+                        company,
+                        fields.Date.today(),
+                    )
+                    invoice_line_vals.update(
+                        {
+                            "amount_currency": amount_currency,
+                            "debit": balance > 0.0 and balance or 0.0,
+                            "credit": balance < 0.0 and -balance or 0.0,
+                            "currency_id": currency.id,
+                        }
+                    )
+                invoice_vals["invoice_line_ids"].append((0, 0, invoice_line_vals))
+
+        # Create invoices.
+        invoices_vals_list_per_company = defaultdict(list)
+        for (
+            _partner_invoice_id,
+            _currency_id,
+            company_id,
+        ), invoices in grouped_invoices_vals.items():
+            for invoice in invoices:
+                invoices_vals_list_per_company[company_id].append(invoice)
+
+        for company_id, invoices_vals_list in invoices_vals_list_per_company.items():
+            # VFE TODO remove the default_company_id ctxt key ?
+            # Account fallbacks on self.env.company, which is correct with with_company
+            self.env["account.move"].with_company(company_id).with_context(
+                default_company_id=company_id, default_move_type="out_invoice"
+            ).create(invoices_vals_list)
+
+        repairs.write({"invoiced": True})
+        repairs.mapped("operations").filtered(lambda op: op.type == "add").write(
+            {"invoiced": True}
+        )
+        repairs.mapped("fees_lines").write({"invoiced": True})
+
+        for repair in repairs:
+            repair._split_invoice(group=False)
+
+        return {repair.id: repair.invoice_id.id for repair in repairs}
+
+    def _split_invoice(self, group=False):
+
+        self.ensure_one()
+
+        document_type_list = []
+
+        inv_ids = []
+        invoice_created_by_super = self.invoice_id
+        inv_ids += invoice_created_by_super
+        for inv_line in invoice_created_by_super.invoice_line_ids:
+            if inv_line.display_type or not inv_line.fiscal_operation_line_id:
+                continue
+
+            fiscal_document_type = inv_line.fiscal_operation_line_id.get_document_type(
+                inv_line.move_id.company_id
             )
 
-    def _action_invoice_create_partner_account_validation(self, repair):
-        if not repair.partner_id.property_account_receivable_id:
-            raise UserError(
-                _('No account defined for partner "%s".') % repair.partner_id.name
-            )
+            if fiscal_document_type.id not in document_type_list:
+                document_type_list.append(fiscal_document_type.id)
 
-    def _action_invoice_create_fee_product_id_validation(self, fee):
-        if not fee.product_id:
-            raise UserError(_("No product defined on fees."))
+            # Check if there more than one Document Type
+        if (
+            fiscal_document_type.id != invoice_created_by_super.document_type_id.id
+        ) or (len(document_type_list) > 1):
 
-    def _action_invoice_create_check_doc_type_qty(
-        self,
-        fiscal_document_type,
-        invoice_created_by_super,
-        document_type_list,
-        group,
-    ):
-        # Check if there more than one Document Type
-        if (fiscal_document_type != invoice_created_by_super.document_type_id) or (
-            len(document_type_list) > 1
-        ):
             # Remove the First Document Type,
             # already has Invoice created
             invoice_created_by_super.document_type_id = document_type_list.pop(0)
@@ -453,7 +503,7 @@ class RepairOrder(models.Model):
                     document_type
                 )
 
-                inv_obj = self.env["account.invoice"]
+                inv_obj = self.env["account.move"]
                 invoices = {}
                 references = {}
                 invoices_origin = {}
@@ -473,14 +523,12 @@ class RepairOrder(models.Model):
                         invoice = inv_obj.create(inv_data)
                         references[invoice] = order
                         invoices[group_key] = invoice
-                        invoices_origin[group_key] = [invoice.origin]
+                        invoices_origin[group_key] = [invoice.invoice_origin]
                         invoices_name[group_key] = [invoice.name]
-                        # inv_ids.append(invoice.id)
+                        # inv_ids = inv_ids + invoice
                     elif group_key in invoices:
-
                         if order.name not in invoices_origin[group_key]:
                             invoices_origin[group_key].append(order.name)
-
                         if (
                             order.client_order_ref
                             and order.client_order_ref not in invoices_name[group_key]
@@ -491,118 +539,29 @@ class RepairOrder(models.Model):
                 for inv_line in invoice_created_by_super.invoice_line_ids:
                     fiscal_document_type = (
                         inv_line.fiscal_operation_line_id.get_document_type(
-                            inv_line.invoice_id.company_id
+                            inv_line.move_id.company_id
                         )
                     )
                     if fiscal_document_type.id == document_type.id:
-                        inv_line.invoice_id = invoice.id
-                        inv_line.document_id = invoice.fiscal_document_id
-                invoice.fiscal_document_id._compute_amount()
-                invoice._onchange_invoice_line_ids()
-            invoice_created_by_super.fiscal_document_id._compute_amount()
-            invoice_created_by_super._onchange_invoice_line_ids()
+                        copied_vals = inv_line.copy_data()[0]
+                        copied_vals["move_id"] = invoice.id
+                        copied_vals["recompute_tax_line"] = True
+                        new_line = self.env["account.move.line"].new(copied_vals)
+                        invoice.invoice_line_ids += new_line
+                        # order_line = self.order_line.filtered(
+                        #     lambda x: x.invoice_lines in inv_line
+                        # )
+                        # if len(order_line.invoice_lines) > 1:
+                        #     # TODO: É valido tratar isso no caso de já ter mais
+                        #     #  faturas geradas e vinvuladas a linha
+                        #     continue
+                        # else:
+                        #     order_line.invoice_lines = invoice.invoice_line_ids
+                        invoice_created_by_super.invoice_line_ids -= inv_line
 
-    @api.multi
-    def action_invoice_create(self, group=False):
-        """Creates invoice(s) for repair order.
-        @param group: It is set to true when group invoice is to be generated.
-        @return: Invoice Ids.
-        """
-        res = dict.fromkeys(self.ids, False)
-        invoices_group = {}
-        InvoiceLine = self.env["account.invoice.line"]
-        Invoice = self.env["account.invoice"]
-
-        for repair in self.filtered(
-            lambda repair: repair.state not in ("draft", "cancel")
-            and not repair.invoice_id
-        ):
-
-            self._action_invoice_create_selection_validation(repair)
-
-            comment = repair.quotation_notes
-
-            if repair.invoice_method != "none":
-                if group and repair.partner_invoice_id.id in invoices_group:
-                    invoice = invoices_group[repair.partner_invoice_id.id]
-                    invoice.write(
-                        {
-                            "name": invoice.name + ", " + repair.name,
-                            "origin": invoice.origin + ", " + repair.name,
-                            "comment": (
-                                comment
-                                and (
-                                    invoice.comment
-                                    and invoice.comment + "\n" + comment
-                                    or comment
-                                )
-                            )
-                            or (invoice.comment and invoice.comment or ""),
-                        }
-                    )
-                else:
-                    self._action_invoice_create_partner_account_validation(repair)
-
-                    inv_data = self._prepare_invoice()
-                    invoice = Invoice.create(inv_data)
-                    invoices_group[repair.partner_invoice_id.id] = invoice
-
-                repair.write({"invoiced": True, "invoice_id": invoice.id})
-
-                for operation in repair.operations:
-                    if operation.type == "add":
-
-                        inv_line_data = operation._prepare_invoice_line(
-                            operation.product_uom_qty
-                        )
-
-                        inv_line_data["invoice_id"] = invoice.id
-
-                        invoice_line = InvoiceLine.create(inv_line_data)
-
-                        operation.write(
-                            {"invoiced": True, "invoice_line_id": invoice_line.id}
-                        )
-
-                for fee in repair.fees_lines:
-                    self._action_invoice_create_fee_product_id_validation(fee)
-
-                    inv_line_data = fee._prepare_invoice_line(fee.product_uom_qty)
-
-                    inv_line_data["invoice_id"] = invoice.id
-
-                    invoice_line = InvoiceLine.create(inv_line_data)
-
-                    fee.write({"invoiced": True, "invoice_line_id": invoice_line.id})
-
-                invoice.compute_taxes()
-
-                res[repair.id] = invoice.id
-
-                document_type_list = []
-
-                # for invoice_id in invoice_id:
-                invoice_created_by_super = self.env["account.invoice"].browse(
-                    res[repair.id]
-                )
-
-                # Identify how many Document Types exist
-                for inv_line in invoice_created_by_super.invoice_line_ids:
-
-                    fiscal_document_type = (
-                        inv_line.fiscal_operation_line_id.get_document_type(
-                            inv_line.invoice_id.company_id
-                        )
-                    )
-
-                    if fiscal_document_type.id not in document_type_list:
-                        document_type_list.append(fiscal_document_type.id)
-
-                self._action_invoice_create_check_doc_type_qty(
-                    fiscal_document_type,
-                    invoice_created_by_super,
-                    document_type_list,
-                    group,
-                )
-
-        return res
+        invoice_created_by_super.document_serie_id = (
+            fiscal_document_type.get_document_serie(
+                invoice_created_by_super.company_id,
+                invoice_created_by_super.fiscal_operation_id,
+            )
+        )
