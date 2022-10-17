@@ -3,13 +3,6 @@
     <template id="report_repair_order" inherit_id="repair.report_repairorder">
 
         <xpath
-            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tr//t/th[3]"
-            position="before"
-        >
-            <th class="text-right">Discount Value</th>
-        </xpath>
-
-        <xpath
             expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/tr[1]"
             position="replace"
         >
@@ -23,24 +16,6 @@
         >
             <tr class="bg-200 o_line_section"><td colspan="6"><strong
                     >Operations</strong></td></tr>
-        </xpath>
-
-        <xpath
-            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/td[hasclass('text-right', 'o_price_total')]"
-            position="before"
-        >
-            <td class="text-right">
-                <span t-field="line.discount_value" />
-            </td>
-        </xpath>
-
-        <xpath
-            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[2]//td[hasclass('text-right', 'o_price_total')]"
-            position="before"
-        >
-            <td class="text-right">
-                <span t-field="fees.discount_value" />
-            </td>
         </xpath>
 
          <xpath
@@ -123,17 +98,6 @@
                     <td name="td_amount_price_gross" class="text-right">
                         <span
                         t-field="doc.amount_price_gross"
-                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
-                    />
-                    </td>
-                </tr>
-
-                 <tr style="">
-                    <td name="td_amount_discount_value_label"><strong
-                    >Amount Discount</strong></td>
-                    <td name="td_amount_discount_value" class="text-right">
-                        <span
-                        t-field="doc.amount_discount_value"
                         t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
                     />
                     </td>
