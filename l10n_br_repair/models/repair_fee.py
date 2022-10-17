@@ -66,23 +66,16 @@ class RepairFee(models.Model):
     )
     def _compute_price_subtotal(self):
         super()._compute_price_subtotal()
-        for fee in self:
+        for line in self:
             # Update taxes fields
-            fee._update_taxes()
+            line._update_taxes()
             # Call mixin compute method
-            fee._compute_amounts()
+            line._compute_amounts()
             # Update record
-            fee.update(
+            line.update(
                 {
-                    "price_subtotal": fee.amount_untaxed,
-                    # 'price_tax': fee.amount_tax,
-                    "price_gross": fee.amount_untaxed + fee.discount_value,
-                    "price_total": fee.amount_total,
+                    "price_subtotal": line.amount_untaxed,
+                    "price_gross": line.amount_untaxed,
+                    "price_total": line.amount_total,
                 }
             )
-
-    @api.onchange("product_uom", "product_uom_qty")
-    def _onchange_product_uom(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        self._onchange_commercial_quantity()

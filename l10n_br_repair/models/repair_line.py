@@ -75,14 +75,7 @@ class RepairLine(models.Model):
             line.update(
                 {
                     "price_subtotal": line.amount_untaxed,
-                    # 'price_tax': line.amount_tax,
-                    "price_gross": line.amount_untaxed + line.discount_value,
+                    "price_gross": line.amount_untaxed,
                     "price_total": line.amount_total,
                 }
             )
-
-    @api.onchange("product_uom", "product_uom_qty")
-    def _onchange_product_uom(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        self._onchange_commercial_quantity()
