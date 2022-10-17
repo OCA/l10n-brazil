@@ -13,14 +13,12 @@
     "development_status": "Alpha",
     "website": "https://github.com/OCA/l10n-brazil",
     "images": ["static/description/banner.png"],
-    "conflicts": ["repair_discount"],
     "depends": [
-        "repair_payment_term",
+        "repair",
         "l10n_br_stock_account",
     ],
     "data": [
         "data/res_company.xml",
-        "security/l10n_br_repair_security.xml",
         "views/res_company.xml",
         "views/repair_order.xml",
         "views/repair_fee.xml",
