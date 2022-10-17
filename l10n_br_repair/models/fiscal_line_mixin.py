@@ -1,8 +1,7 @@
 # Copyright 2021 - TODAY, Marcel Savegnago - Escodoo
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models
 
 import odoo.addons.decimal_precision as dp
 
@@ -34,10 +33,6 @@ class FiscalLineMixin(models.AbstractModel):
         default=0.00,
     )
 
-    discount = fields.Float(
-        string="Discount (%)",
-    )
-
     price_subtotal = fields.Float(
         "Subtotal",
         compute="_compute_price_subtotal",
@@ -49,79 +44,39 @@ class FiscalLineMixin(models.AbstractModel):
         domain = [("state", "=", "approved")]
         return domain
 
-    def _get_protected_fields(self):
-        protected_fields = super()._get_protected_fields()
-        return protected_fields + [
-            "fiscal_tax_ids",
-            "fiscal_operation_id",
-            "fiscal_operation_line_id",
-        ]
-
-    @api.multi
-    def _prepare_invoice_line(self, qty):
+    def _prepare_invoice_line(self):
         self.ensure_one()
-        res = {}
-        product = self.product_id.with_context(force_company=self.company_id.id)
-        account = (
-            product.property_account_income_id
-            or product.categ_id.property_account_income_categ_id
+        product = self.product_id.with_company(self.company_id.id)
+        partner_invoice = self.repair_id.partner_invoice_id or self.repair_id.partner_id
+        fpos = self.env["account.fiscal.position"].get_fiscal_position(
+            partner_invoice.id, delivery_id=self.repair_id.address_id.id
         )
-
-        if not account and self.product_id:
-            raise UserError(
-                _(
-                    "Please define income account for this product: "
-                    '"%s" (id:%d) - or for its category: "%s".'
-                )
-                % (
-                    self.product_id.name,
-                    self.product_id.id,
-                    self.product_id.categ_id.name,
-                )
-            )
-
-        # fpos = self.repair_id.partner_id.property_account_position_id.id or self.env[
-        #     self.repair_id.partner_id.id, delivery_id=self.repair_id.address_id.id)
-
-        # if fpos and account:
-        #     account = fpos.map_tax(account)
-
+        account = product.product_tmpl_id.get_product_accounts(fiscal_pos=fpos)[
+            "income"
+        ]
         res = {
             "name": self.name,
-            "origin": self.repair_id.name,
             "account_id": account.id,
+            "quantity": self.product_uom_qty,
+            "tax_ids": [(6, 0, self.tax_id.ids)],
+            "product_uom_id": self.product_uom.id,
             "price_unit": self.price_unit,
-            "quantity": qty,
-            "discount": self.discount,
-            "uom_id": self.product_uom.id,
-            "product_id": self.product_id.id or False,
-            "invoice_line_tax_ids": [(6, 0, self.tax_id.ids)],
+            "product_id": self.product_id.id,
         }
-
         res.update(self._prepare_br_fiscal_dict())
         return res
-
-    @api.onchange("discount", "product_uom_qty", "price_unit")
-    def _onchange_discount_percent(self):
-        """Update discount value"""
-        if not self.env.user.has_group("l10n_br_repair.group_discount_per_value"):
-            if self.discount:
-                self.discount_value = (self.product_uom_qty * self.price_unit) * (
-                    self.discount / 100
-                )
-
-    @api.onchange("discount_value")
-    def _onchange_discount_value(self):
-        """Update discount percent"""
-        if self.env.user.has_group("l10n_br_repair.group_discount_per_value"):
-            if self.discount_value:
-                self.discount = (self.discount_value * 100) / (
-                    self.product_uom_qty * self.price_unit
-                )
-            else:
-                self.discount = 0
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
-        self.tax_id |= self.fiscal_tax_ids.account_taxes()
+        self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type="sale")
+        if self.repair_id.fiscal_operation_id.deductible_taxes:
+            self.tax_id |= self.fiscal_tax_ids.account_taxes(
+                user_type="sale", deductible=True
+            )
+
+    @api.onchange("product_uom", "product_uom_qty")
+    def _onchange_product_uom(self):
+        """To call the method in the mixin to update
+        the price and fiscal quantity."""
+        self._onchange_commercial_quantity()
