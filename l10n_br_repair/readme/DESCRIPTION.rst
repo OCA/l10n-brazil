@@ -1,0 +1,1 @@
+This module extends the Odoo Repair module to adapt it to the Brazilian needs, with this module you have tax data for collection and generation of fiscal documents (NF-e, NFS-e, CF-e, NFC-e and others), calculation Brazilian taxes and contributions (municipal, state and federal).
