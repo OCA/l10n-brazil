@@ -52,7 +52,7 @@
                             attrs="{'invisible': [('is_company','!=', True)]}"
                         />
                     </div>
-                    <field colspan="4" name="legal_name" nolabel="1" />
+                    <field colspan="2" name="legal_name" nolabel="1" />
                     <div class="oe_edit_only">
                         <label
                             for="cnpj_cpf"
@@ -65,21 +65,13 @@
                             attrs="{'invisible': [('is_company','!=', True)]}"
                         />
                     </div>
-                    <field colspan="4" name="cnpj_cpf" nolabel="1" />
+                    <field colspan="2" name="cnpj_cpf" nolabel="1" />
                     <div class="oe_edit_only">
                         <label
                             for="rg"
                             string="RG"
                             attrs="{'invisible': [('is_company','=', True)]}"
                         />
-                    </div>
-                    <field
-                        name="rg"
-                        colspan="4"
-                        nolabel="1"
-                        attrs="{'invisible': [('is_company','=', True)]}"
-                    />
-                    <div class="oe_edit_only" name="inscr_est">
                         <label
                             for="inscr_est"
                             name="inscr_est"
@@ -88,7 +80,13 @@
                         />
                     </div>
                     <field
-                        colspan="4"
+                        name="rg"
+                        colspan="2"
+                        nolabel="1"
+                        attrs="{'invisible': [('is_company','=', True)]}"
+                    />
+                    <field
+                        colspan="2"
                         name="inscr_est"
                         nolabel="1"
                         placeholder="Para ISENTO deixe vazio ou escreva 'ISENTO'"
