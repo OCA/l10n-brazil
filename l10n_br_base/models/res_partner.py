@@ -20,6 +20,16 @@ class Partner(models.Model):
     _name = "res.partner"
     _inherit = [_name, "l10n_br_base.party.mixin"]
 
+    def _inverse_street_data(self):
+        """update self.street based on street_name, street_number and street_number2"""
+        for partner in self:
+            street = (
+                (partner.street_name or "") + ", " + (partner.street_number or "")
+            ).strip()
+            if partner.street_number2:
+                street = street + " - " + partner.street_number2
+            partner.street = street
+
     vat = fields.Char(related="cnpj_cpf")
 
     is_accountant = fields.Boolean(string="Is accountant?")
