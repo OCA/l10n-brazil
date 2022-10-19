@@ -1208,6 +1208,11 @@ msgid "Cliente emite e banco processa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_processor
+msgid "Cnab Processor"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:account.payment.method,name:l10n_br_account_payment_order.payment_mode_type_cnab240
 msgid "Cnab240"
 msgstr ""
@@ -2279,6 +2284,11 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__filename
 msgid "Nome do Arquivo"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__cnab_processor__none
+msgid "None"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
