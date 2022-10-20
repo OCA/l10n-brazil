@@ -5,7 +5,7 @@
 from openupgradelib import openupgrade
 
 _column_renames = {
-    "stock.picking": [("ie", "inscr_est")],
+    "stock_picking": [("ie", "inscr_est")],
 }
 
 
