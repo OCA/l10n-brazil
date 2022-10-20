@@ -36,7 +36,7 @@ class TestXMLValidation(TransactionCase):
                 "partner_id": document.partner_id.id,
                 "fiscal_operation_type": document.fiscal_operation_type,
                 "fiscal_operation_id": document.fiscal_operation_id.id,
-                "product_id": self.env.ref("product.product_product_4d").id,
+                "product_id": self.env.ref("product.product_product_4c").id,
             }
         )
         line._onchange_product_id_fiscal()
