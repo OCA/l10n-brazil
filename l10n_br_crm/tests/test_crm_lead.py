@@ -83,7 +83,7 @@ class CrmLeadTest(TransactionCase):
             self.crm_lead_company.stage_id.sequence, 1, "Lead stage is not Open"
         )
         # Convert lead into opportunity for exiting customer
-        self.crm_lead_company.convert_opportunity(self.env.ref("base.res_partner_2").id)
+        self.crm_lead_company.convert_opportunity(self.env.ref("base.res_partner_2"))
 
         # Check details of converted opportunity
         self.assertEqual(
@@ -143,7 +143,7 @@ class CrmLeadTest(TransactionCase):
             self.crm_lead_contact.stage_id.sequence, 1, "Lead stage is not Open"
         )
         # Convert lead into opportunity for exiting customer
-        self.crm_lead_contact.convert_opportunity(self.env.ref("base.res_partner_2").id)
+        self.crm_lead_contact.convert_opportunity(self.env.ref("base.res_partner_2"))
 
         # Check details of converted opportunity
         self.assertEqual(
