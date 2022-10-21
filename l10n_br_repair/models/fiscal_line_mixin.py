@@ -29,7 +29,6 @@ class FiscalLineMixin(models.AbstractModel):
 
     price_total = fields.Monetary(
         compute="_compute_price_subtotal",
-        string="Price Total",
         default=0.00,
     )
 
