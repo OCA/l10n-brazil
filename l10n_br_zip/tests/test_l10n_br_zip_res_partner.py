@@ -150,7 +150,7 @@ class L10nBRZipTest(TransactionCase):
         #  makes tests failed without with_context parameter. This problem
         #  only happening in the tests on screen doesn't.
 
-        obj_zip_search.zip_ids.with_context(result.get("context")).zip_select()
+        obj_zip_search.zip_ids.with_context(**result.get("context")).zip_select()
 
         self.assertEqual(
             self.res_partner_1.zip,
