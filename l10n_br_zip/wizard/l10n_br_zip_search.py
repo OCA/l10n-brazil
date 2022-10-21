@@ -12,7 +12,7 @@ class L10nBrZipSearch(models.TransientModel):
 
     street_name = fields.Char(string="Logradouro")
 
-    district = fields.Char(string="District")
+    district = fields.Char()
 
     country_id = fields.Many2one(string="Country", comodel_name="res.country")
 
