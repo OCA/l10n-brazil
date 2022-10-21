@@ -147,8 +147,8 @@ class DocumentWorkflow(models.AbstractModel):
                 _(
                     "Não é possível retornar o documento para em \n"
                     "digitação, quando o mesmo esta na situação: \n"
-                    "{}, {}".format(old_state, self.state_fiscal)
-                )
+                    "{}, {}"
+                ).format(old_state, self.state_fiscal)
             )
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
@@ -224,10 +224,8 @@ class DocumentWorkflow(models.AbstractModel):
                     _(
                         "Não é possível realizar esta operação,\n"
                         "esta transição não é permitida:\n\n"
-                        "De: {old_state}\n\n Para: {new_state}".format(
-                            old_state=old_state, new_state=new_state
-                        )
-                    )
+                        "De: {old_state}\n\n Para: {new_state}"
+                    ).format(old_state=old_state, new_state=new_state)
                 )
 
             if record._before_change_state(old_state, new_state):

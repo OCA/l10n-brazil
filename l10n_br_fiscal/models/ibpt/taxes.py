@@ -31,19 +31,16 @@ def _request(ws_url, params):
             )
         elif response.status_code == requests.codes.forbidden:
             raise UserError(
-                _(
-                    "IBPT Forbidden - token={!r}, "
-                    "cnpj={!r}, UF={!r}".format(
-                        params.get("token"), params.get("cnpj"), params.get("uf")
-                    )
+                _("IBPT Forbidden - token={!r}, " "cnpj={!r}, UF={!r}").format(
+                    params.get("token"), params.get("cnpj"), params.get("uf")
                 )
             )
         elif response.status_code == requests.codes.not_found:
-            raise UserError(_("IBPT URL not found - {!r}".format(ws_url)))
+            raise UserError(_("IBPT URL not found - {!r}").format(ws_url))
         elif response.status_code == requests.codes.service_unavailable:
-            raise UserError(_("IBPT Service Unavailable - {!r}".format(ws_url)))
+            raise UserError(_("IBPT Service Unavailable - {!r}").format(ws_url))
     except Exception as e:
-        raise UserError(_("Error in the request: {}".format(e)))
+        raise UserError(_("Error in the request: {}").format(e))
 
 
 def get_ibpt_product(
