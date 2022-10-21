@@ -175,8 +175,6 @@ class L10nBrAccountNfeExportInvoiceResult(models.TransientModel):
 
     document = fields.Char(string="Documento", size=255)
 
-    status = fields.Selection(
-        selection=[("success", "Sucesso"), ("error", "Erro")], string="Status"
-    )
+    status = fields.Selection(selection=[("success", "Sucesso"), ("error", "Erro")])
 
     message = fields.Char(string="Mensagem", size=255)
