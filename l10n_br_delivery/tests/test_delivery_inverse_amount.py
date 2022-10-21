@@ -90,13 +90,13 @@ class TestDeliveryInverseAmount(SavepointCase):
 
         wizard_total = (
             cls.env["sale.advance.payment.inv"]
-            .with_context({"active_ids": cls.sale_order_total_id.ids})
+            .with_context(active_ids=cls.sale_order_total_id.ids)
             .create({})
         )
 
         wizard_line = (
             cls.env["sale.advance.payment.inv"]
-            .with_context({"active_ids": cls.sale_order_line_id.ids})
+            .with_context(active_ids=cls.sale_order_line_id.ids)
             .create({})
         )
 
