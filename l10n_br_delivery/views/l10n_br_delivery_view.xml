@@ -36,7 +36,7 @@
         <field name="model">l10n_br_delivery.carrier.vehicle</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Vehicle">
+            <tree>
                 <field colspan="4" name="name" />
                 <field name="plate" />
                 <field name="manufacture_year" />
