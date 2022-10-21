@@ -176,7 +176,7 @@ class Partner(models.Model):
                 )
                 if duplicate_ie:
                     raise ValidationError(
-                        _("State Tax Number already used" " %s" % duplicate_ie.name)
+                        _("State Tax Number already used {}").format(duplicate_ie.name)
                     )
 
     @api.model
