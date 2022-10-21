@@ -23,34 +23,27 @@ class Comment(models.Model):
     _rec_name = "comment"
 
     sequence = fields.Integer(
-        string="Sequence",
         default=10,
     )
 
     name = fields.Char(
-        string="Name",
         required=True,
     )
 
     comment = fields.Text(
-        string="Comment",
         required=True,
     )
 
-    test_comment = fields.Text(
-        string="Test Comment",
-    )
+    test_comment = fields.Text()
 
     comment_type = fields.Selection(
         selection=COMMENT_TYPE,
-        string="Comment Type",
         default=COMMENT_TYPE_COMMERCIAL,
         required=True,
     )
 
     object = fields.Selection(
         selection=FISCAL_COMMENT_OBJECTS,
-        string="Object",
         required=True,
     )
 

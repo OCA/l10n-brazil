@@ -20,7 +20,7 @@ class Ncm(models.Model):
 
     code_unmasked = fields.Char(size=8)
 
-    exception = fields.Char(string="Exception", size=2)
+    exception = fields.Char(size=2)
 
     tax_ipi_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",

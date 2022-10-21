@@ -94,7 +94,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_DOMAIN_ICMS,
     )
 
-    price_unit = fields.Float(string="Price Unit", digits="Product Price")
+    price_unit = fields.Float(digits="Product Price")
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
 
@@ -103,12 +103,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     uom_id = fields.Many2one(comodel_name="uom.uom", string="UOM")
 
     quantity = fields.Float(
-        string="Quantity",
         digits="Product Unit of Measure",
         default=1.0,
     )
 
-    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
+    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE)
 
     ncm_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.ncm", index=True, string="NCM"
@@ -141,7 +140,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     fiscal_operation_type = fields.Selection(
         related="fiscal_operation_id.fiscal_operation_type",
-        string="Fiscal Operation Type",
         readonly=True,
     )
 
@@ -163,21 +161,19 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="CFOP Destination",
     )
 
-    fiscal_price = fields.Float(string="Fiscal Price", digits="Product Price")
+    fiscal_price = fields.Float(digits="Product Price")
 
     uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
 
-    fiscal_quantity = fields.Float(
-        string="Fiscal Quantity", digits="Product Unit of Measure"
-    )
+    fiscal_quantity = fields.Float(digits="Product Unit of Measure")
 
-    discount_value = fields.Monetary(string="Discount Value")
+    discount_value = fields.Monetary()
 
-    insurance_value = fields.Monetary(string="Insurance Value")
+    insurance_value = fields.Monetary()
 
-    other_value = fields.Monetary(string="Other Costs")
+    other_value = fields.Monetary()
 
-    freight_value = fields.Monetary(string="Freight Value")
+    freight_value = fields.Monetary()
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
@@ -188,7 +184,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     amount_fiscal = fields.Monetary(
-        string="Amount Fiscal",
         compute="_compute_amounts",
     )
 
@@ -199,22 +194,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     amount_untaxed = fields.Monetary(
-        string="Amount Untaxed",
         compute="_compute_amounts",
     )
 
     amount_tax = fields.Monetary(
-        string="Amount Tax",
         compute="_compute_amounts",
     )
 
     amount_taxed = fields.Monetary(
-        string="Amount Taxed",
         compute="_compute_amounts",
     )
 
     amount_total = fields.Monetary(
-        string="Amount Total",
         compute="_compute_amounts",
     )
 
@@ -229,13 +220,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     financial_discount_value = fields.Monetary(
-        string="Financial Discount Value",
         compute="_compute_amounts",
     )
 
-    amount_tax_included = fields.Monetary(string="Amount Tax Included")
+    amount_tax_included = fields.Monetary()
 
-    amount_tax_not_included = fields.Monetary(string="Amount Tax not Included")
+    amount_tax_not_included = fields.Monetary()
 
     amount_tax_withholding = fields.Monetary(string="(-) Amount Tax Withholding")
 
@@ -842,15 +832,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
     )
 
-    additional_data = fields.Char(string="Additional Data")
+    additional_data = fields.Char()
 
     manual_additional_data = fields.Char(
-        string="Manual Additional Data", help="Additional data manually entered by user"
+        help="Additional data manually entered by user"
     )
 
-    estimate_tax = fields.Monetary(
-        string="Estimate Tax",
-    )
+    estimate_tax = fields.Monetary()
 
     cnae_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
