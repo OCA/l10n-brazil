@@ -62,7 +62,8 @@ enable=anomalous-backslash-in-string,
     deprecated-openerp-xml-node,
     context-overridden,
     except-pass,
-    attribute-string-redundant
+    attribute-string-redundant,
+    missing-return
 
 
 [REPORTS]
