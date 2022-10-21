@@ -37,7 +37,6 @@ class StockPicking(models.Model):
     )
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
 
