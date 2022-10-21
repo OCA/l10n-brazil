@@ -23,41 +23,30 @@ class BaseWizardMixin(models.TransientModel):
         related="document_type_id.code",
     )
 
-    document_key = fields.Char(
-        string="Document Key",
-    )
+    document_key = fields.Char()
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Partner",
     )
 
-    rps_number = fields.Char(
-        string="RPS Number",
-    )
+    rps_number = fields.Char()
 
-    document_number = fields.Char(
-        string="Document Number",
-    )
+    document_number = fields.Char()
 
-    document_serie = fields.Char(
-        string="Document Serie",
-    )
+    document_serie = fields.Char()
 
     event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
         string="Fiscal Event",
     )
 
-    justification = fields.Text(
-        string="Justification",
-    )
+    justification = fields.Text()
 
     document_status = fields.Text(string="Status", readonly=True)
 
     state = fields.Selection(
         selection=[("init", "init"), ("confirm", "confirm"), ("done", "done")],
-        string="State",
         readonly=True,
         default="init",
     )

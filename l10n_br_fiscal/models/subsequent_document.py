@@ -52,7 +52,6 @@ class SubsequentDocument(models.Model):
     )
 
     operation_performed = fields.Boolean(
-        string="Operation Performed",
         compute="_compute_operation_performed",
         default=False,
         copy=False,

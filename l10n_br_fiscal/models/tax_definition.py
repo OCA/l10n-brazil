@@ -59,7 +59,6 @@ class TaxDefinition(models.Model):
     )
 
     custom_tax = fields.Boolean(
-        string="Custom Tax",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -226,7 +225,6 @@ class TaxDefinition(models.Model):
 
     state = fields.Selection(
         selection=OPERATION_STATE,
-        string="State",
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,

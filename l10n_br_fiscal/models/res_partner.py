@@ -30,7 +30,6 @@ class ResPartner(models.Model):
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
-        string="Tax Framework",
         tracking=True,
     )
 
