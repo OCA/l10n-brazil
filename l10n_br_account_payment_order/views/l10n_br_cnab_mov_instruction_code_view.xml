@@ -5,7 +5,7 @@
         <field name="name">l10n_br_cnab.mov.instruction.code.tree</field>
         <field name="model">l10n_br_cnab.mov.instruction.code</field>
         <field name="arch" type="xml">
-            <tree string="CNAB Movement Instruction Code">
+            <tree>
                 <field name="code" />
                 <field name="name" />
                 <field name="bank_ids" widget="many2many_tags" />
