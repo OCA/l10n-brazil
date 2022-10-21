@@ -72,9 +72,7 @@ class RepairOrder(models.Model):
         string="Comments",
     )
 
-    invoice_count = fields.Integer(
-        string="Invoice Count", compute="_compute_get_invoiced", readonly=True
-    )
+    invoice_count = fields.Integer(compute="_compute_get_invoiced", readonly=True)
 
     invoice_ids = fields.Many2many(
         "account.move",
@@ -88,7 +86,6 @@ class RepairOrder(models.Model):
     client_order_ref = fields.Char(string="Customer Reference", copy=False)
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
 
