@@ -17,7 +17,7 @@ class TestNFeExport(TransactionCase):
         for line in self.invoice_same_state.invoice_line_ids:
             line._onchange_fiscal()
         self.invoice_same_state.with_context(
-            {"fiscal_document_code": "55"}
+            fiscal_document_code="55"
         ).action_invoice_open()
 
     def test_export_xml(self):
@@ -25,9 +25,6 @@ class TestNFeExport(TransactionCase):
             {"file_type": "xml", "nfe_environment": "2"}
         )
         result = self.wizard.with_context(
-            {
-                "active_model": "account.invoice",
-                "active_ids": self.invoice_same_state.id,
-            }
+            active_model="account.invoice", active_ids=self.invoice_same_state.id
         ).nfe_export()
         assert result, "Error in wizard to create XML file."

@@ -48,7 +48,7 @@ class TestSupplierNFe(TransactionCase):
             )
 
         self.invoice_same_state.with_context(
-            {"fiscal_document_code": "55"}
+            fiscal_document_code="55"
         ).action_invoice_open()
         self.assertEqual(
             self.invoice_same_state.state, "open", "Invoice should be in state Open"
