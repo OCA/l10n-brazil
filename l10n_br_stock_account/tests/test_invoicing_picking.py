@@ -134,7 +134,7 @@ class InvoicingPickingTest(SavepointCase):
         picking = self.stock_picking_sp
         return_wizard_form = Form(
             self.stock_return_picking.with_context(
-                dict(active_id=picking.id, active_model="stock.picking")
+                active_id=picking.id, active_model="stock.picking"
             )
         )
         return_wizard_form.invoice_state = "2binvoiced"
@@ -361,7 +361,7 @@ class InvoicingPickingTest(SavepointCase):
         res_dict_for_back_order = picking2.button_validate()
         backorder_wizard = Form(
             self.env[res_dict_for_back_order["res_model"]].with_context(
-                res_dict_for_back_order["context"]
+                **res_dict_for_back_order["context"]
             )
         ).save()
         backorder_wizard.process()
@@ -475,7 +475,7 @@ class InvoicingPickingTest(SavepointCase):
         picking = self.stock_picking_sp_lp
         return_wizard_form = Form(
             self.stock_return_picking.with_context(
-                dict(active_id=picking.id, active_model="stock.picking")
+                active_id=picking.id, active_model="stock.picking"
             )
         )
         return_wizard_form.invoice_state = "2binvoiced"
