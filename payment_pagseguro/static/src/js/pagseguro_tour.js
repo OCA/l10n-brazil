@@ -38,7 +38,7 @@ odoo.define("payment_pagseguro.tour", function (require) {
                             args: [
                                 acquirer,
                                 {
-                                    pagseguro_token: "8EC2714B10DC42DE882BC341A5366899",
+                                    pagseguro_token: "70490B37BABA1C2EE4F4FFB244ED8425",
                                     state: "test",
                                     journal_id: 1,
                                     capture_manually: true,
