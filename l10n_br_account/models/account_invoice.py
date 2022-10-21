@@ -464,10 +464,8 @@ class AccountMove(models.Model):
                     raise UserError(
                         _(
                             "You can't set this document number: {} to draft "
-                            "because this document is cancelled in SEFAZ".format(
-                                i.document_number
-                            )
-                        )
+                            "because this document is cancelled in SEFAZ"
+                        ).format(i.document_number)
                     )
             if i.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
                 i.fiscal_document_id.action_document_back2draft()
