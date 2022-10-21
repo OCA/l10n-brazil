@@ -177,17 +177,14 @@ class ResCompany(models.Model):
         default=TAX_FRAMEWORK_NORMAL,
         compute="_compute_address",
         inverse="_inverse_tax_framework",
-        string="Tax Framework",
     )
 
     profit_calculation = fields.Selection(
         selection=PROFIT_CALCULATION,
         default=PROFIT_CALCULATION_PRESUMED,
-        string="Profit Calculation",
     )
 
     is_industry = fields.Boolean(
-        string="Is Industry",
         help="If your company is industry or ......",
         default=False,
     )
@@ -195,11 +192,9 @@ class ResCompany(models.Model):
     industry_type = fields.Selection(
         selection=INDUSTRY_TYPE,
         default=INDUSTRY_TYPE_TRANSFORMATION,
-        string="Industry Type",
     )
 
     annual_revenue = fields.Monetary(
-        string="Annual Revenue",
         currency_field="currency_id",
     )
 
@@ -220,7 +215,6 @@ class ResCompany(models.Model):
     )
 
     simplifed_tax_percent = fields.Float(
-        string="Simplifed Tax Percent",
         compute="_compute_simplifed_tax",
         store=True,
         digits="Fiscal Tax Percent",
@@ -233,7 +227,6 @@ class ResCompany(models.Model):
 
     coefficient_r = fields.Boolean(
         compute="_compute_simplifed_tax",
-        string="Coefficient R",
         store=True,
         readonly=True,
     )
@@ -247,7 +240,7 @@ class ResCompany(models.Model):
 
     ibpt_api = fields.Boolean(string="Use IBPT API", default=False)
 
-    ibpt_token = fields.Char(string="IBPT Token")
+    ibpt_token = fields.Char()
 
     ibpt_update_days = fields.Integer(string="IBPT Token Updates", default=15)
 
@@ -388,7 +381,6 @@ class ResCompany(models.Model):
 
     delivery_costs = fields.Selection(
         selection=[("line", "By Line"), ("total", "By Total")],
-        string="Delivery Costs",
         help="Define if costs of Insurance, Freight and Other Costs"
         " should be informed by Line or by Total.",
         default="line",

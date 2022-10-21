@@ -77,19 +77,15 @@ class FiscalClosing(models.Model):
         readonly=True,
     )
 
-    name = fields.Char(
-        string="Name", compute="_compute_name", store=True, size=7, index=True
-    )
+    name = fields.Char(compute="_compute_name", store=True, size=7, index=True)
 
-    file_name = fields.Char(
-        string="File Name", compute="_compute_name", store=True, size=11, index=True
-    )
+    file_name = fields.Char(compute="_compute_name", store=True, size=11, index=True)
 
-    year = fields.Char(string="Year", index=True)
+    year = fields.Char(index=True)
 
-    month = fields.Char(string="Month", size=2, index=True)
+    month = fields.Char(size=2, index=True)
 
-    zip_file = fields.Binary(string="Zip Files", readonly=True)
+    zip_file = fields.Binary(readonly=True)
 
     export_type = fields.Selection(
         selection=[("period", "Por período"), ("all", "Tudo")],

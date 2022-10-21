@@ -17,9 +17,9 @@ class PartnerProfile(models.Model):
     _name = "l10n_br_fiscal.partner.profile"
     _description = "Fiscal Partner Profile"
 
-    code = fields.Char(string="Code", size=16, required=True)
+    code = fields.Char(size=16, required=True)
 
-    name = fields.Char(string="Name", size=64)
+    name = fields.Char(size=64)
 
     is_company = fields.Boolean(string="Is Company?")
 
@@ -33,7 +33,7 @@ class PartnerProfile(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, default=TAX_FRAMEWORK_NORMAL, string="Tax Framework"
+        selection=TAX_FRAMEWORK, default=TAX_FRAMEWORK_NORMAL
     )
 
     partner_ids = fields.One2many(

@@ -22,7 +22,6 @@ class Operation(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     code = fields.Char(
-        string="Code",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -30,7 +29,6 @@ class Operation(models.Model):
     )
 
     name = fields.Char(
-        string="Name",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -66,7 +64,6 @@ class Operation(models.Model):
 
     fiscal_type = fields.Selection(
         selection=OPERATION_FISCAL_TYPE,
-        string="Fiscal Type",
         default=OPERATION_FISCAL_TYPE_DEFAULT,
         required=True,
         readonly=True,
@@ -105,7 +102,6 @@ class Operation(models.Model):
 
     state = fields.Selection(
         selection=OPERATION_STATE,
-        string="State",
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,

@@ -24,13 +24,9 @@ class DocumentType(models.Model):
         string="Is Electronic?",
     )
 
-    prefix = fields.Char(
-        string="Prefix",
-    )
+    prefix = fields.Char()
 
-    sufix = fields.Char(
-        string="Sufix",
-    )
+    sufix = fields.Char()
 
     type = fields.Selection(
         selection=DOCUMENT_TYPE,

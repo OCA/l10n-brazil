@@ -23,9 +23,7 @@ class DFe(models.Model):
         size=25,
         default="0",
     )
-    last_query = fields.Datetime(
-        string="Last query",
-    )
+    last_query = fields.Datetime()
 
     recipient_xml_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.dfe_xml",
