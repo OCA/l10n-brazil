@@ -128,8 +128,7 @@ class PaymentOrder(models.Model):
             # Informa se o CNAB especifico de um Banco não está implementado
             # no BRCobranca, evitando a mensagem de erro mais extensa da lib
             raise ValidationError(
-                _("The CNAB %s for Bank %s are not implemented in BRCobranca.")
-                % (
+                _("The CNAB {} for Bank {} are not implemented in BRCobranca.").format(
                     cnab_type,
                     bank_account_id.bank_id.name,
                 )
