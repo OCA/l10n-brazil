@@ -293,8 +293,8 @@ class FiscalClosing(models.Model):
                 _logger.error(
                     _(
                         "Replication failed: document attachments "
-                        "[id =% s] is not present in the database." % document.id
-                    )
+                        "[id = {}] is not present in the database."
+                    ).format(document.id)
                 )
         return temp_dir.name
 

@@ -249,9 +249,8 @@ class Document(models.Model):
             if documents:
                 raise ValidationError(
                     _(
-                        "There is already a fiscal document with this "
-                        "key: {} !".format(record.document_key)
-                    )
+                        "There is already a fiscal document with this " "key: {} !"
+                    ).format(record.document_key)
                 )
             else:
                 ChaveEdoc(chave=record.document_key, validar=True)
@@ -287,10 +286,8 @@ class Document(models.Model):
                 raise ValidationError(
                     _(
                         "There is already a fiscal document with this "
-                        "Serie: {}, Number: {} !".format(
-                            record.document_serie, record.document_number
-                        )
-                    )
+                        "Serie: {}, Number: {} !"
+                    ).format(record.document_serie, record.document_number)
                 )
 
     def _compute_document_name(self):
@@ -386,8 +383,8 @@ class Document(models.Model):
             raise ValidationError(
                 _(
                     "You cannot delete fiscal document number {} with "
-                    "the status: {}!".format(record.document_number, record.state_edoc)
-                )
+                    "the status: {}!"
+                ).format(record.document_number, record.state_edoc)
             )
 
         return super().unlink()
@@ -405,8 +402,8 @@ class Document(models.Model):
                 raise ValidationError(
                     _(
                         "The fiscal operation {} has no return Fiscal "
-                        "Operation defined".format(record.fiscal_operation_id)
-                    )
+                        "Operation defined"
+                    ).format(record.fiscal_operation_id)
                 )
 
             new_doc = record.copy()
@@ -419,8 +416,8 @@ class Document(models.Model):
                     raise ValidationError(
                         _(
                             "The fiscal operation {} has no return Fiscal "
-                            "Operation defined".format(line.fiscal_operation_id)
-                        )
+                            "Operation defined"
+                        ).format(line.fiscal_operation_id)
                     )
                 line.fiscal_operation_id = fsc_op_line
                 line._onchange_fiscal_operation_id()
