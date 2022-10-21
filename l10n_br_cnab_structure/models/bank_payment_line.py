@@ -29,28 +29,12 @@ class BankPaymentLine(models.Model):
 
     cnab_payment_way_id = fields.Many2one(
         comodel_name="cnab.payment.way",
-        compute="_compute_cnab_payment_way_id",
     )
 
     batch_template_id = fields.Many2one(
         comodel_name="l10n_br_cnab.batch",
         compute="_compute_batch_template_id",
     )
-
-    def _compute_cnab_payment_way_id(self):
-        for bline in self:
-            if not bline.payment_way_id:
-                raise UserError(_("Bank Payment Line without Payment Way!"))
-            cnab_payment_way_id = self.env["cnab.payment.way"].search(
-                [
-                    ("account_payment_way_id", "=", bline.payment_way_id.id),
-                    ("cnab_structure_id", "=", bline.order_id.cnab_structure_id.id),
-                ],
-                limit=1,
-            )
-            if not cnab_payment_way_id:
-                raise UserError(_("Mapping for cnab payment way not found"))
-            bline.cnab_payment_way_id = cnab_payment_way_id
 
     @api.depends("partner_pix_id")
     def _compute_cnab_pix_type_id(self):
