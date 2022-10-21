@@ -177,18 +177,14 @@ class AccountPaymentMode(models.Model):
 
             if already_in_use.own_number_sequence_id:
                 raise ValidationError(
-                    _(
-                        "Sequence Own Number already in use by {}!".format(
-                            already_in_use.name
-                        )
+                    _("Sequence Own Number already in use by {}!").format(
+                        already_in_use.name
                     )
                 )
 
             if already_in_use.cnab_sequence_id:
                 raise ValidationError(
-                    _(
-                        "Sequence CNAB Sequence already in use by {}!".format(
-                            already_in_use.name
-                        )
+                    _("Sequence CNAB Sequence already in use by {}!").format(
+                        already_in_use.name
                     )
                 )
