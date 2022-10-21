@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!-- Simples Nacional -->
 
          <!-- Resource: stock.inventory -->
@@ -85,17 +84,17 @@
 
         <function model="stock.inventory" name="action_start">
             <function
-                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
-                model="stock.inventory"
-                name="search"
-            />
+            eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
+            model="stock.inventory"
+            name="search"
+        />
         </function>
         <function model="stock.inventory" name="action_validate">
             <function
-                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
-                model="stock.inventory"
-                name="search"
-            />
+            eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
+            model="stock.inventory"
+            name="search"
+        />
         </function>
 
         <!-- Lucro Presumido -->
@@ -182,18 +181,17 @@
 
         <function model="stock.inventory" name="action_start">
             <function
-                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
-                model="stock.inventory"
-                name="search"
-            />
+            eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
+            model="stock.inventory"
+            name="search"
+        />
         </function>
         <function model="stock.inventory" name="action_validate">
             <function
-                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
-                model="stock.inventory"
-                name="search"
-            />
+            eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
+            model="stock.inventory"
+            name="search"
+        />
         </function>
 
-    </data>
 </odoo>
