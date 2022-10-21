@@ -16,11 +16,11 @@ class Cest(models.Model):
 
     code_unmasked = fields.Char(size=7)
 
-    name = fields.Text(string="Name", required=True, index=True)
+    name = fields.Text(required=True, index=True)
 
-    item = fields.Char(string="Item", required=True)
+    item = fields.Char(required=True)
 
-    segment = fields.Selection(selection=CEST_SEGMENT, string="Segment", required=True)
+    segment = fields.Selection(selection=CEST_SEGMENT, required=True)
 
     product_tmpl_ids = fields.One2many(inverse_name="cest_id")
 

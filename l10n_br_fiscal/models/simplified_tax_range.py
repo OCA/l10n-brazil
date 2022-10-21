@@ -9,10 +9,10 @@ class SimplifiedTaxRange(models.Model):
     _description = "National Simplified Tax Range"
     _order = "name asc"
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(required=True)
 
     simplified_tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.simplified.tax", string="Simplified Tax ID"
+        comodel_name="l10n_br_fiscal.simplified.tax", string="Simplified Tax"
     )
 
     currency_id = fields.Many2one(
@@ -26,12 +26,10 @@ class SimplifiedTaxRange(models.Model):
     )
 
     inital_revenue = fields.Monetary(
-        string="Initial Revenue",
         currency_field="currency_id",
     )
 
     final_revenue = fields.Monetary(
-        string="Final Revenue",
         currency_field="currency_id",
     )
 

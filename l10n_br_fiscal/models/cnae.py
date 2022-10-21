@@ -12,7 +12,7 @@ class Cnae(models.Model):
 
     code = fields.Char(size=16)
 
-    version = fields.Char(string="Version", size=16, required=True)
+    version = fields.Char(size=16, required=True)
 
     parent_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae", string="Parent CNAE"
@@ -26,7 +26,6 @@ class Cnae(models.Model):
 
     internal_type = fields.Selection(
         selection=[("view", "View"), ("normal", "Normal")],
-        string="Internal Type",
         required=True,
         default="normal",
     )

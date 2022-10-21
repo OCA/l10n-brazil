@@ -19,7 +19,7 @@ class Cfop(models.Model):
 
     code = fields.Char(size=4)
 
-    small_name = fields.Char(string="Small Name", size=32, required=True)
+    small_name = fields.Char(size=32, required=True)
 
     type_in_out = fields.Selection(
         selection=FISCAL_IN_OUT, string="Type", required=True, default=FISCAL_OUT
@@ -27,7 +27,6 @@ class Cfop(models.Model):
 
     destination = fields.Selection(
         selection=CFOP_DESTINATION,
-        string="Destination",
         required=True,
         help="Identifies the operation destination.",
     )
@@ -58,7 +57,6 @@ class Cfop(models.Model):
 
     type_move = fields.Selection(
         selection=CFOP_TYPE_MOVE,
-        string="Type Move",
         required=True,
         default=CFOP_TYPE_MOVE_DEFAULT,
     )

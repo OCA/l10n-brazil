@@ -9,7 +9,7 @@ class SimplifiedTax(models.Model):
     _name = "l10n_br_fiscal.simplified.tax"
     _description = "National Simplified Tax"
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(required=True)
 
     cnae_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.cnae",
@@ -28,6 +28,5 @@ class SimplifiedTax(models.Model):
     )
 
     coefficient_r = fields.Boolean(
-        string="Coefficient R",
         readonly=True,
     )
