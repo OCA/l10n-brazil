@@ -74,7 +74,6 @@ class ContractContract(models.Model):
     )
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
 
