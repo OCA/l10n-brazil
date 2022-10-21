@@ -28,10 +28,6 @@ class CNABPaymentWay(models.Model):
         string="Cnab Batch",
     )
 
-    account_payment_way_id = fields.Many2one(
-        comodel_name="account.payment.way", string="Payment Way"
-    )
-
     clearinghouse_code = fields.Char(
         help="Centralizing Clearing House Code\n(Código da Câmara Centralizadora)"
     )

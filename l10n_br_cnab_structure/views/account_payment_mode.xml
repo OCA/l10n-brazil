@@ -21,6 +21,10 @@
                     name="cnab_structure_id"
                     attrs="{'invisible': [('cnab_processor', '!=', 'oca_processor')], 'required': [('cnab_processor', '=', 'oca_processor')]}"
                 />
+                <field
+                    name="cnab_payment_way_id"
+                    attrs="{'invisible': [('cnab_processor', '!=', 'oca_processor')]}"
+                />
             </field>
         </field>
     </record>

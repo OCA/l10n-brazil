@@ -3,7 +3,7 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AccountPaymentOrder(models.Model):
@@ -47,6 +47,18 @@ class AccountPaymentOrder(models.Model):
 
         str_file = self.cnab_structure_id.output(self).encode("utf-8")
         return str_file, self.get_file_name(cnab_type)
+
+    @api.model
+    def _prepare_bank_payment_line(self, paylines):
+        vals = super()._prepare_bank_payment_line(paylines)
+        vals.update(
+            {
+                "cnab_payment_way_id": paylines[
+                    0
+                ].order_id.payment_mode_id.cnab_payment_way_id.id,
+            }
+        )
+        return vals
 
     def generated2uploaded(self):
         super().generated2uploaded()
