@@ -32,13 +32,13 @@ class L10nBrZip(models.Model):
 
     zip_code = fields.Char(string="CEP", required=True)
 
-    street_type = fields.Char(string="Street Type")
+    street_type = fields.Char()
 
     zip_complement = fields.Char(string="Range")
 
     street_name = fields.Char(string="Logradouro")
 
-    district = fields.Char(string="District")
+    district = fields.Char()
 
     country_id = fields.Many2one(comodel_name="res.country", string="Country")
 
