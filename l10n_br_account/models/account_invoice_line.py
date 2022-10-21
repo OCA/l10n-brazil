@@ -35,7 +35,6 @@ class AccountMoveLine(models.Model):
     # To make the invoice lines still visible, we set active=True
     # in the account_move_line table.
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
