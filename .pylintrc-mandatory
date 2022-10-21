@@ -59,7 +59,8 @@ enable=anomalous-backslash-in-string,
     xml-syntax-error,
     test-folder-imported,
     deprecated-data-xml-node,
-    deprecated-openerp-xml-node
+    deprecated-openerp-xml-node,
+    context-overridden
 
 
 [REPORTS]
