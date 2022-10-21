@@ -56,7 +56,8 @@ enable=anomalous-backslash-in-string,
     unreachable,
     use-vim-comment,
     wrong-tabs-instead-of-spaces,
-    xml-syntax-error
+    xml-syntax-error,
+    test-folder-imported
 
 [REPORTS]
 msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
