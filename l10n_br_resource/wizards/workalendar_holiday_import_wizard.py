@@ -32,8 +32,8 @@ class WorkalendarHolidayImport(models.TransientModel):
                 wiz.interval_type
             ](wiz.interval_number)
 
-    start_date = fields.Date(string="Start Date", default=fields.Date.today, readonly=1)
-    end_date = fields.Date(string="End Date", compute="_compute_end_date")
+    start_date = fields.Date(default=fields.Date.today, readonly=1)
+    end_date = fields.Date(compute="_compute_end_date")
     interval_number = fields.Integer(string="Interval", default=1)
     interval_type = fields.Selection(
         [
