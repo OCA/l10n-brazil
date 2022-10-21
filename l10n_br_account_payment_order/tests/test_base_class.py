@@ -42,7 +42,7 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
         ctx = dict(
             active_ids=financial_move_line_ids.ids, active_model="account.move.line"
         )
-        return self.move_line_change_id.with_context(ctx)
+        return self.move_line_change_id.with_context(**ctx)
 
     def import_with_po_wizard(self, payment_mode_id, payment_type="inbound", aml=False):
         order_vals = {
