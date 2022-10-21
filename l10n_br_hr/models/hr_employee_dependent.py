@@ -72,7 +72,7 @@ class HrEmployeeDependent(models.Model):
         # O sudo foi utilizado para evitar a permissão de criação de contato
         # para o funcionário.
         #
-        return super(HrEmployeeDependent, self.sudo().with_context(ctx)).create(vals)
+        return super(HrEmployeeDependent, self.sudo().with_context(**ctx)).create(vals)
 
     @api.onchange("cnpj_cpf")
     def onchange_cpf(self):
