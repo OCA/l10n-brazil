@@ -50,6 +50,5 @@ class ResourceCalendarLeave(models.Model):
         selection=[item for item in TIPO_FERIADO.items()],
     )
     abrangencia = fields.Selection(
-        string="Abrangencia",
         selection=[item for item in ABRANGENCIA_FERIADO.items()],
     )
