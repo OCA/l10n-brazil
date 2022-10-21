@@ -23,9 +23,9 @@ class Lead(models.Model):
 
     cnpj = fields.Char(string="CNPJ")
 
-    street_name = fields.Char(string="Street Name")
+    street_name = fields.Char()
 
-    street_number = fields.Char(string="Street Number")
+    street_number = fields.Char()
 
     name_surname = fields.Char(
         string="Name and Surname", help="Name used in fiscal documents"
