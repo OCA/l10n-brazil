@@ -30,7 +30,7 @@ class L10nBrSaleInvoicePlanBaseTest(SavepointCase):
         }
         self.so_service.action_confirm()
         make_wizard = self.env["sale.make.planned.invoice"].create({})
-        make_wizard.with_context(ctx).create_invoices_by_plan()
+        make_wizard.with_context(**ctx).create_invoices_by_plan()
         invoices = self.so_service.invoice_ids
         line = invoices[0].invoice_line_ids[0]
         self.assertEqual(len(invoices), 1, "Only 1 invoice should be created")
