@@ -250,7 +250,6 @@
                                 <tree default_order="code" editable="bottom">
                                     <field name="code" />
                                     <field name="description" />
-                                    <field name="account_payment_way_id" />
                                     <field name="clearinghouse_code" />
                                 </tree>
                             </field>
