@@ -80,17 +80,14 @@ class SaleReport(models.Model):
     )
 
     freight_value = fields.Float(
-        string="Freight Value",
         digits="Account",
     )
 
     insurance_value = fields.Float(
-        string="Insurance Value",
         digits="Account",
     )
 
     other_value = fields.Float(
-        string="Other Value",
         digits="Account",
     )
 
