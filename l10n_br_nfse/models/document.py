@@ -53,17 +53,14 @@ class Document(models.Model):
         default="1",
     )
     operation_nature = fields.Selection(
-        string="Operation Nature",
         selection=OPERATION_NATURE,
         default="1",
     )
     taxation_special_regime = fields.Selection(
-        string="Taxation Special Regime",
         selection=TAXATION_SPECIAL_REGIME,
         default="1",
     )
     verify_code = fields.Char(
-        string="Verify Code",
         readonly=True,
         copy=False,
     )
