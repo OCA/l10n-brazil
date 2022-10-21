@@ -6,9 +6,9 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo noupdate="1">
-    <!-- SISPAG ITAÚ - TED/DOC/OP -->
-    <record id="payment_mode_sispag_ted_doc_op" model="account.payment.mode">
-        <field name="name">SISPAG Itaú TED/DOC/OP</field>
+    <!-- SISPAG ITAÚ - TED -->
+    <record id="payment_mode_sispag_ted" model="account.payment.mode">
+        <field name="name">TED - SISPAG Itaú </field>
         <field name="company_id" ref="base.main_company" />
         <field name="payment_method_id" ref="payment_mode_type_cnab240_out" />
         <field name="bank_account_link">fixed</field>
@@ -17,17 +17,15 @@
             ref="l10n_br_account_payment_order.itau_journal"
         />
         <field name="payment_order_ok">True</field>
-        <field
-            name="account_payment_way_ids"
-            eval="[(6, 0, [ref('l10n_br_account_payment_way.account_payment_way_ted')])]"
-        />
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
         <field name="cnab_processor">oca_processor</field>
         <field name="cnab_structure_id" ref="cnab_itau_240" />
+        <field name="cnab_payment_way_id" ref="cnab_itau_240_pay_way_41" />
     </record>
+    <!-- SISPAG ITAÚ - PIX Transferência -->
     <record id="payment_mode_sispag_pix_trasfer" model="account.payment.mode">
-        <field name="name">SISPAG Itaú - PIX Transferência</field>
+        <field name="name">PIX Transferência - SISPAG Itaú</field>
         <field name="company_id" ref="base.main_company" />
         <field name="payment_method_id" ref="payment_mode_type_cnab240_out" />
         <field name="bank_account_link">fixed</field>
@@ -36,13 +34,10 @@
             ref="l10n_br_account_payment_order.itau_journal"
         />
         <field name="payment_order_ok">True</field>
-        <field
-            name="account_payment_way_ids"
-            eval="[(6, 0, [ref('l10n_br_account_payment_way.account_payment_way_pix_transfer')])]"
-        />
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
         <field name="cnab_processor">oca_processor</field>
         <field name="cnab_structure_id" ref="cnab_itau_240" />
+        <field name="cnab_payment_way_id" ref="cnab_itau_240_pay_way_45" />
     </record>
 </odoo>
