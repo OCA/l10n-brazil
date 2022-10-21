@@ -4,7 +4,11 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo import models
+
+_logger = logging.getLogger(__name__)
 
 
 class BankPaymentLine(models.Model):
@@ -72,7 +76,7 @@ class BankPaymentLine(models.Model):
             if bank_method:
                 bank_method(payment_mode_id, linhas_pagamentos)
         except Exception:
-            pass
+            _logger.warning("can't prepare paymeny line")
 
         # Cada Banco pode possuir seus Codigos de Instrução
         if (
