@@ -60,7 +60,8 @@ enable=anomalous-backslash-in-string,
     test-folder-imported,
     deprecated-data-xml-node,
     deprecated-openerp-xml-node,
-    context-overridden
+    context-overridden,
+    except-pass
 
 
 [REPORTS]
