@@ -19,12 +19,12 @@ from ..constants.br_cobranca import (
     get_brcobranca_bank,
 )
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 try:
     from erpbrasil.base import misc
 except ImportError:
-    logger.error("Biblioteca erpbrasil.base não instalada")
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class PaymentOrder(models.Model):
@@ -159,7 +159,7 @@ class PaymentOrder(models.Model):
             if bank_method:
                 bank_method(remessa_values)
         except Exception:
-            pass
+            _logger.warning("can't generate paymeny file")
 
         remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
@@ -178,7 +178,7 @@ class PaymentOrder(models.Model):
         brcobranca_api_url = get_brcobranca_api_url(self.env)
         # EX.: "http://boleto_cnab_api:9292/api/remessa"
         brcobranca_service_url = brcobranca_api_url + "/api/remessa"
-        logger.info(
+        _logger.info(
             "Connecting to %s to generate CNAB-REMESSA file for Payment Order %s",
             brcobranca_service_url,
             self.name,
