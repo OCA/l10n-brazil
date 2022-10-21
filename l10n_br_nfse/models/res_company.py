@@ -16,7 +16,6 @@ class ResCompany(models.Model):
         default=False,
     )
     cultural_sponsor = fields.Boolean(
-        string="Cultural Sponsor",
         default=False,
     )
     nfse_environment = fields.Selection(
