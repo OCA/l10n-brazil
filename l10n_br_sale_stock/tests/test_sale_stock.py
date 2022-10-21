@@ -272,7 +272,7 @@ class TestSaleStock(SavepointCase):
         # Teste de Retorno
         return_wizard_form = Form(
             self.stock_return_picking.with_context(
-                dict(active_id=picking.id, active_model="stock.picking")
+                active_id=picking.id, active_model="stock.picking"
             )
         )
         return_wizard_form.invoice_state = "2binvoiced"
