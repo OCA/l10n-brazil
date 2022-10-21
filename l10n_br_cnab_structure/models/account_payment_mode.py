@@ -18,3 +18,5 @@ class AccountPaymentMode(models.Model):
     )
 
     cnab_structure_id = fields.Many2one("l10n_br_cnab.structure")
+
+    cnab_payment_way_id = fields.Many2one("cnab.payment.way")
