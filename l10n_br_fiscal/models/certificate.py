@@ -34,17 +34,15 @@ class Certificate(models.Model):
     _description = "Certificate"
     _order = "date_expiration"
 
-    name = fields.Char(string="Name", compute="_compute_name", readonly=True)
+    name = fields.Char(compute="_compute_name", readonly=True)
 
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(default=True)
 
-    date_start = fields.Datetime(string="Start Date", readonly=True, store=True)
+    date_start = fields.Datetime(readonly=True, store=True)
 
-    date_expiration = fields.Datetime(
-        string="Expiration Date", readonly=True, store=True
-    )
+    date_expiration = fields.Datetime(readonly=True, store=True)
 
-    issuer_name = fields.Char(string="Issuer", size=120, readonly=True, store=True)
+    issuer_name = fields.Char(size=120, readonly=True, store=True)
 
     owner_name = fields.Char(string="Owner", size=120, readonly=True, store=True)
 
@@ -66,9 +64,9 @@ class Certificate(models.Model):
 
     file = fields.Binary(string="file", prefetch=True, required=True)
 
-    file_name = fields.Char(string="File Name", compute="_compute_name", size=255)
+    file_name = fields.Char(compute="_compute_name", size=255)
 
-    password = fields.Char(string="Password", required=True)
+    password = fields.Char(required=True)
 
     is_valid = fields.Boolean(compute="_compute_is_valid", string="Is Valid?")
 

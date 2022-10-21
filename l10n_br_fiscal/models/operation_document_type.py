@@ -37,7 +37,6 @@ class OperationDocumentType(models.Model):
     )
 
     name = fields.Char(
-        string="Name",
         compute="_compute_name",
     )
 
