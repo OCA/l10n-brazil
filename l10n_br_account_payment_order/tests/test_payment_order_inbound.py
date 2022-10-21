@@ -160,7 +160,7 @@ class TestPaymentOrderInbound(SavepointCase):
             "active_model": "account.move",
             "active_ids": [self.invoice_unicred.id],
         }
-        register_payments = self.register_payments_model.with_context(ctx).create(
+        register_payments = self.register_payments_model.with_context(**ctx).create(
             {
                 "payment_date": Date.context_today(self.env.user),
                 "journal_id": self.journal_cash.id,
@@ -198,7 +198,7 @@ class TestPaymentOrderInbound(SavepointCase):
             "active_model": "account.move",
             "active_ids": [self.invoice_unicred.id],
         }
-        register_payments = self.register_payments_model.with_context(ctx).create(
+        register_payments = self.register_payments_model.with_context(**ctx).create(
             {
                 "payment_date": Date.context_today(self.env.user),
                 "journal_id": self.journal_cash.id,
