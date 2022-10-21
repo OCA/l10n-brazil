@@ -8,10 +8,9 @@ class CarrierVehicle(models.Model):
     _name = "l10n_br_delivery.carrier.vehicle"
     _description = "Carrier Vehicle"
 
-    name = fields.Char(string="Name", required=True, size=32)
+    name = fields.Char(required=True, size=32)
 
     description = fields.Char(
-        string="Description",
         size=132,
     )
 
@@ -21,7 +20,6 @@ class CarrierVehicle(models.Model):
     )
 
     driver = fields.Char(
-        string="Driver",
         size=64,
     )
 
@@ -47,9 +45,7 @@ class CarrierVehicle(models.Model):
         domain="[('state_id', '=', state_id)]",
     )
 
-    active = fields.Boolean(
-        string="Active",
-    )
+    active = fields.Boolean()
 
     manufacture_year = fields.Char(
         string="Ano de Fabricação",
