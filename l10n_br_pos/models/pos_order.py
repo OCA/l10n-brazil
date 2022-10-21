@@ -565,3 +565,8 @@ class PosOrder(models.Model):
             mail_create_nosubscribe=True,
             mail_notrack=True,
         ).refund()
+
+    def _compute_amount(self):
+        super(PosOrder, self)._compute_amount()
+        for order in self:
+            order._onchange_amount_all()
