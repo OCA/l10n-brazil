@@ -127,7 +127,7 @@
         <field name="model">l10n_br_fiscal.mdfe</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Destined Documents" create="false" limit="5">
+            <tree create="false" limit="5">
                 <field name="nsu" />
                 <field name="supplier" />
                 <field name="cnpj_cpf" />
