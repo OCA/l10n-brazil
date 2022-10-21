@@ -86,7 +86,7 @@ class L10nBrCnab(models.Model):
     display_name = fields.Char(compute="_compute_display_name", store=True, index=True)
 
     return_file = fields.Binary(string="Arquivo Retorno")
-    filename = fields.Char(string="Filename")
+    filename = fields.Char()
     bank_account_id = fields.Many2one(
         string="Conta cedente", comodel_name="res.partner.bank"
     )
@@ -99,7 +99,7 @@ class L10nBrCnab(models.Model):
     lot_id = fields.One2many(
         string="Lotes", comodel_name="l10n_br.cnab.lote", inverse_name="cnab_id"
     )
-    name = fields.Char(string="Name")
+    name = fields.Char()
     number_events = fields.Integer(string="Número de Eventos")
     number_lots = fields.Integer(string="Número de Lotes")
     state = fields.Selection(string="Estágio", selection=STATE_CNAB, default="draft")
