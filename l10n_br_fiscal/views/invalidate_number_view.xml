@@ -16,7 +16,7 @@
     <field name="name">l10n_br_fiscal.invalidate.number.tree</field>
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
-      <tree string="Invalidate Number">
+      <tree>
           <field name="company_id" />
           <field name="document_type_id" />
           <field name="document_serie_id" />
