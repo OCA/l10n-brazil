@@ -36,7 +36,6 @@ class Operation(models.Model):
     )
 
     deductible_taxes = fields.Boolean(
-        string="Deductible Taxes",
         company_dependent=True,
     )
 

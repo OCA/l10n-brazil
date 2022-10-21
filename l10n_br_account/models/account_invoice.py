@@ -68,7 +68,6 @@ class AccountMove(models.Model):
     # To make the invoices still visible, we set active=True
     # in the account_move table.
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
