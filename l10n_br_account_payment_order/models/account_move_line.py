@@ -71,7 +71,6 @@ class AccountMoveLine(models.Model):
     )
 
     journal_entry_ref = fields.Char(
-        string="Journal Entry Ref",
         compute="_compute_journal_entry_ref",
         store=True,
     )

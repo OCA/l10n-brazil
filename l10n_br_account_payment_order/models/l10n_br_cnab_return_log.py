@@ -14,7 +14,7 @@ class L10nBrCNABReturnLog(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "CNAB Return Log"
 
-    name = fields.Char(string="Name")
+    name = fields.Char()
     filename = fields.Char(string="Nome do Arquivo")
     number_events = fields.Integer(string="Número de Eventos")
     number_lots = fields.Integer(string="Número de Lotes")
