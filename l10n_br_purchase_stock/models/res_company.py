@@ -18,6 +18,5 @@ class Company(models.Model):
             ("purchase_order", _("Purchase Order")),
             ("stock_picking", _("Stock Picking")),
         ],
-        string="Purchase Create Invoice Policy",
         default="purchase_order",
     )
