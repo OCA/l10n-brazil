@@ -28,22 +28,18 @@ class DocumentEletronic(models.AbstractModel):
         selection=DOCUMENT_ISSUER,
         default=DOCUMENT_ISSUER_COMPANY,
         required=True,
-        string="Issuer",
     )
 
     status_code = fields.Char(
-        string="Status Code",
         copy=False,
     )
 
     status_name = fields.Char(
-        string="Status Name",
         copy=False,
     )
 
     status_description = fields.Char(
         compute="_compute_status_description",
-        string="Status Description",
         copy=False,
     )
 
@@ -56,13 +52,11 @@ class DocumentEletronic(models.AbstractModel):
     )
 
     authorization_date = fields.Datetime(
-        string="Authorization Date",
         readonly=True,
         related="authorization_event_id.protocol_date",
     )
 
     authorization_protocol = fields.Char(
-        string="Authorization Protocol",
         related="authorization_event_id.protocol_number",
         readonly=True,
     )
@@ -91,13 +85,11 @@ class DocumentEletronic(models.AbstractModel):
     )
 
     cancel_date = fields.Datetime(
-        string="Cancel Date",
         readonly=True,
         related="cancel_event_id.protocol_date",
     )
 
     cancel_protocol_number = fields.Char(
-        string="Cancel Protocol Number",
         related="cancel_event_id.protocol_number",
         readonly=True,
     )
@@ -118,13 +110,11 @@ class DocumentEletronic(models.AbstractModel):
     )
 
     invalidate_date = fields.Datetime(
-        string="Invalidate Date",
         readonly=True,
         related="invalidate_event_id.protocol_date",
     )
 
     invalidate_protocol_number = fields.Char(
-        string="Invalidate Protocol Number",
         related="invalidate_event_id.protocol_number",
         readonly=True,
     )

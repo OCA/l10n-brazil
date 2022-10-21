@@ -58,13 +58,9 @@ class DocumentWorkflow(models.AbstractModel):
         index=True,
     )
 
-    cancel_reason = fields.Char(
-        string="Cancel Reason",
-    )
+    cancel_reason = fields.Char()
 
-    correction_reason = fields.Char(
-        string="Correction Reason",
-    )
+    correction_reason = fields.Char()
 
     def _direct_draft_send(self):
         return False
