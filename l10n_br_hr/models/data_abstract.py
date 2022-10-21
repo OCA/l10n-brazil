@@ -10,9 +10,9 @@ class DataAbstract(models.AbstractModel):
     _description = "HR Data Abstract"
     _order = "code"
 
-    code = fields.Char(string="Code", required=True, index=True)
+    code = fields.Char(required=True, index=True)
 
-    name = fields.Text(string="Name", required=True, index=True)
+    name = fields.Text(required=True, index=True)
 
     def name_get(self):
         return [(r.id, "{} - {}".format(r.code, r.name)) for r in self]

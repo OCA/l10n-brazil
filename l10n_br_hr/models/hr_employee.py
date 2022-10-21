@@ -17,7 +17,7 @@ class HrEmployee(models.Model):
 
     cnpj_cpf = fields.Char(string="CNPJ/CPF")
 
-    naturalidade = fields.Many2one(string="Naturalidade", comodel_name="res.city")
+    naturalidade = fields.Many2one(comodel_name="res.city")
 
     pis_pasep = fields.Char(string="PIS/PASEP")
 
@@ -44,7 +44,6 @@ class HrEmployee(models.Model):
     )
 
     educational_attainment = fields.Many2one(
-        string="Educational attainment",
         comodel_name="hr.educational.attainment",
         tracking=True,
     )
@@ -72,26 +71,25 @@ class HrEmployee(models.Model):
 
     rg_emission = fields.Date(string="Emission date")
 
-    voter_title = fields.Char(string="Voter title")
+    voter_title = fields.Char()
 
-    voter_zone = fields.Char(string="Voter zone")
+    voter_zone = fields.Char()
 
-    voter_section = fields.Char(string="Voter section")
+    voter_section = fields.Char()
 
     driver_license = fields.Char(string="Driver license number")
 
     driver_categ = fields.Char(string="Driver license category")
 
-    father_name = fields.Char(string="Father name")
+    father_name = fields.Char()
 
-    mother_name = fields.Char(string="Mother name")
+    mother_name = fields.Char()
 
-    expiration_date = fields.Date(string="Expiration date")
+    expiration_date = fields.Date()
 
-    ethnicity = fields.Many2one(string="Ethnicity", comodel_name="hr.ethnicity")
+    ethnicity = fields.Many2one(comodel_name="hr.ethnicity")
 
     blood_type = fields.Selection(
-        string="Blood type",
         selection=[
             ("a+", "A+"),
             ("a-", "A-"),
@@ -108,7 +106,7 @@ class HrEmployee(models.Model):
         string="Deficiency", comodel_name="hr.deficiency", tracking=True
     )
 
-    deficiency_description = fields.Char(string="Deficiency description")
+    deficiency_description = fields.Char()
 
     identity_type_id = fields.Many2one(
         string="ID type", comodel_name="hr.identity.type"
@@ -130,13 +128,13 @@ class HrEmployee(models.Model):
         string="Civil certificate type", comodel_name="hr.civil.certificate.type"
     )
 
-    alternate_phone = fields.Char(string="Alternate phone")
+    alternate_phone = fields.Char()
 
-    emergency_phone = fields.Char(string="Emergency phone")
+    emergency_phone = fields.Char()
 
     talk_to = fields.Char(string="Emergency contact name")
 
-    alternate_email = fields.Char(string="Alternate email")
+    alternate_email = fields.Char()
 
     marital = fields.Selection(
         selection_add=[
