@@ -35,7 +35,7 @@ class DocumentRelated(models.Model):
 
     document_type_code = fields.Char(related="document_type_id.code")
 
-    document_key = fields.Char(string="Document Key", size=44)
+    document_key = fields.Char(size=44)
 
     document_serie = fields.Char(string="Serie", size=12)
 

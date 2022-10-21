@@ -76,21 +76,15 @@ class FiscalDocumentMixin(models.AbstractModel):
         domain=[("object", "=", FISCAL_COMMENT_DOCUMENT)],
     )
 
-    fiscal_additional_data = fields.Text(
-        string="Fiscal Additional Data",
-    )
+    fiscal_additional_data = fields.Text()
 
     manual_fiscal_additional_data = fields.Char(
-        string="Manual Fiscal Additional Data",
         help="Fiscal Additional data manually entered by user",
     )
 
-    customer_additional_data = fields.Text(
-        string="Customer Additional Data",
-    )
+    customer_additional_data = fields.Text()
 
     manual_customer_additional_data = fields.Char(
-        string="Manual Customer Additional Data",
         help="Customer Additional data manually entered by user",
     )
 
@@ -115,7 +109,6 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     amount_untaxed = fields.Monetary(
-        string="Amount Untaxed",
         compute="_compute_amount",
         store=True,
     )
@@ -349,25 +342,21 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     amount_estimate_tax = fields.Monetary(
-        string="Amount Estimate Tax",
         compute="_compute_amount",
         store=True,
     )
 
     amount_tax = fields.Monetary(
-        string="Amount Tax",
         compute="_compute_amount",
         store=True,
     )
 
     amount_total = fields.Monetary(
-        string="Amount Total",
         compute="_compute_amount",
         store=True,
     )
 
     amount_tax_withholding = fields.Monetary(
-        string="Amount Tax Withholding",
         compute="_compute_amount",
         store=True,
     )
