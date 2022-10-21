@@ -704,7 +704,7 @@ class NFe(spec_models.StackedModel):
                     record.nfe40_cDV = chave.digito_verificador
                 except Exception as e:
                     raise ValidationError(
-                        _("{}:\n {}".format(record.document_type_id.name, e))
+                        _("{}:\n {}").format(record.document_type_id.name, e)
                     )
 
     def _serialize(self, edocs):
