@@ -710,7 +710,7 @@ class NFe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context({"lang": "pt_BR"}).filtered(
+        for record in self.with_context(lang="pt_BR").filtered(
             filter_processador_edoc_nfe
         ):
             inf_nfe = record.export_ds()[0]

@@ -19,7 +19,7 @@ class TestCustomerNFeRefund(TransactionCase):
         for line in self.invoice_same_state.invoice_line_ids:
             line._onchange_fiscal()
         self.invoice_same_state.with_context(
-            {"fiscal_document_code": "55"}
+            fiscal_document_code="55"
         ).action_invoice_open()
 
     def test_customer_nfe_refund(self):
@@ -28,10 +28,7 @@ class TestCustomerNFeRefund(TransactionCase):
             {"file_type": "xml", "nfe_environment": "2"}
         )
         result_export = self.wizard.with_context(
-            {
-                "active_model": "account.invoice",
-                "active_ids": self.invoice_same_state.id,
-            }
+            active_model="account.invoice", active_ids=self.invoice_same_state.id
         ).nfe_export()
         assert result_export, "Error in wizard to create XML file."
 
@@ -47,10 +44,7 @@ class TestCustomerNFeRefund(TransactionCase):
             {"description": "Test refund sale invoice"}
         )
         result = self.wizard.with_context(
-            {
-                "active_model": "account.invoice",
-                "active_ids": self.invoice_same_state.id,
-            }
+            active_model="account.invoice", active_ids=self.invoice_same_state.id
         ).invoice_refund()
 
         assert result, "Error in wizard to create Refund Invoice."
