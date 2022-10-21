@@ -4,7 +4,6 @@
 from .hooks import pre_init_hook
 
 from . import models
-from . import tests
 
 from odoo.addons import account
 from odoo import api, tools, SUPERUSER_ID
