@@ -93,7 +93,7 @@ class TestCustomerNFe(TransactionCase):
             self.assertEqual(line.cofins_percent, 3.0, "ICMS Percent is not 3.0 .")
 
         self.invoice_same_state.with_context(
-            {"fiscal_document_code": "55"}
+            fiscal_document_code="55"
         ).action_invoice_open()
         self.assertEqual(
             self.invoice_same_state.state,
@@ -174,7 +174,7 @@ class TestCustomerNFe(TransactionCase):
             self.assertEqual(line.other_value, 10.0, "Other Costs value is not 10.0")
 
         self.invoice_other_costs.with_context(
-            {"fiscal_document_code": "55"}
+            fiscal_document_code="55"
         ).action_invoice_open()
         self.assertEqual(
             self.invoice_other_costs.amount_freight_value,
