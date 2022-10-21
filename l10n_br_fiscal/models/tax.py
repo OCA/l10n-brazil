@@ -56,10 +56,9 @@ class Tax(models.Model):
     _order = "sequence, tax_domain, name"
     _description = "Fiscal Tax"
 
-    name = fields.Char(string="Name", size=256, required=True)
+    name = fields.Char(size=256, required=True)
 
     sequence = fields.Integer(
-        string="Sequence",
         related="tax_group_id.sequence",
         help="The sequence field is used to define the "
         "order in which taxes are displayed.",
@@ -67,7 +66,6 @@ class Tax(models.Model):
     )
 
     compute_sequence = fields.Integer(
-        string="Compute Sequence",
         related="tax_group_id.compute_sequence",
         help="The sequence field is used to define "
         "order in which the tax lines are applied.",
@@ -80,7 +78,6 @@ class Tax(models.Model):
 
     tax_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
-        string="Tax Base Type",
         default=TAX_BASE_TYPE_PERCENT,
         required=True,
     )
@@ -90,7 +87,6 @@ class Tax(models.Model):
     )
 
     percent_reduction = fields.Float(
-        string="Percent Reduction",
         digits="Fiscal Tax Percent",
         required=True,
     )
@@ -143,7 +139,6 @@ class Tax(models.Model):
     # ICMS Fields
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
-        string="ICMS Base Type",
         required=True,
         default=ICMS_BASE_TYPE_DEFAULT,
     )

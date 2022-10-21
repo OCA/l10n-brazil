@@ -33,16 +33,13 @@ class MDFe(models.Model):
         string="Company",
     )
     document_key = fields.Char(
-        string="Access Key",
         size=44,
     )
     serie = fields.Char(
-        string="Serie",
         size=3,
         index=True,
     )
     document_number = fields.Float(
-        string="Document Number",
         index=True,
         digits=(18, 0),
     )
@@ -51,7 +48,6 @@ class MDFe(models.Model):
         string="Fiscal Document",
     )
     emitter = fields.Char(
-        string="Emitter",
         size=60,
     )
     cnpj_cpf = fields.Char(
@@ -67,7 +63,6 @@ class MDFe(models.Model):
 
     operation_type = fields.Selection(
         selection=OPERATION_TYPE,
-        string="Operation Type",
     )
 
     document_value = fields.Float(
@@ -91,7 +86,6 @@ class MDFe(models.Model):
     )
 
     supplier = fields.Char(
-        string="Supplier",
         size=60,
         index=True,
     )
@@ -115,24 +109,19 @@ class MDFe(models.Model):
         index=True,
     )
     digest_value = fields.Char(
-        string="Digest Value",
         size=28,
     )
     inclusion_mode = fields.Char(
-        string="Inclusion Mode",
         size=255,
     )
     authorization_protocol = fields.Char(
-        string="Authorization protocol",
         size=60,
     )
     cancellation_protocol = fields.Char(
-        string="Cancellation protocol",
         size=60,
     )
 
     document_state = fields.Selection(
-        string="Document State",
         selection=SITUACAO_NFE,
         index=True,
     )

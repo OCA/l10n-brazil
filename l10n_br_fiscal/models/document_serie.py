@@ -18,9 +18,9 @@ class DocumentSerie(models.Model):
 
     code = fields.Char(size=3)
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(required=True)
 
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(default=True)
 
     fiscal_type = fields.Selection(
         selection=FISCAL_IN_OUT, string="Type", default=FISCAL_IN_OUT_DEFAULT

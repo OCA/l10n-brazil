@@ -19,7 +19,6 @@ class InvalidateNumber(models.Model):
     )
 
     date = fields.Date(
-        string="Date",
         default=fields.Date.today,
         readonly=True,
     )
@@ -68,7 +67,6 @@ class InvalidateNumber(models.Model):
     )
 
     justification = fields.Char(
-        string="Justification",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},

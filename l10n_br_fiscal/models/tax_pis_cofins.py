@@ -16,9 +16,9 @@ class TaxPisCofins(models.Model):
     _name = "l10n_br_fiscal.tax.pis.cofins"
     _description = "Tax PIS/COFINS"
 
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(required=True)
 
-    name = fields.Text(string="Name", required=True, index=True)
+    name = fields.Text(required=True, index=True)
 
     piscofins_type = fields.Selection(
         selection=[
