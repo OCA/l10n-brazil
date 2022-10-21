@@ -68,10 +68,8 @@ class DocumentWorkflow(models.AbstractModel):
                     raise UserError(
                         _(
                             "Payment Mode {} should has Fiscal Payment Mode"
-                            " filled to be used in Fiscal Document!".format(
-                                record.move_ids.payment_mode_id.name
-                            )
-                        )
+                            " filled to be used in Fiscal Document!"
+                        ).format(record.move_ids.payment_mode_id.name)
                     )
 
                 moves_terms = record.move_ids.financial_move_line_ids.filtered(
