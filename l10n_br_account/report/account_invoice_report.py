@@ -16,7 +16,6 @@ class AccountInvoiceReport(models.Model):
 
     issuer = fields.Selection(
         selection=DOCUMENT_ISSUER,
-        string="Issuer",
     )
 
     fiscal_operation_id = fields.Many2one(
