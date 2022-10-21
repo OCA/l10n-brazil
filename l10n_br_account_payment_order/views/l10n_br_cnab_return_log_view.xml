@@ -5,7 +5,7 @@
         <field name="name">l10n_br_cnab.return.log.tree</field>
         <field name="model">l10n_br_cnab.return.log</field>
         <field name="arch" type="xml">
-            <tree string="CNAB Return Log">
+            <tree>
                 <field name="name" />
                 <field name="filename" />
                 <field name="sequential_file" />
@@ -117,7 +117,7 @@
         <field name="name">l10n_br_cnab.return.event.tree</field>
         <field name="model">l10n_br_cnab.return.event</field>
         <field name="arch" type="xml">
-            <tree string="CNAB Return Events">
+            <tree>
                 <field name="is_cnab_lot" invisible="1" />
                 <field name="lot_id" optional="show" />
                 <field name="bank_payment_line_id" optional="hide" />
