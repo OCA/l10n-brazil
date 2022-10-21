@@ -9,7 +9,7 @@ class UomUomAlternative(models.Model):
     _description = "Alternative UOM"
     _rec_name = "code"
 
-    code = fields.Char(string="Code")
+    code = fields.Char()
 
     uom_id = fields.Many2one(comodel_name="uom.uom")
 

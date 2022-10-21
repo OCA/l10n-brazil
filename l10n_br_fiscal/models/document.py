@@ -58,7 +58,6 @@ class Document(models.Model):
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
@@ -79,7 +78,6 @@ class Document(models.Model):
     )
 
     document_number = fields.Char(
-        string="Document Number",
         copy=False,
         index=True,
     )
@@ -97,7 +95,6 @@ class Document(models.Model):
     )
 
     document_date = fields.Datetime(
-        string="Document Date",
         copy=False,
     )
 
@@ -113,7 +110,6 @@ class Document(models.Model):
     )
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
 
