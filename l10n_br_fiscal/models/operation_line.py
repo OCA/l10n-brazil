@@ -32,7 +32,7 @@ class OperationLine(models.Model):
         required=True,
     )
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(required=True)
 
     document_type_id = fields.Many2one(comodel_name="l10n_br_fiscal.document.type")
 
@@ -93,9 +93,7 @@ class OperationLine(models.Model):
         copy=False,
     )
 
-    partner_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, string="Partner Tax Framework"
-    )
+    partner_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
 
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
@@ -106,9 +104,7 @@ class OperationLine(models.Model):
         selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"
     )
 
-    company_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, string="Company Tax Framework"
-    )
+    company_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)
 
@@ -131,7 +127,6 @@ class OperationLine(models.Model):
 
     state = fields.Selection(
         selection=OPERATION_STATE,
-        string="State",
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,

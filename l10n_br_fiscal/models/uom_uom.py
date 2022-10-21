@@ -8,7 +8,7 @@ class Uom(models.Model):
     _name = "uom.uom"
     _inherit = ["uom.uom", "mail.thread", "mail.activity.mixin"]
 
-    code = fields.Char(string="Code", size=6)
+    code = fields.Char(size=6)
 
     alternative_ids = fields.One2many(
         comodel_name="uom.uom.alternative",

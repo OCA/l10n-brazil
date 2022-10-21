@@ -37,9 +37,9 @@ class TaxEstimate(models.Model):
         digits="Fiscal Tax Percent",
     )
 
-    create_date = fields.Datetime(string="Create Date", readonly=True)
+    create_date = fields.Datetime(readonly=True)
 
-    key = fields.Char(string="Key", size=32)
+    key = fields.Char(size=32)
 
     origin = fields.Char(string="Source", size=32)
 

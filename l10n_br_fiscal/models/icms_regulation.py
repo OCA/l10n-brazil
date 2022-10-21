@@ -40,7 +40,7 @@ class ICMSRegulation(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Tax ICMS Regulation"
 
-    name = fields.Text(string="Name", required=True, index=True)
+    name = fields.Text(required=True, index=True)
 
     icms_imported_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",

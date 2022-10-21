@@ -12,7 +12,6 @@ class DocumentEmail(models.Model):
     _description = "Fiscal Document Email"
 
     name = fields.Char(
-        string="Name",
         readonly=True,
         store=True,
         copy=False,
@@ -20,7 +19,6 @@ class DocumentEmail(models.Model):
     )
 
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
@@ -40,7 +38,6 @@ class DocumentEmail(models.Model):
         selection=DOCUMENT_ISSUER,
         default=DOCUMENT_ISSUER_COMPANY,
         required=True,
-        string="Issuer",
     )
 
     state_edoc = fields.Selection(
