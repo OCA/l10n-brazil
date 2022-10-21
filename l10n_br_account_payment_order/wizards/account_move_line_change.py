@@ -53,7 +53,7 @@ class AccountMoveLineCNABChange(models.TransientModel):
         ],
         string="Tipo Alteração",
     )
-    date_maturity = fields.Date(string="Date Maturity")
+    date_maturity = fields.Date()
     payment_mode_id = fields.Many2one(comodel_name="account.payment.mode")
     reason = fields.Text(string="Justificativa")
     rebate_value = fields.Float(string="Valor de Abatimento")
