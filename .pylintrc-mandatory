@@ -57,7 +57,10 @@ enable=anomalous-backslash-in-string,
     use-vim-comment,
     wrong-tabs-instead-of-spaces,
     xml-syntax-error,
-    test-folder-imported
+    test-folder-imported,
+    deprecated-data-xml-node,
+    deprecated-openerp-xml-node
+
 
 [REPORTS]
 msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
