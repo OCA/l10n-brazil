@@ -273,8 +273,9 @@ class RepairOrder(models.Model):
         )
         if not journal:
             raise UserError(
-                _("Please define an accounting sales journal for the company %s (%s).")
-                % (self.company_id.name, self.company_id.id)
+                _(
+                    "Please define an accounting sales journal for the company {} ({})."
+                ).format(self.company_id.name, self.company_id.id)
             )
 
         fpos = self.env["account.fiscal.position"].get_fiscal_position(
