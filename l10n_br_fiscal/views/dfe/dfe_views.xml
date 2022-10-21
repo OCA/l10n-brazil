@@ -84,7 +84,7 @@
         <field name="model">l10n_br_fiscal.dfe</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="DF-e Consult" duplicate="false">
+            <tree duplicate="false">
                 <field name="company_id" required="1" />
                 <field name="last_nsu" required="1" />
                 <field name="last_query" />
@@ -182,7 +182,7 @@
         <field name="model">l10n_br_fiscal.dfe_xml</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="XML's" create="false">
+            <tree create="false">
                 <field name="xml_type" readonly="1" />
                 <field name="xml" required="1" />
             </tree>
