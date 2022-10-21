@@ -13,7 +13,6 @@ class ResCompany(models.Model):
             ("sale_order", _("Sale Order")),
             ("stock_picking", _("Stock Picking")),
         ],
-        string="Sale Create Invoice Policy",
         help="Define, when Product Type are not service, if Invoice"
         " should be create from Sale Order or Stock Picking.",
         default="stock_picking",
