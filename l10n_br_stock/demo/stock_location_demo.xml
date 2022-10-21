@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
 
         <!-- Simples Nacional -->
 
@@ -8,9 +7,9 @@
             <field name="name">Shelf 1</field>
             <field name="posx">0</field>
             <field
-                name="location_id"
-                ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
-            />
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
             <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         </record>
 
@@ -18,9 +17,9 @@
             <field name="name">Shelf 2</field>
             <field name="posx">0</field>
             <field
-                name="location_id"
-                ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
-            />
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
             <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         </record>
 
@@ -30,9 +29,9 @@
             <field name="name">Shelf 1</field>
             <field name="posx">0</field>
             <field
-                name="location_id"
-                ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
-            />
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
             <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         </record>
 
@@ -40,11 +39,10 @@
             <field name="name">Shelf 2</field>
             <field name="posx">0</field>
             <field
-                name="location_id"
-                ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
-            />
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
             <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         </record>
 
-    </data>
 </odoo>
