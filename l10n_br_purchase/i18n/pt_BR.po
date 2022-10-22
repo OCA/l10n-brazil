@@ -527,6 +527,11 @@ msgid "Fiscal Type"
 msgstr "Tipo Fiscal"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__force_compute_delivery_costs_by_total
+msgid "Force compute delivery costs by total"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
 msgid "Freight"
 msgstr "Frete"
