@@ -110,7 +110,7 @@
             </div>
         </template>
 
-        <template id="pagseguro_s2s_form">
+        <template id="pagseguro_s2s_form" priority="100">
             <input
                 type="hidden"
                 name="data_set"
