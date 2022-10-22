@@ -84,13 +84,13 @@ msgid "Amount Tax Included"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_tax_withholding
-msgid "Amount Tax Withholding"
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_not_included
+msgid "Amount Tax Not Included"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_not_included
-msgid "Amount Tax not Included"
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_tax_withholding
+msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -403,6 +403,11 @@ msgid "Delivery Costs"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
+msgid "Demand"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_customhouse_charges
 msgid "Despesas Aduaneiras"
 msgstr ""
@@ -494,7 +499,6 @@ msgid "Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr ""
@@ -533,7 +537,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__force_compute_delivery_costs_by_total
-msgid "Force compute delivery costs by total"
+msgid "Force Compute Delivery Costs By Total"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1034,8 +1038,8 @@ msgstr ""
 #: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:0
 #, python-format
 msgid ""
-"Invalid Journal! There is not journal defined for this company: %s in fiscal"
-" operation: %s !"
+"Invalid Journal! There is not journal defined for this company: {} in fiscal"
+" operation: {} !"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1139,9 +1143,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__other_value
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_other_value
 msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__other_value
+msgid "Other Value"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1280,11 +1288,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__product_id
 msgid "Product"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
-msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1493,6 +1496,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_picking
 msgid "Transfer"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+msgid "Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
