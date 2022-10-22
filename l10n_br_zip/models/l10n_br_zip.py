@@ -135,7 +135,7 @@ class L10nBrZip(models.Model):
                 zip_str, webservice=cep_ws_providers.get(cep_ws_provide)
             )
         except Exception as e:
-            raise UserError(_("Error in PyCEP-Correios: ") + str(e))
+            raise UserError(_("Error in PyCEP-Correios: ") + str(e)) from e
 
         values = {}
         if cep and any(cep.values()):
@@ -177,7 +177,7 @@ class L10nBrZip(models.Model):
                 zip_code=obj.zip,
             )
         except AttributeError as e:
-            raise UserError(_("Error loading attribute: ") + str(e))
+            raise UserError(_("Error loading attribute: ") + str(e)) from e
 
         zips = self.search(domain)
 
