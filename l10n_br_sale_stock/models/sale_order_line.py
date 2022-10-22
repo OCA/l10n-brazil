@@ -26,7 +26,7 @@ class SaleOrderLine(models.Model):
         the quantity to invoice is calculated from the ordered quantity.
         Otherwise, the quantity delivered is used.
         """
-        super()._get_to_invoice_qty()
+        result = super()._get_to_invoice_qty()
 
         for line in self:
             if line.order_id.state in ["sale", "done"]:
@@ -53,3 +53,4 @@ class SaleOrderLine(models.Model):
                         #  seria sobre escrever o metodo action_invoice_create
                         #  sem ser possível chamar o super.
                         line.qty_to_invoice = 0
+        return result
