@@ -115,14 +115,14 @@ msgid "Amount Tax Included"
 msgstr "Total Impostos Inclusos"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_not_included
+msgid "Amount Tax Not Included"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
 msgid "Amount Tax Withholding"
 msgstr "Total de Imposto Retido na Fonte"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_not_included
-msgid "Amount Tax not Included"
-msgstr "Total de Impostos Não Incluídos no Preço"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_taxed
@@ -568,7 +568,6 @@ msgstr "Linha de Operação Fiscal"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
 
@@ -616,7 +615,7 @@ msgstr "Desconto Fixo?"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__force_compute_delivery_costs_by_total
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__force_compute_delivery_costs_by_total
-msgid "Force compute delivery costs by total"
+msgid "Force Compute Delivery Costs By Total"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1243,11 +1242,11 @@ msgstr "Operação presencial, fora do estabelecimento"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_other_value
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__other_value
 msgid "Other Costs"
 msgstr "Outro Custos"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__other_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__other_value
 msgid "Other Value"
 msgstr "Outros Valores"
@@ -1633,6 +1632,11 @@ msgid "Total with Taxes"
 msgstr "Total com Impostos"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
+msgid "Type"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__uom_id
 msgid "UOM"
 msgstr "UDM"
@@ -1656,6 +1660,9 @@ msgstr "Usado nos documentos fiscais"
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
+
+#~ msgid "Amount Tax not Included"
+#~ msgstr "Total de Impostos Não Incluídos no Preço"
 
 #~ msgid "By Line"
 #~ msgstr "Por Linha"
