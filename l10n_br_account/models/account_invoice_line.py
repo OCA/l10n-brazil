@@ -483,7 +483,7 @@ class AccountMoveLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         """Ao alterar o campo fiscal_tax_ids que contém os impostos fiscais,
         são atualizados os impostos contábeis relacionados"""
-        super()._onchange_fiscal_tax_ids()
+        result = super()._onchange_fiscal_tax_ids()
         user_type = "sale"
 
         # Atualiza os impostos contábeis relacionados aos impostos fiscais
@@ -498,6 +498,7 @@ class AccountMoveLine(models.Model):
             self.tax_ids |= self.fiscal_tax_ids.account_taxes(
                 user_type=user_type, deductible=True
             )
+        return result
 
     @api.onchange(
         "amount_currency",
