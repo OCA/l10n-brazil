@@ -77,7 +77,9 @@ class Certificate(models.Model):
             try:
                 cert = certificado.Certificado(cert_file, cert_password)
             except Exception as e:
-                raise ValidationError(_("Cannot load Certificate ! \n\n {}").format(e))
+                raise ValidationError(
+                    _("Cannot load Certificate ! \n\n {}").format(e)
+                ) from e
 
             if cert:
                 values["issuer_name"] = cert.emissor
