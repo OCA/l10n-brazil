@@ -8,7 +8,7 @@ class StockRule(models.Model):
     _inherit = "stock.rule"
 
     def _run_buy(self, procurements):
-        super()._run_buy(procurements)
+        result = super()._run_buy(procurements)
 
         for procurement, _rule in procurements:
             purchases = self.env["purchase.order"].search(
@@ -21,6 +21,7 @@ class StockRule(models.Model):
                     line.price_unit = price_unit
                     line._onchange_fiscal_operation_id()
                     line._onchange_fiscal_operation_line_id()
+        return result
 
     def _prepare_purchase_order_line(
         self, product_id, product_qty, product_uom, values, po, partner
