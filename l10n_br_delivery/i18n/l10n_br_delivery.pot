@@ -299,7 +299,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_delivery.action_l10n_br_delivery_carrier_vehicle_form
 #: model:ir.ui.menu,name:l10n_br_delivery.menu_l10n_br_delivery_carrier_vehicle_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_vehicle_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_vehicle_tree
 msgid "Vehicle"
 msgstr ""
 
