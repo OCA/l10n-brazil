@@ -91,7 +91,7 @@ class PurchaseOrder(models.Model):
 
     @api.depends("order_line")
     def _compute_amount(self):
-        super()._compute_amount()
+        return super()._compute_amount()
 
     @api.depends("order_line.price_total")
     def _amount_all(self):
