@@ -225,7 +225,7 @@ class AccountJournal(models.Model):
             except UserError:
                 # "Clean" exception, raise as such
                 raise
-            except Exception:
+            except Exception as e:
                 error_type, error_value, trbk = sys.exc_info()
                 st = "Error: %s\nDescription: %s\nTraceback:" % (
                     error_type.__name__,
@@ -235,6 +235,6 @@ class AccountJournal(models.Model):
                 raise ValidationError(
                     _("Statement import error " "The statement cannot be created: %s")
                     % st
-                )
+                ) from e
 
         return moves
