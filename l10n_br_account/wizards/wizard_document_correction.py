@@ -8,8 +8,9 @@ class DocumentCorrectionWizard(models.TransientModel):
     _inherit = "l10n_br_fiscal.document.correction.wizard"
 
     def doit(self):
-        super().doit()
+        result = super().doit()
         for wizard in self:
             if wizard.move_id:
                 msg = "Carta de correção: {}".format(wizard.justification)
                 self.move_id.message_post(body=msg)
+        return result
