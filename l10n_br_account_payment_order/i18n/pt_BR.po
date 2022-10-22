@@ -915,7 +915,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_mov_instruction_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_tree_view
 msgid "CNAB Movement Instruction Code"
 msgstr ""
 
@@ -987,7 +986,6 @@ msgid "CNAB Return Event"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_event_tree_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_lot_form_view
 msgid "CNAB Return Events"
 msgstr ""
@@ -1000,7 +998,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__cnab_return_log_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__cnab_return_log_id
 #: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_return_log
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_log_tree_view
 msgid "CNAB Return Log"
 msgstr ""
 
@@ -1020,7 +1017,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_return_move_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_tree_view
 msgid "CNAB Return Move Code"
 msgstr ""
 
@@ -2263,7 +2259,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
-msgid "New Date Maturity %s is equal to actual Date Maturity %s"
+msgid "New Date Maturity {} is equal to actual Date Maturity {}"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2514,7 +2510,7 @@ msgstr "Modo de Pagamento"
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment Mode %s don't has %s for making CNAB change, check if should have."
+"Payment Mode {} don't has {} for making CNAB change, check if should have."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2531,18 +2527,18 @@ msgstr "Ordem de Pagamento"
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment line added to the existing draft order %s to send CNAB Instruction "
-"%s for OWN NUMBER %s.\n"
-"Justification: %s"
+"Payment line added to the existing draft order {} to send CNAB Instruction "
+"{} for OWN NUMBER {}.\n"
+"Justification: {}"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment line added to the the new draft payment order %s which has been "
-"automatically created, to send CNAB Instruction %s for OWN NUMBER %s.\n"
-"Justification: %s"
+"Payment line added to the the new draft payment order {} which has been "
+"automatically created, to send CNAB Instruction {} for OWN NUMBER {}.\n"
+"Justification: {}"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2759,7 +2755,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:0
 #, python-format
-msgid "The Code %s already exist %s for Bank and CNAB type."
+msgid "The Code {} already exist {} for Bank and CNAB type."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2780,7 +2776,7 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"There is a CNAB Payment Order %s in status %s related to invoice %s created, "
+"There is a CNAB Payment Order {} in status {} related to invoice {} created, "
 "the CNAB file should be sent to bank, because only after that it is possible "
 "make another CNAB Instruction."
 msgstr ""
