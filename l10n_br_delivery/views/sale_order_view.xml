@@ -35,13 +35,6 @@
                 </div>
             </xpath>
 
-            <!-- TODO: Os botões para o Wizard do Frete estão invisiveis porque está
-                  pendente uma integração com o Calculo Automatico de Entrega que
-                  existe no modulo delivery, hoje a Transportadora é informada pelo
-                  campo do carrier_id e o valor do Frete informado manualmente,
-                  isso está no Roadmap do modulo -->
-            <xpath expr="//form/sheet/notebook/page/div" position="replace" />
-
         </field>
     </record>
 
