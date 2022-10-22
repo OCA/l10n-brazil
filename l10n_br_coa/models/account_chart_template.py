@@ -9,7 +9,7 @@ class AccountChartTemplate(models.Model):
 
     def _load(self, sale_tax_rate, purchase_tax_rate, company):
         self.ensure_one()
-        super()._load(sale_tax_rate, purchase_tax_rate, company)
+        result = super()._load(sale_tax_rate, purchase_tax_rate, company)
         # Remove Company default taxes configuration
         if self.currency_id == self.env.ref("base.BRL"):
             self.env.company.write(
@@ -18,6 +18,7 @@ class AccountChartTemplate(models.Model):
                     "account_purchase_tax_id": False,
                 }
             )
+        return result
 
     def _load_template(
         self, company, code_digits=None, account_ref=None, taxes_ref=None
