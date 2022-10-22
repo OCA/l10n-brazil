@@ -117,13 +117,13 @@ msgstr "Valor da provisão"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_email
-msgid "Alternate email"
-msgstr "E-mail alternativo"
+msgid "Alternate Email"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_phone
-msgid "Alternate phone"
-msgstr "Telefone Alternativo"
+msgid "Alternate Phone"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inc_trab_inss_file
@@ -195,8 +195,8 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
-msgid "Blood type"
-msgstr "Tipo sanguíneo"
+msgid "Blood Type"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_bounce
@@ -517,7 +517,6 @@ msgstr "Código"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_tree
 msgid "Código Brasileiro de Ocupação"
 msgstr "Código Brasileiro de Ocupação"
 
@@ -560,8 +559,8 @@ msgstr "Deficiência"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__deficiency_description
-msgid "Deficiency description"
-msgstr "Descrição da deficiência"
+msgid "Deficiency Description"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__trust
@@ -647,6 +646,7 @@ msgstr "Número da carteira de motorista"
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_educational_attainment
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__educational_attainment
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_educational_attainment
 msgid "Educational Attainment"
 msgstr "Realização educacional"
@@ -655,11 +655,6 @@ msgstr "Realização educacional"
 #: model:ir.model,name:l10n_br_hr.model_hr_educational_attainment
 msgid "Educational Attainments"
 msgstr "Realizações Educacionais"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__educational_attainment
-msgid "Educational attainment"
-msgstr "Nível educacional"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__partner_share
@@ -678,14 +673,14 @@ msgid "Email"
 msgstr "E-mail"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
+msgid "Emergency Phone"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
 msgid "Emergency contact name"
 msgstr "Nome de contato de emergência"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
-msgid "Emergency phone"
-msgstr "Telefone de emergência"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg_emission
@@ -751,13 +746,13 @@ msgstr "Etnia"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__expiration_date
-msgid "Expiration date"
-msgstr "Data de validade"
+msgid "Expiration Date"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__father_name
-msgid "Father name"
-msgstr "Nome do pai"
+msgid "Father Name"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee_dependent__dependent_gender__f
@@ -1273,8 +1268,8 @@ msgstr "Celular"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__mother_name
-msgid "Mother name"
-msgstr "Nome da mãe"
+msgid "Mother Name"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_mun
@@ -2005,18 +2000,18 @@ msgstr "Registro de Eleitor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_section
-msgid "Voter section"
-msgstr "Seção do eleitor"
+msgid "Voter Section"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_title
-msgid "Voter title"
-msgstr "Título do eleitor"
+msgid "Voter Title"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_zone
-msgid "Voter zone"
-msgstr "Zona do eleitor"
+msgid "Voter Zone"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
@@ -2062,6 +2057,42 @@ msgstr "XXX.XXXXX.XX-X"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
 msgid "Zip"
 msgstr "CEP"
+
+#~ msgid "Alternate email"
+#~ msgstr "E-mail alternativo"
+
+#~ msgid "Alternate phone"
+#~ msgstr "Telefone Alternativo"
+
+#~ msgid "Blood type"
+#~ msgstr "Tipo sanguíneo"
+
+#~ msgid "Deficiency description"
+#~ msgstr "Descrição da deficiência"
+
+#~ msgid "Educational attainment"
+#~ msgstr "Nível educacional"
+
+#~ msgid "Emergency phone"
+#~ msgstr "Telefone de emergência"
+
+#~ msgid "Expiration date"
+#~ msgstr "Data de validade"
+
+#~ msgid "Father name"
+#~ msgstr "Nome do pai"
+
+#~ msgid "Mother name"
+#~ msgstr "Nome da mãe"
+
+#~ msgid "Voter section"
+#~ msgstr "Seção do eleitor"
+
+#~ msgid "Voter title"
+#~ msgstr "Título do eleitor"
+
+#~ msgid "Voter zone"
+#~ msgstr "Zona do eleitor"
 
 #~ msgid "Partner Contracts"
 #~ msgstr "Contratos de Parceiro"
