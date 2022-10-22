@@ -208,10 +208,11 @@ class PaymentOrder(models.Model):
         return remessa
 
     def generated2uploaded(self):
-        super().generated2uploaded()
+        result = super().generated2uploaded()
         for payment_line in self.payment_line_ids:
             # No caso de Cancelamento da Invoice a AML é apagada
             if payment_line.move_line_id:
                 # Importante para saber a situação do CNAB no caso
                 # de um pagto feito por fora ( dinheiro, deposito, etc)
                 payment_line.move_line_id.cnab_state = "exported"
+        return result
