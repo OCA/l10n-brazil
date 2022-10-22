@@ -65,7 +65,7 @@ class RepairFee(models.Model):
         "repair_id.invoice_method",
     )
     def _compute_price_subtotal(self):
-        super()._compute_price_subtotal()
+        result = super()._compute_price_subtotal()
         for line in self:
             # Update taxes fields
             line._update_taxes()
@@ -79,3 +79,4 @@ class RepairFee(models.Model):
                     "price_total": line.amount_total,
                 }
             )
+        return result
