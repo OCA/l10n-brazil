@@ -614,6 +614,12 @@ msgid "Fixed Discount?"
 msgstr "Desconto Fixo?"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__force_compute_delivery_costs_by_total
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__force_compute_delivery_costs_by_total
+msgid "Force compute delivery costs by total"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_freight_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__freight_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__freight_value
