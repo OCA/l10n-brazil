@@ -89,4 +89,4 @@ class InvalidateNumber(models.Model):
         )
 
         if processo.resposta.infInut.cStat == "102":
-            super(InvalidateNumber, self)._invalidate(document_id)
+            return super(InvalidateNumber, self)._invalidate(document_id)
