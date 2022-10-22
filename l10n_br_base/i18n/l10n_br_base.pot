@@ -23364,7 +23364,7 @@ msgstr ""
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
-msgid "State Tax Number already used %s"
+msgid "State Tax Number already used {}"
 msgstr ""
 
 #. module: l10n_br_base
