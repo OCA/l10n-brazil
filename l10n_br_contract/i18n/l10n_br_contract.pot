@@ -73,13 +73,13 @@ msgid "Amount Tax Included"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_tax_withholding
-msgid "Amount Tax Withholding"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_not_included
+msgid "Amount Tax Not Included"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_not_included
-msgid "Amount Tax not Included"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_tax_withholding
+msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -492,7 +492,6 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr ""
 
@@ -528,7 +527,7 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__force_compute_delivery_costs_by_total
-msgid "Force compute delivery costs by total"
+msgid "Force Compute Delivery Costs By Total"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1075,8 +1074,12 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_other_value
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__other_value
 msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__other_value
+msgid "Other Value"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1355,6 +1358,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
 msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
+msgid "Type"
 msgstr ""
 
 #. module: l10n_br_contract
