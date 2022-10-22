@@ -83,7 +83,7 @@ class ContractContract(models.Model):
 
     @api.depends("contract_line_ids")
     def _compute_amount(self):
-        super()._compute_amount()
+        return super()._compute_amount()
 
     def _prepare_invoice(self, date_invoice, journal=None):
         self.ensure_one()
