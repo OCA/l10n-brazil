@@ -695,7 +695,7 @@ class NFe(spec_models.StackedModel):
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
-        super()._document_number()
+        result = super()._document_number()
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.document_key:
                 try:
@@ -706,6 +706,7 @@ class NFe(spec_models.StackedModel):
                     raise ValidationError(
                         _("{}:\n {}").format(record.document_type_id.name, e)
                     )
+        return result
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -740,7 +741,7 @@ class NFe(spec_models.StackedModel):
         )
 
     def _document_export(self, pretty_print=True):
-        super()._document_export()
+        result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
             record._export_fields_pagamentos()
             edoc = record.serialize()[0]
@@ -761,6 +762,7 @@ class NFe(spec_models.StackedModel):
             record.authorization_event_id = event_id
             xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
             self._valida_xml(xml_assinado)
+        return result
 
     def atualiza_status_nfe(self, infProt, xml_file):
         self.ensure_one()
@@ -849,10 +851,11 @@ class NFe(spec_models.StackedModel):
         return
 
     def _document_date(self):
-        super()._document_date()
+        result = super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfe):
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
+        return result
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
@@ -916,10 +919,11 @@ class NFe(spec_models.StackedModel):
         return etree.tostring(new_root)
 
     def _document_cancel(self, justificative):
-        super(NFe, self)._document_cancel(justificative)
+        result = super(NFe, self)._document_cancel(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_cancel()
+        return result
 
     def _nfe_cancel(self):
         self.ensure_one()
@@ -973,10 +977,11 @@ class NFe(spec_models.StackedModel):
             )
 
     def _document_correction(self, justificative):
-        super(NFe, self)._document_correction(justificative)
+        result = super(NFe, self)._document_correction(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_correction(justificative)
+        return result
 
     def _nfe_correction(self, justificative):
         self.ensure_one()
