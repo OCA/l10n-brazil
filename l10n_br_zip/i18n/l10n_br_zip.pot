@@ -34,7 +34,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_zip.l10n_br_zip_action
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__zip_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_tree
 msgid "CEPs"
 msgstr ""
 
