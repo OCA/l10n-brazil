@@ -110,12 +110,12 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_email
-msgid "Alternate email"
+msgid "Alternate Email"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_phone
-msgid "Alternate phone"
+msgid "Alternate Phone"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -188,7 +188,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
-msgid "Blood type"
+msgid "Blood Type"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -508,7 +508,6 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_tree
 msgid "Código Brasileiro de Ocupação"
 msgstr ""
 
@@ -551,7 +550,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__deficiency_description
-msgid "Deficiency description"
+msgid "Deficiency Description"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -638,6 +637,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_educational_attainment
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__educational_attainment
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_educational_attainment
 msgid "Educational Attainment"
 msgstr ""
@@ -645,11 +645,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_educational_attainment
 msgid "Educational Attainments"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__educational_attainment
-msgid "Educational attainment"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -666,13 +661,13 @@ msgid "Email"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
-msgid "Emergency contact name"
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
+msgid "Emergency Phone"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
-msgid "Emergency phone"
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
+msgid "Emergency contact name"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -739,12 +734,12 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__expiration_date
-msgid "Expiration date"
+msgid "Expiration Date"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__father_name
-msgid "Father name"
+msgid "Father Name"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1255,7 +1250,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__mother_name
-msgid "Mother name"
+msgid "Mother Name"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1964,17 +1959,17 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_section
-msgid "Voter section"
+msgid "Voter Section"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_title
-msgid "Voter title"
+msgid "Voter Title"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_zone
-msgid "Voter zone"
+msgid "Voter Zone"
 msgstr ""
 
 #. module: l10n_br_hr
