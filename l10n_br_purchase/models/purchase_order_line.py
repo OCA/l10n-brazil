@@ -92,7 +92,7 @@ class PurchaseOrderLine(models.Model):
     )
     def _compute_amount(self):
         """Compute the amounts of the PO line."""
-        super()._compute_amount()
+        result = super()._compute_amount()
         for line in self:
             # Update taxes fields
             line._update_taxes()
@@ -106,31 +106,35 @@ class PurchaseOrderLine(models.Model):
                     "price_total": line.amount_total,
                 }
             )
+        return result
 
     @api.onchange("product_qty", "product_uom")
     def _onchange_quantity(self):
         """To call the method in the mixin to update
         the price and fiscal quantity."""
-        super()._onchange_quantity()
+        result = super()._onchange_quantity()
         self._onchange_commercial_quantity()
+        return result
 
     def _compute_tax_id(self):
-        super()._compute_tax_id()
+        result = super()._compute_tax_id()
         for line in self:
             line.taxes_id |= line.fiscal_tax_ids.account_taxes(user_type="purchase")
             if line.order_id.fiscal_operation_id.deductible_taxes:
                 line.taxes_id |= line.fiscal_tax_ids.account_taxes(
                     user_type="purchase", deductible=True
                 )
+        return result
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
-        super()._onchange_fiscal_tax_ids()
+        result = super()._onchange_fiscal_tax_ids()
         self.taxes_id |= self.fiscal_tax_ids.account_taxes(user_type="purchase")
         if self.order_id.fiscal_operation_id.deductible_taxes:
             self.taxes_id |= self.fiscal_tax_ids.account_taxes(
                 user_type="purchase", deductible=True
             )
+        return result
 
     def _prepare_account_move_line(self, move=False):
         values = super()._prepare_account_move_line(move)
