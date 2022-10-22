@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <template id="portal_my_details" inherit_id="portal.portal_my_details">
+    <template
+        id="portal_my_details"
+        inherit_id="portal.portal_my_details"
+        priority="100"
+    >
         <form action="/my/account" position="replace">
             <form action="/my/account" method="post">
                 <input
