@@ -527,6 +527,11 @@ msgid "Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__force_compute_delivery_costs_by_total
+msgid "Force compute delivery costs by total"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_freight_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__freight_value
 msgid "Freight Value"
