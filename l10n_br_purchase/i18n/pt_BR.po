@@ -81,14 +81,14 @@ msgid "Amount Tax Included"
 msgstr "Total Impostos Inclusos"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_tax_not_included
+msgid "Amount Tax Not Included"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_tax_withholding
 msgid "Amount Tax Withholding"
 msgstr "Total de Imposto Retido na Fonte"
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_tax_not_included
-msgid "Amount Tax not Included"
-msgstr "Total de Impostos Não Incluídos no Preço"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_taxed
@@ -492,7 +492,6 @@ msgstr "Linha de Operação Fiscal"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
 
@@ -528,7 +527,7 @@ msgstr "Tipo Fiscal"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__force_compute_delivery_costs_by_total
-msgid "Force compute delivery costs by total"
+msgid "Force Compute Delivery Costs By Total"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1131,12 +1130,12 @@ msgstr "Linha de Operação"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_other_value
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__other_value
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
 msgid "Other Costs"
 msgstr "Outros Custos"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__other_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__other_value
 msgid "Other Value"
 msgstr "Outros Valores"
@@ -1492,8 +1491,13 @@ msgstr "Total"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__total_with_taxes
-msgid "Total with Taxes"
-msgstr "Total com Impostos"
+msgid "Total With Taxes"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
+msgid "Type"
+msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__price_unit
@@ -1527,6 +1531,12 @@ msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
 msgstr ""
 "Você pode encontrar um fornecedor por seu nome, TIN, e-mail ou referência "
 "interna."
+
+#~ msgid "Amount Tax not Included"
+#~ msgstr "Total de Impostos Não Incluídos no Preço"
+
+#~ msgid "Total with Taxes"
+#~ msgstr "Total com Impostos"
 
 #, fuzzy
 #~ msgid "Documents"
