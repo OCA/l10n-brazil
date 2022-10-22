@@ -4,6 +4,7 @@
     <template
         id="report_saleorder_document_l10n_br_sale"
         inherit_id="sale.report_saleorder_document"
+        priority="100"
     >
         <!-- Substituição do campo usado para Impostos no Brasil -->
         <xpath
