@@ -106,7 +106,7 @@ class SpecModel(models.AbstractModel):
     @api.model
     def _setup_base(self):
         with SelectionMuteLogger("odoo.fields"):  # mute spurious warnings
-            super()._setup_base()
+            return super()._setup_base()
 
     @api.model
     def _setup_fields(self):
