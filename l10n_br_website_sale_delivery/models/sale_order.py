@@ -15,7 +15,7 @@ class SaleOrder(models.Model):
         "order_line.product_uom_qty",
     )
     def _compute_amount_delivery(self):
-        super()._compute_amount_delivery()
+        result = super()._compute_amount_delivery()
 
         for order in self:
             if order.company_id.country_id.code == "BR":
@@ -25,6 +25,7 @@ class SaleOrder(models.Model):
                     order.amount_delivery = order.amount_freight_value
                 else:
                     order.amount_delivery = order.amount_freight_value
+        return result
 
     @api.model
     def create(self, values):

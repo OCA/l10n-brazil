@@ -10,10 +10,11 @@ class SaleInvoicePlan(models.Model):
 
     def _compute_new_invoice_quantity(self, invoice_move):
 
-        super()._compute_new_invoice_quantity(invoice_move=invoice_move)
+        result = super()._compute_new_invoice_quantity(invoice_move=invoice_move)
 
         if invoice_move:
             for line in invoice_move.invoice_line_ids:
                 line.write({"fiscal_quantity": line.quantity})
                 line._onchange_fiscal_tax_ids()
             invoice_move._onchange_invoice_line_ids()
+        return result
