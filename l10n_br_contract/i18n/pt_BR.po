@@ -76,14 +76,14 @@ msgid "Amount Tax Included"
 msgstr "Total Impostos Inclusos"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_not_included
+msgid "Amount Tax Not Included"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_tax_withholding
 msgid "Amount Tax Withholding"
 msgstr "Total de Imposto Retido na Fonte"
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_tax_not_included
-msgid "Amount Tax not Included"
-msgstr "Total de Impostos Não Incluídos no Preço"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__amount_taxed
@@ -500,7 +500,6 @@ msgstr "Operação Fiscal"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
 
@@ -536,7 +535,7 @@ msgstr "Tipo Fiscal"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__force_compute_delivery_costs_by_total
-msgid "Force compute delivery costs by total"
+msgid "Force Compute Delivery Costs By Total"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1083,9 +1082,13 @@ msgstr "Nome da Operação"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_other_value
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__other_value
 msgid "Other Costs"
 msgstr "Outro Custos"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__other_value
+msgid "Other Value"
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__pis_percent
@@ -1366,6 +1369,11 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
+msgid "Type"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__price_unit
 msgid "Unit Price"
 msgstr "Preço Unitário"
@@ -1384,6 +1392,9 @@ msgstr "Usado nos documentos fiscais"
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
+
+#~ msgid "Amount Tax not Included"
+#~ msgstr "Total de Impostos Não Incluídos no Preço"
 
 #~ msgid ""
 #~ "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
