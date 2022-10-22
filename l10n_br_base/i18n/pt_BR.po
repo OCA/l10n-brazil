@@ -23371,8 +23371,8 @@ msgstr "Número da Inscrição Estadual"
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
-msgid "State Tax Number already used %s"
-msgstr "Inscrição Estadual %s já utilizada"
+msgid "State Tax Number already used {}"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
@@ -27638,6 +27638,10 @@ msgstr "Óbidos"
 #: model:res.city,name:l10n_br_base.city_3533809
 msgid "Óleo"
 msgstr "Óleo"
+
+#, python-format
+#~ msgid "State Tax Number already used %s"
+#~ msgstr "Inscrição Estadual %s já utilizada"
 
 #~ msgid "Amambaí"
 #~ msgstr "Amambaí"
