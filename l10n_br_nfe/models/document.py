@@ -218,7 +218,6 @@ class NFe(spec_models.StackedModel):
 
     danfe_layout = fields.Selection(
         selection=NFE_DANFE_LAYOUTS + NFCE_DANFE_LAYOUTS,
-        string="Danfe Layout",
     )
 
     nfe40_tpEmis = fields.Selection(
@@ -705,12 +704,12 @@ class NFe(spec_models.StackedModel):
                     record.nfe40_cDV = chave.digito_verificador
                 except Exception as e:
                     raise ValidationError(
-                        _("{}:\n {}".format(record.document_type_id.name, e))
+                        _("{}:\n {}").format(record.document_type_id.name, e)
                     )
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context({"lang": "pt_BR"}).filtered(
+        for record in self.with_context(lang="pt_BR").filtered(
             filter_processador_edoc_nfe
         ):
             inf_nfe = record.export_ds()[0]

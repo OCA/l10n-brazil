@@ -29,7 +29,6 @@ class ServiceType(models.Model):
 
     internal_type = fields.Selection(
         selection=[("view", "View"), ("normal", "Normal")],
-        string="Internal Type",
         required=True,
         default="normal",
     )

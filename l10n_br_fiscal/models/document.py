@@ -58,7 +58,6 @@ class Document(models.Model):
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
@@ -79,7 +78,6 @@ class Document(models.Model):
     )
 
     document_number = fields.Char(
-        string="Document Number",
         copy=False,
         index=True,
     )
@@ -97,7 +95,6 @@ class Document(models.Model):
     )
 
     document_date = fields.Datetime(
-        string="Document Date",
         copy=False,
     )
 
@@ -113,7 +110,6 @@ class Document(models.Model):
     )
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
 
@@ -253,9 +249,8 @@ class Document(models.Model):
             if documents:
                 raise ValidationError(
                     _(
-                        "There is already a fiscal document with this "
-                        "key: {} !".format(record.document_key)
-                    )
+                        "There is already a fiscal document with this " "key: {} !"
+                    ).format(record.document_key)
                 )
             else:
                 ChaveEdoc(chave=record.document_key, validar=True)
@@ -291,10 +286,8 @@ class Document(models.Model):
                 raise ValidationError(
                     _(
                         "There is already a fiscal document with this "
-                        "Serie: {}, Number: {} !".format(
-                            record.document_serie, record.document_number
-                        )
-                    )
+                        "Serie: {}, Number: {} !"
+                    ).format(record.document_serie, record.document_number)
                 )
 
     def _compute_document_name(self):
@@ -390,8 +383,8 @@ class Document(models.Model):
             raise ValidationError(
                 _(
                     "You cannot delete fiscal document number {} with "
-                    "the status: {}!".format(record.document_number, record.state_edoc)
-                )
+                    "the status: {}!"
+                ).format(record.document_number, record.state_edoc)
             )
 
         return super().unlink()
@@ -409,8 +402,8 @@ class Document(models.Model):
                 raise ValidationError(
                     _(
                         "The fiscal operation {} has no return Fiscal "
-                        "Operation defined".format(record.fiscal_operation_id)
-                    )
+                        "Operation defined"
+                    ).format(record.fiscal_operation_id)
                 )
 
             new_doc = record.copy()
@@ -423,8 +416,8 @@ class Document(models.Model):
                     raise ValidationError(
                         _(
                             "The fiscal operation {} has no return Fiscal "
-                            "Operation defined".format(line.fiscal_operation_id)
-                        )
+                            "Operation defined"
+                        ).format(line.fiscal_operation_id)
                     )
                 line.fiscal_operation_id = fsc_op_line
                 line._onchange_fiscal_operation_id()

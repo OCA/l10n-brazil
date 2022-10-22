@@ -56,14 +56,12 @@ class Event(models.Model):
                 record.display_name = ""
 
     create_date = fields.Datetime(
-        string="Create Date",
         readonly=True,
         index=True,
         default=fields.Datetime.now,
     )
 
     write_date = fields.Datetime(
-        string="Write Date",
         readonly=True,
         index=True,
     )
@@ -138,13 +136,10 @@ class Event(models.Model):
     )
 
     sequence = fields.Char(
-        string="Sequence",
         help="Fiscal Document Event Sequence",
     )
 
-    justification = fields.Char(
-        string="Justification",
-    )
+    justification = fields.Char()
 
     display_name = fields.Char(
         string="name",
@@ -167,12 +162,10 @@ class Event(models.Model):
     )
 
     file_path = fields.Char(
-        string="File Path",
         readonly=True,
     )
 
     status_code = fields.Char(
-        string="Status Code",
         readonly=True,
     )
 
@@ -182,19 +175,15 @@ class Event(models.Model):
     )
 
     message = fields.Char(
-        string="Message",
         readonly=True,
     )
 
     protocol_date = fields.Datetime(
-        string="Protocol Date",
         readonly=True,
         index=True,
     )
 
-    protocol_number = fields.Char(
-        string="Protocol Number",
-    )
+    protocol_number = fields.Char()
 
     state = fields.Selection(
         selection=[

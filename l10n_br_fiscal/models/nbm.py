@@ -15,7 +15,7 @@ class Nbm(models.Model):
 
     code_unmasked = fields.Char(size=10)
 
-    name = fields.Text(string="Name", required=True, index=True)
+    name = fields.Text(required=True, index=True)
 
     product_tmpl_ids = fields.One2many(inverse_name="nbm_id")
 

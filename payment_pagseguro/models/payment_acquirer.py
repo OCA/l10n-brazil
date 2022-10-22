@@ -12,7 +12,6 @@ class PaymentAcquirerPagseguro(models.Model):
         ondelete={"pagseguro": "set default"},
     )
     pagseguro_token = fields.Char(
-        string="Pagseguro Token",
         required_if_provider="pagseguro",
         groups="base.group_user",
     )
