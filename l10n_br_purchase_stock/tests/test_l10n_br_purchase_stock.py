@@ -35,8 +35,9 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         )
 
     def test_l10n_br_purchase_products(self):
-        super().test_l10n_br_purchase_products()
+        result = super().test_l10n_br_purchase_products()
         self._picking_purchase_order(self.po_products)
+        return result
 
     def test_grouping_pickings(self):
         """
