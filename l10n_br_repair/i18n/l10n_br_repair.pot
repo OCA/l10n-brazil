@@ -128,15 +128,15 @@ msgid "Amount Tax Included"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_not_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_not_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_not_included
-msgid "Amount Tax not Included"
+msgid "Amount Tax Not Included"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
+msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -669,9 +669,6 @@ msgid "Fiscal Line Mixin"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr ""
@@ -722,7 +719,7 @@ msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__force_compute_delivery_costs_by_total
-msgid "Force compute delivery costs by total"
+msgid "Force Compute Delivery Costs By Total"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -1476,11 +1473,15 @@ msgid "Operação Fiscal Padrão de Reparos"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_other_value
+msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__other_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__other_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__other_value
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_other_value
-msgid "Other Costs"
+msgid "Other Value"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -1664,7 +1665,7 @@ msgstr ""
 #. module: l10n_br_repair
 #: code:addons/l10n_br_repair/models/repair_order.py:0
 #, python-format
-msgid "Please define an accounting sales journal for the company %s (%s)."
+msgid "Please define an accounting sales journal for the company {} ({})."
 msgstr ""
 
 #. module: l10n_br_repair
@@ -1914,6 +1915,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_total
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_total
 msgid "Total"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_type
+msgid "Type"
 msgstr ""
 
 #. module: l10n_br_repair
