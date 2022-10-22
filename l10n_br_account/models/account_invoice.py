@@ -424,9 +424,10 @@ class AccountMove(models.Model):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        super()._onchange_fiscal_operation_id()
+        result = super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
             self.journal_id = self.fiscal_operation_id.journal_id
+        return result
 
     def open_fiscal_document(self):
         if self.env.context.get("move_type", "") == "out_invoice":
@@ -450,12 +451,13 @@ class AccountMove(models.Model):
         fiscal e numeração do documento fiscal para ser usado nas linhas
         dos lançamentos contábeis."""
         # TODO FIXME migrate. No such method in Odoo 13+
-        super().action_date_assign()
+        result = super().action_date_assign()
         for invoice in self:
             if invoice.document_type_id:
                 if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
                     invoice.fiscal_document_id._document_date()
                     invoice.fiscal_document_id._document_number()
+        return result
 
     def button_draft(self):
         for i in self.filtered(lambda d: d.document_type_id):
