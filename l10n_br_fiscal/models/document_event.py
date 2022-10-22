@@ -235,7 +235,7 @@ class Event(models.Model):
             if not os.path.exists(save_dir):
                 os.makedirs(save_dir)
             f = open(file_path, "w")
-        except IOError:
+        except IOError as e:
             raise UserError(
                 _("Erro!"),
                 _(
@@ -243,7 +243,7 @@ class Event(models.Model):
                     em disco, verifique as permissões de escrita
                     e o caminho da pasta"""
                 ),
-            )
+            ) from e
         else:
             f.write(arquivo)
             f.close()
