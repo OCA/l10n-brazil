@@ -40,13 +40,13 @@ addon | version | maintainers | summary
 [l10n_br_nfe](l10n_br_nfe/) | 14.0.5.0.3 |  | Brazilian Eletronic Invoice NF-e .
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 14.0.1.0.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 14.0.1.9.5 | [![gabrielcardoso21](https://github.com/gabrielcardoso21.png?size=30px)](https://github.com/gabrielcardoso21) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e
-[l10n_br_portal](l10n_br_portal/) | 14.0.1.0.1 |  | Campos Brasileiros no Portal
+[l10n_br_portal](l10n_br_portal/) | 14.0.1.0.2 |  | Campos Brasileiros no Portal
 [l10n_br_purchase](l10n_br_purchase/) | 14.0.2.0.2 |  | Brazilian Localization Purchase
 [l10n_br_purchase_request](l10n_br_purchase_request/) | 14.0.1.0.1 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Purchase Request Brazilian Localization Purchase Request
 [l10n_br_purchase_stock](l10n_br_purchase_stock/) | 14.0.1.0.2 |  | Brazilian Localization Purchase Stock
-[l10n_br_repair](l10n_br_repair/) | 14.0.1.0.2 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Repair
+[l10n_br_repair](l10n_br_repair/) | 14.0.1.0.3 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Repair
 [l10n_br_resource](l10n_br_resource/) | 14.0.1.0.1 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![hendixcosta](https://github.com/hendixcosta.png?size=30px)](https://github.com/hendixcosta) [![lfdivino](https://github.com/lfdivino.png?size=30px)](https://github.com/lfdivino) | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
-[l10n_br_sale](l10n_br_sale/) | 14.0.2.0.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
+[l10n_br_sale](l10n_br_sale/) | 14.0.2.0.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
 [l10n_br_sale_invoice_plan](l10n_br_sale_invoice_plan/) | 14.0.1.0.2 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Sale Invoice Plan
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 14.0.1.0.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
 [l10n_br_stock](l10n_br_stock/) | 14.0.2.0.2 |  | Brazilian Localization Warehouse
@@ -54,7 +54,7 @@ addon | version | maintainers | summary
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.1.0.1 |  | Website sale localização brasileira.
 [l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 14.0.1.0.1 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) [![DiegoParadeda](https://github.com/DiegoParadeda.png?size=30px)](https://github.com/DiegoParadeda) | Implements Brazilian freight values for delivery.
 [l10n_br_zip](l10n_br_zip/) | 14.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
-[payment_pagseguro](payment_pagseguro/) | 14.0.1.0.3 |  | Payment Acquirer: PagSeguro Implementation
+[payment_pagseguro](payment_pagseguro/) | 14.0.1.0.4 |  | Payment Acquirer: PagSeguro Implementation
 [spec_driven_model](spec_driven_model/) | 14.0.3.0.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
