@@ -360,7 +360,7 @@ class Document(models.Model):
         "fiscal_line_ids.amount_tax_withholding",
     )
     def _compute_amount(self):
-        super()._compute_amount()
+        return super()._compute_amount()
 
     @api.model
     def create(self, values):
@@ -460,12 +460,13 @@ class Document(models.Model):
 
     def _after_change_state(self, old_state, new_state):
         self.ensure_one()
-        super()._after_change_state(old_state, new_state)
+        result = super()._after_change_state(old_state, new_state)
         self.send_email(new_state)
+        return result
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        super()._onchange_fiscal_operation_id()
+        result = super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id:
             self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
             self.edoc_purpose = self.fiscal_operation_id.edoc_purpose
@@ -489,6 +490,7 @@ class Document(models.Model):
                 )
             )
         self.document_subsequent_ids = subsequent_documents
+        return result
 
     @api.onchange("document_type_id")
     def _onchange_document_type_id(self):
