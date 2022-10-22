@@ -705,7 +705,7 @@ class NFe(spec_models.StackedModel):
                 except Exception as e:
                     raise ValidationError(
                         _("{}:\n {}").format(record.document_type_id.name, e)
-                    )
+                    ) from e
         return result
 
     def _serialize(self, edocs):
