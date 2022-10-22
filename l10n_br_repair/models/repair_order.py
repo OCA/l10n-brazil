@@ -98,7 +98,7 @@ class RepairOrder(models.Model):
 
     @api.depends("operations", "fees_lines")
     def _compute_amount(self):
-        super()._compute_amount()
+        return super()._compute_amount()
 
     @api.depends(
         "operations.price_subtotal",

@@ -67,12 +67,13 @@ class FiscalLineMixin(models.AbstractModel):
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
-        super()._onchange_fiscal_tax_ids()
+        result = super()._onchange_fiscal_tax_ids()
         self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type="sale")
         if self.repair_id.fiscal_operation_id.deductible_taxes:
             self.tax_id |= self.fiscal_tax_ids.account_taxes(
                 user_type="sale", deductible=True
             )
+        return result
 
     @api.onchange("product_uom", "product_uom_qty")
     def _onchange_product_uom(self):
