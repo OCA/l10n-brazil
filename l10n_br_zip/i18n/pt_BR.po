@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_zip
+# 	* l10n_br_zip
 #
 msgid ""
 msgstr ""
@@ -17,6 +17,16 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_zip
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__apicep
+msgid "API CEP"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_format_address_mixin
+msgid "Address Format"
+msgstr ""
+
+#. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__zip_code
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__zip
@@ -27,7 +37,6 @@ msgstr "CEP"
 #: model:ir.actions.act_window,name:l10n_br_zip.l10n_br_zip_action
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__zip_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_tree
 msgid "CEPs"
 msgstr "CEPs"
 
@@ -50,6 +59,11 @@ msgstr "Cidade"
 #: model:ir.model,name:l10n_br_zip.model_res_config_settings
 msgid "Config Settings"
 msgstr "Ajuste de Configurações"
+
+#. module: l10n_br_zip
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__correios
+msgid "Correios"
+msgstr ""
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__country_id
@@ -75,8 +89,10 @@ msgid "Days to Update CEP"
 msgstr "Dias para atualizar CEP"
 
 #. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__display_name
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__display_name
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -87,25 +103,22 @@ msgid "District"
 msgstr "Bairro"
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:166
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
-msgid "Erro a Carregar Atributo: "
-msgstr "Erro a Carga a Atributo: "
+msgid "Error in PyCEP-Correios: "
+msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:124
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
-msgid "Erro no PyCEP-Correios : "
-msgstr "Erro no PyCEP-Correios : "
+msgid "Error loading attribute: "
+msgstr ""
 
 #. module: l10n_br_zip
-#: model:ir.model,name:l10n_br_zip.model_format_address_mixin
-msgid "Fomat Address"
-msgstr "Endereço fomat"
-
-#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__id
 msgid "ID"
 msgstr "ID"
 
@@ -115,8 +128,16 @@ msgid "Id do objeto"
 msgstr "Id do objeto"
 
 #. module: l10n_br_zip
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
+#, python-format
+msgid "It is necessary to inform the State, municipality and public place"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip____last_update
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search____last_update
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings____last_update
 msgid "Last Modified on"
 msgstr "Última atualização em"
 
@@ -133,16 +154,10 @@ msgid "Last Updated on"
 msgstr "Atualizado pela última vez em"
 
 #. module: l10n_br_zip
-#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street
-#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__street
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_name
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__street_name
 msgid "Logradouro"
 msgstr "Logradouro"
-
-#. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:73
-#, python-format
-msgid "Necessário informar Estado, município e logradouro"
-msgstr "Necessário informar Estado, município e logradouro"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__object_name
@@ -188,6 +203,16 @@ msgid "Street Type"
 msgstr "Tipo de Rua"
 
 #. module: l10n_br_zip
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__viacep
+msgid "VIA CEP"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__cep_ws_provider
+msgid "ZIP Search Provider"
+msgstr ""
+
+#. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip_search
 msgid "Zipcode Search"
 msgstr "Pesquisa de código zipcode"
@@ -198,12 +223,12 @@ msgid "days"
 msgstr "dias"
 
 #. module: l10n_br_zip
-#: selection:l10n_br.zip.search,state:0
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__l10n_br_zip_search__state__done
 msgid "done"
 msgstr "concluído"
 
 #. module: l10n_br_zip
-#: selection:l10n_br.zip.search,state:0
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__l10n_br_zip_search__state__init
 msgid "init"
 msgstr "init"
 
@@ -211,3 +236,18 @@ msgstr "init"
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__state
 msgid "state"
 msgstr "estado"
+
+#, python-format
+#~ msgid "Erro a Carregar Atributo: "
+#~ msgstr "Erro a Carga a Atributo: "
+
+#, python-format
+#~ msgid "Erro no PyCEP-Correios : "
+#~ msgstr "Erro no PyCEP-Correios : "
+
+#~ msgid "Fomat Address"
+#~ msgstr "Endereço fomat"
+
+#, python-format
+#~ msgid "Necessário informar Estado, município e logradouro"
+#~ msgstr "Necessário informar Estado, município e logradouro"
