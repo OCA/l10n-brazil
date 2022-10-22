@@ -54,7 +54,7 @@ class StockPicking(models.Model):
 
     @api.depends("move_lines")
     def _compute_amount(self):
-        super()._compute_amount()
+        return super()._compute_amount()
 
     @api.depends("move_lines.price_unit")
     def _amount_all(self):
