@@ -52,6 +52,7 @@ addon | version | maintainers | summary
 [l10n_br_stock](l10n_br_stock/) | 14.0.2.0.1 |  | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 14.0.2.0.0 |  | Brazilian Localization WMS Accounting
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.1.0.0 |  | Website sale localização brasileira.
+[l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 14.0.1.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) [![DiegoParadeda](https://github.com/DiegoParadeda.png?size=30px)](https://github.com/DiegoParadeda) | Implements Brazilian freight values for delivery.
 [l10n_br_zip](l10n_br_zip/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 [payment_pagseguro](payment_pagseguro/) | 14.0.1.0.2 |  | Payment Acquirer: PagSeguro Implementation
 [spec_driven_model](spec_driven_model/) | 14.0.3.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
