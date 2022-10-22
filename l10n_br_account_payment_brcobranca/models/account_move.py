@@ -105,7 +105,7 @@ class AccountMove(models.Model):
         return self._target_new_tab(self.file_boleto_pdf_id)
 
     def _post(self, soft=True):
-        super()._post(soft)
+        result = super()._post(soft)
 
         for line in self.line_ids:
             if line.move_id and line.cnab_returned_ref:
@@ -133,3 +133,4 @@ class AccountMove(models.Model):
                         (line + line_to_reconcile).reconcile()
                         line_to_reconcile.cnab_state = "done"
                         line_to_reconcile.payment_situation = "liquidada"
+        return result
