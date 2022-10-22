@@ -91,4 +91,4 @@ class DocumentWorkflow(models.AbstractModel):
 
             record.nfe40_detPag = [(6, 0, pagamentos.ids)]
 
-        super().action_document_confirm()
+        return super().action_document_confirm()
