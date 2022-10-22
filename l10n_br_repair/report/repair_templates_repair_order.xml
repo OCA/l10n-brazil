@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="report_repair_order" inherit_id="repair.report_repairorder">
+    <template
+        id="report_repair_order"
+        inherit_id="repair.report_repairorder"
+        priority="100"
+    >
 
         <xpath
             expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/tr[1]"
