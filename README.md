@@ -23,9 +23,9 @@ addon | version | maintainers | summary
 [l10n_br_account](l10n_br_account/) | 14.0.2.0.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Account
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 14.0.1.0.0 |  | Brazilian Account Due List
 [l10n_br_account_nfe](l10n_br_account_nfe/) | 14.0.1.2.2 |  | Integration between l10n_br_account and l10n_br_nfe
-[l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 14.0.2.0.2 |  | L10n Br Account Payment BRCobranca
+[l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 14.0.2.0.3 |  | L10n Br Account Payment BRCobranca
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 14.0.1.6.1 |  | Brazilian Payment Order
-[l10n_br_base](l10n_br_base/) | 14.0.3.0.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
+[l10n_br_base](l10n_br_base/) | 14.0.3.0.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
 [l10n_br_coa](l10n_br_coa/) | 14.0.3.3.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Base do Planos de Contas brasileiros
 [l10n_br_coa_generic](l10n_br_coa_generic/) | 14.0.2.2.1 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 14.0.2.2.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
@@ -34,10 +34,10 @@ addon | version | maintainers | summary
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 14.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | delivery module Brazilian Localization
 [l10n_br_delivery_nfe](l10n_br_delivery_nfe/) | 14.0.1.0.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Delivery NFe
-[l10n_br_fiscal](l10n_br_fiscal/) | 14.0.8.0.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 14.0.8.0.4 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_hr](l10n_br_hr/) | 14.0.1.0.1 |  | Brazilian Localization HR
 [l10n_br_mis_report](l10n_br_mis_report/) | 14.0.1.0.1 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
-[l10n_br_nfe](l10n_br_nfe/) | 14.0.5.0.3 |  | Brazilian Eletronic Invoice NF-e .
+[l10n_br_nfe](l10n_br_nfe/) | 14.0.5.0.4 |  | Brazilian Eletronic Invoice NF-e .
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 14.0.1.0.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 14.0.1.9.5 | [![gabrielcardoso21](https://github.com/gabrielcardoso21.png?size=30px)](https://github.com/gabrielcardoso21) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e
 [l10n_br_portal](l10n_br_portal/) | 14.0.1.0.2 |  | Campos Brasileiros no Portal
@@ -53,7 +53,7 @@ addon | version | maintainers | summary
 [l10n_br_stock_account](l10n_br_stock_account/) | 14.0.2.0.2 |  | Brazilian Localization WMS Accounting
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.1.0.1 |  | Website sale localização brasileira.
 [l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 14.0.1.0.1 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) [![DiegoParadeda](https://github.com/DiegoParadeda.png?size=30px)](https://github.com/DiegoParadeda) | Implements Brazilian freight values for delivery.
-[l10n_br_zip](l10n_br_zip/) | 14.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
+[l10n_br_zip](l10n_br_zip/) | 14.0.1.0.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 [payment_pagseguro](payment_pagseguro/) | 14.0.1.0.4 |  | Payment Acquirer: PagSeguro Implementation
 [spec_driven_model](spec_driven_model/) | 14.0.3.0.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
