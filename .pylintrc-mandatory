@@ -89,8 +89,8 @@ enable=anomalous-backslash-in-string,
     xml-attribute-translatable,
     xml-deprecated-qweb-directive,
     xml-deprecated-tree-attribute,
-    external-request-timeout
-
+    external-request-timeout,
+    raise-missing-from
 
 [REPORTS]
 msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}

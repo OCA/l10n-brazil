@@ -261,12 +261,12 @@ class FiscalClosing(models.Model):
                 )
                 for attachment in attachment_ids:
                     self._save_tempfile(path, attachment, temp_dir)
-            except OSError:
-                raise RedirectWarning(_("Error!"), _("I/O Error"))
-            except PermissionError:
+            except OSError as e:
+                raise RedirectWarning(_("Error!"), _("I/O Error")) from e
+            except PermissionError as e:
                 raise RedirectWarning(
                     _("Error!"), _("Check write permissions in your system temp folder")
-                )
+                ) from e
 
         for document in documents:
             attachment_ids = document.authorization_event_id.mapped("file_response_id")
@@ -283,12 +283,12 @@ class FiscalClosing(models.Model):
 
                 for attachment in attachment_ids:
                     self._save_tempfile(document_path, attachment, temp_dir)
-            except OSError:
-                raise RedirectWarning(_("Error!"), _("I/O Error"))
-            except PermissionError:
+            except OSError as e:
+                raise RedirectWarning(_("Error!"), _("I/O Error")) from e
+            except PermissionError as e:
                 raise RedirectWarning(
                     _("Error!"), _("Check write permissions in your system temp folder")
-                )
+                ) from e
             except Exception:
                 _logger.error(
                     _(
