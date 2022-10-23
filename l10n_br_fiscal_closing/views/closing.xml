@@ -149,4 +149,21 @@
         </field>
     </record>
 
+     <!-- Fiscal Closing -->
+     <record id="fiscal_closing_action" model="ir.actions.act_window">
+         <field name="name">Fiscal Closing</field>
+         <field name="res_model">l10n_br_fiscal.closing</field>
+         <field name="view_mode">tree,form</field>
+     </record>
+
+     <!-- Fiscal Closing -->
+     <menuitem
+        id="fiscal_closing_menu"
+        name="Fiscal Closing"
+        parent="l10n_br_fiscal.accountant_menu"
+        action="fiscal_closing_action"
+        groups="l10n_br_fiscal.group_manager"
+        sequence="99"
+    />
+
 </odoo>
