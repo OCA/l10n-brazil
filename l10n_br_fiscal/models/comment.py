@@ -102,9 +102,9 @@ class Comment(models.Model):
 
         pre = post = ""
         if currency.position == "before":
-            pre = "{symbol}\N{NO-BREAK SPACE}".format(symbol=currency.symbol or "")
+            pre = "{}".format(currency.symbol or "") + "\N{NO-BREAK SPACE}"
         else:
-            post = "\N{NO-BREAK SPACE}{symbol}".format(symbol=currency.symbol or "")
+            post = "\N{NO-BREAK SPACE}" + "{}".format(currency.symbol or "")
 
         return "{pre}{0}{post}".format(formatted_amount, pre=pre, post=post)
 
