@@ -360,8 +360,8 @@
         id="taxes_config_menu"
         name="Taxes"
         groups="l10n_br_fiscal.group_manager"
-        parent="configuration_menu"
-        sequence="30"
+        parent="fiscal_menu"
+        sequence="80"
     />
 
     <!-- Tax Group -->
