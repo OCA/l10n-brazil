@@ -62,8 +62,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
         ).sudo()
         fsc_doc = etree.fromstring(fiscal_view["arch"])
-        doc = etree.fromstring(view_arch)
-
         if xpath_mappings is None:
             xpath_mappings = (
                 # (placeholder_xpath, fiscal_xpath)
@@ -85,7 +83,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
         for placeholder_xpath, fiscal_xpath in xpath_mappings:
             fiscal_nodes = fsc_doc.xpath(fiscal_xpath)
-            for target_node in doc.findall(placeholder_xpath):
+            for target_node in view_arch.findall(placeholder_xpath):
                 if len(fiscal_nodes) == 1:
                     # replace unique placeholder
                     # (deepcopy is required to inject fiscal nodes in possible
@@ -99,27 +97,14 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                         if not field.attrib.get("optional"):
                             field.attrib["invisible"] = "1"
                         target_node.append(field)
-        return doc
+        return view_arch
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
         if view_type == "form":
-            arch_tree = self.inject_fiscal_fields(model_view["arch"])
-            View = self.env["ir.ui.view"]
-            # Override context for postprocessing
-            if view_id and model_view.get("base_model", self._name) != self._name:
-                View = View.with_context(base_model_name=model_view["base_model"])
-
-            # Apply post processing, groups and modifiers etc...
-            xarch, xfields = View.postprocess_and_fields(
-                node=arch_tree, model=self._name
-            )
-            model_view["arch"] = xarch
-            model_view["fields"] = xfields
-        return model_view
+            arch = self.inject_fiscal_fields(arch)
+        return arch, view
 
     @api.depends(
         "fiscal_price",
