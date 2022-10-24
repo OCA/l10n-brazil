@@ -738,7 +738,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             )
 
         # ESTIMATE TAXES
-        self.assertEqual(self.nfe_sn_same_state.amount_estimate_tax, 1308.45)
+        self.assertEqual(self.nfe_sn_same_state.amount_estimate_tax, 142.07)
 
     def test_nfe_sn_other_state(self):
         """Test NFe SN other state."""
