@@ -1,0 +1,5 @@
+# generated from manifests external_dependencies
+email_validator
+erpbrasil.base
+num2words
+phonenumbers
