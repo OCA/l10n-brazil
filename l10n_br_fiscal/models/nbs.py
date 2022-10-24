@@ -3,7 +3,7 @@
 
 from odoo import _, fields, models
 
-from .ibpt.taxes import get_ibpt_service
+from .ibpt import get_ibpt_service
 
 
 class Nbs(models.Model):

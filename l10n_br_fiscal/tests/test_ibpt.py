@@ -5,7 +5,7 @@ from erpbrasil.base import misc
 
 from odoo.tests import SavepointCase
 
-from odoo.addons.l10n_br_fiscal.models.ibpt.taxes import (
+from odoo.addons.l10n_br_fiscal.models.ibpt import (
     DeOlhoNoImposto,
     get_ibpt_product,
     get_ibpt_service,
