@@ -1232,14 +1232,8 @@ class ICMSRegulation(models.Model):
     )
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-
-        view_super = super(ICMSRegulation, self).fields_view_get(
-            view_id, view_type, toolbar, submenu
-        )
-
+    def get_view(self, view_id=None, view_type="form", **options):
+        view_super = super().get_view(view_id, view_type, **options)
         if view_type == "form":
             doc = etree.fromstring(view_super.get("arch"))
 
