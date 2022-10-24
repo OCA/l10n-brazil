@@ -10,7 +10,7 @@ from lxml import etree
 
 from odoo import _, api, fields, models
 
-from .ibpt.taxes import DeOlhoNoImposto
+from .ibpt import DeOlhoNoImposto
 
 _logger = logging.getLogger(__name__)
 
