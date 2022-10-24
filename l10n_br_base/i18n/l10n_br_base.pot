@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -142,19 +142,16 @@ msgid "Acauã"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__acc_number_dig
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number_dig
 msgid "Account Digit"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__acc_number
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number
 msgid "Account Number"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__transactional_acc_type
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__transactional_acc_type
 msgid "Account Type"
 msgstr ""
@@ -727,12 +724,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3501152
-#: model:res.partner,nfe40_xMun:l10n_br_base.partner_demo_presumido
-#: model:res.partner,nfe40_xMun:l10n_br_base.partner_demo_simples
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_address_ak3
-#: model:res.partner,nfe40_xMun:l10n_br_base.simples_nacional_partner
-#: model:res.users,nfe40_xMun:l10n_br_base.user_demo_presumido
-#: model:res.users,nfe40_xMun:l10n_br_base.user_demo_simples
 msgid "Alumínio"
 msgstr ""
 
@@ -2072,7 +2063,6 @@ msgid "BIC/Swift Code"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_bank_bic
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_bank_bic
 msgid "BIC/Swift Final Code."
 msgstr ""
@@ -2269,7 +2259,6 @@ msgid "Bank Account"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bank_account_type
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bank_account_type
 msgid "Bank Account Type"
 msgstr ""
@@ -2280,13 +2269,11 @@ msgid "Bank Accounts"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_number
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number
 msgid "Bank Branch"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_number_dig
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number_dig
 msgid "Bank Branch Digit"
 msgstr ""
@@ -3552,39 +3539,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5203609
 msgid "Brazabrantes"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:res.partner,nfe40_xPais:l10n_br_base.lucro_presumido_partner
-#: model:res.partner,nfe40_xPais:l10n_br_base.partner_demo_presumido
-#: model:res.partner,nfe40_xPais:l10n_br_base.partner_demo_simples
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_address_ak2
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_address_ak3
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_akretion
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_amd
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente10_mg
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente11_sp
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente1_sp
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente2_sp
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente3_am
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente4_am
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente5_pe
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente6_pe
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente7_rs
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente8_rs
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente9_mg
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_dell
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_infobahia
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_infomanaus
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_intel
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_kmee
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_lg
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_positivo
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_samsungpe
-#: model:res.partner,nfe40_xPais:l10n_br_base.simples_nacional_partner
-#: model:res.users,nfe40_xPais:l10n_br_base.user_demo_presumido
-#: model:res.users,nfe40_xPais:l10n_br_base.user_demo_simples
-msgid "Brazil"
 msgstr ""
 
 #. module: l10n_br_base
@@ -6389,7 +6343,6 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__company_country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__company_country_id
 msgid "Company Country"
 msgstr ""
@@ -7364,7 +7317,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4106902
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_positivo
 msgid "Curitiba"
 msgstr ""
 
@@ -7747,16 +7699,6 @@ msgid "Disable IE validation"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__display_name
 msgid "Display Name"
@@ -10277,16 +10219,6 @@ msgid "IBGE Code"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__id
 msgid "ID"
@@ -11545,9 +11477,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3132404
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente10_mg
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente9_mg
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_kmee
 msgid "Itajubá"
 msgstr ""
 
@@ -13584,16 +13513,6 @@ msgid "Lassance"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_city____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers____last_update
 msgid "Last Modified on"
@@ -13612,7 +13531,6 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,help:l10n_br_base.field_account_setup_bank_manual_config__bra_bank_bic
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner_bank__bra_bank_bic
 msgid "Last part of BIC/Swift Code."
 msgstr ""
@@ -14303,10 +14221,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1302603
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente3_am
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente4_am
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_infomanaus
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_lg
 msgid "Manaus"
 msgstr ""
 
@@ -19086,7 +19000,6 @@ msgid "Piumhi"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__partner_pix_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__pix_key_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__partner_pix_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__pix_key_ids
@@ -19403,9 +19316,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4314902
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente7_rs
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente8_rs
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_dell
 msgid "Porto Alegre"
 msgstr ""
 
@@ -20304,9 +20214,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2611606
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente5_pe
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente6_pe
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_samsungpe
 msgid "Recife"
 msgstr ""
 
@@ -20910,7 +20817,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3304557
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_address_ak2
 msgid "Rio de Janeiro"
 msgstr ""
 
@@ -21379,7 +21285,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2927408
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_infobahia
 msgid "Salvador"
 msgstr ""
 
@@ -24766,13 +24671,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3550308
-#: model:res.partner,nfe40_xMun:l10n_br_base.lucro_presumido_partner
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_akretion
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_amd
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente11_sp
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente1_sp
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente2_sp
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_intel
 msgid "São Paulo"
 msgstr ""
 
@@ -26318,7 +26216,6 @@ msgid "Type"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,help:l10n_br_base.field_account_setup_bank_manual_config__transactional_acc_type
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner_bank__transactional_acc_type
 msgid ""
 "Type of transactional account, classification used in the Brazilian instant "
@@ -26499,11 +26396,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4322376
 msgid "Unistalda"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_exterior
-msgid "United States"
 msgstr ""
 
 #. module: l10n_br_base
