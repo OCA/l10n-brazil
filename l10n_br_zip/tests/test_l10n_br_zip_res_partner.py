@@ -177,8 +177,8 @@ class L10nBRZipTest(TransactionCase):
         """Test search with PyCEP CORREIOS in res_partner."""
         mocked_response = {
             "zip_code": "01310930",
-            "street_name": "Avenida Paulista, 2100",
-            "zip_complement": None,
+            "street_name": "Avenida Paulista",
+            "zip_complement": "2100",
             "district": "Bela Vista",
             "city_id": self.env.ref("l10n_br_base.city_3550308").id,
             "state_id": self.env.ref("base.state_br_sp").id,
