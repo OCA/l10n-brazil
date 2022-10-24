@@ -5,3 +5,4 @@ erpbrasil.base
 num2words
 phonenumbers
 pycep_correios
+pyopenssl>=22.0.0

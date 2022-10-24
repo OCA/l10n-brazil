@@ -109,6 +109,7 @@
         "python": [
             "erpbrasil.base",
             "erpbrasil.assinatura",
+            "pyopenssl>=22.0.0",
         ]
     },
 }
