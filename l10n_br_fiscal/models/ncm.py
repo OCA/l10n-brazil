@@ -4,7 +4,7 @@
 from odoo import _, fields, models
 
 from ..constants.fiscal import TAX_DOMAIN_II, TAX_DOMAIN_IPI
-from .ibpt.taxes import get_ibpt_product
+from .ibpt import get_ibpt_product
 
 
 class Ncm(models.Model):
