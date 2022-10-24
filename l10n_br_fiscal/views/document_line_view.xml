@@ -9,7 +9,7 @@
         <group name="fiscal_fields" invisible="1">
             <field name="currency_id" invisible="1" />
             <field name="fiscal_operation_type" invisible="1" />
-            <field name="company_id" invisible="1" />
+            <field name="company_id" invisible="1" groups="base.group_multi_company" />
             <field name="tax_framework" invisible="1" />
             <field name="fiscal_genre_id" invisible="1" />
             <field name="fiscal_genre_code" invisible="1" />
