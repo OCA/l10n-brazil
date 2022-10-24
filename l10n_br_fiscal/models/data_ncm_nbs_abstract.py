@@ -1,14 +1,13 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import json
 import logging
 from datetime import timedelta
 
 from erpbrasil.base import misc
-from lxml import etree
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from .ibpt.taxes import DeOlhoNoImposto
 
@@ -75,8 +74,10 @@ class DataNcmNbsAbstract(models.AbstractModel):
     def _get_ibpt(self, config, code_unmasked):
         return False
 
-    def action_ibpt_inquiry(self):
+    def action_ibpt_inquiry(self, raise_error=True):
         if not self.env.company.ibpt_api:
+            if raise_error:
+                raise UserError(_("Please check IBPT api key on company settings"))
             return False
 
         object_name = OBJECT_NAMES.get(self._name)
@@ -166,30 +167,10 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
         for record in not_estimated + record_past_estimated:
             try:
-                record.action_ibpt_inquiry()
+                record.action_ibpt_inquiry(raise_error=False)
             except Exception:
                 continue
 
         _logger.info(
             _("Scheduled {} estimate taxes update complete.").format(object_name)
         )
-
-    @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        res = super(DataNcmNbsAbstract, self).fields_view_get(
-            view_id, view_type, toolbar, submenu
-        )
-
-        if view_type == "form":
-            xml = etree.XML(res["arch"])
-            xml_button = xml.xpath("//button[@name='action_ibpt_inquiry']")
-            if xml_button and not self.env.company.ibpt_api:
-                modifiers = json.loads(xml_button[0].get("modifiers", "{}"))
-                modifiers["invisible"] = 1
-                xml_button[0].set("modifiers", json.dumps(modifiers))
-                res["arch"] = etree.tostring(xml, pretty_print=True)
-        if res.get("toolbar") and not self.env.company.ibpt_api:
-            res["toolbar"]["action"] = []
-        return res
