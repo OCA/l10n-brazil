@@ -3025,7 +3025,7 @@ msgid "Erro!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
 msgid "Error in the request: {}"
 msgstr ""
@@ -3764,13 +3764,13 @@ msgid "Hours"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
 msgid "IBPT Forbidden - token={!r}, cnpj={!r}, UF={!r}"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
 msgid "IBPT Service Unavailable - {!r}"
 msgstr ""
@@ -3786,7 +3786,7 @@ msgid "IBPT Token Updates"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
 msgid "IBPT URL not found - {!r}"
 msgstr ""
