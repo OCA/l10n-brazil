@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_zip_search_form" model="ir.ui.view">
+        <field name="name">Pesquisar CEP</field>
+        <field name="model">l10n_br.zip.search</field>
+        <field name="arch" type="xml">
+            <form string="Pesquisar CEP">
+                <group colspan="8" col="8" states="init">
+                    <field colspan="8" name="zip" />
+                    <field colspan="8" name="street_name" />
+                    <field colspan="4" name="district" />
+                    <field colspan="4" name="country_id" required="True" />
+                    <field colspan="4" name="state_id" required="True" />
+                    <field colspan="4" name="city_id" required="True" />
+                    <field colspan="4" name="state" invisible="1" />
+                </group>
+                <group colspan="8" col="8" states="done">
+                    <field
+                        colspan="8"
+                        height="130"
+                        nolabel="1"
+                        name="zip_ids"
+                        wizard="one2many_list"
+                        readonly="1"
+                    />
+                </group>
+                <footer states="init">
+                    <button
+                        name="zip_search"
+                        string="Pesquisar"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button special="cancel" string="Cancelar" class="oe_link" />
+                </footer>
+                <footer states="done">
+                    <button special="cancel" string="Cancelar" class="oe_link" />
+                    <button
+                        name="zip_new_search"
+                        string="Nova Pesquisa"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_zip_search_action" model="ir.actions.act_window">
+        <field name="name">Pesquisar CEP</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br.zip.search</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
