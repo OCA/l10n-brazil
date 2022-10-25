@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_base>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_coa>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_crm>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_br_stock>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_zip>=15.0dev,<15.1dev',
     ],
     classifiers=[
