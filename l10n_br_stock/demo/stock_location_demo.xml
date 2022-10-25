@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+        <!-- Simples Nacional -->
+
+        <record id="stock_location_sn_shelf_1" model="stock.location">
+            <field name="name">Shelf 1</field>
+            <field name="posx">0</field>
+            <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
+            <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        </record>
+
+        <record id="stock_location_sn_shelf_2" model="stock.location">
+            <field name="name">Shelf 2</field>
+            <field name="posx">0</field>
+            <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
+            <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        </record>
+
+        <!-- Lucro Presumido -->
+
+        <record id="stock_location_lp_shelf_1" model="stock.location">
+            <field name="name">Shelf 1</field>
+            <field name="posx">0</field>
+            <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+            <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        </record>
+
+        <record id="stock_location_lp_shelf_2" model="stock.location">
+            <field name="name">Shelf 2</field>
+            <field name="posx">0</field>
+            <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+            <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        </record>
+
+</odoo>
