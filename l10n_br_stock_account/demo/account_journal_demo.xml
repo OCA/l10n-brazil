@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Diarios -->
+    <!-- Account Journal for Main Company -->
+    <record id="simples_remessa_journal_main_company" model="account.journal">
+        <field name="name">Diário Simples Remessa</field>
+        <field name="code">DSR</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="devolucao_vendas_journal_main_company" model="account.journal">
+        <field name="name">Diário de Devolução de Vendas</field>
+        <field name="code">DSR</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="entrada_remessa_journal_main_company" model="account.journal">
+        <field name="name">Diário Entrada Remessa</field>
+        <field name="code">DER</field>
+        <field name="type">purchase</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="devolucao_compras_journal_main_company" model="account.journal">
+        <field name="name">Diário Devolução de Compras</field>
+        <field name="code">DDC</field>
+        <field name="type">purchase</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <!-- Account Journal for Lucro Presumido -->
+    <record id="simples_remessa_journal_lucro_presumido" model="account.journal">
+        <field name="name">Diário Simples Remessa</field>
+        <field name="code">DSR</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="entrada_remessa_journal_lucro_presumido" model="account.journal">
+        <field name="name">Diário Entrada Remessa</field>
+        <field name="code">DER</field>
+        <field name="type">purchase</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <!-- Account Journal for Simples Nacional -->
+    <record id="simples_remessa_journal_simples_nacional" model="account.journal">
+        <field name="name">Diário Simples Remessa</field>
+        <field name="code">DSR</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="entrada_remessa_journal_simples_nacional" model="account.journal">
+        <field name="name">Diário Entrada Remessa</field>
+        <field name="code">DER</field>
+        <field name="type">purchase</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+</odoo>

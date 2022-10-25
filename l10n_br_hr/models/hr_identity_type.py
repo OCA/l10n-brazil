@@ -10,6 +10,6 @@ class HrIdentityType(models.Model):
 
     name = fields.Char(string="Identity type", required=True)
 
-    initials = fields.Char(string="Initials", required=True)
+    initials = fields.Char(required=True)
 
     employee_ids = fields.Many2many(string="Employees", comodel_name="hr.employee")

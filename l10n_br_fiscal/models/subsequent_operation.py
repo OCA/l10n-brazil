@@ -27,7 +27,6 @@ class SubsequentOperation(models.Model):
     _order = "sequence"
 
     sequence = fields.Integer(
-        string="Sequence",
         default=10,
         help="Gives the sequence order when displaying a list",
     )
@@ -43,7 +42,6 @@ class SubsequentOperation(models.Model):
     )
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
     generation_situation = fields.Selection(
-        string="Generation Situation",
         selection=SUBSEQUENT_OPERATION,
         required=True,
         default="manual",

@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="nfe_res_config_settings_form" model="ir.ui.view">
+        <field name="name">nfe.res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="50" />
+        <field
+            name="inherit_id"
+            ref="l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='l10n_br_fiscal']" position="inside">
+                <div id="nfe" groups="l10n_br_nfe.group_manager">
+                <h2>NF-e</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">NF-e Default Version</span>
+                            <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    aria-label="Values set here are company-specific."
+                                    role="img"
+                                />
+                            <div class="text-muted">
+                                Set nf-e default version used to create new NF-e documents
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                    <label
+                                            for="nfe_version"
+                                            class="col-4 col-lg-4 o_light_label"
+                                        />
+                                    <field
+                                            name="nfe_version"
+                                            class="oe_inline"
+                                            required="1"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">NF-e Default Environment</span>
+                            <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    aria-label="Values set here are company-specific."
+                                    role="img"
+                                />
+                            <div class="text-muted">
+                                Set nf-e default version used to create new NF-e documents
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                    <label
+                                            for="nfe_environment"
+                                            class="col-4 col-lg-4 o_light_label"
+                                        />
+                                    <field
+                                            name="nfe_environment"
+                                            class="oe_inline"
+                                            required="1"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                      <div class="col-12 col-lg-6 o_setting_box">
+                          <div class="o_setting_right_pane">
+                              <span
+                                    class="o_form_label"
+                                >NF-e Default Transmission</span>
+                              <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    aria-label="Values set here are company-specific."
+                                    role="img"
+                                />
+                              <div class="text-muted">
+                                  Set nf-e default transmission type used to create new NF-e documents
+                              </div>
+                              <div class="content-group">
+                                  <div class="mt16 row">
+                                      <label
+                                            for="nfe_transmission"
+                                            class="col-4 col-lg-4 o_light_label"
+                                        />
+                                      <field
+                                            name="nfe_transmission"
+                                            class="oe_inline"
+                                            required="1"
+                                        />
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">DANFE Print Layout</span>
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    aria-label="Values set here are company-specific."
+                                    role="img"
+                                />
+                                <div class="text-muted">
+                                    Set default print DANFE for print new NF-e and NFC-e documents
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16 row">
+                                        <label
+                                            for="nfe_danfe_layout"
+                                            class="col-4 col-lg-4 o_light_label"
+                                        />
+                                        <field
+                                            name="nfe_danfe_layout"
+                                            class="oe_inline"
+                                            required="1"
+                                        />
+                                            <label
+                                            for="nfce_danfe_layout"
+                                            class="col-4 col-lg-4 o_light_label"
+                                        />
+                                            <field
+                                            name="nfce_danfe_layout"
+                                            class="oe_inline"
+                                            required="1"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

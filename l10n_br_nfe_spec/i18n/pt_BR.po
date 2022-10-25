@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2022-09-16 22:07+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_icmspart__nfe40_modBC__0
@@ -1686,8 +1688,8 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_cofinsoutr__nfe40_CST__51
 msgid ""
-"51 - Operação com Direito a Crédito – Vinculada Exclusivamente a Receita Não"
-" Tributada no Mercado Interno"
+"51 - Operação com Direito a Crédito – Vinculada Exclusivamente a Receita Não "
+"Tributada no Mercado Interno"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2732,8 +2734,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_veicprod__nfe40_cCorDENATRAN
 msgid ""
 "Código da Cor Segundo as regras de pré-cadastro do DENATRAN:\n"
-"01-AMARELO;02-AZUL;03-BEGE;04-BRANCA;05-CINZA;06-DOUR\n"
-"ADA;07-GRENA\n"
+"01-AMARELO;02-AZUL;03-BEGE;04-BRANCA;05-CINZA;06-\n"
+"DOURADA;07-GRENA\n"
 "08-LARANJA;09-MARROM;10-PRATA;11-PRETA;12-ROSA;13-ROXA;14-VERDE;15-\n"
 "VERMELHA;16-FANTASIA"
 msgstr ""
@@ -3831,7 +3833,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_vol__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_spec_mixin_nfe__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome Exibido"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_veicprod__nfe40_dist
@@ -3927,8 +3929,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_issqn__nfe40_indISS
 msgid ""
 "Exibilidade do ISS:1-Exigível;2-Não\n"
-"incidente;3-Isenção;4-Exportação;5-Imunidade;6-Exig.S\n"
-"usp. Judicial;7-Exig.Susp. ADM"
+"incidente;3-Isenção;4-Exportação;5-Imunidade;6-\n"
+"Exig.Susp. Judicial;7-Exig.Susp. ADM"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -7289,8 +7291,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_di__nfe40_tpViaTransp
 msgid ""
 "Via de transporte internacional informada na DI\n"
-"1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-Ro\n"
-"doviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;\n"
+"1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-\n"
+"Rodoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida\n"
+"Ficta;\n"
 "11-Courier;12-Em maos;13-Por reboque."
 msgstr ""
 

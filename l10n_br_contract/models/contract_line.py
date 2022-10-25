@@ -1,9 +1,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
-
-from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
+from odoo import fields, models
 
 
 class ContractLine(models.Model):
@@ -13,6 +11,7 @@ class ContractLine(models.Model):
     company_id = fields.Many2one(
         related="contract_id.company_id",
     )
+    country_id = fields.Many2one(related="company_id.country_id", store=True)
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
@@ -23,7 +22,6 @@ class ContractLine(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         related="contract_id.company_id.tax_framework",
         string="Tax Framework",
     )
@@ -48,6 +46,9 @@ class ContractLine(models.Model):
         self.ensure_one()
 
         contract = self.contract_id
+
+        if contract.contract_recalculate_taxes_before_invoice:
+            self._onchange_fiscal_operation_id()
 
         invoice_line_vals = super()._prepare_invoice_line(move_form)
 
@@ -74,11 +75,3 @@ class ContractLine(models.Model):
             invoice_line_vals["quantity"] = quantity
             invoice_line_vals["tax_ids"] = tax_ids.ids
         return invoice_line_vals
-
-    @api.model
-    def create(self, values):
-        res = super().create(values)
-        if res.contract_id.fiscal_operation_id and not res.fiscal_operation_id:
-            res.fiscal_operation_id = res.contract_id.fiscal_operation_id
-            res._onchange_fiscal_operation_id()
-        return res

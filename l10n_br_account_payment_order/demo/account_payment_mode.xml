@@ -873,6 +873,7 @@
         />
         <!-- O campo do convenio varia de acordo com o tamanho da sequencia own_number_sequence_id -->
         <field name="code_convetion">1234</field>
+        <field name="code_convenio_lider">7654321</field>
         <field
             name="cnab_liq_return_move_code_ids"
             eval="[(6,0,[ref('brasil_400_return_05'), ref('brasil_400_return_06'),

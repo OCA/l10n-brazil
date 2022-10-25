@@ -76,21 +76,15 @@ class FiscalDocumentMixin(models.AbstractModel):
         domain=[("object", "=", FISCAL_COMMENT_DOCUMENT)],
     )
 
-    fiscal_additional_data = fields.Text(
-        string="Fiscal Additional Data",
-    )
+    fiscal_additional_data = fields.Text()
 
     manual_fiscal_additional_data = fields.Char(
-        string="Manual Fiscal Additional Data",
         help="Fiscal Additional data manually entered by user",
     )
 
-    customer_additional_data = fields.Text(
-        string="Customer Additional Data",
-    )
+    customer_additional_data = fields.Text()
 
     manual_customer_additional_data = fields.Char(
-        string="Manual Customer Additional Data",
         help="Customer Additional data manually entered by user",
     )
 
@@ -115,7 +109,6 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     amount_untaxed = fields.Monetary(
-        string="Amount Untaxed",
         compute="_compute_amount",
         store=True,
     )
@@ -162,6 +155,18 @@ class FiscalDocumentMixin(models.AbstractModel):
         store=True,
     )
 
+    amount_icms_destination_value = fields.Monetary(
+        string="ICMS Destination Value",
+        compute="_compute_amount",
+        store=True,
+    )
+
+    amount_icms_origin_value = fields.Monetary(
+        string="ICMS Origin Value",
+        compute="_compute_amount",
+        store=True,
+    )
+
     amount_ipi_base = fields.Monetary(
         string="IPI Base",
         compute="_compute_amount",
@@ -170,6 +175,24 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     amount_ipi_value = fields.Monetary(
         string="IPI Value",
+        compute="_compute_amount",
+        store=True,
+    )
+
+    amount_ii_base = fields.Monetary(
+        string="II Base",
+        compute="_compute_amount",
+        store=True,
+    )
+
+    amount_ii_value = fields.Monetary(
+        string="II Value",
+        compute="_compute_amount",
+        store=True,
+    )
+
+    amount_ii_customhouse_charges = fields.Monetary(
+        string="Customhouse Charges",
         compute="_compute_amount",
         store=True,
     )
@@ -319,25 +342,21 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     amount_estimate_tax = fields.Monetary(
-        string="Amount Estimate Tax",
         compute="_compute_amount",
         store=True,
     )
 
     amount_tax = fields.Monetary(
-        string="Amount Tax",
         compute="_compute_amount",
         store=True,
     )
 
     amount_total = fields.Monetary(
-        string="Amount Total",
         compute="_compute_amount",
         store=True,
     )
 
     amount_tax_withholding = fields.Monetary(
-        string="Amount Tax Withholding",
         compute="_compute_amount",
         store=True,
     )
@@ -370,16 +389,27 @@ class FiscalDocumentMixin(models.AbstractModel):
         string="Insurance Value",
         compute="_compute_amount",
         store=True,
+        inverse="_inverse_amount_insurance",
     )
 
     amount_other_value = fields.Monetary(
         string="Other Costs",
         compute="_compute_amount",
         store=True,
+        inverse="_inverse_amount_other",
     )
 
     amount_freight_value = fields.Monetary(
         string="Freight Value",
         compute="_compute_amount",
         store=True,
+        inverse="_inverse_amount_freight",
     )
+
+    # Usado para tornar Somente Leitura os campos totais dos custos
+    # de entrega quando a definição for por Linha
+    delivery_costs = fields.Selection(
+        related="company_id.delivery_costs",
+    )
+
+    force_compute_delivery_costs_by_total = fields.Boolean(default=False)

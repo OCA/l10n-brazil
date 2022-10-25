@@ -14,7 +14,7 @@
             <field name="name" position="attributes">
                 <attribute
                     name="filter_domain"
-                >['|','|','|', '|', ('document_number','ilike',self), ('name','ilike',self), ('origin','ilike',self), ('reference', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
+                >['|','|','|', '|', ('document_number','ilike',self), ('name','ilike',self), ('invoice_origin','ilike',self), ('ref', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
                 <attribute name="string">Account Number</attribute>
             </field>
         </field>
@@ -62,20 +62,6 @@
                     name="attrs"
                 >{'invisible': [('document_type_id', '!=', False)]}</attribute>
             </xpath>
-            <xpath expr="//form/sheet/div/h1[1]" position="after">
-                <h1 class="mt0">
-                    <div attrs="{'invisible': [('document_type_id', '=', False)]}">
-                        <span class="oe_inline">
-                            <field readonly="1" name="document_type_id" />:
-                            <field
-                                name="document_number"
-                                readonly="1"
-                                attrs="{'invisible': [('state','in',('draft',))]}"
-                            />
-                        </span>
-                    </div>
-                </h1>
-            </xpath>
             <xpath expr="//form/sheet/group" position="after">
                 <group name="l10n_br_fiscal">
                     <field name="id" invisible="1" />
@@ -93,7 +79,18 @@
                 <field name="document_type" invisible="1" />
                 <field
                     name="document_type_id"
-                    attrs="{'invisible': [('create_date', '!=', False), ('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                    attrs="{
+                    'invisible': [
+                            '|',
+                            '&amp;',
+                            '|',
+                            ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
+                            ('create_date', '=', True),
+                            ('document_type_id', '=', False),
+                            ('currency_id', '!=',  %(base.BRL)d),
+                        ],
+                    'readonly': [('state', '!=', 'draft')]
+                }"
                 />
                 <field
                     name="fiscal_operation_id"
@@ -413,11 +410,11 @@
                 />
                 <field
                     name="city_taxation_code_id"
-                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn'),('fiscal_operation_type','=','out')]}"
                 />
                 <field
                     name="service_type_id"
-                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn'),('fiscal_operation_type','=','out')]}"
                 />
                 <field
                     name="cnae_id"

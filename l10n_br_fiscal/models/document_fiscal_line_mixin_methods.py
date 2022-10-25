@@ -334,10 +334,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 nbs=self.nbs_id,
                 cest=self.cest_id,
                 city_taxation_code=self.city_taxation_code_id,
+                ind_final=self.ind_final,
             )
 
-            self.ipi_guideline_id = mapping_result["ipi_guideline"]
             self.cfop_id = mapping_result["cfop"]
+            self.ipi_guideline_id = mapping_result["ipi_guideline"]
             taxes = self.env["l10n_br_fiscal.tax"]
             for tax in mapping_result["taxes"].values():
                 taxes |= tax
@@ -504,7 +505,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.icms_value = tax_dict.get("tax_value")
 
             # vBCUFDest - Valor da BC do ICMS na UF de destino
-            self.icms_destination_base = tax_dict.get("icms_dest_base")
+            if tax_dict.get("icms_dest_base") is not None:
+                self.icms_destination_base = tax_dict.get("icms_dest_base")
 
             # pICMSUFDest - Alíquota interna da UF de destino
             self.icms_origin_percent = tax_dict.get("icms_origin_perc")
@@ -518,10 +520,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             # vICMSUFRemet - Valor do ICMS Interestadual
             # para a UF do remetente
-            self.icms_origin_value = tax_dict.get("icms_origin_value")
+            if tax_dict.get("icms_origin_value") is not None:
+                self.icms_origin_value = tax_dict.get("icms_origin_value")
 
             # vICMSUFDest - Valor do ICMS Interestadual para a UF de destino
-            self.icms_destination_value = tax_dict.get("icms_dest_value")
+            if tax_dict.get("icms_dest_value") is not None:
+                self.icms_destination_value = tax_dict.get("icms_dest_value")
 
     @api.onchange(
         "icms_base",

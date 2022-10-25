@@ -85,125 +85,8 @@ class SaleOrder(models.Model):
     )
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
-
-    # Usado para tornar Somente Leitura os campos totais dos custos
-    # de entrega quando a definição for por Linha
-    delivery_costs = fields.Selection(
-        related="company_id.delivery_costs",
-    )
-
-    def _inverse_amount_freight(self):
-        for record in self.filtered(lambda so: so.order_line):
-            if record.company_id.delivery_costs == "total":
-
-                amount_freight_value = record.amount_freight_value
-                if all(record.order_line.mapped("freight_value")):
-                    amount_freight_old = sum(record.order_line.mapped("freight_value"))
-                    for line in record.order_line[:-1]:
-                        line.freight_value = amount_freight_value * (
-                            line.freight_value / amount_freight_old
-                        )
-                    record.order_line[-1].freight_value = amount_freight_value - sum(
-                        line.freight_value for line in record.order_line[:-1]
-                    )
-                else:
-                    amount_total = sum(record.order_line.mapped("price_total"))
-                    for line in record.order_line[:-1]:
-                        line.freight_value = amount_freight_value * (
-                            line.price_total / amount_total
-                        )
-                    record.order_line[-1].freight_value = amount_freight_value - sum(
-                        line.freight_value for line in record.order_line[:-1]
-                    )
-                for line in record.order_line:
-                    line._onchange_fiscal_taxes()
-                record._fields["amount_total"].compute_value(record)
-                record.write(
-                    {
-                        name: value
-                        for name, value in record._cache.items()
-                        if record._fields[name].compute == "_amount_all"
-                        and not record._fields[name].inverse
-                    }
-                )
-
-    def _inverse_amount_insurance(self):
-        for record in self.filtered(lambda so: so.order_line):
-            if record.company_id.delivery_costs == "total":
-
-                amount_insurance_value = record.amount_insurance_value
-                if all(record.order_line.mapped("insurance_value")):
-                    amount_insurance_old = sum(
-                        record.order_line.mapped("insurance_value")
-                    )
-                    for line in record.order_line[:-1]:
-                        line.insurance_value = amount_insurance_value * (
-                            line.insurance_value / amount_insurance_old
-                        )
-                    record.order_line[
-                        -1
-                    ].insurance_value = amount_insurance_value - sum(
-                        line.insurance_value for line in record.order_line[:-1]
-                    )
-                else:
-                    amount_total = sum(record.order_line.mapped("price_total"))
-                    for line in record.order_line[:-1]:
-                        line.insurance_value = amount_insurance_value * (
-                            line.price_total / amount_total
-                        )
-                    record.order_line[
-                        -1
-                    ].insurance_value = amount_insurance_value - sum(
-                        line.insurance_value for line in record.order_line[:-1]
-                    )
-                for line in record.order_line:
-                    line._onchange_fiscal_taxes()
-                record._fields["amount_total"].compute_value(record)
-                record.write(
-                    {
-                        name: value
-                        for name, value in record._cache.items()
-                        if record._fields[name].compute == "_amount_all"
-                        and not record._fields[name].inverse
-                    }
-                )
-
-    def _inverse_amount_other(self):
-        for record in self.filtered(lambda so: so.order_line):
-            if record.company_id.delivery_costs == "total":
-                amount_other_value = record.amount_other_value
-                if all(record.order_line.mapped("other_value")):
-                    amount_other_old = sum(record.order_line.mapped("other_value"))
-                    for line in record.order_line[:-1]:
-                        line.other_value = amount_other_value * (
-                            line.other_value / amount_other_old
-                        )
-                    record.order_line[-1].other_value = amount_other_value - sum(
-                        line.other_value for line in record.order_line[:-1]
-                    )
-                else:
-                    amount_total = sum(record.order_line.mapped("price_total"))
-                    for line in record.order_line[:-1]:
-                        line.other_value = amount_other_value * (
-                            line.price_total / amount_total
-                        )
-                    record.order_line[-1].other_value = amount_other_value - sum(
-                        line.other_value for line in record.order_line[:-1]
-                    )
-                for line in record.order_line:
-                    line._onchange_fiscal_taxes()
-                record._fields["amount_total"].compute_value(record)
-                record.write(
-                    {
-                        name: value
-                        for name, value in record._cache.items()
-                        if record._fields[name].compute == "_amount_all"
-                        and not record._fields[name].inverse
-                    }
-                )
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
@@ -213,7 +96,7 @@ class SaleOrder(models.Model):
     def _compute_amount(self):
         if self.company_id.country_id.id != self.env.ref("base.br").id:
             return
-        super()._compute_amount()
+        return super()._compute_amount()
 
     @api.depends("order_line.price_total")
     def _amount_all(self):
@@ -280,8 +163,9 @@ class SaleOrder(models.Model):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        super()._onchange_fiscal_operation_id()
+        result = super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+        return result
 
     def _prepare_invoice(self):
         self.ensure_one()
@@ -312,9 +196,9 @@ class SaleOrder(models.Model):
 
         return result
 
-    def _create_invoices(self, grouped=False, final=False):
+    def _create_invoices(self, grouped=False, final=False, date=None):
 
-        inv_ids = super()._create_invoices(grouped=grouped, final=final)
+        inv_ids = super()._create_invoices(grouped=grouped, final=final, date=date)
 
         # In brazilian localization we need to overwrite this method
         # because when there are a sale order line with different Document

@@ -28,13 +28,10 @@ class DocumentLine(models.Model):
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
-    name = fields.Text(
-        string="Name",
-    )
+    name = fields.Text()
 
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -45,7 +42,6 @@ class DocumentLine(models.Model):
 
     tax_framework = fields.Selection(
         related="company_id.tax_framework",
-        string="Tax Framework",
     )
 
     partner_id = fields.Many2one(
@@ -68,23 +64,29 @@ class DocumentLine(models.Model):
 
     # Amount Fields
     amount_untaxed = fields.Monetary(
-        string="Amount Untaxed",
         compute="_compute_amounts",
     )
 
     amount_tax = fields.Monetary(
-        string="Amount Tax",
         compute="_compute_amounts",
     )
 
     amount_fiscal = fields.Monetary(
-        string="Amount Fiscal",
         compute="_compute_amounts",
     )
 
     amount_total = fields.Monetary(
-        string="Amount Total",
         compute="_compute_amounts",
+    )
+
+    # Usado para tornar Somente Leitura os campos dos custos
+    # de entrega quando a definição for por Total
+    delivery_costs = fields.Selection(
+        related="company_id.delivery_costs",
+    )
+
+    force_compute_delivery_costs_by_total = fields.Boolean(
+        related="document_id.force_compute_delivery_costs_by_total"
     )
 
     def unlink(self):

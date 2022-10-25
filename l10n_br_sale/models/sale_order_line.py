@@ -95,6 +95,9 @@ class SaleOrderLine(models.Model):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs",
     )
+    force_compute_delivery_costs_by_total = fields.Boolean(
+        related="order_id.force_compute_delivery_costs_by_total"
+    )
 
     # Fields compute need parameter compute_sudo
     price_subtotal = fields.Monetary(compute_sudo=True)
@@ -139,6 +142,7 @@ class SaleOrderLine(models.Model):
     )
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
+        result = super()._compute_amount()
         if self.country_id.id != self.env.ref("base.br").id:
             for line in self:
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
@@ -167,21 +171,21 @@ class SaleOrderLine(models.Model):
                         ["invoice_repartition_line_ids"], [line.tax_id.id]
                     )
         else:
-            super()._compute_amount()
-            for line in self:
-                # Update taxes fields
-                line._update_taxes()
-                # Call mixin compute method
-                line._compute_amounts()
-                # Update record
-                line.update(
-                    {
-                        "price_subtotal": line.amount_untaxed,
-                        "price_tax": line.amount_tax,
-                        "price_gross": line.amount_untaxed + line.discount_value,
-                        "price_total": line.amount_total,
-                    }
-                )
+          for line in self:
+              # Update taxes fields
+              line._update_taxes()
+              # Call mixin compute method
+              line._compute_amounts()
+              # Update record
+              line.update(
+                  {
+                      "price_subtotal": line.amount_untaxed,
+                      "price_tax": line.amount_tax,
+                      "price_gross": line.amount_untaxed + line.discount_value,
+                      "price_total": line.amount_total,
+                  }
+              )
+      return result
 
     def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
@@ -206,7 +210,7 @@ class SaleOrderLine(models.Model):
         "analytic_line_ids.product_uom_id",
     )
     def _compute_qty_delivered(self):
-        super()._compute_qty_delivered()
+        result = super()._compute_qty_delivered()
         for line in self:
             line.fiscal_qty_delivered = 0.0
             if line.product_id.invoice_policy == "delivery":
@@ -217,6 +221,7 @@ class SaleOrderLine(models.Model):
                 line.fiscal_qty_delivered = (
                     line.qty_delivered * line.product_id.uot_factor
                 )
+        return result
 
     @api.onchange("discount")
     def _onchange_discount_percent(self):
@@ -236,9 +241,10 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
-        super()._onchange_fiscal_tax_ids()
+        result = super()._onchange_fiscal_tax_ids()
         self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type="sale")
         if self.order_id.fiscal_operation_id.deductible_taxes:
             self.tax_id |= self.fiscal_tax_ids.account_taxes(
                 user_type="sale", deductible=True
             )
+        return result

@@ -53,17 +53,14 @@ class Document(models.Model):
         default="1",
     )
     operation_nature = fields.Selection(
-        string="Operation Nature",
         selection=OPERATION_NATURE,
         default="1",
     )
     taxation_special_regime = fields.Selection(
-        string="Taxation Special Regime",
         selection=TAXATION_SPECIAL_REGIME,
         default="1",
     )
     verify_code = fields.Char(
-        string="Verify Code",
         readonly=True,
         copy=False,
     )
@@ -74,10 +71,11 @@ class Document(models.Model):
     )
 
     def _document_date(self):
-        super()._document_date()
+        result = super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfse):
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
+        return result
 
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
@@ -123,25 +121,29 @@ class Document(models.Model):
         )
 
     def _document_export(self, pretty_print=True):
-        super(Document, self)._document_export()
+        result = super(Document, self)._document_export()
         for record in self.filtered(filter_processador_edoc_nfse):
-            edoc = record.serialize()[0]
-            processador = record._processador_erpbrasil_nfse()
-            xml_file = processador._generateds_to_string_etree(
-                edoc, pretty_print=pretty_print
-            )[0]
-            event_id = self.event_ids.create_event_save_xml(
-                company_id=self.company_id,
-                environment=(
-                    EVENT_ENV_PROD if self.nfse_environment == "1" else EVENT_ENV_HML
-                ),
-                event_type="0",
-                xml_file=xml_file,
-                document_id=self,
-            )
-            _logger.debug(xml_file)
-            record.authorization_event_id = event_id
-            record.make_pdf()
+            if record.company_id.provedor_nfse:
+                edoc = record.serialize()[0]
+                processador = record._processador_erpbrasil_nfse()
+                xml_file = processador._generateds_to_string_etree(
+                    edoc, pretty_print=pretty_print
+                )[0]
+                event_id = self.event_ids.create_event_save_xml(
+                    company_id=self.company_id,
+                    environment=(
+                        EVENT_ENV_PROD
+                        if self.nfse_environment == "1"
+                        else EVENT_ENV_HML
+                    ),
+                    event_type="0",
+                    xml_file=xml_file,
+                    document_id=self,
+                )
+                _logger.debug(xml_file)
+                record.authorization_event_id = event_id
+                record.make_pdf()
+        return result
 
     def _prepare_dados_servico(self):
         # TODO: Migration 14.0: Acredito que fiscal_line_ids

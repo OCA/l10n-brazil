@@ -1,0 +1,1519 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_stock_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_withholding
+msgid "(-) Amount Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__fiscal_operation_journal
+msgid "Account Jornal from Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Accounting"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__additional_data
+msgid "Additional Data"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__manual_additional_data
+msgid "Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_discount_value
+msgid "Amount Discount"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_estimate_tax
+msgid "Amount Estimate Tax"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__financial_total
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_financial_total
+msgid "Amount Financial"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__financial_total_gross
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_financial_total_gross
+msgid "Amount Financial Gross"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_fiscal
+msgid "Amount Fiscal"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__price_gross
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_price_gross
+msgid "Amount Gross"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_tax
+msgid "Amount Tax"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_included
+msgid "Amount Tax Included"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_not_included
+msgid "Amount Tax Not Included"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_tax_withholding
+msgid "Amount Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_taxed
+msgid "Amount Taxed"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_total
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_total
+msgid "Amount Total"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_untaxed
+msgid "Amount Untaxed"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__price_gross
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__amount_price_gross
+msgid "Amount without discount."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__ind_pres
+msgid "Buyer Presence"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cest_id
+msgid "CEST"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cfop_id
+msgid "CFOP"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cfop_destination
+msgid "CFOP Destination"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cnae_id
+msgid "CNAE Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_percent
+msgid "COFINS %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_reduction
+msgid "COFINS % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cofins_base
+msgid "COFINS Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_base_id
+msgid "COFINS Base Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_base_type
+msgid "COFINS Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_cst_code
+msgid "COFINS CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_credit_id
+msgid "COFINS Credit Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_wh_percent
+msgid "COFINS RET %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_wh_reduction
+msgid "COFINS RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_wh_base
+msgid "COFINS RET Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_wh_value
+msgid "COFINS RET Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cofins_wh_base
+msgid "COFINS Ret Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cofins_wh_value
+msgid "COFINS Ret Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_percent
+msgid "COFINS ST %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_reduction
+msgid "COFINS ST % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_base
+msgid "COFINS ST Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_base_type
+msgid "COFINS ST Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_cst_code
+msgid "COFINS ST CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_value
+msgid "COFINS ST Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cofins_value
+msgid "COFINS Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_wh_base_type
+msgid "COFINS WH Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_percent
+msgid "CSLL %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_reduction
+msgid "CSLL % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_csll_base
+msgid "CSLL Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_wh_percent
+msgid "CSLL RET %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_wh_reduction
+msgid "CSLL RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_wh_base
+msgid "CSLL RET Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_wh_value
+msgid "CSLL RET Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_csll_wh_base
+msgid "CSLL Ret Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_csll_wh_value
+msgid "CSLL Ret Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_csll_value
+msgid "CSLL Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_cst_id
+msgid "CST COFINS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_cst_id
+msgid "CST COFINS ST"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_cst_id
+msgid "CST ICMS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_cst_id
+msgid "CST IPI"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_cst_id
+msgid "CST PIS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_cst_id
+msgid "CST PIS ST"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__city_taxation_code_id
+msgid "City Taxation Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__comment_ids
+msgid "Comments"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_company_type
+msgid "Company Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_id
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__currency_id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__customer_additional_data
+msgid "Customer Additional Data"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__manual_customer_additional_data
+msgid "Customer Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ii_customhouse_charges
+msgid "Customhouse Charges"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__fiscal_operation_id
+msgid "Default Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__delivery_costs
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__delivery_costs
+msgid ""
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__delivery_costs
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Delivery Costs"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
+msgid "Demand"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_customhouse_charges
+msgid "Despesas Aduaneiras"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_id
+msgid "Destination Address "
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__discount_value
+msgid "Discount Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_group__display_name
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__display_name
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking__display_name
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__estimate_tax
+msgid "Estimate Tax"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.l10n_br_stock_account_res_company_form
+msgid "Estoque"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Extra Info"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_value_wh
+msgid "FCP WH"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_wh_percent
+msgid "FCP WH %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_base_wh
+msgid "FCP WH Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ind_final
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__financial_discount_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_financial_discount_value
+msgid "Financial Discount Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Fiscal"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_additional_data
+msgid "Fiscal Additional Data"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__manual_fiscal_additional_data
+msgid "Fiscal Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_invoice_onshipping__group__fiscal_operation
+msgid "Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_price
+msgid "Fiscal Price"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_genre_id
+msgid "Fiscal Product Genre"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_genre_code
+msgid "Fiscal Product Genre Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_quantity
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Fiscal Quantity"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_type
+msgid "Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__force_compute_delivery_costs_by_total
+msgid "Force Compute Delivery Costs By Total"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__freight_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_freight_value
+msgid "Freight Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__group
+msgid "Group"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_invoice_onshipping__group
+msgid ""
+"Group pickings/moves to create invoice(s):\n"
+"Picking: One invoice per picking;\n"
+"Partner: One invoice for each picking's partner;\n"
+"Partner/Product: One invoice per picking's partner and group product into a single invoice line."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_percent
+msgid "ICMS %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_reduction
+msgid "ICMS % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icms_base
+msgid "ICMS Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_base_type
+msgid "ICMS Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_cst_code
+msgid "ICMS CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_destination_value
+msgid "ICMS Dest. Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_destination_base
+msgid "ICMS Destination Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icms_destination_value
+msgid "ICMS Destination Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_effective_value
+msgid "ICMS Effective"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_effective_percent
+msgid "ICMS Effective %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_effective_reduction
+msgid "ICMS Effective % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_effective_base
+msgid "ICMS Effective Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_destination_percent
+msgid "ICMS External %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_percent
+msgid "ICMS FCP %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icmsfcp_base
+msgid "ICMS FCP Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_value
+msgid "ICMS FCP ST Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icmsfcp_value
+msgid "ICMS FCP Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_origin_percent
+msgid "ICMS Internal %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_origin
+msgid "ICMS Origin"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_origin_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icms_origin_value
+msgid "ICMS Origin Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_relief_id
+msgid "ICMS Relief"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_relief_value
+msgid "ICMS Relief Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_percent
+msgid "ICMS SN %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_base
+msgid "ICMS SN Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_credit_value
+msgid "ICMS SN Credit"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_reduction
+msgid "ICMS SN Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_percent
+msgid "ICMS ST %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_reduction
+msgid "ICMS ST % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icmsst_base
+msgid "ICMS ST Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_base_type
+msgid "ICMS ST Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_mva_percent
+msgid "ICMS ST MVA %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icmsst_value
+msgid "ICMS ST Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_wh_percent
+msgid "ICMS ST WH %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_wh_base
+msgid "ICMS ST WH Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_wh_value
+msgid "ICMS ST WH Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_sharing_percent
+msgid "ICMS Sharing %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_substitute
+msgid "ICMS Substitute"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icms_value
+msgid "ICMS Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_icms_or_issqn
+msgid "ICMS or ISSQN Tax"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icmssn_credit_value
+msgid "ICMSSN Credit Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_group__id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking__id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_percent
+msgid "II %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ii_base
+msgid "II Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ii_value
+msgid "II Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_percent
+msgid "INSS %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_reduction
+msgid "INSS % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_inss_base
+msgid "INSS Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_wh_percent
+msgid "INSS RET %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_wh_reduction
+msgid "INSS RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_wh_base
+msgid "INSS RET Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_wh_value
+msgid "INSS RET Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_inss_wh_base
+msgid "INSS Ret Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_inss_wh_value
+msgid "INSS Ret Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_inss_value
+msgid "INSS Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_iof_value
+msgid "IOF Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_percent
+msgid "IPI %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_reduction
+msgid "IPI % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ipi_base
+msgid "IPI Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_base_type
+msgid "IPI Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_cst_code
+msgid "IPI CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_guideline_id
+msgid "IPI Guideline"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ipi_value
+msgid "IPI Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_percent
+msgid "IRPJ %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_reduction
+msgid "IRPJ % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_irpj_base
+msgid "IRPJ Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_percent
+msgid "IRPJ RET %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_reduction
+msgid "IRPJ RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_value
+msgid "IRPJ RET Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_irpj_wh_base
+msgid "IRPJ Ret Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_irpj_wh_value
+msgid "IRPJ Ret Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_irpj_value
+msgid "IRPJ Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_percent
+msgid "ISSQN %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_reduction
+msgid "ISSQN % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_issqn_base
+msgid "ISSQN Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_fg_city_id
+msgid "ISSQN City"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_deduction_amount
+msgid "ISSQN Deduction Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_desc_cond_amount
+msgid "ISSQN Discount Cond"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_desc_incond_amount
+msgid "ISSQN Discount Incond"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_eligibility
+msgid "ISSQN Eligibility"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_incentive
+msgid "ISSQN Incentive"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_other_amount
+msgid "ISSQN Other Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_wh_percent
+msgid "ISSQN RET %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_wh_reduction
+msgid "ISSQN RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_wh_base
+msgid "ISSQN RET Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_wh_value
+msgid "ISSQN RET Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_issqn_wh_base
+msgid "ISSQN Ret Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_issqn_wh_value
+msgid "ISSQN Ret Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_issqn_value
+msgid "ISSQN Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__cfop_destination
+msgid "Identifies the operation destination."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__insurance_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_insurance_value
+msgid "Insurance Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:0
+#, python-format
+msgid ""
+"Invalid Journal! There is not journal defined for this company: {} in fiscal"
+" operation: {} !"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
+msgid "Invoice Status"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_rule__invoice_state
+msgid ""
+"Invoiced: an invoice already exists\n"
+"To Be Invoiced: need to be invoiced\n"
+"Not Applicable: no invoice to create"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Invoicing"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_group____last_update
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping____last_update
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move____last_update
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type____last_update
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking____last_update
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__manual_additional_data
+msgid "Manual Additional Data"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__manual_customer_additional_data
+msgid "Manual Customer Additional Data"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__manual_fiscal_additional_data
+msgid "Manual Fiscal Additional Data"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__nbm_id
+msgid "NBM"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__nbs_id
+msgid "NBS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ncm_id
+msgid "NCM"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__simple_value
+msgid "National Simple Taxes"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__simple_without_icms_value
+msgid "National Simple Taxes without ICMS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/models/stock_rule.py:0
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__none
+#, python-format
+msgid "Not Applicable"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_id
+msgid "Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_line_id
+msgid "Operation Line"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__operation_name
+msgid "Operation Name"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__partner_id
+msgid ""
+"Optional address where goods are to be delivered, specifically used for "
+"allotment"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_other_value
+msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__other_value
+msgid "Other Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Others"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_percent
+msgid "PIS %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_reduction
+msgid "PIS % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_pis_base
+msgid "PIS Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_base_id
+msgid "PIS Base Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_base_type
+msgid "PIS Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_cst_code
+msgid "PIS CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_credit_id
+msgid "PIS Credit"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_wh_percent
+msgid "PIS RET %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_wh_reduction
+msgid "PIS RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_wh_base
+msgid "PIS RET Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_wh_value
+msgid "PIS RET Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_pis_wh_base
+msgid "PIS Ret Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_pis_wh_value
+msgid "PIS Ret Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_percent
+msgid "PIS ST %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_reduction
+msgid "PIS ST % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_base
+msgid "PIS ST Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_base_type
+msgid "PIS ST Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_cst_code
+msgid "PIS ST CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_value
+msgid "PIS ST Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_pis_value
+msgid "PIS Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_wh_base_type
+msgid "PIS WH Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_order
+msgid "Partner Order (xPed)"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_order_line
+msgid "Partner Order Line (nItemPed)"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_picking_type
+msgid "Picking Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_procurement_group
+msgid "Procurement Group"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_base
+msgid "RPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
+msgid "Return Picking"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_value
+msgid "SSQN Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__service_type_id
+msgid "Service Type LC 166"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_range_id
+msgid "Simplified Range Tax"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__stock_fiscal_operation_id
+msgid "Stock Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__stock_in_fiscal_operation_id
+msgid "Stock In Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__stock_out_fiscal_operation_id
+msgid "Stock Out Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_rule
+msgid "Stock Rule"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_tax_id
+msgid "Tax COFINS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_wh_tax_id
+msgid "Tax COFINS RET"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_tax_id
+msgid "Tax COFINS ST"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_tax_id
+msgid "Tax CSLL"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_wh_tax_id
+msgid "Tax CSLL RET"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_framework
+msgid "Tax Framework"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_tax_id
+msgid "Tax ICMS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_tax_id
+msgid "Tax ICMS FCP"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_tax_id
+msgid "Tax ICMS SN"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsst_tax_id
+msgid "Tax ICMS ST"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_tax_id
+msgid "Tax II"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_tax_id
+msgid "Tax INSS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__inss_wh_tax_id
+msgid "Tax INSS RET"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_tax_id
+msgid "Tax IPI"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_tax_id
+msgid "Tax IRPJ"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_tax_id
+msgid "Tax IRPJ RET"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_tax_id
+msgid "Tax ISSQN"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_wh_tax_id
+msgid "Tax ISSQN RET"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_tax_id
+msgid "Tax PIS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_wh_tax_id
+msgid "Tax PIS RET"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_tax_id
+msgid "Tax PIS ST"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__uot_id
+msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__price_unit
+msgid ""
+"Technical field used to record the product cost set by the user during a "
+"picking confirmation (when costing method used is 'average price' or "
+"'real'). Value given in company currency and in product uom."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:0
+#, python-format
+msgid "This Fiscal Operation has no Fiscal Operation for Returns defined!"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__quantity
+msgid ""
+"This is the quantity of products from an inventory point of view. For moves "
+"in the state 'done', this is the quantity of products that were actually "
+"moved. For other moves, this is the quantity of product that is planned to "
+"be moved. Lowering this quantity does not generate a backorder. Changing "
+"this quantity on assigned moves affects the product reservation, and should "
+"be done with care."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: code:addons/l10n_br_stock_account/models/stock_rule.py:0
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__2binvoiced
+#, python-format
+msgid "To Be Invoiced"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model,name:l10n_br_stock_account.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+msgid "Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__uom_id
+msgid "UOM"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__price_unit
+msgid "Unit Price"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__icms_substitute
+msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""

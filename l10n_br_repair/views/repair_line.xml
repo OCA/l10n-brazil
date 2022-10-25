@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="repair_line_form_view">
+        <field name="name">repair.line.form (in l10n_br_repair)</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form" />
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='operations']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='operations']/tree" position="attributes">
+                <attribute name="editable" />
+            </xpath>
+            <xpath
+                expr="//field[@name='operations']/tree/field[@name='tax_id']"
+                position="replace"
+            />
+            <xpath
+                expr="//field[@name='operations']/tree/field[@name='price_unit']"
+                position="after"
+            >
+                <field name="fiscal_tax_ids" widget="many2many_tags" />
+            </xpath>
+            <xpath
+                expr="//field[@name='operations']/tree/field[@name='price_subtotal']"
+                position="after"
+            >
+                <field name="price_total" invisible="1" />
+                <field name="fiscal_genre_id" invisible="1" />
+            </xpath>
+
+            <xpath expr="//field[@name='operations']//form" position="inside">
+                <group name="fiscal_fields" invisible="1">
+                    <field name="fiscal_operation_type" invisible="1" readonly="1" />
+                    <field name="fiscal_genre_id" invisible="1" />
+                    <field name="fiscal_genre_code" invisible="1" />
+                    <field name="tax_framework" invisible="1" />
+                    <field name="tax_icms_or_issqn" invisible="1" />
+                </group>
+            </xpath>
+
+            <xpath
+                expr="//field[@name='operations']/form//field[@name='tax_id']"
+                position="replace"
+            />
+            <xpath
+                expr="//field[@name='operations']/form//field[@name='name']"
+                position="replace"
+            />
+
+            <xpath
+                expr="//field[@name='operations']/form//field[@name='price_unit']"
+                position="after"
+            >
+                <label for="fiscal_quantity" string="Fiscal Quantity" />
+                <div>
+                    <field
+                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                        name="fiscal_quantity"
+                        class="oe_inline"
+                    />
+                    <field
+                        name="uot_id"
+                        force_save="1"
+                        groups="uom.group_uom"
+                        class="oe_inline oe_no_button"
+                        invisible="1"
+                    />
+                </div>
+                <field name="fiscal_price" />
+            </xpath>
+
+            <xpath expr="//field[@name='operations']/form/group" position="inside">
+                <group>
+                    <field
+                        name="fiscal_type"
+                        force_save="1"
+                        invisible="1"
+                        readonly="1"
+                    />
+                    <field name="fiscal_operation_id" required="1" />
+                    <field name="fiscal_operation_line_id" required="1" />
+                    <field
+                        name="cfop_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"
+                    />
+                    <field
+                        name="service_type_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    />
+                    <field
+                        name="city_taxation_code_id"
+                        attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    />
+                    <field
+                        name="lot_id"
+                        domain="[('product_id', '=', product_id)]"
+                        context="{'default_product_id': product_id}"
+                        groups="stock.group_production_lot"
+                    />
+                    <field name="cfop_destination" invisible="1" />
+                    <field name="price_total" invisible="1" />
+                    <field name="price_subtotal" invisible="1" />
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='operations']/form" position="inside">
+                <label for="name" string="Description" />
+                <field name="name" />
+            </xpath>
+
+            <xpath
+                expr="//field[@name='operations']/form//field[@name='name']"
+                position="after"
+            >
+                <notebook>
+                    <page name="fiscal_taxes" string="Taxes" />
+                    <page name="others" string="Others">
+                        <group>
+                            <field name="freight_value" />
+                            <field name="insurance_value" />
+                            <field name="other_value" />
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info" />
+                    <page name="accounting" string="Accounting">
+                        <group>
+                            <field
+                                name="tax_id"
+                                widget="many2many_tags"
+                                options="{'no_create': True}"
+                                context="{'search_view_ref': 'account.account_tax_view_search'}"
+                                domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                            />
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+
+        </field>
+    </record>
+
+
+</odoo>

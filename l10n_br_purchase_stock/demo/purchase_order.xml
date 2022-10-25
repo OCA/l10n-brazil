@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Criação da Invoice baseada no Picking.
+     Com isso os Picking são criados com o invoice_state 2binvoiced -->
+    <record id="purchase_create_invoice_policy_settings" model="res.config.settings">
+        <field name="purchase_create_invoice_policy">stock_picking</field>
+    </record>
+
+    <function model="res.config.settings" name="execute">
+        <value
+            model="res.config.settings"
+            search="[('id', '=',
+                ref('purchase_create_invoice_policy_settings'))]"
+        />
+    </function>
+
+    <!-- Testar quando o Cliente possui o Termo de Pagamento diferente do Pedido de Venda -->
+    <record id="l10n_br_base.res_partner_akretion" model="res.partner">
+        <field
+            name="property_payment_term_id"
+            ref="account.account_payment_term_15days"
+        />
+    </record>
+
+    <!-- Main Company Simples Nacional -->
+    <!-- Purchase Order with only products test -->
+    <record id="main_po_only_products_1" model="purchase.order">
+        <field name="name">Main l10n_br_purchase_stock</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="notes">TESTE - TERMOS E CONDIÇÕES</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
+    </record>
+
+    <function model="purchase.order" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_po_only_products_1')]" />
+    </function>
+
+    <record id="main_pl_only_products_1_1" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_1" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">250</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">999999</field>
+        <field name="partner_order_line">001</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_1_1')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_pl_only_products_1_1')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_pl_only_products_1_1')]" />
+    </function>
+
+    <record id="main_pl_only_products_1_2" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_1" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">999999</field>
+        <field name="partner_order_line">002</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_1_2')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_pl_only_products_1_2')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_pl_only_products_1_2')]" />
+    </function>
+
+    <!-- Purchase Order with only products test 2 - Teste Agrupamento -->
+    <record id="main_po_only_products_2" model="purchase.order">
+        <field name="name">Main l10n_br_purchase_stock - teste agrupamento</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="notes">TESTE - TERMOS E CONDIÇÕES</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
+    </record>
+
+    <function model="purchase.order" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_po_only_products_2')]" />
+    </function>
+
+    <record id="main_pl_only_products_2_1" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_2" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">250</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">0000001</field>
+        <field name="partner_order_line">001</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_2_1')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_pl_only_products_2_1')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_pl_only_products_2_1')]" />
+    </function>
+
+    <record id="main_pl_only_products_2_2" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_2" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">0000001</field>
+        <field name="partner_order_line">002</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_pl_only_products_2_2')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_pl_only_products_2_2')]" />
+    </function>
+
+    <!-- Lucro Presumido -->
+    <!-- Purchase Order with only products test -->
+    <record id="lucro_presumido_po_only_products_1" model="purchase.order">
+        <field name="name">l10n_br_purchase_stock - somente produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="notes">TESTE - TERMOS E CONDIÇÕES</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
+    </record>
+
+    <function model="purchase.order" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lucro_presumido_po_only_products_1')]" />
+    </function>
+
+    <record id="lucro_presumido_pol_only_products_1_1" model="purchase.order.line">
+        <field name="order_id" ref="lucro_presumido_po_only_products_1" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">250</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">999999</field>
+        <field name="partner_order_line">001</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lucro_presumido_pol_only_products_1_1')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lucro_presumido_pol_only_products_1_1')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lucro_presumido_pol_only_products_1_1')]" />
+    </function>
+
+    <record id="lucro_presumido_pol_only_products_1_2" model="purchase.order.line">
+        <field name="order_id" ref="lucro_presumido_po_only_products_1" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">999999</field>
+        <field name="partner_order_line">002</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lucro_presumido_pol_only_products_1_2')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lucro_presumido_pol_only_products_1_2')]" />
+    </function>
+
+    <function model="purchase.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lucro_presumido_pol_only_products_1_2')]" />
+    </function>
+
+
+</odoo>

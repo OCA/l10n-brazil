@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Copyright 2020 KMEE-->
+<!--License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).-->
+<odoo noupdate="1">
+        <record id="payment_acquirer_pagseguro" model="payment.acquirer">
+            <field name="name">Pagseguro</field>
+            <field
+            name="image_128"
+            type="base64"
+            file="payment_pagseguro/static/src/img/pag_seguro_icon.jpg"
+        />
+            <field name="provider">pagseguro</field>
+            <field name="company_id" ref="base.main_company" />
+            <field name="view_template_id" ref="pagseguro_form" />
+            <field name="registration_view_template_id" ref="pagseguro_s2s_form" />
+            <field name="save_token">none</field>
+            <field name="payment_flow">s2s</field>
+            <field name="capture_manually">True</field>
+            <field
+            name="pre_msg"
+        ><![CDATA[
+<p>You will be redirected to the pagseguro website after clicking on the payment button.</p>]]></field>
+            <field name='pagseguro_token'>dummy</field>
+        </record>
+</odoo>

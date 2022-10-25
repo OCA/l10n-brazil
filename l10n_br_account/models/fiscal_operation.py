@@ -36,7 +36,6 @@ class Operation(models.Model):
     )
 
     deductible_taxes = fields.Boolean(
-        string="Deductible Taxes",
         company_dependent=True,
     )
 
@@ -53,7 +52,7 @@ class Operation(models.Model):
         journal_type = "TODO"  # TYPE2JOURNAL[invoice_type]
         new_action["context"] = {
             "move_type": invoice_type,
-            "default_fiscal_operation_type": self.fiscal_type,
+            "default_fiscal_operation_type": self.fiscal_operation_type,
             "default_fiscal_operation_id": self.id,
             "journal_type": journal_type,
         }

@@ -32,7 +32,7 @@ class OperationLine(models.Model):
         required=True,
     )
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(required=True)
 
     document_type_id = fields.Many2one(comodel_name="l10n_br_fiscal.document.type")
 
@@ -93,9 +93,7 @@ class OperationLine(models.Model):
         copy=False,
     )
 
-    partner_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, string="Partner Tax Framework"
-    )
+    partner_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
 
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
@@ -106,9 +104,7 @@ class OperationLine(models.Model):
         selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"
     )
 
-    company_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, string="Company Tax Framework"
-    )
+    company_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)
 
@@ -131,7 +127,6 @@ class OperationLine(models.Model):
 
     state = fields.Selection(
         selection=OPERATION_STATE,
-        string="State",
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,
@@ -175,10 +170,16 @@ class OperationLine(models.Model):
             cfop = self.cfop_export_id
         return cfop
 
+    def _build_mapping_result_ipi(self, mapping_result, tax_definition):
+        mapping_result[
+            "ipi_guideline"
+        ] = tax_definition.ipi_guideline_id or self.env.ref(
+            "l10n_br_fiscal.tax_guideline_999"
+        )
+
     def _build_mapping_result(self, mapping_result, tax_definition):
         mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
-        if tax_definition.ipi_guideline_id:
-            mapping_result["ipi_guideline"] = tax_definition.ipi_guideline_id
+        self._build_mapping_result_ipi(mapping_result, tax_definition)
 
     def map_fiscal_taxes(
         self,
@@ -192,13 +193,13 @@ class OperationLine(models.Model):
         nbs=None,
         cest=None,
         city_taxation_code=None,
+        ind_final=None,
     ):
 
         mapping_result = {
             "taxes": {},
             "cfop": False,
             "ipi_guideline": False,
-            "taxes_value": 0.00,
         }
 
         self.ensure_one()
@@ -242,6 +243,7 @@ class OperationLine(models.Model):
                     nbm=nbm,
                     cest=cest,
                     operation_line=self,
+                    ind_final=ind_final,
                 )
 
                 for tax in tax_icms_ids:

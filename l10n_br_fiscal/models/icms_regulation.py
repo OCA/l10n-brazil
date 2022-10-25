@@ -40,7 +40,7 @@ class ICMSRegulation(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Tax ICMS Regulation"
 
-    name = fields.Text(string="Name", required=True, index=True)
+    name = fields.Text(required=True, index=True)
 
     icms_imported_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
@@ -1276,6 +1276,7 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         operation_line=None,
+        ind_final=None,
     ):
         self.ensure_one()
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
@@ -1326,10 +1327,19 @@ class ICMSRegulation(models.Model):
                 )
 
                 if icms_defs_specific:
-                    tax_definitions |= icms_defs_specific
+                    icms_defs = icms_defs_specific
                 else:
-                    tax_definitions |= icms_defs_generic
+                    icms_defs = icms_defs_generic
 
+                tax_definitions_with_ind_final = icms_defs.filtered(
+                    lambda d: d.ind_final
+                )
+                if tax_definitions_with_ind_final:
+                    tax_definitions = icms_defs.filtered(
+                        lambda d: ind_final == d.ind_final
+                    )
+                else:
+                    tax_definitions = icms_defs
         icms_taxes |= tax_definitions.mapped("tax_id")
         return icms_taxes
 
@@ -1475,7 +1485,7 @@ class ICMSRegulation(models.Model):
         domain = [
             ("icms_regulation_id", "=", self.id),
             ("state", "=", "approved"),
-            ("state_from_id", "=", company.state_id.id),
+            ("state_from_id", "=", partner.state_id.id),
             ("state_to_ids", "=", partner.state_id.id),
             ("tax_group_id", "=", tax_group_icms.id),
         ]
@@ -1516,12 +1526,13 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         operation_line=None,
+        ind_final=None,
     ):
 
         icms_taxes = self.env["l10n_br_fiscal.tax"]
 
         icms_taxes |= self.map_tax_icms(
-            company, partner, product, ncm, nbm, cest, operation_line
+            company, partner, product, ncm, nbm, cest, operation_line, ind_final
         )
 
         icms_taxes |= self.map_tax_icmsst(

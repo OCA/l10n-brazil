@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class L10nBrCNABMovInstructionCode(models.Model):
     _name = "l10n_br_cnab.mov.instruction.code"
-    _inherit = "l10n_br_cnab.data.abstract"
+    _inherit = ["l10n_br_cnab.data.abstract", "mail.thread"]
     _description = "CNAB Movement Instruction Code"
 
     bank_ids = fields.Many2many(
@@ -28,7 +28,7 @@ class L10nBrCNABMovInstructionCode(models.Model):
         tracking=True,
     )
 
-    comment = fields.Text(string="Comment")
+    comment = fields.Text()
 
     # TODO: Forma encontrada para pode fazer o Group By, na v15
     #  parece já ser possivel usar campos many2many.

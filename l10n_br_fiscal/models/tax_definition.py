@@ -5,6 +5,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
+    FINAL_CUSTOMER,
     FISCAL_IN_OUT,
     FISCAL_OUT,
     OPERATION_STATE,
@@ -58,7 +59,6 @@ class TaxDefinition(models.Model):
     )
 
     custom_tax = fields.Boolean(
-        string="Custom Tax",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -206,6 +206,11 @@ class TaxDefinition(models.Model):
         string="City Taxation Codes",
     )
 
+    ind_final = fields.Selection(
+        selection=FINAL_CUSTOMER,
+        string="Final Consumption Operation",
+    )
+
     date_start = fields.Datetime(
         string="Start Date",
         readonly=True,
@@ -220,7 +225,6 @@ class TaxDefinition(models.Model):
 
     state = fields.Selection(
         selection=OPERATION_STATE,
-        string="State",
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,

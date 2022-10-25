@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- account incoterms -->
+        <record id="l10n_br_account_nfe_account_incoterms_form" model="ir.ui.view">
+            <field name="name">account.incoterms.form</field>
+            <field name="model">account.incoterms</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="account.account_incoterms_form" />
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="freight_responsibility" />
+                </field>
+            </field>
+        </record>
+
+</odoo>

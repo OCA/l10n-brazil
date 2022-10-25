@@ -18,9 +18,9 @@ class DocumentSerie(models.Model):
 
     code = fields.Char(size=3)
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(required=True)
 
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(default=True)
 
     fiscal_type = fields.Selection(
         selection=FISCAL_IN_OUT, string="Type", default=FISCAL_IN_OUT_DEFAULT
@@ -97,7 +97,9 @@ class DocumentSerie(models.Model):
     def next_seq_number(self):
         self.ensure_one()
         document_number = self.internal_sequence_id._next()
-        if self._is_invalid_number(document_number):
+        if self._is_invalid_number(document_number) or self.check_number_in_use(
+            document_number
+        ):
             document_number = self.next_seq_number()
         return document_number
 

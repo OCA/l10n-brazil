@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE -->
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+        <record model="ir.ui.view" id="payment_acquirer_form_view">
+            <field name="name">payment.acquirer.form (in payment_pagseguro)</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inherit_id" ref="payment.acquirer_form" />
+            <field name="arch" type="xml">
+                    <xpath expr='//group[@name="acquirer"]' position='after'>
+                        <group attrs="{'invisible': [('provider', '!=', 'pagseguro')]}">
+                            <field name="pagseguro_token" password="True" />
+                        </group>
+                    </xpath>
+            </field>
+        </record>
+
+</odoo>

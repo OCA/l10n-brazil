@@ -35,7 +35,6 @@ class AccountMoveLine(models.Model):
     # To make the invoice lines still visible, we set active=True
     # in the account_move_line table.
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
@@ -484,7 +483,7 @@ class AccountMoveLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         """Ao alterar o campo fiscal_tax_ids que contém os impostos fiscais,
         são atualizados os impostos contábeis relacionados"""
-        super()._onchange_fiscal_tax_ids()
+        result = super()._onchange_fiscal_tax_ids()
         user_type = "sale"
 
         # Atualiza os impostos contábeis relacionados aos impostos fiscais
@@ -499,6 +498,7 @@ class AccountMoveLine(models.Model):
             self.tax_ids |= self.fiscal_tax_ids.account_taxes(
                 user_type=user_type, deductible=True
             )
+        return result
 
     @api.onchange(
         "amount_currency",

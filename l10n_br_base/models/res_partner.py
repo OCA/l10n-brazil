@@ -4,10 +4,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
-import re
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -34,6 +33,18 @@ class Partner(models.Model):
     cei_code = fields.Char(string="CEI Code", size=12)
 
     union_entity_code = fields.Char(string="Union Entity code")
+
+    pix_key_ids = fields.One2many(
+        string="Pix Keys",
+        comodel_name="res.partner.pix",
+        inverse_name="partner_id",
+        help="Keys for Brazilian instant payment (pix)",
+    )
+
+    show_l10n_br = fields.Boolean(
+        compute="_compute_show_l10n_br",
+        help="Indicates if Brazilian localization fields should be displayed.",
+    )
 
     @api.constrains("cnpj_cpf", "inscr_est")
     def _check_cnpj_inscr_est(self):
@@ -165,7 +176,7 @@ class Partner(models.Model):
                 )
                 if duplicate_ie:
                     raise ValidationError(
-                        _("State Tax Number already used" " %s" % duplicate_ie.name)
+                        _("State Tax Number already used {}").format(duplicate_ie.name)
                     )
 
     @api.model
@@ -174,56 +185,16 @@ class Partner(models.Model):
         fields that are synced from the parent."""
         return super()._address_fields() + ["district"]
 
-    def _get_street_fields(self):
-        """Returns the fields that can be used in a street format.
-        Overwrite this function if you want to add your own fields."""
-        return super()._get_street_fields() + ["street"]
-
     @api.onchange("city_id")
     def _onchange_city_id(self):
         self.city = self.city_id.name
 
-    # overriden nearly as a copy from the base_address_extended module
-    # but modified in the end because of https://github.com/odoo/odoo/pull/71630
-    def _set_street(self):
-        """Updates the street field.
-        Writes the `street` field on the partners when one of the sub-fields in
-        STREET_FIELDS has been touched"""
-        street_fields = self.get_street_fields()
-        for partner in self:
-            street_format = (
-                partner.country_id.street_format
-                or "%(street_number)s/%(street_number2)s %(street_name)s"
-            )
-            previous_field = None
-            previous_pos = 0
-            street_value = ""
-            separator = ""
-            # iter on fields in street_format, detected as '%(<field_name>)s'
-            for re_match in re.finditer(r"%\(\w+\)s", street_format):
-                # [2:-2] is used to remove the extra chars '%(' and ')s'
-                field_name = re_match.group()[2:-2]
-                field_pos = re_match.start()
-                if field_name not in street_fields:
-                    raise UserError(
-                        _("Unrecognized field %s in street format.") % field_name
-                    )
-                if not previous_field:
-                    # first iteration: add heading chars in street_format
-                    if partner[field_name]:
-                        street_value += street_format[0:field_pos] + partner[field_name]
-                else:
-                    # get the substring between 2 fields, to be used as separator
-                    separator = street_format[previous_pos:field_pos]
-                    if street_value and partner[field_name]:
-                        street_value += separator
-                    if partner[field_name]:
-                        street_value += partner[field_name]
-                previous_field = field_name
-                previous_pos = re_match.end()
-
-            # add trailing chars in street_format
-            street_value += street_format[previous_pos:]
-            # see https://github.com/odoo/odoo/pull/71630
-            if partner.street != street_value:
-                partner.street = street_value
+    def _compute_show_l10n_br(self):
+        """
+        Defines when Brazilian localization fields should be displayed.
+        """
+        for rec in self:
+            if rec.company_id and rec.company_id.country_id != self.env.ref("base.br"):
+                rec.show_l10n_br = False
+            else:
+                rec.show_l10n_br = True

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_delivery_sale_form" model="ir.ui.view">
+        <field name="name">l10n_br_delivery.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="picking_policy" position="before">
+                <field name="amount_gross_weight" />
+                <field name="amount_volume" />
+            </field>
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="id" invisible="1" />
+                <label for="carrier_id" />
+                <div name='carrier_selection'>
+                    <div>
+                        <field
+                            name="carrier_id"
+                            context="{'order_id': id}"
+                            class="oe_inline"
+                            options="{'no_create': True, 'no_open': True}"
+                            attrs="{'readonly':[('state','not in',('draft','sent'))]}"
+                        />
+                    </div>
+                    <div
+                        class="alert alert-info"
+                        role="status"
+                        attrs="{'invisible': ['|',('carrier_id','=', False),('delivery_message','=',False)]}"
+                    >
+                        <field name='delivery_message' force_save="1" />
+                    </div>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

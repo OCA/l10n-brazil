@@ -110,12 +110,12 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_email
-msgid "Alternate email"
+msgid "Alternate Email"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_phone
-msgid "Alternate phone"
+msgid "Alternate Phone"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -152,6 +152,11 @@ msgid "Bank"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
+msgid "Bank Statement Label"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "Bank account for alimony"
 msgstr ""
@@ -183,12 +188,22 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
-msgid "Blood type"
+msgid "Blood Type"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_bounce
 msgid "Bounce"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_1
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_2
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_3
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_1_res_partner
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_2_res_partner
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_3_res_partner
+msgid "Brazil"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -264,6 +279,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps_series
 msgid "CTPS series"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__can_publish
+msgid "Can Publish"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -488,7 +508,6 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_tree
 msgid "Código Brasileiro de Ocupação"
 msgstr ""
 
@@ -513,6 +532,11 @@ msgid "Days Before Receipt"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
+msgid "Default delivery method used in sales orders."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_deficiency
 msgid "Deficiencies"
 msgstr ""
@@ -526,12 +550,17 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__deficiency_description
-msgid "Deficiency description"
+msgid "Deficiency Description"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__trust
 msgid "Degree of trust you have in this debtor"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
+msgid "Delivery Method"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -608,6 +637,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_educational_attainment
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__educational_attainment
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_educational_attainment
 msgid "Educational Attainment"
 msgstr ""
@@ -615,11 +645,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_educational_attainment
 msgid "Educational Attainments"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__educational_attainment
-msgid "Educational attainment"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -636,13 +661,13 @@ msgid "Email"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
-msgid "Emergency contact name"
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
+msgid "Emergency Phone"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
-msgid "Emergency phone"
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
+msgid "Emergency contact name"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -682,6 +707,15 @@ msgid "Enforce Cities"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
+msgid ""
+"Enter the various label found on your bank statement separated by a ; If one"
+" of this label is include in the bank statement line, the partner will be "
+"automatically filled (as long as you use this method/rules in your statement"
+" profile)."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_educational_attainment_form
 msgid "Escolaridade"
 msgstr ""
@@ -700,12 +734,12 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__expiration_date
-msgid "Expiration date"
+msgid "Expiration Date"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__father_name
-msgid "Father name"
+msgid "Father Name"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -958,6 +992,11 @@ msgid "Incapacidade Física ou Mental?"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
+msgid "Indicates if Brazilian localization fields should be displayed."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
 msgid ""
 "Indicates if a blacklisted sanitized phone number is a mobile number. Helps "
@@ -1023,6 +1062,11 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_published
+msgid "Is Published"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_company
 msgid "Is a Company"
 msgstr ""
@@ -1056,6 +1100,11 @@ msgid "Journal Items"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
+msgid "Keys for Brazilian instant payment (pix)"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__lang
 msgid "Language"
 msgstr ""
@@ -1075,6 +1124,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner____last_update
 msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_website_so_id
+msgid "Last Online Sales Order"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1196,7 +1250,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__mother_name
-msgid "Mother name"
+msgid "Mother Name"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1385,6 +1439,11 @@ msgid "Phone Blacklisted"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
+msgid "Pix Keys"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_payment_method_id
 msgid ""
 "Preferred payment method when paying this vendor. This is used to filter "
@@ -1477,6 +1536,11 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_id
+msgid "Restrict publishing to this website."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
@@ -1560,6 +1624,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_share
 msgid "Share Partner"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
+msgid "Show L10N Br"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1693,6 +1762,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_account_position_id
 msgid ""
 "The fiscal position determines the taxes/accounts used for this contact."
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_url
+msgid "The full URL to access the document through the website."
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1869,23 +1943,38 @@ msgid "Vendor Payment Terms"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_published
+msgid "Visible on current website"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__visitor_ids
+msgid "Visitors"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Voter Registration"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_section
-msgid "Voter section"
+msgid "Voter Section"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_title
-msgid "Voter title"
+msgid "Voter Title"
 msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_zone
-msgid "Voter zone"
+msgid "Voter Zone"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
+msgid "Website"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1896,6 +1985,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_message_ids
 msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_url
+msgid "Website URL"
 msgstr ""
 
 #. module: l10n_br_hr

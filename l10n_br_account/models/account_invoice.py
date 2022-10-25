@@ -10,6 +10,7 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    FISCAL_IN_OUT_ALL,
     FISCAL_OUT,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
@@ -67,7 +68,6 @@ class AccountMove(models.Model):
     # To make the invoices still visible, we set active=True
     # in the account_move table.
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
@@ -104,6 +104,25 @@ class AccountMove(models.Model):
         string="Document Code",
         store=True,
     )
+
+    fiscal_operation_type = fields.Selection(
+        selection=FISCAL_IN_OUT_ALL,
+        related=None,
+        compute="_compute_fiscal_operation_type",
+    )
+
+    def _compute_fiscal_operation_type(self):
+        for inv in self:
+            if inv.move_type == "entry":
+                # if it is a Journal Entry there is nothing to do.
+                inv.fiscal_operation_type = False
+                continue
+            if inv.fiscal_operation_id:
+                inv.fiscal_operation_type = (
+                    inv.fiscal_operation_id.fiscal_operation_type
+                )
+            else:
+                inv.fiscal_operation_type = MOVE_TO_OPERATION[inv.move_type]
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
@@ -210,11 +229,24 @@ class AccountMove(models.Model):
                 defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
         return defaults
 
-    @api.model_create_multi
-    def create(self, values):
-        for vals in values:
+    @api.model
+    def _move_autocomplete_invoice_lines_create(self, vals_list):
+        """
+        This method is called in the original AccountMove#create method.
+        And when the type is "entry" rather than "invoice", we should
+        force the dummy fiscal_document_id again or it would be removed
+        from the values and the _inherits system would create a new one.
+        So in general we always use this method to ensure the dummy is used
+        when document_type_id is empty.
+        """
+        vals_list = super()._move_autocomplete_invoice_lines_create(vals_list)
+        for vals in vals_list:
             if not vals.get("document_type_id"):
                 vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
+        return vals_list
+
+    @api.model_create_multi
+    def create(self, values):
         invoice = super().create(values)
         invoice._write_shadowed_fields()
         return invoice
@@ -392,9 +424,10 @@ class AccountMove(models.Model):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        super()._onchange_fiscal_operation_id()
+        result = super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
             self.journal_id = self.fiscal_operation_id.journal_id
+        return result
 
     def open_fiscal_document(self):
         if self.env.context.get("move_type", "") == "out_invoice":
@@ -418,12 +451,13 @@ class AccountMove(models.Model):
         fiscal e numeração do documento fiscal para ser usado nas linhas
         dos lançamentos contábeis."""
         # TODO FIXME migrate. No such method in Odoo 13+
-        super().action_date_assign()
+        result = super().action_date_assign()
         for invoice in self:
             if invoice.document_type_id:
                 if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
                     invoice.fiscal_document_id._document_date()
                     invoice.fiscal_document_id._document_number()
+        return result
 
     def button_draft(self):
         for i in self.filtered(lambda d: d.document_type_id):
@@ -432,10 +466,8 @@ class AccountMove(models.Model):
                     raise UserError(
                         _(
                             "You can't set this document number: {} to draft "
-                            "because this document is cancelled in SEFAZ".format(
-                                i.document_number
-                            )
-                        )
+                            "because this document is cancelled in SEFAZ"
+                        ).format(i.document_number)
                     )
             if i.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
                 i.fiscal_document_id.action_document_back2draft()
@@ -445,8 +477,11 @@ class AccountMove(models.Model):
         invoices = self.filtered(lambda d: d.document_type_id)
         if invoices:
             invoices.mapped("fiscal_document_id").action_document_send()
-            for invoice in invoices:
-                invoice.move_id.post(invoice=invoice)
+            # FIXME: na migração para a v14 foi permitido o post antes do envio
+            #  para destravar a migração, mas poderia ser cogitado de obrigar a
+            #  transmissão antes do post novamente como na v12.
+            # for invoice in invoices:
+            #     invoice.move_id.post(invoice=invoice)
 
     def action_document_cancel(self):
         for i in self.filtered(lambda d: d.document_type_id):

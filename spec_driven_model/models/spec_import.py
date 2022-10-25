@@ -26,7 +26,7 @@ class AbstractSpecMixin(models.AbstractModel):
     _inherit = "spec.mixin"
 
     @api.model
-    def build(self, node, dry_run=False):
+    def build_from_binding(self, node, dry_run=False):
         """
         Builds an instance of an Odoo Model from a pre-populated
         Python binding object. Binding object such as the ones generated using
@@ -50,33 +50,15 @@ class AbstractSpecMixin(models.AbstractModel):
             return model.create(attrs)
 
     @api.model
-    def build_attrs(self, node, path=""):
+    def build_attrs(self, node, path="", defaults_model=None):
         """
         Builds a new odoo model instance from a Python binding element or
         sub-element. Iterates over the binding fields to populate the Odoo fields.
         """
-        fields = self._fields
-        # no default image for easier debugging
-        vals = self.default_get(
-            [
-                f
-                for f, v in fields.items()
-                if v.type not in ["binary", "integer", "float", "monetary"]
-            ]
-        )
-        # TODO deal with default values but take them from self._context
-        # if path == '':
-        #    vals.update(defaults)
-        # we sort attrs to be able to define m2o related values
-        sorted_attrs = sorted(
-            node.member_data_items_,
-            key=lambda a: a.get_container() in [0, 1],
-            reverse=True,
-        )
-        for attr in sorted_attrs:
-            self._build_attr(node, fields, vals, path, attr)
-
-        vals = self._prepare_import_dict(vals)
+        vals = {}
+        for attr in node.member_data_items_:
+            self._build_attr(node, self._fields, vals, path, attr)
+        vals = self._prepare_import_dict(vals, defaults_model=defaults_model)
         return vals
 
     @api.model
@@ -141,7 +123,9 @@ class AbstractSpecMixin(models.AbstractModel):
                 # o2m
                 lines = []
                 for line in [li for li in value if li]:
-                    line_vals = comodel.build_attrs(line, path=child_path)
+                    line_vals = comodel.build_attrs(
+                        line, path=child_path, defaults_model=comodel
+                    )
                     lines.append((0, 0, line_vals))
                 vals[key] = lines
 
@@ -187,7 +171,9 @@ class AbstractSpecMixin(models.AbstractModel):
         return key_vals
 
     @api.model
-    def _prepare_import_dict(self, vals, model=None):
+    def _prepare_import_dict(
+        self, vals, model=None, parent_dict=None, defaults_model=False
+    ):
         """
         Set non computed field values based on XML values if required.
         NOTE: this is debatable if we could use an api multi with values in
@@ -196,6 +182,9 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         if model is None:
             model = self
+
+        vals = {k: v for k, v in vals.items() if k in self._fields.keys()}
+
         related_many2ones = {}
         fields = model._fields
         for k, v in fields.items():
@@ -228,6 +217,22 @@ class AbstractSpecMixin(models.AbstractModel):
                 vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals)
             else:  # search res.country with Brasil for instance
                 vals[related_m2o] = model.match_or_create_m2o(sub_val, vals, comodel)
+
+        if defaults_model is not None:
+            defaults = defaults_model.with_context(
+                record_dict=vals,
+                parent_dict=parent_dict,
+            ).default_get(
+                [
+                    f
+                    for f, v in defaults_model._fields.items()
+                    if v.type not in ["binary", "integer", "float", "monetary"]
+                    and v.name not in vals.keys()
+                ]
+            )
+            vals.update(defaults)
+            # NOTE: also eventually load default values from the context?
+
         return vals
 
     @api.model
@@ -254,14 +259,17 @@ class AbstractSpecMixin(models.AbstractModel):
             if rec_dict.get(key):
                 # TODO enable to build criteria using parent_dict
                 # such as state_id when searching for a city
-                if hasattr(model, "_nfe_extra_domain"):
+                if hasattr(model, "_nfe_extra_domain"):  # FIXME make generic
                     domain = model._nfe_extra_domain + [(key, "=", rec_dict.get(key))]
                 else:
                     domain = [(key, "=", rec_dict.get(key))]
                 match_ids = model.search(domain)
                 if match_ids:
                     if len(match_ids) > 1:
-                        _logger.warning("!! WARNING more than 1 record found!!")
+                        _logger.warning(
+                            "!! WARNING more than 1 record found!! model: %s, domain: %s"
+                            % (model, domain)
+                        )
                     return match_ids[0].id
         return False
 
@@ -284,19 +292,18 @@ class AbstractSpecMixin(models.AbstractModel):
         else:
             rec_id = self.match_record(rec_dict, parent_dict, model)
         if not rec_id:
-            rec_dict = self._prepare_import_dict(rec_dict, model)
-            create_dict = {
-                k: v for k, v in rec_dict.items() if k in self._fields.keys()
-            }
+            vals = self._prepare_import_dict(
+                rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
+            )
             if self._context.get("dry_run"):
-                rec_id = model.new(create_dict).id
+                rec_id = model.new(vals).id
             else:
                 rec_id = (
                     model.with_context(
                         parent_dict=parent_dict,
                         lang="en_US",
                     )
-                    .create(create_dict)
+                    .create(vals)
                     .id
                 )
         return rec_id

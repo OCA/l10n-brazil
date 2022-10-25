@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="repair_order_form_view">
+        <field name="name">repair.order.form (in l10n_br_repair)</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <button name="action_created_invoice" position="replace">
+                <button
+                    name="action_created_invoice"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('invoice_count', '=', 0)]}"
+                >
+                    <field
+                        name="invoice_count"
+                        widget="statinfo"
+                        string="Invoices"
+                        modifiers="{'readonly':true}"
+                    />
+                </button>
+            </button>
+            <field name="amount_untaxed" position="before">
+                <field
+                    name="amount_price_gross"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+            </field>
+            <field name="amount_untaxed" position="after">
+                 <field
+                    name="amount_freight_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+                 <field
+                    name="amount_insurance_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+                 <field
+                    name="amount_other_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+             </field>
+            <field name="invoice_method" position="after">
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('invoice_method', '==', 'none')]}"
+                />
+                <field
+                    name="ind_pres"
+                    attrs="{'invisible': [('invoice_method', '==', 'none')]}"
+                />
+            </field>
+            <field name="quotation_notes" position="after">
+                <group>
+                    <field name="copy_repair_quotation_notes" />
+                    <field name="manual_customer_additional_data" />
+                    <field name="manual_fiscal_additional_data" />
+                </group>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>
