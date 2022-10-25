@@ -131,6 +131,10 @@ class ResPartner(spec_models.SpecModel):
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
+            # if adicionado para carregar o cnpj qdo endereco de entrega nao tem o cnpj
+            # carrega o cnpj do destinatario
+            if not rec.cnpj_cpf and rec.parent_id and rec.parent_id.cnpj_cpf:
+                rec.nfe40_CNPJ = punctuation_rm(rec.parent_id.cnpj_cpf)
             if rec.cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice7 = "nfe40_idEstrangeiro"
