@@ -36,11 +36,11 @@ jobs:
       matrix:
         include:
           - container: ghcr.io/oca/oca-ci/py3.6-odoo12.0:latest
-            exclude: "payment_pagseguro,l10n_br_website_sale_delivery,l10n_br_website_sale,l10n_br_account_bank_statement_import_cnab"
+            exclude: "l10n_br_website_sale_delivery,l10n_br_website_sale,l10n_br_account_bank_statement_import_cnab"
             makepot: "true"
             name: test with Odoo
           - container: ghcr.io/oca/oca-ci/py3.6-ocb12.0:latest
-            exclude: "payment_pagseguro,l10n_br_website_sale_delivery,l10n_br_website_sale,l10n_br_account_bank_statement_import_cnab"
+            exclude: "l10n_br_website_sale_delivery,l10n_br_website_sale,l10n_br_account_bank_statement_import_cnab"
             name: test with OCB
     services:
       postgres:

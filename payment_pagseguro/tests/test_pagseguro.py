@@ -1,7 +1,10 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import os
 import time
+
+import vcr
 
 import odoo
 from odoo.exceptions import ValidationError
@@ -15,6 +18,22 @@ class PagseguroTest(odoo.tests.HttpCase):
         self.eur_currency = self.env["res.currency"].search([("name", "=", "EUR")])
         self.brl_currency = self.env["res.currency"].search([("name", "=", "BRL")])
 
+    @staticmethod
+    def set_transaction_currency(transaction, currency):
+        for order in transaction.sale_order_ids:
+            order.currency_id = currency.id
+
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_buy_pagseguro.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        filter_post_data_parameters=[
+            "description",
+            "reference_id",
+            "payment_method",
+            "charge_id",
+        ],
+        ignore_localhost=True,
+    )
     def test_buy_pagseguro(self):
         self.browser_js(
             "/shop",
@@ -39,11 +58,9 @@ class PagseguroTest(odoo.tests.HttpCase):
         tx.pagseguro_s2s_void_transaction()
         self.assertEqual(tx.state, "done", "transaction state should be done")
 
-    @staticmethod
-    def set_transaction_currency(transaction, currency):
-        for order in transaction.sale_order_ids:
-            order.currency_id = currency.id
-
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_buy_pagseguro_fail.yaml"
+    )
     def test_buy_pagseguro_fail(self):
         pagseguro_acquirer = self.env.ref(
             "payment_pagseguro.payment_acquirer_pagseguro"
