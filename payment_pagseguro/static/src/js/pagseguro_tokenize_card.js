@@ -98,7 +98,7 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                     // If the public key rpc fails
                     self.enableButton(button);
 
-                    if (error.data.message === "401: Unauthorized") {
+                    if (error.data && error.data.message === "401: Unauthorized") {
                         self.displayError(
                             _t("Token inválido"),
                             _t("Por favor, comunique a loja sobre esse erro.")

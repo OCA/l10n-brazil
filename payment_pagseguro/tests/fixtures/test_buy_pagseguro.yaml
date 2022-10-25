@@ -1,0 +1,149 @@
+interactions:
+  - request:
+      body: '{"type": "card"}'
+      headers:
+        Accept: ["*/*"]
+        Accept-Encoding: ["gzip, deflate"]
+        Authorization: [8EC2714B10DC42DE882BC341A5366899]
+        Connection: [keep-alive]
+        Content-Length: ["16"]
+        Content-Type: [application/json]
+        User-Agent: [python-requests/2.20.0]
+        x-api-version: ["4.0"]
+      method: POST
+      uri: https://sandbox.api.pagseguro.com/public-keys/
+    response:
+      body:
+        {
+          string: '{"public_key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+ZqgD892U9/HXsa7XqBZUayPquAfh9xx4iwUbTSUAvTlmiXFQNTp0Bvt/5vK2FhMj39qSv1zi2OuBjvW38q1E374nzx6NNBL5JosV0+SDINTlCG0cmigHuBOyWzYmjgca+mtQu4WczCaApNaSuVqgb8u7Bd9GCOL4YJotvV5+81frlSwQXralhwRzGhj/A57CGPgGKiuPT+AOGmykIGEZsSD9RKkyoKIoc0OS8CPIzdBOtTQCIwrLn2FxI83Clcg55W8gkFSOS6rWNbG5qFZWMll6yl02HtunalHmUlRUL66YeGXdMDC2PuRcmZbGO5a/2tbVppW6mfSWG3NPRpgwIDAQAB","created_at":1577836800000}',
+        }
+      headers:
+        Connection: [keep-alive]
+        Content-Length: ["436"]
+        Content-Security-Policy: [script-src 'self'; object-src 'self']
+        Content-Type: [application/json]
+        Date: ["Tue, 25 Oct 2022 17:39:10 GMT"]
+        Feature-Policy: [geolocation 'self']
+        Referrer-Policy: [no-referrer]
+        Strict-Transport-Security: [max-age=31536000; includeSubDomains]
+        Via: [1.1 831dc495f24c9e7211fa3b887470ea62.cloudfront.net (CloudFront)]
+        X-Amz-Cf-Id: [qtrUGMTUbAAubj_DOEChlRBl2N2g9-5qvOlgIUak-OC0w3sH0GijWw==]
+        X-Amz-Cf-Pop: [GRU3-P3]
+        X-Cache: [Miss from cloudfront]
+        X-Content-Type-Options: [nosniff]
+        X-Frame-Options: [SAMEORIGIN]
+        X-XSS-Protection: [1; mode=block]
+        x-amz-apigw-id: [aknRxFtOIAMFd5Q=]
+        x-amzn-Remapped-Connection: [keep-alive]
+        x-amzn-Remapped-Content-Length: ["436"]
+        x-amzn-Remapped-Date: ["Tue, 25 Oct 2022 17:39:10 GMT"]
+        x-amzn-RequestId: [9c454e62-77c8-4963-8701-be934f3efc42]
+      status: {code: 200, message: OK}
+  - request:
+      body:
+        '{"amount": {"value": 2498, "currency": "BRL"}, "payment_method":
+        {"soft_descriptor": "Sua Empresa", "type": "CREDIT_CARD", "installments": 1,
+        "capture": false, "card": {"encrypted":
+        "onWP7VRk+z8v9A0rJB2ZnF8LFksxsQ8JSi0P8gz7WsvXZ5qYAEP0BGsGy82g7KehDjTLnMHtn0zCpWzDzWn6A4hOypSM6wu0t7W2d1uAvN0KfR33uGPBmghgLuU8KTRYdT5uzGjUY4a+c/d6b+YodAMbiZXiFYjz3Qg8kWAjPH7sVyuKwqK7s3Zl3h8VbdmbiJcoNhzt/E+l9yGIeDRdUe3RiucCQZH5ntxN4rBOPgjTgKHv+BPQdDmC4tAXy6WzR40EZc1UxmXqRi8XkY1PAeTZykFVVp1cKlE9VoTSqrxSrWwn4t4vNB9P0XRD3IXpfOYGnZKnny2vr9VG35bHcg=="}}}'
+      headers:
+        Accept: ["*/*"]
+        Accept-Encoding: ["gzip, deflate"]
+        Authorization: [8EC2714B10DC42DE882BC341A5366899]
+        Connection: [keep-alive]
+        Content-Length: ["579"]
+        Content-Type: [application/json]
+        User-Agent: [python-requests/2.20.0]
+        x-api-version: ["4.0"]
+      method: POST
+      uri: https://sandbox.api.pagseguro.com/charges
+    response:
+      body:
+        {
+          string: '{"id":"CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310","reference_id":"11","status":"AUTHORIZED","created_at":"2022-10-25T14:39:11.145-03:00","description":"SO044-2","amount":{"value":2498,"currency":"BRL","summary":{"total":2498,"paid":0,"refunded":0}},"payment_response":{"code":"20000","message":"SUCESSO","reference":"032416400102"},"payment_method":{"type":"CREDIT_CARD","installments":1,"capture":false,"capture_before":"2022-10-30T14:39:11-03:00","card":{"brand":"visa","first_digits":"411111","last_digits":"1111","exp_month":"12","exp_year":"2030","holder":{"name":"VISA"}},"soft_descriptor":"SuaEmpresa"},"notification_urls":["https://webhook.site/140d3eaf-72ca-4ea6-8ec0-2c6624262419"],"links":[{"rel":"SELF","href":"https://sandbox.api.pagseguro.com/charges/CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310","media":"application/json","type":"GET"},{"rel":"CHARGE.CANCEL","href":"https://sandbox.api.pagseguro.com/charges/CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310/cancel","media":"application/json","type":"POST"},{"rel":"CHARGE.CAPTURE","href":"https://sandbox.api.pagseguro.com/charges/CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310/capture","media":"application/json","type":"POST"}]}',
+        }
+      headers:
+        Connection: [keep-alive]
+        Content-Length: ["1182"]
+        Content-Type: [application/json]
+        Date: ["Tue, 25 Oct 2022 17:39:12 GMT"]
+        Via: [1.1 14b1c79dd1cbfcdcffa472beb5c71736.cloudfront.net (CloudFront)]
+        X-Amz-Cf-Id: [nLZvlmj6epFUNmU9s2p-7x0AvHrqDoK5lOofajud__zg51ryWr9pSA==]
+        X-Amz-Cf-Pop: [GRU3-P3]
+        X-Cache: [Miss from cloudfront]
+        x-amz-apigw-id: [aknR4H7IoAMFxBg=]
+        x-amzn-Remapped-Connection: [keep-alive]
+        x-amzn-Remapped-Content-Length: ["1182"]
+        x-amzn-Remapped-Date: ["Tue, 25 Oct 2022 17:39:12 GMT"]
+        x-amzn-RequestId: [643537a0-dc5b-4605-b50c-e89bb6e34716]
+      status: {code: 201, message: Created}
+  - request:
+      body:
+        '{"amount": {"value": 2498, "currency": "BRL"}, "payment_method":
+        {"soft_descriptor": "Sua Empresa", "type": "CREDIT_CARD", "installments": 1,
+        "capture": false, "card": {"encrypted":
+        "onWP7VRk+z8v9A0rJB2ZnF8LFksxsQ8JSi0P8gz7WsvXZ5qYAEP0BGsGy82g7KehDjTLnMHtn0zCpWzDzWn6A4hOypSM6wu0t7W2d1uAvN0KfR33uGPBmghgLuU8KTRYdT5uzGjUY4a+c/d6b+YodAMbiZXiFYjz3Qg8kWAjPH7sVyuKwqK7s3Zl3h8VbdmbiJcoNhzt/E+l9yGIeDRdUe3RiucCQZH5ntxN4rBOPgjTgKHv+BPQdDmC4tAXy6WzR40EZc1UxmXqRi8XkY1PAeTZykFVVp1cKlE9VoTSqrxSrWwn4t4vNB9P0XRD3IXpfOYGnZKnny2vr9VG35bHcg=="}}}'
+      headers:
+        Accept: ["*/*"]
+        Accept-Encoding: ["gzip, deflate"]
+        Authorization: [8EC2714B10DC42DE882BC341A5366899]
+        Connection: [keep-alive]
+        Content-Length: ["579"]
+        Content-Type: [application/json]
+        User-Agent: [python-requests/2.20.0]
+        x-api-version: ["4.0"]
+      method: POST
+      uri: https://sandbox.api.pagseguro.com/charges/CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310/capture
+    response:
+      body:
+        {
+          string: '{"id":"CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310","reference_id":"11","status":"PAID","created_at":"2022-10-25T14:39:11.145-03:00","paid_at":"2022-10-25T14:39:15.000-03:00","description":"SO044-2","amount":{"value":2498,"currency":"BRL","summary":{"total":2498,"paid":2498,"refunded":0}},"payment_response":{"code":"20000","message":"SUCESSO","reference":"31022400001"},"payment_method":{"type":"CREDIT_CARD","installments":1,"capture":false,"card":{"brand":"visa","first_digits":"411111","last_digits":"1111","exp_month":"12","exp_year":"2030","holder":{"name":"VISA"},"store":false},"soft_descriptor":"SuaEmpresa"},"notification_urls":["https://webhook.site/140d3eaf-72ca-4ea6-8ec0-2c6624262419"],"links":[{"rel":"SELF","href":"https://sandbox.api.pagseguro.com/charges/CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310","media":"application/json","type":"GET"},{"rel":"CHARGE.CANCEL","href":"https://sandbox.api.pagseguro.com/charges/CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310/cancel","media":"application/json","type":"POST"}]}',
+        }
+      headers:
+        Connection: [keep-alive]
+        Content-Length: ["1022"]
+        Content-Type: [application/json]
+        Date: ["Tue, 25 Oct 2022 17:39:15 GMT"]
+        Via: [1.1 1f469fdd9fb3833da82121857bc25aae.cloudfront.net (CloudFront)]
+        X-Amz-Cf-Id: [Zv647ohwHEwm_GPzjLHrKp0I68z2eItZgbGG2NY61HD2Lz1F2p38NA==]
+        X-Amz-Cf-Pop: [GRU3-P3]
+        X-Cache: [Miss from cloudfront]
+        x-amz-apigw-id: [aknSeHJ6IAMFm3g=]
+        x-amzn-Remapped-Connection: [keep-alive]
+        x-amzn-Remapped-Content-Length: ["1022"]
+        x-amzn-Remapped-Date: ["Tue, 25 Oct 2022 17:39:15 GMT"]
+        x-amzn-RequestId: [948ff378-730d-4bd4-9350-b2a401162e99]
+      status: {code: 201, message: Created}
+  - request:
+      body: '{"charge_id": 74, "amount": {"value": 2498}}'
+      headers:
+        Accept: ["*/*"]
+        Accept-Encoding: ["gzip, deflate"]
+        Authorization: [8EC2714B10DC42DE882BC341A5366899]
+        Connection: [keep-alive]
+        Content-Length: ["44"]
+        Content-Type: [application/json]
+        User-Agent: [python-requests/2.20.0]
+        x-api-version: ["4.0"]
+      method: POST
+      uri: https://sandbox.api.pagseguro.com/charges/CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310/cancel
+    response:
+      body:
+        {
+          string: '{"id":"CHAR_FF3E41D4-3ED6-4122-8ED1-D9B4CCFC5310","reference_id":"11","status":"CANCELED","created_at":"2022-10-25T17:39:11.145-03:00","paid_at":"2022-10-25T17:39:15.000-03:00","description":"SO044-2","amount":{"value":2498,"currency":"BRL","summary":{"total":2498,"paid":2498,"refunded":2498}},"payment_response":{"code":"20000","message":"SUCESSO","reference":"31022400001"},"payment_method":{"type":"CREDIT_CARD","installments":1,"capture":true,"card":{"brand":"visa","first_digits":"411111","last_digits":"1111","exp_month":"12","exp_year":"2030","holder":{"name":"VISA"}},"soft_descriptor":"SuaEmpresa"},"notification_urls":["https://webhook.site/140d3eaf-72ca-4ea6-8ec0-2c6624262419"],"metadata":{},"links":[{"rel":"SELF","href":"http://charge-rest.sandbox.aws.intranet.pagseguro.uol/charges/CHAR_ff3e41d4-3ed6-4122-8ed1-d9b4ccfc5310","media":"application/json","type":"GET"}]}',
+        }
+      headers:
+        Connection: [keep-alive]
+        Content-Length: ["883"]
+        Content-Type: [application/json;charset=UTF-8]
+        Date: ["Tue, 25 Oct 2022 17:39:22 GMT"]
+        Via: [1.1 bc28c56faae098b4924dc813cde3fc90.cloudfront.net (CloudFront)]
+        X-Amz-Cf-Id: [EF9MHzePFagk9VnGmPdePLQNojPUPik4EDfySaXv8ZftegZ4OBZERA==]
+        X-Amz-Cf-Pop: [GRU3-P3]
+        X-Cache: [Miss from cloudfront]
+        X-Request-ID: [1a6e52d1f751e34b]
+        x-amz-apigw-id: [aknTJHT5oAMF60Q=]
+        x-amzn-Remapped-Connection: [keep-alive]
+        x-amzn-Remapped-Date: ["Tue, 25 Oct 2022 17:39:22 GMT"]
+        x-amzn-RequestId: [b0e476d2-1bd3-4d0b-9d47-e858c914ba13]
+      status: {code: 201, message: Created}
+version: 1
