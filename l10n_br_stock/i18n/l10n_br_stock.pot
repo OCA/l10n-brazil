@@ -1,0 +1,90 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_out
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_out
+msgid "Delivery Orders"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_internal
+msgid "Internal Transfers"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__legal_name
+msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_stock
+#: code:addons/l10n_br_stock/hooks.py:0
+#, python-format
+msgid "Loading l10n_br_stock warehouse external ids..."
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_pack_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_pack_type_internal
+msgid "Pack"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_pick_type_internal
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_pick_type_internal
+msgid "Pick"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_in
+#: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_in
+msgid "Receipts"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__inscr_est
+msgid "State Tax Number"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model,name:l10n_br_stock.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,help:l10n_br_stock.field_stock_picking__legal_name
+msgid "Used in fiscal documents"
+msgstr ""

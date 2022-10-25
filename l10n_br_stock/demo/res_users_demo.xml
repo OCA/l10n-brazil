@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="l10n_br_base.user_demo_simples" model="res.users">
+        <field
+            name="groups_id"
+            eval="[(4, ref('stock.group_stock_manager'), ref('stock.group_stock_multi_locations'), ref('stock.group_stock_multi_warehouses'))]"
+        />
+    </record>
+
+    <record id="l10n_br_base.user_demo_presumido" model="res.users">
+        <field
+            name="groups_id"
+            eval="[(4, ref('stock.group_stock_manager'), ref('stock.group_stock_multi_locations'), ref('stock.group_stock_multi_warehouses'))]"
+        />
+    </record>
+
+</odoo>
