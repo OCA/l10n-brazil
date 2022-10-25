@@ -38,7 +38,7 @@ odoo.define("payment_pagseguro.tour", function (require) {
                             args: [
                                 acquirer,
                                 {
-                                    pagseguro_token: "70490B37BABA1C2EE4F4FFB244ED8425",
+                                    pagseguro_token: "8EC2714B10DC42DE882BC341A5366899",
                                     state: "test",
                                     journal_id: 1,
                                     capture_manually: true,
@@ -69,9 +69,8 @@ odoo.define("payment_pagseguro.tour", function (require) {
             },
             {
                 content: "click on add to cart",
-                extra_trigger: "label:contains(Steel) input:propChecked",
-                trigger:
-                    '#product_detail form[action^="/shop/cart/update"] .btn-primary',
+                extra_trigger: "input:propChecked",
+                trigger: "#product_detail  .a-submit",
             },
             {
                 content: "go to checkout",

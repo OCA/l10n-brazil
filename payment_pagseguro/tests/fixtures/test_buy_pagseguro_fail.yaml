@@ -1,0 +1,34 @@
+interactions:
+  - request:
+      body:
+        '{"reference_id": "11", "description": "test_ref_1000", "amount": {"value":
+        10000, "currency": "BRL"}, "payment_method": {"soft_descriptor": "Sua Empresa",
+        "type": "CREDIT_CARD", "installments": 1, "capture": false, "card":
+        {"encrypted": "wrongcardtoken"}}}'
+      headers:
+        Accept: ["*/*"]
+        Accept-Encoding: ["gzip, deflate"]
+        Authorization: [70490B37BABA1C2EE4F4FFB244ED8425]
+        Connection: [keep-alive]
+        Content-Length: ["256"]
+        Content-Type: [application/json]
+        User-Agent: [python-requests/2.20.0]
+        x-api-version: ["4.0"]
+      method: POST
+      uri: https://sandbox.api.pagseguro.com/charges
+    response:
+      body: {string: '{"message":"Unauthorized"}'}
+      headers:
+        Connection: [keep-alive]
+        Content-Length: ["26"]
+        Content-Type: [application/json]
+        Date: ["Tue, 25 Oct 2022 17:11:27 GMT"]
+        Via: [1.1 dd14a9dafcf015787e103b3b9c0c81a6.cloudfront.net (CloudFront)]
+        X-Amz-Cf-Id: [FqFkfHg2NCGRrwE1mhLO8O45bmPyO4VJteXE3CbH26KKROCOD7mh-A==]
+        X-Amz-Cf-Pop: [GRU3-P3]
+        X-Cache: [Error from cloudfront]
+        x-amz-apigw-id: [akjN6FnOIAMF6ZA=]
+        x-amzn-ErrorType: [UnauthorizedException]
+        x-amzn-RequestId: [d3d02289-2d02-4dc1-a500-1ae89efa6076]
+      status: {code: 401, message: Unauthorized}
+version: 1
