@@ -184,10 +184,6 @@ msgid "Deductible Tax?"
 msgstr "Imposto dedutível?"
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_chart_template__display_name
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__display_name
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__display_name
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__display_name
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
@@ -213,10 +209,6 @@ msgid "ICMS ST"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_chart_template__id
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__id
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__id
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__id
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__id
 msgid "ID"
 msgstr ""
@@ -267,10 +259,6 @@ msgid "ISSQN WH"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_chart_template____last_update
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax____last_update
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin____last_update
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template____last_update
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
