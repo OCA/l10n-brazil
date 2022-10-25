@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Account Tax Group -->
+    <record id="tax_group_ipi" model="account.tax.group">
+        <field name="name">IPI</field>
+    </record>
+
+    <record id="tax_group_ii" model="account.tax.group">
+        <field name="name">II</field>
+    </record>
+
+    <record id="tax_group_icms" model="account.tax.group">
+        <field name="name">ICMS</field>
+    </record>
+
+    <record id="tax_group_icmssn" model="account.tax.group">
+        <field name="name">ICMS SN</field>
+    </record>
+
+    <record id="tax_group_icmsst" model="account.tax.group">
+        <field name="name">ICMS ST</field>
+    </record>
+
+    <record id="tax_group_icmsfcp" model="account.tax.group">
+        <field name="name">ICMS FCP</field>
+    </record>
+
+    <record id="tax_group_pis" model="account.tax.group">
+        <field name="name">PIS</field>
+    </record>
+
+    <record id="tax_group_pisst" model="account.tax.group">
+        <field name="name">PIS ST</field>
+    </record>
+
+    <record id="tax_group_pis_wh" model="account.tax.group">
+        <field name="name">PIS WH</field>
+    </record>
+
+    <record id="tax_group_cofins" model="account.tax.group">
+        <field name="name">COFINS</field>
+    </record>
+
+    <record id="tax_group_cofinsst" model="account.tax.group">
+        <field name="name">COFINS ST</field>
+    </record>
+
+    <record id="tax_group_cofins_wh" model="account.tax.group">
+        <field name="name">COFINS WH</field>
+    </record>
+
+    <record id="tax_group_issqn" model="account.tax.group">
+        <field name="name">ISSQN</field>
+    </record>
+
+    <record id="tax_group_issqn_wh" model="account.tax.group">
+        <field name="name">ISSQN WH</field>
+    </record>
+
+    <record id="tax_group_csll" model="account.tax.group">
+        <field name="name">CSLL</field>
+    </record>
+
+    <record id="tax_group_csll_wh" model="account.tax.group">
+        <field name="name">CSLL WH</field>
+    </record>
+
+    <record id="tax_group_ir" model="account.tax.group">
+        <field name="name">IR</field>
+    </record>
+
+    <record id="tax_group_irpj" model="account.tax.group">
+        <field name="name">IRPJ</field>
+    </record>
+
+    <record id="tax_group_irpj_wh" model="account.tax.group">
+        <field name="name">IRPJ WH</field>
+    </record>
+
+    <record id="tax_group_inss" model="account.tax.group">
+        <field name="name">INSS</field>
+    </record>
+
+    <record id="tax_group_inss_wh" model="account.tax.group">
+        <field name="name">INSS WH</field>
+    </record>
+
+    <record id="tax_group_simples" model="account.tax.group">
+        <field name="name">Simples Nacional</field>
+    </record>
+
+    <record id="tax_group_others" model="account.tax.group">
+        <field name="name">Outros</field>
+    </record>
+
+</odoo>
