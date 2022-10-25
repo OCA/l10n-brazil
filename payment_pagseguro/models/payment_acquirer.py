@@ -12,7 +12,6 @@ class PaymentAcquirerPagseguro(models.Model):
         ondelete={"pagseguro": "set default"},
     )
     pagseguro_token = fields.Char(
-        string="Pagseguro Token",
         required_if_provider="pagseguro",
         groups="base.group_user",
     )
@@ -64,7 +63,7 @@ class PaymentAcquirerPagseguro(models.Model):
         Uses user token as authentication.
         """
         PAGSEGURO_HEADERS = {
-            "Authorization": self.pagseguro_token,
+            "Authorization": self.sudo().pagseguro_token,
             "Content-Type": "application/json",
             "x-api-version": "4.0",
         }

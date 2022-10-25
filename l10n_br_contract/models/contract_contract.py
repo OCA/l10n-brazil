@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class ContractContract(models.Model):
@@ -10,6 +10,12 @@ class ContractContract(models.Model):
 
     currency_id = fields.Many2one(
         readonly=False,
+    )
+    country_id = fields.Many2one(related="company_id.country_id", store=True)
+
+    contract_recalculate_taxes_before_invoice = fields.Boolean(
+        string="Recalculate taxes before invoicing",
+        default="company.contract_recalculate_taxes_before_invoice",
     )
 
     @api.model
@@ -68,7 +74,6 @@ class ContractContract(models.Model):
     )
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
 
@@ -78,7 +83,7 @@ class ContractContract(models.Model):
 
     @api.depends("contract_line_ids")
     def _compute_amount(self):
-        super()._compute_amount()
+        return super()._compute_amount()
 
     def _prepare_invoice(self, date_invoice, journal=None):
         self.ensure_one()
@@ -102,25 +107,26 @@ class ContractContract(models.Model):
         the Fiscal Operation of each contract line
         :return: list of dictionaries (inv_ids)
         """
-        super_inv_id = super()._prepare_recurring_invoices_values(date_ref=date_ref)
+        super_inv_vals = super()._prepare_recurring_invoices_values(date_ref=date_ref)
 
         if not self.fiscal_operation_id:
-            for inv_id in super_inv_id:
-                inv_id["document_type_id"] = False
-            return super_inv_id
+            for inv_val in super_inv_vals:
+                inv_val["document_type_id"] = False
+            return super_inv_vals
 
-        if not isinstance(super_inv_id, list):
-            super_inv_id = [super_inv_id]
+        if not isinstance(super_inv_vals, list):
+            super_inv_vals = [super_inv_vals]
 
-        inv_ids = []
+        inv_vals = []
         document_type_list = []
 
-        for invoice_id in super_inv_id:
+        for invoice_val in super_inv_vals:
 
             # Identify how many Document Types exist
-            for inv_line in invoice_id.get("invoice_line_ids"):
+            for inv_line in invoice_val.get("invoice_line_ids"):
                 if type(inv_line[2]) == list:
                     continue
+
                 operation_line_id = self.env["l10n_br_fiscal.operation.line"].browse(
                     inv_line[2].get("fiscal_operation_line_id")
                 )
@@ -131,7 +137,7 @@ class ContractContract(models.Model):
 
                 if fiscal_document_type.id not in document_type_list:
                     document_type_list.append(fiscal_document_type.id)
-                    inv_to_append = invoice_id.copy()
+                    inv_to_append = invoice_val.copy()
                     inv_to_append["invoice_line_ids"] = [inv_line]
                     inv_to_append["document_type_id"] = fiscal_document_type.id
                     inv_to_append["document_serie_id"] = (
@@ -149,25 +155,9 @@ class ContractContract(models.Model):
                         )
                         .id
                     )
-                    inv_ids.append(inv_to_append)
+                    inv_vals.append(inv_to_append)
                 else:
                     index = document_type_list.index(fiscal_document_type.id)
-                    inv_ids[index]["invoice_line_ids"].append(inv_line)
+                    inv_vals[index]["invoice_line_ids"].append(inv_line)
 
-        return inv_ids
-
-    def recurring_create_invoice(self):
-        """
-        override the contract method to allow posting for more than one invoice
-        """
-        invoices = self._recurring_create_invoice()
-        for invoice in invoices:
-            self.message_post(
-                body=_(
-                    "Contract manually invoiced: "
-                    '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
-                    "</a>"
-                )
-                % (invoice._name, invoice.id)
-            )
-        return invoices
+        return inv_vals

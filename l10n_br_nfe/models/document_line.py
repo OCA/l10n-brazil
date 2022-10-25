@@ -25,16 +25,59 @@ class NFeLine(spec_models.StackedModel):
     _odoo_module = "l10n_br_nfe"
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
     _spec_tab_name = "NFe"
-    _stack_skip = "nfe40_det_infNFe_id"
     _stacking_points = {}
     # all m2o below this level will be stacked even if not required:
-    _force_stack_paths = ("det.imposto",)
+    _force_stack_paths = ("det.imposto.",)
+    _stack_skip = ("nfe40_det_infNFe_id",)
 
-    # The generateDS prod mixin (prod XML tag) cannot be inject in
-    # the product.product object because the tag embeded values from the
-    # fiscal document line. So the mapping is done:
+    # When dynamic stacking is applied, the NFe line has the following structure.
+    # NOTE GenerateDS actually has a bug here putting II before IPI
+    # we fixed nfelib for NFe with II here https://github.com/akretion/nfelib/pull/47
+    # fortunately xsdata doesn't have this bug.
+    DET_TREE = """
+> <det>
+    > <prod>
+        ≡ <DI>
+        ≡ <detExport>
+        ≡ <rastro>
+        - <infProdNFF>
+        - <infProdEmb>
+        - <veicProd>
+        - <med>
+        ≡ <arma>
+        - <comb>
+    > <imposto>
+        > <ICMS>
+            > <ICMSPart>
+            > <ICMSST>
+        > <II>
+        > <IPI>
+            > <IPITrib>
+            > <IPINT>
+        > <ISSQN>
+        > <PIS>
+            > <PISAliq>
+            > <PISQtde>
+            > <PISNT>
+            > <PISOutr>
+        > <PISST>
+        > <COFINS>
+            > <COFINSAliq>
+            > <COFINSQtde>
+            > <COFINSNT>
+            > <COFINSOutr>
+        > <COFINSST>
+        > <ICMSUFDest>
+    - <impostoDevol>"""
+
+    # The nfe.40.prod mixin (prod XML tag) cannot be injected in
+    # the product.product object because the tag includes attributes from the
+    # Odoo fiscal document line and because we may have an Nfe with
+    # lines decsriptions instead of full blown products.
+    # So a part of the mapping is done
+    # in the fiscal document line:
     # from Odoo -> XML by using related fields/_compute
-    # from XML -> Odoo by overriding the product create method
+    # from XML -> Odoo by overriding the product default_get method
     nfe40_cProd = fields.Char(
         related="product_id.default_code",
     )
@@ -184,6 +227,14 @@ class NFeLine(spec_models.StackedModel):
         related="freight_value",
     )
 
+    nfe40_vSeg = fields.Monetary(
+        related="insurance_value",
+    )
+
+    nfe40_vOutro = fields.Monetary(
+        related="other_value",
+    )
+
     nfe40_vTotTrib = fields.Monetary(
         related="estimate_tax",
     )
@@ -327,8 +378,12 @@ class NFeLine(spec_models.StackedModel):
                 record.nfe40_choice10 = "nfe40_ISSQN"
 
     @api.model
-    def _prepare_import_dict(self, values, model=None):
-        values = super()._prepare_import_dict(values, model)
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        values = super()._prepare_import_dict(
+            values, model, parent_dict, defaults_model
+        )
         if not values.get("name"):
             values["name"] = values.get("nfe40_xProd")
             if values.get("product_id"):
@@ -644,7 +699,7 @@ class NFeLine(spec_models.StackedModel):
 
     def _build_string_not_simple_type(self, key, vals, value, node):
         if key not in ["nfe40_CST", "nfe40_modBC", "nfe40_CSOSN", "nfe40_vBC"]:
-            super()._build_string_not_simple_type(key, vals, value, node)
+            return super()._build_string_not_simple_type(key, vals, value, node)
             # TODO avoid collision with cls prefix
         elif key == "nfe40_CST":
             if node.original_tagname_.startswith("ICMS"):
@@ -721,7 +776,7 @@ class NFeLine(spec_models.StackedModel):
                         ).id
                         # TODO search + log if not found
                     if hasattr(icms, "modBC") and icms.modBC is not None:
-                        icms_vals["icms_base_type"] = float(icms.modBC)
+                        icms_vals["icms_base_type"] = icms.modBC
                     if hasattr(icms, "orig"):
                         icms_vals["icms_origin"] = icms.orig
                     if hasattr(icms, "vBC") and icms.vBC is not None:
@@ -844,7 +899,7 @@ class NFeLine(spec_models.StackedModel):
             # stacked m2o
             vals.update(new_value)
         else:
-            super()._build_many2one(comodel, vals, new_value, key, value, path)
+            return super()._build_many2one(comodel, vals, new_value, key, value, path)
 
     def _verify_related_many2ones(self, related_many2ones):
         if (

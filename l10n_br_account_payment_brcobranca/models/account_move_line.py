@@ -47,16 +47,16 @@ class AccountMoveLine(models.Model):
                 "valor": str("%.2f" % move_line.debit),
                 "cedente": move_line.company_id.partner_id.legal_name,
                 "cedente_endereco": (move_line.company_id.partner_id.street_name or "")
-                + ", "
+                + " "
                 + (move_line.company_id.partner_id.street_number or "")
-                + " - "
+                + ", "
                 + (move_line.company_id.partner_id.district or "")
-                + " - "
+                + ", "
                 + (move_line.company_id.partner_id.city_id.name or "")
                 + " - "
-                + ("CEP:" + move_line.company_id.partner_id.zip or "")
-                + " - "
-                + (move_line.company_id.partner_id.state_id.code or ""),
+                + (move_line.company_id.partner_id.state_id.code or "")
+                + " "
+                + ("CEP:" + move_line.company_id.partner_id.zip or ""),
                 "documento_cedente": move_line.company_id.cnpj_cpf,
                 "sacado": move_line.partner_id.legal_name,
                 "sacado_documento": move_line.partner_id.cnpj_cpf,
@@ -74,12 +74,16 @@ class AccountMoveLine(models.Model):
                 "moeda": DICT_BRCOBRANCA_CURRENCY["R$"],
                 "aceite": move_line.payment_mode_id.boleto_accept,
                 "sacado_endereco": (move_line.partner_id.street_name or "")
-                + ", "
-                + (move_line.partner_id.street_number or "")
                 + " "
+                + (move_line.partner_id.street_number or "")
+                + ", "
+                + (move_line.partner_id.district or "")
+                + ", "
                 + (move_line.partner_id.city_id.name or "")
                 + " - "
-                + (move_line.partner_id.state_id.name or ""),
+                + (move_line.partner_id.state_id.code or "")
+                + " "
+                + ("CEP:" + move_line.partner_id.zip or ""),
                 "data_processamento": move_line.move_id.invoice_date.strftime(
                     "%Y/%m/%d"
                 ),
@@ -155,11 +159,11 @@ class AccountMoveLine(models.Model):
                     }
                 )
 
+            bank_account = move_line.payment_mode_id.fixed_journal_id.bank_account_id
             if bank_account_id.bank_id.code_bc in ("021", "004"):
-                digito_conta_corrente = move_line.payment_mode_id.bank_id.acc_number_dig
                 boleto_cnab_api_data.update(
                     {
-                        "digito_conta_corrente": digito_conta_corrente,
+                        "digito_conta_corrente": bank_account.acc_number_dig,
                     }
                 )
 
@@ -169,6 +173,13 @@ class AccountMoveLine(models.Model):
                     {
                         "byte_idt": move_line.payment_mode_id.boleto_byte_idt,
                         "posto": move_line.payment_mode_id.boleto_post,
+                    }
+                )
+            # Campo usado no Unicred
+            if bank_account_id.bank_id.code_bc == "136":
+                boleto_cnab_api_data.update(
+                    {
+                        "conta_corrente_dv": bank_account.acc_number_dig,
                     }
                 )
 

@@ -30,12 +30,18 @@ class ResPartner(spec_models.SpecModel):
         "nfe.40.dest",
         "nfe.40.tenderemi",
         "nfe.40.tinfresptec",
+        "nfe.40.transporta",
+        "nfe.40.autxml",
     ]
     _nfe_search_keys = ["nfe40_CNPJ", "nfe40_CPF", "nfe40_xNome"]
 
     @api.model
-    def _prepare_import_dict(self, values, model=None):
-        values = super()._prepare_import_dict(values, model)
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        values = super()._prepare_import_dict(
+            values, model, parent_dict, defaults_model
+        )
         if not values.get("name") and values.get("legal_name"):
             values["name"] = values["legal_name"]
         return values
@@ -65,7 +71,7 @@ class ResPartner(spec_models.SpecModel):
 
     # nfe.40.dest
     nfe40_xNome = fields.Char(related="legal_name")
-    nfe40_xFant = fields.Char(related="name")
+    nfe40_xFant = fields.Char(related="name", string="Nome Fantasia")
     nfe40_enderDest = fields.Many2one(
         comodel_name="res.partner", compute="_compute_nfe40_enderDest"
     )
@@ -96,6 +102,21 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_nfe_data",
         compute_sudo=True,
         string="CNPJ/CPF/idEstrangeiro",
+    )
+
+    # nfe.40.autXML
+    nfe40_choice8 = fields.Selection(
+        selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
+        string="CNPJ/CPF do Parceiro Autorizado",
+    )
+
+    # nfe.40.transporta
+    nfe40_choice19 = fields.Selection(
+        selection=[
+            ("nfe40_CNPJ", "CNPJ"),
+            ("nfe40_CPF", "CPF"),
+        ],
+        string="CNPJ/CPF",
     )
 
     def _compute_nfe40_xEnder(self):

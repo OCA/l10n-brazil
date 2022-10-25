@@ -4,7 +4,7 @@
 from odoo import _, fields, models
 
 from ..constants.fiscal import TAX_DOMAIN_II, TAX_DOMAIN_IPI
-from .ibpt.taxes import get_ibpt_product
+from .ibpt import get_ibpt_product
 
 
 class Ncm(models.Model):
@@ -20,7 +20,7 @@ class Ncm(models.Model):
 
     code_unmasked = fields.Char(size=8)
 
-    exception = fields.Char(string="Exception", size=2)
+    exception = fields.Char(size=2)
 
     tax_ipi_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",

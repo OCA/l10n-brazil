@@ -111,13 +111,13 @@ msgid "Amount Tax Included"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_not_included
+msgid "Amount Tax Not Included"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_not_included
-msgid "Amount Tax not Included"
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
+msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -155,20 +155,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ind_pres
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__ind_pres
 msgid "Buyer Presence"
-msgstr ""
-
-#. module: l10n_br_sale
-#: code:addons/l10n_br_sale/models/res_company.py:0
-#: model:ir.model.fields.selection,name:l10n_br_sale.selection__res_company__delivery_costs__line
-#, python-format
-msgid "By Line"
-msgstr ""
-
-#. module: l10n_br_sale
-#: code:addons/l10n_br_sale/models/res_company.py:0
-#: model:ir.model.fields.selection,name:l10n_br_sale.selection__res_company__delivery_costs__total
-#, python-format
-msgid "By Total"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -470,26 +456,17 @@ msgid "Customhouse Charges"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
-msgid "Define if Delivery Costs should be informed by Line or by Total"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,help:l10n_br_sale.field_res_company__delivery_costs
-#: model:ir.model.fields,help:l10n_br_sale.field_res_config_settings__delivery_costs
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__delivery_costs
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__delivery_costs
 msgid ""
-"Define if costs of Insurance, Freight and Other Costs should be informed in "
-"Line or Total."
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__delivery_costs
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__delivery_costs
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__delivery_costs
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__delivery_costs
-msgid "Delivery costs should be define in Line or Total."
+msgid "Delivery Costs"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -587,7 +564,6 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr ""
 
@@ -630,6 +606,12 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__discount_fixed
 msgid "Fixed Discount?"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__force_compute_delivery_costs_by_total
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__force_compute_delivery_costs_by_total
+msgid "Force Compute Delivery Costs By Total"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1256,11 +1238,11 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_other_value
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__other_value
 msgid "Other Costs"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__other_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__other_value
 msgid "Other Value"
 msgstr ""
@@ -1633,11 +1615,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
-msgid "The Delivery Costs should be informed by Line or by Total ?"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_total
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_total
 msgid "Total"
@@ -1646,6 +1623,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__total_with_taxes
 msgid "Total with Taxes"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
+msgid "Type"
 msgstr ""
 
 #. module: l10n_br_sale

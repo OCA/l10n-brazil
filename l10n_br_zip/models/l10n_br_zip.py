@@ -32,13 +32,13 @@ class L10nBrZip(models.Model):
 
     zip_code = fields.Char(string="CEP", required=True)
 
-    street_type = fields.Char(string="Street Type")
+    street_type = fields.Char()
 
     zip_complement = fields.Char(string="Range")
 
     street_name = fields.Char(string="Logradouro")
 
-    district = fields.Char(string="District")
+    district = fields.Char()
 
     country_id = fields.Many2one(comodel_name="res.country", string="Country")
 
@@ -135,7 +135,7 @@ class L10nBrZip(models.Model):
                 zip_str, webservice=cep_ws_providers.get(cep_ws_provide)
             )
         except Exception as e:
-            raise UserError(_("Error in PyCEP-Correios: ") + str(e))
+            raise UserError(_("Error in PyCEP-Correios: ") + str(e)) from e
 
         values = {}
         if cep and any(cep.values()):
@@ -177,7 +177,7 @@ class L10nBrZip(models.Model):
                 zip_code=obj.zip,
             )
         except AttributeError as e:
-            raise UserError(_("Error loading attribute: ") + str(e))
+            raise UserError(_("Error loading attribute: ") + str(e)) from e
 
         zips = self.search(domain)
 

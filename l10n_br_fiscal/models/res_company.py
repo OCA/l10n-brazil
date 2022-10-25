@@ -48,12 +48,6 @@ class ResCompany(models.Model):
             "cnae_main_id",
         ]
 
-    @api.model
-    def default_get(self, fields):
-        rec = super().default_get(fields)
-        rec["fiscal_dummy_id"] = self._default_fiscal_dummy_id().id
-        return rec
-
     def _inverse_cnae_main_id(self):
         """Write the l10n_br specific functional fields."""
         for c in self:
@@ -83,6 +77,24 @@ class ResCompany(models.Model):
             "company_id": self.id,
             "fiscal_line_ids": [(0, 0, {"name": "dummy", "company_id": self.id})],
         }
+
+    @api.model
+    def create(self, vals):
+        """
+        to satisfy the not-null constraint of the fiscal_dummy_id field,
+        the fiscal dummy is passed without a company_id and updated
+        after it is created.
+        """
+        dummy_doc = (
+            self.env["l10n_br_fiscal.document"]
+            .sudo()
+            .create(self._prepare_create_fiscal_dummy_doc())
+        )
+        vals.update({"fiscal_dummy_id": dummy_doc.id})
+        company = super().create(vals)
+        dummy_doc.company_id = company
+        dummy_doc.fiscal_line_ids.company_id = company
+        return company
 
     @api.model
     def _default_fiscal_dummy_id(self):
@@ -165,17 +177,14 @@ class ResCompany(models.Model):
         default=TAX_FRAMEWORK_NORMAL,
         compute="_compute_address",
         inverse="_inverse_tax_framework",
-        string="Tax Framework",
     )
 
     profit_calculation = fields.Selection(
         selection=PROFIT_CALCULATION,
         default=PROFIT_CALCULATION_PRESUMED,
-        string="Profit Calculation",
     )
 
     is_industry = fields.Boolean(
-        string="Is Industry",
         help="If your company is industry or ......",
         default=False,
     )
@@ -183,11 +192,9 @@ class ResCompany(models.Model):
     industry_type = fields.Selection(
         selection=INDUSTRY_TYPE,
         default=INDUSTRY_TYPE_TRANSFORMATION,
-        string="Industry Type",
     )
 
     annual_revenue = fields.Monetary(
-        string="Annual Revenue",
         currency_field="currency_id",
     )
 
@@ -208,7 +215,6 @@ class ResCompany(models.Model):
     )
 
     simplifed_tax_percent = fields.Float(
-        string="Simplifed Tax Percent",
         compute="_compute_simplifed_tax",
         store=True,
         digits="Fiscal Tax Percent",
@@ -221,7 +227,6 @@ class ResCompany(models.Model):
 
     coefficient_r = fields.Boolean(
         compute="_compute_simplifed_tax",
-        string="Coefficient R",
         store=True,
         readonly=True,
     )
@@ -235,7 +240,7 @@ class ResCompany(models.Model):
 
     ibpt_api = fields.Boolean(string="Use IBPT API", default=False)
 
-    ibpt_token = fields.Char(string="IBPT Token")
+    ibpt_token = fields.Char()
 
     ibpt_update_days = fields.Integer(string="IBPT Token Updates", default=15)
 
@@ -372,6 +377,13 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Dummy Document",
         ondelete="restrict",
+    )
+
+    delivery_costs = fields.Selection(
+        selection=[("line", "By Line"), ("total", "By Total")],
+        help="Define if costs of Insurance, Freight and Other Costs"
+        " should be informed by Line or by Total.",
+        default="line",
     )
 
     def _del_tax_definition(self, tax_domain):

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_repair_order"
+        inherit_id="repair.report_repairorder"
+        priority="100"
+    >
+
+        <xpath
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/tr[1]"
+            position="replace"
+        >
+            <tr class="bg-200 o_line_section"><td colspan="6"><strong
+                    >Parts</strong></td></tr>
+        </xpath>
+
+        <xpath
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[2]/tr[1]"
+            position="replace"
+        >
+            <tr class="bg-200 o_line_section"><td colspan="6"><strong
+                    >Operations</strong></td></tr>
+        </xpath>
+
+         <xpath
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/td[hasclass('text-center')]"
+            position="replace"
+        >
+            <td
+                t-if="doc.company_id.country_id.phone_code == 55"
+                name="td_taxes"
+                class="text-right"
+            >
+                 <t
+                    t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)"
+                    t-as="tax"
+                >
+                <!-- Usando o phone_code porque tanto code == 'br' ou code == br não funcionaram -->
+                    <small>
+                        <span t-esc="tax.name" />
+                        <br />
+                    </small>
+                 </t>
+            </td>
+            <!-- Pedido de empresas de outros países mantem o campo padrão de impostos-->
+            <td
+                t-if="doc.company_id.country_id.phone_code != 55"
+                name="td_taxes"
+                class="text-right"
+            >
+                <span
+                    t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"
+                />
+            </td>
+        </xpath>
+
+        <xpath
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[2]//td[hasclass('text-center')]"
+            position="replace"
+        >
+            <td
+                t-if="doc.company_id.country_id.phone_code == 55"
+                name="td_taxes"
+                class="text-right"
+            >
+                 <t
+                    t-foreach="fees.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)"
+                    t-as="tax"
+                >
+                <!-- Usando o phone_code porque tanto code == 'br' ou code == br não funcionaram -->
+                    <small>
+                        <span t-esc="tax.name" />
+                        <br />
+                    </small>
+                 </t>
+            </td>
+            <!-- Pedido de empresas de outros países mantem o campo padrão de impostos-->
+            <td
+                t-if="doc.company_id.country_id.phone_code != 55"
+                name="td_taxes"
+                class="text-right"
+            >
+                <span
+                    t-esc="', '.join(map(lambda x: (x.description or x.name), fees.tax_id))"
+                />
+            </td>
+        </xpath>
+
+        <!-- Inclusão de outros Totais usados no Brasil -->
+        <xpath
+            expr="//div[@id='total']/div/table/t/tr[hasclass('border-black', 'o_subtotal')]"
+            position="replace"
+        >
+            <!-- Replace foi necessário para colocar os Totais na ordem desejada. -->
+                <tr
+                t-if="doc.amount_price_gross != doc.amount_untaxed"
+                class="border-black o_subtotal"
+                style=""
+            >
+                    <td name="td_amount_price_gross_label"><strong
+                    >Amount Gross</strong></td>
+                    <td name="td_amount_price_gross" class="text-right">
+                        <span
+                        t-field="doc.amount_price_gross"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+                <tr style="">
+                    <td name="td_amount_untaxed_label"><strong
+                    >Amount Untaxed</strong></td>
+                    <td name="td_amount_untaxed" class="text-right">
+                        <span
+                        t-field="doc.amount_untaxed"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+                <tr t-if="doc.amount_freight_value" style="">
+                    <td name="td_amount_freight_label"><strong>Freight</strong></td>
+                    <td name="td_amount_freight_value" class="text-right">
+                        <span
+                        t-field="doc.amount_freight_value"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+                <tr t-if="doc.amount_insurance_value" style="">
+                    <td name="td_amount_insurance_label"><strong>Insurance</strong></td>
+                    <td name="td_amount_insurance_value" class="text-right">
+                        <span
+                        t-field="doc.amount_insurance_value"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+                <tr t-if="doc.amount_other_value" style="">
+                    <td name="td_amount_costs_label"><strong>Other Costs</strong></td>
+                    <td name="td_amount_other_value" class="text-right">
+                        <span
+                        t-field="doc.amount_other_value"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+        </xpath>
+
+    </template>
+</odoo>

@@ -19,12 +19,12 @@ from ..constants.br_cobranca import (
     get_brcobranca_bank,
 )
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 try:
     from erpbrasil.base import misc
 except ImportError:
-    logger.error("Biblioteca erpbrasil.base não instalada")
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class PaymentOrder(models.Model):
@@ -35,6 +35,7 @@ class PaymentOrder(models.Model):
             {
                 "convenio": int(self.payment_mode_id.code_convetion),
                 "variacao_carteira": self.payment_mode_id.boleto_variation.zfill(3),
+                "convenio_lider": self.payment_mode_id.code_convenio_lider.zfill(7),
                 "carteira": str(self.payment_mode_id.boleto_wallet).zfill(2),
             }
         )
@@ -107,7 +108,10 @@ class PaymentOrder(models.Model):
         cnab_type = self.payment_mode_id.payment_method_code
 
         # Se não for um caso CNAB deve chamar o super
-        if cnab_type not in ("240", "400", "500"):
+        if (
+            cnab_type not in ("240", "400", "500")
+            or self.payment_mode_id.cnab_processor != "brcobranca"
+        ):
             return super().generate_payment_file()
 
         bank_account_id = self.journal_id.bank_account_id
@@ -124,8 +128,7 @@ class PaymentOrder(models.Model):
             # Informa se o CNAB especifico de um Banco não está implementado
             # no BRCobranca, evitando a mensagem de erro mais extensa da lib
             raise ValidationError(
-                _("The CNAB %s for Bank %s are not implemented in BRCobranca.")
-                % (
+                _("The CNAB {} for Bank {} are not implemented in BRCobranca.").format(
                     cnab_type,
                     bank_account_id.bank_id.name,
                 )
@@ -155,7 +158,7 @@ class PaymentOrder(models.Model):
             if bank_method:
                 bank_method(remessa_values)
         except Exception:
-            pass
+            _logger.warning("can't generate paymeny file")
 
         remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
@@ -171,10 +174,10 @@ class PaymentOrder(models.Model):
         f.close()
         files = {"data": open(f.name, "rb")}
 
-        brcobranca_api_url = get_brcobranca_api_url()
+        brcobranca_api_url = get_brcobranca_api_url(self.env)
         # EX.: "http://boleto_cnab_api:9292/api/remessa"
         brcobranca_service_url = brcobranca_api_url + "/api/remessa"
-        logger.info(
+        _logger.info(
             "Connecting to %s to generate CNAB-REMESSA file for Payment Order %s",
             brcobranca_service_url,
             self.name,
@@ -205,10 +208,11 @@ class PaymentOrder(models.Model):
         return remessa
 
     def generated2uploaded(self):
-        super().generated2uploaded()
+        result = super().generated2uploaded()
         for payment_line in self.payment_line_ids:
             # No caso de Cancelamento da Invoice a AML é apagada
             if payment_line.move_line_id:
                 # Importante para saber a situação do CNAB no caso
                 # de um pagto feito por fora ( dinheiro, deposito, etc)
                 payment_line.move_line_id.cnab_state = "exported"
+        return result

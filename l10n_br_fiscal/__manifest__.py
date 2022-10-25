@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "14.0.7.3.0",
+    "version": "14.0.9.1.3",
     "depends": [
         "uom",
         "product",
@@ -82,7 +82,6 @@
         "views/subsequent_operation_view.xml",
         "views/subsequent_document_view.xml",
         "views/uom_uom.xml",
-        "views/closing.xml",
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
         #        "views/mdfe/mdfe_views.xml",

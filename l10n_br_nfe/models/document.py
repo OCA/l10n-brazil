@@ -69,7 +69,6 @@ class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
     _stacked = "nfe.40.infnfe"
-    _stack_skip = "nfe40_veicTransp"
     _field_prefix = "nfe40_"
     _schema_name = "nfe"
     _schema_version = "4.0.0"
@@ -86,6 +85,44 @@ class NFe(spec_models.StackedModel):
         "infnfe.cobr",
         "infnfe.cobr.fat",
     )
+
+    # When dynamic stacking is applied the NFe structure is:
+    INFNFE_TREE = """
+> <infnfe>
+    > <ide>
+        ≡ <NFref> l10n_br_fiscal.document.related
+    - <emit> res.company
+    - <avulsa>
+    - <dest> res.partner
+    - <retirada> res.partner
+    - <entrega> res.partner
+    ≡ <autXML> res.partner
+    ≡ <det> l10n_br_fiscal.document.line
+    > <total>
+        > <ICMSTot>
+        > <ISSQNtot>
+        > <retTrib>
+    > <transp>
+        - <transporta> res.partner
+        - <retTransp>
+        - <veicTransp>
+        ≡ <reboque>
+        ≡ <vol>
+    > <cobr>
+        > <fat>
+        ≡ <dup>
+    > <pag>
+        ≡ <detPag>
+    - <infIntermed>
+    > <infAdic>
+        ≡ <obsCont>
+        ≡ <obsFisco>
+        ≡ <procRef>
+    > <exporta>
+    - <compra>
+    - <cana>
+    - <infRespTec> res.partner
+    - <infSolicNFF>"""
 
     ##########################
     # NF-e spec related fields
@@ -181,7 +218,6 @@ class NFe(spec_models.StackedModel):
 
     danfe_layout = fields.Selection(
         selection=NFE_DANFE_LAYOUTS + NFCE_DANFE_LAYOUTS,
-        string="Danfe Layout",
     )
 
     nfe40_tpEmis = fields.Selection(
@@ -390,7 +426,10 @@ class NFe(spec_models.StackedModel):
     # TODO  Verificar as operações de bonificação se o desconto sai correto
     # nfe40_vDesc = fields.Monetary(related="amount_financial_discount_value")
     # nfe40_vDesc = fields.Monetary(related="amount_discount_value")
-    nfe40_vDesc = fields.Monetary(related="amount_discount_value")
+    nfe40_vDesc = fields.Monetary(
+        string="Montante de Desconto",
+        related="amount_discount_value",
+    )
 
     nfe40_vII = fields.Monetary(related="amount_ii_value")
 
@@ -406,7 +445,10 @@ class NFe(spec_models.StackedModel):
         string="valor do COFINS (NFe)", related="amount_cofins_value"
     )
 
-    nfe40_vOutro = fields.Monetary(related="amount_other_value")
+    nfe40_vOutro = fields.Monetary(
+        string="Outros Custos",
+        related="amount_other_value",
+    )
 
     nfe40_vNF = fields.Monetary(related="amount_total")
 
@@ -508,6 +550,29 @@ class NFe(spec_models.StackedModel):
         related="company_id.technical_support_id",
     )
 
+    ##########################
+    # NF-e tag: autXML
+    # Compute Methods
+    ##########################
+
+    def _default_nfe40_autxml(self):
+        company = self.env.company
+        authorized_partners = []
+        if company.accountant_id and company.nfe_authorize_accountant_download_xml:
+            authorized_partners.append(company.accountant_id.id)
+        if (
+            company.technical_support_id
+            and company.nfe_authorize_technical_download_xml
+        ):
+            authorized_partners.append(company.technical_support_id.id)
+        return authorized_partners
+
+    ##########################
+    # NF-e tag: autXML
+    ##########################
+
+    nfe40_autXML = fields.One2many(default=_default_nfe40_autxml)
+
     ################################
     # Framework Spec model's methods
     ################################
@@ -534,7 +599,9 @@ class NFe(spec_models.StackedModel):
             elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
                 comodel = self.env[self._stacking_points.get(field_name).comodel_name]
                 fields = [
-                    f for f in comodel._fields if f.startswith(self._field_prefix)
+                    f
+                    for f in comodel._fields
+                    if f.startswith(self._field_prefix) and f in self._fields.keys()
                 ]
                 sub_tag_read = self.read(fields)[0]
                 if not any(
@@ -628,7 +695,7 @@ class NFe(spec_models.StackedModel):
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
-        super()._document_number()
+        result = super()._document_number()
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.document_key:
                 try:
@@ -637,12 +704,13 @@ class NFe(spec_models.StackedModel):
                     record.nfe40_cDV = chave.digito_verificador
                 except Exception as e:
                     raise ValidationError(
-                        _("{}:\n {}".format(record.document_type_id.name, e))
-                    )
+                        _("{}:\n {}").format(record.document_type_id.name, e)
+                    ) from e
+        return result
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context({"lang": "pt_BR"}).filtered(
+        for record in self.with_context(lang="pt_BR").filtered(
             filter_processador_edoc_nfe
         ):
             inf_nfe = record.export_ds()[0]
@@ -673,7 +741,7 @@ class NFe(spec_models.StackedModel):
         )
 
     def _document_export(self, pretty_print=True):
-        super()._document_export()
+        result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
             record._export_fields_pagamentos()
             edoc = record.serialize()[0]
@@ -694,6 +762,7 @@ class NFe(spec_models.StackedModel):
             record.authorization_event_id = event_id
             xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
             self._valida_xml(xml_assinado)
+        return result
 
     def atualiza_status_nfe(self, infProt, xml_file):
         self.ensure_one()
@@ -782,10 +851,11 @@ class NFe(spec_models.StackedModel):
         return
 
     def _document_date(self):
-        super()._document_date()
+        result = super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfe):
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
+        return result
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
@@ -820,7 +890,6 @@ class NFe(spec_models.StackedModel):
         self.file_report_id = self.env["ir.attachment"].create(
             {
                 "name": self.document_key + ".pdf",
-                "datas_fname": self.document_key + ".pdf",
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(pdf),
@@ -850,10 +919,11 @@ class NFe(spec_models.StackedModel):
         return etree.tostring(new_root)
 
     def _document_cancel(self, justificative):
-        super(NFe, self)._document_cancel(justificative)
+        result = super(NFe, self)._document_cancel(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_cancel()
+        return result
 
     def _nfe_cancel(self):
         self.ensure_one()
@@ -907,10 +977,11 @@ class NFe(spec_models.StackedModel):
             )
 
     def _document_correction(self, justificative):
-        super(NFe, self)._document_correction(justificative)
+        result = super(NFe, self)._document_correction(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_correction(justificative)
+        return result
 
     def _nfe_correction(self, justificative):
         self.ensure_one()

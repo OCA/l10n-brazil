@@ -53,11 +53,11 @@ class Document(models.Model):
         "l10n_br_fiscal.document.invoice.mixin",
     ]
     _description = "Fiscal Document"
+    _check_company_auto = True
 
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
 
@@ -78,7 +78,6 @@ class Document(models.Model):
     )
 
     document_number = fields.Char(
-        string="Document Number",
         copy=False,
         index=True,
     )
@@ -96,7 +95,6 @@ class Document(models.Model):
     )
 
     document_date = fields.Datetime(
-        string="Document Date",
         copy=False,
     )
 
@@ -112,7 +110,6 @@ class Document(models.Model):
     )
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
 
@@ -163,6 +160,7 @@ class Document(models.Model):
         inverse_name="document_id",
         string="Document Lines",
         copy=True,
+        check_company=True,
     )
 
     edoc_purpose = fields.Selection(
@@ -187,8 +185,6 @@ class Document(models.Model):
         copy=False,
         readonly=True,
     )
-
-    close_id = fields.Many2one(comodel_name="l10n_br_fiscal.closing", string="Close ID")
 
     document_type = fields.Char(
         related="document_type_id.code",
@@ -251,9 +247,8 @@ class Document(models.Model):
             if documents:
                 raise ValidationError(
                     _(
-                        "There is already a fiscal document with this "
-                        "key: {} !".format(record.document_key)
-                    )
+                        "There is already a fiscal document with this " "key: {} !"
+                    ).format(record.document_key)
                 )
             else:
                 ChaveEdoc(chave=record.document_key, validar=True)
@@ -289,10 +284,8 @@ class Document(models.Model):
                 raise ValidationError(
                     _(
                         "There is already a fiscal document with this "
-                        "Serie: {}, Number: {} !".format(
-                            record.document_serie, record.document_number
-                        )
-                    )
+                        "Serie: {}, Number: {} !"
+                    ).format(record.document_serie, record.document_number)
                 )
 
     def _compute_document_name(self):
@@ -365,7 +358,7 @@ class Document(models.Model):
         "fiscal_line_ids.amount_tax_withholding",
     )
     def _compute_amount(self):
-        super()._compute_amount()
+        return super()._compute_amount()
 
     @api.model
     def create(self, values):
@@ -388,8 +381,8 @@ class Document(models.Model):
             raise ValidationError(
                 _(
                     "You cannot delete fiscal document number {} with "
-                    "the status: {}!".format(record.document_number, record.state_edoc)
-                )
+                    "the status: {}!"
+                ).format(record.document_number, record.state_edoc)
             )
 
         return super().unlink()
@@ -407,8 +400,8 @@ class Document(models.Model):
                 raise ValidationError(
                     _(
                         "The fiscal operation {} has no return Fiscal "
-                        "Operation defined".format(record.fiscal_operation_id)
-                    )
+                        "Operation defined"
+                    ).format(record.fiscal_operation_id)
                 )
 
             new_doc = record.copy()
@@ -421,8 +414,8 @@ class Document(models.Model):
                     raise ValidationError(
                         _(
                             "The fiscal operation {} has no return Fiscal "
-                            "Operation defined".format(line.fiscal_operation_id)
-                        )
+                            "Operation defined"
+                        ).format(line.fiscal_operation_id)
                     )
                 line.fiscal_operation_id = fsc_op_line
                 line._onchange_fiscal_operation_id()
@@ -465,12 +458,13 @@ class Document(models.Model):
 
     def _after_change_state(self, old_state, new_state):
         self.ensure_one()
-        super()._after_change_state(old_state, new_state)
+        result = super()._after_change_state(old_state, new_state)
         self.send_email(new_state)
+        return result
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        super()._onchange_fiscal_operation_id()
+        result = super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id:
             self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
             self.edoc_purpose = self.fiscal_operation_id.edoc_purpose
@@ -494,6 +488,7 @@ class Document(models.Model):
                 )
             )
         self.document_subsequent_ids = subsequent_documents
+        return result
 
     @api.onchange("document_type_id")
     def _onchange_document_type_id(self):

@@ -4,7 +4,11 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo import models
+
+_logger = logging.getLogger(__name__)
 
 
 class BankPaymentLine(models.Model):
@@ -53,6 +57,15 @@ class BankPaymentLine(models.Model):
         if payment_mode_id.boleto_discount_perc:
             linhas_pagamentos["cod_desconto"] = "1"
 
+    def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
+        if (
+            self.mov_instruction_code_id.code
+            == payment_mode_id.cnab_sending_code_id.code
+        ):
+            linhas_pagamentos["cod_primeira_instrucao"] = (
+                payment_mode_id.boleto_protest_code or "00"
+            )
+
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         payment_mode_id = self.order_id.payment_mode_id
         linhas_pagamentos = self._prepare_boleto_bank_line_vals()
@@ -63,7 +76,7 @@ class BankPaymentLine(models.Model):
             if bank_method:
                 bank_method(payment_mode_id, linhas_pagamentos)
         except Exception:
-            pass
+            _logger.warning("can't prepare paymeny line")
 
         # Cada Banco pode possuir seus Codigos de Instrução
         if (

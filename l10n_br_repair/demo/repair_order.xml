@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="0">
+
+    <!-- Empresa Principal -->
+    <!-- Repair Order with only products test -->
+    <record id="main_so_only_products" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="operations"
+            model="repair.line"
+            eval="[(5, 0, 0), (0, 0, {
+            'location_dest_id': obj().env.ref('product.product_product_27').with_company(obj().env.ref('base.main_company')).property_stock_production.id,
+            'location_id': obj().env['stock.warehouse'].search([('company_id', '=', obj().env.ref('base.main_company').id)]).lot_stock_id.id,
+            'name': obj().env.ref('product.product_product_27').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('product.product_product_27').id,
+            'product_uom': obj().env.ref('uom.product_uom_unit').id,
+            'product_uom_qty': '2.0',
+            'price_unit': 500.0,
+            'state': 'draft',
+            'type': 'add',
+            'company_id': obj().env.ref('base.main_company').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_venda').id
+        })]"
+        />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('main_so_only_products'))]"
+        />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('main_so_only_products'))]"
+        />
+    </function>
+
+    <!-- Repair Order with only services test -->
+    <record id="main_so_only_services" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="fees_lines"
+            model="repair.fee"
+            eval="[(5, 0, 0), (0, 0, {
+            'name': obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('l10n_br_fiscal.customized_development_sale').id,
+            'product_uom_qty': 15.0,
+            'product_uom': obj().env.ref('uom.product_uom_hour').id,
+            'price_unit': 30.75,
+            'company_id': obj().env.ref('base.main_company').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_servico').id,
+            'issqn_fg_city_id': obj().env.ref('l10n_br_base.city_3543402').id,
+        })]"
+        />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('main_so_only_services'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('main_so_only_services'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('main_so_only_services'))]"
+        />
+    </function>
+
+    <!-- Repair Order with product and service test -->
+    <record id="main_so_product_service" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="quotation_notes"
+        >TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="base.main_company" />
+
+        <field
+            name="operations"
+            model="repair.line"
+            eval="[(5, 0, 0), (0, 0, {
+            'location_dest_id': obj().env.ref('product.product_product_27').with_company(obj().env.ref('base.main_company')).property_stock_production.id,
+            'location_id': obj().env['stock.warehouse'].search([('company_id', '=', obj().env.ref('base.main_company').id)]).lot_stock_id.id,
+            'name': obj().env.ref('product.product_product_27').get_product_multiline_description_sale(),
+            'price_unit': 50.0,
+            'product_id': obj().env.ref('product.product_product_27').id,
+            'product_uom': obj().env.ref('uom.product_uom_unit').id,
+            'product_uom_qty': 1.0,
+            'state': 'draft',
+            'type': 'add',
+            'company_id': obj().env.ref('base.main_company').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_venda').id
+        })]"
+        />
+        <field
+            name="fees_lines"
+            model="repair.fee"
+            eval="[(5, 0, 0), (0, 0, {
+            'name': obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('l10n_br_fiscal.customized_development_sale').id,
+            'product_uom_qty': 20.0,
+            'product_uom': obj().env.ref('uom.product_uom_hour').id,
+            'price_unit': 38.25,
+            'company_id': obj().env.ref('base.main_company').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_servico').id,
+            'issqn_fg_city_id': obj().env.ref('l10n_br_base.city_3543402').id,
+        })]"
+        />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('main_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('main_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('main_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('main_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('main_so_product_service'))]"
+        />
+    </function>
+
+    <!-- Empresa Lucro Presumido -->
+    <!-- Repair Order with only products test -->
+    <record id="lc_so_only_products" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="operations"
+            model="repair.line"
+            eval="[(5, 0, 0), (0, 0, {
+            'location_dest_id': obj().env.ref('product.product_product_27').with_company(obj().env.ref('l10n_br_base.empresa_lucro_presumido')).property_stock_production.id,
+            'location_id': obj().env['stock.warehouse'].search([('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)]).lot_stock_id.id,
+            'name': obj().env.ref('product.product_product_27').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('product.product_product_27').id,
+            'product_uom': obj().env.ref('uom.product_uom_unit').id,
+            'product_uom_qty': '2.0',
+            'price_unit': 500.0,
+            'state': 'draft',
+            'type': 'add',
+            'company_id': obj().env.ref('l10n_br_base.empresa_lucro_presumido').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_venda').id
+        })]"
+        />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('lc_so_only_products'))]"
+        />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('lc_so_only_products'))]"
+        />
+    </function>
+
+    <!-- Repair Order with only services test -->
+    <record id="lc_so_only_services" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="fees_lines"
+            model="repair.fee"
+            eval="[(5, 0, 0), (0, 0, {
+            'name': obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('l10n_br_fiscal.customized_development_sale').id,
+            'product_uom_qty': 15.0,
+            'product_uom': obj().env.ref('uom.product_uom_hour').id,
+            'price_unit': 30.75,
+            'company_id': obj().env.ref('l10n_br_base.empresa_lucro_presumido').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_servico').id,
+            'issqn_fg_city_id': obj().env.ref('l10n_br_base.city_3543402').id,
+        })]"
+        />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('lc_so_only_services'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('lc_so_only_services'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('lc_so_only_services'))]"
+        />
+    </function>
+
+    <!-- Repair Order with product and service test -->
+    <record id="lc_so_product_service" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="quotation_notes"
+        >TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+
+        <field
+            name="operations"
+            model="repair.line"
+            eval="[(5, 0, 0), (0, 0, {
+            'location_dest_id': obj().env.ref('product.product_product_27').with_company(obj().env.ref('l10n_br_base.empresa_lucro_presumido')).property_stock_production.id,
+            'location_id': obj().env['stock.warehouse'].search([('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)]).lot_stock_id.id,
+            'name': obj().env.ref('product.product_product_27').get_product_multiline_description_sale(),
+            'price_unit': 50.0,
+            'product_id': obj().env.ref('product.product_product_27').id,
+            'product_uom': obj().env.ref('uom.product_uom_unit').id,
+            'product_uom_qty': 1.0,
+            'state': 'draft',
+            'type': 'add',
+            'company_id': obj().env.ref('l10n_br_base.empresa_lucro_presumido').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_venda').id
+        })]"
+        />
+        <field
+            name="fees_lines"
+            model="repair.fee"
+            eval="[(5, 0, 0), (0, 0, {
+            'name': obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('l10n_br_fiscal.customized_development_sale').id,
+            'product_uom_qty': 20.0,
+            'product_uom': obj().env.ref('uom.product_uom_hour').id,
+            'price_unit': 38.25,
+            'company_id': obj().env.ref('l10n_br_base.empresa_lucro_presumido').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_servico').id,
+            'issqn_fg_city_id': obj().env.ref('l10n_br_base.city_3543402').id,
+        })]"
+        />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('lc_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('lc_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('lc_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('lc_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('lc_so_product_service'))]"
+        />
+    </function>
+
+    <!-- Simples Nacional -->
+    <!-- Repair Order with only products test -->
+    <record id="sn_so_only_products" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field
+            name="operations"
+            model="repair.line"
+            eval="[(5, 0, 0), (0, 0, {
+            'location_dest_id': obj().env.ref('product.product_product_27').with_company(obj().env.ref('l10n_br_base.empresa_simples_nacional')).property_stock_production.id,
+            'location_id': obj().env['stock.warehouse'].search([('company_id', '=', obj().env.ref('l10n_br_base.empresa_simples_nacional').id)]).lot_stock_id.id,
+            'name': obj().env.ref('product.product_product_27').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('product.product_product_27').id,
+            'product_uom': obj().env.ref('uom.product_uom_unit').id,
+            'product_uom_qty': '2.0',
+            'price_unit': 500.0,
+            'state': 'draft',
+            'type': 'add',
+            'company_id': obj().env.ref('l10n_br_base.empresa_simples_nacional').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_venda').id
+        })]"
+        />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('sn_so_only_products'))]"
+        />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('sn_so_only_products'))]"
+        />
+    </function>
+
+    <!-- Repair Order with only services test -->
+    <record id="sn_so_only_services" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field
+            name="fees_lines"
+            model="repair.fee"
+            eval="[(5, 0, 0), (0, 0, {
+            'name': obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('l10n_br_fiscal.customized_development_sale').id,
+            'product_uom_qty': 15.0,
+            'product_uom': obj().env.ref('uom.product_uom_hour').id,
+            'price_unit': 30.75,
+            'company_id': obj().env.ref('l10n_br_base.empresa_simples_nacional').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_servico').id,
+            'issqn_fg_city_id': obj().env.ref('l10n_br_base.city_3543402').id,
+        })]"
+        />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('sn_so_only_services'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('sn_so_only_services'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('sn_so_only_services'))]"
+        />
+    </function>
+
+    <!-- Repair Order with product and service test -->
+    <record id="sn_so_product_service" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="quotation_notes"
+        >TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+
+        <field
+            name="operations"
+            model="repair.line"
+            eval="[(5, 0, 0), (0, 0, {
+            'location_dest_id': obj().env.ref('product.product_product_27').with_company(obj().env.ref('l10n_br_base.empresa_simples_nacional')).property_stock_production.id,
+            'location_id': obj().env['stock.warehouse'].search([('company_id', '=', obj().env.ref('l10n_br_base.empresa_simples_nacional').id)]).lot_stock_id.id,
+            'name': obj().env.ref('product.product_product_27').get_product_multiline_description_sale(),
+            'price_unit': 50.0,
+            'product_id': obj().env.ref('product.product_product_27').id,
+            'product_uom': obj().env.ref('uom.product_uom_unit').id,
+            'product_uom_qty': 1.0,
+            'state': 'draft',
+            'type': 'add',
+            'company_id': obj().env.ref('l10n_br_base.empresa_simples_nacional').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_venda').id
+        })]"
+        />
+        <field
+            name="fees_lines"
+            model="repair.fee"
+            eval="[(5, 0, 0), (0, 0, {
+            'name': obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale(),
+            'product_id': obj().env.ref('l10n_br_fiscal.customized_development_sale').id,
+            'product_uom_qty': 20.0,
+            'product_uom': obj().env.ref('uom.product_uom_hour').id,
+            'price_unit': 38.25,
+            'company_id': obj().env.ref('l10n_br_base.empresa_simples_nacional').id,
+            'fiscal_operation_type': 'out',
+            'fiscal_operation_id': obj().env.ref('l10n_br_fiscal.fo_venda').id,
+            'fiscal_operation_line_id': obj().env.ref('l10n_br_fiscal.fo_venda_servico').id,
+            'issqn_fg_city_id': obj().env.ref('l10n_br_base.city_3543402').id,
+        })]"
+        />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('sn_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.line"
+            search="[('repair_id', '=', ref('sn_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('sn_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('sn_so_product_service'))]"
+        />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value
+            model="repair.fee"
+            search="[('repair_id', '=', ref('sn_so_product_service'))]"
+        />
+    </function>
+
+</odoo>

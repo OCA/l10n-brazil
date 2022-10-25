@@ -142,8 +142,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CNPJ
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice19__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice8__nfe40_cnpj
 msgid "CNPJ"
 msgstr ""
 
@@ -153,10 +155,24 @@ msgid "CNPJ ou CPF?"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice19
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice19
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice19
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice2
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice2
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice2
 msgid "CNPJ/CPF do Parceiro"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice8
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice8
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice8
+msgid "CNPJ/CPF do Parceiro Autorizado"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -178,8 +194,10 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice19__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice8__nfe40_cpf
 msgid "CPF"
 msgstr ""
 
@@ -531,6 +549,13 @@ msgid "Emit"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xEnder
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
+msgid "Endereço completo"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_enderEmit
 msgid "Endereço do emitente"
 msgstr ""
@@ -792,6 +817,21 @@ msgstr ""
 msgid ""
 "Identificação do Local de Retirada (informar apenas quando\n"
 "for diferente do endereço do remetente)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_accountant_download_xml
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_authorize_accountant_download_xml
+msgid ""
+"Include Accountant Partner data in persons authorized to download NFe XML"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_technical_download_xml
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_authorize_technical_download_xml
+msgid ""
+"Include Technical Support Partner data in persons authorized to download NFe"
+" XML"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1076,6 +1116,11 @@ msgid "Moeda"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vDesc
+msgid "Montante de Desconto"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_nbm
 msgid "NBM"
 msgstr ""
@@ -1154,10 +1199,8 @@ msgid "NFe Version"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xFant
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xFant
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xFant
-msgid "Name"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_autXML_infNFe_id
+msgid "Nfe40 Autxml Infnfe"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1171,10 +1214,10 @@ msgid "Nfe40 Nfref Ide"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xEnder
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
-msgid "Nfe40 Xender"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xFant
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xFant
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xFant
+msgid "Nome Fantasia"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1264,7 +1307,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOutro
-msgid "Outras Despesas acessórias"
+msgid "Outros Custos"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1419,6 +1462,11 @@ msgid "The full name of the country."
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_transporta
+msgid "The partner that is doing the delivery service."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_UF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_UF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_UF
@@ -1503,11 +1551,6 @@ msgid "Valor Total da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vDesc
-msgid "Valor Total do Desconto"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFrete
 msgid "Valor Total do Frete"
@@ -1535,6 +1578,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vSeg
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vSeg
 msgid "Valor Total do Seguro"
 msgstr ""
 
@@ -1628,6 +1672,11 @@ msgid "Valor original da fatura"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vOutro
+msgid "Valor outras retenções"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vICMSUFDest
 msgid "Valor total do ICMS de partilha para a UF do destinatário"
 msgstr ""
@@ -1656,8 +1705,22 @@ msgid "Valor unitário de comercialização"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnCom
+msgid ""
+"Valor unitário de comercialização - alterado para aceitar 0 a\n"
+"10 casas decimais e 11 inteiros"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnTrib
 msgid "Valor unitário de tributação"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vUnTrib
+msgid ""
+"Valor unitário de tributação - - alterado para aceitar 0 a 10\n"
+"casas decimais e 11 inteiros"
 msgstr ""
 
 #. module: l10n_br_nfe

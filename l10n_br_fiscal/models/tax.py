@@ -56,10 +56,9 @@ class Tax(models.Model):
     _order = "sequence, tax_domain, name"
     _description = "Fiscal Tax"
 
-    name = fields.Char(string="Name", size=256, required=True)
+    name = fields.Char(size=256, required=True)
 
     sequence = fields.Integer(
-        string="Sequence",
         related="tax_group_id.sequence",
         help="The sequence field is used to define the "
         "order in which taxes are displayed.",
@@ -67,7 +66,6 @@ class Tax(models.Model):
     )
 
     compute_sequence = fields.Integer(
-        string="Compute Sequence",
         related="tax_group_id.compute_sequence",
         help="The sequence field is used to define "
         "order in which the tax lines are applied.",
@@ -80,7 +78,6 @@ class Tax(models.Model):
 
     tax_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
-        string="Tax Base Type",
         default=TAX_BASE_TYPE_PERCENT,
         required=True,
     )
@@ -90,7 +87,6 @@ class Tax(models.Model):
     )
 
     percent_reduction = fields.Float(
-        string="Percent Reduction",
         digits="Fiscal Tax Percent",
         required=True,
     )
@@ -143,7 +139,6 @@ class Tax(models.Model):
     # ICMS Fields
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
-        string="ICMS Base Type",
         required=True,
         default=ICMS_BASE_TYPE_DEFAULT,
     )
@@ -359,7 +354,6 @@ class Tax(models.Model):
             company.state_id != partner.state_id
             and operation_line.fiscal_operation_type == FISCAL_OUT
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
-            and not partner.is_company
             and tax_dict.get("tax_value")
         ):
             tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
@@ -476,20 +470,14 @@ class Tax(models.Model):
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
         # partner = kwargs.get("partner")
         # company = kwargs.get("company")
-        add_to_base = []
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
-        add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
+        tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
 
-        kwargs.update(
-            {
-                "add_to_base": sum(add_to_base),
-                "icmsst_base_type": tax.icmsst_base_type,
-            }
-        )
         if taxes_dict.get(tax.tax_domain):
             taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = tax.icmsst_mva_percent
 
@@ -510,15 +498,13 @@ class Tax(models.Model):
         cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
         icmssn_range = kwargs.get("icmssn_range")
 
-        add_to_base = []
-
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
 
         # Partner not ICMS's Contributor
         if partner.ind_ie_dest == NFE_IND_IE_DEST_9:
             # Add IPI in ICMS Base
-            add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
+            tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
 
         # Partner ICMS's Contributor
         if partner.ind_ie_dest in (NFE_IND_IE_DEST_1, NFE_IND_IE_DEST_2):
@@ -531,12 +517,6 @@ class Tax(models.Model):
 
                 tax_dict["percent_amount"] = icms_sn_percent
                 tax_dict["value_amount"] = icms_sn_percent
-
-        kwargs.update(
-            {
-                "add_to_base": sum(add_to_base),
-            }
-        )
 
         taxes_dict.update(
             self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)

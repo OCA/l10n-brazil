@@ -9,6 +9,7 @@ from collections import namedtuple
 
 from odoo import _
 from odoo.exceptions import UserError
+from odoo.tools import config
 
 DICT_BRCOBRANCA_CNAB_TYPE = {
     "240": "cnab240",
@@ -50,14 +51,19 @@ def get_brcobranca_bank(bank_account_id, payment_method_code):
     if not bank_name_brcobranca or payment_method_code not in cnab_remessa:
         # Lista de bancos não implentados no BRCobranca
         raise UserError(
-            _("The Bank %s CNAB %s is not implemented in BRCobranca.")
-            % (bank_account_id.bank_id.name, payment_method_code)
+            _("The Bank {} CNAB {} is not implemented in BRCobranca.").format(
+                bank_account_id.bank_id.name, payment_method_code
+            )
         )
     return bank_name_brcobranca
 
 
-def get_brcobranca_api_url():
-    brcobranca_api_url = os.environ.get("BRCOBRANCA_API_URL")
+def get_brcobranca_api_url(env):
+    brcobranca_api_url = (
+        os.environ.get("BRCOBRANCA_API_URL")
+        or config.get("brcobranca_api_url")
+        or env["ir.config_parameter"].sudo().get_param("brcobranca_api_url")
+    )
 
     if not brcobranca_api_url:
         raise UserError(

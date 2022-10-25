@@ -15,7 +15,6 @@ class AccountMove(models.Model):
         string="CNAB Return Log",
         comodel_name="l10n_br_cnab.return.log",
         readonly=True,
-        inverse_name="move_id",
     )
 
     # Usado para deixar invisivel o campo
@@ -62,6 +61,9 @@ class AccountMove(models.Model):
     def load_cnab_info(self):
         # Se não possui Modo de Pagto não há nada a ser feito
         if not self.payment_mode_id:
+            return
+        # Se o Modo de Pagto é de saída (pgto fornecedor) não há nada a ser feito.
+        if self.payment_mode_id.payment_type == "outbound":
             return
         # Se não gera Ordem de Pagto não há nada a ser feito
         if not self.payment_mode_id.payment_order_ok:

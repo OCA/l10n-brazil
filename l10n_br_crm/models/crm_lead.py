@@ -23,9 +23,9 @@ class Lead(models.Model):
 
     cnpj = fields.Char(string="CNPJ")
 
-    street_name = fields.Char(string="Street Name")
+    street_name = fields.Char()
 
-    street_number = fields.Char(string="Street Number")
+    street_number = fields.Char()
 
     name_surname = fields.Char(
         string="Name and Surname", help="Name used in fiscal documents"
@@ -131,6 +131,7 @@ class Lead(models.Model):
                 result["rg"] = self.partner_id.rg
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
+        return result
 
     def _prepare_customer_values(self, name, is_company, parent_id=False):
         """Extract data from lead to create a partner.
