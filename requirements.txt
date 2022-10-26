@@ -12,7 +12,7 @@ nfselib.paulistana==0.2.0
 nfelib==1.2.0
 xmldiff==2.4
 lxml==4.6.5
--e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
--e git+https://github.com/erpbrasil/febraban-python.git@v0.7.1#egg=febraban
+openupgradelib
+febraban
 vcrpy
 odoo-test-helper

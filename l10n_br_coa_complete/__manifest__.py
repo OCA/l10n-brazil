@@ -7,7 +7,7 @@
         Plano de Contas Completo para empresas Simples,
         Presumido, Real, SA, Consolidação""",
     "version": "12.0.2.0.0",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "author": "Escodoo, Odoo Community Association (OCA)",
     "maintainers": ["marcelsavegnago"],
     "website": "https://github.com/OCA/l10n-brazil",

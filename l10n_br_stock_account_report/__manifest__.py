@@ -11,7 +11,7 @@
         "l10n_br_stock_account",
     ],
     "website": "https://github.com/OCA/l10n-brazil",
-    "development_status": "Mature",
+    "development_status": "Beta",
     "maintainers": [
         "mbcosta",
     ],

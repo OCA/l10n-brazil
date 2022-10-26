@@ -11,6 +11,7 @@
     "author": "Escodoo,Odoo Community Association (OCA)",
     "maintainers": ["marcelsavegnago"],
     "website": "https://github.com/OCA/l10n-brazil",
+    "development_status": "Alpha",
     "depends": [
         "l10n_br_sale",
         "sale_invoice_plan",
