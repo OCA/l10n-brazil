@@ -299,6 +299,10 @@ odoo.define("l10n_br_pos.models", function (require) {
             json.orderlines = _.filter(json.orderlines, function (line) {
                 return line.price !== 0;
             });
+            // Remove reversed paymentlines
+            json.paymentlines = _.filter(json.paymentlines, function (line) {
+                return line.payment_status !== "reversed";
+            });
             this._prepare_fiscal_json(json);
             return json;
         },
@@ -567,8 +571,9 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     var _super_payment_line = models.Paymentline.prototype;
     models.Paymentline = models.Paymentline.extend({
-        _prepare_fiscal_json: function () {
-            console.log("Verificar dados necessários da payment line");
+        _prepare_fiscal_json: function (json) {
+            // TODO: Verificar dados necessários da payment line
+            json.payment_status = this.payment_status;
         },
         // Export_as_JSON: function () {
         //     var json = _super_payment_line.export_as_JSON.apply(this, arguments);
