@@ -38,7 +38,7 @@ class TestFiscalDocumentNFSeGinfes(TestFiscalDocumentNFSeCommon):
         self.nfse_same_state.rps_number = "50"
         self.nfse_same_state.document_number = "50"
 
-        for line in self.nfse_same_state.line_ids:
+        for line in self.nfse_same_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
