@@ -31,7 +31,7 @@
                 <t
                     t-foreach="receipt.paymentlines"
                     t-as="paymentline"
-                    t-key="paymentline.id"
+                    t-key="paymentline.cid"
                 >
                     <OrderPaymentReceipt
                         paymentline="paymentline"
