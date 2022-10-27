@@ -80,9 +80,9 @@ class Document(models.Model):
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
-        pdf = self.env.ref("l10n_br_nfse.report_br_nfse_danfe")._render_qweb_pdf(
-            self.ids
-        )[0]
+
+        report_id = self.env.ref("l10n_br_nfse.report_br_nfse_danfe")
+        pdf = self.env["ir.actions.report"]._render_qweb_pdf(report_id, self.ids)[0]
 
         if self.document_number:
             filename = "NFS-e-" + self.document_number + ".pdf"
