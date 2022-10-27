@@ -103,10 +103,12 @@ row {
 
              <div class="row bt bb br bl">
                 <div class="col-2">
-                    <img
-                        t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.nfse_city_logo)"
-                        style="max-height:80px; margin-top:4px; margin-left:10px;"
-                    />
+                    <t t-if="doc.company_id.nfse_city_logo">
+                        <img
+                            t-att-src="image_data_uri(doc.company_id.nfse_city_logo)"
+                            style="max-height:80px; margin-top:4px; margin-left:10px;"
+                        />
+                    </t>
                 </div>
                 <div class="col-7 br" style="text-align: center; font-size: 20px;">
                     Prefeitura do Município de <span t-field="doc.company_id.city_id" />
@@ -176,10 +178,12 @@ row {
             </div>
              <div class="row bb br bl">
                 <div class="col-2">
-                    <img
-                        style="max-height: 150px; padding-left: 25px; padding-top: 25px; max-width: 125px;"
-                        t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)"
-                    /><br />
+                    <t t-if="doc.company_id.logo">
+                        <img
+                            style="max-height: 150px; padding-left: 25px; padding-top: 25px; max-width: 125px;"
+                            t-att-src="image_data_uri(doc.company_id.logo)"
+                        /><br />
+                    </t>
                 </div>
                 <div class="col-10">
                     <div class="row">
