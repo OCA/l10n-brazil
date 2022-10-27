@@ -65,9 +65,8 @@ odoo.define("payment_pagseguro.tour", function (require) {
             },
             {
                 content: "click on add to cart",
-                extra_trigger: "label:contains(Steel) input:propChecked",
-                trigger:
-                    '#product_detail form[action^="/shop/cart/update"] .btn-primary',
+                extra_trigger: "input:propChecked",
+                trigger: "#product_detail .a-submit",
             },
             {
                 content: "click in modal on 'Proceed to checkout' button",
