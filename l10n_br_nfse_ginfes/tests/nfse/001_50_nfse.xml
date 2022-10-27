@@ -33,7 +33,7 @@
                             <ValorIss>5</ValorIss>
                             <ValorIssRetido>0</ValorIssRetido>
                             <OutrasRetencoes>0</OutrasRetencoes>
-                            <BaseCalculo>100</BaseCalculo>
+                            <BaseCalculo>0</BaseCalculo>
                             <Aliquota>0.05</Aliquota>
                             <ValorLiquidoNfse>100</ValorLiquidoNfse>
                         </Valores>
