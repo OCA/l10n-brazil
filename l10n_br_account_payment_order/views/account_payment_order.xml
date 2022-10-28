@@ -37,15 +37,6 @@
             </div>
             <field name="bank_line_count" position="after">
                 <field name="payment_method_code" invisible="1" />
-                <!-- campo referente ao lote só existe no 240 -->
-                <field
-                    name="service_type"
-                    attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
-                />
-                <field
-                    name="release_form"
-                    attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
-                />
                 <field
                     name="code_convetion"
                     attrs="{'invisible': [('payment_type', '=', 'outbound')]}"
@@ -53,12 +44,6 @@
                 <field
                     name="code_convenio_lider"
                     attrs="{'invisible': [('payment_type', '=', 'outbound')]}"
-                />
-            </field>
-            <field name="company_id" position="after">
-                <field
-                    name="indicative_form_payment"
-                    attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
                 />
             </field>
             <page name="bank-lines" position="after">
