@@ -3,7 +3,7 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AccountPaymentMode(models.Model):
@@ -13,10 +13,12 @@ class AccountPaymentMode(models.Model):
 
     _inherit = "account.payment.mode"
 
-    cnab_processor = fields.Selection(
-        selection_add=[("oca_processor", "OCA Processor")],
-    )
-
     cnab_structure_id = fields.Many2one("l10n_br_cnab.structure")
 
     cnab_payment_way_id = fields.Many2one("cnab.payment.way")
+
+    @api.model
+    def _selection_cnab_processor(self):
+        selection = super()._selection_cnab_processor()
+        selection.append(("oca_processor", "OCA Processor"))
+        return selection
