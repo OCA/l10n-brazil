@@ -73,7 +73,7 @@
                     </group>
                     <group name="document_header_left">
                       <field name="document_number" force_save="1" />
-                      <field name="authorization_file"/>
+                      <field name="authorization_file" />
                     </group>
                   </group>
             </group>
@@ -86,7 +86,7 @@
                         <group name="cancel_document_header_right">
                           <field name="cancel_document_key" />
                           <field name="cancel_document_session_number" />
-                          <field name="cancel_file"/>
+                          <field name="cancel_file" />
                         </group>
                     </group>
                 </page>
