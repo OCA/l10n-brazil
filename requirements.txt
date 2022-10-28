@@ -9,9 +9,9 @@ nfelib
 num2words
 phonenumbers
 pycep_correios
-vcrpy
 satcomum
 pyyaml
 unidecode
+vcrpy
 workalendar
 xmldiff
