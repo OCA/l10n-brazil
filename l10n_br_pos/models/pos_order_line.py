@@ -24,6 +24,17 @@ class PosOrderLine(models.Model):
         string="Comments",
     )
 
+    quantity = fields.Float(
+        string="Product Uom Quantity",
+        related="qty",
+        depends=["qty"],
+    )
+
+    uom_id = fields.Many2one(
+        related="product_uom_id",
+        depends=["product_uom_id"],
+    )
+
     # @api.multi
     # def _buscar_produtos_devolvidos(self):
     #     for record in self:
