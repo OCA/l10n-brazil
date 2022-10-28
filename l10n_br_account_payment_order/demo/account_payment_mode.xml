@@ -957,4 +957,32 @@
         <field name="post_move">False</field>
     </record>
 
+    <!-- TED Transferência-->
+    <record id="payment_mode_ted" model="account.payment.mode">
+        <field name="name">TED Transferência</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_out"
+        />
+        <field name="bank_account_link">variable</field>
+        <field name="payment_mode_domain">ted</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+    </record>
+    <!-- PIX Transferência -->
+    <record id="payment_mode_pix_transfer" model="account.payment.mode">
+        <field name="name">PIX Transferência</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_out"
+        />
+        <field name="bank_account_link">variable</field>
+        <field name="payment_mode_domain">pix_transfer</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+    </record>
 </odoo>
