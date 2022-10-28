@@ -17,8 +17,14 @@
         "demo/res_users_demo.xml",
     ],
     "data": [
-        "views/assets.xml",
         "views/portal_templates.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "/l10n_br_portal/static/src/js/l10n_br_portal.js",
+            "/l10n_br_portal/static/src/js/l10n_br_portal_tour.js",
+            "/l10n_br_portal/static/lib/cleave/cleave.min.js",
+        ],
+    },
     "auto_install": True,
 }
