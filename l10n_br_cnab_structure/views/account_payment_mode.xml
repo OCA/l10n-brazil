@@ -16,16 +16,24 @@
             ref="l10n_br_account_payment_order.l10n_br_account_payment_mode_form"
         />
         <field name="arch" type="xml">
-            <field name="cnab_processor" position="after">
-                <field
-                    name="cnab_structure_id"
-                    attrs="{'invisible': [('cnab_processor', '!=', 'oca_processor')], 'required': [('cnab_processor', '=', 'oca_processor')]}"
-                />
-                <field
-                    name="cnab_payment_way_id"
-                    attrs="{'invisible': [('cnab_processor', '!=', 'oca_processor')]}"
-                />
-            </field>
+            <group name="main" position="after">
+                <group name="cnab_structure">
+                    <field name="cnab_structure_ok" />
+                      <field
+                        name="cnab_structure_id"
+                        attrs="{'invisible': ['|',('cnab_structure_ok','!=',True),('bank_account_link','=','variable')]}"
+                    />
+                    <field
+                        name="cnab_payment_way_ids"
+                        attrs="{'invisible': [('cnab_structure_ok','!=',True)]}"
+                    >
+                        <tree>
+                            <field name="name" />
+                            <field name="cnab_structure_id" />
+                        </tree>
+                    </field>
+                </group>
+            </group>
         </field>
     </record>
 </odoo>
