@@ -22,6 +22,16 @@
                     <field name="interest_value" readonly="1" />
                     <field name="fee_value" readonly="1" />
                     <field name="favored_warning" readonly="1" />
+                    <field name="payment_mode_domain" readonly="1" />
+                    <field name="service_type" readonly="1" />
+                </group>
+                <group
+                    name="pix"
+                    string="PIX"
+                    attrs="{'invisible': [('payment_mode_domain', '!=', 'pix_transfer')]}"
+                >
+                    <field name="partner_pix_id" readonly="1" />
+                    <field name="pix_transfer_type" readonly="1" />
                 </group>
                 <xpath expr="//group[@name='payment-lines'" position="after">
                     <group
