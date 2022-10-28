@@ -86,7 +86,6 @@ class CNABField(models.Model):
         comodel_name="ir.model", related="cnab_line_id.content_source_model_id"
     )
     content_source_field = fields.Char(
-        string="Content Source Field",
         help="Inform the field with the origin of the content, expressed with dot notation.",
         readonly=True,
         states={"draft": [("readonly", False)]},

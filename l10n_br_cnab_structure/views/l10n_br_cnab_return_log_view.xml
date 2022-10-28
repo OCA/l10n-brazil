@@ -11,7 +11,7 @@
         <field name="name">l10n_br_cnab.return.log.tree</field>
         <field name="model">l10n_br_cnab.return.log</field>
         <field name="arch" type="xml">
-            <tree string="CNAB Return Log" import="false" create="false">
+            <tree import="false" create="false">
                 <field name="name" />
                 <field name="filename" />
                 <field name="sequential_file" />
@@ -67,7 +67,6 @@
                         <page name="log_tab" string="Events">
                             <field name="event_ids" readonly="1">
                                 <tree
-                                    string="CNAB Return Events"
                                     decoration-danger="state=='error'"
                                     decoration-primary="state=='ready'"
                                     decoration-muted="state=='ignored'"
