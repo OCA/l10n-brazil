@@ -29,6 +29,7 @@ class BankPaymentLine(models.Model):
 
     cnab_payment_way_id = fields.Many2one(
         comodel_name="cnab.payment.way",
+        compute="_compute_cnab_payment_way_id",
     )
 
     batch_template_id = fields.Many2one(
@@ -49,7 +50,7 @@ class BankPaymentLine(models.Model):
     @api.depends("pix_transfer_type")
     def _compute_cnab_pix_transfer_type_id(self):
         for bline in self:
-            if bline.payment_way_domain == "pix_transfer":
+            if bline.payment_mode_domain == "pix_transfer":
                 cnab_pix_transfer_type = self.env["cnab.pix.transfer.type"].search(
                     [
                         ("cnab_structure_id", "=", bline.order_id.cnab_structure_id.id),
@@ -66,3 +67,20 @@ class BankPaymentLine(models.Model):
             if not bline.cnab_payment_way_id.batch_id:
                 raise UserError(_("Mapping for batch template not found"))
             bline.batch_template_id = bline.cnab_payment_way_id.batch_id
+
+    def _compute_cnab_payment_way_id(self):
+        for bline in self:
+            mode = bline.order_id.payment_mode_id
+            cnab_structure = bline.order_id.cnab_structure_id
+            result = mode.cnab_payment_way_ids.filtered(
+                lambda a: a.cnab_structure_id == cnab_structure
+            )
+            if not result:
+                raise UserError(
+                    _(
+                        "Cnab payment way not found. \n"
+                        f"Payment Mode: {mode.name} \n"
+                        f"CNAB Structure: {cnab_structure.name}"
+                    )
+                )
+            bline.cnab_payment_way_id = result[0]
