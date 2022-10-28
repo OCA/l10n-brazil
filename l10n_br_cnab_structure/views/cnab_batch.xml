@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="cnab_batch_tree_view">
+        <field name="model">l10n_br_cnab.batch</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="state" invisible="True" />
+                <field name="name" />
+                <field name="cnab_structure_id" />
+            </tree>
+        </field>
+    </record>
+
+
+
+    <record model="ir.ui.view" id="cnab_batch_form_view">
+        <field name="model">l10n_br_cnab.batch</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                        <group>
+                            <field name="cnab_structure_id" />
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="lines" string="Lines">
+                            <field
+                                name="line_ids"
+                                mode='tree'
+                                widget='one2many'
+                                context="{'default_batch_id': id,'default_cnab_structure_id': cnab_structure_id}"
+                            >
+                                <tree default_order="sequence">
+                                    <field name="state" invisible="True" />
+                                    <field name="sequence" widget="handle" />
+                                    <field name="type" />
+                                    <field name="name" />
+                                    <field name="cnab_structure_id" invisible="1" />
+                                    <field name="batch_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="pay_ways" string="Payments Ways">
+                            <field
+                                name="cnab_payment_way_ids"
+                                widget="many2many"
+                                options="{'no_create': True}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cnab_batch">
+        <field name="name">CNAB Batches</field>
+        <field name="res_model">l10n_br_cnab.batch</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
