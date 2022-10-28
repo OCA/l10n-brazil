@@ -20,7 +20,7 @@ class L10nBrCNABReturnLog(models.Model):
         related="journal_id.default_account_id",
         readonly=True,
     )
-    return_file = fields.Binary("Return File")
+    return_file = fields.Binary()
     bank_acc_number = fields.Char(
         compute="_compute_bank_acc_number",
         inverse="_inverse_bank_acc_number",
@@ -34,7 +34,6 @@ class L10nBrCNABReturnLog(models.Model):
             ("inbound", "Inbound Payment"),
             ("outbound", "Outbound Payment"),
         ],
-        string="Type",
     )
     header_file = fields.Char()
     cnpj_cpf = fields.Char()
