@@ -60,7 +60,6 @@ class PosOrder(models.Model):
     # Fiscal document fields
 
     document_number = fields.Char(
-        string="Document Number",
         copy=False,
         index=True,
         readonly=True,
@@ -101,7 +100,6 @@ class PosOrder(models.Model):
     )
 
     operation_name = fields.Char(
-        string="Operation Name",
         copy=False,
     )
 
@@ -158,47 +156,38 @@ class PosOrder(models.Model):
     )
 
     status_code = fields.Char(
-        string="Status Code",
         copy=False,
     )
 
     status_name = fields.Char(
-        string="Status Name",
         copy=False,
     )
 
     status_description = fields.Char(
-        string="Status Name",
         copy=False,
     )
 
     authorization_date = fields.Datetime(
-        string="Authorization Date",
         copy=False,
     )
 
     authorization_protocol = fields.Char(
-        string="Authorization Protocol",
         readonly=True,
     )
 
     authorization_file = fields.Binary(
-        string="Authorization File",
         readonly=True,
     )
 
     cancel_date = fields.Datetime(
-        string="Cancel Date",
         copy=False,
     )
 
     cancel_protocol = fields.Char(
-        string="Cancel Protocol",
         readonly=True,
     )
 
     cancel_file = fields.Binary(
-        string="Cancel File",
         readonly=True,
     )
 
