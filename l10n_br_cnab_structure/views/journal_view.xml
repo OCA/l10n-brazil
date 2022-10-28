@@ -18,6 +18,18 @@
                 </group>
             </xpath>
             <xpath expr="//page[@name='journal_entries']" position="after">
+                <page name="cnab_configuration" string="CNAB Configuration">
+                        <group name="outbound" string="Outgoing Payments">
+                            <div
+                            class="text-muted"
+                            colspan="2"
+                        >Default setting when used in payment order, when not informed in payment mode.</div>
+                            <field name="default_outbound_cnab_processor" />
+                            <field name="default_outbound_cnab_structure_id" />
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='journal_entries']" position="after">
                 <page
                     name="cnab_accounts"
                     string="CNAB Accounts"
