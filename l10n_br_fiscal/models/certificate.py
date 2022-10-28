@@ -112,7 +112,9 @@ class Certificate(models.Model):
                     c.type and c.type.upper() or "",
                     c.subtype and c.subtype.upper() or "",
                     c.owner_name or "",
-                    format_date(self.env, c.date_expiration.date()),
+                    format_date(self.env, c.date_expiration.date())
+                    if c.date_expiration
+                    else "",
                 )
                 c.file_name = c.name + ".p12"
             else:
