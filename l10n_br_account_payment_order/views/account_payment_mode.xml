@@ -15,9 +15,10 @@
                 <field name="auto_create_payment_order" />
             </field>
             <field name="payment_type" position="after">
+                <field name="payment_mode_domain" />
                 <field
                     name="cnab_processor"
-                    attrs="{'invisible': [('payment_method_code', 'not in', ('240', '400', '500'))], 'required': [('payment_method_code', 'in', ('240', '400', '500'))]}"
+                    attrs="{'invisible': [('cnab_processor','=',False),('payment_method_code', 'not in', ('240', '400', '500'))], 'required': [('payment_method_code', 'in', ('240', '400', '500'))]}"
                 />
             </field>
             <xpath expr="//form/sheet/group[@name='note']" position="before">
