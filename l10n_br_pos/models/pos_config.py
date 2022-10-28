@@ -70,14 +70,12 @@ class PosConfig(models.Model):
     )
 
     anonymous_simplified_limit = fields.Float(
-        string="Anonymous simplified limit",
         digits="Account",
         help="Over this amount is not legally posible to create a Anonymous NFC-E / CF-e",
         default=10000,
     )
 
     simplified_invoice_limit = fields.Float(
-        string="Simplified invoice limit",
         digits="Account",
         help="Over this amount is not legally posible to create a simplified invoice",
         default=200000,
@@ -147,7 +145,6 @@ class PosConfig(models.Model):
 
     impressora = fields.Selection(
         selection=PRINTER,
-        string="Impressora",
     )
 
     fiscal_printer_type = fields.Selection(
