@@ -164,6 +164,7 @@ class PosOrder(models.Model):
     )
 
     status_description = fields.Char(
+        string="Status Name",
         copy=False,
     )
 
@@ -254,7 +255,7 @@ class PosOrder(models.Model):
 
     @api.depends("lines")
     def _compute_amount(self):
-        super()._compute_amount()
+        return super()._compute_amount()
 
     @api.depends("lines.price_subtotal_incl")
     def _amount_all(self):
