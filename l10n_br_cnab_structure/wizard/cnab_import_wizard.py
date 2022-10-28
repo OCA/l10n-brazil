@@ -23,14 +23,13 @@ class CNABImportWizard(models.TransientModel):
         related="journal_id.default_account_id",
         readonly=True,
     )
-    return_file = fields.Binary("Return File")
+    return_file = fields.Binary()
     filename = fields.Char()
     type = fields.Selection(
         [
             ("inbound", "Inbound Payment"),
             ("outbound", "Outbound Payment"),
         ],
-        string="Type",
     )
 
     bank_id = fields.Many2one(comodel_name="res.bank", related="journal_id.bank_id")
