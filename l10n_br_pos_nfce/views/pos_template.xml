@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
         <template
-            id="pos_l10n_br_assets_backend"
-            name="pos_l10n_br_assets_backend"
-            inherit_id="point_of_sale.assets"
-        >
+        id="pos_l10n_br_assets_backend"
+        name="pos_l10n_br_assets_backend"
+        inherit_id="point_of_sale.assets"
+    >
             <xpath expr="." position="inside">
                 <script
-                    src="/l10n_br_pos_nfce/static/src/js/chrome.js"
-                    type="text/javascript"
-                />
+                src="/l10n_br_pos_nfce/static/src/js/chrome.js"
+                type="text/javascript"
+            />
                 <script
-                    src="/l10n_br_pos_nfce/static/src/js/devices.js"
-                    type="text/javascript"
-                />
+                src="/l10n_br_pos_nfce/static/src/js/devices.js"
+                type="text/javascript"
+            />
                 <script
-                    src="/l10n_br_pos_nfce/static/src/js/db.js"
-                    type="text/javascript"
-                />
+                src="/l10n_br_pos_nfce/static/src/js/db.js"
+                type="text/javascript"
+            />
                 <script
-                    src="/l10n_br_pos_nfce/static/src/js/models.js"
-                    type="text/javascript"
-                />
+                src="/l10n_br_pos_nfce/static/src/js/models.js"
+                type="text/javascript"
+            />
                 <script
-                    src="/l10n_br_pos_nfce/static/src/js/screens.js"
-                    type="text/javascript"
-                />
+                src="/l10n_br_pos_nfce/static/src/js/screens.js"
+                type="text/javascript"
+            />
             </xpath>
         </template>
-    </data>
 </odoo>
