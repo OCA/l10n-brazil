@@ -15,7 +15,15 @@ class AccountPaymentMode(models.Model):
 
     cnab_structure_id = fields.Many2one("l10n_br_cnab.structure")
 
-    cnab_payment_way_id = fields.Many2one("cnab.payment.way")
+    cnab_payment_way_ids = fields.Many2many(
+        comodel_name="cnab.payment.way",
+        relation="payment_mode_cnab_payment_way_rel",
+        string="CNAB Payment Ways",
+    )
+
+    cnab_structure_ok = fields.Boolean(
+        string="Allowed in CNAB (OCA Processor)", default=False
+    )
 
     @api.model
     def _selection_cnab_processor(self):

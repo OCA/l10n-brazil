@@ -24,8 +24,11 @@
             eval="[(6,0,[ref('payment_mode_type_cnab240_out')])]"
         />
         <field name="used_to_import_cnab">True</field>
-
-
+        <field name="default_outbound_cnab_processor">oca_processor</field>
+        <field
+            name="default_outbound_cnab_structure_id"
+            ref="l10n_br_cnab_structure.cnab_itau_240"
+        />
         <field
             name="inbound_interest_fee_account_id"
             ref="l10n_br_account_payment_order.1_account_template_31202_avoid_travis_error"
