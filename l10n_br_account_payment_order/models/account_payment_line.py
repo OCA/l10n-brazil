@@ -2,18 +2,27 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from ..constants import (
     AVISO_FAVORECIDO,
     CODIGO_FINALIDADE_TED,
     COMPLEMENTO_TIPO_SERVICO,
     TIPO_MOVIMENTO,
+    TIPO_SERVICO,
 )
 
 
 class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
+
+    PIX_TRANSFER_TYPES = [
+        ("checking", _("Checking Account (Conta Corrente)")),
+        ("saving", _("Saving Account (Conta Poupança)")),
+        ("payment", _("Prepaid Payment Account (Conta Pagamento)")),
+        ("pix_key", _("Instant Payment Key (Chave Pix)")),
+    ]
 
     digitable_line = fields.Char(
         string="Linha Digitável",
@@ -54,6 +63,24 @@ class AccountPaymentLine(models.Model):
         help="Campo P011 do CNAB",
     )
 
+    partner_pix_id = fields.Many2one(
+        string="Pix Key",
+        comodel_name="res.partner.pix",
+    )
+
+    pix_transfer_type = fields.Selection(
+        selection=PIX_TRANSFER_TYPES,
+        help="Pix transfer type identification",
+        compute="_compute_pix_transfer_type",
+    )
+
+    service_type = fields.Selection(
+        selection=TIPO_SERVICO,
+        string="Tipo de Serviço",
+        help="Campo G025 do CNAB",
+        default="30",
+    )
+
     complementary_finality_code = fields.Char(
         string="Código de finalidade complementar",
         size=2,
@@ -90,6 +117,10 @@ class AccountPaymentLine(models.Model):
     payment_mode_id = fields.Many2one(
         comodel_name="account.payment.mode",
         related="order_id.payment_mode_id",
+    )
+
+    payment_mode_domain = fields.Selection(
+        related="payment_mode_id.payment_mode_domain",
     )
 
     # Campo não usado no BRCobranca
@@ -172,3 +203,46 @@ class AccountPaymentLine(models.Model):
             res.update({"favored_warning": mode.favored_warning})
 
         return res
+
+    def draft2open_payment_line_check(self):
+        """
+        Override to add brazilian validations
+        """
+        res = super(AccountPaymentLine, self).draft2open_payment_line_check()
+        self._check_pix_transfer_type()
+        return res
+
+    @api.onchange("partner_id")
+    def partner_id_change(self):
+        res = super(AccountPaymentLine, self).partner_id_change()
+        partner_pix = False
+        if self.partner_id.pix_key_ids:
+            partner_pix = self.partner_id.pix_key_ids[0]
+        self.partner_pix_id = partner_pix
+        return res
+
+    def _compute_pix_transfer_type(self):
+        for line in self:
+            line.pix_transfer_type = False
+            if line.payment_mode_domain != "pix_transfer":
+                return
+            if line.partner_pix_id:
+                line.pix_transfer_type = "pix_key"
+            elif line.partner_bank_id:
+                acc_type = line.partner_bank_id.transactional_acc_type
+                line.pix_transfer_type = acc_type
+
+    def _check_pix_transfer_type(self):
+        for rec in self:
+            if (
+                rec.payment_mode_domain == "pix_transfer"
+                and not rec.partner_pix_id
+                and not rec.partner_bank_id.transactional_acc_type
+            ):
+                raise UserError(
+                    _(
+                        "When the payment method is pix transfer, a pix key must be "
+                        "informed, or the bank account with the type of account.\n"
+                        f"Payment Line: {rec.name}"
+                    )
+                )
