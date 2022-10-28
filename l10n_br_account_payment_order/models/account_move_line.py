@@ -6,7 +6,12 @@
 
 from odoo import api, fields, models
 
-from ..constants import BR_CODES_PAYMENT_ORDER, ESTADOS_CNAB, SITUACAO_PAGAMENTO
+from ..constants import (
+    BR_CODES_PAYMENT_ORDER,
+    ESTADOS_CNAB,
+    PAGAMENTO_FORNECEDOR,
+    SITUACAO_PAGAMENTO,
+)
 
 
 class AccountMoveLine(models.Model):
@@ -124,8 +129,15 @@ class AccountMoveLine(models.Model):
             else:
                 record.journal_entry_ref = "*" + str(record.move_id.id)
 
+    def _get_default_service_type(self):
+        if self.move_id.move_type == "in_invoice":
+            return PAGAMENTO_FORNECEDOR
+
     def _prepare_payment_line_vals(self, payment_order):
         vals = super()._prepare_payment_line_vals(payment_order)
+        # PIX pode ser necessário tanto para integragração via CNAB quanto API.
+        if self.partner_id.pix_key_ids:
+            vals["partner_pix_id"] = self.partner_id.pix_key_ids[0].id
         # Preenchendo apenas nos casos CNAB
         if self.payment_mode_id.payment_method_code in BR_CODES_PAYMENT_ORDER:
             vals.update(
@@ -143,6 +155,7 @@ class AccountMoveLine(models.Model):
                     #  modulo account_payment_order na v14
                     "ml_maturity_date": self.date_maturity,
                     "move_id": self.move_id.id,
+                    "service_type": self._get_default_service_type(),
                 }
             )
 

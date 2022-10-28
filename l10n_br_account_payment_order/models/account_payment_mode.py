@@ -20,6 +20,19 @@ class AccountPaymentMode(models.Model):
         "mail.thread",
     ]
 
+    PAYMENT_MODE_DOMAIN = [
+        ("dinheiro", _("Dinheiro")),
+        ("cheque", _("Cheque")),
+        ("pix_transfer", _("PIX Transfer")),
+        ("ted", _("TED")),
+        ("doc", _("DOC")),
+        ("boleto", _("Boleto")),
+    ]
+
+    payment_mode_domain = fields.Selection(
+        selection=PAYMENT_MODE_DOMAIN,
+    )
+
     auto_create_payment_order = fields.Boolean(
         string="Adicionar automaticamente ao validar a fatura",
         help="Cria a ordem de pagamento automaticamente ao confirmar a fatura",
@@ -56,7 +69,14 @@ class AccountPaymentMode(models.Model):
         related="fixed_journal_id.company_id.own_number_type",
     )
 
-    cnab_processor = fields.Selection(selection=[("none", "None")], default="none")
+    cnab_processor = fields.Selection(
+        selection="_selection_cnab_processor",
+    )
+
+    @api.model
+    def _selection_cnab_processor(self):
+        # Method to be extended by modules that implement CNAB processors.
+        return []
 
     # Codigos de Retorno do Movimento
 
