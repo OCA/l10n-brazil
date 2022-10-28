@@ -67,3 +67,16 @@ class AccountJournal(models.Model):
         tracking=True,
         check_company=True,
     )
+
+    default_outbound_cnab_processor = fields.Selection(
+        selection=[("oca_processor", "OCA Processor")],
+        string="CNAB Processor",
+        help="CNAB Processor to be used in a payment order"
+        " when it is not defined in the payment mode",
+    )
+    default_outbound_cnab_structure_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.structure",
+        string="CNAB Structure",
+        help="CNAB Structure to be used in a payment order "
+        "when it is not defined in the payment mode.",
+    )
