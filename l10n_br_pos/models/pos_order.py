@@ -252,10 +252,6 @@ class PosOrder(models.Model):
         """Get object lines instaces used to compute fields"""
         return self.mapped("lines")
 
-    @api.depends("lines")
-    def _compute_amount(self):
-        super()._compute_amount()
-
     @api.depends("lines.price_subtotal_incl")
     def _amount_all(self):
         """Compute the total amounts of the SO."""
@@ -556,6 +552,7 @@ class PosOrder(models.Model):
         ).refund()
 
     def _compute_amount(self):
-        super(PosOrder, self)._compute_amount()
+        result = super(PosOrder, self)._compute_amount()
         for order in self:
             order._onchange_amount_all()
+        return result
