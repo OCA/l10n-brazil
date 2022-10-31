@@ -13,7 +13,6 @@ class L10nBrCNABReturnLog(models.Model):
 
     journal_id = fields.Many2one(
         comodel_name="account.journal",
-        required=True,
     )
     bank_account_cnab_id = fields.Many2one(
         comodel_name="account.account",
