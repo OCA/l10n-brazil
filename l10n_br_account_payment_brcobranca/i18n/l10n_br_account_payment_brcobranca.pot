@@ -19,11 +19,6 @@ msgid "Automatic Reconcile payment returns"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_payment_mode__cnab_processor__brcobranca
-msgid "BRCobrança"
-msgstr ""
-
-#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_bank_payment_line
 msgid "Bank Payment Lines"
 msgstr ""
@@ -55,11 +50,6 @@ msgstr ""
 msgid ""
 "Choose here the method by which you want to import account moves for this "
 "journal."
-msgstr ""
-
-#. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__cnab_processor
-msgid "Cnab Processor"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
