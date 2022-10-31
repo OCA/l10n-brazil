@@ -40,7 +40,10 @@
     <record id="payment_mode_sispag_ted" model="account.payment.mode">
         <field name="name">TED - SISPAG Itaú </field>
         <field name="company_id" ref="base.main_company" />
-        <field name="payment_method_id" ref="payment_mode_type_cnab240_out" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
         <field name="bank_account_link">fixed</field>
         <field
             name="fixed_journal_id"
@@ -61,7 +64,10 @@
     <record id="payment_mode_sispag_pix_trasfer" model="account.payment.mode">
         <field name="name">PIX Transferência - SISPAG Itaú</field>
         <field name="company_id" ref="base.main_company" />
-        <field name="payment_method_id" ref="payment_mode_type_cnab240_out" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
         <field name="bank_account_link">fixed</field>
         <field
             name="fixed_journal_id"

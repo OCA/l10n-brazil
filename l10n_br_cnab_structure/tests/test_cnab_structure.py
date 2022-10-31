@@ -49,7 +49,7 @@ class TestCNABStructure(AccountTestInvoicingCommon):
             }
         )
         cls.outbound_payment_method = cls.env.ref(
-            "l10n_br_cnab_structure.payment_mode_type_cnab240_out"
+            "l10n_br_account_payment_order.payment_mode_type_cnab240_out"
         )
         cls.pix_mode = cls.payment_mode_model.create(
             {
