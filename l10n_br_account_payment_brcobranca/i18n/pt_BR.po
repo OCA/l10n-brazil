@@ -22,11 +22,6 @@ msgid "Automatic Reconcile payment returns"
 msgstr "Reconciliar automaticamente as devoluções de pagamento"
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_payment_mode__cnab_processor__brcobranca
-msgid "BRCobrança"
-msgstr ""
-
-#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_bank_payment_line
 msgid "Bank Payment Lines"
 msgstr "Linhas de Pagamento Bancário"
@@ -61,11 +56,6 @@ msgid ""
 msgstr ""
 "Escolha aqui o método pelo qual você deseja importar lançamentos de diário "
 "para este diário."
-
-#. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__cnab_processor
-msgid "Cnab Processor"
-msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_bank_statement_line__payment_method_code
