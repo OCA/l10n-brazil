@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2022-09-16 22:07+0000\n"
+"PO-Revision-Date: 2022-10-31 20:43+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -15,20 +15,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "A Checking Account or Saving Account transactional account must contain the "
 "branch number and the account verification digit."
 msgstr ""
+"Uma conta corrente ou conta poupança precisa conter o número da agência e o "
+"dígito verificador de conta."
 
 #. module: l10n_br_base
 #: model:ir.model.constraint,message:l10n_br_base.constraint_res_partner_pix_partner_pix_key_unique
 msgid "A Pix Key with this values already exists in this partner."
-msgstr ""
+msgstr "Uma Chave PIX com esses valores já existe em outro parceiro."
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__anp_code
@@ -161,7 +163,7 @@ msgstr "Número da Conta"
 #: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__transactional_acc_type
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__transactional_acc_type
 msgid "Account Type"
-msgstr ""
+msgstr "Tipo de Conta"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4300034
