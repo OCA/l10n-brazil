@@ -30,12 +30,8 @@ class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
                 "key": "+50372424737",
             }
         )
-        cls.outbound_payment_method = cls.env["account.payment.method"].create(
-            {
-                "name": "cnab 240 outbound",
-                "code": "240",
-                "payment_type": "outbound",
-            }
+        cls.outbound_payment_method = cls.env.ref(
+            "l10n_br_account_payment_order.payment_mode_type_cnab240_out"
         )
         cls.pix_mode = cls.payment_mode_model.create(
             {
