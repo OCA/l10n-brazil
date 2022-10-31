@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-09-16 22:07+0000\n"
+"PO-Revision-Date: 2022-10-31 20:43+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_br_fiscal
 #: model:mail.template,subject:l10n_br_fiscal.fiscal_document_change_state_template
@@ -8560,7 +8560,7 @@ msgstr "Domínio Tributário"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__tax_framework
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "Tax Framework"
-msgstr "Tax Framework"
+msgstr "Estrutura Tributária"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_group_action
