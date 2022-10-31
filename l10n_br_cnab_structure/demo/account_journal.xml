@@ -6,22 +6,11 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo noupdate="1">
-
-
-    <!-- account.payment.method -->
-    <!-- CNAB 240 Outbund -->
-    <record id="payment_mode_type_cnab240_out" model="account.payment.method">
-        <field name="code">240</field>
-        <field name="name">Cnab240</field>
-        <field name="active">True</field>
-        <field name="bank_account_required">False</field>
-        <field name="payment_type">outbound</field>
-    </record>
     <!-- Diario Itau -->
     <record id="l10n_br_account_payment_order.itau_journal" model="account.journal">
         <field
             name="outbound_payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240_out')])]"
+            eval="[(6,0,[ref('l10n_br_account_payment_order.payment_mode_type_cnab240_out')])]"
         />
         <field name="used_to_import_cnab">True</field>
         <field name="default_outbound_cnab_processor">oca_processor</field>
