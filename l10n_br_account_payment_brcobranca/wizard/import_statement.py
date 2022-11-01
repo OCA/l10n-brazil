@@ -18,9 +18,9 @@ class CreditPartnerStatementImporter(models.TransientModel):
             result = journal.with_context(
                 file_name=importer.file_name
             ).multi_move_import(importer.input_statement, ftype.replace(".", ""))
-            if len(result) > 1 or hasattr(result, "journal_id"):
+            if len(result) > 1 or result._name == "account.move":
                 moves |= result
-            if hasattr(result, "filename"):
+            if result._name == "l10n_br_cnab.return.log":
                 cnab_logs |= result
 
         if moves:
