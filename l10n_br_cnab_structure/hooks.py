@@ -9,7 +9,6 @@ def post_init_hook(cr, registry):
     """Import XML data to change core data"""
 
     files = [
-        "data/payment_method.xml",
         "data/l10n_br_cnab.structure.csv",
         "data/l10n_br_cnab.batch.csv",
         "data/cnab.payment.way.csv",
