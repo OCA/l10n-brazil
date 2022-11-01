@@ -48,9 +48,9 @@ class AccountJournal(models.Model):
                 ftype=ftype,
             )
 
-            if len(result) > 1 or hasattr(result, "journal_id"):
+            if len(result) > 1 or result._name == "account.move":
                 res_move |= result
-            if hasattr(result, "filename"):
+            if result._name == "l10n_br_cnab.return.log":
                 res_cnab_log |= result
         if res_move:
             return res_move
