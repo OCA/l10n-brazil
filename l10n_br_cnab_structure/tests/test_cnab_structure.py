@@ -2,10 +2,18 @@
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+
+import base64
+
 from odoo import fields
 from odoo.tests.common import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
+
+# Help function
+def replace_chars(string, index, replacement):
+    return string[:index] + replacement + string[index + len(replacement) :]
 
 
 @tagged("post_install", "-at_install")
@@ -15,6 +23,7 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.company_data["company"]
+        cls.company.update({"cnpj_cpf": "82688625000152"})
         cls.env.user.company_id = cls.company.id
         cls.res_partner_bank_model = cls.env["res.partner.bank"]
         cls.payment_mode_model = cls.env["account.payment.mode"]
@@ -23,6 +32,9 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         cls.attachment_model = cls.env["ir.attachment"]
         cls.res_partner_pix_model = cls.env["res.partner.pix"]
         cls.bank_341 = cls.env.ref("l10n_br_base.res_bank_341")
+        cls.import_wizard_obj = cls.env["cnab.import.wizard"]
+        cls.cnab_log_obj = cls.env["l10n_br_cnab.return.log"]
+        cls.partner_a.update({"cnpj_cpf": "45823449000198"})
         cls.res_partner_pix_model.create(
             {
                 "partner_id": cls.partner_a.id,
@@ -107,7 +119,7 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         ]
         cls.payment_order_model.search(cls.domain).unlink()
 
-    def test_file_generete(self):
+    def test_file_generete_and_return(self):
         # Open invoice
         self.invoice.action_post()
         # Add to payment order using the wizard
@@ -119,5 +131,26 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         # Open payment order
         payment_order.draft2open()
         action = payment_order.open2generated()
-        attachment = self.attachment_model.browse(action["res_id"])
-        self.assertIsNotNone(attachment)
+        delivery_cnab_file = self.attachment_model.browse(action["res_id"])
+        self.assertIsNotNone(delivery_cnab_file)
+
+        cnab_data = base64.b64decode(delivery_cnab_file.datas).decode()
+        lines = cnab_data.splitlines()
+        lines[2] = replace_chars(lines[2], 154, "10112022")
+        lines[2] = replace_chars(lines[2], 172, "300")
+        return_data = "\r\n".join(lines).encode()
+
+        self.wizard = self.import_wizard_obj.create(
+            {
+                "journal_id": self.bank_journal_itau.id,
+                "return_file": base64.b64encode(return_data),
+                "filename": "TEST.RET",
+                "type": "outbound",
+                "cnab_structure_id": self.env.ref(
+                    "l10n_br_cnab_structure.cnab_itau_240"
+                ).id,
+            }
+        )
+        action = self.wizard.import_cnab()
+        cnab_log = self.cnab_log_obj.browse(action["res_id"])
+        self.assertIsNotNone(cnab_log)
