@@ -129,7 +129,8 @@ class CNABImportWizard(models.TransientModel):
         file = base64.b64decode(self.return_file)
         string = StringIO(file.decode("utf-8"))
         lines = string.readlines()
-        lines = [line.replace("\r\n", "") for line in lines]
+        # Remove special character at the end of the line.
+        lines = [line.replace("\r", "").replace("\n", "") for line in lines]
         return lines
 
     def _check_bank(self, line):
