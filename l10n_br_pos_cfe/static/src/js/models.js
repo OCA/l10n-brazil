@@ -12,6 +12,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
 
     const SITUACAO_EDOC_REJEITADA = "rejeitada";
     const SITUACAO_EDOC_AUTORIZADA = "autorizada";
+    const SITUACAO_EDOC_CANCELADA = "cancelada";
 
     var models = require("point_of_sale.models");
     const {Gui} = require("point_of_sale.Gui");
@@ -168,19 +169,44 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             // this.fiscal_coupon_date = json_result.timeStamp.replace("T", " ");
         },
         _document_cancel_check_result: async function (result) {
-            if (this.backendId === result.response.order_id) {
-                this.cancel_file = result.response.xml;
-                this.cancel_protocol_number = result.response.numeroSessao;
-                this.cancel_document_key = result.response.chave_cfe;
-                // FIXME: cancel_date
-                // this.cancel_date =
+            if (!this.document_type === "59") {
+                return _super_order._document_cancel_check_result.apply(
+                    this,
+                    arguments
+                );
+            }
+            if (result?.successful && this.backendId === result.response.order_id) {
+                this._set_cfe_cancel_response(result);
+
+                return result;
             } else {
                 Gui.showPopup("ErrorTracebackPopup", {
                     title: this.pos.env._t("Falha ao cancelar o CF-E"),
                     body: result.response,
                 });
             }
-            return _super_order._document_cancel_check_result.apply(this, arguments);
+            return false;
+        },
+        _set_cfe_cancel_response: function (result) {
+            const XmlDecoded = this.decode_cancel_xml(result.response.xml);
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(XmlDecoded, "application/xml");
+            let hEmi = doc.querySelector("ide>hEmi").innerHTML;
+            let dEmi = doc.querySelector("ide>dEmi").innerHTML;
+            let cancel_date = `${dEmi.substring(0, 4)}-${dEmi.substring(
+                4,
+                6
+            )}-${dEmi.substring(6, 8)}T${hEmi.substring(0, 2)}:${hEmi.substring(
+                2,
+                4
+            )}:${hEmi.substring(4, 6)}`;
+            this.cancel_date = cancel_date;
+            this.cancel_file = result.response.xml;
+            this.cancel_protocol_number = result.response.numSessao;
+            this.cancel_document_key = result.response.chave_cfe;
+            this.cancel_qrcode_signature =
+                doc.querySelector("assinaturaQRCODE").innerHTML;
+            this.state_edoc = SITUACAO_EDOC_CANCELADA;
         },
         set_document_key: function (document_key) {
             this.document_key = document_key;

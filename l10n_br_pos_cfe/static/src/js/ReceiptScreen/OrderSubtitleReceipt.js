@@ -21,6 +21,10 @@ odoo.define("l10n_br_pos_cfe.OrderSubtitleReceipt", function (require) {
             }
             return false;
         }
+
+        get isCanceled() {
+            return this.order.state_edoc === "cancelada";
+        }
     }
     OrderSubtitleReceipt.template = "OrderSubtitleReceipt";
 

@@ -9,11 +9,16 @@
 
             <div class="subtitle__sales-action">
                 <span>CUPOM FISCAL ELETRÔNICO - SAT</span>
+                <br />
+                <t t-if="isCanceled">
+                    <span>CANCELAMENTO</span>
+                </t>
             </div>
 
             <t t-if="satAmbiente">
                 <div class="subtitle__test-env">
                     <span class="test-env__title"> = T E S T E =</span>
+                    <br />
                     <span
                         class="test-env__divider"
                     > >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> </span>
