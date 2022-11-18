@@ -236,9 +236,11 @@ odoo.define("l10n_br_pos.models", function (require) {
             json.authorization_protocol = this.authorization_protocol;
             json.authorization_file = this.authorization_file;
 
+            json.cancel_document_key = this.cancel_document_key;
             json.cancel_date = this.cancel_date;
             json.cancel_protocol_number = this.cancel_protocol_number;
             json.cancel_file = this.cancel_file;
+            json.cancel_qrcode_signature = this.cancel_qrcode_signature;
 
             json.is_edoc_printed = this.is_edoc_printed;
 
@@ -478,6 +480,9 @@ odoo.define("l10n_br_pos.models", function (require) {
                     processor_result = await processor.cancel_order(this);
                     // Valida se foi emitido corretamente e salva os dados do resulto
                     result = await this._document_cancel_check_result(processor_result);
+                    if (result) {
+                        owl.Component.current.trigger("close-popup");
+                    }
                 }
             }
             return result;
@@ -510,6 +515,33 @@ odoo.define("l10n_br_pos.models", function (require) {
         //     //            }
         //     return _super_order.add_product.apply(this, arguments);
         // },
+        cancel_order: function (result) {
+            try {
+                this.pos.rpc({
+                    model: "pos.order",
+                    method: "cancelar_order",
+                    args: [result.response],
+                });
+            } catch (error) {
+                if (
+                    error.message &&
+                    [100, 200, 404, -32098].includes(error.message.code)
+                ) {
+                    Gui.showPopup("ErrorPopup", {
+                        title: this.pos.comp.env._t("Network Error"),
+                        body: this.pos.comp.env._t(
+                            "Unable to update values in backend if offline."
+                        ),
+                    });
+                    Gui.setSyncStatus("error");
+                } else {
+                    throw error;
+                }
+            }
+        },
+        decode_cancel_xml: function (XmlEncoded) {
+            return decodeURIComponent(atob(XmlEncoded));
+        },
     });
 
     var _super_order_line = models.Orderline.prototype;

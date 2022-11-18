@@ -64,6 +64,12 @@
     font-weight: bold;
 }
 
+.subtitle__cancel {
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold;
+}
+
 /* BODY */
 
 .body__header {
