@@ -277,7 +277,7 @@ class PosOrder(models.Model):
         attachment_ids.unlink()
         vals = {
             "name": file_name,
-            "datas_fname": file_name,
+            "store_fname": file_name,
             "res_model": self._name,
             "res_id": self.id,
             "datas": file_content.encode("utf-8"),
@@ -509,13 +509,14 @@ class PosOrder(models.Model):
     def _populate_cancel_order_fields(self, order_vals):
         self.cancel_document_key = order_vals["chave_cfe"]
         self.cancel_document_session_number = order_vals["numSessao"]
+        self.state_edoc = "cancelada"
 
     def _generate_refund_payments(self, refund_order):
-        for payment in self.statement_ids:
+        for payment in self.payment_ids:
             payment_wizard = self.env["pos.make.payment"].create(
                 {
-                    "session_id": refund_order.session_id.id,
-                    "journal_id": payment.journal_id.id,
+                    "config_id": refund_order.config_id.id,
+                    "payment_method_id": payment.payment_method_id.id,
                     "amount": payment.amount * -1,
                 }
             )
@@ -534,6 +535,7 @@ class PosOrder(models.Model):
         ).refund()
         refund_order = self.browse(res["res_id"])
         refund_order.amount_total = self.amount_total * -1
+        refund_order.state_edoc = "cancelada"
 
         self._generate_refund_payments(refund_order)
 
@@ -543,6 +545,7 @@ class PosOrder(models.Model):
     def cancelar_order(self, result):
         _logger.info(f"Result: {result}")
         order = self.browse(result["order_id"])
+        order.write({"state": "cancel"})
 
         order._populate_cancel_order_fields(result)
         order.cancel_document_file_id = order._save_attachment(
