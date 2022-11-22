@@ -78,7 +78,6 @@
                 <indTot>1</indTot>
             </prod>
             <imposto>
-                <vTotTrib>0.00</vTotTrib>
                 <ICMS>
                     <ICMSSN101>
                         <orig>0</orig>
@@ -116,9 +115,6 @@
                 <vBC>0.00</vBC>
                 <vICMS>0.00</vICMS>
                 <vICMSDeson>0.00</vICMSDeson>
-                <vFCPUFDest>0.00</vFCPUFDest>
-                <vICMSUFDest>0.00</vICMSUFDest>
-                <vICMSUFRemet>0.00</vICMSUFRemet>
                 <vFCP>0.00</vFCP>
                 <vBCST>0.00</vBCST>
                 <vST>0.00</vST>
@@ -135,7 +131,6 @@
                 <vCOFINS>0.00</vCOFINS>
                 <vOutro>0.00</vOutro>
                 <vNF>14.00</vNF>
-                <vTotTrib>0.00</vTotTrib>
             </ICMSTot>
         </total>
         <transp>
@@ -147,7 +142,6 @@
                 <tPag>01</tPag>
                 <vPag>14.00</vPag>
             </detPag>
-            <vTroco>0.00</vTroco>
         </pag>
         <infAdic>
             <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
