@@ -63,7 +63,7 @@
             <prod>
                 <cProd>FURN_9001</cProd>
                 <cEAN>SEM GTIN</cEAN>
-                <xProd>[FURN_9001] Flipover</xProd>
+                <xProd>Flipover</xProd>
                 <NCM>96100000</NCM>
                 <CFOP>5102</CFOP>
                 <uCom>UNID</uCom>
