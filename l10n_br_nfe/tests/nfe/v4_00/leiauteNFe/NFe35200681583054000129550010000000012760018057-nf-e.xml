@@ -176,9 +176,6 @@
         <vBC>4147.25</vBC>
         <vICMS>497.67</vICMS>
         <vICMSDeson>0.00</vICMSDeson>
-        <vFCPUFDest>0.00</vFCPUFDest>
-        <vICMSUFDest>0.00</vICMSUFDest>
-        <vICMSUFRemet>0.00</vICMSUFRemet>
         <vFCP>0.00</vFCP>
         <vBCST>0.00</vBCST>
         <vST>0.00</vST>
@@ -195,7 +192,6 @@
         <vCOFINS>118.95</vCOFINS>
         <vOutro>0.00</vOutro>
         <vNF>4147.25</vNF>
-        <vTotTrib>0.00</vTotTrib>
       </ICMSTot>
     </total>
     <transp>
