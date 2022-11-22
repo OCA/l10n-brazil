@@ -46,7 +46,7 @@ class NFeImportWizardTest(SavepointCase):
         )
         # Check wizard product info
         self.assertEqual(
-            wizard.imported_products_ids[0].product_name, "[E-COM11] Cabinet with Doors"
+            wizard.imported_products_ids[0].product_name, "Cabinet with Doors"
         )
         self.assertEqual(wizard.imported_products_ids[0].uom_com, "UNID")
         self.assertEqual(wizard.imported_products_ids[0].quantity_com, 1)
