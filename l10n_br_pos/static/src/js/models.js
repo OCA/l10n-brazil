@@ -402,6 +402,8 @@ odoo.define("l10n_br_pos.models", function (require) {
                     if (result) {
                         component.trigger("close-popup");
                     }
+                } else {
+                    result = false;
                 }
             }
             return result;
