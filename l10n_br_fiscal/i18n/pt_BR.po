@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-31 20:43+0000\n"
+"PO-Revision-Date: 2022-11-23 15:44+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -468,7 +468,7 @@ msgstr "<span>Novo Documento</span>"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>XML validation errors:</strong>"
-msgstr ""
+msgstr "<strong>Erros de validação XML:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
@@ -678,7 +678,7 @@ msgstr "Atividades"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_exception_decoration
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Decoração de Exceções de Atividade"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__activity_state
@@ -1179,7 +1179,7 @@ msgstr "Evento de Autorização"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_electronic__authorization_file_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__authorization_file_id
 msgid "Authorization File XML"
-msgstr ""
+msgstr "Arquivo XML de Autorização"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__authorization_protocol
@@ -1275,12 +1275,12 @@ msgstr "Presença do Comprador"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__delivery_costs__line
 msgid "By Line"
-msgstr ""
+msgstr "Por Linha"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__delivery_costs__total
 msgid "By Total"
-msgstr ""
+msgstr "Por Total"
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CX
@@ -1881,7 +1881,7 @@ msgstr "Data de cancelamento"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_mdfe__cancellation_protocol
 msgid "Cancellation Protocol"
-msgstr ""
+msgstr "Protocolo de cancelamento"
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/certificate.py:0
@@ -5490,7 +5490,7 @@ msgstr "Imunidade"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__type_in_out__in
 #, python-format
 msgid "In"
-msgstr "Em"
+msgstr "Entrada"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_mdfe__inclusion_datetime
@@ -6914,7 +6914,7 @@ msgstr "Outros"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__type_in_out__out
 #, python-format
 msgid "Out"
-msgstr "Fora"
+msgstr "Saída"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_out_action
