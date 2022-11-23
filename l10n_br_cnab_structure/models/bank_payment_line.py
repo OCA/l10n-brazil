@@ -21,6 +21,11 @@ class BankPaymentLine(models.Model):
         store=False,
     )
 
+    cnab_beneficiary_name = fields.Char(
+        compute="_compute_cnab_beneficiary_name",
+        help="Name of the beneficiary (Nome do Favorecido) that will be informed in the CNAB.",
+    )
+
     cnab_pix_transfer_type_id = fields.Many2one(
         comodel_name="cnab.pix.transfer.type",
         compute="_compute_cnab_pix_transfer_type_id",
@@ -61,6 +66,13 @@ class BankPaymentLine(models.Model):
                 bline.cnab_pix_transfer_type_id = cnab_pix_transfer_type
             else:
                 bline.cnab_pix_transfer_type_id = False
+
+    def _compute_cnab_beneficiary_name(self):
+        for bline in self:
+            if bline.partner_bank_id and bline.partner_bank_id.acc_holder_name:
+                bline.cnab_beneficiary_name = bline.partner_bank_id.acc_holder_name
+            else:
+                bline.cnab_beneficiary_name = bline.partner_id.name
 
     def _compute_batch_template_id(self):
         for bline in self:
