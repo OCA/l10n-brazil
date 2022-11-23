@@ -15,25 +15,40 @@ class RecordType(Enum):
     TRAILER = 9
 
 
+class CnabField:
+
+    __slots__ = ["position", "value", "name"]
+
+    def __init__(self, position: int, value: str, name: str = "") -> None:
+        self.position = position
+        self.value = value
+        self.name = name
+
+
 class CnabLine:
 
     type: RecordType
+    fields: List[CnabField]
 
     def __init__(self, record_type) -> None:
         self.type = record_type
-        self.fields = {}
+        self.fields = []
+
+    def get_field_by_name(self, name: str) -> CnabField:
+        field = next((obj for obj in self.fields if obj.name == name), None)
+        return field
 
     def add_field(self, name: str, value: str, pos: int) -> None:
-        self.fields[name] = [pos, value]
+        self.fields.append(CnabField(position=pos, value=value, name=name))
 
     def sorted_values(self):
         # sort the fields according to position
-        sorted_dict = dict(sorted(self.fields.items(), key=lambda item: item[1]))
+        sorted_fields = sorted(self.fields, key=lambda f: f.position)
         # return dict without position value:
-        values = {}
-        for key, value in sorted_dict.items():
-            values[key] = value[1]
-        return values
+        fields_values_dict = {}
+        for field in sorted_fields:
+            fields_values_dict[field.name] = field.value
+        return fields_values_dict
 
     def output(self) -> str:
         return "".join(self.sorted_values().values())
