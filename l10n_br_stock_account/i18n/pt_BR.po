@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2022-10-31 20:43+0000\n"
+"PO-Revision-Date: 2022-11-23 20:44+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -400,7 +400,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__delivery_costs
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Delivery Costs"
-msgstr ""
+msgstr "Custos de Entrega"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
@@ -1084,17 +1084,17 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__manual_additional_data
 msgid "Manual Additional Data"
-msgstr ""
+msgstr "Dado Adicional Manual"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__manual_customer_additional_data
 msgid "Manual Customer Additional Data"
-msgstr ""
+msgstr "Dado Adicional do Cliente Manual"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__manual_fiscal_additional_data
 msgid "Manual Fiscal Additional Data"
-msgstr ""
+msgstr "Dado Adicional Fiscal Manual"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__nbm_id
