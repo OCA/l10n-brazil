@@ -49,6 +49,7 @@
             name="fixed_journal_id"
             ref="l10n_br_account_payment_order.itau_journal"
         />
+        <field name="payment_mode_domain">ted</field>
         <field name="payment_order_ok">True</field>
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
@@ -73,6 +74,7 @@
             name="fixed_journal_id"
             ref="l10n_br_account_payment_order.itau_journal"
         />
+        <field name="payment_mode_domain">pix_transfer</field>
         <field name="payment_order_ok">True</field>
         <field name="default_date_prefered">due</field>
         <field name="group_lines">True</field>
