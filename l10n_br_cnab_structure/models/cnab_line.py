@@ -189,7 +189,7 @@ class CNABLine(models.Model):
             skip = False
             for cond in conditions:
                 field_key = cond.field_id.ref_name
-                field_value = line.fields.get(field_key, "")
+                field_value = line.get_field_by_name(field_key).value
                 cond_values = json.loads(cond.json_value)
                 if cond.operator == "in":
                     cond_result = field_value in cond_values
