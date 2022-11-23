@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2022-11-23 15:44+0000\n"
+"PO-Revision-Date: 2022-11-23 20:44+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -25,7 +25,7 @@ msgstr "# Reuniões"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_invoice_count
 msgid "# Vendor Bills"
-msgstr ""
+msgstr "# Contas de Fornecedores"
 
 #. module: l10n_br_hr
 #: code:addons/l10n_br_hr/models/hr_employee.py:0
@@ -69,7 +69,7 @@ msgstr "Ativo"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__active_lang_count
 msgid "Active Lang Count"
-msgstr ""
+msgstr "Contagem de Idiomas Ativos"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_ids
@@ -89,7 +89,7 @@ msgstr "Estado de Atividade"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Ícone do Tipo de Atividade"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__additional_info
@@ -118,12 +118,12 @@ msgstr "Valor da provisão"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_email
 msgid "Alternate Email"
-msgstr ""
+msgstr "E-mail alternativo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_phone
 msgid "Alternate Phone"
-msgstr ""
+msgstr "Telefone Alternativo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inc_trab_inss_file
@@ -141,6 +141,8 @@ msgid ""
 "Automatically send a confirmation email to the vendor X days before the "
 "expected receipt date, asking him to confirm the exact date."
 msgstr ""
+"Enviar automaticamente um e-mail de confirmação ao fornecedor X dias antes "
+"da data prevista de recebimento, solicitando a confirmação da data exata."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__tipo__autonomo
@@ -161,7 +163,7 @@ msgstr "Banco"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
 msgid "Bank Statement Label"
-msgstr ""
+msgstr "Etiqueta de Extrato Bancário"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
@@ -186,17 +188,17 @@ msgstr "Lista negra"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
 msgid "Blacklisted Phone Is Mobile"
-msgstr ""
+msgstr "O Telefone na Lista Negra é Celular"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_blacklisted
 msgid "Blacklisted Phone is Phone"
-msgstr ""
+msgstr "O Telefone na Lista Negra é Fixo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
 msgid "Blood Type"
-msgstr ""
+msgstr "Tipo sanguíneo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_bounce
@@ -211,7 +213,7 @@ msgstr "Rejeitado"
 #: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_2_res_partner
 #: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_3_res_partner
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_cbo
@@ -291,7 +293,7 @@ msgstr "Série CTPS"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__can_publish
 msgid "Can Publish"
-msgstr ""
+msgstr "Pode Publicar"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__relative_file
@@ -508,7 +510,7 @@ msgstr "Condições de Pagamento do Cliente"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__customer_rank
 msgid "Customer Rank"
-msgstr ""
+msgstr "Classificação do Cliente"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_filter
@@ -538,12 +540,12 @@ msgstr "Data de nascimento"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__reminder_date_before_receipt
 msgid "Days Before Receipt"
-msgstr ""
+msgstr "Dias antes do recebimento"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
 msgid "Default delivery method used in sales orders."
-msgstr ""
+msgstr "Método de entrega padrão usado nos pedidos de venda."
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_deficiency
@@ -560,7 +562,7 @@ msgstr "Deficiência"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__deficiency_description
 msgid "Deficiency Description"
-msgstr ""
+msgstr "Descrição da Deficiência"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__trust
@@ -675,7 +677,7 @@ msgstr "E-mail"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
 msgid "Emergency Phone"
-msgstr ""
+msgstr "Telefone de emergência"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
@@ -747,12 +749,12 @@ msgstr "Etnia"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__expiration_date
 msgid "Expiration Date"
-msgstr ""
+msgstr "Data de Expiração"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__father_name
 msgid "Father Name"
-msgstr ""
+msgstr "Nome do pai"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee_dependent__dependent_gender__f
@@ -804,7 +806,7 @@ msgstr "Seguidores (Parceiros)"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Ícone Font Awesome ex. fa-tasks"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__email_formatted
@@ -834,12 +836,12 @@ msgstr "Sexo"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_latitude
 msgid "Geo Latitude"
-msgstr ""
+msgstr "Latitude Geográfica"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_longitude
 msgid "Geo Longitude"
-msgstr ""
+msgstr "Longitude Geográfica"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_data_abstract
@@ -916,12 +918,12 @@ msgstr "Status do mensageiro"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Ícone"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Ícone para indicar uma atividade excepcional."
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -1279,7 +1281,7 @@ msgstr "Número da Inscrição Municipal"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Prazo das minhas atividades"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__name
@@ -1351,7 +1353,7 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Número de erros"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_needaction_counter
