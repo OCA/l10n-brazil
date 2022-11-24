@@ -607,6 +607,29 @@ class Tax(models.Model):
     def _compute_generic(self, tax, taxes_dict, **kwargs):
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
+    def _compute_tax_sequence(self, taxes_dict, **kwargs):
+        """Método para calcular a ordem que os impostos serão calculados.
+        Por padrão é utilizado o campo compute_sequence do objeto para
+        ordenar a sequencia que os impostos serão calculados.
+        Por padrão é obdecida a seguinte sequencia:
+
+            compute_sequence = {
+                tax_domain: compute_sequence,
+            }
+        """
+        # Pega por padrão os valores do campo compute_sequence
+        compute_sequence = dict([(t.tax_domain, t.compute_sequence) for t in self])
+
+        # Caso seja uma nota de entrada de importação é alterado a sequencia
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        if cfop and operation_line:
+            fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
+            if cfop.destination == CFOP_DESTINATION_EXPORT and fiscal_operation_type == FISCAL_IN:
+                compute_sequence.update(icms=100)
+
+        return compute_sequence
+
     def compute_taxes(self, **kwargs):
         """
         arguments:
@@ -650,8 +673,9 @@ class Tax(models.Model):
             "taxes": {},
         }
         taxes = {}
+        sequence = self._compute_tax_sequence(taxes, **kwargs)
 
-        for tax in self.sorted(key=lambda t: t.compute_sequence):
+        for tax in self.sorted(key=lambda t: sequence.get(t.tax_domain)):
             taxes[tax.tax_domain] = dict(TAX_DICT_VALUES)
             try:
                 # Define CST FROM TAX
