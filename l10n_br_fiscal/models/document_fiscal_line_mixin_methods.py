@@ -7,6 +7,7 @@ from lxml import etree
 
 from odoo import api, models
 
+from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN
 from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
 from .tax import TAX_DICT_VALUES
 
@@ -809,7 +810,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.model
     def _add_fields_to_amount(self):
-        return ["insurance_value", "other_value", "freight_value"]
+        fields_to_amount = ["insurance_value", "other_value", "freight_value"]
+        if (
+            self.cfop_id.destination == CFOP_DESTINATION_EXPORT
+            and self.fiscal_operation_id.fiscal_operation_type == FISCAL_IN
+        ):
+            fields_to_amount.append("pis_value")
+            fields_to_amount.append("cofins_value")
+            fields_to_amount.append("icms_value")
+        return fields_to_amount
 
     @api.model
     def _rm_fields_to_amount(self):
