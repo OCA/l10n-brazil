@@ -50,6 +50,7 @@ TAX_DICT_VALUES = {
     "add_to_base": 0.00,
     "remove_from_base": 0.00,
     "compute_reduction": True,
+    "compute_with_tax_value": False,
 }
 
 
@@ -166,6 +167,7 @@ class Tax(models.Model):
         ("fiscal_tax_code_uniq", "unique (name)", "Tax already exists with this name !")
     ]
 
+    @api.model
     def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):
         self.ensure_one()
         cst = self.env["l10n_br_fiscal.cst"]
@@ -176,6 +178,7 @@ class Tax(models.Model):
             cst = self.cst_out_id
         return cst
 
+    @api.model
     def _compute_tax_base(self, tax, tax_dict, **kwargs):
         company = kwargs.get("company", tax.env.company)
         currency = kwargs.get("currency", company.currency_id)
@@ -231,6 +234,11 @@ class Tax(models.Model):
                 base_amount * (1 + (tax_dict["icmsst_mva_percent"] / 100))
             )
 
+        if tax_dict.get("compute_with_tax_value"):
+            base_amount = round_currency(
+                base_amount / (1 - (tax_dict["percent_amount"] / 100))
+            )
+
         if (
             not tax.percent_amount
             and not tax.value_amount
@@ -243,6 +251,7 @@ class Tax(models.Model):
 
         return tax_dict
 
+    @api.model
     def _compute_tax(self, tax, taxes_dict, **kwargs):
         """Generic calculation of Brazilian taxes"""
 
@@ -290,6 +299,7 @@ class Tax(models.Model):
 
         return tax_dict
 
+    @api.model
     def _compute_estimate_taxes(self, **kwargs):
         company = kwargs.get("company")
         product = kwargs.get("product")
@@ -324,6 +334,7 @@ class Tax(models.Model):
 
         return amount_estimate_tax
 
+    @api.model
     def _compute_icms(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
@@ -365,10 +376,9 @@ class Tax(models.Model):
 
             tax_dict["add_to_base"] += kwargs.get("ii_customhouse_charges", 0.00)
 
-            # Calcula a base do ICMS
-            # TODO Tem que incluir o próprio valor do ICMS na base de calculo
-            # Tem que ser criado um parametro no _compute_tax_base para fazer
-            # esse calculo.
+            other_value = kwargs.get("other_value", 0.00)
+            tax_dict["remove_from_base"] += sum([other_value])
+            tax_dict["compute_with_tax_value"] = True
 
         tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
 
@@ -460,6 +470,7 @@ class Tax(models.Model):
 
         return taxes_dict
 
+    @api.model
     def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
         """Compute ICMS FCP"""
         tax_dict = taxes_dict.get(tax.tax_domain)
@@ -492,6 +503,7 @@ class Tax(models.Model):
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
+    @api.model
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         # partner = kwargs.get("partner")
@@ -514,6 +526,7 @@ class Tax(models.Model):
 
         return tax_dict
 
+    @api.model
     def _compute_icmssn(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
@@ -548,30 +561,6 @@ class Tax(models.Model):
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
-    def _compute_issqn(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_issqn_wh(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_csll(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_csll_wh(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_irpj(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_irpj_wh(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_inss(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_inss_wh(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         cfop = kwargs.get("cfop")
@@ -587,26 +576,9 @@ class Tax(models.Model):
             tax_dict_ii = taxes_dict.get("ii", {})
             tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
 
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_ii(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_pis(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_pis_wh(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_cofins(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_cofins_wh(self, tax, taxes_dict, **kwargs):
-        return self._compute_generic(tax, taxes_dict, **kwargs)
-
-    def _compute_generic(self, tax, taxes_dict, **kwargs):
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
+    @api.model
     def _compute_tax_sequence(self, taxes_dict, **kwargs):
         """Método para calcular a ordem que os impostos serão calculados.
         Por padrão é utilizado o campo compute_sequence do objeto para
@@ -618,14 +590,17 @@ class Tax(models.Model):
             }
         """
         # Pega por padrão os valores do campo compute_sequence
-        compute_sequence = dict([(t.tax_domain, t.compute_sequence) for t in self])
+        compute_sequence = {t.tax_domain: t.compute_sequence for t in self}
 
         # Caso seja uma nota de entrada de importação é alterado a sequencia
         cfop = kwargs.get("cfop")
         operation_line = kwargs.get("operation_line")
         if cfop and operation_line:
             fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
-            if cfop.destination == CFOP_DESTINATION_EXPORT and fiscal_operation_type == FISCAL_IN:
+            if (
+                cfop.destination == CFOP_DESTINATION_EXPORT
+                and fiscal_operation_type == FISCAL_IN
+            ):
                 compute_sequence.update(icms=100)
 
         return compute_sequence
@@ -702,7 +677,7 @@ class Tax(models.Model):
                     )
 
             except AttributeError:
-                taxes[tax.tax_domain].update(tax._compute_generic(tax, taxes, **kwargs))
+                taxes[tax.tax_domain].update(tax._compute_tax(tax, taxes, **kwargs))
                 # Caso não exista campos especificos dos impostos
                 # no documento fiscal, os mesmos são calculados.
                 continue
