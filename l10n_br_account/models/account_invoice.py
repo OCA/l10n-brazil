@@ -544,6 +544,16 @@ class AccountMove(models.Model):
         self.ensure_one()
         return self.fiscal_document_id.action_send_email()
 
+    @api.onchange("document_type_id")
+    def _onchange_document_type_id(self):
+        # We need to ensure that invoices without a fiscal document have the
+        # document_number blank, as all invoices without a fiscal document share this
+        # same field, they are linked to the same dummy fiscal document.
+        # Otherwise, in the tree view, this field will be displayed with the same value
+        # for all these invoices.
+        if not self.document_type_id:
+            self.document_number = ""
+
     # TODO FIXME migrate. refund method are very different in Odoo 13+
     # def _get_refund_common_fields(self):
     #     fields = super()._get_refund_common_fields()
