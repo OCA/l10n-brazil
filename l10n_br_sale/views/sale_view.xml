@@ -293,38 +293,35 @@
                 </notebook>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/form//div[@name='discount']"
-                position="attributes"
-            >
-                <attribute
-                    name="groups"
-                >!l10n_br_sale.group_discount_per_value</attribute>
-            </xpath>
-            <xpath
                 expr="//field[@name='order_line']/form//label[@for='discount']"
-                position="attributes"
-            >
-                <attribute
-                    name="groups"
-                >!l10n_br_sale.group_discount_per_value</attribute>
-            </xpath>
-            <xpath
-                expr="//field[@name='order_line']/form//div[@name='discount']"
-                position="after"
+                position="before"
             >
                 <field
                     name="discount_fixed"
                     groups="l10n_br_sale.group_total_discount"
                 />
-                <label
-                    for="discount_value"
-                    groups="l10n_br_sale.group_discount_per_value"
-                />
-                <div
-                    name="discount_value"
-                    groups="l10n_br_sale.group_discount_per_value"
-                >
-                    <field name="discount_value" class="oe_inline" />
+                <field name="user_discount_value" invisible="1" />
+                <field name="user_total_discount" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='discount']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'readonly':['|',['user_discount_value','=',True],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//div[@name='discount']"
+                position="after"
+            >
+                <label for="discount_value" />
+                <div name="discount_value">
+                    <field
+                        name="discount_value"
+                        class="oe_inline"
+                        attrs="{'readonly':['|',['user_discount_value','=',False],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}"
+                    />
                 </div>
             </xpath>
             <xpath expr="//group[@name='sale_total']" position="after">
