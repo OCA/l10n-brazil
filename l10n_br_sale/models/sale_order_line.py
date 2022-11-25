@@ -104,6 +104,31 @@ class SaleOrderLine(models.Model):
     price_tax = fields.Monetary(compute_sudo=True)
     price_total = fields.Monetary(compute_sudo=True)
 
+    user_total_discount = fields.Boolean(compute="_compute_user_total_discount")
+    user_discount_value = fields.Boolean(compute="_compute_user_discount_value")
+
+    # Depends of price_unit because we need an field to force compute in new records
+    # not created yet. This field is necessary to compute readonly condition for
+    # discount/discount value.
+    @api.depends("price_unit")
+    def _compute_user_total_discount(self):
+        for rec in self:
+            if self.env.user.has_group("l10n_br_sale.group_total_discount"):
+                rec.user_total_discount = True
+            else:
+                rec.user_total_discount = False
+
+    # Depends of price_unit because we need an field to force compute in new records
+    # not created yet. This field is necessary to compute readonly condition for
+    # discount/discount value.
+    @api.depends("price_unit")
+    def _compute_user_discount_value(self):
+        for rec in self:
+            if self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
+                rec.user_discount_value = True
+            else:
+                rec.user_discount_value = False
+
     @api.model
     def _cnae_domain(self):
         company = self.env.company
