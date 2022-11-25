@@ -182,7 +182,6 @@ class Tax(models.Model):
     def _compute_tax_base(self, tax, tax_dict, **kwargs):
         company = kwargs.get("company", tax.env.company)
         currency = kwargs.get("currency", company.currency_id)
-        round_currency = currency.round
         fiscal_price = kwargs.get("fiscal_price", 0.00)
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
         compute_reduction = kwargs.get("compute_reduction", True)
@@ -207,7 +206,7 @@ class Tax(models.Model):
 
         if tax_dict["base_type"] == "percent":
             # Compute initial Tax Base for base_type Percent
-            base = round_currency(fiscal_price * fiscal_quantity)
+            base = currency.round(fiscal_price * fiscal_quantity)
 
         if tax_dict["base_type"] == "quantity":
             # Compute initial Tax Base for base_type Quantity
@@ -215,27 +214,27 @@ class Tax(models.Model):
 
         if tax_dict["base_type"] == "fixed":
             # Compute initial Tax Base
-            base = round_currency(tax_dict["value_amount"] * fiscal_quantity)
+            base = currency.round(tax_dict["value_amount"] * fiscal_quantity)
 
         # Update Base Value
-        base_amount = round_currency(
+        base_amount = currency.round(
             (base + tax_dict["add_to_base"]) - tax_dict["remove_from_base"]
         )
 
         # Compute Tax Base Reduction
-        base_reduction = round_currency(base_amount * abs(tax.percent_reduction / 100))
+        base_reduction = currency.round(base_amount * abs(tax.percent_reduction / 100))
 
         # Compute Tax Base Amount
         if compute_reduction:
-            base_amount = round_currency(base_amount - base_reduction)
+            base_amount = currency.round(base_amount - base_reduction)
 
         if tax_dict.get("icmsst_mva_percent"):
-            base_amount = round_currency(
+            base_amount = currency.round(
                 base_amount * (1 + (tax_dict["icmsst_mva_percent"] / 100))
             )
 
         if tax_dict.get("compute_with_tax_value"):
-            base_amount = round_currency(
+            base_amount = currency.round(
                 base_amount / (1 - (tax_dict["percent_amount"] / 100))
             )
 
@@ -257,7 +256,6 @@ class Tax(models.Model):
 
         company = kwargs.get("company", tax.env.company)
         currency = kwargs.get("currency", company.currency_id)
-        round_currency = currency.round
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
 
@@ -288,12 +286,12 @@ class Tax(models.Model):
         base_amount = tax_dict.get("base", 0.00)
 
         if tax_dict["base_type"] == "percent":
-            tax_dict["tax_value"] = round_currency(
+            tax_dict["tax_value"] = currency.round(
                 base_amount * (tax_dict["percent_amount"] / 100)
             )
 
         if tax_dict["base_type"] in ("quantity", "fixed"):
-            tax_dict["tax_value"] = round_currency(
+            tax_dict["tax_value"] = currency.round(
                 base_amount * tax_dict["value_amount"]
             )
 
@@ -306,29 +304,28 @@ class Tax(models.Model):
         fiscal_price = kwargs.get("fiscal_price")
         fiscal_quantity = kwargs.get("fiscal_quantity")
         currency = kwargs.get("currency", company.currency_id)
-        round_currency = currency.round
         ncm = kwargs.get("ncm") or product.ncm_id
         nbs = kwargs.get("nbs") or product.nbs_id
         icms_origin = kwargs.get("icms_origin") or product.icms_origin
         op_line = kwargs.get("operation_line")
         amount_estimate_tax = 0.00
-        amount_total = round_currency(fiscal_price * fiscal_quantity)
+        amount_total = currency.round(fiscal_price * fiscal_quantity)
 
         if op_line and (
             op_line.fiscal_operation_type == FISCAL_OUT
             and op_line.fiscal_operation_id.fiscal_type == "sale"
         ):
             if nbs:
-                amount_estimate_tax = round_currency(
+                amount_estimate_tax = currency.round(
                     amount_total * (nbs.estimate_tax_national / 100)
                 )
             elif ncm:
                 if icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
-                    amount_estimate_tax = round_currency(
+                    amount_estimate_tax = currency.round(
                         amount_total * (ncm.estimate_tax_imported / 100)
                     )
                 else:
-                    amount_estimate_tax = round_currency(
+                    amount_estimate_tax = currency.round(
                         amount_total * (ncm.estimate_tax_national / 100)
                     )
 
@@ -341,7 +338,6 @@ class Tax(models.Model):
         company = kwargs.get("company")
         product = kwargs.get("product")
         currency = kwargs.get("currency", company.currency_id)
-        round_currency = currency.round
         ncm = kwargs.get("ncm")
         nbm = kwargs.get("nbm")
         cest = kwargs.get("cest")
@@ -420,18 +416,18 @@ class Tax(models.Model):
             difal_icms_base = 0.00
 
             # Difal - ICMS Dest Value
-            icms_dest_value = round_currency(icms_base * (icms_dest_perc / 100))
+            icms_dest_value = currency.round(icms_base * (icms_dest_perc / 100))
 
             if partner.state_id.code in ICMS_DIFAL_UNIQUE_BASE:
                 difal_icms_base = icms_base
 
             if partner.state_id.code in ICMS_DIFAL_DOUBLE_BASE:
-                difal_icms_base = round_currency(
+                difal_icms_base = currency.round(
                     (icms_base - icms_origin_value)
                     / (1 - ((icms_dest_perc + icmsfcp_perc) / 100))
                 )
 
-                icms_dest_value = round_currency(
+                icms_dest_value = currency.round(
                     difal_icms_base * (icms_dest_perc / 100)
                 )
 
@@ -454,8 +450,8 @@ class Tax(models.Model):
 
             difal_share_dest = tax_dict.get("difal_dest_perc")
 
-            difal_origin_value = round_currency(difal_value * difal_share_origin / 100)
-            difal_dest_value = round_currency(difal_value * difal_share_dest / 100)
+            difal_origin_value = currency.round(difal_value * difal_share_origin / 100)
+            difal_dest_value = currency.round(difal_value * difal_share_dest / 100)
 
             tax_dict.update(
                 {
@@ -506,8 +502,6 @@ class Tax(models.Model):
     @api.model
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
-        # partner = kwargs.get("partner")
-        # company = kwargs.get("company")
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
@@ -532,7 +526,6 @@ class Tax(models.Model):
         partner = kwargs.get("partner")
         company = kwargs.get("company")
         currency = kwargs.get("currency", company.currency_id)
-        round_currency = currency.round
         cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
         icmssn_range = kwargs.get("icmssn_range")
 
@@ -547,7 +540,7 @@ class Tax(models.Model):
         # Partner ICMS's Contributor
         if partner.ind_ie_dest in (NFE_IND_IE_DEST_1, NFE_IND_IE_DEST_2):
             if cst.code in ICMS_SN_CST_WITH_CREDIT:
-                icms_sn_percent = round_currency(
+                icms_sn_percent = currency.round(
                     company.simplifed_tax_percent
                     * (icmssn_range.tax_icms_percent / 100)
                 )
@@ -561,6 +554,7 @@ class Tax(models.Model):
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
+    @api.model
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         cfop = kwargs.get("cfop")
