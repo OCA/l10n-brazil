@@ -4,6 +4,7 @@
 import logging
 import re
 from datetime import datetime
+from enum import Enum
 
 from odoo import api, models
 
@@ -77,11 +78,16 @@ class AbstractSpecMixin(models.AbstractModel):
         )
         child_path = "%s.%s" % (path, key)
         if (
-            attr[1].type == str
-            or not any(["odoo.addons." in str(i) for i in attr[1].type.__args__])
-        ) and not str(attr[1].type).startswith("typing.List"):
+            (
+                attr[1].type == str
+                or not any(["odoo.addons." in str(i) for i in attr[1].type.__args__])
+            )
+            and not str(attr[1].type).startswith("typing.List")
+            and "ForwardRef" not in str(attr[1].type)
+        ):
             # SimpleType
-
+            if isinstance(value, Enum):
+                value = value.value
             if fields.get(key) and fields[key].type == "datetime":
                 if "T" in value:
                     if tz_datetime.match(value):
@@ -93,7 +99,9 @@ class AbstractSpecMixin(models.AbstractModel):
             self._build_string_not_simple_type(key, vals, value, node)
 
         else:
-            if str(attr[1].type).startswith("typing.List"):  # o2m
+            if str(attr[1].type).startswith("typing.List") or "ForwardRef" in str(
+                attr[1].type
+            ):  # o2m
                 binding_type = attr[1].type.__args__[0].__forward_arg__
             else:
                 binding_type = attr[1].type.__args__[0].__name__
@@ -110,13 +118,12 @@ class AbstractSpecMixin(models.AbstractModel):
                 comodel_name = "%s.%s.%s" % (
                     self._schema_name,
                     self._schema_version.replace(".", "")[0:2],
-                    clean_type,
+                    clean_type.split(".")[-1],
                 )
 
             comodel = self.get_concrete_model(comodel_name)
             if comodel is None:  # example skip ICMS100 class
                 return
-
             if not str(attr[1].type).startswith("typing.List"):
                 # m2o
                 new_value = comodel.build_attrs(value, path=child_path)
@@ -238,7 +245,6 @@ class AbstractSpecMixin(models.AbstractModel):
             )
             vals.update(defaults)
             # NOTE: also eventually load default values from the context?
-
         return vals
 
     @api.model
