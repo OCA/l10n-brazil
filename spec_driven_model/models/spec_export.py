@@ -55,7 +55,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         """
-        Iterates over the record fields and map them in an dict of values
+        Iterate over the record fields and map them in an dict of values
         that will later be injected as **kwargs in the proper XML Python
         binding constructors. Hence the value can either be simple values or
         sub binding instances already properly instanciated.
@@ -113,7 +113,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
     def _export_field(self, xsd_field, class_obj, field_spec, export_value=None):
         """
-        Maps a single Odoo field to a python binding value according to the
+        Map a single Odoo field to a python binding value according to the
         kind of field.
         """
         self.ensure_one()
@@ -121,7 +121,6 @@ class AbstractSpecMixin(models.AbstractModel):
         field = class_obj._fields.get(xsd_field, self._stacking_points.get(xsd_field))
         xsd_required = field.xsd_required if hasattr(field, "xsd_required") else None
         xsd_type = field.xsd_type if hasattr(field, "xsd_type") else None
-
         if field.type == "many2one":
             if (not self._stacking_points.get(xsd_field)) and (
                 not self[xsd_field] and not xsd_required
@@ -205,7 +204,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
     def _build_generateds(self, class_name=False):
         """
-        Iterates over an Odoo record and its m2o and o2m sub-records
+        Iterate over an Odoo record and its m2o and o2m sub-records
         using a pre-order tree traversal and maps the Odoo record values
         to  a dict of Python binding values.
 
