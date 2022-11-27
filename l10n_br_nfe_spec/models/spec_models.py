@@ -12,7 +12,7 @@ class NfeSpecMixin(models.AbstractModel):
     _schema_version = "4.0.0"
     _odoo_module = "l10n_br_nfe"
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-    _binding_module = "nfelib.nfe.v4_0.leiaute_nfe_v4_00"
+    _binding_module = "nfelib.bindings.nfe.v4_0.leiaute_nfe_v4_00"
     _spec_tab_name = "NFe"
 
     brl_currency_id = fields.Many2one(
@@ -22,6 +22,3 @@ class NfeSpecMixin(models.AbstractModel):
         default=lambda self: self.env.ref("base.BRL").id,
     )
 
-    def _compute_brl_currency_id(self):
-        for item in self:
-            item.brl_currency_id = self.env.ref("base.BRL").id
