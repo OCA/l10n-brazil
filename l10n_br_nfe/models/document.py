@@ -20,7 +20,7 @@ from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
-from nfelib.nfe.v4_0.nfe_v4_00 import Nfe
+from nfelib.bindings.nfe.v4_0.nfe_v4_00 import Nfe
 from requests import Session
 
 from odoo import _, api, fields
@@ -617,8 +617,8 @@ class NFe(spec_models.StackedModel):
         return res
 
     def _build_attr(self, node, fields, vals, path, attr):
-        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
-        value = getattr(node, attr.get_name())
+        key = "nfe40_%s" % (attr[0],)  # TODO schema wise
+        value = getattr(node, attr[0])
 
         if key == "nfe40_mod":
             vals["document_type_id"] = (
@@ -631,10 +631,10 @@ class NFe(spec_models.StackedModel):
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
-            enderEmit_value = self.env["res.partner"].build_attrs(
-                value.enderEmit, path=path
+            ender_emit_value = self.env["res.partner"].build_attrs(
+                value.ender_emit, path=path
             )
-            new_value.update(enderEmit_value)
+            new_value.update(ender_emit_value)
             company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
                 str.maketrans("", "", string.punctuation)
             )
@@ -649,8 +649,8 @@ class NFe(spec_models.StackedModel):
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
         elif key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
-            enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
-            new_value.update(enderEntreg_value)
+            ender_entreg_value = self.env["res.partner"].build_attrs(value, path=path)
+            new_value.update(ender_entreg_value)
             parent_domain = [("nfe40_CNPJ", "=", new_value.get("nfe40_CNPJ"))]
             parent_partner_match = self.env["res.partner"].search(
                 parent_domain, limit=1
@@ -748,7 +748,7 @@ class NFe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
             # TODO copy decent assina_raiz method here
-            xml_assinado = "TODO"  # processador.assina_raiz(edoc, edoc.InfNfe.id)
+            # xml_assinado = "TODO"  # processador.assina_raiz(edoc, edoc.InfNfe.id)
             self._valida_xml(xml_file)
         return result
 
@@ -802,7 +802,7 @@ class NFe(spec_models.StackedModel):
     def _valida_xml(self, xml_file):
         self.ensure_one()
         path = os.path.dirname(nfelib.__file__)
-        module_path = str(Path(path).parents[0])
+        module_path = str(Path(path))
         schema_path = os.path.join(module_path, "schemas/nfe/v4_0/nfe_v4.00.xsd")
         xml_tree = ET.ElementTree(ET.fromstring(xml_file))
         iter_errors = xmlschema.iter_errors(xml_document=xml_tree, schema=schema_path)
