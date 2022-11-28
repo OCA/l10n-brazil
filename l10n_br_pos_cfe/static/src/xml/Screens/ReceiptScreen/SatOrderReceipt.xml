@@ -11,6 +11,14 @@
             <span
                 class="receipt__divider"
             >---------------------------------------------------------</span>
+            <div class="header__company-info">
+                <span>CPF/CNPJ do Consumidor: <t
+                        t-esc="receipt.cnpj_cpf or ''"
+                    /></span>
+            </div>
+            <span
+                class="receipt__divider"
+            >---------------------------------------------------------</span>
             <t t-if="!isCanceled">
                 <div class="body">
                     <div class="body__header">
@@ -67,7 +75,7 @@
                     </div>
                     <div class="totals__amount">
                         <span>TOTAL R$</span>
-                        <span><t t-esc="total"/></span>
+                        <span><t t-esc="total" /></span>
                     </div>
                 </div>
             </t>
