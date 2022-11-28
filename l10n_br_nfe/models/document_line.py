@@ -59,10 +59,10 @@ class NFeLine(spec_models.StackedModel):
         > <ICMS>
             > <ICMSPart>
             > <ICMSST>
-        > <II>
         > <IPI>
             > <IPITrib>
             > <IPINT>
+        > <II>
         > <ISSQN>
         > <PIS>
             > <PISAliq>
@@ -661,7 +661,7 @@ class NFeLine(spec_models.StackedModel):
                 field_name = "cofins_base"
             return self._export_float_monetary(
                 field_name,
-                xsd_type,
+                xsd_type or "TDec_1302",  # (None for pis/cofins)
                 class_obj,
                 class_obj._fields[xsd_field].xsd_required
                 if hasattr(class_obj._fields[xsd_field], "xsd_required")
