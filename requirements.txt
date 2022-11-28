@@ -5,7 +5,7 @@ erpbrasil.edoc
 erpbrasil.edoc.pdf
 erpbrasil.transmissao
 febraban
-nfelib
+nfelib-xsdata
 nfselib.ginfes
 nfselib.issnet
 nfselib.paulistana
@@ -14,4 +14,5 @@ pycep_correios
 unidecode
 workalendar
 xmldiff
+xmlschema
 xsdata
