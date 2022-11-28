@@ -288,8 +288,8 @@ odoo.define("l10n_br_pos.models", function (require) {
             // necessários para a emissão do cumpom fiscal
             var json = _super_order.export_as_JSON.call(this);
             // Remove lines without price
-            json.orderlines = _.filter(json.orderlines, function (line) {
-                return line.price !== 0;
+            json.lines = _.filter(json.lines, function (line) {
+                return line[2].price_subtotal !== 0 || line[2].qty !== 0;
             });
             this._prepare_fiscal_json(json);
             return json;
@@ -299,7 +299,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             var json = _super_order.export_for_printing.apply(this, arguments);
             // Remove lines without price
             json.orderlines = _.filter(json.orderlines, function (line) {
-                return line.price !== 0;
+                return line.price !== 0 || line.quantity !== 0;
             });
             // Remove reversed paymentlines
             json.paymentlines = _.filter(json.paymentlines, function (line) {
