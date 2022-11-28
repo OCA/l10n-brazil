@@ -121,7 +121,7 @@ class ResCompany(spec_models.SpecModel):
                 rec.nfe40_choice6 = "nfe40_CPF"
 
     def _build_attr(self, node, fields, vals, path, attr):
-        if attr.get_name() == "enderEmit" and self.env.context.get("edoc_type") == "in":
+        if attr[0] == "enderEmit" and self.env.context.get("edoc_type") == "in":
             # we don't want to try build a related partner_id for enderEmit
             # when importing an NFe
             # instead later the emit tag will be imported as the
