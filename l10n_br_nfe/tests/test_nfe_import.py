@@ -2,12 +2,16 @@ import logging
 
 import nfelib
 import pkg_resources
-from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
+from nfelib.bindings.nfe.v4_0.leiaute_nfe_v4_00 import TnfeProc
+from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo.models import NewId
 from odoo.tests import SavepointCase
 
 from odoo.addons.spec_driven_model import hooks
+
+# from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
+
 
 _logger = logging.getLogger(__name__)
 
@@ -17,24 +21,24 @@ class NFeImportTest(SavepointCase):
         hooks.register_hook(
             self.env,
             "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe",
+            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
         res_items = (
-            "..",
-            "tests",
+            "samples",
             "nfe",
-            "v4_00",
+            "v4_0",
             "leiauteNFe",
             "35180834128745000152550010000474281920007498-nfe.xml",
         )
 
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
+        parser = XmlParser()
+        binding = parser.from_string(nfe_stream.read().decode(), TnfeProc)
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
-            .build_from_binding(nfe_binding.infNFe, dry_run=True)
+            .build_from_binding(binding.NFe.infNFe, dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
         self._check_nfe(nfe)
@@ -43,25 +47,25 @@ class NFeImportTest(SavepointCase):
         hooks.register_hook(
             self.env,
             "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe",
+            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
         res_items = (
-            "..",
-            "tests",
+            "samples",
             "nfe",
-            "v4_00",
+            "v4_0",
             "leiauteNFe",
             "35180834128745000152550010000474281920007498-nfe.xml",
         )
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-
-        nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
+        parser = XmlParser()
+        binding = parser.from_string(nfe_stream.read().decode(), TnfeProc)
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
-            .build_from_binding(nfe_binding.infNFe)
+            .build_from_binding(binding.NFe.infNFe, dry_run=False)
         )
+
         assert isinstance(nfe.id, int)
         self._check_nfe(nfe)
 
@@ -119,13 +123,6 @@ class NFeImportTest(SavepointCase):
         self.assertEqual(
             nfe.fiscal_line_ids[2].product_id.name, "QUINOA PICANTE 100G (2X50G)"
         )
-
-        # ds_object = nfe._build_generateds()
-        # ds_object.export(
-        #   sys.stdout,
-        #   0,
-        #   pretty_print=True,
-        # )
 
     def test_import_out_nfe(self):
         "(can be useful after an ERP migration)"
