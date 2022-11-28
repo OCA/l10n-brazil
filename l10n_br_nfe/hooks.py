@@ -2,7 +2,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 import logging
 
+import nfelib
 import pkg_resources
+from nfelib.bindings.nfe.v4_0.leiaute_nfe_v4_00 import TnfeProc
+from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import SUPERUSER_ID, api
 from odoo.exceptions import ValidationError
@@ -26,9 +29,8 @@ def post_init_hook(cr, registry):
     )
     cr.execute("select demo from ir_module_module where name='l10n_br_nfe';")
     is_demo = cr.fetchone()[0]
-    if False: #is_demo:
+    if is_demo:
         res_items = (
-            "..",
             "tests",
             "nfe",
             "v4_00",
@@ -37,21 +39,18 @@ def post_init_hook(cr, registry):
         )
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-
-        # nfe_stream = pkg_resources.resource_stream('nfelib',
-        # '../tests/nfe/v4_00/leiauteNFe/35180803102452000172550010000474491454651420-nfe.xml')
-        nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
-        document_number = nfe_binding.infNFe.ide.nNF
+        parser = XmlParser()
+        binding = parser.from_string(nfe_stream.read().decode(), TnfeProc)
+        document_number = binding.nfe.inf_nfe.ide.n_nf
         existing_nfes = env["l10n_br_fiscal.document"].search(
             [("document_number", "=", document_number)]
         )
-
         try:
             existing_nfes.unlink()
             nfe = (
                 env["nfe.40.infnfe"]
                 .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
-                .build_from_binding(nfe_binding.infNFe)
+                .build_from_binding(binding.nfe.inf_nfe, dry_run=True)
             )
             _logger.info(nfe.nfe40_emit.nfe40_CNPJ)
         except ValidationError:
