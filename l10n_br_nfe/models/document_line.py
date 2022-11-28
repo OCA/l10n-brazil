@@ -730,8 +730,8 @@ class NFeLine(spec_models.StackedModel):
         )
 
     def _build_attr(self, node, fields, vals, path, attr):
-        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
-        value = getattr(node, attr.get_name())
+        key = "nfe40_%s" % (attr[0])  # TODO schema wise
+        value = getattr(node, attr[0])
 
         if key.startswith("nfe40_ICMS") and key not in [
             "nfe40_ICMS",
@@ -792,25 +792,25 @@ class NFeLine(spec_models.StackedModel):
             return super()._build_string_not_simple_type(key, vals, value, node)
             # TODO avoid collision with cls prefix
         elif key == "nfe40_CST":
-            if node.original_tagname_.startswith("ICMS"):
+            if str(type(node)).startswith("Tnfe.InfNfe.Det.Imposto.Icms"):
                 vals["icms_cst_id"] = (
                     self.env["l10n_br_fiscal.cst"]
                     .search([("code", "=", value), ("tax_domain", "=", "icms")])[0]
                     .id
                 )
-            if node.original_tagname_.startswith("IPI"):
+            elif str(type(node)).startswith("Tnfe.InfNfe.Det.Imposto.Ipi"):
                 vals["ipi_cst_id"] = (
                     self.env["l10n_br_fiscal.cst"]
                     .search([("code", "=", value), ("tax_domain", "=", "ipi")])[0]
                     .id
                 )
-            if node.original_tagname_.startswith("PIS"):
+            elif str(type(node)).startswith("Tnfe.InfNfe.Det.Imposto.Pis"):
                 vals["pis_cst_id"] = (
                     self.env["l10n_br_fiscal.cst"]
                     .search([("code", "=", value), ("tax_domain", "=", "pis")])[0]
                     .id
                 )
-            if node.original_tagname_.startswith("COFINS"):
+            elif str(type(node)).startswith("Tnfe.InfNfe.Det.Imposto.Cofins"):
                 vals["cofins_cst_id"] = (
                     self.env["l10n_br_fiscal.cst"]
                     .search([("code", "=", value), ("tax_domain", "=", "cofins")])[0]
@@ -819,33 +819,33 @@ class NFeLine(spec_models.StackedModel):
         elif key == "nfe40_modBC":
             vals["icms_base_type"] = value
         elif key == "nfe40_vBC":
-            if node.original_tagname_.startswith("ICMS"):
+            if str(type(node)).startswith("Tnfe.InfNfe.Det.Imposto.Icms"):
                 vals["icms_base"] = value
-            elif node.original_tagname_.startswith("IPI"):
+            elif str(type(node)).startswith("Tnfe.InfNfe.Det.Imposto.Ipi"):
                 vals["ipi_base"] = value
-            elif node.original_tagname_.startswith("PIS"):
+            elif str(type(node)).startswith("Tnfe.InfNfe.Det.Imposto.Pis"):
                 vals["pis_base"] = value
-            elif node.original_tagname_.startswith("COFINS"):
+            elif str(type(node)).startswith("Tnfe.InfNfe.Det.Imposto.Cofins"):
                 vals["cofins_base"] = value
 
     # flake8: noqa: C901
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         ICMS_TAGS = [
-            "ICMS00",
-            "ICMS10",
-            "ICMS20",
-            "ICMS30",
-            "ICMS40",
-            "ICMS51",
-            "ICMS60",
-            "ICMS70",
-            "ICMS90",
-            "ICMSPart",
-            "ICMSST",
-            "ICMSSN101",
-            "ICMSSN102",
-            "ICMSSN500",
-            "ICMSSN900",
+            "icms00",
+            "icms10",
+            "icms20",
+            "icms30",
+            "icms40",
+            "icms51",
+            "icms60",
+            "icms70",
+            "icms90",
+            "icmspart",
+            "icmsst",
+            "icmssn101",
+            "icmssn102",
+            "icmssn500",
+            "icmssn900",
         ]
 
         if key == "nfe40_ISSQN":
@@ -860,53 +860,53 @@ class NFeLine(spec_models.StackedModel):
 
                     # ICMSxx fields
                     # TODO map icms_tax_id
-                    if hasattr(icms, "CST") and icms.CST is not None:
+                    if hasattr(icms, "cst") and icms.cst is not None:
                         icms_vals["icms_cst_id"] = self.env.ref(
-                            "l10n_br_fiscal.cst_icms_%s" % (icms.CST,)
+                            "l10n_br_fiscal.cst_icms_%s" % (icms.cst.value,)
                         ).id
                         # TODO search + log if not found
-                    if hasattr(icms, "modBC") and icms.modBC is not None:
-                        icms_vals["icms_base_type"] = icms.modBC
+                    if hasattr(icms, "mod_bc") and icms.mod_bc is not None:
+                        icms_vals["icms_base_type"] = icms.mod_bc.value
                     if hasattr(icms, "orig"):
-                        icms_vals["icms_origin"] = icms.orig
-                    if hasattr(icms, "vBC") and icms.vBC is not None:
-                        icms_vals["icms_base"] = float(icms.vBC)
-                    if hasattr(icms, "pICMS") and icms.pICMS is not None:
-                        icms_vals["icms_percent"] = float(icms.pICMS)
-                    if hasattr(icms, "vICMS") and icms.vICMS is not None:
-                        icms_vals["icms_value"] = float(icms.vICMS)
-                    if hasattr(icms, "pRedBC") and icms.pRedBC is not None:
-                        icms_vals["icms_reduction"] = float(icms.pRedBC)
-                    if hasattr(icms, "motDesICMS") and icms.motDesICMS is not None:
+                        icms_vals["icms_origin"] = icms.orig.value
+                    if hasattr(icms, "v_bc") and icms.v_bc is not None:
+                        icms_vals["icms_base"] = float(icms.v_bc)
+                    if hasattr(icms, "p_icms") and icms.p_icms is not None:
+                        icms_vals["icms_percent"] = float(icms.p_icms)
+                    if hasattr(icms, "v_icms") and icms.v_icms is not None:
+                        icms_vals["icms_value"] = float(icms.v_icms)
+                    if hasattr(icms, "p_red_bc") and icms.p_red_bc is not None:
+                        icms_vals["icms_reduction"] = float(icms.p_red_bc)
+                    if hasattr(icms, "mot_des_icms") and icms.mot_des_icms is not None:
                         icms_vals["icms_relief_id"] = self.env.ref(
-                            "l10n_br_fiscal.icms_relief_%s" % (icms.motDesICMS,)
+                            "l10n_br_fiscal.icms_relief_%s" % (icms.mot_des_icms.value,)
                         ).id
-                    if hasattr(icms, "vICMSDeson") and icms.vICMSDeson is not None:
-                        icms_vals["icms_relief_value"] = float(icms.vICMSDeson)
+                    if hasattr(icms, "v_icms_deson") and icms.v_icms_deson is not None:
+                        icms_vals["icms_relief_value"] = float(icms.v_icms_deson)
                     if (
-                        hasattr(icms, "vICMSSubstituto")
-                        and icms.vICMSSubstituto is not None
+                        hasattr(icms, "v_icms_substituto")
+                        and icms.v_icms_substituto is not None
                     ):
-                        icms_vals["icms_substitute"] = float(icms.vICMSSubstituto)
+                        icms_vals["icms_substitute"] = float(icms.v_icms_substituto)
 
                     # ICMS ST fields
                     # TODO map icmsst_tax_id
-                    if hasattr(icms, "modBCST") and icms.modBCST is not None:
-                        icms_vals["icmsst_base_type"] = float(icms.modBCST)
-                    if hasattr(icms, "pMVAST") and icms.pMVAST is not None:
-                        icms_vals["icmsst_mva_percent"] = float(icms.pMVAST)
-                    if hasattr(icms, "pRedBCST") and icms.pRedBCST is not None:
-                        icms_vals["icmsst_reduction"] = float(icms.pRedBCST)
-                    if hasattr(icms, "vBCST") and icms.vBCST is not None:
-                        icms_vals["icmsst_base"] = float(icms.vBCST)
-                    if hasattr(icms, "pICMSST") and icms.pICMSST is not None:
-                        icms_vals["icmsst_percent"] = float(icms.pICMSST)
-                    if hasattr(icms, "vICMSST") and icms.vICMSST is not None:
-                        icms_vals["icmsst_value"] = float(icms.vICMSST)
-                    if hasattr(icms, "vBCSTRet") and icms.vBCSTRet is not None:
-                        icms_vals["icmsst_wh_base"] = float(icms.vBCSTRet)
-                    if hasattr(icms, "vICMSSTRet") and icms.vICMSSTRet is not None:
-                        icms_vals["icmsst_wh_value"] = float(icms.vICMSSTRet)
+                    if hasattr(icms, "mod_bcst") and icms.mod_bcst is not None:
+                        icms_vals["icmsst_base_type"] = icms.mod_bcst.value
+                    if hasattr(icms, "p_mvast") and icms.p_mvast is not None:
+                        icms_vals["icmsst_mva_percent"] = float(icms.p_mvast)
+                    if hasattr(icms, "p_red_bcst") and icms.p_red_bcst is not None:
+                        icms_vals["icmsst_reduction"] = float(icms.p_red_bcst)
+                    if hasattr(icms, "v_bcst") and icms.v_bcst is not None:
+                        icms_vals["icmsst_base"] = float(icms.v_bcst)
+                    if hasattr(icms, "p_icmsst") and icms.p_icmsst is not None:
+                        icms_vals["icmsst_percent"] = float(icms.p_icmsst)
+                    if hasattr(icms, "v_icmsst") and icms.v_icmsst is not None:
+                        icms_vals["icmsst_value"] = float(icms.v_icmsst)
+                    if hasattr(icms, "v_bcstret") and icms.v_bcstret is not None:
+                        icms_vals["icmsst_wh_base"] = float(icms.v_bcstret)
+                    if hasattr(icms, "v_icmsstret") and icms.v_icmsstret is not None:
+                        icms_vals["icmsst_wh_value"] = float(icms.v_icmsstret)
 
                     # ICMS FCP Fields
                     # TODO map icmsfcp_tax_id
@@ -918,49 +918,58 @@ class NFeLine(spec_models.StackedModel):
                         icms_vals["icmsfcp_base"] = float(icms.vBCFCPST)
 
                     # ICMS DIFAL Fields
-                    if hasattr(icms, "vBCUFDest") and icms.vBCUFDest is not None:
-                        icms_vals["icms_destination_base"] = float(icms.vBCUFDest)
-                    if hasattr(icms, "pICMSUFDest") and icms.pICMSUFDest is not None:
-                        icms_vals["icms_origin_percent"] = float(icms.pICMSUFDest)
-                    if hasattr(icms, "pICMSInter") and icms.pICMSInter is not None:
-                        icms_vals["icms_destination_percent"] = float(icms.pICMSInter)
+                    if (
+                        hasattr(icms, "v_bcfcpufdest")
+                        and icms.v_bcfcpufdest is not None
+                    ):
+                        icms_vals["icms_destination_base"] = float(icms.v_bcfcpufdest)
+                    if hasattr(icms, "p_fcpufdest") and icms.p_fcpufdest is not None:
+                        icms_vals["icms_origin_percent"] = float(icms.p_fcpufdest)
+                    if hasattr(icms, "p_icmsinter") and icms.p_icmsinter is not None:
+                        icms_vals["icms_destination_percent"] = float(icms.p_icmsinter)
 
                     if (
-                        hasattr(icms, "pICMSInterPart")
-                        and icms.pICMSInterPart is not None
+                        hasattr(icms, "p_icmsinter_part")
+                        and icms.p_icmsinter_part is not None
                     ):
-                        icms_vals["icms_sharing_percent"] = float(icms.pICMSInterPart)
-                    if hasattr(icms, "vICMSUFRemet") and icms.vICMSUFRemet is not None:
-                        icms_vals["icms_origin_value"] = float(icms.vICMSUFRemet)
-                    if hasattr(icms, "vICMSUFDest"):
-                        icms_vals["icms_destination_value"] = float(icms.vICMSUFDest)
+                        icms_vals["icms_sharing_percent"] = float(icms.p_icmsinter_part)
+                    if (
+                        hasattr(icms, "v_icmsufremet")
+                        and icms.v_icmsufremet is not None
+                    ):
+                        icms_vals["icms_origin_value"] = float(icms.v_icmsufremet)
+                    if hasattr(icms, "v_icmsufdest"):
+                        icms_vals["icms_destination_value"] = float(icms.v_icmsufdest)
 
                     # ICMS Simples Nacional Fields
                     # TODO map icmssn_tax_id using CSOSN
-                    if hasattr(icms, "CSOSN") and icms.CSOSN is not None:
+                    if hasattr(icms, "csosn") and icms.csosn is not None:
                         icms_vals["icms_cst_id"] = self.env.ref(
-                            "l10n_br_fiscal.cst_icmssn_%s" % (icms.CSOSN,)
+                            "l10n_br_fiscal.cst_icmssn_%s" % (icms.csosn.value,)
                         ).id
-                    if hasattr(icms, "pCredSN") and icms.pCredSN is not None:
-                        icms_vals["icmssn_percent"] = float(icms.pCredSN)
-                    if hasattr(icms, "vCredICMSSN") and icms.vCredICMSSN is not None:
-                        icms_vals["icmssn_credit_value"] = float(icms.vCredICMSSN)
+                    if hasattr(icms, "p_cred_sn") and icms.p_cred_sn is not None:
+                        icms_vals["icmssn_percent"] = float(icms.p_cred_sn)
+                    if (
+                        hasattr(icms, "v_cred_icmssn")
+                        and icms.v_cred_icmssn is not None
+                    ):
+                        icms_vals["icmssn_credit_value"] = float(icms.v_cred_icmssn)
 
                     # ICMS Retido Anteriormente
-                    if hasattr(icms, "vBCSTRet") and icms.vBCSTRet is not None:
-                        icms_vals["icmsst_wh_base"] = float(icms.vBCSTRet)
-                    if hasattr(icms, "vICMSSTRet") and icms.vICMSSTRet is not None:
-                        icms_vals["icmsst_wh_value"] = float(icms.vICMSSTRet)
-                    if hasattr(icms, "vBCFCPSTRet") and icms.vBCFCPSTRet is not None:
-                        icms_vals["icmsfcp_base_wh"] = float(icms.vBCFCPSTRet)
-                    if hasattr(icms, "vFCPSTRet") and icms.vFCPSTRet is not None:
-                        icms_vals["icmsfcp_value_wh"] = float(icms.vFCPSTRet)
-                    if hasattr(icms, "vFCPST") and icms.vFCPST is not None:
-                        icms_vals["icmsfcpst_value"] = float(icms.vFCPST)
-                    if hasattr(icms, "vBCEfet") and icms.vBCEfet is not None:
-                        icms_vals["effective_base_value"] = float(icms.vBCEfet)
-                    if hasattr(icms, "vICMSEfet") and icms.vICMSEfet is not None:
-                        icms_vals["icms_effective_value"] = float(icms.vICMSEfet)
+                    if hasattr(icms, "v_bcstret") and icms.v_bcstret is not None:
+                        icms_vals["icmsst_wh_base"] = float(icms.v_bcstret)
+                    if hasattr(icms, "v_icmsstret") and icms.v_icmsstret is not None:
+                        icms_vals["icmsst_wh_value"] = float(icms.v_icmsstret)
+                    if hasattr(icms, "v_bcfcpstret") and icms.v_bcfcpstret is not None:
+                        icms_vals["icmsfcp_base_wh"] = float(icms.v_bcfcpstret)
+                    if hasattr(icms, "v_fcpstret") and icms.v_fcpstret is not None:
+                        icms_vals["icmsfcp_value_wh"] = float(icms.v_fcpstret)
+                    if hasattr(icms, "v_fcpst") and icms.v_fcpst is not None:
+                        icms_vals["icmsfcpst_value"] = float(icms.v_fcpst)
+                    if hasattr(icms, "v_bcefet") and icms.v_bcefet is not None:
+                        icms_vals["effective_base_value"] = float(icms.v_bcefet)
+                    if hasattr(icms, "v_icmsefet") and icms.v_icmsefet is not None:
+                        icms_vals["icms_effective_value"] = float(icms.v_icmsefet)
             new_value.update(icms_vals)
         elif key == "nfe40_IPI":
             pass
