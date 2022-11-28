@@ -35,13 +35,14 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib",
+            "nfelib-xsdata",
             "erpbrasil.base",
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
             "erpbrasil.edoc.pdf",
             "xmldiff",
+            "xmlschema",
         ],
     },
 }

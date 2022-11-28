@@ -5,10 +5,11 @@ erpbrasil.base
 erpbrasil.edoc
 erpbrasil.edoc.pdf
 erpbrasil.transmissao
-nfelib
+nfelib-xsdata
 num2words
 phonenumbers
 pycep_correios
 workalendar
 xmldiff
+xmlschema
 xsdata
