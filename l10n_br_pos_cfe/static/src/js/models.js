@@ -88,6 +88,10 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
                 json.company.cnpj_software_house = pos_config.cnpj_software_house;
             }
 
+            if (json.cnpj_cpf) {
+                json.client = json.cnpj_cpf;
+            }
+
             json.configs_sat = {};
             json.configs_sat.cnpj_software_house = json.company.cnpj_software_house;
             json.configs_sat.sat_path = pos_config.sat_path;

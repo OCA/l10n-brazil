@@ -133,11 +133,6 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
         }
 
         get document_date() {
-            if (this.order.state_edoc === "cancelada") {
-                return moment(this.order.authorization_date)
-                    .add(2, "hours")
-                    .format("DD/MM/YYYY HH:mm:ss");
-            }
             return moment(this.order.authorization_date).format("DD/MM/YYYY HH:mm:ss");
         }
 

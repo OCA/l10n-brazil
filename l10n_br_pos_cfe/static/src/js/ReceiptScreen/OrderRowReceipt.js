@@ -16,16 +16,14 @@ odoo.define("l10n_br_pos_cfe.OrderRowReceipt", function (require) {
         get id() {
             const lineCollections = this.env.pos.get_order().get_orderlines();
             const index = _.findIndex(lineCollections, {id: this.line.id}) + 1;
-            if (index < 10) {
+            if (index < 100) {
                 return String(index).padStart(3, "0");
-            } else if (index < 100) {
-                return String(index).padStart(2, "0");
             }
             return String(index);
         }
 
         get defaultCode() {
-            return this.line.product_default_code;
+            return this.line.product_default_code || "";
         }
 
         get productName() {
@@ -49,7 +47,7 @@ odoo.define("l10n_br_pos_cfe.OrderRowReceipt", function (require) {
         }
 
         get total() {
-            return round_pr(this.productQuantity * this.productPrice).toFixed(2);
+            return (this.productQuantity * this.productPrice).toFixed(2);
         }
     }
     OrderRowReceipt.template = "OrderRowReceipt";
