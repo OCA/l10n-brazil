@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from erpbrasil.base.fiscal import cnpj_cpf
-    from erpbrasil.base.misc import punctuation_rm
+    from erpbrasil.base.misc import punctuation_rm, format_zipcode
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
@@ -64,10 +64,14 @@ class ResPartner(spec_models.SpecModel):
     nfe40_UF = fields.Char(related="state_id.code")
 
     # nfe.40.tendereco
-    nfe40_CEP = fields.Char(related="zip", readonly=False)
+    nfe40_CEP = fields.Char(
+        compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP"
+    )
     nfe40_cPais = fields.Char(related="country_id.bc_code")
     nfe40_xPais = fields.Char(related="country_id.name")
-    nfe40_fone = fields.Char(related="phone", readonly=False)  # TODO mobile?
+    nfe40_fone = fields.Char(
+        compute="_compute_nfe_data", inverse="_inverse_nfe40_fone"
+    )
 
     # nfe.40.dest
     nfe40_xNome = fields.Char(related="legal_name")
@@ -150,6 +154,9 @@ class ResPartner(spec_models.SpecModel):
             else:
                 rec.nfe40_IE = None
 
+            rec.nfe40_CEP = punctuation_rm(rec.zip)
+            rec.nfe40_fone = punctuation_rm(rec.phone or "").replace(" ", "")
+
     def _inverse_nfe40_CNPJ(self):
         for rec in self:
             if rec.nfe40_CNPJ:
@@ -166,6 +173,17 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             if rec.nfe40_IE:
                 rec.inscr_est = str(rec.nfe40_IE)
+
+    def _inverse_nfe40_CEP(self):
+        for rec in self:
+            if rec.nfe40_CEP:
+                country_code = rec.country_id.code if rec.country_id else "BR"
+                rec.zip = format_zipcode(rec.nfe40_CEP, country_code)
+
+    def _inverse_nfe40_fone(self):
+        for rec in self:
+            if rec.nfe40_fone:
+                rec.phone = rec.nfe40_fone
 
     def _export_field(self, xsd_field, class_obj, member_spec):
         if xsd_field == "nfe40_xNome" and class_obj._name == "nfe.40.dest":
