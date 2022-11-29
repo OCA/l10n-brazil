@@ -381,6 +381,21 @@ class NFe(spec_models.StackedModel):
             doc.nfe40_dest = doc.partner_id
 
     ##########################
+    # NF-e tag: entrega
+    ##########################
+
+    nfe40_entrega = fields.Many2one(
+        comodel_name="res.partner",
+        related="partner_shipping_id",
+    )
+
+    ##########################
+    # NF-e tag: retirada
+    ##########################
+
+    nfe40_retirada = fields.Many2one(comodel_name="res.partner")
+
+    ##########################
     # NF-e tag: det
     ##########################
 
