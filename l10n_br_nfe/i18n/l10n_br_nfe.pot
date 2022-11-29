@@ -198,15 +198,15 @@ msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice6
-msgid "CNPJ ou CPF?"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice19
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice19
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice19
-msgid "CNPJ/CPF"
+msgid "CNPJ or CPF"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice6
+msgid "CNPJ ou CPF?"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1115,6 +1115,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_IE
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe40_IE
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_IE
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_IE
 msgid "Inscrição Estadual (obrigatório nas operações com\n"
@@ -1387,6 +1388,11 @@ msgid "Número do CNPJ do emitente"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_CPF
+msgid "Número do CPF do emitente"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_nNF
 msgid "Número do Documento Fiscal"
 msgstr ""
@@ -1613,6 +1619,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_fone
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_fone
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_fone
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_fone
 msgid "Telefone"
@@ -1620,6 +1627,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_fone
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe40_fone
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_fone
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_fone
 msgid "Telefone, preencher com Código DDD + número do telefone , nas\n"
@@ -2037,11 +2045,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_choice4
 msgid "refNFe/refNF/refNFP/refCTe/refECF"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_spec_mixin
-msgid "root abstract model meant for xsd generated fiscal models"
 msgstr ""
 
 #. module: l10n_br_nfe
