@@ -120,7 +120,7 @@ class ResPartner(spec_models.SpecModel):
             ("nfe40_CNPJ", "CNPJ"),
             ("nfe40_CPF", "CPF"),
         ],
-        string="CNPJ/CPF",
+        string="CNPJ or CPF",
     )
 
     def _compute_nfe40_xEnder(self):
@@ -193,7 +193,7 @@ class ResPartner(spec_models.SpecModel):
             and class_obj._name == "nfe.40.dest"
             and self.env.context.get("tpAmb") == "2"
         ):
-            return "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO " "- SEM VALOR FISCAL"
+            return "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
 
         if self.country_id.code != "BR":
             if xsd_field == "nfe40_xBairro":
