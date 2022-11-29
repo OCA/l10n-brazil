@@ -195,6 +195,18 @@ class ResPartner(spec_models.SpecModel):
         ):
             return "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
 
+        if xsd_field in ("nfe40_CNPJ", "nfe40_CPF"):
+            # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
+            # É exportado o CNPJ/CPF do parent_id é importate para o endereço
+            # de entrega/retirada
+            if not self.cnpj_cpf and self.parent_id:
+                cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
+            else:
+                cnpj_cpf = punctuation_rm(self.cnpj_cpf)
+
+            if xsd_field == self.nfe40_choice2:
+                return cnpj_cpf
+
         if self.country_id.code != "BR":
             if xsd_field == "nfe40_xBairro":
                 return "EX"
@@ -209,16 +221,5 @@ class ResPartner(spec_models.SpecModel):
                 return "EX"
             if xsd_field == "nfe40_idEstrangeiro":
                 return self.vat or self.cnpj_cpf or self.rg or "EXTERIOR"
-
-            if xsd_field in ("nfe40_CNPJ", "nfe40_CPF"):
-                # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
-                # É exportado o CNPJ/CPF do parent_id é importate para o endereço
-                # de entrega/retirada
-                if not self.cnpj_cpf and self.parent_id:
-                    cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
-                else:
-                    cnpj_cpf = punctuation_rm(self.cnpj_cpf)
-
-                return cnpj_cpf
 
         return super()._export_field(xsd_field, class_obj, member_spec)
