@@ -66,7 +66,7 @@ class NFeImportWizardTest(SavepointCase):
         wizard.imported_products_ids[0].uom_internal = product_10.uom_id
         action = wizard.import_nfe_xml()
         edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
-        delivery_adress = edoc.partner_id.child_ids[0]
-        self.assertFalse(delivery_adress.country_id)
-        self.assertFalse(delivery_adress.crc_state_id)
-        self.assertFalse(delivery_adress.city_id)
+        delivery_adress = edoc.partner_shipping_id
+        self.assertTrue(delivery_adress.country_id)
+        self.assertTrue(delivery_adress.state_id)
+        self.assertTrue(delivery_adress.city_id)
