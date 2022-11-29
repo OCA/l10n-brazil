@@ -138,7 +138,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:970
+#: code:addons/l10n_br_nfe/models/document.py:985
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
@@ -283,7 +283,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:742
+#: code:addons/l10n_br_nfe/models/document.py:757
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:30
 #, python-format
 msgid "Certificado não encontrado"
@@ -945,6 +945,28 @@ msgstr ""
 msgid "Identificação do Ambiente:\n"
 "1 - Produção\n"
 "2 - Homologação"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_entrega
+msgid "Identificação do Local de Entrega"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_entrega
+msgid "Identificação do Local de Entrega (informar apenas quando for\n"
+"diferente do endereço do destinatário)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_retirada
+msgid "Identificação do Local de Retirada"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_retirada
+msgid "Identificação do Local de Retirada (informar apenas quando\n"
+"for diferente do endereço do remetente)"
 msgstr ""
 
 #. module: l10n_br_nfe
