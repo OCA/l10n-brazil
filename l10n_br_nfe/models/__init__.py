@@ -17,4 +17,3 @@ from . import res_city
 from . import res_config_settings
 from . import cfop
 from . import invalidate_number
-from . import spec_mixin
