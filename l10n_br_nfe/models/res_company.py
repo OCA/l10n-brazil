@@ -42,7 +42,8 @@ class ResCompany(spec_models.SpecModel):
     )
 
     nfe40_choice6 = fields.Selection(
-        string="CNPJ ou CPF?", compute="_compute_nfe_data",
+        string="CNPJ ou CPF?",
+        compute="_compute_nfe_data",
     )
 
     processador_edoc = fields.Selection(
