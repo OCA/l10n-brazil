@@ -80,7 +80,8 @@ class NFeImportTest(SavepointCase):
 
         # enderDest
         self.assertEqual(nfe.partner_id.street_name, "Rua Fonseca")  # related xLgr
-        self.assertEqual(nfe.partner_id.zip, "13877123")  # related CEP
+        self.assertEqual(nfe.partner_id.zip, "13877-123")
+        self.assertEqual(nfe.partner_id.nfe40_CEP, "13877123")
         self.assertEqual(nfe.partner_id.city_id.name, "São João da Boa Vista")
 
         # now we check that company_id is unchanged
