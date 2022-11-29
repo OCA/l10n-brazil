@@ -57,10 +57,23 @@ class AbstractSpecMixin(models.AbstractModel):
         that will later be injected as **kwargs in the proper XML Python
         binding constructors. Hence the value can either be simple values or
         sub binding instances already properly instanciated.
+
+        This method implements a dynamic dispatch checking if there is any
+        method called _export_fields_CLASS_NAME to update the xsd_fields
+        and export_dict variables, this way we allow controlling the
+        flow of fields to export or injecting specific values ​​in the
+        field export.
         """
         self.ensure_one()
         binding_class = self._get_binding_class(class_obj)
         binding_class_spec = {i.name: i for i in binding_class.member_data_items_}
+
+        class_name = class_obj._name.replace(".", "_")
+        export_method_name = "_export_fields_%s" % class_name
+        if hasattr(self, export_method_name):
+            xsd_fields = [i for i in xsd_fields]
+            export_method = getattr(self, export_method_name)
+            export_method(xsd_fields, class_obj, export_dict)
 
         for xsd_field in xsd_fields:
             if not xsd_field:
