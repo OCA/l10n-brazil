@@ -517,7 +517,7 @@ class NFeLine(spec_models.StackedModel):
         return super()._export_fields(xsd_fields, class_obj, export_dict)
 
     # flake8: noqa: C901
-    def _export_field(self, xsd_field, class_obj, member_spec):
+    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         # ISSQN
         if xsd_field == "nfe40_cMunFG":
             return self.issqn_fg_city_id.ibge_code
@@ -628,7 +628,9 @@ class NFeLine(spec_models.StackedModel):
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
-    def _export_float_monetary(self, field_name, member_spec, class_obj, xsd_required):
+    def _export_float_monetary(
+        self, field_name, member_spec, class_obj, xsd_required, export_value=None
+    ):
         if not self[field_name] and not xsd_required:
             if not (
                 class_obj._name == "nfe.40.imposto" and field_name == "nfe40_vTotTrib"
