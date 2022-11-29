@@ -28,24 +28,22 @@ class ResCompany(spec_models.SpecModel):
     _inherit = ["res.company", "nfe.40.emit"]
     _nfe_search_keys = ["nfe40_CNPJ", "nfe40_xNome", "nfe40_xFant"]
 
-    def _compute_nfe_data(self):
-        # compute because a simple related field makes the match_record fail
-        for rec in self:
-            if rec.partner_id.is_company:
-                rec.nfe40_choice6 = "nfe40_CNPJ"
-                rec.nfe40_CNPJ = rec.partner_id.cnpj_cpf
-            else:
-                rec.nfe40_choice6 = "nfe40_CPF"
-                rec.nfe40_CPF = rec.partner_id.cnpj_cpf
-
-    nfe40_CNPJ = fields.Char(compute="_compute_nfe_data")
+    nfe40_CNPJ = fields.Char(related="partner_id.nfe40_CNPJ")
+    nfe40_CPF = fields.Char(related="partner_id.nfe40_CPF")
     nfe40_xNome = fields.Char(related="partner_id.legal_name")
     nfe40_xFant = fields.Char(related="partner_id.name")
-    nfe40_IE = fields.Char(related="partner_id.inscr_est")
+    nfe40_IE = fields.Char(related="partner_id.nfe40_IE")
+    nfe40_fone = fields.Char(related="partner_id.nfe40_fone")
     nfe40_CRT = fields.Selection(related="tax_framework")
-    nfe40_enderEmit = fields.Many2one("res.partner", related="partner_id")
 
-    nfe40_choice6 = fields.Selection(string="CNPJ ou CPF?", compute="_compute_nfe_data")
+    nfe40_enderEmit = fields.Many2one(
+        comodel_name="res.partner",
+        related="partner_id",
+    )
+
+    nfe40_choice6 = fields.Selection(
+        string="CNPJ ou CPF?", compute="_compute_nfe_data",
+    )
 
     processador_edoc = fields.Selection(
         selection_add=PROCESSADOR,
@@ -111,6 +109,14 @@ class ResCompany(spec_models.SpecModel):
         "download NFe XML",
         default=False,
     )
+
+    def _compute_nfe_data(self):
+        # compute because a simple related field makes the match_record fail
+        for rec in self:
+            if rec.partner_id.is_company:
+                rec.nfe40_choice6 = "nfe40_CNPJ"
+            else:
+                rec.nfe40_choice6 = "nfe40_CPF"
 
     def _build_attr(self, node, fields, vals, path, attr):
         if attr.get_name() == "enderEmit" and self.env.context.get("edoc_type") == "in":
