@@ -182,7 +182,7 @@ class ResPartner(spec_models.SpecModel):
             if rec.nfe40_fone:
                 rec.phone = rec.nfe40_fone
 
-    def _export_field(self, xsd_field, class_obj, member_spec):
+    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         # Se a NF-e é emitida em homologação altera o nome do destinatário
         if (
             xsd_field == "nfe40_xNome"

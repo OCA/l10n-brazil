@@ -592,7 +592,7 @@ class NFe(spec_models.StackedModel):
     # Framework Spec model's methods
     ################################
 
-    def _export_field(self, xsd_field, class_obj, member_spec):
+    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
             self.env.context.update({"tpAmb": self[xsd_field]})
