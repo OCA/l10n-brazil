@@ -14,5 +14,3 @@ xmldiff==2.4
 lxml==4.6.5
 openupgradelib
 febraban
-vcrpy
-odoo-test-helper
