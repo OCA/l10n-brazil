@@ -20,9 +20,4 @@
     ],
     "demo": [],
     "uninstall_hook": "uninstall_hook",
-    "external_dependencies": {
-        "python": [
-            "vcrpy",  # (only for tests)
-        ],
-    },
 }

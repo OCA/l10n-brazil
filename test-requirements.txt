@@ -1,0 +1,2 @@
+vcrpy  # Needed by payment_pagseguro
+odoo-test-helper  # Needed by spec_driven_model
