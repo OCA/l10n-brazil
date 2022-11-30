@@ -132,11 +132,6 @@ msgid "Number"
 msgstr ""
 
 #. module: payment_cielo
-#: selection:payment.acquirer,provider:0
-msgid "Pagseguro"
-msgstr ""
-
-#. module: payment_cielo
 #: model:ir.model,name:payment_cielo.model_payment_acquirer
 msgid "Payment Acquirer"
 msgstr ""
