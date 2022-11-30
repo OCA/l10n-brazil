@@ -11,11 +11,6 @@
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [],
-    "external_dependencies": {
-        "python": [
-            "odoo_test_helper",  # (only for tests)
-        ]
-    },
     "data": [],
     "demo": [],
     "development_status": "Beta",
