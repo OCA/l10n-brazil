@@ -30,6 +30,7 @@
               <group>
                 <field name="name" required="1" />
                 <field name="icms_imported_tax_id" required="1" />
+                <field name="icms_imported_with_st_tax_id" required="1" />
               </group>
               <notebook>
               </notebook>
