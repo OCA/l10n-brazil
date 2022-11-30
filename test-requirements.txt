@@ -1,2 +1,4 @@
 vcrpy  # Needed by payment_pagseguro
 odoo-test-helper  # Needed by spec_driven_model
+-e git+https://github.com/Engenere/erpbrasil.edoc@master-xsdata#egg=erpbrasil.edoc
+-e git+https://github.com/Engenere/erpbrasil.assinatura@fix-namespaces#egg=erpbrasil.assinatura
