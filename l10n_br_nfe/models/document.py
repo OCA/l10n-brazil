@@ -938,11 +938,12 @@ class NFe(spec_models.StackedModel):
         )
         # TODO: Alterar a opção output_dir para devolter também o arquivo do XML
         # no retorno, evitando a releitura do arquivo.
+        filename = '%s - NF - %s.pdf' % (self.document_number, self.partner_name.replace('/', ''))
 
         self.file_report_id = self.env["ir.attachment"].create(
             {
-                "name": self.document_key + ".pdf",
-                "datas_fname": self.document_key + ".pdf",
+                "name": filename,
+                "datas_fname": filename,
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(pdf),
