@@ -170,3 +170,82 @@ class TestFiscalTax(common.TransactionCase):
         }
 
         self._check_compute_taxes_result(test_result, compute_result, currency)
+
+    def test_compute_taxes_03(self):
+        """Testa o calculo dos impostos de compra - entrada de importação"""
+
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+
+        kwargs["partner"] = self.env.ref("base.res_partner_12")
+        kwargs["price_unit"] = 49.63180
+        kwargs["quantity"] = 5.00
+        kwargs["fiscal_price"] = 49.63180
+        kwargs["fiscal_quantity"] = 5.00
+        kwargs["insurance_value"] = 0.00
+        kwargs["other_value"] = 74.87
+        kwargs["freight_value"] = 0.00
+        kwargs["ii_customhouse_charges"] = 7.72
+        kwargs["ii_iof_value"] = 0.00
+        kwargs["operation_line"] = self.env.ref("l10n_br_fiscal.fo_compras_compras")
+        kwargs["cfop"] = self.env.ref("l10n_br_fiscal.cfop_3101")
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        fiscal_taxes |= (
+            self.env.ref("l10n_br_fiscal.tax_icms_17")
+            + self.env.ref("l10n_br_fiscal.tax_ii_10")
+            + self.env.ref("l10n_br_fiscal.tax_ipi_15")
+            + self.env.ref("l10n_br_fiscal.tax_pis_monofasico_2_10")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_monofasico_10_68")
+        )
+
+        compute_result = fiscal_taxes.compute_taxes(**kwargs)
+
+        test_result = {
+            "taxes": {
+                "ii": {
+                    "base": 248.16,
+                    "base_reduction": 0.0,
+                    "percent_amount": 10.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 24.82,
+                },
+                "ipi": {
+                    "base": 272.98,
+                    "base_reduction": 0.0,
+                    "percent_amount": 15.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 40.95,
+                },
+                "icms": {
+                    "base": 425.73,
+                    "base_reduction": 0.0,
+                    "percent_amount": 17.00,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 72.37,
+                    "add_to_base": 180.07,
+                    "remove_from_base": 74.87,
+                },
+                "pis": {
+                    "base": 248.16,
+                    "base_reduction": 0.0,
+                    "percent_amount": 2.10,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 5.21,
+                },
+                "cofins": {
+                    "base": 248.16,
+                    "base_reduction": 0.0,
+                    "percent_amount": 10.68,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 26.50,
+                },
+            }
+        }
+
+        self._check_compute_taxes_result(test_result, compute_result, currency)
