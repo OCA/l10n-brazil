@@ -125,6 +125,10 @@ class BankPaymentLine(models.Model):
         string="Número documento",
     )
 
+    barcode = fields.Char(
+        string="Barcode", readonly=True, related="payment_line_ids.barcode"
+    )
+
     company_title_identification = fields.Char(
         string="Identificação Titulo Empresa",
     )

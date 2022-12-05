@@ -11,6 +11,7 @@
                 <group>
                     <field name="own_number" readonly="1" />
                     <field name="document_number" readonly="1" />
+                    <field name="barcode" readonly="1" />
                     <field name="company_title_identification" readonly="1" />
                     <field name="last_cnab_state" invisible="1" />
                     <field name="mov_instruction_code_id" readonly="1" />
