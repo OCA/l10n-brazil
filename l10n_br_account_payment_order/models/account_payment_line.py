@@ -47,6 +47,10 @@ class AccountPaymentLine(models.Model):
         string="Número documento",
     )
 
+    barcode = fields.Char(
+        string="Barcode", help="This field is used in the payment of supplier slips"
+    )
+
     company_title_identification = fields.Char(
         string="Identificação Titulo Empresa",
     )
