@@ -11,6 +11,7 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="mov_instruction_code_id" />
+                <field name="barcode" optional="hide" />
             </field>
         </field>
     </record>
