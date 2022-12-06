@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-23 20:44+0000\n"
+"PO-Revision-Date: 2022-12-06 23:53+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -484,7 +484,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__danfe_layout
 msgid "Danfe Layout"
-msgstr ""
+msgstr "Layout do Danfe"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dhSaiEnt
@@ -592,6 +592,8 @@ msgstr ""
 #: model:ir.module.category,description:l10n_br_nfe.module_category_l10n_br_nfe
 msgid "Extends Odoo to helps you manage your brazilian fiscal documents: NF-e"
 msgstr ""
+"Extensão do Odoo para ajudá-lo a gerenciar suas notas fiscais brasileiras: "
+"NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vBC
@@ -606,22 +608,22 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document
 msgid "Fiscal Document"
-msgstr ""
+msgstr "Documento Fiscal"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_line
 msgid "Fiscal Document Line"
-msgstr ""
+msgstr "Linha do Documento Fiscal"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_related
 msgid "Fiscal Document Related"
-msgstr ""
+msgstr "Documento Fiscal Relacionado"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_type
 msgid "Fiscal Document Type"
-msgstr ""
+msgstr "Tipo de Documento Fiscal"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpEmis
@@ -1364,12 +1366,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_product_product
 msgid "Product"
-msgstr ""
+msgstr "Produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_uom_uom
 msgid "Product Unit of Measure"
-msgstr ""
+msgstr "Unidade de Medida do Produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__normal
@@ -1474,19 +1476,19 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_xPais
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_xPais
 msgid "The full name of the country."
-msgstr ""
+msgstr "Nome completo do país."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_transporta
 msgid "The partner that is doing the delivery service."
-msgstr ""
+msgstr "O parceiro que está executando o serviço de entrega."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_UF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_UF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_UF
 msgid "The state code."
-msgstr ""
+msgstr "O código de estado."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_finNFe
@@ -1528,7 +1530,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_transmission
 msgid "Transmission Type"
-msgstr ""
+msgstr "Tipo de Transmissão"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_uTrib
