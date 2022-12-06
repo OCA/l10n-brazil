@@ -165,15 +165,15 @@ msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice6
-msgid "CNPJ ou CPF?"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice19
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice19
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice19
-msgid "CNPJ/CPF"
+msgid "CNPJ or CPF"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice6
+msgid "CNPJ ou CPF?"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -537,7 +537,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_country_state__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_spec_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_uom_uom__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
@@ -748,7 +747,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_country_state__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_spec_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_uom_uom__id
 msgid "ID"
 msgstr ""
@@ -990,6 +988,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_IE
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe40_IE
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_IE
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_IE
 msgid ""
@@ -1059,7 +1058,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_country_state____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_spec_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_uom_uom____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -1454,6 +1452,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_fone
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_fone
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_fone
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_fone
 msgid "Telefone"
@@ -1461,6 +1460,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_fone
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe40_fone
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_fone
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_fone
 msgid ""
@@ -1818,11 +1818,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_choice4
 msgid "refNFe/refNF/refNFP/refCTe/refECF"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_spec_mixin
-msgid "root abstract model meant for xsd generated fiscal models"
 msgstr ""
 
 #. module: l10n_br_nfe
