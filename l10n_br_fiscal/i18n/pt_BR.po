@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-23 20:44+0000\n"
+"PO-Revision-Date: 2022-12-06 23:53+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -3553,7 +3553,7 @@ msgstr "Sequencia de Evento de Documento Fiscal"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_comment__object_id__l10n_br_fiscal_document_line_mixin
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 msgid "Fiscal Document Line"
-msgstr "Linha de Documentos Fiscais"
+msgstr "Linha de Documento Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_related
