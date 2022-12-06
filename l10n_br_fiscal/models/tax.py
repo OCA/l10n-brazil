@@ -222,7 +222,7 @@ class Tax(models.Model):
         )
 
         # Compute Tax Base Reduction
-        base_reduction = currency.round(base_amount * abs(tax.percent_reduction / 100))
+        base_reduction = base_amount * abs(tax.percent_reduction / 100)
 
         # Compute Tax Base Amount
         if compute_reduction:
