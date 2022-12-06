@@ -6,6 +6,7 @@ from lxml import etree
 from odoo import api, models
 from odoo.osv.orm import setup_modifiers
 
+from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN
 from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
 from .tax import TAX_DICT_VALUES
 
@@ -171,6 +172,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             uot_id=self.uot_id,
             discount_value=self.discount_value,
             insurance_value=self.insurance_value,
+            ii_customhouse_charges=self.ii_customhouse_charges,
+            ii_iof_value=self.ii_iof_value,
             other_value=self.other_value,
             freight_value=self.freight_value,
             ncm=self.ncm_id,
@@ -178,6 +181,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             nbm=self.nbm_id,
             cest=self.cest_id,
             operation_line=self.fiscal_operation_line_id,
+            cfop=self.cfop_id,
             icmssn_range=self.icmssn_range_id,
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
@@ -784,7 +788,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.model
     def _add_fields_to_amount(self):
-        return ["insurance_value", "other_value", "freight_value"]
+        fields_to_amount = ["insurance_value", "other_value", "freight_value"]
+        if (
+            self.cfop_id.destination == CFOP_DESTINATION_EXPORT
+            and self.fiscal_operation_id.fiscal_operation_type == FISCAL_IN
+        ):
+            fields_to_amount.append("pis_value")
+            fields_to_amount.append("cofins_value")
+            fields_to_amount.append("icms_value")
+        return fields_to_amount
 
     @api.model
     def _rm_fields_to_amount(self):
