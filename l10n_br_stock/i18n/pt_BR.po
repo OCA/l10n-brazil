@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-09-16 22:07+0000\n"
+"PO-Revision-Date: 2022-12-07 19:44+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__cnpj_cpf
@@ -46,12 +46,12 @@ msgstr "Transferências Internas"
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificação em"
 
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__legal_name
 msgid "Legal Name"
-msgstr ""
+msgstr "Razão Social"
 
 #. module: l10n_br_stock
 #: code:addons/l10n_br_stock/hooks.py:0
