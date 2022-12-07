@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_crm_leads_form" model="ir.ui.view">
+        <field name="name">l10n_br_crm.leads.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="street" invisible="1" />
+            </field>
+
+            <xpath expr="//group[@name='lead_info']/div" position="after">
+                <field name="name_surname" />
+                <field name="cpf" />
+                <field name="rg" />
+            </xpath>
+
+            <xpath
+                expr="//group[@name='lead_partner']/field[@name='partner_name']"
+                position="after"
+            >
+                <field name="legal_name" />
+                <field name="cnpj" />
+                <field name="inscr_est" />
+            </xpath>
+
+            <xpath
+                expr="//group[@name='lead_partner']/field[@name='website']"
+                position="before"
+            >
+                <field name="inscr_mun" />
+                <field name="suframa" />
+            </xpath>
+
+            <xpath
+                expr="//page[@name='lead']//group/field[@name='partner_name']"
+                position='after'
+            >
+                <field name="legal_name" />
+                <field name="cnpj" />
+                <field name="inscr_est" />
+            </xpath>
+            <xpath
+                expr="//page[@name='lead']//group/field[@name='website']"
+                position='before'
+            >
+                <field name="inscr_mun" />
+                <field name="suframa" />
+            </xpath>
+            <xpath
+                expr="//page[@name='lead']//group/field[@name='function']"
+                position='before'
+            >
+                <field name="name_surname" />
+                <field name="cpf" />
+                <field name="rg" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

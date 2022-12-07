@@ -1,0 +1,110 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_crm
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2020-12-17 04:54+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj
+msgid "CNPJ"
+msgstr "CNPJ"
+
+#. module: l10n_br_crm
+#: code:addons/l10n_br_crm/models/crm_lead.py:63
+#, python-format
+msgid "CNPJ inválido!"
+msgstr "CNPJ inválido!"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cpf
+msgid "CPF"
+msgstr "CPF"
+
+#. module: l10n_br_crm
+#: code:addons/l10n_br_crm/models/crm_lead.py:74
+#, python-format
+msgid "CPF inválido!"
+msgstr "CPF inválido!"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__city_id
+msgid "City ID"
+msgstr "ID da Cidade"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
+msgid "Country"
+msgstr "País"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__district
+msgid "District"
+msgstr "Bairro"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
+msgid "Inscr. Estadual/RG"
+msgstr "Inscr. Estadual/RG"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_mun
+msgid "Inscr. Municipal"
+msgstr "Inscr. Municipal"
+
+#. module: l10n_br_crm
+#: code:addons/l10n_br_crm/models/crm_lead.py:92
+#, python-format
+msgid "Inscrição Estadual Invalida!"
+msgstr "Inscrição Estadual Invalida!"
+
+#. module: l10n_br_crm
+#: model:ir.model,name:l10n_br_crm.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Prospectos/Oportunidades"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_name
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__name_surname
+msgid "Nome e sobrenome"
+msgstr "Nome e sobrenome"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__name_surname
+msgid "Nome utilizado em documentos fiscais"
+msgstr "Nome utilizado em documentos fiscais"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_number
+msgid "Número"
+msgstr "Número"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__rg
+msgid "RG"
+msgstr "RG"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__suframa
+msgid "Suframa"
+msgstr "Suframa"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_name
+msgid "nome utilizado em documentos fiscais"
+msgstr "nome utilizado em documentos fiscais"
