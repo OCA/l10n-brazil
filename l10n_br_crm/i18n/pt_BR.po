@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_crm
+# 	* l10n_br_crm
 #
 msgid ""
 msgstr ""
@@ -22,10 +22,9 @@ msgid "CNPJ"
 msgstr "CNPJ"
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:63
-#, python-format
-msgid "CNPJ inválido!"
-msgstr "CNPJ inválido!"
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cpf
@@ -33,15 +32,9 @@ msgid "CPF"
 msgstr "CPF"
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:74
-#, python-format
-msgid "CPF inválido!"
-msgstr "CPF inválido!"
-
-#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__city_id
-msgid "City ID"
-msgstr "ID da Cidade"
+msgid "City of Address"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
@@ -54,20 +47,25 @@ msgid "District"
 msgstr "Bairro"
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
-msgid "Inscr. Estadual/RG"
-msgstr "Inscr. Estadual/RG"
-
-#. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_mun
-msgid "Inscr. Municipal"
-msgstr "Inscr. Municipal"
-
-#. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:92
+#. odoo-python
+#: code:addons/l10n_br_crm/models/crm_lead.py:0
 #, python-format
-msgid "Inscrição Estadual Invalida!"
-msgstr "Inscrição Estadual Invalida!"
+msgid "Invalid CNPJ!"
+msgstr ""
+
+#. module: l10n_br_crm
+#. odoo-python
+#: code:addons/l10n_br_crm/models/crm_lead.py:0
+#, python-format
+msgid "Invalid CPF!"
+msgstr ""
+
+#. module: l10n_br_crm
+#. odoo-python
+#: code:addons/l10n_br_crm/models/crm_lead.py:0
+#, python-format
+msgid "Invalid State Tax Number!"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
@@ -80,24 +78,44 @@ msgid "Legal Name"
 msgstr "Razão Social"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_mun
+msgid "Municipal Tax Number"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__name_surname
-msgid "Nome e sobrenome"
-msgstr "Nome e sobrenome"
+msgid "Name and Surname"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__name_surname
-msgid "Nome utilizado em documentos fiscais"
-msgstr "Nome utilizado em documentos fiscais"
+msgid "Name used in fiscal documents"
+msgstr ""
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_number
-msgid "Número"
-msgstr "Número"
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__state_tax_number_ids
+msgid "Others State Tax Number"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__rg
 msgid "RG"
 msgstr "RG"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
+msgid "State Tax Number"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_name
+msgid "Street Name"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_number
+msgid "Street Number"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__suframa
@@ -106,5 +124,38 @@ msgstr "Suframa"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_name
-msgid "nome utilizado em documentos fiscais"
-msgstr "nome utilizado em documentos fiscais"
+msgid "Used in fiscal documents"
+msgstr ""
+
+#, python-format
+#~ msgid "CNPJ inválido!"
+#~ msgstr "CNPJ inválido!"
+
+#, python-format
+#~ msgid "CPF inválido!"
+#~ msgstr "CPF inválido!"
+
+#~ msgid "City ID"
+#~ msgstr "ID da Cidade"
+
+#~ msgid "Inscr. Estadual/RG"
+#~ msgstr "Inscr. Estadual/RG"
+
+#~ msgid "Inscr. Municipal"
+#~ msgstr "Inscr. Municipal"
+
+#, python-format
+#~ msgid "Inscrição Estadual Invalida!"
+#~ msgstr "Inscrição Estadual Invalida!"
+
+#~ msgid "Nome e sobrenome"
+#~ msgstr "Nome e sobrenome"
+
+#~ msgid "Nome utilizado em documentos fiscais"
+#~ msgstr "Nome utilizado em documentos fiscais"
+
+#~ msgid "Número"
+#~ msgstr "Número"
+
+#~ msgid "nome utilizado em documentos fiscais"
+#~ msgstr "nome utilizado em documentos fiscais"
