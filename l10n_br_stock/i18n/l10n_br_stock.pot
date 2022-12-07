@@ -36,6 +36,7 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_stock
+#. odoo-python
 #: code:addons/l10n_br_stock/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_stock warehouse external ids..."
