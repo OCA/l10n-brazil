@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-23 20:44+0000\n"
+"PO-Revision-Date: 2022-12-07 19:44+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -19,72 +19,77 @@ msgstr ""
 #. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__0
 msgid "0 - Contratação do Frete por conta do Remetente (CIF)"
-msgstr ""
+msgstr "0 - Contratação do Frete por conta do Remetente (CIF)"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__1
 msgid "1 - Contratação do Frete por conta do destinatário/remetente (FOB)"
-msgstr ""
+msgstr "1 - Contratação do Frete por conta do destinatário/remetente (FOB)"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__2
 msgid "2 - Contratação do Frete por conta de terceiros"
-msgstr ""
+msgstr "2 - Contratação do Frete por conta de terceiros"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__3
 msgid "3 - Transporte próprio por conta do remetente"
-msgstr ""
+msgstr "3 - Transporte próprio por conta do remetente"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__4
+#, fuzzy
 msgid "4 - Transporte próprio por conta do destinatário"
-msgstr ""
+msgstr "4 - Transporte próprio por conta do destinatário"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__account_incoterms__freight_responsibility__9
+#, fuzzy
 msgid "9 - Sem Ocorrência de transporte."
-msgstr ""
+msgstr "9 - Sem Ocorrência de transporte."
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__rntc_code
 msgid "ANTT Code"
-msgstr ""
+msgstr "Código ANTT"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__active
 msgid "Active"
-msgstr ""
+msgstr "Ativo"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__amount_gross_weight
 msgid "Amount Gross Weight"
-msgstr ""
+msgstr "Valor Peso Bruto"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__amount_volume
 msgid "Amount Volume"
-msgstr ""
+msgstr "Valor do Volume"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__manufacture_year
+#, fuzzy
 msgid "Ano de Fabricação"
-msgstr ""
+msgstr "Ano de Fabricação"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__model_year
+#, fuzzy
 msgid "Ano do Modelo"
-msgstr ""
+msgstr "Ano do Modelo"
 
 #. module: l10n_br_delivery
 #: model:res.partner,nfe40_xPais:l10n_br_delivery.test_carrier
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__l10n_br_delivery_carrier_vehicle__type__bau
+#, fuzzy
 msgid "Caminhão Baú"
-msgstr ""
+msgstr "Caminhão Baú"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__carrier_id
@@ -113,7 +118,7 @@ msgstr "Cidade"
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_delivery_carrier__antt_code
 msgid "Codigo ANTT"
-msgstr ""
+msgstr "Código ANTT"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__country_id
@@ -165,16 +170,19 @@ msgstr "Motorista"
 #: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__carrier_id
 msgid "Fill this field if you plan to invoice the shipping based on picking."
 msgstr ""
+"Preencha este campo se você planeja faturar a entrega baseada no picking."
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__freight_responsibility
+#, fuzzy
 msgid "Frete por Conta"
-msgstr ""
+msgstr "Frete por Conta"
 
 #. module: l10n_br_delivery
 #: model:res.partner,nfe40_xMun:l10n_br_delivery.test_carrier
+#, fuzzy
 msgid "Guarulhos"
-msgstr ""
+msgstr "Guarulhos"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__id
@@ -184,8 +192,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__id
+#, fuzzy
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
@@ -198,18 +207,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__incoterm_id
+#, fuzzy
 msgid "Incoterm"
-msgstr ""
+msgstr "Incoterm"
 
 #. module: l10n_br_delivery
 #: model:ir.model,name:l10n_br_delivery.model_account_incoterms
+#, fuzzy
 msgid "Incoterms"
-msgstr ""
+msgstr "Incoterms"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,help:l10n_br_delivery.field_account_incoterms__freight_responsibility
+#, fuzzy
 msgid "Informação usada na emissão de Documentos Fiscais"
-msgstr ""
+msgstr "Informação usada na emissão de Documentos Fiscais"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,help:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
@@ -226,11 +238,13 @@ msgid ""
 "International Commercial Terms are a series of predefined commercial terms "
 "used in international transactions."
 msgstr ""
+"International Commercial Terms são uma série de termos comerciais pré "
+"definidos usados em transações internacionais."
 
 #. module: l10n_br_delivery
 #: model:ir.model,name:l10n_br_delivery.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Lançamento de Diário"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms____last_update
@@ -241,57 +255,59 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificação em"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última atualização por"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última atualização em"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__type
 msgid "Model Type"
-msgstr ""
+msgstr "Tipo de Modelo"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__plate
+#, fuzzy
 msgid "Placa"
-msgstr ""
+msgstr "Placa"
 
 #. module: l10n_br_delivery
 #: model:ir.model,name:l10n_br_delivery.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Pedido de Vendas"
 
 #. module: l10n_br_delivery
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_vehicle_form
 msgid "Shipping Company"
-msgstr ""
+msgstr "Empresa de Transporte"
 
 #. module: l10n_br_delivery
 #: model:ir.model,name:l10n_br_delivery.model_delivery_carrier
 msgid "Shipping Methods"
-msgstr ""
+msgstr "Métodos de Transporte"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__state_id
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_br_delivery
 #: model:delivery.carrier,name:l10n_br_delivery.test_br_delivery_carrier
+#, fuzzy
 msgid "Teste - l10n_br_delivery"
-msgstr ""
+msgstr "Teste - l10n_br_delivery"
 
 #. module: l10n_br_delivery
 #: model:ir.model,name:l10n_br_delivery.model_stock_picking
@@ -303,22 +319,23 @@ msgstr "Transferir"
 #: model:ir.ui.menu,name:l10n_br_delivery.menu_l10n_br_delivery_carrier_vehicle_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_vehicle_form
 msgid "Vehicle"
-msgstr ""
+msgstr "Veículo"
 
 #. module: l10n_br_delivery
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_vehicle_form
 msgid "Vehicle Data"
-msgstr ""
+msgstr "Dados do Veículo"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_delivery_carrier__vehicle_ids
 msgid "Vehicles"
-msgstr ""
+msgstr "Veículos"
 
 #. module: l10n_br_delivery
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery.l10n_br_delivery_carrier_form_view
+#, fuzzy
 msgid "[('supplier', '=', True)]"
-msgstr ""
+msgstr "[('supplier', '=', True)]"
 
 #~ msgid "Fiscal Document"
 #~ msgstr "Documento Fiscal"
