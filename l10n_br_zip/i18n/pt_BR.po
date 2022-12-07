@@ -89,10 +89,8 @@ msgid "Days to Update CEP"
 msgstr "Dias para atualizar CEP"
 
 #. module: l10n_br_zip
-#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__display_name
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__display_name
-#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -103,22 +101,22 @@ msgid "District"
 msgstr "Bairro"
 
 #. module: l10n_br_zip
+#. odoo-python
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "Error in PyCEP-Correios: "
 msgstr ""
 
 #. module: l10n_br_zip
+#. odoo-python
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "Error loading attribute: "
 msgstr ""
 
 #. module: l10n_br_zip
-#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__id
-#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__id
 msgid "ID"
 msgstr "ID"
 
@@ -128,16 +126,15 @@ msgid "Id do objeto"
 msgstr "Id do objeto"
 
 #. module: l10n_br_zip
+#. odoo-python
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "It is necessary to inform the State, municipality and public place"
 msgstr ""
 
 #. module: l10n_br_zip
-#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip____last_update
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search____last_update
-#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings____last_update
 msgid "Last Modified on"
 msgstr "Última atualização em"
 
