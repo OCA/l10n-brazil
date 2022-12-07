@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2022-12-06 23:53+0000\n"
+"PO-Revision-Date: 2022-12-07 19:44+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -1079,7 +1079,7 @@ msgstr "Faturamento"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking____last_update
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificação em"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__manual_additional_data
