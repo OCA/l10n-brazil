@@ -159,7 +159,7 @@
                 <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))],'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="cfop_id"
