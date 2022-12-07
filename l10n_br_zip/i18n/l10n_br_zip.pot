@@ -98,12 +98,14 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_zip
+#. odoo-python
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "Error in PyCEP-Correios: "
 msgstr ""
 
 #. module: l10n_br_zip
+#. odoo-python
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "Error loading attribute: "
@@ -121,6 +123,7 @@ msgid "Id do objeto"
 msgstr ""
 
 #. module: l10n_br_zip
+#. odoo-python
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "It is necessary to inform the State, municipality and public place"
