@@ -18,6 +18,7 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid ""
@@ -2285,6 +2286,7 @@ msgid "Bank Branch Digit"
 msgstr "Dígito da Agência Bancária"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid "Bank branch code must be four caracteres."
@@ -3910,6 +3912,7 @@ msgid "CPF"
 msgstr "CPF"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__cnpj_cpf
 #, python-format
@@ -5997,6 +6000,7 @@ msgid "Chaves"
 msgstr "Chaves"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__checking
 #, python-format
@@ -6586,6 +6590,7 @@ msgid "Constantina"
 msgstr "Constantina"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__11
 #, python-format
@@ -6593,6 +6598,7 @@ msgid "Conta corrente conjunta"
 msgstr "Conta corrente conjunta"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__01
 #, python-format
@@ -6600,6 +6606,7 @@ msgid "Conta corrente individual"
 msgstr "Conta corrente individual"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__13
 #, python-format
@@ -6607,6 +6614,7 @@ msgid "Conta depósito judicial/Depósito em consignação conjunta"
 msgstr "Conta depósito judicial/Depósito em consignação conjunta"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__03
 #, python-format
@@ -6614,6 +6622,7 @@ msgid "Conta depósito judicial/Depósito em consignação individual"
 msgstr "Conta depósito judicial/Depósito em consignação individual"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__12
 #, python-format
@@ -6621,6 +6630,7 @@ msgid "Conta poupança conjunta"
 msgstr "Conta poupança conjunta"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__02
 #, python-format
@@ -8090,6 +8100,7 @@ msgid "Dário Meira"
 msgstr "Dário Meira"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__email
 #, python-format
@@ -8430,6 +8441,7 @@ msgid "Espírito Santo do Turvo"
 msgstr "Espírito Santo do Turvo"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "Estadual Inscription Invalid !"
@@ -10937,6 +10949,7 @@ msgid "Inocência"
 msgstr "Inocência"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "Invalid State Tax Number!"
@@ -18525,6 +18538,7 @@ msgid "Peçanha"
 msgstr "Peçanha"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__phone
 #, python-format
@@ -19720,6 +19734,7 @@ msgid "Pratânia"
 msgstr "Pratânia"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__payment
 #, python-format
@@ -20204,6 +20219,7 @@ msgid "Rancho Queimado"
 msgstr "Rancho Queimado"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__evp
 #, python-format
@@ -22558,6 +22574,7 @@ msgid "Saudades"
 msgstr "Saudades"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__saving
 #, python-format
@@ -23290,6 +23307,7 @@ msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "State Tax Number already used {}"
@@ -25656,6 +25674,7 @@ msgid "Theobroma"
 msgstr "Theobroma"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
@@ -25663,18 +25682,21 @@ msgstr ""
 "Só pode haver um número de imposto estadual por estado para cada parceiro!"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
 msgstr "Já existe um parceiro com este CNPJ !"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this CPF/RG!"
 msgstr "Já existe cadastro de parceiro com este CPF/RG!"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
@@ -27371,6 +27393,7 @@ msgid "Zé Doca"
 msgstr "Zé Doca"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid ""
@@ -27379,6 +27402,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "{} Invalid!"
