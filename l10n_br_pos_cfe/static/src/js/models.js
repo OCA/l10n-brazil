@@ -89,7 +89,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             }
 
             if (json.cnpj_cpf) {
-                json.client = json.cnpj_cpf;
+                json.client = json.cnpj_cpf.replace('.', '').replace('.', '').replace('-', '').replace('/', '');
             }
 
             json.configs_sat = {};
