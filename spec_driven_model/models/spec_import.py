@@ -1,6 +1,7 @@
 # Copyright 2019-2020 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import inspect
 import logging
 import re
 from datetime import datetime
@@ -311,7 +312,21 @@ class AbstractSpecMixin(models.AbstractModel):
                 rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
             )
             if self._context.get("dry_run"):
-                rec_id = model.new(vals).id
+                rec = model.new(vals)
+                rec_id = rec.id
+                # at this point for NewId records, some fields
+                # may need to be set calling the inverse field functions:
+                for fname in vals:
+                    field = model._fields.get(fname)
+                    if isinstance(field.inverse, str):
+                        getattr(rec, field.inverse)()
+                        rec.write(vals)  # ensure vals values aren't overriden
+                    elif (
+                        field.inverse
+                        and len(inspect.getfullargspec(field.inverse).args) < 2
+                    ):
+                        field.inverse()
+                        rec.write(vals)
             else:
                 rec_id = (
                     model.with_context(
