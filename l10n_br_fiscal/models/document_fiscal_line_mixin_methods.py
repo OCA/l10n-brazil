@@ -342,6 +342,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     company=self.company_id,
                     partner=self.partner_id,
                     product=self.product_id,
+                    city_taxation_code=self.city_taxation_code_id,
                 )
                 icms_regulation_id |= tax_definition_ids.mapped("icms_regulation_id")
 
