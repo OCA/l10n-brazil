@@ -73,8 +73,13 @@ class Operation(models.Model):
     def _fiscal_document_object(self):
         return self.env["account.move"]
 
-    def _line_domain(self, company, partner, product):
-        domain = super()._line_domain(company=company, partner=partner, product=product)
+    def _line_domain(self, company, partner, product, icms_regulation):
+        domain = super()._line_domain(
+            company=company,
+            partner=partner,
+            product=product,
+            icms_regulation=icms_regulation,
+        )
 
         domain += [
             "|",
