@@ -854,6 +854,12 @@ msgid "Banks"
 msgstr "Bancos"
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__barcode
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_bank_payment_line__barcode
+msgid "Barcode"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__boleto
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.res_company_form
@@ -2939,6 +2945,12 @@ msgid ""
 "This code is used in the code of the Odoo module that handles this payment "
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__barcode
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_bank_payment_line__barcode
+msgid "This field is used in the payment of supplier slips"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
