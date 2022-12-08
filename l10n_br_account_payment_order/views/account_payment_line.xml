@@ -81,6 +81,11 @@
                 <group name="cnab" string="Informações do CNAB">
                     <field name="own_number" readonly="1" />
                     <field name="document_number" readonly="1" />
+                    <field name="payment_mode_domain" invisible="1" />
+                    <field
+                        name="barcode"
+                        attrs="{'required': [('payment_type', '=', 'outbound'),('payment_mode_domain', '=', 'boleto')]}"
+                    />
                     <field name="company_title_identification" readonly="1" />
                     <field
                         name="movement_type"
