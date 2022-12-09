@@ -60,11 +60,11 @@ class DocumentWorkflow(models.AbstractModel):
                     count += 1
                 record.nfe40_dup = [(6, 0, duplicatas.ids)]
 
-                # TAG - Pagamento
-                if (
-                    record.move_ids.payment_mode_id
-                    and not record.move_ids.payment_mode_id.fiscal_payment_mode
-                ):
+                if not record.move_ids.payment_mode_id:
+                    raise UserError(
+                        _("Payment Mode cannot be empty for this NF-e/NFC-e")
+                    )
+                if not record.move_ids.payment_mode_id.fiscal_payment_mode:
                     raise UserError(
                         _(
                             "Payment Mode {} should has Fiscal Payment Mode"
@@ -81,6 +81,7 @@ class DocumentWorkflow(models.AbstractModel):
                 )
                 v_pag = record.amount_financial_total
 
+            # TAG - Pagamento
             pagamentos = record.env["nfe.40.detpag"].create(
                 {
                     "nfe40_indPag": ind_pag,
