@@ -207,6 +207,17 @@ class ResPartner(spec_models.SpecModel):
             if xsd_field == self.nfe40_choice2:
                 return cnpj_cpf
 
+        if xsd_field in ("nfe40_CNPJ", "nfe40_CPF"):
+            # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
+            # É exportado o CNPJ/CPF do parent_id é importate para o endereço
+            # de entrega/retirada
+            if not self.cnpj_cpf and self.parent_id:
+                cnpj_cpf = self.parent_id.cnpj_cpf
+            else:
+                cnpj_cpf = self.cnpj_cpf
+
+            return punctuation_rm(cnpj_cpf)
+
         if self.country_id.code != "BR":
             if xsd_field == "nfe40_xBairro":
                 return "EX"
@@ -219,7 +230,8 @@ class ResPartner(spec_models.SpecModel):
 
             if xsd_field == "nfe40_UF":
                 return "EX"
+
             if xsd_field == "nfe40_idEstrangeiro":
                 return self.vat or self.cnpj_cpf or self.rg or "EXTERIOR"
 
-        return super()._export_field(xsd_field, class_obj, member_spec)
+        return super()._export_field(xsd_field, class_obj, member_spec, export_value)
