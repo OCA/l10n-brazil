@@ -38,14 +38,6 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
-        // Initialize: function (attributes, options) {
-        //     // CORE METHODS
-        //     _super_order.initialize.apply(this, arguments, options);
-        //     this.init_locked = true;
-
-        //     this.init_locked = false;
-        //     this.save_to_db();
-        // },
         clone: function () {
             var order = _super_order.clone.call(this);
             // TODO: Verificar o que não deve ser copiado
@@ -89,7 +81,11 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             }
 
             if (json.cnpj_cpf) {
-                json.client = json.cnpj_cpf.replace('.', '').replace('.', '').replace('-', '').replace('/', '');
+                json.client = json.cnpj_cpf
+                    .replace(".", "")
+                    .replace(".", "")
+                    .replace("-", "")
+                    .replace("/", "");
             }
 
             json.configs_sat = {};
@@ -100,11 +96,6 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             json.configs_sat.impressora = pos_config.impressora;
             json.configs_sat.printer_params = pos_config.printer_params;
         },
-        // Export_as_JSON: function () {
-        //     var json = _super_order.export_as_JSON.apply(this, arguments);
-        //     this._prepare_fiscal_json(json);
-        //     return json;
-        // },
         export_for_printing: function () {
             var json = _super_order.export_for_printing.apply(this, arguments);
             this._prepare_fiscal_json(json);
@@ -158,12 +149,6 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
 
             this.state_edoc = SITUACAO_EDOC_AUTORIZADA;
 
-            // This.authorization_protocol =
-            // processor_result.response.CCCC
-            // processor_result.response.cod
-            // processor_result.response.attributos
-            // processor_result.response.valorTotalCFe
-            // processor_result.response.CPFCNPJValue
             this.document_event_messages.push({
                 id: 1005,
                 label: CFE_EMITIDO_COM_SUCESSO_MENSAGEM,
@@ -240,14 +225,8 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             json.sat_payment_mode = this.payment_method.sat_payment_mode;
             json.sat_card_accrediting = this.payment_method.sat_card_accrediting;
         },
-        // Export_as_JSON: function () {
-        //     var json = _super_payment_line.export_as_JSON.apply(this, arguments);
-        //     this._prepare_fiscal_json(json);
-        //     return json;
-        // },
         export_for_printing: function () {
             var json = _super_payment_line.export_for_printing.apply(this, arguments);
-            // This._prepare_fiscal_json(json);
             return json;
         },
     });

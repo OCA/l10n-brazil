@@ -5,12 +5,10 @@ from . import pos_order
 from . import pos_order_line
 from . import res_company
 from . import pos_config
-from . import pos_payment_method
 from . import cfop
 from . import document_related
 from . import stock
 from . import res_partner
-from . import stock_move
 from . import l10n_br_pos_product_fiscal_map
 from . import product_template
 from . import mail_thread
