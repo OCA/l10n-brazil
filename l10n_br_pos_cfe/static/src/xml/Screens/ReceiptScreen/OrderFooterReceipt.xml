@@ -24,7 +24,9 @@
             </div>
 
             <t t-if="isCanceled">
-                <span class="receipt__divider">---------------------------------------------------------</span>
+                <span
+                    class="receipt__divider"
+                >---------------------------------------------------------</span>
                 <div class="subtitle__cancel">
                     <span>DADOS DO CUPOM FISCAL ELETRÔNICO DE CANCELAMENTO</span>
                 </div>
