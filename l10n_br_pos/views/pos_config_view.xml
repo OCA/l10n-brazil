@@ -96,15 +96,6 @@
                         <group>
                         </group>
                     </page>
-                    <page name="l10n_br_crm" string="CRM">
-                            <group>
-<!--                                    <field name="save_identity_automatic"/>-->
-<!--                                    <field name="cpf_nota"/>-->
-<!--                                    <field name="enviar_pedido_cupom_fiscal"/>-->
-<!--                                    <field name="lim_data_alteracao"/>-->
-<!--                                    <field name="crm_ativo"/>-->
-                            </group>
-                    </page>
                 </notebook>
             </xpath>
         </field>

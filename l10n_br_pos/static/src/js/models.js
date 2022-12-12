@@ -414,17 +414,6 @@ odoo.define("l10n_br_pos.models", function (require) {
                 label: "Validando documento fiscal",
             });
             this._document_status_popup();
-
-            //     // if (order.is_to_invoice()) {
-            //     //     res |= this.order_nfe_nfse_is_valid(order);
-            //     // } else if (order.document_type == DOCUMENTO_CFE) {
-            //     //     console.log("order_sat_is_valid")
-            //     //     res |= await this.order_sat_is_valid(order);
-            //     //     console.log("order_sat_is_valid end")
-            //     // } else if (order.document_type == DOCUMENTO_NFCE) {
-            //     //     res |= this.order_nfce_is_valid(order);
-            //     // }
-
             return true;
         },
         _document_get_processor: async function () {
@@ -495,28 +484,6 @@ odoo.define("l10n_br_pos.models", function (require) {
             }
             return "";
         },
-        // Add_product: function (product, options) {
-        //     //            Const product_fiscal_map = this.pos.fiscal_map_by_template_id[
-        //     //                product.product_tmpl_id
-        //     //            ];
-        //     //            If (!product_fiscal_map) {
-        //     //                this.pos.gui.show_popup("alert", {
-        //     //                    title: _t("Tax Details"),
-        //     //                    body: _t(
-        //     //                        "There was a problem mapping the item tax. Please contact support."
-        //     //                    ),
-        //     //                });
-        //     //            } else if (!product_fiscal_map.fiscal_operation_line_id) {
-        //     //                this.pos.gui.show_popup("alert", {
-        //     //                    title: _t("Fiscal Operation Line"),
-        //     //                    body: _t(
-        //     //                        "The fiscal operation line is not defined for this product. Please contact support."
-        //     //                    ),
-        //     //                });
-        //     //            } else {
-        //     //            }
-        //     return _super_order.add_product.apply(this, arguments);
-        // },
         cancel_order: function (result) {
             try {
                 this.pos.rpc({
@@ -591,11 +558,6 @@ odoo.define("l10n_br_pos.models", function (require) {
                 json.pis_percent = product_fiscal_map.pis_percent;
             }
         },
-        // Export_as_JSON: function () {
-        //     var json = _super_order_line.export_as_JSON.apply(this, arguments);
-        //     this._prepare_fiscal_json(json);
-        //     return json;
-        // },
         export_for_printing: function () {
             var json = _super_order_line.export_for_printing.apply(this, arguments);
             this._prepare_fiscal_json(json);
@@ -609,11 +571,6 @@ odoo.define("l10n_br_pos.models", function (require) {
             // TODO: Verificar dados necessários da payment line
             json.payment_status = this.payment_status;
         },
-        // Export_as_JSON: function () {
-        //     var json = _super_payment_line.export_as_JSON.apply(this, arguments);
-        //     this._prepare_fiscal_json(json);
-        //     return json;
-        // },
         export_for_printing: function () {
             var json = _super_payment_line.export_for_printing.apply(this, arguments);
             this._prepare_fiscal_json(json);

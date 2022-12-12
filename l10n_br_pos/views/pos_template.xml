@@ -12,10 +12,7 @@
                 type="text/javascript"
             />
         <script src="/l10n_br_pos/static/lib/qrcode.min.js" type="text/javascript" />
-
-<!-- Empty       <script src="/l10n_br_pos/static/src/js/db.js" type="text/javascript" />-->
         <script src="/l10n_br_pos/static/src/js/models.js" type="text/javascript" />
-<!--        <script src="/l10n_br_pos/static/src/js/screens.js" type="text/javascript" />-->
         <script src="/l10n_br_pos/static/src/js/util.js" type="text/javascript" />
 
         <script
@@ -32,13 +29,5 @@
             />
     </xpath>
 </template>
-
-<!--<template id="pos_l10n_br_assets"-->
-<!--          name="pos_l10n_br_css"-->
-<!--          inherit_id="point_of_sale.index">-->
-<!--    <xpath expr="//script[@id='loading-script']" position="before">-->
-<!--        <link rel="stylesheet" href="/l10n_br_pos/static/src/css/pos.css"/>-->
-<!--    </xpath>-->
-<!--</template>-->
 
 </odoo>

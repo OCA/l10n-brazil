@@ -3,8 +3,6 @@
 
 from odoo import api, fields, models
 
-# from odoo.addons.queue_job.job import job
-
 
 class ProductTemplate(models.Model):
 
@@ -15,7 +13,6 @@ class ProductTemplate(models.Model):
         inverse_name="product_tmpl_id",
     )
 
-    # @job
     @api.depends_context("company")
     def update_pos_fiscal_map(self):
         for record in self:
@@ -39,7 +36,6 @@ class ProductTemplate(models.Model):
                 )
 
                 pos_fiscal_map_id._onchange_product_id_fiscal()
-                # pos_fiscal_map_id._onchange_icms_regulation_id()
                 pos_fiscal_map_id._onchange_fiscal_operation_id()
                 pos_fiscal_map_id._onchange_fiscal_operation_line_id()
                 pos_fiscal_map_id._onchange_fiscal_taxes()

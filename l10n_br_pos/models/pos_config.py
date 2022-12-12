@@ -36,8 +36,6 @@ class PosConfig(models.Model):
     out_pos_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Operação Padrão de Venda",
-        # domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
-        # " ('fiscal_type','=','product'), ('type','=','output')]",
         default=lambda self: self.env.company.out_pos_fiscal_operation_id,
     )
 
@@ -63,9 +61,6 @@ class PosConfig(models.Model):
     refund_pos_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Operação Padrão de Devolução",
-        # domain="[('journal_type','=','sale_refund'),"
-        # "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-        # " ('type','=','input')]",
         default=lambda self: self.env.company.refund_pos_fiscal_operation_id,
     )
 
@@ -198,26 +193,3 @@ class PosConfig(models.Model):
     def update_sessao_sat(self, config_id):
         config = self.browse(config_id)
         config.sessao_sat += 1
-
-    # lim_data_alteracao = fields.Integer(
-    #     string="Atualizar dados (meses)",
-    #     default=3,
-    # )
-    #
-    # crm_ativo = fields.Boolean(
-    #     string='CRM ativo?',
-    #     default=False,
-    # )
-    #
-
-    # @api.multi
-    # def retornar_dados(self):
-    #     if self.ambiente_sat == 'homologacao':
-    #         return (self.cnpj_fabricante,
-    #                 self.ie_fabricante,
-    #                 self.cnpj_software_house)
-    #     else:
-    #         return (self.company_id.cnpj_cpf,
-    #                 self.company_id.inscr_est,
-    #                 self.cnpj_software_house or
-    #                 self.company_id.cnpj_software_house)

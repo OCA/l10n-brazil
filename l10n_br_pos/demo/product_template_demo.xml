@@ -72,8 +72,4 @@
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
     </record>
 
-    <!--pos_restaurant.coke_product_template-->
-    <!--pos_restaurant.minute_maid_product_template-->
-    <!--pos_restaurant.water_product_template-->'
-
 </odoo>

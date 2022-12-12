@@ -23,8 +23,6 @@
         #   'pos_order_picking_link',
         #   'stock_picking_invoice_link',
         #   "pos_order_show_list",
-        #   "pos_hamburger_menu",
-        #   "pos_show_order_hamburger_menu",
         #   "pos_order_return",
     ],
     "external_dependencies": {
@@ -61,7 +59,6 @@
         "demo/pos_config_demo.xml",
     ],
     "qweb": [
-        # "static/src/xml/pos.xml",
         "static/src/xml/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.xml",
         "static/src/xml/Screens/OrderManagementScreen/OrderList.xml",
         "static/src/xml/Screens/OrderManagementScreen/OrderRow.xml",

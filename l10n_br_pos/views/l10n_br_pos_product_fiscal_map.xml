@@ -8,11 +8,7 @@
         <field name="model">l10n_br_pos.product_fiscal_map</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <!-- TODO -->
-                </header>
                 <sheet>
-                    <!-- TODO -->
                     <group name="fiscal_fields" invisible="1">
                         <field name="currency_id" invisible="1" />
                         <field name="fiscal_operation_type" invisible="1" />
@@ -32,7 +28,6 @@
                         <field name="pos_config_id" />
                         <field name="fiscal_operation_id" />
                         <field name="fiscal_operation_line_id" />
-<!--                        <field name="icms_regulation_id" />-->
                         <field name="cfop_id" />
                         <field name="product_tmpl_id" />
                         <field name="product_id" />
@@ -58,7 +53,6 @@
                 <field name="pos_config_id" />
                 <field name="product_tmpl_id" />
                 <field name="fiscal_operation_line_id" />
-<!--                <field name="icms_regulation_id" />-->
                 <field name="cfop_id" />
             </search>
         </field>
@@ -72,7 +66,6 @@
                 <field name="pos_config_id" />
                 <field name="product_tmpl_id" />
                 <field name="fiscal_operation_line_id" />
-<!--                <field name="icms_regulation_id" />-->
                 <field name="cfop_id" />
                 <field name="fiscal_tax_ids" widget="many2many_tags" />
             </tree>
@@ -83,18 +76,11 @@
         model="ir.actions.act_window"
         id="l10n_br_pos_product_fiscal_map_act_window"
     >
-        <field name="name">L10n_br_pos Product_fiscal_map</field> <!-- TODO -->
+        <field name="name">L10n_br_pos Product_fiscal_map</field>
         <field name="res_model">l10n_br_pos.product_fiscal_map</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
-    <!---->
-    <!--    <record model="ir.ui.menu" id="l10n_br_pos_product_fiscal_map_menu">-->
-    <!--        <field name="name">L10n_br_pos Product_fiscal_map</field>-->
-    <!--        <field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
-    <!--        <field name="action" ref="l10n_br_pos_product_fiscal_map_act_window"/>-->
-    <!--        <field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
-    <!--    </record>-->
 
 </odoo>
