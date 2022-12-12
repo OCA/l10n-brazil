@@ -13,7 +13,6 @@ class ResCompany(models.Model):
             ("producao", "Produção"),
         ],
         string="Ambiente SAT",
-        # required=True,
         default="homologacao",
     )
     cnpj_software_house = fields.Char(string="CNPJ software house", size=18)
@@ -23,13 +22,8 @@ class ResCompany(models.Model):
     out_pos_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Pos Out Fiscal Operation",
-        # domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
-        # " ('fiscal_type','=','product'), ('type','=','output')]"
     )
     refund_pos_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Pos Refund Fiscal Operation",
-        # domain="[('journal_type','=','sale_refund'),"
-        # "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-        # " ('type','=','input')]"
     )

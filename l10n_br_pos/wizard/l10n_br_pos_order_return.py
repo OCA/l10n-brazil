@@ -88,7 +88,6 @@ class PorOrderReturn(models.TransientModel):
         string="Cliente",
         help="Selecione ou Defina um novo cliente para efetuar a devoluçao",
         default=_get_partner,
-        # required=True
     )
 
     @staticmethod
