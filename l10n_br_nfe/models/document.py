@@ -575,7 +575,7 @@ class NFe(spec_models.StackedModel):
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
             self.env.context.update({"tpAmb": self[xsd_field]})
-        return super()._export_field(xsd_field, class_obj, member_spec)
+        return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         self.ensure_one()
