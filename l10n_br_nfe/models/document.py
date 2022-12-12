@@ -618,7 +618,7 @@ class NFe(spec_models.StackedModel):
             self.nfe40_detPag and self.nfe40_detPag[0].nfe40_tPag == "90"
         ):
             return False
-        return super()._export_field(xsd_field, class_obj, member_spec)
+        return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         self.ensure_one()
