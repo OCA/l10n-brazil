@@ -160,6 +160,9 @@ class AbstractSpecMixin(models.AbstractModel):
     ):
         self.ensure_one()
         field_data = export_value or self[field_name]
+        # TODO check xsd_required for all fields to export?
+        if not field_data and not xsd_required:
+            return False
         if member_spec.data_type[0]:
             TDec = "".join(filter(lambda x: x.isdigit(), member_spec.data_type[0]))[-2:]
             my_format = "%.{}f".format(TDec)
