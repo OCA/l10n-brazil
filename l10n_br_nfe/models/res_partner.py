@@ -64,10 +64,14 @@ class ResPartner(spec_models.SpecModel):
     nfe40_UF = fields.Char(related="state_id.code")
 
     # nfe.40.tendereco
-    nfe40_CEP = fields.Char(compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP")
+    nfe40_CEP = fields.Char(
+        compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP", compute_sudo=True
+    )
     nfe40_cPais = fields.Char(related="country_id.bc_code")
     nfe40_xPais = fields.Char(related="country_id.name")
-    nfe40_fone = fields.Char(compute="_compute_nfe_data", inverse="_inverse_nfe40_fone")
+    nfe40_fone = fields.Char(
+        compute="_compute_nfe_data", inverse="_inverse_nfe40_fone", compute_sudo=True
+    )
 
     # nfe.40.dest
     nfe40_xNome = fields.Char(related="legal_name")
