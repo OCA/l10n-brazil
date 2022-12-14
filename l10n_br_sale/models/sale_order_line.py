@@ -88,6 +88,16 @@ class SaleOrderLine(models.Model):
 
     discount_fixed = fields.Boolean(string="Fixed Discount?")
 
+    discount = fields.Float(
+        compute="_compute_discounts",
+        store=True,
+    )
+
+    discount_value = fields.Monetary(
+        compute="_compute_discounts",
+        store=True,
+    )
+
     ind_final = fields.Selection(related="order_id.ind_final")
 
     # Usado para tornar Somente Leitura os campos dos custos
@@ -220,21 +230,32 @@ class SaleOrderLine(models.Model):
                 )
         return result
 
-    @api.onchange("discount")
-    def _onchange_discount_percent(self):
-        """Update discount value"""
-        if not self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
-            self.discount_value = (self.product_uom_qty * self.price_unit) * (
-                self.discount / 100
-            )
+    def need_change_discount_value(self):
+        return not self.user_discount_value or (
+            self.user_total_discount and not self.discount_fixed
+        )
 
-    @api.onchange("discount_value")
-    def _onchange_discount_value(self):
-        """Update discount percent"""
-        if self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
-            self.discount = (self.discount_value * 100) / (
-                self.product_uom_qty * self.price_unit or 1
-            )
+    @api.depends(
+        "order_id",
+        "order_id.discount_rate",
+        "discount_fixed",
+        "product_uom_qty",
+        "price_unit",
+        "discount",
+        "discount_value",
+    )
+    def _compute_discounts(self):
+        for line in self:
+            if not line.discount_fixed and line.user_total_discount:
+                line.discount = line.order_id.discount_rate
+            elif not line.need_change_discount_value():
+                line.discount = (line.discount_value * 100) / (
+                    line.product_uom_qty * line.price_unit or 1
+                )
+            if line.need_change_discount_value():
+                line.discount_value = (line.product_uom_qty * line.price_unit) * (
+                    line.discount / 100
+                )
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
