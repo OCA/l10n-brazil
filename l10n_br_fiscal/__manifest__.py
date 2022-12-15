@@ -88,6 +88,9 @@
         #        "views/dfe/dfe_views.xml",
         "views/operation_dashboard_view.xml",
         "views/document_event_view.xml",
+        # Reports
+        "views/document_event_report.xml",
+        "views/document_event_template.xml",
         # Wizards
         "wizards/document_cancel_wizard.xml",
         "wizards/document_correction_wizard.xml",
