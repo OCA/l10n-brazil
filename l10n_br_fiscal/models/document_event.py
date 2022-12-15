@@ -377,3 +377,8 @@ class Event(models.Model):
         event_id = self.create(vals)
         event_id._save_event_file(xml_file, "xml")
         return event_id
+
+    def print_document_event(self):
+        return self.env.ref(
+            "l10n_br_fiscal.action_report_document_event"
+        ).report_action(self)
