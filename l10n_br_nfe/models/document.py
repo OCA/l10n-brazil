@@ -8,21 +8,24 @@ import logging
 import os
 import re
 import string
-import xml.etree.ElementTree as ET
 from datetime import datetime
 from pathlib import Path
 from unicodedata import normalize
 
 import nfelib
 import xmlschema
+from cryptography.hazmat.primitives.serialization.pkcs12 import (
+    load_key_and_certificates,
+)
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc, cnpj_cpf
-from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.bindings.nfe.v4_0.nfe_v4_00 import Nfe
+from nfelib.ws.nfe_legacy import NFeLegacy as edoc_nfe
 from requests import Session
+from signxml import XMLSigner, methods
 
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
@@ -776,25 +779,64 @@ class NFe(spec_models.StackedModel):
 
     def _document_export(self, pretty_print=True):
         super()._document_export()
+
+        def sign_nfe(nfe_data):
+            """
+            Method for signing an Brazil electronic invoice (NF-e)
+
+            :param nfe_data: data of NF-e XML
+            :type nfe_data: string
+
+            :return: a signed NF-e XML.
+            :rtype: xml.etree.ElementTree
+            """
+            cert_data = base64.b64decode(self.company_id.certificate_nfe_id.file)
+            # set password in bytes-like format (encoded)
+            cert_password = self.company_id.certificate_nfe_id.password.encode()
+            # extract private key and certificate from encapsuled certificate (PKCS#12)
+            private_key, certificate, _ = load_key_and_certificates(
+                data=cert_data, password=cert_password
+            )
+            nfe_root = etree.fromstring(nfe_data.encode())
+            # sign as specified in the NF-e XSD Schemas
+            signed_nfe = XMLSigner(
+                method=methods.enveloped,
+                signature_algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1",
+                digest_algorithm="http://www.w3.org/2000/09/xmldsig#sha1",
+                c14n_algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315",
+            ).sign(
+                nfe_root,
+                key=private_key,
+                cert=[certificate],
+                reference_uri=nfe_root[0].attrib["Id"],
+            )
+            return signed_nfe
+
         for record in self.filtered(filter_processador_edoc_nfe):
             record._export_fields_pagamentos()
             edoc_binding = record.serialize()[0]
             record._processador()
-            xml_file = self._render_edoc(edoc_binding)
-            _logger.debug(xml_file)
+            xml_data = self._render_edoc(edoc_binding)
+            #            signed_xml_etree = sign_nfe(xml_data)
+            signed_xml_etree = etree.fromstring(xml_data.encode())
+            # self._valida_xml(signed_xml_etree)
+            signed_xml_data = etree.tostring(
+                signed_xml_etree,
+                method="c14n2",
+                strip_text=True,
+            ).decode()
+
+            _logger.debug(signed_xml_data)
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
                     EVENT_ENV_PROD if self.nfe_environment == "1" else EVENT_ENV_HML
                 ),
                 event_type="0",
-                xml_file=xml_file,
+                xml_file=signed_xml_data,
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            # TODO copy decent assina_raiz method here
-            # xml_assinado = "TODO"  # processador.assina_raiz(edoc, edoc.InfNfe.id)
-            self._valida_xml(xml_file)
 
     def _invert_fiscal_operation_type(self, document, nfe_binding, edoc_type):
         if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
@@ -867,12 +909,11 @@ class NFe(spec_models.StackedModel):
         )
         self._change_state(state)
 
-    def _valida_xml(self, xml_file):
+    def _valida_xml(self, xml_tree):
         self.ensure_one()
         path = os.path.dirname(nfelib.__file__)
         module_path = str(Path(path))
         schema_path = os.path.join(module_path, "schemas/nfe/v4_0/nfe_v4.00.xsd")
-        xml_tree = ET.ElementTree(ET.fromstring(xml_file))
         iter_errors = xmlschema.iter_errors(xml_document=xml_tree, schema=schema_path)
         errors = ""
         for error in iter_errors:
@@ -912,10 +953,19 @@ class NFe(spec_models.StackedModel):
                         _logger.error("DANFE Error \n {}".format(e))
 
             elif processo.resposta.cStat == "225":
+                try:
+                    record.make_pdf()
+                except Exception as e:
+                    # Não devemos interromper o fluxo
+                    # E dar rollback em um documento
+                    # autorizado, podendo perder dados.
+
+                    # Se der problema que apareça quando
+                    # o usuário clicar no gera PDF novamente.
+                    _logger.error("DANFE Error \n {}".format(e))
+
                 state = SITUACAO_EDOC_REJEITADA
-
                 record._change_state(state)
-
                 record.write(
                     {
                         "status_code": processo.resposta.cStat,
