@@ -44,6 +44,8 @@
             "erpbrasil.edoc.pdf",
             "xmldiff",
             "xmlschema",
+            "signxml",
+            "cryptography",
         ],
     },
 }
