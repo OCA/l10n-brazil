@@ -1,3 +1,7 @@
+# Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+# @author Felipe Motter Pereira <felipe@engenere.one>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
 from odoo.tests import Form, SavepointCase
 
 
