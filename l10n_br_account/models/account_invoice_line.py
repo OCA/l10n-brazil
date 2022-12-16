@@ -133,7 +133,6 @@ class AccountInvoiceLine(models.Model):
         "invoice_id.company_id",
         "invoice_id.date_invoice",
         "invoice_id.date",
-        "fiscal_tax_ids",
     )
     def _compute_price(self):
         """Compute the amounts of the SO line."""
