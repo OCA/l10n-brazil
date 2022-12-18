@@ -804,38 +804,38 @@ class NFe(spec_models.StackedModel):
         )
         return xml
 
-    def atualiza_status_nfe(self, infProt, xml_file):
+    def atualiza_status_nfe(self, inf_prot, xml_file):
         self.ensure_one()
         # TODO: Verificar a consulta de notas
-        # if not infProt.chNFe == self.key:
+        # if not inf_prot.ch_nfe == self.key:
         #     self = self.search([
-        #         ('key', '=', infProt.chNFe)
+        #         ('key', '=', inf_prot.ch_nfe)
         #     ])
-        if infProt.c_stat in AUTORIZADO:
+        if inf_prot.c_stat in AUTORIZADO:
             state = SITUACAO_EDOC_AUTORIZADA
-        elif infProt.c_stat in DENEGADO:
+        elif inf_prot.c_stat in DENEGADO:
             state = SITUACAO_EDOC_DENEGADA
         else:
             state = SITUACAO_EDOC_REJEITADA
-        if self.authorization_event_id and infProt.nProt:
-            if type(infProt.dhRecbto) == datetime:
-                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
+        if self.authorization_event_id and inf_prot.n_prot:
+            if type(inf_prot.dh_recbto) == datetime:
+                protocol_date = fields.Datetime.to_string(inf_prot.dh_recbto)
             else:
                 protocol_date = fields.Datetime.to_string(
-                    datetime.fromisoformat(infProt.dhRecbto)
+                    datetime.fromisoformat(inf_prot.dh_recbto)
                 )
 
             self.authorization_event_id.set_done(
-                status_code=infProt.c_stat,
-                response=infProt.x_motivo,
+                status_code=inf_prot.c_stat,
+                response=inf_prot.x_motivo,
                 protocol_date=protocol_date,
-                protocol_number=infProt.nProt,
+                protocol_number=inf_prot.n_prot,
                 file_response_xml=xml_file,
             )
         self.write(
             {
-                "status_code": infProt.c_stat,
-                "status_name": infProt.x_motivo,
+                "status_code": inf_prot.c_stat,
+                "status_name": inf_prot.x_motivo,
             }
         )
         self._change_state(state)
@@ -869,9 +869,9 @@ class NFe(spec_models.StackedModel):
 
             if processo.resposta.c_stat in LOTE_PROCESSADO + ["100"]:
                 record.atualiza_status_nfe(
-                    processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
+                    processo.protocolo.inf_prot, processo.processo_xml.decode("utf-8")
                 )
-                if processo.protocolo.infProt.c_stat in AUTORIZADO:
+                if processo.protocolo.inf_prot.c_stat in AUTORIZADO:
                     try:
                         record.make_pdf()
                     except Exception as e:
@@ -1007,29 +1007,29 @@ class NFe(spec_models.StackedModel):
             document_id=self,
         )
 
-        for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key:
+        for retevento in processo.resposta.ret_evento:
+            if not retevento.inf_evento.ch_nfe == self.document_key:
                 continue
 
-            if retevento.infEvento.c_stat not in CANCELADO:
+            if retevento.inf_evento.c_stat not in CANCELADO:
                 mensagem = "Erro no cancelamento"
-                mensagem += "\nCódigo: " + retevento.infEvento.c_stat
-                mensagem += "\nMotivo: " + retevento.infEvento.x_motivo
+                mensagem += "\nCódigo: " + retevento.inf_evento.c_stat
+                mensagem += "\nMotivo: " + retevento.inf_evento.x_motivo
                 raise UserError(mensagem)
 
-            if retevento.infEvento.c_stat == CANCELADO_FORA_PRAZO:
+            if retevento.inf_evento.c_stat == CANCELADO_FORA_PRAZO:
                 self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-            elif retevento.infEvento.c_stat == CANCELADO_DENTRO_PRAZO:
+            elif retevento.inf_evento.c_stat == CANCELADO_DENTRO_PRAZO:
                 self.state_fiscal = SITUACAO_FISCAL_CANCELADO
 
             self.state_edoc = SITUACAO_EDOC_CANCELADA
             self.cancel_event_id.set_done(
-                status_code=retevento.infEvento.c_stat,
-                response=retevento.infEvento.x_motivo,
+                status_code=retevento.inf_evento.c_stat,
+                response=retevento.inf_evento.x_motivo,
                 protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                    datetime.fromisoformat(retevento.inf_evento.dh_reg_evento)
                 ),
-                protocol_number=retevento.infEvento.nProt,
+                protocol_number=retevento.inf_evento.n_prot,
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
 
@@ -1068,22 +1068,22 @@ class NFe(spec_models.StackedModel):
             sequence=sequence,
             justification=justificative,
         )
-        for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key:
+        for retevento in processo.resposta.ret_evento:
+            if not retevento.inf_evento.ch_nfe == self.document_key:
                 continue
 
-            if retevento.infEvento.c_stat not in EVENTO_RECEBIDO:
+            if retevento.inf_evento.c_stat not in EVENTO_RECEBIDO:
                 mensagem = "Erro na carta de correção"
-                mensagem += "\nCódigo: " + retevento.infEvento.c_stat
-                mensagem += "\nMotivo: " + retevento.infEvento.x_motivo
+                mensagem += "\nCódigo: " + retevento.inf_evento.c_stat
+                mensagem += "\nMotivo: " + retevento.inf_evento.x_motivo
                 raise UserError(mensagem)
 
             event_id.set_done(
-                status_code=retevento.infEvento.c_stat,
-                response=retevento.infEvento.x_motivo,
+                status_code=retevento.inf_evento.c_stat,
+                response=retevento.inf_evento.x_motivo,
                 protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                    datetime.fromisoformat(retevento.inf_evento.dh_reg_evento)
                 ),
-                protocol_number=retevento.infEvento.nProt,
+                protocol_number=retevento.inf_evento.n_prot,
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
