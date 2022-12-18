@@ -126,9 +126,7 @@ class Document(models.Model):
             if record.company_id.provedor_nfse:
                 edoc = record.serialize()[0]
                 processador = record._processador_erpbrasil_nfse()
-                xml_file = processador._generateds_to_string_etree(
-                    edoc, pretty_print=pretty_print
-                )[0]
+                xml_file = processador.render_edoc(edoc, pretty_print=pretty_print)[0]
                 event_id = self.event_ids.create_event_save_xml(
                     company_id=self.company_id,
                     environment=(
