@@ -4,6 +4,7 @@
 {
     "name": "Brazilian Account Due List",
     "category": "Localisation",
+    "development_status": "Production/Stable",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
@@ -14,4 +15,5 @@
     ],
     "installable": True,
     "auto_install": True,
+    "maintainers": ["renatonlima", "rvalyi"],
 }
