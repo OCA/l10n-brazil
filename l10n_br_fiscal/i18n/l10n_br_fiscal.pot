@@ -323,6 +323,46 @@ msgid "<span>Novo Documento</span>"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid "<strong style=\"font-size:18px;\">CNPJ:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid "<strong style=\"font-size:18px;\">Document Key:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid "<strong style=\"font-size:18px;\">Document Number:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid "<strong style=\"font-size:18px;\">Document Serie:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid "<strong style=\"font-size:18px;\">Environment:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid "<strong style=\"font-size:18px;\">Justification:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid "<strong style=\"font-size:18px;\">Protocol Date:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid "<strong style=\"font-size:18px;\">Protocol Number:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>XML validation errors:</strong>"
 msgstr ""
@@ -353,6 +393,16 @@ msgstr ""
 msgid ""
 "A CST is necessary to create\n"
 "              fiscal operations for your fiscal moves."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
+msgid ""
+"A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:<br/>\n"
+"                  <br/>\n"
+"                  I - as variáveis que determinam o valor do imposto tais como: base de cálculo, alíquota, diferença de preço, quantidade, valor da operação ou da prestação;<br/>\n"
+"                  II - a correção de dados cadastrais que impliquem mudança do remetente ou do destinatário;<br/>\n"
+"                  III - a data de emissão ou de saída.<br/>"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2737,6 +2787,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_date
 msgid "Document Date"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.report,name:l10n_br_fiscal.action_report_document_event
+msgid "Document Event"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9062,6 +9117,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "dias"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.report,print_report_name:l10n_br_fiscal.action_report_document_event
+msgid ""
+"dict(object.fields_get(allfields=['type'])['type']['selection'])[object.type]"
 msgstr ""
 
 #. module: l10n_br_fiscal
