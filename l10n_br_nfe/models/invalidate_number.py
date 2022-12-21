@@ -73,20 +73,20 @@ class InvalidateNumber(models.Model):
         self.event_ids |= event_id
         self.authorization_event_id = event_id
 
-        if hasattr(processo.resposta.infInut, "dhRegEvento"):
-            date_response = processo.resposta.infInut.dhRegEvento
-        elif hasattr(processo.resposta.infInut, "dhRecbto"):
-            date_response = processo.resposta.infInut.dhRecbto
+        if hasattr(processo.resposta.inf_inut, "dh_reg_evento"):
+            date_response = processo.resposta.inf_inut.dh_reg_evento
+        elif hasattr(processo.resposta.inf_inut, "dh_recbto"):
+            date_response = processo.resposta.inf_inut.dh_recbto
 
         event_id.set_done(
-            status_code=processo.resposta.infInut.cStat,
-            response=processo.resposta.infInut.xMotivo,
+            status_code=processo.resposta.inf_inut.c_stat,
+            response=processo.resposta.inf_inut.x_motivo,
             protocol_date=fields.Datetime.to_string(
                 datetime.fromisoformat(date_response)
             ),
-            protocol_number=processo.resposta.infInut.nProt,
+            protocol_number=processo.resposta.inf_inut.n_prot,
             file_response_xml=processo.retorno.content.decode("utf-8"),
         )
 
-        if processo.resposta.infInut.cStat == "102":
+        if processo.resposta.inf_inut.c_stat == "102":
             return super(InvalidateNumber, self)._invalidate(document_id)
