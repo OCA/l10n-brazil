@@ -554,70 +554,62 @@ class AccountMove(models.Model):
         if not self.document_type_id:
             self.document_number = ""
 
-    # TODO FIXME migrate. refund method are very different in Odoo 13+
-    # def _get_refund_common_fields(self):
-    #     fields = super()._get_refund_common_fields()
-    #     fields += [
-    #         "fiscal_operation_id",
-    #         "document_type_id",
-    #         "document_serie_id",
-    #     ]
-    #     return fields
+    def _reverse_moves(self, default_values_list=None, cancel=False):
+        new_moves = super()._reverse_moves(
+            default_values_list=default_values_list, cancel=cancel
+        )
+        force_fiscal_operation_id = False
+        if self.env.context.get("force_fiscal_operation_id"):
+            force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
+                self.env.context.get("force_fiscal_operation_id")
+            )
+        for record in new_moves.filtered(lambda i: i.document_type_id):
+            if (
+                not force_fiscal_operation_id
+                and not record.fiscal_operation_id.return_fiscal_operation_id
+            ):
+                raise UserError(
+                    _("""Document without Return Fiscal Operation! \n Force one!""")
+                )
 
-    # @api.returns("self")
-    # def refund(self, date=None, date=None, description=None, journal_id=None):
-    #     new_invoices = super().refund(date, date, description, journal_id)
+            record.fiscal_operation_id = (
+                force_fiscal_operation_id
+                or record.fiscal_operation_id.return_fiscal_operation_id
+            )
+            record._onchange_fiscal_operation_id()
 
-    #     force_fiscal_operation_id = False
-    #     if self.env.context.get("force_fiscal_operation_id"):
-    #         force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
-    #             self.env.context.get("force_fiscal_operation_id")
-    #         )
+            for line in record.invoice_line_ids:
+                if (
+                    not force_fiscal_operation_id
+                    and not line.fiscal_operation_id.return_fiscal_operation_id
+                ):
+                    raise UserError(
+                        _(
+                            """Line without Return Fiscal Operation! \n
+                            Please force one! \n{}""".format(
+                                line.name
+                            )
+                        )
+                    )
 
-    #     for record in new_invoices.filtered(lambda i: i.document_type_id):
-    #         if (
-    #             not force_fiscal_operation_id
-    #             and not record.fiscal_operation_id.return_fiscal_operation_id
-    #         ):
-    #             raise UserError(
-    #                 _("""Document without Return Fiscal Operation! \n Force one!""")
-    #             )
+                line.fiscal_operation_id = (
+                    force_fiscal_operation_id
+                    or line.fiscal_operation_id.return_fiscal_operation_id
+                )
+                line._onchange_fiscal_operation_id()
 
-    #         record.fiscal_operation_id = (
-    #             force_fiscal_operation_id
-    #             or record.fiscal_operation_id.return_fiscal_operation_id
-    #         )
-    #         record.fiscal_document_id._onchange_fiscal_operation_id()
+            # Migrar para v14.0 .. talvez nao precise mais disso.
+            # Nao ficou claro o objetivo deste trecho
+            # refund_inv_id = record.reversal_move_id
+            #
+            # if record.refund_move_id.document_type_id:
+            #     record.fiscal_document_id._document_reference(
+            #         refund_inv_id.fiscal_document_id
+            #     )
 
-    #         for line in record.line_ids:
-    #             if (
-    #                 not force_fiscal_operation_id
-    #                 and not line.fiscal_operation_id.return_fiscal_operation_id
-    #             ):
-    #                 raise UserError(
-    #                     _(
-    #                         """Line without Return Fiscal Operation! \n
-    #                         Please force one! \n{}""".format(
-    #                             line.name
-    #                         )
-    #                     )
-    #                 )
+        return new_moves
 
-    #             line.fiscal_operation_id = (
-    #                 force_fiscal_operation_id
-    #                 or line.fiscal_operation_id.return_fiscal_operation_id
-    #             )
-    #             line._onchange_fiscal_operation_id()
-
-    #         refund_inv_id = record.refund_move_id
-
-    #         if record.refund_move_id.document_type_id:
-    #             record.fiscal_document_id._document_reference(
-    #                 refund_inv_id.fiscal_document_id
-    #             )
-
-    #     return new_invoices
-
+    # Migrar para v14.0 .. talvez nao precise mais disso.
     # def _refund_cleanup_lines(self, lines):
     #     result = super()._refund_cleanup_lines(lines)
     #     for _a, _b, vals in result:
