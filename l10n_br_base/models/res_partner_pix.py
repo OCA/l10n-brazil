@@ -129,10 +129,11 @@ class PartnerPix(models.Model):
                 ) from e
         return key
 
-    @api.model
-    def create(self, vals):
-        self.check_vals(vals)
-        return super(PartnerPix, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            self.check_vals(vals)
+        return super(PartnerPix, self).create(vals_list)
 
     def write(self, vals):
         self.check_vals(vals)
