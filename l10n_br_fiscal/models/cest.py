@@ -46,13 +46,13 @@ class Cest(models.Model):
 
     @api.model
     def create(self, values):
-        create_super = super(Cest, self).create(values)
+        create_super = super().create(values)
         if "ncms" in values.keys():
             create_super.with_context(do_not_write=True).action_search_ncms()
         return create_super
 
     def write(self, values):
-        write_super = super(Cest, self).write(values)
+        write_super = super().write(values)
         do_not_write = self.env.context.get("do_not_write")
         if "ncms" in values.keys() and not do_not_write:
             self.with_context(do_not_write=True).action_search_ncms()

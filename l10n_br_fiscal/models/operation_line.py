@@ -309,7 +309,7 @@ class OperationLine(models.Model):
             raise UserError(
                 _("You cannot delete an Operation Line which is not draft !")
             )
-        return super(OperationLine, self).unlink()
+        return super().unlink()
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):

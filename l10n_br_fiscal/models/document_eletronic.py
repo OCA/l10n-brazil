@@ -156,7 +156,7 @@ class DocumentEletronic(models.AbstractModel):
         to update the state of the transmited document,
 
         def _eletronic_document_send(self):
-            super(DocumentEletronic, self)._document_send()
+            super()._document_send()
             for record in self.filtered(myfilter):
                 Do your transmission stuff
                 [...]
