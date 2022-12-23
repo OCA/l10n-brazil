@@ -69,13 +69,14 @@ class DocumentSerie(models.Model):
             sequence["company_id"] = values["company_id"]
         return self.env["ir.sequence"].create(sequence).id
 
-    @api.model
-    def create(self, values):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Overwrite method to create a new ir.sequence if
         this field is null"""
-        if not values.get("internal_sequence_id"):
-            values.update({"internal_sequence_id": self._create_sequence(values)})
-        return super().create(values)
+        for vals in vals_list:
+            if not vals.get("internal_sequence_id"):
+                vals.update({"internal_sequence_id": self._create_sequence(vals)})
+        return super().create(vals_list)
 
     def name_get(self):
         return [(r.id, "{}".format(r.name)) for r in self]
