@@ -1,6 +1,8 @@
 # Copyright (C) 2021  Ygor Carvalho - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
@@ -13,7 +15,6 @@ class TestInvoiceRefund(TransactionCase):
                 code="X1020",
                 name="Product Refund Sales - (test)",
                 user_type_id=self.env.ref("account.data_account_type_revenue").id,
-                reconcile=True,
             )
         )
 
@@ -23,16 +24,24 @@ class TestInvoiceRefund(TransactionCase):
                 code="TREJ",
                 type="sale",
                 refund_sequence=True,
-                default_debit_account_id=self.sale_account.id,
-                default_credit_account_id=self.sale_account.id,
-                update_posted=True,
+                default_account_id=self.sale_account.id,
             )
         )
+
+        self.reverse_vals = {
+            "date": fields.Date.from_string("2019-02-01"),
+            "reason": "no reason",
+            "refund_method": "refund",
+            "journal_id": self.refund_journal.id,
+        }
 
         self.invoice = self.env["account.move"].create(
             dict(
                 name="Test Refund Invoice",
-                payment_term_id=self.env.ref("account.account_payment_term_advance").id,
+                move_type="out_invoice",
+                invoice_payment_term_id=self.env.ref(
+                    "account.account_payment_term_advance"
+                ).id,
                 partner_id=self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
                 journal_id=self.refund_journal.id,
                 document_type_id=self.env.ref("l10n_br_fiscal.document_55").id,
@@ -74,51 +83,97 @@ class TestInvoiceRefund(TransactionCase):
             )
         )
 
-    # def test_refund(self):
-    #     invoice = self.invoice
-    #     self.assertEqual(
-    #         invoice.state,
-    #         "draft",
-    #         "Invoice should be in state Draft",
-    #     )
+    def test_refund(self):
+        reverse_vals = self.reverse_vals
 
-    #     invoice.action_post()
-    #     self.assertEqual(
-    #         invoice.state,
-    #         "open",
-    #         "Invoice should be in state Open",
-    #     )
+        invoice = self.invoice
+        self.assertEqual(
+            invoice.state,
+            "draft",
+            "Invoice should be in state Draft",
+        )
 
-    #     invoice._get_refund_common_fields()
+        invoice.action_post()
+        self.assertEqual(
+            invoice.state,
+            "posted",
+            "Invoice should be in state Posted",
+        )
 
-    #     # First functionality error, when there is no transaction registered on
-    #     #   the Invoice.
-    #     with self.assertRaises(UserError):
-    #         invoice.refund()
+        move_reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .create(reverse_vals)
+        )
 
-    #     invoice["fiscal_operation_id"] = (self.env.ref("l10n_br_fiscal.fo_venda").id,)
+        with self.assertRaises(UserError):
+            move_reversal.reverse_moves()
 
-    #     # Second functionality error, when there is a fiscal operation, but there
-    #     #   is no fiscal operation line.
-    #     with self.assertRaises(UserError):
-    #         invoice.refund()
+        invoice["fiscal_operation_id"] = (self.env.ref("l10n_br_fiscal.fo_venda").id,)
 
-    #     for line_id in invoice.line_ids:
-    #         line_id["fiscal_operation_id"] = (
-    #             self.env.ref("l10n_br_fiscal.fo_venda").id,
-    #         )
-    #         line_id["fiscal_operation_line_id"] = self.env.ref(
-    #             "l10n_br_fiscal.fo_venda_venda"
-    #         ).id
+        with self.assertRaises(UserError):
+            move_reversal.reverse_moves()
 
-    #     new_invoice = invoice.refund()
+        for line_id in invoice.invoice_line_ids:
+            line_id["fiscal_operation_id"] = (
+                self.env.ref("l10n_br_fiscal.fo_venda").id,
+            )
+            line_id["fiscal_operation_line_id"] = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            ).id
 
-    #     # What is being done here is just confirming whether were successful in the
-    #     #   process of creating the new invoice with the corresponding tax return
-    #     #   operation. As the original is a Sales operation, its inverse would be
-    #     #   Sales Return.
-    #     self.assertEqual(
-    #         new_invoice.operation_name,
-    #         "Devolução de Venda",
-    #         "The refund process was unsuccessful.",
-    #     )
+        reversal = move_reversal.reverse_moves()
+        reverse_move = self.env["account.move"].browse(reversal["res_id"])
+
+        self.assertTrue(reverse_move)
+
+        self.assertEqual(
+            reverse_move.operation_name,
+            "Devolução de Venda",
+            "The refund process was unsuccessful.",
+        )
+
+    def test_refund_force_fiscal_operation(self):
+        reverse_vals = self.reverse_vals
+        invoice = self.invoice
+
+        invoice["fiscal_operation_id"] = (self.env.ref("l10n_br_fiscal.fo_venda").id,)
+
+        for line_id in invoice.invoice_line_ids:
+            line_id["fiscal_operation_id"] = (
+                self.env.ref("l10n_br_fiscal.fo_venda").id,
+            )
+            line_id["fiscal_operation_line_id"] = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            ).id
+
+        invoice.action_post()
+        self.assertEqual(
+            invoice.state,
+            "posted",
+            "Invoice should be in state Posted",
+        )
+
+        reverse_vals.update(
+            {
+                "force_fiscal_operation_id": self.env.ref(
+                    "l10n_br_fiscal.fo_simples_remessa"
+                ).id
+            }
+        )
+        move_reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .create(reverse_vals)
+        )
+
+        reversal = move_reversal.reverse_moves()
+        reverse_move = self.env["account.move"].browse(reversal["res_id"])
+
+        self.assertTrue(reverse_move)
+
+        self.assertEqual(
+            reverse_move.operation_name,
+            "Simples Remessa",
+            "The force fiscal operation process was unsuccessful.",
+        )
