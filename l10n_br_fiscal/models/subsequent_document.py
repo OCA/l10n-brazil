@@ -165,7 +165,7 @@ class SubsequentDocument(models.Model):
                     "subsequent document has already been "
                     "generated."
                 )
-        return super(SubsequentDocument, self).unlink()
+        return super().unlink()
 
     def _confirms_document_generation(self):
         """We check if we can generate the subsequent document
