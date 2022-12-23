@@ -44,11 +44,10 @@ class Cest(models.Model):
         string="Tax Definition",
     )
 
-    @api.model
-    def create(self, values):
-        create_super = super().create(values)
-        if "ncms" in values.keys():
-            create_super.with_context(do_not_write=True).action_search_ncms()
+    @api.model_create_multi
+    def create(self, vals_list):
+        create_super = super().create(vals_list)
+        create_super.with_context(do_not_write=True).action_search_ncms()
         return create_super
 
     def write(self, values):
