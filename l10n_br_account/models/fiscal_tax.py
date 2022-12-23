@@ -57,9 +57,9 @@ class FiscalTax(models.Model):
             else:
                 account_taxes.write({"fiscal_tax_ids": [(4, fiscal_tax.id)]})
 
-    @api.model
-    def create(self, values):
-        fiscal_taxes = super().create(values)
+    @api.model_create_multi
+    def create(self, vals_list):
+        fiscal_taxes = super().create(vals_list)
         fiscal_taxes._create_account_tax()
         return fiscal_taxes
 
