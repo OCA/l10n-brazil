@@ -6,7 +6,7 @@ from odoo.tests.common import TransactionCase
 
 class TestAccountTaxes(TransactionCase):
     def setUp(self):
-        super(TestAccountTaxes, self).setUp()
+        super().setUp()
 
         self.l10n_br_company = self.env["res.company"].create(
             {"name": "Empresa Teste do Plano de Contas Simplificado"}
