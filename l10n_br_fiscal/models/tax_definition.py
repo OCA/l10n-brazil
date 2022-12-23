@@ -315,9 +315,16 @@ class TaxDefinition(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         create_super = super().create(vals_list)
-        create_super.with_context(do_not_write=True).action_search_ncms()
-        create_super.with_context(do_not_write=True).action_search_cests()
-        create_super.with_context(do_not_write=True).action_search_nbms()
+        ncm_fields_list = ("ncms", "not_in_ncms", "ncm_exception")
+        for index, values in enumerate(vals_list):
+            if set(ncm_fields_list).intersection(values.keys()):
+                create_super[index].with_context(do_not_write=True).action_search_ncms()
+            if "cests" in values.keys():
+                create_super[index].with_context(
+                    do_not_write=True
+                ).action_search_cests()
+            if "nbms" in values.keys():
+                create_super[index].with_context(do_not_write=True).action_search_nbms()
         return create_super
 
     def write(self, values):
