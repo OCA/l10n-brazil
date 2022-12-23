@@ -253,7 +253,7 @@ class TaxDefinition(models.Model):
             raise UserError(
                 _("You cannot delete an Tax Definition which is not draft !")
             )
-        return super(TaxDefinition, self).unlink()
+        return super().unlink()
 
     def action_search_ncms(self):
         ncm = self.env["l10n_br_fiscal.ncm"]
@@ -314,7 +314,7 @@ class TaxDefinition(models.Model):
 
     @api.model
     def create(self, values):
-        create_super = super(TaxDefinition, self).create(values)
+        create_super = super().create(values)
         ncm_fields_list = ("ncms", "not_in_ncms", "ncm_exception")
         if set(ncm_fields_list).intersection(values.keys()):
             create_super.with_context(do_not_write=True).action_search_ncms()
@@ -328,7 +328,7 @@ class TaxDefinition(models.Model):
         return create_super
 
     def write(self, values):
-        write_super = super(TaxDefinition, self).write(values)
+        write_super = super().write(values)
         ncm_fields_list = ("ncms", "not_in_ncms", "ncm_exception")
         do_not_write = self.env.context.get("do_not_write")
         if set(ncm_fields_list).intersection(values.keys()) and not do_not_write:
