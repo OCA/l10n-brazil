@@ -246,8 +246,8 @@ class AccountMove(models.Model):
         return vals_list
 
     @api.model_create_multi
-    def create(self, values):
-        invoice = super().create(values)
+    def create(self, vals_list):
+        invoice = super().create(vals_list)
         invoice._write_shadowed_fields()
         return invoice
 
