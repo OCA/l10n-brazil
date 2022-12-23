@@ -78,8 +78,8 @@ class ResCompany(models.Model):
             "fiscal_line_ids": [(0, 0, {"name": "dummy", "company_id": self.id})],
         }
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         to satisfy the not-null constraint of the fiscal_dummy_id field,
         the fiscal dummy is passed without a company_id and updated
@@ -90,8 +90,9 @@ class ResCompany(models.Model):
             .sudo()
             .create(self._prepare_create_fiscal_dummy_doc())
         )
-        vals.update({"fiscal_dummy_id": dummy_doc.id})
-        company = super().create(vals)
+        for vals in vals_list:
+            vals.update({"fiscal_dummy_id": dummy_doc.id})
+        company = super().create(vals_list)
         dummy_doc.company_id = company
         dummy_doc.fiscal_line_ids.company_id = company
         return company
