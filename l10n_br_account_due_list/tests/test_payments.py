@@ -5,33 +5,26 @@ from odoo import fields
 from odoo.tests import Form, common
 
 
-class TestPayments(common.SavepointCase):
+class TestPayments(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.account_type_receivable = cls.env["account.account.type"].create(
-            {"name": "Test", "type": "receivable", "internal_group": "income"}
-        )
         cls.account_receivable = cls.env["account.account"].create(
             {
                 "name": "Test receivable account",
                 "code": "ACCRV",
-                "user_type_id": cls.account_type_receivable.id,
+                "account_type": "asset_receivable",
                 "reconcile": True,
             }
-        )
-        cls.account_type_payable = cls.env["account.account.type"].create(
-            {"name": "Test", "type": "payable", "internal_group": "income"}
         )
         cls.account_payable = cls.env["account.account"].create(
             {
                 "name": "Test payable account",
                 "code": "ACCPAY",
-                "user_type_id": cls.account_type_payable.id,
+                "account_type": "liability_payable",
                 "reconcile": True,
             }
         )
-
         cls.partner_1 = cls.env["res.partner"].create(
             {
                 "name": "Mr. Odoo",
