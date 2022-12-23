@@ -1236,9 +1236,7 @@ class ICMSRegulation(models.Model):
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
 
-        view_super = super(ICMSRegulation, self).fields_view_get(
-            view_id, view_type, toolbar, submenu
-        )
+        view_super = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
         if view_type == "form":
             doc = etree.fromstring(view_super.get("arch"))
