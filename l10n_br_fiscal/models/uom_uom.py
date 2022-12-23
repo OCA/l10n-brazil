@@ -36,4 +36,4 @@ class Uom(models.Model):
     def search(self, domain, *args, **kwargs):
         for sub_domain in list(filter(lambda x: x[0] == "code", domain)):
             domain = self._get_code_domain(sub_domain, domain)
-        return super(Uom, self).search(domain, *args, **kwargs)
+        return super().search(domain, *args, **kwargs)

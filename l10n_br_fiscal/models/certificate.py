@@ -138,8 +138,8 @@ class Certificate(models.Model):
     @api.model
     def create(self, values):
         values = self.update_certificate_data(values)
-        return super(Certificate, self).create(values)
+        return super().create(values)
 
     def write(self, values):
         values = self.update_certificate_data(values)
-        return super(Certificate, self).write(values)
+        return super().write(values)

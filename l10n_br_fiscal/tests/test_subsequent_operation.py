@@ -6,7 +6,7 @@ from odoo.tests.common import TransactionCase
 
 class TestSubsequentOperation(TransactionCase):
     def setUp(self):
-        super(TestSubsequentOperation, self).setUp()
+        super().setUp()
 
         self.nfe_simples_faturamento = self.env.ref(
             "l10n_br_fiscal.demo_nfe_so_simples_faturamento"

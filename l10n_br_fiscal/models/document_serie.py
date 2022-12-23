@@ -75,7 +75,7 @@ class DocumentSerie(models.Model):
         this field is null"""
         if not values.get("internal_sequence_id"):
             values.update({"internal_sequence_id": self._create_sequence(values)})
-        return super(DocumentSerie, self).create(values)
+        return super().create(values)
 
     def name_get(self):
         return [(r.id, "{}".format(r.name)) for r in self]

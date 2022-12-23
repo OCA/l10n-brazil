@@ -164,7 +164,7 @@ class Operation(models.Model):
         operations = self.filtered(lambda l: l.state == "approved")
         if operations:
             raise UserError(_("You cannot delete an Operation which is not draft !"))
-        return super(Operation, self).unlink()
+        return super().unlink()
 
     def get_document_serie(self, company, document_type):
         self.ensure_one()
