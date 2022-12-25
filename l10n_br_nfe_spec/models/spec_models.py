@@ -23,7 +23,13 @@ class NfeSpecMixin(models.AbstractModel):
     )
 
     def _valid_field_parameter(self, field, name):
-        if name in ("xsd_type", "xsd_required", "choice", "xsd_implicit"):
+        if name in (
+            "xsd_type",
+            "xsd_required",
+            "choice",
+            "xsd_implicit",
+            "xsd_choice_required",
+        ):
             return True
         else:
             return super()._valid_field_parameter(field, name)
