@@ -115,6 +115,12 @@ class AbstractSpecMixin(models.AbstractModel):
             ):
                 if field.comodel_name not in self._get_spec_classes():
                     return False
+            if hasattr(field, "xsd_choice_required"):
+                # NOTE generateds-odoo would abusively have xsd_required=True
+                # already in the spec file in this case.
+                # In xsdata-odoo we introduced xsd_choice_required.
+                # Here we make the legacy code compatible with xsdata-odoo:
+                xsd_required = True
             return self._export_many2one(xsd_field, xsd_required, class_obj)
         elif self._fields[xsd_field].type == "one2many":
             return self._export_one2many(xsd_field, class_obj)
@@ -126,6 +132,8 @@ class AbstractSpecMixin(models.AbstractModel):
             self._fields[xsd_field].type in ("float", "monetary")
             and self[xsd_field] is not False
         ):
+            if hasattr(field, "xsd_choice_required"):
+                xsd_required = True  # NOTE compat, see previous NOTE
             return self._export_float_monetary(
                 xsd_field, member_spec, class_obj, xsd_required, export_value
             )
