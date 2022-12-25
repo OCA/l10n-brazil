@@ -308,7 +308,8 @@ class StackedModel(SpecModel):
                 # TODO get with a function (lambda?)
                 "comodel_name": i[1].comodel_name,
                 "xsd_required": hasattr(i[1], "xsd_required") and i[1].xsd_required,
-                "choice": hasattr(i[1], "choice") and i[1].choice,
+                "xsd_choice_required": hasattr(i[1], "xsd_choice_required")
+                and i[1].xsd_choice_required,
             }
         for name, f in fields.items():
             if f["type"] not in ["many2one", "one2many"] or name in cls._stack_skip:
@@ -331,7 +332,7 @@ class StackedModel(SpecModel):
 
             # many2one
             if (child_concrete is None or child_concrete == cls._name) and (
-                f["xsd_required"] or force_stacked
+                f["xsd_required"] or f["xsd_choice_required"] or force_stacked
             ):
                 # then we will STACK the child in the current class
                 child._stack_path = path
