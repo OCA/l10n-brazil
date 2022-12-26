@@ -29,13 +29,57 @@
               </group>
           </page>
           <page name="finance" position="inside">
+            <field name="brl_currency_id" invisible="1" />
               <group
                     name="nfe_finance"
                     attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                    col="1"
                 >
-                  <field name="nfe40_dup" />
-                  <field name="nfe40_detPag" />
-              </group>
+                    <group
+                        name="nfe40_cobr_group"
+                        string="Grupo Y. Dados da Cobrança"
+                        col="1"
+                    >
+                        <group name="nfe40_fat_group" string="Fatura">
+                            <field name="nfe40_nFat" string="Número" />
+                            <field name="nfe40_vOrig" string="Valor Original" />
+                            <field name="nfe40_vLiq" string="Valor Líquido" />
+                        </group>
+                        <group name="nfe40_dup_group" string="Parcelas">
+                            <field name="nfe40_dup">
+                                <tree>
+                                    <field name="brl_currency_id" invisible="1" />
+                                    <field name="nfe40_nDup" string="Número" />
+                                    <field name="nfe40_dVenc" string="Vencimento" />
+                                    <field name="nfe40_vDup" string="Valor" />
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                    <group
+                        name="nfe_40_pag_group"
+                        string="Grupo YA. Informações de Pagamento"
+                    >
+                            <field name="nfe40_detPag">
+                                <tree>
+                                    <field name="brl_currency_id" invisible="1" />
+                                    <field
+                                    name="nfe40_indPag"
+                                    string="Forma de Pagamento"
+                                />
+                                    <field
+                                    name="nfe40_tPag"
+                                    string="Meio de Pagamento"
+                                />
+                                    <field
+                                    name="nfe40_vPag"
+                                    string="Valor do Pagamento"
+                                />
+                                </tree>
+                            </field>
+                            <field name="nfe40_vTroco" string="Valor do Troco" />
+                    </group>
+            </group>
           </page>
           <page name="others" position="inside">
               <group
