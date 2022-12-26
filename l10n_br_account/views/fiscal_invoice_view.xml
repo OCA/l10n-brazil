@@ -76,51 +76,10 @@
                     attrs="{'invisible': ['|',('move_type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"
                 />
         </xpath>
-        <xpath expr="//page[@name='finance']" position="inside">
-            <group>
-                <field name="name" invisible="1" />
-                <field name="move_type" invisible="1" />
-                <group name="accounting_financial" groups="account.group_account_user">
-                    <field
-                            name="journal_id"
-                            groups="account.group_account_user"
-                            options="{'no_create': True}"
-                            attrs="{'readonly':[('name','!=',False)]}"
-                        />
-                    <!--field
-                            domain="[('company_id', '=', company_id),('internal_type','=', 'receivable'), ('deprecated', '=', False)]"
-                            name="account_id"
-                            groups="account.group_account_user"
-                        /-->
-                    <field
-                            name="company_id"
-                            options="{'no_create': True}"
-                            groups="base.group_multi_company"
-                        />
-                    <!--field
-                            name="reference"
-                            attrs="{'readonly':[('state','!=','draft')]}"
-                        /-->
-                    <field name="name" />
-                </group>
-                <group groups="account.group_account_user">
-                    <!--field name="incoterm_id" options="{'no_create': True}" /-->
-                    <field name="fiscal_position_id" options="{'no_create': True}" />
-                    <!--field
-                            name="move_id"
-                            groups="account.group_account_user"
-                            attrs="{'invisible': [('move_id', '=', False)]}"
-                        /-->
-                    <!--field
-                            name="origin"
-                            groups="base.group_user"
-                            attrs="{'invisible': [('origin', '=', False)]}"
-                        /-->
-                    <!--field name="partner_bank_id" /-->
-                </group>
-            </group>
-            <field name="financial_move_line_ids" />
-        </xpath>
+        <page name="finance" position="inside">
+            <field name="name" invisible="1" />
+            <field name="move_type" invisible="1" />
+        </page>
         <xpath expr="//field[@name='fiscal_line_ids']" position="replace">
             <field
                     name="invoice_line_ids"
