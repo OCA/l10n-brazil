@@ -56,10 +56,18 @@ class TestNFeExport(TransactionCase):
                 "leiauteNFe",
                 nfe["xml_file"],
             )
-            financial_vals = nfe_id._prepare_amount_financial(
-                "0", "01", nfe_id.amount_financial_total
-            )
-            nfe_id.nfe40_detPag = [(5, 0, 0), (0, 0, financial_vals)]
+            nfe_id.nfe40_detPag = [
+                (5, 0, 0),
+                (
+                    0,
+                    0,
+                    {
+                        "nfe40_indPag": "0",
+                        "nfe40_tPag": "01",
+                        "nfe40_vPag": nfe_id.amount_financial_total,
+                    },
+                ),
+            ]
             nfe_id.action_document_confirm()
             nfe_id.document_date = datetime.strptime(
                 "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
