@@ -1,6 +1,6 @@
 {
     "name": "nfe spec",
-    "version": "14.0.1.0.1",
+    "version": "14.0.2.0.0",
     "author": "Akretion, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "category": "Accounting",
