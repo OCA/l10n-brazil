@@ -3957,6 +3957,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_indPag
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_tPag
 msgid "Forma de Pagamento"
 msgstr ""
@@ -4543,15 +4544,7 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_indPag
-msgid ""
-"Indicador da Forma de Pagamento\n"
-"0-Pagamento à Vista\n"
-"1-Pagamento à Prazo"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_indPag
-msgid "Indicador da Forma de Pagamento:0"
+msgid "Indicador da Forma de Pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -5827,6 +5820,16 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transporta__nfe40_UF__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_tveiculo__nfe40_UF__pr
 msgid "PR"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_indPag__1
+msgid "Pagamento à Prazo"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_indPag__0
+msgid "Pagamento à Vista"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
