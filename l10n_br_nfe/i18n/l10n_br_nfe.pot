@@ -584,6 +584,11 @@ msgid "FIXME Não usar esse campo!"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Fatura"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_finNFe
 msgid "Finalidade da emissão da NF-e"
 msgstr ""
@@ -606,6 +611,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_type
 msgid "Fiscal Document Type"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Forma de Pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -662,6 +672,16 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cEANTrib
 msgid "GTIN (cEANTrib)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Grupo Y. Dados da Cobrança"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Grupo YA. Informações de Pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1060,6 +1080,11 @@ msgid "Medicamento"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Meio de Pagamento"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_modBC
 msgid "Modalidade de determinação da BC do ICMS"
 msgstr ""
@@ -1250,6 +1275,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_nro
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_nro
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_nro
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
 msgid "Número"
 msgstr ""
 
@@ -1311,6 +1337,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice12
 msgid "PISAliq/PISQtde/PISNT/PISOutr"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Parcelas"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1546,6 +1577,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Valor"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Valor Líquido"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Valor Original"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vNF
 msgid "Valor Total da NF-e"
 msgstr ""
@@ -1648,6 +1694,16 @@ msgid "Valor do PIS (NFe)"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Valor do Pagamento"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Valor do Troco"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vTotTrib
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vTotTrib
 msgid "Valor estimado total de impostos federais"
@@ -1721,6 +1777,11 @@ msgstr ""
 msgid ""
 "Valor unitário de tributação - - alterado para aceitar 0 a 10\n"
 "casas decimais e 11 inteiros"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Vencimento"
 msgstr ""
 
 #. module: l10n_br_nfe
