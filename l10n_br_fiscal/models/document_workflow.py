@@ -345,11 +345,14 @@ class DocumentWorkflow(models.AbstractModel):
 
     def action_document_cancel(self):
         self.ensure_one()
-        if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
-            result = self.env["ir.actions.act_window"]._for_xml_id(
-                "l10n_br_fiscal.document_cancel_wizard_action"
-            )
-            return result
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+                result = self.env["ir.actions.act_window"]._for_xml_id(
+                    "l10n_br_fiscal.document_cancel_wizard_action"
+                )
+                return result
+        else:
+            self.state_edoc = SITUACAO_EDOC_CANCELADA
 
     def action_document_invalidate(self):
         self.ensure_one()
