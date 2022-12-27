@@ -7,9 +7,9 @@ Account NFe/NFC-e Integration
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Alpha
+    :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -34,11 +34,6 @@ Este módulo integra os módulos l10n_br_account e l10n_br_nfe.
 This module integrates the l10n_br_account and l10n_br_nfe modules.
 
 * Adding Payment Information and Invoice Duplicates, TAGs cobr, pag and dup of NF-e/NFC-e.
-
-.. IMPORTANT::
-   This is an alpha version, the data model and design can change at any time without warning.
-   Only for development or testing purpose, do not use in production.
-   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 
@@ -121,6 +116,20 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-antoniospneto| image:: https://github.com/antoniospneto.png?size=40px
+    :target: https://github.com/antoniospneto
+    :alt: antoniospneto
+.. |maintainer-felipemotter| image:: https://github.com/felipemotter.png?size=40px
+    :target: https://github.com/felipemotter
+    :alt: felipemotter
+.. |maintainer-mbcosta| image:: https://github.com/mbcosta.png?size=40px
+    :target: https://github.com/mbcosta
+    :alt: mbcosta
+
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-antoniospneto| |maintainer-felipemotter| |maintainer-mbcosta| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_nfe>`_ project on GitHub.
 
