@@ -109,22 +109,55 @@ msgid "Boleto"
 msgstr ""
 
 #. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_dup
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_dup
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_dup
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_dup
+msgid "Dados das duplicatas NT 2011/004"
+msgstr ""
+
+#. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document_workflow__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document_workflow
-msgid "Fiscal Document Workflow"
+#: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Forma de Pagamento"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_detPag
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_detPag
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
+msgid "Grupo de detalhamento da forma de pagamento"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_nfe_40_detpag
+msgid "Grupo de detalhamento da forma de pagamento."
 msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document_workflow__id
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__id
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__id
 msgid "ID"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Indicador da Forma de Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_nfe
@@ -135,7 +168,8 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document_workflow____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -153,11 +187,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: code:addons/l10n_br_account_nfe/models/document_workflow.py:0
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__1
+msgid "Pagamento à Prazo"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__0
+msgid "Pagamento à Vista"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: code:addons/l10n_br_account_nfe/models/document.py:0
 #, python-format
-msgid ""
-"Payment Mode {} should has Fiscal Payment Mode filled to be used in Fiscal "
-"Document!"
+msgid "Payment Mode cannot be empty for this NF-e/NFC-e"
 msgstr ""
 
 #. module: l10n_br_account_nfe
