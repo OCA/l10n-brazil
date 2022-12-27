@@ -303,6 +303,8 @@ class DocumentWorkflow(models.AbstractModel):
                 if not line.comment_ids and line.fiscal_operation_line_id.comment_ids:
                     line.comment_ids |= line.fiscal_operation_line_id.comment_ids
             self._change_state(SITUACAO_EDOC_A_ENVIAR)
+        else:
+            self._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def action_document_confirm(self):
         to_confirm = self.filtered(lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR)
