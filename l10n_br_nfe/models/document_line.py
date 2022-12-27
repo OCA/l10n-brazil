@@ -663,8 +663,9 @@ class NFeLine(spec_models.StackedModel):
                 field_name,
                 xsd_type or "TDec_1302",  # (None for pis/cofins)
                 class_obj,
-                class_obj._fields[xsd_field].xsd_required
+                True
                 if hasattr(class_obj._fields[xsd_field], "xsd_required")
+                or hasattr(class_obj._fields[xsd_field], "xsd_choice_required")
                 else False,
             )
         elif xsd_field in (
