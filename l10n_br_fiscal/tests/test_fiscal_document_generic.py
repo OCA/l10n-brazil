@@ -8,6 +8,12 @@ from odoo.exceptions import UserError
 from odoo.tests import SavepointCase
 from odoo.tools import mute_logger
 
+from ..constants.fiscal import (
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_EM_DIGITACAO,
+)
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 
 
@@ -33,6 +39,11 @@ class TestFiscalDocumentGeneric(SavepointCase):
             "l10n_br_fiscal.demo_nfe_sn_nao_contribuinte"
         )
         cls.nfe_sn_export = cls.env.ref("l10n_br_fiscal.demo_nfe_sn_export")
+
+        # Compra
+        cls.nfe_purchase_same_state = cls.env.ref(
+            "l10n_br_fiscal.demo_nfe_purchase_same_state"
+        )
 
     def test_nfe_same_state(self):
         """Test NFe same state."""
@@ -151,6 +162,23 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
         self.nfe_same_state.action_document_confirm()
+
+        self.assertEqual(
+            self.nfe_same_state.state_edoc,
+            SITUACAO_EDOC_A_ENVIAR,
+            "Document is not in To Sent state",
+        )
+
+        self.nfe_same_state.action_document_send()
+
+        self.assertEqual(
+            self.nfe_same_state.state_edoc,
+            SITUACAO_EDOC_AUTORIZADA,
+            "Document is not in Authorized state",
+        )
+
+        result = self.nfe_same_state.action_document_cancel()
+        self.assertTrue(result)
 
     def test_nfe_other_state(self):
         """Test NFe other state."""
@@ -1151,3 +1179,29 @@ class TestFiscalDocumentGeneric(SavepointCase):
                 "Unexpected value for the field"
                 " Other Values in Fiscal Document line",
             )
+
+    def test_nfe_purchase_same_state(self):
+
+        self.nfe_purchase_same_state.action_document_confirm()
+
+        self.assertEqual(
+            self.nfe_purchase_same_state.state_edoc,
+            SITUACAO_EDOC_AUTORIZADA,
+            "Document is not in Authorized state",
+        )
+
+        self.nfe_purchase_same_state.action_document_back2draft()
+
+        self.assertEqual(
+            self.nfe_purchase_same_state.state_edoc,
+            SITUACAO_EDOC_EM_DIGITACAO,
+            "Document is not in Draft state",
+        )
+
+        self.nfe_purchase_same_state.action_document_cancel()
+
+        self.assertEqual(
+            self.nfe_purchase_same_state.state_edoc,
+            SITUACAO_EDOC_CANCELADA,
+            "Document is not in Canceled state",
+        )
