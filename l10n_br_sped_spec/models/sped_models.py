@@ -10,19 +10,12 @@ from lxml.builder import E
 _logger = logging.getLogger(__name__)
 
 
-class BigInt(fields.Integer):
-    """
-    In the SPED spec they use Integers for values such as CPF or CNPJ
-    So the Postgres limit of integer is out ranged.
-    From the pdfs, we cannot be sure what fields exactly would need to be converted
-    to character, so we decided to convert all the integers from the SPED
-    models to bigint which kills the problem.
-    """
-    column_type = ('int8', 'int8')
-    column_cast_from = ('int4',)
-        
-    def convert_to_read(self, value, record, use_name_get=True):
-        return value
+LAYOUT_VERSIONS = {
+    "ecd": "9",                         
+    "ecf": "8",
+    "efd_icms_ipi": "17",
+    "efd_pis_cofins": "6",
+}
 
 
 class SpedMixin(models.AbstractModel):
@@ -138,17 +131,17 @@ class SpedMixin(models.AbstractModel):
     def import_file(cls, filename, kind="ecd", version="1"):
         """
         ex:
-        env["l10n_br_sped.mixin"].import_file("/odoo/local-src/l10n_br_sped/demo/demo_ecd.txt", "ecd")
-        env["l10n_br_sped.mixin"].import_file("/odoo/local-src/l10n_br_sped/demo/demo_efd_icms_ipi.txt", "efd_icms_ipi")
-        env["l10n_br_sped.mixin"].import_file("/odoo/local-src/l10n_br_sped/demo/demo_efd_pis_cofins_multi.txt", "efd_pis_cofins")
+        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_ecd.txt", "ecd")
+        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_efd_icms_ipi.txt", "efd_icms_ipi")
+        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_efd_pis_cofins_multi.txt", "efd_pis_cofins")
         """
         with open(filename) as spedfile:
             last_level = 0
             previous_register = None
             for line in [line.rstrip('\r\n') for line in spedfile]:
-
                 reg_code = line.split('|')[1]
-                register_class = cls.env.get("l10n_br_sped.%s.1.%s" % (kind, reg_code.lower(),), None)
+                version = LAYOUT_VERSIONS[kind]
+                register_class = cls.env.get("l10n_br_sped.%s.%s.%s" % (kind, version, reg_code.lower(),), None)
                 print("\nREF", reg_code, register_class)
                 if register_class is None:
                     if "001" in reg_code or "990" in reg_code or reg_code == "9999":
@@ -208,7 +201,9 @@ class SpedMixin(models.AbstractModel):
                 previous_register = register
 
     @api.model
-    def generate_sped_text(cls, kind="ecd", version="1"):
+    def generate_sped_text(cls, kind="ecd", version=None):
+        if version is None:
+            version = LAYOUT_VERSIONS[kind]
         register_level2_classes = cls._get_level2_registers(kind, version)
         sped = StringIO()
         last_bloco = None
