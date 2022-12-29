@@ -181,7 +181,7 @@ class SpedMixin(models.AbstractModel):
                         print("BAD REGISTER FIELDS!! more values than fields in Odoo!", values, fname)
                         break
                     val = values.pop(0)
- 
+
                     if field.type == "integer":
                         if val == "":
                             vals[fname] = 0
@@ -234,7 +234,7 @@ class SpedMixin(models.AbstractModel):
         else: 
             sped.write("\n|" + bloco + "990|%s|" % (line_count[0] + 2,))
         line_total += line_count[0] + 2
-        sped.write("\n|9999|%s|" % (line_total,)
+        sped.write("\n|9999|%s|" % (line_total,))
         return sped.getvalue()
 
     def _get_level2_registers(cls, kind="ecd", version=None):
@@ -278,11 +278,29 @@ class SpedMixin(models.AbstractModel):
                             val = v.strftime("%d%m%Y")
                         else:
                             val = ""
+                    elif self._fields[k].type == "char":
+                        if not v:
+                            val = ""
+                        else:
+                            val = str(v)
+ 
+                    elif self._fields[k].type == "integer":
+                        if v == 0:
+                            val = ""
+                        else:
+                            val = str(v)
                     elif self._fields[k].type == "float":
                         if v % 1 < 0.00001:  # ex: aliquota ICMS
                             val = str(int(v))
                         else:
                             val = str(v).replace(".", ",")
+                    elif self._fields[k].type == "monetary":
+                        if v < 0.00001:
+                            val = ""
+                        elif v % 1 < 0.00001:
+                            val = str(int(v))
+                        else:
+                            val = str(v)
                     else:
                         val = str(v)
                     sped.write(val + "|")
