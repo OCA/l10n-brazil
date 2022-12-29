@@ -212,23 +212,29 @@ class SpedMixin(models.AbstractModel):
         sped = StringIO()
         last_bloco = None
         bloco = None
+        line_total = 0
+        line_count = [0] # mutable register line_count https://stackoverflow.com/a/15148557
         sped.write("\n|0000|")  # TODO content of 0000
         for register_class in register_level2_classes:
-            bloco = register_class._name[-4:][0]
+            bloco = register_class._name[-4:][0].upper()
             if bloco != last_bloco:
                 if last_bloco:
-                    sped.write("\n|" + last_bloco + "990|42|")  # TODO count nb of bloco lines
-                sped.write("\n|" + bloco + "001|0|")
+                    sped.write("\n|%s990|%s|" % (last_bloco, line_count[0] + 1,))
+                    line_total += line_count[0] + 1
+                    line_count = [0]
+                sped.write("\n|%s001|0|" % (bloco,))
+                line_count[0] += 1
 
             registers = register_class.search([])  # TODO filter with company_id?
-            registers.generate_register_text(sped)  # TODO use yield!
+            registers.generate_register_text(sped, line_count)  # TODO use yield!
             last_bloco = bloco
  
         if kind == "ecf":  # WTF why is it different?? You kidding me? or is it an error?
-            sped.write("\n|" + bloco + "099|42|")  # TODO count nb of bloco lines
+            sped.write("\n|" + bloco + "099|%s|" % (line_count[0] + 2,))
         else: 
-            sped.write("\n|" + bloco + "990|42|")
-        sped.write("\n|9999|42|")  # TODO nb of sped lines
+            sped.write("\n|" + bloco + "990|%s|" % (line_count[0] + 2,))
+        line_total += line_count[0] + 2
+        sped.write("\n|9999|%s|" % (line_total,)
         return sped.getvalue()
 
     def _get_level2_registers(cls, kind="ecd", version=None):
@@ -247,7 +253,7 @@ class SpedMixin(models.AbstractModel):
             or "b" + x._name[-4:],
         )
 
-    def generate_register_text(self, sped):
+    def generate_register_text(self, sped, line_count={}):
         code = self._name[-4:].upper()
         keys =[i[0] for i in filter(
             lambda i: "company" not in i[0] and "currency" not in i[0] and not i[1].automatic and i[0] and i[1].type not in ("many2one",),
@@ -258,6 +264,7 @@ class SpedMixin(models.AbstractModel):
         vals_list = self.read(keys)
         for vals in vals_list:
             sped.write("\n|%s|" % (code,))
+            line_count[0] += 1
             children = []
             for k, v in vals.items():
                 if k == "id":
@@ -271,12 +278,17 @@ class SpedMixin(models.AbstractModel):
                             val = v.strftime("%d%m%Y")
                         else:
                             val = ""
+                    elif self._fields[k].type == "float":
+                        if v % 1 < 0.00001:  # ex: aliquota ICMS
+                            val = str(int(v))
+                        else:
+                            val = str(v).replace(".", ",")
                     else:
                         val = str(v)
                     sped.write(val + "|")
 
             for child in children:
-                child.generate_register_text(sped)  # NOTE use yield?
+                child.generate_register_text(sped, line_count)  # NOTE use yield?
         return sped
 
 
