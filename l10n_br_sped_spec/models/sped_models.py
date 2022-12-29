@@ -121,20 +121,24 @@ class SpedMixin(models.AbstractModel):
         return E.form(E.sheet(group, string=self._description))
 
     @api.model
-    def empty_registers(cls, kind="ecd", version="1"):
+    def flush_registers(cls, kind="ecd", version=None):
+        if version is None:
+            version = LAYOUT_VERSIONS[kind]
         register_classes = cls._get_level2_registers(kind, version)
         for register_class in register_classes:
             registers = register_class.search([])  # TODO company_id filter?
             registers.unlink()
 
     @api.model
-    def import_file(cls, filename, kind="ecd", version="1"):
+    def import_file(cls, filename, kind="ecd", version=None):
         """
         ex:
         env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_ecd.txt", "ecd")
         env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_efd_icms_ipi.txt", "efd_icms_ipi")
         env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_efd_pis_cofins_multi.txt", "efd_pis_cofins")
         """
+        if version is None:
+            version = LAYOUT_VERSIONS[kind]
         with open(filename) as spedfile:
             last_level = 0
             previous_register = None
@@ -227,7 +231,9 @@ class SpedMixin(models.AbstractModel):
         sped.write("\n|9999|42|")  # TODO nb of sped lines
         return sped.getvalue()
 
-    def _get_level2_registers(cls, kind="ecd", version="1"):
+    def _get_level2_registers(cls, kind="ecd", version=None):
+        if version is None:
+            version = LAYOUT_VERSIONS[kind]
         register_model_names = list(filter(lambda x: "l10n_br_sped.%s.%s" % (kind, version) in x, cls.env.keys()))
         register_level2_models = [cls.env[m] for m in register_model_names if cls.env[m]._sped_level == 2]
         return sorted(
@@ -270,7 +276,7 @@ class SpedMixin(models.AbstractModel):
                     sped.write(val + "|")
 
             for child in children:
-                child.generate_register_text(sped)  # TODO use yield
+                child.generate_register_text(sped)  # NOTE use yield?
         return sped
 
 
