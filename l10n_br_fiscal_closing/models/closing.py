@@ -16,6 +16,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import RedirectWarning
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
     MODELO_FISCAL_CFE,
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
     MODELO_FISCAL_EMISSAO_PRODUTO,
@@ -182,20 +183,44 @@ class FiscalClosing(models.Model):
 
     def _create_tempfile_path(self, document):
         fsc_op_type = {"out": "Saída", "in": "Entrada", "all": "Todos"}
-        document_path = "/".join(
-            [
-                misc.punctuation_rm(document.company_cnpj_cpf),
-                document.document_date.strftime("%m-%Y"),
-                PATH_MODELO[document.document_type_id.code],
-                fsc_op_type.get(document.fiscal_operation_type),
-                (document.document_serie or "").zfill(3)
-                + (
-                    "-" + misc.punctuation_rm(str(document.document_number)).zfill(9)
-                    if self.group_folder
-                    else ""
-                ),
-            ]
-        )
+
+        if document.issuer == DOCUMENT_ISSUER_COMPANY:
+            document_path = "/".join(
+                [
+                    misc.punctuation_rm(document.company_cnpj_cpf),
+                    document.document_date.strftime("%m-%Y"),
+                    document.issuer,
+                    PATH_MODELO[document.document_type_id.code],
+                    fsc_op_type.get(document.fiscal_operation_type),
+                    (document.document_serie or "").zfill(3)
+                    + (
+                        "-"
+                        + misc.punctuation_rm(str(document.document_number)).zfill(9)
+                        if self.group_folder
+                        else ""
+                    ),
+                ]
+            )
+
+        else:
+            document_path = "/".join(
+                [
+                    misc.punctuation_rm(document.company_cnpj_cpf),
+                    document.document_date.strftime("%m-%Y"),
+                    document.issuer,
+                    misc.punctuation_rm(document.partner_cnpj_cpf),
+                    PATH_MODELO[document.document_type_id.code],
+                    fsc_op_type.get(document.fiscal_operation_type),
+                    (document.document_serie or "").zfill(3)
+                    + (
+                        "-"
+                        + misc.punctuation_rm(str(document.document_number)).zfill(9)
+                        if self.group_folder
+                        else ""
+                    ),
+                ]
+            )
+
         return document_path
 
     def _date_range(self):
@@ -269,11 +294,31 @@ class FiscalClosing(models.Model):
                 ) from e
 
         for document in documents:
-            attachment_ids = document.authorization_event_id.mapped("file_response_id")
-            attachment_ids |= document.cancel_event_id.mapped("file_response_id")
-            attachment_ids |= document.correction_event_ids.mapped("file_response_id")
-            if self.include_pdf_file:
-                attachment_ids |= document.file_report_id
+            if document.issuer == DOCUMENT_ISSUER_COMPANY:
+                attachment_ids = document.authorization_event_id.mapped(
+                    "file_response_id"
+                )
+                attachment_ids |= document.cancel_event_id.mapped("file_response_id")
+                attachment_ids |= document.correction_event_ids.mapped(
+                    "file_response_id"
+                )
+                if self.include_pdf_file:
+                    attachment_ids |= document.file_report_id
+            else:
+                if hasattr(document, "move_ids"):
+                    attachment_ids = self.env["ir.attachment"].search(
+                        [
+                            ("res_model", "=", "account.move"),
+                            ("res_id", "in", document.move_ids.ids),
+                        ]
+                    )
+                else:
+                    attachment_ids = self.env["ir.attachment"].search(
+                        [
+                            ("res_model", "=", "l10n_br_fiscal.document"),
+                            ("res_id", "=", document.id),
+                        ]
+                    )
 
             if self.export_type == "period":
                 document.close_id = self.id
