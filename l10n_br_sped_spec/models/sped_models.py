@@ -214,7 +214,8 @@ class SpedMixin(models.AbstractModel):
         bloco = None
         line_total = 0
         line_count = [0] # mutable register line_count https://stackoverflow.com/a/15148557
-        sped.write("\n|0000|")  # TODO content of 0000
+        register0 = cls.env["l10n_br_sped.%s.%s.0000" % (kind, version)]
+        register0.search([]).generate_register_text(sped, line_count)
         for register_class in register_level2_classes:
             bloco = register_class._name[-4:][0].upper()
             if bloco != last_bloco:
@@ -234,7 +235,7 @@ class SpedMixin(models.AbstractModel):
         else: 
             sped.write("\n|" + bloco + "990|%s|" % (line_count[0] + 2,))
         line_total += line_count[0] + 2
-        sped.write("\n|9999|%s|" % (line_total,))
+        sped.write("\n|9999|%s|" % (line_total,))  # FIXME incorrect? error in test files?
         return sped.getvalue()
 
     def _get_level2_registers(cls, kind="ecd", version=None):
@@ -285,7 +286,12 @@ class SpedMixin(models.AbstractModel):
                             val = str(v)
  
                     elif self._fields[k].type == "integer":
-                        if v == 0:
+                        if v == 0: 
+                            # NOTE not always what is done, ex ECD I510 DEC_CAMPO
+                            # TODO what do we do?
+                            # 1) find a better heuristic?
+                            # 2) specific override?
+                            # 3) change test/demo file if it's OK?
                             val = ""
                         else:
                             val = str(v)
@@ -305,6 +311,7 @@ class SpedMixin(models.AbstractModel):
                         val = str(v)
                     sped.write(val + "|")
 
+            children = sorted(children, key=lambda reg: reg._name)
             for child in children:
                 child.generate_register_text(sped, line_count)  # NOTE use yield?
         return sped
