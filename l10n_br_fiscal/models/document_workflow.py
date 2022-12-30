@@ -238,6 +238,8 @@ class DocumentWorkflow(models.AbstractModel):
     def _document_date(self):
         if not self.document_date:
             self.document_date = self._date_server_format()
+        if not self.date_in_out:
+            self.date_in_out = self._date_server_format()
 
     def _document_check(self):
         return True
