@@ -62,7 +62,7 @@ STRUCTURE SPED EFD_ICMS_IPI
 <BLOCO C>
 
   - C100 DOCUMENTO - NOTA FISCAL (CÓDIGO 01)
-    - C101 
+    - C101 Informação complementar dos documentos f...
     - C105 Operações com ICMS ST recolhido para UF diversa do destinatário do docu- mento fiscal
     ≡ C110 Complemento de Documento
       ≡ C111 
@@ -150,34 +150,34 @@ STRUCTURE SPED EFD_ICMS_IPI
 <BLOCO D>
 
   - D100 NOTA FISCAL DE SERVIÇO DE TRANSPORTE
-    - D101 
+    - D101 Informação complementar dos documentos f...
     ≡ D110 Itens do documento
       ≡ D120 
     ≡ D130 Complemento do Conhecimento Rodoviário de Cargas
     - D140 Complemento do Conhecimento Aquaviário de Cargas
     - D150 Complemento do Conhecimento Aéreo de Cargas
-    ≡ D160 Carga Transportada (CÓDIGO 08, 8B
+    ≡ D160 Carga Transportada
       - D161 
       ≡ D162 
     - D170 Complemento do Conhecimento Multimodal de Cargas
     ≡ D180 Modais (código 26)
     ≡ D190 Registro Analítico dos Documentos
-    ≡ D195 Observações do lançamento (CÓDIGO 07
+    ≡ D195 Observações do lançamento
       ≡ D197 
 
   - D300 REGISTRO ANALÍTICO DOS BILHETES CONSOLIDADOS DE PASSAGEM RODOVIÁRIO
     ≡ D301 Documentos cancelados dos Bilhetes de Passagem Rodoviário
-    ≡ D310 Complemento dos Bilhetes (código 13
+    ≡ D310 Complemento dos Bilhetes
 
-  - D350 EQUIPAMENTO ECF (CÓDIGOS 2E, 13, 14
-    ≡ D355 Redução Z (Códigos 2E, 13, 14
+  - D350 EQUIPAMENTO ECF
+    ≡ D355 Redução Z
       - D360 
       ≡ D365 
         ≡ D370 
       ≡ D390 
 
   - D400 RESUMO DO MOVIMENTO DIÁRIO
-    ≡ D410 Documentos Informados (Códigos 13
+    ≡ D410 Documentos Informados
       ≡ D411 
     ≡ D420 Complemento dos Documentos Informados
 
@@ -327,16 +327,97 @@ from odoo import fields, models
 from . import sped_models
 
 
+class Registro0000(models.Model):
+    "Abertura do Arquivo Digital e Identificação da entidade"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "l10n_br_sped.efd_icms_ipi.17.0000"
+    _inherit = "l10n_br_sped.mixin"
+    _sped_level = 0
+
+    COD_VER = fields.Integer(
+        string="Código da versão",
+        required=True,
+        help=(
+            "Código da versão do leiaute conforme a tabela indicada no Ato " "COTEPE."
+        ),
+    )
+
+    COD_FIN = fields.Integer(
+        string="Código da finalidade do arquivo: 0",
+        required=True,
+        sped_length=1,
+        help=(
+            "Código da finalidade do arquivo: 0 - Remessa do arquivo original;"
+            " 1 - Remessa do arquivo substituto."
+        ),
+    )
+
+    DT_INI = fields.Date(
+        string="Data inicial das informações contidas no arquivo", required=True
+    )
+
+    DT_FIN = fields.Date(
+        string="Data final das informações contidas no arquivo", required=True
+    )
+
+    NOME = fields.Char(
+        string="Nome empresarial da entidade", required=True, sped_length=100
+    )
+
+    CNPJ = fields.Char(string="Número de inscrição da entidade no CNPJ")
+
+    CPF = fields.Char(string="Número de inscrição da entidade no CPF")
+
+    UF = fields.Char(string="Sigla da unidade da federação da entidade", required=True)
+
+    IE = fields.Char(
+        string="Inscrição Estadual da entidade", required=True, sped_length=14
+    )
+
+    COD_MUN = fields.Integer(
+        string="Código do município do domicílio fiscal",
+        required=True,
+        help=(
+            "Código do município do domicílio fiscal da entidade, conforme a "
+            "tabela IBGE"
+        ),
+    )
+
+    IM = fields.Char(string="Inscrição Municipal da entidade")
+
+    SUFRAMA = fields.Char(string="Inscrição da entidade na SUFRAMA")
+
+    IND_PERFIL = fields.Char(
+        string="Perfil de apresentação",
+        required=True,
+        sped_length=1,
+        help=(
+            "Perfil de apresentação do arquivo fiscal; A – Perfil A; B – "
+            "Perfil B.; C – Perfil C."
+        ),
+    )
+
+    IND_ATIV = fields.Integer(
+        string="Indicador de tipo de atividade",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador de tipo de atividade: 0 – Industrial ou equiparado a "
+            "industrial; 1 – Outros."
+        ),
+    )
+
+
 class Registro0002(models.Model):
     """Classificação do Estabelecimento Industrial ou Equiparado a
     Industrial"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0002"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0002"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    CLAS_ESTAB_IND = sped_models.BigInt(
+    CLAS_ESTAB_IND = fields.Integer(
         string="classificação do estabelecimento conforme tabela 4",
         required=True,
         sped_length=2,
@@ -347,7 +428,7 @@ class Registro0002(models.Model):
 class Registro0005(models.Model):
     "Dados Complementares da entidade"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0005"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0005"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -357,7 +438,7 @@ class Registro0005(models.Model):
         sped_length=60,
     )
 
-    CEP = sped_models.BigInt(string="Código de Endereçamento Postal", required=True)
+    CEP = fields.Integer(string="Código de Endereçamento Postal", required=True)
 
     END = fields.Char(
         string="Logradouro e endereço do imóvel", required=True, sped_length=60
@@ -381,7 +462,7 @@ class Registro0005(models.Model):
 class Registro0015(models.Model):
     "Dados do Contribuinte Substituto ou Responsável pelo ICMS Destino"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0015"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0015"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -409,13 +490,13 @@ class Registro0015(models.Model):
 class Registro0100(models.Model):
     "Dados do Contabilista"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0100"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     NOME = fields.Char(string="Nome do contabilista", required=True, sped_length=100)
 
-    CPF = sped_models.BigInt(
+    CPF = fields.Char(
         string="Número de inscrição do contabilista no CPF", required=True
     )
 
@@ -429,14 +510,14 @@ class Registro0100(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do escritório de contabilidade",
         help=(
             "Número de inscrição do escritório de contabilidade no CNPJ, se " "houver."
         ),
     )
 
-    CEP = sped_models.BigInt(string="Código de Endereçamento Postal")
+    CEP = fields.Integer(string="Código de Endereçamento Postal")
 
     END = fields.Char(string="Logradouro e endereço do imóvel", sped_length=60)
 
@@ -452,7 +533,7 @@ class Registro0100(models.Model):
 
     EMAIL = fields.Char(string="Endereço do correio eletrônico", required=True)
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município",
         required=True,
         help="Código do município, conforme tabela IBGE.",
@@ -462,7 +543,7 @@ class Registro0100(models.Model):
 class Registro0150(models.Model):
     "Tabela de Cadastro do Participante"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0150"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0150"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -476,7 +557,7 @@ class Registro0150(models.Model):
         sped_length=100,
     )
 
-    COD_PAIS = sped_models.BigInt(
+    COD_PAIS = fields.Integer(
         string="Código do país do participante",
         required=True,
         sped_length=5,
@@ -486,13 +567,13 @@ class Registro0150(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(string="CNPJ do participante")
+    CNPJ = fields.Char(string="CNPJ do participante")
 
-    CPF = sped_models.BigInt(string="CPF do participante")
+    CPF = fields.Char(string="CPF do participante")
 
     IE = fields.Char(string="Inscrição Estadual do participante", sped_length=14)
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município", help="Código do município, conforme a tabela IBGE"
     )
 
@@ -509,7 +590,7 @@ class Registro0150(models.Model):
     BAIRRO = fields.Char(string="Bairro em que o imóvel está situado", sped_length=60)
 
     reg_0175_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.0175",
+        "l10n_br_sped.efd_icms_ipi.17.0175",
         "reg_0175_ids_Registro0150_id",
         string="0175 Alteração da Tabela de Cadastro",
         sped_card="1:N",
@@ -521,7 +602,7 @@ class Registro0150(models.Model):
 class Registro0175(models.Model):
     "Alteração da Tabela de Cadastro de Participante"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0175"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0175"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -539,7 +620,7 @@ class Registro0175(models.Model):
     )
 
     reg_0175_ids_Registro0150_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.0150",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.0150",
         string="Tabela de Cadastro do Participante",
         required=True,
         ondelete="cascade",
@@ -549,7 +630,7 @@ class Registro0175(models.Model):
 class Registro0190(models.Model):
     "Identificação das unidades de medida"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0190"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0190"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -563,7 +644,7 @@ class Registro0190(models.Model):
 class Registro0200(models.Model):
     "Tabela de Identificação do Item (Produtos e Serviços)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0200"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -591,7 +672,7 @@ class Registro0200(models.Model):
         help="Unidade de medida utilizada na quantificação de estoques.",
     )
 
-    TIPO_ITEM = sped_models.BigInt(
+    TIPO_ITEM = fields.Integer(
         string="Tipo do item – Atividades Industriais",
         required=True,
         sped_length=2,
@@ -609,7 +690,7 @@ class Registro0200(models.Model):
 
     EX_IPI = fields.Char(string="Código EX, conforme a TIPI", sped_length=3)
 
-    COD_GEN = sped_models.BigInt(
+    COD_GEN = fields.Integer(
         string="Código do gênero do item",
         help="Código do gênero do item, conforme a Tabela 4.2.1",
     )
@@ -634,10 +715,10 @@ class Registro0200(models.Model):
         help="Alíquota de ICMS aplicável ao item nas operações internas",
     )
 
-    CEST = sped_models.BigInt(string="Código Especificador da Substituição Tributária")
+    CEST = fields.Integer(string="Código Especificador da Substituição Tributária")
 
     reg_0206_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.0206",
+        "l10n_br_sped.efd_icms_ipi.17.0206",
         "reg_0206_ids_Registro0200_id",
         string="0206 Código de produto conforme Tabela ANP",
         sped_card="1:1",
@@ -645,7 +726,7 @@ class Registro0200(models.Model):
     )
 
     reg_0205_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.0205",
+        "l10n_br_sped.efd_icms_ipi.17.0205",
         "reg_0205_ids_Registro0200_id",
         string="0205 Alteração do Item",
         sped_card="1:N",
@@ -653,7 +734,7 @@ class Registro0200(models.Model):
     )
 
     reg_0210_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.0210",
+        "l10n_br_sped.efd_icms_ipi.17.0210",
         "reg_0210_ids_Registro0200_id",
         string="0210 Consumo Específico Padronizado",
         sped_card="1:N",
@@ -661,7 +742,7 @@ class Registro0200(models.Model):
     )
 
     reg_0220_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.0220",
+        "l10n_br_sped.efd_icms_ipi.17.0220",
         "reg_0220_ids_Registro0200_id",
         string="0220 Fatores de Conversão de Unidades",
         sped_card="1:N",
@@ -672,7 +753,7 @@ class Registro0200(models.Model):
 class Registro0205(models.Model):
     "Alteração do Item"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0205"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0205"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -695,7 +776,7 @@ class Registro0205(models.Model):
     )
 
     reg_0205_ids_Registro0200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.0200",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.0200",
         string="Tabela de Identificação do Item",
         required=True,
         ondelete="cascade",
@@ -706,7 +787,7 @@ class Registro0205(models.Model):
 class Registro0206(models.Model):
     "Código de produto conforme Tabela ANP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0206"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0206"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -717,7 +798,7 @@ class Registro0206(models.Model):
     )
 
     reg_0206_ids_Registro0200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.0200",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.0200",
         string="Tabela de Identificação do Item",
         required=True,
         ondelete="cascade",
@@ -728,7 +809,7 @@ class Registro0206(models.Model):
 class Registro0210(models.Model):
     "Consumo Específico Padronizado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0210"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -768,7 +849,7 @@ class Registro0210(models.Model):
     )
 
     reg_0210_ids_Registro0200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.0200",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.0200",
         string="Tabela de Identificação do Item",
         required=True,
         ondelete="cascade",
@@ -779,7 +860,7 @@ class Registro0210(models.Model):
 class Registro0220(models.Model):
     "Fatores de Conversão de Unidades"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0220"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0220"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -817,7 +898,7 @@ class Registro0220(models.Model):
     )
 
     reg_0220_ids_Registro0200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.0200",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.0200",
         string="Tabela de Identificação do Item",
         required=True,
         ondelete="cascade",
@@ -828,7 +909,7 @@ class Registro0220(models.Model):
 class Registro0300(models.Model):
     "Cadastro de bens ou componentes do Ativo Imobilizado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0300"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -876,7 +957,7 @@ class Registro0300(models.Model):
         ),
     )
 
-    NR_PARC = sped_models.BigInt(
+    NR_PARC = fields.Integer(
         string="Número total de parcelas a serem apropriadas",
         sped_length=3,
         help=(
@@ -886,7 +967,7 @@ class Registro0300(models.Model):
     )
 
     reg_0305_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.0305",
+        "l10n_br_sped.efd_icms_ipi.17.0305",
         "reg_0305_ids_Registro0300_id",
         string="0305 Informação sobre a Utilização do Bem",
         sped_card="1:1",
@@ -897,7 +978,7 @@ class Registro0300(models.Model):
 class Registro0305(models.Model):
     "Informação sobre a Utilização do Bem"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0305"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0305"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -917,14 +998,14 @@ class Registro0305(models.Model):
         help=("Descrição sucinta da função do bem na atividade do " "estabelecimento"),
     )
 
-    VIDA_UTIL = sped_models.BigInt(
+    VIDA_UTIL = fields.Integer(
         string="Vida útil estimada do bem",
         sped_length=3,
         help="Vida útil estimada do bem, em número de meses",
     )
 
     reg_0305_ids_Registro0300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.0300",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.0300",
         string="Cadastro de bens ou componentes",
         required=True,
         ondelete="cascade",
@@ -935,7 +1016,7 @@ class Registro0305(models.Model):
 class Registro0400(models.Model):
     "Tabela de Natureza da Operação/ Prestação"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0400"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0400"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -951,7 +1032,7 @@ class Registro0400(models.Model):
 class Registro0450(models.Model):
     "Tabela de Informação Complementar do documento fiscal"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0450"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0450"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -977,7 +1058,7 @@ class Registro0450(models.Model):
 class Registro0460(models.Model):
     "Tabela de Observações do Lançamento Fiscal"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0460"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0460"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -995,7 +1076,7 @@ class Registro0460(models.Model):
 class Registro0500(models.Model):
     "Plano de contas contábeis"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0500"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1020,7 +1101,7 @@ class Registro0500(models.Model):
         ),
     )
 
-    NÍVEL = sped_models.BigInt(
+    NÍVEL = fields.Integer(
         string="Nível da conta analítica/grupo de contas", required=True, sped_length=5
     )
 
@@ -1038,7 +1119,7 @@ class Registro0500(models.Model):
 class Registro0600(models.Model):
     "Centro de custos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.0600"
+    _name = "l10n_br_sped.efd_icms_ipi.17.0600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1058,7 +1139,7 @@ class RegistroB020(models.Model):
     (código 55) e NFC-e (código 65)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b020"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b020"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1090,16 +1171,16 @@ class RegistroB020(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.3"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento conforme tabela 4",
         help="Código da situação do documento conforme tabela 4.1.2",
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
-    CHV_NFE = sped_models.BigInt(string="Chave da Nota Fiscal Eletrônica")
+    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica")
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
@@ -1177,7 +1258,7 @@ class RegistroB020(models.Model):
     )
 
     reg_B025_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.b025",
+        "l10n_br_sped.efd_icms_ipi.17.b025",
         "reg_B025_ids_RegistroB020_id",
         string="B025 Detalhamento por combinação de alíquota",
         sped_card="1:N",
@@ -1194,12 +1275,12 @@ class RegistroB025(models.Model):
     Lei Complementar nº 116/2003"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b025"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b025"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     VL_CONT_P = fields.Monetary(
-        string="CONTP",
+        string="VL_CONT_P",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1238,7 +1319,7 @@ class RegistroB025(models.Model):
     )
 
     VL_ISNT_ISS_P = fields.Monetary(
-        string="ISNTISSP",
+        string="VL_ISNT_ISS_P",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1254,7 +1335,7 @@ class RegistroB025(models.Model):
     )
 
     reg_B025_ids_RegistroB020_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.b020",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.b020",
         string="Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -1270,7 +1351,7 @@ class RegistroB025(models.Model):
 class RegistroB030(models.Model):
     "Nota fiscal de Serviços Simplificada (código 3A)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b030"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b030"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1281,17 +1362,17 @@ class RegistroB030(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=3)
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do primeiro documento fiscal emitido no dia", sped_length=9
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
+    NUM_DOC_FIN = fields.Integer(
         string="Número do último documento fiscal emitido no dia", sped_length=9
     )
 
     DT_DOC = fields.Date(string="Data da emissão dos documentos fiscais")
 
-    QTD_CANC = sped_models.BigInt(string="Quantidade de documentos cancelados")
+    QTD_CANC = fields.Integer(string="Quantidade de documentos cancelados")
 
     VL_CONT = fields.Monetary(
         string="Valor contábil",
@@ -1331,7 +1412,7 @@ class RegistroB030(models.Model):
 class RegistroB350(models.Model):
     "Serviços prestados por insituições financeiras"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b350"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b350"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1339,7 +1420,7 @@ class RegistroB350(models.Model):
 
     CTA_ISS = fields.Char(string="Descrição da conta no plano de contas")
 
-    CTA_COSIF = sped_models.BigInt(
+    CTA_COSIF = fields.Integer(
         string="Código COSIF a que está subordinada a conta",
         help=(
             "Código COSIF a que está subordinada a conta do ISS das "
@@ -1347,9 +1428,9 @@ class RegistroB350(models.Model):
         ),
     )
 
-    QTD_OCOR = sped_models.BigInt(string="Quantidade de ocorrências na conta")
+    QTD_OCOR = fields.Integer(string="Quantidade de ocorrências na conta")
 
-    COD_SERV = sped_models.BigInt(
+    COD_SERV = fields.Integer(
         string="Item da lista de serviços",
         help="Item da lista de serviços, conforme Tabela 4.6.3.",
     )
@@ -1391,7 +1472,7 @@ class RegistroB420(models.Model):
     e item da lista de serviços da Lei Complementar nº 116/2003"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b420"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b420"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1453,7 +1534,7 @@ class RegistroB420(models.Model):
 class RegistroB440(models.Model):
     "Totalização dos valores retidos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b440"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b440"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1512,7 +1593,7 @@ class RegistroB440(models.Model):
 class RegistroB460(models.Model):
     "Deduções do ISS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b460"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b460"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1567,7 +1648,7 @@ class RegistroB460(models.Model):
 class RegistroB470(models.Model):
     "Apuração do ISS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b470"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b470"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1696,19 +1777,19 @@ class RegistroB470(models.Model):
 class RegistroB500(models.Model):
     "Apuração do ISS sociedade uniprofissional"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b500"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     VL_REC = fields.Monetary(
-        string="REC",
+        string="VL_REC",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=("Valor mensal das receitas auferidas pela sociedade " "uniprofissional"),
     )
 
-    QTD_PROF = sped_models.BigInt(
+    QTD_PROF = fields.Integer(
         string="Quantidade de profissionais habilitados", required=True
     )
 
@@ -1720,7 +1801,7 @@ class RegistroB500(models.Model):
     )
 
     reg_B510_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.b510",
+        "l10n_br_sped.efd_icms_ipi.17.b510",
         "reg_B510_ids_RegistroB500_id",
         string="B510 Uniprofissional – empregados e sócios",
         sped_card="V",
@@ -1731,7 +1812,7 @@ class RegistroB500(models.Model):
 class RegistroB510(models.Model):
     "Uniprofissional – empregados e sócios"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.b510"
+    _name = "l10n_br_sped.efd_icms_ipi.17.b510"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -1756,14 +1837,14 @@ class RegistroB510(models.Model):
         help=("Indicador de participação societária: 0 - Sócio 1 - Não sócio"),
     )
 
-    CPF = sped_models.BigInt(
+    CPF = fields.Char(
         string="Número de inscrição do profissional no CPF", required=True
     )
 
     NOME = fields.Char(string="Nome do profissional", required=True, sped_length=100)
 
     reg_B510_ids_RegistroB500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.b500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.b500",
         string="Apuração do ISS sociedade uniprofissional",
         required=True,
         ondelete="cascade",
@@ -1776,7 +1857,7 @@ class RegistroC100(models.Model):
     e Nota Fis- cal Eletrônica para Consumidor Final (código 65)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c100"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1808,16 +1889,16 @@ class RegistroC100(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
-    CHV_NFE = sped_models.BigInt(string="Chave da Nota Fiscal Eletrônica")
+    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica")
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
@@ -1941,9 +2022,9 @@ class RegistroC100(models.Model):
     )
 
     reg_C101_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c101",
+        "l10n_br_sped.efd_icms_ipi.17.c101",
         "reg_C101_ids_RegistroC100_id",
-        string="C101ids",
+        string="reg_C101_ids",
         sped_card="1:1",
         sped_required="UNDEF_REQUIRED",
         help=(
@@ -1954,7 +2035,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C105_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c105",
+        "l10n_br_sped.efd_icms_ipi.17.c105",
         "reg_C105_ids_RegistroC100_id",
         string="C105 Operações com ICMS ST recolhido",
         sped_card="1:1",
@@ -1966,7 +2047,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C130_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c130",
+        "l10n_br_sped.efd_icms_ipi.17.c130",
         "reg_C130_ids_RegistroC100_id",
         string="C130 Complemento de Documento",
         sped_card="1:1",
@@ -1975,7 +2056,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C140_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c140",
+        "l10n_br_sped.efd_icms_ipi.17.c140",
         "reg_C140_ids_RegistroC100_id",
         string="C140 Complemento de Documento",
         sped_card="1:1",
@@ -1984,7 +2065,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C160_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c160",
+        "l10n_br_sped.efd_icms_ipi.17.c160",
         "reg_C160_ids_RegistroC100_id",
         string="C160 Complemento de Documento",
         sped_card="1:1",
@@ -1996,7 +2077,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C110_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c110",
+        "l10n_br_sped.efd_icms_ipi.17.c110",
         "reg_C110_ids_RegistroC100_id",
         string="C110 Complemento de Documento",
         sped_card="1:N",
@@ -2008,7 +2089,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C120_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c120",
+        "l10n_br_sped.efd_icms_ipi.17.c120",
         "reg_C120_ids_RegistroC100_id",
         string="C120 Complemento de Documento",
         sped_card="1:N",
@@ -2020,7 +2101,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C165_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c165",
+        "l10n_br_sped.efd_icms_ipi.17.c165",
         "reg_C165_ids_RegistroC100_id",
         string="C165 Complemento de Documento",
         sped_card="1:N",
@@ -2031,7 +2112,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C170_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c170",
+        "l10n_br_sped.efd_icms_ipi.17.c170",
         "reg_C170_ids_RegistroC100_id",
         string="C170 Complemento de Documento",
         sped_card="1:N",
@@ -2043,7 +2124,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C185_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c185",
+        "l10n_br_sped.efd_icms_ipi.17.c185",
         "reg_C185_ids_RegistroC100_id",
         string="C185 Informações complementares das operações",
         sped_card="1:N",
@@ -2056,7 +2137,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C186_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c186",
+        "l10n_br_sped.efd_icms_ipi.17.c186",
         "reg_C186_ids_RegistroC100_id",
         string="C186 Informações complementares das operações",
         sped_card="1:N",
@@ -2069,7 +2150,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C190_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c190",
+        "l10n_br_sped.efd_icms_ipi.17.c190",
         "reg_C190_ids_RegistroC100_id",
         string="C190 Registro Analítico do Documento",
         sped_card="1:N",
@@ -2078,7 +2159,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C195_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c195",
+        "l10n_br_sped.efd_icms_ipi.17.c195",
         "reg_C195_ids_RegistroC100_id",
         string="C195 Complemento do Registro Analítico",
         sped_card="1:N",
@@ -2096,7 +2177,7 @@ class RegistroC101(models.Model):
     87/15"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c101"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c101"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2117,14 +2198,14 @@ class RegistroC101(models.Model):
     )
 
     VL_ICMS_UF_REM = fields.Monetary(
-        string="ICMSUFREM",
+        string="VL_ICMS_UF_REM",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor total do ICMS Interestadual para a UF do remetente",
     )
 
     reg_C101_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2142,11 +2223,11 @@ class RegistroC105(models.Model):
     mento fiscal (Código 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c105"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c105"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    OPER = sped_models.BigInt(
+    OPER = fields.Integer(
         string="Indicador do tipo de operação",
         help=(
             "Indicador do tipo de operação: 0- Combustíveis e Lubrificantes; "
@@ -2157,7 +2238,7 @@ class RegistroC105(models.Model):
     UF = fields.Char(string="Sigla da UF de destino do ICMS_ST")
 
     reg_C105_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2175,7 +2256,7 @@ class RegistroC110(models.Model):
     (código 01, 1B, 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c110"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2191,7 +2272,7 @@ class RegistroC110(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar do código de referência")
 
     reg_C110_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2204,7 +2285,7 @@ class RegistroC110(models.Model):
     )
 
     reg_C111_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c111",
+        "l10n_br_sped.efd_icms_ipi.17.c111",
         "reg_C111_ids_RegistroC110_id",
         string="C111 Complemento de Documento",
         sped_card="1:N",
@@ -2213,7 +2294,7 @@ class RegistroC110(models.Model):
     )
 
     reg_C112_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c112",
+        "l10n_br_sped.efd_icms_ipi.17.c112",
         "reg_C112_ids_RegistroC110_id",
         string="C112 Complemento de Documento",
         sped_card="1:N",
@@ -2224,7 +2305,7 @@ class RegistroC110(models.Model):
     )
 
     reg_C113_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c113",
+        "l10n_br_sped.efd_icms_ipi.17.c113",
         "reg_C113_ids_RegistroC110_id",
         string="C113 Complemento de Documento",
         sped_card="1:N",
@@ -2233,7 +2314,7 @@ class RegistroC110(models.Model):
     )
 
     reg_C114_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c114",
+        "l10n_br_sped.efd_icms_ipi.17.c114",
         "reg_C114_ids_RegistroC110_id",
         string="C114 Complemento de Documento",
         sped_card="1:N",
@@ -2242,7 +2323,7 @@ class RegistroC110(models.Model):
     )
 
     reg_C115_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c115",
+        "l10n_br_sped.efd_icms_ipi.17.c115",
         "reg_C115_ids_RegistroC110_id",
         string="C115 Local de coleta e/ou entrega",
         sped_card="1:N",
@@ -2251,7 +2332,7 @@ class RegistroC110(models.Model):
     )
 
     reg_C116_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c116",
+        "l10n_br_sped.efd_icms_ipi.17.c116",
         "reg_C116_ids_RegistroC110_id",
         string="C116 Cupom Fiscal Eletrônico",
         sped_card="1:N",
@@ -2263,7 +2344,7 @@ class RegistroC110(models.Model):
 class RegistroC111(models.Model):
     "Complemento de Documento - Processo referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c111"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c111"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2280,7 +2361,7 @@ class RegistroC111(models.Model):
     )
 
     reg_C111_ids_RegistroC110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c110",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -2294,7 +2375,7 @@ class RegistroC111(models.Model):
 class RegistroC112(models.Model):
     "Complemento de Documento - Documento de Arrecadação Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c112"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c112"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2333,7 +2414,7 @@ class RegistroC112(models.Model):
     )
 
     reg_C112_ids_RegistroC110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c110",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -2347,7 +2428,7 @@ class RegistroC112(models.Model):
 class RegistroC113(models.Model):
     "Complemento de Documento - Documento Fiscal Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c113"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c113"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2379,16 +2460,16 @@ class RegistroC113(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
-    CHV_DOCe = sped_models.BigInt(string="Chave do Documento Eletrônico")
+    CHV_DOCe = fields.Integer(string="Chave do Documento Eletrônico")
 
     reg_C113_ids_RegistroC110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c110",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -2402,7 +2483,7 @@ class RegistroC113(models.Model):
 class RegistroC114(models.Model):
     "Complemento de Documento - Cupom Fiscal Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c114"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c114"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2416,16 +2497,14 @@ class RegistroC114(models.Model):
 
     ECF_FAB = fields.Char(string="Número de série de fabricação do ECF", sped_length=21)
 
-    ECF_CX = sped_models.BigInt(
-        string="Número do caixa atribuído ao ECF", sped_length=3
-    )
+    ECF_CX = fields.Integer(string="Número do caixa atribuído ao ECF", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
     reg_C114_ids_RegistroC110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c110",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -2439,11 +2518,11 @@ class RegistroC114(models.Model):
 class RegistroC115(models.Model):
     "Local de coleta e/ou entrega (CÓDIGOS 01, 1B e 04)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c115"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c115"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    IND_CARGA = sped_models.BigInt(
+    IND_CARGA = fields.Integer(
         string="Indicador do tipo de transporte",
         help=(
             "Indicador do tipo de transporte: 0 – Rodoviário; 1 – Ferroviário;"
@@ -2452,9 +2531,7 @@ class RegistroC115(models.Model):
         ),
     )
 
-    CNPJ_COL = sped_models.BigInt(
-        string="Número do CNPJ do contribuinte do local de coleta"
-    )
+    CNPJ_COL = fields.Char(string="Número do CNPJ do contribuinte do local de coleta")
 
     IE_COL = fields.Char(
         string="Inscrição Estadual do contribuinte do local",
@@ -2462,29 +2539,27 @@ class RegistroC115(models.Model):
         help="Inscrição Estadual do contribuinte do local de coleta",
     )
 
-    CPF_COL = sped_models.BigInt(
+    CPF_COL = fields.Char(
         string="CPF do contribuinte do local",
         help="CPF do contribuinte do local de coleta das mercadorias",
     )
 
-    COD_MUN_COL = sped_models.BigInt(string="Código do Município do local de coleta")
+    COD_MUN_COL = fields.Integer(string="Código do Município do local de coleta")
 
-    CNPJ_ENTG = sped_models.BigInt(
-        string="Número do CNPJ do contribuinte do local de entrega"
-    )
+    CNPJ_ENTG = fields.Char(string="Número do CNPJ do contribuinte do local de entrega")
 
     IE_ENTG = fields.Char(
-        string="ENTG",
+        string="IE_ENTG",
         sped_length=14,
         help="Inscrição Estadual do contribuinte do local de entrega",
     )
 
-    CPF_ENTG = sped_models.BigInt(string="CPF do contribuinte do local de entrega")
+    CPF_ENTG = fields.Char(string="CPF do contribuinte do local de entrega")
 
-    COD_MUN_ENTG = sped_models.BigInt(string="Código do Município do local de entrega")
+    COD_MUN_ENTG = fields.Integer(string="Código do Município do local de entrega")
 
     reg_C115_ids_RegistroC110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c110",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -2498,7 +2573,7 @@ class RegistroC115(models.Model):
 class RegistroC116(models.Model):
     "Cupom Fiscal Eletrônico - CF-e referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c116"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c116"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2508,22 +2583,16 @@ class RegistroC116(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    NR_SAT = sped_models.BigInt(
-        string="Número de Série do equipamento SAT", sped_length=9
-    )
+    NR_SAT = fields.Integer(string="Número de Série do equipamento SAT", sped_length=9)
 
-    CHV_CFE = sped_models.BigInt(
-        string="Chave do Cupom Fiscal Eletrônico", sped_length=44
-    )
+    CHV_CFE = fields.Integer(string="Chave do Cupom Fiscal Eletrônico", sped_length=44)
 
-    NUM_CFE = sped_models.BigInt(
-        string="Número do cupom fiscal eletrônico", sped_length=6
-    )
+    NUM_CFE = fields.Integer(string="Número do cupom fiscal eletrônico", sped_length=6)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal", sped_length=8)
 
     reg_C116_ids_RegistroC110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c110",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -2537,7 +2606,7 @@ class RegistroC116(models.Model):
 class RegistroC120(models.Model):
     "Complemento de Documento - Operações de Importação (código 01 e 55)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c120"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c120"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2576,7 +2645,7 @@ class RegistroC120(models.Model):
     )
 
     reg_C120_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2592,7 +2661,7 @@ class RegistroC120(models.Model):
 class RegistroC130(models.Model):
     "Complemento de Documento - ISSQN, IRRF e Previdência Social"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c130"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c130"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2642,7 +2711,7 @@ class RegistroC130(models.Model):
     )
 
     reg_C130_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2658,7 +2727,7 @@ class RegistroC130(models.Model):
 class RegistroC140(models.Model):
     "Complemento de Documento - Fatura (código 01)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c140"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c140"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2682,7 +2751,7 @@ class RegistroC140(models.Model):
         help="Número ou código identificador do título de crédito",
     )
 
-    QTD_PARC = sped_models.BigInt(
+    QTD_PARC = fields.Integer(
         string="Quantidade de parcelas a receber/pagar", sped_length=2
     )
 
@@ -2693,7 +2762,7 @@ class RegistroC140(models.Model):
     )
 
     reg_C140_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2706,7 +2775,7 @@ class RegistroC140(models.Model):
     )
 
     reg_C141_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c141",
+        "l10n_br_sped.efd_icms_ipi.17.c141",
         "reg_C141_ids_RegistroC140_id",
         string="C141 Complemento de Documento",
         sped_card="1:N",
@@ -2718,18 +2787,16 @@ class RegistroC140(models.Model):
 class RegistroC141(models.Model):
     "Complemento de Documento - Vencimento da Fatura (código 01)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c141"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c141"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    NUM_PARC = sped_models.BigInt(
-        string="Número da parcela a receber/pagar", sped_length=2
-    )
+    NUM_PARC = fields.Integer(string="Número da parcela a receber/pagar", sped_length=2)
 
     DT_VCTO = fields.Date(string="Data de vencimento da parcela")
 
     reg_C141_ids_RegistroC140_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c140",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c140",
         string="Complemento de Documento - Fatura",
         required=True,
         ondelete="cascade",
@@ -2742,7 +2809,7 @@ class RegistroC160(models.Model):
     to Combustíveis"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c160"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c160"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2759,7 +2826,7 @@ class RegistroC160(models.Model):
         string="Placa de identificação do veículo automotor", sped_length=7
     )
 
-    QTD_VOL = sped_models.BigInt(string="Quantidade de volumes transportados")
+    QTD_VOL = fields.Integer(string="Quantidade de volumes transportados")
 
     PESO_BRT = fields.Float(
         string="Peso bruto dos volumes transportados",
@@ -2784,7 +2851,7 @@ class RegistroC160(models.Model):
     UF_ID = fields.Char(string="Sigla da UF da placa do veículo", sped_length=2)
 
     reg_C160_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2800,7 +2867,7 @@ class RegistroC160(models.Model):
 class RegistroC165(models.Model):
     "Complemento de Documento - Operações com combustíveis (código 01)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c165"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c165"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2819,7 +2886,7 @@ class RegistroC165(models.Model):
 
     NR_PASSE = fields.Char(string="Número do Passe Fiscal")
 
-    HORA = sped_models.BigInt(string="Hora da saída das mercadorias")
+    HORA = fields.Integer(string="Hora da saída das mercadorias")
 
     TEMPER = fields.Float(
         string="Temperatura em graus Celsius utilizada",
@@ -2834,7 +2901,7 @@ class RegistroC165(models.Model):
         ),
     )
 
-    QTD_VOL = sped_models.BigInt(string="Quantidade de volumes transportados")
+    QTD_VOL = fields.Integer(string="Quantidade de volumes transportados")
 
     PESO_BRT = fields.Float(
         string="Peso bruto dos volumes transportados",
@@ -2858,12 +2925,12 @@ class RegistroC165(models.Model):
 
     NOM_MOT = fields.Char(string="Nome do motorista", sped_length=60)
 
-    CPF = sped_models.BigInt(string="CPF do motorista")
+    CPF = fields.Char(string="CPF do motorista")
 
     UF_ID = fields.Char(string="Sigla da UF da placa do veículo", sped_length=2)
 
     reg_C165_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2881,11 +2948,11 @@ class RegistroC170(models.Model):
     55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c170"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c170"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal", sped_length=3
     )
 
@@ -2930,7 +2997,7 @@ class RegistroC170(models.Model):
 
     IND_MOV = fields.Char(string="Movimentação física do ITEM/PRODUTO")
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária referente ao ICMS",
         help=(
             "Código da Situação Tributária referente ao ICMS, conforme a "
@@ -2938,7 +3005,7 @@ class RegistroC170(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     COD_NAT = fields.Char(
         string="Código da natureza da operação",
@@ -3037,11 +3104,9 @@ class RegistroC170(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
-        string="Código da Situação Tributária referente ao PIS"
-    )
+    CST_PIS = fields.Integer(string="Código da Situação Tributária referente ao PIS")
 
-    VL_BC_PIS = sped_models.BigInt(string="Valor da base de cálculo do PIS")
+    VL_BC_PIS = fields.Integer(string="Valor da base de cálculo do PIS")
 
     ALIQ_PIS = fields.Float(
         string="Alíquota do PIS (em percentual)",
@@ -3053,19 +3118,19 @@ class RegistroC170(models.Model):
         ),
     )
 
-    QUANT_BC_PIS = sped_models.BigInt(string="Quantidade – Base de cálculo PIS")
+    QUANT_BC_PIS = fields.Integer(string="Quantidade – Base de cálculo PIS")
 
-    ALIQ_PIS = sped_models.BigInt(string="Alíquota do PIS (em reais)", sped_length=8)
+    ALIQ_PIS = fields.Integer(string="Alíquota do PIS (em reais)", sped_length=8)
 
     VL_PIS = fields.Monetary(
         string="Valor do PIS", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente ao COFINS"
     )
 
-    VL_BC_COFINS = sped_models.BigInt(string="Valor da base de cálculo da COFINS")
+    VL_BC_COFINS = fields.Integer(string="Valor da base de cálculo da COFINS")
 
     ALIQ_COFINS = fields.Float(
         string="Alíquota do COFINS (em percentual)",
@@ -3077,11 +3142,9 @@ class RegistroC170(models.Model):
         ),
     )
 
-    QUANT_BC_COFINS = sped_models.BigInt(string="Quantidade – Base de cálculo COFINS")
+    QUANT_BC_COFINS = fields.Integer(string="Quantidade – Base de cálculo COFINS")
 
-    ALIQ_COFINS = sped_models.BigInt(
-        string="Alíquota da COFINS (em reais)", sped_length=8
-    )
+    ALIQ_COFINS = fields.Integer(string="Alíquota da COFINS (em reais)", sped_length=8)
 
     VL_COFINS = fields.Monetary(
         string="Valor da COFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
@@ -3098,7 +3161,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C170_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -3111,7 +3174,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C172_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c172",
+        "l10n_br_sped.efd_icms_ipi.17.c172",
         "reg_C172_ids_RegistroC170_id",
         string="C172 Complemento de Item",
         sped_card="1:1",
@@ -3120,7 +3183,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C178_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c178",
+        "l10n_br_sped.efd_icms_ipi.17.c178",
         "reg_C178_ids_RegistroC170_id",
         string="C178 Complemento de Item",
         sped_card="1:1",
@@ -3132,7 +3195,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C179_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c179",
+        "l10n_br_sped.efd_icms_ipi.17.c179",
         "reg_C179_ids_RegistroC170_id",
         string="C179 Complemento de Item",
         sped_card="1:1",
@@ -3143,7 +3206,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C180_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c180",
+        "l10n_br_sped.efd_icms_ipi.17.c180",
         "reg_C180_ids_RegistroC170_id",
         string="C180 Informações complementares das operações",
         sped_card="1:1",
@@ -3156,7 +3219,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C171_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c171",
+        "l10n_br_sped.efd_icms_ipi.17.c171",
         "reg_C171_ids_RegistroC170_id",
         string="C171 Complemento de Item",
         sped_card="1:N",
@@ -3167,7 +3230,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C173_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c173",
+        "l10n_br_sped.efd_icms_ipi.17.c173",
         "reg_C173_ids_RegistroC170_id",
         string="C173 Complemento de Item",
         sped_card="1:N",
@@ -3178,7 +3241,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C174_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c174",
+        "l10n_br_sped.efd_icms_ipi.17.c174",
         "reg_C174_ids_RegistroC170_id",
         string="C174 Complemento de Item",
         sped_card="1:N",
@@ -3187,7 +3250,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C175_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c175",
+        "l10n_br_sped.efd_icms_ipi.17.c175",
         "reg_C175_ids_RegistroC170_id",
         string="C175 Complemento de Item",
         sped_card="1:N",
@@ -3198,7 +3261,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C176_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c176",
+        "l10n_br_sped.efd_icms_ipi.17.c176",
         "reg_C176_ids_RegistroC170_id",
         string="C176 Complemento de Item -Ressarcimento de ICMS",
         sped_card="1:N",
@@ -3210,7 +3273,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C177_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c177",
+        "l10n_br_sped.efd_icms_ipi.17.c177",
         "reg_C177_ids_RegistroC170_id",
         string="C177 Complemento de Item – Outras informações",
         sped_card="1:N",
@@ -3222,7 +3285,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C181_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c181",
+        "l10n_br_sped.efd_icms_ipi.17.c181",
         "reg_C181_ids_RegistroC170_id",
         string="C181 Informações complementares das operações",
         sped_card="1:N",
@@ -3238,7 +3301,7 @@ class RegistroC170(models.Model):
 class RegistroC171(models.Model):
     "Complemento de Item - Armazenamento de Combustíveis (código 01,55)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c171"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c171"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3256,7 +3319,7 @@ class RegistroC171(models.Model):
     )
 
     reg_C171_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3269,7 +3332,7 @@ class RegistroC171(models.Model):
 class RegistroC172(models.Model):
     "Complemento de Item - Operações com ISSQN (código 01)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c172"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c172"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3294,7 +3357,7 @@ class RegistroC172(models.Model):
     )
 
     reg_C172_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3307,7 +3370,7 @@ class RegistroC172(models.Model):
 class RegistroC173(models.Model):
     "Complemento de Item - Operações com Medicamentos (código 01,55)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c173"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c173"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3350,7 +3413,7 @@ class RegistroC173(models.Model):
     )
 
     reg_C173_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3363,7 +3426,7 @@ class RegistroC173(models.Model):
 class RegistroC174(models.Model):
     "Complemento de Item - Operações com Armas de Fogo (código 01)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c174"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c174"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3387,7 +3450,7 @@ class RegistroC174(models.Model):
     )
 
     reg_C174_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3400,7 +3463,7 @@ class RegistroC174(models.Model):
 class RegistroC175(models.Model):
     "Complemento de Item - Operações com Veículos Novos (código 01,55)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c175"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c175"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3412,14 +3475,14 @@ class RegistroC175(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(string="CNPJ da Concessionária")
+    CNPJ = fields.Char(string="CNPJ da Concessionária")
 
     UF = fields.Char(string="Sigla da unidade da federação da Concessionária")
 
     CHASSI_VEIC = fields.Char(string="Chassi do veículo", sped_length=17)
 
     reg_C175_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3434,7 +3497,7 @@ class RegistroC176(models.Model):
     ção Tributária (código 01,55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c176"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c176"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3443,7 +3506,7 @@ class RegistroC176(models.Model):
         help=("Código do modelo do documento fiscal relativa a última entrada"),
     )
 
-    NUM_DOC_ULT_E = sped_models.BigInt(
+    NUM_DOC_ULT_E = fields.Integer(
         string="Número",
         sped_length=9,
         help="Número do documento fiscal relativa a última entrada",
@@ -3498,12 +3561,12 @@ class RegistroC176(models.Model):
         help="Valor unitário da base de cálculo do",
     )
 
-    CHAVE_NFE_ULT_E = sped_models.BigInt(
+    CHAVE_NFE_ULT_E = fields.Integer(
         string="Número completo da chave",
         help="Número completo da chave da NFe relativo à última entrada",
     )
 
-    NUM_ITEM_ULT_E = sped_models.BigInt(
+    NUM_ITEM_ULT_E = fields.Integer(
         string="Número sequencial do item na NF entrada",
         sped_length=3,
         help=(
@@ -3513,7 +3576,7 @@ class RegistroC176(models.Model):
     )
 
     VL_UNIT_BC_ICMS_ULT_E = fields.Monetary(
-        string="UNITBCICMSULTE",
+        string="VL_UNIT_BC_ICMS_ULT_E",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -3533,7 +3596,7 @@ class RegistroC176(models.Model):
     )
 
     VL_UNIT_LIMITE_BC_ICMS_ULT_E = fields.Monetary(
-        string="UNITLIMITEBCICMSULTE",
+        string="VL_UNIT_LIMITE_BC_ICMS_ULT_E",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -3582,7 +3645,7 @@ class RegistroC176(models.Model):
         ),
     )
 
-    COD_RESP_RET = sped_models.BigInt(
+    COD_RESP_RET = fields.Integer(
         string="Código que indica o responsável pela retenção",
         help=(
             "Código que indica o responsável pela retenção do ICMS ST: 1 - "
@@ -3591,7 +3654,7 @@ class RegistroC176(models.Model):
         ),
     )
 
-    COD_MOT_RES = sped_models.BigInt(
+    COD_MOT_RES = fields.Integer(
         string="Código do motivo do ressarcimento: 1",
         help=(
             "Código do motivo do ressarcimento: 1 - Saída para outra UF; 2 "
@@ -3601,7 +3664,7 @@ class RegistroC176(models.Model):
         ),
     )
 
-    CHAVE_NFE_RET = sped_models.BigInt(
+    CHAVE_NFE_RET = fields.Integer(
         string="Número completo da chave (CHAVE_NFE_RET)",
         help=(
             "Número completo da chave da NF-e emitida pelo substituto, na qual"
@@ -3622,11 +3685,11 @@ class RegistroC176(models.Model):
         string="Série da NF-e em que houve a retenção do ICMS ST", sped_length=3
     )
 
-    NUM_NFE_RET = sped_models.BigInt(
+    NUM_NFE_RET = fields.Integer(
         string="Número da NF-e em que houve a retenção do ICMS ST", sped_length=9
     )
 
-    ITEM_NFE_RET = sped_models.BigInt(
+    ITEM_NFE_RET = fields.Integer(
         string="Número sequencial do item na NF-e",
         sped_length=3,
         help=(
@@ -3646,7 +3709,7 @@ class RegistroC176(models.Model):
     )
 
     VL_UNIT_RES_FCP_ST = fields.Float(
-        string="UNITRESFCPST",
+        string="VL_UNIT_RES_FCP_ST",
         xsd_type="TDec_1603",
         digits=(
             16,
@@ -3659,7 +3722,7 @@ class RegistroC176(models.Model):
     )
 
     reg_C176_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3674,7 +3737,7 @@ class RegistroC177(models.Model):
     partir de 01/01/2019)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c177"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c177"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3683,12 +3746,12 @@ class RegistroC177(models.Model):
         help="Código do selo de controle do IPI, conforme Tabela 4.5.2",
     )
 
-    QT_SELO_IPI = sped_models.BigInt(
+    QT_SELO_IPI = fields.Integer(
         string="Quantidade de selo de controle do IPI aplicada", sped_length=12
     )
 
     reg_C177_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3703,7 +3766,7 @@ class RegistroC178(models.Model):
     IPI por Unidade ou Quantidade de produto"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c178"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c178"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3730,7 +3793,7 @@ class RegistroC178(models.Model):
     )
 
     reg_C178_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3743,7 +3806,7 @@ class RegistroC178(models.Model):
 class RegistroC179(models.Model):
     "Complemento de Item - Informações Complementares ST (código 01)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c179"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c179"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3806,7 +3869,7 @@ class RegistroC179(models.Model):
     )
 
     reg_C179_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3821,11 +3884,11 @@ class RegistroC180(models.Model):
     sujeitas à substituição tribu- tária (código 01, 1B, 04 e 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c180"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c180"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    COD_RESP_RET = sped_models.BigInt(
+    COD_RESP_RET = fields.Integer(
         string="Código que indica o responsável pela retenção",
         help=(
             "Código que indica o responsável pela retenção do ICMS ST: "
@@ -3930,7 +3993,7 @@ class RegistroC180(models.Model):
     )
 
     reg_C180_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -3946,7 +4009,7 @@ class RegistroC181(models.Model):
     55)."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c181"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c181"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3986,17 +4049,17 @@ class RegistroC181(models.Model):
         string="Número de série de fabricação do equipamento ECF", sped_length=21
     )
 
-    NUM_DOC_SAIDA = sped_models.BigInt(
+    NUM_DOC_SAIDA = fields.Integer(
         string="Número do documento fiscal de saída", sped_length=9
     )
 
-    CHV_DFE_SAIDA = sped_models.BigInt(
+    CHV_DFE_SAIDA = fields.Integer(
         string="Chave do documento fiscal eletrônico de saída"
     )
 
     DT_DOC_SAIDA = fields.Date(string="Data da emissão do documento fiscal de saída")
 
-    NUM_ITEM_SAIDA = sped_models.BigInt(
+    NUM_ITEM_SAIDA = fields.Integer(
         string="Número do item em que foi escriturada a saída",
         sped_length=3,
         help=(
@@ -4021,7 +4084,7 @@ class RegistroC181(models.Model):
     )
 
     reg_C181_ids_RegistroC170_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c170",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c170",
         string="Complemento de Documento",
         required=True,
         ondelete="cascade",
@@ -4036,11 +4099,11 @@ class RegistroC185(models.Model):
     sujeitas à substituição tributária (código 01, 1B, 04 e 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c185"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c185"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal", sped_length=3
     )
 
@@ -4050,11 +4113,9 @@ class RegistroC185(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_ICMS = sped_models.BigInt(
-        string="Código da Situação Tributária referente ao ICMS"
-    )
+    CST_ICMS = fields.Integer(string="Código da Situação Tributária referente ao ICMS")
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     COD_MOT_REST_COMPL = fields.Char(
         string="Código do motivo da restituição",
@@ -4152,7 +4213,7 @@ class RegistroC185(models.Model):
     )
 
     reg_C185_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -4171,11 +4232,11 @@ class RegistroC186(models.Model):
     55)."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c186"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c186"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal",
         sped_length=3,
         help="Número sequencial do item no documento fiscal de saída",
@@ -4187,7 +4248,7 @@ class RegistroC186(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária referente ao ICMS",
         help=(
             "Código da Situação Tributária referente ao ICMS no documento "
@@ -4195,7 +4256,7 @@ class RegistroC186(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=("Código Fiscal de Operação e Prestação no documento fiscal de " "saída"),
     )
@@ -4236,11 +4297,11 @@ class RegistroC186(models.Model):
         string="Número de série do documento de entrada em papel", sped_length=3
     )
 
-    NUM_DOC_ENTRADA = sped_models.BigInt(
+    NUM_DOC_ENTRADA = fields.Integer(
         string="Número do documento fiscal de entrada", sped_length=9
     )
 
-    CHV_DFE_ENTRADA = sped_models.BigInt(
+    CHV_DFE_ENTRADA = fields.Integer(
         string="Chave do documento fiscal eletrônico de entrada"
     )
 
@@ -4248,7 +4309,7 @@ class RegistroC186(models.Model):
         string="Data da emissão do documento fiscal de entrada"
     )
 
-    NUM_ITEM_ENTRADA = sped_models.BigInt(
+    NUM_ITEM_ENTRADA = fields.Integer(
         string="Item do documento fiscal de entrada", sped_length=3
     )
 
@@ -4280,7 +4341,7 @@ class RegistroC186(models.Model):
     )
 
     reg_C186_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -4296,18 +4357,18 @@ class RegistroC186(models.Model):
 class RegistroC190(models.Model):
     "Registro Analítico do Documento (código 01, 1B, 04, 55 e 65)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c190"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c190"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=("Código Fiscal de Operação e Prestação do agrupamento de itens"),
     )
@@ -4356,7 +4417,7 @@ class RegistroC190(models.Model):
     )
 
     VL_BC_ICMS_ST = fields.Monetary(
-        string="BCICMSST",
+        string="VL_BC_ICMS_ST",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -4407,7 +4468,7 @@ class RegistroC190(models.Model):
     )
 
     reg_C190_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -4420,7 +4481,7 @@ class RegistroC190(models.Model):
     )
 
     reg_C191_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c191",
+        "l10n_br_sped.efd_icms_ipi.17.c191",
         "reg_C191_ids_RegistroC190_id",
         string="C191 Informações do Fundo",
         sped_card="1:1",
@@ -4436,7 +4497,7 @@ class RegistroC191(models.Model):
     """Informações do Fundo de Combate à Pobreza – FCP – na NF-e (código 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c191"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c191"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4473,7 +4534,7 @@ class RegistroC191(models.Model):
     )
 
     reg_C191_ids_RegistroC190_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c190",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c190",
         string="Registro Analítico do Documento",
         required=True,
         ondelete="cascade",
@@ -4486,7 +4547,7 @@ class RegistroC195(models.Model):
     (código 01, 1B, 04 e 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c195"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c195"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -4501,7 +4562,7 @@ class RegistroC195(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar do código de observação")
 
     reg_C195_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -4514,7 +4575,7 @@ class RegistroC195(models.Model):
     )
 
     reg_C197_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c197",
+        "l10n_br_sped.efd_icms_ipi.17.c197",
         "reg_C197_ids_RegistroC195_id",
         string="C197 Outras Obrigações Tributárias",
         sped_card="1:N",
@@ -4531,7 +4592,7 @@ class RegistroC197(models.Model):
     Docu- mento Fiscal"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c197"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c197"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4581,7 +4642,7 @@ class RegistroC197(models.Model):
     )
 
     reg_C197_ids_RegistroC195_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c195",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c195",
         string="Complemento do Registro Analítico",
         required=True,
         ondelete="cascade",
@@ -4597,7 +4658,7 @@ class RegistroC300(models.Model):
     go 02)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c300"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -4610,11 +4671,11 @@ class RegistroC300(models.Model):
 
     SUB = fields.Char(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do documento fiscal inicial", sped_length=6
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
+    NUM_DOC_FIN = fields.Integer(
         string="Número do documento fiscal final", sped_length=6
     )
 
@@ -4643,7 +4704,7 @@ class RegistroC300(models.Model):
     )
 
     reg_C310_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c310",
+        "l10n_br_sped.efd_icms_ipi.17.c310",
         "reg_C310_ids_RegistroC300_id",
         string="C310 Documentos Cancelados de Nota Fiscal",
         sped_card="1:N",
@@ -4655,7 +4716,7 @@ class RegistroC300(models.Model):
     )
 
     reg_C320_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c320",
+        "l10n_br_sped.efd_icms_ipi.17.c320",
         "reg_C320_ids_RegistroC300_id",
         string="C320 Registro Analítico das Notas Fiscais",
         sped_card="1:N",
@@ -4672,14 +4733,14 @@ class RegistroC310(models.Model):
     02)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c310"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c310"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_DOC_CANC = sped_models.BigInt(string="Número do documento fiscal cancelado")
+    NUM_DOC_CANC = fields.Integer(string="Número do documento fiscal cancelado")
 
     reg_C310_ids_RegistroC300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c300",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c300",
         string="Documento",
         required=True,
         ondelete="cascade",
@@ -4695,18 +4756,18 @@ class RegistroC320(models.Model):
     02)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c320"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c320"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     ALIQ_ICMS = fields.Float(
         string="Alíquota do ICMS",
@@ -4719,7 +4780,7 @@ class RegistroC320(models.Model):
     )
 
     VL_OPR = fields.Monetary(
-        string="OPR",
+        string="VL_OPR",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -4769,7 +4830,7 @@ class RegistroC320(models.Model):
     )
 
     reg_C320_ids_RegistroC300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c300",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c300",
         string="Documento",
         required=True,
         ondelete="cascade",
@@ -4780,7 +4841,7 @@ class RegistroC320(models.Model):
     )
 
     reg_C321_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c321",
+        "l10n_br_sped.efd_icms_ipi.17.c321",
         "reg_C321_ids_RegistroC320_id",
         string="C321 Itens dos Resumos Diários dos Documentos",
         sped_card="1:N",
@@ -4792,7 +4853,7 @@ class RegistroC320(models.Model):
 class RegistroC321(models.Model):
     "Itens dos Resumos Diários dos Documentos (código 02)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c321"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c321"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4854,7 +4915,7 @@ class RegistroC321(models.Model):
     )
 
     reg_C321_ids_RegistroC320_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c320",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c320",
         string="Registro Analítico das Notas Fiscais",
         required=True,
         ondelete="cascade",
@@ -4864,7 +4925,7 @@ class RegistroC321(models.Model):
     )
 
     reg_C330_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c330",
+        "l10n_br_sped.efd_icms_ipi.17.c330",
         "reg_C330_ids_RegistroC321_id",
         string="C330 Informações complementares das operações",
         sped_card="1:1",
@@ -4876,7 +4937,7 @@ class RegistroC321(models.Model):
 class RegistroC330(models.Model):
     "Informações complementares das operações de sa-"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c330"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c330"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -4976,7 +5037,7 @@ class RegistroC330(models.Model):
     )
 
     reg_C330_ids_RegistroC321_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c321",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c321",
         string="Itens dos Resumos Diários dos Documentos",
         required=True,
         ondelete="cascade",
@@ -4987,7 +5048,7 @@ class RegistroC330(models.Model):
 class RegistroC350(models.Model):
     "Nota Fiscal de venda a consumidor (código 02)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c350"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c350"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -4995,11 +5056,11 @@ class RegistroC350(models.Model):
 
     SUB_SER = fields.Char(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=6)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=6)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
-    CNPJ_CPF = sped_models.BigInt(string="CNPJ ou CPF do destinatário", sped_length=14)
+    CNPJ_CPF = fields.Char(string="CNPJ ou CPF do destinatário", sped_length=14)
 
     VL_MERC = fields.Monetary(
         string="Valor das mercadorias constantes",
@@ -5037,7 +5098,7 @@ class RegistroC350(models.Model):
     )
 
     reg_C370_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c370",
+        "l10n_br_sped.efd_icms_ipi.17.c370",
         "reg_C370_ids_RegistroC350_id",
         string="C370 Itens do documento (código 02)",
         sped_card="1:N",
@@ -5045,7 +5106,7 @@ class RegistroC350(models.Model):
     )
 
     reg_C390_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c390",
+        "l10n_br_sped.efd_icms_ipi.17.c390",
         "reg_C390_ids_RegistroC350_id",
         string="C390 Registro Analítico das Notas Fiscais",
         sped_card="1:N",
@@ -5060,11 +5121,11 @@ class RegistroC350(models.Model):
 class RegistroC370(models.Model):
     "Itens do documento (código 02)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c370"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c370"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal", sped_length=3
     )
 
@@ -5102,7 +5163,7 @@ class RegistroC370(models.Model):
     )
 
     reg_C370_ids_RegistroC350_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c350",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c350",
         string="Nota Fiscal de venda a consumidor",
         required=True,
         ondelete="cascade",
@@ -5110,7 +5171,7 @@ class RegistroC370(models.Model):
     )
 
     reg_C380_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c380",
+        "l10n_br_sped.efd_icms_ipi.17.c380",
         "reg_C380_ids_RegistroC370_id",
         string="C380 Informações complementares das operações",
         sped_card="1:1",
@@ -5127,7 +5188,7 @@ class RegistroC380(models.Model):
     sujeitas à substituição tributária (código 02)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c380"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c380"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5227,7 +5288,7 @@ class RegistroC380(models.Model):
     )
 
     reg_C380_ids_RegistroC370_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c370",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c370",
         string="Itens do documento (código 02)",
         required=True,
         ondelete="cascade",
@@ -5239,18 +5300,18 @@ class RegistroC390(models.Model):
     02)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c390"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c390"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     ALIQ_ICMS = fields.Float(
         string="Alíquota do ICMS",
@@ -5263,7 +5324,7 @@ class RegistroC390(models.Model):
     )
 
     VL_OPR = fields.Monetary(
-        string="OPR",
+        string="VL_OPR",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -5313,7 +5374,7 @@ class RegistroC390(models.Model):
     )
 
     reg_C390_ids_RegistroC350_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c350",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c350",
         string="Nota Fiscal de venda a consumidor",
         required=True,
         ondelete="cascade",
@@ -5324,7 +5385,7 @@ class RegistroC390(models.Model):
 class RegistroC400(models.Model):
     "Equipamento ECF (código 02, 2D e 60)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c400"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c400"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -5337,12 +5398,10 @@ class RegistroC400(models.Model):
 
     ECF_FAB = fields.Char(string="Número de série de fabricação do ECF", sped_length=21)
 
-    ECF_CX = sped_models.BigInt(
-        string="Número do caixa atribuído ao ECF", sped_length=3
-    )
+    ECF_CX = fields.Integer(string="Número do caixa atribuído ao ECF", sped_length=3)
 
     reg_C405_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c405",
+        "l10n_br_sped.efd_icms_ipi.17.c405",
         "reg_C405_ids_RegistroC400_id",
         string="C405 Redução Z (código 02, 2D e 60)",
         sped_card="1:N",
@@ -5353,19 +5412,19 @@ class RegistroC400(models.Model):
 class RegistroC405(models.Model):
     "Redução Z (código 02, 2D e 60)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c405"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c405"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     DT_DOC = fields.Date(string="Data do movimento a que se refere a Redução Z")
 
-    CRO = sped_models.BigInt(
+    CRO = fields.Integer(
         string="Posição do Contador de Reinício de Operação", sped_length=3
     )
 
-    CRZ = sped_models.BigInt(string="Posição do Contador de Redução Z", sped_length=6)
+    CRZ = fields.Integer(string="Posição do Contador de Redução Z", sped_length=6)
 
-    NUM_COO_FIN = sped_models.BigInt(
+    NUM_COO_FIN = fields.Integer(
         string="Número do Contador de Ordem de Operação",
         sped_length=9,
         help=(
@@ -5390,14 +5449,14 @@ class RegistroC405(models.Model):
     )
 
     reg_C405_ids_RegistroC400_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c400",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c400",
         string="Equipamento ECF (código 02, 2D e 60)",
         required=True,
         ondelete="cascade",
     )
 
     reg_C410_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c410",
+        "l10n_br_sped.efd_icms_ipi.17.c410",
         "reg_C410_ids_RegistroC405_id",
         string="C410 PIS e COFINS Totalizados no Dia",
         sped_card="1:1",
@@ -5406,7 +5465,7 @@ class RegistroC405(models.Model):
     )
 
     reg_C420_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c420",
+        "l10n_br_sped.efd_icms_ipi.17.c420",
         "reg_C420_ids_RegistroC405_id",
         string="C420 Registro dos Totalizadores Parciais",
         sped_card="1:N",
@@ -5418,7 +5477,7 @@ class RegistroC405(models.Model):
     )
 
     reg_C460_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c460",
+        "l10n_br_sped.efd_icms_ipi.17.c460",
         "reg_C460_ids_RegistroC405_id",
         string="C460 Documento Fiscal Emitido por ECF",
         sped_card="1:N",
@@ -5427,7 +5486,7 @@ class RegistroC405(models.Model):
     )
 
     reg_C490_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c490",
+        "l10n_br_sped.efd_icms_ipi.17.c490",
         "reg_C490_ids_RegistroC405_id",
         string="C490 Registro Analítico do movimento diário",
         sped_card="1:N",
@@ -5439,7 +5498,7 @@ class RegistroC405(models.Model):
 class RegistroC410(models.Model):
     "PIS e COFINS Totalizados no Dia (código 02 e 2D)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c410"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c410"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5456,7 +5515,7 @@ class RegistroC410(models.Model):
     )
 
     reg_C410_ids_RegistroC405_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c405",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c405",
         string="Redução Z (código 02, 2D e 60)",
         required=True,
         ondelete="cascade",
@@ -5467,7 +5526,7 @@ class RegistroC420(models.Model):
     """Registro dos Totalizadores Parciais da Redução Z (código 02, 2D e 60)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c420"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c420"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5487,7 +5546,7 @@ class RegistroC420(models.Model):
         help=("Valor acumulado no totalizador, relativo à respectiva Redução Z."),
     )
 
-    NR_TOT = sped_models.BigInt(
+    NR_TOT = fields.Integer(
         string="Número do totalizador quando ocorrer mais",
         sped_length=2,
         help=(
@@ -5505,14 +5564,14 @@ class RegistroC420(models.Model):
     )
 
     reg_C420_ids_RegistroC405_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c405",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c405",
         string="Redução Z (código 02, 2D e 60)",
         required=True,
         ondelete="cascade",
     )
 
     reg_C425_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c425",
+        "l10n_br_sped.efd_icms_ipi.17.c425",
         "reg_C425_ids_RegistroC420_id",
         string="C425 Resumo de itens do movimento diário",
         sped_card="1:N",
@@ -5524,7 +5583,7 @@ class RegistroC420(models.Model):
 class RegistroC425(models.Model):
     "Resumo de itens do movimento diário (código 02 e 2D)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c425"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c425"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -5564,7 +5623,7 @@ class RegistroC425(models.Model):
     )
 
     reg_C425_ids_RegistroC420_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c420",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c420",
         string="Registro dos Totalizadores Parciais da Redução Z",
         required=True,
         ondelete="cascade",
@@ -5574,7 +5633,7 @@ class RegistroC425(models.Model):
     )
 
     reg_C430_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c430",
+        "l10n_br_sped.efd_icms_ipi.17.c430",
         "reg_C430_ids_RegistroC425_id",
         string="C430 Informações complementares das operações",
         sped_card="1:N",
@@ -5592,7 +5651,7 @@ class RegistroC430(models.Model):
     sujeitas à substituição tributária (código 02, 2D e 60)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c430"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c430"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 6
 
@@ -5692,7 +5751,7 @@ class RegistroC430(models.Model):
     )
 
     reg_C430_ids_RegistroC425_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c425",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c425",
         string="Resumo de itens do movimento diário",
         required=True,
         ondelete="cascade",
@@ -5703,7 +5762,7 @@ class RegistroC430(models.Model):
 class RegistroC460(models.Model):
     "Documento Fiscal Emitido por ECF (código 02, 2D e 60)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c460"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c460"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5712,14 +5771,12 @@ class RegistroC460(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
     )
 
-    NUM_DOC = sped_models.BigInt(
-        string="Número do documento fiscal (COO)", sped_length=9
-    )
+    NUM_DOC = fields.Integer(string="Número do documento fiscal (COO)", sped_length=9)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
@@ -5737,19 +5794,19 @@ class RegistroC460(models.Model):
         string="Valor da COFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
-    CPF_CNPJ = sped_models.BigInt(string="CPF ou CNPJ do adquirente", sped_length=14)
+    CPF_CNPJ = fields.Char(string="CPF ou CNPJ do adquirente", sped_length=14)
 
     NOM_ADQ = fields.Char(string="Nome do adquirente", sped_length=60)
 
     reg_C460_ids_RegistroC405_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c405",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c405",
         string="Redução Z (código 02, 2D e 60)",
         required=True,
         ondelete="cascade",
     )
 
     reg_C465_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c465",
+        "l10n_br_sped.efd_icms_ipi.17.c465",
         "reg_C465_ids_RegistroC460_id",
         string="C465 Complemento",
         sped_card="1:1",
@@ -5761,7 +5818,7 @@ class RegistroC460(models.Model):
     )
 
     reg_C470_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c470",
+        "l10n_br_sped.efd_icms_ipi.17.c470",
         "reg_C470_ids_RegistroC460_id",
         string="C470 Itens do Documento Fiscal Emitido por ECF",
         sped_card="1:N",
@@ -5775,20 +5832,16 @@ class RegistroC465(models.Model):
     (código 60)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c465"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c465"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
-    CHV_CFE = sped_models.BigInt(
-        string="Chave do Cupom Fiscal Eletrônico", sped_length=44
-    )
+    CHV_CFE = fields.Integer(string="Chave do Cupom Fiscal Eletrônico", sped_length=44)
 
-    NUM_CCF = sped_models.BigInt(
-        string="Número do Contador de Cupom Fiscal", sped_length=9
-    )
+    NUM_CCF = fields.Integer(string="Número do Contador de Cupom Fiscal", sped_length=9)
 
     reg_C465_ids_RegistroC460_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c460",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c460",
         string="Documento Fiscal Emitido por ECF",
         required=True,
         ondelete="cascade",
@@ -5799,7 +5852,7 @@ class RegistroC465(models.Model):
 class RegistroC470(models.Model):
     "Itens do Documento Fiscal Emitido por ECF (código 02 e 2D)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c470"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c470"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -5840,7 +5893,7 @@ class RegistroC470(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item"
@@ -5848,7 +5901,7 @@ class RegistroC470(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     ALIQ_ICMS = fields.Float(
         string="Alíquota do ICMS – Carga tributária efetiva",
@@ -5870,7 +5923,7 @@ class RegistroC470(models.Model):
     )
 
     reg_C470_ids_RegistroC460_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c460",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c460",
         string="Documento Fiscal Emitido por ECF",
         required=True,
         ondelete="cascade",
@@ -5878,7 +5931,7 @@ class RegistroC470(models.Model):
     )
 
     reg_C480_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c480",
+        "l10n_br_sped.efd_icms_ipi.17.c480",
         "reg_C480_ids_RegistroC470_id",
         string="C480 Informações complementares das operações",
         sped_card="1:1",
@@ -5896,7 +5949,7 @@ class RegistroC480(models.Model):
     sujeitas à substituição tributária (código 02, 2D e 60)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c480"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c480"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 6
 
@@ -5996,7 +6049,7 @@ class RegistroC480(models.Model):
     )
 
     reg_C480_ids_RegistroC470_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c470",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c470",
         string="Itens do Documento Fiscal Emitido por ECF",
         required=True,
         ondelete="cascade",
@@ -6007,18 +6060,18 @@ class RegistroC480(models.Model):
 class RegistroC490(models.Model):
     "Registro Analítico do movimento diário (código 02, 2D e 60)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c490"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c490"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     ALIQ_ICMS = fields.Float(
         string="Alíquota do ICMS",
@@ -6069,7 +6122,7 @@ class RegistroC490(models.Model):
     )
 
     reg_C490_ids_RegistroC405_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c405",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c405",
         string="Redução Z (código 02, 2D e 60)",
         required=True,
         ondelete="cascade",
@@ -6081,7 +6134,7 @@ class RegistroC495(models.Model):
     2E)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c495"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c495"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -6195,7 +6248,7 @@ class RegistroC500(models.Model):
     Fornecimento de Gás (Código 28)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c500"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -6223,14 +6276,14 @@ class RegistroC500(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
     COD_CONS = fields.Char(
         string="- Código de classe de consumo de energia elétrica",
@@ -6243,7 +6296,7 @@ class RegistroC500(models.Model):
         ),
     )
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
@@ -6329,7 +6382,7 @@ class RegistroC500(models.Model):
         string="Valor da COFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
-    TPLIGACAO = sped_models.BigInt(
+    TPLIGACAO = fields.Integer(
         string="Código de tipo de Ligação 1",
         help=("Código de tipo de Ligação 1 - Monofásico 2 - Bifásico 3 - " "Trifásico"),
     )
@@ -6346,12 +6399,12 @@ class RegistroC500(models.Model):
         ),
     )
 
-    CHV_DOCe = sped_models.BigInt(
+    CHV_DOCe = fields.Integer(
         string="Chave da Nota Fiscal",
         help="Chave da Nota Fiscal de Energia Elétrica Eletrônica",
     )
 
-    FIN_DOCe = sped_models.BigInt(
+    FIN_DOCe = fields.Integer(
         string="Finalidade da emissão do documento eletrônico",
         help=(
             "Finalidade da emissão do documento eletrônico: 1 – Normal 2 – "
@@ -6359,9 +6412,9 @@ class RegistroC500(models.Model):
         ),
     )
 
-    CHV_DOCe_REF = sped_models.BigInt(string="Chave da nota referenciada")
+    CHV_DOCe_REF = fields.Integer(string="Chave da nota referenciada")
 
-    IND_DEST = sped_models.BigInt(
+    IND_DEST = fields.Integer(
         string="Indicador do Destinatário/Acessante",
         help=(
             "Indicador do Destinatário/Acessante: 1 – Contribuinte do ICMS; 2 "
@@ -6370,7 +6423,7 @@ class RegistroC500(models.Model):
         ),
     )
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do município",
         help=("Código do município do destinatário conforme a tabela do IBGE."),
     )
@@ -6379,7 +6432,7 @@ class RegistroC500(models.Model):
         string="Código", help="Código da conta analítica contábil debitada/creditada"
     )
 
-    COD_MOD_DOC_REF = sped_models.BigInt(
+    COD_MOD_DOC_REF = fields.Integer(
         string="Código do modelo do documento fiscal referenciado",
         help=(
             "Código do modelo do documento fiscal referenciado, conforme a "
@@ -6397,11 +6450,11 @@ class RegistroC500(models.Model):
         string="Série do documento fiscal referenciado", sped_length=4
     )
 
-    NUM_DOC_REF = sped_models.BigInt(
+    NUM_DOC_REF = fields.Integer(
         string="Número do documento fiscal referenciado", sped_length=9
     )
 
-    MES_DOC_REF = sped_models.BigInt(
+    MES_DOC_REF = fields.Integer(
         string="Mês e ano da emissão",
         help="Mês e ano da emissão do documento fiscal referenciado.",
     )
@@ -6425,7 +6478,7 @@ class RegistroC500(models.Model):
     )
 
     reg_C510_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c510",
+        "l10n_br_sped.efd_icms_ipi.17.c510",
         "reg_C510_ids_RegistroC500_id",
         string="C510 Itens do Documento",
         sped_card="1:N",
@@ -6438,7 +6491,7 @@ class RegistroC500(models.Model):
     )
 
     reg_C590_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c590",
+        "l10n_br_sped.efd_icms_ipi.17.c590",
         "reg_C590_ids_RegistroC500_id",
         string="C590 Registro Analítico do Documento",
         sped_card="1:N",
@@ -6453,7 +6506,7 @@ class RegistroC500(models.Model):
     )
 
     reg_C595_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c595",
+        "l10n_br_sped.efd_icms_ipi.17.c595",
         "reg_C595_ids_RegistroC500_id",
         string="C595 Observações do Lançamento Fiscal",
         sped_card="1:N",
@@ -6468,11 +6521,11 @@ class RegistroC510(models.Model):
     Fiscal/ Conta Fornecimento de Gás (Código 28)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c510"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c510"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal", sped_length=3
     )
 
@@ -6482,7 +6535,7 @@ class RegistroC510(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    COD_CLASS = sped_models.BigInt(
+    COD_CLASS = fields.Integer(
         string="Código de classificação do item",
         help=(
             "Código de classificação do item de energia elétrica, conforme a "
@@ -6515,14 +6568,14 @@ class RegistroC510(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     VL_BC_ICMS = fields.Monetary(
         string="Valor da base de cálculo do ICMS",
@@ -6603,7 +6656,7 @@ class RegistroC510(models.Model):
     )
 
     reg_C510_ids_RegistroC500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c500",
         string="Nota Fiscal/Conta de Energia Elétrica",
         required=True,
         ondelete="cascade",
@@ -6623,11 +6676,11 @@ class RegistroC590(models.Model):
     Nota Fiscal/Conta Fornecimento de Gás (Código 28)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c590"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c590"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item"
@@ -6635,7 +6688,7 @@ class RegistroC590(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=("Código Fiscal de Operação e Prestação do agrupamento de itens"),
     )
@@ -6681,7 +6734,7 @@ class RegistroC590(models.Model):
     )
 
     VL_BC_ICMS_ST = fields.Monetary(
-        string="BCICMSST",
+        string="VL_BC_ICMS_ST",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -6722,7 +6775,7 @@ class RegistroC590(models.Model):
     )
 
     reg_C590_ids_RegistroC500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c500",
         string="Nota Fiscal/Conta de Energia Elétrica",
         required=True,
         ondelete="cascade",
@@ -6735,7 +6788,7 @@ class RegistroC590(models.Model):
     )
 
     reg_C591_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c591",
+        "l10n_br_sped.efd_icms_ipi.17.c591",
         "reg_C591_ids_RegistroC590_id",
         string="C591 Informações do Fundo",
         sped_card="1:1",
@@ -6750,7 +6803,7 @@ class RegistroC590(models.Model):
 class RegistroC591(models.Model):
     "Informações do Fundo de Combate à Pobreza – FCP na NF3e (código 66)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c591"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c591"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -6776,7 +6829,7 @@ class RegistroC591(models.Model):
     )
 
     reg_C591_ids_RegistroC590_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c590",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c590",
         string="Registro Analítico do Documento",
         required=True,
         ondelete="cascade",
@@ -6793,7 +6846,7 @@ class RegistroC591(models.Model):
 class RegistroC595(models.Model):
     "Observações do Lançamento Fiscal (códigos 06, 28, 29 e 66)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c595"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c595"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -6808,7 +6861,7 @@ class RegistroC595(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar do código de observação")
 
     reg_C595_ids_RegistroC500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c500",
         string="Nota Fiscal/Conta de Energia Elétrica",
         required=True,
         ondelete="cascade",
@@ -6821,7 +6874,7 @@ class RegistroC595(models.Model):
     )
 
     reg_C597_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c597",
+        "l10n_br_sped.efd_icms_ipi.17.c597",
         "reg_C597_ids_RegistroC595_id",
         string="C597 Outras obrigações tributárias",
         sped_card="1:N",
@@ -6838,7 +6891,7 @@ class RegistroC597(models.Model):
     provenientes de documento fiscal."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c597"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c597"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -6888,7 +6941,7 @@ class RegistroC597(models.Model):
     )
 
     reg_C597_ids_RegistroC595_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c595",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c595",
         string="Observações do Lançamento Fiscal",
         required=True,
         ondelete="cascade",
@@ -6903,7 +6956,7 @@ class RegistroC600(models.Model):
     obrigadas ao Convênio ICMS 115/03)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c600"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -6912,14 +6965,14 @@ class RegistroC600(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município dos pontos de consumo",
         help=("Código do município dos pontos de consumo, conforme a tabela IBGE"),
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
     COD_CONS = fields.Char(
         string="- Código de classe de consumo de energia elétrica",
@@ -6932,11 +6985,11 @@ class RegistroC600(models.Model):
         ),
     )
 
-    QTD_CONS = sped_models.BigInt(
+    QTD_CONS = fields.Integer(
         string="Quantidade", help="Quantidade de documentos consolidados neste registro"
     )
 
-    QTD_CANC = sped_models.BigInt(string="Quantidade de documentos cancelados")
+    QTD_CANC = fields.Integer(string="Quantidade de documentos cancelados")
 
     DT_DOC = fields.Date(string="Data dos documentos consolidados")
 
@@ -6952,7 +7005,7 @@ class RegistroC600(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CONS = sped_models.BigInt(
+    CONS = fields.Integer(
         string="Consumo total acumulado",
         help="Consumo total acumulado, em kWh (Código 06)",
     )
@@ -6964,7 +7017,7 @@ class RegistroC600(models.Model):
     )
 
     VL_SERV_NT = fields.Monetary(
-        string="SERVNT",
+        string="VL_SERV_NT",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor acumulado dos serviços não- tributados pelo ICMS",
@@ -7021,7 +7074,7 @@ class RegistroC600(models.Model):
     )
 
     reg_C601_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c601",
+        "l10n_br_sped.efd_icms_ipi.17.c601",
         "reg_C601_ids_RegistroC600_id",
         string="C601 Documentos cancelados",
         sped_card="1:N",
@@ -7035,7 +7088,7 @@ class RegistroC600(models.Model):
     )
 
     reg_C610_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c610",
+        "l10n_br_sped.efd_icms_ipi.17.c610",
         "reg_C610_ids_RegistroC600_id",
         string="C610 Itens do Documento Consolidado",
         sped_card="1:N",
@@ -7049,7 +7102,7 @@ class RegistroC600(models.Model):
     )
 
     reg_C690_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c690",
+        "l10n_br_sped.efd_icms_ipi.17.c690",
         "reg_C690_ids_RegistroC600_id",
         string="C690 Registro Analítico dos Documentos",
         sped_card="1:N",
@@ -7069,16 +7122,16 @@ class RegistroC601(models.Model):
     (código 29) e nota fiscal/conta de fornecimento de gás (código 28)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c601"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c601"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_DOC_CANC = sped_models.BigInt(
+    NUM_DOC_CANC = fields.Integer(
         string="Número do documento fiscal cancelado", sped_length=9
     )
 
     reg_C601_ids_RegistroC600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c600",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c600",
         string="Consolidação Diária de Notas Fiscais/Contas",
         required=True,
         ondelete="cascade",
@@ -7098,11 +7151,11 @@ class RegistroC610(models.Model):
     não obrigadas ao Convênio ICMS 115/03)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c610"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c610"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    COD_CLASS = sped_models.BigInt(
+    COD_CLASS = fields.Integer(
         string="Código de classificação do item",
         help=(
             "Código de classificação do item de energia elétrica, conforme "
@@ -7143,14 +7196,14 @@ class RegistroC610(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação",
         help=(
             "Código Fiscal de Operação e Prestação conforme tabela indicada no"
@@ -7206,7 +7259,7 @@ class RegistroC610(models.Model):
     )
 
     reg_C610_ids_RegistroC600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c600",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c600",
         string="Consolidação Diária de Notas Fiscais/Contas",
         required=True,
         ondelete="cascade",
@@ -7225,18 +7278,18 @@ class RegistroC690(models.Model):
     29) e Nota Fiscal/Conta de Fornecimento de Gás (Código 28)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c690"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c690"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=(
             "Código Fiscal de Operação e Prestação, conforme a tabela indicada"
@@ -7313,7 +7366,7 @@ class RegistroC690(models.Model):
     )
 
     reg_C690_ids_RegistroC600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c600",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c600",
         string="Consolidação Diária de Notas Fiscais/Contas",
         required=True,
         ondelete="cascade",
@@ -7333,7 +7386,7 @@ class RegistroC700(models.Model):
     de Gás Canali- zado (Código 28)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c700"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c700"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -7344,9 +7397,9 @@ class RegistroC700(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    NRO_ORD_INI = sped_models.BigInt(string="Número de ordem inicial", sped_length=9)
+    NRO_ORD_INI = fields.Integer(string="Número de ordem inicial", sped_length=9)
 
-    NRO_ORD_FIN = sped_models.BigInt(string="Número de ordem final", sped_length=9)
+    NRO_ORD_FIN = fields.Integer(string="Número de ordem final", sped_length=9)
 
     DT_DOC_INI = fields.Date(
         string="Data",
@@ -7375,7 +7428,7 @@ class RegistroC700(models.Model):
     )
 
     reg_C790_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c790",
+        "l10n_br_sped.efd_icms_ipi.17.c790",
         "reg_C790_ids_RegistroC700_id",
         string="C790 Registro Analítico dos Documentos",
         sped_card="1:N",
@@ -7392,18 +7445,18 @@ class RegistroC790(models.Model):
     (códi- go 06) emitidas em via única"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c790"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c790"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=(
             "Código Fiscal de Operação e Prestação, conforme a tabela indicada"
@@ -7484,8 +7537,8 @@ class RegistroC790(models.Model):
     )
 
     reg_C790_ids_RegistroC700_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c700",
-        string="C790idsRegistroC700id",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c700",
+        string="reg_C790_ids_RegistroC700_id",
         required=True,
         ondelete="cascade",
         help=(
@@ -7497,7 +7550,7 @@ class RegistroC790(models.Model):
     )
 
     reg_C791_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c791",
+        "l10n_br_sped.efd_icms_ipi.17.c791",
         "reg_C791_ids_RegistroC790_id",
         string="C791 Registro de Informações de ICMS ST por UF",
         sped_card="1:N",
@@ -7508,7 +7561,7 @@ class RegistroC790(models.Model):
 class RegistroC791(models.Model):
     "Registro de Informações de ICMS ST por UF"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c791"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c791"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -7531,7 +7584,7 @@ class RegistroC791(models.Model):
     )
 
     reg_C791_ids_RegistroC790_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c790",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c790",
         string="Registro Analítico dos Documentos",
         required=True,
         ondelete="cascade",
@@ -7545,7 +7598,7 @@ class RegistroC791(models.Model):
 class RegistroC800(models.Model):
     "Registro Cupom Fiscal Eletrônico - CF-e (Código 59)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c800"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c800"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -7555,15 +7608,13 @@ class RegistroC800(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         sped_length=2,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
     )
 
-    NUM_CFE = sped_models.BigInt(
-        string="Número do Cupom Fiscal Eletrônico", sped_length=6
-    )
+    NUM_CFE = fields.Integer(string="Número do Cupom Fiscal Eletrônico", sped_length=6)
 
     DT_DOC = fields.Date(
         string="Data da emissão do Cupom Fiscal Eletrônico", sped_length=8
@@ -7587,15 +7638,11 @@ class RegistroC800(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CNPJ_CPF = sped_models.BigInt(string="CNPJ ou CPF do destinatário", sped_length=14)
+    CNPJ_CPF = fields.Char(string="CNPJ ou CPF do destinatário", sped_length=14)
 
-    NR_SAT = sped_models.BigInt(
-        string="Número de Série do equipamento SAT", sped_length=9
-    )
+    NR_SAT = fields.Integer(string="Número de Série do equipamento SAT", sped_length=9)
 
-    CHV_CFE = sped_models.BigInt(
-        string="Chave do Cupom Fiscal Eletrônico", sped_length=44
-    )
+    CHV_CFE = fields.Integer(string="Chave do Cupom Fiscal Eletrônico", sped_length=44)
 
     VL_DESC = fields.Monetary(
         string="Valor total de descontos",
@@ -7635,7 +7682,7 @@ class RegistroC800(models.Model):
     )
 
     reg_C810_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c810",
+        "l10n_br_sped.efd_icms_ipi.17.c810",
         "reg_C810_ids_RegistroC800_id",
         string="C810 Itens do documento",
         sped_card="1:N",
@@ -7647,7 +7694,7 @@ class RegistroC800(models.Model):
     )
 
     reg_C850_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c850",
+        "l10n_br_sped.efd_icms_ipi.17.c850",
         "reg_C850_ids_RegistroC800_id",
         string="C850 Registro Analítico do CF-e",
         sped_card="1:N",
@@ -7661,11 +7708,11 @@ class RegistroC810(models.Model):
     59)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c810"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c810"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número do item no documento fiscal", sped_length=3
     )
 
@@ -7697,14 +7744,12 @@ class RegistroC810(models.Model):
         help="Valor total do item (mercadorias ou serviços)",
     )
 
-    CST_ICMS = sped_models.BigInt(
-        string="Código da Situação Tributária referente ao ICMS"
-    )
+    CST_ICMS = fields.Integer(string="Código da Situação Tributária referente ao ICMS")
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     reg_C810_ids_RegistroC800_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c800",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c800",
         string="Registro Cupom Fiscal Eletrônico",
         required=True,
         ondelete="cascade",
@@ -7712,7 +7757,7 @@ class RegistroC810(models.Model):
     )
 
     reg_C815_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c815",
+        "l10n_br_sped.efd_icms_ipi.17.c815",
         "reg_C815_ids_RegistroC810_id",
         string="C815 Informações complementares das operações",
         sped_card="1:1",
@@ -7730,7 +7775,7 @@ class RegistroC815(models.Model):
     sujeitas à substituição tributária (CF-E-SAT) (código 59)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c815"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c815"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -7830,7 +7875,7 @@ class RegistroC815(models.Model):
     )
 
     reg_C815_ids_RegistroC810_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c810",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c810",
         string="Itens do documento",
         required=True,
         ondelete="cascade",
@@ -7844,11 +7889,11 @@ class RegistroC815(models.Model):
 class RegistroC850(models.Model):
     "Registro Analítico do CF-e (Código 59)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c850"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c850"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         sped_length=3,
         help=(
@@ -7856,7 +7901,7 @@ class RegistroC850(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         sped_length=4,
         help=("Código Fiscal de Operação e Prestação do agrupamento de itens"),
@@ -7911,7 +7956,7 @@ class RegistroC850(models.Model):
     )
 
     reg_C850_ids_RegistroC800_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c800",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c800",
         string="Registro Cupom Fiscal Eletrônico",
         required=True,
         ondelete="cascade",
@@ -7922,7 +7967,7 @@ class RegistroC850(models.Model):
 class RegistroC860(models.Model):
     "Identificação do equipamento SAT-CF-e (Código 59)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c860"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c860"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -7932,18 +7977,16 @@ class RegistroC860(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    NR_SAT = sped_models.BigInt(
-        string="Número de Série do equipamento SAT", sped_length=9
-    )
+    NR_SAT = fields.Integer(string="Número de Série do equipamento SAT", sped_length=9)
 
     DT_DOC = fields.Date(string="Data de emissão dos documentos fiscais", sped_length=8)
 
-    DOC_INI = sped_models.BigInt(string="Número do documento inicial", sped_length=6)
+    DOC_INI = fields.Integer(string="Número do documento inicial", sped_length=6)
 
-    DOC_FIM = sped_models.BigInt(string="Número do documento final", sped_length=6)
+    DOC_FIM = fields.Integer(string="Número do documento final", sped_length=6)
 
     reg_C870_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c870",
+        "l10n_br_sped.efd_icms_ipi.17.c870",
         "reg_C870_ids_RegistroC860_id",
         string="C870 Itens do documento",
         sped_card="1:N",
@@ -7955,7 +7998,7 @@ class RegistroC860(models.Model):
     )
 
     reg_C890_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c890",
+        "l10n_br_sped.efd_icms_ipi.17.c890",
         "reg_C890_ids_RegistroC860_id",
         string="C890 Resumo diário de CF-e",
         sped_card="1:N",
@@ -7969,7 +8012,7 @@ class RegistroC870(models.Model):
     59)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c870"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c870"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -7994,14 +8037,12 @@ class RegistroC870(models.Model):
         help="Unidade do item (Campo 02 do registro 0190)",
     )
 
-    CST_ICMS = sped_models.BigInt(
-        string="Código da Situação Tributária referente ao ICMS"
-    )
+    CST_ICMS = fields.Integer(string="Código da Situação Tributária referente ao ICMS")
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     reg_C870_ids_RegistroC860_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c860",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c860",
         string="Identificação do equipamento SAT-CF-e",
         required=True,
         ondelete="cascade",
@@ -8009,7 +8050,7 @@ class RegistroC870(models.Model):
     )
 
     reg_C880_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.c880",
+        "l10n_br_sped.efd_icms_ipi.17.c880",
         "reg_C880_ids_RegistroC870_id",
         string="C880 Informações complementares das operações",
         sped_card="1:1",
@@ -8027,7 +8068,7 @@ class RegistroC880(models.Model):
     sujeitas à substituição tributária (CF-E-SAT) (código 59)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c880"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c880"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -8127,7 +8168,7 @@ class RegistroC880(models.Model):
     )
 
     reg_C880_ids_RegistroC870_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c870",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c870",
         string="Itens do documento",
         required=True,
         ondelete="cascade",
@@ -8141,11 +8182,11 @@ class RegistroC880(models.Model):
 class RegistroC890(models.Model):
     "Resumo diário de CF-e (Código 59) por equipamento SAT-CF-e"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.c890"
+    _name = "l10n_br_sped.efd_icms_ipi.17.c890"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         sped_length=3,
         help=(
@@ -8153,7 +8194,7 @@ class RegistroC890(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         sped_length=4,
         help=("Código Fiscal de Operação e Prestação do agrupamento de itens"),
@@ -8208,7 +8249,7 @@ class RegistroC890(models.Model):
     )
 
     reg_C890_ids_RegistroC860_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.c860",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.c860",
         string="Identificação do equipamento SAT-CF-e",
         required=True,
         ondelete="cascade",
@@ -8227,7 +8268,7 @@ class RegistroD100(models.Model):
     (código 67) e Bilhete de Passagem Eletrônico (códi- go 63)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d100"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -8259,7 +8300,7 @@ class RegistroD100(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
     )
@@ -8268,9 +8309,9 @@ class RegistroD100(models.Model):
 
     SUB = fields.Char(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
-    CHV_CTE = sped_models.BigInt(
+    CHV_CTE = fields.Integer(
         string="Chave do Conhecimento de Transporte Eletrônico",
         help=(
             "Chave do Conhecimento de Transporte Eletrônico ou do Bilhete de "
@@ -8282,7 +8323,7 @@ class RegistroD100(models.Model):
 
     DT_A_P = fields.Date(string="Data da aquisição ou da prestação do serviço")
 
-    TP_CT_e = sped_models.BigInt(
+    TP_CT_e = fields.Integer(
         string="Tipo de Conhecimento",
         help=(
             "Tipo de Conhecimento de Transporte Eletrônico conforme definido "
@@ -8291,7 +8332,7 @@ class RegistroD100(models.Model):
         ),
     )
 
-    CHV_CTE_REF = sped_models.BigInt(
+    CHV_CTE_REF = fields.Integer(
         string="Chave do Bilhete",
         help="Chave do Bilhete de Passagem Eletrônico substituído",
     )
@@ -8347,7 +8388,7 @@ class RegistroD100(models.Model):
         string="Código", help="Código da conta analítica contábil debitada/creditada"
     )
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=(
             "Código do município de origem do serviço, conforme a tabela IBGE "
@@ -8355,7 +8396,7 @@ class RegistroD100(models.Model):
         ),
     )
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do município de destino",
         help=(
             "Código do município de destino, conforme a tabela IBGE (Preencher"
@@ -8364,9 +8405,9 @@ class RegistroD100(models.Model):
     )
 
     reg_D101_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d101",
+        "l10n_br_sped.efd_icms_ipi.17.d101",
         "reg_D101_ids_RegistroD100_id",
-        string="D101ids",
+        string="reg_D101_ids",
         sped_card="1:1",
         sped_required="UNDEF_REQUIRED",
         help=(
@@ -8377,7 +8418,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D140_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d140",
+        "l10n_br_sped.efd_icms_ipi.17.d140",
         "reg_D140_ids_RegistroD100_id",
         string="D140 Complemento do Conhecimento Aquaviário",
         sped_card="1:1",
@@ -8386,7 +8427,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D150_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d150",
+        "l10n_br_sped.efd_icms_ipi.17.d150",
         "reg_D150_ids_RegistroD100_id",
         string="D150 Complemento do Conhecimento Aéreo de Cargas",
         sped_card="1:1",
@@ -8395,7 +8436,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D170_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d170",
+        "l10n_br_sped.efd_icms_ipi.17.d170",
         "reg_D170_ids_RegistroD100_id",
         string="D170 Complemento do Conhecimento Multimodal",
         sped_card="1:1",
@@ -8404,7 +8445,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D110_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d110",
+        "l10n_br_sped.efd_icms_ipi.17.d110",
         "reg_D110_ids_RegistroD100_id",
         string="D110 Itens do documento",
         sped_card="1:N",
@@ -8416,7 +8457,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D130_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d130",
+        "l10n_br_sped.efd_icms_ipi.17.d130",
         "reg_D130_ids_RegistroD100_id",
         string="D130 Complemento do Conhecimento Rodoviário",
         sped_card="1:N",
@@ -8428,16 +8469,16 @@ class RegistroD100(models.Model):
     )
 
     reg_D160_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d160",
+        "l10n_br_sped.efd_icms_ipi.17.d160",
         "reg_D160_ids_RegistroD100_id",
-        string="D160 Carga Transportada (CÓDIGO 08",
+        string="D160 Carga Transportada",
         sped_card="1:N",
         sped_required="UNDEF_REQUIRED",
         help="D160 Carga Transportada (CÓDIGO 08, 8B, 09, 10, 11, 26 E 27)",
     )
 
     reg_D180_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d180",
+        "l10n_br_sped.efd_icms_ipi.17.d180",
         "reg_D180_ids_RegistroD100_id",
         string="D180 Modais (código 26)",
         sped_card="1:N",
@@ -8445,7 +8486,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D190_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d190",
+        "l10n_br_sped.efd_icms_ipi.17.d190",
         "reg_D190_ids_RegistroD100_id",
         string="D190 Registro Analítico dos Documentos",
         sped_card="1:N",
@@ -8457,7 +8498,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D195_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d195",
+        "l10n_br_sped.efd_icms_ipi.17.d195",
         "reg_D195_ids_RegistroD100_id",
         string="D195 Observações do lançamento",
         sped_card="1:N",
@@ -8475,7 +8516,7 @@ class RegistroD101(models.Model):
     87/15"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d101"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d101"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -8497,14 +8538,14 @@ class RegistroD101(models.Model):
     )
 
     VL_ICMS_UF_REM = fields.Monetary(
-        string="ICMSUFREM",
+        string="VL_ICMS_UF_REM",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor total do ICMS Interestadual para a UF do remetente",
     )
 
     reg_D101_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -8527,11 +8568,11 @@ class RegistroD110(models.Model):
     07)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d110"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal", sped_length=3
     )
 
@@ -8552,7 +8593,7 @@ class RegistroD110(models.Model):
     )
 
     reg_D110_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -8570,7 +8611,7 @@ class RegistroD110(models.Model):
     )
 
     reg_D120_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d120",
+        "l10n_br_sped.efd_icms_ipi.17.d120",
         "reg_D120_ids_RegistroD110_id",
         string="D120 Complemento da Nota Fiscal de Serviços",
         sped_card="1:N",
@@ -8584,11 +8625,11 @@ class RegistroD110(models.Model):
 class RegistroD120(models.Model):
     "Complemento da Nota Fiscal de Serviços de Transporte (código 07)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d120"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d120"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=(
             "Código do município de origem do serviço, conforme a tabela "
@@ -8596,7 +8637,7 @@ class RegistroD120(models.Model):
         ),
     )
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do município de destino",
         help=(
             "Código do município de destino, conforme a tabela IBGE(Preencher "
@@ -8609,7 +8650,7 @@ class RegistroD120(models.Model):
     UF_ID = fields.Char(string="Sigla da UF da placa do veículo", sped_length=2)
 
     reg_D120_ids_RegistroD110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d110",
         string="Itens do documento",
         required=True,
         ondelete="cascade",
@@ -8624,7 +8665,7 @@ class RegistroD130(models.Model):
     mento de Transporte de Cargas Avulso (Código 8B)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d130"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d130"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -8655,7 +8696,7 @@ class RegistroD130(models.Model):
         ),
     )
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=(
             "Código do município de origem do serviço, conforme a tabela "
@@ -8663,7 +8704,7 @@ class RegistroD130(models.Model):
         ),
     )
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do município de destino",
         help=(
             "Código do município de destino, conforme a tabela IBGE(Preencher "
@@ -8714,7 +8755,7 @@ class RegistroD130(models.Model):
     UF_ID = fields.Char(string="Sigla da UF da placa do veículo", sped_length=2)
 
     reg_D130_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -8735,7 +8776,7 @@ class RegistroD130(models.Model):
 class RegistroD140(models.Model):
     "Complemento do Conhecimento Aquaviário de Cargas (código 09)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d140"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d140"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -8748,9 +8789,9 @@ class RegistroD140(models.Model):
         ),
     )
 
-    COD_MUN_ORIG = sped_models.BigInt(string="Código do município de origem do serviço")
+    COD_MUN_ORIG = fields.Integer(string="Código do município de origem do serviço")
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do município de destino",
         help=(
             "Código do município de destino, conforme a tabela IBGE(Preencher "
@@ -8776,7 +8817,7 @@ class RegistroD140(models.Model):
         help="Indicador do tipo da navegação: 0- Interior; 1- Cabotagem",
     )
 
-    VIAGEM = sped_models.BigInt(string="Número da viagem")
+    VIAGEM = fields.Integer(string="Número da viagem")
 
     VL_FRT_LIQ = fields.Monetary(
         string="Valor líquido do frete",
@@ -8814,7 +8855,7 @@ class RegistroD140(models.Model):
     )
 
     reg_D140_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -8835,11 +8876,11 @@ class RegistroD140(models.Model):
 class RegistroD150(models.Model):
     "Complemento do Conhecimento Aéreo de Cargas (código 10)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d150"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d150"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=(
             "Código do município de origem do serviço, conforme a tabela IBGE "
@@ -8847,7 +8888,7 @@ class RegistroD150(models.Model):
         ),
     )
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do município de destino",
         help=(
             "Código do município de destino, conforme a tabela IBGE (Preencher"
@@ -8857,7 +8898,7 @@ class RegistroD150(models.Model):
 
     VEIC_ID = fields.Char(string="Identificação da aeronave (DAC)")
 
-    VIAGEM = sped_models.BigInt(string="Número do vôo")
+    VIAGEM = fields.Integer(string="Número do vôo")
 
     IND_TFA = fields.Char(
         string="Indicador do tipo de tarifa aplicada",
@@ -8894,7 +8935,7 @@ class RegistroD150(models.Model):
     )
 
     reg_D150_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -8915,13 +8956,13 @@ class RegistroD150(models.Model):
 class RegistroD160(models.Model):
     "Carga Transportada (CÓDIGO 08, 8B, 09, 10, 11, 26 E 27)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d160"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d160"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     DESPACHO = fields.Char(string="Identificação do número do despacho")
 
-    CNPJ_CPF_REM = sped_models.BigInt(
+    CNPJ_CPF_REM = fields.Char(
         string="CNPJ ou CPF do remetente das mercadorias",
         sped_length=14,
         help=(
@@ -8938,7 +8979,7 @@ class RegistroD160(models.Model):
         ),
     )
 
-    COD_MUN_ORI = sped_models.BigInt(
+    COD_MUN_ORI = fields.Integer(
         string="Código do Município de origem",
         help=(
             "Código do Município de origem, conforme tabela IBGE(Preencher com"
@@ -8946,7 +8987,7 @@ class RegistroD160(models.Model):
         ),
     )
 
-    CNPJ_CPF_DEST = sped_models.BigInt(
+    CNPJ_CPF_DEST = fields.Char(
         string="CNPJ ou CPF do destinatário das mercadorias",
         sped_length=14,
         help=(
@@ -8963,7 +9004,7 @@ class RegistroD160(models.Model):
         ),
     )
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do Município de destino",
         help=(
             "Código do Município de destino, conforme tabela IBGE(Preencher "
@@ -8972,7 +9013,7 @@ class RegistroD160(models.Model):
     )
 
     reg_D160_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -8990,7 +9031,7 @@ class RegistroD160(models.Model):
     )
 
     reg_D161_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d161",
+        "l10n_br_sped.efd_icms_ipi.17.d161",
         "reg_D161_ids_RegistroD160_id",
         string="D161 Local de Coleta e Entrega",
         sped_card="1:1",
@@ -8999,7 +9040,7 @@ class RegistroD160(models.Model):
     )
 
     reg_D162_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d162",
+        "l10n_br_sped.efd_icms_ipi.17.d162",
         "reg_D162_ids_RegistroD160_id",
         string="D162 Identificação dos documentos fiscais",
         sped_card="1:N",
@@ -9014,11 +9055,11 @@ class RegistroD160(models.Model):
 class RegistroD161(models.Model):
     "Local de Coleta e Entrega (códigos 08, 8B, 09, 10, 11 e 26)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d161"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d161"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    IND_CARGA = sped_models.BigInt(
+    IND_CARGA = fields.Integer(
         string="Indicador do tipo de transporte da carga coletada",
         help=(
             "Indicador do tipo de transporte da carga coletada: 0-Rodoviário "
@@ -9037,7 +9078,7 @@ class RegistroD161(models.Model):
         help="Inscrição Estadual do contribuinte do local de coleta",
     )
 
-    COD_MUN_COL = sped_models.BigInt(
+    COD_MUN_COL = fields.Integer(
         string="Código do Município do local de coleta",
         help=(
             "Código do Município do local de coleta, conforme tabela "
@@ -9050,12 +9091,12 @@ class RegistroD161(models.Model):
     )
 
     IE_ENTG = fields.Char(
-        string="ENTG",
+        string="IE_ENTG",
         sped_length=14,
         help="Inscrição Estadual do contribuinte do local de entrega",
     )
 
-    COD_MUN_ENTG = sped_models.BigInt(
+    COD_MUN_ENTG = fields.Integer(
         string="Código do Município do local de entrega",
         help=(
             "Código do Município do local de entrega, conforme tabela "
@@ -9064,8 +9105,8 @@ class RegistroD161(models.Model):
     )
 
     reg_D161_ids_RegistroD160_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d160",
-        string="Carga Transportada (CÓDIGO 08, 8B",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d160",
+        string="Carga Transportada",
         required=True,
         ondelete="cascade",
         help="Carga Transportada (CÓDIGO 08, 8B, 09, 10, 11, 26 E 27)",
@@ -9076,7 +9117,7 @@ class RegistroD162(models.Model):
     """Identificação dos documentos fiscais (código 08,8B, 09,10,11,26 e 27)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d162"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d162"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -9087,7 +9128,7 @@ class RegistroD162(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
@@ -9104,7 +9145,7 @@ class RegistroD162(models.Model):
         help="Valor das mercadorias constantes no documento fiscal",
     )
 
-    QTD_VOL = sped_models.BigInt(string="Quantidade de volumes transportados")
+    QTD_VOL = fields.Integer(string="Quantidade de volumes transportados")
 
     PESO_BRT = fields.Float(
         string="Peso bruto dos volumes transportados",
@@ -9127,8 +9168,8 @@ class RegistroD162(models.Model):
     )
 
     reg_D162_ids_RegistroD160_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d160",
-        string="Carga Transportada (CÓDIGO 08, 8B",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d160",
+        string="Carga Transportada",
         required=True,
         ondelete="cascade",
         help="Carga Transportada (CÓDIGO 08, 8B, 09, 10, 11, 26 E 27)",
@@ -9138,7 +9179,7 @@ class RegistroD162(models.Model):
 class RegistroD170(models.Model):
     "Complemento do Conhecimento Multimodal de Cargas (código 26)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d170"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d170"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -9160,7 +9201,7 @@ class RegistroD170(models.Model):
         ),
     )
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=(
             "Código do município de origem do serviço, conforme a tabela "
@@ -9168,7 +9209,7 @@ class RegistroD170(models.Model):
         ),
     )
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do município de destino",
         help=(
             "Código do município de destino, conforme a tabela IBGE(Preencher "
@@ -9217,7 +9258,7 @@ class RegistroD170(models.Model):
     UF_ID = fields.Char(string="Sigla da UF da placa do veículo", sped_length=2)
 
     reg_D170_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -9238,11 +9279,11 @@ class RegistroD170(models.Model):
 class RegistroD180(models.Model):
     "Modais (código 26)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d180"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d180"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_SEQ = sped_models.BigInt(string="Número de ordem sequencial do modal")
+    NUM_SEQ = fields.Integer(string="Número de ordem sequencial do modal")
 
     IND_EMIT = fields.Char(
         string="Indicador do emitente do documento fiscal",
@@ -9252,7 +9293,7 @@ class RegistroD180(models.Model):
         ),
     )
 
-    CNPJ_CPF_EMIT = sped_models.BigInt(
+    CNPJ_CPF_EMIT = fields.Char(
         string="CNPJ ou CPF do participante emitente do modal", sped_length=14
     )
 
@@ -9267,7 +9308,7 @@ class RegistroD180(models.Model):
         help="Inscrição Estadual do participante emitente do modal",
     )
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=(
             "Código do município de origem do serviço, conforme a tabela "
@@ -9275,7 +9316,7 @@ class RegistroD180(models.Model):
         ),
     )
 
-    CNPJ_CPF_TOM = sped_models.BigInt(
+    CNPJ_CPF_TOM = fields.Char(
         string="CNPJ/CPF do participante tomador do serviço", sped_length=14
     )
 
@@ -9290,7 +9331,7 @@ class RegistroD180(models.Model):
         help="Inscrição Estadual do participante tomador do serviço",
     )
 
-    COD_MUN_DEST = sped_models.BigInt(
+    COD_MUN_DEST = fields.Integer(
         string="Código do município de destino",
         help=(
             "Código do município de destino, conforme a tabela IBGE(Preencher "
@@ -9305,9 +9346,9 @@ class RegistroD180(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
@@ -9318,7 +9359,7 @@ class RegistroD180(models.Model):
     )
 
     reg_D180_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -9341,18 +9382,18 @@ class RegistroD190(models.Model):
     27, 57 e 67)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d190"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d190"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=(
             "Código Fiscal de Operação e Prestação, conforme a tabela indicada"
@@ -9420,7 +9461,7 @@ class RegistroD190(models.Model):
     )
 
     reg_D190_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -9443,7 +9484,7 @@ class RegistroD195(models.Model):
     67)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d195"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d195"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -9458,7 +9499,7 @@ class RegistroD195(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar do código de observação")
 
     reg_D195_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d100",
         string="Nota Fiscal de Serviço de Transporte",
         required=True,
         ondelete="cascade",
@@ -9476,7 +9517,7 @@ class RegistroD195(models.Model):
     )
 
     reg_D197_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d197",
+        "l10n_br_sped.efd_icms_ipi.17.d197",
         "reg_D197_ids_RegistroD195_id",
         string="D197 Outras obrigações tributárias",
         sped_card="1:N",
@@ -9493,7 +9534,7 @@ class RegistroD197(models.Model):
     provenientes do documento fiscal."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d197"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d197"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -9543,8 +9584,8 @@ class RegistroD197(models.Model):
     )
 
     reg_D197_ids_RegistroD195_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d195",
-        string="Observações do lançamento (CÓDIGO 07",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d195",
+        string="Observações do lançamento",
         required=True,
         ondelete="cascade",
         help=(
@@ -9560,7 +9601,7 @@ class RegistroD300(models.Model):
     Bagagem (código 15) e de Passagem Ferroviário (código 16)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d300"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -9571,9 +9612,9 @@ class RegistroD300(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=4)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=4)
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do primeiro documento fiscal emitido",
         sped_length=6,
         help=(
@@ -9582,7 +9623,7 @@ class RegistroD300(models.Model):
         ),
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
+    NUM_DOC_FIN = fields.Integer(
         string="Número do último documento fiscal emitido",
         help=(
             "Número do último documento fiscal emitido (mesmo modelo, série e "
@@ -9590,14 +9631,14 @@ class RegistroD300(models.Model):
         ),
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação",
         help=(
             "Código Fiscal de Operação e Prestação conforme tabela indicada no"
@@ -9618,7 +9659,7 @@ class RegistroD300(models.Model):
     DT_DOC = fields.Date(string="Data da emissão dos documentos fiscais")
 
     VL_OPR = fields.Monetary(
-        string="OPR",
+        string="VL_OPR",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -9686,7 +9727,7 @@ class RegistroD300(models.Model):
     )
 
     reg_D301_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d301",
+        "l10n_br_sped.efd_icms_ipi.17.d301",
         "reg_D301_ids_RegistroD300_id",
         string="D301 Documentos cancelados dos Bilhetes",
         sped_card="1:N",
@@ -9699,7 +9740,7 @@ class RegistroD300(models.Model):
     )
 
     reg_D310_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d310",
+        "l10n_br_sped.efd_icms_ipi.17.d310",
         "reg_D310_ids_RegistroD300_id",
         string="D310 Complemento dos Bilhetes",
         sped_card="1:N",
@@ -9717,14 +9758,14 @@ class RegistroD301(models.Model):
     (código 15) e de Passagem Ferroviário (código 16)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d301"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d301"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_DOC_CANC = sped_models.BigInt(string="Número do documento fiscal cancelado")
+    NUM_DOC_CANC = fields.Integer(string="Número do documento fiscal cancelado")
 
     reg_D301_ids_RegistroD300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d300",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d300",
         string="Registro Analítico dos bilhetes consolidados",
         required=True,
         ondelete="cascade",
@@ -9742,11 +9783,11 @@ class RegistroD310(models.Model):
     16)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d310"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d310"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=("Código do município de origem do serviço, conforme a tabela IBGE"),
     )
@@ -9770,7 +9811,7 @@ class RegistroD310(models.Model):
     )
 
     reg_D310_ids_RegistroD300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d300",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d300",
         string="Registro Analítico dos bilhetes consolidados",
         required=True,
         ondelete="cascade",
@@ -9786,7 +9827,7 @@ class RegistroD310(models.Model):
 class RegistroD350(models.Model):
     "Equipamento ECF (Códigos 2E, 13, 14, 15 e 16)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d350"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d350"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -9799,14 +9840,12 @@ class RegistroD350(models.Model):
 
     ECF_FAB = fields.Char(string="Número de série de fabricação do ECF", sped_length=21)
 
-    ECF_CX = sped_models.BigInt(
-        string="Número do caixa atribuído ao ECF", sped_length=3
-    )
+    ECF_CX = fields.Integer(string="Número do caixa atribuído ao ECF", sped_length=3)
 
     reg_D355_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d355",
+        "l10n_br_sped.efd_icms_ipi.17.d355",
         "reg_D355_ids_RegistroD350_id",
-        string="D355 Redução Z (Códigos 2E, 13, 14",
+        string="D355 Redução Z",
         sped_card="1:N",
         sped_required="UNDEF_REQUIRED",
         help="D355 Redução Z (Códigos 2E, 13, 14, 15 e 16)",
@@ -9816,19 +9855,19 @@ class RegistroD350(models.Model):
 class RegistroD355(models.Model):
     "Redução Z (Códigos 2E, 13, 14, 15 e 16)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d355"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d355"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     DT_DOC = fields.Date(string="Data do movimento a que se refere a Redução Z")
 
-    CRO = sped_models.BigInt(
+    CRO = fields.Integer(
         string="Posição do Contador de Reinício de Operação", sped_length=3
     )
 
-    CRZ = sped_models.BigInt(string="Posição do Contador de Redução Z", sped_length=6)
+    CRZ = fields.Integer(string="Posição do Contador de Redução Z", sped_length=6)
 
-    NUM_COO_FIN = sped_models.BigInt(
+    NUM_COO_FIN = fields.Integer(
         string="Número do Contador de Ordem de Operação",
         sped_length=9,
         help=(
@@ -9853,15 +9892,15 @@ class RegistroD355(models.Model):
     )
 
     reg_D355_ids_RegistroD350_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d350",
-        string="Equipamento ECF (Códigos 2E, 13, 14",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d350",
+        string="Equipamento ECF",
         required=True,
         ondelete="cascade",
         help="Equipamento ECF (Códigos 2E, 13, 14, 15 e 16)",
     )
 
     reg_D360_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d360",
+        "l10n_br_sped.efd_icms_ipi.17.d360",
         "reg_D360_ids_RegistroD355_id",
         string="D360 PIS E COFINS totalizados no dia",
         sped_card="1:1",
@@ -9870,7 +9909,7 @@ class RegistroD355(models.Model):
     )
 
     reg_D365_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d365",
+        "l10n_br_sped.efd_icms_ipi.17.d365",
         "reg_D365_ids_RegistroD355_id",
         string="D365 Registro dos Totalizadores Parciais",
         sped_card="1:N",
@@ -9882,7 +9921,7 @@ class RegistroD355(models.Model):
     )
 
     reg_D390_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d390",
+        "l10n_br_sped.efd_icms_ipi.17.d390",
         "reg_D390_ids_RegistroD355_id",
         string="D390 Registro analítico do movimento diário",
         sped_card="1:N",
@@ -9897,7 +9936,7 @@ class RegistroD355(models.Model):
 class RegistroD360(models.Model):
     "PIS E COFINS totalizados no dia (Códigos 2E, 13, 14, 15 e 16)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d360"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d360"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -9914,8 +9953,8 @@ class RegistroD360(models.Model):
     )
 
     reg_D360_ids_RegistroD355_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d355",
-        string="Redução Z (Códigos 2E, 13, 14",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d355",
+        string="Redução Z",
         required=True,
         ondelete="cascade",
         help="Redução Z (Códigos 2E, 13, 14, 15 e 16)",
@@ -9927,7 +9966,7 @@ class RegistroD365(models.Model):
     e 16)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d365"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d365"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -9947,7 +9986,7 @@ class RegistroD365(models.Model):
         help=("Valor acumulado no totalizador, relativo à respectiva Redução Z."),
     )
 
-    NR_TOT = sped_models.BigInt(
+    NR_TOT = fields.Integer(
         string="Número do totalizador quando ocorrer mais",
         sped_length=2,
         help=(
@@ -9965,15 +10004,15 @@ class RegistroD365(models.Model):
     )
 
     reg_D365_ids_RegistroD355_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d355",
-        string="Redução Z (Códigos 2E, 13, 14",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d355",
+        string="Redução Z",
         required=True,
         ondelete="cascade",
         help="Redução Z (Códigos 2E, 13, 14, 15 e 16)",
     )
 
     reg_D370_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d370",
+        "l10n_br_sped.efd_icms_ipi.17.d370",
         "reg_D370_ids_RegistroD365_id",
         string="D370 Complemento dos documentos informados",
         sped_card="1:N",
@@ -9988,11 +10027,11 @@ class RegistroD365(models.Model):
 class RegistroD370(models.Model):
     "Complemento dos documentos informados (Códigos 13, 14, 15, 16 E 2E)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d370"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d370"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=("Código do município de origem do serviço, conforme a tabela IBGE"),
     )
@@ -10003,7 +10042,7 @@ class RegistroD370(models.Model):
         currency_field="brl_currency_id",
     )
 
-    QTD_BILH = sped_models.BigInt(string="Quantidade de bilhetes emitidos")
+    QTD_BILH = fields.Integer(string="Quantidade de bilhetes emitidos")
 
     VL_BC_ICMS = fields.Monetary(
         string="Valor total da base de cálculo do ICMS",
@@ -10018,7 +10057,7 @@ class RegistroD370(models.Model):
     )
 
     reg_D370_ids_RegistroD365_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d365",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d365",
         string="Registro dos Totalizadores Parciais da Redução Z",
         required=True,
         ondelete="cascade",
@@ -10033,11 +10072,11 @@ class RegistroD390(models.Model):
     """Registro analítico do movimento diário (Códigos 13, 14, 15, 16 E 2E)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d390"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d390"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item"
@@ -10045,7 +10084,7 @@ class RegistroD390(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     ALIQ_ICMS = fields.Float(
         string="Alíquota do ICMS",
@@ -10110,8 +10149,8 @@ class RegistroD390(models.Model):
     )
 
     reg_D390_ids_RegistroD355_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d355",
-        string="Redução Z (Códigos 2E, 13, 14",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d355",
+        string="Redução Z",
         required=True,
         ondelete="cascade",
         help="Redução Z (Códigos 2E, 13, 14, 15 e 16)",
@@ -10121,7 +10160,7 @@ class RegistroD390(models.Model):
 class RegistroD400(models.Model):
     "Resumo do Movimento Diário (código 18)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d400"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d400"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -10139,18 +10178,16 @@ class RegistroD400(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
-        string="Número do documento fiscal resumo", sped_length=6
-    )
+    NUM_DOC = fields.Integer(string="Número do documento fiscal resumo", sped_length=6)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
@@ -10197,7 +10234,7 @@ class RegistroD400(models.Model):
     )
 
     reg_D410_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d410",
+        "l10n_br_sped.efd_icms_ipi.17.d410",
         "reg_D410_ids_RegistroD400_id",
         string="D410 Documentos Informados",
         sped_card="1:N",
@@ -10206,7 +10243,7 @@ class RegistroD400(models.Model):
     )
 
     reg_D420_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d420",
+        "l10n_br_sped.efd_icms_ipi.17.d420",
         "reg_D420_ids_RegistroD400_id",
         string="D420 Complemento dos Documentos Informados",
         sped_card="1:N",
@@ -10220,7 +10257,7 @@ class RegistroD400(models.Model):
 class RegistroD410(models.Model):
     "Documentos Informados (Códigos 13, 14, 15 e 16)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d410"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d410"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -10231,29 +10268,29 @@ class RegistroD410(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do documento fiscal inicial",
         sped_length=6,
         help=("Número do documento fiscal inicial (mesmo modelo, série e " "subsérie)"),
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
-        string="Número do documento fiscal final(mesmo modelo",
+    NUM_DOC_FIN = fields.Integer(
+        string="Número do documento fiscal final",
         help=("Número do documento fiscal final(mesmo modelo, série e subsérie)"),
     )
 
     DT_DOC = fields.Date(string="Data da emissão dos documentos fiscais")
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     ALIQ_ICMS = fields.Float(
         string="Alíquota do ICMS",
@@ -10266,7 +10303,7 @@ class RegistroD410(models.Model):
     )
 
     VL_OPR = fields.Monetary(
-        string="OPR",
+        string="VL_OPR",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -10301,7 +10338,7 @@ class RegistroD410(models.Model):
     )
 
     reg_D410_ids_RegistroD400_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d400",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d400",
         string="Resumo do Movimento Diário",
         required=True,
         ondelete="cascade",
@@ -10309,9 +10346,9 @@ class RegistroD410(models.Model):
     )
 
     reg_D411_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d411",
+        "l10n_br_sped.efd_icms_ipi.17.d411",
         "reg_D411_ids_RegistroD410_id",
-        string="D411ids",
+        string="reg_D411_ids",
         sped_card="1:N",
         sped_required="UNDEF_REQUIRED",
         help=(
@@ -10326,15 +10363,15 @@ class RegistroD411(models.Model):
     16)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d411"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d411"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    NUM_DOC_CANC = sped_models.BigInt(string="Número do documento fiscal cancelado")
+    NUM_DOC_CANC = fields.Integer(string="Número do documento fiscal cancelado")
 
     reg_D411_ids_RegistroD410_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d410",
-        string="Documentos Informados (Códigos 13",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d410",
+        string="Documentos Informados",
         required=True,
         ondelete="cascade",
         help="Documentos Informados (Códigos 13, 14, 15 e 16)",
@@ -10344,11 +10381,11 @@ class RegistroD411(models.Model):
 class RegistroD420(models.Model):
     "Complemento dos Documentos Informados (Códigos 13, 14, 15 e 16)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d420"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d420"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    COD_MUN_ORIG = sped_models.BigInt(
+    COD_MUN_ORIG = fields.Integer(
         string="Código do município de origem do serviço",
         help=("Código do município de origem do serviço, conforme a tabela IBGE"),
     )
@@ -10366,7 +10403,7 @@ class RegistroD420(models.Model):
     )
 
     reg_D420_ids_RegistroD400_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d400",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d400",
         string="Resumo do Movimento Diário",
         required=True,
         ondelete="cascade",
@@ -10379,7 +10416,7 @@ class RegistroD500(models.Model):
     Telecomuni- cação (código 22)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d500"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -10411,7 +10448,7 @@ class RegistroD500(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
     )
@@ -10420,7 +10457,7 @@ class RegistroD500(models.Model):
 
     SUB = fields.Char(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal")
 
@@ -10494,7 +10531,7 @@ class RegistroD500(models.Model):
         string="Código", help="Código da conta analítica contábil debitada/creditada"
     )
 
-    TP_ASSINANTE = sped_models.BigInt(
+    TP_ASSINANTE = fields.Integer(
         string="Código do Tipo de Assinante: 1",
         help=(
             "Código do Tipo de Assinante: 1 - Comercial/Industrial 2 - Poder "
@@ -10504,7 +10541,7 @@ class RegistroD500(models.Model):
     )
 
     reg_D510_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d510",
+        "l10n_br_sped.efd_icms_ipi.17.d510",
         "reg_D510_ids_RegistroD500_id",
         string="D510 Itens do Documento",
         sped_card="1:N",
@@ -10516,7 +10553,7 @@ class RegistroD500(models.Model):
     )
 
     reg_D530_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d530",
+        "l10n_br_sped.efd_icms_ipi.17.d530",
         "reg_D530_ids_RegistroD500_id",
         string="D530 Terminal Faturado",
         sped_card="1:N",
@@ -10524,7 +10561,7 @@ class RegistroD500(models.Model):
     )
 
     reg_D590_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d590",
+        "l10n_br_sped.efd_icms_ipi.17.d590",
         "reg_D590_ids_RegistroD500_id",
         string="D590 Registro Analítico do Documento",
         sped_card="1:N",
@@ -10538,11 +10575,11 @@ class RegistroD510(models.Model):
     Serviço de Telecomunicação (código 22)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d510"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d510"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal", sped_length=3
     )
 
@@ -10552,7 +10589,7 @@ class RegistroD510(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    COD_CLASS = sped_models.BigInt(
+    COD_CLASS = fields.Integer(
         string="Código de classificação do item do serviço",
         help=(
             "Código de classificação do item do serviço de comunicação ou de "
@@ -10585,14 +10622,14 @@ class RegistroD510(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(string="Código Fiscal de Operação e Prestação")
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação")
 
     VL_BC_ICMS = fields.Monetary(
         string="Valor da base de cálculo do ICMS",
@@ -10659,7 +10696,7 @@ class RegistroD510(models.Model):
     COD_CTA = fields.Char(string="Código da conta analítica contábil")
 
     reg_D510_ids_RegistroD500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d500",
         string="Nota Fiscal de Serviço de Comunicação",
         required=True,
         ondelete="cascade",
@@ -10673,7 +10710,7 @@ class RegistroD510(models.Model):
 class RegistroD530(models.Model):
     "Terminal Faturado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d530"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d530"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -10690,17 +10727,17 @@ class RegistroD530(models.Model):
 
     DT_FIN_SERV = fields.Date(string="Data em que se encerrou a prestação do serviço")
 
-    PER_FISCAL = sped_models.BigInt(
+    PER_FISCAL = fields.Integer(
         string="Período fiscal da prestação do serviço",
         help="Período fiscal da prestação do serviço (MMAAAA)",
     )
 
     COD_AREA = fields.Char(string="Código de área do terminal faturado")
 
-    TERMINAL = sped_models.BigInt(string="Identificação do terminal faturado")
+    TERMINAL = fields.Integer(string="Identificação do terminal faturado")
 
     reg_D530_ids_RegistroD500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d500",
         string="Nota Fiscal de Serviço de Comunicação",
         required=True,
         ondelete="cascade",
@@ -10714,18 +10751,18 @@ class RegistroD530(models.Model):
 class RegistroD590(models.Model):
     "Registro Analítico do Documento (códigos 21 e 22)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d590"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d590"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=(
             "Código Fiscal de Operação e Prestação, conforme a tabela indicada"
@@ -10812,7 +10849,7 @@ class RegistroD590(models.Model):
     )
 
     reg_D590_ids_RegistroD500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d500",
         string="Nota Fiscal de Serviço de Comunicação",
         required=True,
         ondelete="cascade",
@@ -10828,7 +10865,7 @@ class RegistroD600(models.Model):
     (código 21) e de Serviço de Telecomunicação (código 22)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d600"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -10837,16 +10874,16 @@ class RegistroD600(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município dos terminais faturados",
         help=("Código do município dos terminais faturados, conforme a tabela " "IBGE"),
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    COD_CONS = sped_models.BigInt(
+    COD_CONS = fields.Integer(
         string="Código de classe de consumo dos serviços",
         help=(
             "Código de classe de consumo dos serviços de comunicação ou de "
@@ -10854,7 +10891,7 @@ class RegistroD600(models.Model):
         ),
     )
 
-    QTD_CONS = sped_models.BigInt(
+    QTD_CONS = fields.Integer(
         string="Quantidade", help="Quantidade de documentos consolidados neste registro"
     )
 
@@ -10880,7 +10917,7 @@ class RegistroD600(models.Model):
     )
 
     VL_SERV_NT = fields.Monetary(
-        string="SERVNT",
+        string="VL_SERV_NT",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor acumulado dos serviços não-tributados pelo ICMS",
@@ -10919,7 +10956,7 @@ class RegistroD600(models.Model):
     )
 
     reg_D610_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d610",
+        "l10n_br_sped.efd_icms_ipi.17.d610",
         "reg_D610_ids_RegistroD600_id",
         string="D610 Itens do Documento Consolidado",
         sped_card="1:N",
@@ -10928,7 +10965,7 @@ class RegistroD600(models.Model):
     )
 
     reg_D690_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d690",
+        "l10n_br_sped.efd_icms_ipi.17.d690",
         "reg_D690_ids_RegistroD600_id",
         string="D690 Registro Analítico dos Documentos",
         sped_card="1:N",
@@ -10940,11 +10977,11 @@ class RegistroD600(models.Model):
 class RegistroD610(models.Model):
     "Itens do Documento Consolidado (códigos 21 e 22)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d610"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d610"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    COD_CLASS = sped_models.BigInt(
+    COD_CLASS = fields.Integer(
         string="Código de classificação do item do serviço",
         help=(
             "Código de classificação do item do serviço de comunicação ou de "
@@ -10985,14 +11022,14 @@ class RegistroD610(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a Tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação",
         help=(
             "Código Fiscal de Operação e Prestação conforme tabela indicada no"
@@ -11062,7 +11099,7 @@ class RegistroD610(models.Model):
     )
 
     reg_D610_ids_RegistroD600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d600",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d600",
         string="Consolidação da Prestação de Serviços",
         required=True,
         ondelete="cascade",
@@ -11077,18 +11114,18 @@ class RegistroD610(models.Model):
 class RegistroD690(models.Model):
     "Registro Analítico dos Documentos (códigos 21 e 22)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d690"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d690"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=(
             "Código Fiscal de Operação e Prestação, conforme a tabela indicada"
@@ -11168,7 +11205,7 @@ class RegistroD690(models.Model):
     )
 
     reg_D690_ids_RegistroD600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d600",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d600",
         string="Consolidação da Prestação de Serviços",
         required=True,
         ondelete="cascade",
@@ -11185,7 +11222,7 @@ class RegistroD695(models.Model):
     (código 21) e de Serviço de Telecomunicação (código 22)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d695"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d695"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -11196,9 +11233,9 @@ class RegistroD695(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    NRO_ORD_INI = sped_models.BigInt(string="Número de ordem inicial", sped_length=9)
+    NRO_ORD_INI = fields.Integer(string="Número de ordem inicial", sped_length=9)
 
-    NRO_ORD_FIN = sped_models.BigInt(string="Número de ordem final", sped_length=9)
+    NRO_ORD_FIN = fields.Integer(string="Número de ordem final", sped_length=9)
 
     DT_DOC_INI = fields.Date(
         string="Data",
@@ -11227,7 +11264,7 @@ class RegistroD695(models.Model):
     )
 
     reg_D696_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d696",
+        "l10n_br_sped.efd_icms_ipi.17.d696",
         "reg_D696_ids_RegistroD695_id",
         string="D696 Registro Analítico dos Documentos",
         sped_card="1:N",
@@ -11239,18 +11276,18 @@ class RegistroD695(models.Model):
 class RegistroD696(models.Model):
     "Registro Analítico dos Documentos (códigos 21 e 22)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d696"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d696"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         help=(
             "Código da Situação Tributária, conforme a tabela indicada no item" " 4.3.1"
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         help=(
             "Código Fiscal de Operação e Prestação, conforme a tabela indicada"
@@ -11339,7 +11376,7 @@ class RegistroD696(models.Model):
     )
 
     reg_D696_ids_RegistroD695_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d695",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d695",
         string="Consolidação da Prestação de Serviços",
         required=True,
         ondelete="cascade",
@@ -11351,7 +11388,7 @@ class RegistroD696(models.Model):
     )
 
     reg_D697_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.d697",
+        "l10n_br_sped.efd_icms_ipi.17.d697",
         "reg_D697_ids_RegistroD696_id",
         string="D697 Registro de informações de outras UFs",
         sped_card="1:N",
@@ -11368,7 +11405,7 @@ class RegistroD697(models.Model):
     medi- dos” de televisão por assinatura via satélite"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.d697"
+    _name = "l10n_br_sped.efd_icms_ipi.17.d697"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -11385,7 +11422,7 @@ class RegistroD697(models.Model):
     )
 
     reg_D697_ids_RegistroD696_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.d696",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.d696",
         string="Registro Analítico dos Documentos",
         required=True,
         ondelete="cascade",
@@ -11396,7 +11433,7 @@ class RegistroD697(models.Model):
 class RegistroE100(models.Model):
     "Período de Apuração do ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e100"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -11407,7 +11444,7 @@ class RegistroE100(models.Model):
     DT_FIN = fields.Date(string="Data final a que a apuração se refere", required=True)
 
     reg_E110_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e110",
+        "l10n_br_sped.efd_icms_ipi.17.e110",
         "reg_E110_ids_RegistroE100_id",
         string="E110 Apuração do ICMS",
         sped_card="1:1",
@@ -11419,7 +11456,7 @@ class RegistroE100(models.Model):
 class RegistroE110(models.Model):
     "Apuração do ICMS - Operações Próprias"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e110"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -11534,14 +11571,14 @@ class RegistroE110(models.Model):
     )
 
     reg_E110_ids_RegistroE100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e100",
         string="Período de Apuração do ICMS",
         required=True,
         ondelete="cascade",
     )
 
     reg_E111_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e111",
+        "l10n_br_sped.efd_icms_ipi.17.e111",
         "reg_E111_ids_RegistroE110_id",
         string="E111 Ajuste/Benefício/Incentivo da Apuração",
         sped_card="1:N",
@@ -11550,7 +11587,7 @@ class RegistroE110(models.Model):
     )
 
     reg_E115_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e115",
+        "l10n_br_sped.efd_icms_ipi.17.e115",
         "reg_E115_ids_RegistroE110_id",
         string="E115 Informações Adicionais da Apuração do ICMS",
         sped_card="1:N",
@@ -11561,7 +11598,7 @@ class RegistroE110(models.Model):
     )
 
     reg_E116_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e116",
+        "l10n_br_sped.efd_icms_ipi.17.e116",
         "reg_E116_ids_RegistroE110_id",
         string="E116 Obrigações do ICMS Recolhido ou a Recolher",
         sped_card="1:N",
@@ -11575,7 +11612,7 @@ class RegistroE110(models.Model):
 class RegistroE111(models.Model):
     "Ajuste/Benefício/Incentivo da Apuração do ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e111"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e111"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -11598,7 +11635,7 @@ class RegistroE111(models.Model):
     )
 
     reg_E111_ids_RegistroE110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e110",
         string="Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -11606,7 +11643,7 @@ class RegistroE111(models.Model):
     )
 
     reg_E112_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e112",
+        "l10n_br_sped.efd_icms_ipi.17.e112",
         "reg_E112_ids_RegistroE111_id",
         string="E112 Informações Adicionais dos Ajustes",
         sped_card="1:N",
@@ -11615,7 +11652,7 @@ class RegistroE111(models.Model):
     )
 
     reg_E113_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e113",
+        "l10n_br_sped.efd_icms_ipi.17.e113",
         "reg_E113_ids_RegistroE111_id",
         string="E113 Informações Adicionais dos Ajustes",
         sped_card="1:N",
@@ -11630,7 +11667,7 @@ class RegistroE111(models.Model):
 class RegistroE112(models.Model):
     "Informações Adicionais dos Ajustes da Apuração do ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e112"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e112"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -11661,7 +11698,7 @@ class RegistroE112(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar")
 
     reg_E112_ids_RegistroE111_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e111",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e111",
         string="Ajuste/Benefício/Incentivo da Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -11673,7 +11710,7 @@ class RegistroE113(models.Model):
     dos documentos fiscais"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e113"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e113"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -11695,9 +11732,9 @@ class RegistroE113(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
@@ -11717,7 +11754,7 @@ class RegistroE113(models.Model):
     )
 
     reg_E113_ids_RegistroE111_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e111",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e111",
         string="Ajuste/Benefício/Incentivo da Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -11727,7 +11764,7 @@ class RegistroE113(models.Model):
 class RegistroE115(models.Model):
     "Informações Adicionais da Apuração do ICMS - Valores Declaratórios"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e115"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e115"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -11750,7 +11787,7 @@ class RegistroE115(models.Model):
     DESCR_COMPL_AJ = fields.Char(string="Descrição complementar do ajuste")
 
     reg_E115_ids_RegistroE110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e110",
         string="Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -11761,7 +11798,7 @@ class RegistroE115(models.Model):
 class RegistroE116(models.Model):
     "Obrigações do ICMS Recolhido ou a Recolher - Obrigações Próprias"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e116"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e116"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -11813,12 +11850,12 @@ class RegistroE116(models.Model):
 
     TXT_COMPL = fields.Char(string="Descrição complementar das obrigações a recolher")
 
-    MES_REF = sped_models.BigInt(
+    MES_REF = fields.Integer(
         string="Informe o mês de referência no formato “mmaaaa”", required=True
     )
 
     reg_E116_ids_RegistroE110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e110",
         string="Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -11829,7 +11866,7 @@ class RegistroE116(models.Model):
 class RegistroE200(models.Model):
     "Período de Apuração do ICMS - Substituição Tributária"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e200"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -11846,7 +11883,7 @@ class RegistroE200(models.Model):
     DT_FIN = fields.Date(string="Data final a que a apuração se refere", required=True)
 
     reg_E210_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e210",
+        "l10n_br_sped.efd_icms_ipi.17.e210",
         "reg_E210_ids_RegistroE200_id",
         string="E210 Apuração do ICMS",
         sped_card="1:1",
@@ -11858,7 +11895,7 @@ class RegistroE200(models.Model):
 class RegistroE210(models.Model):
     "Apuração do ICMS - Substituição Tributária"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e210"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -11991,7 +12028,7 @@ class RegistroE210(models.Model):
     )
 
     reg_E210_ids_RegistroE200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e200",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e200",
         string="Período de Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -11999,7 +12036,7 @@ class RegistroE210(models.Model):
     )
 
     reg_E220_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e220",
+        "l10n_br_sped.efd_icms_ipi.17.e220",
         "reg_E220_ids_RegistroE210_id",
         string="E220 Ajuste/Benefício/Incentivo da Apuração",
         sped_card="1:N",
@@ -12011,7 +12048,7 @@ class RegistroE210(models.Model):
     )
 
     reg_E250_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e250",
+        "l10n_br_sped.efd_icms_ipi.17.e250",
         "reg_E250_ids_RegistroE210_id",
         string="E250 Obrigações do ICMS a Recolher",
         sped_card="1:N",
@@ -12025,7 +12062,7 @@ class RegistroE220(models.Model):
     Tributária"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e220"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e220"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -12048,7 +12085,7 @@ class RegistroE220(models.Model):
     )
 
     reg_E220_ids_RegistroE210_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e210",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e210",
         string="Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -12056,7 +12093,7 @@ class RegistroE220(models.Model):
     )
 
     reg_E230_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e230",
+        "l10n_br_sped.efd_icms_ipi.17.e230",
         "reg_E230_ids_RegistroE220_id",
         string="E230 Informações Adicionais dos Ajustes",
         sped_card="1:N",
@@ -12068,7 +12105,7 @@ class RegistroE220(models.Model):
     )
 
     reg_E240_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e240",
+        "l10n_br_sped.efd_icms_ipi.17.e240",
         "reg_E240_ids_RegistroE220_id",
         string="E240 Informações Adicionais dos Ajustes",
         sped_card="1:N",
@@ -12085,7 +12122,7 @@ class RegistroE230(models.Model):
     Tributá- ria"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e230"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e230"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -12100,7 +12137,7 @@ class RegistroE230(models.Model):
         help=("Número do processo ao qual o ajuste está vinculado, se houver"),
     )
 
-    IND_PROC = sped_models.BigInt(
+    IND_PROC = fields.Integer(
         string="Indicador da origem do processo: 0",
         help=(
             "Indicador da origem do processo: 0 - Sefaz; 1 - Justiça Federal; "
@@ -12116,7 +12153,7 @@ class RegistroE230(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar")
 
     reg_E230_ids_RegistroE220_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e220",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e220",
         string="Ajuste/Benefício/Incentivo da Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -12132,7 +12169,7 @@ class RegistroE240(models.Model):
     Tributá- ria - Identificação dos documentos fiscais"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e240"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e240"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -12155,9 +12192,9 @@ class RegistroE240(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
@@ -12176,10 +12213,10 @@ class RegistroE240(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CHV_DOCe = sped_models.BigInt(string="Chave do Documento Eletrônico")
+    CHV_DOCe = fields.Integer(string="Chave do Documento Eletrônico")
 
     reg_E240_ids_RegistroE220_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e220",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e220",
         string="Ajuste/Benefício/Incentivo da Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -12193,7 +12230,7 @@ class RegistroE240(models.Model):
 class RegistroE250(models.Model):
     "Obrigações do ICMS a Recolher - Substituição Tributária"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e250"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e250"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -12245,12 +12282,12 @@ class RegistroE250(models.Model):
 
     TXT_COMPL = fields.Char(string="Descrição complementar das obrigações a recolher")
 
-    MES_REF = sped_models.BigInt(
+    MES_REF = fields.Integer(
         string="Informe o mês de referência no formato “mmaaaa”", required=True
     )
 
     reg_E250_ids_RegistroE210_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e210",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e210",
         string="Apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -12263,7 +12300,7 @@ class RegistroE300(models.Model):
     EC 87/15"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e300"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -12284,7 +12321,7 @@ class RegistroE300(models.Model):
     DT_FIN = fields.Date(string="Data final a que a apuração se refere", required=True)
 
     reg_E310_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e310",
+        "l10n_br_sped.efd_icms_ipi.17.e310",
         "reg_E310_ids_RegistroE300_id",
         string="E310 Apuração do ICMS Diferencial",
         sped_card="1:1",
@@ -12300,7 +12337,7 @@ class RegistroE310(models.Model):
     """Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e310"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e310"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -12338,7 +12375,7 @@ class RegistroE310(models.Model):
     )
 
     VL_OUT_DEB_DIFAL = fields.Monetary(
-        string="OUTDEBDIFAL",
+        string="VL_OUT_DEB_DIFAL",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -12450,7 +12487,7 @@ class RegistroE310(models.Model):
     )
 
     VL_TOT_CRED_FCP = fields.Monetary(
-        string="TOTCREDFCP",
+        string="VL_TOT_CRED_FCP",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -12509,7 +12546,7 @@ class RegistroE310(models.Model):
     )
 
     reg_E310_ids_RegistroE300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e300",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e300",
         string="Período de Apuração do ICMS Diferencial",
         required=True,
         ondelete="cascade",
@@ -12520,7 +12557,7 @@ class RegistroE310(models.Model):
     )
 
     reg_E311_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e311",
+        "l10n_br_sped.efd_icms_ipi.17.e311",
         "reg_E311_ids_RegistroE310_id",
         string="E311 Ajuste/Benefício/Incentivo da Apuração",
         sped_card="1:N",
@@ -12532,7 +12569,7 @@ class RegistroE310(models.Model):
     )
 
     reg_E316_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e316",
+        "l10n_br_sped.efd_icms_ipi.17.e316",
         "reg_E316_ids_RegistroE310_id",
         string="E316 Obrigações do ICMS recolhido",
         sped_card="1:N",
@@ -12549,7 +12586,7 @@ class RegistroE311(models.Model):
     UF Origem/Destino EC 87/15"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e311"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e311"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -12572,7 +12609,7 @@ class RegistroE311(models.Model):
     )
 
     reg_E311_ids_RegistroE310_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e310",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e310",
         string="Apuração do ICMS Diferencial",
         required=True,
         ondelete="cascade",
@@ -12582,7 +12619,7 @@ class RegistroE311(models.Model):
     )
 
     reg_E312_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e312",
+        "l10n_br_sped.efd_icms_ipi.17.e312",
         "reg_E312_ids_RegistroE311_id",
         string="E312 Informações Adicionais dos Ajustes",
         sped_card="1:N",
@@ -12594,7 +12631,7 @@ class RegistroE311(models.Model):
     )
 
     reg_E313_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e313",
+        "l10n_br_sped.efd_icms_ipi.17.e313",
         "reg_E313_ids_RegistroE311_id",
         string="E313 Informações Adicionais da Apuração",
         sped_card="1:N",
@@ -12612,7 +12649,7 @@ class RegistroE312(models.Model):
     Alíquota – UF Origem/Destino EC 87/15"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e312"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e312"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -12627,7 +12664,7 @@ class RegistroE312(models.Model):
         help=("Número do processo ao qual o ajuste está vinculado, se houver"),
     )
 
-    IND_PROC = sped_models.BigInt(
+    IND_PROC = fields.Integer(
         string="Indicador da origem do processo",
         help=(
             "Indicador da origem do processo: 0- Sefaz; 1- Justiça Federal; 2-"
@@ -12643,7 +12680,7 @@ class RegistroE312(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar")
 
     reg_E312_ids_RegistroE311_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e311",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e311",
         string="Ajuste/Benefício/Incentivo da Apuração",
         required=True,
         ondelete="cascade",
@@ -12659,7 +12696,7 @@ class RegistroE313(models.Model):
     Origem/Destino EC 87/15 Identificação dos Documentos Fiscais"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e313"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e313"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -12677,13 +12714,13 @@ class RegistroE313(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
-    CHV_DOCe = sped_models.BigInt(string="Chave do Documento Eletrônico")
+    CHV_DOCe = fields.Integer(string="Chave do Documento Eletrônico")
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal", required=True)
 
@@ -12701,7 +12738,7 @@ class RegistroE313(models.Model):
     )
 
     reg_E313_ids_RegistroE311_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e311",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e311",
         string="Ajuste/Benefício/Incentivo da Apuração",
         required=True,
         ondelete="cascade",
@@ -12717,7 +12754,7 @@ class RegistroE316(models.Model):
     UF Origem/Destino EC 87/15"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e316"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e316"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -12772,12 +12809,12 @@ class RegistroE316(models.Model):
         help=("Descrição complementar das obrigações recolhidas ou a recolher"),
     )
 
-    MES_REF = sped_models.BigInt(
+    MES_REF = fields.Integer(
         string="Informe o mês de referência no formato “mmaaaa”", required=True
     )
 
     reg_E316_ids_RegistroE310_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e310",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e310",
         string="Apuração do ICMS Diferencial",
         required=True,
         ondelete="cascade",
@@ -12790,7 +12827,7 @@ class RegistroE316(models.Model):
 class RegistroE500(models.Model):
     "Período de Apuração do IPI"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e500"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -12807,7 +12844,7 @@ class RegistroE500(models.Model):
     DT_FIN = fields.Date(string="Data final a que a apuração se refere", required=True)
 
     reg_E520_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e520",
+        "l10n_br_sped.efd_icms_ipi.17.e520",
         "reg_E520_ids_RegistroE500_id",
         string="E520 Apuração do IPI",
         sped_card="1:1",
@@ -12815,7 +12852,7 @@ class RegistroE500(models.Model):
     )
 
     reg_E510_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e510",
+        "l10n_br_sped.efd_icms_ipi.17.e510",
         "reg_E510_ids_RegistroE500_id",
         string="E510 Consolidação dos Valores de IPI",
         sped_card="1:N",
@@ -12826,11 +12863,11 @@ class RegistroE500(models.Model):
 class RegistroE510(models.Model):
     "Consolidação dos Valores de IPI"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e510"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e510"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação e Prestação",
         required=True,
         help=("Código Fiscal de Operação e Prestação do agrupamento de itens"),
@@ -12846,7 +12883,7 @@ class RegistroE510(models.Model):
     )
 
     VL_CONT_IPI = fields.Monetary(
-        string="CONTIPI",
+        string="VL_CONT_IPI",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -12880,7 +12917,7 @@ class RegistroE510(models.Model):
     )
 
     reg_E510_ids_RegistroE500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e500",
         string="Período de Apuração do IPI",
         required=True,
         ondelete="cascade",
@@ -12890,7 +12927,7 @@ class RegistroE510(models.Model):
 class RegistroE520(models.Model):
     "Apuração do IPI"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e520"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e520"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -12953,14 +12990,14 @@ class RegistroE520(models.Model):
     )
 
     reg_E520_ids_RegistroE500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e500",
         string="Período de Apuração do IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_E530_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e530",
+        "l10n_br_sped.efd_icms_ipi.17.e530",
         "reg_E530_ids_RegistroE520_id",
         string="E530 Ajustes da Apuração do IPI",
         sped_card="1:N",
@@ -12971,7 +13008,7 @@ class RegistroE520(models.Model):
 class RegistroE530(models.Model):
     "Ajustes da Apuração do IPI"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e530"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e530"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -13023,14 +13060,14 @@ class RegistroE530(models.Model):
     )
 
     reg_E530_ids_RegistroE520_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e520",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e520",
         string="Apuração do IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_E531_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.e531",
+        "l10n_br_sped.efd_icms_ipi.17.e531",
         "reg_E531_ids_RegistroE530_id",
         string="E531 Informações adicionais dos ajustes",
         sped_card="1:N",
@@ -13047,7 +13084,7 @@ class RegistroE531(models.Model):
     dos documentos fiscais (01 e 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.e531"
+    _name = "l10n_br_sped.efd_icms_ipi.17.e531"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -13068,9 +13105,9 @@ class RegistroE531(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
@@ -13089,13 +13126,13 @@ class RegistroE531(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CHV_NFE = sped_models.BigInt(
+    CHV_NFE = fields.Integer(
         string="Chave da Nota Fiscal Eletrônica",
         help="Chave da Nota Fiscal Eletrônica (modelo 55)",
     )
 
     reg_E531_ids_RegistroE530_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.e530",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.e530",
         string="Ajustes da Apuração do IPI",
         required=True,
         ondelete="cascade",
@@ -13105,7 +13142,7 @@ class RegistroE531(models.Model):
 class RegistroG110(models.Model):
     "ICMS – Ativo Permanente – CIAP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.g110"
+    _name = "l10n_br_sped.efd_icms_ipi.17.g110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -13202,7 +13239,7 @@ class RegistroG110(models.Model):
     )
 
     reg_G125_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.g125",
+        "l10n_br_sped.efd_icms_ipi.17.g125",
         "reg_G125_ids_RegistroG110_id",
         string="G125 Movimentação de bem ou componente",
         sped_card="1:N",
@@ -13214,7 +13251,7 @@ class RegistroG110(models.Model):
 class RegistroG125(models.Model):
     "Movimentação de bem ou componente do"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.g125"
+    _name = "l10n_br_sped.efd_icms_ipi.17.g125"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -13284,7 +13321,7 @@ class RegistroG125(models.Model):
         ),
     )
 
-    NUM_PARC = sped_models.BigInt(string="Número da parcela do ICMS", sped_length=3)
+    NUM_PARC = fields.Integer(string="Número da parcela do ICMS", sped_length=3)
 
     VL_PARC_PASS = fields.Monetary(
         string="Valor da parcela de ICMS passível de apropriação",
@@ -13298,14 +13335,14 @@ class RegistroG125(models.Model):
     )
 
     reg_G125_ids_RegistroG110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.g110",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.g110",
         string="ICMS – Ativo Permanente – CIAP",
         required=True,
         ondelete="cascade",
     )
 
     reg_G126_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.g126",
+        "l10n_br_sped.efd_icms_ipi.17.g126",
         "reg_G126_ids_RegistroG125_id",
         string="G126 Outros créditos CIAP",
         sped_card="1:N",
@@ -13313,7 +13350,7 @@ class RegistroG125(models.Model):
     )
 
     reg_G130_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.g130",
+        "l10n_br_sped.efd_icms_ipi.17.g130",
         "reg_G130_ids_RegistroG125_id",
         string="G130 Identificação do documento fiscal",
         sped_card="1:N",
@@ -13324,7 +13361,7 @@ class RegistroG125(models.Model):
 class RegistroG126(models.Model):
     "Outros créditos CIAP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.g126"
+    _name = "l10n_br_sped.efd_icms_ipi.17.g126"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -13332,7 +13369,7 @@ class RegistroG126(models.Model):
 
     DT_FIM = fields.Date(string="Data final do período de apuração", required=True)
 
-    NUM_PARC = sped_models.BigInt(
+    NUM_PARC = fields.Integer(
         string="Número da parcela do ICMS", required=True, sped_length=3
     )
 
@@ -13394,7 +13431,7 @@ class RegistroG126(models.Model):
     )
 
     reg_G126_ids_RegistroG125_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.g125",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.g125",
         string="Movimentação de bem ou componente",
         required=True,
         ondelete="cascade",
@@ -13405,7 +13442,7 @@ class RegistroG126(models.Model):
 class RegistroG130(models.Model):
     "Identificação do documento fiscal"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.g130"
+    _name = "l10n_br_sped.efd_icms_ipi.17.g130"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -13437,11 +13474,11 @@ class RegistroG130(models.Model):
 
     SERIE = fields.Char(string="Série do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número de documento fiscal", required=True, sped_length=9
     )
 
-    CHV_NFE_CTE = sped_models.BigInt(string="Chave do documento fiscal eletrônico")
+    CHV_NFE_CTE = fields.Integer(string="Chave do documento fiscal eletrônico")
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal", required=True)
 
@@ -13451,7 +13488,7 @@ class RegistroG130(models.Model):
     )
 
     reg_G130_ids_RegistroG125_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.g125",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.g125",
         string="Movimentação de bem ou componente",
         required=True,
         ondelete="cascade",
@@ -13459,7 +13496,7 @@ class RegistroG130(models.Model):
     )
 
     reg_G140_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.g140",
+        "l10n_br_sped.efd_icms_ipi.17.g140",
         "reg_G140_ids_RegistroG130_id",
         string="G140 Identificação do item do documento fiscal",
         sped_card="1:N",
@@ -13470,11 +13507,11 @@ class RegistroG130(models.Model):
 class RegistroG140(models.Model):
     "Identificação do item do documento fiscal"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.g140"
+    _name = "l10n_br_sped.efd_icms_ipi.17.g140"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal",
         required=True,
         sped_length=3,
@@ -13558,7 +13595,7 @@ class RegistroG140(models.Model):
     )
 
     reg_G140_ids_RegistroG130_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.g130",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.g130",
         string="Identificação do documento fiscal",
         required=True,
         ondelete="cascade",
@@ -13568,7 +13605,7 @@ class RegistroG140(models.Model):
 class RegistroH005(models.Model):
     "Totais do Inventário"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.h005"
+    _name = "l10n_br_sped.efd_icms_ipi.17.h005"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -13596,7 +13633,7 @@ class RegistroH005(models.Model):
     )
 
     reg_H010_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.h010",
+        "l10n_br_sped.efd_icms_ipi.17.h010",
         "reg_H010_ids_RegistroH005_id",
         string="H010 Inventário",
         sped_card="1:N",
@@ -13607,7 +13644,7 @@ class RegistroH005(models.Model):
 class RegistroH010(models.Model):
     "Inventário"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.h010"
+    _name = "l10n_br_sped.efd_icms_ipi.17.h010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -13680,14 +13717,14 @@ class RegistroH010(models.Model):
     )
 
     reg_H010_ids_RegistroH005_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.h005",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.h005",
         string="Totais do Inventário",
         required=True,
         ondelete="cascade",
     )
 
     reg_H030_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.h030",
+        "l10n_br_sped.efd_icms_ipi.17.h030",
         "reg_H030_ids_RegistroH010_id",
         string="H030 Informações complementares",
         sped_card="1:1",
@@ -13699,7 +13736,7 @@ class RegistroH010(models.Model):
     )
 
     reg_H020_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.h020",
+        "l10n_br_sped.efd_icms_ipi.17.h020",
         "reg_H020_ids_RegistroH010_id",
         string="H020 Informação complementar do Inventário",
         sped_card="1:N",
@@ -13710,11 +13747,11 @@ class RegistroH010(models.Model):
 class RegistroH020(models.Model):
     "Informação complementar do Inventário"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.h020"
+    _name = "l10n_br_sped.efd_icms_ipi.17.h020"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária referente ao ICMS",
         required=True,
         help=(
@@ -13742,7 +13779,7 @@ class RegistroH020(models.Model):
     )
 
     reg_H020_ids_RegistroH010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.h010",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.h010",
         string="Inventário",
         required=True,
         ondelete="cascade",
@@ -13754,7 +13791,7 @@ class RegistroH030(models.Model):
     regime de substituição tri- butária"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.h030"
+    _name = "l10n_br_sped.efd_icms_ipi.17.h030"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -13799,7 +13836,7 @@ class RegistroH030(models.Model):
     )
 
     reg_H030_ids_RegistroH010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.h010",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.h010",
         string="Inventário",
         required=True,
         ondelete="cascade",
@@ -13809,7 +13846,7 @@ class RegistroH030(models.Model):
 class RegistroK100(models.Model):
     "Período de Apuração do ICMS/IPI"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k100"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -13822,7 +13859,7 @@ class RegistroK100(models.Model):
     )
 
     reg_K200_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k200",
+        "l10n_br_sped.efd_icms_ipi.17.k200",
         "reg_K200_ids_RegistroK100_id",
         string="K200 Estoque Escriturado",
         sped_card="1:N",
@@ -13830,7 +13867,7 @@ class RegistroK100(models.Model):
     )
 
     reg_K210_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k210",
+        "l10n_br_sped.efd_icms_ipi.17.k210",
         "reg_K210_ids_RegistroK100_id",
         string="K210 Desmontagem de mercadorias – Item de Origem",
         sped_card="1:N",
@@ -13838,16 +13875,16 @@ class RegistroK100(models.Model):
     )
 
     reg_K220_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k220",
+        "l10n_br_sped.efd_icms_ipi.17.k220",
         "reg_K220_ids_RegistroK100_id",
-        string="K220ids",
+        string="reg_K220_ids",
         sped_card="1:N",
         sped_required="O",
         help="K220 Outras Movimentações Internas entre Mercadorias",
     )
 
     reg_K230_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k230",
+        "l10n_br_sped.efd_icms_ipi.17.k230",
         "reg_K230_ids_RegistroK100_id",
         string="K230 Itens Produzidos",
         sped_card="1:N",
@@ -13855,16 +13892,16 @@ class RegistroK100(models.Model):
     )
 
     reg_K250_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k250",
+        "l10n_br_sped.efd_icms_ipi.17.k250",
         "reg_K250_ids_RegistroK100_id",
-        string="K250ids",
+        string="reg_K250_ids",
         sped_card="1:N",
         sped_required="O",
         help=("K250 Industrialização Efetuada por Terceiros – Itens Produzidos"),
     )
 
     reg_K260_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k260",
+        "l10n_br_sped.efd_icms_ipi.17.k260",
         "reg_K260_ids_RegistroK100_id",
         string="K260 Reprocessamento/Reparo de Produto/Insumo",
         sped_card="1:N",
@@ -13872,7 +13909,7 @@ class RegistroK100(models.Model):
     )
 
     reg_K270_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k270",
+        "l10n_br_sped.efd_icms_ipi.17.k270",
         "reg_K270_ids_RegistroK100_id",
         string="K270 Correção de Apontamento dos Registros K210",
         sped_card="1:N",
@@ -13880,7 +13917,7 @@ class RegistroK100(models.Model):
     )
 
     reg_K280_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k280",
+        "l10n_br_sped.efd_icms_ipi.17.k280",
         "reg_K280_ids_RegistroK100_id",
         string="K280 Correção de Apontamento – Estoque Escriturado",
         sped_card="1:N",
@@ -13888,7 +13925,7 @@ class RegistroK100(models.Model):
     )
 
     reg_K290_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k290",
+        "l10n_br_sped.efd_icms_ipi.17.k290",
         "reg_K290_ids_RegistroK100_id",
         string="K290 Produção Conjunta – Ordem de Produção",
         sped_card="1:N",
@@ -13896,9 +13933,9 @@ class RegistroK100(models.Model):
     )
 
     reg_K300_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k300",
+        "l10n_br_sped.efd_icms_ipi.17.k300",
         "reg_K300_ids_RegistroK100_id",
-        string="K300ids",
+        string="reg_K300_ids",
         sped_card="1:N",
         sped_required="O",
         help=("K300 Produção Conjunta – Industrialização efetuada por terceiros"),
@@ -13908,7 +13945,7 @@ class RegistroK100(models.Model):
 class RegistroK200(models.Model):
     "Estoque Escriturado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k200"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -13953,7 +13990,7 @@ class RegistroK200(models.Model):
     )
 
     reg_K200_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
@@ -13963,7 +14000,7 @@ class RegistroK200(models.Model):
 class RegistroK210(models.Model):
     "Desmontagem de mercadorias – Item de Origem"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k210"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -13993,14 +14030,14 @@ class RegistroK210(models.Model):
     )
 
     reg_K210_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_K215_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k215",
+        "l10n_br_sped.efd_icms_ipi.17.k215",
         "reg_K215_ids_RegistroK210_id",
         string="K215 Desmontagem de mercadorias – Item de Destino",
         sped_card="1:N",
@@ -14011,7 +14048,7 @@ class RegistroK210(models.Model):
 class RegistroK215(models.Model):
     "Desmontagem de mercadorias – Item de Destino"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k215"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k215"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14033,7 +14070,7 @@ class RegistroK215(models.Model):
     )
 
     reg_K215_ids_RegistroK210_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k210",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k210",
         string="Desmontagem de mercadorias – Item de Origem",
         required=True,
         ondelete="cascade",
@@ -14043,7 +14080,7 @@ class RegistroK215(models.Model):
 class RegistroK220(models.Model):
     "Outras Movimentações Internas entre Mercadorias"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k220"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k220"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14086,7 +14123,7 @@ class RegistroK220(models.Model):
     )
 
     reg_K220_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
@@ -14096,7 +14133,7 @@ class RegistroK220(models.Model):
 class RegistroK230(models.Model):
     "Itens Produzidos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k230"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k230"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14128,14 +14165,14 @@ class RegistroK230(models.Model):
     )
 
     reg_K230_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_K235_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k235",
+        "l10n_br_sped.efd_icms_ipi.17.k235",
         "reg_K235_ids_RegistroK230_id",
         string="K235 Insumos Consumidos",
         sped_card="1:N",
@@ -14146,7 +14183,7 @@ class RegistroK230(models.Model):
 class RegistroK235(models.Model):
     "Insumos Consumidos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k235"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k235"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14183,7 +14220,7 @@ class RegistroK235(models.Model):
     )
 
     reg_K235_ids_RegistroK230_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k230",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k230",
         string="Itens Produzidos",
         required=True,
         ondelete="cascade",
@@ -14193,7 +14230,7 @@ class RegistroK235(models.Model):
 class RegistroK250(models.Model):
     "Industrialização Efetuada por Terceiros – Itens Produzidos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k250"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k250"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14222,14 +14259,14 @@ class RegistroK250(models.Model):
     )
 
     reg_K250_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_K255_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k255",
+        "l10n_br_sped.efd_icms_ipi.17.k255",
         "reg_K255_ids_RegistroK250_id",
         string="K255 Industrialização",
         sped_card="1:N",
@@ -14241,7 +14278,7 @@ class RegistroK250(models.Model):
 class RegistroK255(models.Model):
     "Industrialização em Terceiros – Insumos Consumidos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k255"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k255"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14282,8 +14319,8 @@ class RegistroK255(models.Model):
     )
 
     reg_K255_ids_RegistroK250_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k250",
-        string="K255idsRegistroK250id",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k250",
+        string="reg_K255_ids_RegistroK250_id",
         required=True,
         ondelete="cascade",
         help="Industrialização Efetuada por Terceiros – Itens Produzidos",
@@ -14293,7 +14330,7 @@ class RegistroK255(models.Model):
 class RegistroK260(models.Model):
     "Reprocessamento/Reparo de Produto/Insumo"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k260"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k260"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14341,16 +14378,16 @@ class RegistroK260(models.Model):
     )
 
     reg_K260_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_K265_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k265",
+        "l10n_br_sped.efd_icms_ipi.17.k265",
         "reg_K265_ids_RegistroK260_id",
-        string="K265ids",
+        string="reg_K265_ids",
         sped_card="1:N",
         sped_required="O",
         help=(
@@ -14362,7 +14399,7 @@ class RegistroK260(models.Model):
 class RegistroK265(models.Model):
     "Reprocessamento/Reparo – Mercadorias Consumidas e/ou Retornadas"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k265"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k265"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14392,7 +14429,7 @@ class RegistroK265(models.Model):
     )
 
     reg_K265_ids_RegistroK260_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k260",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k260",
         string="Reprocessamento/Reparo de Produto/Insumo",
         required=True,
         ondelete="cascade",
@@ -14402,7 +14439,7 @@ class RegistroK265(models.Model):
 class RegistroK270(models.Model):
     "Correção de Apontamento dos Registros K210,"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k270"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k270"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14488,14 +14525,14 @@ class RegistroK270(models.Model):
     )
 
     reg_K270_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_K275_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k275",
+        "l10n_br_sped.efd_icms_ipi.17.k275",
         "reg_K275_ids_RegistroK270_id",
         string="K275 Correção de Apontamento e Retorno",
         sped_card="1:N",
@@ -14512,7 +14549,7 @@ class RegistroK275(models.Model):
     K235, K255 e K265"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k275"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k275"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14559,7 +14596,7 @@ class RegistroK275(models.Model):
     )
 
     reg_K275_ids_RegistroK270_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k270",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k270",
         string="Correção de Apontamento dos Registros K210",
         required=True,
         ondelete="cascade",
@@ -14569,7 +14606,7 @@ class RegistroK275(models.Model):
 class RegistroK280(models.Model):
     "Correção de Apontamento – Estoque Escriturado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k280"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k280"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14634,7 +14671,7 @@ class RegistroK280(models.Model):
     )
 
     reg_K280_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
@@ -14644,7 +14681,7 @@ class RegistroK280(models.Model):
 class RegistroK290(models.Model):
     "Produção Conjunta – Ordem de Produção"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k290"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k290"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14659,14 +14696,14 @@ class RegistroK290(models.Model):
     )
 
     reg_K290_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_K291_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k291",
+        "l10n_br_sped.efd_icms_ipi.17.k291",
         "reg_K291_ids_RegistroK290_id",
         string="K291 Produção Conjunta – Itens Produzidos",
         sped_card="1:N",
@@ -14674,7 +14711,7 @@ class RegistroK290(models.Model):
     )
 
     reg_K292_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k292",
+        "l10n_br_sped.efd_icms_ipi.17.k292",
         "reg_K292_ids_RegistroK290_id",
         string="K292 Produção Conjunta – insumos Consumidos",
         sped_card="1:N",
@@ -14685,7 +14722,7 @@ class RegistroK290(models.Model):
 class RegistroK291(models.Model):
     "Produção Conjunta – Itens Produzidos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k291"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k291"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14707,7 +14744,7 @@ class RegistroK291(models.Model):
     )
 
     reg_K291_ids_RegistroK290_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k290",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k290",
         string="Produção Conjunta – Ordem de Produção",
         required=True,
         ondelete="cascade",
@@ -14717,7 +14754,7 @@ class RegistroK291(models.Model):
 class RegistroK292(models.Model):
     "Produção Conjunta – insumos Consumidos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k292"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k292"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14739,7 +14776,7 @@ class RegistroK292(models.Model):
     )
 
     reg_K292_ids_RegistroK290_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k290",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k290",
         string="Produção Conjunta – Ordem de Produção",
         required=True,
         ondelete="cascade",
@@ -14749,7 +14786,7 @@ class RegistroK292(models.Model):
 class RegistroK300(models.Model):
     "Produção Conjunta – Industrialização efetuada por terceiros"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k300"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14761,16 +14798,16 @@ class RegistroK300(models.Model):
     )
 
     reg_K300_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k100",
         string="Período de Apuração do ICMS/IPI",
         required=True,
         ondelete="cascade",
     )
 
     reg_K301_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k301",
+        "l10n_br_sped.efd_icms_ipi.17.k301",
         "reg_K301_ids_RegistroK300_id",
-        string="K301ids",
+        string="reg_K301_ids",
         sped_card="1:N",
         sped_required="O",
         help=(
@@ -14780,9 +14817,9 @@ class RegistroK300(models.Model):
     )
 
     reg_K302_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.k302",
+        "l10n_br_sped.efd_icms_ipi.17.k302",
         "reg_K302_ids_RegistroK300_id",
-        string="K302ids",
+        string="reg_K302_ids",
         sped_card="1:N",
         sped_required="O",
         help=(
@@ -14797,7 +14834,7 @@ class RegistroK301(models.Model):
     Produzidos"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k301"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k301"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14819,8 +14856,8 @@ class RegistroK301(models.Model):
     )
 
     reg_K301_ids_RegistroK300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k300",
-        string="K301idsRegistroK300id",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k300",
+        string="reg_K301_ids_RegistroK300_id",
         required=True,
         ondelete="cascade",
         help="Produção Conjunta – Industrialização efetuada por terceiros",
@@ -14832,7 +14869,7 @@ class RegistroK302(models.Model):
     Consumidos"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.k302"
+    _name = "l10n_br_sped.efd_icms_ipi.17.k302"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14854,8 +14891,8 @@ class RegistroK302(models.Model):
     )
 
     reg_K302_ids_RegistroK300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.k300",
-        string="K302idsRegistroK300id",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.k300",
+        string="reg_K302_ids_RegistroK300_id",
         required=True,
         ondelete="cascade",
         help="Produção Conjunta – Industrialização efetuada por terceiros",
@@ -14865,7 +14902,7 @@ class RegistroK302(models.Model):
 class Registro1010(models.Model):
     "Obrigatoriedade de registros do Bloco 1"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1010"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -14982,11 +15019,11 @@ class Registro1010(models.Model):
 class Registro1100(models.Model):
     "Registro de Informações sobre Exportação"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1100"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    IND_DOC = sped_models.BigInt(
+    IND_DOC = fields.Integer(
         string="Informe o tipo de documento",
         required=True,
         help=(
@@ -15000,13 +15037,13 @@ class Registro1100(models.Model):
 
     DT_DE = fields.Date(string="Data da declaração (DDMMAAAA)", required=True)
 
-    NAT_EXP = sped_models.BigInt(
+    NAT_EXP = fields.Integer(
         string="Preencher com: 0",
         required=True,
         help="Preencher com: 0 - Exportação Direta 1 - Exportação Indireta",
     )
 
-    NRO_RE = sped_models.BigInt(string="Nº do registro de Exportação", sped_length=12)
+    NRO_RE = fields.Integer(string="Nº do registro de Exportação", sped_length=12)
 
     DT_RE = fields.Date(
         string="Data do Registro de Exportação",
@@ -15026,7 +15063,7 @@ class Registro1100(models.Model):
         help="Data da averbação da Declaração de exportação (ddmmaaaa)",
     )
 
-    TP_CHC = sped_models.BigInt(
+    TP_CHC = fields.Integer(
         string="Informação do tipo de conhecimento de embarque",
         required=True,
         help=(
@@ -15039,7 +15076,7 @@ class Registro1100(models.Model):
         ),
     )
 
-    PAIS = sped_models.BigInt(
+    PAIS = fields.Integer(
         string="Código do país de destino da mercadoria",
         required=True,
         sped_length=3,
@@ -15050,7 +15087,7 @@ class Registro1100(models.Model):
     )
 
     reg_1105_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1105",
+        "l10n_br_sped.efd_icms_ipi.17.1105",
         "reg_1105_ids_Registro1100_id",
         string="1105 Documentos Fiscais de Exportação",
         sped_card="1:N",
@@ -15061,7 +15098,7 @@ class Registro1100(models.Model):
 class Registro1105(models.Model):
     "Documentos Fiscais de Exportação"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1105"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1105"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -15073,14 +15110,14 @@ class Registro1105(models.Model):
 
     SERIE = fields.Char(string="Série da Nota Fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número de Nota Fiscal",
         required=True,
         sped_length=9,
         help="Número de Nota Fiscal de Exportação emitida pelo Exportador",
     )
 
-    CHV_NFE = sped_models.BigInt(string="Chave da Nota Fiscal Eletrônica")
+    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica")
 
     DT_DOC = fields.Date(string="Data da emissão da NF de exportação", required=True)
 
@@ -15092,14 +15129,14 @@ class Registro1105(models.Model):
     )
 
     reg_1105_ids_Registro1100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1100",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1100",
         string="Registro de Informações sobre Exportação",
         required=True,
         ondelete="cascade",
     )
 
     reg_1110_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1110",
+        "l10n_br_sped.efd_icms_ipi.17.1110",
         "reg_1110_ids_Registro1105_id",
         string="1110 Operações de Exportação Indireta",
         sped_card="1:N",
@@ -15111,7 +15148,7 @@ class Registro1105(models.Model):
 class Registro1110(models.Model):
     "Operações de Exportação Indireta - Mercadorias de terceiros"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1110"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -15139,7 +15176,7 @@ class Registro1110(models.Model):
         ),
     )
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número",
         required=True,
         sped_length=9,
@@ -15157,9 +15194,9 @@ class Registro1110(models.Model):
         ),
     )
 
-    CHV_NFE = sped_models.BigInt(string="Chave da Nota Fiscal Eletrônica")
+    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica")
 
-    NR_MEMO = sped_models.BigInt(string="Número do Memorando de Exportação")
+    NR_MEMO = fields.Integer(string="Número do Memorando de Exportação")
 
     QTD = fields.Float(
         string="Quantidade do item efetivamente exportado",
@@ -15179,7 +15216,7 @@ class Registro1110(models.Model):
     )
 
     reg_1110_ids_Registro1105_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1105",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1105",
         string="Documentos Fiscais de Exportação",
         required=True,
         ondelete="cascade",
@@ -15189,7 +15226,7 @@ class Registro1110(models.Model):
 class Registro1200(models.Model):
     "Controle de Créditos Fiscais - ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1200"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -15255,7 +15292,7 @@ class Registro1200(models.Model):
     )
 
     reg_1210_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1210",
+        "l10n_br_sped.efd_icms_ipi.17.1210",
         "reg_1210_ids_Registro1200_id",
         string="1210 Utilização de Créditos Fiscais",
         sped_card="1:N",
@@ -15267,7 +15304,7 @@ class Registro1200(models.Model):
 class Registro1210(models.Model):
     "Utilização de Créditos Fiscais - ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1210"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -15288,10 +15325,10 @@ class Registro1210(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CHV_DOCe = sped_models.BigInt(string="Chave do Documento Eletrônico")
+    CHV_DOCe = fields.Integer(string="Chave do Documento Eletrônico")
 
     reg_1210_ids_Registro1200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1200",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1200",
         string="Controle de Créditos Fiscais - ICMS",
         required=True,
         ondelete="cascade",
@@ -15303,7 +15340,7 @@ class Registro1250(models.Model):
     complementação do ICMS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1250"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1250"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -15365,7 +15402,7 @@ class Registro1250(models.Model):
     )
 
     reg_1255_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1255",
+        "l10n_br_sped.efd_icms_ipi.17.1255",
         "reg_1255_ids_Registro1250_id",
         string="1255 Informações consolidadas de saldos",
         sped_card="1:N",
@@ -15382,7 +15419,7 @@ class Registro1255(models.Model):
     complementação do ICMS por motivo"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1255"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1255"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -15454,7 +15491,7 @@ class Registro1255(models.Model):
     )
 
     reg_1255_ids_Registro1250_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1250",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1250",
         string="Informações consolidadas de saldos de restituição",
         required=True,
         ondelete="cascade",
@@ -15468,7 +15505,7 @@ class Registro1255(models.Model):
 class Registro1300(models.Model):
     "Movimentação diária de combustíveis"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1300"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -15563,7 +15600,7 @@ class Registro1300(models.Model):
     )
 
     reg_1310_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1310",
+        "l10n_br_sped.efd_icms_ipi.17.1310",
         "reg_1310_ids_Registro1300_id",
         string="1310 Movimentação diária",
         sped_card="1:N",
@@ -15575,7 +15612,7 @@ class Registro1300(models.Model):
 class Registro1310(models.Model):
     "Movimentação diária de combustíveis por tanque"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1310"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1310"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -15669,14 +15706,14 @@ class Registro1310(models.Model):
     )
 
     reg_1310_ids_Registro1300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1300",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1300",
         string="Movimentação diária de combustíveis",
         required=True,
         ondelete="cascade",
     )
 
     reg_1320_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1320",
+        "l10n_br_sped.efd_icms_ipi.17.1320",
         "reg_1320_ids_Registro1310_id",
         string="1320 Volume de vendas",
         sped_card="1:N",
@@ -15687,25 +15724,21 @@ class Registro1310(models.Model):
 class Registro1320(models.Model):
     "Volume de vendas"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1320"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1320"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    NUM_BICO = sped_models.BigInt(string="Bico Ligado à Bomba", required=True)
+    NUM_BICO = fields.Integer(string="Bico Ligado à Bomba", required=True)
 
-    NR_INTERV = sped_models.BigInt(string="Número da intervenção")
+    NR_INTERV = fields.Integer(string="Número da intervenção")
 
     MOT_INTERV = fields.Char(string="Motivo da Intervenção", sped_length=50)
 
     NOM_INTERV = fields.Char(string="Nome do Interventor", sped_length=30)
 
-    CNPJ_INTERV = sped_models.BigInt(
-        string="CNPJ da empresa responsável pela intervenção"
-    )
+    CNPJ_INTERV = fields.Char(string="CNPJ da empresa responsável pela intervenção")
 
-    CPF_INTERV = sped_models.BigInt(
-        string="CPF do técnico responsável pela intervenção"
-    )
+    CPF_INTERV = fields.Char(string="CPF do técnico responsável pela intervenção")
 
     VAL_FECHA = fields.Float(
         string="Valor da leitura final do contador",
@@ -15750,7 +15783,7 @@ class Registro1320(models.Model):
     )
 
     reg_1320_ids_Registro1310_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1310",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1310",
         string="Movimentação diária de combustíveis por tanque",
         required=True,
         ondelete="cascade",
@@ -15760,7 +15793,7 @@ class Registro1320(models.Model):
 class Registro1350(models.Model):
     "Bombas"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1350"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1350"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -15780,7 +15813,7 @@ class Registro1350(models.Model):
     )
 
     reg_1360_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1360",
+        "l10n_br_sped.efd_icms_ipi.17.1360",
         "reg_1360_ids_Registro1350_id",
         string="1360 Lacres das bombas",
         sped_card="1:N",
@@ -15788,7 +15821,7 @@ class Registro1350(models.Model):
     )
 
     reg_1370_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1370",
+        "l10n_br_sped.efd_icms_ipi.17.1370",
         "reg_1370_ids_Registro1350_id",
         string="1370 Bicos da bomba",
         sped_card="1:N",
@@ -15799,7 +15832,7 @@ class Registro1350(models.Model):
 class Registro1360(models.Model):
     "Lacres das bombas"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1360"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1360"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -15810,7 +15843,7 @@ class Registro1360(models.Model):
     DT_APLICACAO = fields.Date(string="Data de aplicação do Lacre", required=True)
 
     reg_1360_ids_Registro1350_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1350",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1350",
         string="Bombas",
         required=True,
         ondelete="cascade",
@@ -15820,11 +15853,11 @@ class Registro1360(models.Model):
 class Registro1370(models.Model):
     "Bicos da bomba"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1370"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1370"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_BICO = sped_models.BigInt(
+    NUM_BICO = fields.Integer(
         string="Número sequencial do bico ligado a bomba", required=True, sped_length=3
     )
 
@@ -15840,7 +15873,7 @@ class Registro1370(models.Model):
     )
 
     reg_1370_ids_Registro1350_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1350",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1350",
         string="Bombas",
         required=True,
         ondelete="cascade",
@@ -15850,18 +15883,18 @@ class Registro1370(models.Model):
 class Registro1390(models.Model):
     "Controle de produção de Usina"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1390"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1390"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    COD_PROD = sped_models.BigInt(
+    COD_PROD = fields.Integer(
         string="Código do produto conforme tabela 5",
         required=True,
         help="Código do produto conforme tabela 5.8",
     )
 
     reg_1391_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1391",
+        "l10n_br_sped.efd_icms_ipi.17.1391",
         "reg_1391_ids_Registro1390_id",
         string="1391 Produção diária da usina",
         sped_card="1:N",
@@ -15872,7 +15905,7 @@ class Registro1390(models.Model):
 class Registro1391(models.Model):
     "Produção diária da usina"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1391"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1391"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -16027,7 +16060,7 @@ class Registro1391(models.Model):
         help="insumo conforme código do item (campo 02 do Registro 0200)",
     )
 
-    TP_RESIDUO = sped_models.BigInt(
+    TP_RESIDUO = fields.Integer(
         string="Tipo de resíduo produzido: 01",
         required=True,
         help=("Tipo de resíduo produzido: 01 - Bagaço de cana 02 - DDG 03 - WDG"),
@@ -16045,7 +16078,7 @@ class Registro1391(models.Model):
     )
 
     reg_1391_ids_Registro1390_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1390",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1390",
         string="Controle de produção de Usina",
         required=True,
         ondelete="cascade",
@@ -16055,7 +16088,7 @@ class Registro1391(models.Model):
 class Registro1400(models.Model):
     "Informação sobre Valor Agregado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1400"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1400"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -16070,9 +16103,7 @@ class Registro1400(models.Model):
         ),
     )
 
-    MUN = sped_models.BigInt(
-        string="Código do Município de origem/destino", required=True
-    )
+    MUN = fields.Integer(string="Código do Município de origem/destino", required=True)
 
     VALOR = fields.Monetary(
         string="Valor mensal correspondente ao município",
@@ -16087,7 +16118,7 @@ class Registro1500(models.Model):
     Interestaduais"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1500"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -16119,7 +16150,7 @@ class Registro1500(models.Model):
         help="Código do modelo do documento fiscal, conforme a",
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -16127,7 +16158,7 @@ class Registro1500(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
     COD_CONS = fields.Char(
         string="Código de classe de consumo de energia elétrica",
@@ -16139,7 +16170,7 @@ class Registro1500(models.Model):
         ),
     )
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
@@ -16229,7 +16260,7 @@ class Registro1500(models.Model):
         string="Valor da COFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
-    TP_LIGACAO = sped_models.BigInt(
+    TP_LIGACAO = fields.Integer(
         string="Código de tipo de Ligação 1",
         help=("Código de tipo de Ligação 1 - Monofásico 2 - Bifásico 3 - " "Trifásico"),
     )
@@ -16250,7 +16281,7 @@ class Registro1500(models.Model):
     )
 
     reg_1510_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1510",
+        "l10n_br_sped.efd_icms_ipi.17.1510",
         "reg_1510_ids_Registro1500_id",
         string="1510 Itens do documento Nota fiscal/Conta",
         sped_card="1:N",
@@ -16266,11 +16297,11 @@ class Registro1510(models.Model):
     """Itens do documento Nota fiscal/Conta de energia elétrica (código 06)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1510"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1510"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número sequencial do item no documento fiscal",
         required=True,
         sped_length=3,
@@ -16283,7 +16314,7 @@ class Registro1510(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    COD_CLASS = sped_models.BigInt(
+    COD_CLASS = fields.Integer(
         string="Código de classificação do item",
         required=True,
         help=(
@@ -16320,15 +16351,13 @@ class Registro1510(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária",
         required=True,
         help="Código da Situação Tributária, conforme a Tabela indicada no",
     )
 
-    CFOP = sped_models.BigInt(
-        string="Código Fiscal de Operação e Prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação", required=True)
 
     VL_BC_ICMS = fields.Monetary(
         string="Valor da base de cálculo do ICMS",
@@ -16409,7 +16438,7 @@ class Registro1510(models.Model):
     )
 
     reg_1510_ids_Registro1500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1500",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1500",
         string="Nota fiscal/Conta de energia elétrica",
         required=True,
         ondelete="cascade",
@@ -16423,7 +16452,7 @@ class Registro1510(models.Model):
 class Registro1600(models.Model):
     "Total das operações com cartão de crédito e/ou débito"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1600"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -16463,7 +16492,7 @@ class Registro1600(models.Model):
 class Registro1601(models.Model):
     "Operações com instrumentos de pagamentos eletrônicos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1601"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1601"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -16533,7 +16562,7 @@ class Registro1601(models.Model):
 class Registro1700(models.Model):
     "Documentos fiscais utilizados"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1700"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1700"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -16558,21 +16587,21 @@ class Registro1700(models.Model):
 
     SUB = fields.Char(string="Subsérie do dispositivo autorizado", sped_length=3)
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do dispositivo autorizado",
         required=True,
         sped_length=12,
         help="Número do dispositivo autorizado (utilizado) inicial",
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
+    NUM_DOC_FIN = fields.Integer(
         string="Número do dispositivo autorizado (NUM_DOC_FIN)",
         required=True,
         sped_length=12,
         help="Número do dispositivo autorizado (utilizado) final",
     )
 
-    NUM_AUT = sped_models.BigInt(
+    NUM_AUT = fields.Integer(
         string="Número da autorização",
         required=True,
         sped_length=60,
@@ -16580,7 +16609,7 @@ class Registro1700(models.Model):
     )
 
     reg_1710_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1710",
+        "l10n_br_sped.efd_icms_ipi.17.1710",
         "reg_1710_ids_Registro1700_id",
         string="1710 Documentos fiscais cancelados/inutilizados",
         sped_card="1:N",
@@ -16591,18 +16620,18 @@ class Registro1700(models.Model):
 class Registro1710(models.Model):
     "Documentos fiscais cancelados/inutilizados"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1710"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1710"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do dispositivo autorizado",
         required=True,
         sped_length=12,
         help="Número do dispositivo autorizado (inutilizado) inicial",
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
+    NUM_DOC_FIN = fields.Integer(
         string="Número do dispositivo autorizado (NUM_DOC_FIN)",
         required=True,
         sped_length=12,
@@ -16610,7 +16639,7 @@ class Registro1710(models.Model):
     )
 
     reg_1710_ids_Registro1700_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1700",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1700",
         string="Documentos fiscais utilizados",
         required=True,
         ondelete="cascade",
@@ -16620,7 +16649,7 @@ class Registro1710(models.Model):
 class Registro1800(models.Model):
     "DCTA - Demonstrativo de crédito do ICMS sobre transporte aéreo"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1800"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1800"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -16700,7 +16729,7 @@ class Registro1800(models.Model):
 class Registro1900(models.Model):
     "Indicador de Sub-apuração do ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1900"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1900"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -16719,7 +16748,7 @@ class Registro1900(models.Model):
     )
 
     reg_1910_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1910",
+        "l10n_br_sped.efd_icms_ipi.17.1910",
         "reg_1910_ids_Registro1900_id",
         string="1910 Período da Sub-apuração do ICMS",
         sped_card="1:N",
@@ -16730,7 +16759,7 @@ class Registro1900(models.Model):
 class Registro1910(models.Model):
     "Período da Sub-apuração do ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1910"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1910"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -16739,14 +16768,14 @@ class Registro1910(models.Model):
     DT_FIN = fields.Date(string="Data final da sub-apuração", required=True)
 
     reg_1910_ids_Registro1900_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1900",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1900",
         string="Indicador de Sub-apuração do ICMS",
         required=True,
         ondelete="cascade",
     )
 
     reg_1920_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1920",
+        "l10n_br_sped.efd_icms_ipi.17.1920",
         "reg_1920_ids_Registro1910_id",
         string="1920 Sub-apuração do ICMS",
         sped_card="1:1",
@@ -16757,7 +16786,7 @@ class Registro1910(models.Model):
 class Registro1920(models.Model):
     "Sub-apuração do ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1920"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1920"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -16859,14 +16888,14 @@ class Registro1920(models.Model):
     )
 
     reg_1920_ids_Registro1910_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1910",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1910",
         string="Período da Sub-apuração do ICMS",
         required=True,
         ondelete="cascade",
     )
 
     reg_1921_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1921",
+        "l10n_br_sped.efd_icms_ipi.17.1921",
         "reg_1921_ids_Registro1920_id",
         string="1921 Ajuste/Benefício/Incentivo da Sub- apuração",
         sped_card="1:N",
@@ -16875,7 +16904,7 @@ class Registro1920(models.Model):
     )
 
     reg_1925_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1925",
+        "l10n_br_sped.efd_icms_ipi.17.1925",
         "reg_1925_ids_Registro1920_id",
         string="1925 Informações Adicionais",
         sped_card="1:N",
@@ -16886,7 +16915,7 @@ class Registro1920(models.Model):
     )
 
     reg_1926_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1926",
+        "l10n_br_sped.efd_icms_ipi.17.1926",
         "reg_1926_ids_Registro1920_id",
         string="1926 Obrigações",
         sped_card="1:N",
@@ -16901,7 +16930,7 @@ class Registro1920(models.Model):
 class Registro1921(models.Model):
     "Ajuste/Benefício/Incentivo da Sub- apuração do ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1921"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1921"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -16924,14 +16953,14 @@ class Registro1921(models.Model):
     )
 
     reg_1921_ids_Registro1920_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1920",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1920",
         string="Sub-apuração do ICMS",
         required=True,
         ondelete="cascade",
     )
 
     reg_1922_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1922",
+        "l10n_br_sped.efd_icms_ipi.17.1922",
         "reg_1922_ids_Registro1921_id",
         string="1922 Informações Adicionais dos Ajustes",
         sped_card="1:N",
@@ -16940,7 +16969,7 @@ class Registro1921(models.Model):
     )
 
     reg_1923_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1923",
+        "l10n_br_sped.efd_icms_ipi.17.1923",
         "reg_1923_ids_Registro1921_id",
         string="1923 Informações Adicionais dos Ajustes",
         sped_card="1:N",
@@ -16955,7 +16984,7 @@ class Registro1921(models.Model):
 class Registro1922(models.Model):
     "Informações Adicionais dos Ajustes da Sub-apuração do ICMS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1922"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1922"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 6
 
@@ -16986,7 +17015,7 @@ class Registro1922(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar")
 
     reg_1922_ids_Registro1921_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1921",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1921",
         string="Ajuste/Benefício/Incentivo da Sub- apuração",
         required=True,
         ondelete="cascade",
@@ -16999,7 +17028,7 @@ class Registro1923(models.Model):
     Identificação dos Documentos Fiscais"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1923"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1923"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 6
 
@@ -17022,9 +17051,9 @@ class Registro1923(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
@@ -17043,10 +17072,10 @@ class Registro1923(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CHV_DOCe = sped_models.BigInt(string="Chave do Documento Eletrônico")
+    CHV_DOCe = fields.Integer(string="Chave do Documento Eletrônico")
 
     reg_1923_ids_Registro1921_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1921",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1921",
         string="Ajuste/Benefício/Incentivo da Sub- apuração",
         required=True,
         ondelete="cascade",
@@ -17057,7 +17086,7 @@ class Registro1923(models.Model):
 class Registro1925(models.Model):
     "Informações Adicionais da Sub- apuração – Valores Declaratórios"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1925"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1925"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -17080,7 +17109,7 @@ class Registro1925(models.Model):
     DESCR_COMPL_AJ = fields.Char(string="Descrição complementar do ajuste")
 
     reg_1925_ids_Registro1920_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1920",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1920",
         string="Sub-apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -17090,7 +17119,7 @@ class Registro1925(models.Model):
 class Registro1926(models.Model):
     "Obrigações do ICMS A Recolher – Operações referentes à Sub-apuração"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1926"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1926"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -17142,12 +17171,12 @@ class Registro1926(models.Model):
 
     TXT_COMPL = fields.Char(string="Descrição complementar das obrigações a recolher")
 
-    MES_REF = sped_models.BigInt(
+    MES_REF = fields.Integer(
         string="Informe o mês de referência no formato “mmaaaa”", required=True
     )
 
     reg_1926_ids_Registro1920_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1920",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1920",
         string="Sub-apuração do ICMS",
         required=True,
         ondelete="cascade",
@@ -17159,11 +17188,11 @@ class Registro1960(models.Model):
     financeiros: indústria (crédito presumido)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1960"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1960"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    IND_AP = sped_models.BigInt(
+    IND_AP = fields.Integer(
         string="Indicador da sub-apuração por tipo de benefício",
         required=True,
         help=(
@@ -17298,11 +17327,11 @@ class Registro1970(models.Model):
     saída subsequente)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1970"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1970"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    IND_AP = sped_models.BigInt(
+    IND_AP = fields.Integer(
         string="Indicador da sub-apuração por tipo de benefício",
         required=True,
         help=(
@@ -17415,7 +17444,7 @@ class Registro1970(models.Model):
     )
 
     reg_1975_ids = fields.One2many(
-        "l10n_br_sped.efd_icms_ipi.1.1975",
+        "l10n_br_sped.efd_icms_ipi.17.1975",
         "reg_1975_ids_Registro1970_id",
         string="1975 GIAF 3",
         sped_card="1:4",
@@ -17433,7 +17462,7 @@ class Registro1975(models.Model):
     financeiros: importação (saídas internas por faixa de alíquota)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1975"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1975"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -17478,7 +17507,7 @@ class Registro1975(models.Model):
     )
 
     reg_1975_ids_Registro1970_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_icms_ipi.1.1970",
+        comodel_name="l10n_br_sped.efd_icms_ipi.17.1970",
         string="GIAF 3",
         required=True,
         ondelete="cascade",
@@ -17495,11 +17524,11 @@ class Registro1980(models.Model):
     financeiros: central de distribuição (entradas/saídas)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.1980"
+    _name = "l10n_br_sped.efd_icms_ipi.17.1980"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    IND_AP = sped_models.BigInt(
+    IND_AP = fields.Integer(
         string="Indicador da sub-apuração por tipo de benefício",
         required=True,
         help=(
@@ -17636,7 +17665,7 @@ class Registro1980(models.Model):
 class Registro9900(models.Model):
     "Registros do Arquivo"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.1.9900"
+    _name = "l10n_br_sped.efd_icms_ipi.17.9900"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -17646,7 +17675,7 @@ class Registro9900(models.Model):
         sped_length=4,
     )
 
-    QTD_REG_BLC = sped_models.BigInt(
+    QTD_REG_BLC = fields.Integer(
         string="Total de registros do tipo informado",
         required=True,
         help="Total de registros do tipo informado no campo anterior.",

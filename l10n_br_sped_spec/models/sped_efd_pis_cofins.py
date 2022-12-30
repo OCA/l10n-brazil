@@ -248,14 +248,108 @@ from odoo import fields, models
 from . import sped_models
 
 
+class Registro0000(models.Model):
+    "Abertura do Arquivo Digital e Identificação da Pessoa Jurídica"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "l10n_br_sped.efd_pis_cofins.6.0000"
+    _inherit = "l10n_br_sped.mixin"
+    _sped_level = 0
+
+    COD_VER = fields.Integer(
+        string="Código da versão do leiaute conforme a tabela 3",
+        required=True,
+        help="Código da versão do leiaute conforme a tabela 3.1.1.",
+    )
+
+    TIPO_ESCRIT = fields.Integer(
+        string="Tipo de escrituração: 0",
+        required=True,
+        help="Tipo de escrituração: 0 - Original; 1 – Retificadora.",
+    )
+
+    IND_SIT_ESP = fields.Integer(
+        string="Indicador de situação especial: 0",
+        help=(
+            "Indicador de situação especial: 0 - Abertura 1 - Cisão 2 - Fusão "
+            "3 - Incorporação 4 – Encerramento"
+        ),
+    )
+
+    NUM_REC_ANTERIOR = fields.Char(
+        string="Número do Recibo",
+        help=(
+            "Número do Recibo da Escrituração anterior a ser retificada, "
+            "utilizado quando TIPO_ESCRIT for igual a 1"
+        ),
+    )
+
+    DT_INI = fields.Date(
+        string="Data inicial das informações contidas no arquivo", required=True
+    )
+
+    DT_FIN = fields.Date(
+        string="Data final das informações contidas no arquivo", required=True
+    )
+
+    NOME = fields.Char(
+        string="Nome empresarial da pessoa jurídica", required=True, sped_length=100
+    )
+
+    CNPJ = fields.Char(
+        string="Número de inscrição do estabelecimento matriz",
+        required=True,
+        help=(
+            "Número de inscrição do estabelecimento matriz da pessoa jurídica "
+            "no CNPJ."
+        ),
+    )
+
+    UF = fields.Char(
+        string="Sigla da Unidade da Federação da pessoa jurídica", required=True
+    )
+
+    COD_MUN = fields.Integer(
+        string="Código do município do domicílio fiscal",
+        required=True,
+        help=(
+            "Código do município do domicílio fiscal da pessoa jurídica, "
+            "conforme a tabela IBGE"
+        ),
+    )
+
+    SUFRAMA = fields.Char(string="Inscrição da pessoa jurídica na Suframa")
+
+    IND_NAT_PJ = fields.Integer(
+        string="Indicador da natureza da pessoa jurídica",
+        help=(
+            "Indicador da natureza da pessoa jurídica: 00 – Pessoa jurídica em"
+            " geral 01 – Sociedade cooperativa 02 – Entidade sujeita ao "
+            "PIS/Pasep exclusivamente com base na Folha de Salários"
+        ),
+    )
+
+    IND_ATIV = fields.Integer(
+        string="Indicador de tipo de atividade preponderante",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador de tipo de atividade preponderante: 0 – Industrial ou "
+            "equiparado a industrial; 1 – Prestador de serviços; 2 - Atividade"
+            " de comércio; 3 – Pessoas jurídicas referidas nos §§ 6º, 8º e 9º "
+            "do art. 3º da Lei nº 9.718, de 1998; 4 – Atividade imobiliária; 9"
+            " – Outros."
+        ),
+    )
+
+
 class Registro0035(models.Model):
     "Identificação da Sociedade em Conta de Participação - SCP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0035"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0035"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    COD_SCP = sped_models.BigInt(string="Identificação da SCP")
+    COD_SCP = fields.Integer(string="Identificação da SCP")
 
     DESC_SCP = fields.Char(string="Descrição da SCP")
 
@@ -265,13 +359,13 @@ class Registro0035(models.Model):
 class Registro0100(models.Model):
     "Dados do Contabilista"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     NOME = fields.Char(string="Nome do contabilista", required=True, sped_length=100)
 
-    CPF = sped_models.BigInt(
+    CPF = fields.Char(
         string="Número de inscrição do contabilista no CPF", required=True
     )
 
@@ -285,14 +379,14 @@ class Registro0100(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do escritório de contabilidade",
         help=(
             "Número de inscrição do escritório de contabilidade no CNPJ, se " "houver."
         ),
     )
 
-    CEP = sped_models.BigInt(string="Código de Endereçamento Postal")
+    CEP = fields.Integer(string="Código de Endereçamento Postal")
 
     END = fields.Char(string="Logradouro e endereço do imóvel", sped_length=60)
 
@@ -308,7 +402,7 @@ class Registro0100(models.Model):
 
     EMAIL = fields.Char(string="Endereço do correio eletrônico")
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município", help="Código do município, conforme tabela IBGE."
     )
 
@@ -318,11 +412,11 @@ class Registro0110(models.Model):
     Crédito"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0110"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    COD_INC_TRIB = sped_models.BigInt(
+    COD_INC_TRIB = fields.Integer(
         string="Código indicador da incidência tributária",
         required=True,
         help=(
@@ -334,7 +428,7 @@ class Registro0110(models.Model):
         ),
     )
 
-    IND_APRO_CRED = sped_models.BigInt(
+    IND_APRO_CRED = fields.Integer(
         string="Código indicador de método de apropriação",
         help=(
             "Código indicador de método de apropriação de créditos comuns, no "
@@ -344,7 +438,7 @@ class Registro0110(models.Model):
         ),
     )
 
-    COD_TIPO_CONT = sped_models.BigInt(
+    COD_TIPO_CONT = fields.Integer(
         string="Código indicador do Tipo de Contribuição Apurada",
         help=(
             "Código indicador do Tipo de Contribuição Apurada no Período 1 – "
@@ -354,7 +448,7 @@ class Registro0110(models.Model):
         ),
     )
 
-    IND_REG_CUM = sped_models.BigInt(
+    IND_REG_CUM = fields.Integer(
         string="Código indicador do critério de escrituração",
         help=(
             "Código indicador do critério de escrituração e apuração adotado, "
@@ -369,7 +463,7 @@ class Registro0110(models.Model):
     )
 
     reg_0111_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0111",
+        "l10n_br_sped.efd_pis_cofins.6.0111",
         "reg_0111_ids_Registro0110_id",
         string="0111 Tabela de Receita Bruta Mensal para Fins",
         sped_card="1:1",
@@ -385,7 +479,7 @@ class Registro0111(models.Model):
     """Tabela de Receita Bruta Mensal para Fins de Rateio de Créditos Comuns"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0111"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0111"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -446,7 +540,7 @@ class Registro0111(models.Model):
     )
 
     reg_0111_ids_Registro0110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0110",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0110",
         string="Regimes de Apuração da Contribuição Social",
         required=True,
         ondelete="cascade",
@@ -459,7 +553,7 @@ class Registro0111(models.Model):
 class Registro0120(models.Model):
     "Identificação de EFD-Contribuições sem dados a Escriturar"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0120"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0120"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -498,7 +592,7 @@ class Registro0120(models.Model):
 class Registro0140(models.Model):
     "Tabela de Cadastro de Estabelecimento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0140"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0140"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -510,7 +604,7 @@ class Registro0140(models.Model):
         string="Nome empresarial do estabelecimento", required=True, sped_length=100
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do estabelecimento no CNPJ", required=True
     )
 
@@ -524,7 +618,7 @@ class Registro0140(models.Model):
         help=("Inscrição Estadual do estabelecimento, se contribuinte de ICMS."),
     )
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município do domicílio fiscal",
         required=True,
         help=(
@@ -541,7 +635,7 @@ class Registro0140(models.Model):
     SUFRAMA = fields.Char(string="Inscrição do estabelecimento na Suframa")
 
     reg_0145_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0145",
+        "l10n_br_sped.efd_pis_cofins.6.0145",
         "reg_0145_ids_Registro0140_id",
         string="0145 Regime de Apuração",
         sped_card="1:1",
@@ -553,7 +647,7 @@ class Registro0140(models.Model):
     )
 
     reg_0150_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0150",
+        "l10n_br_sped.efd_pis_cofins.6.0150",
         "reg_0150_ids_Registro0140_id",
         string="0150 Tabela de Cadastro do Participante",
         sped_card="1:N",
@@ -561,7 +655,7 @@ class Registro0140(models.Model):
     )
 
     reg_0190_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0190",
+        "l10n_br_sped.efd_pis_cofins.6.0190",
         "reg_0190_ids_Registro0140_id",
         string="0190 Identificação das Unidades de Medida",
         sped_card="1:N",
@@ -569,7 +663,7 @@ class Registro0140(models.Model):
     )
 
     reg_0200_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0200",
+        "l10n_br_sped.efd_pis_cofins.6.0200",
         "reg_0200_ids_Registro0140_id",
         string="0200 Tabela de Identificação do Item",
         sped_card="1:N",
@@ -578,7 +672,7 @@ class Registro0140(models.Model):
     )
 
     reg_0400_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0400",
+        "l10n_br_sped.efd_pis_cofins.6.0400",
         "reg_0400_ids_Registro0140_id",
         string="0400 Tabela de Natureza da Operação/ Prestação",
         sped_card="1:N",
@@ -586,7 +680,7 @@ class Registro0140(models.Model):
     )
 
     reg_0450_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0450",
+        "l10n_br_sped.efd_pis_cofins.6.0450",
         "reg_0450_ids_Registro0140_id",
         string="0450 Tabela de Informação Complementar",
         sped_card="1:N",
@@ -600,11 +694,11 @@ class Registro0145(models.Model):
     Bruta"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0145"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0145"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    COD_INC_TRIB = sped_models.BigInt(
+    COD_INC_TRIB = fields.Integer(
         string="Código indicador da incidência tributária",
         required=True,
         help=(
@@ -649,7 +743,7 @@ class Registro0145(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_0145_ids_Registro0140_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0140",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0140",
         string="Tabela de Cadastro de Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -659,7 +753,7 @@ class Registro0145(models.Model):
 class Registro0150(models.Model):
     "Tabela de Cadastro do Participante"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0150"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0150"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -675,7 +769,7 @@ class Registro0150(models.Model):
         sped_length=100,
     )
 
-    COD_PAIS = sped_models.BigInt(
+    COD_PAIS = fields.Integer(
         string="Código do país do participante",
         required=True,
         sped_length=5,
@@ -685,13 +779,13 @@ class Registro0150(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(string="CNPJ do participante")
+    CNPJ = fields.Char(string="CNPJ do participante")
 
-    CPF = sped_models.BigInt(string="CPF do participante")
+    CPF = fields.Char(string="CPF do participante")
 
     IE = fields.Char(string="Inscrição Estadual do participante", sped_length=14)
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município", help="Código do município, conforme a tabela IBGE"
     )
 
@@ -706,7 +800,7 @@ class Registro0150(models.Model):
     BAIRRO = fields.Char(string="Bairro em que o imóvel está situado", sped_length=60)
 
     reg_0150_ids_Registro0140_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0140",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0140",
         string="Tabela de Cadastro de Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -716,7 +810,7 @@ class Registro0150(models.Model):
 class Registro0190(models.Model):
     "Identificação das Unidades de Medida"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0190"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0190"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -727,7 +821,7 @@ class Registro0190(models.Model):
     DESCR = fields.Char(string="Descrição da unidade de medida", required=True)
 
     reg_0190_ids_Registro0140_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0140",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0140",
         string="Tabela de Cadastro de Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -737,7 +831,7 @@ class Registro0190(models.Model):
 class Registro0200(models.Model):
     "Tabela de Identificação do Item (Produtos e Serviços)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0200"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -766,7 +860,7 @@ class Registro0200(models.Model):
         help="Unidade de medida utilizada na quantificação de estoques.",
     )
 
-    TIPO_ITEM = sped_models.BigInt(
+    TIPO_ITEM = fields.Integer(
         string="Tipo do item – Atividades Industriais",
         required=True,
         help=(
@@ -785,12 +879,12 @@ class Registro0200(models.Model):
 
     EX_IPI = fields.Char(string="Código EX, conforme a TIPI", sped_length=3)
 
-    COD_GEN = sped_models.BigInt(
+    COD_GEN = fields.Integer(
         string="Código do gênero do item",
         help="Código do gênero do item, conforme a Tabela 4.2.1.",
     )
 
-    COD_LST = sped_models.BigInt(
+    COD_LST = fields.Integer(
         string="Código do serviço conforme lista do Anexo I",
         sped_length=4,
         help=(
@@ -811,14 +905,14 @@ class Registro0200(models.Model):
     )
 
     reg_0200_ids_Registro0140_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0140",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0140",
         string="Tabela de Cadastro de Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_0206_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0206",
+        "l10n_br_sped.efd_pis_cofins.6.0206",
         "reg_0206_ids_Registro0200_id",
         string="0206 Código de Produto conforme Tabela ANP",
         sped_card="1:1",
@@ -827,7 +921,7 @@ class Registro0200(models.Model):
     )
 
     reg_0208_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0208",
+        "l10n_br_sped.efd_pis_cofins.6.0208",
         "reg_0208_ids_Registro0200_id",
         string="0208 Código de Grupos por Marca Comercial – REFRI",
         sped_card="1:1",
@@ -836,7 +930,7 @@ class Registro0200(models.Model):
     )
 
     reg_0205_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.0205",
+        "l10n_br_sped.efd_pis_cofins.6.0205",
         "reg_0205_ids_Registro0200_id",
         string="0205 Alteração do Item",
         sped_card="1:N",
@@ -847,7 +941,7 @@ class Registro0200(models.Model):
 class Registro0205(models.Model):
     "Alteração do Item"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0205"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0205"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -870,7 +964,7 @@ class Registro0205(models.Model):
     )
 
     reg_0205_ids_Registro0200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0200",
         string="Tabela de Identificação do Item",
         required=True,
         ondelete="cascade",
@@ -881,7 +975,7 @@ class Registro0205(models.Model):
 class Registro0206(models.Model):
     "Código de Produto conforme Tabela ANP (Combustíveis)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0206"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0206"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -892,7 +986,7 @@ class Registro0206(models.Model):
     )
 
     reg_0206_ids_Registro0200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0200",
         string="Tabela de Identificação do Item",
         required=True,
         ondelete="cascade",
@@ -903,7 +997,7 @@ class Registro0206(models.Model):
 class Registro0208(models.Model):
     "Código de Grupos por Marca Comercial – REFRI (Bebidas Frias)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0208"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0208"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -930,7 +1024,7 @@ class Registro0208(models.Model):
     MARCA_COM = fields.Char(string="Marca Comercial", required=True, sped_length=60)
 
     reg_0208_ids_Registro0200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0200",
         string="Tabela de Identificação do Item",
         required=True,
         ondelete="cascade",
@@ -941,7 +1035,7 @@ class Registro0208(models.Model):
 class Registro0400(models.Model):
     "Tabela de Natureza da Operação/ Prestação"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0400"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0400"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -954,7 +1048,7 @@ class Registro0400(models.Model):
     )
 
     reg_0400_ids_Registro0140_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0140",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0140",
         string="Tabela de Cadastro de Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -964,7 +1058,7 @@ class Registro0400(models.Model):
 class Registro0450(models.Model):
     "Tabela de Informação Complementar do Documento Fiscal"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0450"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0450"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -987,7 +1081,7 @@ class Registro0450(models.Model):
     )
 
     reg_0450_ids_Registro0140_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.0140",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.0140",
         string="Tabela de Cadastro de Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -997,7 +1091,7 @@ class Registro0450(models.Model):
 class Registro0500(models.Model):
     "Plano de Contas Contábeis – Contas Informadas"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0500"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1022,7 +1116,7 @@ class Registro0500(models.Model):
         ),
     )
 
-    NÍVEL = sped_models.BigInt(
+    NÍVEL = fields.Integer(
         string="Nível da conta analítica/grupo de contas", required=True, sped_length=5
     )
 
@@ -1045,7 +1139,7 @@ class Registro0500(models.Model):
         ),
     )
 
-    CNPJ_EST = sped_models.BigInt(
+    CNPJ_EST = fields.Char(
         string="CNPJ do estabelecimento",
         help=(
             "CNPJ do estabelecimento, no caso da conta informada no campo "
@@ -1057,7 +1151,7 @@ class Registro0500(models.Model):
 class Registro0600(models.Model):
     "Centro de Custos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0600"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1074,7 +1168,7 @@ class Registro0900(models.Model):
     """Composição das Receitas do Período – Receita Bruta e Demais Receitas"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.0900"
+    _name = "l10n_br_sped.efd_pis_cofins.6.0900"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -1103,7 +1197,7 @@ class Registro0900(models.Model):
     )
 
     REC_TOTAL_BLOCO_C = fields.Float(
-        string="TOTALBLOCOC",
+        string="REC_TOTAL_BLOCO_C",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -1127,7 +1221,7 @@ class Registro0900(models.Model):
     )
 
     REC_TOTAL_BLOCO_D = fields.Float(
-        string="TOTALBLOCOD",
+        string="REC_TOTAL_BLOCO_D",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -1151,7 +1245,7 @@ class Registro0900(models.Model):
     )
 
     REC_TOTAL_BLOCO_F = fields.Float(
-        string="TOTALBLOCOF",
+        string="REC_TOTAL_BLOCO_F",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -1175,7 +1269,7 @@ class Registro0900(models.Model):
     )
 
     REC_TOTAL_BLOCO_I = fields.Float(
-        string="TOTALBLOCOI",
+        string="REC_TOTAL_BLOCO_I",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -1199,7 +1293,7 @@ class Registro0900(models.Model):
     )
 
     REC_TOTAL_BLOCO_1 = fields.Float(
-        string="TOTALBLOCO1",
+        string="REC_TOTAL_BLOCO_1",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -1223,7 +1317,7 @@ class Registro0900(models.Model):
     )
 
     REC_TOTAL_PERIODO = fields.Float(
-        string="Receita total (Soma dos Campos 02",
+        string="Receita total",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -1250,16 +1344,16 @@ class Registro0900(models.Model):
 class RegistroA010(models.Model):
     "Identificação do Estabelecimento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.a010"
+    _name = "l10n_br_sped.efd_pis_cofins.6.a010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do estabelecimento no CNPJ", required=True
     )
 
     reg_A100_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.a100",
+        "l10n_br_sped.efd_pis_cofins.6.a100",
         "reg_A100_ids_RegistroA010_id",
         string="A100 Documento – Nota Fiscal de Serviço",
         sped_card="1:N",
@@ -1270,7 +1364,7 @@ class RegistroA010(models.Model):
 class RegistroA100(models.Model):
     "Documento – Nota Fiscal de Serviço"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.a100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.a100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -1302,7 +1396,7 @@ class RegistroA100(models.Model):
         ),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         required=True,
         help=(
@@ -1399,14 +1493,14 @@ class RegistroA100(models.Model):
     )
 
     reg_A100_ids_RegistroA010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.a010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.a010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_A110_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.a110",
+        "l10n_br_sped.efd_pis_cofins.6.a110",
         "reg_A110_ids_RegistroA100_id",
         string="A110 Complemento",
         sped_card="1:N",
@@ -1415,7 +1509,7 @@ class RegistroA100(models.Model):
     )
 
     reg_A111_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.a111",
+        "l10n_br_sped.efd_pis_cofins.6.a111",
         "reg_A111_ids_RegistroA100_id",
         string="A111 Processo Referenciado",
         sped_card="1:N",
@@ -1423,7 +1517,7 @@ class RegistroA100(models.Model):
     )
 
     reg_A120_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.a120",
+        "l10n_br_sped.efd_pis_cofins.6.a120",
         "reg_A120_ids_RegistroA100_id",
         string="A120 Informação Complementar – Operações",
         sped_card="1:N",
@@ -1432,7 +1526,7 @@ class RegistroA100(models.Model):
     )
 
     reg_A170_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.a170",
+        "l10n_br_sped.efd_pis_cofins.6.a170",
         "reg_A170_ids_RegistroA100_id",
         string="A170 Complemento de Documento – Itens do Documento",
         sped_card="1:N",
@@ -1443,7 +1537,7 @@ class RegistroA100(models.Model):
 class RegistroA110(models.Model):
     "Complemento de Documento – Informação Complementar da NF"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.a110"
+    _name = "l10n_br_sped.efd_pis_cofins.6.a110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -1460,7 +1554,7 @@ class RegistroA110(models.Model):
     TXT_COMPL = fields.Char(string="Informação Complementar do Documento Fiscal")
 
     reg_A110_ids_RegistroA100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.a100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.a100",
         string="Documento – Nota Fiscal de Serviço",
         required=True,
         ondelete="cascade",
@@ -1470,7 +1564,7 @@ class RegistroA110(models.Model):
 class RegistroA111(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.a111"
+    _name = "l10n_br_sped.efd_pis_cofins.6.a111"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -1490,7 +1584,7 @@ class RegistroA111(models.Model):
     )
 
     reg_A111_ids_RegistroA100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.a100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.a100",
         string="Documento – Nota Fiscal de Serviço",
         required=True,
         ondelete="cascade",
@@ -1500,7 +1594,7 @@ class RegistroA111(models.Model):
 class RegistroA120(models.Model):
     "Informação Complementar – Operações de Importação"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.a120"
+    _name = "l10n_br_sped.efd_pis_cofins.6.a120"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -1557,7 +1651,7 @@ class RegistroA120(models.Model):
     )
 
     reg_A120_ids_RegistroA100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.a100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.a100",
         string="Documento – Nota Fiscal de Serviço",
         required=True,
         ondelete="cascade",
@@ -1567,11 +1661,11 @@ class RegistroA120(models.Model):
 class RegistroA170(models.Model):
     "Complemento de Documento – Itens do Documento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.a170"
+    _name = "l10n_br_sped.efd_pis_cofins.6.a170"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número seqüencial do item no documento fiscal",
         required=True,
         sped_length=4,
@@ -1623,7 +1717,7 @@ class RegistroA170(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -1653,7 +1747,7 @@ class RegistroA170(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código (CST_COFINS)",
         required=True,
         help=("Código da Situação Tributária referente ao COFINS – Tabela 4.3.4."),
@@ -1688,7 +1782,7 @@ class RegistroA170(models.Model):
     COD_CCUS = fields.Char(string="Código do centro de custos", sped_length=255)
 
     reg_A170_ids_RegistroA100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.a100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.a100",
         string="Documento – Nota Fiscal de Serviço",
         required=True,
         ondelete="cascade",
@@ -1698,11 +1792,11 @@ class RegistroA170(models.Model):
 class RegistroC010(models.Model):
     "Identificação do Estabelecimento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c010"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do estabelecimento no CNPJ", required=True
     )
 
@@ -1718,7 +1812,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C100_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c100",
+        "l10n_br_sped.efd_pis_cofins.6.c100",
         "reg_C100_ids_RegistroC010_id",
         string="C100 Documento - Nota Fiscal",
         sped_card="1:N",
@@ -1731,7 +1825,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C180_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c180",
+        "l10n_br_sped.efd_pis_cofins.6.c180",
         "reg_C180_ids_RegistroC010_id",
         string="C180 Consolidação",
         sped_card="1:N",
@@ -1743,7 +1837,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C190_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c190",
+        "l10n_br_sped.efd_pis_cofins.6.c190",
         "reg_C190_ids_RegistroC010_id",
         string="C190 Consolidação de Notas Fiscais Eletrônicas",
         sped_card="1:N",
@@ -1756,7 +1850,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C380_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c380",
+        "l10n_br_sped.efd_pis_cofins.6.c380",
         "reg_C380_ids_RegistroC010_id",
         string="C380 Nota Fiscal de Venda a Consumidor",
         sped_card="1:N",
@@ -1768,7 +1862,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C395_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c395",
+        "l10n_br_sped.efd_pis_cofins.6.c395",
         "reg_C395_ids_RegistroC010_id",
         string="C395 Notas Fiscais de Venda a Consumidor",
         sped_card="1:N",
@@ -1780,7 +1874,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C400_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c400",
+        "l10n_br_sped.efd_pis_cofins.6.c400",
         "reg_C400_ids_RegistroC010_id",
         string="C400 Equipamento ECF",
         sped_card="1:N",
@@ -1789,7 +1883,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C490_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c490",
+        "l10n_br_sped.efd_pis_cofins.6.c490",
         "reg_C490_ids_RegistroC010_id",
         string="C490 Consolidação de Documentos Emitidos por ECF",
         sped_card="1:N",
@@ -1801,7 +1895,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C500_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c500",
+        "l10n_br_sped.efd_pis_cofins.6.c500",
         "reg_C500_ids_RegistroC010_id",
         string="C500 Nota Fiscal/Conta de Energia Elétrica",
         sped_card="1:N",
@@ -1816,7 +1910,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C600_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c600",
+        "l10n_br_sped.efd_pis_cofins.6.c600",
         "reg_C600_ids_RegistroC010_id",
         string="C600 Consolidação Diária de Notas Fiscais/Contas",
         sped_card="1:N",
@@ -1831,7 +1925,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C800_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c800",
+        "l10n_br_sped.efd_pis_cofins.6.c800",
         "reg_C800_ids_RegistroC010_id",
         string="C800 Cupom Fiscal Eletrônico – CF-e",
         sped_card="1:N",
@@ -1840,7 +1934,7 @@ class RegistroC010(models.Model):
     )
 
     reg_C860_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c860",
+        "l10n_br_sped.efd_pis_cofins.6.c860",
         "reg_C860_ids_RegistroC010_id",
         string="C860 Identificação do Equipamento SAT- CF-e",
         sped_card="1:N",
@@ -1858,7 +1952,7 @@ class RegistroC100(models.Model):
     Nota Fiscal de Produtor (código 04) e NF-e (código 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -1894,7 +1988,7 @@ class RegistroC100(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -1902,11 +1996,11 @@ class RegistroC100(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
-    CHV_NFE = sped_models.BigInt(string="Chave da Nota Fiscal Eletrônica ou da NFC-e")
+    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica ou da NFC-e")
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal", required=True)
 
@@ -2034,14 +2128,14 @@ class RegistroC100(models.Model):
     )
 
     reg_C100_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C110_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c110",
+        "l10n_br_sped.efd_pis_cofins.6.c110",
         "reg_C110_ids_RegistroC100_id",
         string="C110 Complemento",
         sped_card="1:N",
@@ -2053,7 +2147,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C111_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c111",
+        "l10n_br_sped.efd_pis_cofins.6.c111",
         "reg_C111_ids_RegistroC100_id",
         string="C111 Processo Referenciado",
         sped_card="1:N",
@@ -2061,7 +2155,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C120_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c120",
+        "l10n_br_sped.efd_pis_cofins.6.c120",
         "reg_C120_ids_RegistroC100_id",
         string="C120 Complemento de Documento – Operações",
         sped_card="1:N",
@@ -2070,7 +2164,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C170_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c170",
+        "l10n_br_sped.efd_pis_cofins.6.c170",
         "reg_C170_ids_RegistroC100_id",
         string="C170 Complemento de Documento – Itens do Documento",
         sped_card="1:N",
@@ -2082,7 +2176,7 @@ class RegistroC100(models.Model):
     )
 
     reg_C175_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c175",
+        "l10n_br_sped.efd_pis_cofins.6.c175",
         "reg_C175_ids_RegistroC100_id",
         string="C175 Registro Analítico do Documento",
         sped_card="1:N",
@@ -2099,7 +2193,7 @@ class RegistroC110(models.Model):
     (códigos 01, 1B, 04 e 55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c110"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2116,7 +2210,7 @@ class RegistroC110(models.Model):
     TXT_COMPL = fields.Char(string="Descrição complementar do código de referência")
 
     reg_C110_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2130,7 +2224,7 @@ class RegistroC110(models.Model):
 class RegistroC111(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c111"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c111"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2150,7 +2244,7 @@ class RegistroC111(models.Model):
     )
 
     reg_C111_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2164,7 +2258,7 @@ class RegistroC111(models.Model):
 class RegistroC120(models.Model):
     "Complemento de Documento – Operações de Importação (código 01)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c120"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c120"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2201,7 +2295,7 @@ class RegistroC120(models.Model):
     )
 
     reg_C120_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2217,11 +2311,11 @@ class RegistroC170(models.Model):
     55)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c170"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c170"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    NUM_ITEM = sped_models.BigInt(
+    NUM_ITEM = fields.Integer(
         string="Número seqüencial do item no documento fiscal",
         required=True,
         sped_length=3,
@@ -2278,7 +2372,7 @@ class RegistroC170(models.Model):
         help="Movimentação física do ITEM/PRODUTO: 0. SIM 1. NÃO",
     )
 
-    CST_ICMS = sped_models.BigInt(
+    CST_ICMS = fields.Integer(
         string="Código da Situação Tributária referente ao ICMS",
         help=(
             "Código da Situação Tributária referente ao ICMS, conforme a "
@@ -2286,9 +2380,7 @@ class RegistroC170(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
-        string="Código Fiscal de Operação e Prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação", required=True)
 
     COD_NAT = fields.Char(
         string="Código da natureza da operação",
@@ -2388,7 +2480,7 @@ class RegistroC170(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código da Situação Tributária referente ao PIS", required=True
     )
 
@@ -2432,7 +2524,7 @@ class RegistroC170(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente ao COFINS", required=True
     )
 
@@ -2481,7 +2573,7 @@ class RegistroC170(models.Model):
     )
 
     reg_C170_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2497,13 +2589,11 @@ class RegistroC175(models.Model):
     versão 2.09 do PVA ."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c175"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c175"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CFOP = sped_models.BigInt(
-        string="Código fiscal de operação e prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
 
     VL_OPR = fields.Monetary(
         string="Valor da operação na combinação de CFOP",
@@ -2527,7 +2617,7 @@ class RegistroC175(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -2578,7 +2668,7 @@ class RegistroC175(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a Cofins",
         required=True,
         help=(
@@ -2635,7 +2725,7 @@ class RegistroC175(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_C175_ids_RegistroC100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c100",
         string="Documento - Nota Fiscal (código 01)",
         required=True,
         ondelete="cascade",
@@ -2651,12 +2741,12 @@ class RegistroC180(models.Model):
     (Código 55) – Operações de Vendas"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c180"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c180"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     COD_MOD = fields.Char(
-        string="Texto fixo contendo '55' ou “65”(Código da NF-e",
+        string="Texto fixo contendo '55' ou “65”",
         required=True,
         help=(
             "Texto fixo contendo '55' ou “65”(Código da NF-e ou da NFC-e, "
@@ -2691,14 +2781,14 @@ class RegistroC180(models.Model):
     )
 
     reg_C180_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C181_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c181",
+        "l10n_br_sped.efd_pis_cofins.6.c181",
         "reg_C181_ids_RegistroC180_id",
         string="C181 Detalhamento da Consolidação",
         sped_card="1:N",
@@ -2707,7 +2797,7 @@ class RegistroC180(models.Model):
     )
 
     reg_C185_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c185",
+        "l10n_br_sped.efd_pis_cofins.6.c185",
         "reg_C185_ids_RegistroC180_id",
         string="C185 Detalhamento da Consolidação",
         sped_card="1:N",
@@ -2716,7 +2806,7 @@ class RegistroC180(models.Model):
     )
 
     reg_C188_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c188",
+        "l10n_br_sped.efd_pis_cofins.6.c188",
         "reg_C188_ids_RegistroC180_id",
         string="C188 Processo Referenciado",
         sped_card="1:N",
@@ -2727,11 +2817,11 @@ class RegistroC180(models.Model):
 class RegistroC181(models.Model):
     "Detalhamento da Consolidação - Operações de Vendas - PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c181"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c181"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -2740,9 +2830,7 @@ class RegistroC181(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
-        string="Código fiscal de operação e prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor do item",
@@ -2806,7 +2894,7 @@ class RegistroC181(models.Model):
     )
 
     reg_C181_ids_RegistroC180_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c180",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c180",
         string="Consolidação",
         required=True,
         ondelete="cascade",
@@ -2820,11 +2908,11 @@ class RegistroC181(models.Model):
 class RegistroC185(models.Model):
     "Detalhamento da Consolidação - Operações de Vendas – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c185"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c185"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -2833,9 +2921,7 @@ class RegistroC185(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
-        string="Código fiscal de operação e prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor do item",
@@ -2896,7 +2982,7 @@ class RegistroC185(models.Model):
     )
 
     reg_C185_ids_RegistroC180_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c180",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c180",
         string="Consolidação",
         required=True,
         ondelete="cascade",
@@ -2910,7 +2996,7 @@ class RegistroC185(models.Model):
 class RegistroC188(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c188"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c188"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -2927,7 +3013,7 @@ class RegistroC188(models.Model):
     )
 
     reg_C188_ids_RegistroC180_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c180",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c180",
         string="Consolidação",
         required=True,
         ondelete="cascade",
@@ -2944,7 +3030,7 @@ class RegistroC190(models.Model):
     Vendas."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c190"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c190"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2984,14 +3070,14 @@ class RegistroC190(models.Model):
     )
 
     reg_C190_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C191_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c191",
+        "l10n_br_sped.efd_pis_cofins.6.c191",
         "reg_C191_ids_RegistroC190_id",
         string="C191 Detalhamento da Consolidação – Operações",
         sped_card="1:N",
@@ -3004,7 +3090,7 @@ class RegistroC190(models.Model):
     )
 
     reg_C195_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c195",
+        "l10n_br_sped.efd_pis_cofins.6.c195",
         "reg_C195_ids_RegistroC190_id",
         string="C195 Detalhamento da Consolidação",
         sped_card="1:N",
@@ -3017,7 +3103,7 @@ class RegistroC190(models.Model):
     )
 
     reg_C198_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c198",
+        "l10n_br_sped.efd_pis_cofins.6.c198",
         "reg_C198_ids_RegistroC190_id",
         string="C198 Processo Referenciado",
         sped_card="1:N",
@@ -3025,7 +3111,7 @@ class RegistroC190(models.Model):
     )
 
     reg_C199_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c199",
+        "l10n_br_sped.efd_pis_cofins.6.c199",
         "reg_C199_ids_RegistroC190_id",
         string="C199 Complemento de Documento – Operações",
         sped_card="1:N",
@@ -3039,7 +3125,7 @@ class RegistroC191(models.Model):
     Crédito, e Operações de Devolução de Compras e Vendas – PIS/PASEP"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c191"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c191"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3053,15 +3139,13 @@ class RegistroC191(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
 
-    CFOP = sped_models.BigInt(
-        string="Código fiscal de operação e prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor do item",
@@ -3124,7 +3208,7 @@ class RegistroC191(models.Model):
     )
 
     reg_C191_ids_RegistroC190_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c190",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c190",
         string="Consolidação de Notas Fiscais Eletrônicas",
         required=True,
         ondelete="cascade",
@@ -3141,7 +3225,7 @@ class RegistroC195(models.Model):
     Crédito, e Operações de Devolução de Compras e Vendas – COFINS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c195"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c195"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3155,13 +3239,11 @@ class RegistroC195(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
-    CFOP = sped_models.BigInt(
-        string="Código fiscal de operação e prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor do item",
@@ -3221,7 +3303,7 @@ class RegistroC195(models.Model):
     )
 
     reg_C195_ids_RegistroC190_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c190",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c190",
         string="Consolidação de Notas Fiscais Eletrônicas",
         required=True,
         ondelete="cascade",
@@ -3236,7 +3318,7 @@ class RegistroC195(models.Model):
 class RegistroC198(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c198"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c198"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3256,7 +3338,7 @@ class RegistroC198(models.Model):
     )
 
     reg_C198_ids_RegistroC190_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c190",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c190",
         string="Consolidação de Notas Fiscais Eletrônicas",
         required=True,
         ondelete="cascade",
@@ -3271,7 +3353,7 @@ class RegistroC198(models.Model):
 class RegistroC199(models.Model):
     "Complemento de Documento – Operações de Importação (código 55)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c199"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c199"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3308,7 +3390,7 @@ class RegistroC199(models.Model):
     )
 
     reg_C199_ids_RegistroC190_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c190",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c190",
         string="Consolidação de Notas Fiscais Eletrônicas",
         required=True,
         ondelete="cascade",
@@ -3325,7 +3407,7 @@ class RegistroC380(models.Model):
     Documentos Emitidos"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c380"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c380"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -3346,11 +3428,11 @@ class RegistroC380(models.Model):
         string="Data de Emissão Final dos Documentos", required=True
     )
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do documento fiscal inicial", sped_length=6
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
+    NUM_DOC_FIN = fields.Integer(
         string="Número do documento fiscal final", sped_length=6
     )
 
@@ -3369,14 +3451,14 @@ class RegistroC380(models.Model):
     )
 
     reg_C380_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C381_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c381",
+        "l10n_br_sped.efd_pis_cofins.6.c381",
         "reg_C381_ids_RegistroC380_id",
         string="C381 Detalhamento da Consolidação – PIS/PASEP",
         sped_card="1:N",
@@ -3384,7 +3466,7 @@ class RegistroC380(models.Model):
     )
 
     reg_C385_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c385",
+        "l10n_br_sped.efd_pis_cofins.6.c385",
         "reg_C385_ids_RegistroC380_id",
         string="C385 Detalhamento da Consolidação – COFINS",
         sped_card="1:N",
@@ -3395,11 +3477,11 @@ class RegistroC380(models.Model):
 class RegistroC381(models.Model):
     "Detalhamento da Consolidação – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c381"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c381"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -3468,7 +3550,7 @@ class RegistroC381(models.Model):
     )
 
     reg_C381_ids_RegistroC380_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c380",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c380",
         string="Nota Fiscal de Venda a Consumidor",
         required=True,
         ondelete="cascade",
@@ -3482,11 +3564,11 @@ class RegistroC381(models.Model):
 class RegistroC385(models.Model):
     "Detalhamento da Consolidação – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c385"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c385"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -3552,7 +3634,7 @@ class RegistroC385(models.Model):
     )
 
     reg_C385_ids_RegistroC380_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c380",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c380",
         string="Nota Fiscal de Venda a Consumidor",
         required=True,
         ondelete="cascade",
@@ -3568,7 +3650,7 @@ class RegistroC395(models.Model):
     Aquisições/Entradas com Crédito"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c395"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c395"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -3605,16 +3687,16 @@ class RegistroC395(models.Model):
     )
 
     reg_C395_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C396_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c396",
+        "l10n_br_sped.efd_pis_cofins.6.c396",
         "reg_C396_ids_RegistroC395_id",
-        string="C396 Itens do Documento (Códigos 02",
+        string="C396 Itens do Documento",
         sped_card="1:N",
         sped_required="S",
         help=(
@@ -3629,7 +3711,7 @@ class RegistroC396(models.Model):
     Crédito"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c396"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c396"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3663,7 +3745,7 @@ class RegistroC396(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -3692,7 +3774,7 @@ class RegistroC396(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -3725,7 +3807,7 @@ class RegistroC396(models.Model):
     )
 
     reg_C396_ids_RegistroC395_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c395",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c395",
         string="Notas Fiscais de Venda a Consumidor",
         required=True,
         ondelete="cascade",
@@ -3739,7 +3821,7 @@ class RegistroC396(models.Model):
 class RegistroC400(models.Model):
     "Equipamento ECF (códigos 02 e 2D)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c400"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c400"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -3755,19 +3837,19 @@ class RegistroC400(models.Model):
         string="Número de série de fabricação do ECF", required=True, sped_length=21
     )
 
-    ECF_CX = sped_models.BigInt(
+    ECF_CX = fields.Integer(
         string="Número do caixa atribuído ao ECF", required=True, sped_length=3
     )
 
     reg_C400_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C405_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c405",
+        "l10n_br_sped.efd_pis_cofins.6.c405",
         "reg_C405_ids_RegistroC400_id",
         string="C405 Redução Z (códigos 02 e 2D)",
         sped_card="1:N",
@@ -3775,7 +3857,7 @@ class RegistroC400(models.Model):
     )
 
     reg_C489_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c489",
+        "l10n_br_sped.efd_pis_cofins.6.c489",
         "reg_C489_ids_RegistroC400_id",
         string="C489 Processo Referenciado",
         sped_card="1:N",
@@ -3786,7 +3868,7 @@ class RegistroC400(models.Model):
 class RegistroC405(models.Model):
     "Redução Z (códigos 02 e 2D)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c405"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c405"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -3794,17 +3876,17 @@ class RegistroC405(models.Model):
         string="Data do movimento a que se refere a Redução Z", required=True
     )
 
-    CRO = sped_models.BigInt(
+    CRO = fields.Integer(
         string="Posição do Contador de Reinício de Operação",
         required=True,
         sped_length=3,
     )
 
-    CRZ = sped_models.BigInt(
+    CRZ = fields.Integer(
         string="Posição do Contador de Redução Z", required=True, sped_length=6
     )
 
-    NUM_COO_FIN = sped_models.BigInt(
+    NUM_COO_FIN = fields.Integer(
         string="Número do Contador de Ordem de Operação",
         required=True,
         sped_length=6,
@@ -3832,14 +3914,14 @@ class RegistroC405(models.Model):
     )
 
     reg_C405_ids_RegistroC400_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c400",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c400",
         string="Equipamento ECF (códigos 02 e 2D)",
         required=True,
         ondelete="cascade",
     )
 
     reg_C481_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c481",
+        "l10n_br_sped.efd_pis_cofins.6.c481",
         "reg_C481_ids_RegistroC405_id",
         string="C481 Resumo Diário",
         sped_card="1:N",
@@ -3851,7 +3933,7 @@ class RegistroC405(models.Model):
     )
 
     reg_C485_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c485",
+        "l10n_br_sped.efd_pis_cofins.6.c485",
         "reg_C485_ids_RegistroC405_id",
         string="C485 Resumo Diário",
         sped_card="1:N",
@@ -3868,11 +3950,11 @@ class RegistroC481(models.Model):
     2D)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c481"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c481"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -3939,7 +4021,7 @@ class RegistroC481(models.Model):
     )
 
     reg_C481_ids_RegistroC405_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c405",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c405",
         string="Redução Z (códigos 02 e 2D)",
         required=True,
         ondelete="cascade",
@@ -3951,11 +4033,11 @@ class RegistroC485(models.Model):
     2D)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c485"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c485"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -4017,7 +4099,7 @@ class RegistroC485(models.Model):
     )
 
     reg_C485_ids_RegistroC405_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c405",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c405",
         string="Redução Z (códigos 02 e 2D)",
         required=True,
         ondelete="cascade",
@@ -4027,7 +4109,7 @@ class RegistroC485(models.Model):
 class RegistroC489(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c489"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c489"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4047,7 +4129,7 @@ class RegistroC489(models.Model):
     )
 
     reg_C489_ids_RegistroC400_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c400",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c400",
         string="Equipamento ECF (códigos 02 e 2D)",
         required=True,
         ondelete="cascade",
@@ -4058,7 +4140,7 @@ class RegistroC490(models.Model):
     """Consolidação de Documentos Emitidos por ECF (Códigos 02, 2D, 59 e 60)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c490"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c490"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -4077,14 +4159,14 @@ class RegistroC490(models.Model):
     )
 
     reg_C490_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C491_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c491",
+        "l10n_br_sped.efd_pis_cofins.6.c491",
         "reg_C491_ids_RegistroC490_id",
         string="C491 Detalhamento da Consolidação",
         sped_card="1:N",
@@ -4096,7 +4178,7 @@ class RegistroC490(models.Model):
     )
 
     reg_C495_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c495",
+        "l10n_br_sped.efd_pis_cofins.6.c495",
         "reg_C495_ids_RegistroC490_id",
         string="C495 Detalhamento da Consolidação",
         sped_card="1:N",
@@ -4108,7 +4190,7 @@ class RegistroC490(models.Model):
     )
 
     reg_C499_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c499",
+        "l10n_br_sped.efd_pis_cofins.6.c499",
         "reg_C499_ids_RegistroC490_id",
         string="C499 Processo Referenciado",
         sped_card="1:N",
@@ -4122,7 +4204,7 @@ class RegistroC491(models.Model):
     2D, 59 e 60) – PIS/PASEP"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c491"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c491"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4132,13 +4214,13 @@ class RegistroC491(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -4195,7 +4277,7 @@ class RegistroC491(models.Model):
     )
 
     reg_C491_ids_RegistroC490_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c490",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c490",
         string="Consolidação de Documentos Emitidos por ECF",
         required=True,
         ondelete="cascade",
@@ -4210,7 +4292,7 @@ class RegistroC495(models.Model):
     2D, 59 e 60) – COFINS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c495"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c495"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4220,11 +4302,11 @@ class RegistroC495(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -4278,7 +4360,7 @@ class RegistroC495(models.Model):
     )
 
     reg_C495_ids_RegistroC490_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c490",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c490",
         string="Consolidação de Documentos Emitidos por ECF",
         required=True,
         ondelete="cascade",
@@ -4291,7 +4373,7 @@ class RegistroC495(models.Model):
 class RegistroC499(models.Model):
     "Processo Referenciado - Documentos Emitidos Por ECF"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c499"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c499"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4311,7 +4393,7 @@ class RegistroC499(models.Model):
     )
 
     reg_C499_ids_RegistroC490_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c490",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c490",
         string="Consolidação de Documentos Emitidos por ECF",
         required=True,
         ondelete="cascade",
@@ -4329,7 +4411,7 @@ class RegistroC500(models.Model):
     Entrada / Aquisição com Crédito"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c500"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -4346,7 +4428,7 @@ class RegistroC500(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -4354,9 +4436,9 @@ class RegistroC500(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
@@ -4396,17 +4478,17 @@ class RegistroC500(models.Model):
         string="Valor da COFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
-    CHV_DOCe = sped_models.BigInt(string="Chave do Documento Fiscal Eletrônico")
+    CHV_DOCe = fields.Integer(string="Chave do Documento Fiscal Eletrônico")
 
     reg_C500_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C501_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c501",
+        "l10n_br_sped.efd_pis_cofins.6.c501",
         "reg_C501_ids_RegistroC500_id",
         string="C501 Complemento da operação",
         sped_card="1:N",
@@ -4415,7 +4497,7 @@ class RegistroC500(models.Model):
     )
 
     reg_C505_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c505",
+        "l10n_br_sped.efd_pis_cofins.6.c505",
         "reg_C505_ids_RegistroC500_id",
         string="C505 Complemento da operação",
         sped_card="1:N",
@@ -4424,7 +4506,7 @@ class RegistroC500(models.Model):
     )
 
     reg_C509_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c509",
+        "l10n_br_sped.efd_pis_cofins.6.c509",
         "reg_C509_ids_RegistroC500_id",
         string="C509 Processo Referenciado",
         sped_card="1:N",
@@ -4435,11 +4517,11 @@ class RegistroC500(models.Model):
 class RegistroC501(models.Model):
     "Complemento da operação (Códigos 06, 28 e 29) – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c501"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c501"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -4493,7 +4575,7 @@ class RegistroC501(models.Model):
     )
 
     reg_C501_ids_RegistroC500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c500",
         string="Nota Fiscal/Conta de Energia Elétrica",
         required=True,
         ondelete="cascade",
@@ -4510,11 +4592,11 @@ class RegistroC501(models.Model):
 class RegistroC505(models.Model):
     "Complemento da operação (Códigos 06, 28 e 29) – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c505"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c505"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -4565,7 +4647,7 @@ class RegistroC505(models.Model):
     )
 
     reg_C505_ids_RegistroC500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c500",
         string="Nota Fiscal/Conta de Energia Elétrica",
         required=True,
         ondelete="cascade",
@@ -4582,7 +4664,7 @@ class RegistroC505(models.Model):
 class RegistroC509(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c509"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c509"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4602,7 +4684,7 @@ class RegistroC509(models.Model):
     )
 
     reg_C509_ids_RegistroC500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c500",
         string="Nota Fiscal/Conta de Energia Elétrica",
         required=True,
         ondelete="cascade",
@@ -4623,7 +4705,7 @@ class RegistroC600(models.Model):
     Não Obrigadas Ao Convenio ICMS 115/03) - - Documentos de Saídas"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c600"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -4633,16 +4715,16 @@ class RegistroC600(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município dos pontos de consumo",
         help=("Código do município dos pontos de consumo, conforme a tabela IBGE"),
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    COD_CONS = sped_models.BigInt(
+    COD_CONS = fields.Integer(
         string="Código de classe de consumo de energia elétrica",
         help=(
             "Código de classe de consumo de energia elétrica, conforme a "
@@ -4652,13 +4734,13 @@ class RegistroC600(models.Model):
         ),
     )
 
-    QTD_CONS = sped_models.BigInt(
+    QTD_CONS = fields.Integer(
         string="Quantidade",
         required=True,
         help="Quantidade de documentos consolidados neste registro",
     )
 
-    QTD_CANC = sped_models.BigInt(string="Quantidade de documentos cancelados")
+    QTD_CANC = fields.Integer(string="Quantidade de documentos cancelados")
 
     DT_DOC = fields.Date(string="Data dos documentos consolidados", required=True)
 
@@ -4675,7 +4757,7 @@ class RegistroC600(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CONS = sped_models.BigInt(
+    CONS = fields.Integer(
         string="Consumo total acumulado",
         help="Consumo total acumulado, em kWh (Código 06)",
     )
@@ -4687,7 +4769,7 @@ class RegistroC600(models.Model):
     )
 
     VL_SERV_NT = fields.Monetary(
-        string="SERVNT",
+        string="VL_SERV_NT",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor acumulado dos serviços não-tributados pelo ICMS",
@@ -4746,14 +4828,14 @@ class RegistroC600(models.Model):
     )
 
     reg_C600_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C601_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c601",
+        "l10n_br_sped.efd_pis_cofins.6.c601",
         "reg_C601_ids_RegistroC600_id",
         string="C601 Complemento da Consolidação Diária",
         sped_card="1:N",
@@ -4765,7 +4847,7 @@ class RegistroC600(models.Model):
     )
 
     reg_C605_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c605",
+        "l10n_br_sped.efd_pis_cofins.6.c605",
         "reg_C605_ids_RegistroC600_id",
         string="C605 Complemento da Consolidação Diária",
         sped_card="1:N",
@@ -4777,7 +4859,7 @@ class RegistroC600(models.Model):
     )
 
     reg_C609_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c609",
+        "l10n_br_sped.efd_pis_cofins.6.c609",
         "reg_C609_ids_RegistroC600_id",
         string="C609 Processo Referenciado",
         sped_card="1:N",
@@ -4790,11 +4872,11 @@ class RegistroC601(models.Model):
     Saidas - PIS/PASEP"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c601"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c601"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -4840,7 +4922,7 @@ class RegistroC601(models.Model):
     )
 
     reg_C601_ids_RegistroC600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c600",
         string="Consolidação Diária de Notas Fiscais/Contas",
         required=True,
         ondelete="cascade",
@@ -4859,11 +4941,11 @@ class RegistroC605(models.Model):
     Saidas – COFINS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c605"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c605"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -4906,7 +4988,7 @@ class RegistroC605(models.Model):
     )
 
     reg_C605_ids_RegistroC600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c600",
         string="Consolidação Diária de Notas Fiscais/Contas",
         required=True,
         ondelete="cascade",
@@ -4923,7 +5005,7 @@ class RegistroC605(models.Model):
 class RegistroC609(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c609"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c609"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -4943,7 +5025,7 @@ class RegistroC609(models.Model):
     )
 
     reg_C609_ids_RegistroC600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c600",
         string="Consolidação Diária de Notas Fiscais/Contas",
         required=True,
         ondelete="cascade",
@@ -4960,7 +5042,7 @@ class RegistroC609(models.Model):
 class RegistroC800(models.Model):
     "Cupom Fiscal Eletrônico – CF-e (Código 59)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c800"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c800"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -4971,14 +5053,14 @@ class RegistroC800(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         required=True,
         sped_length=2,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
     )
 
-    NUM_CFE = sped_models.BigInt(
+    NUM_CFE = fields.Integer(
         string="Número do Cupom Fiscal Eletrônico", required=True, sped_length=9
     )
 
@@ -5007,15 +5089,11 @@ class RegistroC800(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CNPJ_CPF = sped_models.BigInt(string="CNPJ ou CPF do destinatário", sped_length=14)
+    CNPJ_CPF = fields.Char(string="CNPJ ou CPF do destinatário", sped_length=14)
 
-    NR_SAT = sped_models.BigInt(
-        string="Número de Série do equipamento SAT", sped_length=9
-    )
+    NR_SAT = fields.Integer(string="Número de Série do equipamento SAT", sped_length=9)
 
-    CHV_CFE = sped_models.BigInt(
-        string="Chave do Cupom Fiscal Eletrônico", sped_length=44
-    )
+    CHV_CFE = fields.Integer(string="Chave do Cupom Fiscal Eletrônico", sped_length=44)
 
     VL_DESC = fields.Monetary(
         string="Valor total do desconto/exclusão sobre item",
@@ -5055,14 +5133,14 @@ class RegistroC800(models.Model):
     )
 
     reg_C800_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C810_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c810",
+        "l10n_br_sped.efd_pis_cofins.6.c810",
         "reg_C810_ids_RegistroC800_id",
         string="C810 Detalhamento",
         sped_card="1:N",
@@ -5074,7 +5152,7 @@ class RegistroC800(models.Model):
     )
 
     reg_C820_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c820",
+        "l10n_br_sped.efd_pis_cofins.6.c820",
         "reg_C820_ids_RegistroC800_id",
         string="C820 Detalhamento",
         sped_card="1:N",
@@ -5086,7 +5164,7 @@ class RegistroC800(models.Model):
     )
 
     reg_C830_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c830",
+        "l10n_br_sped.efd_pis_cofins.6.c830",
         "reg_C830_ids_RegistroC800_id",
         string="C830 Processo Referenciado",
         sped_card="1:N",
@@ -5099,11 +5177,11 @@ class RegistroC810(models.Model):
     COFINS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c810"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c810"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código fiscal de operação e prestação", required=True, sped_length=4
     )
 
@@ -5120,7 +5198,7 @@ class RegistroC810(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5149,7 +5227,7 @@ class RegistroC810(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5180,7 +5258,7 @@ class RegistroC810(models.Model):
     )
 
     reg_C810_ids_RegistroC800_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c800",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c800",
         string="Cupom Fiscal Eletrônico – CF-e",
         required=True,
         ondelete="cascade",
@@ -5193,13 +5271,11 @@ class RegistroC820(models.Model):
     COFINS Apurado por Unidade de Medida de Produto"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c820"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c820"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CFOP = sped_models.BigInt(
-        string="Código fiscal de operação e prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -5214,7 +5290,7 @@ class RegistroC820(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5245,7 +5321,7 @@ class RegistroC820(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5278,7 +5354,7 @@ class RegistroC820(models.Model):
     )
 
     reg_C820_ids_RegistroC800_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c800",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c800",
         string="Cupom Fiscal Eletrônico – CF-e",
         required=True,
         ondelete="cascade",
@@ -5289,7 +5365,7 @@ class RegistroC820(models.Model):
 class RegistroC830(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c830"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c830"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5309,7 +5385,7 @@ class RegistroC830(models.Model):
     )
 
     reg_C830_ids_RegistroC800_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c800",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c800",
         string="Cupom Fiscal Eletrônico – CF-e",
         required=True,
         ondelete="cascade",
@@ -5322,7 +5398,7 @@ class RegistroC860(models.Model):
     versão 2.11 do PVA (Período de apuração a partir de maio/2015)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c860"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c860"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -5333,25 +5409,25 @@ class RegistroC860(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    NR_SAT = sped_models.BigInt(
+    NR_SAT = fields.Integer(
         string="Número de Série do equipamento SAT", required=True, sped_length=9
     )
 
     DT_DOC = fields.Date(string="Data de emissão dos documentos fiscais", sped_length=8)
 
-    DOC_INI = sped_models.BigInt(string="Número do documento inicial", sped_length=9)
+    DOC_INI = fields.Integer(string="Número do documento inicial", sped_length=9)
 
-    DOC_FIM = sped_models.BigInt(string="Número do documento final", sped_length=9)
+    DOC_FIM = fields.Integer(string="Número do documento final", sped_length=9)
 
     reg_C860_ids_RegistroC010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_C870_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c870",
+        "l10n_br_sped.efd_pis_cofins.6.c870",
         "reg_C870_ids_RegistroC860_id",
         string="C870 Detalhamento do Cupom Fiscal Eletrônico",
         sped_card="1:N",
@@ -5363,7 +5439,7 @@ class RegistroC860(models.Model):
     )
 
     reg_C880_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c880",
+        "l10n_br_sped.efd_pis_cofins.6.c880",
         "reg_C880_ids_RegistroC860_id",
         string="C880 Detalhamento do Cupom Fiscal Eletrônico",
         sped_card="1:N",
@@ -5374,7 +5450,7 @@ class RegistroC860(models.Model):
     )
 
     reg_C890_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.c890",
+        "l10n_br_sped.efd_pis_cofins.6.c890",
         "reg_C890_ids_RegistroC860_id",
         string="C890 Processo Referenciado",
         sped_card="1:N",
@@ -5387,7 +5463,7 @@ class RegistroC870(models.Model):
     COFINS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c870"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c870"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5397,9 +5473,7 @@ class RegistroC870(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CFOP = sped_models.BigInt(
-        string="Código fiscal de operação e prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -5414,7 +5488,7 @@ class RegistroC870(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5443,7 +5517,7 @@ class RegistroC870(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5474,7 +5548,7 @@ class RegistroC870(models.Model):
     )
 
     reg_C870_ids_RegistroC860_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c860",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c860",
         string="Identificação do Equipamento SAT- CF-e",
         required=True,
         ondelete="cascade",
@@ -5488,7 +5562,7 @@ class RegistroC870(models.Model):
 class RegistroC880(models.Model):
     "Detalhamento do Cupom Fiscal Eletrônico (Código 59) – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c880"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c880"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5498,9 +5572,7 @@ class RegistroC880(models.Model):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CFOP = sped_models.BigInt(
-        string="Código fiscal de operação e prestação", required=True
-    )
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -5515,7 +5587,7 @@ class RegistroC880(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5546,7 +5618,7 @@ class RegistroC880(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5579,7 +5651,7 @@ class RegistroC880(models.Model):
     )
 
     reg_C880_ids_RegistroC860_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c860",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c860",
         string="Identificação do Equipamento SAT- CF-e",
         required=True,
         ondelete="cascade",
@@ -5593,7 +5665,7 @@ class RegistroC880(models.Model):
 class RegistroC890(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.c890"
+    _name = "l10n_br_sped.efd_pis_cofins.6.c890"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5613,7 +5685,7 @@ class RegistroC890(models.Model):
     )
 
     reg_C890_ids_RegistroC860_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.c860",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.c860",
         string="Identificação do Equipamento SAT- CF-e",
         required=True,
         ondelete="cascade",
@@ -5627,16 +5699,16 @@ class RegistroC890(models.Model):
 class RegistroD010(models.Model):
     "Identificação do Estabelecimento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d010"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do estabelecimento no CNPJ", required=True
     )
 
     reg_D100_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d100",
+        "l10n_br_sped.efd_pis_cofins.6.d100",
         "reg_D100_ids_RegistroD010_id",
         string="D100 Aquisição de Serviços de Transportes",
         sped_card="1:N",
@@ -5648,7 +5720,7 @@ class RegistroD010(models.Model):
     )
 
     reg_D200_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d200",
+        "l10n_br_sped.efd_pis_cofins.6.d200",
         "reg_D200_ids_RegistroD010_id",
         string="D200 Resumo da Escrituração Diária – Prestação",
         sped_card="1:N",
@@ -5661,7 +5733,7 @@ class RegistroD010(models.Model):
     )
 
     reg_D300_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d300",
+        "l10n_br_sped.efd_pis_cofins.6.d300",
         "reg_D300_ids_RegistroD010_id",
         string="D300 Resumo da Escrituração Diária",
         sped_card="1:N",
@@ -5670,7 +5742,7 @@ class RegistroD010(models.Model):
     )
 
     reg_D350_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d350",
+        "l10n_br_sped.efd_pis_cofins.6.d350",
         "reg_D350_ids_RegistroD010_id",
         string="D350 Resumo Diário de Cupom Fiscal Emitido por ECF",
         sped_card="1:N",
@@ -5682,7 +5754,7 @@ class RegistroD010(models.Model):
     )
 
     reg_D500_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d500",
+        "l10n_br_sped.efd_pis_cofins.6.d500",
         "reg_D500_ids_RegistroD010_id",
         string="D500 Nota Fiscal de Serviço de Comunicação",
         sped_card="1:N",
@@ -5695,7 +5767,7 @@ class RegistroD010(models.Model):
     )
 
     reg_D600_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d600",
+        "l10n_br_sped.efd_pis_cofins.6.d600",
         "reg_D600_ids_RegistroD010_id",
         string="D600 Consolidação da Prestação de Serviços – Notas",
         sped_card="1:N",
@@ -5713,7 +5785,7 @@ class RegistroD100(models.Model):
     26, 27, 57, 63 e 67)."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -5745,7 +5817,7 @@ class RegistroD100(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -5755,13 +5827,11 @@ class RegistroD100(models.Model):
 
     SUB = fields.Char(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
-    CHV_CTE = sped_models.BigInt(
-        string="Chave do Conhecimento de Transporte Eletrônico"
-    )
+    CHV_CTE = fields.Integer(string="Chave do Conhecimento de Transporte Eletrônico")
 
     DT_DOC = fields.Date(
         string="Data de referência/emissão dos documentos fiscais", required=True
@@ -5769,7 +5839,7 @@ class RegistroD100(models.Model):
 
     DT_A_P = fields.Date(string="Data da aquisição ou da prestação do serviço")
 
-    TP_CT_e = sped_models.BigInt(
+    TP_CT_e = fields.Integer(
         string="Tipo de Conhecimento",
         help=(
             "Tipo de Conhecimento de Transporte Eletrônico conforme definido "
@@ -5777,7 +5847,7 @@ class RegistroD100(models.Model):
         ),
     )
 
-    CHV_CTE_REF = sped_models.BigInt(
+    CHV_CTE_REF = fields.Integer(
         string="Chave do CT-e",
         help=(
             "Chave do CT-e de referência cujos valores foram complementados "
@@ -5848,14 +5918,14 @@ class RegistroD100(models.Model):
     )
 
     reg_D100_ids_RegistroD010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_D101_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d101",
+        "l10n_br_sped.efd_pis_cofins.6.d101",
         "reg_D101_ids_RegistroD100_id",
         string="D101 Complemento do Documento",
         sped_card="1:N",
@@ -5864,7 +5934,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D105_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d105",
+        "l10n_br_sped.efd_pis_cofins.6.d105",
         "reg_D105_ids_RegistroD100_id",
         string="D105 Complemento do Documento",
         sped_card="1:N",
@@ -5873,7 +5943,7 @@ class RegistroD100(models.Model):
     )
 
     reg_D111_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d111",
+        "l10n_br_sped.efd_pis_cofins.6.d111",
         "reg_D111_ids_RegistroD100_id",
         string="D111 Processo Referenciado",
         sped_card="1:N",
@@ -5884,7 +5954,7 @@ class RegistroD100(models.Model):
 class RegistroD101(models.Model):
     "Complemento do Documento de Transporte – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d101"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d101"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5912,7 +5982,7 @@ class RegistroD101(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5956,7 +6026,7 @@ class RegistroD101(models.Model):
     )
 
     reg_D101_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d100",
         string="Aquisição de Serviços de Transportes",
         required=True,
         ondelete="cascade",
@@ -5970,7 +6040,7 @@ class RegistroD101(models.Model):
 class RegistroD105(models.Model):
     "Complemento do Documento de Transporte – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d105"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d105"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -5998,7 +6068,7 @@ class RegistroD105(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -6037,7 +6107,7 @@ class RegistroD105(models.Model):
     )
 
     reg_D105_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d100",
         string="Aquisição de Serviços de Transportes",
         required=True,
         ondelete="cascade",
@@ -6051,7 +6121,7 @@ class RegistroD105(models.Model):
 class RegistroD111(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d111"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d111"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -6071,7 +6141,7 @@ class RegistroD111(models.Model):
     )
 
     reg_D111_ids_RegistroD100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d100",
         string="Aquisição de Serviços de Transportes",
         required=True,
         ondelete="cascade",
@@ -6087,7 +6157,7 @@ class RegistroD200(models.Model):
     (Códigos 07, 08, 8B, 09, 10, 11, 26, 27, 57, 63 e 67)."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d200"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -6097,7 +6167,7 @@ class RegistroD200(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -6107,7 +6177,7 @@ class RegistroD200(models.Model):
 
     SUB = fields.Char(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do documento fiscal inicial emitido",
         required=True,
         sped_length=9,
@@ -6117,7 +6187,7 @@ class RegistroD200(models.Model):
         ),
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
+    NUM_DOC_FIN = fields.Integer(
         string="Número do documento fiscal final emitido",
         required=True,
         sped_length=9,
@@ -6127,7 +6197,7 @@ class RegistroD200(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação",
         required=True,
         help=(
@@ -6154,14 +6224,14 @@ class RegistroD200(models.Model):
     )
 
     reg_D200_ids_RegistroD010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_D201_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d201",
+        "l10n_br_sped.efd_pis_cofins.6.d201",
         "reg_D201_ids_RegistroD200_id",
         string="D201 Totalização do Resumo Diário – PIS/PASEP",
         sped_card="1:N",
@@ -6169,7 +6239,7 @@ class RegistroD200(models.Model):
     )
 
     reg_D205_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d205",
+        "l10n_br_sped.efd_pis_cofins.6.d205",
         "reg_D205_ids_RegistroD200_id",
         string="D205 Totalização do Resumo Diário – COFINS",
         sped_card="1:N",
@@ -6177,7 +6247,7 @@ class RegistroD200(models.Model):
     )
 
     reg_D209_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d209",
+        "l10n_br_sped.efd_pis_cofins.6.d209",
         "reg_D209_ids_RegistroD200_id",
         string="D209 Processo Referenciado",
         sped_card="1:N",
@@ -6188,11 +6258,11 @@ class RegistroD200(models.Model):
 class RegistroD201(models.Model):
     "Totalização do Resumo Diário – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d201"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d201"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -6235,7 +6305,7 @@ class RegistroD201(models.Model):
     )
 
     reg_D201_ids_RegistroD200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d200",
         string="Resumo da Escrituração Diária – Prestação",
         required=True,
         ondelete="cascade",
@@ -6250,7 +6320,7 @@ class RegistroD201(models.Model):
 class RegistroD205(models.Model):
     "Totalização do Resumo Diário – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d205"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d205"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -6294,7 +6364,7 @@ class RegistroD205(models.Model):
     )
 
     reg_D205_ids_RegistroD200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d200",
         string="Resumo da Escrituração Diária – Prestação",
         required=True,
         ondelete="cascade",
@@ -6309,7 +6379,7 @@ class RegistroD205(models.Model):
 class RegistroD209(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d209"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d209"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -6329,7 +6399,7 @@ class RegistroD209(models.Model):
     )
 
     reg_D209_ids_RegistroD200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d200",
         string="Resumo da Escrituração Diária – Prestação",
         required=True,
         ondelete="cascade",
@@ -6344,7 +6414,7 @@ class RegistroD209(models.Model):
 class RegistroD300(models.Model):
     "Resumo da Escrituração Diária (Códigos 13, 14, 15, 16 e 18)."
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d300"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -6356,9 +6426,9 @@ class RegistroD300(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC_INI = sped_models.BigInt(
+    NUM_DOC_INI = fields.Integer(
         string="Número do primeiro documento fiscal emitido",
         sped_length=6,
         help=(
@@ -6367,7 +6437,7 @@ class RegistroD300(models.Model):
         ),
     )
 
-    NUM_DOC_FIN = sped_models.BigInt(
+    NUM_DOC_FIN = fields.Integer(
         string="Número do último documento fiscal emitido",
         sped_length=6,
         help=(
@@ -6376,7 +6446,7 @@ class RegistroD300(models.Model):
         ),
     )
 
-    CFOP = sped_models.BigInt(
+    CFOP = fields.Integer(
         string="Código Fiscal de Operação",
         required=True,
         help=(
@@ -6402,7 +6472,7 @@ class RegistroD300(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -6431,7 +6501,7 @@ class RegistroD300(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -6462,14 +6532,14 @@ class RegistroD300(models.Model):
     )
 
     reg_D300_ids_RegistroD010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_D309_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d309",
+        "l10n_br_sped.efd_pis_cofins.6.d309",
         "reg_D309_ids_RegistroD300_id",
         string="D309 Processo Referenciado",
         sped_card="1:N",
@@ -6480,7 +6550,7 @@ class RegistroD300(models.Model):
 class RegistroD309(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d309"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d309"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -6500,7 +6570,7 @@ class RegistroD309(models.Model):
     )
 
     reg_D309_ids_RegistroD300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d300",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d300",
         string="Resumo da Escrituração Diária",
         required=True,
         ondelete="cascade",
@@ -6513,7 +6583,7 @@ class RegistroD350(models.Model):
     16)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d350"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d350"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -6533,17 +6603,17 @@ class RegistroD350(models.Model):
         string="Data do movimento a que se refere a Redução Z", required=True
     )
 
-    CRO = sped_models.BigInt(
+    CRO = fields.Integer(
         string="Posição do Contador de Reinício de Operação",
         required=True,
         sped_length=3,
     )
 
-    CRZ = sped_models.BigInt(
+    CRZ = fields.Integer(
         string="Posição do Contador de Redução Z", required=True, sped_length=6
     )
 
-    NUM_COO_FIN = sped_models.BigInt(
+    NUM_COO_FIN = fields.Integer(
         string="Número do Contador de Ordem de Operação",
         required=True,
         sped_length=6,
@@ -6570,7 +6640,7 @@ class RegistroD350(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -6617,7 +6687,7 @@ class RegistroD350(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -6666,14 +6736,14 @@ class RegistroD350(models.Model):
     )
 
     reg_D350_ids_RegistroD010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_D359_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d359",
+        "l10n_br_sped.efd_pis_cofins.6.d359",
         "reg_D359_ids_RegistroD350_id",
         string="D359 Processo Referenciado",
         sped_card="1:N",
@@ -6684,7 +6754,7 @@ class RegistroD350(models.Model):
 class RegistroD359(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d359"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d359"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -6704,7 +6774,7 @@ class RegistroD359(models.Model):
     )
 
     reg_D359_ids_RegistroD350_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d350",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d350",
         string="Resumo Diário de Cupom Fiscal Emitido por ECF",
         required=True,
         ondelete="cascade",
@@ -6721,7 +6791,7 @@ class RegistroD500(models.Model):
     Crédito"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d500"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -6756,7 +6826,7 @@ class RegistroD500(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1."),
     )
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Çódigo da situação do documento fiscal",
         required=True,
         help=("Çódigo da situação do documento fiscal, conforme a Tabela 4.1.2."),
@@ -6764,9 +6834,9 @@ class RegistroD500(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(
+    NUM_DOC = fields.Integer(
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
@@ -6840,14 +6910,14 @@ class RegistroD500(models.Model):
     )
 
     reg_D500_ids_RegistroD010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_D501_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d501",
+        "l10n_br_sped.efd_pis_cofins.6.d501",
         "reg_D501_ids_RegistroD500_id",
         string="D501 Complemento da Operação",
         sped_card="1:N",
@@ -6856,7 +6926,7 @@ class RegistroD500(models.Model):
     )
 
     reg_D505_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d505",
+        "l10n_br_sped.efd_pis_cofins.6.d505",
         "reg_D505_ids_RegistroD500_id",
         string="D505 Complemento da Operação",
         sped_card="1:N",
@@ -6865,7 +6935,7 @@ class RegistroD500(models.Model):
     )
 
     reg_D509_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d509",
+        "l10n_br_sped.efd_pis_cofins.6.d509",
         "reg_D509_ids_RegistroD500_id",
         string="D509 Processo Referenciado",
         sped_card="1:N",
@@ -6876,11 +6946,11 @@ class RegistroD500(models.Model):
 class RegistroD501(models.Model):
     "Complemento da Operação (Código 21 e 22) – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d501"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d501"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -6931,7 +7001,7 @@ class RegistroD501(models.Model):
     )
 
     reg_D501_ids_RegistroD500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d500",
         string="Nota Fiscal de Serviço de Comunicação",
         required=True,
         ondelete="cascade",
@@ -6946,11 +7016,11 @@ class RegistroD501(models.Model):
 class RegistroD505(models.Model):
     "Complemento da Operação (Código 21 e 22) – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d505"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d505"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -6990,7 +7060,7 @@ class RegistroD505(models.Model):
     )
 
     reg_D505_ids_RegistroD500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d500",
         string="Nota Fiscal de Serviço de Comunicação",
         required=True,
         ondelete="cascade",
@@ -7005,7 +7075,7 @@ class RegistroD505(models.Model):
 class RegistroD509(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d509"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d509"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -7025,7 +7095,7 @@ class RegistroD509(models.Model):
     )
 
     reg_D509_ids_RegistroD500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d500",
         string="Nota Fiscal de Serviço de Comunicação",
         required=True,
         ondelete="cascade",
@@ -7042,7 +7112,7 @@ class RegistroD600(models.Model):
     (Código 21) e de Serviço de Telecomunicação (Código 22)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d600"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -7052,16 +7122,16 @@ class RegistroD600(models.Model):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1."),
     )
 
-    COD_MUN = sped_models.BigInt(
+    COD_MUN = fields.Integer(
         string="Código do município dos terminais faturados",
         help=("Código do município dos terminais faturados, conforme a tabela " "IBGE"),
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB = sped_models.BigInt(string="Subsérie do documento fiscal", sped_length=3)
+    SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    IND_REC = sped_models.BigInt(
+    IND_REC = fields.Integer(
         string="Indicador do tipo de receita",
         required=True,
         help=(
@@ -7077,7 +7147,7 @@ class RegistroD600(models.Model):
         ),
     )
 
-    QTD_CONS = sped_models.BigInt(
+    QTD_CONS = fields.Integer(
         string="Quantidade",
         required=True,
         help="Quantidade de documentos consolidados neste registro",
@@ -7115,7 +7185,7 @@ class RegistroD600(models.Model):
     )
 
     VL_SERV_NT = fields.Monetary(
-        string="SERVNT",
+        string="VL_SERV_NT",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor acumulado dos serviços não-tributados pelo ICMS",
@@ -7156,14 +7226,14 @@ class RegistroD600(models.Model):
     )
 
     reg_D600_ids_RegistroD010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_D601_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d601",
+        "l10n_br_sped.efd_pis_cofins.6.d601",
         "reg_D601_ids_RegistroD600_id",
         string="D601 Complemento da Consolidação da Prestação",
         sped_card="1:N",
@@ -7175,7 +7245,7 @@ class RegistroD600(models.Model):
     )
 
     reg_D605_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d605",
+        "l10n_br_sped.efd_pis_cofins.6.d605",
         "reg_D605_ids_RegistroD600_id",
         string="D605 Complemento da Consolidação da Prestação",
         sped_card="1:N",
@@ -7187,7 +7257,7 @@ class RegistroD600(models.Model):
     )
 
     reg_D609_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.d609",
+        "l10n_br_sped.efd_pis_cofins.6.d609",
         "reg_D609_ids_RegistroD600_id",
         string="D609 Processo Referenciado",
         sped_card="1:N",
@@ -7200,11 +7270,11 @@ class RegistroD601(models.Model):
     PIS/PASEP"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d601"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d601"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    COD_CLASS = sped_models.BigInt(
+    COD_CLASS = fields.Integer(
         string="Código de classificação do item do serviço",
         required=True,
         help=(
@@ -7227,7 +7297,7 @@ class RegistroD601(models.Model):
         help="Valor acumulado dos descontos/exclusões da base de cálculo",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -7261,7 +7331,7 @@ class RegistroD601(models.Model):
     )
 
     reg_D601_ids_RegistroD600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d600",
         string="Consolidação da Prestação de Serviços – Notas",
         required=True,
         ondelete="cascade",
@@ -7278,11 +7348,11 @@ class RegistroD605(models.Model):
     COFINS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d605"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d605"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    COD_CLASS = sped_models.BigInt(
+    COD_CLASS = fields.Integer(
         string="Código de classificação do item do serviço",
         required=True,
         help=(
@@ -7305,7 +7375,7 @@ class RegistroD605(models.Model):
         help="Valor acumulado dos descontos/exclusões da base de cálculo",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -7333,7 +7403,7 @@ class RegistroD605(models.Model):
     )
 
     reg_D605_ids_RegistroD600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d600",
         string="Consolidação da Prestação de Serviços – Notas",
         required=True,
         ondelete="cascade",
@@ -7348,7 +7418,7 @@ class RegistroD605(models.Model):
 class RegistroD609(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.d609"
+    _name = "l10n_br_sped.efd_pis_cofins.6.d609"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -7368,7 +7438,7 @@ class RegistroD609(models.Model):
     )
 
     reg_D609_ids_RegistroD600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.d600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.d600",
         string="Consolidação da Prestação de Serviços – Notas",
         required=True,
         ondelete="cascade",
@@ -7383,16 +7453,16 @@ class RegistroD609(models.Model):
 class RegistroF010(models.Model):
     "Identificação do Estabelecimento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f010"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do estabelecimento no CNPJ", required=True
     )
 
     reg_F100_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f100",
+        "l10n_br_sped.efd_pis_cofins.6.f100",
         "reg_F100_ids_RegistroF010_id",
         string="F100 Demais Documentos e Operações Geradoras",
         sped_card="1:N",
@@ -7403,9 +7473,9 @@ class RegistroF010(models.Model):
     )
 
     reg_F120_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f120",
+        "l10n_br_sped.efd_pis_cofins.6.f120",
         "reg_F120_ids_RegistroF010_id",
-        string="F120ids",
+        string="reg_F120_ids",
         sped_card="1:N",
         sped_required="S",
         help=(
@@ -7415,9 +7485,9 @@ class RegistroF010(models.Model):
     )
 
     reg_F130_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f130",
+        "l10n_br_sped.efd_pis_cofins.6.f130",
         "reg_F130_ids_RegistroF010_id",
-        string="F130ids",
+        string="reg_F130_ids",
         sped_card="1:N",
         sped_required="S",
         help=(
@@ -7427,7 +7497,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F150_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f150",
+        "l10n_br_sped.efd_pis_cofins.6.f150",
         "reg_F150_ids_RegistroF010_id",
         string="F150 Crédito Presumido sobre Estoque de Abertura",
         sped_card="1:N",
@@ -7435,7 +7505,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F200_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f200",
+        "l10n_br_sped.efd_pis_cofins.6.f200",
         "reg_F200_ids_RegistroF010_id",
         string="F200 Operações",
         sped_card="1:N",
@@ -7446,7 +7516,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F500_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f500",
+        "l10n_br_sped.efd_pis_cofins.6.f500",
         "reg_F500_ids_RegistroF010_id",
         string="F500 Consolidação das Operações",
         sped_card="1:N",
@@ -7459,7 +7529,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F510_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f510",
+        "l10n_br_sped.efd_pis_cofins.6.f510",
         "reg_F510_ids_RegistroF010_id",
         string="F510 Consolidação das Operações",
         sped_card="1:N",
@@ -7473,7 +7543,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F525_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f525",
+        "l10n_br_sped.efd_pis_cofins.6.f525",
         "reg_F525_ids_RegistroF010_id",
         string="F525 Composição da Receita Escriturada",
         sped_card="1:N",
@@ -7485,7 +7555,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F550_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f550",
+        "l10n_br_sped.efd_pis_cofins.6.f550",
         "reg_F550_ids_RegistroF010_id",
         string="F550 Consolidação das Operações",
         sped_card="1:N",
@@ -7498,7 +7568,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F560_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f560",
+        "l10n_br_sped.efd_pis_cofins.6.f560",
         "reg_F560_ids_RegistroF010_id",
         string="F560 Consolidação das Operações",
         sped_card="1:N",
@@ -7512,7 +7582,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F600_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f600",
+        "l10n_br_sped.efd_pis_cofins.6.f600",
         "reg_F600_ids_RegistroF010_id",
         string="F600 Contribuição Retida na Fonte",
         sped_card="1:N",
@@ -7520,7 +7590,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F700_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f700",
+        "l10n_br_sped.efd_pis_cofins.6.f700",
         "reg_F700_ids_RegistroF010_id",
         string="F700 Deduções Diversas",
         sped_card="1:N",
@@ -7528,7 +7598,7 @@ class RegistroF010(models.Model):
     )
 
     reg_F800_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f800",
+        "l10n_br_sped.efd_pis_cofins.6.f800",
         "reg_F800_ids_RegistroF010_id",
         string="F800 Créditos Decorrentes de Eventos",
         sped_card="1:N",
@@ -7540,7 +7610,7 @@ class RegistroF010(models.Model):
 class RegistroF100(models.Model):
     "Demais Documentos e Operações Geradoras de Contribuição e Créditos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -7580,7 +7650,7 @@ class RegistroF100(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -7614,7 +7684,7 @@ class RegistroF100(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -7668,14 +7738,14 @@ class RegistroF100(models.Model):
     DESC_DOC_OPER = fields.Char(string="Descrição do Documento/Operação")
 
     reg_F100_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_F111_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f111",
+        "l10n_br_sped.efd_pis_cofins.6.f111",
         "reg_F111_ids_RegistroF100_id",
         string="F111 Processo Referenciado",
         sped_card="1:N",
@@ -7686,7 +7756,7 @@ class RegistroF100(models.Model):
 class RegistroF111(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f111"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f111"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -7706,7 +7776,7 @@ class RegistroF111(models.Model):
     )
 
     reg_F111_ids_RegistroF100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f100",
         string="Demais Documentos e Operações Geradoras",
         required=True,
         ondelete="cascade",
@@ -7719,7 +7789,7 @@ class RegistroF120(models.Model):
     com base nos Encargos de Depreciação/Amortização"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f120"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f120"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -7734,7 +7804,7 @@ class RegistroF120(models.Model):
         ),
     )
 
-    IDENT_BEM_IMOB = sped_models.BigInt(
+    IDENT_BEM_IMOB = fields.Integer(
         string="Identificação dos Bens/Grupo",
         required=True,
         help=(
@@ -7755,7 +7825,7 @@ class RegistroF120(models.Model):
         ),
     )
 
-    IND_UTIL_BEM_IMOB = sped_models.BigInt(
+    IND_UTIL_BEM_IMOB = fields.Integer(
         string="Indicador",
         required=True,
         help=(
@@ -7786,7 +7856,7 @@ class RegistroF120(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -7819,7 +7889,7 @@ class RegistroF120(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -7868,14 +7938,14 @@ class RegistroF120(models.Model):
     )
 
     reg_F120_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_F129_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f129",
+        "l10n_br_sped.efd_pis_cofins.6.f129",
         "reg_F129_ids_RegistroF120_id",
         string="F129 Processo Referenciado",
         sped_card="1:N",
@@ -7886,7 +7956,7 @@ class RegistroF120(models.Model):
 class RegistroF129(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f129"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f129"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -7906,8 +7976,8 @@ class RegistroF129(models.Model):
     )
 
     reg_F129_ids_RegistroF120_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f120",
-        string="F129idsRegistroF120id",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f120",
+        string="reg_F129_ids_RegistroF120_id",
         required=True,
         ondelete="cascade",
         help=(
@@ -7922,7 +7992,7 @@ class RegistroF130(models.Model):
     com base no Valor de Aquisição"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f130"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f130"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -7936,7 +8006,7 @@ class RegistroF130(models.Model):
         ),
     )
 
-    IDENT_BEM_IMOB = sped_models.BigInt(
+    IDENT_BEM_IMOB = fields.Integer(
         string="Identificação dos bens ou grupo",
         required=True,
         help=(
@@ -7956,7 +8026,7 @@ class RegistroF130(models.Model):
         ),
     )
 
-    IND_UTIL_BEM_IMOB = sped_models.BigInt(
+    IND_UTIL_BEM_IMOB = fields.Integer(
         string="Indicador",
         required=True,
         help=(
@@ -7966,7 +8036,7 @@ class RegistroF130(models.Model):
         ),
     )
 
-    MES_OPER_AQUIS = sped_models.BigInt(
+    MES_OPER_AQUIS = fields.Integer(
         string="Mês/Ano",
         help=(
             "Mês/Ano de Aquisição dos Bens Incorporados ao Ativo Imobilizado, "
@@ -8008,7 +8078,7 @@ class RegistroF130(models.Model):
         ),
     )
 
-    IND_NR_PARC = sped_models.BigInt(
+    IND_NR_PARC = fields.Integer(
         string="Indicador do Número",
         required=True,
         help=(
@@ -8019,7 +8089,7 @@ class RegistroF130(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -8054,7 +8124,7 @@ class RegistroF130(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -8106,14 +8176,14 @@ class RegistroF130(models.Model):
     )
 
     reg_F130_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_F139_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f139",
+        "l10n_br_sped.efd_pis_cofins.6.f139",
         "reg_F139_ids_RegistroF130_id",
         string="F139 Processo Referenciado",
         sped_card="1:N",
@@ -8124,7 +8194,7 @@ class RegistroF130(models.Model):
 class RegistroF139(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f139"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f139"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -8144,8 +8214,8 @@ class RegistroF139(models.Model):
     )
 
     reg_F139_ids_RegistroF130_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f130",
-        string="F139idsRegistroF130id",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f130",
+        string="reg_F139_ids_RegistroF130_id",
         required=True,
         ondelete="cascade",
         help=(
@@ -8158,7 +8228,7 @@ class RegistroF139(models.Model):
 class RegistroF150(models.Model):
     "Crédito Presumido sobre Estoque de Abertura"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f150"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f150"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -8215,7 +8285,7 @@ class RegistroF150(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -8247,7 +8317,7 @@ class RegistroF150(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente ao COFINS",
         required=True,
         help=(
@@ -8268,7 +8338,7 @@ class RegistroF150(models.Model):
     )
 
     VL_CRED_COFINS = fields.Monetary(
-        string="CREDCOFINS",
+        string="VL_CRED_COFINS",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8287,7 +8357,7 @@ class RegistroF150(models.Model):
     )
 
     reg_F150_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -8297,11 +8367,11 @@ class RegistroF150(models.Model):
 class RegistroF200(models.Model):
     "Operações da Atividade Imobiliária – Unidade Imobiliária Vendida"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f200"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    IND_OPER = sped_models.BigInt(
+    IND_OPER = fields.Integer(
         string="Indicador do Tipo da Operação",
         required=True,
         help=(
@@ -8312,7 +8382,7 @@ class RegistroF200(models.Model):
         ),
     )
 
-    UNID_IMOB = sped_models.BigInt(
+    UNID_IMOB = fields.Integer(
         string="Indicador do tipo de unidade imobiliária Vendida",
         required=True,
         help=(
@@ -8380,7 +8450,7 @@ class RegistroF200(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -8412,7 +8482,7 @@ class RegistroF200(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -8455,7 +8525,7 @@ class RegistroF200(models.Model):
         ),
     )
 
-    IND_NAT_EMP = sped_models.BigInt(
+    IND_NAT_EMP = fields.Integer(
         string="Indicador da Natureza Específica",
         help="Indicador da Natureza Específica do Empreendimento:",
     )
@@ -8463,14 +8533,14 @@ class RegistroF200(models.Model):
     INF_COMP = fields.Char(string="Informações Complementares", sped_length=90)
 
     reg_F200_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_F205_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f205",
+        "l10n_br_sped.efd_pis_cofins.6.f205",
         "reg_F205_ids_RegistroF200_id",
         string="F205 Operações",
         sped_card="1:1",
@@ -8482,7 +8552,7 @@ class RegistroF200(models.Model):
     )
 
     reg_F210_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f210",
+        "l10n_br_sped.efd_pis_cofins.6.f210",
         "reg_F210_ids_RegistroF200_id",
         string="F210 Operações",
         sped_card="1:N",
@@ -8494,7 +8564,7 @@ class RegistroF200(models.Model):
     )
 
     reg_F211_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f211",
+        "l10n_br_sped.efd_pis_cofins.6.f211",
         "reg_F211_ids_RegistroF200_id",
         string="F211 Processo Referenciado",
         sped_card="1:N",
@@ -8507,7 +8577,7 @@ class RegistroF205(models.Model):
     Imobiliária"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f205"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f205"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -8523,7 +8593,7 @@ class RegistroF205(models.Model):
     )
 
     VL_CUS_INC_PER_ESC = fields.Monetary(
-        string="CUSINCPERESC",
+        string="VL_CUS_INC_PER_ESC",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8566,7 +8636,7 @@ class RegistroF205(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -8632,7 +8702,7 @@ class RegistroF205(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente ao COFINS",
         required=True,
         help=(
@@ -8676,7 +8746,7 @@ class RegistroF205(models.Model):
     )
 
     VL_CRED_COFINS_DESC = fields.Monetary(
-        string="CREDCOFINSDESC",
+        string="VL_CRED_COFINS_DESC",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8697,7 +8767,7 @@ class RegistroF205(models.Model):
     )
 
     reg_F205_ids_RegistroF200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f200",
         string="Operações",
         required=True,
         ondelete="cascade",
@@ -8710,7 +8780,7 @@ class RegistroF210(models.Model):
     Vendida"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f210"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -8757,7 +8827,7 @@ class RegistroF210(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -8787,7 +8857,7 @@ class RegistroF210(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -8817,7 +8887,7 @@ class RegistroF210(models.Model):
     )
 
     reg_F210_ids_RegistroF200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f200",
         string="Operações",
         required=True,
         ondelete="cascade",
@@ -8828,7 +8898,7 @@ class RegistroF210(models.Model):
 class RegistroF211(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f211"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f211"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -8848,7 +8918,7 @@ class RegistroF211(models.Model):
     )
 
     reg_F211_ids_RegistroF200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f200",
         string="Operações",
         required=True,
         ondelete="cascade",
@@ -8862,7 +8932,7 @@ class RegistroF500(models.Model):
     Cofins pelo Regime de Caixa"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f500"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -8877,7 +8947,7 @@ class RegistroF500(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -8912,12 +8982,12 @@ class RegistroF500(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
     VL_DESC_COFINS = fields.Monetary(
-        string="DESCCOFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
+        string="VL_DESC_COFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
     VL_BC_COFINS = fields.Monetary(
@@ -8945,7 +9015,7 @@ class RegistroF500(models.Model):
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
         string="Código (COD_CTA)",
@@ -8956,14 +9026,14 @@ class RegistroF500(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_F500_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_F509_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f509",
+        "l10n_br_sped.efd_pis_cofins.6.f509",
         "reg_F509_ids_RegistroF500_id",
         string="F509 Processo Referenciado",
         sped_card="1:N",
@@ -8974,7 +9044,7 @@ class RegistroF500(models.Model):
 class RegistroF509(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f509"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f509"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -8994,7 +9064,7 @@ class RegistroF509(models.Model):
     )
 
     reg_F509_ids_RegistroF500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f500",
         string="Consolidação das Operações",
         required=True,
         ondelete="cascade",
@@ -9013,7 +9083,7 @@ class RegistroF510(models.Model):
     Medida de Produto)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f510"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f510"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -9028,7 +9098,7 @@ class RegistroF510(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -9066,7 +9136,7 @@ class RegistroF510(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -9105,7 +9175,7 @@ class RegistroF510(models.Model):
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
         string="Código (COD_CTA)",
@@ -9116,14 +9186,14 @@ class RegistroF510(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_F510_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_F519_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f519",
+        "l10n_br_sped.efd_pis_cofins.6.f519",
         "reg_F519_ids_RegistroF510_id",
         string="F519 Processo Referenciado",
         sped_card="1:N",
@@ -9134,7 +9204,7 @@ class RegistroF510(models.Model):
 class RegistroF519(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f519"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f519"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -9154,7 +9224,7 @@ class RegistroF519(models.Model):
     )
 
     reg_F519_ids_RegistroF510_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f510",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f510",
         string="Consolidação das Operações",
         required=True,
         ondelete="cascade",
@@ -9172,7 +9242,7 @@ class RegistroF525(models.Model):
     Recebida pelo Regime de Caixa"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f525"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f525"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -9239,9 +9309,9 @@ class RegistroF525(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(string="Código da Situação Tributária do PIS/Pasep")
+    CST_PIS = fields.Integer(string="Código da Situação Tributária do PIS/Pasep")
 
-    CST_COFINS = sped_models.BigInt(string="Código da Situação Tributária da Cofins")
+    CST_COFINS = fields.Integer(string="Código da Situação Tributária da Cofins")
 
     INFO_COMPL = fields.Char(string="Informação complementar")
 
@@ -9254,7 +9324,7 @@ class RegistroF525(models.Model):
     )
 
     reg_F525_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -9267,7 +9337,7 @@ class RegistroF550(models.Model):
     Cofins pelo Regime de Competência"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f550"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f550"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -9282,7 +9352,7 @@ class RegistroF550(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -9317,12 +9387,12 @@ class RegistroF550(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
     VL_DESC_COFINS = fields.Monetary(
-        string="DESCCOFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
+        string="VL_DESC_COFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
     VL_BC_COFINS = fields.Monetary(
@@ -9350,7 +9420,7 @@ class RegistroF550(models.Model):
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
         string="Código (COD_CTA)",
@@ -9361,14 +9431,14 @@ class RegistroF550(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_F550_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_F559_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f559",
+        "l10n_br_sped.efd_pis_cofins.6.f559",
         "reg_F559_ids_RegistroF550_id",
         string="F559 Processo Referenciado",
         sped_card="1:N",
@@ -9379,7 +9449,7 @@ class RegistroF550(models.Model):
 class RegistroF559(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f559"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f559"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -9399,7 +9469,7 @@ class RegistroF559(models.Model):
     )
 
     reg_F559_ids_RegistroF550_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f550",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f550",
         string="Consolidação das Operações",
         required=True,
         ondelete="cascade",
@@ -9418,7 +9488,7 @@ class RegistroF560(models.Model):
     de Medida de Produto)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f560"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f560"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -9433,7 +9503,7 @@ class RegistroF560(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -9471,7 +9541,7 @@ class RegistroF560(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -9509,7 +9579,7 @@ class RegistroF560(models.Model):
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
         string="Código (COD_CTA)",
@@ -9520,14 +9590,14 @@ class RegistroF560(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_F560_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_F569_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.f569",
+        "l10n_br_sped.efd_pis_cofins.6.f569",
         "reg_F569_ids_RegistroF560_id",
         string="F569 Processo Referenciado",
         sped_card="1:N",
@@ -9538,7 +9608,7 @@ class RegistroF560(models.Model):
 class RegistroF569(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f569"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f569"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -9558,7 +9628,7 @@ class RegistroF569(models.Model):
     )
 
     reg_F569_ids_RegistroF560_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f560",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f560",
         string="Consolidação das Operações",
         required=True,
         ondelete="cascade",
@@ -9574,11 +9644,11 @@ class RegistroF569(models.Model):
 class RegistroF600(models.Model):
     "Contribuição Retida na Fonte"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f600"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    IND_NAT_RET = sped_models.BigInt(
+    IND_NAT_RET = fields.Integer(
         string="Indicador de Natureza da Retenção na Fonte",
         required=True,
         help=(
@@ -9616,7 +9686,7 @@ class RegistroF600(models.Model):
 
     COD_REC = fields.Char(string="Código da Receita", sped_length=4)
 
-    IND_NAT_REC = sped_models.BigInt(
+    IND_NAT_REC = fields.Integer(
         string="Indicador da Natureza da Receita",
         help=(
             "Indicador da Natureza da Receita: 0 – Receita de Natureza Não "
@@ -9624,7 +9694,7 @@ class RegistroF600(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ referente a",
         required=True,
         help=(
@@ -9649,7 +9719,7 @@ class RegistroF600(models.Model):
         currency_field="brl_currency_id",
     )
 
-    IND_DEC = sped_models.BigInt(
+    IND_DEC = fields.Integer(
         string="Indicador da condição",
         required=True,
         help=(
@@ -9660,7 +9730,7 @@ class RegistroF600(models.Model):
     )
 
     reg_F600_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -9670,11 +9740,11 @@ class RegistroF600(models.Model):
 class RegistroF700(models.Model):
     "Deduções Diversas"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f700"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f700"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    IND_ORI_DED = sped_models.BigInt(
+    IND_ORI_DED = fields.Integer(
         string="Indicador de Origem de Deduções Diversas",
         required=True,
         help=(
@@ -9686,7 +9756,7 @@ class RegistroF700(models.Model):
         ),
     )
 
-    IND_NAT_DED = sped_models.BigInt(
+    IND_NAT_DED = fields.Integer(
         string="Indicador da Natureza da Dedução",
         required=True,
         help=(
@@ -9719,7 +9789,7 @@ class RegistroF700(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ da Pessoa Jurídica relacionada à Operação",
         help=(
             "CNPJ da Pessoa Jurídica relacionada à Operação que ensejou o "
@@ -9737,7 +9807,7 @@ class RegistroF700(models.Model):
     )
 
     reg_F700_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -9747,11 +9817,11 @@ class RegistroF700(models.Model):
 class RegistroF800(models.Model):
     "Créditos Decorrentes de Eventos de Incorporação, Fusão e Cisão"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.f800"
+    _name = "l10n_br_sped.efd_pis_cofins.6.f800"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    IND_NAT_EVEN = sped_models.BigInt(
+    IND_NAT_EVEN = fields.Integer(
         string="Indicador da Natureza do Evento de Sucessão",
         required=True,
         help=(
@@ -9762,17 +9832,15 @@ class RegistroF800(models.Model):
 
     DT_EVEN = fields.Date(string="Data do Evento", required=True)
 
-    CNPJ_SUCED = sped_models.BigInt(
-        string="CNPJ da Pessoa Jurídica Sucedida", required=True
-    )
+    CNPJ_SUCED = fields.Char(string="CNPJ da Pessoa Jurídica Sucedida", required=True)
 
-    PA_CONT_CRED = sped_models.BigInt(
+    PA_CONT_CRED = fields.Integer(
         string="Período de Apuração do Crédito – Mês/Ano",
         required=True,
         help="Período de Apuração do Crédito – Mês/Ano (MM/AAAA)",
     )
 
-    COD_CRED = sped_models.BigInt(
+    COD_CRED = fields.Integer(
         string="Código do crédito transferido",
         required=True,
         help="Código do crédito transferido, conforme Tabela 4.3.6",
@@ -9806,7 +9874,7 @@ class RegistroF800(models.Model):
     )
 
     reg_F800_ids_RegistroF010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.f010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.f010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
@@ -9816,13 +9884,13 @@ class RegistroF800(models.Model):
 class RegistroI010(models.Model):
     "Identificação da Pessoa Jurídica"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.i010"
+    _name = "l10n_br_sped.efd_pis_cofins.6.i010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    CNPJ = sped_models.BigInt(string="Número de inscrição da pessoa jurídica no CNPJ")
+    CNPJ = fields.Char(string="Número de inscrição da pessoa jurídica no CNPJ")
 
-    IND_ATIV = sped_models.BigInt(
+    IND_ATIV = fields.Integer(
         string="Indicador de operações realizadas no período",
         help=(
             "Indicador de operações realizadas no período: 01 – Exclusivamente"
@@ -9838,7 +9906,7 @@ class RegistroI010(models.Model):
     INFO_COMPL = fields.Char(string="Informação Complementar")
 
     reg_I100_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.i100",
+        "l10n_br_sped.efd_pis_cofins.6.i100",
         "reg_I100_ids_RegistroI010_id",
         string="I100 Consolidação das Operações do Período",
         sped_card="1:N",
@@ -9849,7 +9917,7 @@ class RegistroI010(models.Model):
 class RegistroI100(models.Model):
     "Consolidação das Operações do Período"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.i100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.i100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -9860,7 +9928,7 @@ class RegistroI100(models.Model):
         help="Valor Total do Faturamento/Receita Bruta no Período",
     )
 
-    CST_PIS_COFINS = sped_models.BigInt(
+    CST_PIS_COFINS = fields.Integer(
         string="Código",
         help=(
             "Código de Situação Tributária referente à Receita informada no "
@@ -9876,7 +9944,7 @@ class RegistroI100(models.Model):
     )
 
     VL_TOT_DED_ESP = fields.Monetary(
-        string="TOTDEDESP",
+        string="VL_TOT_DED_ESP",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor Total das Deduções e Exclusões de Caráter Específico",
@@ -9931,14 +9999,14 @@ class RegistroI100(models.Model):
     )
 
     reg_I100_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.i010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.i010",
         string="Identificação da Pessoa Jurídica",
         required=True,
         ondelete="cascade",
     )
 
     reg_I199_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.i199",
+        "l10n_br_sped.efd_pis_cofins.6.i199",
         "reg_I199_ids_RegistroI100_id",
         string="I199 Processo Referenciado",
         sped_card="1:N",
@@ -9946,7 +10014,7 @@ class RegistroI100(models.Model):
     )
 
     reg_I200_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.i200",
+        "l10n_br_sped.efd_pis_cofins.6.i200",
         "reg_I200_ids_RegistroI100_id",
         string="I200 Composição das Receitas",
         sped_card="1:N",
@@ -9958,7 +10026,7 @@ class RegistroI100(models.Model):
 class RegistroI199(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.i199"
+    _name = "l10n_br_sped.efd_pis_cofins.6.i199"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -9975,7 +10043,7 @@ class RegistroI199(models.Model):
     )
 
     reg_I199_ids_RegistroI100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.i100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.i100",
         string="Consolidação das Operações do Período",
         required=True,
         ondelete="cascade",
@@ -9985,7 +10053,7 @@ class RegistroI199(models.Model):
 class RegistroI200(models.Model):
     "Composição das Receitas, Deduções e/ou Exclusões do Período"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.i200"
+    _name = "l10n_br_sped.efd_pis_cofins.6.i200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -10027,14 +10095,14 @@ class RegistroI200(models.Model):
     )
 
     reg_I200_ids_RegistroI100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.i100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.i100",
         string="Consolidação das Operações do Período",
         required=True,
         ondelete="cascade",
     )
 
     reg_I299_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.i299",
+        "l10n_br_sped.efd_pis_cofins.6.i299",
         "reg_I299_ids_RegistroI200_id",
         string="I299 Processo Referenciado",
         sped_card="1:N",
@@ -10042,9 +10110,9 @@ class RegistroI200(models.Model):
     )
 
     reg_I300_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.i300",
+        "l10n_br_sped.efd_pis_cofins.6.i300",
         "reg_I300_ids_RegistroI200_id",
-        string="I300ids",
+        string="reg_I300_ids",
         sped_card="1:N",
         sped_required="UNDEF_REQUIRED",
         help=(
@@ -10057,7 +10125,7 @@ class RegistroI200(models.Model):
 class RegistroI299(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.i299"
+    _name = "l10n_br_sped.efd_pis_cofins.6.i299"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -10074,7 +10142,7 @@ class RegistroI299(models.Model):
     )
 
     reg_I299_ids_RegistroI200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.i200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.i200",
         string="Composição das Receitas",
         required=True,
         ondelete="cascade",
@@ -10087,7 +10155,7 @@ class RegistroI300(models.Model):
     Exclusões do Período"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.i300"
+    _name = "l10n_br_sped.efd_pis_cofins.6.i300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -10128,7 +10196,7 @@ class RegistroI300(models.Model):
     )
 
     reg_I300_ids_RegistroI200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.i200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.i200",
         string="Composição das Receitas",
         required=True,
         ondelete="cascade",
@@ -10136,7 +10204,7 @@ class RegistroI300(models.Model):
     )
 
     reg_I399_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.i399",
+        "l10n_br_sped.efd_pis_cofins.6.i399",
         "reg_I399_ids_RegistroI300_id",
         string="I399 Processo Referenciado",
         sped_card="1:N",
@@ -10147,7 +10215,7 @@ class RegistroI300(models.Model):
 class RegistroI399(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.i399"
+    _name = "l10n_br_sped.efd_pis_cofins.6.i399"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 6
 
@@ -10164,8 +10232,8 @@ class RegistroI399(models.Model):
     )
 
     reg_I399_ids_RegistroI300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.i300",
-        string="I399idsRegistroI300id",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.i300",
+        string="reg_I399_ids_RegistroI300_id",
         required=True,
         ondelete="cascade",
         help=(
@@ -10178,7 +10246,7 @@ class RegistroI399(models.Model):
 class RegistroM100(models.Model):
     "Crédito de PIS/PASEP Relativo ao Período"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -10190,7 +10258,7 @@ class RegistroM100(models.Model):
         ),
     )
 
-    IND_CRED_ORI = sped_models.BigInt(
+    IND_CRED_ORI = fields.Integer(
         string="Indicador de Crédito Oriundo",
         required=True,
         help=(
@@ -10309,7 +10377,7 @@ class RegistroM100(models.Model):
     )
 
     reg_M105_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m105",
+        "l10n_br_sped.efd_pis_cofins.6.m105",
         "reg_M105_ids_RegistroM100_id",
         string="M105 Detalhamento da Base de Cálculo",
         sped_card="1:N",
@@ -10321,7 +10389,7 @@ class RegistroM100(models.Model):
     )
 
     reg_M110_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m110",
+        "l10n_br_sped.efd_pis_cofins.6.m110",
         "reg_M110_ids_RegistroM100_id",
         string="M110 Ajustes do Crédito de PIS/PASEP Apurado",
         sped_card="1:N",
@@ -10334,7 +10402,7 @@ class RegistroM105(models.Model):
     PIS/PASEP"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m105"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m105"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -10347,7 +10415,7 @@ class RegistroM105(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código da Situação Tributária referente ao crédito",
         required=True,
         help=(
@@ -10444,7 +10512,7 @@ class RegistroM105(models.Model):
     DESC_CRED = fields.Char(string="Descrição do crédito", sped_length=60)
 
     reg_M105_ids_RegistroM100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m100",
         string="Crédito de PIS/PASEP Relativo ao Período",
         required=True,
         ondelete="cascade",
@@ -10454,7 +10522,7 @@ class RegistroM105(models.Model):
 class RegistroM110(models.Model):
     "Ajustes do Crédito de PIS/PASEP Apurado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m110"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -10493,14 +10561,14 @@ class RegistroM110(models.Model):
     )
 
     reg_M110_ids_RegistroM100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m100",
         string="Crédito de PIS/PASEP Relativo ao Período",
         required=True,
         ondelete="cascade",
     )
 
     reg_M115_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m115",
+        "l10n_br_sped.efd_pis_cofins.6.m115",
         "reg_M115_ids_RegistroM110_id",
         string="M115 Detalhamento dos Ajustes do Crédito",
         sped_card="1:N",
@@ -10519,7 +10587,7 @@ class RegistroM115(models.Model):
     partir de 01/10/2015)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m115"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m115"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -10537,7 +10605,7 @@ class RegistroM115(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
@@ -10587,7 +10655,7 @@ class RegistroM115(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_M115_ids_RegistroM110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m110",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m110",
         string="Ajustes do Crédito de PIS/PASEP Apurado",
         required=True,
         ondelete="cascade",
@@ -10597,7 +10665,7 @@ class RegistroM115(models.Model):
 class RegistroM200(models.Model):
     "Consolidação da Contribuição para o PIS/PASEP do Período"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m200"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -10680,7 +10748,7 @@ class RegistroM200(models.Model):
     )
 
     VL_RET_CUM = fields.Monetary(
-        string="RETCUM",
+        string="VL_RET_CUM",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -10710,7 +10778,7 @@ class RegistroM200(models.Model):
     )
 
     reg_M205_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m205",
+        "l10n_br_sped.efd_pis_cofins.6.m205",
         "reg_M205_ids_RegistroM200_id",
         string="M205 Contribuição",
         sped_card="1:N",
@@ -10722,7 +10790,7 @@ class RegistroM200(models.Model):
     )
 
     reg_M210_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m210",
+        "l10n_br_sped.efd_pis_cofins.6.m210",
         "reg_M210_ids_RegistroM200_id",
         string="M210 Detalhamento da Contribuição para o PIS/PASEP",
         sped_card="1:N",
@@ -10736,7 +10804,7 @@ class RegistroM205(models.Model):
     Receita (Visão Débito DCTF)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m205"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m205"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -10771,7 +10839,7 @@ class RegistroM205(models.Model):
     )
 
     reg_M205_ids_RegistroM200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m200",
         string="Consolidação da Contribuição para o PIS/PASEP",
         required=True,
         ondelete="cascade",
@@ -10782,7 +10850,7 @@ class RegistroM205(models.Model):
 class RegistroM210(models.Model):
     "Detalhamento da Contribuição para o PIS/PASEP do Período"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m210"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -10881,7 +10949,7 @@ class RegistroM210(models.Model):
     )
 
     VL_CONT_DIFER = fields.Monetary(
-        string="CONTDIFER", xsd_type="TDec_1602", currency_field="brl_currency_id"
+        string="VL_CONT_DIFER", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
     VL_CONT_DIFER_ANT = fields.Monetary(
@@ -10892,7 +10960,7 @@ class RegistroM210(models.Model):
     )
 
     VL_CONT_PER = fields.Monetary(
-        string="CONTPER",
+        string="VL_CONT_PER",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -10900,7 +10968,7 @@ class RegistroM210(models.Model):
     )
 
     reg_M210_ids_RegistroM200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m200",
         string="Consolidação da Contribuição para o PIS/PASEP",
         required=True,
         ondelete="cascade",
@@ -10908,7 +10976,7 @@ class RegistroM210(models.Model):
     )
 
     reg_M211_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m211",
+        "l10n_br_sped.efd_pis_cofins.6.m211",
         "reg_M211_ids_RegistroM210_id",
         string="M211 Sociedades Cooperativas – Composição da Base",
         sped_card="1:1",
@@ -10920,7 +10988,7 @@ class RegistroM210(models.Model):
     )
 
     reg_M215_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m215",
+        "l10n_br_sped.efd_pis_cofins.6.m215",
         "reg_M215_ids_RegistroM210_id",
         string="M215 Detalhamento dos Ajustes da Base",
         sped_card="1:N",
@@ -10932,7 +11000,7 @@ class RegistroM210(models.Model):
     )
 
     reg_M220_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m220",
+        "l10n_br_sped.efd_pis_cofins.6.m220",
         "reg_M220_ids_RegistroM210_id",
         string="M220 Ajustes da Contribuição",
         sped_card="1:N",
@@ -10941,7 +11009,7 @@ class RegistroM210(models.Model):
     )
 
     reg_M230_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m230",
+        "l10n_br_sped.efd_pis_cofins.6.m230",
         "reg_M230_ids_RegistroM210_id",
         string="M230 Informações Adicionais de Diferimento",
         sped_card="1:N",
@@ -10952,11 +11020,11 @@ class RegistroM210(models.Model):
 class RegistroM211(models.Model):
     "Sociedades Cooperativas – Composição da Base de Cálculo – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m211"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m211"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    IND_TIP_COOP = sped_models.BigInt(
+    IND_TIP_COOP = fields.Integer(
         string="Indicador do Tipo de Sociedade Cooperativa",
         required=True,
         help=(
@@ -11013,7 +11081,7 @@ class RegistroM211(models.Model):
     )
 
     reg_M211_ids_RegistroM210_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m210",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m210",
         string="Detalhamento da Contribuição para o PIS/PASEP",
         required=True,
         ondelete="cascade",
@@ -11026,7 +11094,7 @@ class RegistroM215(models.Model):
     Apurada"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m215"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m215"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -11073,14 +11141,14 @@ class RegistroM215(models.Model):
         help="Código da conta analítica contábil debitada/creditada",
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ do estabelecimento a que se refere o ajuste", required=True
     )
 
     INFO_COMPL = fields.Char(string="Informação complementar do registro")
 
     reg_M215_ids_RegistroM210_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m210",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m210",
         string="Detalhamento da Contribuição para o PIS/PASEP",
         required=True,
         ondelete="cascade",
@@ -11091,7 +11159,7 @@ class RegistroM215(models.Model):
 class RegistroM220(models.Model):
     "Ajustes da Contribuição para o PIS/PASEP Apurada"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m220"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m220"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -11133,7 +11201,7 @@ class RegistroM220(models.Model):
     )
 
     reg_M220_ids_RegistroM210_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m210",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m210",
         string="Detalhamento da Contribuição para o PIS/PASEP",
         required=True,
         ondelete="cascade",
@@ -11141,7 +11209,7 @@ class RegistroM220(models.Model):
     )
 
     reg_M225_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m225",
+        "l10n_br_sped.efd_pis_cofins.6.m225",
         "reg_M225_ids_RegistroM220_id",
         string="M225 Detalhamento dos Ajustes da Contribuição",
         sped_card="1:N",
@@ -11160,7 +11228,7 @@ class RegistroM225(models.Model):
     partir de 01/10/2015)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m225"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m225"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -11178,7 +11246,7 @@ class RegistroM225(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
@@ -11228,7 +11296,7 @@ class RegistroM225(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_M225_ids_RegistroM220_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m220",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m220",
         string="Ajustes da Contribuição para o PIS/PASEP Apurada",
         required=True,
         ondelete="cascade",
@@ -11238,11 +11306,11 @@ class RegistroM225(models.Model):
 class RegistroM230(models.Model):
     "Informações Adicionais de Diferimento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m230"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m230"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ da pessoa jurídica de direito público",
         required=True,
         help=(
@@ -11286,7 +11354,7 @@ class RegistroM230(models.Model):
     )
 
     reg_M230_ids_RegistroM210_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m210",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m210",
         string="Detalhamento da Contribuição para o PIS/PASEP",
         required=True,
         ondelete="cascade",
@@ -11299,7 +11367,7 @@ class RegistroM300(models.Model):
     Pagar no Período"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m300"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -11350,7 +11418,7 @@ class RegistroM300(models.Model):
         ),
     )
 
-    PER_APUR = sped_models.BigInt(
+    PER_APUR = fields.Integer(
         string="Período de apuração da contribuição social",
         required=True,
         help=(
@@ -11368,7 +11436,7 @@ class RegistroM300(models.Model):
 class RegistroM350(models.Model):
     "PIS/PASEP - Folha de Salários"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m350"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m350"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -11418,7 +11486,7 @@ class RegistroM400(models.Model):
     Sujeitas à Alíquota Zero ou de Vendas com Suspensão – PIS/PASEP"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m400"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m400"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -11448,7 +11516,7 @@ class RegistroM400(models.Model):
     DESC_COMPL = fields.Char(string="Descrição Complementar da Natureza da Receita")
 
     reg_M410_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m410",
+        "l10n_br_sped.efd_pis_cofins.6.m410",
         "reg_M410_ids_RegistroM400_id",
         string="M410 Detalhamento das Receitas Isentas",
         sped_card="1:N",
@@ -11467,7 +11535,7 @@ class RegistroM410(models.Model):
     PIS/PASEP"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m410"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m410"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -11503,7 +11571,7 @@ class RegistroM410(models.Model):
     DESC_COMPL = fields.Char(string="Descrição Complementar da Natureza da Receita")
 
     reg_M410_ids_RegistroM400_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m400",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m400",
         string="Receitas Isentas",
         required=True,
         ondelete="cascade",
@@ -11517,7 +11585,7 @@ class RegistroM410(models.Model):
 class RegistroM500(models.Model):
     "Crédito de COFINS Relativo ao Período"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m500"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -11529,7 +11597,7 @@ class RegistroM500(models.Model):
         ),
     )
 
-    IND_CRED_ORI = sped_models.BigInt(
+    IND_CRED_ORI = fields.Integer(
         string="Indicador de Crédito Oriundo",
         required=True,
         help=(
@@ -11647,7 +11715,7 @@ class RegistroM500(models.Model):
     )
 
     reg_M505_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m505",
+        "l10n_br_sped.efd_pis_cofins.6.m505",
         "reg_M505_ids_RegistroM500_id",
         string="M505 Detalhamento da Base de Cálculo",
         sped_card="1:N",
@@ -11659,7 +11727,7 @@ class RegistroM500(models.Model):
     )
 
     reg_M510_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m510",
+        "l10n_br_sped.efd_pis_cofins.6.m510",
         "reg_M510_ids_RegistroM500_id",
         string="M510 Ajustes do Crédito de COFINS Apurado",
         sped_card="1:N",
@@ -11672,7 +11740,7 @@ class RegistroM505(models.Model):
     COFINS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m505"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m505"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -11685,7 +11753,7 @@ class RegistroM505(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente ao crédito",
         required=True,
         help=(
@@ -11779,7 +11847,7 @@ class RegistroM505(models.Model):
     DESC_CRED = fields.Char(string="Descrição do crédito", sped_length=60)
 
     reg_M505_ids_RegistroM500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m500",
         string="Crédito de COFINS Relativo ao Período",
         required=True,
         ondelete="cascade",
@@ -11789,7 +11857,7 @@ class RegistroM505(models.Model):
 class RegistroM510(models.Model):
     "Ajustes do Crédito de COFINS Apurado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m510"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m510"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -11831,14 +11899,14 @@ class RegistroM510(models.Model):
     )
 
     reg_M510_ids_RegistroM500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m500",
         string="Crédito de COFINS Relativo ao Período",
         required=True,
         ondelete="cascade",
     )
 
     reg_M515_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m515",
+        "l10n_br_sped.efd_pis_cofins.6.m515",
         "reg_M515_ids_RegistroM510_id",
         string="M515 Detalhamento dos Ajustes do Crédito",
         sped_card="1:N",
@@ -11857,7 +11925,7 @@ class RegistroM515(models.Model):
     01/10/2015)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m515"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m515"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -11875,7 +11943,7 @@ class RegistroM515(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
@@ -11925,7 +11993,7 @@ class RegistroM515(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_M515_ids_RegistroM510_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m510",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m510",
         string="Ajustes do Crédito de COFINS Apurado",
         required=True,
         ondelete="cascade",
@@ -11937,7 +12005,7 @@ class RegistroM600(models.Model):
     Período"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m600"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -12020,7 +12088,7 @@ class RegistroM600(models.Model):
     )
 
     VL_RET_CUM = fields.Monetary(
-        string="RETCUM",
+        string="VL_RET_CUM",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -12050,7 +12118,7 @@ class RegistroM600(models.Model):
     )
 
     reg_M605_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m605",
+        "l10n_br_sped.efd_pis_cofins.6.m605",
         "reg_M605_ids_RegistroM600_id",
         string="M605 Contribuição para a Seguridade Social",
         sped_card="1:N",
@@ -12062,7 +12130,7 @@ class RegistroM600(models.Model):
     )
 
     reg_M610_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m610",
+        "l10n_br_sped.efd_pis_cofins.6.m610",
         "reg_M610_ids_RegistroM600_id",
         string="M610 Detalhamento da Contribuição",
         sped_card="1:N",
@@ -12079,7 +12147,7 @@ class RegistroM605(models.Model):
     por Código de Receita (Visão Débito DCTF)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m605"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m605"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -12114,7 +12182,7 @@ class RegistroM605(models.Model):
     )
 
     reg_M605_ids_RegistroM600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m600",
         string="Consolidação da Contribuição",
         required=True,
         ondelete="cascade",
@@ -12130,7 +12198,7 @@ class RegistroM610(models.Model):
     Período"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m610"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m610"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -12229,7 +12297,7 @@ class RegistroM610(models.Model):
     )
 
     VL_CONT_DIFER = fields.Monetary(
-        string="CONTDIFER", xsd_type="TDec_1602", currency_field="brl_currency_id"
+        string="VL_CONT_DIFER", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
     VL_CONT_DIFER_ANT = fields.Monetary(
@@ -12240,7 +12308,7 @@ class RegistroM610(models.Model):
     )
 
     VL_CONT_PER = fields.Monetary(
-        string="CONTPER",
+        string="VL_CONT_PER",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -12248,7 +12316,7 @@ class RegistroM610(models.Model):
     )
 
     reg_M610_ids_RegistroM600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m600",
         string="Consolidação da Contribuição",
         required=True,
         ondelete="cascade",
@@ -12259,7 +12327,7 @@ class RegistroM610(models.Model):
     )
 
     reg_M611_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m611",
+        "l10n_br_sped.efd_pis_cofins.6.m611",
         "reg_M611_ids_RegistroM610_id",
         string="M611 Sociedades Cooperativas – Composição da Base",
         sped_card="1:1",
@@ -12270,7 +12338,7 @@ class RegistroM610(models.Model):
     )
 
     reg_M615_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m615",
+        "l10n_br_sped.efd_pis_cofins.6.m615",
         "reg_M615_ids_RegistroM610_id",
         string="M615 Detalhamento dos Ajustes da Base",
         sped_card="1:N",
@@ -12282,7 +12350,7 @@ class RegistroM610(models.Model):
     )
 
     reg_M620_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m620",
+        "l10n_br_sped.efd_pis_cofins.6.m620",
         "reg_M620_ids_RegistroM610_id",
         string="M620 Ajustes da COFINS Apurada",
         sped_card="1:N",
@@ -12290,7 +12358,7 @@ class RegistroM610(models.Model):
     )
 
     reg_M630_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m630",
+        "l10n_br_sped.efd_pis_cofins.6.m630",
         "reg_M630_ids_RegistroM610_id",
         string="M630 Informações Adicionais de Diferimento",
         sped_card="1:N",
@@ -12301,11 +12369,11 @@ class RegistroM610(models.Model):
 class RegistroM611(models.Model):
     "Sociedades Cooperativas – Composição da Base de Cálculo – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m611"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m611"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    IND_TIP_COOP = sped_models.BigInt(
+    IND_TIP_COOP = fields.Integer(
         string="Indicador do Tipo de Sociedade Cooperativa",
         required=True,
         help=(
@@ -12362,7 +12430,7 @@ class RegistroM611(models.Model):
     )
 
     reg_M611_ids_RegistroM610_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m610",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m610",
         string="Detalhamento da Contribuição",
         required=True,
         ondelete="cascade",
@@ -12377,7 +12445,7 @@ class RegistroM615(models.Model):
     """Detalhamento dos Ajustes da Base de Cálculo Mensal da COFINS Apurada"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m615"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m615"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -12424,14 +12492,14 @@ class RegistroM615(models.Model):
         help="Código da conta analítica contábil debitada/creditada",
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ do estabelecimento a que se refere o ajuste", required=True
     )
 
     INFO_COMPL = fields.Char(string="Informação complementar do registro")
 
     reg_M615_ids_RegistroM610_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m610",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m610",
         string="Detalhamento da Contribuição",
         required=True,
         ondelete="cascade",
@@ -12445,7 +12513,7 @@ class RegistroM615(models.Model):
 class RegistroM620(models.Model):
     "Ajustes da COFINS Apurada"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m620"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m620"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -12487,7 +12555,7 @@ class RegistroM620(models.Model):
     )
 
     reg_M620_ids_RegistroM610_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m610",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m610",
         string="Detalhamento da Contribuição",
         required=True,
         ondelete="cascade",
@@ -12498,7 +12566,7 @@ class RegistroM620(models.Model):
     )
 
     reg_M625_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m625",
+        "l10n_br_sped.efd_pis_cofins.6.m625",
         "reg_M625_ids_RegistroM620_id",
         string="M625 Detalhamento dos Ajustes da Cofins Apurada",
         sped_card="1:N",
@@ -12516,7 +12584,7 @@ class RegistroM625(models.Model):
     2.0.12 do PVA, para período de apuração a partir de 01/10/2015)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m625"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m625"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -12534,7 +12602,7 @@ class RegistroM625(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
@@ -12584,7 +12652,7 @@ class RegistroM625(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar")
 
     reg_M625_ids_RegistroM620_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m620",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m620",
         string="Ajustes da COFINS Apurada",
         required=True,
         ondelete="cascade",
@@ -12594,11 +12662,11 @@ class RegistroM625(models.Model):
 class RegistroM630(models.Model):
     "Informações Adicionais de Diferimento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m630"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m630"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ da pessoa jurídica de direito público",
         required=True,
         help=(
@@ -12642,7 +12710,7 @@ class RegistroM630(models.Model):
     )
 
     reg_M630_ids_RegistroM610_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m610",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m610",
         string="Detalhamento da Contribuição",
         required=True,
         ondelete="cascade",
@@ -12656,7 +12724,7 @@ class RegistroM630(models.Model):
 class RegistroM700(models.Model):
     "COFINS Diferida em Períodos Anteriores – Valores a Pagar no Período"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m700"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m700"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -12707,7 +12775,7 @@ class RegistroM700(models.Model):
         ),
     )
 
-    PER_APUR = sped_models.BigInt(
+    PER_APUR = fields.Integer(
         string="Período de apuração da contribuição social",
         required=True,
         help=(
@@ -12727,7 +12795,7 @@ class RegistroM800(models.Model):
     Sujeitas à Alíquota Zero ou de Vendas com Suspensão – COFINS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m800"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m800"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -12757,7 +12825,7 @@ class RegistroM800(models.Model):
     DESC_COMPL = fields.Char(string="Descrição Complementar da Natureza da Receita")
 
     reg_M810_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.m810",
+        "l10n_br_sped.efd_pis_cofins.6.m810",
         "reg_M810_ids_RegistroM800_id",
         string="M810 Detalhamento das Receitas Isentas",
         sped_card="1:N",
@@ -12774,7 +12842,7 @@ class RegistroM810(models.Model):
     Contribuição,"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.m810"
+    _name = "l10n_br_sped.efd_pis_cofins.6.m810"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -12819,7 +12887,7 @@ class RegistroM810(models.Model):
     DESC_COMPL = fields.Char(string="Descrição Complementar da Natureza da Receita")
 
     reg_M810_ids_RegistroM800_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.m800",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.m800",
         string="Receitas Isentas",
         required=True,
         ondelete="cascade",
@@ -12833,18 +12901,18 @@ class RegistroM810(models.Model):
 class RegistroP010(models.Model):
     "Identificação do Estabelecimento"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.p010"
+    _name = "l10n_br_sped.efd_pis_cofins.6.p010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do estabelecimento no CNPJ", required=True
     )
 
     reg_P100_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.p100",
+        "l10n_br_sped.efd_pis_cofins.6.p100",
         "reg_P100_ids_RegistroP010_id",
-        string="P100ids",
+        string="reg_P100_ids",
         sped_card="1:N",
         sped_required="S",
         help="P100 Contribuição Previdenciária sobre a Receita Bruta",
@@ -12854,7 +12922,7 @@ class RegistroP010(models.Model):
 class RegistroP100(models.Model):
     "Contribuição Previdenciária sobre a Receita Bruta"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.p100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.p100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -12873,7 +12941,7 @@ class RegistroP100(models.Model):
     )
 
     COD_ATIV_ECON = fields.Char(
-        string="ATIVECON",
+        string="COD_ATIV_ECON",
         required=True,
         help=(
             "Código indicador correspondente à atividade sujeita a incidência "
@@ -12943,14 +13011,14 @@ class RegistroP100(models.Model):
     INFO_COMPL = fields.Char(string="Informação complementar do registro")
 
     reg_P100_ids_RegistroP010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.p010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.p010",
         string="Identificação do Estabelecimento",
         required=True,
         ondelete="cascade",
     )
 
     reg_P110_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.p110",
+        "l10n_br_sped.efd_pis_cofins.6.p110",
         "reg_P110_ids_RegistroP100_id",
         string="P110 Complemento da Escrituração – Detalhamento",
         sped_card="1:N",
@@ -12962,7 +13030,7 @@ class RegistroP100(models.Model):
     )
 
     reg_P199_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.p199",
+        "l10n_br_sped.efd_pis_cofins.6.p199",
         "reg_P199_ids_RegistroP100_id",
         string="P199 Processo Referenciado",
         sped_card="1:N",
@@ -12975,7 +13043,7 @@ class RegistroP110(models.Model):
     Contribuição"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.p110"
+    _name = "l10n_br_sped.efd_pis_cofins.6.p110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -12994,7 +13062,7 @@ class RegistroP110(models.Model):
     )
 
     DET_VALOR = fields.Float(
-        string="VALOR",
+        string="DET_VALOR",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -13007,7 +13075,7 @@ class RegistroP110(models.Model):
     INF_COMPL = fields.Char(string="Informação complementar do detalhamento")
 
     reg_P110_ids_RegistroP100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.p100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.p100",
         string="Contribuição Previdenciária sobre a Receita Bruta",
         required=True,
         ondelete="cascade",
@@ -13017,7 +13085,7 @@ class RegistroP110(models.Model):
 class RegistroP199(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.p199"
+    _name = "l10n_br_sped.efd_pis_cofins.6.p199"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -13037,7 +13105,7 @@ class RegistroP199(models.Model):
     )
 
     reg_P199_ids_RegistroP100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.p100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.p100",
         string="Contribuição Previdenciária sobre a Receita Bruta",
         required=True,
         ondelete="cascade",
@@ -13047,11 +13115,11 @@ class RegistroP199(models.Model):
 class RegistroP200(models.Model):
     "Consolidação da Contribuição Previdenciária sobre a Receita Bruta"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.p200"
+    _name = "l10n_br_sped.efd_pis_cofins.6.p200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    PER_REF = sped_models.BigInt(
+    PER_REF = fields.Integer(
         string="Período de referencia da escrituração",
         required=True,
         help="Período de referencia da escrituração (MMAAAA)",
@@ -13110,7 +13178,7 @@ class RegistroP200(models.Model):
     )
 
     reg_P210_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.p210",
+        "l10n_br_sped.efd_pis_cofins.6.p210",
         "reg_P210_ids_RegistroP200_id",
         string="P210 Ajuste",
         sped_card="1:N",
@@ -13125,7 +13193,7 @@ class RegistroP200(models.Model):
 class RegistroP210(models.Model):
     "Ajuste da Contribuição Previdenciária Apurada sobre a Receita Bruta"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.p210"
+    _name = "l10n_br_sped.efd_pis_cofins.6.p210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -13170,7 +13238,7 @@ class RegistroP210(models.Model):
     )
 
     reg_P210_ids_RegistroP200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.p200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.p200",
         string="Consolidação",
         required=True,
         ondelete="cascade",
@@ -13181,7 +13249,7 @@ class RegistroP210(models.Model):
 class Registro1010(models.Model):
     "Processo Referenciado – Ação Judicial"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1010"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -13211,7 +13279,7 @@ class Registro1010(models.Model):
     )
 
     DESC_DEC_JUD = fields.Char(
-        string="DECJUD",
+        string="DESC_DEC_JUD",
         sped_length=100,
         help=(
             "Descrição Resumida dos Efeitos Tributários abrangidos pela "
@@ -13222,9 +13290,9 @@ class Registro1010(models.Model):
     DT_SENT_JUD = fields.Date(string="Data da Sentença/Decisão Judicial")
 
     reg_1011_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1011",
+        "l10n_br_sped.efd_pis_cofins.6.1011",
         "reg_1011_ids_Registro1010_id",
-        string="1011ids",
+        string="reg_1011_ids",
         sped_card="1:N",
         sped_required="S",
         help=("1011 Detalhamento das Contribuições com Exigibilidade Suspensa"),
@@ -13234,7 +13302,7 @@ class Registro1010(models.Model):
 class Registro1011(models.Model):
     "Detalhamento das Contribuições com Exigibilidade Suspensa"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1011"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1011"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -13270,7 +13338,7 @@ class Registro1011(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -13307,7 +13375,7 @@ class Registro1011(models.Model):
         help="Valor do PIS/PASEP, conforme escrituração",
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código (CST_COFINS)",
         required=True,
         help=(
@@ -13344,7 +13412,7 @@ class Registro1011(models.Model):
         help="Valor da COFINS, conforme escrituração",
     )
 
-    CST_PIS_SUSP = sped_models.BigInt(
+    CST_PIS_SUSP = fields.Integer(
         string="Código (CST_PIS_SUSP)",
         required=True,
         help=(
@@ -13381,7 +13449,7 @@ class Registro1011(models.Model):
         help="Valor do PIS/PASEP, conforme decisão judicial",
     )
 
-    CST_COFINS_SUSP = sped_models.BigInt(
+    CST_COFINS_SUSP = fields.Integer(
         string="Código (CST_COFINS_SUSP)",
         required=True,
         help=(
@@ -13429,7 +13497,7 @@ class Registro1011(models.Model):
     DESC_DOC_OPER = fields.Char(string="Descrição do Documento/Operação")
 
     reg_1011_ids_Registro1010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1010",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1010",
         string="Processo Referenciado – Ação Judicial",
         required=True,
         ondelete="cascade",
@@ -13439,7 +13507,7 @@ class Registro1011(models.Model):
 class Registro1020(models.Model):
     "Processo Referenciado – Processo Administrativo"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1020"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1020"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -13475,7 +13543,7 @@ class Registro1050(models.Model):
     – Valores Extra Apuração"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1050"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1050"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -13494,7 +13562,7 @@ class Registro1050(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ do estabelecimento a que se refere o ajuste", required=True
     )
 
@@ -13516,7 +13584,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST02 = fields.Monetary(
-        string="AJCST02",
+        string="VL_AJ_CST02",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13526,7 +13594,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST03 = fields.Monetary(
-        string="AJCST03",
+        string="VL_AJ_CST03",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13536,7 +13604,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST04 = fields.Monetary(
-        string="AJCST04",
+        string="VL_AJ_CST04",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13546,7 +13614,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST05 = fields.Monetary(
-        string="AJCST05",
+        string="VL_AJ_CST05",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13556,7 +13624,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST06 = fields.Monetary(
-        string="AJCST06",
+        string="VL_AJ_CST06",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13566,7 +13634,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST07 = fields.Monetary(
-        string="AJCST07",
+        string="VL_AJ_CST07",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13576,7 +13644,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST08 = fields.Monetary(
-        string="AJCST08",
+        string="VL_AJ_CST08",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13586,7 +13654,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST09 = fields.Monetary(
-        string="AJCST09",
+        string="VL_AJ_CST09",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13596,7 +13664,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST49 = fields.Monetary(
-        string="AJCST49",
+        string="VL_AJ_CST49",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13606,7 +13674,7 @@ class Registro1050(models.Model):
     )
 
     VL_AJ_CST99 = fields.Monetary(
-        string="AJCST99",
+        string="VL_AJ_CST99",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13637,18 +13705,18 @@ class Registro1050(models.Model):
 class Registro1100(models.Model):
     "Controle de Créditos Fiscais – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1100"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    PER_APU_CRED = sped_models.BigInt(
+    PER_APU_CRED = fields.Integer(
         string="Período de Apuração do Crédito",
         required=True,
         sped_length=6,
         help="Período de Apuração do Crédito (MM/AAAA)",
     )
 
-    ORIG_CRED = sped_models.BigInt(
+    ORIG_CRED = fields.Integer(
         string="Indicador da origem do crédito",
         required=True,
         help=(
@@ -13658,12 +13726,12 @@ class Registro1100(models.Model):
         ),
     )
 
-    CNPJ_SUC = sped_models.BigInt(
+    CNPJ_SUC = fields.Char(
         string="CNPJ da pessoa jurídica cedente do crédito",
         help=("CNPJ da pessoa jurídica cedente do crédito (se ORIG_CRED = 02)."),
     )
 
-    COD_CRED = sped_models.BigInt(
+    COD_CRED = fields.Integer(
         string="Código do Tipo do Crédito",
         required=True,
         help="Código do Tipo do Crédito, conforme Tabela 4.3.6.",
@@ -13763,7 +13831,7 @@ class Registro1100(models.Model):
     )
 
     VL_CRED_DCOMP_EFD = fields.Monetary(
-        string="CREDDCOMPEFD",
+        string="VL_CRED_DCOMP_EFD",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -13801,7 +13869,7 @@ class Registro1100(models.Model):
     )
 
     reg_1101_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1101",
+        "l10n_br_sped.efd_pis_cofins.6.1101",
         "reg_1101_ids_Registro1100_id",
         string="1101 Apuração de Crédito Extemporâneo",
         sped_card="1:N",
@@ -13819,7 +13887,7 @@ class Registro1101(models.Model):
     Anteriores – PIS/PASEP (Para períodos de apuração até Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1101"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1101"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -13844,11 +13912,11 @@ class Registro1101(models.Model):
 
     SUB_SER = fields.Char(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
     DT_OPER = fields.Date(string="Data da Operação (ddmmaaaa)", required=True)
 
-    CHV_NFE = sped_models.BigInt(string="Chave da Nota Fiscal Eletrônica")
+    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica")
 
     VL_OPER = fields.Monetary(
         string="Valor da Operação",
@@ -13857,7 +13925,7 @@ class Registro1101(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     NAT_BC_CRED = fields.Char(
         string="Código da Base de Cálculo do Crédito",
@@ -13877,7 +13945,7 @@ class Registro1101(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -13927,7 +13995,7 @@ class Registro1101(models.Model):
 
     DESC_COMPL = fields.Char(string="Descrição complementar do Documento/Operação")
 
-    PER_ESCRIT = sped_models.BigInt(
+    PER_ESCRIT = fields.Integer(
         string="Mês/Ano da Escrituração",
         help=(
             "Mês/Ano da Escrituração em que foi registrado o "
@@ -13935,7 +14003,7 @@ class Registro1101(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ do estabelecimento gerador",
         required=True,
         help=(
@@ -13945,14 +14013,14 @@ class Registro1101(models.Model):
     )
 
     reg_1101_ids_Registro1100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1100",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1100",
         string="Controle de Créditos Fiscais – PIS/PASEP",
         required=True,
         ondelete="cascade",
     )
 
     reg_1102_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1102",
+        "l10n_br_sped.efd_pis_cofins.6.1102",
         "reg_1102_ids_Registro1101_id",
         string="1102 Detalhamento do Crédito Extemporâneo",
         sped_card="1:1",
@@ -13969,7 +14037,7 @@ class Registro1102(models.Model):
     Receita –"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1102"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1102"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -13984,7 +14052,7 @@ class Registro1102(models.Model):
     )
 
     VL_CRED_PIS_NT_MI = fields.Monetary(
-        string="CREDPISNTMI",
+        string="VL_CRED_PIS_NT_MI",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -14001,7 +14069,7 @@ class Registro1102(models.Model):
     )
 
     reg_1102_ids_Registro1101_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1101",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1101",
         string="Apuração de Crédito Extemporâneo",
         required=True,
         ondelete="cascade",
@@ -14018,11 +14086,11 @@ class Registro1200(models.Model):
     até Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1200"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    PER_APUR_ANT = sped_models.BigInt(
+    PER_APUR_ANT = fields.Integer(
         string="Período de Apuração",
         required=True,
         help=("Período de Apuração da Contribuição Social Extemporânea (MMAAAA)."),
@@ -14085,7 +14153,7 @@ class Registro1200(models.Model):
     DT_RECOL = fields.Date(string="Data do Recolhimento")
 
     reg_1210_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1210",
+        "l10n_br_sped.efd_pis_cofins.6.1210",
         "reg_1210_ids_Registro1200_id",
         string="1210 Detalhamento",
         sped_card="1:N",
@@ -14097,7 +14165,7 @@ class Registro1200(models.Model):
     )
 
     reg_1220_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1220",
+        "l10n_br_sped.efd_pis_cofins.6.1220",
         "reg_1220_ids_Registro1200_id",
         string="1220 Demonstração do Crédito a Descontar",
         sped_card="1:N",
@@ -14115,11 +14183,11 @@ class Registro1210(models.Model):
     períodos de apuração até Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1210"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do estabelecimento no CNPJ",
         required=True,
         help=(
@@ -14128,7 +14196,7 @@ class Registro1210(models.Model):
         ),
     )
 
-    CST_PIS = sped_models.BigInt(
+    CST_PIS = fields.Integer(
         string="Código",
         required=True,
         help=(
@@ -14190,7 +14258,7 @@ class Registro1210(models.Model):
     DESC_COMPL = fields.Char(string="Descrição complementar do Documento/Operação")
 
     reg_1210_ids_Registro1200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1200",
         string="Contribuição Social Extemporânea – PIS/PASEP",
         required=True,
         ondelete="cascade",
@@ -14206,18 +14274,18 @@ class Registro1220(models.Model):
     PIS/PASEP (Para períodos de apuração até Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1220"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1220"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    PER_APU_CRED = sped_models.BigInt(
+    PER_APU_CRED = fields.Integer(
         string="Período de Apuração do Crédito",
         required=True,
         sped_length=6,
         help="Período de Apuração do Crédito (MM/AAAA)",
     )
 
-    ORIG_CRED = sped_models.BigInt(
+    ORIG_CRED = fields.Integer(
         string="Indicador da origem do crédito",
         required=True,
         help=(
@@ -14227,7 +14295,7 @@ class Registro1220(models.Model):
         ),
     )
 
-    COD_CRED = sped_models.BigInt(
+    COD_CRED = fields.Integer(
         string="Código do Tipo do Crédito",
         required=True,
         help="Código do Tipo do Crédito, conforme Tabela 4.3.6.",
@@ -14241,7 +14309,7 @@ class Registro1220(models.Model):
     )
 
     reg_1220_ids_Registro1200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1200",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1200",
         string="Contribuição Social Extemporânea – PIS/PASEP",
         required=True,
         ondelete="cascade",
@@ -14255,11 +14323,11 @@ class Registro1220(models.Model):
 class Registro1300(models.Model):
     "Controle dos Valores Retidos na Fonte – PIS/PASEP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1300"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    IND_NAT_RET = sped_models.BigInt(
+    IND_NAT_RET = fields.Integer(
         string="Indicador de Natureza da Retenção",
         required=True,
         help=(
@@ -14272,7 +14340,7 @@ class Registro1300(models.Model):
         ),
     )
 
-    PR_REC_RET = sped_models.BigInt(
+    PR_REC_RET = fields.Integer(
         string="Período do Recebimento e da Retenção",
         required=True,
         sped_length=6,
@@ -14331,18 +14399,18 @@ class Registro1300(models.Model):
 class Registro1500(models.Model):
     "Controle de Créditos Fiscais – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1500"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    PER_APU_CRED = sped_models.BigInt(
+    PER_APU_CRED = fields.Integer(
         string="Período de Apuração do Crédito",
         required=True,
         sped_length=6,
         help="Período de Apuração do Crédito (MM/AAAA)",
     )
 
-    ORIG_CRED = sped_models.BigInt(
+    ORIG_CRED = fields.Integer(
         string="Indicador da origem do crédito",
         required=True,
         help=(
@@ -14352,12 +14420,12 @@ class Registro1500(models.Model):
         ),
     )
 
-    CNPJ_SUC = sped_models.BigInt(
+    CNPJ_SUC = fields.Char(
         string="CNPJ da pessoa jurídica cedente do crédito",
         help=("CNPJ da pessoa jurídica cedente do crédito (se ORIG_CRED = 02)."),
     )
 
-    COD_CRED = sped_models.BigInt(
+    COD_CRED = fields.Integer(
         string="Código do Tipo do Crédito",
         required=True,
         help="Código do Tipo do Crédito, conforme Tabela 4.3.6.",
@@ -14456,7 +14524,7 @@ class Registro1500(models.Model):
     )
 
     VL_CRED_DCOMP_EFD = fields.Monetary(
-        string="CREDDCOMPEFD",
+        string="VL_CRED_DCOMP_EFD",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -14495,7 +14563,7 @@ class Registro1500(models.Model):
     )
 
     reg_1501_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1501",
+        "l10n_br_sped.efd_pis_cofins.6.1501",
         "reg_1501_ids_Registro1500_id",
         string="1501 Apuração de Crédito Extemporâneo",
         sped_card="1:N",
@@ -14513,7 +14581,7 @@ class Registro1501(models.Model):
     Anteriores – COFINS (Para períodos de apuração até Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1501"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1501"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -14538,11 +14606,11 @@ class Registro1501(models.Model):
 
     SUB_SER = fields.Char(string="Subsérie do documento fiscal", sped_length=3)
 
-    NUM_DOC = sped_models.BigInt(string="Número do documento fiscal", sped_length=9)
+    NUM_DOC = fields.Integer(string="Número do documento fiscal", sped_length=9)
 
     DT_OPER = fields.Date(string="Data da Operação (ddmmaaaa)", required=True)
 
-    CHV_NFE = sped_models.BigInt(string="Chave da Nota Fiscal Eletrônica")
+    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica")
 
     VL_OPER = fields.Monetary(
         string="Valor da Operação",
@@ -14551,7 +14619,7 @@ class Registro1501(models.Model):
         currency_field="brl_currency_id",
     )
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     NAT_BC_CRED = fields.Char(
         string="Código da Base de Cálculo do Crédito",
@@ -14571,7 +14639,7 @@ class Registro1501(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente ao COFINS",
         required=True,
         help=(
@@ -14619,7 +14687,7 @@ class Registro1501(models.Model):
 
     DESC_COMPL = fields.Char(string="Descrição complementar do Documento/Operação")
 
-    PER_ESCRIT = sped_models.BigInt(
+    PER_ESCRIT = fields.Integer(
         string="Mês/Ano da Escrituração",
         help=(
             "Mês/Ano da Escrituração em que foi registrado o "
@@ -14627,7 +14695,7 @@ class Registro1501(models.Model):
         ),
     )
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ do estabelecimento gerador",
         required=True,
         help=(
@@ -14637,14 +14705,14 @@ class Registro1501(models.Model):
     )
 
     reg_1501_ids_Registro1500_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1500",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1500",
         string="Controle de Créditos Fiscais – COFINS",
         required=True,
         ondelete="cascade",
     )
 
     reg_1502_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1502",
+        "l10n_br_sped.efd_pis_cofins.6.1502",
         "reg_1502_ids_Registro1501_id",
         string="1502 Detalhamento do Crédito Extemporâneo",
         sped_card="1:1",
@@ -14662,7 +14730,7 @@ class Registro1502(models.Model):
     Receita – COFINS (Para períodos de apuração até Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1502"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1502"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -14677,7 +14745,7 @@ class Registro1502(models.Model):
     )
 
     VL_CRED_COFINS_NT_MI = fields.Monetary(
-        string="CREDCOFINSNTMI",
+        string="VL_CRED_COFINS_NT_MI",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -14694,7 +14762,7 @@ class Registro1502(models.Model):
     )
 
     reg_1502_ids_Registro1501_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1501",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1501",
         string="Apuração de Crédito Extemporâneo",
         required=True,
         ondelete="cascade",
@@ -14711,11 +14779,11 @@ class Registro1600(models.Model):
     Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1600"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1600"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    PER_APUR_ANT = sped_models.BigInt(
+    PER_APUR_ANT = fields.Integer(
         string="Período de Apuração",
         required=True,
         help=("Período de Apuração da Contribuição Social Extemporânea (MMAAAA)"),
@@ -14778,7 +14846,7 @@ class Registro1600(models.Model):
     DT_RECOL = fields.Date(string="Data do Recolhimento")
 
     reg_1610_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1610",
+        "l10n_br_sped.efd_pis_cofins.6.1610",
         "reg_1610_ids_Registro1600_id",
         string="1610 Detalhamento",
         sped_card="1:N",
@@ -14790,7 +14858,7 @@ class Registro1600(models.Model):
     )
 
     reg_1620_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1620",
+        "l10n_br_sped.efd_pis_cofins.6.1620",
         "reg_1620_ids_Registro1600_id",
         string="1620 Demonstração do Crédito a Descontar",
         sped_card="1:N",
@@ -14808,11 +14876,11 @@ class Registro1610(models.Model):
     de apuração até Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1610"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1610"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="Número de inscrição do estabelecimento no CNPJ",
         required=True,
         help=(
@@ -14821,7 +14889,7 @@ class Registro1610(models.Model):
         ),
     )
 
-    CST_COFINS = sped_models.BigInt(
+    CST_COFINS = fields.Integer(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -14883,7 +14951,7 @@ class Registro1610(models.Model):
     DESC_COMPL = fields.Char(string="Descrição complementar do Documento/Operação")
 
     reg_1610_ids_Registro1600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1600",
         string="Contribuição Social Extemporânea – COFINS",
         required=True,
         ondelete="cascade",
@@ -14899,18 +14967,18 @@ class Registro1620(models.Model):
     COFINS (Para períodos de apuração até Julho de 2013)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1620"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1620"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    PER_APU_CRED = sped_models.BigInt(
+    PER_APU_CRED = fields.Integer(
         string="Período de Apuração do Crédito",
         required=True,
         sped_length=6,
         help="Período de Apuração do Crédito (MM/AAAA)",
     )
 
-    ORIG_CRED = sped_models.BigInt(
+    ORIG_CRED = fields.Integer(
         string="Indicador da origem do crédito",
         required=True,
         help=(
@@ -14920,7 +14988,7 @@ class Registro1620(models.Model):
         ),
     )
 
-    COD_CRED = sped_models.BigInt(
+    COD_CRED = fields.Integer(
         string="Código do Tipo do Crédito",
         required=True,
         help="Código do Tipo do Crédito, conforme Tabela 4.3.6.",
@@ -14934,7 +15002,7 @@ class Registro1620(models.Model):
     )
 
     reg_1620_ids_Registro1600_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1600",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1600",
         string="Contribuição Social Extemporânea – COFINS",
         required=True,
         ondelete="cascade",
@@ -14948,11 +15016,11 @@ class Registro1620(models.Model):
 class Registro1700(models.Model):
     "Controle dos Valores Retidos na Fonte – COFINS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1700"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1700"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    IND_NAT_RET = sped_models.BigInt(
+    IND_NAT_RET = fields.Integer(
         string="Indicador de Natureza da Retenção",
         required=True,
         help=(
@@ -14965,7 +15033,7 @@ class Registro1700(models.Model):
         ),
     )
 
-    PR_REC_RET = sped_models.BigInt(
+    PR_REC_RET = fields.Integer(
         string="Período do Recebimento e da Retenção",
         required=True,
         help="Período do Recebimento e da Retenção (MM/AAAA)",
@@ -15023,7 +15091,7 @@ class Registro1700(models.Model):
 class Registro1800(models.Model):
     "Incorporação Imobiliária – RET"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1800"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1800"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -15096,7 +15164,7 @@ class Registro1800(models.Model):
     COD_REC = fields.Char(string="Código da Receita", sped_length=4)
 
     reg_1809_ids = fields.One2many(
-        "l10n_br_sped.efd_pis_cofins.1.1809",
+        "l10n_br_sped.efd_pis_cofins.6.1809",
         "reg_1809_ids_Registro1800_id",
         string="1809 Processo Referenciado",
         sped_card="1:N",
@@ -15107,7 +15175,7 @@ class Registro1800(models.Model):
 class Registro1809(models.Model):
     "Processo Referenciado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1809"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1809"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -15127,7 +15195,7 @@ class Registro1809(models.Model):
     )
 
     reg_1809_ids_Registro1800_id = fields.Many2one(
-        comodel_name="l10n_br_sped.efd_pis_cofins.1.1800",
+        comodel_name="l10n_br_sped.efd_pis_cofins.6.1800",
         string="Incorporação Imobiliária – RET",
         required=True,
         ondelete="cascade",
@@ -15140,11 +15208,11 @@ class Registro1900(models.Model):
     de Competência"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.1900"
+    _name = "l10n_br_sped.efd_pis_cofins.6.1900"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    CNPJ = sped_models.BigInt(
+    CNPJ = fields.Char(
         string="CNPJ do estabelecimento da pessoa jurídica",
         required=True,
         help=(
@@ -15165,9 +15233,9 @@ class Registro1900(models.Model):
 
     SER = fields.Char(string="Série do documento fiscal", sped_length=4)
 
-    SUB_SER = sped_models.BigInt(string="Subserie do documento fiscal", sped_length=20)
+    SUB_SER = fields.Integer(string="Subserie do documento fiscal", sped_length=20)
 
-    COD_SIT = sped_models.BigInt(
+    COD_SIT = fields.Integer(
         string="Código da situação do documento fiscal",
         help=(
             "Código da situação do documento fiscal: 00 – Documento regular 02"
@@ -15186,15 +15254,15 @@ class Registro1900(models.Model):
         ),
     )
 
-    QUANT_DOC = sped_models.BigInt(
+    QUANT_DOC = fields.Integer(
         string="Quantidade total de documentos emitidos no período"
     )
 
-    CST_PIS = sped_models.BigInt(string="Código da Situação Tributária do PIS/Pasep")
+    CST_PIS = fields.Integer(string="Código da Situação Tributária do PIS/Pasep")
 
-    CST_COFINS = sped_models.BigInt(string="Código da Situação Tributária da Cofins")
+    CST_COFINS = fields.Integer(string="Código da Situação Tributária da Cofins")
 
-    CFOP = sped_models.BigInt(string="Código fiscal de operação e prestação")
+    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     INF_COMPL = fields.Char(string="Informações complementares")
 
@@ -15208,7 +15276,7 @@ class Registro1900(models.Model):
 class Registro9900(models.Model):
     "Registros do Arquivo"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.1.9900"
+    _name = "l10n_br_sped.efd_pis_cofins.6.9900"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -15218,7 +15286,7 @@ class Registro9900(models.Model):
         sped_length=4,
     )
 
-    QTD_REG_BLC = sped_models.BigInt(
+    QTD_REG_BLC = fields.Integer(
         string="Total de registros do tipo informado",
         required=True,
         help="Total de registros do tipo informado no campo anterior.",

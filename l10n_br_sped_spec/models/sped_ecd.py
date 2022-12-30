@@ -78,12 +78,210 @@ STRUCTURE SPED ECD
 
 import textwrap
 from odoo import fields, models
+from . import sped_models
+
+
+class Registro0000(models.Model):
+    """ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DO EMPRESÁRIO OU DA
+    SOCIEDADE EMPRESÁRIA"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "l10n_br_sped.ecd.9.0000"
+    _inherit = "l10n_br_sped.mixin"
+    _sped_level = 0
+
+    LECD = fields.Char(
+        string="Texto fixo contendo “LECD”", required=True, sped_length=4
+    )
+
+    DT_INI = fields.Date(
+        string="Data inicial das informações contidas no arquivo",
+        required=True,
+        sped_length=8,
+    )
+
+    DT_FIN = fields.Date(
+        string="Data final das informações contidas no arquivo",
+        required=True,
+        sped_length=8,
+    )
+
+    NOME = fields.Char(string="Nome empresarial da pessoa jurídica", required=True)
+
+    CNPJ = fields.Char(
+        string="Número de inscrição da pessoa jurídica no CNPJ",
+        required=True,
+        sped_length=14,
+        help=(
+            "Número de inscrição da pessoa jurídica no CNPJ. Observação: Esse "
+            "CNPJ é sempre da Sócia Ostensiva, no caso do arquivo da SCP."
+        ),
+    )
+
+    UF = fields.Char(
+        string="Sigla da unidade da federação da pessoa jurídica",
+        required=True,
+        sped_length=2,
+    )
+
+    IE = fields.Char(string="Inscrição Estadual da pessoa jurídica")
+
+    COD_MUN = fields.Integer(
+        string="Código do município do domicílio fiscal",
+        sped_length=7,
+        help=(
+            "Código do município do domicílio fiscal da pessoa jurídica, "
+            "conforme tabela do IBGE – Instituto Brasileiro de Geografia e "
+            "Estatística."
+        ),
+    )
+
+    IM = fields.Char(string="Inscrição Municipal da pessoa jurídica")
+
+    IND_SIT_ESP = fields.Integer(
+        string="Indicador de situação especial",
+        sped_length=1,
+        help=(
+            "Indicador de situação especial (conforme tabela publicada pelo " "Sped)."
+        ),
+    )
+
+    IND_SIT_INI_PER = fields.Integer(
+        string="Indicador de situação no início do período",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador de situação no início do período (conforme tabela "
+            "publicada pelo Sped)."
+        ),
+    )
+
+    IND_NIRE = fields.Integer(
+        string="Indicador de existência de NIRE",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador de existência de NIRE: 0 – Empresa não possui registro "
+            "na Junta Comercial (não possui NIRE) 1 – Empresa possui registro "
+            "na Junta Comercial (possui NIRE)"
+        ),
+    )
+
+    IND_FIN_ESC = fields.Integer(
+        string="Indicador de finalidade da escrituração",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador de finalidade da escrituração: 0 - Original 1 – " "Substituta"
+        ),
+    )
+
+    COD_HASH_SUB = fields.Char(
+        string="Hash da escrituração substituída", sped_length=40
+    )
+
+    IND_GRANDE_PORTE = fields.Integer(
+        string="Indicador",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador de entidade sujeita a auditoria independente: 0 – "
+            "Empresa não é entidade sujeita a auditoria independente. 1 – "
+            "Empresa é entidade sujeita a auditoria independente – Ativo Total"
+            " superior a R$ 240.000.000,00 ou Receita Bruta Anual superior "
+            "R$300.000.000,00."
+        ),
+    )
+
+    TIP_ECD = fields.Integer(
+        string="Indicador do tipo de ECD",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador do tipo de ECD: 0 – ECD de empresa não participante de "
+            "SCP como sócio ostensivo. 1 – ECD de empresa participante de SCP "
+            "como sócio ostensivo. 2 – ECD da SCP."
+        ),
+    )
+
+    COD_SCP = fields.Integer(
+        string="CNPJ da SCP",
+        sped_length=14,
+        help=(
+            "CNPJ da SCP (Art. 4º, XVII, da IN RFB nº 1.863, de 27 de dezembro"
+            " de 2018). Observação: Só deve ser preenchido pela própria SCP "
+            "com o CNPJ da SCP (Não é preenchido pelo sócio ostensivo)."
+        ),
+    )
+
+    IDENT_MF = fields.Char(
+        string="Identificação de moeda funcional",
+        required=True,
+        sped_length=1,
+        help=(
+            "Identificação de moeda funcional: Indica que a escrituração "
+            "abrange valores com base na moeda funcional (art. 287 da "
+            "Instrução Normativa RFB nº 1.700, de 14 de março de 2017). "
+            "Observação: Deverá ser utilizado o registro I020 para informação "
+            "de campos adicionais, conforme instruções do item 1.24."
+        ),
+    )
+
+    IND_ESC_CONS = fields.Char(
+        string="Escriturações Contábeis Consolidadas",
+        required=True,
+        sped_length=1,
+        help=(
+            "Escriturações Contábeis Consolidadas: (Deve ser preenchido pela "
+            "empresa controladora obrigada a informar demonstrações contábeis "
+            "consolidadas, nos termos da Lei nº 6.404/76 e/ou do "
+            "Pronunciamento Técnico CPC 36 – Demonstrações Consolidadas) S – "
+            "Sim N – Não"
+        ),
+    )
+
+    IND_CENTRALIZADA = fields.Integer(
+        string="Indicador da modalidade",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador da modalidade de escrituração centralizada ou "
+            "descentralizada: 0 – Escrituração Centralizada 1 – Escrituração "
+            "Descentralizada"
+        ),
+    )
+
+    IND_MUDANC_PC = fields.Integer(
+        string="Indicador de mudança de plano de contas",
+        required=True,
+        sped_length=1,
+        help=(
+            "Indicador de mudança de plano de contas: 0 – Não houve mudança no"
+            " plano de contas. 1 – Houve mudança no plano de contas."
+        ),
+    )
+
+    COD_PLAN_REF = fields.Char(
+        string="O Código do Plano de Contas Referencial",
+        sped_length=2,
+        help=(
+            "O Código do Plano de Contas Referencial que será utilizado para o"
+            " mapeamento de todas as contas analíticas: 1 – PJ em Geral – "
+            "Lucro Real 2 – PJ em Geral – Lucro Presumido 3 – Financeiras – "
+            "Lucro Real 4 – Seguradoras – Lucro Real 5 – Imunes e Isentas em "
+            "Geral 6 – Imunes e Isentas – Financeiras 7 – Imunes e Isentas – "
+            "Seguradoras 8 – Entidades Fechadas de Previdência Complementar 9 "
+            "– Partidos Políticos 10 – Financeiras – Lucro Presumido "
+            "bservação: Caso a pessoa jurídica não realize o mapeamento para "
+            "os planos referenciais na ECD, este campo deve ficar em branco."
+        ),
+    )
 
 
 class Registro0007(models.Model):
     "OUTRAS INSCRIÇÕES CADASTRAIS DA PESSOA JURÍDICA"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.0007"
+    _name = "l10n_br_sped.ecd.9.0007"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -108,50 +306,52 @@ class Registro0007(models.Model):
 class Registro0020(models.Model):
     "ESCRITURAÇÃO CONTÁBIL DESCENTRALIZADA"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.0020"
+    _name = "l10n_br_sped.ecd.9.0020"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     IND_DEC = fields.Integer(
         string="Indicador de descentralização",
         required=True,
+        sped_length=1,
         help=(
             "Indicador de descentralização: 0 – Escrituração da matriz. 1 – "
             "Escrituração da filial."
         ),
     )
 
-    CNPJ = fields.Integer(
-        string="Número de inscrição da pessoa jurídica",
+    CNPJ = fields.Char(
+        string="Número de inscrição da pessoa jurídica no CNPJ",
         required=True,
+        sped_length=14,
         help=(
             "Número de inscrição da pessoa jurídica no CNPJ da matriz ou da " "filial."
         ),
     )
 
     UF = fields.Char(
-        string="Sigla da unidade da federação",
+        string="Sigla da unidade da federação da matriz",
         required=True,
+        sped_length=2,
         help="Sigla da unidade da federação da matriz ou da filial.",
     )
 
-    IE = fields.Char(
-        string="Inscrição estadual da matriz",
-        help="Inscrição estadual da matriz ou da filial.",
-    )
+    IE = fields.Char(string="Inscrição estadual da matriz ou da filial")
 
     COD_MUN = fields.Integer(
-        string="Código do município do domicílio",
+        string="Código do município do domicílio da matriz",
+        sped_length=7,
         help="Código do município do domicílio da matriz ou da filial.",
     )
 
     IM = fields.Char(
-        string="Número de Inscrição Municipal",
+        string="Número de Inscrição Municipal da matriz",
         help="Número de Inscrição Municipal da matriz ou da filial.",
     )
 
     NIRE = fields.Integer(
-        string="Número de Identificação do Registro",
+        string="Número de Identificação do Registro de Empresas",
+        sped_length=11,
         help=(
             "Número de Identificação do Registro de Empresas da matriz ou da "
             "filial na Junta Comercial."
@@ -162,15 +362,27 @@ class Registro0020(models.Model):
 class Registro0035(models.Model):
     "IDENTIFICAÇÃO DAS SCP"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.0035"
+    _name = "l10n_br_sped.ecd.9.0035"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
+
+    COD_SCP = fields.Char(
+        string="CNPJ da SCP",
+        required=True,
+        sped_length=14,
+        help=(
+            "CNPJ da SCP (Art. 4º, XVII, da Instrução Normativa RFB nº 1.863, "
+            "de 27 de dezembro de 2018)."
+        ),
+    )
+
+    NOME_SCP = fields.Char(string="Nome da SCP")
 
 
 class Registro0150(models.Model):
     "TABELA DE CADASTRO DO PARTICIPANTE"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.0150"
+    _name = "l10n_br_sped.ecd.9.0150"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
@@ -184,38 +396,37 @@ class Registro0150(models.Model):
     )
 
     NOME = fields.Char(
-        string="Nome pessoal ou empresarial",
-        required=True,
-        help="Nome pessoal ou empresarial do participante.",
+        string="Nome pessoal ou empresarial do participante", required=True
     )
 
     COD_PAIS = fields.Integer(
         string="Código do país do participante",
         required=True,
+        sped_length=5,
         help=(
             "Código do país do participante, conforme a tabela do Banco "
             "Central do Brasil."
         ),
     )
 
-    CNPJ = fields.Integer(string="CNPJ do participante")
+    CNPJ = fields.Char(string="CNPJ do participante", sped_length=14)
 
-    CPF = fields.Integer(string="CPF do participante")
+    CPF = fields.Char(string="CPF do participante", sped_length=11)
 
     NIT = fields.Integer(
         string="Número de Identificação do Trabalhador",
+        sped_length=11,
         help="Número de Identificação do Trabalhador, Pis, Pasep, SUS.",
     )
 
     UF = fields.Char(
-        string="Sigla da unidade da federação",
-        help="Sigla da unidade da federação do participante.",
+        string="Sigla da unidade da federação do participante", sped_length=2
     )
 
     IE = fields.Char(string="Inscrição Estadual do participante")
 
     IE_ST = fields.Char(
-        string="ST",
+        string="Inscrição Estadual do participante na unidade",
         help=(
             "Inscrição Estadual do participante na unidade da federação do "
             "destinatário, na condição de contribuinte substituto."
@@ -224,20 +435,22 @@ class Registro0150(models.Model):
 
     COD_MUN = fields.Integer(
         string="Código do município",
+        sped_length=7,
         help="Código do município, conforme a tabela do IBGE.",
     )
 
     IM = fields.Char(string="Inscrição Municipal do participante")
 
     SUFRAMA = fields.Char(
-        string="Número de inscrição do participante",
-        help="Número de inscrição do participante na Suframa.",
+        string="Número de inscrição do participante na Suframa", sped_length=9
     )
 
     reg_0180_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.0180",
+        "l10n_br_sped.ecd.9.0180",
         "reg_0180_ids_Registro0150_id",
-        string="ids",
+        string="reg_0180_ids",
+        sped_card="1:N",
+        sped_required="Sim",
         help="0180 IDENTIFICAÇÃO DO RELACIONAMENTO COM O PARTICIPANTE",
     )
 
@@ -245,22 +458,25 @@ class Registro0150(models.Model):
 class Registro0180(models.Model):
     "IDENTIFICAÇÃO DO RELACIONAMENTO COM O PARTICIPANTE"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.0180"
+    _name = "l10n_br_sped.ecd.9.0180"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     COD_REL = fields.Integer(
         string="Código",
         required=True,
+        sped_length=2,
         help=("Código do relacionamento conforme tabela publicada pelo Sped."),
     )
 
-    DT_INI_REL = fields.Date(string="Data do início do relacionamento", required=True)
+    DT_INI_REL = fields.Date(
+        string="Data do início do relacionamento", required=True, sped_length=8
+    )
 
-    DT_FIN_REL = fields.Date(string="Data do término do relacionamento")
+    DT_FIN_REL = fields.Date(string="Data do término do relacionamento", sped_length=8)
 
     reg_0180_ids_Registro0150_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.0150",
+        comodel_name="l10n_br_sped.ecd.9.0150",
         string="TABELA DE CADASTRO DO PARTICIPANTE",
         required=True,
         ondelete="cascade",
@@ -270,13 +486,14 @@ class Registro0180(models.Model):
 class RegistroI010(models.Model):
     "IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i010"
+    _name = "l10n_br_sped.ecd.9.i010"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     IND_ESC = fields.Char(
         string="G R A B Z Indicador da forma",
         required=True,
+        sped_length=1,
         help=(
             "G R A B Z Indicador da forma de escrituração contábil: - Livro "
             "Diário (Completo sem escrituração auxiliar). - Livro Diário com "
@@ -292,65 +509,83 @@ class RegistroI010(models.Model):
     )
 
     reg_I012_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i012",
+        "l10n_br_sped.ecd.9.i012",
         "reg_I012_ids_RegistroI010_id",
         string="I012 LIVROS AUXILIARES AO DIÁRIO",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
     reg_I020_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i020",
+        "l10n_br_sped.ecd.9.i020",
         "reg_I020_ids_RegistroI010_id",
         string="I020 CAMPOS ADICIONAIS",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
     reg_I030_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i030",
+        "l10n_br_sped.ecd.9.i030",
         "reg_I030_ids_RegistroI010_id",
         string="I030 TERMO DE ABERTURA",
+        sped_card="1",
+        sped_required="Sim",
     )
 
     reg_I050_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i050",
+        "l10n_br_sped.ecd.9.i050",
         "reg_I050_ids_RegistroI010_id",
         string="I050 PLANO DE CONTAS",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
     reg_I075_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i075",
+        "l10n_br_sped.ecd.9.i075",
         "reg_I075_ids_RegistroI010_id",
         string="I075 TABELA DE HISTÓRICO PADRONIZADO",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
     reg_I100_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i100",
+        "l10n_br_sped.ecd.9.i100",
         "reg_I100_ids_RegistroI010_id",
         string="I100 CENTRO DE CUSTOS",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
     reg_I150_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i150",
+        "l10n_br_sped.ecd.9.i150",
         "reg_I150_ids_RegistroI010_id",
-        string="ids",
-        help="I150 SALDOS PERIÓDICOS – IDENTIFICAÇÃO DO PERÍODO",
+        string="I150 SALDOS PERIÓDICOS – IDENTIFICAÇÃO DO PERÍODO",
+        sped_card="1:12",
+        sped_required="Sim",
     )
 
     reg_I200_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i200",
+        "l10n_br_sped.ecd.9.i200",
         "reg_I200_ids_RegistroI010_id",
         string="I200 LANÇAMENTO CONTÁBIL",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
     reg_I300_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i300",
+        "l10n_br_sped.ecd.9.i300",
         "reg_I300_ids_RegistroI010_id",
-        string="ids (reg_I300_ids)",
-        help="I300 BALANCETES DIÁRIOS – IDENTIFICAÇÃO DA DATA",
+        string="I300 BALANCETES DIÁRIOS – IDENTIFICAÇÃO DA DATA",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
     reg_I350_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i350",
+        "l10n_br_sped.ecd.9.i350",
         "reg_I350_ids_RegistroI010_id",
-        string="ids (reg_I350_ids)",
+        string="reg_I350_ids",
+        sped_card="1:12",
+        sped_required="Sim",
         help=(
             "I350 SALDOS DAS CONTAS DE RESULTADO ANTES DO ENCERRAMENTO – "
             "IDENTIFICAÇÃO DA DATA"
@@ -358,9 +593,11 @@ class RegistroI010(models.Model):
     )
 
     reg_I500_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i500",
+        "l10n_br_sped.ecd.9.i500",
         "reg_I500_ids_RegistroI010_id",
-        string="ids (reg_I500_ids)",
+        string="reg_I500_ids",
+        sped_card="0:N",
+        sped_required="Sim",
         help=(
             "I500 PARÂMETROS DE IMPRESSÃO/VISUALIZAÇÃO DO LIVRO RAZÃO AUXILIAR"
             " COM LEIAUTE PARAMETRIZÁVEL"
@@ -368,9 +605,11 @@ class RegistroI010(models.Model):
     )
 
     reg_I510_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i510",
+        "l10n_br_sped.ecd.9.i510",
         "reg_I510_ids_RegistroI010_id",
-        string="ids (reg_I510_ids)",
+        string="reg_I510_ids",
+        sped_card="0:N",
+        sped_required="Sim",
         help=(
             "I510 DEFINIÇÃO DOS CAMPOS DO LIVRO RAZÃO AUXILIAR COM LEIAUTE "
             "PARAMETRIZÁVEL"
@@ -378,9 +617,11 @@ class RegistroI010(models.Model):
     )
 
     reg_I550_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i550",
+        "l10n_br_sped.ecd.9.i550",
         "reg_I550_ids_RegistroI010_id",
-        string="ids (reg_I550_ids)",
+        string="reg_I550_ids",
+        sped_card="0:N",
+        sped_required="Sim",
         help=("I550 DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"),
     )
 
@@ -388,7 +629,7 @@ class RegistroI010(models.Model):
 class RegistroI012(models.Model):
     "LIVROS AUXILIARES AO DIÁRIO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i012"
+    _name = "l10n_br_sped.ecd.9.i012"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -397,8 +638,9 @@ class RegistroI012(models.Model):
     )
 
     NAT_LIVR = fields.Char(
-        string="Natureza",
+        string="Natureza do livro associado; finalidade a",
         required=True,
+        sped_length=80,
         help=(
             "Natureza do livro associado; finalidade a que se destina o " "instrumento."
         ),
@@ -407,6 +649,7 @@ class RegistroI012(models.Model):
     TIPO = fields.Integer(
         string="Tipo de escrituração do livro associado",
         required=True,
+        sped_length=1,
         help=(
             "Tipo de escrituração do livro associado: 0 – digital (incluído no"
             " Sped). 1 – outros."
@@ -415,6 +658,7 @@ class RegistroI012(models.Model):
 
     COD_HASH_AUX = fields.Char(
         string="Código Hash",
+        sped_length=40,
         help=(
             "Código Hash do arquivo correspondente ao livro auxiliar utilizado"
             " na assinatura digital."
@@ -422,16 +666,18 @@ class RegistroI012(models.Model):
     )
 
     reg_I012_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
     )
 
     reg_I015_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i015",
+        "l10n_br_sped.ecd.9.i015",
         "reg_I015_ids_RegistroI012_id",
-        string="ids",
+        string="reg_I015_ids",
+        sped_card="1:N",
+        sped_required="Sim",
         help=(
             "I015 IDENTIFICAÇÃO DAS CONTAS DA ESCRITURAÇÃO RESUMIDA A QUE SE "
             "REFERE A ESCRITURAÇÃO AUXILIAR"
@@ -444,7 +690,7 @@ class RegistroI015(models.Model):
     ESCRITURAÇÃO AUXILIAR"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i015"
+    _name = "l10n_br_sped.ecd.9.i015"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -459,7 +705,7 @@ class RegistroI015(models.Model):
     )
 
     reg_I015_ids_RegistroI012_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i012",
+        comodel_name="l10n_br_sped.ecd.9.i012",
         string="LIVROS AUXILIARES AO DIÁRIO",
         required=True,
         ondelete="cascade",
@@ -469,13 +715,14 @@ class RegistroI015(models.Model):
 class RegistroI020(models.Model):
     "CAMPOS ADICIONAIS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i020"
+    _name = "l10n_br_sped.ecd.9.i020"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     REG_COD = fields.Char(
         string="Código do registro",
         required=True,
+        sped_length=4,
         help="Código do registro que recepciona o campo adicional.",
     )
 
@@ -501,6 +748,7 @@ class RegistroI020(models.Model):
 
     IND_DC_INI_MF = fields.Char(
         string="Indicador da situação do saldo inicial",
+        sped_length=1,
         help=(
             "Indicador da situação do saldo inicial em moeda funcional: D - "
             "Devedor; C - Credor."
@@ -508,7 +756,7 @@ class RegistroI020(models.Model):
     )
 
     reg_I020_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
@@ -518,47 +766,48 @@ class RegistroI020(models.Model):
 class RegistroI030(models.Model):
     "TERMO DE ABERTURA"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i030"
+    _name = "l10n_br_sped.ecd.9.i030"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     DNRC_ABERT = fields.Char(
-        string="Texto fixo contendo “TERMO DE ABERTURA”", required=True
+        string="Texto fixo contendo “TERMO DE ABERTURA”", required=True, sped_length=17
     )
 
     NUM_ORD = fields.Integer(
-        string="Número de ordem do instrumento",
-        required=True,
-        help="Número de ordem do instrumento de escrituração.",
+        string="Número de ordem do instrumento de escrituração", required=True
     )
 
     NAT_LIVR = fields.Char(
         string="Natureza do livro; finalidade a",
         required=True,
+        sped_length=80,
         help=("Natureza do livro; finalidade a que se destina o instrumento."),
     )
 
     QTD_LIN = fields.Integer(
-        string="Quantidade total de linhas",
-        required=True,
-        help="Quantidade total de linhas do arquivo digital.",
+        string="Quantidade total de linhas do arquivo digital", required=True
     )
 
     NOME = fields.Char(string="Nome empresarial", required=True)
 
     NIRE = fields.Integer(
-        string="Número de Identificação do Registro",
+        string="Número de Identificação do Registro de Empresas",
+        sped_length=11,
         help=("Número de Identificação do Registro de Empresas da Junta " "Comercial."),
     )
 
-    CNPJ = fields.Integer(string="Número de inscrição no CNPJ", required=True)
+    CNPJ = fields.Char(
+        string="Número de inscrição no CNPJ", required=True, sped_length=14
+    )
 
     DT_ARQ = fields.Date(
-        string="Data", help="Data do arquivamento dos atos constitutivos."
+        string="Data do arquivamento dos atos constitutivos", sped_length=8
     )
 
     DT_ARQ_CONV = fields.Date(
         string="Data de arquivamento do ato de conversão",
+        sped_length=8,
         help=(
             "Data de arquivamento do ato de conversão de sociedade simples em "
             "sociedade empresária."
@@ -568,11 +817,11 @@ class RegistroI030(models.Model):
     DESC_MUN = fields.Char(string="Município")
 
     DT_EX_SOCIAL = fields.Date(
-        string="Data de encerramento do exercício social", required=True
+        string="Data de encerramento do exercício social", required=True, sped_length=8
     )
 
     reg_I030_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
@@ -582,15 +831,18 @@ class RegistroI030(models.Model):
 class RegistroI050(models.Model):
     "PLANO DE CONTAS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i050"
+    _name = "l10n_br_sped.ecd.9.i050"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    DT_ALT = fields.Date(string="Data da inclusão/alteração", required=True)
+    DT_ALT = fields.Date(
+        string="Data da inclusão/alteração", required=True, sped_length=8
+    )
 
     COD_NAT = fields.Char(
-        string="Código da natureza da conta/grupo",
+        string="Código da natureza da conta/grupo de contas",
         required=True,
+        sped_length=2,
         help=(
             "Código da natureza da conta/grupo de contas, conforme tabela "
             "publicada pelo Sped."
@@ -600,6 +852,7 @@ class RegistroI050(models.Model):
     IND_CTA = fields.Char(
         string="Indicador do tipo de conta: S",
         required=True,
+        sped_length=1,
         help=(
             "Indicador do tipo de conta: S - Sintética (grupo de contas) A - "
             "Analítica (conta)"
@@ -611,13 +864,11 @@ class RegistroI050(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código da conta analítica/grupo",
-        required=True,
-        help="Código da conta analítica/grupo de contas.",
+        string="Código da conta analítica/grupo de contas", required=True
     )
 
     COD_CTA_SUP = fields.Char(
-        string="Código da conta sintética /grupo",
+        string="Código da conta sintética /grupo de contas",
         help=(
             "Código da conta sintética /grupo de contas de nível imediatamente"
             " superior."
@@ -627,36 +878,41 @@ class RegistroI050(models.Model):
     CTA = fields.Char(string="Nome da conta analítica/grupo de contas", required=True)
 
     reg_I050_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
     )
 
     reg_I051_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i051",
+        "l10n_br_sped.ecd.9.i051",
         "reg_I051_ids_RegistroI050_id",
         string="I051 PLANO DE CONTAS REFERENCIAL",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
     reg_I052_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i052",
+        "l10n_br_sped.ecd.9.i052",
         "reg_I052_ids_RegistroI050_id",
-        string="ids",
-        help="I052 INDICAÇÃO DOS CÓDIGOS DE AGLUTINAÇÃO",
+        string="I052 INDICAÇÃO DOS CÓDIGOS DE AGLUTINAÇÃO",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
     reg_I053_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i053",
+        "l10n_br_sped.ecd.9.i053",
         "reg_I053_ids_RegistroI050_id",
         string="I053 SUBCONTAS CORRELATAS",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
 
 class RegistroI051(models.Model):
     "PLANO DE CONTAS REFERENCIAL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i051"
+    _name = "l10n_br_sped.ecd.9.i051"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -673,7 +929,7 @@ class RegistroI051(models.Model):
     )
 
     reg_I051_ids_RegistroI050_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i050",
+        comodel_name="l10n_br_sped.ecd.9.i050",
         string="PLANO DE CONTAS",
         required=True,
         ondelete="cascade",
@@ -683,7 +939,7 @@ class RegistroI051(models.Model):
 class RegistroI052(models.Model):
     "INDICAÇÃO DOS CÓDIGOS DE AGLUTINAÇÃO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i052"
+    _name = "l10n_br_sped.ecd.9.i052"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -699,7 +955,7 @@ class RegistroI052(models.Model):
     )
 
     reg_I052_ids_RegistroI050_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i050",
+        comodel_name="l10n_br_sped.ecd.9.i050",
         string="PLANO DE CONTAS",
         required=True,
         ondelete="cascade",
@@ -709,13 +965,14 @@ class RegistroI052(models.Model):
 class RegistroI053(models.Model):
     "SUBCONTAS CORRELATAS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i053"
+    _name = "l10n_br_sped.ecd.9.i053"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
     COD_IDT = fields.Char(
         string="Código de identificação do grupo",
         required=True,
+        sped_length=6,
         help="Código de identificação do grupo de conta- subconta(s)",
     )
 
@@ -731,6 +988,7 @@ class RegistroI053(models.Model):
     NAT_SUB_CNT = fields.Char(
         string="Natureza da subconta correlata",
         required=True,
+        sped_length=2,
         help=(
             "Natureza da subconta correlata (conforme tabela de natureza da "
             "subconta publicada no Sped )"
@@ -738,7 +996,7 @@ class RegistroI053(models.Model):
     )
 
     reg_I053_ids_RegistroI050_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i050",
+        comodel_name="l10n_br_sped.ecd.9.i050",
         string="PLANO DE CONTAS",
         required=True,
         ondelete="cascade",
@@ -748,7 +1006,7 @@ class RegistroI053(models.Model):
 class RegistroI075(models.Model):
     "TABELA DE HISTÓRICO PADRONIZADO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i075"
+    _name = "l10n_br_sped.ecd.9.i075"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -757,7 +1015,7 @@ class RegistroI075(models.Model):
     DESCR_HIST = fields.Char(string="Descrição do histórico padronizado", required=True)
 
     reg_I075_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
@@ -767,18 +1025,20 @@ class RegistroI075(models.Model):
 class RegistroI100(models.Model):
     "CENTRO DE CUSTOS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i100"
+    _name = "l10n_br_sped.ecd.9.i100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    DT_ALT = fields.Date(string="Data da inclusão/alteração", required=True)
+    DT_ALT = fields.Date(
+        string="Data da inclusão/alteração", required=True, sped_length=8
+    )
 
     COD_CCUS = fields.Char(string="Código do centro de custos", required=True)
 
     CCUS = fields.Char(string="Nome do centro de custos", required=True)
 
     reg_I100_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
@@ -788,32 +1048,36 @@ class RegistroI100(models.Model):
 class RegistroI150(models.Model):
     "SALDOS PERIÓDICOS – IDENTIFICAÇÃO DO PERÍODO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i150"
+    _name = "l10n_br_sped.ecd.9.i150"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    DT_INI = fields.Date(string="Data de início do período", required=True)
+    DT_INI = fields.Date(
+        string="Data de início do período", required=True, sped_length=8
+    )
 
-    DT_FIN = fields.Date(string="Data de fim do período", required=True)
+    DT_FIN = fields.Date(string="Data de fim do período", required=True, sped_length=8)
 
     reg_I150_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
     )
 
     reg_I155_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i155",
+        "l10n_br_sped.ecd.9.i155",
         "reg_I155_ids_RegistroI150_id",
         string="I155 DETALHES DOS SALDOS PERIÓDICOS",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
 
 class RegistroI155(models.Model):
     "DETALHES DOS SALDOS PERIÓDICOS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i155"
+    _name = "l10n_br_sped.ecd.9.i155"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -824,18 +1088,21 @@ class RegistroI155(models.Model):
     VL_SLD_INI = fields.Monetary(
         string="Valor do saldo inicial do período",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
 
     IND_DC_INI = fields.Char(
         string="Indicador da situação do saldo inicial",
+        sped_length=1,
         help=("Indicador da situação do saldo inicial: D - Devedor; C - Credor."),
     )
 
     VL_DEB = fields.Monetary(
         string="Valor total dos débitos do período",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
@@ -843,6 +1110,7 @@ class RegistroI155(models.Model):
     VL_CRED = fields.Monetary(
         string="Valor total dos créditos do período",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
@@ -850,17 +1118,20 @@ class RegistroI155(models.Model):
     VL_SLD_FIN = fields.Monetary(
         string="Valor do saldo final do período",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
 
     IND_DC_FIN = fields.Char(
         string="Indicador da situação do saldo final",
+        sped_length=1,
         help=("Indicador da situação do saldo final: D - Devedor; C - Credor."),
     )
 
     VL_SLD_INI_MF = fields.Monetary(
-        string="MF",
+        string="Valor do saldo inicial do período (VL_SLD_INI_MF)",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -870,7 +1141,8 @@ class RegistroI155(models.Model):
     )
 
     IND_DC_INI_MF = fields.Char(
-        string="MF",
+        string="IND_DC_INI_MF",
+        sped_length=1,
         help=(
             "Indicador da situação do saldo inicial em moeda funcional: D - "
             "Devedor; C - Credor."
@@ -878,7 +1150,8 @@ class RegistroI155(models.Model):
     )
 
     VL_DEB_MF = fields.Monetary(
-        string="MF",
+        string="Valor total dos débitos do período (VL_DEB_MF)",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -888,7 +1161,8 @@ class RegistroI155(models.Model):
     )
 
     VL_CRED_MF = fields.Monetary(
-        string="MF",
+        string="Valor total dos créditos do período (VL_CRED_MF)",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -898,7 +1172,8 @@ class RegistroI155(models.Model):
     )
 
     VL_SLD_FIN_MF = fields.Monetary(
-        string="MF",
+        string="Valor do saldo final do período em moeda funcional",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -908,7 +1183,8 @@ class RegistroI155(models.Model):
     )
 
     IND_DC_FIN_MF = fields.Char(
-        string="MF",
+        string="IND_DC_FIN_MF",
+        sped_length=1,
         help=(
             "Indicador da situação do saldo final em moeda funcional: D - "
             "Devedor; C - Credor."
@@ -916,17 +1192,18 @@ class RegistroI155(models.Model):
     )
 
     reg_I155_ids_RegistroI150_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i150",
-        string="id",
+        comodel_name="l10n_br_sped.ecd.9.i150",
+        string="SALDOS PERIÓDICOS – IDENTIFICAÇÃO DO PERÍODO",
         required=True,
-        help="SALDOS PERIÓDICOS – IDENTIFICAÇÃO DO PERÍODO",
         ondelete="cascade",
     )
 
     reg_I157_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i157",
+        "l10n_br_sped.ecd.9.i157",
         "reg_I157_ids_RegistroI155_id",
-        string="ids",
+        string="reg_I157_ids",
+        sped_card="1:N",
+        sped_required="Sim",
         help="I157 TRANSFERÊNCIA DE SALDOS DO PLANO DE CONTAS ANTERIOR",
     )
 
@@ -934,7 +1211,7 @@ class RegistroI155(models.Model):
 class RegistroI157(models.Model):
     "TRANSFERÊNCIA DE SALDOS DO PLANO DE CONTAS ANTERIOR"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i157"
+    _name = "l10n_br_sped.ecd.9.i157"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
@@ -952,17 +1229,20 @@ class RegistroI157(models.Model):
     VL_SLD_INI = fields.Monetary(
         string="Valor do saldo inicial do período",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
 
     IND_DC_INI = fields.Char(
         string="Indicador da situação do saldo inicial",
+        sped_length=1,
         help=("Indicador da situação do saldo inicial: D - Devedor; C - Credor."),
     )
 
     VL_SLD_INI_MF = fields.Monetary(
-        string="MF",
+        string="Valor do saldo inicial do período (VL_SLD_INI_MF)",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -972,7 +1252,8 @@ class RegistroI157(models.Model):
     )
 
     IND_DC_INI_MF = fields.Char(
-        string="MF",
+        string="IND_DC_INI_MF",
+        sped_length=1,
         help=(
             "Indicador da situação do saldo inicial em moeda funcional: D - "
             "Devedor; C - Credor."
@@ -980,7 +1261,7 @@ class RegistroI157(models.Model):
     )
 
     reg_I157_ids_RegistroI155_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i155",
+        comodel_name="l10n_br_sped.ecd.9.i155",
         string="DETALHES DOS SALDOS PERIÓDICOS",
         required=True,
         ondelete="cascade",
@@ -990,7 +1271,7 @@ class RegistroI157(models.Model):
 class RegistroI200(models.Model):
     "LANÇAMENTO CONTÁBIL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i200"
+    _name = "l10n_br_sped.ecd.9.i200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -1000,11 +1281,12 @@ class RegistroI200(models.Model):
         help=("Número ou Código de identificação único do lançamento contábil."),
     )
 
-    DT_LCTO = fields.Date(string="Data do lançamento", required=True)
+    DT_LCTO = fields.Date(string="Data do lançamento", required=True, sped_length=8)
 
     VL_LCTO = fields.Monetary(
         string="Valor do lançamento",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
@@ -1012,6 +1294,7 @@ class RegistroI200(models.Model):
     IND_LCTO = fields.Char(
         string="Indicador do tipo de lançamento: N",
         required=True,
+        sped_length=1,
         help=(
             "Indicador do tipo de lançamento: N - Lançamento normal (todos os "
             "lançamentos, exceto os de encerramento das contas de resultado); "
@@ -1022,6 +1305,7 @@ class RegistroI200(models.Model):
 
     DT_LCTO_EXT = fields.Date(
         string="O Data de ocorrência dos fatos objeto",
+        sped_length=8,
         help=(
             "O Data de ocorrência dos fatos objeto do lançamento extemporâneo."
             " bservação: Caso não seja possível precisar a data a que se "
@@ -1032,36 +1316,37 @@ class RegistroI200(models.Model):
 
     VL_LCTO_MF = fields.Monetary(
         string="Valor do lançamento em moeda funcional",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=("Valor do lançamento em moeda funcional, convertido para reais."),
     )
 
     reg_I200_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
     )
 
     reg_I250_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i250",
+        "l10n_br_sped.ecd.9.i250",
         "reg_I250_ids_RegistroI200_id",
         string="I250 PARTIDAS DO LANÇAMENTO CONTÁBIL",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
 
 class RegistroI250(models.Model):
     "PARTIDAS DO LANÇAMENTO CONTÁBIL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i250"
+    _name = "l10n_br_sped.ecd.9.i250"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
     COD_CTA = fields.Char(
-        string="Código",
-        required=True,
-        help="Código da conta analítica debitada/creditada.",
+        string="Código da conta analítica debitada/creditada", required=True
     )
 
     COD_CCUS = fields.Char(string="Código do centro de custos")
@@ -1069,6 +1354,7 @@ class RegistroI250(models.Model):
     VL_DC = fields.Monetary(
         string="Valor da partida",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
@@ -1076,6 +1362,7 @@ class RegistroI250(models.Model):
     IND_DC = fields.Char(
         string="Indicador da natureza da partida: D",
         required=True,
+        sped_length=1,
         help="Indicador da natureza da partida: D - Débito; C - Crédito.",
     )
 
@@ -1091,6 +1378,7 @@ class RegistroI250(models.Model):
 
     HIST = fields.Char(
         string="O Histórico completo da partida",
+        sped_length=65535,
         help=(
             "O Histórico completo da partida ou histórico complementar. "
             "bservação: Caso o lançamento seja do tipo “X” – lançamento "
@@ -1112,6 +1400,7 @@ class RegistroI250(models.Model):
 
     VL_DC_MF = fields.Monetary(
         string="Valor da partida em moeda funcional",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor da partida em moeda funcional, convertido para reais.",
@@ -1119,6 +1408,7 @@ class RegistroI250(models.Model):
 
     IND_DC_MF = fields.Char(
         string="Indicador da natureza da partida",
+        sped_length=1,
         help=(
             "Indicador da natureza da partida em moeda funcional: D - Débito; "
             "C - Crédito."
@@ -1126,7 +1416,7 @@ class RegistroI250(models.Model):
     )
 
     reg_I250_ids_RegistroI200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i200",
+        comodel_name="l10n_br_sped.ecd.9.i200",
         string="LANÇAMENTO CONTÁBIL",
         required=True,
         ondelete="cascade",
@@ -1136,37 +1426,37 @@ class RegistroI250(models.Model):
 class RegistroI300(models.Model):
     "BALANCETES DIÁRIOS – IDENTIFICAÇÃO DA DATA"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i300"
+    _name = "l10n_br_sped.ecd.9.i300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    DT_BCTE = fields.Date(string="Data do balancete", required=True)
+    DT_BCTE = fields.Date(string="Data do balancete", required=True, sped_length=8)
 
     reg_I300_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
     )
 
     reg_I310_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i310",
+        "l10n_br_sped.ecd.9.i310",
         "reg_I310_ids_RegistroI300_id",
         string="I310 DETALHES DO BALANCETE DIÁRIO",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
 
 class RegistroI310(models.Model):
     "DETALHES DO BALANCETE DIÁRIO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i310"
+    _name = "l10n_br_sped.ecd.9.i310"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
     COD_CTA = fields.Char(
-        string="Código",
-        required=True,
-        help="Código da conta analítica debitada/creditada.",
+        string="Código da conta analítica debitada/creditada", required=True
     )
 
     COD_CCUS = fields.Char(string="Código do centro de custos")
@@ -1174,6 +1464,7 @@ class RegistroI310(models.Model):
     VAL_DEBD = fields.Monetary(
         string="Total dos débitos do dia",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
@@ -1181,19 +1472,22 @@ class RegistroI310(models.Model):
     VAL_CREDD = fields.Monetary(
         string="Total dos créditos do dia",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
 
     VAL_DEB_MF = fields.Monetary(
-        string="Total dos débitos do dia (VAL_DEB_MF)",
+        string="Total dos débitos do dia em moeda funcional",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=("Total dos débitos do dia em moeda funcional, convertido para " "reais."),
     )
 
     VAL_CRED_MF = fields.Monetary(
-        string="Total dos créditos do dia (VAL_CRED_MF)",
+        string="Total dos créditos do dia em moeda funcional",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1202,10 +1496,9 @@ class RegistroI310(models.Model):
     )
 
     reg_I310_ids_RegistroI300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i300",
-        string="id",
+        comodel_name="l10n_br_sped.ecd.9.i300",
+        string="BALANCETES DIÁRIOS – IDENTIFICAÇÃO DA DATA",
         required=True,
-        help="BALANCETES DIÁRIOS – IDENTIFICAÇÃO DA DATA",
         ondelete="cascade",
     )
 
@@ -1215,23 +1508,27 @@ class RegistroI350(models.Model):
     DATA"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i350"
+    _name = "l10n_br_sped.ecd.9.i350"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    DT_RES = fields.Date(string="Data da apuração do resultado", required=True)
+    DT_RES = fields.Date(
+        string="Data da apuração do resultado", required=True, sped_length=8
+    )
 
     reg_I350_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
     )
 
     reg_I355_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i355",
+        "l10n_br_sped.ecd.9.i355",
         "reg_I355_ids_RegistroI350_id",
-        string="ids",
+        string="reg_I355_ids",
+        sped_card="1:N",
+        sped_required="Sim",
         help=(
             "I355 DOS SALDOS DAS CONTAS DE RESULTADO ANTES DO DETALHES " "ENCERRAMENTO"
         ),
@@ -1241,7 +1538,7 @@ class RegistroI350(models.Model):
 class RegistroI355(models.Model):
     "DOS SALDOS DAS CONTAS DE RESULTADO ANTES DO DETALHES ENCERRAMENTO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i355"
+    _name = "l10n_br_sped.ecd.9.i355"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -1254,6 +1551,7 @@ class RegistroI355(models.Model):
     VL_CTA = fields.Monetary(
         string="Valor do saldo final antes do lançamento",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor do saldo final antes do lançamento de encerramento.",
@@ -1262,11 +1560,13 @@ class RegistroI355(models.Model):
     IND_DC = fields.Char(
         string="Indicador da situação do saldo final",
         required=True,
+        sped_length=1,
         help=("Indicador da situação do saldo final: D - Devedor; C - Credor."),
     )
 
     VL_CTA_MF = fields.Monetary(
-        string="MF",
+        string="VL_CTA_MF",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1276,7 +1576,8 @@ class RegistroI355(models.Model):
     )
 
     IND_DC_MF = fields.Char(
-        string="MF",
+        string="Indicador da situação do saldo final (IND_DC_MF)",
+        sped_length=1,
         help=(
             "Indicador da situação do saldo final em moeda funcional: D - "
             "Devedor; C - Credor."
@@ -1284,14 +1585,14 @@ class RegistroI355(models.Model):
     )
 
     reg_I355_ids_RegistroI350_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i350",
-        string="id",
+        comodel_name="l10n_br_sped.ecd.9.i350",
+        string="reg_I355_ids_RegistroI350_id",
         required=True,
+        ondelete="cascade",
         help=(
             "SALDOS DAS CONTAS DE RESULTADO ANTES DO ENCERRAMENTO – "
             "IDENTIFICAÇÃO DA DATA"
         ),
-        ondelete="cascade",
     )
 
 
@@ -1300,14 +1601,14 @@ class RegistroI500(models.Model):
     PARAMETRIZÁVEL"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i500"
+    _name = "l10n_br_sped.ecd.9.i500"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    TAM_FONTE = fields.Integer(string="Tamanho da fonte", required=True)
+    TAM_FONTE = fields.Integer(string="Tamanho da fonte", required=True, sped_length=2)
 
     reg_I500_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
@@ -1319,43 +1620,46 @@ class RegistroI510(models.Model):
     PARAMETRIZÁVEL"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i510"
+    _name = "l10n_br_sped.ecd.9.i510"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     NM_CAMPO = fields.Char(
         string="Nome do campo",
         required=True,
+        sped_length=16,
         help="Nome do campo, sem espaços em branco ou caractere especial.",
     )
 
     DESC_CAMPO = fields.Char(
         string="Descrição do campo",
         required=True,
+        sped_length=50,
         help=("Descrição do campo (utilizada na visualização do Livro Auxiliar)"),
     )
 
     TIPO_CAMPO = fields.Char(
         string="Tipo do campo",
         required=True,
+        sped_length=1,
         help="Tipo do campo: “N” – Numérico; “C” – Caractere.",
     )
 
-    TAM_CAMPO = fields.Integer(string="Tamanho do campo", required=True)
+    TAM_CAMPO = fields.Integer(string="Tamanho do campo", required=True, sped_length=3)
 
     DEC_CAMPO = fields.Integer(
-        string="Quantidade de casas decimais",
-        help="Quantidade de casas decimais para campos tipo “N”.",
+        string="Quantidade de casas decimais para campos tipo “N”", sped_length=2
     )
 
     COL_CAMPO = fields.Integer(
         string="Largura da coluna no relatório",
         required=True,
+        sped_length=3,
         help=("Largura da coluna no relatório (em quantidade de caracteres)."),
     )
 
     reg_I510_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
@@ -1365,21 +1669,23 @@ class RegistroI510(models.Model):
 class RegistroI550(models.Model):
     "DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i550"
+    _name = "l10n_br_sped.ecd.9.i550"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     reg_I550_ids_RegistroI010_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i010",
+        comodel_name="l10n_br_sped.ecd.9.i010",
         string="IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL",
         required=True,
         ondelete="cascade",
     )
 
     reg_I555_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.i555",
+        "l10n_br_sped.ecd.9.i555",
         "reg_I555_ids_RegistroI550_id",
-        string="ids",
+        string="reg_I555_ids",
+        sped_card="0:N",
+        sped_required="Sim",
         help=("I555 TOTAIS NO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"),
     )
 
@@ -1387,29 +1693,30 @@ class RegistroI550(models.Model):
 class RegistroI555(models.Model):
     "TOTAIS NO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.i555"
+    _name = "l10n_br_sped.ecd.9.i555"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
     reg_I555_ids_RegistroI550_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.i550",
-        string="id",
+        comodel_name="l10n_br_sped.ecd.9.i550",
+        string="reg_I555_ids_RegistroI550_id",
         required=True,
-        help="DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL",
         ondelete="cascade",
+        help="DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL",
     )
 
 
 class RegistroJ005(models.Model):
     "DEMONSTRAÇÕES CONTÁBEIS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j005"
+    _name = "l10n_br_sped.ecd.9.j005"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     DT_INI = fields.Date(
-        string="INI",
+        string="O Data inicial das demonstrações contábeis",
         required=True,
+        sped_length=8,
         help=(
             "O Data inicial das demonstrações contábeis. bservação: A data "
             "inicial das demonstrações deve ser a data posterior ao último "
@@ -1420,11 +1727,14 @@ class RegistroJ005(models.Model):
         ),
     )
 
-    DT_FIN = fields.Date(string="Data final das demonstrações contábeis", required=True)
+    DT_FIN = fields.Date(
+        string="Data final das demonstrações contábeis", required=True, sped_length=8
+    )
 
     ID_DEM = fields.Integer(
         string="Identificação das demonstrações",
         required=True,
+        sped_length=1,
         help=(
             "Identificação das demonstrações: 1 – demonstrações contábeis da "
             "pessoa jurídica a que se refere a escrituração (inclusive "
@@ -1433,25 +1743,31 @@ class RegistroJ005(models.Model):
         ),
     )
 
-    CAB_DEM = fields.Char(string="Cabeçalho das demonstrações")
+    CAB_DEM = fields.Char(string="Cabeçalho das demonstrações", sped_length=65535)
 
     reg_J100_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j100",
+        "l10n_br_sped.ecd.9.j100",
         "reg_J100_ids_RegistroJ005_id",
         string="J100 BALANÇO PATRIMONIAL",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
     reg_J150_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j150",
+        "l10n_br_sped.ecd.9.j150",
         "reg_J150_ids_RegistroJ005_id",
-        string="ids",
+        string="J150 DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO",
+        sped_card="1:N",
+        sped_required="Sim",
         help="J150 DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO (DRE)",
     )
 
     reg_J210_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j210",
+        "l10n_br_sped.ecd.9.j210",
         "reg_J210_ids_RegistroJ005_id",
-        string="ids (reg_J210_ids)",
+        string="reg_J210_ids",
+        sped_card="1:N",
+        sped_required="Sim",
         help=(
             "J210 DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO "
             "(DLPA)/DEMONSTRAÇÃO DE MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"
@@ -1459,15 +1775,19 @@ class RegistroJ005(models.Model):
     )
 
     reg_J800_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j800",
+        "l10n_br_sped.ecd.9.j800",
         "reg_J800_ids_RegistroJ005_id",
         string="J800 OUTRAS INFORMAÇÕES",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
     reg_J801_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j801",
+        "l10n_br_sped.ecd.9.j801",
         "reg_J801_ids_RegistroJ005_id",
-        string="ids (reg_J801_ids)",
+        string="reg_J801_ids",
+        sped_card="0:1",
+        sped_required="Sim",
         help="J801 TERMO DE VERIFICAÇÃO PARA FINS DE SUBSTITUIÇÃO DA ECD",
     )
 
@@ -1475,7 +1795,7 @@ class RegistroJ005(models.Model):
 class RegistroJ100(models.Model):
     "BALANÇO PATRIMONIAL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j100"
+    _name = "l10n_br_sped.ecd.9.j100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -1494,6 +1814,7 @@ class RegistroJ100(models.Model):
     IND_COD_AGL = fields.Char(
         string="Indicador do tipo de código",
         required=True,
+        sped_length=1,
         help=(
             "Indicador do tipo de código de aglutinação das linhas: T – "
             "Totalizador (nível que totaliza um ou mais níveis inferiores da "
@@ -1512,7 +1833,7 @@ class RegistroJ100(models.Model):
     )
 
     COD_AGL_SUP = fields.Char(
-        string="Código de aglutinação sintético/grupo",
+        string="Código de aglutinação sintético/grupo de código",
         help=(
             "Código de aglutinação sintético/grupo de código de aglutinação de"
             " nível superior."
@@ -1522,6 +1843,7 @@ class RegistroJ100(models.Model):
     IND_GRP_BAL = fields.Char(
         string="Indicador de grupo do balanço",
         required=True,
+        sped_length=1,
         help=(
             "Indicador de grupo do balanço: A – Ativo; P – Passivo e "
             "Patrimônio Líquido."
@@ -1535,6 +1857,7 @@ class RegistroJ100(models.Model):
     VL_CTA_INI = fields.Monetary(
         string="Valor inicial do código de aglutinação",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1544,8 +1867,9 @@ class RegistroJ100(models.Model):
     )
 
     IND_DC_CTA_INI = fields.Char(
-        string="Indicador da situação",
+        string="Indicador da situação do saldo inicial informado",
         required=True,
+        sped_length=1,
         help=(
             "Indicador da situação do saldo inicial informado no campo "
             "anterior: D - Devedor; C – Credor."
@@ -1555,6 +1879,7 @@ class RegistroJ100(models.Model):
     VL_CTA_FIN = fields.Monetary(
         string="Valor final do código de aglutinação",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1564,8 +1889,9 @@ class RegistroJ100(models.Model):
     )
 
     IND_DC_CTA_FIN = fields.Char(
-        string="Indicador da situação (IND_DC_CTA_FIN)",
+        string="Indicador da situação do saldo final informado",
         required=True,
+        sped_length=1,
         help=(
             "Indicador da situação do saldo final informado no campo anterior:"
             " D - Devedor; C – Credor."
@@ -1573,7 +1899,8 @@ class RegistroJ100(models.Model):
     )
 
     NOTA_EXP_REF = fields.Char(
-        string="REF",
+        string="NOTA_EXP_REF",
+        sped_length=12,
         help=(
             "Referência a numeração das notas explicativas relativas às "
             "demonstrações contábeis."
@@ -1581,7 +1908,7 @@ class RegistroJ100(models.Model):
     )
 
     reg_J100_ids_RegistroJ005_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j005",
+        comodel_name="l10n_br_sped.ecd.9.j005",
         string="DEMONSTRAÇÕES CONTÁBEIS",
         required=True,
         ondelete="cascade",
@@ -1591,13 +1918,14 @@ class RegistroJ100(models.Model):
 class RegistroJ150(models.Model):
     "DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO (DRE)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j150"
+    _name = "l10n_br_sped.ecd.9.j150"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     NU_ORDEM = fields.Integer(
-        string="O Número de ordem da linha",
+        string="O Número de ordem da linha na visualização",
         required=True,
+        sped_length=19,
         help=(
             "O Número de ordem da linha na visualização da demonstração. rdem "
             "de apresentação da linha na visualização do registro J150."
@@ -1617,6 +1945,7 @@ class RegistroJ150(models.Model):
     IND_COD_AGL = fields.Char(
         string="Indicador do tipo de código",
         required=True,
+        sped_length=1,
         help=(
             "Indicador do tipo de código de aglutinação das linhas: T – "
             "Totalizador (nível que totaliza um ou mais níveis inferiores da "
@@ -1635,7 +1964,7 @@ class RegistroJ150(models.Model):
     )
 
     COD_AGL_SUP = fields.Char(
-        string="Código de aglutinação sintético/grupo",
+        string="Código de aglutinação sintético/grupo de código",
         help=(
             "Código de aglutinação sintético/grupo de código de aglutinação de"
             " nível superior."
@@ -1646,8 +1975,9 @@ class RegistroJ150(models.Model):
         string="Descrição do Código de aglutinação", required=True
     )
 
-    VL_CTA_INI = fields.Monetary(
+    VL_CTA_INI_ = fields.Monetary(
         string="Valor do saldo final da linha",
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1657,7 +1987,8 @@ class RegistroJ150(models.Model):
     )
 
     IND_DC_CTA_INI = fields.Char(
-        string="Indicador da situação do valor final",
+        string="Indicador da situação do valor final da linha",
+        sped_length=1,
         help=(
             "Indicador da situação do valor final da linha no período "
             "imediatamente anterior: D – Devedor; C – Credor."
@@ -1665,16 +1996,18 @@ class RegistroJ150(models.Model):
     )
 
     VL_CTA_FIN = fields.Monetary(
-        string="Valor final da linha antes",
+        string="Valor final da linha antes do encerramento",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor final da linha antes do encerramento do exercício.",
     )
 
     IND_DC_CTA_FIN = fields.Char(
-        string="FIN",
+        string="Indicador da situação do valor final",
         required=True,
+        sped_length=1,
         help=(
             "Indicador da situação do valor final da linha antes do "
             "encerramento do exercício: D – Devedor; C – Credor."
@@ -1684,6 +2017,7 @@ class RegistroJ150(models.Model):
     IND_GRP_DRE = fields.Char(
         string="D R Indicador de grupo da DRE",
         required=True,
+        sped_length=1,
         help=(
             "D R Indicador de grupo da DRE: – Linha totalizadora ou de detalhe"
             " da demonstração que, por sua natureza de despesa, represente "
@@ -1694,7 +2028,8 @@ class RegistroJ150(models.Model):
     )
 
     NOTA_EXP_REF = fields.Char(
-        string="REF",
+        string="NOTA_EXP_REF",
+        sped_length=12,
         help=(
             "Referência a numeração das notas explicativas relativas às "
             "demonstrações contábeis."
@@ -1702,7 +2037,7 @@ class RegistroJ150(models.Model):
     )
 
     reg_J150_ids_RegistroJ005_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j005",
+        comodel_name="l10n_br_sped.ecd.9.j005",
         string="DEMONSTRAÇÕES CONTÁBEIS",
         required=True,
         ondelete="cascade",
@@ -1714,13 +2049,14 @@ class RegistroJ210(models.Model):
     MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j210"
+    _name = "l10n_br_sped.ecd.9.j210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     IND_TIP = fields.Integer(
         string="Indicador do tipo de demonstração",
         required=True,
+        sped_length=1,
         help=(
             "Indicador do tipo de demonstração: 0 – DLPA – Demonstração de "
             "Lucro ou Prejuízos Acumulados 1 – DMPL – Demonstração de Mutações"
@@ -1729,7 +2065,7 @@ class RegistroJ210(models.Model):
     )
 
     COD_AGL = fields.Char(
-        string="Código",
+        string="Código de aglutinação das contas analíticas",
         required=True,
         help=(
             "Código de aglutinação das contas analíticas do patrimônio "
@@ -1744,6 +2080,7 @@ class RegistroJ210(models.Model):
     VL_CTA_INI = fields.Monetary(
         string="Saldo inicial do código de aglutinação",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1753,8 +2090,9 @@ class RegistroJ210(models.Model):
     )
 
     IND_DC_CTA_INI = fields.Char(
-        string="Indicador da situação",
+        string="Indicador da situação do saldo inicial informado",
         required=True,
+        sped_length=1,
         help=(
             "Indicador da situação do saldo inicial informado no campo "
             "anterior: D – Devedor C – Credor"
@@ -1764,6 +2102,7 @@ class RegistroJ210(models.Model):
     VL_CTA_FIN = fields.Monetary(
         string="Saldo final do código de aglutinação",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -1773,8 +2112,9 @@ class RegistroJ210(models.Model):
     )
 
     IND_DC_CTA_FIN = fields.Char(
-        string="Indicador da situação (IND_DC_CTA_FIN)",
+        string="Indicador da situação do saldo final informado",
         required=True,
+        sped_length=1,
         help=(
             "Indicador da situação do saldo final informado no campo anterior:"
             " D – Devedor C – Credor"
@@ -1782,7 +2122,8 @@ class RegistroJ210(models.Model):
     )
 
     NOTAS_EXP_REF = fields.Char(
-        string="REF",
+        string="NOTAS_EXP_REF",
+        sped_length=12,
         help=(
             "Referência à numeração das notas explicativas relativas às "
             "demonstrações contábeis."
@@ -1790,16 +2131,18 @@ class RegistroJ210(models.Model):
     )
 
     reg_J210_ids_RegistroJ005_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j005",
+        comodel_name="l10n_br_sped.ecd.9.j005",
         string="DEMONSTRAÇÕES CONTÁBEIS",
         required=True,
         ondelete="cascade",
     )
 
     reg_J215_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j215",
+        "l10n_br_sped.ecd.9.j215",
         "reg_J215_ids_RegistroJ210_id",
-        string="ids",
+        string="reg_J215_ids",
+        sped_card="1:N",
+        sped_required="Sim",
         help=(
             "J215 FATO CONTÁBIL QUE ALTERA A CONTA LUCROS ACUMULADOS OU A "
             "CONTA PREJUÍZOS ACUMULADOS OU O PATRIMÔNIO LÍQUIDO"
@@ -1812,7 +2155,7 @@ class RegistroJ215(models.Model):
     ACUMULADOS OU O PATRIMÔNIO LÍQUIDO"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j215"
+    _name = "l10n_br_sped.ecd.9.j215"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
@@ -1825,6 +2168,7 @@ class RegistroJ215(models.Model):
     VL_FAT_CONT = fields.Monetary(
         string="Valor do fato contábil",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
@@ -1832,6 +2176,7 @@ class RegistroJ215(models.Model):
     IND_DC_FAT = fields.Char(
         string="Indicador de situação do saldo informado",
         required=True,
+        sped_length=1,
         help=(
             "Indicador de situação do saldo informado no campo anterior: D – "
             "Devedor C – Credor P – Subtotal ou total positivo N – Subtotal ou"
@@ -1840,27 +2185,28 @@ class RegistroJ215(models.Model):
     )
 
     reg_J215_ids_RegistroJ210_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j210",
-        string="id",
+        comodel_name="l10n_br_sped.ecd.9.j210",
+        string="DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO",
         required=True,
+        ondelete="cascade",
         help=(
             "DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO "
             "(DLPA)/DEMONSTRAÇÃO DE MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"
         ),
-        ondelete="cascade",
     )
 
 
 class RegistroJ800(models.Model):
     "OUTRAS INFORMAÇÕES"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j800"
+    _name = "l10n_br_sped.ecd.9.j800"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     TIPO_DOC = fields.Char(
         string="Tipo de documento: 001",
         required=True,
+        sped_length=3,
         help=(
             "Tipo de documento: 001: Demonstração do Resultado Abrangente do "
             "Período 002: Demonstração dos Fluxos de Caixa 003: Demonstração "
@@ -1873,6 +2219,7 @@ class RegistroJ800(models.Model):
 
     HASH_RTF = fields.Char(
         string="Hash do arquivo .rtf incluído",
+        sped_length=41,
         help=(
             "Hash do arquivo .rtf incluído. Observação: O HASH é preenchido "
             "automaticamente pelo sistema (não é editável e não pode ser "
@@ -1892,11 +2239,12 @@ class RegistroJ800(models.Model):
     IND_FIM_RTF = fields.Char(
         string="Indicador de fim do arquivo RTF",
         required=True,
+        sped_length=7,
         help=("Indicador de fim do arquivo RTF. Texto fixo contendo “J800FIM”."),
     )
 
     reg_J800_ids_RegistroJ005_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j005",
+        comodel_name="l10n_br_sped.ecd.9.j005",
         string="DEMONSTRAÇÕES CONTÁBEIS",
         required=True,
         ondelete="cascade",
@@ -1906,13 +2254,14 @@ class RegistroJ800(models.Model):
 class RegistroJ801(models.Model):
     "TERMO DE VERIFICAÇÃO PARA FINS DE SUBSTITUIÇÃO DA ECD"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j801"
+    _name = "l10n_br_sped.ecd.9.j801"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     TIPO_DOC = fields.Char(
         string="Tipo de documento: 001",
         required=True,
+        sped_length=3,
         help=(
             "Tipo de documento: 001: Termo de Verificação para Fins "
             "Substituição da ECD"
@@ -1924,6 +2273,7 @@ class RegistroJ801(models.Model):
     COD_MOT_SUBS = fields.Char(
         string="O Código do motivo da substituição",
         required=True,
+        sped_length=10,
         help=(
             "O Código do motivo da substituição: 001 – Mudanças de saldos das "
             "contas que não podem ser realizadas por meio de lançamentos "
@@ -1937,6 +2287,7 @@ class RegistroJ801(models.Model):
 
     HASH_RTF = fields.Char(
         string="Hash do arquivo .rtf incluído",
+        sped_length=41,
         help=(
             "Hash do arquivo .rtf incluído. Observação: O HASH é preenchido "
             "automaticamente pelo sistema (não é editável e não pode ser "
@@ -1956,11 +2307,12 @@ class RegistroJ801(models.Model):
     IND_FIM_RTF = fields.Char(
         string="Indicador de fim do arquivo RTF",
         required=True,
+        sped_length=7,
         help=("Indicador de fim do arquivo RTF. Texto fixo contendo “J801FIM”."),
     )
 
     reg_J801_ids_RegistroJ005_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j005",
+        comodel_name="l10n_br_sped.ecd.9.j005",
         string="DEMONSTRAÇÕES CONTÁBEIS",
         required=True,
         ondelete="cascade",
@@ -1970,50 +2322,55 @@ class RegistroJ801(models.Model):
 class RegistroJ900(models.Model):
     "TERMO DE ENCERRAMENTO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j900"
+    _name = "l10n_br_sped.ecd.9.j900"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     DNRC_ENCER = fields.Char(
-        string="ENCER",
+        string="Texto fixo contendo “TERMO DE ENCERRAMENTO”",
         required=True,
-        help="Texto fixo contendo “TERMO DE ENCERRAMENTO”.",
+        sped_length=21,
     )
 
     NUM_ORD = fields.Integer(
-        string="Número de ordem do instrumento",
-        required=True,
-        help="Número de ordem do instrumento de escrituração.",
+        string="Número de ordem do instrumento de escrituração", required=True
     )
 
     NAT_LIVRO = fields.Char(
         string="Natureza do livro; finalidade a",
         required=True,
+        sped_length=80,
         help=("Natureza do livro; finalidade a que se destinou o instrumento."),
     )
 
     NOME = fields.Char(string="Nome empresarial", required=True)
 
     QTD_LIN = fields.Integer(
-        string="Quantidade total de linhas",
-        required=True,
-        help="Quantidade total de linhas do arquivo digital.",
+        string="Quantidade total de linhas do arquivo digital", required=True
     )
 
-    DT_INI_ESCR = fields.Date(string="Data de início da escrituração", required=True)
+    DT_INI_ESCR = fields.Date(
+        string="Data de início da escrituração", required=True, sped_length=8
+    )
 
-    DT_FIN_ESCR = fields.Date(string="Data de término da escrituração", required=True)
+    DT_FIN_ESCR = fields.Date(
+        string="Data de término da escrituração", required=True, sped_length=8
+    )
 
     reg_J930_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j930",
+        "l10n_br_sped.ecd.9.j930",
         "reg_J930_ids_RegistroJ900_id",
         string="J930 SIGNATÁRIOS DA ESCRITURAÇÃO",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
     reg_J932_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j932",
+        "l10n_br_sped.ecd.9.j932",
         "reg_J932_ids_RegistroJ900_id",
-        string="ids",
+        string="reg_J932_ids",
+        sped_card="1:N",
+        sped_required="Sim",
         help=(
             "J932 SIGNATÁRIOS DO TERMO DE VERIFICAÇÃO PARA FINS DE "
             "SUBSTITUIÇÃO DA ECD"
@@ -2021,23 +2378,24 @@ class RegistroJ900(models.Model):
     )
 
     reg_J935_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.j935",
+        "l10n_br_sped.ecd.9.j935",
         "reg_J935_ids_RegistroJ900_id",
-        string="ids (reg_J935_ids)",
-        help="J935 IDENTIFICAÇÃO DOS AUDITORES INDEPENDENTES",
+        string="J935 IDENTIFICAÇÃO DOS AUDITORES INDEPENDENTES",
+        sped_card="1:N",
+        sped_required="Sim",
     )
 
 
 class RegistroJ930(models.Model):
     "SIGNATÁRIOS DA ESCRITURAÇÃO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j930"
+    _name = "l10n_br_sped.ecd.9.j930"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     IDENT_NOM = fields.Char(string="Nome do signatário", required=True)
 
-    IDENT_CPF_CNPJ = fields.Integer(string="CPF ou CNPJ", required=True)
+    IDENT_CPF_CNPJ = fields.Char(string="CPF ou CNPJ", required=True)
 
     IDENT_QUALIF = fields.Char(
         string="Qualificação do assinante",
@@ -2048,6 +2406,7 @@ class RegistroJ930(models.Model):
     COD_ASSIN = fields.Char(
         string="Código de qualificação do assinante",
         required=True,
+        sped_length=3,
         help="Código de qualificação do assinante, conforme tabela.",
     )
 
@@ -2059,17 +2418,18 @@ class RegistroJ930(models.Model):
         ),
     )
 
-    EMAIL = fields.Char(string="Email do signatário")
+    EMAIL = fields.Char(string="Email do signatário", sped_length=60)
 
-    FONE = fields.Char(string="Telefone do signatário")
+    FONE = fields.Char(string="Telefone do signatário", sped_length=14)
 
     UF_CRC = fields.Char(
         string="Indicação da unidade da federação",
+        sped_length=2,
         help="Indicação da unidade da federação que expediu o CRC.",
     )
 
     NUM_SEQ_CRC = fields.Char(
-        string="Número da Certidão",
+        string="Número da Certidão de Regularidade Profissional",
         help=(
             "Número da Certidão de Regularidade Profissional do Contador no "
             "seguinte formato: UF/ano/número"
@@ -2078,6 +2438,7 @@ class RegistroJ930(models.Model):
 
     DT_CRC = fields.Date(
         string="Data de validade da Certidão",
+        sped_length=8,
         help=(
             "Data de validade da Certidão de Regularidade Profissional do " "Contador"
         ),
@@ -2086,6 +2447,7 @@ class RegistroJ930(models.Model):
     IND_RESP_LEGAL = fields.Char(
         string="Identificação do signatário",
         required=True,
+        sped_length=1,
         help=(
             "Identificação do signatário que será validado como responsável "
             "pela assinatura da ECD, conforme atos societários: S – Sim N – "
@@ -2094,7 +2456,7 @@ class RegistroJ930(models.Model):
     )
 
     reg_J930_ids_RegistroJ900_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j900",
+        comodel_name="l10n_br_sped.ecd.9.j900",
         string="TERMO DE ENCERRAMENTO",
         required=True,
         ondelete="cascade",
@@ -2105,53 +2467,48 @@ class RegistroJ932(models.Model):
     """SIGNATÁRIOS DO TERMO DE VERIFICAÇÃO PARA FINS DE SUBSTITUIÇÃO DA ECD"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j932"
+    _name = "l10n_br_sped.ecd.9.j932"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     IDENT_NOM_T = fields.Char(
-        string="Nome do signatário do termo",
-        required=True,
-        help="Nome do signatário do termo de verificação.",
+        string="Nome do signatário do termo de verificação", required=True
     )
 
-    IDENT_CPF_CNPJ_T = fields.Integer(
-        string="CPF ou CNPJ do assinante do termo",
-        required=True,
-        help="CPF ou CNPJ do assinante do termo de verificação.",
+    IDENT_CPF_CNPJ_T = fields.Char(
+        string="CPF ou CNPJ do assinante do termo de verificação", required=True
     )
 
     IDENT_QUALIF_T = fields.Char(
-        string="Qualificação do assinante do termo",
+        string="Qualificação do assinante do termo de verificação",
         required=True,
         help=("Qualificação do assinante do termo de verificação, conforme " "tabela."),
     )
 
     COD_ASSIN_T = fields.Char(
-        string="Código de qualificação do assinante",
+        string="Código de qualificação do assinante do termo",
         required=True,
+        sped_length=3,
         help=(
             "Código de qualificação do assinante do termo de verificação, "
             "conforme tabela."
         ),
     )
 
-    IND_CRC_T = fields.Char(
-        string="Número de inscrição do contabilista",
-        help="Número de inscrição do contabilista no Conselho",
-    )
+    IND_CRC_T = fields.Char(string="Número de inscrição do contabilista no Conselho")
 
-    EMAIL_T = fields.Char(string="Email do signatário")
+    EMAIL_T = fields.Char(string="Email do signatário", sped_length=60)
 
-    FONE_T = fields.Char(string="Telefone do signatário")
+    FONE_T = fields.Char(string="Telefone do signatário", sped_length=14)
 
     UF_CRC_T = fields.Char(
         string="Indicação da unidade da federação",
+        sped_length=2,
         help="Indicação da unidade da federação que expediu o CRC.",
     )
 
     NUM_SEQ_CRC_T = fields.Char(
-        string="Número da Certidão",
+        string="Número da Certidão de Regularidade Profissional",
         help=(
             "Número da Certidão de Regularidade Profissional do Contador no "
             "seguinte formato: UF/ano/número"
@@ -2160,13 +2517,14 @@ class RegistroJ932(models.Model):
 
     DT_CRC_T = fields.Date(
         string="Data de validade da Certidão",
+        sped_length=8,
         help=(
             "Data de validade da Certidão de Regularidade Profissional do " "Contador"
         ),
     )
 
     reg_J932_ids_RegistroJ900_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j900",
+        comodel_name="l10n_br_sped.ecd.9.j900",
         string="TERMO DE ENCERRAMENTO",
         required=True,
         ondelete="cascade",
@@ -2176,7 +2534,7 @@ class RegistroJ932(models.Model):
 class RegistroJ935(models.Model):
     "IDENTIFICAÇÃO DOS AUDITORES INDEPENDENTES"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.j935"
+    _name = "l10n_br_sped.ecd.9.j935"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2190,7 +2548,7 @@ class RegistroJ935(models.Model):
     )
 
     NOME_AUDITOR_FIRMA = fields.Char(
-        string="Nome do auditor independente",
+        string="Nome do auditor independente ou pessoa jurídica",
         required=True,
         help=(
             "Nome do auditor independente ou pessoa jurídica de auditoria "
@@ -2201,7 +2559,7 @@ class RegistroJ935(models.Model):
     COD_CVM_AUDITOR = fields.Char(string="Registro do auditor independente na CVM")
 
     reg_J935_ids_RegistroJ900_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.j900",
+        comodel_name="l10n_br_sped.ecd.9.j900",
         string="TERMO DE ENCERRAMENTO",
         required=True,
         ondelete="cascade",
@@ -2211,49 +2569,59 @@ class RegistroJ935(models.Model):
 class RegistroK030(models.Model):
     "PERÍODO DA ESCRITURAÇÃO CONTÁBIL CONSOLIDADA"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k030"
+    _name = "l10n_br_sped.ecd.9.k030"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    DT_INI = fields.Date(string="Data inicial do período consolidado", required=True)
+    DT_INI = fields.Date(
+        string="Data inicial do período consolidado", required=True, sped_length=8
+    )
 
-    DT_FIN = fields.Date(string="Data final do período consolidado", required=True)
+    DT_FIN = fields.Date(
+        string="Data final do período consolidado", required=True, sped_length=8
+    )
 
     reg_K100_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.k100",
+        "l10n_br_sped.ecd.9.k100",
         "reg_K100_ids_RegistroK030_id",
         string="K100 RELAÇÃO DAS EMPRESAS CONSOLIDADAS",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
 
 class RegistroK100(models.Model):
     "RELAÇÃO DAS EMPRESAS CONSOLIDADAS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k100"
+    _name = "l10n_br_sped.ecd.9.k100"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     COD_PAIS = fields.Integer(
         string="Código do país da empresa",
         required=True,
+        sped_length=5,
         help=(
             "Código do país da empresa, conforme tabela do Banco Central do " "Brasil."
         ),
     )
 
     EMP_COD = fields.Integer(
-        string="Código de identificação",
+        string="Código de identificação da empresa participante",
         required=True,
-        help="Código de identificação da empresa participante.",
+        sped_length=4,
     )
 
-    CNPJ = fields.Integer(string="CNPJ", help="CNPJ (somente os 8 primeiros dígitos).")
+    CNPJ = fields.Char(
+        string="CNPJ", sped_length=8, help="CNPJ (somente os 8 primeiros dígitos)."
+    )
 
     NOME = fields.Char(string="Nome empresarial", required=True)
 
     PER_PART = fields.Float(
-        string="Percentual de participação total",
+        string="Percentual de participação total do conglomerado",
         required=True,
+        sped_length=8,
         xsd_type="TDec_1604",
         digits=(
             16,
@@ -2270,12 +2638,14 @@ class RegistroK100(models.Model):
     EVENTO = fields.Char(
         string="Evento societário ocorrido no período",
         required=True,
+        sped_length=1,
         help="Evento societário ocorrido no período: S - Sim N – Não",
     )
 
     PER_CONS = fields.Float(
-        string="Percentual de consolidação da empresa",
+        string="Percentual de consolidação da empresa no final",
         required=True,
+        sped_length=8,
         xsd_type="TDec_1604",
         digits=(
             16,
@@ -2288,18 +2658,20 @@ class RegistroK100(models.Model):
         ),
     )
 
-    DATA_INI_EMP = fields.Char(
-        string="Data inicial do período",
+    DATA_INI_EMP = fields.Date(
+        string="Data inicial do período da escrituração contábil",
         required=True,
+        sped_length=8,
         help=(
             "Data inicial do período da escrituração contábil da empresa que "
             "foi consolidada."
         ),
     )
 
-    DATA_FIN_EMP = fields.Char(
-        string="Data final do período",
+    DATA_FIN_EMP = fields.Date(
+        string="Data final do período da escrituração contábil",
         required=True,
+        sped_length=8,
         help=(
             "Data final do período da escrituração contábil da empresa que foi"
             " consolidada"
@@ -2307,30 +2679,32 @@ class RegistroK100(models.Model):
     )
 
     reg_K100_ids_RegistroK030_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.k030",
-        string="id",
+        comodel_name="l10n_br_sped.ecd.9.k030",
+        string="PERÍODO DA ESCRITURAÇÃO CONTÁBIL CONSOLIDADA",
         required=True,
-        help="PERÍODO DA ESCRITURAÇÃO CONTÁBIL CONSOLIDADA",
         ondelete="cascade",
     )
 
     reg_K110_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.k110",
+        "l10n_br_sped.ecd.9.k110",
         "reg_K110_ids_RegistroK100_id",
         string="K110 RELAÇÃO DOS EVENTOS SOCIETÁRIOS",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
 
 class RegistroK110(models.Model):
     "RELAÇÃO DOS EVENTOS SOCIETÁRIOS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k110"
+    _name = "l10n_br_sped.ecd.9.k110"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
     EVENTO = fields.Integer(
         string="Evento societário ocorrido no período",
         required=True,
+        sped_length=1,
         help=(
             "Evento societário ocorrido no período: 1 – Aquisição 2 – "
             "Alienação 3 – Fusão 4 – Cisão Parcial 5 – Cisão Total 6 – "
@@ -2338,37 +2712,41 @@ class RegistroK110(models.Model):
         ),
     )
 
-    DT_EVENTO = fields.Date(string="Data do evento societário", required=True)
+    DT_EVENTO = fields.Date(
+        string="Data do evento societário", required=True, sped_length=8
+    )
 
     reg_K110_ids_RegistroK100_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.k100",
+        comodel_name="l10n_br_sped.ecd.9.k100",
         string="RELAÇÃO DAS EMPRESAS CONSOLIDADAS",
         required=True,
         ondelete="cascade",
     )
 
     reg_K115_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.k115",
+        "l10n_br_sped.ecd.9.k115",
         "reg_K115_ids_RegistroK110_id",
-        string="ids",
-        help="K115 EMPRESAS PARTICIPANTES DO EVENTO SOCIETÁRIO",
+        string="K115 EMPRESAS PARTICIPANTES DO EVENTO SOCIETÁRIO",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
 
 class RegistroK115(models.Model):
     "EMPRESAS PARTICIPANTES DO EVENTO SOCIETÁRIO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k115"
+    _name = "l10n_br_sped.ecd.9.k115"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
     EMP_COD_PART = fields.Integer(
-        string="Código da empresa envolvida na operação", required=True
+        string="Código da empresa envolvida na operação", required=True, sped_length=4
     )
 
     COND_PART = fields.Integer(
-        string="Condição",
+        string="Condição da empresa relacionada à operação",
         required=True,
+        sped_length=1,
         help=(
             "Condição da empresa relacionada à operação: 1 – Sucessora; 2 – "
             "Adquirente; 3 – Alienante."
@@ -2376,8 +2754,9 @@ class RegistroK115(models.Model):
     )
 
     PER_EVT = fields.Float(
-        string="Percentual",
+        string="Percentual da empresa participante envolvida",
         required=True,
+        sped_length=8,
         xsd_type="TDec_1604",
         digits=(
             16,
@@ -2387,7 +2766,7 @@ class RegistroK115(models.Model):
     )
 
     reg_K115_ids_RegistroK110_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.k110",
+        comodel_name="l10n_br_sped.ecd.9.k110",
         string="RELAÇÃO DOS EVENTOS SOCIETÁRIOS",
         required=True,
         ondelete="cascade",
@@ -2397,13 +2776,14 @@ class RegistroK115(models.Model):
 class RegistroK200(models.Model):
     "PLANO DE CONTAS CONSOLIDADO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k200"
+    _name = "l10n_br_sped.ecd.9.k200"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     COD_NAT = fields.Char(
-        string="Código da natureza da conta/grupo",
+        string="Código da natureza da conta/grupo de contas",
         required=True,
+        sped_length=2,
         help=(
             "Código da natureza da conta/grupo de contas, conforme tabela "
             "publicada pelo Sped."
@@ -2413,6 +2793,7 @@ class RegistroK200(models.Model):
     IND_CTA = fields.Char(
         string="Indicador do tipo de conta: S",
         required=True,
+        sped_length=1,
         help=(
             "Indicador do tipo de conta: S - Sintética (grupo de contas); A - "
             "Analítica (conta)."
@@ -2428,30 +2809,34 @@ class RegistroK200(models.Model):
     CTA = fields.Char(string="Nome da conta", required=True)
 
     reg_K210_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.k210",
+        "l10n_br_sped.ecd.9.k210",
         "reg_K210_ids_RegistroK200_id",
-        string="ids",
+        string="reg_K210_ids",
+        sped_card="1:N",
+        sped_required="Sim",
         help=("K210 MAPEAMENTO PARA O PLANO DE CONTAS DAS EMPRESAS CONSOLIDADAS"),
     )
 
     reg_K300_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.k300",
+        "l10n_br_sped.ecd.9.k300",
         "reg_K300_ids_RegistroK200_id",
         string="K300 SALDOS DAS CONTAS CONSOLIDADAS",
+        sped_card="0:N",
+        sped_required="Sim",
     )
 
 
 class RegistroK210(models.Model):
     "MAPEAMENTO PARA O PLANO DE CONTAS DAS EMPRESAS CONSOLIDADAS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k210"
+    _name = "l10n_br_sped.ecd.9.k210"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
     COD_EMP = fields.Integer(
-        string="Código de identificação",
+        string="Código de identificação da empresa participante",
         required=True,
-        help="Código de identificação da empresa participante",
+        sped_length=4,
     )
 
     COD_CTA_EMP = fields.Char(
@@ -2459,7 +2844,7 @@ class RegistroK210(models.Model):
     )
 
     reg_K210_ids_RegistroK200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.k200",
+        comodel_name="l10n_br_sped.ecd.9.k200",
         string="PLANO DE CONTAS CONSOLIDADO",
         required=True,
         ondelete="cascade",
@@ -2469,7 +2854,7 @@ class RegistroK210(models.Model):
 class RegistroK300(models.Model):
     "SALDOS DAS CONTAS CONSOLIDADAS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k300"
+    _name = "l10n_br_sped.ecd.9.k300"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
@@ -2478,19 +2863,22 @@ class RegistroK300(models.Model):
     VAL_AG = fields.Monetary(
         string="Valor absoluto aglutinado",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
 
     IND_VAL_AG = fields.Char(
-        string="Indicador da situação",
+        string="Indicador da situação do valor aglutinado",
         required=True,
+        sped_length=1,
         help=("Indicador da situação do valor aglutinado: D – Devedor C – Credor"),
     )
 
     VAL_EL = fields.Monetary(
         string="Valor absoluto das eliminações",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
@@ -2498,34 +2886,39 @@ class RegistroK300(models.Model):
     IND_VAL_EL = fields.Char(
         string="Indicador da situação do valor eliminado",
         required=True,
+        sped_length=1,
         help=("Indicador da situação do valor eliminado: D – Devedor C – Credor"),
     )
 
     VAL_CS = fields.Monetary(
         string="Valor absoluto consolidado",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor absoluto consolidado: VAL_CS = VAL_AG – VAL_EL",
     )
 
     IND_VAL_CS = fields.Char(
-        string="Indicador da situação (IND_VAL_CS)",
+        string="Indicador da situação do valor consolidado",
         required=True,
+        sped_length=1,
         help=("Indicador da situação do valor consolidado: D – Devedor C – " "Credor"),
     )
 
     reg_K300_ids_RegistroK200_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.k200",
+        comodel_name="l10n_br_sped.ecd.9.k200",
         string="PLANO DE CONTAS CONSOLIDADO",
         required=True,
         ondelete="cascade",
     )
 
     reg_K310_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.k310",
+        "l10n_br_sped.ecd.9.k310",
         "reg_K310_ids_RegistroK300_id",
-        string="ids",
+        string="reg_K310_ids",
+        sped_card="0:N",
+        sped_required="Sim",
         help=("K310 EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL"),
     )
 
@@ -2533,19 +2926,21 @@ class RegistroK300(models.Model):
 class RegistroK310(models.Model):
     "EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k310"
+    _name = "l10n_br_sped.ecd.9.k310"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
     EMP_COD_PARTE = fields.Integer(
-        string="Código da empresa detentora",
+        string="Código da empresa detentora do valor aglutinado",
         required=True,
+        sped_length=4,
         help=("Código da empresa detentora do valor aglutinado que foi eliminado"),
     )
 
     VALOR = fields.Monetary(
         string="Parcela do valor eliminado total",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
     )
@@ -2553,20 +2948,23 @@ class RegistroK310(models.Model):
     IND_VALOR = fields.Char(
         string="Indicador da situação do valor eliminado",
         required=True,
+        sped_length=1,
         help=("Indicador da situação do valor eliminado: D – Devedor C – Credor"),
     )
 
     reg_K310_ids_RegistroK300_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.k300",
+        comodel_name="l10n_br_sped.ecd.9.k300",
         string="SALDOS DAS CONTAS CONSOLIDADAS",
         required=True,
         ondelete="cascade",
     )
 
     reg_K315_ids = fields.One2many(
-        "l10n_br_sped.ecd.1.k315",
+        "l10n_br_sped.ecd.9.k315",
         "reg_K315_ids_RegistroK310_id",
-        string="ids",
+        string="reg_K315_ids",
+        sped_card="0:N",
+        sped_required="Sim",
         help=("K315 EMPRESAS CONTRAPARTES DAS PARCELAS DO VALOR ELIMINADO TOTAL"),
     )
 
@@ -2574,54 +2972,53 @@ class RegistroK310(models.Model):
 class RegistroK315(models.Model):
     "EMPRESAS CONTRAPARTES DAS PARCELAS DO VALOR ELIMINADO TOTAL"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.k315"
+    _name = "l10n_br_sped.ecd.9.k315"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
     EMP_COD_CONTRA = fields.Integer(
-        string="Código da empresa da contrapartida", required=True
+        string="Código da empresa da contrapartida", required=True, sped_length=4
     )
 
     COD_CONTRA = fields.Char(
-        string="Código da conta consolidada",
-        required=True,
-        help="Código da conta consolidada da contrapartida",
+        string="Código da conta consolidada da contrapartida", required=True
     )
 
     VALOR = fields.Monetary(
-        string="Parcela da contrapartida",
+        string="Parcela da contrapartida do valor eliminado total",
         required=True,
+        sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help="Parcela da contrapartida do valor eliminado total",
     )
 
     IND_VALOR = fields.Char(
         string="Indicador da situação do valor eliminado",
         required=True,
+        sped_length=1,
         help=("Indicador da situação do valor eliminado: D – Devedor C – Credor"),
     )
 
     reg_K315_ids_RegistroK310_id = fields.Many2one(
-        comodel_name="l10n_br_sped.ecd.1.k310",
-        string="id",
+        comodel_name="l10n_br_sped.ecd.9.k310",
+        string="reg_K315_ids_RegistroK310_id",
         required=True,
-        help="EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL",
         ondelete="cascade",
+        help="EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL",
     )
 
 
 class Registro9900(models.Model):
     "REGISTROS DO ARQUIVO"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.1.9900"
+    _name = "l10n_br_sped.ecd.9.9900"
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
     REG_BLC = fields.Char(
-        string="Registro que será totalizado",
+        string="Registro que será totalizado no próximo campo",
         required=True,
-        help="Registro que será totalizado no próximo campo.",
+        sped_length=4,
     )
 
     QTD_REG_BLC = fields.Integer(
