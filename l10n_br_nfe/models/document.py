@@ -839,13 +839,6 @@ class NFe(spec_models.StackedModel):
                 )
         return
 
-    def _document_date(self):
-        result = super()._document_date()
-        for record in self.filtered(filter_processador_edoc_nfe):
-            if not record.date_in_out:
-                record.date_in_out = fields.Datetime.now()
-        return result
-
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
             return super().view_pdf()
