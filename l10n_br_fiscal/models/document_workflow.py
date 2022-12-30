@@ -102,6 +102,7 @@ class DocumentWorkflow(models.AbstractModel):
         return True
 
     def _exec_before_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+        self._document_date()
         return True
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
