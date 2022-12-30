@@ -79,13 +79,6 @@ class Document(models.Model):
         default=lambda self: self.env.user.company_id.nfse_environment,
     )
 
-    @api.multi
-    def _document_date(self):
-        super()._document_date()
-        for record in self.filtered(filter_processador_edoc_nfse):
-            if not record.date_in_out:
-                record.date_in_out = fields.Datetime.now()
-
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
