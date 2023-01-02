@@ -7,7 +7,7 @@ from odoo import fields
 from odoo.tests.common import TransactionCase
 
 
-class TestPosOrder(TransactionCase):
+class TestL10nBrPosOrder(TransactionCase):
     def setUp(self):
         super().setUp()
         self.pos_config = self.env.ref("point_of_sale.pos_config_main")
