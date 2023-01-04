@@ -38,20 +38,10 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
-        clone: function () {
-            var order = _super_order.clone.call(this);
-            // TODO: Verificar o que não deve ser copiado
-            console.log("TODO: Verificar Order.clone l10n_br_pos_cfe");
-            console.log(order);
-            return order;
-        },
-        init_from_JSON: function (json) {
-            _super_order.init_from_JSON.apply(this, arguments);
-            // TODO: Verificar export_as_JSON l10n_br_pos_cfe
-
-            console.log("TODO: Verificar Order.init_from_JSON l10n_br_pos_cfe");
-            console.log(json);
-        },
+        /**
+         * TODO: Verificar o que não deve ser copiado através do clone
+         * TODO: Verificar o funcionamento do export_as_JSON
+         */
         _prepare_fiscal_json: function (json) {
             _super_order._prepare_fiscal_json.apply(this, arguments);
 
