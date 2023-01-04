@@ -35,8 +35,6 @@ odoo.define("l10n_br_pos.models", function (require) {
         [SITUACAO_EDOC_INUTILIZADA]: "Inutilizada",
     };
 
-    console.log(SITUACAO_EDOC);
-
     const partner_company_fields = [
         "legal_name",
         "cnpj_cpf",

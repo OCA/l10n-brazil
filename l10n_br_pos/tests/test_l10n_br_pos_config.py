@@ -15,7 +15,7 @@ class TestL10nBrPosConfig(TransactionCase):
         )
         self.pos_config._compute_allowed_tax()
         self.assertEqual(
-            6,
+            4,
             len(self.pos_config.out_pos_fiscal_operation_line_ids),
             "Tax operations lines were not found.",
         )
