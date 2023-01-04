@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-07 19:44+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2023-01-04 13:44+0000\n"
+"Last-Translator: Augusto D. Lisbôa <augusto.diniz.l@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -468,42 +468,42 @@ msgstr "<span>Novo Documento</span>"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
 msgid "<strong style=\"font-size:18px;\">CNPJ:</strong>"
-msgstr ""
+msgstr "<strong style=\"font-size:18px;\">CNPJ:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
 msgid "<strong style=\"font-size:18px;\">Document Key:</strong>"
-msgstr ""
+msgstr "<strong style=\"font-size:18px;\">Chave do Documento:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
 msgid "<strong style=\"font-size:18px;\">Document Number:</strong>"
-msgstr ""
+msgstr "<strong style=\"font-size:18px;\">Número do Documento:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
 msgid "<strong style=\"font-size:18px;\">Document Serie:</strong>"
-msgstr ""
+msgstr "<strong style=\"font-size:18px;\">Série do Documento:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
 msgid "<strong style=\"font-size:18px;\">Environment:</strong>"
-msgstr ""
+msgstr "<strong style=\"font-size:18px;\">Ambiente SEFAZ:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
 msgid "<strong style=\"font-size:18px;\">Justification:</strong>"
-msgstr ""
+msgstr "<strong style=\"font-size:18px;\">Justificativa:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
 msgid "<strong style=\"font-size:18px;\">Protocol Date:</strong>"
-msgstr ""
+msgstr "<strong style=\"font-size:18px;\">Data do Protocolo:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_document_event
 msgid "<strong style=\"font-size:18px;\">Protocol Number:</strong>"
-msgstr ""
+msgstr "<strong style=\"font-size:18px;\">Número do Protocolo:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
@@ -561,6 +561,17 @@ msgid ""
 "do remetente ou do destinatário;<br/>\n"
 "                  III - a data de emissão ou de saída.<br/>"
 msgstr ""
+"A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do "
+"Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para "
+"regularização de erro ocorrido na emissão de documento fiscal, desde que o "
+"erro não seja relacionado com:<br/>\n"
+"                  <br/>\n"
+"                  I - as variáveis que determinam o valor do imposto tais "
+"como: base de cálculo, alíquota, diferença de preço, quantidade, valor da "
+"operação ou da prestação;<br/>\n"
+"                  II - a correção de dados cadastrais que impliquem mudança "
+"do remetente ou do destinatário;<br/>\n"
+"                  III - a data de emissão ou de saída.<br/>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbm_action
