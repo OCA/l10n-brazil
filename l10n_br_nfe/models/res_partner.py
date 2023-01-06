@@ -63,6 +63,12 @@ class ResPartner(spec_models.SpecModel):
     # Char overriding Selection:
     nfe40_UF = fields.Char(related="state_id.code")
 
+    # Emit
+    nfe40_choice6 = fields.Selection(
+        selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
+        string="CNPJ/CPF do Emitente",
+    )
+
     # nfe.40.tendereco
     nfe40_CEP = fields.Char(
         compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP", compute_sudo=True
@@ -144,10 +150,18 @@ class ResPartner(spec_models.SpecModel):
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice7 = "nfe40_idEstrangeiro"
                 elif rec.is_company:
+                    rec.nfe40_choice2 = "nfe40_CNPJ"
+                    rec.nfe40_choice6 = "nfe40_CNPJ"
                     rec.nfe40_choice7 = "nfe40_CNPJ"
+                    rec.nfe40_choice8 = "nfe40_CNPJ"
+                    rec.nfe40_choice19 = "nfe40_CNPJ"
                     rec.nfe40_CNPJ = cnpj_cpf
                 else:
+                    rec.nfe40_choice2 = "nfe40_CPF"
+                    rec.nfe40_choice6 = "nfe40_CPF"
                     rec.nfe40_choice7 = "nfe40_CPF"
+                    rec.nfe40_choice8 = "nfe40_CPF"
+                    rec.nfe40_choice19 = "nfe40_CPF"
                     rec.nfe40_CPF = cnpj_cpf
 
             if rec.inscr_est and rec.is_company:
@@ -162,12 +176,29 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             if rec.nfe40_CNPJ:
                 rec.is_company = True
+                rec.nfe40_choice2 = "nfe40_CPF"
+                rec.nfe40_choice6 = "nfe40_CPF"
+                if rec.country_id.code != "BR":
+                    rec.nfe40_choice7 = "nfe40_idEstrangeiro"
+                else:
+                    rec.nfe40_choice7 = "nfe40_CNPJ"
+                rec.nfe40_choice7 = "nfe40_CPF"
+                rec.nfe40_choice8 = "nfe40_CPF"
+                rec.nfe40_choice19 = "nfe40_CPF"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.nfe40_CNPJ))
 
     def _inverse_nfe40_CPF(self):
         for rec in self:
             if rec.nfe40_CPF:
                 rec.is_company = False
+                rec.nfe40_choice2 = "nfe40_CNPJ"
+                rec.nfe40_choice6 = "nfe40_CNPJ"
+                if rec.country_id.code != "BR":
+                    rec.nfe40_choice7 = "nfe40_idEstrangeiro"
+                else:
+                    rec.nfe40_choice7 = "nfe40_CPF"
+                rec.nfe40_choice8 = "nfe40_CNPJ"
+                rec.nfe40_choice19 = "nfe40_CNPJ"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.nfe40_CPF))
 
     def _inverse_nfe40_IE(self):
