@@ -9,7 +9,7 @@ odoo_version: 14.0
 org_name: Odoo Community Association (OCA)
 org_slug: OCA
 rebel_module_groups: []
-repo_description: 'TODO: add repo description.'
+repo_description: "TODO: add repo description."
 repo_name: l10n-brazil
 repo_slug: l10n-brazil
 repo_website: https://github.com/OCA/l10n-brazil
