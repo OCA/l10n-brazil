@@ -36,7 +36,7 @@ _logger = logging.getLogger(__name__)
 try:
     from erpbrasil.base import misc
 except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
+    _logger.error("Library erpbrasil.base not installed!")
 
 PATH_MODELO = {
     MODELO_FISCAL_NFE: "nfe",
