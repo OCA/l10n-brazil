@@ -71,14 +71,14 @@
                     <group states="open">
                         <field name="file_name" invisible="1" />
                         <h3>
-                            Fazer o download: <field
+                            Download: <field
                                     name="zip_file"
                                     filename="file_name"
                                     nolabel="1"
                                 />
                             <p />
                             <p />
-                            Enviar por email: <button
+                            Send by email: <button
                                     type="action"
                                     name="%(mail.action_email_compose_message_wizard)d"
                                     icon="fa-paper-plane fa-lg"
