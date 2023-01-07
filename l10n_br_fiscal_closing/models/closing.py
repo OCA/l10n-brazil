@@ -89,7 +89,7 @@ class FiscalClosing(models.Model):
     zip_file = fields.Binary(readonly=True)
 
     export_type = fields.Selection(
-        selection=[("period", "Por período"), ("all", "Tudo")],
+        selection=[("period", "By Period"), ("all", "All")],
         string="Export",
         default="period",
         required=True,
