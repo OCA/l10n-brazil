@@ -2719,8 +2719,8 @@ msgstr "Expiração da Data"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__date_in_out
-msgid "Date Move"
-msgstr "Movimento de data"
+msgid "Date IN/OUT"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__date_start
@@ -9463,6 +9463,9 @@ msgstr "{} Falha na Estimativa de Imposto"
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#~ msgid "Date Move"
+#~ msgstr "Movimento de data"
 
 #~ msgid " NFe Documents"
 #~ msgstr " Documentos NFe"
