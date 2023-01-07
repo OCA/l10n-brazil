@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2023-01-07 22:49+0000\n"
+"PO-Revision-Date: 2023-01-08 02:39+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -394,6 +394,8 @@ msgid ""
 "Define if costs of Insurance, Freight and Other Costs should be informed by "
 "Line or by Total."
 msgstr ""
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
+"por Linha ou por Total."
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__delivery_costs
@@ -1114,12 +1116,12 @@ msgstr "NCM"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__simple_value
 msgid "National Simple Taxes"
-msgstr ""
+msgstr "Impostos do Simples Nacional"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
-msgstr ""
+msgstr "Impostos do Simples Nacional sem ICMS"
 
 #. module: l10n_br_stock_account
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:0
