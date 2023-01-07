@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-23 20:44+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2023-01-07 20:39+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -142,7 +142,6 @@ msgstr "Código CNAE"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__cnpj_cpf
-#, fuzzy
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
 
@@ -186,7 +185,7 @@ msgstr "Código de Crédito de COFINS"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_percent
 msgid "COFINS RET %"
-msgstr "COFINS RET %"
+msgstr "% RET COFINS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_wh_reduction
@@ -216,7 +215,7 @@ msgstr "Valor RET COFINS"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_percent
 msgid "COFINS ST %"
-msgstr "COFINS ST %"
+msgstr "% ST COFINS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofinsst_reduction
@@ -257,7 +256,7 @@ msgstr "Tipo de Base COFINS WH"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_percent
 msgid "CSLL %"
-msgstr "CSLL %"
+msgstr "% CSLL"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_reduction
@@ -273,7 +272,7 @@ msgstr "Base para CSLL"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_percent
 msgid "CSLL RET %"
-msgstr "CSLL RET %"
+msgstr "% CSLL RET"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__csll_wh_reduction
@@ -389,7 +388,7 @@ msgstr "Moeda"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__customer_additional_data
 msgid "Customer Additional Data"
-msgstr "Dados adicionais do cliente"
+msgstr "Dados Adicionais do Cliente"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__manual_customer_additional_data
@@ -399,7 +398,7 @@ msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ii_customhouse_charges
 msgid "Customhouse Charges"
-msgstr "Encargos alfandegários"
+msgstr "Encargos Alfandegários"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_recalculate_taxes_before_invoice
@@ -430,7 +429,6 @@ msgstr "Custos de Entrega"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_customhouse_charges
-#, fuzzy
 msgid "Despesas Aduaneiras"
 msgstr "Despesas Aduaneiras"
 
@@ -464,7 +462,7 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_wh_percent
 msgid "FCP WH %"
-msgstr ""
+msgstr "% FCP WH"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_base_wh
@@ -536,7 +534,7 @@ msgstr "Tipo Fiscal"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__force_compute_delivery_costs_by_total
 msgid "Force Compute Delivery Costs By Total"
-msgstr ""
+msgstr "Forçar Cálculo de Custos de Entrega por Total"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_freight_value
@@ -547,12 +545,12 @@ msgstr "Valor do Frete"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_percent
 msgid "ICMS %"
-msgstr "ICMS %"
+msgstr "% ICMS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_reduction
 msgid "ICMS % Reduction"
-msgstr "Redução de ICMS %"
+msgstr "% de Redução de ICMS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_base
@@ -573,7 +571,7 @@ msgstr "Código CST do ICMS"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_value
 msgid "ICMS Dest. Value"
-msgstr ""
+msgstr "Valor do Dest. ICMS"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_base
@@ -593,12 +591,12 @@ msgstr "ICMS Efetivo"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_percent
 msgid "ICMS Effective %"
-msgstr "ICMS Efetivo %"
+msgstr "% ICMS Efetivo"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_reduction
 msgid "ICMS Effective % Reduction"
-msgstr "ICMS Efetivo % Redução"
+msgstr "% de Redução ICMS Efetivo"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_base
@@ -608,7 +606,7 @@ msgstr "Base para ICMS Efetivo"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_percent
 msgid "ICMS External %"
-msgstr "ICMS Externo %"
+msgstr "% ICMS Externo"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmsfcp_percent
