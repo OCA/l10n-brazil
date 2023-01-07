@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2023-01-07 21:47+0000\n"
+"PO-Revision-Date: 2023-01-07 22:00+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -256,7 +256,7 @@ msgstr "% CSLL"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_reduction
 msgid "CSLL % Reduction"
-msgstr "Redução de % CSLL"
+msgstr "% de Redução do CSLL"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__csll_base
@@ -951,48 +951,48 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_reduction
 msgid "ISSQN % Reduction"
-msgstr ""
+msgstr "% de Redução do ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_base
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_issqn_base
 msgid "ISSQN Base"
-msgstr ""
+msgstr "Base do ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_fg_city_id
 msgid "ISSQN City"
-msgstr ""
+msgstr "Cidade do ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_deduction_amount
 msgid "ISSQN Deduction Value"
-msgstr ""
+msgstr "Valor de Dedução do ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_desc_cond_amount
 msgid "ISSQN Discount Cond"
-msgstr ""
+msgstr "Desconto Cond. do ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_desc_incond_amount
 msgid "ISSQN Discount Incond"
-msgstr ""
+msgstr "Desconto Incond. do ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_eligibility
 msgid "ISSQN Eligibility"
-msgstr ""
+msgstr "Elegibilidade do ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_incentive
 msgid "ISSQN Incentive"
-msgstr ""
+msgstr "Incentivo ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_other_amount
 msgid "ISSQN Other Value"
-msgstr ""
+msgstr "Outro Valor ISSQN"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_wh_percent
