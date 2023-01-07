@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-07 21:47+0000\n"
+"PO-Revision-Date: 2023-01-07 23:20+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -2403,7 +2403,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_tlocal__nfe40_choice2__nfe40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transporta__nfe40_choice19__nfe40_cnpj
 msgid "CNPJ"
-msgstr ""
+msgstr "CNPJ"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_autxml__nfe40_CNPJ
@@ -2525,7 +2525,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_tlocal__nfe40_choice2__nfe40_cpf
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transporta__nfe40_choice19__nfe40_cpf
 msgid "CPF"
-msgstr ""
+msgstr "CPF"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tlocal__nfe40_CPF
