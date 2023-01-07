@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:23+0000\n"
-"PO-Revision-Date: 2023-01-07 21:47+0000\n"
+"PO-Revision-Date: 2023-01-07 22:00+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -267,7 +267,7 @@ msgstr "% CSLL"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_reduction
 msgid "CSLL % Reduction"
-msgstr "Redução de % CSLL"
+msgstr "% de Redução do CSLL"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_csll_base
@@ -928,48 +928,48 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_reduction
 msgid "ISSQN % Reduction"
-msgstr ""
+msgstr "% de Redução do ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_issqn_base
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_base
 msgid "ISSQN Base"
-msgstr ""
+msgstr "Base do ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_fg_city_id
 msgid "ISSQN City"
-msgstr ""
+msgstr "Cidade do ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_deduction_amount
 msgid "ISSQN Deduction Value"
-msgstr ""
+msgstr "Valor de Dedução do ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_desc_cond_amount
 msgid "ISSQN Discount Cond"
-msgstr ""
+msgstr "Desconto Cond. do ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_desc_incond_amount
 msgid "ISSQN Discount Incond"
-msgstr ""
+msgstr "Desconto Incond. do ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_eligibility
 msgid "ISSQN Eligibility"
-msgstr ""
+msgstr "Elegibilidade do ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_incentive
 msgid "ISSQN Incentive"
-msgstr ""
+msgstr "Incentivo ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_other_amount
 msgid "ISSQN Other Value"
-msgstr ""
+msgstr "Outro Valor ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_wh_percent
