@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-07 21:47+0000\n"
+"PO-Revision-Date: 2023-01-07 23:20+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -2767,7 +2767,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_sms_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "Erro de entrega de SMS"
+msgstr "Erro de Entrega de SMS"
 
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
