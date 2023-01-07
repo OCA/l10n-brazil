@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-07 18:47+0000\n"
+"PO-Revision-Date: 2023-01-07 18:49+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -293,7 +293,7 @@ msgstr "Se marcado, algumas mensagens tem erro de entrega."
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__include_pdf_file
 msgid "Include PDF files"
-msgstr ""
+msgstr "Incluir arquivos PDF"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_is_follower
@@ -458,6 +458,8 @@ msgid ""
 "Replication failed: document attachments [id = {}] is not present in the "
 "database."
 msgstr ""
+"Falha na replicação: os anexos do documento [id = {}] não estão presentes no "
+"banco de dados."
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_user_id
