@@ -209,7 +209,7 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:639
+#: code:addons/l10n_br_account/models/account_invoice.py:642
 #, python-format
 msgid ""
 "Document without Return Fiscal Operation! \n"
@@ -407,7 +407,7 @@ msgid "Legal Name"
 msgstr "Razão Social"
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:656
+#: code:addons/l10n_br_account/models/account_invoice.py:659
 #, python-format
 msgid ""
 "Line without Return Fiscal Operation! \n"
