@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-07 21:47+0000\n"
+"PO-Revision-Date: 2023-01-07 22:00+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -1714,7 +1714,7 @@ msgstr "% CSLL"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__csll_reduction
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__csll_reduction
 msgid "CSLL % Reduction"
-msgstr "Redução de % CSLL"
+msgstr "% de Redução do CSLL"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_csll_base
@@ -5326,7 +5326,7 @@ msgstr "ISSQN"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_reduction
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_reduction
 msgid "ISSQN % Reduction"
-msgstr "Redução de % issqn"
+msgstr "% de Redução do ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_issqn_base
@@ -5334,31 +5334,31 @@ msgstr "Redução de % issqn"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_issqn_base
 msgid "ISSQN Base"
-msgstr "ISSQN Base"
+msgstr "Base do ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_fg_city_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_fg_city_id
 msgid "ISSQN City"
-msgstr "ISSQN City"
+msgstr "Cidade do ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_deduction_amount
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_deduction_amount
 msgid "ISSQN Deduction Value"
-msgstr "Valor de dedução do ISSQN"
+msgstr "Valor de Dedução do ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_desc_cond_amount
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_desc_cond_amount
 msgid "ISSQN Discount Cond"
-msgstr "Cond de desconto ISSQN"
+msgstr "Desconto Cond. do ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_desc_incond_amount
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_desc_incond_amount
 msgid "ISSQN Discount Incond"
-msgstr "Desconto Incondicional do ISSQN"
+msgstr "Desconto Incond. do ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_eligibility
@@ -5376,7 +5376,7 @@ msgstr "Incentivo ISSQN"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_other_amount
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_other_amount
 msgid "ISSQN Other Value"
-msgstr "ISSQN Outro valor"
+msgstr "Outro Valor ISSQN"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_wh_percent
@@ -5388,7 +5388,7 @@ msgstr "% RET ISSQN"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_wh_reduction
 msgid "ISSQN RET % Reduction"
-msgstr "Redução de % ISSQN RET"
+msgstr "% de Redução ISSQN RET"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_wh_base
