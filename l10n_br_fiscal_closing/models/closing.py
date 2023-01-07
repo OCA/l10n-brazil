@@ -182,7 +182,7 @@ class FiscalClosing(models.Model):
     ]
 
     def _create_tempfile_path(self, document):
-        fsc_op_type = {"out": "Saída", "in": "Entrada", "all": "Todos"}
+        fsc_op_type = {"out": "Outbound", "in": "Inbound", "all": "All"}
 
         if document.issuer == DOCUMENT_ISSUER_COMPANY:
             document_path = "/".join(
