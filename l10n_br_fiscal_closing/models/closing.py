@@ -165,7 +165,7 @@ class FiscalClosing(models.Model):
 
     file_irpj = fields.Binary(string="IRPJ")
 
-    file_simples = fields.Binary(string="Simples")
+    file_simples = fields.Binary(string="National Simple Taxes")
 
     file_honorarios = fields.Binary(string="Accountant Fee")
 
