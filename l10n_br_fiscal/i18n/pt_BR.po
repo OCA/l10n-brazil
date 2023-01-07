@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-04 13:44+0000\n"
-"Last-Translator: Augusto D. Lisbôa <augusto.diniz.l@gmail.com>\n"
+"PO-Revision-Date: 2023-01-07 19:45+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -1433,7 +1433,7 @@ msgstr "CENTO"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_template_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "CEST"
-msgstr "Cest"
+msgstr "CEST"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__cests
