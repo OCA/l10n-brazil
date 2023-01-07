@@ -45,6 +45,11 @@ msgid "Account Journal"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_tree
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
@@ -275,6 +280,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__display_name
@@ -310,6 +316,14 @@ msgstr ""
 #, python-format
 msgid ""
 "Document line dummy not found. Please contact your system administrator."
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_invoice.py:0
+#, python-format
+msgid ""
+"Document without Return Fiscal Operation! \n"
+" Force one!"
 msgstr ""
 
 #. module: l10n_br_account
@@ -414,6 +428,11 @@ msgid "Fiscal Taxes"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__force_fiscal_operation_id
+msgid "Force Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_code
 msgid "ICMS CST Code"
 msgstr ""
@@ -422,6 +441,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__id
@@ -512,6 +532,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template____last_update
@@ -535,6 +556,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_invoice.py:0
+#, python-format
+msgid ""
+"Line without Return Fiscal Operation! \n"
+"\n"
+"                            Please force one! \n"
+"{}"
 msgstr ""
 
 #. module: l10n_br_account
