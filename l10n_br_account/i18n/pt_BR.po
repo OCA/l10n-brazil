@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 09:02+0000\n"
-"PO-Revision-Date: 2023-01-07 22:49+0000\n"
+"PO-Revision-Date: 2023-01-08 02:39+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -331,6 +331,8 @@ msgid ""
 "Document without Return Fiscal Operation! \n"
 " Force one!"
 msgstr ""
+"Documento sem Operação Fiscal de Retorno! \n"
+" Force uma!"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_electronic
@@ -574,6 +576,10 @@ msgid ""
 "                            Please force one! \n"
 "{}"
 msgstr ""
+"Linha sem Operação Fiscal de Retorno! \n"
+"\n"
+"                            Por favor force uma! \n"
+"{}"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
