@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2022-12-09 15:44+0000\n"
-"Last-Translator: Augusto D. Lisbôa <augusto.diniz.l@gmail.com>\n"
+"PO-Revision-Date: 2023-01-07 20:39+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -197,7 +197,7 @@ msgstr "CNPJ/CPF"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_percent
 msgid "COFINS %"
-msgstr "COFINS"
+msgstr "COFINS %"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_reduction
@@ -223,27 +223,27 @@ msgstr "COFINS Tipo da Base"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_cst_code
 msgid "COFINS CST Code"
-msgstr "COFINS CST"
+msgstr "Código CST de COFINS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_credit_id
 msgid "COFINS Credit Code"
-msgstr "COFINS Código de Crédito"
+msgstr "Código de Crédito de COFINS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_percent
 msgid "COFINS RET %"
-msgstr "COFINS RET %"
+msgstr "% RET COFINS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_reduction
 msgid "COFINS RET % Reduction"
-msgstr "COFINS RET % Redução"
+msgstr "% Redução de RETENÇÃO de COFINS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr "COFINS RET Base"
+msgstr "Base para COFINS RET"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_value
@@ -305,7 +305,7 @@ msgstr "Tipo de Base COFINS WH"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__csll_percent
 msgid "CSLL %"
-msgstr "CSLL %"
+msgstr "% CSLL"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__csll_reduction
@@ -320,9 +320,8 @@ msgstr "Base para CSLL"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__csll_wh_percent
-#, fuzzy
 msgid "CSLL RET %"
-msgstr "CSLL RET %"
+msgstr "% CSLL RET"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__csll_wh_reduction
@@ -457,7 +456,7 @@ msgstr "Cliente"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__customer_additional_data
 msgid "Customer Additional Data"
-msgstr "Dados adicionais do cliente"
+msgstr "Dados Adicionais do Cliente"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__manual_customer_additional_data
@@ -467,7 +466,7 @@ msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_ii_customhouse_charges
 msgid "Customhouse Charges"
-msgstr "Encargos alfandegários"
+msgstr "Encargos Alfandegários"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__delivery_costs
@@ -543,9 +542,8 @@ msgstr "FCP WH"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcp_wh_percent
-#, fuzzy
 msgid "FCP WH %"
-msgstr "FCP WH %"
+msgstr "% FCP WH"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcp_base_wh
@@ -556,7 +554,7 @@ msgstr "Base para FCP WH"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ind_final
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ind_final
 msgid "Final Consumption Operation"
-msgstr "É Consumidor Final ?"
+msgstr "Operação de Consumo Final"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_financial_discount_value
@@ -636,7 +634,7 @@ msgstr "Desconto Fixo?"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__force_compute_delivery_costs_by_total
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__force_compute_delivery_costs_by_total
 msgid "Force Compute Delivery Costs By Total"
-msgstr "Força o Cálculo de Custos de Entrega por Total"
+msgstr "Forçar Cálculo de Custos de Entrega por Total"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_freight_value
@@ -652,14 +650,13 @@ msgstr "Total Bruto"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_percent
-#, fuzzy
 msgid "ICMS %"
-msgstr "ICMS %"
+msgstr "% ICMS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_reduction
 msgid "ICMS % Reduction"
-msgstr "Redução de ICMS %"
+msgstr "% de Redução de ICMS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_icms_base
@@ -674,15 +671,13 @@ msgstr "Tipo base do ICMS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_cst_code
-#, fuzzy
 msgid "ICMS CST Code"
-msgstr "ICMS CST Code"
+msgstr "Código CST do ICMS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_destination_value
-#, fuzzy
 msgid "ICMS Dest. Value"
-msgstr "ICMS Dest. Value"
+msgstr "Valor do Dest. ICMS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_destination_base
@@ -702,12 +697,12 @@ msgstr "ICMS Efetivo"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_effective_percent
 msgid "ICMS Effective %"
-msgstr "ICMS Efetivo %"
+msgstr "% ICMS Efetivo"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_effective_reduction
 msgid "ICMS Effective % Reduction"
-msgstr "ICMS Efetivo % Redução"
+msgstr "% de Redução ICMS Efetivo"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_effective_base
@@ -717,7 +712,7 @@ msgstr "Base para ICMS Efetivo"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_destination_percent
 msgid "ICMS External %"
-msgstr "ICMS Externo %"
+msgstr "% ICMS Externo"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcp_percent
@@ -871,7 +866,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ii_percent
