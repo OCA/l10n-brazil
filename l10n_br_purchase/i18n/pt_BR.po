@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:23+0000\n"
-"PO-Revision-Date: 2023-01-07 22:49+0000\n"
+"PO-Revision-Date: 2023-01-08 02:39+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -400,6 +400,8 @@ msgid ""
 "Define if costs of Insurance, Freight and Other Costs should be informed by "
 "Line or by Total."
 msgstr ""
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
+"por Linha ou por Total."
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__delivery_costs
@@ -1110,12 +1112,12 @@ msgstr "NCM"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__simple_value
 msgid "National Simple Taxes"
-msgstr ""
+msgstr "Impostos do Simples Nacional"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
-msgstr ""
+msgstr "Impostos do Simples Nacional sem ICMS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_id
