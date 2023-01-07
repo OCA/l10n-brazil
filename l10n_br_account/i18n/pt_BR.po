@@ -49,6 +49,11 @@ msgid "Account Journal"
 msgstr "Diário de Conta"
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_tree
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
@@ -279,6 +284,7 @@ msgstr "Devolver"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__display_name
@@ -317,6 +323,14 @@ msgid ""
 msgstr ""
 "Linha do documento fictício não encontrada. Entre em contato com o "
 "administrador do sistema."
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_invoice.py:0
+#, python-format
+msgid ""
+"Document without Return Fiscal Operation! \n"
+" Force one!"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_electronic
@@ -421,6 +435,11 @@ msgid "Fiscal Taxes"
 msgstr "Impostos Fiscais"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__force_fiscal_operation_id
+msgid "Force Fiscal Operation"
+msgstr "Forçar Operação Fiscal"
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_code
 msgid "ICMS CST Code"
 msgstr "Código CST do ICMS"
@@ -429,6 +448,7 @@ msgstr "Código CST do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__id
@@ -519,6 +539,7 @@ msgstr "Item de Diário"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template____last_update
@@ -543,6 +564,16 @@ msgstr "Última Modificação em"
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "Legal Name"
 msgstr "Razão Social"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_invoice.py:0
+#, python-format
+msgid ""
+"Line without Return Fiscal Operation! \n"
+"\n"
+"                            Please force one! \n"
+"{}"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
@@ -774,9 +805,6 @@ msgstr ""
 #~ msgid "Fiscal Operation: There is not Return Operation for %s !"
 #~ msgstr ""
 #~ "Operação Fiscal: Não esta definida a operação de devolução para %s !"
-
-#~ msgid "Force Fiscal Operation"
-#~ msgstr "Forçar Operação Fiscal"
 
 #~ msgid "Invoice Line"
 #~ msgstr "Linha da Fatura"
