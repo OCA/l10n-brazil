@@ -575,21 +575,24 @@ class AccountInvoice(models.Model):
         result = super().action_invoice_open()
 
         for record in self.filtered(lambda i: i.refund_invoice_id):
-            if record.state == "open":
+            if record.state == "open" and record.refund_invoice_id.state == "open":
                 # Ao confirmar uma fatura/documento fiscal se é uma devolução
                 # é feito conciliado com o documento de origem para abater
                 # o valor devolvido pelo documento de refund
                 to_reconcile_lines = self.env["account.move.line"]
-                for line in record.move_id.line_ids:
-                    if line.account_id.id == record.account_id.id:
-                        to_reconcile_lines += line
-                    if line.reconciled:
-                        line.remove_move_reconcile()
                 for line in record.refund_invoice_id.move_id.line_ids:
                     if line.account_id.id == record.refund_invoice_id.account_id.id:
                         to_reconcile_lines += line
+                    if line.reconciled:
+                        line.remove_move_reconcile()
+                for line in record.move_id.line_ids:
+                    if line.account_id.id == record.account_id.id:
+                        to_reconcile_lines += line
+                if to_reconcile_lines and record.move_id.state == "draft":
+                    record.move_id.action_post()
 
-                to_reconcile_lines.filtered(lambda l: l.reconciled).reconcile()
+                if to_reconcile_lines:
+                    to_reconcile_lines.filtered(lambda l: not l.reconciled).reconcile()
 
         return result
 
