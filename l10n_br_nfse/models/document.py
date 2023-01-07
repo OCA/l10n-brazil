@@ -70,13 +70,6 @@ class Document(models.Model):
         default=lambda self: self.env.company.nfse_environment,
     )
 
-    def _document_date(self):
-        result = super()._document_date()
-        for record in self.filtered(filter_processador_edoc_nfse):
-            if not record.date_in_out:
-                record.date_in_out = fields.Datetime.now()
-        return result
-
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
