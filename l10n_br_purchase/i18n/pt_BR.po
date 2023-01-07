@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:23+0000\n"
-"PO-Revision-Date: 2023-01-07 22:00+0000\n"
+"PO-Revision-Date: 2023-01-07 22:49+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -881,49 +881,49 @@ msgstr "% IRPJ"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_reduction
 msgid "IRPJ % Reduction"
-msgstr ""
+msgstr "% Redução do IRPJ"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_irpj_base
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_base
 msgid "IRPJ Base"
-msgstr ""
+msgstr "Base do IRPJ"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_percent
 msgid "IRPJ RET %"
-msgstr ""
+msgstr "% RET IRPJ"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_reduction
 msgid "IRPJ RET % Reduction"
-msgstr ""
+msgstr "% Redução do IRPJ RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_value
 msgid "IRPJ RET Value"
-msgstr ""
+msgstr "Valor do IRPJ RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_irpj_wh_base
 msgid "IRPJ Ret Base"
-msgstr ""
+msgstr "Base do IRPJ Ret"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_irpj_wh_value
 msgid "IRPJ Ret Value"
-msgstr ""
+msgstr "Valor do IRPJ Ret"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_irpj_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_value
 msgid "IRPJ Value"
-msgstr ""
+msgstr "Valor do IRPJ"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_percent
 msgid "ISSQN %"
-msgstr ""
+msgstr "% ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_reduction
@@ -1158,110 +1158,110 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_percent
 msgid "PIS %"
-msgstr ""
+msgstr "% PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_reduction
 msgid "PIS % Reduction"
-msgstr ""
+msgstr "% Redução do PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pis_base
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_base
 msgid "PIS Base"
-msgstr ""
+msgstr "Base do PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_base_id
 msgid "PIS Base Code"
-msgstr ""
+msgstr "Código da Base do PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_base_type
 msgid "PIS Base Type"
-msgstr ""
+msgstr "Tipo da Base do PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_cst_code
 msgid "PIS CST Code"
-msgstr ""
+msgstr "Código CST do PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_credit_id
 msgid "PIS Credit"
-msgstr ""
+msgstr "Crédito do PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_percent
 msgid "PIS RET %"
-msgstr ""
+msgstr "% PIS RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_reduction
 msgid "PIS RET % Reduction"
-msgstr ""
+msgstr "% de Redução do PIS RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_base
 msgid "PIS RET Base"
-msgstr ""
+msgstr "Base do PIS RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_value
 msgid "PIS RET Value"
-msgstr ""
+msgstr "Valor do PIS RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pis_wh_base
 msgid "PIS Ret Base"
-msgstr ""
+msgstr "Base do PIS Ret"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pis_wh_value
 msgid "PIS Ret Value"
-msgstr ""
+msgstr "Valor do PIS Ret"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_percent
 msgid "PIS ST %"
-msgstr ""
+msgstr "% PIS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_reduction
 msgid "PIS ST % Reduction"
-msgstr ""
+msgstr "% de Redução do PIS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_base
 msgid "PIS ST Base"
-msgstr ""
+msgstr "Base do PIS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_base_type
 msgid "PIS ST Base Type"
-msgstr ""
+msgstr "Tipo da Base do PIS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_cst_code
 msgid "PIS ST CST Code"
-msgstr ""
+msgstr "Código CST do PIS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_value
 msgid "PIS ST Value"
-msgstr ""
+msgstr "Valor do PIS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pis_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__pis_value
 msgid "PIS Value"
-msgstr ""
+msgstr "Valor do PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_base_type
 msgid "PIS WH Base Type"
-msgstr ""
+msgstr "Tipo da Base do PIS WH"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_id
@@ -1276,7 +1276,7 @@ msgstr "Pedido de Parceiro (xPed)"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_order_line
 msgid "Partner Order Line (nItemPed)"
-msgstr "Linha de Pedido de Parceiros (nItemPed)"
+msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__product_id
@@ -1341,7 +1341,7 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__service_type_id
 msgid "Service Type LC 166"
-msgstr ""
+msgstr "Tipo de Serviço LC 166"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__09
@@ -1351,7 +1351,7 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmssn_range_id
 msgid "Simplified Range Tax"
-msgstr ""
+msgstr "Intervalo do Imposto Simplificado"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__ie
@@ -1366,27 +1366,27 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_tax_id
 msgid "Tax COFINS"
-msgstr ""
+msgstr "Imposto COFINS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_wh_tax_id
 msgid "Tax COFINS RET"
-msgstr ""
+msgstr "Imposto COFINS RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_tax_id
 msgid "Tax COFINS ST"
-msgstr ""
+msgstr "Imposto COFINS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_tax_id
 msgid "Tax CSLL"
-msgstr ""
+msgstr "Imposto CSLL"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_wh_tax_id
 msgid "Tax CSLL RET"
-msgstr ""
+msgstr "Imposto CSLL RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__tax_framework
@@ -1396,82 +1396,82 @@ msgstr "Estrutura Tributária"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_tax_id
 msgid "Tax ICMS"
-msgstr ""
+msgstr "Imposto ICMS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcp_tax_id
 msgid "Tax ICMS FCP"
-msgstr ""
+msgstr "Imposto ICMS FCP"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmssn_tax_id
 msgid "Tax ICMS SN"
-msgstr ""
+msgstr "Imposto ICMS SN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_tax_id
 msgid "Tax ICMS ST"
-msgstr ""
+msgstr "Imposto ICMS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_tax_id
 msgid "Tax II"
-msgstr ""
+msgstr "Imposto II"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_tax_id
 msgid "Tax INSS"
-msgstr ""
+msgstr "Imposto INSS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_wh_tax_id
 msgid "Tax INSS RET"
-msgstr ""
+msgstr "Imposto INSS RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_tax_id
 msgid "Tax IPI"
-msgstr ""
+msgstr "Imposto IPI"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_tax_id
 msgid "Tax IRPJ"
-msgstr ""
+msgstr "Imposto IRPJ"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_tax_id
 msgid "Tax IRPJ RET"
-msgstr ""
+msgstr "Imposto IRPJ RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_tax_id
 msgid "Tax ISSQN"
-msgstr ""
+msgstr "Imposto ISSQN"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_wh_tax_id
 msgid "Tax ISSQN RET"
-msgstr ""
+msgstr "Imposto ISSQN RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_tax_id
 msgid "Tax PIS"
-msgstr ""
+msgstr "Imposto PIS"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_tax_id
 msgid "Tax PIS RET"
-msgstr ""
+msgstr "Imposto PIS RET"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_tax_id
 msgid "Tax PIS ST"
-msgstr ""
+msgstr "Imposto PIS ST"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__uot_id
 msgid "Tax UoM"
-msgstr ""
+msgstr "UoM Fiscal"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_tax
@@ -1507,12 +1507,12 @@ msgstr "Preço Unitário"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_untaxed
 msgid "Untaxed Amount"
-msgstr "Valor sem Impostos"
+msgstr "Valor Sem Impostos"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__legal_name
 msgid "Used in fiscal documents"
-msgstr "Usado nos documentos fiscais"
+msgstr "Usado em documentos fiscais"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__icms_substitute
