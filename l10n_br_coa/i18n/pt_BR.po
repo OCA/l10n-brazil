@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-07 21:47+0000\n"
+"PO-Revision-Date: 2023-01-08 11:27+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -124,7 +124,7 @@ msgstr "Brasil"
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_cofins
 msgid "COFINS"
-msgstr ""
+msgstr "COFINS"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_cofinsst
@@ -139,12 +139,12 @@ msgstr "COFINS WH"
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_csll
 msgid "CSLL"
-msgstr ""
+msgstr "CSLL"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_csll_wh
 msgid "CSLL WH"
-msgstr ""
+msgstr "CSLL WH"
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__chart_template_id
@@ -195,12 +195,12 @@ msgstr "Nome Exibido"
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_icms
 msgid "ICMS"
-msgstr ""
+msgstr "ICMS"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_icmsfcp
 msgid "ICMS FCP"
-msgstr ""
+msgstr "ICMS FCP"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_icmssn
@@ -229,42 +229,42 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_inss
 msgid "INSS"
-msgstr ""
+msgstr "INSS"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_inss_wh
 msgid "INSS WH"
-msgstr ""
+msgstr "INSS WH"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_ipi
 msgid "IPI"
-msgstr ""
+msgstr "IPI"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_ir
 msgid "IR"
-msgstr ""
+msgstr "IR"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_irpj
 msgid "IRPJ"
-msgstr ""
+msgstr "IRPJ"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_irpj_wh
 msgid "IRPJ WH"
-msgstr ""
+msgstr "IRPJ WH"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_issqn
 msgid "ISSQN"
-msgstr ""
+msgstr "ISSQN"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_issqn_wh
 msgid "ISSQN WH"
-msgstr ""
+msgstr "ISSQN WH"
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_chart_template____last_update
@@ -303,7 +303,7 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_pis_wh
 msgid "PIS WH"
-msgstr ""
+msgstr "PIS WH"
 
 #. module: l10n_br_coa
 #: model:account.account.type,name:l10n_br_coa.data_account_type_current_liabilities
