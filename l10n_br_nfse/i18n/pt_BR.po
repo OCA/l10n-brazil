@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-08 12:45+0000\n"
+"PO-Revision-Date: 2023-01-08 13:09+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -170,7 +170,7 @@ msgstr "CSLL"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
 msgid "City Settings"
-msgstr ""
+msgstr "Configurações da Cidade"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__city_taxation_code_id
@@ -306,7 +306,7 @@ msgstr "Linha do Documento Fiscal"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
 msgid "General Settings"
-msgstr ""
+msgstr "Configurações Gerais"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__nfse_environment__2
@@ -365,7 +365,7 @@ msgstr "Isenção"
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -395,7 +395,7 @@ msgstr "Município"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
 msgid "NFS-e"
-msgstr ""
+msgstr "NFS-e"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_city_logo
