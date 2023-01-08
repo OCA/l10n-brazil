@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2023-01-07 23:20+0000\n"
+"PO-Revision-Date: 2023-01-08 13:09+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -728,6 +728,10 @@ msgid ""
 "automatically filled (as long as you use this method/rules in your statement "
 "profile)."
 msgstr ""
+"Digite os vários rótulos encontrados em seu extrato bancário separados por ; "
+"Se uma desses rótulos for incluída na linha do extrato bancário, o parceiro "
+"será preenchido automaticamente (desde que você use este método/regras em "
+"seu perfil de extrato)."
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_educational_attainment_form
@@ -767,6 +771,8 @@ msgid ""
 "Field used to store sanitized phone number. Helps speeding up searches and "
 "comparisons."
 msgstr ""
+"Campo usado para armazenar número de telefone higienizado. Ajuda a acelerar "
+"pesquisas e comparações."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_final
