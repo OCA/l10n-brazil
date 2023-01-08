@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-08 02:38+0000\n"
+"PO-Revision-Date: 2023-01-08 11:27+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -5232,7 +5232,7 @@ msgstr "IR"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "IRPJ"
-msgstr "Irpj"
+msgstr "IRPJ"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__irpj_percent
@@ -7525,7 +7525,7 @@ msgstr "Produto e Serviço"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_kanban
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.service_type_kanban
 msgid "Product(s)"
-msgstr "Produto: %s"
+msgstr "Produto(s)"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__environment__prod
