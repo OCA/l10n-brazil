@@ -22,7 +22,7 @@
         <field name="name">l10n_br_fiscal.closing.form</field>
         <field name="model">l10n_br_fiscal.closing</field>
         <field name="arch" type="xml">
-            <form string="Processamento Periodico">
+            <form string="Periodic Processing">
                 <header>
                     <button
                         string="Export"
