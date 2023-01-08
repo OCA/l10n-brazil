@@ -295,7 +295,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     issqn_reduction = fields.Float(string="ISSQN % Reduction")
 
-    issqn_value = fields.Monetary(string="SSQN Value")
+    issqn_value = fields.Monetary(string="ISSQN Value")
 
     issqn_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
@@ -781,7 +781,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_IRPJ_WH)],
     )
 
-    irpj_wh_base = fields.Monetary(string="RPJ RET Base")
+    irpj_wh_base = fields.Monetary(string="IRPJ RET Base")
 
     irpj_wh_percent = fields.Float(string="IRPJ RET %")
 
