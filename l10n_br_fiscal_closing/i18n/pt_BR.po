@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-08 12:45+0000\n"
+"PO-Revision-Date: 2023-01-08 20:44+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -59,7 +59,7 @@ msgstr "Ícone do Tipo de Atividade"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__all
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_attachment_count
@@ -79,7 +79,7 @@ msgstr "Período de Bloqueio"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__period
 msgid "By Period"
-msgstr ""
+msgstr "Por Período"
 
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
@@ -156,7 +156,7 @@ msgstr "Nome Exibido"
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Download:"
-msgstr ""
+msgstr "Download:"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__state__draft
@@ -374,7 +374,7 @@ msgstr "Nome"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_simples
 msgid "National Simple Taxes"
-msgstr ""
+msgstr "Impostos Simples Nacional"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_date_deadline
@@ -474,12 +474,12 @@ msgstr "Erro de Entrega de SMS"
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Send by email:"
-msgstr ""
+msgstr "Enviar por email:"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__state
 msgid "State"
-msgstr ""
+msgstr "Situação"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_state
