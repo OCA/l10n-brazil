@@ -57,6 +57,11 @@ msgid "Activity Type Icon"
 msgstr "Ícone do Tipo de Atividade"
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__all
+msgid "All"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_attachment_count
 msgid "Attachment Count"
 msgstr "Contagem de Anexos"
@@ -70,6 +75,11 @@ msgstr "Ignorar novos movimentos fiscais"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__block
 msgid "Block period"
 msgstr "Período de Bloqueio"
+
+#. module: l10n_br_fiscal_closing
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__period
+msgid "By Period"
+msgstr ""
 
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
@@ -102,7 +112,6 @@ msgid "CSLL"
 msgstr "CSLL"
 
 #. module: l10n_br_fiscal_closing
-#: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #, python-format
 msgid "Check write permissions in your system temp folder"
@@ -145,19 +154,16 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_fiscal_closing
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
+msgid "Download:"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__state__draft
 msgid "Draft"
 msgstr "Rascunho"
 
 #. module: l10n_br_fiscal_closing
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
-msgid "Enviar por email:"
-msgstr ""
-
-#. module: l10n_br_fiscal_closing
-#: code:addons/l10n_br_fiscal_closing/models/closing.py:0
-#: code:addons/l10n_br_fiscal_closing/models/closing.py:0
-#: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #, python-format
 msgid "Error!"
@@ -168,11 +174,6 @@ msgstr "Erro!"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Export"
 msgstr "Exportar"
-
-#. module: l10n_br_fiscal_closing
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
-msgid "Fazer o download:"
-msgstr ""
 
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
@@ -231,7 +232,6 @@ msgid "Group documents"
 msgstr "Grupo de Documentos"
 
 #. module: l10n_br_fiscal_closing
-#: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #, python-format
 msgid "I/O Error"
@@ -372,6 +372,11 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_simples
+msgid "National Simple Taxes"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Prazo Final para Próxima Atividade"
@@ -432,11 +437,6 @@ msgid "Period"
 msgstr "Período"
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__period
-msgid "Por período"
-msgstr ""
-
-#. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Processamento Periodico"
 msgstr ""
@@ -472,8 +472,13 @@ msgid "SMS Delivery error"
 msgstr "Erro de Entrega de SMS"
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_simples
-msgid "Simples"
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
+msgid "Send by email:"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__state
+msgid "State"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
@@ -493,11 +498,6 @@ msgstr ""
 #: model:ir.model.constraint,message:l10n_br_fiscal_closing.constraint_l10n_br_fiscal_closing_fiscal_closing_unique
 msgid "The closing must be unique for the company in a period of time."
 msgstr "O fechamento deve ser único para a empresa em um período de tempo."
-
-#. module: l10n_br_fiscal_closing
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__all
-msgid "Tudo"
-msgstr ""
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_exception_decoration
@@ -534,7 +534,5 @@ msgstr "Ano"
 msgid "Zip File"
 msgstr "Arquivo ZIP"
 
-#. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__state
-msgid "state"
-msgstr "situação"
+#~ msgid "state"
+#~ msgstr "situação"
