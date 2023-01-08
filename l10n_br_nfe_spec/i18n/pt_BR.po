@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-07 23:20+0000\n"
+"PO-Revision-Date: 2023-01-08 11:27+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -4147,12 +4147,12 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_imposto__nfe40_choice10__nfe40_icms
 msgid "ICMS"
-msgstr ""
+msgstr "ICMS"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto__nfe40_choice10
 msgid "ICMS/II/IPI/ISSQN"
-msgstr ""
+msgstr "ICMS/II/IPI/ISSQN"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_icms__nfe40_choice11__nfe40_icms00
@@ -4359,7 +4359,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto__nfe40_IPI
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_imposto__nfe40_choice10__nfe40_ipi
 msgid "IPI"
-msgstr ""
+msgstr "IPI"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tipi__nfe40_IPINT
@@ -4383,13 +4383,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto__nfe40_ISSQN
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_imposto__nfe40_choice10__nfe40_issqn
 msgid "ISSQN"
-msgstr ""
+msgstr "ISSQN"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe__nfe40_Id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprot__nfe40_Id
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed__nfe40_idCadIntTran
