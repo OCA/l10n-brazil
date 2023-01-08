@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2023-01-08 02:39+0000\n"
+"PO-Revision-Date: 2023-01-08 11:27+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -1139,12 +1139,12 @@ msgstr "Operação"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_line_id
 msgid "Operation Line"
-msgstr ""
+msgstr "Linha de Operação"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__operation_name
 msgid "Operation Name"
-msgstr ""
+msgstr "Nome da Operação"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__partner_id
@@ -1156,12 +1156,12 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_other_value
 msgid "Other Costs"
-msgstr ""
+msgstr "Outros Custos"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__other_value
 msgid "Other Value"
-msgstr ""
+msgstr "Outros Valores"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
