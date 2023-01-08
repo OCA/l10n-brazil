@@ -36,7 +36,7 @@ _logger = logging.getLogger(__name__)
 try:
     from erpbrasil.base import misc
 except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
+    _logger.error("Library erpbrasil.base not installed!")
 
 PATH_MODELO = {
     MODELO_FISCAL_NFE: "nfe",
@@ -73,7 +73,7 @@ class FiscalClosing(models.Model):
 
     state = fields.Selection(
         selection=[("draft", "Draft"), ("open", "Open"), ("closed", "Closed")],
-        string="state",
+        string="State",
         default="draft",
         readonly=True,
     )
@@ -89,7 +89,7 @@ class FiscalClosing(models.Model):
     zip_file = fields.Binary(readonly=True)
 
     export_type = fields.Selection(
-        selection=[("period", "Por período"), ("all", "Tudo")],
+        selection=[("period", "By Period"), ("all", "All")],
         string="Export",
         default="period",
         required=True,
@@ -165,7 +165,7 @@ class FiscalClosing(models.Model):
 
     file_irpj = fields.Binary(string="IRPJ")
 
-    file_simples = fields.Binary(string="Simples")
+    file_simples = fields.Binary(string="National Simple Taxes")
 
     file_honorarios = fields.Binary(string="Accountant Fee")
 
@@ -182,7 +182,7 @@ class FiscalClosing(models.Model):
     ]
 
     def _create_tempfile_path(self, document):
-        fsc_op_type = {"out": "Saída", "in": "Entrada", "all": "Todos"}
+        fsc_op_type = {"out": "Outbound", "in": "Inbound", "all": "All"}
 
         if document.issuer == DOCUMENT_ISSUER_COMPANY:
             document_path = "/".join(
