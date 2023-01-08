@@ -54,6 +54,11 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__all
+msgid "All"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
@@ -66,6 +71,11 @@ msgstr ""
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__block
 msgid "Block period"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__period
+msgid "By Period"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
@@ -142,13 +152,13 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__state__draft
-msgid "Draft"
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
+msgid "Download:"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
-msgid "Enviar por email:"
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__state__draft
+msgid "Draft"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
@@ -164,11 +174,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__export_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Export"
-msgstr ""
-
-#. module: l10n_br_fiscal_closing
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
-msgid "Fazer o download:"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
@@ -369,6 +374,11 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_simples
+msgid "National Simple Taxes"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -429,11 +439,6 @@ msgid "Period"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__period
-msgid "Por período"
-msgstr ""
-
-#. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Processamento Periodico"
 msgstr ""
@@ -467,8 +472,13 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_simples
-msgid "Simples"
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
+msgid "Send by email:"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__state
+msgid "State"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
@@ -483,11 +493,6 @@ msgstr ""
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.constraint,message:l10n_br_fiscal_closing.constraint_l10n_br_fiscal_closing_fiscal_closing_unique
 msgid "The closing must be unique for the company in a period of time."
-msgstr ""
-
-#. module: l10n_br_fiscal_closing
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__all
-msgid "Tudo"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
@@ -523,9 +528,4 @@ msgstr ""
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__zip_file
 msgid "Zip File"
-msgstr ""
-
-#. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__state
-msgid "state"
 msgstr ""
