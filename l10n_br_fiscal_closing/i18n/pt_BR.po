@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-07 23:20+0000\n"
+"PO-Revision-Date: 2023-01-08 12:45+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -89,7 +89,7 @@ msgstr "CFe ECF"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__document_cfeecf_ids
 msgid "CFe ECF Documents"
-msgstr "Documentos ECF CFe"
+msgstr "Documentos CFe ECF"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_cofins
