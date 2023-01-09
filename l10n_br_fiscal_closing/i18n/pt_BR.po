@@ -438,7 +438,7 @@ msgstr "Período"
 
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
-msgid "Processamento Periodico"
+msgid "Periodic Processing"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
