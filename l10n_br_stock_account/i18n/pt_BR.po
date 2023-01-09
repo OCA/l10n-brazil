@@ -925,6 +925,11 @@ msgid "IRPJ RET % Reduction"
 msgstr "% Redução do IRPJ RET"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_value
 msgid "IRPJ RET Value"
 msgstr "Valor do IRPJ RET"
@@ -1027,6 +1032,7 @@ msgid "ISSQN Ret Value"
 msgstr "Valor ISSQN Ret"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_value
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_issqn_value
 msgid "ISSQN Value"
 msgstr "Valor ISSQN"
@@ -1302,19 +1308,9 @@ msgid "Product"
 msgstr "Produto"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_base
-msgid "RPJ RET Base"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
 msgid "Return Picking"
 msgstr "Separação de Retorno"
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__issqn_value
-msgid "SSQN Value"
-msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__service_type_id
