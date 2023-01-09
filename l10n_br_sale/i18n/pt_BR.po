@@ -1006,6 +1006,11 @@ msgid "IRPJ RET % Reduction"
 msgstr "% Redução do IRPJ RET"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__irpj_wh_value
 msgid "IRPJ RET Value"
 msgstr "Valor do IRPJ RET"
@@ -1109,6 +1114,7 @@ msgstr "Valor ISSQN Ret"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__issqn_value
 msgid "ISSQN Value"
 msgstr "Valor ISSQN"
 
@@ -1444,19 +1450,9 @@ msgid "Produto em Processo"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__irpj_wh_base
-msgid "RPJ RET Base"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
 msgid "Razão Social"
 msgstr "Razão Social"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__issqn_value
-msgid "SSQN Value"
-msgstr ""
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_company_form
