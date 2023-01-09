@@ -896,6 +896,11 @@ msgid "IRPJ RET % Reduction"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_value
 msgid "IRPJ RET Value"
 msgstr ""
@@ -999,6 +1004,7 @@ msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_value
 msgid "ISSQN Value"
 msgstr ""
 
@@ -1319,18 +1325,8 @@ msgid "Purchases"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_base
-msgid "RPJ RET Base"
-msgstr ""
-
-#. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
 msgid "Razão Social"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_value
-msgid "SSQN Value"
 msgstr ""
 
 #. module: l10n_br_purchase
