@@ -1216,6 +1216,13 @@ msgid "IRPJ RET % Reduction"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_base
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_base
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_value
@@ -1350,6 +1357,9 @@ msgid "ISSQN Ret Value"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_value
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_value
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_issqn_value
 msgid "ISSQN Value"
 msgstr ""
@@ -1691,13 +1701,6 @@ msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_base
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_base
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_base
-msgid "RPJ RET Base"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.res_company_form_view
 msgid "Repair"
 msgstr ""
@@ -1715,13 +1718,6 @@ msgstr ""
 #. module: l10n_br_repair
 #: model:ir.model,name:l10n_br_repair.model_repair_order
 msgid "Repair Order"
-msgstr ""
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_value
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_value
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_value
-msgid "SSQN Value"
 msgstr ""
 
 #. module: l10n_br_repair
