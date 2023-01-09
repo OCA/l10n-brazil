@@ -5268,6 +5268,12 @@ msgid "IRPJ RET % Reduction"
 msgstr "% Redução do IRPJ RET"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__irpj_wh_base
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr "IRPJ RET Base"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__irpj_wh_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__irpj_wh_value
 msgid "IRPJ RET Value"
@@ -5416,6 +5422,8 @@ msgstr "Valor ISSQN Ret"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_issqn_value
 msgid "ISSQN Value"
 msgstr "Valor ISSQN"
@@ -7736,12 +7744,6 @@ msgid "ROLO"
 msgstr "ROLO"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__irpj_wh_base
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__irpj_wh_base
-msgid "RPJ RET Base"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__rps_number
 msgid "RPS Number"
 msgstr ""
@@ -7975,12 +7977,6 @@ msgstr "SACOLA"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr "Erro de Entrega de SMS"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_value
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_value
-msgid "SSQN Value"
-msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_type__sale
@@ -9836,9 +9832,6 @@ msgstr "{} Estimativa de Imposto Atualizada"
 
 #~ msgid "ICMSSN Value"
 #~ msgstr "Valor do ICMSN"
-
-#~ msgid "IRPJ RET Base"
-#~ msgstr "IRPJ RET Base"
 
 #~ msgid "If checked new messages require your attention."
 #~ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
