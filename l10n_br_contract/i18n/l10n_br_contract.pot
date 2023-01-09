@@ -888,6 +888,11 @@ msgid "IRPJ RET % Reduction"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_value
 msgid "IRPJ RET Value"
 msgstr ""
@@ -991,6 +996,7 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_value
 msgid "ISSQN Value"
 msgstr ""
 
@@ -1216,18 +1222,8 @@ msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_base
-msgid "RPJ RET Base"
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
 msgid "Recalculate taxes before invoicing"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__issqn_value
-msgid "SSQN Value"
 msgstr ""
 
 #. module: l10n_br_contract
