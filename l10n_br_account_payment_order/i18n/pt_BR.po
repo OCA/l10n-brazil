@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-08 12:45+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2023-01-11 15:14+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -2644,6 +2644,9 @@ msgid ""
 "{} for OWN NUMBER {}.\n"
 "Justification: {}"
 msgstr ""
+"Linha de pagamento adicionada a ordem em rascunho existente {} para enviar "
+"Instrução CNAB {} para NOSSO NUMERO {}.\n"
+"Justificativa: {}"
 
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
@@ -2653,6 +2656,9 @@ msgid ""
 "automatically created, to send CNAB Instruction {} for OWN NUMBER {}.\n"
 "Justification: {}"
 msgstr ""
+"Linha de pagamento adicionada a uma nova ordem {} que foi criado "
+"automaticamente, para enviar Instrução CNAB {} para NOSSO NUMERO {}.\n"
+"Justificativa: {}"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_payment
@@ -2696,18 +2702,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__partner_pix_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_bank_payment_line__partner_pix_id
 msgid "Pix Key"
-msgstr ""
+msgstr "Chave Pix"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__pix_transfer_type
 msgid "Pix Transfer Type"
-msgstr ""
+msgstr "Tipo de Tranfer Pix"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__pix_transfer_type
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_bank_payment_line__pix_transfer_type
 msgid "Pix transfer type identification"
-msgstr ""
+msgstr "identificação do tipo de transferência pix"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_post
@@ -2921,12 +2927,14 @@ msgid ""
 "The Payment Mode can not be used for CNAB with the field %s active. \n"
 " Please uncheck it to continue."
 msgstr ""
+"O Mode de Pagamento não pode ser usado pelo CNAB com o campo %s ativo.\n"
+"Por favor desmarque para continuar."
 
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:0
 #, python-format
 msgid "The field Code should have two characters."
-msgstr ""
+msgstr "A campo Código deve ter dois caracteres."
 
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
@@ -2936,6 +2944,9 @@ msgid ""
 "the CNAB file should be sent to bank, because only after that it is possible "
 "make another CNAB Instruction."
 msgstr ""
+"Há uma Ordem de Pagamento CNAB {} no status {} relacionado a fatura {} "
+"criada, o arquivo CNAB deve ser enviado ao banco, pois somente após isso é "
+"possível executar outra Instrução CNAB."
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move_line__payment_method_code
@@ -2946,12 +2957,15 @@ msgid ""
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
 msgstr ""
+"Este código é usado na código do módulo do Odoo que manipula este método de "
+"pagamento. Sendo assim, se você altera-lo, a geração do arquivo de pagamento "
+"pode falhar."
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__barcode
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_bank_payment_line__barcode
 msgid "This field is used in the payment of supplier slips"
-msgstr ""
+msgstr "Este campo é usado no pagamento de boletos de fornecedores"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__change_type
@@ -3167,7 +3181,7 @@ msgstr "Assistente para Alteração do CNAB."
 #. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_line_create
 msgid "Wizard to create payment lines"
-msgstr "Assistência para criar linhas de pagamento"
+msgstr "Assistente para criar linhas de pagamento"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_write_off_code_id
