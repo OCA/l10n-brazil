@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-08 11:27+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2023-01-11 15:14+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -68,6 +68,10 @@ msgid ""
 "\"Values set here are company-specific.\" aria-label=\"Values set here are "
 "company-specific.\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Layout de Impressão de DANFE</span>\n"
+"                                <span class=\"fa fa-lg fa-building-o\" title="
+"\"Valores definidor aqui são específicos da empresa.\" aria-label=\"Valores "
+"definidor aqui são específicos da empresa.\" role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
@@ -77,6 +81,10 @@ msgid ""
 "\"Values set here are company-specific.\" aria-label=\"Values set here are "
 "company-specific.\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Ambiente padrão NF-e</span>\n"
+"                            <span class=\"fa fa-lg fa-building-o\" title="
+"\"Valores definidor aqui são específicos da empresa.\" aria-label=\"Valores "
+"definidor aqui são específicos da empresa.\" role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
@@ -86,6 +94,10 @@ msgid ""
 "\"Values set here are company-specific.\" aria-label=\"Values set here are "
 "company-specific.\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Transmissão padrão NF-e </span>\n"
+"                              <span class=\"fa fa-lg fa-building-o\" title="
+"\"Valores definidor aqui são específicos da empresa.\" aria-label=\"Valores "
+"definidor aqui são específicos da empresa.\" role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
@@ -95,6 +107,10 @@ msgid ""
 "\"Values set here are company-specific.\" aria-label=\"Values set here are "
 "company-specific.\" role=\"img\"/>"
 msgstr ""
+"<span class=\"o_form_label\">Versão padrão NF-e</span>\n"
+"                            <span class=\"fa fa-lg fa-building-o\" title="
+"\"Valores definidor aqui são específicos da empresa.\" aria-label=\"Valores "
+"definidor aqui são específicos da empresa.\" role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pICMSUFDest
@@ -133,7 +149,7 @@ msgstr ""
 #: code:addons/l10n_br_nfe/models/document.py:0
 #, python-format
 msgid "Authorization Protocol Not Found!"
-msgstr ""
+msgstr "Protocolo de Autorização Não Encontrado!"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vBC
@@ -381,7 +397,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_country_state
 msgid "Country state"
-msgstr ""
+msgstr "País Estado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_EXTIPI
@@ -944,6 +960,8 @@ msgstr ""
 msgid ""
 "Include Accountant Partner data in persons authorized to download NFe XML"
 msgstr ""
+"Incluir dado do Parceiro Contábil nas pessoas autorizadas para fazerem "
+"download do XML da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_technical_download_xml
@@ -952,6 +970,8 @@ msgid ""
 "Include Technical Support Partner data in persons authorized to download NFe "
 "XML"
 msgstr ""
+"Incluir dado do Suporte Técnico do Parceiro nas pessoas autorizadas para "
+"fazerem download do XML da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_indFinal
