@@ -25,3 +25,14 @@ class TestL10nBrPosProduct(TransactionCase):
             len(product.pos_fiscal_map_ids),
             "Error generating POS tax information for the product created.",
         )
+
+        product_product = self.env["product.product"].search(
+            [("product_tmpl_id", "=", product.id)]
+        )
+
+        product_product.update_pos_fiscal_map()
+        self.assertEqual(
+            1,
+            len(product.pos_fiscal_map_ids),
+            "Error generating POS tax information for the product variant.",
+        )
