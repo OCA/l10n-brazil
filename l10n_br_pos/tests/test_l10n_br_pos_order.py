@@ -94,6 +94,8 @@ class TestL10nBrPosOrder(TransactionCase):
 
     def test_create_from_ui_l10n_brazil(self):
 
+        orders_exported_to_ui = []
+
         self.pos_config.open_session_cb(check_coa=False)
 
         current_session = self.pos_config.current_session_id
@@ -101,10 +103,19 @@ class TestL10nBrPosOrder(TransactionCase):
 
         self._generate_order()
 
+        for order in current_session.order_ids:
+            orders_exported_to_ui.append(order.export_for_ui())
+
         self.assertEqual(
             num_starting_orders + 1,
             len(current_session.order_ids),
             "Submitted order not encoded",
+        )
+
+        self.assertEqual(
+            1,
+            len(orders_exported_to_ui),
+            "Orders not exported to UI.",
         )
 
     def test_cancel_l10n_brazil(self):
