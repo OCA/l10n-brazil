@@ -43,7 +43,7 @@ addon | version | maintainers | summary
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 14.0.2.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 14.0.1.10.0 | [![gabrielcardoso21](https://github.com/gabrielcardoso21.png?size=30px)](https://github.com/gabrielcardoso21) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e
 [l10n_br_portal](l10n_br_portal/) | 14.0.1.0.2 |  | Campos Brasileiros no Portal
-[l10n_br_purchase](l10n_br_purchase/) | 14.0.2.0.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Purchase
+[l10n_br_purchase](l10n_br_purchase/) | 14.0.2.0.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Purchase
 [l10n_br_purchase_request](l10n_br_purchase_request/) | 14.0.1.0.1 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Purchase Request Brazilian Localization Purchase Request
 [l10n_br_purchase_stock](l10n_br_purchase_stock/) | 14.0.1.0.2 |  | Brazilian Localization Purchase Stock
 [l10n_br_repair](l10n_br_repair/) | 14.0.1.0.3 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Repair
