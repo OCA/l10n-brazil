@@ -42,11 +42,6 @@
         # Templates
         "views/pos_template.xml",
         # TODO: Check this files after alpha version
-        #   "views/account_invoice_view.xml"
-        #   "views/pos_order_line_view.xml",
-        #   Wizards
-        #   "wizard/l10n_br_pos_order_return.xml",
-        #   "wizard/sat_xml_periodic_export.xml",
         #   Report
         #   "views/point_of_sale_report.xml",
     ],
