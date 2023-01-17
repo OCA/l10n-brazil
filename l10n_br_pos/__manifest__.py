@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "category": "Point Of Sale",
     "development_status": "Alpha",
-    "maintainers": ["mileo", "sadamo", "gabrielcardoso21", "lfdivino"],
+    "maintainers": ["mileo", "lfdivino", "luismalta", "ygcarvalh"],
     "depends": [
         "l10n_br_account",
         "l10n_br_stock",
@@ -25,9 +25,6 @@
         #   "pos_order_show_list",
         #   "pos_order_return",
     ],
-    "external_dependencies": {
-        "python": ["erpbrasil.base"],
-    },
     "data": [
         # security
         "security/l10n_br_pos_product_fiscal_map.xml",
