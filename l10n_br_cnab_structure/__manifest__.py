@@ -6,8 +6,8 @@
     "summary": """
         This module allows defining the structure for generating the CNAB file.""",
     "version": "14.0.0.0.0",
-    "author": "Engenere,Odoo Community Association (OCA)",
-    "maintainers": ["netosjb", "felipemotter"],
+    "author": "Engenere, Escodoo, Odoo Community Association (OCA)",
+    "maintainers": ["antoniospn", "felipemotter"],
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
     "depends": [
