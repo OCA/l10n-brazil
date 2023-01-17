@@ -11,5 +11,6 @@ phonenumbers
 pycep_correios
 pyyaml
 unidecode
+satcomum
 workalendar
 xmldiff
