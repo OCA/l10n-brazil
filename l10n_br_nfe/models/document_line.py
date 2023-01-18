@@ -1048,7 +1048,7 @@ class NFeLine(spec_models.StackedModel):
                     # ICMS ST fields
                     # TODO map icmsst_tax_id
                     if hasattr(icms, "modBCST") and icms.modBCST is not None:
-                        icms_vals["icmsst_base_type"] = float(icms.modBCST)
+                        icms_vals["icmsst_base_type"] = icms.modBCST
                     if hasattr(icms, "pMVAST") and icms.pMVAST is not None:
                         icms_vals["icmsst_mva_percent"] = float(icms.pMVAST)
                     if hasattr(icms, "pRedBCST") and icms.pRedBCST is not None:
