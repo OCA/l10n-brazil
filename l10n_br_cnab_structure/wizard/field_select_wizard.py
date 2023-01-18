@@ -39,7 +39,7 @@ class FieldSelectWizard(models.TransientModel):
         compute="_compute_parent_model_id",
     )
 
-    @api.depends("model_id")
+    @api.depends("model_id", "notation_field")
     def _compute_parent_model_id(self):
         model = self.model_id
         if self.notation_field:
@@ -90,6 +90,7 @@ class FieldSelectWizard(models.TransientModel):
             },
         }
 
+    @api.depends("notation_field")
     def _compute_notation_field_view(self):
         self.notation_field_view = self.notation_field.replace(".", "→")
 
