@@ -29,17 +29,16 @@ class CNABPreviewWizard(models.TransientModel):
 
     output = fields.Text(string="CNAB Text Output")
 
-    output_yaml = fields.Text(string="CNAB YAML Output")
+    output_yaml = fields.Text(
+        string="CNAB YAML Output",
+        compute="_compute_cnab_txt",
+    )
 
     cnab_file = fields.Binary(
         string="CNAB File",
     )
 
     cnab_file_name = fields.Char(compute="_compute_cnab_file_name")
-
-    @api.onchange("payment_order_id")
-    def _onchange_payment_order_id(self):
-        self._compute_cnab_txt()
 
     def _compute_cnab_file_name(self):
         for rec in self:
@@ -49,7 +48,7 @@ class CNABPreviewWizard(models.TransientModel):
     @api.depends("cnab_structure_id", "payment_order_id")
     def _compute_cnab_txt(self):
         txt = yaml = ""
-        if self.payment_order_id:
+        if self.cnab_structure_id and self.payment_order_id:
             txt = self.cnab_structure_id.output(self.payment_order_id)
             yaml = self.cnab_structure_id.output_yaml(self.payment_order_id)
         self.output = txt
