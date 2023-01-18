@@ -263,28 +263,6 @@ class PosOrder(models.Model):
         for order in self:
             order._compute_amount()
 
-    def _save_attachment(
-        self, file_name="", file_content="", file_type="application/xml"
-    ):
-        self.ensure_one()
-        attachment = self.env["ir.attachment"]
-        domain = [
-            ("res_model", "=", self._name),
-            ("res_id", "=", self.id),
-            ("name", "=", file_name),
-        ]
-        attachment_ids = attachment.search(domain)
-        attachment_ids.unlink()
-        vals = {
-            "name": file_name,
-            "store_fname": file_name,
-            "res_model": self._name,
-            "res_id": self.id,
-            "datas": file_content.encode("utf-8"),
-            "mimetype": file_type,
-        }
-        return attachment.create(vals)
-
     @api.model
     def _process_order(self, order, draft, existing_order):
 
@@ -297,18 +275,6 @@ class PosOrder(models.Model):
                 mail_notrack=True,
             ),
         )._process_order(order, draft, existing_order)
-
-        if order.get("authorization_file"):
-            order.document_file_id = order._save_attachment(
-                file_name=order.document_key + ".xml",
-                file_content=order.pop("authorization_file"),
-            ).id
-
-        if order.get("cancel_file"):
-            order.cancel_document_file_id = order._save_attachment(
-                file_name=order.document_key + ".xml",
-                file_content=order.pop("cancel_file"),
-            ).id
 
         return order_id
 
@@ -449,9 +415,6 @@ class PosOrder(models.Model):
         order.write({"state": "cancel"})
 
         order._populate_cancel_order_fields(result)
-        order.cancel_document_file_id = order._save_attachment(
-            file_name=result["chave_cfe"] + ".xml", file_content=result["xml"]
-        ).id
 
         order.with_context(
             mail_create_nolog=True,
