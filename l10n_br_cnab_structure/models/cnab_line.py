@@ -228,6 +228,11 @@ class CNABLine(models.Model):
 
         cnab_fields = self.field_ids.sorted(key=lambda r: r.start_pos)
 
+        if len(cnab_fields) == 0:
+            raise UserError(
+                _(f"{self.name}: The cnab line must have some cnab field defined.")
+            )
+
         for f in cnab_fields:
             f.check_field()
 
