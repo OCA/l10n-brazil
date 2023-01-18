@@ -283,7 +283,7 @@ class CNABReturnEvent(models.Model):
                 {
                     "name": "Bank Tariff: " + self.your_number,
                     "credit": self.tariff_charge,
-                    "account_id": self.journal_id.default_account_id.id,
+                    "account_id": self.journal_id.payment_credit_account_id.id,
                     "partner_id": self.move_line_ids[0].partner_id.id,
                     "move_id": move_id.id,
                 }
@@ -340,7 +340,9 @@ class CNABReturnEvent(models.Model):
                 "move_id": move_id.id,
             }
             if self.cnab_return_log_id.type == "inbound":
-                credit_move_line["account_id"] = self.journal_id.default_account_id.id
+                credit_move_line[
+                    "account_id"
+                ] = self.journal_id.payment_credit_account_id.id
                 debit_move_line[
                     "account_id"
                 ] = self.journal_id.inbound_rebate_account_id.id
@@ -348,7 +350,9 @@ class CNABReturnEvent(models.Model):
                 credit_move_line[
                     "account_id"
                 ] = self.journal_id.outbound_rebate_account_id.id
-                debit_move_line["account_id"] = self.journal_id.default_account_id.id
+                debit_move_line[
+                    "account_id"
+                ] = self.journal_id.payment_debit_account_id.id
 
             move_line_obj.with_context(check_move_validity=False).create(
                 [credit_move_line, debit_move_line]
@@ -370,7 +374,9 @@ class CNABReturnEvent(models.Model):
                 "move_id": move_id.id,
             }
             if self.cnab_return_log_id.type == "inbound":
-                credit_move_line["account_id"] = self.journal_id.default_account_id.id
+                credit_move_line[
+                    "account_id"
+                ] = self.journal_id.payment_credit_account_id.id
                 debit_move_line[
                     "account_id"
                 ] = self.journal_id.inbound_discount_account_id.id
@@ -378,7 +384,9 @@ class CNABReturnEvent(models.Model):
                 credit_move_line[
                     "account_id"
                 ] = self.journal_id.outbound_discount_account_id.id
-                debit_move_line["account_id"] = self.journal_id.default_account_id.id
+                debit_move_line[
+                    "account_id"
+                ] = self.journal_id.payment_debit_account_id.id
 
             move_line_obj.with_context(check_move_validity=False).create(
                 [credit_move_line, debit_move_line]
@@ -403,9 +411,13 @@ class CNABReturnEvent(models.Model):
                 credit_move_line[
                     "account_id"
                 ] = self.journal_id.inbound_interest_fee_account_id.id
-                debit_move_line["account_id"] = self.journal_id.default_account_id.id
+                debit_move_line[
+                    "account_id"
+                ] = self.journal_id.payment_debit_account_id.id
             else:
-                credit_move_line["account_id"] = self.journal_id.default_account_id.id
+                credit_move_line[
+                    "account_id"
+                ] = self.journal_id.payment_credit_account_id.id
                 debit_move_line[
                     "account_id"
                 ] = self.journal_id.outbound_interest_fee_account_id.id
@@ -423,7 +435,7 @@ class CNABReturnEvent(models.Model):
         self._create_discount_move_lines(move_id)
         self._create_fees_move_lines(move_id)
         self._create_tariff_move_lines(move_id)
-        move_id.post()
+        move_id.action_post()
         self.generated_move_id = move_id
         for to_reconcile in to_reconcile_items:
             to_reconcile.reconcile()
