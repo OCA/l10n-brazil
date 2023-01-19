@@ -40,12 +40,13 @@ class ProductTemplate(models.Model):
                 pos_fiscal_map_id._onchange_fiscal_operation_line_id()
                 pos_fiscal_map_id._onchange_fiscal_taxes()
 
-    @api.model
-    def create(self, vals):
-        product_id = super().create(vals)
-        if vals.get("available_in_pos"):
-            product_id.update_pos_fiscal_map()
-        return product_id
+    @api.model_create_multi
+    def create(self, vals_list):
+        templates = super().create(vals_list)
+        for template in templates:
+            if template.available_in_pos:
+                template.update_pos_fiscal_map()
+        return templates
 
     def write(self, vals):
         if vals.get("available_in_pos"):
