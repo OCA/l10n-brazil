@@ -15,6 +15,7 @@
         "l10n_br_stock",
         "l10n_br_zip",
         "l10n_br_base",
+        "l10n_br_coa_generic",
         "point_of_sale",
         # TODO: Check this files after alpha version
         #   "queue_job",
