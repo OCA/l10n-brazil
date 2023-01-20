@@ -338,6 +338,7 @@ class Document(models.Model):
                                 if processo.resposta.Cabecalho.Sucesso:
                                     record._change_state(SITUACAO_EDOC_AUTORIZADA)
                                     vals["status_name"] = _("Procesado com Sucesso")
+                                    vals["status_code"] = 4
                                     vals["edoc_error_message"] = ""
                                 else:
                                     mensagem_erro = ""
@@ -350,6 +351,7 @@ class Document(models.Model):
 
                                     vals["edoc_error_message"] = mensagem_erro
                                     vals["status_name"] = _("Procesado com Erro")
+                                    vals["status_code"] = 3
                                     record._change_state(SITUACAO_EDOC_REJEITADA)
 
                         if processo.webservice in CONSULTA_LOTE:
@@ -372,6 +374,8 @@ class Document(models.Model):
                                 )
 
                 record.write(vals)
+            if record.status_code == "4":
+                record.make_pdf()
         return
 
     def _document_status(self):
