@@ -11,6 +11,11 @@ from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
+try:
+    from erpbrasil.base.misc import punctuation_rm
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
+
 
 class PaymentTransactionPagseguro(models.Model):
     _inherit = "payment.transaction"
@@ -33,7 +38,7 @@ class PaymentTransactionPagseguro(models.Model):
 
         Uses encrypted credit card.
         """
-        api_url_charge = "https://%s/charges" % (
+        api_url_charge = "https://%s/orders" % (
             self.acquirer_id._get_pagseguro_api_url()
         )
 
@@ -83,7 +88,12 @@ class PaymentTransactionPagseguro(models.Model):
         r = requests.post(
             self.pagseguro_s2s_capture_link,
             headers=self.acquirer_id._get_pagseguro_api_headers(),
-            json=self._get_pagseguro_charge_params(),
+            json={
+                "charge_id": self.id,
+                "amount": {
+                    "value": int(self.amount * 100),
+                },
+            },
         )
         res = r.json()
         _logger.info(
@@ -166,13 +176,16 @@ class PaymentTransactionPagseguro(models.Model):
             )
             return True
 
-        if tree.get("payment_response"):
-            code = tree.get("payment_response", {}).get("code")
+        if tree.get("error_messages"):
+            return False
+
+        if tree.get("charges", {})[0].get("payment_response"):
+            code = tree.get("charges", {})[0].get("payment_response").get("code")
             if code == "20000":
                 self.log_transaction(reference=tree.get("id"), message="")
 
             # store capture and void links for future manual operations
-            for method in tree.get("links"):
+            for method in tree.get("charges", {})[0].get("links"):
                 if "rel" in method and "href" in method:
                     if method.get("rel") == "SELF":
                         self.pagseguro_s2s_check_link = method.get("href")
@@ -223,24 +236,63 @@ class PaymentTransactionPagseguro(models.Model):
         # if currency != "BRL":
         #     raise UserError(_("Only BRL currency is allowed."))
         CHARGE_PARAMS = {
-            "reference_id": str(self.payment_token_id.acquirer_id.id),
-            "description": self.display_name[:13],
-            "amount": {
-                # Charge is in BRL cents -> Multiply by 100
-                "value": int(self.amount * 100),
-                "currency": "BRL",
+            "reference_id": self.sale_order_ids[0].name,
+            "customer": {
+                "name": self.partner_name,
+                "email": self.partner_email,
+                "tax_id": punctuation_rm(self.partner_id.vat)
+                or punctuation_rm(self.partner_id.cnpj_cpf),
+                "phones": [
+                    {
+                        "country": "55",
+                        "area": "11",
+                        "number": "999999999",
+                        "type": "MOBILE",
+                    }
+                ],
             },
-            "payment_method": {
-                "soft_descriptor": self.acquirer_id.company_id.name,
-                "type": "CREDIT_CARD",
-                "installments": 1,
-                "capture": False,
-                "card": {
-                    "encrypted": self.payment_token_id.pagseguro_card_token,
-                },
+            "items": [
+                {
+                    "reference_id": self.sale_order_ids[0].name,
+                    "name": "Produto Vendido",
+                    "quantity": 1,
+                    "unit_amount": int(self.amount * 100),
+                }
+            ],
+            "qr_code": {"amount": {"value": int(self.amount * 100)}},
+            "shipping": {
+                "address": {
+                    "street": self.partner_id.street,
+                    "number": self.partner_id.street_number or "S/N",
+                    "complement": self.partner_id.street2 or "N/A",
+                    "locality": self.partner_id.district,
+                    "city": self.partner_id.district,
+                    "region_code": self.partner_id.state_id.code,
+                    "country": "BRA",
+                    "postal_code": punctuation_rm(self.partner_zip),
+                }
             },
+            "charges": [
+                {
+                    "reference_id": str(self.payment_token_id.acquirer_id.id),
+                    "description": self.display_name[:13],
+                    "amount": {
+                        # Charge is in BRL cents -> Multiply by 100
+                        "value": int(self.amount * 100),
+                        "currency": "BRL",
+                    },
+                    "payment_method": {
+                        "soft_descriptor": self.acquirer_id.company_id.name,
+                        "type": "CREDIT_CARD",
+                        "installments": 1,
+                        "capture": False,
+                        "card": {
+                            "encrypted": self.payment_token_id.pagseguro_card_token,
+                        },
+                    },
+                }
+            ],
         }
-
         return CHARGE_PARAMS
 
     def log_transaction(self, reference, message):
@@ -257,9 +309,8 @@ class PaymentTransactionPagseguro(models.Model):
     def pprint_filtered_response(response):
         # Returns response removing payment's sensitive information
         output_response = response.copy()
+        output_response.pop("charges", None)
         output_response.pop("links", None)
-        output_response.pop("metadata", None)
         output_response.pop("notification_urls", None)
-        output_response.pop("payment_method", None)
 
         return pprint.pformat(output_response)
