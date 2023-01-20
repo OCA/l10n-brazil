@@ -31,8 +31,6 @@
         "security/l10n_br_pos_product_fiscal_map.xml",
         # data
         "data/l10n_br_fiscal_cfop_data.xml",
-        "data/pos_payment_method_data.xml",
-        "data/pos_config_data.xml",
         # Views
         "views/l10n_br_pos_product_fiscal_map.xml",
         "views/pos_config_view.xml",
