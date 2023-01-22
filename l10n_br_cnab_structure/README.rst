@@ -95,16 +95,16 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-.. |maintainer-antoniospn| image:: https://github.com/antoniospn.png?size=40px
-    :target: https://github.com/antoniospn
-    :alt: antoniospn
+.. |maintainer-antoniospneto| image:: https://github.com/antoniospneto.png?size=40px
+    :target: https://github.com/antoniospneto
+    :alt: antoniospneto
 .. |maintainer-felipemotter| image:: https://github.com/felipemotter.png?size=40px
     :target: https://github.com/felipemotter
     :alt: felipemotter
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-antoniospn| |maintainer-felipemotter| 
+|maintainer-antoniospneto| |maintainer-felipemotter| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_cnab_structure>`_ project on GitHub.
 
