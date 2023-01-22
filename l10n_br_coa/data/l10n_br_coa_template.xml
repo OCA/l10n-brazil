@@ -17,7 +17,7 @@
         <field name="transfer_account_code_prefix">1.1.1.2.0</field>
         <field name="currency_id" ref="base.BRL" />
         <field name="visible" eval="0" />
-        <field name="complete_tax_set" eval="1" />
+        <field name="use_anglo_saxon" eval="0" />
     </record>
 
 </odoo>
