@@ -1279,6 +1279,7 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:account.payment.method,name:l10n_br_account_payment_order.payment_mode_type_cnab240
+#: model:account.payment.method,name:l10n_br_account_payment_order.payment_mode_type_cnab240_out
 msgid "Cnab240"
 msgstr ""
 
