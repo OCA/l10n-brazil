@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo noupdate="1">
+    <!-- TED Generic -->
+    <record
+        id="l10n_br_account_payment_order.payment_mode_ted"
+        model="account.payment.mode"
+    >
+        <field name="cnab_structure_ok">True</field>
+        <field
+            name="variable_journal_ids"
+            eval="[(6,0,[ref('l10n_br_account_payment_order.itau_journal')])]"
+        />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(6,0,[ref('cnab_itau_240_pay_way_41')])]"
+        />
+    </record>
+    <!-- PIX Generic -->
+    <record
+        id="l10n_br_account_payment_order.payment_mode_pix_transfer"
+        model="account.payment.mode"
+    >
+        <field name="cnab_structure_ok">True</field>
+        <field
+            name="variable_journal_ids"
+            eval="[(6,0,[ref('l10n_br_account_payment_order.itau_journal')])]"
+        />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(6,0,[ref('cnab_itau_240_pay_way_45')])]"
+        />
+    </record>
+    <!-- SISPAG ITAÚ - TED - FIXED -->
+    <record id="payment_mode_sispag_ted" model="account.payment.mode">
+        <field name="name">TED - SISPAG Itaú </field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field
+            name="fixed_journal_id"
+            ref="l10n_br_account_payment_order.itau_journal"
+        />
+        <field name="payment_mode_domain">ted</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_itau_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(6,0,[ref('cnab_itau_240_pay_way_41')])]"
+        />
+    </record>
+    <!-- SISPAG ITAÚ - PIX Transferência - FIXED -->
+    <record id="payment_mode_sispag_pix_trasfer" model="account.payment.mode">
+        <field name="name">PIX Transferência - SISPAG Itaú</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="bank_account_link">fixed</field>
+        <field
+            name="fixed_journal_id"
+            ref="l10n_br_account_payment_order.itau_journal"
+        />
+        <field name="payment_mode_domain">pix_transfer</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+        <field name="cnab_structure_ok">True</field>
+        <field name="cnab_processor">oca_processor</field>
+        <field name="cnab_structure_id" ref="cnab_itau_240" />
+        <field
+            name="cnab_payment_way_ids"
+            eval="[(6,0,[ref('cnab_itau_240_pay_way_45')])]"
+        />
+    </record>
+</odoo>

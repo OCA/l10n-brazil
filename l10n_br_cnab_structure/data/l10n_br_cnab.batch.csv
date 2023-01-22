@@ -1,0 +1,5 @@
+"id","name","cnab_structure_id/id"
+"l10n_br_cnab_structure.cnab_itau_240_pagamentos","Pagamento","l10n_br_cnab_structure.cnab_itau_240"
+"l10n_br_cnab_structure.cnab_itau_240_boleto","Boleto","l10n_br_cnab_structure.cnab_itau_240"
+"l10n_br_cnab_structure.cnab_itau_240_conc_tributo_bc","Contas de Concessionárias e Tributos","l10n_br_cnab_structure.cnab_itau_240"
+"l10n_br_cnab_structure.cnab_itau_240_tributo_sem_bc","Tributos sem código de barras e FGTS-GRF/GRRF/GRDE com código de barras","l10n_br_cnab_structure.cnab_itau_240"
