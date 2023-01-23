@@ -7,7 +7,8 @@ from odoo.tests.common import TransactionCase
 class TestL10nBrPosConfig(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.pos_config = self.env.ref("point_of_sale.pos_config_main")
+        self.env.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.pos_config = self.env.ref("l10n_br_pos.pos_config_presumido")
 
     def test_pos_config_sales_fiscal_operation(self):
         self.pos_config.out_pos_fiscal_operation_id = self.env.ref(
