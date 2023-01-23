@@ -9,15 +9,15 @@ class ResCompany(models.Model):
 
     ambiente_sat = fields.Selection(
         selection=[
-            ("homologacao", "Homologação"),
-            ("producao", "Produção"),
+            ("homologacao", "Homologation"),
+            ("producao", "Production"),
         ],
-        string="Ambiente SAT",
+        string="SAT environment",
         default="homologacao",
     )
     cnpj_software_house = fields.Char(string="CNPJ software house", size=18)
     sign_software_house = fields.Text(
-        string="Assinatura da Software House",
+        string="Software House Signature",
     )
     out_pos_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",

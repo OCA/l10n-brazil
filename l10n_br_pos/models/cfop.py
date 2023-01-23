@@ -8,7 +8,6 @@ class CFOP(models.Model):
     _inherit = "l10n_br_fiscal.cfop"
 
     is_pos = fields.Boolean(
-        string="Permitida no POS",
-        help="""Marque esta seleção para que a CFOP possa ser utililizada no
-        Ponto de Venda""",
+        string="Allowed at the POS",
+        help="""Check this selection so that the CFOP can be used at the Point of Sale.""",
     )

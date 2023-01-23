@@ -35,7 +35,7 @@ class PosConfig(models.Model):
 
     out_pos_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Operação Padrão de Venda",
+        string="Default Sales Operation",
         default=lambda self: self.env.company.out_pos_fiscal_operation_id,
     )
 
@@ -45,7 +45,7 @@ class PosConfig(models.Model):
     # TODO: Isso pode ser uma one2many
 
     cfop_ids = fields.One2many(
-        string="CFOPs permitidas",
+        string="Allowed CFOPs",
         comodel_name="l10n_br_fiscal.cfop",
         compute="_compute_allowed_tax",
         readonly=True,
@@ -53,14 +53,14 @@ class PosConfig(models.Model):
 
     out_pos_fiscal_operation_line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.operation.line",
-        string="Linhas de Operação de Venda",
+        string="Sales Operation Lines",
         compute="_compute_allowed_tax",
         readonly=True,
     )
 
     refund_pos_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Operação Padrão de Devolução",
+        string="Default Return Operation",
         default=lambda self: self.env.company.refund_pos_fiscal_operation_id,
     )
 
@@ -102,38 +102,38 @@ class PosConfig(models.Model):
 
     iface_nfce_via_proxy = fields.Boolean(
         string="NFC-e via IOT",
-        help="""A NFC-E pode ser emitida pela nuvem ou pelo IOT,
-             não exigindo que o servidor Odoo esteja ligado""",
+        help="""NFC-E can be issued by cloud or IoT, not requiring Odoo server
+        to be turned on""",
     )
 
     certificate_nfe_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.certificate",
-        string="Certificado Digital",
+        string="Digital certificate",
     )
 
     # SAT OPTIONS
     # TODO: Rename field
 
     sat_ambiente = fields.Selection(
-        string="Ambiente SAT", related="company_id.ambiente_sat", store=True
+        string="SAT environment", related="company_id.ambiente_sat", store=True
     )
 
-    cnpj_homologacao = fields.Char(string="CNPJ homologação", size=18)
+    cnpj_homologacao = fields.Char(string="CNPJ homologation", size=18)
 
-    ie_homologacao = fields.Char(string="IE homologação", size=16)
+    ie_homologacao = fields.Char(string="IE homologation", size=16)
 
     cnpj_software_house = fields.Char(string="CNPJ software house", size=18)
 
     sat_path = fields.Char(string="SAT path")
 
     # TODO: Podemos usar o ID do pos.config?
-    numero_caixa = fields.Integer(string="Número do Caixa", copy=False)
+    numero_caixa = fields.Integer(string="Cashier Number", copy=False)
 
     cod_ativacao = fields.Char(
-        string="Código de ativação",
+        string="Activation code",
     )
 
-    assinatura_sat = fields.Char("Assinatura no CFe")
+    assinatura_sat = fields.Char("Signature in CFe")
 
     # Printer settings, será que podemos usar somente o protocolo ESC-POS?
     # Esses são parametros da impressão SAT
@@ -156,7 +156,7 @@ class PosConfig(models.Model):
 
     printer_params = fields.Char(string="Printer parameters")
 
-    sessao_sat = fields.Integer(string="Último Valor da Sessão", default=1)
+    sessao_sat = fields.Integer(string="Last Session Value", default=1)
 
     save_identity_automatic = fields.Boolean(
         string="Save new client",

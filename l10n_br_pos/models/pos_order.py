@@ -194,17 +194,17 @@ class PosOrder(models.Model):
 
     state_edoc = fields.Selection(
         selection=SITUACAO_EDOC,
-        string="Situação e-doc",
+        string="e-doc Status",
         copy=False,
         index=True,
     )
 
     document_session_number = fields.Char(
-        string="Numero identificador sessao",
+        string="Session identifier number",
         copy=False,
     )
 
-    document_date = fields.Date(string="Data")
+    document_date = fields.Date(string="Date")
 
     # TODO: Trocar para eventos?
     document_file_id = fields.Many2one(
@@ -214,13 +214,13 @@ class PosOrder(models.Model):
         readonly=True,
     )
     cancel_document_session_number = fields.Char(
-        string="Numero identificador sessao",
+        string="Cancel Session identifier number",
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
     cancel_document_key = fields.Char(
-        string="Key",
+        string="Cancel Key",
         copy=False,
         index=True,
         readonly=True,
@@ -228,7 +228,7 @@ class PosOrder(models.Model):
     )
     cancel_document_file_id = fields.Many2one(
         comodel_name="ir.attachment",
-        string="XML",
+        string="Cancel XML",
         copy=False,
         readonly=True,
     )
