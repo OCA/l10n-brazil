@@ -62,7 +62,7 @@ class BankPaymentLine(models.Model):
 
         linhas_pagamentos["numero"] = doc_number
 
-        if payment_mode_id.boleto_discount_perc:
+        if self.discount_value:
             linhas_pagamentos["cod_desconto"] = "1"
 
     def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
@@ -124,12 +124,9 @@ class BankPaymentLine(models.Model):
                         "valor_mora"
                     ] = payment_mode_id.boleto_interest_perc
 
-            if payment_mode_id.boleto_discount_perc:
+            if self.discount_value:
                 linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
-                linhas_pagamentos["valor_desconto"] = round(
-                    self.amount_currency * (payment_mode_id.boleto_discount_perc / 100),
-                    precision_account,
-                )
+                linhas_pagamentos["valor_desconto"] = self.discount_value
 
             # Protesto
             if payment_mode_id.boleto_protest_code:
