@@ -13,7 +13,7 @@
                     <page name="pos" string="POS">
                         <group name="pos_settings" string="POS Default Settings">
                             <group>
-                                <field name="ambiente_sat" />
+                                <field name="environment_sat" />
                                 <field name="cnpj_software_house" />
                                 <field name="out_pos_fiscal_operation_id" />
                                 <field name="refund_pos_fiscal_operation_id" />

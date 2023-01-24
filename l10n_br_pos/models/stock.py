@@ -11,5 +11,5 @@ class StockPicking(models.Model):
     def _get_fiscal_document_access_keys_fields(self):
         su = super(StockPicking, self)
         return su._get_fiscal_document_access_keys_fields() + [
-            "pos_order_ids.chave_cfe"
+            "pos_order_ids.key_cfe"
         ]

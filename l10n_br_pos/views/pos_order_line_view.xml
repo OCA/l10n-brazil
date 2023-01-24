@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="point_of_sale.view_pos_order_line" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='qty']" position="after">
-                    <field name="qtd_produtos_devolvidos" />
+                    <field name="amount_returned_products" />
                 </xpath>
             </field>
         </record>
@@ -24,7 +24,7 @@
         />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='qty']" position="after">
-                    <field name="qtd_produtos_devolvidos" />
+                    <field name="amount_returned_products" />
                 </xpath>
             </field>
         </record>
@@ -35,7 +35,7 @@
             <field name="inherit_id" ref="point_of_sale.view_pos_order_line_form" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='qty']" position="after">
-                    <field name="qtd_produtos_devolvidos" />
+                    <field name="amount_returned_products" />
                 </xpath>
             </field>
         </record>

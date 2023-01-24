@@ -7,10 +7,10 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_order_filter" />
         <field name="arch" type="xml">
             <field name="name" position="before">
-                <field name="legal_name" string="Razão Social" />
+                <field name="legal_name" string="Corporate name" />
                 <field name="cnpj_cpf" string="CNPJ/CPF" />
-                <field name="ie" string="Inscr. Estadual" />
-                <field name="fiscal_coupon_date" string="Data Cupom Fiscal" />
+                <field name="ie" string="State registration" />
+                <field name="fiscal_coupon_date" string="Tax Coupom Date" />
             </field>
         </field>
     </record>
@@ -24,7 +24,7 @@
                 <field name="fiscal_operation_id" required="True" />
             </field>
             <field name="date_order" position="after">
-                <field name="fiscal_coupon_date" string="Data Cupom Fiscal" />
+                <field name="fiscal_coupon_date" string="Tax Coupom Date" />
             </field>
             <group name="order_fields" position="after">
                   <group name="l10n_br_fiscal" colspan="4">
@@ -61,7 +61,7 @@
                 <field name="fiscal_operation_id" />
             </field>
             <page name="extra" position="after">
-                <page name="cupom_cancelado" string="Cancelamento">
+                <page name="coupon_canceled" string="Cancellation">
                     <group>
                         <group name="cancel_document_header_right">
                           <field name="cancel_document_key" />
