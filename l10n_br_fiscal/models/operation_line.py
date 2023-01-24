@@ -176,11 +176,12 @@ class OperationLine(models.Model):
         return cfop
 
     def _build_mapping_result_ipi(self, mapping_result, tax_definition):
-        mapping_result[
-            "ipi_guideline"
-        ] = tax_definition.ipi_guideline_id or self.env.ref(
-            "l10n_br_fiscal.tax_guideline_999"
-        )
+        if tax_definition.tax_domain == "ipi":
+            mapping_result[
+                "ipi_guideline"
+            ] = tax_definition.ipi_guideline_id or self.env.ref(
+                "l10n_br_fiscal.tax_guideline_999"
+            )
 
     def _build_mapping_result(self, mapping_result, tax_definition):
         mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
@@ -225,6 +226,9 @@ class OperationLine(models.Model):
             tax_ipi = ncm.tax_ipi_id
             tax_ii = ncm.tax_ii_id
             mapping_result["taxes"][tax_ipi.tax_domain] = tax_ipi
+            mapping_result["ipi_guideline"] = self.env.ref(
+                "l10n_br_fiscal.tax_guideline_999"
+            )
 
             if mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT:
                 mapping_result["taxes"][tax_ii.tax_domain] = tax_ii
