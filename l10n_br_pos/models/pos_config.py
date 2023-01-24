@@ -42,7 +42,7 @@ class PosConfig(models.Model):
     partner_id = fields.Many2one(
         comodel_name="res.partner",
     )
-    # TODO: Isso pode ser uma one2many
+    # TODO: This can be a one2many
 
     cfop_ids = fields.One2many(
         string="Allowed CFOPs",
@@ -114,31 +114,31 @@ class PosConfig(models.Model):
     # SAT OPTIONS
     # TODO: Rename field
 
-    sat_ambiente = fields.Selection(
-        string="SAT environment", related="company_id.ambiente_sat", store=True
+    sat_environment = fields.Selection(
+        string="SAT environment", related="company_id.environment_sat", store=True
     )
 
-    cnpj_homologacao = fields.Char(string="CNPJ homologation", size=18)
+    cnpj_homologation = fields.Char(string="CNPJ homologation", size=18)
 
-    ie_homologacao = fields.Char(string="IE homologation", size=16)
+    ie_homologation = fields.Char(string="IE homologation", size=16)
 
     cnpj_software_house = fields.Char(string="CNPJ software house", size=18)
 
     sat_path = fields.Char(string="SAT path")
 
-    # TODO: Podemos usar o ID do pos.config?
-    numero_caixa = fields.Integer(string="Cashier Number", copy=False)
+    # TODO: Can we use pos.config ID?
+    cashier_number = fields.Integer(string="Cashier Number", copy=False)
 
-    cod_ativacao = fields.Char(
+    activation_code = fields.Char(
         string="Activation code",
     )
 
-    assinatura_sat = fields.Char("Signature in CFe")
+    signature_sat = fields.Char("Signature in CFe")
 
-    # Printer settings, será que podemos usar somente o protocolo ESC-POS?
-    # Esses são parametros da impressão SAT
+    # Printer settings, can we use just ESC-POS protocol??
+    # These are SAT print parameters
 
-    impressora = fields.Selection(
+    printer = fields.Selection(
         selection=PRINTER,
     )
 
@@ -156,7 +156,7 @@ class PosConfig(models.Model):
 
     printer_params = fields.Char(string="Printer parameters")
 
-    sessao_sat = fields.Integer(string="Last Session Value", default=1)
+    session_sat = fields.Integer(string="Last Session Value", default=1)
 
     save_identity_automatic = fields.Boolean(
         string="Save new client",
@@ -190,6 +190,6 @@ class PosConfig(models.Model):
                 product.update_pos_fiscal_map()
 
     @api.model
-    def update_sessao_sat(self, config_id):
+    def update_session_sat(self, config_id):
         config = self.browse(config_id)
-        config.sessao_sat += 1
+        config.session_sat += 1

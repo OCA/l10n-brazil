@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 try:
     from erpbrasil.base.fiscal import cnpj_cpf
 except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
+    _logger.error("erpbrasil.base library not installed")
 
 
 class ResPartner(models.Model):

@@ -7,13 +7,13 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    ambiente_sat = fields.Selection(
+    environment_sat = fields.Selection(
         selection=[
-            ("homologacao", "Homologation"),
-            ("producao", "Production"),
+            ("homologation", "Homologation"),
+            ("production", "Production"),
         ],
         string="SAT environment",
-        default="homologacao",
+        default="homologation",
     )
     cnpj_software_house = fields.Char(string="CNPJ software house", size=18)
     sign_software_house = fields.Text(

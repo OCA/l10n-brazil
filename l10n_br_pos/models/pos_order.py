@@ -145,11 +145,11 @@ class PosOrder(models.Model):
     edoc_purpose = fields.Selection(
         selection=[
             ("1", "Normal"),
-            ("2", "Complementar"),
-            ("3", "Ajuste"),
-            ("4", "Devolução de mercadoria"),
+            ("2", "Complementary"),
+            ("3", "Adjustment"),
+            ("4", "Goods return"),
         ],
-        string="Finalidade",
+        string="Goal",
         default="1",
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -206,7 +206,7 @@ class PosOrder(models.Model):
 
     document_date = fields.Date(string="Date")
 
-    # TODO: Trocar para eventos?
+    # TODO: Switch to events?
     document_file_id = fields.Many2one(
         comodel_name="ir.attachment",
         string="XML",
@@ -373,9 +373,9 @@ class PosOrder(models.Model):
         return res
 
     def _populate_cancel_order_fields(self, order_vals):
-        self.cancel_document_key = order_vals["chave_cfe"]
-        self.cancel_document_session_number = order_vals["numSessao"]
-        self.state_edoc = "cancelada"
+        self.cancel_document_key = order_vals["key_cfe"]
+        self.cancel_document_session_number = order_vals["sessionNum"]
+        self.state_edoc = "canceled"
         self.cancel_file = order_vals["xml"]
 
     def _generate_refund_payments(self, refund_order):
@@ -402,14 +402,14 @@ class PosOrder(models.Model):
         ).refund()
         refund_order = self.browse(res["res_id"])
         refund_order.amount_total = self.amount_total * -1
-        refund_order.state_edoc = "cancelada"
+        refund_order.state_edoc = "canceled"
 
         self._generate_refund_payments(refund_order)
 
         return res
 
     @api.model
-    def cancelar_order(self, result):
+    def cancel_order(self, result):
         _logger.info(f"Result: {result}")
         order = self.browse(result["order_id"])
         order.write({"state": "cancel"})

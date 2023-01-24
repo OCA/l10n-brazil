@@ -23,20 +23,20 @@
                 <notebook>
                     <page name="l10n_br_general" string="Geral">
                         <group>
-                            <group string="Simplificado">
+                            <group string="Simplified">
                                 <field name="simplified_document_type_id" />
                                 <field name="simplified_document_type" />
                                 <field name="anonymous_simplified_limit" />
                                 <field name="simplified_invoice_limit" />
                             </group>
-                            <group string="Não simplificado">
+                            <group string="Not Simplified">
                                 <field name="detailed_document_type_id" />
                                 <field name="detailed_document_type" />
                             </group>
                         </group>
                     </page>
-                    <page name="l10n_br_tax" string="Tributação">
-                        <group string="Venda">
+                    <page name="l10n_br_tax" string="Taxation">
+                        <group string="Sale">
                             <button
                                 name="update_pos_fiscal_map"
                                 type="object"
@@ -58,7 +58,7 @@
                             />
                             <field name="additional_data" />
                         </group>
-                        <group string="Devolução">
+                        <group string="Devolution">
                             <field name="refund_pos_fiscal_operation_id" />
                         </group>
                     </page>
@@ -71,24 +71,24 @@
                     <page name="l10n_br_sat" string="SAT">
                         <group>
                             <group>
-                                <field name='sat_ambiente' />
+                                <field name='sat_environment' />
                                 <field
-                                    name="cnpj_homologacao"
-                                    attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"
+                                    name="cnpj_homologation"
+                                    attrs="{'invisible': [('sat_environment', '=', 'production')]}"
                                 />
                                 <field
-                                    name="ie_homologacao"
-                                    attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"
+                                    name="ie_homologation"
+                                    attrs="{'invisible': [('sat_environment', '=', 'production')]}"
                                 />
                                 <field name="cnpj_software_house" />
                                 <field name="sat_path" />
-                                <field name="numero_caixa" />
-                                <field name="cod_ativacao" />
+                                <field name="cashier_number" />
+                                <field name="activation_code" />
                                 <field name="assinatura_sat" />
-                                <field name="impressora" />
+                                <field name="printer" />
                                 <field name="fiscal_printer_type" />
                                 <field name="printer_params" />
-                                <field name="sessao_sat" />
+                                <field name="session_sat" />
                             </group>
                         </group>
                     </page>
