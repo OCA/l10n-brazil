@@ -10,7 +10,8 @@ from odoo.tests.common import TransactionCase
 class TestL10nBrPosOrder(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.pos_config = self.env.ref("point_of_sale.pos_config_main")
+        self.env.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.pos_config = self.env.ref("l10n_br_pos.pos_config_presumido")
         self.cash_payment_method = self.pos_config[0]
         self.led_lamp = self.env["product.product"].create(
             {
@@ -128,11 +129,11 @@ class TestL10nBrPosOrder(TransactionCase):
 
         order_data = {
             "order_id": order.id,
-            "numSessao": 123456,
-            "chave_cfe": "Cfe35181104113837000100590001128550021551657445",
+            "sessionNum": 123456,
+            "key_cfe": "Cfe35181104113837000100590001128550021551657445",
             "xml": "dGVzdGVfY2FuY2VsX2Zsb3c=",
         }
-        order.cancelar_order(order_data)
+        order.cancel_order(order_data)
         self.assertEqual(
             num_starting_orders + 2,
             len(current_session.order_ids),
