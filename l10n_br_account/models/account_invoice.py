@@ -549,7 +549,7 @@ class AccountMove(models.Model):
                         "account_id": line.account_id.id,
                         "move_id": self.id,
                         "exclude_from_invoice_tab": True,
-                        "price_unit": line.freight_value,
+                        "price_unit": line.insurance_value,
                     }
                 )
                 self.line_ids += new_line
@@ -561,7 +561,7 @@ class AccountMove(models.Model):
                         "account_id": line.account_id.id,
                         "move_id": self.id,
                         "exclude_from_invoice_tab": True,
-                        "price_unit": line.freight_value,
+                        "price_unit": line.other_value,
                     }
                 )
                 self.line_ids += new_line
