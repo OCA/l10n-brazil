@@ -53,14 +53,14 @@ odoo.define("l10n_br_pos.models", function (require) {
         "res.company",
         partner_company_fields.concat(["tax_framework", "logo"])
     );
-    // Models.load_fields("uom.uom", ["code"]); Verificar se o vazio do core pega tudo.
+    // Models.load_fields("uom.uom", ["code"]); Check if core void catches everything.
     models.load_fields("product.product", [
         "tax_icms_or_issqn",
         "fiscal_type",
         "icms_origin",
         "fiscal_genre_code",
         "ncm_id",
-        // FIXME: Verificar o que houve.
+        // FIXME: Check what happened.
         // "ncm_code",
         // "ncm_code_exception",
         "nbm_id",
@@ -124,7 +124,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 // Company Details
 
                 // L10n_br_fiscal.document.electronic fields
-                //      Informações da transmissão do documento fiscal
+                //      Tax document transmission information
 
                 this.status_code = this.status_code || null;
                 this.status_name = this.status_name || null;
@@ -168,7 +168,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 this.document_type = this.pos.config.simplified_document_type || null;
             }
 
-            // Campo em que são armazenados as mensagens do processo de comunicação.
+            // Field where messages from the communication process are stored.
             this.document_event_messages = this.document_event_messages || [];
 
             this.init_locked = false;
@@ -178,7 +178,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             _super_order.init_from_JSON.apply(this, arguments);
 
             // L10n_br_fiscal.document.electronic fields
-            //      Informações da transmissão do documento fiscal
+            //      Tax document transmission information
 
             this.status_code = json.status_code;
             this.status_name = json.status_name;
@@ -215,7 +215,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
             this.cnpj_cpf = json.cnpj_cpf;
 
-            // Campo em que são armazenados as mensagens do processo de comunicação.
+            // Field where messages from the communication process are stored.
 
             this.fiscal_operation_id = json.fiscal_operation_id;
             this.document_type_id = json.document_type_id;
@@ -225,7 +225,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             // Company details
             json.company = this.document_company || {};
 
-            // Dados do documento
+            // Document data
             json.status_code = this.status_code;
             json.status_name = this.status_name;
             json.status_description = this.status_description;
@@ -259,18 +259,18 @@ odoo.define("l10n_br_pos.models", function (require) {
             json.document_qrcode_signature = this.document_qrcode_signature;
             json.document_qrcode_url = this.document_qrcode_url;
 
-            // Campo em que são armazenados as mensagens do processo de comunicação.
+            // Field where messages from the communication process are stored.
             json.document_event_messages = this.document_event_messages || [];
 
             json.fiscal_operation_id = this.pos.config.out_pos_fiscal_operation_id[0];
             json.document_type_id = this.pos.config.simplified_document_type_id[0];
             json.document_type = this.pos.config.simplified_document_type;
 
-            // Dados do cliente
+            // Customer data
             // json.client = this.cnpj_cpf;
             json.cnpj_cpf = this.get_cnpj_cpf();
 
-            // Dados adicionais do documento
+            // Additional document data
             if (this.pos.config.additional_data) {
                 var taxes = this.get_taxes_and_percentages(json);
                 json.additional_data = this.compute_message(
@@ -282,8 +282,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             }
         },
         export_as_JSON: function () {
-            // TODO: O método export_as_JSON só deve ter os dados
-            // necessários para a emissão do cumpom fiscal
+            // Export_as_JSON method must have only necessary data to issue the tax coupon
             var json = _super_order.export_as_JSON.call(this);
             // Remove lines without price
             json.lines = _.filter(json.lines, function (line) {
@@ -293,7 +292,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             return json;
         },
         export_for_printing: function () {
-            // TODO: O método export_for_printing só deve ter os dados para impressão
+            // TODO: export for_printing method must only have datas for printing
             var json = _super_order.export_for_printing.apply(this, arguments);
             // Remove lines without price
             json.orderlines = _.filter(json.orderlines, function (line) {
@@ -387,15 +386,15 @@ odoo.define("l10n_br_pos.models", function (require) {
             this._document_status_popup();
             var result = false;
             var processor_result = null;
-            // Verifica se os campos do documento fiscal são válidos
+            // Check if fields of fiscal document are valid.
             result = await this._document_validate();
             if (result) {
-                // Obtem o responsável pelo envio do documento fiscal;
+                // Get the person responsible for sending the fiscal document;
                 var processor = await this._document_get_processor();
                 if (processor) {
-                    // Efetivamente envia o documento fiscal
+                    // Send fiscal document
                     processor_result = await processor.send_order(this);
-                    // Valida se foi emitido corretamente e salva os dados do resulto
+                    // Validate if it was issued correctly and saves the result data
                     result = await this._document_check_result(processor_result);
                     if (result) {
                         component.trigger("close-popup");
@@ -451,7 +450,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.state_edoc = SITUACAO_EDOC_CANCELADA;
         },
         document_cancel: async function (cancel_reason) {
-            // TODO implementar campo e salvar no backend.
+            // TODO implement field and save in backend.
             this.cancel_reason = cancel_reason;
             this.document_event_messages.push({
                 id: 2001,
@@ -462,12 +461,12 @@ odoo.define("l10n_br_pos.models", function (require) {
             var processor_result = null;
             result = await this._document_cancel_validate();
             if (result) {
-                // Obtem o responsável pelo envio do documento fiscal;
+                // Get the person responsible for sending the fiscal document;
                 var processor = await this._document_get_processor();
                 if (processor) {
-                    // Efetivamente cancela o documento fiscal
+                    // Calcel the fiscal document
                     processor_result = await processor.cancel_order(this);
-                    // Valida se foi emitido corretamente e salva os dados do resulto
+                    // Validate if it was issued correctly and saves the result data
                     result = await this._document_cancel_check_result(processor_result);
                     if (result) {
                         owl.Component.current.trigger("close-popup");
@@ -566,7 +565,7 @@ odoo.define("l10n_br_pos.models", function (require) {
     var _super_payment_line = models.Paymentline.prototype;
     models.Paymentline = models.Paymentline.extend({
         _prepare_fiscal_json: function (json) {
-            // TODO: Verificar dados necessários da payment line
+            // TODO: Check requires data of payment line
             json.payment_status = this.payment_status;
         },
         export_for_printing: function () {

@@ -375,7 +375,7 @@ class PosOrder(models.Model):
     def _populate_cancel_order_fields(self, order_vals):
         self.cancel_document_key = order_vals["key_cfe"]
         self.cancel_document_session_number = order_vals["sessionNum"]
-        self.state_edoc = "canceled"
+        self.state_edoc = "cancelada"
         self.cancel_file = order_vals["xml"]
 
     def _generate_refund_payments(self, refund_order):
@@ -402,7 +402,7 @@ class PosOrder(models.Model):
         ).refund()
         refund_order = self.browse(res["res_id"])
         refund_order.amount_total = self.amount_total * -1
-        refund_order.state_edoc = "canceled"
+        refund_order.state_edoc = "cancelada"
 
         self._generate_refund_payments(refund_order)
 

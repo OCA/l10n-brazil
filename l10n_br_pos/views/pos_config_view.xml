@@ -84,7 +84,7 @@
                                 <field name="sat_path" />
                                 <field name="cashier_number" />
                                 <field name="activation_code" />
-                                <field name="assinatura_sat" />
+                                <field name="signature_sat" />
                                 <field name="printer" />
                                 <field name="fiscal_printer_type" />
                                 <field name="printer_params" />

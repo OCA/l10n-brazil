@@ -16,7 +16,7 @@ odoo.define("l10n_br_pos.CancelOrderButton", function (require) {
         }
         async _show_edit_reason_popup() {
             const {confirmed, payload} = await this.showPopup("TextInputPopup", {
-                title: this.env._t("Digite o motivo do cancelamento!"),
+                title: this.env._t("Enter reason for cancellation!"),
             });
             if (confirmed) {
                 return {
@@ -36,9 +36,9 @@ odoo.define("l10n_br_pos.CancelOrderButton", function (require) {
                     item: {
                         // Any object!
                         id: 1,
-                        cancel_reason: "Motivo 1",
+                        cancel_reason: "Reason 1",
                     },
-                    label: "Motivo 1",
+                    label: "Reason 1",
                     isSelected: false,
                 },
                 {
@@ -47,13 +47,13 @@ odoo.define("l10n_br_pos.CancelOrderButton", function (require) {
                         // Any object!
                         id: 999999,
                     },
-                    label: "Digitar Motivo",
+                    label: "Enter the reason",
                     isSelected: false,
                 },
             ];
 
             const {confirmed, payload} = await this.showPopup("SelectionPopup", {
-                title: this.env._t("Motivo do Cancelamento?"),
+                title: this.env._t("Reason for Cancellation?"),
                 list: selectionList,
             });
             if (confirmed) {
@@ -80,7 +80,7 @@ odoo.define("l10n_br_pos.CancelOrderButton", function (require) {
                 } else {
                     this.document_event_messages.push({
                         id: 5001,
-                        label: "Falha no cancelamento.",
+                        label: "Cancellation failed.",
                     });
                 }
             }
