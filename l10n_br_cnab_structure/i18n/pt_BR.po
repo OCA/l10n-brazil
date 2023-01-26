@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-26 12:51+0000\n"
+"PO-Revision-Date: 2023-01-26 12:55+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -98,7 +98,7 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
 msgid "Approve"
-msgstr ""
+msgstr "Aprovar"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_batch__state__approved
@@ -523,7 +523,7 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__communication_flow
 msgid "Communication Flow"
-msgstr ""
+msgstr "Fluxo de Comunicação"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__company_id
@@ -557,12 +557,12 @@ msgstr "Confirmado"
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__content_dest_model_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_dest_model_id
 msgid "Content Destination"
-msgstr ""
+msgstr "Destino do Conteúdo"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_dest_field
 msgid "Content Destination Field"
-msgstr ""
+msgstr "Campo de Destino do Conteúdo"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__content_source_model_id
@@ -574,7 +574,7 @@ msgstr "Fonte do Conteúdo"
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_source_field
 msgid "Content Source Field"
-msgstr ""
+msgstr "Campo da Fonte de Conteúdo"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
@@ -596,7 +596,7 @@ msgstr "Controle"
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__create_uid
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Criado por"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__create_date
@@ -613,7 +613,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__create_date
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Criado em"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__current_view
@@ -625,12 +625,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__bank_account_cnab_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__bank_account_cnab_id
 msgid "Default Account"
-msgstr ""
+msgstr "Conta Padrão"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__default_value
 msgid "Default Value"
-msgstr ""
+msgstr "Valor Padrão"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__tariff_charge_account_id
@@ -650,12 +650,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__description
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_transfer_type__description
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
 msgid "Detail"
-msgstr ""
+msgstr "Detalhe"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_detail_id
@@ -694,7 +694,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_lot__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome de Exibição"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
@@ -709,7 +709,7 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_preview_wizard_form
 msgid "Download File"
-msgstr ""
+msgstr "Baixar Arquivo"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_batch__state__draft
@@ -718,27 +718,27 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_log__state__draft
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_structure__state__draft
 msgid "Draft"
-msgstr ""
+msgstr "Rascunho"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_key_type__key_type__email
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__end_pos
 msgid "End Position"
-msgstr ""
+msgstr "Posição Final"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_event__state__error
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_log_form_view_structure
 msgid "Events"
-msgstr ""
+msgstr "Eventos"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__expected_payment_date
