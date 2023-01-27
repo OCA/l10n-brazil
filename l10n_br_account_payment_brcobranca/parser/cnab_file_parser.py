@@ -436,9 +436,14 @@ class CNABFileParser(FileParser):
                 str(linha_cnab["data_credito"]), date_format
             ).date()
 
-        # Valor Desconto
-        if linha_cnab.get("desconto"):
-            valor_desconto = self.cnab_str_to_float(linha_cnab["desconto"])
+        # Na própria lib o desconto é tratado com duas keys diferentes
+        # dependendo do banco e do formato. Também há um erro de escrita que foi tratado
+        # aqui porque uma alteração da lib poderia quebrar outras implementações.
+        desconto_linha = linha_cnab.get("desconto") or linha_cnab.get(
+            "desconto_concedito"
+        )
+        if desconto_linha:
+            valor_desconto = self.cnab_str_to_float(desconto_linha)
             if valor_desconto > 0.0:
                 row_list.append(
                     {
