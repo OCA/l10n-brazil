@@ -1725,6 +1725,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__boleto_discount_perc
+msgid "Desconto de pontualidade"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__dinheiro
 #, python-format
@@ -2639,6 +2644,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_discount_perc
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_discount_perc
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move_line__boleto_discount_perc
 msgid "Percentual de Desconto até a Data de Vencimento"
 msgstr ""
 
