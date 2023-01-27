@@ -48,6 +48,7 @@
                     <field name="own_number" readonly="1" />
                     <field name="document_number" readonly="1" />
                     <field name="mov_instruction_code_id" readonly="1" />
+                    <field name="boleto_discount_perc" />
                     <field name="company_title_identification" readonly="1" />
                     <field name="instructions" />
                 </group>

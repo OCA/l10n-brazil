@@ -136,19 +136,16 @@ class AccountMoveLine(models.Model):
                 )
 
             # Instrução Desconto
-            if move_line.payment_mode_id.boleto_discount_perc > 0.0:
+            if move_line.boleto_discount_perc > 0.0:
                 valor_desconto = round(
-                    move_line.debit
-                    * (move_line.payment_mode_id.boleto_discount_perc / 100),
+                    move_line.debit * (move_line.boleto_discount_perc / 100),
                     precision_account,
                 )
                 instrucao_desconto_vencimento = (
                     "CONCEDER DESCONTO DE" + " %s %% "
                     "ATÉ O VENCIMENTO EM %s ( R$ %s )"
                     % (
-                        (
-                            "%.2f" % move_line.payment_mode_id.boleto_discount_perc
-                        ).replace(".", ","),
+                        ("%.2f" % move_line.boleto_discount_perc).replace(".", ","),
                         move_line.date_maturity.strftime("%d/%m/%Y"),
                         ("%.2f" % valor_desconto).replace(".", ","),
                     )
