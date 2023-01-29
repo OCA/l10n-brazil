@@ -43,7 +43,7 @@
         <field name="partner_id" ref="partner_demo_simples" />
         <field name="login">simples</field>
         <field name="password">simples</field>
-        <field name="signature" type="xml">
+        <field name="signature" type="html">
             <span>--<br />+Mr Simples
             </span>
         </field>
@@ -61,7 +61,7 @@
         <field name="partner_id" ref="partner_demo_presumido" />
         <field name="login">presumido</field>
         <field name="password">presumido</field>
-        <field name="signature" type="xml">
+        <field name="signature" type="html">
             <span>--<br />+Mr Presumido
             </span>
         </field>
