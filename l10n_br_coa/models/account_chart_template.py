@@ -7,6 +7,15 @@ from odoo import models
 class AccountChartTemplate(models.Model):
     _inherit = "account.chart.template"
 
+    def _prepare_all_journals(self, acc_template_ref, company, journals_dict=None):
+        self.ensure_one()
+        journal_data = []
+        if not self.id == self.env.ref("l10n_br_coa.l10n_br_coa_template").id:
+            journal_data = super()._prepare_all_journals(
+                acc_template_ref, company, journals_dict
+            )
+        return journal_data
+
     def _load(self, sale_tax_rate, purchase_tax_rate, company):
         self.ensure_one()
         result = super()._load(sale_tax_rate, purchase_tax_rate, company)
@@ -28,6 +37,9 @@ class AccountChartTemplate(models.Model):
             company, code_digits, account_ref, taxes_ref
         )
 
+        if self.parent_id.id == self.env.ref("l10n_br_coa.l10n_br_coa_template").id:
+            self.generate_journals(account_ref, company)
+
         if self.parent_id:
 
             acc_names = {
@@ -45,8 +57,7 @@ class AccountChartTemplate(models.Model):
                 },
             }
 
-            taxes = self.env["account.tax"].browse(taxes_ref.values())
-            for tax in taxes:
+            for tax in taxes_ref.values():
                 domain = [
                     ("tax_group_id", "=", tax.tax_group_id.id),
                     ("chart_template_id", "=", self.id),
