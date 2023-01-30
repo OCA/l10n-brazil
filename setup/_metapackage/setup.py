@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo-addon-l10n_br_base>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_br_coa>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_crm>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_stock>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_zip>=16.0dev,<16.1dev',
