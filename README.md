@@ -9,7 +9,7 @@
 
 # l10n-brazil
 
-TODO: add repo description.
+Odoo Brazilian localization
 
 <!-- /!\ do not modify below this line -->
 
