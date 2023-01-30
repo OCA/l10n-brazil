@@ -4,10 +4,10 @@
 
 from num2words.lang_PT_BR import Num2Word_PT_BR
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class Num2WordsPTBRTest(SavepointCase):
+class Num2WordsPTBRTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

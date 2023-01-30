@@ -4,13 +4,13 @@
 
 import logging
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
 
 _logger = logging.getLogger(__name__)
 
 
-class OtherIETest(SavepointCase):
+class OtherIETest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
