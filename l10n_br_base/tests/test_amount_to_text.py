@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 _logger = logging.getLogger(__name__)
 
@@ -14,7 +14,7 @@ except ImportError:
     _logger.info("Biblioteca Num2Words não instalada")
 
 
-class Num2WordsPTBRTest(SavepointCase):
+class Num2WordsPTBRTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
