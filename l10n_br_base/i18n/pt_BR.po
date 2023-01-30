@@ -147,16 +147,19 @@ msgid "Acauã"
 msgstr "Acauã"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__acc_number_dig
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number_dig
 msgid "Account Digit"
 msgstr "Dígito da Conta"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__acc_number
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number
 msgid "Account Number"
 msgstr "Número da Conta"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__transactional_acc_type
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__transactional_acc_type
 msgid "Account Type"
 msgstr ""
@@ -2070,6 +2073,7 @@ msgid "BIC/Swift Code"
 msgstr "BIC/Swift Code"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_bank_bic
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_bank_bic
 msgid "BIC/Swift Final Code."
 msgstr "BIC/Swift Final Code."
@@ -2266,6 +2270,7 @@ msgid "Bank Account"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bank_account_type
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bank_account_type
 msgid "Bank Account Type"
 msgstr "Tipo de conta bancária"
@@ -2276,11 +2281,13 @@ msgid "Bank Accounts"
 msgstr "Contas Bancárias"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_number
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number
 msgid "Bank Branch"
 msgstr "Número da Agência"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_number_dig
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number_dig
 msgid "Bank Branch Digit"
 msgstr "Dígito da Agência Bancária"
@@ -6358,6 +6365,7 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__company_country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__company_country_id
 msgid "Company Country"
 msgstr ""
@@ -13567,6 +13575,7 @@ msgid "Last Updated on"
 msgstr "Última Atualização em"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_account_setup_bank_manual_config__bra_bank_bic
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner_bank__bra_bank_bic
 msgid "Last part of BIC/Swift Code."
 msgstr "Last part of BIC/Swift Code."
@@ -19037,6 +19046,7 @@ msgid "Piumhi"
 msgstr "Piumhi"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__partner_pix_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__pix_key_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__partner_pix_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__pix_key_ids
@@ -26274,6 +26284,7 @@ msgid "Type"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_account_setup_bank_manual_config__transactional_acc_type
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner_bank__transactional_acc_type
 msgid ""
 "Type of transactional account, classification used in the Brazilian instant "
