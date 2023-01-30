@@ -667,6 +667,10 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_vBC")
             xsd_fields.remove("nfe40_pPIS")
 
+    def _export_fields_nfe_40_pisnt(self, xsd_fields, class_obj, export_dict):
+
+        self._export_fields_pis(xsd_fields, class_obj, export_dict)
+
     #################
     # NF-e tag: PISST
     # Grupo R. PIS ST
@@ -788,6 +792,10 @@ class NFeLine(spec_models.StackedModel):
         if self.nfe40_choice16 == "nfe40_vAliqProd":
             xsd_fields.remove("nfe40_vBC")
             xsd_fields.remove("nfe40_pCOFINS")
+
+    def _export_fields_nfe_40_cofinsnt(self, xsd_fields, class_obj, export_dict):
+
+        self._export_fields_cofins(xsd_fields, class_obj, export_dict)
 
     ####################
     # NF-e tag: COFINSST
