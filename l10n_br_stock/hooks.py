@@ -86,11 +86,6 @@ def pre_init_hook(cr):
 
     if not tools.config["without_demo"]:
         _logger.info(_("Loading l10n_br_stock warehouse external ids..."))
-        with api.Environment.manage():
-            env = api.Environment(cr, SUPERUSER_ID, {})
-            set_stock_warehouse_external_ids(
-                env, "l10n_br_base.empresa_simples_nacional"
-            )
-            set_stock_warehouse_external_ids(
-                env, "l10n_br_base.empresa_lucro_presumido"
-            )
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
+        set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
