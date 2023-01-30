@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.exceptions import ValidationError
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class ValidCreateIdTest(SavepointCase):
+class ValidCreateIdTest(TransactionCase):
     """Test if ValidationError is raised well during create({})"""
 
     @classmethod
