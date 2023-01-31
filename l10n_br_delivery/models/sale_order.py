@@ -55,3 +55,14 @@ class SaleOrder(models.Model):
             for line in record.order_line:
                 amount_volume += line.product_qty * line.product_id.volume
             record.amount_volume = amount_volume
+
+    def _compute_amount_total_without_delivery(self):
+        self.ensure_one()
+        result = super()._compute_amount_total_without_delivery()
+        if self.company_id.country_id.code == "BR":
+            result = self.env["delivery.carrier"]._compute_currency(
+                self,
+                self.amount_total - self.amount_freight_value,
+                "pricelist_to_company",
+            )
+        return result
