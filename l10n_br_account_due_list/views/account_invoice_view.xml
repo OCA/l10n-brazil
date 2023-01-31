@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="invoice_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_due_list.invoice.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page
+                    string="Receivables"
+                    attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
+                    name="receivable_move_line_tab"
+                >
+                    <field name="financial_move_line_ids" />
+                </page>
+                <page
+                    string="Payables"
+                    attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
+                    name="payable_move_line_tab"
+                >
+                    <field name="financial_move_line_ids" />
+                </page>
+                <page string="Payments" name="payment_move_line_tab">
+                    <field name="payment_move_line_ids" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>
