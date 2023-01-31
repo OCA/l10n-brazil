@@ -42,6 +42,12 @@ class SaleOrder(models.Model):
                 order.delivery_costs = "line"
         return True
 
+    def _remove_delivery_line(self):
+        super()._remove_delivery_line()
+        for order in self:
+            if order.company_id.country_id.code == "BR":
+                order.amount_freight_value = 0
+
     def _compute_amount_gross_weight(self):
         for record in self:
             amount_gross_weight = 0.0
