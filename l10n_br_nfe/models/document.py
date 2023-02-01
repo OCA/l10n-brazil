@@ -795,6 +795,23 @@ class NFe(spec_models.StackedModel):
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 
+    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+        self.ensure_one()
+        if (
+            self.document_type_id.code in [MODELO_FISCAL_NFE]
+            and self.issuer == DOCUMENT_ISSUER_COMPANY
+        ):
+            try:
+                self.make_pdf()
+            except Exception as e:
+                # Não devemos interromper o fluxo
+                # E dar rollback em um documento
+                # autorizado, podendo perder dados.
+                # Se der problema que apareça quando
+                # o usuário clicar no gerar PDF novamente.
+                _logger.error("DANFE Error \n {}".format(e))
+        super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
+
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
@@ -814,18 +831,6 @@ class NFe(spec_models.StackedModel):
                 record.atualiza_status_nfe(
                     processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
                 )
-                if processo.protocolo.infProt.cStat in AUTORIZADO:
-                    try:
-                        record.make_pdf()
-                    except Exception as e:
-                        # Não devemos interromper o fluxo
-                        # E dar rollback em um documento
-                        # autorizado, podendo perder dados.
-
-                        # Se der problema que apareça quando
-                        # o usuário clicar no gera PDF novamente.
-                        _logger.error("DANFE Error \n {}".format(e))
-
             elif processo.resposta.cStat == "225":
                 state = SITUACAO_EDOC_REJEITADA
 
