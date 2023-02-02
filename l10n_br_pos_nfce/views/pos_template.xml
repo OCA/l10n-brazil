@@ -26,6 +26,10 @@
                 src="/l10n_br_pos_nfce/static/src/js/screens.js"
                 type="text/javascript"
             />
+                <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/PaymentScreen.js"
+                type="text/javascript"
+            />
             </xpath>
         </template>
 </odoo>

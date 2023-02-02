@@ -16,6 +16,7 @@
     ],
     "data": [
         "views/pos_template.xml",
+        "views/pos_config_view.xml",
     ],
     "demo": [],
     "installable": True,
