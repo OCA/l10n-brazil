@@ -41,16 +41,20 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
 
             async _isOrderValid(isForceValidate) {
                 var result = super._isOrderValid(isForceValidate);
-                var order = this.env.pos.get_order();
-                const valid_cpf_cnpj = this.check_valid_cpf_cnpj(order);
-                if (valid_cpf_cnpj) {
-                    result = await order.document_send(this);
-                    return result;
+                if (this.env.pos.config.simplified_document_type) {
+                    var order = this.env.pos.get_order();
+                    const valid_cpf_cnpj = this.check_valid_cpf_cnpj(order);
+                    if (valid_cpf_cnpj) {
+                        result = await order.document_send(this);
+                    } else {
+                        Gui.showPopup("ErrorPopup", {
+                            title: _t("Invalid CNPJ / CPF !"),
+                            body: _t("Enter a valid CNPJ / CPF number"),
+                        });
+                    }
                 }
-                Gui.showPopup("ErrorPopup", {
-                    title: _t("Invalid CNPJ / CPF !"),
-                    body: _t("Enter a valid CNPJ / CPF number"),
-                });
+
+                return result;
             }
         };
 
