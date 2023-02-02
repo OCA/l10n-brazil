@@ -135,6 +135,13 @@
                     attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                 />
               </xpath>
+              <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                  <field name="discount_value"/>
+              </xpath>
+              <xpath expr="//field[@name='amount_untaxed']" position="before">
+                  <field name="amount_financial_total_gross"/>
+                  <field name="amount_discount_value"/>
+              </xpath>
           </field>
       </record>
 
