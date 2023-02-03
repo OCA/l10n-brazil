@@ -12,7 +12,7 @@ class TestL10nBrPosOrder(TransactionCase):
         super().setUp()
         self.env.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         self.pos_config = self.env.ref("l10n_br_pos.pos_config_presumido")
-        self.cash_payment_method = self.pos_config[0]
+        self.cash_payment_method = self.env.ref("l10n_br_pos.presumido_dinheiro")
         self.led_lamp = self.env["product.product"].create(
             {
                 "name": "LED Lamp",
