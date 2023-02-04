@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_coa_simple_chart_template" model="account.chart.template">
+        <field name="name">Plano de Contas Simplificado</field>
+        <field name="code_digits">5</field>
+        <field name="cash_account_code_prefix">1.1.1.0</field>
+        <field name="bank_account_code_prefix">1.1.1.0</field>
+        <field name="transfer_account_code_prefix">1.1.1.0</field>
+        <field name="currency_id" ref="base.BRL" />
+        <field name="country_id" ref="base.br" />
+        <field name="parent_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+</odoo>
