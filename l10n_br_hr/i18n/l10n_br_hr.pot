@@ -1444,6 +1444,16 @@ msgid "Pix Keys"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_ids
+msgid "Pos Order"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_count
+msgid "Pos Order Count"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_payment_method_id
 msgid ""
 "Preferred payment method when paying this vendor. This is used to filter "
@@ -1772,6 +1782,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__user_id
 msgid "The internal user in charge of this contact."
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pos_order_count
+msgid "The number of point of sales orders related to this customer"
 msgstr ""
 
 #. module: l10n_br_hr
