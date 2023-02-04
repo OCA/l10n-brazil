@@ -4,13 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2022-02-23 14:30+0000\n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -40,7 +37,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_withholding
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_withholding
 msgid "(-) Amount Tax Withholding"
-msgstr "(-) Valor Retido na Fonte"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
@@ -81,13 +78,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_config__save_identity_automatic
 msgid "Activating will create a new identity customer to the partners data"
 msgstr ""
-"A ativação criará uma nova identidade do cliente para os dados dos parceiros."
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__activation_code
-#, fuzzy
 msgid "Activation code"
-msgstr "Data da Autorização"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__activity_ids
@@ -114,18 +109,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__additional_data
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__additional_data
 msgid "Additional Data"
-msgstr "Dados Adicionais"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__manual_additional_data
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__manual_additional_data
 msgid "Additional data manually entered by user"
-msgstr "Dados adicionais inseridos manualmente pelo usuário"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__additional_data
 msgid "Aditional Information"
-msgstr "Informações Adicionais"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__edoc_purpose__3
@@ -154,105 +149,99 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_discount_value
-#, fuzzy
 msgid "Amount Discount"
-msgstr "Valor Sem Desconto."
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_estimate_tax
 msgid "Amount Estimate Tax"
-msgstr "Valor dos Impostos Estimados"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_financial_total
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__financial_total
 msgid "Amount Financial"
-msgstr "Valor Financeiro"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__financial_total_gross
-#, fuzzy
 msgid "Amount Financial Gross"
-msgstr "Valor Financeiro"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_fiscal
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_fiscal
 msgid "Amount Fiscal"
-msgstr "Montante Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_price_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_gross
 msgid "Amount Gross"
-msgstr "Valor Bruto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax
 msgid "Amount Tax"
-msgstr "Montante de Imposto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_included
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_included
-#, fuzzy
 msgid "Amount Tax Included"
-msgstr "Montante de Imposto Não Incluído"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_not_included
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_not_included
-#, fuzzy
 msgid "Amount Tax Not Included"
-msgstr "Montante de Imposto Não Incluído"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_tax_withholding
-#, fuzzy
 msgid "Amount Tax Withholding"
-msgstr "(-) Valor Retido na Fonte"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_taxed
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_taxed
 msgid "Amount Taxed"
-msgstr "Valor Tributado"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_total
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_total
 msgid "Amount Total"
-msgstr "Montante Total"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_untaxed
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_untaxed
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_untaxed
 msgid "Amount Untaxed"
-msgstr "Montante sem Imposto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__amount_price_gross
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__price_gross
 msgid "Amount without discount."
-msgstr "Valor Sem Desconto."
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__anonymous_simplified_limit
-#, fuzzy
 msgid "Anonymous Simplified Limit"
-msgstr "Limite Anônimo Simplificado"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__ask_identity
 msgid "Ask Identity on Payment"
-msgstr "Pedir Identificação no Pagamento"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_attachment_count
@@ -262,25 +251,22 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__authorization_date
 msgid "Authorization Date"
-msgstr "Data da Autorização"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__authorization_file
-#, fuzzy
 msgid "Authorization File"
-msgstr "Data da Autorização"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__authorization_protocol
-#, fuzzy
 msgid "Authorization Protocol"
-msgstr "Data da Autorização"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__state_edoc__autorizada
-#, fuzzy
 msgid "Autorizada"
-msgstr "Data da Autorização"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__printer__bematech-mp4200th
@@ -300,13 +286,13 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__ind_pres
 msgid "Buyer Presence"
-msgstr "Presença do Comprador"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cest_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cest_id
 msgid "CEST"
-msgstr "Cest"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_l10n_br_fiscal_cfop
@@ -319,14 +305,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_destination
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cfop_destination
 msgid "CFOP Destination"
-msgstr "Destino CFOP"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cnae_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cnae_id
-#, fuzzy
 msgid "CNAE Code"
-msgstr "Código"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cnpj_homologation
@@ -348,6 +333,8 @@ msgstr ""
 #. module: l10n_br_pos
 #. openerp-web
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #, python-format
 msgid "CNPJ/CPF na nota?"
 msgstr ""
@@ -363,132 +350,132 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_percent
 msgid "COFINS %"
-msgstr "COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_reduction
 msgid "COFINS % Reduction"
-msgstr "% Redução COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_cofins_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_base
 msgid "COFINS Base"
-msgstr "Base de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_base_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_base_id
 msgid "COFINS Base Code"
-msgstr "Código de Base de Cofins"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_base_type
 msgid "COFINS Base Type"
-msgstr "Tipo de Base de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_cst_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_cst_code
 msgid "COFINS CST Code"
-msgstr "Código CST de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_credit_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_credit_id
 msgid "COFINS Credit Code"
-msgstr "Código de Crédito de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_wh_percent
 msgid "COFINS RET %"
-msgstr "% RET COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_wh_reduction
 msgid "COFINS RET % Reduction"
-msgstr "% Redução de RETENÇÃO de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr "Base de Retenção de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_wh_value
 msgid "COFINS RET Value"
-msgstr "Valor de RETENÇÃO de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_cofins_wh_base
-#, fuzzy
 msgid "COFINS Ret Base"
-msgstr "Base de Retenção de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_cofins_wh_value
-#, fuzzy
 msgid "COFINS Ret Value"
-msgstr "Valor de RETENÇÃO de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_percent
 msgid "COFINS ST %"
-msgstr "% ST COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_reduction
 msgid "COFINS ST % Reduction"
-msgstr "% Redução ST COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_base
 msgid "COFINS ST Base"
-msgstr "Base ST COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_base_type
 msgid "COFINS ST Base Type"
-msgstr "Tipo de Base ST COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_cst_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_cst_code
 msgid "COFINS ST CST Code"
-msgstr "Código CST ST COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_value
 msgid "COFINS ST Value"
-msgstr "Valor de ST do Cofins"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_cofins_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_value
 msgid "COFINS Value"
-msgstr "Valor do COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_wh_base_type
 msgid "COFINS WH Base Type"
-msgstr "Tipo de Base COFINS WH"
+msgstr ""
 
 #. module: l10n_br_pos
 #. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #, python-format
 msgid "CPF/CNPJ"
@@ -498,13 +485,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__csll_percent
 msgid "CSLL %"
-msgstr "CSLL"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__csll_reduction
 msgid "CSLL % Reduction"
-msgstr "Redução de % CSLL"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_base
@@ -523,7 +510,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__csll_wh_reduction
 msgid "CSLL RET % Reduction"
-msgstr "Redução de % CSLL RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_base
@@ -535,26 +522,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__csll_wh_value
 msgid "CSLL RET Value"
-msgstr "Valor RET CSLL"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_csll_wh_base
-#, fuzzy
 msgid "CSLL Ret Base"
-msgstr "Valor RET CSLL"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_csll_wh_value
-#, fuzzy
 msgid "CSLL Ret Value"
-msgstr "Valor RET CSLL"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_csll_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__csll_value
 msgid "CSLL Value"
-msgstr "Valor CSLL"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_cst_id
@@ -644,6 +629,7 @@ msgstr ""
 #. module: l10n_br_pos
 #. openerp-web
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #, python-format
 msgid "Cancelar"
 msgstr ""
@@ -655,9 +641,8 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cashier_number
-#, fuzzy
 msgid "Cashier Number"
-msgstr "Número da série"
+msgstr ""
 
 #. module: l10n_br_pos
 #. openerp-web
@@ -668,55 +653,55 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_fiscal_cfop__is_pos
-msgid "Check this selection so that the CFOP can be used at the Point of Sale."
+msgid ""
+"Check this selection so that the CFOP can be used at the Point of Sale."
 msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__city_taxation_code_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__city_taxation_code_id
 msgid "City Taxation Code"
-msgstr "Código de Tributação da Cidade"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_type
 msgid "Code"
-msgstr "Código"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__comment_ids
 msgid "Comments"
-msgstr "Comentários"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_res_company
 msgid "Companies"
-msgstr "Empresas"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__company_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__company_id
 msgid "Company"
-msgstr "Empresa"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_company_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__partner_company_type
 msgid "Company Type"
-msgstr "Tipo de Empresa"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__edoc_purpose__2
-#, fuzzy
 msgid "Complementary"
-msgstr "Comentários"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_res_partner
 msgid "Contact"
-msgstr "Contato"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:pos.payment.method,name:l10n_br_pos.presumido_convenio
@@ -730,19 +715,18 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_coupon_date
-#, fuzzy
 msgid "Coupon Fiscal Date"
-msgstr "Montante Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__create_uid
 msgid "Created by"
-msgstr "Criado por"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__create_date
 msgid "Created on"
-msgstr "Criado em"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:pos.payment.method,name:l10n_br_pos.presumido_credito_amex
@@ -779,7 +763,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__currency_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__currency_id
 msgid "Currency"
-msgstr "Moeda"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__partner_id
@@ -788,15 +772,13 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__customer_additional_data
-#, fuzzy
 msgid "Customer Additional Data"
-msgstr "Dados Adicionais"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__manual_customer_additional_data
-#, fuzzy
 msgid "Customer Additional data manually entered by user"
-msgstr "Dados adicionais inseridos manualmente pelo usuário"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_ii_customhouse_charges
@@ -810,14 +792,13 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_date
-#, fuzzy
 msgid "Date"
-msgstr "Movimento de data"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__date_in_out
 msgid "Date Move"
-msgstr "Movimento de data"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__refund_pos_fiscal_operation_id
@@ -826,9 +807,8 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__out_pos_fiscal_operation_id
-#, fuzzy
 msgid "Default Sales Operation"
-msgstr "Operações Fiscais de Reembolso do POS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__uom_id
@@ -849,9 +829,8 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__delivery_costs
-#, fuzzy
 msgid "Delivery Costs"
-msgstr "Outros Custos"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__state_edoc__denegada
@@ -872,12 +851,12 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__detailed_document_type_id
 msgid "Detailed Document Type"
-msgstr "Tipo de Documento Detalhado"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__detailed_document_type
 msgid "Detailed document type"
-msgstr "Tipo de Documento Detalhado"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
@@ -898,7 +877,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__discount_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__discount_value
 msgid "Discount Value"
-msgstr "Valor do desconto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_cfop__display_name
@@ -915,30 +894,30 @@ msgstr "Valor do desconto"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_stock_picking__display_name
 #: model:ir.model.fields,field_description:l10n_br_pos.field_stock_return_picking__display_name
 msgid "Display Name"
-msgstr "Nome exibido"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_number
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_rps_number
 msgid "Document Number"
-msgstr "Número do Documento"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_serie_id
 msgid "Document Serie"
-msgstr "Série de Documentos"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_type_id
 msgid "Document Type"
-msgstr "Tipo de Documento"
+msgstr ""
 
 #. module: l10n_br_pos
 #. openerp-web
 #: code:addons/l10n_br_pos/static/src/xml/Screens/OrderManagementScreen/OrderList.xml:0
-#, fuzzy, python-format
+#, python-format
 msgid "Documento Fiscal"
-msgstr "Montante Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__fiscal_printer_type__dummyconnection
@@ -968,7 +947,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_electronic
 msgid "Electronic?"
-msgstr "Eletrônico?"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__printer__elgin-i9
@@ -991,7 +970,7 @@ msgstr ""
 #: code:addons/l10n_br_pos/static/src/js/models.js:0
 #, python-format
 msgid "Enter a valid CNPJ / CPF number"
-msgstr "Digite um CNPJ/CPF válido"
+msgstr ""
 
 #. module: l10n_br_pos
 #. openerp-web
@@ -1008,14 +987,13 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__estimate_tax
-#, fuzzy
 msgid "Estimate Tax"
-msgstr "Valor dos Impostos Estimados"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_code_exception
 msgid "Exception"
-msgstr "Excessão"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_value_wh
@@ -1038,7 +1016,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__fiscal_printer_type__fileconnection
 msgid "File"
-msgstr "Arquivo"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ind_final
@@ -1050,78 +1028,74 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_discount_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_financial_discount_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__financial_discount_value
-#, fuzzy
 msgid "Financial Discount Value"
-msgstr "Valor do desconto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_additional_data
-#, fuzzy
 msgid "Fiscal Additional Data"
-msgstr "Informação Adicional Manual"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__manual_fiscal_additional_data
-#, fuzzy
 msgid "Fiscal Additional data manually entered by user"
-msgstr "Dados adicionais inseridos manualmente pelo usuário"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_pos_method_term_form
-#, fuzzy
 msgid "Fiscal Data"
-msgstr "Impostos"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_l10n_br_fiscal_document_related
 msgid "Fiscal Document Related"
-msgstr "Documento Fiscal Relacionado"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_operation_type
 msgid "Fiscal Operation Type"
-msgstr "Tipo de Operação Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_price
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_price
 msgid "Fiscal Price"
-msgstr "Preço Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__fiscal_printer_type
 msgid "Fiscal Printer Type"
-msgstr "Tipo da Impressora Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_genre_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_genre_id
 msgid "Fiscal Product Genre"
-msgstr "Gênero Fiscal do Produto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_genre_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_genre_code
 msgid "Fiscal Product Genre Code"
-msgstr "Código do Gênero Fiscal do Produto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_quantity
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_quantity
 msgid "Fiscal Quantity"
-msgstr "Quantidade Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_tax_ids
 msgid "Fiscal Taxes"
-msgstr "Impostos"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_type
 msgid "Fiscal Type"
-msgstr "Tipo Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__iface_fiscal_via_proxy
@@ -1158,7 +1132,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_freight_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__freight_value
 msgid "Freight Value"
-msgstr "Valor do frete"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
@@ -1184,13 +1158,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_percent
 msgid "ICMS %"
-msgstr "ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_reduction
 msgid "ICMS % Reduction"
-msgstr "Redução de ICMS %"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_base
@@ -1203,31 +1177,30 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_base_type
 msgid "ICMS Base Type"
-msgstr "Tipo base do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_cst_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_cst_code
 msgid "ICMS CST Code"
-msgstr "Código CST do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_destination_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_destination_value
 msgid "ICMS Dest. Value"
-msgstr "Icms Dest. Valor"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_destination_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_destination_base
 msgid "ICMS Destination Base"
-msgstr "Base de Destino do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icms_destination_value
-#, fuzzy
 msgid "ICMS Destination Value"
-msgstr "Base de Destino do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_effective_value
@@ -1257,7 +1230,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_destination_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_destination_percent
 msgid "ICMS External %"
-msgstr "ICMS Externo %"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_percent
@@ -1270,7 +1243,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icmsfcp_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcp_base
 msgid "ICMS FCP Base"
-msgstr "Base ICMS FCP"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_value
@@ -1283,38 +1256,38 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icmsfcp_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcp_value
 msgid "ICMS FCP Value"
-msgstr "Valor do ICMS FCP"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_origin_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_origin_percent
 msgid "ICMS Internal %"
-msgstr "ICMS Interno %"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_origin
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_origin
 msgid "ICMS Origin"
-msgstr "Origem do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_origin_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icms_origin_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_origin_value
 msgid "ICMS Origin Value"
-msgstr "Valor de Origem do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_relief_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_relief_id
 msgid "ICMS Relief"
-msgstr "Alívio do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_relief_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_relief_value
 msgid "ICMS Relief Value"
-msgstr "Valor de alívio do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_percent
@@ -1332,25 +1305,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_credit_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmssn_credit_value
 msgid "ICMS SN Credit"
-msgstr "Crédito ICMS SN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmssn_reduction
 msgid "ICMS SN Reduction"
-msgstr "Redução do ICMS SN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsst_percent
 msgid "ICMS ST %"
-msgstr "ICMS ST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsst_reduction
 msgid "ICMS ST % Reduction"
-msgstr "Redução de ICMS ST %"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_base
@@ -1363,7 +1336,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsst_base_type
 msgid "ICMS ST Base Type"
-msgstr "Tipo base do ICMS ST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_mva_percent
@@ -1376,7 +1349,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icmsst_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsst_value
 msgid "ICMS ST Value"
-msgstr "Valor do ICMS ST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_wh_percent
@@ -1394,13 +1367,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_wh_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsst_wh_value
 msgid "ICMS ST WH Value"
-msgstr "Icms ST WH Valor"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_sharing_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_sharing_percent
 msgid "ICMS Sharing %"
-msgstr "Compartilhamento de ICMS %"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_substitute
@@ -1413,19 +1386,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icms_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_value
 msgid "ICMS Value"
-msgstr "Valor do ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__tax_icms_or_issqn
 msgid "ICMS or ISSQN Tax"
-msgstr "Imposto sobre ICMS ou ISSQN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icmssn_credit_value
-#, fuzzy
 msgid "ICMSSN Credit Value"
-msgstr "Crédito ICMS SN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_cfop__id
@@ -1467,19 +1439,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_ii_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ii_value
 msgid "II Value"
-msgstr "II Valor"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_percent
 msgid "INSS %"
-msgstr "INSS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_reduction
 msgid "INSS % Reduction"
-msgstr "Redução de % do INSS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_base
@@ -1498,7 +1470,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_wh_reduction
 msgid "INSS RET % Reduction"
-msgstr "Redução de % do INSS RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_base
@@ -1510,32 +1482,30 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_wh_value
 msgid "INSS RET Value"
-msgstr "Valor RET do INSS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_inss_wh_base
-#, fuzzy
 msgid "INSS Ret Base"
-msgstr "Base de Retenção de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_inss_wh_value
-#, fuzzy
 msgid "INSS Ret Value"
-msgstr "Valor RET do INSS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_inss_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_value
 msgid "INSS Value"
-msgstr "Valor do INSS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_iof_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ii_iof_value
 msgid "IOF Value"
-msgstr "Valor IOF"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_percent
@@ -1547,7 +1517,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_reduction
 msgid "IPI % Reduction"
-msgstr "Redução de % iPI"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_base
@@ -1560,26 +1530,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_base_type
 msgid "IPI Base Type"
-msgstr "Tipo base do IPI"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_cst_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_cst_code
 msgid "IPI CST Code"
-msgstr "Código CST do IPI"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_guideline_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_guideline_id
 msgid "IPI Guideline"
-msgstr "Diretriz do IPI"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_ipi_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_value
 msgid "IPI Value"
-msgstr "Valor do IPI"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_percent
@@ -1591,7 +1561,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_reduction
 msgid "IRPJ % Reduction"
-msgstr "Redução de % IRPJ"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_base
@@ -1610,51 +1580,48 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_wh_reduction
 msgid "IRPJ RET % Reduction"
-msgstr "IrPJ RET % Redução"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_wh_base
-#, fuzzy
 msgid "IRPJ RET Base"
-msgstr "Valor RET IRPJ"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_wh_value
 msgid "IRPJ RET Value"
-msgstr "Valor RET IRPJ"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_irpj_wh_base
-#, fuzzy
 msgid "IRPJ Ret Base"
-msgstr "Valor RET IRPJ"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_irpj_wh_value
-#, fuzzy
 msgid "IRPJ Ret Value"
-msgstr "Valor RET IRPJ"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_irpj_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_value
 msgid "IRPJ Value"
-msgstr "Valor IRPJ"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_percent
 msgid "ISSQN %"
-msgstr "ISSQN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_reduction
 msgid "ISSQN % Reduction"
-msgstr "Redução de % issqn"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_base
@@ -1673,37 +1640,37 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_deduction_amount
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_deduction_amount
 msgid "ISSQN Deduction Value"
-msgstr "Valor de dedução do ISSQN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_desc_cond_amount
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_desc_cond_amount
 msgid "ISSQN Discount Cond"
-msgstr "Cond de desconto ISSQN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_desc_incond_amount
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_desc_incond_amount
 msgid "ISSQN Discount Incond"
-msgstr "Desconto Incondicional do ISSQN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_eligibility
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_eligibility
 msgid "ISSQN Eligibility"
-msgstr "Elegibilidade do ISSQN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_incentive
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_incentive
 msgid "ISSQN Incentive"
-msgstr "Incentivo ISSQN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_other_amount
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_other_amount
 msgid "ISSQN Other Value"
-msgstr "ISSQN Outro valor"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_percent
@@ -1715,7 +1682,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_wh_reduction
 msgid "ISSQN RET % Reduction"
-msgstr "Redução de % ISSQN RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_base
@@ -1727,27 +1694,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_wh_value
 msgid "ISSQN RET Value"
-msgstr "Valor ISSQN RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_issqn_wh_base
-#, fuzzy
 msgid "ISSQN Ret Base"
-msgstr "Valor ISSQN RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_issqn_wh_value
-#, fuzzy
 msgid "ISSQN Ret Value"
-msgstr "Valor ISSQN RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_issqn_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_value
-#, fuzzy
 msgid "ISSQN Value"
-msgstr "Valor do INSS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__activity_exception_icon
@@ -1763,7 +1727,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_destination
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__cfop_destination
 msgid "Identifies the operation destination."
-msgstr "Identifica o destino da operação."
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_needaction
@@ -1782,7 +1746,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__insurance_value
 msgid "Insurance Value"
-msgstr "Valor do Seguro"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__state_edoc__inutilizada
@@ -1795,7 +1759,7 @@ msgstr ""
 #: code:addons/l10n_br_pos/static/src/js/models.js:0
 #, python-format
 msgid "Invalid CNPJ / CPF !"
-msgstr "CNPJ/CPF Inválido!"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_is_follower
@@ -1805,12 +1769,12 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_key
 msgid "Key"
-msgstr "Chave"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.actions.act_window,name:l10n_br_pos.l10n_br_pos_product_fiscal_map_act_window
 msgid "L10n_br_pos Product_fiscal_map"
-msgstr "Mapeamento Fiscal dos Produtos"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_cfop____last_update
@@ -1827,7 +1791,7 @@ msgstr "Mapeamento Fiscal dos Produtos"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_stock_picking____last_update
 #: model:ir.model.fields,field_description:l10n_br_pos.field_stock_return_picking____last_update
 msgid "Last Modified on"
-msgstr "Última modificação em"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__session_sat
@@ -1837,12 +1801,12 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__write_date
 msgid "Last Updated on"
-msgstr "Última atualização em"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
@@ -1852,7 +1816,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__legal_name
 msgid "Legal Name"
-msgstr "Razão Social"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_main_attachment_id
@@ -1863,19 +1827,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__manual_additional_data
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__manual_additional_data
 msgid "Manual Additional Data"
-msgstr "Informação Adicional Manual"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__manual_customer_additional_data
-#, fuzzy
 msgid "Manual Customer Additional Data"
-msgstr "Informação Adicional Manual"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__manual_fiscal_additional_data
-#, fuzzy
 msgid "Manual Fiscal Additional Data"
-msgstr "Informação Adicional Manual"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_has_error
@@ -1914,13 +1876,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__nbs_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__nbs_id
 msgid "NBS"
-msgstr "Nbs"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ncm_id
 msgid "NCM"
-msgstr "Ncm"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
@@ -1948,13 +1910,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__simple_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__simple_value
 msgid "National Simple Taxes"
-msgstr "Impostos do Simples Nacional"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__simple_without_icms_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
-msgstr "Impostos do Simples Nacional sem ICMS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__fiscal_printer_type__networkconnection
@@ -2028,43 +1990,40 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_operation_id
 msgid "Operation"
-msgstr "Operação"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_line_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_operation_line_id
 msgid "Operation Line"
-msgstr "Linha de Operação"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__operation_name
 msgid "Operation Name"
-msgstr "Nome da Operação"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_other_value
 msgid "Other Costs"
-msgstr "Outros Custos"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__other_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__other_value
-#, fuzzy
 msgid "Other Value"
-msgstr "ISSQN Outro valor"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_config__anonymous_simplified_limit
 msgid ""
 "Over this amount is not legally posible to create a Anonymous NFC-E / CF-e"
 msgstr ""
-"Acima deste valor não é legalmente possível criar uma NFC-E/CF-e Anônima."
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_config__simplified_invoice_limit
 msgid "Over this amount is not legally posible to create a simplified invoice"
 msgstr ""
-"Acima deste valor não é legalmente possível criar uma fatura simplificada."
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_percent
@@ -2076,7 +2035,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_reduction
 msgid "PIS % Reduction"
-msgstr "Redução de % do PIS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_base
@@ -2089,25 +2048,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_base_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_base_id
 msgid "PIS Base Code"
-msgstr "Código Base do PIS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_base_type
 msgid "PIS Base Type"
-msgstr "Tipo base do PIS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_cst_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_cst_code
 msgid "PIS CST Code"
-msgstr "Código PIS CST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_credit_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_credit_id
 msgid "PIS Credit"
-msgstr "Crédito do PIS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_percent
@@ -2119,7 +2078,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_wh_reduction
 msgid "PIS RET % Reduction"
-msgstr "Redução de % do PIS RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_base
@@ -2131,19 +2090,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_wh_value
 msgid "PIS RET Value"
-msgstr "Valor do PIS RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_pis_wh_base
-#, fuzzy
 msgid "PIS Ret Base"
-msgstr "Base de Retenção de COFINS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_pis_wh_value
-#, fuzzy
 msgid "PIS Ret Value"
-msgstr "Valor do PIS RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_percent
@@ -2155,7 +2112,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pisst_reduction
 msgid "PIS ST % Reduction"
-msgstr "PIS ST % Redução"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_base
@@ -2167,32 +2124,32 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pisst_base_type
 msgid "PIS ST Base Type"
-msgstr "Tipo de Base PIS ST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_cst_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pisst_cst_code
 msgid "PIS ST CST Code"
-msgstr "Código PIS ST CST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pisst_value
 msgid "PIS ST Value"
-msgstr "Valor do PIS ST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_pis_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_value
 msgid "PIS Value"
-msgstr "Valor do PIS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_base_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_wh_base_type
 msgid "PIS WH Base Type"
-msgstr "Tipo de base PIS WH"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:pos.payment.method,name:l10n_br_pos.presumido_pix
@@ -2219,19 +2176,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__partner_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__partner_id
 msgid "Partner"
-msgstr "Parceiro"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_order
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__partner_order
 msgid "Partner Order (xPed)"
-msgstr "Ordem de Parceiro (xPed)"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_order_line
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__partner_order_line
 msgid "Partner Order Line (nItemPed)"
-msgstr "Linha de Ordem de Parceiros (nItemPed)"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:stock.picking.type,name:l10n_br_pos.picking_type_posout_presumido
@@ -2241,55 +2198,54 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_pos_config
 msgid "Point of Sale Configuration"
-msgstr "Configuração do Ponto de Vendas"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_pos_order_line
 msgid "Point of Sale Order Lines"
-msgstr "Linhas de pedido de Ponto de Venda"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_pos_order
 msgid "Point of Sale Orders"
-msgstr "Pedidos do Ponto de Vendas"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pos_config_id
 msgid "Pos Config"
-msgstr "Configuração do PdV"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__pos_fiscal_map_ids
 #: model:ir.model.fields,field_description:l10n_br_pos.field_product_product__pos_fiscal_map_ids
 #: model:ir.model.fields,field_description:l10n_br_pos.field_product_template__pos_fiscal_map_ids
 msgid "Pos Fiscal Map"
-msgstr "Mapeamento Fiscal do POS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__out_pos_fiscal_operation_id
 msgid "Pos Out Fiscal Operation"
-msgstr "Operações Fiscais de Saída do POS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_l10n_br_pos_product_fiscal_map
 msgid "Pos Product Fiscal Map"
-msgstr "Mapemaneto Fiscal dos Produtos do POS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__refund_pos_fiscal_operation_id
 msgid "Pos Refund Fiscal Operation"
-msgstr "Operações Fiscais de Reembolso do POS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-#, fuzzy
 msgid "Price"
-msgstr "Preço por Unidade"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_unit
 msgid "Price Unit"
-msgstr "Preço por Unidade"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__printer
@@ -2299,36 +2255,34 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__printer_params
 msgid "Printer parameters"
-msgstr "Parâmetros da Impressora"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_product_product
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__product_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__product_id
 msgid "Product"
-msgstr "Produto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_product_template
 msgid "Product Template"
-msgstr "Modelo de Produto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__product_tmpl_id
 msgid "Product Tmpl"
-msgstr "Template do produto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__quantity
-#, fuzzy
 msgid "Product Uom Quantity"
-msgstr "Modelo de Produto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__res_company__environment_sat__production
-#, fuzzy
 msgid "Production"
-msgstr "Produto"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_qrcode_signature
@@ -2344,7 +2298,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__quantity
 #: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
 msgid "Quantity"
-msgstr "Quantidade"
+msgstr ""
 
 #. module: l10n_br_pos
 #. openerp-web
@@ -2355,6 +2309,7 @@ msgstr ""
 
 #. module: l10n_br_pos
 #. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #, python-format
 msgid "Reimprimir"
@@ -2403,9 +2358,8 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__out_pos_fiscal_operation_line_ids
-#, fuzzy
 msgid "Sales Operation Lines"
-msgstr "Linha de Operação Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__save_identity_automatic
@@ -2420,13 +2374,13 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_serie
 msgid "Serie Number"
-msgstr "Número da série"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__service_type_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__service_type_id
 msgid "Service Type LC 166"
-msgstr "Tipo de Serviço LC 166"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_session_number
@@ -2436,7 +2390,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__partner_shipping_id
 msgid "Shipping Address"
-msgstr "Endereço de Entrega"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__signature_sat
@@ -2445,9 +2399,8 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
-#, fuzzy
 msgid "Simplified"
-msgstr "Imposto de alcance simplificado"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__simplified_document_type_id
@@ -2456,20 +2409,19 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__simplified_invoice_limit
-#, fuzzy
 msgid "Simplified Invoice Limit"
-msgstr "Limite da Fatura Simplificada"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_range_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmssn_range_id
 msgid "Simplified Range Tax"
-msgstr "Imposto de alcance simplificado"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__simplified_document_type
 msgid "Simplified document type"
-msgstr "Tipo de Documento Simplificado"
+msgstr ""
 
 #. module: l10n_br_pos
 #. openerp-web
@@ -2486,7 +2438,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__ie
 msgid "State Tax Number/RG"
-msgstr "Número da Inscrição Estadual/RG"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_search
@@ -2496,20 +2448,20 @@ msgstr ""
 #. module: l10n_br_pos
 #. openerp-web
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
-#, fuzzy, python-format
+#, python-format
 msgid "Status"
-msgstr "Código de Status"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__status_code
 msgid "Status Code"
-msgstr "Código de Status"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__status_description
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__status_name
 msgid "Status Name"
-msgstr "Nome do status"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__activity_state
@@ -2531,7 +2483,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_tax_id
 msgid "Tax COFINS"
-msgstr "COFINS Tributária"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_tax_id
@@ -2543,19 +2495,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_tax_id
 msgid "Tax COFINS ST"
-msgstr "Cofins Fiscal ST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__csll_tax_id
 msgid "Tax CSLL"
-msgstr "CSLL fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__csll_wh_tax_id
 msgid "Tax CSLL RET"
-msgstr "Imposto CSLL RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_search
@@ -2567,13 +2519,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__tax_framework
 msgid "Tax Framework"
-msgstr "Regime Tributário"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_tax_id
 msgid "Tax ICMS"
-msgstr "ICMS tributário"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_tax_id
@@ -2585,7 +2537,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmssn_tax_id
 msgid "Tax ICMS SN"
-msgstr "ICMS Fiscal SN"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_tax_id
@@ -2597,73 +2549,73 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ii_tax_id
 msgid "Tax II"
-msgstr "Imposto II"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_tax_id
 msgid "Tax INSS"
-msgstr "Imposto do INSS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_wh_tax_id
 msgid "Tax INSS RET"
-msgstr "Imposto do INSS RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_tax_id
 msgid "Tax IPI"
-msgstr "IPI fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_tax_id
 msgid "Tax IRPJ"
-msgstr "Imposto IRPJ"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_wh_tax_id
 msgid "Tax IRPJ RET"
-msgstr "Imposto IRPJ RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_tax_id
 msgid "Tax ISSQN"
-msgstr "ISSQN fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_wh_tax_id
 msgid "Tax ISSQN RET"
-msgstr "ISSQN RET fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_tax_id
 msgid "Tax PIS"
-msgstr "Imposto pis"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_wh_tax_id
 msgid "Tax PIS RET"
-msgstr "Imposto PIS RET"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pisst_tax_id
 msgid "Tax PIS ST"
-msgstr "Imposto PIS ST"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__uot_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__uot_id
 msgid "Tax UoM"
-msgstr "UoM fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
@@ -2672,15 +2624,14 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
-#, fuzzy
 msgid "Taxation"
-msgstr "Código de Tributação da Cidade"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_tax
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.l10n_br_pos_product_fiscal_map_form_view
 msgid "Taxes"
-msgstr "Impostos"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_total
@@ -2690,7 +2641,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_stock_picking
 msgid "Transfer"
-msgstr "Transferir"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_type
@@ -2707,7 +2658,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__uom_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__uom_id
 msgid "UOM"
-msgstr "UDM"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__fiscal_printer_type__usbconnection
@@ -2723,14 +2674,13 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_unit
-#, fuzzy
 msgid "Unit Price"
-msgstr "Preço Fiscal"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_code
 msgid "Unmasked Code"
-msgstr "Código desmascarado"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_unread
@@ -2746,12 +2696,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_product_template_from
 msgid "Update Pos TAX"
-msgstr "Atualizar os Impostos do POS"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__legal_name
 msgid "Used in fiscal documents"
-msgstr "Usado nos documentos fiscais"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:pos.payment.method,name:l10n_br_pos.presumido_vale_vr_alelo
@@ -2808,30 +2758,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__state_edoc
 msgid "e-doc Status"
 msgstr ""
-
-#~ msgid "Add CNPJ/CPF"
-#~ msgstr "Adicionar CNPJ/CPF"
-
-#~ msgid "Change CNPJ/CPF"
-#~ msgstr "Altear CNPJ/CPF"
-
-#~ msgid "Journal"
-#~ msgstr "Diário"
-
-#~ msgid "Percent"
-#~ msgstr "Porcentagem"
-
-#~ msgid "Stock Move"
-#~ msgstr "Movimentação de estoque"
-
-#~ msgid ""
-#~ "The fiscal operation line is not defined for this product. Please contact "
-#~ "support."
-#~ msgstr ""
-#~ "A linha de operação fiscal não está definida para este produto. Por "
-#~ "favor, contate o suporte!"
-
-#~ msgid "There was a problem mapping the item tax. Please contact support."
-#~ msgstr ""
-#~ "Houve um problema de mapeamento dos impostos do item selecionado. Por "
-#~ "favor, contato o suporte."
