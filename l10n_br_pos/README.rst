@@ -134,19 +134,19 @@ promote its widespread use.
 .. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
     :target: https://github.com/mileo
     :alt: mileo
-.. |maintainer-sadamo| image:: https://github.com/sadamo.png?size=40px
-    :target: https://github.com/sadamo
-    :alt: sadamo
-.. |maintainer-gabrielcardoso21| image:: https://github.com/gabrielcardoso21.png?size=40px
-    :target: https://github.com/gabrielcardoso21
-    :alt: gabrielcardoso21
 .. |maintainer-lfdivino| image:: https://github.com/lfdivino.png?size=40px
     :target: https://github.com/lfdivino
     :alt: lfdivino
+.. |maintainer-luismalta| image:: https://github.com/luismalta.png?size=40px
+    :target: https://github.com/luismalta
+    :alt: luismalta
+.. |maintainer-ygcarvalh| image:: https://github.com/ygcarvalh.png?size=40px
+    :target: https://github.com/ygcarvalh
+    :alt: ygcarvalh
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-mileo| |maintainer-sadamo| |maintainer-gabrielcardoso21| |maintainer-lfdivino| 
+|maintainer-mileo| |maintainer-lfdivino| |maintainer-luismalta| |maintainer-ygcarvalh| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_pos>`_ project on GitHub.
 
