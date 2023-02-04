@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="CancelOrderButton" owl="1">
+        <div class="control-button">
+            <i class="fa fa-remove" />
+            <span> </span>
+            <span>Cancel</span>
+        </div>
+    </t>
+
+</templates>

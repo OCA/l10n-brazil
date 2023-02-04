@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="PaymentScreenWidget">
+        <t t-jquery='div.payment-buttons' t-operation='append'>
+            <div
+                t-attf-class="button js_set_cnpj_cpf #{ widget.pos.get_cnpj_cpf() ? 'highlight' : '' }"
+            >
+                <i
+                    class='fa fa-user'
+                    role="img"
+                    aria-label="CNPJ/CPF na nota?"
+                    title="CNPJ/CPF na nota?"
+                />
+                <span class='js_cnpj_cpf_document'>
+                    <t t-if="widget.pos.get_cnpj_cpf()">
+                        CNPJ/CPF: <t t-esc="widget.pos.get_cnpj_cpf()" />
+                    </t>
+                    <t t-if="!widget.pos.get_cnpj_cpf()">
+                        CNPJ/CPF na nota?
+                    </t>
+                </span>
+            </div>
+        </t>
+    </t>
+
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery=".client-detail > .label:contains('Tax ID')" t-operation="replace">
+        </t>
+        <t t-jquery=".client-detail > .vat" t-operation="replace">
+            <div class="client-detail">
+                <span class="label">CPF/CNPJ</span>
+                <input
+                    class="detail vat"
+                    name="cpf-cnpj"
+                    type="text"
+                    t-att-value="partner.cnpj_cpf || ''"
+                />
+            </div>
+        </t>
+    </t>
+
+    <t t-extend="ClientDetails">
+        <t t-jquery=".client-detail > .label:contains('Tax ID')" t-operation="replace">
+            <span class="label">CPF/CNPJ</span>
+        </t>
+        <t t-jquery=".client-detail > .vat" t-operation="replace">
+            <t t-if="partner.cnpj_cpf">
+                <span class="detail vat"><t t-esc="partner.cnpj_cpf" /></span>
+            </t>
+            <t t-if="!partner.cnpj_cpf">
+                <span class="detail vat empty">N/A</span>
+            </t>
+        </t>
+    </t>
+
+    <t t-extend="PosOrderScreenWidget">
+        <t t-jquery='.order-list thead tr' t-operation="append">
+            <th>CPF/CNPJ</th>
+            <th style="max-width:100px">Chave</th>
+            <th>Status</th>
+            <th>Reimprimir</th>
+            <th>Cancelar</th>
+        </t>
+    </t>
+
+    <t t-extend="PosOrderLine">
+        <t t-jquery=".order-line > td:nth-child(3)" t-operation="replace">
+            <td>
+                <t t-esc='order.fiscal_coupon_date' />
+            </td>
+        </t>
+        <t t-jquery='.order-line' t-operation="append">
+            <td>
+                <t t-if="order.cnpj_cpf">
+                    <t t-esc='order.cnpj_cpf' />
+                </t>
+            </td>
+            <td style="max-width:100px;overflow-wrap: break-word;"><t
+                    t-esc='order.document_key'
+                /></td>
+            <td>
+                <t t-if="!order.cancel_document_key">
+                    <t t-esc='order.state' />
+                </t>
+                <t t-if="order.cancel_document_key">
+                    Cancelado
+                </t>
+            </td>
+            <td>
+                <span class="control-button pos_order_reprint">
+                    Reimprimir
+                </span>
+            </td>
+            <td>
+                <t t-if="!order.cancel_document_key">
+                    <span class="control-button pos_order_cancel">
+                        Cancelar
+                    </span>
+                </t>
+            </td>
+        </t>
+    </t>
+
+</templates>

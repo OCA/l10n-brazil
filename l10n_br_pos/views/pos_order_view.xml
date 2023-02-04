@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_l10n_br_pos_search" model="ir.ui.view">
+        <field name="name">l10n_br_pos.order.search</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_filter" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="legal_name" string="Corporate name" />
+                <field name="cnpj_cpf" string="CNPJ/CPF" />
+                <field name="ie" string="State registration" />
+                <field name="fiscal_coupon_date" string="Tax Coupom Date" />
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_pos_pos_form">
+        <field name="name">POS Order (remove invoice button)</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
+        <field name="arch" type="xml">
+            <field name="fiscal_position_id" position="before">
+                <field name="cnpj_cpf" />
+                <field name="fiscal_operation_id" required="True" />
+            </field>
+            <field name="date_order" position="after">
+                <field name="fiscal_coupon_date" string="Tax Coupom Date" />
+            </field>
+            <group name="order_fields" position="after">
+                  <group name="l10n_br_fiscal" colspan="4">
+                    <field name="document_electronic" invisible="1" />
+                    <field name="edoc_purpose" />
+                    <field name="ind_final" />
+                    <field name="ind_pres" />
+                  </group>
+                  <group>
+                    <field name="document_type_id" required="1" />
+                    <label
+                        for="document_key"
+                        attrs="{'invisible': [('document_electronic', '=', False)]}"
+                    />
+                    <div
+                        class="o_row"
+                        attrs="{'invisible': [('document_electronic', '=', False)]}"
+                    >
+                      <field name="document_key" force_save="1" class="oe_inline" />
+                    </div>
+                  </group>
+                  <group>
+                    <group name="document_header_right">
+                      <field name="document_serie_id" />
+                      <field name="document_serie" />
+                    </group>
+                    <group name="document_header_left">
+                      <field name="document_number" force_save="1" />
+                      <field name="authorization_file" />
+                    </group>
+                  </group>
+            </group>
+            <field name="pos_reference" position="after">
+                <field name="fiscal_operation_id" />
+            </field>
+            <page name="extra" position="after">
+                <page name="coupon_canceled" string="Cancellation">
+                    <group>
+                        <group name="cancel_document_header_right">
+                          <field name="cancel_document_key" />
+                          <field name="cancel_document_session_number" />
+                          <field name="cancel_file" />
+                        </group>
+                    </group>
+                </page>
+            </page>
+            <xpath expr="//sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- POS order tree -->
+    <record model="ir.ui.view" id="view_pos_order_tree">
+        <field
+            name="name"
+        >POS Order (hide invoice ID and show simplified fields)</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="cnpj_cpf" />
+            </field>
+            <field name="date_order" position="after">
+                <field name="fiscal_coupon_date" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
