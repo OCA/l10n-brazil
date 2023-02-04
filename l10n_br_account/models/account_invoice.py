@@ -431,11 +431,12 @@ class AccountMove(models.Model):
 
     def open_fiscal_document(self):
         if self.env.context.get("move_type", "") == "out_invoice":
-            action = self.env.ref("l10n_br_account.fiscal_invoice_out_action").read()[0]
+            xmlid = "l10n_br_account.fiscal_invoice_out_action"
         elif self.env.context.get("move_type", "") == "in_invoice":
-            action = self.env.ref("l10n_br_account.fiscal_invoice_in_action").read()[0]
+            xmlid = "l10n_br_account.fiscal_invoice_in_action"
         else:
-            action = self.env.ref("l10n_br_account.fiscal_invoice_all_action").read()[0]
+            xmlid = "l10n_br_account.fiscal_invoice_all_action"
+        action = self.env["ir.actions.act_window"]._for_xml_id(xmlid)
         form_view = [(self.env.ref("l10n_br_account.fiscal_invoice_form").id, "form")]
         if "views" in action:
             action["views"] = form_view + [
