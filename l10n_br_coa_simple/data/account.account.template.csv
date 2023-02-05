@@ -1,0 +1,71 @@
+id,code,name,note,account_type,reconcile,chart_template_id:id
+account_template_11101,1.1.1.01,Caixa,,asset_cash,1,l10n_br_coa_simple_chart_template
+account_template_11201,1.1.2.01,Clientes,,asset_receivable,1,l10n_br_coa_simple_chart_template
+account_template_11202,1.1.2.02,(-) Perdas Estimadas com Créditos de Liquidação Duvidosa,,asset_current,0,l10n_br_coa_simple_chart_template
+account_template_11203,1.1.2.03,Controle de Débitos (POS),,asset_receivable,1,l10n_br_coa_simple_chart_template
+account_template_11301,1.1.3.01,Mercadorias,,asset_current,0,l10n_br_coa_simple_chart_template
+account_template_11302,1.1.3.02,Produtos Acabados,,asset_current,0,l10n_br_coa_simple_chart_template
+account_template_11303,1.1.3.03,Insumos,,asset_current,0,l10n_br_coa_simple_chart_template
+account_template_11401,1.1.4.01,Títulos a Receber,,asset_current,1,l10n_br_coa_simple_chart_template
+account_template_11402,1.1.4.02,Impostos a Recuperar,,asset_current,1,l10n_br_coa_simple_chart_template
+account_template_11403,1.1.4.03,Outros Valores a Receber,,asset_current,1,l10n_br_coa_simple_chart_template
+account_template_13101,1.3.1.01,Contas a Receber,,asset_current,1,l10n_br_coa_simple_chart_template
+account_template_13102,1.3.1.02,(-) Perdas Estimadas com Créditos de Liquidação Duvidosa,,asset_non_current,1,l10n_br_coa_simple_chart_template
+account_template_13201,1.3.2.01,Participações Societárias,,asset_non_current,0,l10n_br_coa_simple_chart_template
+account_template_13202,1.3.2.02,Outros Investimentos,,asset_non_current,0,l10n_br_coa_simple_chart_template
+account_template_13301,1.3.3.01,Terrenos,,asset_fixed,0,l10n_br_coa_simple_chart_template
+account_template_13302,1.3.3.02,Edificações,,asset_fixed,0,l10n_br_coa_simple_chart_template
+account_template_13303,1.3.3.03,Máquinas e Equipamentos,,asset_fixed,0,l10n_br_coa_simple_chart_template
+account_template_13304,1.3.3.04,Veículos,,asset_fixed,0,l10n_br_coa_simple_chart_template
+account_template_13305,1.3.3.05,Móveis e Utensílios,,asset_fixed,0,l10n_br_coa_simple_chart_template
+account_template_13306,1.3.3.06,(-) Depreciação Acumulada,,expense_depreciation,0,l10n_br_coa_simple_chart_template
+account_template_13401,1.3.4.01,Softwares,,asset_non_current,0,l10n_br_coa_simple_chart_template
+account_template_13402,1.3.4.02,(-) Amortização Acumulada,,asset_non_current,0,l10n_br_coa_simple_chart_template
+account_template_21101,2.1.1.01,Fornecedor,,liability_payable,1,l10n_br_coa_simple_chart_template
+account_template_21201,2.1.2.01,Empréstimos Bancários,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21202,2.1.2.02,Financiamentos,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21301,2.1.3.01,Simples Nacional,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21302,2.1.3.02,ICMS a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21303,2.1.3.03,ISSQN a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21304,2.1.3.04,IPI a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21305,2.1.3.05,PIS A RECUPERAR,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21306,2.1.3.06,COFINS A RECUPERAR,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21401,2.1.4.01,Salários a Pagar,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21402,2.1.4.02,FGTS a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21403,2.1.4.03,INSS dos Segurados a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21501,2.1.5.01,Telefone a Pagar,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21502,2.1.5.02,Energia a Pagar,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21503,2.1.5.03,Aluguel a Pagar,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21601,2.1.6.01,Provisão de Férias,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21602,2.1.6.02,Provisão de 13º Salário,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21603,2.1.6.03,Provisão de Encargos Sociais sobre Férias e 13º Salário,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_22101,2.2.1.01,Financiamentos Banco A,,liability_non_current,0,l10n_br_coa_simple_chart_template
+account_template_22201,2.2.2.01,Empréstimos de Sócios,,liability_non_current,0,l10n_br_coa_simple_chart_template
+account_template_23101,2.3.1.01,Capital Subscrito,,equity,0,l10n_br_coa_simple_chart_template
+account_template_23102,2.3.1.02,(-) Capital a Integralizar,,equity,0,l10n_br_coa_simple_chart_template
+account_template_23201,2.3.2.01,Reservas de Capital,,liability_non_current,0,l10n_br_coa_simple_chart_template
+account_template_23202,2.3.2.02,Reservas de Lucros,,liability_non_current,0,l10n_br_coa_simple_chart_template
+account_template_23301,2.3.3.01,Lucros Acumulados,,equity_unaffected,0,l10n_br_coa_simple_chart_template
+account_template_23302,2.3.3.02,(-) Prejuízos Acumulados,,liability_non_current,0,l10n_br_coa_simple_chart_template
+account_template_31101,3.1.1.01,Venda de Produtos,,income,0,l10n_br_coa_simple_chart_template
+account_template_31102,3.1.1.02,Venda de Mercadorias,,income,0,l10n_br_coa_simple_chart_template
+account_template_31103,3.1.1.03,Venda de Serviços,,income,0,l10n_br_coa_simple_chart_template
+account_template_31104,3.1.1.04,"(-) Deduções de Tributos, Abatimentos e Devoluções",,income_other,0,l10n_br_coa_simple_chart_template
+account_template_31201,3.1.2.01,Receitas de Aplicações Financeiras,,income_other,0,l10n_br_coa_simple_chart_template
+account_template_31202,3.1.2.02,Juros Ativos,,income_other,0,l10n_br_coa_simple_chart_template
+account_template_31301,3.1.3.01,Receitas de Venda de Imobilizado,,income_other,0,l10n_br_coa_simple_chart_template
+account_template_31302,3.1.3.02,Receitas de Venda de Investimentos,,income_other,0,l10n_br_coa_simple_chart_template
+account_template_31303,3.1.3.03,Outras Receitas,,income_other,0,l10n_br_coa_simple_chart_template
+account_template_32101,3.2.1.01,Custos dos Insumos,,expense_direct_cost,0,l10n_br_coa_simple_chart_template
+account_template_32102,3.2.1.02,Custos da Mão de Obra,,expense_direct_cost,0,l10n_br_coa_simple_chart_template
+account_template_32103,3.2.1.03,Outros Custos,,expense_direct_cost,0,l10n_br_coa_simple_chart_template
+account_template_32201,3.2.2.01,Despesas Administrativas,,expense,0,l10n_br_coa_simple_chart_template
+account_template_32202,3.2.2.02,Despesas com Vendas,,expense,0,l10n_br_coa_simple_chart_template
+account_template_32203,3.2.2.03,Outras Despesas Gerais,,expense,0,l10n_br_coa_simple_chart_template
+account_template_32301,3.2.3.01,Juros Passivos,,expense,0,l10n_br_coa_simple_chart_template
+account_template_32302,3.2.3.02,Outras Despesas Financeiras,,expense,0,l10n_br_coa_simple_chart_template
+account_template_32401,3.2.4.01,Despesas com Baixa de Imobilizado,,expense,0,l10n_br_coa_simple_chart_template
+account_template_32402,3.2.4.02,Despesas com Baixa de Investimentos,,expense,0,l10n_br_coa_simple_chart_template
+account_template_32403,3.2.4.03,Outras Despesas,,expense,0,l10n_br_coa_simple_chart_template
+account_template_32501,3.2.5.01,Contribuição Social sobre o Lucro Líquido (CSLL),,expense,0,l10n_br_coa_simple_chart_template
+account_template_32502,3.2.5.02,Imposto de Renda Pessoa Jurídica (IRPJ),,expense,0,l10n_br_coa_simple_chart_template
