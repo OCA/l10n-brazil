@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2023 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="fiscal_closing_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.closing.form (in l10n_br_pos_cfe)</field>
+        <field name="model">l10n_br_fiscal.closing</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_closing.fiscal_closing_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group[2]//notebook/page[4]" position="after">
+                <page string="CFe POS">
+                    <field name="document_cfe_pos_ids" readonly="1" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
