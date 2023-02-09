@@ -30,6 +30,51 @@ class TestFiscalTax(common.TransactionCase):
                     ),
                 )
 
+        self.assertEqual(
+            float_compare(
+                compute_result["amount_included"],
+                test_result["amount_included"],
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            f"Amount included diff: "
+            f"{compute_result['amount_included']} - "
+            f"{test_result['amount_included']}.",
+        )
+        self.assertEqual(
+            float_compare(
+                compute_result["amount_not_included"],
+                test_result["amount_not_included"],
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            f"Amount not included diff: "
+            f"{compute_result['amount_not_included']} - "
+            f"{test_result['amount_not_included']}.",
+        )
+        self.assertEqual(
+            float_compare(
+                compute_result["amount_withholding"],
+                test_result["amount_withholding"],
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            f"Amount Withholding diff: "
+            f"{compute_result['amount_withholding']} - "
+            f"{test_result['amount_withholding']}.",
+        )
+        self.assertEqual(
+            float_compare(
+                compute_result["estimate_tax"],
+                test_result["estimate_tax"],
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            f"Estimate Tax diff: "
+            f"{compute_result['estimate_tax']} - "
+            f"{test_result['estimate_tax']}.",
+        )
+
     def _create_compute_taxes_kwargs(self):
         return {
             "company": self.env.ref("l10n_br_base.empresa_lucro_presumido"),
@@ -75,6 +120,10 @@ class TestFiscalTax(common.TransactionCase):
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
         test_result = {
+            "amount_included": 4.04,
+            "amount_not_included": 5.19,
+            "amount_withholding": 0.0,
+            "estimate_tax": 0.0,
             "taxes": {
                 "ipi": {
                     "base": 34.58,
@@ -109,7 +158,7 @@ class TestFiscalTax(common.TransactionCase):
                     "value_amount": 0.0,
                     "tax_value": 1.04,
                 },
-            }
+            },
         }
 
         self._check_compute_taxes_result(test_result, compute_result, currency)
@@ -132,6 +181,10 @@ class TestFiscalTax(common.TransactionCase):
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
         test_result = {
+            "amount_included": 3.68,
+            "amount_not_included": 5.19,
+            "amount_withholding": 0.0,
+            "estimate_tax": 0.0,
             "taxes": {
                 "ipi": {
                     "base": 34.58,
@@ -166,7 +219,7 @@ class TestFiscalTax(common.TransactionCase):
                     "value_amount": 0.0,
                     "tax_value": 1.04,
                 },
-            }
+            },
         }
 
         self._check_compute_taxes_result(test_result, compute_result, currency)
@@ -202,6 +255,10 @@ class TestFiscalTax(common.TransactionCase):
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
         test_result = {
+            "amount_included": 128.9,
+            "amount_not_included": 40.95,
+            "amount_withholding": 0.0,
+            "estimate_tax": 0.0,
             "taxes": {
                 "ii": {
                     "base": 248.16,
@@ -245,7 +302,7 @@ class TestFiscalTax(common.TransactionCase):
                     "value_amount": 0.0,
                     "tax_value": 26.50,
                 },
-            }
+            },
         }
 
         self._check_compute_taxes_result(test_result, compute_result, currency)
