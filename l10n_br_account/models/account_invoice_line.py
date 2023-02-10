@@ -213,9 +213,6 @@ class AccountMoveLine(models.Model):
         self.clear_caches()
         return result
 
-    # TODO As the accounting behavior of taxes in Brazil is completely different,
-    # for now the method for companies in Brazil brings an empty result.
-    # You can correctly map this behavior later.
     @api.model
     def _get_fields_onchange_balance_model(
         self,
@@ -228,7 +225,33 @@ class AccountMoveLine(models.Model):
         price_subtotal,
         force_computation=False,
     ):
-        return {}
+        """
+        This method is used to recompute the values of 'quantity', 'discount',
+        'price_unit' due to a change made
+        in some accounting fields such as 'balance'.
+        """
+        if self._context.get("create_vals_list") and hasattr(
+            type(self), "_should_increment_line_counter"
+        ):
+            # incrementing the counter will discriminate next method calls
+            type(self)._should_increment_line_counter = True
+
+        if self.fiscal_operation_line_id:
+            # TODO As the accounting behavior of taxes in Brazil is completely different,
+            # for now the method for companies in Brazil brings an empty result.
+            # You can correctly map this behavior later.
+            return {}
+        else:
+            return super()._get_fields_onchange_balance_model(
+                quantity=quantity,
+                discount=discount,
+                amount_currency=amount_currency,
+                move_type=move_type,
+                currency=currency,
+                taxes=taxes,
+                price_subtotal=price_subtotal,
+                force_computation=force_computation,
+            )
 
     def _get_price_total_and_subtotal(
         self,
