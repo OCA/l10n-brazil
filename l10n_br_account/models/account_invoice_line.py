@@ -150,22 +150,8 @@ class AccountMoveLine(models.Model):
     def create(self, vals_list):
         ACCOUNTING_FIELDS = ("debit", "credit", "amount_currency")
         BUSINESS_FIELDS = ("price_unit", "quantity", "discount", "tax_ids")
-        dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         for values in vals_list:
             move_id = self.env["account.move"].browse(values["move_id"])
-            fiscal_doc_id = move_id.fiscal_document_id.id
-
-            if fiscal_doc_id == dummy_doc.id or values.get("exclude_from_invoice_tab"):
-                if len(dummy_line) < 1:
-                    raise UserError(
-                        _(
-                            "Document line dummy not found. Please contact "
-                            "your system administrator."
-                        )
-                    )
-                values["fiscal_document_line_id"] = dummy_line.id
-
             values.update(
                 self._update_fiscal_quantity(
                     values.get("product_id"),
@@ -213,8 +199,7 @@ class AccountMoveLine(models.Model):
                     )
                 )
         lines = super().create(vals_list)
-
-        for line in lines.filtered(lambda l: l.fiscal_document_line_id != dummy_line):
+        for line in lines:
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.move_id.fiscal_document_id.id
             shadowed_fiscal_vals["document_id"] = doc_id
@@ -223,10 +208,8 @@ class AccountMoveLine(models.Model):
         return lines
 
     def write(self, values):
-        dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
-        non_dummy = self.filtered(lambda l: l.fiscal_document_line_id != dummy_line)
-        if values.get("move_id") and len(non_dummy) == len(self):
+
+        if values.get("move_id"):
             # we can write the document_id in all lines
             values["document_id"] = (
                 self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
@@ -238,7 +221,7 @@ class AccountMoveLine(models.Model):
             doc_id = (
                 self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
             )
-            super(AccountMoveLine, non_dummy).write({"document_id": doc_id})
+            super(AccountMoveLine).write({"document_id": doc_id})
         else:
             result = super().write(values)
 
@@ -249,10 +232,6 @@ class AccountMoveLine(models.Model):
                 raise UserError(
                     _("You cannot edit an invoice related to a withholding entry")
                 )
-            if line.fiscal_document_line_id != dummy_line:
-                shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
-                line.fiscal_document_line_id.write(shadowed_fiscal_vals)
-
         ACCOUNTING_FIELDS = ("debit", "credit", "amount_currency")
         BUSINESS_FIELDS = ("price_unit", "quantity", "discount", "tax_ids")
         for line in self:
@@ -279,18 +258,16 @@ class AccountMoveLine(models.Model):
                     cfop_id=line.cfop_id,
                 )
                 result |= super(AccountMoveLine, line).write(to_write)
-
+            shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
+            line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return result
 
     def unlink(self):
-        dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
         for inv_line in self:
             if not inv_line.exists():
                 continue
-            if inv_line.fiscal_document_line_id.id != dummy_line.id:
-                unlink_fiscal_lines |= inv_line.fiscal_document_line_id
+            unlink_fiscal_lines |= inv_line.fiscal_document_line_id
         result = super().unlink()
         unlink_fiscal_lines.unlink()
         self.clear_caches()

@@ -281,14 +281,10 @@ class AccountMove(models.Model):
                 defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
         return defaults
 
-    @api.model
     def _move_autocomplete_invoice_lines_create(self, vals_list):
         new_vals_list = super(
             AccountMove, self.with_context(lines_compute_amounts=True)
         )._move_autocomplete_invoice_lines_create(vals_list)
-        for vals in new_vals_list:
-            if not vals.get("document_type_id"):
-                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
         return new_vals_list
 
     def _move_autocomplete_invoice_lines_values(self):
@@ -315,10 +311,7 @@ class AccountMove(models.Model):
         for move in self:
             if not move.exists():
                 continue
-            if (
-                move.fiscal_document_id
-                and move.fiscal_document_id.id != self.env.company.fiscal_dummy_id.id
-            ):
+            if move.fiscal_document_id:
                 unlink_documents |= move.fiscal_document_id
             unlink_moves |= move
         result = super(AccountMove, unlink_moves).unlink()
