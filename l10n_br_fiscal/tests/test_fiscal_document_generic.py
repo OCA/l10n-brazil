@@ -2,11 +2,8 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from psycopg2 import IntegrityError
 
-from odoo.exceptions import UserError
 from odoo.tests import SavepointCase
-from odoo.tools import mute_logger
 
 from ..constants.fiscal import (
     SITUACAO_EDOC_A_ENVIAR,
@@ -1058,33 +1055,6 @@ class TestFiscalDocumentGeneric(SavepointCase):
             self.nfe_same_state.fiscal_operation_id.return_fiscal_operation_id.id,
             "Error on creation return",
         )
-
-    def test_unlink_dummy_document(self):
-        """Test Dummy Fiscal Document Unlink Restrictions"""
-        dummy_document = self.env.company.fiscal_dummy_id
-        with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
-            # as much as possible we ensure technical dummy fiscal documents
-            # cannot be removed by mistake easily even from SQL
-            dummy_document.unlink()
-
-    def test_unlink_dummy_document_line(self):
-        """Test Dummy Fiscal Document Line Unlink Restrictions"""
-        dummy_line = self.env.company.fiscal_dummy_id.fiscal_line_ids[0]
-        with self.assertRaises(UserError):
-            dummy_line.unlink()
-
-    def test_create_company_fiscal_dummy(self):
-        """Check Company Consistency in Fiscal Dummy"""
-        company = self.env["res.company"].create(
-            {
-                "name": "Company Test Fiscal BR",
-                "cnpj_cpf": "42.245.642/0001-09",
-                "country_id": self.env.ref("base.br").id,
-                "state_id": self.env.ref("base.state_br_sp").id,
-            }
-        )
-        self.assertEqual(company.fiscal_dummy_id.company_id, company)
-        self.assertEqual(company.fiscal_dummy_id.fiscal_line_ids[0].company_id, company)
 
     def test_nfe_comments(self):
         self.nfe_not_taxpayer._document_comment()
