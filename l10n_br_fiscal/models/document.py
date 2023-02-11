@@ -376,10 +376,7 @@ class Document(models.Model):
             SITUACAO_EDOC_INUTILIZADA,
         ]
 
-        for record in self.filtered(
-            lambda d: d != self.env.company.fiscal_dummy_id
-            and d.state_edoc in forbidden_states_unlink
-        ):
+        for record in self.filtered(lambda d: d.state_edoc in forbidden_states_unlink):
             raise ValidationError(
                 _(
                     "You cannot delete fiscal document number {} with "
