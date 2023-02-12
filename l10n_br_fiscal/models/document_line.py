@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -9,15 +9,6 @@ class DocumentLine(models.Model):
     _name = "l10n_br_fiscal.document.line"
     _inherit = "l10n_br_fiscal.document.line.mixin"
     _description = "Fiscal Document Line"
-
-    @api.model
-    def _operation_domain(self):
-        domain = [("state", "=", "approved")]
-        return domain
-
-    fiscal_operation_id = fields.Many2one(
-        domain=lambda self: self._operation_domain(),
-    )
 
     document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
@@ -55,29 +46,7 @@ class DocumentLine(models.Model):
         string="Currency",
     )
 
-    product_id = fields.Many2one(
-        comodel_name="product.product",
-        string="Product",
-    )
-
     ind_final = fields.Selection(related="document_id.ind_final")
-
-    # Amount Fields
-    amount_untaxed = fields.Monetary(
-        compute="_compute_amounts",
-    )
-
-    amount_tax = fields.Monetary(
-        compute="_compute_amounts",
-    )
-
-    amount_fiscal = fields.Monetary(
-        compute="_compute_amounts",
-    )
-
-    amount_total = fields.Monetary(
-        compute="_compute_amounts",
-    )
 
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total
