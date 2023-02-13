@@ -13,23 +13,23 @@ class TestL10nBrPosCfe(TransactionCase):
         self.pos_config._demo_configure_pos_config_sat_sweda()
 
         values_to_compare = {
-            "cnpj_homologacao": "53.485.215/0001-06",
-            "ie_homologacao": "111.072.115.110",
+            "cnpj_homologation": "53.485.215/0001-06",
+            "ie_homologation": "111.072.115.110",
             "cnpj_software_house": "10.615.281/0001-40",
             "sat_path": "/opt/sat/sweda/libSATDLL_Dual_armv7.so",
-            "numero_caixa": 1,
-            "cod_ativacao": "12345678",
-            "assinatura_sat": "SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT",
+            "cashier_number": 1,
+            "activation_code": "12345678",
+            "signature_sat": "SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT",
         }
 
         configured_values = {
-            "cnpj_homologacao": self.pos_config.cnpj_homologacao,
-            "ie_homologacao": self.pos_config.ie_homologacao,
+            "cnpj_homologation": self.pos_config.cnpj_homologation,
+            "ie_homologation": self.pos_config.ie_homologation,
             "cnpj_software_house": self.pos_config.cnpj_software_house,
             "sat_path": self.pos_config.sat_path,
-            "numero_caixa": self.pos_config.numero_caixa,
-            "cod_ativacao": self.pos_config.cod_ativacao,
-            "assinatura_sat": self.pos_config.assinatura_sat,
+            "cashier_number": self.pos_config.cashier_number,
+            "activation_code": self.pos_config.activation_code,
+            "signature_sat": self.pos_config.signature_sat,
         }
 
         self.assertEqual(

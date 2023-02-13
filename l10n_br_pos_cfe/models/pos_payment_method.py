@@ -16,7 +16,7 @@ WA03_CMP_MP = [
     ("99", "Outros"),
 ]
 
-CREDENCIADORAS_CARTAO = [
+CARD_ACQUIRERS = [
     # Código da credenciadora, CNPJ e Nome
     ("001", "03.106.213/0001-90 Administradora de Cartões Sicredi Ltda."),
     ("002", "03.106.213/0002-71 Administradora de Cartões Sicredi Ltda.(filial RS)"),
@@ -65,7 +65,5 @@ CREDENCIADORAS_CARTAO = [
 class PosPaymentMethod(models.Model):
     _inherit = "pos.payment.method"
 
-    sat_payment_mode = fields.Selection(WA03_CMP_MP, "Modo de Pagamento SAT")
-    sat_card_accrediting = fields.Selection(
-        CREDENCIADORAS_CARTAO, "Credenciadora do Cartão"
-    )
+    sat_payment_mode = fields.Selection(WA03_CMP_MP, "SAT Payment Mode")
+    sat_card_accrediting = fields.Selection(CARD_ACQUIRERS, "Card Acquirer")
