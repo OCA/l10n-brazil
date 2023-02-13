@@ -8917,6 +8917,12 @@ msgid "The Delivery Costs should be informed by Line or by Total ?"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document_eletronic.py:0
+#, python-format
+msgid "The field 'Issuer' is required for brazilian electronic documents!"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
