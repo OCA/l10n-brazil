@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2023-01-08 13:09+0000\n"
+"PO-Revision-Date: 2023-02-10 17:00+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -79,12 +79,12 @@ msgstr "Atividades"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Decoração de Exceções de Atividade"
+msgstr "Decoração de Exceção de Atividade"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_state
 msgid "Activity State"
-msgstr "Estado de Atividade"
+msgstr "Estado da Atividade"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_type_icon
@@ -1470,6 +1470,16 @@ msgid "Pix Keys"
 msgstr "Chaves PIX"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_ids
+msgid "Pos Order"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_count
+msgid "Pos Order Count"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_payment_method_id
 msgid ""
 "Preferred payment method when paying this vendor. This is used to filter "
@@ -1809,6 +1819,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__user_id
 msgid "The internal user in charge of this contact."
 msgstr "O usuário interno responsável por este contato."
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pos_order_count
+msgid "The number of point of sales orders related to this customer"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__has_unreconciled_entries

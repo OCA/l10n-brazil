@@ -213,50 +213,9 @@ class AccountMoveLine(models.Model):
         self.clear_caches()
         return result
 
-    def _get_fields_onchange_balance(
-        self,
-        quantity=None,
-        discount=None,
-        amount_currency=None,
-        move_type=None,
-        currency=None,
-        taxes=None,
-        price_subtotal=None,
-        force_computation=False,
-    ):
-        self.ensure_one()
-        return super(
-            AccountMoveLine,
-            self.with_context(
-                partner_id=self.partner_id,
-                product_id=self.product_id,
-                fiscal_tax_ids=self.fiscal_tax_ids,
-                fiscal_operation_line_id=self.fiscal_operation_line_id,
-                ncm=self.ncm_id,
-                nbs=self.nbs_id,
-                nbm=self.nbm_id,
-                cest=self.cest_id,
-                discount_value=self.discount_value,
-                insurance_value=self.insurance_value,
-                other_value=self.other_value,
-                freight_value=self.freight_value,
-                fiscal_price=self.fiscal_price,
-                fiscal_quantity=self.fiscal_quantity,
-                uot=self.uot_id,
-                icmssn_range=self.icmssn_range_id,
-                icms_origin=self.icms_origin,
-            ),
-        )._get_fields_onchange_balance_model(
-            quantity=quantity or self.quantity,
-            discount=discount or self.discount,
-            amount_currency=amount_currency or self.amount_currency,
-            move_type=move_type or self.move_id.move_type,
-            currency=currency or self.currency_id or self.move_id.currency_id,
-            taxes=taxes or self.tax_ids,
-            price_subtotal=price_subtotal or self.price_subtotal,
-            force_computation=force_computation,
-        )
-
+    # TODO As the accounting behavior of taxes in Brazil is completely different,
+    # for now the method for companies in Brazil brings an empty result.
+    # You can correctly map this behavior later.
     @api.model
     def _get_fields_onchange_balance_model(
         self,
@@ -269,97 +228,7 @@ class AccountMoveLine(models.Model):
         price_subtotal,
         force_computation=False,
     ):
-        """This method is used to recompute the values of 'quantity',
-        'discount', 'price_unit' due to a change made
-        in some accounting fields such as 'balance'.
-        This method is a bit complex as we need to handle some special cases.
-        For example, setting a positive balance with a 100% discount.
-        :param quantity:        The current quantity.
-        :param discount:        The current discount.
-        :param amount_currency: The new balance in line's currency.
-        :param move_type:       The type of the move.
-        :param currency:        The currency.
-        :param taxes:           The applied taxes.
-        :param price_subtotal:  The price_subtotal.
-        :return:                A dictionary containing 'quantity',
-                                'discount', 'price_unit'.
-        """
-
-        if move_type in self.move_id.get_outbound_types():
-            sign = 1
-        elif move_type in self.move_id.get_inbound_types():
-            sign = -1
-        else:
-            sign = 1
-        amount_currency *= sign
-
-        # Avoid rounding issue when dealing with price included taxes.
-        # For example, when the price_unit is 2300.0 and
-        # a 5.5% price included tax is applied on it, a balance
-        # of 2300.0 / 1.055 = 2180.094 ~ 2180.09 is computed.
-        # However, when triggering the inverse, 2180.09 + (2180.09 * 0.055)
-        # = 2180.09 + 119.90 = 2299.99 is computed.
-        # To avoid that, set the price_subtotal at the balance if the
-        # difference between them looks like a rounding issue.
-        if not force_computation and currency.is_zero(amount_currency - price_subtotal):
-            return {}
-
-        taxes = taxes.flatten_taxes_hierarchy()
-        if taxes and any(tax.price_include for tax in taxes):
-            force_sign = (
-                -1 if move_type in ("out_invoice", "in_refund", "out_receipt") else 1
-            )
-            taxes_res = taxes._origin.with_context(force_sign=force_sign).compute_all(
-                amount_currency,
-                currency=currency,
-                quantity=quantity,
-                partner=self.env.context.get("partner_id"),
-                product=self.env.context.get("product_id"),
-                is_refund=move_type in ("out_refund", "in_refund"),
-                handle_price_include=False,  # FIXME
-                fiscal_taxes=self.env.context.get("fiscal_tax_ids"),
-                operation_line=self.env.context.get("fiscal_operation_line_id"),
-                ncm=self.env.context.get("ncm_id"),
-                nbs=self.env.context.get("nbs_id"),
-                nbm=self.env.context.get("nbm_id"),
-                cest=self.env.context.get("cest_id"),
-                discount_value=self.env.context.get("discount_value"),
-                insurance_value=self.env.context.get("insurance_value"),
-                other_value=self.env.context.get("other_value"),
-                freight_value=self.env.context.get("freight_value"),
-                fiscal_price=self.env.context.get("fiscal_price"),
-                fiscal_quantity=self.env.context.get("fiscal_quantity"),
-                uot=self.env.context.get("uot_id"),
-                icmssn_range=self.env.context.get("icmssn_range"),
-                icms_origin=self.env.context.get("icms_origin"),
-            )
-
-            for tax_res in taxes_res["taxes"]:
-
-                if tax_res.get("price_include"):
-                    amount_currency += tax_res["amount"]
-
-        discount_factor = 1 - (discount / 100.0)
-        if amount_currency and discount_factor:
-            # discount != 100%
-            vals = {
-                "quantity": quantity or 1.0,
-                "price_unit": amount_currency / discount_factor / (quantity or 1.0),
-            }
-        elif amount_currency and not discount_factor:
-            # discount == 100%
-            vals = {
-                "quantity": quantity or 1.0,
-                "discount": 0.0,
-                "price_unit": amount_currency / (quantity or 1.0),
-            }
-        elif not discount_factor:
-            # balance of line is 0, but discount  == 100% so we display the normal unit_price
-            vals = {}
-        else:
-            # balance is 0, so unit price is 0 as well
-            vals = {"price_unit": 0.0}
-        return vals
+        return {}
 
     def _get_price_total_and_subtotal(
         self,
@@ -519,3 +388,42 @@ class AccountMoveLine(models.Model):
         user must be able to set a custom value.
         """
         return super()._onchange_mark_recompute_taxes()
+
+    # In localization, until v12.0, the accounting entry for revenue was always done
+    # with the value of all taxes included. The method was rewritten to take into
+    # account the price_total instead of the sub_total.
+    @api.model
+    def _get_fields_onchange_subtotal_model(
+        self, price_subtotal, move_type, currency, company, date
+    ):
+        """This method is used to recompute the values of 'amount_currency', 'debit',
+        'credit' due to a change made in some business fields (affecting the
+        'price_subtotal' field).
+
+        :param price_subtotal:  The untaxed amount.
+        :param move_type:       The type of the move.
+        :param currency:        The line's currency.
+        :param company:         The move's company.
+        :param date:            The move's date.
+        :return:                A dictionary containing 'debit', 'credit', 'amount_currency'.
+        """
+        if move_type in self.move_id.get_outbound_types():
+            sign = 1
+        elif move_type in self.move_id.get_inbound_types():
+            sign = -1
+        else:
+            sign = 1
+
+        amount_currency = self.price_total * sign
+        balance = currency._convert(
+            amount_currency,
+            company.currency_id,
+            company,
+            date or fields.Date.context_today(self),
+        )
+        return {
+            "amount_currency": amount_currency,
+            "currency_id": currency.id,
+            "debit": balance > 0.0 and balance or 0.0,
+            "credit": balance < 0.0 and -balance or 0.0,
+        }
