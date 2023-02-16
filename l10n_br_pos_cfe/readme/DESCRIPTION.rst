@@ -1,1 +1,2 @@
-Integração com equipamento CF-E para emissão de Cupom Fiscal.
+Integração e emissão da CF-e através do Ponto de Venda para
+equipamentos SAT (SP) e MF-e (CE).

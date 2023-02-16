@@ -10,7 +10,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "category": "Point Of Sale",
     "development_status": "Alpha",
-    "maintainers": ["mileo", "sadamo", "gabrielcardoso21", "lfdivino"],
+    "maintainers": ["mileo", "lfdivino", "luismalta", "ygcarvalh"],
     "depends": [
         "point_of_sale",
         "l10n_br_pos",

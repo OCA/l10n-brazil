@@ -25,7 +25,8 @@ L10n Br Pos Cfe
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Integração com equipamento CF-E para emissão de Cupom Fiscal.
+Integração e emissão da CF-e através do Ponto de Venda para
+equipamentos SAT (SP) e MF-e (CE).
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -52,9 +53,7 @@ Alem disso você vi precisar de um IOT BOX, podendo ser o da Odoo SA ou o Pywebd
 Configuration
 =============
 
-Para configurar esse módulo você precisa:
-
-1. Configurar o Ponto de venda, prestando atenção nos seguintes campos:
+Para configurar esse módulo você precisa configurar o Ponto de venda, prestando atenção nos seguintes campos:
 
   * Ativar a opção IoT Box e Brasil Fiscal;
   * A aba SAT configurar os detalhes do seu equipamento.
@@ -105,6 +104,8 @@ Contributors
   * Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
   * Daniel Sadamo <daniel.sadamo@kmee.com.br>
   * Luiz Felipe do Divino <luiz.divino@kmee.com.br>
+  * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+  * Ygor Carvalho <ygor.carvalho@kmee.com.br>
 
 Other credits
 ~~~~~~~~~~~~~
@@ -129,19 +130,19 @@ promote its widespread use.
 .. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
     :target: https://github.com/mileo
     :alt: mileo
-.. |maintainer-sadamo| image:: https://github.com/sadamo.png?size=40px
-    :target: https://github.com/sadamo
-    :alt: sadamo
-.. |maintainer-gabrielcardoso21| image:: https://github.com/gabrielcardoso21.png?size=40px
-    :target: https://github.com/gabrielcardoso21
-    :alt: gabrielcardoso21
 .. |maintainer-lfdivino| image:: https://github.com/lfdivino.png?size=40px
     :target: https://github.com/lfdivino
     :alt: lfdivino
+.. |maintainer-luismalta| image:: https://github.com/luismalta.png?size=40px
+    :target: https://github.com/luismalta
+    :alt: luismalta
+.. |maintainer-ygcarvalh| image:: https://github.com/ygcarvalh.png?size=40px
+    :target: https://github.com/ygcarvalh
+    :alt: ygcarvalh
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-mileo| |maintainer-sadamo| |maintainer-gabrielcardoso21| |maintainer-lfdivino| 
+|maintainer-mileo| |maintainer-lfdivino| |maintainer-luismalta| |maintainer-ygcarvalh| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_pos_cfe>`_ project on GitHub.
 
