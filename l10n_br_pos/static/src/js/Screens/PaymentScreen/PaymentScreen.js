@@ -39,6 +39,15 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
                 return result;
             }
 
+            async validateOrder(isForceValidate) {
+                var order = this.env.pos.get_order();
+                if (order.isTransmissionProcessing) {
+                    return;
+                }
+                order.isTransmissionProcessing = true;
+                return super.validateOrder(isForceValidate);
+            }
+
             async _isOrderValid(isForceValidate) {
                 var result = super._isOrderValid(isForceValidate);
                 if (this.env.pos.config.simplified_document_type) {

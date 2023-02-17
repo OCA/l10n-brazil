@@ -172,6 +172,8 @@ odoo.define("l10n_br_pos.models", function (require) {
             // Field where messages from the communication process are stored.
             this.document_event_messages = this.document_event_messages || [];
 
+            this.isTransmissionProcessing = false;
+
             this.init_locked = false;
             this.save_to_db();
         },
