@@ -19,6 +19,7 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
+    TAX_DOMAIN_INSS,
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
@@ -576,6 +577,49 @@ class Tax(models.Model):
         ):
             tax_dict_ii = taxes_dict.get("ii", {})
             tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_inss(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        company = kwargs.get("company")
+        currency = kwargs.get("currency", company.currency_id)
+        fiscal_price = kwargs.get("fiscal_price", 0.00)
+        fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
+
+        if tax.tax_domain == TAX_DOMAIN_INSS:
+            if kwargs.get("inss_reduction_manual"):
+                if kwargs.get("inss_reduction_manual") > 0:
+                    if tax_dict["base_type"] == "percent":
+                        # Compute initial Tax Base for base_type Percent
+                        base = currency.round(fiscal_price * fiscal_quantity)
+
+                    if tax_dict["base_type"] == "quantity":
+                        # Compute initial Tax Base for base_type Quantity
+                        base = fiscal_quantity
+
+                    if tax_dict["base_type"] == "fixed":
+                        # Compute initial Tax Base
+                        base = currency.round(
+                            tax_dict["value_amount"] * fiscal_quantity
+                        )
+
+                    # Compute Tax Base Reduction
+                    base_reduction = base * abs(
+                        kwargs.get("inss_reduction_manual") / 100
+                    )
+
+                    tax_dict["remove_from_base"] += base_reduction
+                    tax_dict["percent_reduction"] = base_reduction
+
+                    tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
+
+                    taxes_dict[tax.tax_domain].update(
+                        self._compute_tax_base(
+                            tax, taxes_dict.get(tax.tax_domain), **kwargs
+                        )
+                    )
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
 

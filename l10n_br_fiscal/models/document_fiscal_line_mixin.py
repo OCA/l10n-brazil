@@ -817,6 +817,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     inss_reduction = fields.Float(string="INSS % Reduction")
 
+    inss_reduction_manual = fields.Float(string="INSS % Manual Reduction")
+
     inss_value = fields.Monetary(string="INSS Value")
 
     inss_wh_tax_id = fields.Many2one(

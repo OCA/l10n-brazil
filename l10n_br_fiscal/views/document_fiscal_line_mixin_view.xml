@@ -926,6 +926,10 @@
                         </group>
                         <group>
                             <field
+                                            name="inss_reduction_manual"
+                                            attrs="{'readonly': [('inss_reduction', '>', 0)]}"
+                                        />
+                            <field
                                             name="inss_reduction"
                                             force_save="1"
                                             attrs="{'readonly': [('inss_tax_id', '!=', False)]}"
