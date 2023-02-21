@@ -64,14 +64,6 @@ class AccountMove(models.Model):
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
     _order = "date DESC, name DESC"
 
-    # some account.move records _inherits from an fiscal.document that is
-    # disabled with active=False (dummy record) in the l10n_br_fiscal_document table.
-    # To make the invoices still visible, we set active=True
-    # in the account_move table.
-    active = fields.Boolean(
-        default=True,
-    )
-
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
         related="partner_id.cnpj_cpf",

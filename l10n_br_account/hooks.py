@@ -7,16 +7,6 @@ from odoo.tools.sql import column_exists, create_column
 
 
 def pre_init_hook(cr):
-    """
-    account.move and account.move.line inherits from
-    l10n_br_account.fiscal_document and l10n_br_account.fiscal_document.line
-    respectively.
-    But the problem is that you may have existing invoice and lines (like demo
-    data or because you were using Odoo before installing this module or because
-    you use your Odoo instance for other countries than Brazil) so we should
-    make the Odoo ORM happy for these records and we do that with dummy records
-    that we use to fill these new foreign keys.
-    """
     env = api.Environment(cr, SUPERUSER_ID, {})
 
     cr.execute("select demo from ir_module_module where name='l10n_br_account';")

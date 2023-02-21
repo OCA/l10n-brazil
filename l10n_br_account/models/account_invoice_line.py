@@ -30,14 +30,6 @@ class AccountMoveLine(models.Model):
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin.methods"]
     _inherits = {"l10n_br_fiscal.document.line": "fiscal_document_line_id"}
 
-    # some account.move.line records _inherits from an fiscal.document.line that is
-    # disabled with active=False (dummy record) in the l10n_br_fiscal_document_line table.
-    # To make the invoice lines still visible, we set active=True
-    # in the account_move_line table.
-    active = fields.Boolean(
-        default=True,
-    )
-
     fiscal_document_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.line",
         string="Fiscal Document Line",
@@ -209,21 +201,7 @@ class AccountMoveLine(models.Model):
 
     def write(self, values):
 
-        if values.get("move_id"):
-            # we can write the document_id in all lines
-            values["document_id"] = (
-                self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
-            )
-            result = super().write(values)
-        elif values.get("move_id"):
-            # we will only define document_id for non dummy lines
-            result = super().write(values)
-            doc_id = (
-                self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
-            )
-            super(AccountMoveLine).write({"document_id": doc_id})
-        else:
-            result = super().write(values)
+        result = super().write(values)
 
         for line in self:
             if line.wh_move_line_id and (

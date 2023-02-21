@@ -103,15 +103,3 @@ class FiscalDocument(models.Model):
                 _("You cannot delete a fiscal document " "which is not draft state.")
             )
         return super().unlink()
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        # OVERRIDE
-        # force creation of fiscal_document_line only when creating an AML record
-        # In order not to affect the creation of the dummy document, a test was included
-        # that verifies that the ACTIVE field is not False. As the main characteristic
-        # of the dummy document is the ACTIVE field is False
-        for values in vals_list:
-            if values.get("fiscal_line_ids") and values.get("active") is not False:
-                values.update({"fiscal_line_ids": False})
-        return super().create(vals_list)
