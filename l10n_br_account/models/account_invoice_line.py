@@ -191,19 +191,18 @@ class AccountMoveLine(models.Model):
                     )
                 )
         lines = super().create(vals_list)
-        for line in lines:
+        for line in lines.filtered(lambda l: not l.exclude_from_invoice_tab):
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.move_id.fiscal_document_id.id
             shadowed_fiscal_vals["document_id"] = doc_id
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
-
         return lines
 
     def write(self, values):
 
         result = super().write(values)
 
-        for line in self:
+        for line in self.filtered(lambda l: not l.exclude_from_invoice_tab):
             if line.wh_move_line_id and (
                 "quantity" in values or "price_unit" in values
             ):
@@ -237,6 +236,8 @@ class AccountMoveLine(models.Model):
                 )
                 result |= super(AccountMoveLine, line).write(to_write)
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
+            doc_id = line.move_id.fiscal_document_id.id
+            shadowed_fiscal_vals["document_id"] = doc_id
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return result
 
