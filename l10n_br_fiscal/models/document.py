@@ -55,12 +55,6 @@ class Document(models.Model):
     _description = "Fiscal Document"
     _check_company_auto = True
 
-    # used mostly to enable _inherits of account.invoice on
-    # fiscal_document when existing invoices have no fiscal document.
-    active = fields.Boolean(
-        default=True,
-    )
-
     name = fields.Char(
         compute="_compute_name",
         store=True,
@@ -227,7 +221,6 @@ class Document(models.Model):
             documents = record.env["l10n_br_fiscal.document"].search_count(
                 [
                     ("id", "!=", record.id),
-                    ("active", "=", True),
                     ("company_id", "=", record.company_id.id),
                     ("issuer", "=", record.issuer),
                     ("document_key", "=", record.document_key),
@@ -261,7 +254,6 @@ class Document(models.Model):
                 return
             domain = [
                 ("id", "!=", record.id),
-                ("active", "=", True),
                 ("company_id", "=", record.company_id.id),
                 ("issuer", "=", record.issuer),
                 ("document_type_id", "=", record.document_type_id.id),
