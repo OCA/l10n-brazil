@@ -9,6 +9,8 @@ from odoo.tools.sql import column_exists, create_column
 def pre_init_hook(cr):
     env = api.Environment(cr, SUPERUSER_ID, {})
 
+    prepare_fiscal_document_relation(env, cr)
+
     cr.execute("select demo from ir_module_module where name='l10n_br_account';")
     is_demo = cr.fetchone()[0]
     if is_demo:
@@ -37,6 +39,51 @@ def pre_init_hook(cr):
                     cr.dbname,
                 )
             )
+
+
+def prepare_fiscal_document_relation(env, cr):
+    """
+    Create the fiscal_document_id and fiscal_document_line_id
+    fields in account.move and account.move.line models and populate this relation
+    with an empty record.
+
+    /!\
+    We anticipate the creation of these fields in order
+    to be able to satisfy the NOT-NULL constraint.
+
+    """
+    # Create fiscal_document_id fields
+    if not column_exists(cr, "account_move", "fiscal_document_id"):
+        create_column(cr, "account_move", "fiscal_document_id", "INTEGER")
+
+    # Create fiscal_document_line_id fields
+    if not column_exists(cr, "account_move_line", "fiscal_document_line_id"):
+        create_column(cr, "account_move_line", "fiscal_document_line_id", "INTEGER")
+
+    # account.move
+    moves = env["account.move"].search([])
+    for move in moves:
+        cr.execute(
+            "INSERT INTO l10n_br_fiscal_document (state_edoc)"
+            " VALUES ('em_digitacao') RETURNING id"
+        )
+        fiscal_document_id = cr.fetchone()[0]
+        cr.execute(
+            "UPDATE account_move SET fiscal_document_id = %s WHERE id = %s",
+            [fiscal_document_id, move.id],
+        )
+
+    # account.move.line
+    lines = env["account.move.line"].search([])
+    for line in lines:
+        cr.execute(
+            "INSERT INTO l10n_br_fiscal_document_line DEFAULT VALUES RETURNING id"
+        )
+        fiscal_document_line_id = cr.fetchone()[0]
+        cr.execute(
+            "UPDATE account_move_line SET fiscal_document_line_id = %s WHERE id = %s",
+            [fiscal_document_line_id, line.id],
+        )
 
 
 def load_fiscal_taxes(env, l10n_br_coa_chart):
