@@ -212,6 +212,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
             ind_final=self.ind_final,
+            inss_reduction_manual=self.inss_reduction_manual,
         )
 
     @api.depends("tax_icms_or_issqn", "partner_is_public_entity")
@@ -853,3 +854,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
+
+    @api.onchange("inss_reduction_manual")
+    def _onchange_inss_reduction_manual(self):
+        self._onchange_fiscal_tax_ids()
