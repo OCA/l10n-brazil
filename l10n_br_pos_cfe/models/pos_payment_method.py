@@ -66,4 +66,4 @@ class PosPaymentMethod(models.Model):
     _inherit = "pos.payment.method"
 
     sat_payment_mode = fields.Selection(WA03_CMP_MP, "SAT Payment Mode")
-    sat_card_accrediting = fields.Selection(CARD_ACQUIRERS, "Card Acquirer")
+    sat_card_acquirer = fields.Selection(CARD_ACQUIRERS, "Card Acquirer")

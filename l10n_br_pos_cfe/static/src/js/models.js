@@ -31,10 +31,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
         "cnpj_software_house",
         "sign_software_house",
     ]);
-    models.load_fields("pos.payment.method", [
-        "sat_payment_mode",
-        "sat_card_accrediting",
-    ]);
+    models.load_fields("pos.payment.method", ["sat_payment_mode", "sat_card_acquirer"]);
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
@@ -213,7 +210,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
         _prepare_fiscal_json: function (json) {
             _super_payment_line._prepare_fiscal_json.apply(this, arguments);
             json.sat_payment_mode = this.payment_method.sat_payment_mode;
-            json.sat_card_accrediting = this.payment_method.sat_card_accrediting;
+            json.sat_card_acquirer = this.payment_method.sat_card_acquirer;
         },
         export_for_printing: function () {
             var json = _super_payment_line.export_for_printing.apply(this, arguments);
