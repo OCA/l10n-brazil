@@ -8,6 +8,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
     "use strict";
 
     const models = require("point_of_sale.models");
+    const {Gui} = require("point_of_sale.Gui");
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
@@ -42,6 +43,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
             }
             var self = this;
             var invoiced = new Promise(function (resolveInvoiced, rejectInvoiced) {
+                // eslint-disable-next-line
                 if (!order.get_client()) {
                     rejectInvoiced({
                         code: 400,
@@ -94,6 +96,37 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
             });
 
             return invoiced;
+        },
+
+        _save_to_server: async function (orders, options) {
+            const res = await _super_posmodel._save_to_server.call(
+                this,
+                orders,
+                options
+            );
+            const invalid_orders = [];
+            for (const option of res) {
+                if (option.status_code !== "100") {
+                    invalid_orders.push(option);
+                }
+            }
+            if (invalid_orders.length === 1) {
+                Gui.showPopup("ErrorPopup", {
+                    title: "Erro ao emitir uma NFC-e",
+                    body: `O pedido ${invalid_orders[0].pos_reference} teve o retorno ${invalid_orders[0].status_description}`,
+                });
+            } else if (invalid_orders.length > 1) {
+                let msg = "Os seguintes pedidos: ";
+                for (const option of invalid_orders) {
+                    msg += ` ${option.pos_reference[1]},`;
+                }
+                msg += " tiveram sua NFC-e rejeitadas.";
+                Gui.showPopup("ErrorPopup", {
+                    title: "Erro ao emitir NFC-e",
+                    body: msg,
+                });
+            }
+            return res;
         },
     });
 });
