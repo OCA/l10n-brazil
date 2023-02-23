@@ -27,7 +27,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
     };
 
     models.load_fields("res.company", [
-        "ambiente_sat",
+        "environment_sat",
         "cnpj_software_house",
         "sign_software_house",
     ]);
@@ -57,7 +57,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             json.company.inscr_mun = pos_company.inscr_mun;
             json.rounding = this.pos.currency.rounding;
 
-            if (pos_company.ambiente_sat === AMBIENTE_PRODUCAO) {
+            if (pos_company.environment_sat === AMBIENTE_PRODUCAO) {
                 json.company.cnpj = pos_company.cnpj_cpf;
                 json.company.ie = pos_company.inscr_est;
                 json.company.cnpj_software_house = pos_config.cnpj_software_house;
