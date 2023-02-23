@@ -99,3 +99,19 @@ class PosOrder(models.Model):
             }
         )
         return vals
+
+    @api.model
+    def create_from_ui(self, orders, draft=False):
+        res = super(PosOrder, self).create_from_ui(orders, draft)
+        for option in res:
+            order = self.env["pos.order"].search([("id", "=", option["id"])])
+            order.write(
+                {"state_edoc": order.account_move.fiscal_document_id.state_edoc}
+            )
+            option.update(
+                {
+                    "status_description": order.account_move.status_description,
+                    "status_code": order.account_move.status_code,
+                }
+            )
+        return res
