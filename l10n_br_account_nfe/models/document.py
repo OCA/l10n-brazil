@@ -115,6 +115,7 @@ class DocumentNfe(models.Model):
             self._need_compute_nfe_tags()
             and self.amount_financial_total > 0
             and self.nfe40_tpNF == NFE_OUT
+            and self.document_type != "65"
         ):
             return True
         else:
