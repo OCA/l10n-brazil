@@ -266,3 +266,25 @@ class SaleOrderLine(models.Model):
                 user_type="sale", deductible=True
             )
         return result
+
+    def _get_product_price(self):
+        self.ensure_one()
+
+        if (
+            self.fiscal_operation_id.default_price_unit == "sale_price"
+            and self.order_id.pricelist_id
+            and self.order_id.partner_id
+        ):
+            self.price_unit = self.product_id._get_tax_included_unit_price(
+                self.company_id,
+                self.order_id.currency_id,
+                self.order_id.date_order,
+                "sale",
+                fiscal_position=self.order_id.fiscal_position_id,
+                product_price_unit=self._get_display_price(self.product_id),
+                product_currency=self.order_id.currency_id,
+            )
+        elif self.fiscal_operation_id.default_price_unit == "cost_price":
+            self.price_unit = self.product_id.standard_price
+        else:
+            self.price_unit = 0.00
