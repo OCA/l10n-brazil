@@ -39,7 +39,7 @@ class FiscalClosing(models.Model):
         )
 
         document_path = "/".join(
-            ["cfe_pos", misc.punctuation_rm(self.company_id.cnpj_cpf)]
+            [misc.punctuation_rm(self.company_id.cnpj_cpf), "cfe_pos"]
         )
 
         for order in orders:
