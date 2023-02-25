@@ -422,6 +422,17 @@ class AccountMove(models.Model):
     #     return new_mv_lines_dict
     #
 
+    @api.onchange("partner_id")
+    def _onchange_partner_id(self):
+        # Even having this method in the l10n_br_fiscal.document.mixin.methods, the ORM
+        # seems to have some limitation with inherits when the parent model and the
+        # child model have the same field (in this case partner_id). This override was
+        # done to ensure that final_ind is set.
+        result = super()._onchange_partner_id()
+        if self.partner_id:
+            self.ind_final = self.partner_id.ind_final
+        return result
+
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         result = super()._onchange_fiscal_operation_id()
