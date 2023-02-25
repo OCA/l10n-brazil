@@ -135,24 +135,27 @@
                     attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                 />
               </xpath>
-              <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
-                  <field 
+              <xpath
+                expr="//field[@name='order_line']/form//field[@name='price_unit']"
+                position="after"
+            >
+                  <field
                     name="discount_value"
                     widget="monetary"
                     options="{'currency_field': 'currency_id'}"
-                  />
+                />
               </xpath>
               <xpath expr="//field[@name='amount_untaxed']" position="before">
-                  <field 
-                    name="amount_financial_total_gross"
+                  <field
+                    name="amount_price_gross"
                     widget="monetary"
                     options="{'currency_field': 'currency_id'}"
-                  />
-                  <field 
+                />
+                  <field
                     name="amount_discount_value"
                     widget="monetary"
                     options="{'currency_field': 'currency_id'}"
-                  />
+                />
               </xpath>
           </field>
       </record>
