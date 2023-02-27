@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [l10n_br_coa](l10n_br_coa/) | 16.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Base do Planos de Contas brasileiros
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 16.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
 [l10n_br_crm](l10n_br_crm/) | 16.0.1.0.0 |  | Brazilian Localization CRM
+[l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 16.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
 [l10n_br_stock](l10n_br_stock/) | 16.0.1.0.1 |  | Brazilian Localization Warehouse
 [l10n_br_zip](l10n_br_zip/) | 16.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 
