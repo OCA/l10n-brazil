@@ -68,7 +68,7 @@ class ResCurrencyRateProviderBCB(models.Model):
             data = {}
             for cur in currencies:
                 params["@moeda"] = "'" + cur + "'"
-                response = requests.get(url, params=params)
+                response = requests.get(url, params=params, timeout=10)
                 if response.ok:
                     content = response.json()
 
