@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="SatOrderReceipt" owl="1">
+        <div class="pos-receipt">
+            <OrderHeaderReceipt company="receipt.company" />
+            <span
+                class="receipt__divider"
+            >---------------------------------------------------------</span>
+            <OrderSubtitleReceipt order="receipt" />
+            <span
+                class="receipt__divider"
+            >---------------------------------------------------------</span>
+            <div class="header__company-info">
+                <span>CPF/CNPJ do Consumidor: <t
+                        t-esc="receipt.cnpj_cpf or ''"
+                    /></span>
+            </div>
+            <span
+                class="receipt__divider"
+            >---------------------------------------------------------</span>
+            <t t-if="!isCanceled">
+                <div class="body">
+                    <div class="body__header">
+                        # | COD | DESC | QTD | UN | VL UN R$ | (VL TR R$)* | VL ITEM R$
+                    </div>
+                    <span
+                        class="receipt__divider"
+                    >---------------------------------------------------------</span>
+                    <t t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
+                        <OrderRowReceipt line="line" />
+                        <t t-if="line.discount">
+                            <div class="body__line-discount">
+                                <span>desconto sobre o item</span>
+                                <span>- <t t-esc="line.discount.toFixed(2)" /></span>
+                            </div>
+                        </t>
+                    </t>
+                    <OrderTotalsReceipt order="receipt" rounding="receipt.rounding" />
+                    <t
+                        t-foreach="receipt.paymentlines"
+                        t-as="paymentline"
+                        t-key="paymentline.cid"
+                    >
+                        <OrderPaymentReceipt
+                            paymentline="paymentline"
+                            rounding="receipt.rounding"
+                        />
+                    </t>
+                    <div class="receipt__change">
+                        <div>
+                            <span>Troco R$</span>
+                        </div>
+                        <div>
+                            <span><t t-esc="receipt.change.toFixed(2)" /></span>
+                        </div>
+                    </div>
+                    <div class="body__end">
+                        <span
+                            class="body__message"
+                        >05.07.05.04: Comete crime quem sonega</span>
+                        <span
+                            class="body__caption"
+                        >* Valor aproximado dos tributos do item.</span>
+                    </div>
+                    <span
+                        class="receipt__divider"
+                    >---------------------------------------------------------</span>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="body">
+                    <div class="subtitle__cancel">
+                        <span>DADOS DO CUPOM FISCAL CANCELADO</span>
+                    </div>
+                    <div class="totals__amount">
+                        <span>TOTAL R$</span>
+                        <span><t t-esc="total" /></span>
+                    </div>
+                </div>
+            </t>
+            <OrderFooterReceipt order="receipt" />
+        </div>
+    </t>
+
+</templates>

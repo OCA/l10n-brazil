@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderRowReceipt" owl="1">
+        <div class="body__orderlines">
+            <div class="orderline__left">
+                <div>
+                    <span><t t-esc="id" /></span>
+                </div>
+                <div class="orderline__element">
+                    <span><t t-esc="defaultCode" /></span>
+                </div>
+                <div class="orderline__element">
+                    <span><t t-esc="productName" /></span>
+                </div>
+            </div>
+            <div class="orderline__right">
+                <div class="orderline__element">
+                    <span>
+                        <t t-esc="productQuantity" /> <t t-esc="productUnitCode" />
+                        X
+                        <t t-esc="productPrice" />
+                    </span>
+                </div>
+                <div class="orderline__element">
+                    <span>
+                        (<t t-esc="taxes" />)
+                    </span>
+                </div>
+                <div class="orderline__element">
+                    <span><t t-esc="total" /></span>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>
