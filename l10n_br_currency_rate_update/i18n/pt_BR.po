@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_currency_rate_update
+# 	* l10n_br_currency_rate_update
 #
 msgid ""
 msgstr ""
@@ -17,14 +17,17 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_currency_rate_update
-#: selection:res.currency.rate.provider,service:0
+#: model:ir.model.fields.selection,name:l10n_br_currency_rate_update.selection__res_currency_rate_provider__service__bcb
 msgid "Brazilian Central Bank"
 msgstr "Banco Central do Brasil"
 
 #. module: l10n_br_currency_rate_update
-#: code:addons/l10n_br_currency_rate_update/models/res_currency_rate_provider_bcb.py:43
+#. odoo-python
+#: code:addons/l10n_br_currency_rate_update/models/res_currency_rate_provider_bcb.py:0
 #, python-format
-msgid "Brazilian Central Bank is suitable only for companies with BRL as base currency!"
+msgid ""
+"Brazilian Central Bank is suitable only for companies with BRL as base "
+"currency!"
 msgstr ""
 "O Banco Central do Brasil é adequado apenas para empresas com BRL como moeda "
 "base!"
@@ -35,11 +38,9 @@ msgid "Currency Rates Provider"
 msgstr "Provedor de Taxas de Moeda"
 
 #. module: l10n_br_currency_rate_update
-#: selection:res.currency.rate.provider,service:0
-msgid "European Central Bank"
-msgstr "Banco Central Europeu"
-
-#. module: l10n_br_currency_rate_update
 #: model:ir.model.fields,field_description:l10n_br_currency_rate_update.field_res_currency_rate_provider__service
 msgid "Source Service"
 msgstr "Origem do Serviço"
+
+#~ msgid "European Central Bank"
+#~ msgstr "Banco Central Europeu"
