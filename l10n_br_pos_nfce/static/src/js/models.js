@@ -105,11 +105,22 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 options
             );
             const invalid_orders = [];
+            const valid_orders = [];
             for (const option of res) {
                 if (option.status_code !== "100") {
                     invalid_orders.push(option);
+                } else {
+                    valid_orders.push(option);
                 }
             }
+
+            if (valid_orders.length >= 1) {
+                Gui.showPopup("ErrorPopup", {
+                    title: "Emissão da NFC-e",
+                    body: "NFC-e emitida com sucesso.",
+                });
+            }
+
             if (invalid_orders.length === 1) {
                 Gui.showPopup("ErrorPopup", {
                     title: "Erro ao emitir uma NFC-e",
