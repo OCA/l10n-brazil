@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Account Fiscal Position Template for Sale -->
+    <record id="fp_template_sale" model="account.fiscal.position.template">
+        <field name="name">Venda</field>
+        <field
+            name="chart_template_id"
+            ref="l10n_br_coa_generic.l10n_br_coa_generic_template"
+        />
+    </record>
+
+    <record id="fp_template_sale_map_icms" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_sale" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_out_icms" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_out_icms" />
+    </record>
+
+    <record
+        id="fp_template_sale_map_icms_deductible"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_sale" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_out_icms" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_icms_out_deductible" />
+    </record>
+
+    <record id="fp_template_sale_map_ipi" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_sale" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_out_ipi" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_out_ipi" />
+    </record>
+
+    <record
+        id="fp_template_sale_map_ipi_deductible"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_sale" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_out_ipi" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_out_ipi_deductible" />
+    </record>
+
+    <record id="fp_template_sale_map_pis" model="account.fiscal.position.tax.template">
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_sale" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_out_pis" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_out_pis" />
+    </record>
+
+    <record
+        id="fp_template_sale_map_pis_deductible"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_sale" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_out_pis" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_out_pis_deductible" />
+    </record>
+
+    <record
+        id="fp_template_sale_map_cofins"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_sale" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_out_cofins" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_out_cofins" />
+    </record>
+
+    <record
+        id="fp_template_sale_map_cofins_deductible"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_sale" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_out_cofins" />
+        <field
+            name="tax_dest_id"
+            ref="l10n_br_coa.tax_template_cofins_out_deductible"
+        />
+    </record>
+
+    <!-- Account Fiscal Position Template for Purchase -->
+    <record id="fp_template_purchase" model="account.fiscal.position.template">
+        <field name="name">Compra</field>
+        <field
+            name="chart_template_id"
+            ref="l10n_br_coa_generic.l10n_br_coa_generic_template"
+        />
+    </record>
+
+    <record
+        id="fp_template_purchase_map_icms"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_purchase" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_in_icms" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_in_icms" />
+    </record>
+
+    <record
+        id="fp_template_purchase_map_icms_deductible"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_purchase" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_in_icms" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_icms_in_deductible" />
+    </record>
+
+    <record
+        id="fp_template_purchase_map_ipi"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_purchase" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_in_ipi" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_in_ipi" />
+    </record>
+
+    <record
+        id="fp_template_purchase_map_ipi_deductible"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_purchase" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_in_ipi" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_in_ipi_deductible" />
+    </record>
+
+    <record
+        id="fp_template_purchase_map_pis"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_purchase" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_in_pis" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_in_pis" />
+    </record>
+
+    <record
+        id="fp_template_purchase_map_pis_deductible"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_purchase" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_in_pis" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_in_pis_deductible" />
+    </record>
+
+    <record
+        id="fp_template_purchase_map_cofins"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_purchase" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_in_cofins" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_in_cofins" />
+    </record>
+
+    <record
+        id="fp_template_purchase_map_cofins_deductible"
+        model="account.fiscal.position.tax.template"
+    >
+        <field name="position_id" ref="l10n_br_coa_generic.fp_template_purchase" />
+        <field name="tax_src_id" ref="l10n_br_coa.tax_template_in_cofins" />
+        <field name="tax_dest_id" ref="l10n_br_coa.tax_template_cofins_in_deductible" />
+    </record>
+
+</odoo>
