@@ -115,3 +115,9 @@ class PosOrder(models.Model):
                 }
             )
         return res
+
+    def cancel_nfce_from_ui(self, order_id, cancel_reason):
+        order = self.env["pos.order"].search([("pos_reference", "=", order_id)])
+        order.account_move.fiscal_document_id._document_cancel(cancel_reason)
+        order.write({"state_edoc": order.account_move.fiscal_document_id.state_edoc})
+        return order.account_move.fiscal_document_id.state_edoc
