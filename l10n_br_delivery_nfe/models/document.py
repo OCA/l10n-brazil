@@ -18,6 +18,7 @@ class Document(models.Model):
 
     nfe40_modFrete = fields.Selection(
         compute=_compute_nfe40_modFrete,
+        store=True,
     )
 
     nfe40_transporta = fields.Many2one(
