@@ -186,9 +186,6 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
@@ -211,9 +208,6 @@ msgid "Informação usada na emissão de Documentos Fiscais"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_move__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_payment__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_contract_contract__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
