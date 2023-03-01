@@ -40,6 +40,7 @@ class AccountTax(models.Model):
         icmssn_range=None,
         icms_origin=None,
         ind_final=FINAL_CUSTOMER_NO,
+        inss_reduction_manual=None,
     ):
         """Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
@@ -105,6 +106,7 @@ class AccountTax(models.Model):
             icmssn_range=icmssn_range,
             icms_origin=icms_origin or product.icms_origin,
             ind_final=ind_final,
+            inss_reduction_manual=inss_reduction_manual,
         )
 
         account_taxes_by_domain = {}
