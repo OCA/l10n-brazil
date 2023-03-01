@@ -481,6 +481,13 @@ msgid "Incomming Document"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__incoterm_id
+msgid "Incoterm"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_incoterms
 msgid "Incoterms"
 msgstr ""
@@ -488,6 +495,15 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__fiscal_tax_line_id
 msgid "Indicates that this journal item is a tax line"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__incoterm_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__incoterm_id
+msgid ""
+"International Commercial Terms are a series of predefined commercial terms "
+"used in international transactions."
 msgstr ""
 
 #. module: l10n_br_account
