@@ -309,11 +309,11 @@ class FiscalClosing(models.Model):
                 if self.include_pdf_file:
                     attachment_ids |= document.file_report_id
             else:
-                if hasattr(document, "move_ids"):
+                if hasattr(document, "invoice_ids"):
                     attachment_ids = self.env["ir.attachment"].search(
                         [
-                            ("res_model", "=", "account.move"),
-                            ("res_id", "in", document.move_ids.ids),
+                            ("res_model", "=", "account.invoice"),
+                            ("res_id", "in", document.invoice_ids.ids),
                         ]
                     )
                 else:
