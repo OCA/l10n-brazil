@@ -84,7 +84,6 @@
         "views/subsequent_operation_view.xml",
         "views/subsequent_document_view.xml",
         "views/uom_uom.xml",
-        "views/closing.xml",
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
         "views/mdfe/mdfe_views.xml",
