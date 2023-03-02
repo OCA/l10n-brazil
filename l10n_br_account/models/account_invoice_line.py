@@ -353,8 +353,87 @@ class AccountMoveLine(models.Model):
         result = super()._get_price_total_and_subtotal_model(
             price_unit, quantity, discount, currency, product, partner, taxes, move_type
         )
-        if not self.env.context.get("fiscal_tax_ids"):
-            return result  # non Brazilian invoice
+
+        if self._context.get("create_vals_list") and hasattr(
+            type(self), "_create_vals_line_counter"
+        ):
+            # it means we are creating one of several account.move.line and we need
+            # to retrieve extra params from the context that the original method
+            # was not meant to pass... And yeah you can call it a hack...
+            vals = self._context["create_vals_list"][
+                type(self)._create_vals_line_counter
+            ]
+
+            if type(self)._should_increment_line_counter:
+                type(self)._create_vals_line_counter += 1
+                type(self)._should_increment_line_counter = False
+
+            browsed_extra_vals = {}  # a dict with browse records from vals
+            if vals.get("fiscal_tax_ids"):
+                browsed_extra_vals["fiscal_tax_ids"] = self.env[
+                    "l10n_br_fiscal.tax"
+                ].browse(vals.get("fiscal_tax_ids")[0][2])
+
+            # many2one values:
+            if vals.get("product_id"):
+                browsed_extra_vals["product_id"] = self.env["product.product"].browse(
+                    vals.get("product_id")
+                )
+            if vals.get("partner_id"):
+                browsed_extra_vals["partner_id"] = self.env["res.partner"].browse(
+                    vals.get("partner_id")
+                )
+            if vals.get("fiscal_operation_line_id"):
+                browsed_extra_vals["fiscal_operation_line_id"] = self.env[
+                    "l10n_br_fiscal.operation.line"
+                ].browse(vals.get("fiscal_operation_line_id"))
+            if vals.get("ncm_id"):
+                browsed_extra_vals["ncm_id"] = self.env["l10n_br_fiscal.ncm"].browse(
+                    vals.get("ncm_id")
+                )
+            if vals.get("nbs_id"):
+                browsed_extra_vals["nbs_id"] = self.env["l10n_br_fiscal.nbs"].browse(
+                    vals.get("nbs_id")
+                )
+            if vals.get("nbm_id"):
+                browsed_extra_vals["nbm_id"] = self.env["l10n_br_fiscal.nbm"].browse(
+                    vals.get("nbm_id")
+                )
+            if vals.get("cest_id"):
+                browsed_extra_vals["cest_id"] = self.env["l10n_br_fiscal.cest"].browse(
+                    vals.get("cest_id")
+                )
+            if vals.get("icmssn_range"):  # (yes there is no _id in this kwargs)
+                browsed_extra_vals["icmssn_range"] = self.env[
+                    "l10n_br_fiscal.simplified.tax.range"
+                ].browse(vals.get("icmssn_range_id"))
+            if vals.get("uot"):  # (yes there is no _id in this kwargs)
+                browsed_extra_vals["uot"] = self.env["uom.uom"].browse(
+                    vals.get("uot_id")
+                )
+
+            # simple values:
+            browsed_extra_vals.update(
+                {
+                    k: vals.get(k)
+                    for k in [
+                        "discount_value",
+                        "insurance_value",
+                        "other_value",
+                        "freight_value",
+                        "fiscal_price",
+                        "fiscal_quantity",
+                        "icms_origin",
+                        "ind_final",
+                    ]
+                }
+            )
+
+        else:  # record set with a single line
+            browsed_extra_vals = self._context
+
+        if not browsed_extra_vals.get("fiscal_operation_line_id"):
+            return result  # non Brazilian invoice line
 
         # Compute 'price_subtotal'.
         line_discount_price_unit = price_unit * (1 - (discount / 100.0))
@@ -368,31 +447,31 @@ class AccountMoveLine(models.Model):
                 line_discount_price_unit,
                 currency=currency,
                 quantity=quantity,
-                product=self.env.context.get("product_id"),
-                partner=self.env.context.get("partner_id"),
+                product=browsed_extra_vals.get("product_id"),
+                partner=browsed_extra_vals.get("partner_id"),
                 is_refund=move_type in ("out_refund", "in_refund"),
                 handle_price_include=True,  # FIXME
-                fiscal_taxes=self.env.context.get("fiscal_tax_ids"),
-                operation_line=self.env.context.get("fiscal_operation_line_id"),
-                ncm=self.env.context.get("ncm_id"),
-                nbs=self.env.context.get("nbs_id"),
-                nbm=self.env.context.get("nbm_id"),
-                cest=self.env.context.get("cest_id"),
-                discount_value=self.env.context.get("discount_value"),
-                insurance_value=self.env.context.get("insurance_value"),
-                other_value=self.env.context.get("other_value"),
-                freight_value=self.env.context.get("freight_value"),
-                fiscal_price=self.env.context.get("fiscal_price"),
-                fiscal_quantity=self.env.context.get("fiscal_quantity"),
-                uot=self.env.context.get("uot_id"),
-                icmssn_range=self.env.context.get("icmssn_range"),
-                icms_origin=self.env.context.get("icms_origin"),
+                fiscal_taxes=browsed_extra_vals.get("fiscal_tax_ids"),
+                operation_line=browsed_extra_vals.get("fiscal_operation_line_id"),
+                ncm=browsed_extra_vals.get("ncm_id"),
+                nbs=browsed_extra_vals.get("nbs_id"),
+                nbm=browsed_extra_vals.get("nbm_id"),
+                cest=browsed_extra_vals.get("cest_id"),
+                discount_value=browsed_extra_vals.get("discount_value"),
+                insurance_value=browsed_extra_vals.get("insurance_value"),
+                other_value=browsed_extra_vals.get("other_value"),
+                freight_value=browsed_extra_vals.get("freight_value"),
+                fiscal_price=browsed_extra_vals.get("fiscal_price"),
+                fiscal_quantity=browsed_extra_vals.get("fiscal_quantity"),
+                uot=browsed_extra_vals.get("uot_id"),
+                icmssn_range=browsed_extra_vals.get("icmssn_range"),
+                icms_origin=browsed_extra_vals.get("icms_origin"),
             )
 
             result["price_subtotal"] = taxes_res["total_excluded"]
             result["price_total"] = taxes_res["total_included"]
 
-            fol = self.env.context.get("fiscal_operation_line_id")
+            fol = browsed_extra_vals.get("fiscal_operation_line_id")
             if fol and not fol.fiscal_operation_id.deductible_taxes:
                 result["price_subtotal"] = (
                     taxes_res["total_excluded"] - taxes_res["amount_tax_included"]
