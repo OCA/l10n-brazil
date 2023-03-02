@@ -8,7 +8,11 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_line_form" />
         <field name="arch" type="xml">
             <field name="product_id" position="after">
-                <field name="nfe40_cProd" string="Code" attrs="{'invisible': [('product_id', '!=', False)], 'required': [('product_id', '=', False)]}"/>
+                <field
+                    name="nfe40_cProd"
+                    string="Code"
+                    attrs="{'invisible': [('product_id', '!=', False)], 'required': [('product_id', '=', False)]}"
+                />
             </field>
         </field>
   </record>
