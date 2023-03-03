@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="NfceOrderReceipt" owl="1">
+        <div class="pos-receipt">
+            <div class="cabecalhoNFCE">
+                <div class="informacaoDaEmpresa">
+                    <span>CNPJ: <t t-esc="companyCnpj" /></span>
+                    <span><t t-esc="companyLegalName" /></span>
+                </div>
+                <div class="enderecoDaEmpresa">
+                    <span><t t-esc="companyAddress" /></span>
+                </div>
+                <div class="informacaoDocumento">
+                    <span
+                    >Documento Auxiliar na Nota Fiscal do Consumidor Eletrônica</span>
+                </div>
+            </div>
+
+            <div class="nfceItems">
+                <table>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descrição</th>
+                        <th>Qtde</th>
+                        <th>UN</th>
+                        <th>Vl Unit</th>
+                        <th>Vl Total</th>
+                    </tr>
+                    <t t-foreach="receipt.orderlines" t-as="orderline">
+                        <tr>
+                            <td><t t-esc="orderline.product_default_code" /></td>
+                            <td><t t-esc="orderline.product_name" /></td>
+                            <td><t t-esc="orderline.quantity" /></td>
+                            <td><t t-esc="orderline.unit_code" /></td>
+                            <td><t t-esc="orderline.price" /></td>
+                            <td><t t-esc="orderline.price_without_tax" /></td>
+                        </tr>
+                    </t>
+                </table>
+            </div>
+
+            <div class="nfceTotals">
+                <div class="quantidadeTotalItens">
+                    <span>Qtd. total de itens</span>
+                    <span><t t-esc="totalOrderItemsLength" /></span>
+                </div>
+                <div class="valorTotalNFCE">
+                    <span>Valor Total</span>
+                    <span><t t-esc="totalOrderAmount" /></span>
+                </div>
+                <t t-if="totalOrderDiscount">
+                    <div class="valorTotalDescontoNFCE">
+                        <span>Desconto</span>
+                        <span><t t-esc="totalOrderDiscount" /></span>
+                    </div>
+                </t>
+                <div class="valorPagarNFCE">
+                    <span>Valor a Pagar</span>
+                    <span><t t-esc="totalOrderToPaid" /></span>
+                </div>
+            </div>
+
+            <div class="nfcePayments">
+                <div class="formaPagamento">
+                    <span>FORMA DE PAGAMENTO</span>
+                    <span>VALOR PAGO</span>
+                </div>
+                <t t-foreach="receipt.paymentlines" t-as="paymentline">
+                    <div class="linhaPagamento">
+                        <span><t t-esc="paymentline.name" /></span>
+                        <span><t t-esc="paymentline.amount" /></span>
+                    </div>
+                </t>
+                <t t-if="receipt.change">
+                    <div class="valorTroco">
+                        <span>Troco</span>
+                        <span><t t-esc="orderChange" /></span>
+                    </div>
+                </t>
+            </div>
+
+            <div class="nfceUrlKey">
+                <div class="infoUrlChave">
+                    <span>Consulta pela Chave de Acesso em</span>
+                    <span><t t-esc="urlConsulta" /></span>
+                    <span><t t-esc="documentKeyFormatted" /></span>
+                </div>
+            </div>
+
+            <div class="nfceFooter">
+                <div class="dadosConsumidor">
+                    <!-- TODO: Consumidor Identificado x Não Identificado -->
+                    <span>CONSUMIDOR NÃO IDENTIFICADO</span>
+                </div>
+
+                <div class="ambienteNfce">
+                    <!-- TODO: Definir o ambiente do sistema -->
+                    <span>EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL</span>
+                </div>
+
+                <div class="infoDocumentoFiscal">
+                    <span>NFC-e nº: <t t-esc="documentNumber" /></span>
+                    <span>Série <t t-esc="documentSerie" /></span>
+                    <span><t t-esc="documentDate" /></span>
+                </div>
+
+                <div class="infoAutorizacao">
+                    <span>Protocolo de Autorização: <t
+                            t-esc="autorizationProtocol"
+                        /></span>
+                    <span>Data de Autorização: <t t-esc="authorizationDate" /></span>
+                </div>
+
+                <div id="footer__qrcode">
+                </div>
+            </div>
+        </div>
+
+    </t>
+</templates>

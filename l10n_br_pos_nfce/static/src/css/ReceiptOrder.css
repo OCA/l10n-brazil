@@ -1,0 +1,73 @@
+.pos-receipt-container {
+    flex: 0 1 500px !important ;
+}
+
+.pos-receipt {
+    width: 400px !important;
+}
+
+.cabecalhoNFCE {
+    font-size: 20px;
+    text-align: center;
+}
+
+.informacaoDaEmpresa {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    padding: 10px;
+    font-size: 21px;
+}
+
+.enderecoDaEmpresa {
+    padding: 10px;
+}
+
+.informacaoDocumento {
+    padding: 10px;
+}
+
+.nfceTotals,
+.nfcePayments {
+    font-size: 20px;
+    padding: 10px 0;
+}
+
+.quantidadeTotalItens,
+.valorTotalNFCE,
+.valorTotalDescontoNFCE,
+.valorPagarNFCE,
+.formaPagamento,
+.linhaPagamento,
+.valorTroco {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nfceUrlKey,
+.nfceFooter {
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.infoUrlChave {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.dadosConsumidor,
+.ambienteNfce {
+    padding: 10px;
+    font-weight: bold;
+}
+
+.infoDocumentoFiscal,
+.infoAutorizacao {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

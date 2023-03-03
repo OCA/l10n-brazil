@@ -18,6 +18,17 @@
                 src="/l10n_br_pos_nfce/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.js"
                 type="text/javascript"
             />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceOrderReceipt.js"
+                type="text/javascript"
+            />
+            </xpath>
+
+            <xpath expr="//link[@id='pos-stylesheet']" position="after">
+                <link
+                rel="stylesheet"
+                href="/l10n_br_pos_nfce/static/src/css/ReceiptOrder.css"
+            />
             </xpath>
         </template>
 </odoo>

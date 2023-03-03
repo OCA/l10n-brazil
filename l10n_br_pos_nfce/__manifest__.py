@@ -23,5 +23,8 @@
         "report/danfe_nfce.xml",
     ],
     "demo": [],
+    "qweb": [
+        "static/src/xml/Screens/ReceiptScreen/NfceOrderReceipt.xml",
+    ],
     "installable": True,
 }
