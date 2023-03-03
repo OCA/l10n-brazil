@@ -175,6 +175,20 @@ class PosConfig(models.Model):
         inverse_name="pos_config_id",
     )
 
+    scrap_source_location_id = fields.Many2one(
+        comodel_name="stock.location",
+        string="Scrap Source Location",
+        domain="[('usage', '=', 'internal'), ('company_id', 'in', [company_id, False])]",
+        check_company=True,
+    )
+
+    scrap_location_id = fields.Many2one(
+        comodel_name="stock.location",
+        string="Scrap Location",
+        domain="[('scrap_location', '=', True), ('company_id', 'in', [company_id, False])]",
+        check_company=True,
+    )
+
     def update_pos_fiscal_map(self):
         for record in self:
             product_tmpl_ids = self.env["product.template"].search(
