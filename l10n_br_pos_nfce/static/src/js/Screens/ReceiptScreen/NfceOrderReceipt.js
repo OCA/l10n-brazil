@@ -89,10 +89,14 @@ odoo.define("l10n_br_pos_nfce.NfceOrderReceipt", function (require) {
                 return this.currentOrder.authorization_date_string;
             }
 
+            get qrCode() {
+                return this.currentOrder.qr_code;
+            }
+
             async _generateQRCode() {
                 // eslint-disable-next-line
                 return await new QRCode(document.getElementById("footer__qrcode"), {
-                    text: this.documentKey,
+                    text: this.qrCode,
                     width: 275,
                     height: 275,
                     colorDark: "#000000",
