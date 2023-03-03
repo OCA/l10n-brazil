@@ -33,6 +33,24 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
             return true;
         },
+
+        export_for_printing: function (json) {
+            json = _super_order.export_for_printing.call(this, json);
+            const company = this.pos.company;
+            json.company.legal_name = company.legal_name;
+            json.company.address = {
+                street_name: company.street_name,
+                street_number: company.street_number,
+                district: company.district,
+                city: company.city_id[1],
+                zip: company.zip,
+            };
+            json.url_consulta = this.url_consulta;
+            json.qr_code = this.qr_code;
+            json.authorization_date_string = this.authorization_date_string;
+            json.document_date_string = this.document_date_string;
+            return json;
+        },
     });
 
     var _super_posmodel = models.PosModel.prototype;
@@ -104,39 +122,51 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 orders,
                 options
             );
-            const invalid_orders = [];
-            const valid_orders = [];
+            const invalidOrders = [];
+            const validOrders = [];
+
             for (const option of res) {
                 if (option.status_code !== "100") {
-                    invalid_orders.push(option);
+                    invalidOrders.push(option);
                 } else {
-                    valid_orders.push(option);
+                    const order = this.get_order();
+                    Object.assign(order, {
+                        authorization_protocol: option.authorization_protocol,
+                        document_key: option.document_key,
+                        document_number: option.document_number,
+                        url_consulta: option.url_consulta,
+                        qr_code: option.qr_code,
+                        authorization_date_string: option.authorization_date,
+                        document_date_string: option.document_date,
+                        document_serie: option.document_serie,
+                    });
+                    validOrders.push(option);
                 }
             }
 
-            if (valid_orders.length >= 1) {
+            if (validOrders.length >= 1) {
                 Gui.showPopup("ErrorPopup", {
-                    title: "Emissão da NFC-e",
-                    body: "NFC-e emitida com sucesso.",
+                    title: "NFC-e Issuance",
+                    body: "NFC-e issued successfully.",
                 });
             }
 
-            if (invalid_orders.length === 1) {
+            if (invalidOrders.length === 1) {
+                const {pos_reference, status_description} = invalidOrders[0];
                 Gui.showPopup("ErrorPopup", {
-                    title: "Erro ao emitir uma NFC-e",
-                    body: `O pedido ${invalid_orders[0].pos_reference} teve o retorno ${invalid_orders[0].status_description}`,
+                    title: "Error Issuing NFC-e",
+                    body: `The order ${pos_reference} had the return ${status_description}.`,
                 });
-            } else if (invalid_orders.length > 1) {
-                let msg = "Os seguintes pedidos: ";
-                for (const option of invalid_orders) {
-                    msg += ` ${option.pos_reference[1]},`;
-                }
-                msg += " tiveram sua NFC-e rejeitadas.";
+            } else if (invalidOrders.length > 1) {
+                const msg = `The following orders: ${invalidOrders
+                    .map(({pos_reference}) => pos_reference[1])
+                    .join(", ")} had their NFC-e rejected.`;
                 Gui.showPopup("ErrorPopup", {
-                    title: "Erro ao emitir NFC-e",
+                    title: "Error Issuing NFC-e",
                     body: msg,
                 });
             }
+
             return res;
         },
     });
