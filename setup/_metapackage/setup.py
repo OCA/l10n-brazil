@@ -25,6 +25,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_delivery',
         'odoo12-addon-l10n_br_delivery_nfe',
         'odoo12-addon-l10n_br_fiscal',
+        'odoo12-addon-l10n_br_fiscal_closing',
         'odoo12-addon-l10n_br_hr',
         'odoo12-addon-l10n_br_hr_contract',
         'odoo12-addon-l10n_br_mis_report',
