@@ -117,6 +117,15 @@ class AccountMoveLine(models.Model):
         ondelete="restrict",
     )
 
+    is_stock_only = fields.Boolean(compute="_compute_is_stock_only", store=True)
+
+    @api.depends("cfop_id")
+    @api.onchange("cfop_id")
+    def _compute_is_stock_only(self):
+        for line in self:
+            if line.cfop_id and not line.cfop_id.finance_move:
+                line.is_stock_only = True
+
     @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synchronized
@@ -134,6 +143,24 @@ class AccountMoveLine(models.Model):
     def create(self, vals_list):
         dummy_doc = self.env.company.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.fiscal_line_ids)
+
+        # we store a move line counter in the thread local class type
+        # because later inside methods such as_get_fields_onchange_subtotal_model, we
+        # have an empty self recordset while we need to filter which lines
+        # might be stock only (remessas) lines.
+        #
+        # Indeed, in the original create method, during the for vals in vals_list
+        # iteration, there is an if/else test and either
+        # _get_fields_onchange_balance_model or _get_fields_onchange_subtotal_model
+        # is called exactly once for each account.move.line.
+        #
+        # So by incrementing this counter in these methods we are able to know
+        # on which line we are iterating and find back information about this specific
+        # line we stored in the context previously. Yeah you can call me a hack...
+        # If Odoo had smaller methods we wouldn't need to do such nasty things...
+        type(self)._create_vals_line_counter = 0
+        type(self)._should_increment_line_counter = False
+
         for values in vals_list:
             fiscal_doc_id = (
                 self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
@@ -158,7 +185,9 @@ class AccountMoveLine(models.Model):
                 )
             )
 
-        lines = super().create(vals_list)
+        lines = super(
+            AccountMoveLine, self.with_context(create_vals_list=vals_list)
+        ).create(vals_list)
         for line in lines.filtered(lambda l: l.fiscal_document_line_id != dummy_line):
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.move_id.fiscal_document_id.id
@@ -285,6 +314,7 @@ class AccountMoveLine(models.Model):
                 uot=self.uot_id,
                 icmssn_range=self.icmssn_range_id,
                 icms_origin=self.icms_origin,
+                ind_final=self.ind_final,
             ),
         )._get_price_total_and_subtotal(
             price_unit=price_unit or self.price_unit,
@@ -323,6 +353,8 @@ class AccountMoveLine(models.Model):
         result = super()._get_price_total_and_subtotal_model(
             price_unit, quantity, discount, currency, product, partner, taxes, move_type
         )
+        if not self.env.context.get("fiscal_tax_ids"):
+            return result  # non Brazilian invoice
 
         # Compute 'price_subtotal'.
         line_discount_price_unit = price_unit * (1 - (discount / 100.0))
@@ -412,24 +444,32 @@ class AccountMoveLine(models.Model):
         """
         return super()._onchange_mark_recompute_taxes()
 
-    # In localization, until v12.0, the accounting entry for revenue was always done
-    # with the value of all taxes included. The method was rewritten to take into
-    # account the price_total instead of the sub_total.
     @api.model
     def _get_fields_onchange_subtotal_model(
         self, price_subtotal, move_type, currency, company, date
     ):
-        """This method is used to recompute the values of 'amount_currency', 'debit',
-        'credit' due to a change made in some business fields (affecting the
-        'price_subtotal' field).
-
-        :param price_subtotal:  The untaxed amount.
-        :param move_type:       The type of the move.
-        :param currency:        The line's currency.
-        :param company:         The move's company.
-        :param date:            The move's date.
-        :return:                A dictionary containing 'debit', 'credit', 'amount_currency'.
         """
+        This method is used to recompute the values of 'amount_currency',
+        'debit', 'credit' due to a change made
+        in some business fields (affecting the 'price_subtotal' field).
+
+        We need this overide to create moves with debit = credit = 0
+        for Brazilian remessas (the remessa account move lines are generated through
+        the native IFRS/anglo-saxon system from the stock_account module indeed;
+        see https://github.com/OCA/l10n-brazil/pull/1561 for details).
+        We also use price_total instead of price_total
+        to deal with taxes included prices. Other than this the method is similar to its
+        super implementation.
+        """
+        if company.country_id.code != "BR":
+            return super()._get_fields_onchange_subtotal_model(
+                price_subtotal=price_subtotal,
+                move_type=move_type,
+                currency=currency,
+                company=company,
+                date=date,
+            )
+
         if move_type in self.move_id.get_outbound_types():
             sign = 1
         elif move_type in self.move_id.get_inbound_types():
@@ -437,13 +477,37 @@ class AccountMoveLine(models.Model):
         else:
             sign = 1
 
-        amount_currency = self.price_total * sign
+        amount_currency = 0
+        is_stock_only = False
+        if self.is_stock_only:
+            is_stock_only = True
+        elif self._context.get("create_vals_list") and hasattr(
+            type(self), "_create_vals_line_counter"
+        ):
+            values = self._context["create_vals_list"][
+                type(self)._create_vals_line_counter
+            ]
+            if values.get("cfop_id"):
+                cfop = self.env["l10n_br_fiscal.cfop"].browse(values["cfop_id"])
+                if not cfop.finance_move:
+                    is_stock_only = True
+
+        if not is_stock_only:
+            # NOTE that we will fix the case for an empty recordset in a next commit
+            amount_currency = self.price_total * sign
+
         balance = currency._convert(
             amount_currency,
             company.currency_id,
             company,
             date or fields.Date.context_today(self),
         )
+        if self._context.get("create_vals_list") and hasattr(
+            type(self), "_should_increment_line_counter"
+        ):
+            # incrementing the counter will discriminate next method calls
+            type(self)._should_increment_line_counter = True
+
         return {
             "amount_currency": amount_currency,
             "currency_id": currency.id,
