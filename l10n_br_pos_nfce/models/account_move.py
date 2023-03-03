@@ -108,9 +108,7 @@ class AccountMove(models.Model):
             "amount_freight_value": locale.currency(self.amount_freight_value),
             "payments": self._prepare_nfce_danfe_payment_values(),
             "amount_change": locale.currency(self.nfe40_vTroco),
-            "nfce_url": ESTADO_CONSULTA_NFCE[
-                SIGLA_ESTADO[self.company_state_id.ibge_code]
-            ][self.nfe40_tpAmb],
+            "nfce_url": self.estado_de_consulta_da_nfce(),
             "document_key": self.document_key,
             "document_number": self.document_number.zfill(9),
             "document_serie": self.document_serie.zfill(3),
@@ -171,3 +169,8 @@ class AccountMove(models.Model):
             + pre_qrcode
             + f"|{qr_hash}"
         )
+
+    def estado_de_consulta_da_nfce(self):
+        return ESTADO_CONSULTA_NFCE[SIGLA_ESTADO[self.company_state_id.ibge_code]][
+            self.nfe40_tpAmb
+        ]
