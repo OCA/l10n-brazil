@@ -9,7 +9,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "12.0.30.0.1",
+    "version": "12.0.31.0.0",
     "development_status": "Production/Stable",
     "depends": [
         "uom",
@@ -84,7 +84,6 @@
         "views/subsequent_operation_view.xml",
         "views/subsequent_document_view.xml",
         "views/uom_uom.xml",
-        "views/closing.xml",
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
         "views/mdfe/mdfe_views.xml",

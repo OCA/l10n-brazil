@@ -9,7 +9,10 @@ import zipfile
 from odoo import fields
 from odoo.tests.common import TransactionCase
 
-from ..constants.fiscal import EVENT_ENV_PROD, SITUACAO_EDOC_AUTORIZADA
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENV_PROD,
+    SITUACAO_EDOC_AUTORIZADA,
+)
 
 
 class TestFiscalClosing(TransactionCase):
