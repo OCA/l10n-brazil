@@ -1,6 +1,7 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import hashlib
 import locale
 import logging
 
@@ -152,23 +153,23 @@ class AccountMove(models.Model):
         return payments_list
 
     def _monta_qrcode(self):
-        import hashlib
-
         nfce_chave = self.document_key
-        pre_qrcode = "{}|{}|{}|{}".format(
-            nfce_chave,
-            self.company_id.nfce_qrcode_version,
-            self.nfe40_tpAmb,
-            self.company_id.nfce_csc_token,
+        nfce_qrcode_version = self.company_id.nfce_qrcode_version
+        nfe40_tpAmb = self.nfe40_tpAmb
+        nfce_csc_token = self.company_id.nfce_csc_token
+        nfce_csc_code = self.company_id.nfce_csc_code
+        ibge_code = self.company_state_id.ibge_code
+
+        pre_qrcode = (
+            f"{nfce_chave}|{nfce_qrcode_version}|{nfe40_tpAmb}|{nfce_csc_token}"
         )
-        pre_qrcode_with_csc = pre_qrcode + f"{self.company_id.nfce_csc_code}"
-        hash_object = hashlib.sha1(bytes(pre_qrcode_with_csc, "utf-8"))
+        pre_qrcode_with_csc = f"{pre_qrcode}{nfce_csc_code}"
+        hash_object = hashlib.sha1(pre_qrcode_with_csc.encode("utf-8"))
         qr_hash = hash_object.hexdigest().upper()
-        return (
-            f"{ESTADO_QRCODE[SIGLA_ESTADO[self.company_state_id.ibge_code]][self.nfe40_tpAmb]}"
-            + pre_qrcode
-            + f"|{qr_hash}"
-        )
+
+        estado_qrcode = ESTADO_QRCODE[SIGLA_ESTADO[ibge_code]][nfe40_tpAmb]
+
+        return f"{estado_qrcode}{pre_qrcode}|{qr_hash}"
 
     def estado_de_consulta_da_nfce(self):
         return ESTADO_CONSULTA_NFCE[SIGLA_ESTADO[self.company_state_id.ibge_code]][
