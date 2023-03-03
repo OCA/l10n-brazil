@@ -1,0 +1,34 @@
+<odoo>
+
+    <!-- Action -->
+    <record model="ir.actions.act_window" id="action_payment_instrument">
+        <field name="name">Payment Instrument</field>
+        <field name="res_model">l10n_br.payment.instrument</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record
+        model="ir.actions.act_window"
+        id="action_payment_instrument_from_account_move"
+    >
+        <field name="name">Payment Instrument</field>
+        <field name="res_model">l10n_br.payment.instrument</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move_line" />
+        <field name="binding_view_types">form,list</field>
+        <field name="context">{
+            'default_line_ids': active_ids
+        }</field>
+    </record>
+
+    <!-- Main Menu -->
+    <menuitem
+        id="menu_payment_instrument"
+        name="Payment Instruments"
+        action="action_payment_instrument"
+        parent="account.menu_finance_payables"
+        sequence="10"
+    />
+
+</odoo>
