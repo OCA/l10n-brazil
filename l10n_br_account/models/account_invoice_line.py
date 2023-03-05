@@ -174,7 +174,14 @@ class AccountMoveLine(models.Model):
                 )
             )
 
-        lines = super().create(vals_list)
+        recompute_line_after_id = self.search([], order="id DESC", limit=1).id
+        lines = super(
+            AccountMoveLine,
+            self.with_context(
+                recompute_account_move_line_after_id=recompute_line_after_id
+            ),
+        ).create(vals_list)
+
         for line in lines.filtered(lambda l: l.fiscal_document_line_id != dummy_line):
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.move_id.fiscal_document_id.id
