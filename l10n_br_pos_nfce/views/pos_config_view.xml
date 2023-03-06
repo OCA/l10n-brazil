@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='l10n_br_nfce']/group" postition="inside">
                 <field name="nfce_document_serie_id" />
+                <field name="nfce_environment" />
             </xpath>
         </field>
     </record>

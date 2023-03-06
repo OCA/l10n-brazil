@@ -4,6 +4,14 @@
         <div class="pos-receipt">
             <NfceHeaderReceipt company="receipt.company" />
             <hr class="nfceSeparator" />
+            <t t-if="isHomologationEnvironment">
+                <div>
+                    <p
+                        class="nfcePTag nfceEnvironment"
+                    >EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO – SEM VALOR FISCAL</p>
+                </div>
+                <hr class="nfceSeparator" />
+            </t>
             <div class="nfceItems">
                 <p
                     class="nfcePTag"
