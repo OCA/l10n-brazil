@@ -47,6 +47,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 city_id,
                 zip,
             } = company;
+            const {nfce_environment} = this.pos.config;
 
             json.company = {
                 vat,
@@ -60,6 +61,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                     zip,
                 },
             };
+            json.nfce_environment = nfce_environment;
 
             const additionalInfo = {
                 url_consulta: this.url_consulta,
