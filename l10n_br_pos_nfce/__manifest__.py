@@ -25,6 +25,12 @@
     "demo": [],
     "qweb": [
         "static/src/xml/Screens/ReceiptScreen/NfceOrderReceipt.xml",
+        "static/src/xml/Screens/ReceiptScreen/NfceHeaderReceipt.xml",
+        "static/src/xml/Screens/ReceiptScreen/NfceFooterReceipt.xml",
+        "static/src/xml/Screens/ReceiptScreen/NfceFiscalInfoReceipt.xml",
+        "static/src/xml/Screens/ReceiptScreen/NfceTotalsReceipt.xml",
+        "static/src/xml/Screens/ReceiptScreen/NfcePaymentlineReceipt.xml",
+        "static/src/xml/Screens/ReceiptScreen/NfceItemReceipt.xml",
     ],
     "installable": True,
 }

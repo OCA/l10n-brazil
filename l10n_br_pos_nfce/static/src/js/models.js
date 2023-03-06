@@ -37,19 +37,38 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
         export_for_printing: function (json) {
             json = _super_order.export_for_printing.call(this, json);
             const company = this.pos.company;
-            json.company.legal_name = company.legal_name;
-            json.company.address = {
-                street_name: company.street_name,
-                street_number: company.street_number,
-                district: company.district,
-                city: company.city_id[1],
-                zip: company.zip,
+            const {
+                vat,
+                inscr_est,
+                legal_name,
+                street_name,
+                street_number,
+                district,
+                city_id,
+                zip,
+            } = company;
+
+            json.company = {
+                vat,
+                inscr_est,
+                legal_name,
+                address: {
+                    street_name,
+                    street_number,
+                    district,
+                    city: city_id[1],
+                    zip,
+                },
             };
-            json.url_consulta = this.url_consulta;
-            json.qr_code = this.qr_code;
-            json.authorization_date_string = this.authorization_date_string;
-            json.document_date_string = this.document_date_string;
-            return json;
+
+            const additionalInfo = {
+                url_consulta: this.url_consulta,
+                qr_code: this.qr_code,
+                authorization_date_string: this.authorization_date_string,
+                document_date_string: this.document_date_string,
+            };
+
+            return {...json, ...additionalInfo};
         },
     });
 
