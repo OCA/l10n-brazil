@@ -15,23 +15,27 @@ class HrEmployee(models.Model):
     def _default_country(self):
         return self.env["res.country"].search([("code", "=", "BR")])
 
-    cnpj_cpf = fields.Char(string="CNPJ/CPF")
+    cnpj_cpf = fields.Char(string="CNPJ/CPF", groups="hr.group_hr_user")
 
-    naturalidade = fields.Many2one(comodel_name="res.city")
+    naturalidade = fields.Many2one(comodel_name="res.city", groups="hr.group_hr_user")
 
-    pis_pasep = fields.Char(string="PIS/PASEP")
+    pis_pasep = fields.Char(string="PIS/PASEP", groups="hr.group_hr_user")
 
-    ctps = fields.Char(string="CTPS", help="CTPS number")
+    ctps = fields.Char(string="CTPS", help="CTPS number", groups="hr.group_hr_user")
 
-    ctps_series = fields.Char(string="CTPS series")
+    ctps_series = fields.Char(string="CTPS series", groups="hr.group_hr_user")
 
-    ctps_date = fields.Date(string="CTPS emission date")
+    ctps_date = fields.Date(string="CTPS emission date", groups="hr.group_hr_user")
 
     ctps_uf_id = fields.Many2one(
-        string="CTPS district", comodel_name="res.country.state"
+        string="CTPS district",
+        comodel_name="res.country.state",
+        groups="hr.group_hr_user",
     )
 
-    creservist = fields.Char(string="Military service status certificate")
+    creservist = fields.Char(
+        string="Military service status certificate", groups="hr.group_hr_user"
+    )
 
     cresv_categ = fields.Selection(
         string="Military service status category",
@@ -41,19 +45,24 @@ class HrEmployee(models.Model):
             ("3", "Third Category"),
         ],
         default="3",
+        groups="hr.group_hr_user",
     )
 
     educational_attainment = fields.Many2one(
         comodel_name="hr.educational.attainment",
         tracking=True,
+        groups="hr.group_hr_user",
     )
 
-    have_dependent = fields.Boolean(string="Has dependents", tracking=True)
+    have_dependent = fields.Boolean(
+        string="Has dependents", tracking=True, groups="hr.group_hr_user"
+    )
 
     dependent_ids = fields.One2many(
         comodel_name="hr.employee.dependent",
         inverse_name="employee_id",
         string="Dependents",
+        groups="hr.group_hr_user",
     )
 
     rg = fields.Char(
@@ -61,33 +70,42 @@ class HrEmployee(models.Model):
         store=True,
         related="address_home_id.inscr_est",
         help="National ID number",
+        groups="hr.group_hr_user",
     )
 
     cpf = fields.Char(
-        string="CPF", store=True, related="address_home_id.cnpj_cpf", readonly=False
+        string="CPF",
+        store=True,
+        related="address_home_id.cnpj_cpf",
+        readonly=False,
+        groups="hr.group_hr_user",
     )
 
-    organ_exp = fields.Char(string="Dispatcher organ")
+    organ_exp = fields.Char(string="Dispatcher organ", groups="hr.group_hr_user")
 
-    rg_emission = fields.Date(string="Emission date")
+    rg_emission = fields.Date(string="Emission date", groups="hr.group_hr_user")
 
-    voter_title = fields.Char()
+    voter_title = fields.Char(groups="hr.group_hr_user")
 
-    voter_zone = fields.Char()
+    voter_zone = fields.Char(groups="hr.group_hr_user")
 
-    voter_section = fields.Char()
+    voter_section = fields.Char(groups="hr.group_hr_user")
 
-    driver_license = fields.Char(string="Driver license number")
+    driver_license = fields.Char(
+        string="Driver license number", groups="hr.group_hr_user"
+    )
 
-    driver_categ = fields.Char(string="Driver license category")
+    driver_categ = fields.Char(
+        string="Driver license category", groups="hr.group_hr_user"
+    )
 
-    father_name = fields.Char()
+    father_name = fields.Char(groups="hr.group_hr_user")
 
-    mother_name = fields.Char()
+    mother_name = fields.Char(groups="hr.group_hr_user")
 
-    expiration_date = fields.Date()
+    expiration_date = fields.Date(groups="hr.group_hr_user")
 
-    ethnicity = fields.Many2one(comodel_name="hr.ethnicity")
+    ethnicity = fields.Many2one(comodel_name="hr.ethnicity", groups="hr.group_hr_user")
 
     blood_type = fields.Selection(
         selection=[
@@ -100,50 +118,62 @@ class HrEmployee(models.Model):
             ("ab+", "AB+"),
             ("ab-", "AB-"),
         ],
+        groups="hr.group_hr_user",
     )
 
     deficiency_id = fields.Many2one(
-        string="Deficiency", comodel_name="hr.deficiency", tracking=True
+        string="Deficiency",
+        comodel_name="hr.deficiency",
+        tracking=True,
+        groups="hr.group_hr_user",
     )
 
-    deficiency_description = fields.Char()
+    deficiency_description = fields.Char(groups="hr.group_hr_user")
 
     identity_type_id = fields.Many2one(
-        string="ID type", comodel_name="hr.identity.type"
+        string="ID type", comodel_name="hr.identity.type", groups="hr.group_hr_user"
     )
 
-    identity_validity = fields.Date(string="ID expiration date")
+    identity_validity = fields.Date(
+        string="ID expiration date", groups="hr.group_hr_user"
+    )
 
     identity_uf_id = fields.Many2one(
-        string="ID expedition district", comodel_name="res.country.state"
+        string="ID expedition district",
+        comodel_name="res.country.state",
+        groups="hr.group_hr_user",
     )
 
     identity_city_id = fields.Many2one(
         string="ID expedition city",
         comodel_name="res.city",
         domain="[('state_id','=',identity_uf_id)]",
+        groups="hr.group_hr_user",
     )
 
     civil_certificate_type_id = fields.Many2one(
-        string="Civil certificate type", comodel_name="hr.civil.certificate.type"
+        string="Civil certificate type",
+        comodel_name="hr.civil.certificate.type",
+        groups="hr.group_hr_user",
     )
 
-    alternate_phone = fields.Char()
+    alternate_phone = fields.Char(groups="hr.group_hr_user")
 
-    emergency_phone = fields.Char()
+    emergency_phone = fields.Char(groups="hr.group_hr_user")
 
-    talk_to = fields.Char(string="Emergency contact name")
+    talk_to = fields.Char(string="Emergency contact name", groups="hr.group_hr_user")
 
-    alternate_email = fields.Char()
+    alternate_email = fields.Char(groups="hr.group_hr_user")
 
     marital = fields.Selection(
         selection_add=[
             ("common_law_marriage", "Common law marriage"),
             ("separated", "Separated"),
-        ]
+        ],
+        groups="hr.group_hr_user",
     )
 
-    registration = fields.Char(string="Registration number")
+    registration = fields.Char(string="Registration number", groups="hr.group_hr_user")
 
     country_id = fields.Many2one(comodel_name="res.country", default=_default_country)
 
@@ -159,6 +189,7 @@ class HrEmployee(models.Model):
         ],
         default="funcionario",
         required=True,
+        groups="hr.group_hr_user",
     )
 
     @api.constrains("dependent_ids")
