@@ -17,6 +17,7 @@
         "l10n_br_zip",
         "l10n_br_base",
         "point_of_sale",
+        "scrap_reason_code"
         # TODO: Check this files after alpha version
         #   "queue_job",
         #   "l10n_br_stock_account",
@@ -53,6 +54,9 @@
         "static/src/xml/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.xml",
         "static/src/xml/Screens/OrderManagementScreen/OrderList.xml",
         "static/src/xml/Screens/OrderManagementScreen/OrderRow.xml",
+        "static/src/xml/Chrome.xml",
+        "static/src/xml/ChromeWidgets/StockScrapButton.xml",
+        "static/src/xml/Popups/StockScrapPopup.xml",
     ],
     "installable": True,
 }

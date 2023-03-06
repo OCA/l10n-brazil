@@ -13,4 +13,11 @@
         <field name="perm_unlink" eval="1" />
     </record>
 
+    <record
+        model="ir.model.access"
+        id="scrap_reason_code.access_scrap_reason_code_stock_user"
+    >
+        <field name="perm_create" eval="1" />
+    </record>
+
 </odoo>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="StockScrapPopup" owl="1">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup stock-scrap-popup">
+                <header class="title">
+                    STOCK SCRAP
+                </header>
+                <main class="body col-lg-4 col-md-6 col-sm-12">
+                    <div class="row">
+                        <div class="fields">
+                            <div>
+                                <span class="product-name">Product: </span>
+                                <select
+                                    class="pos-input"
+                                    name="state"
+                                    style="width: 450px; height: 50px"
+                                    t-model="state.productId"
+                                >
+                                    <option
+                                        t-foreach="sorted_templates"
+                                        t-as="tmpl"
+                                        t-att-value="tmpl.id"
+                                    >
+                                        <t t-esc="tmpl.name" />
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div t-if="state.productId" style="margin-top: 15px;">
+                                <span class="product-name">Variant: </span>
+                                <select
+                                    class="pos-input"
+                                    style="width: 200px; height: 50px"
+                                    t-model="state.productVariantId"
+                                >
+                                    <option
+                                        t-foreach="variants"
+                                        t-as="var_id"
+                                        t-att-value="var_id"
+                                    >
+                                        <t t-esc="product_by_id[var_id].display_name" />
+                                    </option>
+                                </select>
+
+                                <span class="product-name">Quantity: </span>
+                                <input
+                                    class="pos-input"
+                                    type="number"
+                                    t-model="state.productQty"
+                                />
+                            </div>
+
+                            <div style="margin-top: 10px;">
+                                <span>Scrap Reason: </span>
+                                <select
+                                    class="pos-input"
+                                    style="width: 450px; height: 50px"
+                                    t-model="state.scrapReasonId"
+                                >
+                                    <option
+                                        t-foreach="env.pos.scrap_reason_codes"
+                                        t-as="code"
+                                        t-att-value="code.id"
+                                    >
+                                        <t t-esc="code.name" />
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="footer">
+                    <div class="button" t-on-click="cancel()">Cancel</div>
+                    <div class="button" t-on-click="createStockScrap()">Create</div>
+                </footer>
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -2830,6 +2830,96 @@ msgstr "Local de origem para lançamento de perda pelo PDV"
 msgid "Location for stock scrap on PoS<br/>"
 msgstr "Local para lançamento de perda pelo PDV"
 
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:scrap_reason_code.field_scrap_reason_code__name
+msgid "Code"
+msgstr "Codigo"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:scrap_reason_code.field_scrap_reason_code__description
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_br_pos
+#: model:ir.model,name:scrap_reason_code.model_scrap_reason_code
+#: model:ir.model.fields,field_description:scrap_reason_code.field_stock_scrap__reason_code_id
+#: model_terms:ir.ui.view,arch_db:scrap_reason_code.stock_reason_code_form
+#: model_terms:ir.ui.view,arch_db:scrap_reason_code.view_scrap_reason_code_form
+msgid "Reason Code"
+msgstr "Codigo de Motivo"
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:scrap_reason_code.view_scrap_reason_code_list
+msgid "Reason Codes"
+msgstr "Codigos de Motivo"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:scrap_reason_code.field_stock_move__reason_code_id
+msgid "Reason code"
+msgstr "Codigo de Motivo"
+
+#. module: l10n_br_pos
+#: model:ir.actions.act_window,name:scrap_reason_code.open_view_scrap_reason_code_form
+#: model:ir.ui.menu,name:scrap_reason_code.menu_view_scrap_reason_code_form
+msgid "Scrap Reason Codes"
+msgstr "Codigos de Motivo de Perda"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/ChromeWidgets/StockScrapButton.xml:0
+#, python-format
+msgid "POS Stock Scrap Button"
+msgstr "Botão de perdas do PDV"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/ChromeWidgets/StockScrapButton.xml:0
+#, python-format
+msgid "Scraps"
+msgstr "Perdas"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/ChromeWidgets/StockScrapPopup.xml:0
+#, python-format
+msgid "Product:"
+msgstr "Produto:"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/ChromeWidgets/StockScrapPopup.xml:0
+#, python-format
+msgid "STOCK SCRAP"
+msgstr "LANÇAMENTO DE PERDA"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/ChromeWidgets/StockScrapPopup.xml:0
+#, python-format
+msgid "Scrap Reason:"
+msgstr "Motivo da Perda:"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/ChromeWidgets/StockScrapPopup.xml:0
+#, python-format
+msgid "Variant:"
+msgstr "Variante:"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/Popups/StockScrapPopup.js:37
+#, python-format
+msgid "Missing Data"
+msgstr "Falta de Informações"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/Popups/StockScrapPopup.js:38
+#, python-format
+msgid "Please fill all the necessary data to proceed."
+msgstr "Por favor, preencha todos os dados necessários para prosseguir."
+
 #~ msgid "Add CNPJ/CPF"
 #~ msgstr "Adicionar CNPJ/CPF"
 
