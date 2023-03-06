@@ -6,6 +6,10 @@ odoo.define("l10n_br_pos_nfce.NfceOrderReceipt", function (require) {
 
     const NfceOrderReceipt = (OrderReceipt) =>
         class extends OrderReceipt {
+            get isHomologationEnvironment() {
+                return this.receipt.nfce_environment === "2";
+            }
+
             get hasChange() {
                 this.receipt.change;
             }

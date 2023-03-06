@@ -22,7 +22,9 @@
     margin: 8px auto;
 }
 
-/* HEADER */
+.nfceEnvironment {
+    text-align: center;
+}
 
 .headerNfce {
     font-size: var(--fontSizeTitle);
@@ -62,10 +64,6 @@
     margin: 0 auto;
 }
 
-/* ITEMS TABLE */
-
-/* TOTALS */
-
 .nfceTotalItems,
 .nfceTotalDiscount,
 .nfceTotalAmount,
@@ -83,10 +81,6 @@
     text-transform: uppercase;
     font-weight: bold;
 }
-
-/* PAYMENTS */
-
-/* FISCAL INFO */
 
 .nfceFiscalInfo {
     text-align: center;
