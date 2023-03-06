@@ -117,12 +117,8 @@ class PosOrder(models.Model):
                     "status_code": order.account_move.status_code,
                     "authorization_protocol": order.account_move.fiscal_document_id.authorization_protocol,
                     "document_key": order.account_move.fiscal_document_id.document_key,
-                    "document_number": order.account_move.fiscal_document_id.document_number.zfill(
-                        9
-                    ),
-                    "document_serie": order.account_move.fiscal_document_id.document_serie.zfill(
-                        3
-                    ),
+                    "document_number": order.account_move.fiscal_document_id.document_number,
+                    "document_serie": order.account_move.fiscal_document_id.document_serie,
                     "url_consulta": order.account_move.estado_de_consulta_da_nfce(),
                     "qr_code": order.account_move._monta_qrcode(),
                     "authorization_date": order.account_move.fiscal_document_id.authorization_date.strftime(
