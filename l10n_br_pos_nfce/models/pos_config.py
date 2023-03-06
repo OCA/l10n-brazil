@@ -11,3 +11,10 @@ class PosConfig(models.Model):
         string="Document Serie",
         comodel_name="l10n_br_fiscal.document.serie",
     )
+
+    nfce_environment = fields.Selection(
+        string="Environment",
+        related="company_id.nfe_environment",
+        store=True,
+        readonly=True,
+    )
