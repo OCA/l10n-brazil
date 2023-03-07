@@ -34,6 +34,10 @@ class FiscalDocument(models.Model):
             return []
         return super()._modified_triggers(tree, create)
 
+    fiscal_line_ids = fields.One2many(
+        copy=False,
+    )
+
     def unlink(self):
         non_draft_documents = self.filtered(
             lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
