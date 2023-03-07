@@ -108,27 +108,24 @@ class PosOrder(models.Model):
         res = super(PosOrder, self).create_from_ui(orders, draft)
         for option in res:
             order = self.env["pos.order"].search([("id", "=", option["id"])])
-            order.write(
-                {"state_edoc": order.account_move.fiscal_document_id.state_edoc}
-            )
+            fiscal_document_id = order.account_move.fiscal_document_id
+            order.write({"state_edoc": fiscal_document_id.state_edoc})
             option.update(
                 {
                     "status_description": order.account_move.status_description,
                     "status_code": order.account_move.status_code,
-                    "authorization_protocol": order.account_move.fiscal_document_id.authorization_protocol,
-                    "document_key": order.account_move.fiscal_document_id.document_key,
-                    "document_number": order.account_move.fiscal_document_id.document_number,
-                    "document_serie": order.account_move.fiscal_document_id.document_serie,
+                    "authorization_protocol": fiscal_document_id.authorization_protocol,
+                    "document_key": fiscal_document_id.document_key,
+                    "document_number": fiscal_document_id.document_number,
+                    "document_serie": fiscal_document_id.document_serie,
                     "url_consulta": order.account_move.estado_de_consulta_da_nfce(),
                     "qr_code": order.account_move._monta_qrcode(),
-                    "authorization_date": order.account_move.fiscal_document_id.authorization_date.strftime(
+                    "authorization_date": fiscal_document_id.authorization_date.strftime(
                         "%m/%d/%Y %H:%M:%S"
                     ),
-                    "document_date": order.account_move.fiscal_document_id.document_date.astimezone(
+                    "document_date": fiscal_document_id.document_date.astimezone(
                         local_timezone
-                    ).strftime(
-                        "%m/%d/%Y %H:%M:%S"
-                    ),
+                    ).strftime("%m/%d/%Y %H:%M:%S"),
                 }
             )
         return res
@@ -137,4 +134,5 @@ class PosOrder(models.Model):
         order = self.env["pos.order"].search([("pos_reference", "=", order_id)])
         order.account_move.fiscal_document_id._document_cancel(cancel_reason)
         order.write({"state_edoc": order.account_move.fiscal_document_id.state_edoc})
+        order.account_move.write({"state": "cancel"})
         return order.account_move.fiscal_document_id.state_edoc
