@@ -4,15 +4,7 @@
     <t t-name="StockScrapButton" owl="1">
         <t t-set="config" t-value="env.pos.config" />
         <div class="oe_status pos-stock-scrap" t-on-click="onClick">
-            <div class="oe_icon">
-                <i
-                    class="fa fa-fw fa-cube"
-                    role="img"
-                    aria-label="POS Stock Scrap Button"
-                    title="POS Stock Scrap Button"
-                />
-            </div>
-            <div class="pull-right" style="margin-left: 15px;">
+            <div>
                 Scraps
             </div>
         </div>

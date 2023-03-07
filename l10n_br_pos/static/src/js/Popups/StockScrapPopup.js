@@ -15,63 +15,80 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
             this.template_by_id = this.env.pos.db.template_by_id;
         }
 
-        get sorted_templates() {
-            return this.sortObject(this.template_by_id, "name");
+        get sortedTemplates() {
+            return this.sortObjects(this.template_by_id, "name");
         }
 
-        get selected_template() {
-            const tmpl = Object.entries(this.sorted_templates).find(
+        get selectedTemplate() {
+            const tmpl = Object.entries(this.sortedTemplates).find(
                 ([, value]) => value.id === parseInt(this.state.productId)
             );
 
-            return tmpl ? tmpl[1] : false;
+            return tmpl ? tmpl[1] : undefined;
         }
 
-        get variants() {
-            return this.selected_template.product_variant_ids;
+        get sortedVariants() {
+            const self = this;
+
+            var variants = {};
+            this.selectedTemplate.product_variant_ids.forEach(function (variant_id) {
+                variants[variant_id] = self.product_by_id[variant_id];
+            });
+
+            return this.sortObjects(variants, "display_name");
         }
 
-        sortObject(obj, field) {
+        sortObjects(obj, field_name) {
             var sortable = [];
             for (var key in obj)
-                if (obj.hasOwnProperty(key)) sortable.push([key, obj[key]]);
+                if (obj.hasOwnProperty(key)) {
+                    sortable.push([key, obj[key]]);
+                }
 
-            sortable.sort(function (a, b) {
-                var x = a[1][field].toLowerCase(),
-                    y = b[1][field].toLowerCase();
+            return sortable
+                .sort(function (a, b) {
+                    var x = a[1][field_name].toLowerCase(),
+                        y = b[1][field_name].toLowerCase();
 
-                return x < y ? -1 : x > y ? 1 : 0;
-            });
-            return sortable.map((a) => a[1]);
+                    return x < y ? -1 : x > y ? 1 : 0;
+                })
+                .map((a) => a[1]);
+        }
+
+        validateFields() {
+            if (
+                !this.product_by_id[this.state.productVariantId] ||
+                !this.state.productQty
+            ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        prepareStockScrapVals() {
+            const productVariant = this.product_by_id[this.state.productVariantId];
+
+            return {
+                product_id: productVariant.id,
+                product_uom_id: productVariant.uom_id[0],
+                scrap_qty: parseInt(this.state.productQty),
+                reason_code_id: parseInt(this.state.scrapReasonId),
+                location_id: this.env.pos.config.scrap_location_id[0],
+                scrap_location_id: this.env.pos.config.scrap_source_location_id[0],
+            };
         }
 
         async createStockScrap() {
-            const scrapQty = this.state.productQty;
-            const scrapReasonId = this.state.scrapReasonId;
-            const sourceLocationId = this.env.pos.config.scrap_source_location_id[0];
-            const locationId = this.env.pos.config.scrap_location_id[0];
-            const productVariant = this.product_by_id[this.state.productVariantId];
-
-            if (!productVariant || !scrapQty) {
-                return await this.showPopup("ErrorPopup", {
-                    title: this.env._t("Missing Data"),
-                    body: this.env._t("Please fill all the necessary data to proceed."),
-                });
+            if (!this.validateFields()) {
+                $(".error-msg").show();
+                return;
             }
 
             await rpc.query({
                 model: "stock.scrap",
                 method: "create",
-                args: [
-                    {
-                        product_id: productVariant.id,
-                        product_uom_id: productVariant.uom_id[0],
-                        scrap_qty: parseInt(scrapQty),
-                        reason_code_id: parseInt(scrapReasonId),
-                        location_id: locationId,
-                        scrap_location_id: sourceLocationId,
-                    },
-                ],
+                args: [this.prepareStockScrapVals()],
             });
 
             this.cancel();

@@ -2908,10 +2908,10 @@ msgstr "Variante:"
 
 #. module: l10n_br_pos
 #. openerp-web
-#: code:addons/l10n_br_pos/static/src/js/Popups/StockScrapPopup.js:37
+#: code:addons/l10n_br_pos/static/src/xml/ChromeWidgets/StockScrapPopup.xml:0
 #, python-format
-msgid "Missing Data"
-msgstr "Falta de Informações"
+msgid "Please fill the necessary data."
+msgstr "Por favor, preencha os dados obrigatórios."
 
 #. module: l10n_br_pos
 #. openerp-web

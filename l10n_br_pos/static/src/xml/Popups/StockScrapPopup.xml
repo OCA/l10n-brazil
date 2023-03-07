@@ -4,47 +4,36 @@
     <t t-name="StockScrapPopup" owl="1">
         <div role="dialog" class="modal-dialog">
             <div class="popup stock-scrap-popup">
-                <header class="title">
+                <header class="title" style="text-align: center">
                     STOCK SCRAP
                 </header>
-                <main class="body col-lg-4 col-md-6 col-sm-12">
+                <main class="body" style="text-align: left">
                     <div class="row">
                         <div class="fields">
                             <div>
-                                <span class="product-name">Product: </span>
+                                <span
+                                    class="product-name"
+                                    style="font-weight: bold;"
+                                >Product: </span>
                                 <select
                                     class="pos-input"
                                     name="state"
-                                    style="width: 450px; height: 50px"
+                                    style="width: 200px; height: 50px; text-align: left;"
                                     t-model="state.productId"
                                 >
                                     <option
-                                        t-foreach="sorted_templates"
+                                        t-foreach="sortedTemplates"
                                         t-as="tmpl"
                                         t-att-value="tmpl.id"
                                     >
                                         <t t-esc="tmpl.name" />
                                     </option>
                                 </select>
-                            </div>
 
-                            <div t-if="state.productId" style="margin-top: 15px;">
-                                <span class="product-name">Variant: </span>
-                                <select
-                                    class="pos-input"
-                                    style="width: 200px; height: 50px"
-                                    t-model="state.productVariantId"
-                                >
-                                    <option
-                                        t-foreach="variants"
-                                        t-as="var_id"
-                                        t-att-value="var_id"
-                                    >
-                                        <t t-esc="product_by_id[var_id].display_name" />
-                                    </option>
-                                </select>
-
-                                <span class="product-name">Quantity: </span>
+                                <span
+                                    class="product-name"
+                                    style="font-weight: bold;"
+                                >Quantity: </span>
                                 <input
                                     class="pos-input"
                                     type="number"
@@ -52,13 +41,34 @@
                                 />
                             </div>
 
-                            <div style="margin-top: 10px;">
-                                <span>Scrap Reason: </span>
+                            <div t-if="state.productId" style="margin-top: 15px;">
+                                <span
+                                    class="product-name"
+                                    style="font-weight: bold;"
+                                >Variant: </span>
                                 <select
                                     class="pos-input"
-                                    style="width: 450px; height: 50px"
+                                    style="width: 450px; height: 50px; text-align: left;"
+                                    t-model="state.productVariantId"
+                                >
+                                    <option
+                                        t-foreach="sortedVariants"
+                                        t-as="var"
+                                        t-att-value="var.id"
+                                    >
+                                        <t t-esc="var.display_name" />
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div style="margin-top: 15px;">
+                                <span style="font-weight: bold;">Scrap Reason: </span>
+                                <select
+                                    class="pos-input"
+                                    style="width: 450px; height: 50px; text-align: left;"
                                     t-model="state.scrapReasonId"
                                 >
+                                    <option />
                                     <option
                                         t-foreach="env.pos.scrap_reason_codes"
                                         t-as="code"
@@ -67,6 +77,13 @@
                                         <t t-esc="code.name" />
                                     </option>
                                 </select>
+                            </div>
+
+                            <div
+                                class="error-msg"
+                                style="margin-top: 15px; color: red; display: none;"
+                            >
+                                Please fill the necessary data.
                             </div>
                         </div>
                     </div>
