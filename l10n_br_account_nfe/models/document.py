@@ -30,6 +30,7 @@ class DocumentNfe(models.Model):
         comodel_name="nfe.40.dup",
         compute="_compute_nfe40_dup",
         store=True,
+        copy=False,
         readonly=False,
     )
 
