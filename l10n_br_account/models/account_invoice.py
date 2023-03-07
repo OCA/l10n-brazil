@@ -12,6 +12,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     FISCAL_IN_OUT_ALL,
     FISCAL_OUT,
+    MODELO_FISCAL_NFE,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
 )
@@ -597,14 +598,14 @@ class AccountMove(models.Model):
                 )
                 line._onchange_fiscal_operation_id()
 
-            # Migrar para v14.0 .. talvez nao precise mais disso.
-            # Nao ficou claro o objetivo deste trecho
-            # refund_inv_id = record.reversal_move_id
-            #
-            # if record.refund_move_id.document_type_id:
-            #     record.fiscal_document_id._document_reference(
-            #         refund_inv_id.fiscal_document_id
-            #     )
+            # Adds the related document to the NF-e.
+            # this is required for correct xml validation
+            if record.document_type_id and record.document_type_id.code in (
+                MODELO_FISCAL_NFE
+            ):
+                record.fiscal_document_id._document_reference(
+                    record.reversed_entry_id.fiscal_document_id
+                )
 
         return new_moves
 
