@@ -7,13 +7,13 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class BankPaymentLine(models.Model):
+class AccountPaymentLine(models.Model):
     """
-    Override bank Payment Line
+    Override Payment Line
     for add Help Functions for CNAB implementation.
     """
 
-    _inherit = "bank.payment.line"
+    _inherit = "account.payment.line"
 
     cnab_pix_type_id = fields.Many2one(
         comodel_name="cnab.pix.key.type",
