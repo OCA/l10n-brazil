@@ -2,6 +2,8 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -12,6 +14,13 @@ from ..constants import (
     TIPO_MOVIMENTO,
     TIPO_SERVICO,
 )
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base import misc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class AccountPaymentLine(models.Model):
@@ -180,6 +189,14 @@ class AccountPaymentLine(models.Model):
     # com a account.invoice referente, já que a AML pode ser apagada
     move_id = fields.Many2one(comodel_name="account.move", string="Fatura")
 
+    cnab_log_event_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.return.event",
+        string="CNAB Log Event",
+        ondelete="restrict",
+        check_company=True,
+        readonly=True,
+    )
+
     @api.depends("percent_interest", "amount_currency", "currency_id")
     def _compute_interest(self):
         for record in self:
@@ -250,3 +267,30 @@ class AccountPaymentLine(models.Model):
                         f"Payment Line: {rec.name}"
                     )
                 )
+
+    # TODO: Implementar métodos para outros tipos cnab.
+    #   _prepare_pagamento_line_vals
+    #   _prepare_debito_automatico_line_vals
+    #   _prepare_[...]_line_vals
+
+    def _prepare_boleto_line_vals(self):
+        return {
+            "valor": self.amount_currency,
+            "data_vencimento": self.date.strftime("%Y/%m/%d"),
+            "nosso_numero": self.own_number,
+            "documento_sacado": misc.punctuation_rm(self.partner_id.cnpj_cpf),
+            "nome_sacado": self.partner_id.legal_name.strip()[:40],
+            "numero": self.document_number,
+            "endereco_sacado": str(
+                self.partner_id.street_name + ", " + str(self.partner_id.street_number)
+            )[:40],
+            "bairro_sacado": self.partner_id.district.strip(),
+            "cep_sacado": misc.punctuation_rm(self.partner_id.zip),
+            "cidade_sacado": self.partner_id.city_id.name,
+            "uf_sacado": self.partner_id.state_id.code,
+            # Codigo da Ocorrencia usado pode variar por Banco, CNAB e operação
+            # ex.: UNICRED 240/400 é 01 - Remessa*, 02 - Pedido de Baixa e
+            # 06 - Alteração de vencimento . Veja que está sendo informado
+            # o campo Code do objeto.
+            "identificacao_ocorrencia": self.mov_instruction_code_id.code,
+        }

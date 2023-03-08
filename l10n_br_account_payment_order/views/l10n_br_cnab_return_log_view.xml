@@ -120,7 +120,11 @@
             <tree>
                 <field name="is_cnab_lot" invisible="1" />
                 <field name="lot_id" optional="show" />
-                <field name="bank_payment_line_id" optional="hide" />
+                <field
+                    name="payment_line_ids"
+                    optional="hide"
+                    widget="many2many_tags"
+                />
                 <field name="invoice_id" optional="hide" />
                 <field name="partner_id" optional="hide" />
                 <field name="occurrence_date" optional="show" />
