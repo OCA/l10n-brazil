@@ -84,7 +84,7 @@ class AccountPaymentLine(models.Model):
             if bank_method:
                 bank_method(payment_mode_id, linhas_pagamentos)
         except Exception:
-            _logger.warning("can't prepare paymeny line")
+            pass
 
         # Cada Banco pode possuir seus Codigos de Instrução
         if (
