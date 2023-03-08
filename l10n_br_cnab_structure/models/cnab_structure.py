@@ -296,7 +296,7 @@ class CNABStructure(models.Model):
 
         # BATCHES
         grouped_bank_lines = {}
-        for bline in pay_order.bank_line_ids:
+        for bline in pay_order.payment_line_ids:
             way_code = bline.cnab_payment_way_id.code
             type_code = bline.service_type
             batch_key = tuple([way_code, type_code])

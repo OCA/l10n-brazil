@@ -129,7 +129,7 @@ class CNABReturnEvent(models.Model):
             self.occurrence_date = self.cnab_return_log_id.cnab_date_file
 
     def set_move_line_ids(self):
-        payment_lines = self.bank_payment_line_id.payment_line_ids
+        payment_lines = self.payment_line_ids
         for payment_line in payment_lines:
             self.move_line_ids = [(4, payment_line.move_line_id.id)]
 
@@ -161,13 +161,13 @@ class CNABReturnEvent(models.Model):
         """
         for event in self:
             if event.cnab_return_log_id.type == "outbound":
-                bank_payment_line_id = self.env["bank.payment.line"].search(
+                payment_lines = self.env["account.payment.line"].search(
                     [("name", "=", event.your_number)]
                 )
-                if not bank_payment_line_id:
+                if not payment_lines:
                     event.state = "error"
-                    event.occurrences = "BANK PAYMENT LINE NOT FOUND"
-                event.bank_payment_line_id = bank_payment_line_id
+                    event.occurrences = "PAYMENT LINES NOT FOUND"
+                event.payment_line_ids = payment_lines.ids
 
     def get_description_occurrence(self, event_code):
         """Get occurrence description by occurrence code"""
