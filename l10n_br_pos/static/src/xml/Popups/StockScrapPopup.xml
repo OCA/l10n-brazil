@@ -38,6 +38,7 @@
                             <div class="stock-scrap-form" t-if="state.productId">
                                 <span class="field-label">Variant: </span>
                                 <select
+                                    id="variantId"
                                     class="pos-input pos-input-select"
                                     t-model="state.productVariantId"
                                 >
@@ -57,7 +58,6 @@
                                     class="pos-input pos-input-select"
                                     t-model="state.scrapReasonId"
                                 >
-                                    <option />
                                     <option
                                         t-foreach="env.pos.scrap_reason_codes"
                                         t-as="code"

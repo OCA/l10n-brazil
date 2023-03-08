@@ -7,9 +7,7 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
     const rpc = require("web.rpc");
 
     class StockScrapPopup extends AbstractAwaitablePopup {
-        constructor() {
-            super(...arguments);
-
+        setup() {
             this.state = useState({});
             this.product_by_id = this.env.pos.db.product_by_id;
             this.template_by_id = this.env.pos.db.template_by_id;
@@ -38,6 +36,15 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
             return this.sortObjects(variants, "display_name");
         }
 
+        get selectedVariant() {
+            let variantId = this.state.productVariantId;
+            if (!variantId) {
+                variantId = $("#variantId").val();
+            }
+
+            return this.product_by_id[variantId];
+        }
+
         sortObjects(obj, field_name) {
             var sortable = [];
             for (var key in obj)
@@ -57,8 +64,9 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
 
         validateFields() {
             if (
-                !this.product_by_id[this.state.productVariantId] ||
-                !this.state.productQty
+                !this.selectedVariant ||
+                !this.state.productQty ||
+                !this.state.scrapReasonId
             ) {
                 return false;
             }
@@ -67,11 +75,9 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
         }
 
         prepareStockScrapVals() {
-            const productVariant = this.product_by_id[this.state.productVariantId];
-
             return {
-                product_id: productVariant.id,
-                product_uom_id: productVariant.uom_id[0],
+                product_id: this.selectedVariant.id,
+                product_uom_id: this.selectedVariant.uom_id[0],
                 scrap_qty: parseFloat(this.state.productQty),
                 reason_code_id: parseInt(this.state.scrapReasonId),
                 location_id: this.env.pos.config.scrap_location_id[0],
