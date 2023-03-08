@@ -72,7 +72,7 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
             return {
                 product_id: productVariant.id,
                 product_uom_id: productVariant.uom_id[0],
-                scrap_qty: parseInt(this.state.productQty),
+                scrap_qty: parseFloat(this.state.productQty),
                 reason_code_id: parseInt(this.state.scrapReasonId),
                 location_id: this.env.pos.config.scrap_location_id[0],
                 scrap_location_id: this.env.pos.config.scrap_source_location_id[0],
