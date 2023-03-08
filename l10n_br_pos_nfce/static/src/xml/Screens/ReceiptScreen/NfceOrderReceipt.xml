@@ -14,7 +14,7 @@
             </t>
             <div class="nfceItems">
                 <p
-                    class="nfcePTag"
+                    class="nfcePTag itemsTitle"
                     style="font-weight: bold;"
                 ># | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL</p>
                 <ul>
