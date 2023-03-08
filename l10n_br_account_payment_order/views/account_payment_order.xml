@@ -20,53 +20,6 @@
                     name="context"
                 >{'default_payment_type': payment_type}</attribute>
             </field>
-            <div class="oe_title" position="before">
-                <div
-                    class="alert alert-info"
-                    role="alert"
-                    style="margin-bottom:0px;"
-                    attrs="{'invisible': [('bank_line_error_ids','=',[])]}"
-                >
-                    <bold>
-                        <a class="alert-link">
-                           Arquivo gerado com problemas...
-                        </a>
-                    </bold>
-                    Verifique-os na aba "Problemas"
-                </div>
-            </div>
-            <field name="bank_line_count" position="after">
-                <field name="payment_method_code" invisible="1" />
-                <field
-                    name="code_convetion"
-                    attrs="{'invisible': [('payment_type', '=', 'outbound')]}"
-                />
-                <field
-                    name="code_convenio_lider"
-                    attrs="{'invisible': [('payment_type', '=', 'outbound')]}"
-                />
-            </field>
-            <page name="bank-lines" position="after">
-                <page
-                    name="bank-error-lines"
-                    string="Problemas"
-                    attrs="{'invisible': [('bank_line_error_ids','=',[])]}"
-                >
-                    <field
-                        name="bank_line_error_ids"
-                        context="{'default_payment_type': payment_type}"
-                    >
-                        <tree>
-                            <field name="name" />
-                            <field name="partner_id" />
-                            <field name="own_number" />
-                            <field name="document_number" />
-                            <field name="company_title_identification" />
-                            <field name="export_error_message" />
-                        </tree>
-                    </field>
-                </page>
-            </page>
         </field>
     </record>
 
