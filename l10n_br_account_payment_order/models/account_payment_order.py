@@ -10,7 +10,7 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from ..constants import (
@@ -69,14 +69,6 @@ class AccountPaymentOrder(models.Model):
         default="01",
     )
 
-    bank_line_error_ids = fields.One2many(
-        comodel_name="bank.payment.line",
-        inverse_name="order_id",
-        string="Bank Payment Error Lines",
-        readonly=True,
-        domain=[("is_export_error", "=", True)],
-    )
-
     # Usados para deixar invisiveis/somente leitura
     # os campos relacionados ao CNAB
     payment_method_code = fields.Char(
@@ -86,47 +78,115 @@ class AccountPaymentOrder(models.Model):
         string="Payment Method Code",
     )
 
-    @api.model
-    def _prepare_bank_payment_line(self, paylines):
-        result = super()._prepare_bank_payment_line(paylines)
-        # O CNAB não permite mesclar diversas payment.lines em uma
-        # única bank_line por isso aqui deverá vir sempre uma linha
-        result.update(
-            {
-                "own_number": paylines[0].own_number,
-                "document_number": paylines[0].document_number,
-                "company_title_identification": paylines[
-                    0
-                ].company_title_identification,
-                "last_cnab_state": paylines[0].move_line_id.cnab_state,
-                "mov_instruction_code_id": paylines[0].mov_instruction_code_id.id,
-                "rebate_value": paylines[0].rebate_value,
-                "discount_value": paylines[0].discount_value,
-            }
-        )
+    def draft2open(self):
+        """
+        Called when you click on the 'Confirm' button
+        Set the 'date' on payment line depending on the 'date_prefered'
+        setting of the payment.order
+        Re-generate the account payments.
+        """
+        today = fields.Date.context_today(self)
+        for order in self:
+            # TODO - Por enquanto no caso do CNAB esse metodo está sendo
+            #  sobreescrito para não criar o account.payment(abaixo no fim
+            #  do metodo), dessa forma será possível atualizar os modulos da
+            #  localização com account_payment_order mantendo o mesmo
+            #  funcionamento, e depois em outro PR especifico tratar essa
+            #  questão, um ROADMAP da implementação do CNAB
+            if order.payment_method_code not in BR_CODES_PAYMENT_ORDER:
+                return super().draft2open()
 
-        return result
-
-    def open2generated(self):
-        result = super().open2generated()
-
-        for record in self:
-            # TODO - exemplos de caso de uso ? Qdo isso ocorre ?
-            #  Já não gera erro ao tentar criar o arquivo ?
-            if record.bank_line_error_ids:
-                record.message_post(
-                    body=_(
-                        "Erro ao gerar o arquivo, "
-                        "verifique a aba Linhas com problemas."
-                    )
+            if not order.journal_id:
+                raise UserError(
+                    _("Missing Bank Journal on payment order %s.") % order.name
                 )
-                for payment_line in record.payment_line_ids:
-                    payment_line.move_line_id.cnab_state = "exporting_error"
-                continue
-            else:
-                record.message_post(body=_("Arquivo gerado com sucesso."))
-
-        return result
+            if (
+                order.payment_method_id.bank_account_required
+                and not order.journal_id.bank_account_id
+            ):
+                raise UserError(
+                    _("Missing bank account on bank journal '%s'.")
+                    % order.journal_id.display_name
+                )
+            if not order.payment_line_ids:
+                raise UserError(
+                    _("There are no transactions on payment order %s.") % order.name
+                )
+            # Unreconcile, cancel and delete existing account payments
+            order.payment_ids.action_draft()
+            order.payment_ids.action_cancel()
+            order.payment_ids.unlink()
+            # Prepare account payments from the payment lines
+            group_paylines = {}  # key = hashcode
+            for payline in order.payment_line_ids:
+                payline.draft2open_payment_line_check()
+                # Compute requested payment date
+                if order.date_prefered == "due":
+                    requested_date = payline.ml_maturity_date or payline.date or today
+                elif order.date_prefered == "fixed":
+                    requested_date = order.date_scheduled or today
+                else:
+                    requested_date = today
+                # No payment date in the past
+                if requested_date < today:
+                    requested_date = today
+                # inbound: check option no_debit_before_maturity
+                if (
+                    order.payment_type == "inbound"
+                    and order.payment_mode_id.no_debit_before_maturity
+                    and payline.ml_maturity_date
+                    and requested_date < payline.ml_maturity_date
+                ):
+                    raise UserError(
+                        _(
+                            "The payment mode '%s' has the option "
+                            "'Disallow Debit Before Maturity Date'. The "
+                            "payment line %s has a maturity date %s "
+                            "which is after the computed payment date %s."
+                        )
+                        % (
+                            order.payment_mode_id.name,
+                            payline.name,
+                            payline.ml_maturity_date,
+                            requested_date,
+                        )
+                    )
+                # Write requested_date on 'date' field of payment line
+                # norecompute is for avoiding a chained recomputation
+                # payment_line_ids.date
+                # > payment_line_ids.amount_company_currency
+                # > total_company_currency
+                with self.env.norecompute():
+                    payline.date = requested_date
+                # Group options
+                if order.payment_mode_id.group_lines:
+                    hashcode = payline.payment_line_hashcode()
+                else:
+                    # Use line ID as hascode, which actually means no grouping
+                    hashcode = payline.id
+                if hashcode in group_paylines:
+                    group_paylines[hashcode]["paylines"] += payline
+                    group_paylines[hashcode]["total"] += payline.amount_currency
+                else:
+                    group_paylines[hashcode] = {
+                        "paylines": payline,
+                        "total": payline.amount_currency,
+                    }
+            order.recompute()
+            # Create account payments
+            payment_vals = []
+            for paydict in list(group_paylines.values()):
+                # Block if a bank payment line is <= 0
+                if paydict["total"] <= 0:
+                    raise UserError(
+                        _("The amount for Partner '%s' is negative " "or null (%.2f) !")
+                        % (paydict["paylines"][0].partner_id.name, paydict["total"])
+                    )
+                payment_vals.append(paydict["paylines"]._prepare_account_payment_vals())
+            # TODO: Por enquanto evitando a criação do account.payment no caso CNAB
+            # self.env["account.payment"].create(payment_vals)
+        self.write({"state": "open"})
+        return True
 
     def unlink(self):
         for order in self:

@@ -8,7 +8,6 @@ from . import account_payment_mode
 from . import account_payment_order
 from . import account_payment_line
 from . import account_payment
-from . import bank_payment_line
 
 # TODO - Separação dos dados de importação para um objeto especifico
 #  cnab.return.log armazenando o LOG do Arquivo de Retorno CNAB
