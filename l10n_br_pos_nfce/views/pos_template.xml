@@ -46,6 +46,10 @@
                 src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/NfceItemReceipt.js"
                 type="text/javascript"
             />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/Screens/ReceiptScreen/ReceiptScreen.js"
+                type="text/javascript"
+            />
             </xpath>
 
             <xpath expr="//link[@id='pos-stylesheet']" position="after">

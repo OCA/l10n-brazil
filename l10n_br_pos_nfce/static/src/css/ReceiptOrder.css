@@ -1,8 +1,6 @@
-/* GLOBAL */
-
 :root {
-    --fontSizeTitle: 20px;
-    --fontSizeBody: 16px;
+    --fontSizeTitle: 26px;
+    --fontSizeBody: 20px;
 }
 
 .pos-receipt-container {
@@ -10,7 +8,9 @@
 }
 
 .pos-receipt {
-    width: 400px !important;
+    width: 100% !important;
+    margin: 2px;
+    padding: 0 !important;
 }
 
 .nfceSeparator {
@@ -19,7 +19,7 @@
 
 .nfcePTag {
     font-size: var(--fontSizeBody) !important;
-    margin: 8px auto;
+    margin: 5px auto;
 }
 
 .nfceEnvironment {
@@ -29,7 +29,7 @@
 .headerNfce {
     font-size: var(--fontSizeTitle);
     text-align: center;
-    margin: 0 auto;
+    margin: 0 auto !important;
 }
 
 .companyLegalName {
@@ -60,7 +60,7 @@
 
 .documentInfo {
     text-transform: uppercase;
-    font-size: 10px !important;
+    font-size: 20px !important;
     margin: 0 auto;
 }
 
@@ -87,10 +87,8 @@
 }
 
 .nfceDocumentKey {
-    font-size: 14px !important;
+    font-size: 18px !important;
 }
-
-/* FOOTER */
 
 .nfceFooter {
     display: flex;
@@ -103,11 +101,15 @@
 .consumerNotIdentified {
     text-transform: uppercase;
     text-align: left;
-    font-size: 14px !important;
+    font-size: 20px !important;
     margin: 2px auto;
 }
 
 .inContingency {
     text-transform: uppercase;
-    font-size: 17px !important;
+    font-size: 22px !important;
+}
+
+.itemsTitle {
+    font-size: 16px !important;
 }
