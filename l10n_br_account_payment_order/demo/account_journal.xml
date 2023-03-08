@@ -8,6 +8,7 @@
         <field name="code">TPO</field>
         <field name="type">sale</field>
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Account Journal for Simples Nacional -->
@@ -16,6 +17,7 @@
         <field name="code">TPO</field>
         <field name="type">sale</field>
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Account Journal for Lucro Presumido -->
@@ -24,6 +26,7 @@
         <field name="code">TPO</field>
         <field name="type">sale</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Bradesco -->
@@ -37,6 +40,7 @@
         />
         <field name="bank_account_id" ref="main_company_bank_bradesco" />
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Unicred -->
@@ -50,6 +54,7 @@
         />
         <field name="bank_account_id" ref="main_company_bank_unicredi" />
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Itau -->
@@ -63,6 +68,7 @@
         />
         <field name="bank_account_id" ref="main_company_bank_itau" />
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Banco do Brasil -->
@@ -76,6 +82,7 @@
         />
         <field name="bank_account_id" ref="main_company_bank_bb" />
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Banco Caixa Economica Federal -->
@@ -89,6 +96,7 @@
         />
         <field name="bank_account_id" ref="main_company_bank_cef" />
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Banco SICRED -->
@@ -102,6 +110,7 @@
         />
         <field name="bank_account_id" ref="main_company_bank_sicredi" />
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Banco AILOS -->
@@ -115,6 +124,7 @@
         />
         <field name="bank_account_id" ref="main_company_bank_ailos" />
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Banco Teste -->
@@ -128,6 +138,7 @@
         />
         <field name="bank_account_id" ref="main_company_bank_test" />
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Banco Teste -->
@@ -136,6 +147,7 @@
         <field name="code">TPO</field>
         <field name="type">sale</field>
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
     <!-- Diario Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
@@ -144,6 +156,7 @@
         <field name="code">DCQ</field>
         <field name="type">sale</field>
         <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
     </record>
 
 </odoo>
