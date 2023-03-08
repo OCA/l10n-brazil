@@ -87,7 +87,7 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
 
             await rpc.query({
                 model: "stock.scrap",
-                method: "create",
+                method: "create_and_do_scrap",
                 args: [this.prepareStockScrapVals()],
             });
 
