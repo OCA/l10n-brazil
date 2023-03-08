@@ -15,11 +15,12 @@ class TestPaymentOrder(SavepointCase):
         cls.invoice_customer_without_paymeny_mode = cls.env.ref(
             "l10n_br_account_payment_order." "demo_invoice_no_payment_mode"
         )
-        cls.journal_cash = cls.env["account.journal"].search(
-            [("type", "=", "cash")], limit=1
-        )
         cls.payment_method_manual_in = cls.env.ref(
             "account.account_payment_method_manual_in"
+        )
+        cls.main_company = cls.env.ref("base.main_company")
+        cls.journal_cash = cls.env["account.journal"].search(
+            [("type", "=", "cash"), ("company_id", "=", cls.main_company.id)], limit=1
         )
 
     def test_cancel_invoice_no_payment_mode_pay(self):
