@@ -158,7 +158,7 @@ class PaymentOrder(models.Model):
             if bank_method:
                 bank_method(remessa_values)
         except Exception:
-            _logger.warning("can't generate paymeny file")
+            pass
 
         remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
