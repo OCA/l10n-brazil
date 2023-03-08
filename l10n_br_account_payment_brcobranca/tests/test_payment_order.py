@@ -115,13 +115,9 @@ class TestPaymentOrder(SavepointCase):
         )
 
         self.assertEqual(len(payment_order.payment_line_ids), 2)
-        self.assertEqual(len(payment_order.bank_line_ids), 0)
 
         # Open payment order
         payment_order.draft2open()
-
-        # Criação da Bank Line
-        self.assertEqual(len(payment_order.bank_line_ids), 2)
 
         # Verifica se deve testar com o mock
         if os.environ.get("CI"):
@@ -525,7 +521,7 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        for line in payment_order.bank_line_ids:
+        for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_grant_rebate_id.name,
@@ -631,7 +627,7 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        for line in payment_order.bank_line_ids:
+        for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_grant_discount_id.name,
