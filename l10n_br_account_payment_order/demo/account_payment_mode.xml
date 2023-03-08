@@ -7,8 +7,6 @@
         <field name="name">Cobrança Boleto (Automatico Test)</field>
         <field name="company_id" ref="base.main_company" />
         <field name="payment_method_id" ref="payment_mode_type_manual_test" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
         <field name="bank_account_link">fixed</field>
@@ -84,8 +82,6 @@
         <field name="name">Cobrança Boleto (Manual Test)</field>
         <field name="company_id" ref="base.main_company" />
         <field name="payment_method_id" ref="payment_mode_type_manual_test" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
         <field name="bank_account_link">fixed</field>
@@ -165,8 +161,6 @@
             name="payment_method_id"
             ref="account.account_payment_method_manual_in"
         />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
         <field name="bank_account_link">fixed</field>
@@ -185,8 +179,6 @@
             name="payment_method_id"
             ref="account.account_payment_method_manual_in"
         />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
         <field
@@ -209,8 +201,6 @@
             name="payment_method_id"
             ref="account.account_payment_method_manual_in"
         />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
         <field
@@ -239,8 +229,6 @@
         <field name="boleto_accept">S</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bradesco_400" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bradesco_400" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
         <field name="boleto_discount_perc">1</field>
@@ -289,8 +277,6 @@
         <field name="boleto_accept">S</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bradesco_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bradesco_240" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="boleto_discount_perc">1</field>
         <field
@@ -368,8 +354,6 @@
         <field name="boleto_fee_code">2</field>
         <field name="boleto_fee_perc">2</field>
         <field name="boleto_discount_perc">1</field>
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -437,8 +421,6 @@
         <field name="boleto_protest_code">2</field>
         <field name="boleto_days_protest">5</field>
         <field name="code_convetion">72234050</field>
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -501,8 +483,6 @@
         <field name="boleto_protest_code">3</field>
         <field name="boleto_days_protest">5</field>
         <field name="code_convetion">101004</field>
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -561,8 +541,6 @@
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_itau_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_itau_240" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -615,8 +593,6 @@
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_itau_400" />
         <field name="own_number_sequence_id" ref="sequence_own_number_itau_400" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -668,8 +644,6 @@
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_cef_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_cef_240" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -733,8 +707,6 @@
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_cef_400" />
         <field name="own_number_sequence_id" ref="sequence_own_number_cef_400" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -777,8 +749,6 @@
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_sicredi_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_sicredi_240" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <!-- Code de Convenio maximo 5 caracteres -->
         <field name="code_convetion">12345</field>
@@ -848,8 +818,6 @@
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bb_400" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bb_400" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -916,8 +884,6 @@
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bb_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bb_240" />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -953,8 +919,6 @@
             name="payment_method_id"
             ref="account.account_payment_method_manual_in"
         />
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
     </record>
 
     <!-- TED Transferência-->
