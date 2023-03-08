@@ -31,7 +31,6 @@
                         <group string="Main">
                             <field name="cnab_return_log_id" invisible="1" />
                             <field name="lot_id" />
-                            <field name="bank_payment_line_id" />
                             <field name="cnab_structure_id" />
                             <field name="company_title_identification" />
                             <field name="your_number" />
