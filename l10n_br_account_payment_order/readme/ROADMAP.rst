@@ -6,8 +6,6 @@
 
 * Processo de "Antecipação do Título junto ao Banco" ou "Venda do Título junto a Factoring" ver as alterações feitas na v14 https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592 .
 
-* Com a separação do método que importa o arquivo do que registra o retorno do CNAB os arquivos e visões referentes foram comentados e estão aguardando um retorno da KMEE a respeito se serão apagados, extraidos para outro modulo, ou se de alguma forma deverão ser integrados ( detalhes em l10n_br_account_payment_order/models/__init__.py#L18 l10n_br_account_payment_order/__manifest__.py#L47 )
-
 * CNAB de Pagamento, verificar a integração com o PR https://github.com/OCA/l10n-brazil/pull/972 e a possibilidade de multiplos modos de pagamento na mesma Ordem de Pagamento https://github.com/odoo-brazil/l10n-brazil/pull/112
 
 * Verificar a possibilidade na v14 de remoção do ondele='restrict' no campo "move_line_id" e o campo "related" "ml_maturity_date" do account.payment.line no modulo dependente https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39 para permitir o processo de Cancelamento de uma Fatura quando existe uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes l10n_br_account_payment_order/models/account_payment_line.py#L130 )
