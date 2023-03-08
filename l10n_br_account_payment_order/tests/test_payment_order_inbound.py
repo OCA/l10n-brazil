@@ -35,8 +35,9 @@ class TestPaymentOrderInbound(SavepointCase):
         )
 
         # Journal
+        cls.main_company = cls.env.ref("base.main_company")
         cls.journal_cash = cls.env["account.journal"].search(
-            [("type", "=", "cash")], limit=1
+            [("type", "=", "cash"), ("company_id", "=", cls.main_company.id)], limit=1
         )
         cls.payment_method_manual_in = cls.env.ref(
             "account.account_payment_method_manual_in"
