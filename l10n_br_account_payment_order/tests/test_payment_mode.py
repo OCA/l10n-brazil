@@ -50,8 +50,6 @@ class TestPaymentMode(SavepointCase):
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "group_lines": False,
-                "generate_move": False,
-                "post_move": False,
             }
         )
 
@@ -63,8 +61,6 @@ class TestPaymentMode(SavepointCase):
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "group_lines": False,
-                "generate_move": False,
-                "post_move": False,
             }
         )
 
@@ -76,8 +72,6 @@ class TestPaymentMode(SavepointCase):
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "group_lines": False,
-                "generate_move": False,
-                "post_move": False,
             }
         )
 
@@ -86,17 +80,5 @@ class TestPaymentMode(SavepointCase):
             self.payment_mode_test_240.write(
                 {
                     "group_lines": True,
-                }
-            )
-        with self.assertRaises(ValidationError):
-            self.payment_mode_test_240.write(
-                {
-                    "generate_move": True,
-                }
-            )
-        with self.assertRaises(ValidationError):
-            self.payment_mode_test_240.write(
-                {
-                    "post_move": True,
                 }
             )
