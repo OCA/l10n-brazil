@@ -135,7 +135,7 @@ class PaymentOrder(models.Model):
             )
 
         pagamentos = []
-        for line in self.bank_line_ids:
+        for line in self.payment_line_ids:
             pagamentos.append(line.prepare_bank_payment_line(bank_brcobranca))
 
         remessa_values = {

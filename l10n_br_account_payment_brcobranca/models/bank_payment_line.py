@@ -11,8 +11,8 @@ from odoo import models
 _logger = logging.getLogger(__name__)
 
 
-class BankPaymentLine(models.Model):
-    _inherit = "bank.payment.line"
+class AccountPaymentLine(models.Model):
+    _inherit = "account.payment.line"
 
     def _prepare_bank_line_ailos(self, payment_mode_id, linhas_pagamentos):
         if self.discount_value:
@@ -76,7 +76,7 @@ class BankPaymentLine(models.Model):
 
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         payment_mode_id = self.order_id.payment_mode_id
-        linhas_pagamentos = self._prepare_boleto_bank_line_vals()
+        linhas_pagamentos = self._prepare_boleto_line_vals()
         try:
             bank_method = getattr(
                 self, "_prepare_bank_line_{}".format(bank_name_brcobranca.name)
