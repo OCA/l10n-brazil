@@ -1,0 +1,32 @@
+/** Stock Scrap Popup **/
+
+.pos .stock-scrap-popup {
+    max-width: 600px !important;
+}
+
+.pos .stock-scrap-popup .header {
+    text-align: center;
+}
+
+.pos .stock-scrap-popup .body {
+    text-align: left;
+}
+
+.pos .stock-scrap-popup .field-label {
+    font-weight: bold;
+}
+
+.pos .stock-scrap-popup .pos-input-select {
+    width: 550px;
+    height: 50px;
+    text-align: left;
+}
+
+.pos .stock-scrap-popup .error-msg {
+    color: red;
+    display: none;
+}
+
+.pos .stock-scrap-popup .stock-scrap-form {
+    margin-top: 15px;
+}

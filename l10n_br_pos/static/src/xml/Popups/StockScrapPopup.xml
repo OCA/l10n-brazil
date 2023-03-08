@@ -4,21 +4,18 @@
     <t t-name="StockScrapPopup" owl="1">
         <div role="dialog" class="modal-dialog">
             <div class="popup stock-scrap-popup">
-                <header class="title" style="text-align: center">
+                <header class="title">
                     STOCK SCRAP
                 </header>
-                <main class="body" style="text-align: left">
+                <main class="body">
                     <div class="row">
                         <div class="fields">
-                            <div>
-                                <span
-                                    class="product-name"
-                                    style="font-weight: bold;"
-                                >Product: </span>
+                            <div class="stock-scrap-form">
+                                <span class="field-label">Product: </span>
                                 <select
-                                    class="pos-input"
+                                    class="pos-input pos-input-select"
                                     name="state"
-                                    style="width: 200px; height: 50px; text-align: left;"
+                                    style="width: 300px !important;"
                                     t-model="state.productId"
                                 >
                                     <option
@@ -30,10 +27,7 @@
                                     </option>
                                 </select>
 
-                                <span
-                                    class="product-name"
-                                    style="font-weight: bold;"
-                                >Quantity: </span>
+                                <span class="field-label">Quantity: </span>
                                 <input
                                     class="pos-input"
                                     type="number"
@@ -41,14 +35,10 @@
                                 />
                             </div>
 
-                            <div t-if="state.productId" style="margin-top: 15px;">
-                                <span
-                                    class="product-name"
-                                    style="font-weight: bold;"
-                                >Variant: </span>
+                            <div class="stock-scrap-form" t-if="state.productId">
+                                <span class="field-label">Variant: </span>
                                 <select
-                                    class="pos-input"
-                                    style="width: 450px; height: 50px; text-align: left;"
+                                    class="pos-input pos-input-select"
                                     t-model="state.productVariantId"
                                 >
                                     <option
@@ -61,11 +51,10 @@
                                 </select>
                             </div>
 
-                            <div style="margin-top: 15px;">
-                                <span style="font-weight: bold;">Scrap Reason: </span>
+                            <div class="stock-scrap-form">
+                                <span class="field-label">Scrap Reason: </span>
                                 <select
-                                    class="pos-input"
-                                    style="width: 450px; height: 50px; text-align: left;"
+                                    class="pos-input pos-input-select"
                                     t-model="state.scrapReasonId"
                                 >
                                     <option />
@@ -79,10 +68,7 @@
                                 </select>
                             </div>
 
-                            <div
-                                class="error-msg"
-                                style="margin-top: 15px; color: red; display: none;"
-                            >
+                            <div class="error-msg stock-scrap-form">
                                 Please fill the necessary data.
                             </div>
                         </div>
