@@ -43,7 +43,7 @@ odoo.define("l10n_br_pos_nfce.NfceFooterReceipt", function (require) {
         }
 
         get notIssuedInContingency() {
-            return true;
+            return this.order.authorization_protocol;
         }
 
         async _generateQRCode() {
