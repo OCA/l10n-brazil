@@ -16,9 +16,10 @@
                 >Documento auxiliar da nota fiscal de consumidor eletrônica</p>
             </div>
             <t t-if="isDocumentInContingency">
+                <hr class="nfceSeparator" />
                 <div class="documentInContingency">
-                    <p>Emitida em Contingencia</p>
-                    <p>Pendente de Autorizacao</p>
+                    <p class="nfcePTag inContingency">Emitida em Contingencia</p>
+                    <p class="nfcePTag">Pendente de Autorizacao</p>
                 </div>
             </t>
         </div>

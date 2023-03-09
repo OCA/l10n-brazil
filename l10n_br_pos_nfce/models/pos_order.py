@@ -109,6 +109,11 @@ class PosOrder(models.Model):
         for option in res:
             order = self.env["pos.order"].search([("id", "=", option["id"])])
             fiscal_document_id = order.account_move.fiscal_document_id
+            authorization_date = False
+            if fiscal_document_id.authorization_date:
+                authorization_date = fiscal_document_id.authorization_date.strftime(
+                    "%m/%d/%Y %H:%M:%S"
+                )
             order.write({"state_edoc": fiscal_document_id.state_edoc})
             option.update(
                 {
@@ -120,9 +125,7 @@ class PosOrder(models.Model):
                     "document_serie": fiscal_document_id.document_serie,
                     "url_consulta": order.account_move.estado_de_consulta_da_nfce(),
                     "qr_code": order.account_move._monta_qrcode(),
-                    "authorization_date": fiscal_document_id.authorization_date.strftime(
-                        "%m/%d/%Y %H:%M:%S"
-                    ),
+                    "authorization_date": authorization_date,
                     "document_date": fiscal_document_id.document_date.astimezone(
                         local_timezone
                     ).strftime("%m/%d/%Y %H:%M:%S"),

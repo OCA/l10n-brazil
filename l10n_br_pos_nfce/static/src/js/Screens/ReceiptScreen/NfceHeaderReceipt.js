@@ -7,6 +7,7 @@ odoo.define("l10n_br_pos_nfce.NfceHeaderReceipt", function (require) {
     class NfceHeaderReceipt extends PosComponent {
         constructor() {
             super(...arguments);
+            this.order = this.props.receipt;
             this.company = this.props.company;
             this.companyAddress = this.props.company.address;
         }
@@ -35,7 +36,7 @@ odoo.define("l10n_br_pos_nfce.NfceHeaderReceipt", function (require) {
         }
 
         get isDocumentInContingency() {
-            return false;
+            return !this.order.authorization_protocol;
         }
     }
     NfceHeaderReceipt.template = "NfceHeaderReceipt";
