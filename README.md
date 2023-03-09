@@ -29,7 +29,7 @@ addon | version | maintainers | summary
 [l10n_br_crm](l10n_br_crm/) | 15.0.1.0.0 |  | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 15.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
 [l10n_br_stock](l10n_br_stock/) | 15.0.1.0.1 |  | Brazilian Localization Warehouse
-[l10n_br_zip](l10n_br_zip/) | 15.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
+[l10n_br_zip](l10n_br_zip/) | 15.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 
 [//]: # (end addons)
 
