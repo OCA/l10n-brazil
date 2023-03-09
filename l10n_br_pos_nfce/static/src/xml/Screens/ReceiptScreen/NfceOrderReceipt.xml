@@ -2,7 +2,7 @@
 <templates id="template" xml:space="preserve">
     <t t-name="NfceOrderReceipt" owl="1">
         <div class="pos-receipt">
-            <NfceHeaderReceipt company="receipt.company" />
+            <NfceHeaderReceipt company="receipt.company" receipt="receipt" />
             <hr class="nfceSeparator" />
             <t t-if="isHomologationEnvironment">
                 <div>
