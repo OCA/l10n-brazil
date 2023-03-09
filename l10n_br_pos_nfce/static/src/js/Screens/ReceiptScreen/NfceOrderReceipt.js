@@ -11,7 +11,7 @@ odoo.define("l10n_br_pos_nfce.NfceOrderReceipt", function (require) {
             }
 
             get hasChange() {
-                this.receipt.change;
+                return this.receipt.change;
             }
 
             get orderChange() {
