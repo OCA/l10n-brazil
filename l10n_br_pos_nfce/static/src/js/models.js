@@ -147,26 +147,26 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
             const validOrders = [];
 
             for (const option of res) {
+                const order = this.get_order();
+                Object.assign(order, {
+                    authorization_protocol: option.authorization_protocol,
+                    document_key: option.document_key,
+                    document_number: option.document_number,
+                    url_consulta: option.url_consulta,
+                    qr_code: option.qr_code,
+                    authorization_date_string: option.authorization_date,
+                    document_date_string: option.document_date,
+                    document_serie: option.document_serie,
+                });
                 if (option.status_code !== "100") {
                     invalidOrders.push(option);
                 } else {
-                    const order = this.get_order();
-                    Object.assign(order, {
-                        authorization_protocol: option.authorization_protocol,
-                        document_key: option.document_key,
-                        document_number: option.document_number,
-                        url_consulta: option.url_consulta,
-                        qr_code: option.qr_code,
-                        authorization_date_string: option.authorization_date,
-                        document_date_string: option.document_date,
-                        document_serie: option.document_serie,
-                    });
                     validOrders.push(option);
                 }
             }
 
-            if (validOrders.length >= 1) {
-                Gui.showPopup("ErrorPopup", {
+            if (validOrders.length > 0) {
+                Gui.showPopup("ConfirmPopup", {
                     title: "NFC-e Issuance",
                     body: "NFC-e issued successfully.",
                 });
@@ -176,7 +176,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 const {pos_reference, status_description} = invalidOrders[0];
                 Gui.showPopup("ErrorPopup", {
                     title: "Error Issuing NFC-e",
-                    body: `The order ${pos_reference} had the return ${status_description}.`,
+                    body: `The order ${pos_reference} had the following error: ${status_description}.`,
                 });
             } else if (invalidOrders.length > 1) {
                 const msg = `The following orders: ${invalidOrders
