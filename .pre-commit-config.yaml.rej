@@ -1,0 +1,22 @@
+diff a/.pre-commit-config.yaml b/.pre-commit-config.yaml	(rejected hunks)
+@@ -110,9 +117,3 @@ repos:
+       - id: setuptools-odoo-make-default
+-      - id: setuptools-odoo-get-requirements
+-        args:
+-          - --output
+-          - requirements.txt
+-          - --header
+-          - "# generated from manifests external_dependencies"
+-  - repo: https://gitlab.com/PyCQA/flake8
++  - repo: https://github.com/PyCQA/flake8
+     rev: 3.8.3
+@@ -123,3 +124,3 @@ repos:
+   - repo: https://github.com/PyCQA/pylint
+-    rev: v2.11.1
++    rev: pylint-2.5.3
+     hooks:
+@@ -132,3 +133,3 @@ repos:
+         additional_dependencies: &pylint_deps
+-          - pylint-odoo==5.0.5
++          - pylint-odoo==3.5.0
+       - id: pylint
