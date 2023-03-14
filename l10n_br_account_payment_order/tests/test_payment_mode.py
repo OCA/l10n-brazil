@@ -75,7 +75,12 @@ class TestPaymentMode(SavepointCase):
             }
         )
 
+    def test_onchange(self):
+        """Test account.payment.mode Onchange methods"""
+        self.payment_mode_test_240._onchange_payment_method_id()
+
     def test_constrains(self):
+        """Test account.payment.mode Constrains methods"""
         with self.assertRaises(ValidationError):
             self.payment_mode_test_240.write(
                 {

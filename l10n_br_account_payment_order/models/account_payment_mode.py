@@ -146,8 +146,6 @@ class AccountPaymentMode(models.Model):
             if record.payment_method_code in BR_CODES_PAYMENT_ORDER:
                 # Campos Default que não devem estar marcados no caso CNAB
                 record.group_lines = False
-                record.generate_move = False
-                record.post_move = False
                 # Selecionavel na Ordem de Pagamento
                 record.payment_order_ok = True
 
