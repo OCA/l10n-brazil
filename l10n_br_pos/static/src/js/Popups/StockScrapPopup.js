@@ -52,23 +52,6 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
             return this.product_by_id[this.state.productVariantId];
         }
 
-        sortObjects(obj, field_name) {
-            var sortable = [];
-            for (var key in obj)
-                if (obj.hasOwnProperty(key)) {
-                    sortable.push([key, obj[key]]);
-                }
-
-            return sortable
-                .sort(function (a, b) {
-                    var x = a[1][field_name].toLowerCase(),
-                        y = b[1][field_name].toLowerCase();
-
-                    return x < y ? -1 : x > y ? 1 : 0;
-                })
-                .map((a) => a[1]);
-        }
-
         validateFields() {
             if (
                 !this.selectedVariant ||
