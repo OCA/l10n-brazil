@@ -49,7 +49,12 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
         }
 
         get selectedVariant() {
-            return this.product_by_id[this.state.productVariantId];
+            let variantId = this.state.productVariantId;
+            if (!variantId) {
+                variantId = $("#variantId").val();
+            }
+
+            return this.product_by_id[variantId];
         }
 
         validateFields() {

@@ -41,6 +41,7 @@
                                     t-model="state.productVariantId"
                                 >
                                     <option
+                                        id="variantId"
                                         t-foreach="variants"
                                         t-as="var"
                                         t-key="var.display_name"
