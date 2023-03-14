@@ -106,6 +106,16 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
     });
 
+    models.load_models([
+        {
+            model: "scrap.reason.code",
+            fields: ["id", "name"],
+            loaded: function (self, reason_codes) {
+                self.scrap_reason_codes = reason_codes;
+            },
+        },
+    ]);
+
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
