@@ -142,6 +142,9 @@ class AccountJournal(models.Model):
             if cnab_return_event.get("interest_fee_value"):
                 amount_total_interest_fee += cnab_return_event.get("interest_fee_value")
             cnab_return_event["cnab_return_log_id"] = cnab_return_log.id
+            cnab_return_event["payment_line_ids"] = cnab_return_event.get(
+                "payment_line_ids"
+            )
             self.env["l10n_br_cnab.return.event"].create(cnab_return_event)
             qty_cnab_return_events += 1
 
