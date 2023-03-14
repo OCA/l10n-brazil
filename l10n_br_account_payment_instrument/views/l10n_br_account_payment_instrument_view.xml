@@ -39,19 +39,12 @@
                             string="QR Code"
                             attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
                         />
-                        <field name="boleto_barcode_entry" />
-
                         <field
-                            name="boleto_barcode"
+                            name="boleto_input_code"
                             string="Barcode"
                             attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
                         />
-                        <field
-                            name="boleto_digitable_line"
-                            string="Digitable Line"
-                            decoration-bf="1"
-                            attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
-                        />
+
                     </group>
                     <group attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}">
                         <label
@@ -72,6 +65,12 @@
                             decoration-bf="1"
                         />
                         <field name="boleto_due" string="Due Date" decoration-bf="1" />
+                        <field
+                            name="boleto_digitable_line"
+                            string="Digitable Line"
+                            decoration-bf="1"
+                            attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
+                        />
                     </group>
                     <notebook>
                         <page
@@ -89,8 +88,8 @@
                         </page>
                         <!-- Only Developer Mode -->
                         <page
-                            name="raw_data"
-                            string="RAW Data"
+                            name="boleto_data"
+                            string="Boleto Data"
                             attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
                             groups="base.group_no_one"
                         >
@@ -110,7 +109,9 @@
                                     name="boleto_raw_free_field"
                                     string="Free Field"
                                 />
+                                <field name="boleto_barcode" />
                             </group>
+
                         </page>
                     </notebook>
                 </sheet>

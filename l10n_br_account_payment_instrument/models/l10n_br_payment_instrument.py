@@ -4,12 +4,15 @@
 from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class PaymentInstrument(models.Model):
     """
-    This model is used to store payment instruments data, such as boleto and pix cobrança.
-    A payment instrument can be associated with more than one account payable or receivable entry.
+    This model is designed to store payment instrument data, including boleto
+    and Pix Cobrança.
+    A payment instrument may be linked to multiple accounts payable
+    or receivable entries.
     """
 
     _name = "l10n_br.payment.instrument"
@@ -38,13 +41,12 @@ class PaymentInstrument(models.Model):
 
     # BOLETO BUSINESS FIELDS
 
-    # TODO por o campo em um wizard para ser transient.
-    boleto_barcode_entry = fields.Char()
-    boleto_barcode = fields.Char()
+    boleto_input_code = fields.Char(help="Enter the barcode or digitable line")
+    boleto_barcode = fields.Char(compute="_compute_boleto_data")
     boleto_digitable_line = fields.Char(
-        compute="_compute_boleto_digitable_line",
+        compute="_compute_digitable_line",
+        help="The digitable line is a human-readable representation of the barcode.",
     )
-
     boleto_due = fields.Date(
         compute="_compute_boleto_due",
     )
@@ -60,22 +62,22 @@ class PaymentInstrument(models.Model):
     # BOLETO RAW DATA FIELDS
 
     boleto_raw_bank = fields.Char(
-        compute="_compute_boleto_raw_fields",
+        compute="_compute_boleto_data",
     )
     boleto_raw_currency = fields.Char(
-        compute="_compute_boleto_raw_fields",
+        compute="_compute_boleto_data",
     )
     boleto_raw_check_digit_barcode = fields.Char(
-        compute="_compute_boleto_raw_fields",
+        compute="_compute_boleto_data",
     )
     boleto_raw_due_factor = fields.Char(
-        compute="_compute_boleto_raw_fields",
+        compute="_compute_boleto_data",
     )
     boleto_raw_amount = fields.Char(
-        compute="_compute_boleto_raw_fields",
+        compute="_compute_boleto_data",
     )
     boleto_raw_free_field = fields.Char(
-        compute="_compute_boleto_raw_fields",
+        compute="_compute_boleto_data",
     )
 
     # PIX FIELDS
@@ -111,10 +113,12 @@ class PaymentInstrument(models.Model):
         for rec in self:
             rec.boleto_due = self.get_due_date(rec.boleto_raw_due_factor)
 
-    @api.depends("boleto_barcode")
-    def _compute_boleto_raw_fields(self):
+    @api.depends("boleto_input_code")
+    def _compute_boleto_data(self):
         for rec in self:
-            if not rec.boleto_barcode:
+
+            # If the input code is empty, clear all fields
+            if not rec.boleto_input_code:
                 rec.boleto_raw_bank = False
                 rec.boleto_raw_currency = False
                 rec.boleto_raw_check_digit_barcode = False
@@ -122,22 +126,49 @@ class PaymentInstrument(models.Model):
                 rec.boleto_raw_amount = False
                 rec.boleto_raw_free_field = False
                 continue
+
+            # Remove all non-digit characters
+            input_code = "".join(c for c in rec.boleto_input_code if c.isdigit())
+
+            if len(input_code) == 47:
+                rec.boleto_barcode = self.get_barcode(input_code)
+            elif len(input_code) == 44:
+                rec.boleto_barcode = input_code
+            else:
+                raise UserError(_("The boleto barcode or digitable line is invalid."))
             rec.boleto_raw_bank = rec.boleto_barcode[0:3]
             rec.boleto_raw_currency = rec.boleto_barcode[3]
             rec.boleto_raw_check_digit_barcode = rec.boleto_barcode[4]
             rec.boleto_raw_due_factor = rec.boleto_barcode[5:9]
             rec.boleto_raw_amount = rec.boleto_barcode[9:19]
-            rec.boleto_raw_free_field = rec.boleto_barcode[19:24]
+            rec.boleto_raw_free_field = rec.boleto_barcode[19:44]
 
-    @api.depends("boleto_barcode")
-    def _compute_boleto_digitable_line(self):
-        for record in self:
-            if not record.boleto_barcode:
-                record.boleto_digitable_line = False
-                continue
-            record.boleto_digitable_line = self.get_digitable_line(
-                record.boleto_barcode
-            )
+    def _compute_digitable_line(self):
+        for rec in self:
+            rec.boleto_digitable_line = self.get_digitable_line(rec.boleto_barcode)
+
+    @api.model
+    def get_barcode(self, digitable_line):
+        """
+        Convert a digitable line to a barcode
+
+        The digitable line contains the same information as the barcode,
+        but its layout is different and includes some additional verification codes.
+        """
+
+        bank = digitable_line[0:3]
+        currency = digitable_line[3]
+        check_digit = digitable_line[32]
+        due_factor = digitable_line[33:37]
+        amount = digitable_line[37:47]
+
+        # The free field is extracted from the digitable line in three parts
+        free_first_part = digitable_line[4:9]
+        free_second_part = digitable_line[10:20]
+        free_third_part = digitable_line[21:31]
+        free_field = free_first_part + free_second_part + free_third_part
+
+        return f"{bank}{currency}{check_digit}{due_factor}{amount}{free_field}"
 
     @api.model
     def get_due_date(self, due_factor):
@@ -150,6 +181,13 @@ class PaymentInstrument(models.Model):
 
     @api.model
     def get_digitable_line(self, barcode):
+        """
+        Convert a barcode to a digitable line
+
+        The digitable line contains the same information as the barcode,
+        but its layout is different and includes some additional verification codes.
+        """
+
         def generate_mod10_field(value):
             total, weight_factor = 0, 2
             for current_digit in reversed(value):
