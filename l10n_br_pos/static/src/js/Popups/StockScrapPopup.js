@@ -11,38 +11,45 @@ odoo.define("l10n_br_pos.StockScrapPopup", function (require) {
             this.state = useState({});
             this.product_by_id = this.env.pos.db.product_by_id;
             this.template_by_id = this.env.pos.db.template_by_id;
+
+            this.setupProductTable();
         }
 
-        get sortedTemplates() {
-            return this.sortObjects(this.template_by_id, "name");
+        setupProductTable() {
+            const self = this;
+
+            $(document).ready(() => $(".scrap-product-table").DataTable());
+            $(document).on("click", ".scrap-product-table td", (ev) =>
+                self._selectProduct(ev)
+            );
+        }
+
+        _selectProduct(event) {
+            const $target = $(event.currentTarget);
+            $("td").removeClass("highlighted");
+            $target.addClass("highlighted");
+
+            this.state.productId = $target.attr("value");
+        }
+
+        get templates() {
+            return Object.entries(this.template_by_id).map((a) => a[1]);
         }
 
         get selectedTemplate() {
-            const tmpl = Object.entries(this.sortedTemplates).find(
-                ([, value]) => value.id === parseInt(this.state.productId)
+            return this.templates.find(
+                (value) => value.id === parseInt(this.state.productId)
             );
-
-            return tmpl ? tmpl[1] : undefined;
         }
 
-        get sortedVariants() {
-            const self = this;
-
-            var variants = {};
-            this.selectedTemplate.product_variant_ids.forEach(function (variant_id) {
-                variants[variant_id] = self.product_by_id[variant_id];
-            });
-
-            return this.sortObjects(variants, "display_name");
+        get variants() {
+            return this.selectedTemplate.product_variant_ids.map(
+                (a) => this.product_by_id[a]
+            );
         }
 
         get selectedVariant() {
-            let variantId = this.state.productVariantId;
-            if (!variantId) {
-                variantId = $("#variantId").val();
-            }
-
-            return this.product_by_id[variantId];
+            return this.product_by_id[this.state.productVariantId];
         }
 
         sortObjects(obj, field_name) {

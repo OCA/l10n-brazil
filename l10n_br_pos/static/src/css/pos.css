@@ -1,7 +1,7 @@
 /** Stock Scrap Popup **/
 
 .pos .stock-scrap-popup {
-    max-width: 600px !important;
+    max-width: 800px !important;
 }
 
 .pos .stock-scrap-popup .header {
@@ -17,7 +17,7 @@
 }
 
 .pos .stock-scrap-popup .pos-input-select {
-    width: 550px;
+    width: 100%;
     height: 50px;
     text-align: left;
 }
@@ -27,6 +27,53 @@
     display: none;
 }
 
-.pos .stock-scrap-popup .stock-scrap-form {
+.pos .stock-scrap-popup .popup-form {
     margin-top: 15px;
+}
+
+.pos .stock-scrap-popup .search-input {
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+/** Products Table **/
+
+.pos .stock-scrap-popup .popup-table-wrapper {
+    overflow: auto;
+}
+
+.pos .stock-scrap-popup .scrap-product-table {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    width: 100%;
+}
+
+.pos .stock-scrap-popup .scrap-product-table tbody {
+    height: 100px;
+    overflow: scroll;
+}
+
+.pos .stock-scrap-popup .scrap-product-table th,
+td {
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.pos .stock-scrap-popup .scrap-product-table tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.pos .stock-scrap-popup .scrap-product-table tr.header,
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.pos .stock-scrap-popup .scrap-product-table td.highlighted {
+    background-color: #c5c5c5;
 }
