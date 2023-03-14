@@ -23,11 +23,12 @@ class L10nBrCNABReturnEvent(models.Model):
     lot_id = fields.Many2one(
         string="Lote", comodel_name="l10n_br_cnab.return.lot", ondelete="cascade"
     )
-    payment_line_ids = fields.One2many(
+    payment_line_ids = fields.Many2many(
         comodel_name="account.payment.line",
-        inverse_name="cnab_log_event_id",
+        relation="l10n_br_cnab_log_event_payment_lines_rel",
+        column1="cnab_log_event_payment_line_id",
+        column2="payment_line_id",
         string="Payment lines",
-        check_company=True,
     )
     real_payment_date = fields.Date(string="Data do Crédito")
     occurrence_date = fields.Date(string="Data da Ocorrência")
