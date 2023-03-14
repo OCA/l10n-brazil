@@ -10,9 +10,7 @@ class StockPicking(models.Model):
     @api.model
     def _get_fiscal_document_access_keys_fields(self):
         su = super(StockPicking, self)
-        return su._get_fiscal_document_access_keys_fields() + [
-            "pos_order_ids.chave_cfe"
-        ]
+        return su._get_fiscal_document_access_keys_fields() + ["pos_order_ids.chave_cfe"]
 
 
 class StockScrap(models.Model):
@@ -21,4 +19,7 @@ class StockScrap(models.Model):
 
     @api.model
     def create_and_do_scrap(self, vals):
-        return self.create(vals).do_scrap()
+        scrap = self.create(vals)
+        scrap.do_scrap()
+
+        return scrap
