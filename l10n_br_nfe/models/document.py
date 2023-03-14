@@ -560,11 +560,15 @@ class NFe(spec_models.StackedModel):
     ##########################
     # NF-e tag: fat
     ##########################
-    nfe40_nFat = fields.Char(related="document_number")
+    nfe40_nFat = fields.Char(compute="_compute_nfe40_nfat")
 
     nfe40_vOrig = fields.Monetary(related="amount_financial_total_gross")
 
     nfe40_vLiq = fields.Monetary(related="amount_financial_total")
+
+    def _compute_nfe40_nfat(self):
+        for record in self:
+            record.nfe40_nFat = record.document_number
 
     ##########################
     # NF-e tag: infRespTec
