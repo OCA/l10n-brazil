@@ -1,6 +1,0 @@
-diff a/.pre-commit-config.yaml b/.pre-commit-config.yaml	(rejected hunks)
-@@ -104,3 +105,3 @@ repos:
-   - repo: https://github.com/PyCQA/isort
--    rev: 5.5.1
-+    rev: 5.12.0
-     hooks:
