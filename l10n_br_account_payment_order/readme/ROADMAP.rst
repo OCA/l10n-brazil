@@ -13,3 +13,7 @@
 * Funcionalidade de Agrupar Por/Group By não funciona em campos do tipo Many2Many, aparentemente isso foi resolvido na v15(verfificar na migração), isso é usado nos objetos referentes aos Codigos CNAB de Instrução e Retorno.
 
 * Confirmar se existem Bancos que usam os mesmos conjuntos de Codigos CNAB de Instrução e Retorno para caso não existir remover o many2many do Banco e deixar apenas o many2one.
+
+* Na migração remover o objeto bank.payment.line, que está vazio, porém é necessário para evitar erro na atualização do modulo ver detalhes em l10n_br_account_payment_order/models/account_payment_line.py:291 e referencia do problema https://github.com/odoo/odoo/issues/44767 .
+
+* Verificar a possibilidade de usar o objeto account.payment no caso CNAB e o modulo https://github.com/OCA/bank-payment/tree/14.0/account_payment_order_return para tratar o LOG de Retorno do CNAB, RFC https://github.com/OCA/l10n-brazil/issues/2272 .
