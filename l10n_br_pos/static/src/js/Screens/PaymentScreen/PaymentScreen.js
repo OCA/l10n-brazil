@@ -39,24 +39,6 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
                 return result;
             }
 
-            showScreen(name, props) {
-                if (name == "ProductScreen") {
-                    var order = this.env.pos.get_order();
-                    order.isTransmissionProcessing = false;
-                }
-
-                super.showScreen(name, props);
-            }
-
-            async validateOrder(isForceValidate) {
-                var order = this.env.pos.get_order();
-                if (order.isTransmissionProcessing) {
-                    return;
-                }
-                order.isTransmissionProcessing = true;
-                return super.validateOrder(isForceValidate);
-            }
-
             async _isOrderValid(isForceValidate) {
                 var result = super._isOrderValid(isForceValidate);
                 var order = this.env.pos.get_order();
@@ -69,7 +51,6 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
                     title: _t("Invalid CNPJ / CPF !"),
                     body: _t("Enter a valid CNPJ / CPF number"),
                 });
-                order.isTransmissionProcessing = false;
             }
         };
 
