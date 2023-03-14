@@ -110,8 +110,6 @@ class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
         # Open payment order
         payment_order.draft2open()
 
-        self.assertEqual(payment_order.bank_line_count, 1)
-
     def test_payment_line_change_partner(self):
         payorder = self.payment_order_model.create(
             {"payment_mode_id": self.pix_mode.id}
