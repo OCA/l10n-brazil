@@ -189,14 +189,6 @@ class AccountPaymentLine(models.Model):
     # com a account.invoice referente, já que a AML pode ser apagada
     move_id = fields.Many2one(comodel_name="account.move", string="Fatura")
 
-    cnab_log_event_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.return.event",
-        string="CNAB Log Event",
-        ondelete="restrict",
-        check_company=True,
-        readonly=True,
-    )
-
     @api.depends("percent_interest", "amount_currency", "currency_id")
     def _compute_interest(self):
         for record in self:
