@@ -50,7 +50,7 @@
                     </group>
 
                     <notebook>
-                        <page name="log_tab" string="Invoice Lines">
+                        <page name="log_tab" string="Event Lines">
                             <field name="event_ids" readonly="1" />
                             <group
                                 class="oe_subtotal_footer oe_right"
@@ -143,6 +143,58 @@
             </tree>
         </field>
     </record>
+
+    <record id="l10n_br_cnab_return_event_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.event.form</field>
+        <field name="model">l10n_br_cnab.return.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="invoice_id" />
+                            <field name="your_number" />
+                            <field name="own_number" />
+                            <field name="title_value" />
+                            <field name="occurrences" />
+                            <field name="occurrence_date" />
+                        </group>
+                        <group>
+                            <field name="is_cnab_lot" invisible="1" />
+                            <field name="move_line_id" />
+                            <field name="favored_id" />
+                            <field name="favored_bank_account_id" />
+                            <field name="partner_id" />
+                            <field name="currency_type" />
+                            <field name="lot_id" />
+                            <field name="segment" />
+                        </group>
+                        <group>
+                            <field name="real_payment_date" />
+                            <field name="payment_value" />
+                            <field name="tariff_charge" />
+                            <field name="interest_fee_value" />
+                            <field name="other_credits" />
+                            <field name="rebate_value" />
+                            <field name="iof_value" />
+                            <field name="discount_value" />
+                        </group>
+                        <group>
+                            <field name="str_motiv_a" />
+                            <field name="str_motiv_b" />
+                            <field name="str_motiv_c" />
+                            <field name="str_motiv_d" />
+                            <field name="str_motiv_e" />
+                        </group>
+                    </group>
+                    <group string="Linhas de Ordem de Pagamentos">
+                        <field name="payment_line_ids" nolabel="1" widget="many2many" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
 
     <record id="l10n_br_cnab_return_lot_form_view" model="ir.ui.view">
         <field name="name">l10n_br_cnab.return.lot.form.view</field>
