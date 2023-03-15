@@ -82,7 +82,62 @@ class PaymentInstrument(models.Model):
 
     # PIX FIELDS
 
+    # Exemplo de QR Code PIX ESTATICO
+    # 00020126540014br.gov.bcb.pix0132pix_marketplace@mercadolibre.com
+    # 520400005303986540581.685802BR5906BUBLIM6008Trs Rios62240520mpqr
+    # inter5576305139663046792
+
+    # Exemplo de QR Code PIX DINAMICO
+    # 00020101021226850014br.gov.bcb.pix2563qrcodepix.bb.com.br/pix/v2/
+    # ed3da8bf-115c-47f5-bd03-0edf7f2c5e7b5204000053039865802BR5925SECR
+    # ETARIA DA RECEITA FED6008BRASILIA62070503***6304D2D9
     pix_qrcode_value = fields.Char()
+
+    pix_payment_key = fields.Char(
+        compute="_compute_pix_payment_key",
+    )
+
+    @api.depends("pix_qrcode_value")
+    def _compute_pix_payment_key(self):
+
+        # /!\
+        # The logic to decode the standard EMV QR CODE here is very limited
+        # It is not guaranteed to work in all cases.
+        # The Ideal is to have a complete implementation for this functionality.
+        # Something that does the same at https://pix.nascent.com.br/tools/pix-qr-decoder/
+
+        def emv_to_dict(emv):
+            emv_dict = {}
+            end = False
+            to_process = emv
+            while not end:
+                _id = to_process[0:2]
+                size = int(to_process[2:4])
+                value = to_process[4 : 4 + size]
+                emv_dict[_id] = value
+                to_process = to_process[4 + size :]
+                if len(to_process) == 0:
+                    end = True
+            return emv_dict
+
+        for rec in self:
+            if not rec.pix_qrcode_value:
+                rec.pix_payment_key = False
+                continue
+            emv_dict = emv_to_dict(rec.pix_qrcode_value)
+            for key in emv_dict:
+                if key in ["26", "62"]:
+                    emv_dict[key] = emv_to_dict(emv_dict[key])
+
+            if "26" in emv_dict:
+                if "01" in emv_dict["26"]:
+                    rec.pix_payment_key = emv_dict["26"]["01"]
+                elif "25" in emv_dict["26"]:
+                    rec.pix_payment_key = emv_dict["26"]["25"]
+                else:
+                    rec.pix_payment_key = False
+            else:
+                rec.pix_payment_key = False
 
     @api.model
     def _get_instrument_type(self):
@@ -144,8 +199,12 @@ class PaymentInstrument(models.Model):
             rec.boleto_raw_amount = rec.boleto_barcode[9:19]
             rec.boleto_raw_free_field = rec.boleto_barcode[19:44]
 
+    @api.depends("boleto_barcode")
     def _compute_digitable_line(self):
         for rec in self:
+            if not rec.boleto_barcode:
+                rec.boleto_digitable_line = False
+                continue
             rec.boleto_digitable_line = self.get_digitable_line(rec.boleto_barcode)
 
     @api.model

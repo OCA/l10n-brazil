@@ -40,6 +40,11 @@
                             attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
                         />
                         <field
+                            name="pix_payment_key"
+                            string="Payment Key"
+                            attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
+                        />
+                        <field
                             name="boleto_input_code"
                             string="Barcode"
                             attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
