@@ -125,6 +125,7 @@ class PaymentInstrument(models.Model):
                 rec.boleto_raw_due_factor = False
                 rec.boleto_raw_amount = False
                 rec.boleto_raw_free_field = False
+                rec.boleto_barcode = False
                 continue
 
             # Remove all non-digit characters
