@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class PaymentInstrument(models.Model):
@@ -36,12 +36,12 @@ class PaymentInstrument(models.Model):
 
     instrument_type = fields.Selection(
         selection="_get_instrument_type",
-        requerid=True,
+        required=True,
     )
 
     # BOLETO BUSINESS FIELDS
 
-    boleto_input_code = fields.Char(help="Enter the barcode or digitable line")
+    boleto_barcode_input = fields.Char(help="Boleto barcode or digitable line")
     boleto_barcode = fields.Char(compute="_compute_boleto_data")
     boleto_digitable_line = fields.Char(
         compute="_compute_digitable_line",
@@ -91,13 +91,13 @@ class PaymentInstrument(models.Model):
     # 00020101021226850014br.gov.bcb.pix2563qrcodepix.bb.com.br/pix/v2/
     # ed3da8bf-115c-47f5-bd03-0edf7f2c5e7b5204000053039865802BR5925SECR
     # ETARIA DA RECEITA FED6008BRASILIA62070503***6304D2D9
-    pix_qrcode_value = fields.Char()
+    pix_qrcode_string = fields.Char()
 
     pix_payment_key = fields.Char(
         compute="_compute_pix_payment_key",
     )
 
-    @api.depends("pix_qrcode_value")
+    @api.depends("pix_qrcode_string")
     def _compute_pix_payment_key(self):
 
         # /!\
@@ -121,10 +121,10 @@ class PaymentInstrument(models.Model):
             return emv_dict
 
         for rec in self:
-            if not rec.pix_qrcode_value:
+            if not rec.pix_qrcode_string:
                 rec.pix_payment_key = False
                 continue
-            emv_dict = emv_to_dict(rec.pix_qrcode_value)
+            emv_dict = emv_to_dict(rec.pix_qrcode_string)
             for key in emv_dict:
                 if key in ["26", "62"]:
                     emv_dict[key] = emv_to_dict(emv_dict[key])
@@ -168,12 +168,12 @@ class PaymentInstrument(models.Model):
         for rec in self:
             rec.boleto_due = self.get_due_date(rec.boleto_raw_due_factor)
 
-    @api.depends("boleto_input_code")
+    @api.depends("boleto_barcode_input")
     def _compute_boleto_data(self):
         for rec in self:
 
             # If the input code is empty, clear all fields
-            if not rec.boleto_input_code:
+            if not rec.boleto_barcode_input:
                 rec.boleto_raw_bank = False
                 rec.boleto_raw_currency = False
                 rec.boleto_raw_check_digit_barcode = False
@@ -184,7 +184,7 @@ class PaymentInstrument(models.Model):
                 continue
 
             # Remove all non-digit characters
-            input_code = "".join(c for c in rec.boleto_input_code if c.isdigit())
+            input_code = "".join(c for c in rec.boleto_barcode_input if c.isdigit())
 
             if len(input_code) == 47:
                 rec.boleto_barcode = self.get_barcode(input_code)
@@ -278,3 +278,35 @@ class PaymentInstrument(models.Model):
         )
 
         return digitable_line
+
+    @api.constrains("instrument_type", "boleto_barcode_input")
+    def _check_boleto_barcode_input(self):
+        for rec in self:
+            if rec.instrument_type != "boleto":
+                continue
+            if not rec.boleto_barcode_input:
+                raise ValidationError(
+                    _("The barcode/digitable line on the Boleto is required.")
+                )
+            if len(rec.boleto_barcode_input) not in (44, 47):
+                raise ValidationError(
+                    _("The barcode/digitable line on the Boleto is invalid.")
+                )
+
+    @api.constrains("instrument_type", "pix_qrcode_string")
+    def _check_pix_qrcode_string(self):
+        for rec in self:
+            if rec.instrument_type != "pix":
+                continue
+            if not rec.pix_qrcode_string:
+                raise ValidationError(_("The QR Code of the PIX is required."))
+
+    @api.onchange("instrument_type")
+    def _onchange_instrument_type(self):
+        """
+        Clear the fields that are not used by the selected instrument type
+        """
+        if self.instrument_type == "pix":
+            self.boleto_barcode_input = False
+        elif self.instrument_type == "boleto":
+            self.pix_qrcode_string = False

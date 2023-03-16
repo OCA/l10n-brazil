@@ -35,7 +35,7 @@
                         <field name="company_currency_id" invisible="1" />
                         <field name="instrument_type" />
                         <field
-                            name="pix_qrcode_value"
+                            name="pix_qrcode_string"
                             string="QR Code"
                             attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
                         />
@@ -45,18 +45,14 @@
                             attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
                         />
                         <field
-                            name="boleto_input_code"
+                            name="boleto_barcode_input"
                             string="Barcode"
                             attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
                         />
 
                     </group>
-                    <group attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}">
-                        <label
-                            for="boleto_raw_bank"
-                            string="Bank"
-                            attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
-                        />
+                    <group attrs="{'invisible': [('boleto_barcode', '==', False)]}">
+                        <label for="boleto_raw_bank" string="Bank" />
                         <div>
                             <div class="o_row">
                                 <field name="boleto_raw_bank" decoration-bf="1" />
@@ -74,7 +70,6 @@
                             name="boleto_digitable_line"
                             string="Digitable Line"
                             decoration-bf="1"
-                            attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
                         />
                     </group>
                     <notebook>
