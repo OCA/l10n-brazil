@@ -18,14 +18,15 @@ class PaymentInstrument(models.Model):
     _name = "l10n_br.payment.instrument"
     _description = "Brazilian payment instrument"
 
+    name = fields.Char(
+        compute="_compute_name",
+    )
     company_id = fields.Many2one(
         comodel_name="res.company", required=True, default=lambda self: self.env.company
     )
-
     company_currency_id = fields.Many2one(
         related="company_id.currency_id", string="Company Currency"
     )
-
     line_ids = fields.Many2many(
         comodel_name="account.move.line",
         relation="account_move_line_payment_instrument_rel",
@@ -33,7 +34,6 @@ class PaymentInstrument(models.Model):
         column2="account_move_line_id",
         string="Payable/Receivable Entries",
     )
-
     instrument_type = fields.Selection(
         selection="_get_instrument_type",
         required=True,
@@ -92,13 +92,16 @@ class PaymentInstrument(models.Model):
     # ed3da8bf-115c-47f5-bd03-0edf7f2c5e7b5204000053039865802BR5925SECR
     # ETARIA DA RECEITA FED6008BRASILIA62070503***6304D2D9
     pix_qrcode_string = fields.Char()
-
     pix_payment_key = fields.Char(
-        compute="_compute_pix_payment_key",
+        compute="_compute_pix_data",
+    )
+    pix_txid = fields.Char(
+        help="Transaction ID of the PIX payment.",
+        compute="_compute_pix_data",
     )
 
     @api.depends("pix_qrcode_string")
-    def _compute_pix_payment_key(self):
+    def _compute_pix_data(self):
 
         # /!\
         # The logic to decode the standard EMV QR CODE here is very limited
@@ -123,12 +126,14 @@ class PaymentInstrument(models.Model):
         for rec in self:
             if not rec.pix_qrcode_string:
                 rec.pix_payment_key = False
+                rec.pix_txid = False
                 continue
             emv_dict = emv_to_dict(rec.pix_qrcode_string)
             for key in emv_dict:
                 if key in ["26", "62"]:
                     emv_dict[key] = emv_to_dict(emv_dict[key])
 
+            # Get Payment Key (Key or URL)
             if "26" in emv_dict:
                 if "01" in emv_dict["26"]:
                     rec.pix_payment_key = emv_dict["26"]["01"]
@@ -138,6 +143,15 @@ class PaymentInstrument(models.Model):
                     rec.pix_payment_key = False
             else:
                 rec.pix_payment_key = False
+
+            # Get TXID
+            if "62" in emv_dict:
+                if "05" in emv_dict["62"]:
+                    rec.pix_txid = emv_dict["62"]["05"]
+                else:
+                    rec.pix_txid = False
+            else:
+                rec.pix_txid = False
 
     @api.model
     def _get_instrument_type(self):
@@ -232,6 +246,9 @@ class PaymentInstrument(models.Model):
 
     @api.model
     def get_due_date(self, due_factor):
+        """
+        Convert a due factor to a due date
+        """
         if not due_factor:
             return False
         days = int(due_factor)
@@ -310,3 +327,15 @@ class PaymentInstrument(models.Model):
             self.boleto_barcode_input = False
         elif self.instrument_type == "boleto":
             self.pix_qrcode_string = False
+
+    def _compute_name(self):
+        for rec in self:
+            rec.name = False
+            if rec.instrument_type == "pix":
+                rec.name = "Pix"
+                if rec.pix_qrcode_string:
+                    rec.name += f" {rec.pix_qrcode_string[:30]}..."
+            elif rec.instrument_type == "boleto":
+                rec.name = "Boleto"
+                if rec.boleto_barcode_input:
+                    rec.name += f" {rec.boleto_barcode[:30]}..."

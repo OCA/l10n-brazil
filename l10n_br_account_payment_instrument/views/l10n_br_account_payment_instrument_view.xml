@@ -45,6 +45,11 @@
                             attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
                         />
                         <field
+                            name="pix_txid"
+                            string="TXID"
+                            attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
+                        />
+                        <field
                             name="boleto_barcode_input"
                             string="Barcode"
                             attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
