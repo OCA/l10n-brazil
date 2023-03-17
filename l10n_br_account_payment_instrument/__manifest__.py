@@ -12,9 +12,10 @@
     "license": "AGPL-3",
     "depends": [
         "l10n_br_base",
-        "account",
+        "l10n_br_account",
     ],
     "data": [
+        "views/account_move_line.xml",
         "security/ir.model.access.csv",
         "views/menu.xml",
         "views/l10n_br_account_payment_instrument_view.xml",

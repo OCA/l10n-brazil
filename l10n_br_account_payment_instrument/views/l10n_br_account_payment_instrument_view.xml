@@ -7,24 +7,19 @@
 -->
 <odoo>
 
-    <!-- <record model="ir.ui.view" id="cnab_line_field_tree_view">
+    <record model="ir.ui.view" id="l10n_br_payment_instrument_tree_view">
         <field name="model">l10n_br.payment.instrument</field>
         <field name="arch" type="xml">
-            <tree default_order='cnab_line_id, start_pos ASC' create="false">
-                <field name="state" invisible="True" />
-                <field name="name" />
-                <field name="meaning" />
-                <field name="start_pos" />
-                <field name="end_pos" />
-                <field name="type" />
-                <field name="size" />
-                <field name="default_value" />
-                <field name="notes" />
-                <field name="cnab_line_id" />
-                <field name="cnab_group_id" />
+            <tree default_order='boleto_due ASC'>
+                <field name="boleto_due" optional="show" />
+                <field name="boleto_amount" optional="show" />
+                <field name="instrument_type" optional="show" />
+                <field name="line_ids" optional="show" />
+                <field name="company_id" optional="show" />
+                <field name="boleto_bank_id" optional="show" />
             </tree>
         </field>
-    </record> -->
+    </record>
 
     <record model="ir.ui.view" id="l10n_br_account_payment_instrument_form_view">
         <field name="model">l10n_br.payment.instrument</field>

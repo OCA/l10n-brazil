@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 Engenere.one
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="account_move_line_form_view">
+        <field
+            name="name"
+        >account.move.line.form (in l10n_br_account_payment_instrument)</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="before">
+                <field name="account_internal_type" invisible="1" />
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        name="open_payment_instruments"
+                        string="Payment Instrument"
+                        type="object"
+                        icon="fa-barcode"
+                        attrs="{'invisible': [('account_internal_type', '!=', 'payable')]}"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_move_line_tree_view">
+        <field
+            name="name"
+        >account.move.line.tree (in l10n_br_account_payment_instrument)</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree_grouped" />
+        <field name="arch" type="xml">
+            <field name="date_maturity" position="after">
+                <button
+                    name="open_payment_instruments"
+                    help="Payment Instrument"
+                    type="object"
+                    icon="fa-barcode"
+                    attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice', 'out_refund'))]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
