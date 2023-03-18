@@ -1,5 +1,7 @@
-# © 2023 ENGENERE LTDA
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+# @author Antônio S. Pereira Neto <neto@engenere.one>
+# @author Felipe Motter Pereira <felipe@engenere.one>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from datetime import datetime, timedelta
 
