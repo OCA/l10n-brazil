@@ -29,29 +29,30 @@
                     <group name="instrument" string="Payment Instrument">
                         <field name="company_currency_id" invisible="1" />
                         <field name="instrument_type" />
-                        <field
-                            name="pix_qrcode_string"
-                            string="QR Code"
-                            attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
-                        />
-                        <field
-                            name="pix_payment_key"
-                            string="Payment Key"
-                            attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
-                        />
-                        <field
-                            name="pix_txid"
-                            string="TXID"
-                            attrs="{'invisible': [('instrument_type', '!=', 'pix')]}"
-                        />
+                    </group>
+                    <group name="inpute_code">
                         <field
                             name="boleto_barcode_input"
                             string="Barcode"
                             attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
                         />
-
+                        <field
+                            name="pix_qrcode_string"
+                            string="QR Code"
+                            attrs="{'invisible': [('instrument_type', '!=', 'pix_qrcode')]}"
+                        />
                     </group>
-                    <group attrs="{'invisible': [('boleto_barcode', '==', False)]}">
+                    <group
+                        name="pix_qrcode_data"
+                        attrs="{'invisible': [('pix_qrcode_string', '==', False)]}"
+                    >
+                        <field name="pix_qrcode_key" string="Payment Key" />
+                        <field name="pix_qrcode_txid" string="Transaction ID" />
+                    </group>
+                    <group
+                        name="boleto_data"
+                        attrs="{'invisible': [('boleto_barcode', '==', False)]}"
+                    >
                         <label for="boleto_raw_bank" string="Bank" />
                         <div>
                             <div class="o_row">
@@ -88,7 +89,7 @@
                         </page>
                         <!-- Only Developer Mode -->
                         <page
-                            name="boleto_data"
+                            name="boleto_raw_data"
                             string="Boleto Data"
                             attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
                             groups="base.group_no_one"

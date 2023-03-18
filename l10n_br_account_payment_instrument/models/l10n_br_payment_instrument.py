@@ -80,20 +80,11 @@ class PaymentInstrument(models.Model):
 
     # PIX FIELDS
 
-    # Exemplo de QR Code PIX ESTATICO
-    # 00020126540014br.gov.bcb.pix0132pix_marketplace@mercadolibre.com
-    # 520400005303986540581.685802BR5906BUBLIM6008Trs Rios62240520mpqr
-    # inter5576305139663046792
-
-    # Exemplo de QR Code PIX DINAMICO
-    # 00020101021226850014br.gov.bcb.pix2563qrcodepix.bb.com.br/pix/v2/
-    # ed3da8bf-115c-47f5-bd03-0edf7f2c5e7b5204000053039865802BR5925SECR
-    # ETARIA DA RECEITA FED6008BRASILIA62070503***6304D2D9
     pix_qrcode_string = fields.Char()
-    pix_payment_key = fields.Char(
+    pix_qrcode_key = fields.Char(
         compute="_compute_pix_data",
     )
-    pix_txid = fields.Char(
+    pix_qrcode_txid = fields.Char(
         help="Transaction ID of the PIX payment.",
         compute="_compute_pix_data",
     )
@@ -123,8 +114,8 @@ class PaymentInstrument(models.Model):
 
         for rec in self:
             if not rec.pix_qrcode_string:
-                rec.pix_payment_key = False
-                rec.pix_txid = False
+                rec.pix_qrcode_key = False
+                rec.pix_qrcode_txid = False
                 continue
             emv_dict = emv_to_dict(rec.pix_qrcode_string)
             for key in emv_dict:
@@ -134,26 +125,26 @@ class PaymentInstrument(models.Model):
             # Get Payment Key (Key or URL)
             if "26" in emv_dict:
                 if "01" in emv_dict["26"]:
-                    rec.pix_payment_key = emv_dict["26"]["01"]
+                    rec.pix_qrcode_key = emv_dict["26"]["01"]
                 elif "25" in emv_dict["26"]:
-                    rec.pix_payment_key = emv_dict["26"]["25"]
+                    rec.pix_qrcode_key = emv_dict["26"]["25"]
                 else:
-                    rec.pix_payment_key = False
+                    rec.pix_qrcode_key = False
             else:
-                rec.pix_payment_key = False
+                rec.pix_qrcode_key = False
 
             # Get TXID
             if "62" in emv_dict:
                 if "05" in emv_dict["62"]:
-                    rec.pix_txid = emv_dict["62"]["05"]
+                    rec.pix_qrcode_txid = emv_dict["62"]["05"]
                 else:
-                    rec.pix_txid = False
+                    rec.pix_qrcode_txid = False
             else:
-                rec.pix_txid = False
+                rec.pix_qrcode_txid = False
 
     @api.model
     def _get_instrument_type(self):
-        return [("boleto", _("Boleto")), ("pix", _("PIX Cobrança"))]
+        return [("boleto", _("Boleto")), ("pix_qrcode", _("PIX QR Code"))]
 
     # BOLETO METHODS
 
@@ -311,7 +302,7 @@ class PaymentInstrument(models.Model):
     @api.constrains("instrument_type", "pix_qrcode_string")
     def _check_pix_qrcode_string(self):
         for rec in self:
-            if rec.instrument_type != "pix":
+            if rec.instrument_type != "pix_qrcode":
                 continue
             if not rec.pix_qrcode_string:
                 raise ValidationError(_("The QR Code of the PIX is required."))
@@ -321,7 +312,7 @@ class PaymentInstrument(models.Model):
         """
         Clear the fields that are not used by the selected instrument type
         """
-        if self.instrument_type == "pix":
+        if self.instrument_type == "pix_qrcode":
             self.boleto_barcode_input = False
         elif self.instrument_type == "boleto":
             self.pix_qrcode_string = False
@@ -329,7 +320,7 @@ class PaymentInstrument(models.Model):
     def _compute_name(self):
         for rec in self:
             rec.name = False
-            if rec.instrument_type == "pix":
+            if rec.instrument_type == "pix_qrcode":
                 rec.name = "Pix"
                 if rec.pix_qrcode_string:
                     rec.name += f" {rec.pix_qrcode_string[:30]}..."

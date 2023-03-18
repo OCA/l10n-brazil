@@ -11,8 +11,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
     "depends": [
-        "l10n_br_base",
-        "l10n_br_account",
+        "l10n_br_account_payment_order",
     ],
     "data": [
         "views/account_move_line.xml",
