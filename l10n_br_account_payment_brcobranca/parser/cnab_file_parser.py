@@ -261,6 +261,11 @@ class CNABFileParser(FileParser):
                 # porém o que importa aqui é apenas os últimos 9 digitos que é
                 # de fato a sequência númerica.
                 nosso_numero_sem_dig = linha_cnab["nosso_numero"][-9:]
+            elif bank_name_brcobranca == "banco_brasil":
+                # no banco do brasil o nosso numero vem concatenado com o código de
+                # convênio, sendo apenas os últimos 10 dígitos a sequencia do nosso
+                # número usado para procurar o move line.
+                nosso_numero_sem_dig = linha_cnab["nosso_numero"][-10:]
             else:
                 nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
 
