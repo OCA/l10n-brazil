@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="payment_acquirer_pay24pix" model="payment.acquirer">
+        <field name="name">Pay24 (PIX)</field>
+        <field
+            name="image_128"
+            type="base64"
+            file="payment_pay42_pix/static/img/pay24.png"
+        />
+        <field name="provider">pay24pix</field>
+        <field name="state">enabled</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="payment_flow">form</field>
+        <field name="save_token">none</field>
+        <field name="registration_view_template_id" ref="pay24pix_form" />
+        <field name="description" type="html">
+            <p>
+                A payment gateway to accept pix by pay24.
+            </p>
+        </field>
+        <field
+            name="pending_msg"
+        >Your payment has been successfully processed but is waiting for approval.</field>
+        <field
+            name="payment_icon_ids"
+            eval='[(6, 0, [
+            ref("payment_pay42_pix.payment_icon_pix")
+        ])]'
+        />
+
+    </record>
+</odoo>
