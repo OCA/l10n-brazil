@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="payment_acquirer_bacenpix" model="payment.acquirer">
+        <field name="name">Bacen (PIX)</field>
+        <field
+            name="image_128"
+            type="base64"
+            file="payment_bacen_pix/static/img/bacen.png"
+        />
+        <field name="provider">bacenpix</field>
+        <field name="state">enabled</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="payment_flow">form</field>
+        <field name="save_token">none</field>
+        <field name="registration_view_template_id" ref="bacenpix_form" />
+        <field name="description" type="html">
+            <p>
+                A payment gateway to accept pix, cob api, by bacen.
+            </p>
+        </field>
+        <field
+            name="pending_msg"
+        >Your payment has been successfully processed but is waiting for approval.</field>
+        <field
+            name="payment_icon_ids"
+            eval='[(6, 0, [
+            ref("payment_bacen_pix.payment_icon_pix")
+        ])]'
+        />
+
+    </record>
+</odoo>
