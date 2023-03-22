@@ -60,6 +60,7 @@ _field_renames = [
     ),
 ]
 
+
 def update_sat_environment_map(cr, env_map):
     if not env_map:
         return
@@ -77,12 +78,9 @@ def update_sat_environment(cr, current_env, target_env):
     """
     openupgrade.logged_query(cr, sql, (target_env, current_env))
 
+
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    env_map = {
-        'homologacao': 'homologation',
-        'producao': 'production'
-    }
+    env_map = {"homologacao": "homologation", "producao": "production"}
     openupgrade.rename_fields(env, _field_renames)
     update_sat_environment_map(env.cr, env_map)
-
