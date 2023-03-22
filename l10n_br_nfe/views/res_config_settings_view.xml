@@ -84,19 +84,6 @@
                               <div class="text-muted">
                                   Set nf-e default transmission type used to create new NF-e documents
                               </div>
-                              <div class="content-group">
-                                  <div class="mt16 row">
-                                      <label
-                                            for="nfe_transmission"
-                                            class="col-4 col-lg-4 o_light_label"
-                                        />
-                                      <field
-                                            name="nfe_transmission"
-                                            class="oe_inline"
-                                            required="1"
-                                        />
-                                  </div>
-                              </div>
                           </div>
                         </div>
                         <div class="col-12 col-lg-6 o_setting_box">
