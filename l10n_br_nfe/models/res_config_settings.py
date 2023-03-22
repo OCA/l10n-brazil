@@ -19,12 +19,6 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
 
-    nfe_transmission = fields.Selection(
-        string="NFe Transmission",
-        related="company_id.nfe_transmission",
-        readonly=False,
-    )
-
     nfe_danfe_layout = fields.Selection(
         string="NFe Layout",
         related="company_id.nfe_danfe_layout",
