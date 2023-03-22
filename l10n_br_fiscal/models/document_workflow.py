@@ -258,7 +258,7 @@ class DocumentWorkflow(models.AbstractModel):
                         and record.company_state_id.ibge_code
                         or ""
                     ),
-                    forma_emissao=1,  # TODO: Implementar campo no Odoo
+                    forma_emissao=int(self.transmission_type),
                     modelo_documento=record.document_type_id.code or "",
                     numero_documento=record.document_number or "",
                     numero_serie=record.document_serie or "",

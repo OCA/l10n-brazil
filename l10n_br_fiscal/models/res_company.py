@@ -33,6 +33,8 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK_NORMAL,
     TAX_FRAMEWORK_SIMPLES,
     TAX_FRAMEWORK_SIMPLES_ALL,
+    TRANSMISSION_TYPE_DEFAULT,
+    TRANSMISSIONS_TYPE,
 )
 
 _logger = logging.getLogger(__name__)
@@ -319,6 +321,26 @@ class ResCompany(models.Model):
         help="Define if costs of Insurance, Freight and Other Costs"
         " should be informed by Line or by Total.",
         default="line",
+    )
+
+    transmission_type = fields.Selection(
+        selection=TRANSMISSIONS_TYPE,
+        string="Transmission Type",
+        default=TRANSMISSION_TYPE_DEFAULT,
+        help="1=Emissão normal (não em contingência);"
+        "\n2=Contingência FS-IA, com impressão do DANFE em Formulário"
+        " de Segurança - Impressor Autônomo;"
+        "\n3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional);"
+        " *Desativado * NT 2015/002"
+        "\n4=Contingência EPEC (Evento Prévio da Emissão em Contingência);"
+        "\n5=Contingência FS-DA, com impressão do DANFE em Formulário "
+        "de Segurança - Documento Auxiliar;"
+        "\n6=Contingência SVC-AN (SEFAZ Virtual de Contingência do AN);"
+        "\n7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);"
+        "\n9=Contingência off-line da NFC-e;"
+        "\nObservação: Para a NFC-e somente é válida a opção de contingência:"
+        "\n9-Contingência Off-Line e, a critério da UF, opção "
+        "4-Contingência EPEC. (NT 2015/002)",
     )
 
     anonymous_partner_id = fields.Many2one(

@@ -51,3 +51,9 @@ class ResConfigSettings(models.TransientModel):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs", readonly=False
     )
+
+    transmission_type = fields.Selection(
+        string="NFe Transmission",
+        related="company_id.transmission_type",
+        readonly=False,
+    )

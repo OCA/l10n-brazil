@@ -24,6 +24,7 @@ from ..constants.fiscal import (
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_INUTILIZADA,
+    TRANSMISSIONS_TYPE,
 )
 
 
@@ -185,6 +186,13 @@ class Document(models.Model):
         string="Subsequent documents generated?",
         compute="_compute_document_subsequent_generated",
         default=False,
+    )
+
+    transmission_type = fields.Selection(
+        selection=TRANSMISSIONS_TYPE,
+        string="NFe Transmission",
+        copy=False,
+        default=lambda self: self.env.user.company_id.transmission_type,
     )
 
     @api.constrains("document_key")

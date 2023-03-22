@@ -144,6 +144,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="content-group">
+                            <div class="mt16 row">
+                                <label
+                                    for="transmission_type"
+                                    class="col-4 col-lg-4 o_light_label"
+                                />
+                                <field
+                                    name="transmission_type"
+                                    class="oe_inline"
+                                    required="1"
+                                />
+                                <div class="text-muted">
+                                    Define the transmission type for Brazilian eletronic invoice.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </xpath>
