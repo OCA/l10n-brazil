@@ -1,16 +1,18 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import binascii
 import hashlib
 import locale
 import logging
+import xml.etree.ElementTree as ET
 
 from odoo import models
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.edoc.nfce import ESTADO_CONSULTA_NFCE, ESTADO_QRCODE
+    from erpbrasil.edoc.nfce import ESTADO_CONSULTA_NFCE, ESTADO_QRCODE, NAMESPACES
 except ImportError:
     _logger.error("Biblioteca erpbrasil.edoc não instalada")
 
@@ -93,6 +95,7 @@ class AccountMove(models.Model):
     def _prepare_nfce_danfe_values(self):
         locale.setlocale(locale.LC_MONETARY, "pt_BR.utf8")
         return {
+            "company_ie": self.company_inscr_est,
             "company_cnpj": self.company_cnpj_cpf,
             "company_legal_name": self.company_legal_name,
             "company_street": self.company_street,
@@ -111,8 +114,8 @@ class AccountMove(models.Model):
             "amount_change": locale.currency(self.nfe40_vTroco),
             "nfce_url": self.estado_de_consulta_da_nfce(),
             "document_key": self.document_key,
-            "document_number": self.document_number.zfill(9),
-            "document_serie": self.document_serie.zfill(3),
+            "document_number": self.document_number,
+            "document_serie": self.document_serie,
             "document_date": self.document_date.astimezone().strftime(
                 "%d/%m/%y %H:%M:%S"
             ),
@@ -121,14 +124,17 @@ class AccountMove(models.Model):
             "system_env": self.nfe40_tpAmb,
             "unformatted_amount_freight_value": self.amount_freight_value,
             "unformatted_amount_discount_value": self.amount_discount_value,
+            "contingency": True if not self.transmission_type == "1" else False,
+            "homologation_environment": True if self.nfe_environment == "2" else False,
         }
 
     def _prepare_nfce_danfe_line_values(self):
         lines_list = []
         lines = self.line_ids.filtered(lambda line: line.product_id)
-        for line in lines:
+        for index, line in enumerate(lines):
             product_id = line.product_id
             vals = {
+                "product_index": index + 1,
                 "product_default_code": product_id.default_code,
                 "product_name": product_id.name,
                 "product_quantity": line.quantity,
@@ -153,6 +159,12 @@ class AccountMove(models.Model):
         return payments_list
 
     def _monta_qrcode(self):
+        if self.transmission_type == "1":
+            return self._online_qrcode()
+        else:
+            return self._offline_qrcode()
+
+    def _online_qrcode(self):
         nfce_chave = self.document_key
         nfce_qrcode_version = self.company_id.nfce_qrcode_version
         nfe40_tpAmb = self.nfe40_tpAmb
@@ -170,6 +182,28 @@ class AccountMove(models.Model):
         estado_qrcode = ESTADO_QRCODE[SIGLA_ESTADO[ibge_code]][nfe40_tpAmb]
 
         return f"{estado_qrcode}{pre_qrcode}|{qr_hash}"
+
+    def _offline_qrcode(self):
+        ibge_code = self.company_state_id.ibge_code
+        processador = self.fiscal_document_id._processador()
+        for edoc in self.fiscal_document_id.serialize():
+            xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
+            xml = ET.fromstring(xml_assinado)
+            chave_nfce = self.document_key
+            data_emissao = edoc.infNFe.ide.dhEmi[8:10]
+            total_nfe = xml.find(
+                ".//nfe:total/nfe:ICMSTot/nfe:vNF", namespaces=NAMESPACES
+            ).text
+            digest_value = xml.find(".//ds:DigestValue", namespaces=NAMESPACES).text
+            digest_value_hex = binascii.hexlify(digest_value.encode()).decode()
+            pre_qrcode_witouth_csc = f"{chave_nfce}|{self.company_id.nfce_qrcode_version}|{self.nfe40_tpAmb}|{data_emissao}|{total_nfe}|{digest_value_hex}|{self.company_id.nfce_csc_token}"
+            pre_qrcode = f"{chave_nfce}|{self.company_id.nfce_qrcode_version}|{self.nfe40_tpAmb}|{data_emissao}|{total_nfe}|{digest_value_hex}|{self.company_id.nfce_csc_token}{self.company_id.nfce_csc_code}"
+            hash_object = hashlib.sha1(pre_qrcode.encode("utf-8"))
+            qr_hash = hash_object.hexdigest().upper()
+
+            estado_qrcode = ESTADO_QRCODE[SIGLA_ESTADO[ibge_code]][self.nfe40_tpAmb]
+
+        return f"{estado_qrcode}{pre_qrcode_witouth_csc}|{qr_hash}"
 
     def estado_de_consulta_da_nfce(self):
         return ESTADO_CONSULTA_NFCE[SIGLA_ESTADO[self.company_state_id.ibge_code]][
