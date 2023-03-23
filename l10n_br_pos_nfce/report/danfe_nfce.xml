@@ -2,191 +2,162 @@
 <odoo>
     <template id="report_danfe_nfce">
         <t t-call="web.html_container">
-            <div style="font-size: 10px; max-width: 90mm; margin-top: 2mm;">
-                <div
-                    style="border-bottom: 1px solid black; padding-bottom: 2mm; margin-bottom: 2mm; text-align: center;"
-                >
-                    <div
-                        style="display: flex; justify-content: space-between; margin: 0;"
-                    >
-                        <p
-                            style="margin-left: 2mm; margin-right: 1mm; margin-bottom: 0;"
-                        >CNPJ: <t t-esc="company_cnpj" /></p>
-                        <p style="margin-right: 2mm; margin-bottom: 0;"><b><t
-                                    t-esc="company_legal_name"
-                                /></b></p>
-                    </div>
-                    <div style="margin: 0;">
+            <div style="font-size: 12px; max-width: 90mm; margin-top: 2mm;">
+                <div style="text-align: center; margin: 0 auto">
+                    <h2
+                        style="text-transform: uppercase; font-size: 18px; font-weight: bold;"
+                    ><t t-esc="company_legal_name" /></h2>
+                    <div style="max-width: 20.5em; text-align: center; margin: 0 auto;">
                         <p style="margin-bottom: 0;"><t t-esc="company_street" />, <t
                                 t-esc="company_district"
                             />, <t t-esc="company_city" /> - <t
                                 t-esc="company_state"
                             /></p>
                     </div>
-                    <div style="margin: 0;">
-                        <p
-                            style="margin-bottom: 0;"
-                        >Documento Auxiliar da Nota Fiscal de Consumidor Eletrônica</p>
-                    </div>
-                </div>
-                <div>
-                    <table
-                        style="width: 100%; border-collapse: collapse; margin-bottom: 2mm;"
+                    <div
+                        style="display: flex; justify-content: space-between; max-width: 20em; margin: 0 auto;"
                     >
-                        <tr>
-                            <th
-                                style="text-align: left; padding: 1mm; left; font-weight: bold;"
-                            >Código</th>
-                            <th
-                                style="text-align: left; padding: 1mm; left; font-weight: bold;"
-                            >Descrição</th>
-                            <th
-                                style="text-align: left; padding: 1mm; left; font-weight: bold;"
-                            >Qtde</th>
-                            <th
-                                style="text-align: left; padding: 1mm; left; font-weight: bold;"
-                            >UN</th>
-                            <th
-                                style="text-align: left; padding: 1mm; left; font-weight: bold;"
-                            >Vl Unit</th>
-                            <th
-                                style="text-align: left; padding: 1mm; left; font-weight: bold;"
-                            >Vl Total</th>
-                        </tr>
-                        <t t-foreach="lines" t-as="line">
-                            <tr>
-                                <td style="text-align: left;"><t
-                                        t-esc="line['product_default_code']"
-                                    /></td>
-                                <td style="padding-left: 1mm; text-align: left;"><t
-                                        t-esc="line['product_name']"
-                                    /></td>
-                                <td style="padding-left: 1mm; text-align: left;"><t
-                                        t-esc="line['product_quantity']"
-                                    /></td>
-                                <td style="padding-left: 1mm; text-align: left;"><t
-                                        t-esc="line['product_uom']"
-                                    /></td>
-                                <td style="padding-left: 1mm; text-align: left;"><t
-                                        t-esc="line['product_unit_value']"
-                                    /></td>
-                                <td style="padding-left: 1mm; text-align: left;"><t
-                                        t-esc="line['product_unit_total']"
-                                    /></td>
-                            </tr>
-                        </t>
-                    </table>
+                        <p style="margin-bottom: 0; padding: 0;">CNPJ: <t
+                                t-esc="company_cnpj"
+                            /></p>
+                        <p style="margin-bottom: 0; padding: 0;">IE: <t
+                                t-esc="company_ie"
+                            /></p>
+                    </div>
+                    <div>
+                        <p
+                            class="text-transform: uppercase; margin-bottom: 0;"
+                        >Documento Auxiliar da Nota Fiscal do Consumidor Eletrônica</p>
+                    </div>
+                    <t t-if="contingency">
+                        <hr />
+                        <div>
+                            <p style="margin-bottom: 0;">Emitida em Contingência</p>
+                            <p style="margin-bottom: 0;">Pendente de Autorização</p>
+                        </div>
+                    </t>
+                    <hr />
+                    <t t-if="homologation_environment">
+                        <div style="text-transform: uppercase;  ">
+                            <p
+                                style="margin-bottom: 0; font-size: 14px;"
+                            >EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL</p>
+                        </div>
+                        <hr />
+                    </t>
                 </div>
                 <div>
-                    <div style="display: flex; justify-content: space-between">
-                        <p style="margin-bottom: 0;">Qtd. total de itens</p>
+                    <p
+                        style="font-size: 11px;"
+                    ># | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL</p>
+                    <t t-foreach="lines" t-as="line" t-key="line.id">
+                        <p style="margin-bottom: 0;"><t
+                                t-esc="line['product_index']"
+                            /> <t t-esc="line['product_name']" /> <t
+                                t-esc="line['product_quantity']"
+                            /><t t-esc="line['product_uom']" /> X <t
+                                t-esc="line['product_unit_value']"
+                            /> <t t-esc="line['product_unit_total']" /> </p>
+                    </t>
+                </div>
+                <hr />
+                <div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center;"
+                    >
+                        <p style="margin-bottom: 0;">Qtd total itens</p>
                         <p style="margin-bottom: 0;"><t
                                 t-esc="total_product_quantity"
                             /></p>
                     </div>
-
-                    <div style="display: flex; justify-content: space-between">
-                        <p style="margin-bottom: 0;">Valor Total</p>
-                        <p style="margin-bottom: 0;"><t t-esc="amount_total" /></p>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between">
-                        <t t-if="unformatted_amount_discount_value">
+                    <t t-if="unformatted_amount_discount_value">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center;"
+                        >
                             <p style="margin-bottom: 0;">Desconto</p>
                             <p style="margin-bottom: 0;"><t
-                                    t-esc="amount_discount_value"
+                                    t-esc="unformatted_amount_discount_value"
                                 /></p>
-                        </t>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between">
-                        <t t-if="unformatted_amount_freight_value">
-                            <p style="margin-bottom: 0;">Frete</p>
-                            <p style="margin-bottom: 0;"><t
-                                    t-esc="amount_freight_value"
-                                /></p>
-                        </t>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between">
-                        <p style="margin-bottom: 0;"><b>Valor a Pagar</b></p>
+                        </div>
+                    </t>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center;"
+                    >
+                        <p
+                            style="text-transform: uppercase; font-weight: bold; margin-bottom: 0"
+                        >Valor total</p>
                         <p style="margin-bottom: 0;"><t t-esc="amount_total" /></p>
                     </div>
                 </div>
-
-                <div style="margin-top: 1mm;">
-                    <div style="display: flex; justify-content: space-between">
-                        <p
-                            style="margin-bottom: 0; font-weight: bold;"
-                        >FORMA DE PAGAMENTO</p>
-                        <p style="margin-bottom: 0; font-weight: bold;">VALOR PAGO</p>
-                    </div>
-
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center;"
+                >
                     <t t-foreach="payments" t-as="payment">
-                        <div style="display: flex; justify-content: space-between">
-                            <p style="margin-bottom: 0;"><t
-                                    t-esc="payment['method']"
-                                /></p>
-                            <p style="margin-bottom: 0;"><t
-                                    t-esc="payment['value']"
-                                /></p>
-                        </div>
-                    </t>
-
-                    <t t-if="amount_change">
-                        <div style="display: flex; justify-content: space-between">
-                            <p style="margin-bottom: 0;">Troco</p>
-                            <p style="margin-bottom: 0;"><t t-esc="amount_change" /></p>
-                        </div>
+                        <p style="margin-bottom: 0;"><t t-esc="payment['method']" /></p>
+                        <p style="margin-bottom: 0;"><t t-esc="payment['value']" /></p>
                     </t>
                 </div>
-
-                <div style="margin-top: 2mm; text-align: center;">
-                    <div>
-                        <p style="margin-bottom: 0;"><b
-                            >Consulta pela Chave de Acesso em</b></p>
-                        <p style="margin-bottom: 0;"><t t-esc="nfce_url" /></p>
-                        <p style="margin-bottom: 0;"><t t-esc="document_key" /></p>
+                <t t-if="amount_change">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center;"
+                    >
+                        <p style="margin-bottom: 0;">TROCO</p>
+                        <p style="margin-bottom: 0;"><t t-esc="amount_change" /></p>
                     </div>
+                </t>
+                <hr />
+                <div style="text-align: center;">
+                    <p style="margin-bottom: 0;">Consulte pela chave de acesso em:</p>
+                    <p style="margin-bottom: 0;"><t t-esc="nfce_url" /></p>
+                    <p style="font-size: 13px; margin-bottom: 0;"><t
+                            t-esc="document_key"
+                        /></p>
                 </div>
-
-                <div style="margin-top: 2mm; text-align: center;">
+                <div
+                    style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; margin: 10px 0;"
+                >
                     <div>
-                        <p style="margin-bottom: 1mm;"><b
-                            >CONSUMIDOR NÃO IDENTIFICADO</b></p>
-                    </div>
-                    <t t-if="system_env == '2'">
                         <div>
+                            <!-- TODO: Quando o consumidor for identificado deve haver o CPF ou CNPJ-->
                             <p
-                                style="font-weight: bold; margin-bottom: 1mm;"
-                            >EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO – SEM VALOR FISCAL</p>
+                                style="text-transform: uppercase; text-align: left; fonti-size: 18px; margin: 2px auto;"
+                            >Consumidor Nao Identificado</p>
                         </div>
-                    </t>
-                    <div style="display: flex; justify-content: space-between">
-                        <p style="font-weight: bold;">NFC-e nº <t
-                                t-esc="document_number"
-                            /></p>
-                        <p style="font-weight: bold;">Série <t
-                                t-esc="document_serie"
-                            /></p>
-                        <p style="font-weight: bold;"><t t-esc="document_date" /></p>
+
+                        <div>
+                            <p style="margin-bottom: 0;">Numero: <t
+                                    t-esc="document_number"
+                                /></p>
+                            <p style="margin-bottom: 0;">Serie: <t
+                                    t-esc="document_serie"
+                                /></p>
+                            <p style="margin-bottom: 0;">Emissao: <t
+                                    t-esc="document_date"
+                                /></p>
+                        </div>
+
+                        <div>
+                            <t t-if="contingency">
+                                <p style="margin-bottom: 0;">Emitida em Contingencia</p>
+                                <p style="margin-bottom: 0;">Pendente de Autorizacao</p>
+                            </t>
+                            <t t-else="">
+                                <p style="margin-bottom: 0;">Protocolo: <t
+                                        t-esc="authorization_protocol"
+                                    /></p>
+                                <p style="margin-bottom: 0;">Autorizacao: <t
+                                        t-esc="document_date"
+                                    /></p>
+                            </t>
+                        </div>
                     </div>
+
                     <div>
-                        <p
-                            style="margin-bottom: 0; font-weight: bold;"
-                        >Protocolo de Autorização: <t
-                                t-esc="authorization_protocol"
-                            /></p>
-                        <p
-                            style="margin-bottom: 0; font-weight: bold;"
-                        >Data de autorização: <t t-esc="document_date" /></p>
+                        <t t-set="qr_code" t-value="document_qrcode" />
+                        <img
+                            t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', qr_code, 150, 150)"
+                        />
                     </div>
-                </div>
-                <div style="margin-top: 2mm; text-align: center;">
-                    <t t-set="qr_code" t-value="document_qrcode" />
-                    <img
-                        t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', qr_code, 200, 200)"
-                    />
                 </div>
             </div>
         </t>
