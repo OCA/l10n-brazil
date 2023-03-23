@@ -216,6 +216,32 @@ class AccountMove(models.Model):
 
         return invoice_view
 
+    @api.depends(
+        "line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched",
+        "line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual",
+        "line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual_currency",
+        "line_ids.matched_credit_ids.credit_move_id.move_id.payment_id.is_matched",
+        "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual",
+        "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual_currency",
+        "line_ids.debit",
+        "line_ids.credit",
+        "line_ids.currency_id",
+        "line_ids.amount_currency",
+        "line_ids.amount_residual",
+        "line_ids.amount_residual_currency",
+        "line_ids.payment_id.state",
+        "line_ids.full_reconcile_id",
+    )
+    def _compute_amount(self):
+        for move in self:
+            for line in move.line_ids:
+                if (
+                    move.is_invoice(include_receipts=True)
+                    and not line.exclude_from_invoice_tab
+                ):
+                    line._update_taxes()
+        return super()._compute_amount()
+
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
