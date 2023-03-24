@@ -233,6 +233,8 @@ class AccountMove(models.Model):
         "line_ids.full_reconcile_id",
     )
     def _compute_amount(self):
+        if self.company_id.country_id.code != "BR":
+            return super()._compute_amount()
         for move in self:
             for line in move.line_ids:
                 if (
@@ -240,7 +242,24 @@ class AccountMove(models.Model):
                     and not line.exclude_from_invoice_tab
                 ):
                     line._update_taxes()
-        return super()._compute_amount()
+
+        result = super()._compute_amount()
+        for move in self:
+            if move.move_type == "entry" or move.is_outbound():
+                sign = -1
+            else:
+                sign = 1
+            inv_line_ids = move.line_ids.filtered(
+                lambda l: not l.exclude_from_invoice_tab
+            )
+            move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
+            move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
+            move.amount_untaxed_signed = sign * sum(
+                inv_line_ids.mapped("amount_untaxed")
+            )
+            move.amount_tax_signed = sign * sum(inv_line_ids.mapped("amount_tax"))
+
+        return result
 
     @api.model
     def default_get(self, fields_list):
