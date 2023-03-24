@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="event_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.event.search</field>
+        <field name="model">l10n_br_fiscal.event</field>
+        <field name="arch" type="xml">
+            <search string="Fiscal Document Event">
+                <field name="origin" />
+            </search>
+        </field>
+    </record>
+
+    <record id="event_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.event.tree</field>
+        <field name="model">l10n_br_fiscal.event</field>
+        <field name="arch" type="xml">
+            <tree edit="false" create="false">
+                <field name="type" />
+                <field name="company_id" />
+                <field name="response" />
+                <field name="origin" />
+                <field name="write_date" />
+                <field name="protocol_date" />
+                <field name="status_code" />
+                <field name="message" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="event_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.event.form</field>
+        <field name="model">l10n_br_fiscal.event</field>
+        <field name="arch" type="xml">
+            <form string="Eventos Eletronicos" edit="false" create="false">
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <field name="type" />
+                        <field name="company_id" />
+                        <field name="document_id" />
+                        <field name="document_type_id" />
+                        <field name="invalidate_number_id" />
+                        <field name="sequence" />
+                        <field name="justification" />
+                        <field name="partner_id" />
+                        <field name="file_request_id" />
+                        <field name="file_response_id" />
+                        <field name="protocol_number" />
+                        <field name="response" />
+                        <field name="origin" />
+                        <field name="write_date" />
+                        <field name="file_path" />
+                        <field name="protocol_date" />
+                        <field name="status_code" />
+                        <field name="message" />
+                        <field name="state" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
