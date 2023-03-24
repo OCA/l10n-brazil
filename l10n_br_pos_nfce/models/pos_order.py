@@ -142,4 +142,14 @@ class PosOrder(models.Model):
         }
         order.write(vals)
         order.account_move.write({"state": "cancel"})
+        order.with_context(
+            mail_create_nolog=True,
+            tracking_disable=True,
+            mail_create_nosubscribe=True,
+            mail_notrack=True,
+        ).refund()
+        refund_order = self.search(
+            [("pos_reference", "=", order.pos_reference), ("amount_total", ">", 0)]
+        )
+        refund_order.pos_reference = f"{order.pos_reference}-cancelled"
         return order.account_move.fiscal_document_id.state_edoc
