@@ -281,6 +281,11 @@ msgid "Devolver"
 msgstr "Devolver"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__discount
+msgid "Discount (%)"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__display_name
