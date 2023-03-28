@@ -24,7 +24,7 @@ from ..constants.fiscal import (
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_INUTILIZADA,
-    TRANSMISSIONS_TYPE,
+    EDOC_TRANSMISSIONS,
 )
 
 
@@ -188,11 +188,11 @@ class Document(models.Model):
         default=False,
     )
 
-    transmission_type = fields.Selection(
-        selection=TRANSMISSIONS_TYPE,
+    edoc_transmission = fields.Selection(
+        selection=EDOC_TRANSMISSIONS,
         string="NFe Transmission",
         copy=False,
-        default=lambda self: self.env.user.company_id.transmission_type,
+        default=lambda self: self.env.user.company_id.edoc_transmission,
     )
 
     @api.constrains("document_key")

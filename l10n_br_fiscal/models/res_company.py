@@ -33,8 +33,8 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK_NORMAL,
     TAX_FRAMEWORK_SIMPLES,
     TAX_FRAMEWORK_SIMPLES_ALL,
-    TRANSMISSION_TYPE_DEFAULT,
-    TRANSMISSIONS_TYPE,
+    EDOC_TRANSMISSION_DEFAULT,
+    EDOC_TRANSMISSIONS,
 )
 
 _logger = logging.getLogger(__name__)
@@ -323,10 +323,10 @@ class ResCompany(models.Model):
         default="line",
     )
 
-    transmission_type = fields.Selection(
-        selection=TRANSMISSIONS_TYPE,
+    edoc_transmission = fields.Selection(
+        selection=EDOC_TRANSMISSIONS,
         string="Transmission Type",
-        default=TRANSMISSION_TYPE_DEFAULT,
+        default=EDOC_TRANSMISSION_DEFAULT,
         help="1=Emissão normal (não em contingência);"
         "\n2=Contingência FS-IA, com impressão do DANFE em Formulário"
         " de Segurança - Impressor Autônomo;"

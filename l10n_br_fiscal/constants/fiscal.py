@@ -526,7 +526,7 @@ FISCAL_PAYMENT_MODE = [
     ("90", "90 - Sem Pagamento"),
     ("99", "99 - Outros"),
 ]
-TRANSMISSIONS_TYPE = [
+EDOC_TRANSMISSIONS = [
     ("1", "Emissão Normal"),
     ("2", "Contingência FS-IA"),
     ("3", "Contingência SCAN"),
@@ -537,4 +537,4 @@ TRANSMISSIONS_TYPE = [
     ("9", "Contingência off-line da NFC-e"),
 ]
 
-TRANSMISSION_TYPE_DEFAULT = "1"
+EDOC_TRANSMISSION_DEFAULT = "1"

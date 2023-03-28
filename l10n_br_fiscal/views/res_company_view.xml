@@ -165,7 +165,7 @@
                                 </group>
                                 <group />
                                 <group>
-                                    <field name="transmission_type" />
+                                    <field name="edoc_transmission" />
                                 </group>
                             </group>
                         </page>

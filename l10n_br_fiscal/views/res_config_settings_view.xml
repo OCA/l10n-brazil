@@ -147,11 +147,11 @@
                         <div class="content-group">
                             <div class="mt16 row">
                                 <label
-                                    for="transmission_type"
+                                    for="edoc_transmission"
                                     class="col-4 col-lg-4 o_light_label"
                                 />
                                 <field
-                                    name="transmission_type"
+                                    name="edoc_transmission"
                                     class="oe_inline"
                                     required="1"
                                 />
