@@ -285,7 +285,7 @@
                         force_save="1"
                         groups="uom.group_uom"
                         class="oe_inline oe_no_button"
-                        attrs="{'required': [('display_type', '=', False)], 'invisible': [('document_type_id', '=', False)]}"
+                        attrs="{'required': [('display_type', '=', False),('document_type_id', '!=', False)], 'invisible': [('document_type_id', '=', False)]}"
                     />
                 </div>
                 <field
