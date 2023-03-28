@@ -15,7 +15,10 @@ odoo.define("l10n_br_pos_cfe.PaymentScreen", function (require) {
     const L10nBrPosCfePaymentScreen = (PaymentScreen) =>
         class extends PaymentScreen {
             async validateOrder(isForceValidate) {
-                if (this.env.pos.config.iface_fiscal_via_proxy) {
+                if (
+                    this.env.pos.config.iface_fiscal_via_proxy ||
+                    this.env.pos.config.simplified_document_type !== "59"
+                ) {
                     super.validateOrder(isForceValidate);
                 } else {
                     this.showPopup("ErrorPopup", {
