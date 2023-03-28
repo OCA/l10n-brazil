@@ -275,7 +275,7 @@ class AccountMoveLine(models.Model):
                 freight_value=self.freight_value,
                 fiscal_price=self.fiscal_price,
                 fiscal_quantity=self.fiscal_quantity,
-                uot=self.uot_id,
+                uot_id=self.uot_id,
                 icmssn_range=self.icmssn_range_id,
                 icms_origin=self.icms_origin,
             ),
@@ -345,7 +345,7 @@ class AccountMoveLine(models.Model):
                 freight_value=self.env.context.get("freight_value"),
                 fiscal_price=self.env.context.get("fiscal_price"),
                 fiscal_quantity=self.env.context.get("fiscal_quantity"),
-                uot=self.env.context.get("uot_id"),
+                uot_id=self.env.context.get("uot_id"),
                 icmssn_range=self.env.context.get("icmssn_range"),
                 icms_origin=self.env.context.get("icms_origin"),
             )
