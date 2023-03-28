@@ -46,6 +46,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 district,
                 city_id,
                 zip,
+                state_id,
             } = company;
             const {nfce_environment} = this.pos.config;
 
@@ -59,6 +60,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                     district,
                     city: city_id[1],
                     zip,
+                    state: state_id[1],
                 },
             };
             json.nfce_environment = nfce_environment;

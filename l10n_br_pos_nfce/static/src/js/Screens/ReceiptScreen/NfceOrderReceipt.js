@@ -15,7 +15,9 @@ odoo.define("l10n_br_pos_nfce.NfceOrderReceipt", function (require) {
             }
 
             get orderChange() {
-                this.receipt.change.toLocaleString("pt-br", {minimumFractionDigits: 2});
+                return this.receipt.change.toLocaleString("pt-br", {
+                    minimumFractionDigits: 2,
+                });
             }
         };
 
