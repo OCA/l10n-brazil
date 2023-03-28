@@ -373,8 +373,8 @@ class PosOrder(models.Model):
         return res
 
     def _populate_cancel_order_fields(self, order_vals):
-        self.cancel_document_key = order_vals["key_cfe"]
-        self.cancel_document_session_number = order_vals["sessionNum"]
+        self.cancel_document_key = order_vals["chave_cfe"]
+        self.cancel_document_session_number = order_vals["numSessao"]
         self.state_edoc = "cancelada"
         self.cancel_file = order_vals["xml"]
 

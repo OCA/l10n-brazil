@@ -485,7 +485,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             try {
                 this.pos.rpc({
                     model: "pos.order",
-                    method: "cancelar_order",
+                    method: "cancel_order",
                     args: [result.response],
                 });
             } catch (error) {
