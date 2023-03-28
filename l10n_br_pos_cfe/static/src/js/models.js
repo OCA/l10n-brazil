@@ -57,13 +57,13 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             json.company.inscr_mun = pos_company.inscr_mun;
             json.rounding = this.pos.currency.rounding;
 
-            if (pos_company.environment_sat === AMBIENTE_PRODUCAO) {
+            if (pos_company.sat_environment === AMBIENTE_PRODUCAO) {
                 json.company.cnpj = pos_company.cnpj_cpf;
                 json.company.ie = pos_company.inscr_est;
                 json.company.cnpj_software_house = pos_config.cnpj_software_house;
             } else {
-                json.company.cnpj = pos_config.cnpj_homologacao;
-                json.company.ie = pos_config.ie_homologacao;
+                json.company.cnpj = pos_config.cnpj_homologation;
+                json.company.ie = pos_config.ie_homologation;
                 json.company.cnpj_software_house = pos_config.cnpj_software_house;
             }
 
@@ -78,9 +78,9 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
             json.configs_sat = {};
             json.configs_sat.cnpj_software_house = json.company.cnpj_software_house;
             json.configs_sat.sat_path = pos_config.sat_path;
-            json.configs_sat.numero_caixa = pos_config.numero_caixa;
-            json.configs_sat.cod_ativacao = pos_config.cod_ativacao;
-            json.configs_sat.impressora = pos_config.impressora;
+            json.configs_sat.numero_caixa = pos_config.cashier_number;
+            json.configs_sat.cod_ativacao = pos_config.activation_code;
+            json.configs_sat.impressora = pos_config.printer;
             json.configs_sat.printer_params = pos_config.printer_params;
         },
         export_for_printing: function () {
@@ -209,8 +209,8 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
     models.Paymentline = models.Paymentline.extend({
         _prepare_fiscal_json: function (json) {
             _super_payment_line._prepare_fiscal_json.apply(this, arguments);
-            json.sat_payment_mode = this.payment_method.sat_payment_mode;
-            json.sat_card_acquirer = this.payment_method.sat_card_acquirer;
+            json.sat_payment_mode = this.payment_method.sat_payment_mode || "";
+            json.sat_card_accrediting = this.payment_method.sat_card_acquirer || "";
         },
         export_for_printing: function () {
             var json = _super_payment_line.export_for_printing.apply(this, arguments);
