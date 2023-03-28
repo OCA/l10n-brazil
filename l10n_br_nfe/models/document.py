@@ -222,7 +222,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_tpEmis = fields.Selection(
-        related="transmission_type"
+        related="edoc_transmission"
     )  # TODO no caso de entrada
 
     # <cDV>0</cDV> TODO
@@ -256,7 +256,7 @@ class NFe(spec_models.StackedModel):
     # Compute Methods
     ##########################
 
-    @api.depends("fiscal_operation_type", "transmission_type")
+    @api.depends("fiscal_operation_type", "edoc_transmission")
     def _compute_ide_data(self):
         """Set schema data which are not just related fields"""
         for record in self.filtered(lambda x: x._need_compute_nfe_tags()):
@@ -308,7 +308,7 @@ class NFe(spec_models.StackedModel):
     def _inverse_nfe40_tpEmis(self):
         for doc in self:
             if doc.nfe40_tpEmis:
-                doc.transmission_type = doc.nfe40_tpEmis
+                doc.edoc_transmission = doc.nfe40_tpEmis
 
     ##########################
     # NF-e tag: NFref
