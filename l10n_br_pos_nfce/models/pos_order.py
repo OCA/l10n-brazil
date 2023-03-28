@@ -23,6 +23,7 @@ class PosOrder(models.Model):
                 "document_serie_id": pos_config_id.nfce_document_serie_id.id,
                 "partner_id": pos_config_id.partner_id.id,
                 "payment_mode_id": payment_mode_id.id,
+                "nfe40_vTroco": self.amount_return,
             }
         )
 
