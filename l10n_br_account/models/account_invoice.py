@@ -335,7 +335,7 @@ class AccountMove(models.Model):
             freight_value=base_line.freight_value,
             fiscal_price=base_line.fiscal_price,
             fiscal_quantity=base_line.fiscal_quantity,
-            uot=base_line.uot_id,
+            uot_id=base_line.uot_id,
             icmssn_range=base_line.icmssn_range_id,
             icms_origin=base_line.icms_origin,
         )
