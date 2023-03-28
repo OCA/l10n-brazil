@@ -212,11 +212,11 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
             });
             this.cfe_config = {
                 sat_path: pos.config.sat_path,
-                codigo_ativacao: pos.config.cod_ativacao,
-                impressora: pos.config.impressora,
+                codigo_ativacao: pos.config.activation_code,
+                impressora: pos.config.printer,
                 printer_params: pos.config.printer_params,
                 fiscal_printer_type: pos.config.fiscal_printer_type,
-                assinatura: pos.config.assinatura_sat,
+                assinatura: pos.config.signature_sat,
             };
             const hw_fiscal = this.pos.proxy.get("status").drivers.hw_fiscal;
             if (hw_fiscal && hw_fiscal.status !== "connect") {
