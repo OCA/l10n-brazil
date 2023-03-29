@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2023-02-10 17:00+0000\n"
+"PO-Revision-Date: 2023-03-29 18:54+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1753,12 +1753,12 @@ msgstr "Valor do INSS"
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Ícone"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Ícone para indicar uma atividade excepcional."
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_destination
@@ -1770,13 +1770,13 @@ msgstr "Identifica o destino da operação."
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_needaction
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_unread
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Se marcado novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_has_error
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Se marcado, algumas mensagens tem erro de entrega."
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__insurance_value
@@ -1788,7 +1788,7 @@ msgstr "Valor do Seguro"
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__state_edoc__inutilizada
 msgid "Inutilizada"
-msgstr ""
+msgstr "Inutilizada"
 
 #. module: l10n_br_pos
 #. openerp-web
@@ -1801,7 +1801,7 @@ msgstr "CNPJ/CPF Inválido!"
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "É um seguidor"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_key
@@ -1838,17 +1838,17 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr "Última Atualização por"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__write_date
 msgid "Last Updated on"
-msgstr "Última atualização em"
+msgstr "Última Atualização em"
 
 #. module: l10n_br_pos
 #: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
 msgid "Led Lamp"
-msgstr ""
+msgstr "Lâmpada de LED"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__legal_name
