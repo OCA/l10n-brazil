@@ -62,7 +62,7 @@ STRUCTURE SPED ECF
 
   - M010 IDENTIFICAÇÃO DA CONTA NA PARTE B E-LALUR E DO E-LACS
 
-  - M030 IDENTIFICAÇÃO DO PERÍODO E FORMA DE APURAÇÃO DO IRPJ
+  - M030 IDENTIFICAÇÃO DO PERÍODO E FORMA DE APURAÇÃO DO IRPJ E DA CSLL DAS EMPRESAS TRIBUTADAS
     ≡ M300 Demonstração do Lucro Real
       ≡ M305 
       ≡ M310 
@@ -80,7 +80,7 @@ STRUCTURE SPED ECF
 
 <BLOCO N>
 
-  - N030 IDENTIFICAÇÃO DO PERÍODO E FORMA DE APURAÇÃO DO IRPJ
+  - N030 IDENTIFICAÇÃO DO PERÍODO E FORMA DE APURAÇÃO DO IRPJ E DA CSLL DAS EMPRESAS TRIBUTADAS
     ≡ N500 Base de Cálculo do IRPJ Sobre o Lucro Real Após as Compensações de Prejuízos
     ≡ N600 Demonstração do Lucro da Exploração
     ≡ N610 Cálculo da Isenção e Redução do Imposto sobre Lucro Real
@@ -93,7 +93,7 @@ STRUCTURE SPED ECF
 
 <BLOCO P>
 
-  - P030 IDENTIFICAÇÃO DOS PERÍODOS E FORMA DE APURAÇÃO DO IRPJ
+  - P030 IDENTIFICAÇÃO DOS PERÍODOS E FORMA DE APURAÇÃO DO IRPJ E DA CSLL DAS EMPRESAS TRIBUTADAS
     ≡ P100 Balanço Patrimonial
     ≡ P130 Demonstração das Receitas Incentivadas do Lucro Presumido
     ≡ P150 Demonstração do Resultado
@@ -109,7 +109,7 @@ STRUCTURE SPED ECF
 
 <BLOCO T>
 
-  - T030 IDENTIFICAÇÃO DOS PERÍODOS E FORMA DE APURAÇÃO DO IRPJ
+  - T030 IDENTIFICAÇÃO DOS PERÍODOS E FORMA DE APURAÇÃO DO IRPJ E CSLL DAS EMPRESAS TRIBUTADAS
     ≡ T120 Apuração da Base de Cálculo do IRPJ com Base no Lucro Arbitrado
     ≡ T150 Cálculo do Imposto de Renda com Base no Lucro Arbitrado
     ≡ T170 Apuração da Base de Cálculo da CSLL com Base no Lucro Arbitrado
@@ -677,7 +677,7 @@ class Registro0020(models.Model):
     )
 
     IND_OP_VINC = fields.Char(
-        string="IND_OP_VINC",
+        string="Operações",
         required=True,
         sped_length=1,
         help=(
@@ -1174,7 +1174,7 @@ class Registro0021(models.Model):
     )
 
     IND_RESIDUOS_SOLIDOS = fields.Char(
-        string="IND_RESIDUOS_SOLIDOS",
+        string="Estabelecimentos industriais façam jus",
         sped_length=1,
         help=(
             "Estabelecimentos industriais façam jus a crédito presumido do IPI"
@@ -1193,7 +1193,7 @@ class Registro0021(models.Model):
     )
 
     IND_COPA_DO_MUNDO = fields.Char(
-        string="Habilitada para fins",
+        string="Habilitada para fins de fruição",
         sped_length=1,
         help=(
             "Habilitada para fins de fruição dos benefícios fiscais, não "
@@ -1233,7 +1233,7 @@ class Registro0021(models.Model):
     )
 
     IND_OLIMPIADAS = fields.Char(
-        string="Habilitada para fins (IND_OLIMPIADAS)",
+        string="Habilitada para fins de fruição (IND_OLIMPIADAS)",
         sped_length=1,
         help=(
             "Habilitada para fins de fruição dos benefícios fiscais, relativos"
@@ -1588,7 +1588,7 @@ class RegistroE030(models.Model):
     reg_E155_ids = fields.One2many(
         "l10n_br_sped.ecf.8.e155",
         "reg_E155_ids_RegistroE030_id",
-        string="reg_E155_ids",
+        string="E155 Detalhes dos Saldos Contábeis Calculados",
         sped_card="[0;N]",
         sped_required="Sim",
         help=("E155 Detalhes dos Saldos Contábeis Calculados com Base nas ECD"),
@@ -1815,7 +1815,7 @@ class RegistroJ053(models.Model):
     _sped_level = 3
 
     COD_IDT = fields.Char(
-        string="Código de Identificação",
+        string="Código de Identificação do Grupo Formado",
         required=True,
         sped_length=6,
         help=(
@@ -2137,7 +2137,7 @@ class RegistroK355(models.Model):
     reg_K356_ids = fields.One2many(
         "l10n_br_sped.ecf.8.k356",
         "reg_K356_ids_RegistroK355_id",
-        string="reg_K356_ids",
+        string="K356 Mapeamento Referencial dos Saldos Finais",
         sped_card="[0;N]",
         sped_required="Sim",
         help=(
@@ -2366,7 +2366,7 @@ class RegistroK915(models.Model):
     )
 
     JUSTIFICATIVA = fields.Char(
-        string="Justificativa",
+        string="Justificativa da divergência",
         required=True,
         sped_length=500,
         help=(
@@ -2467,7 +2467,7 @@ class RegistroK935(models.Model):
     )
 
     JUSTIFICATIVA = fields.Char(
-        string="Justificativa",
+        string="Justificativa da divergência",
         required=True,
         sped_length=500,
         help=(
@@ -2800,7 +2800,7 @@ class RegistroM010(models.Model):
     _sped_level = 2
 
     COD_CTA_B = fields.Char(
-        string="COD_CTA_B",
+        string="Código Unívoco Atribuído pela Pessoa Jurídica",
         required=True,
         help=("Código Unívoco Atribuído pela Pessoa Jurídica à Conta no e-Lalur"),
     )
@@ -2878,7 +2878,7 @@ class RegistroM010(models.Model):
     )
 
     CNPJ_SIT_ESP = fields.Char(
-        string="E CNPJ",
+        string="E CNPJ da outra pessoa jurídica relacionada",
         sped_length=14,
         help=(
             "E CNPJ da outra pessoa jurídica relacionada com evento originário"
@@ -3196,7 +3196,7 @@ class RegistroM310(models.Model):
     reg_M312_ids = fields.One2many(
         "l10n_br_sped.ecf.8.m312",
         "reg_M312_ids_RegistroM310_id",
-        string="reg_M312_ids",
+        string="M312 Números dos Lançamentos Relacionados",
         sped_card="[0;N]",
         sped_required="Sim",
         help="M312 Números dos Lançamentos Relacionados à Conta Contábil",
@@ -3458,7 +3458,7 @@ class RegistroM360(models.Model):
     reg_M362_ids = fields.One2many(
         "l10n_br_sped.ecf.8.m362",
         "reg_M362_ids_RegistroM360_id",
-        string="reg_M362_ids",
+        string="M362 Números dos Lançamentos Relacionados",
         sped_card="[0;N]",
         sped_required="Sim",
         help="M362 Números dos Lançamentos Relacionados à Conta Contábil",
@@ -3703,7 +3703,7 @@ class RegistroM500(models.Model):
     )
 
     IND_VL_LCTO_PARTE_A = fields.Char(
-        string="Indicador do Somatório dos Lançamentos",
+        string="Indicador do Somatório dos Lançamentos da Parte B",
         required=True,
         sped_length=1,
         help=(
@@ -3845,7 +3845,7 @@ class RegistroM510(models.Model):
     )
 
     IND_VL_LCTO_PARTE_A = fields.Char(
-        string="Indicador do Somatório dos Lançamentos",
+        string="Indicador do Somatório dos Lançamentos da Parte B",
         required=True,
         sped_length=1,
         help=(
@@ -3967,7 +3967,7 @@ class RegistroN030(models.Model):
     reg_N500_ids = fields.One2many(
         "l10n_br_sped.ecf.8.n500",
         "reg_N500_ids_RegistroN030_id",
-        string="N500 Base de Cálculo",
+        string="N500 Base de Cálculo do IRPJ Sobre",
         sped_card="[0;N]",
         sped_required="Sim",
         help=(
@@ -4021,7 +4021,7 @@ class RegistroN030(models.Model):
     reg_N650_ids = fields.One2many(
         "l10n_br_sped.ecf.8.n650",
         "reg_N650_ids_RegistroN030_id",
-        string="N650 Base de Cálculo",
+        string="N650 Base de Cálculo da CSLL Após Compensações",
         sped_card="[0;N]",
         sped_required="Sim",
         help=(
@@ -6452,7 +6452,7 @@ class RegistroW250(models.Model):
     )
 
     EMAIL = fields.Char(
-        string="Endereço de e-mail",
+        string="Endereço de e-mail para contato",
         sped_length=115,
         help=(
             "Endereço de e-mail para contato com a entidade integrante " "reportada."
@@ -6585,7 +6585,7 @@ class RegistroW300(models.Model):
     _sped_level = 2
 
     JURISDICAO = fields.Char(
-        string="Indicação da jurisdição tributária a",
+        string="Indicação da jurisdição tributária",
         help=(
             "Indicação da jurisdição tributária a que se referem as "
             "observações adicionais. Código do país, conforme tabela do Sped "
@@ -6791,7 +6791,7 @@ class RegistroX280(models.Model):
     )
 
     CNPJ_INCENTIVO = fields.Char(
-        string="CNPJ",
+        string="CNPJ do Estabelecimento",
         required=True,
         sped_length=14,
         help=(
@@ -6801,7 +6801,7 @@ class RegistroX280(models.Model):
     )
 
     NCM_INCENTIVO = fields.Integer(
-        string="Código NCN",
+        string="Código NCN do Produto Sujeito",
         sped_length=8,
         help=(
             "Código NCN do Produto Sujeito à Isenção/Redução/Redução por "
@@ -6810,7 +6810,7 @@ class RegistroX280(models.Model):
     )
 
     REC_LIQ_INCENTIVO = fields.Float(
-        string="Valor",
+        string="Valor da Receita Líquida Relativa",
         required=True,
         sped_length=19,
         xsd_type="TDec_1602",
@@ -6825,7 +6825,7 @@ class RegistroX280(models.Model):
     )
 
     VL_INCENTIVO = fields.Monetary(
-        string="Valor (VL_INCENTIVO)",
+        string="Valor da Isenção/Redução/Redução",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -7021,7 +7021,7 @@ class RegistroX300(models.Model):
     )
 
     TIP_MET = fields.Char(
-        string="TIP_MET",
+        string="A pessoa jurídica deve assinalar",
         sped_length=5,
         help=(
             "A pessoa jurídica deve assinalar o método utilizado na "
@@ -7440,7 +7440,7 @@ class RegistroX305(models.Model):
     )
 
     FONT_AJU = fields.Char(
-        string="Descrever a fonte que serviu",
+        string="Descrever a fonte que serviu para embasar",
         required=True,
         help=(
             "Descrever a fonte que serviu para embasar o ajuste efetuado ao "
@@ -8056,7 +8056,7 @@ class RegistroX325(models.Model):
     )
 
     FONT_AJU = fields.Char(
-        string="Descrever a fonte que serviu",
+        string="Descrever a fonte que serviu para embasar",
         required=True,
         help=(
             "Descrever a fonte que serviu para embasar o ajuste efetuado ao "
@@ -8259,7 +8259,7 @@ class RegistroX340(models.Model):
     reg_X351_ids = fields.One2many(
         "l10n_br_sped.ecf.8.x351",
         "reg_X351_ids_RegistroX340_id",
-        string="X351 Demonstrativo de Resultados",
+        string="X351 Demonstrativo de Resultados e de Imposto",
         sped_card="[0;N]",
         sped_required="Sim",
         help=("X351 Demonstrativo de Resultados e de Imposto a Pagar no Exterior"),
@@ -8356,7 +8356,7 @@ class RegistroX350(models.Model):
     )
 
     LUC_BRUTO = fields.Char(
-        string="Lucro Bruto: Deve ser igual a",
+        string="Lucro Bruto: Deve ser igual",
         sped_length=19,
         help="Lucro Bruto: Deve ser igual a (X350.REC_LIQ – X350.CUSTOS)",
     )
@@ -8393,7 +8393,7 @@ class RegistroX350(models.Model):
     )
 
     DESP_BRASIL = fields.Float(
-        string="Despesas Financeiras Pagas",
+        string="Despesas Financeiras Pagas ou Creditadas",
         sped_length=19,
         xsd_type="TDec_1602",
         digits=(
@@ -8425,7 +8425,7 @@ class RegistroX350(models.Model):
     )
 
     LUC_OPER = fields.Char(
-        string="Lucro Operacional: Deve ser igual a",
+        string="Lucro Operacional: Deve ser igual",
         sped_length=19,
         help=(
             "Lucro Operacional: Deve ser igual a (X350.LUC_BRUTO + "
@@ -9294,7 +9294,7 @@ class RegistroX420(models.Model):
     _sped_level = 2
 
     TIP_ROY = fields.Char(
-        string="Indicar se são roylaties recebidos",
+        string="Indicar se são roylaties recebidos ou pagos",
         required=True,
         sped_length=1,
         help=(
@@ -9326,7 +9326,7 @@ class RegistroX420(models.Model):
     )
 
     VL_EXPL_DIR_SW = fields.Monetary(
-        string="Valor",
+        string="Valor da Exploração Econômica",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -9349,7 +9349,7 @@ class RegistroX420(models.Model):
     )
 
     VL_EXPL_DIR_AUT = fields.Monetary(
-        string="Valor (VL_EXPL_DIR_AUT)",
+        string="Valor da Exploração Econômica (VL_EXPL_DIR_AUT)",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -9387,7 +9387,7 @@ class RegistroX420(models.Model):
     )
 
     VL_EXPL_MARCA = fields.Monetary(
-        string="Valor (VL_EXPL_MARCA)",
+        string="Valor da Exploração Econômica (VL_EXPL_MARCA)",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -9408,7 +9408,7 @@ class RegistroX420(models.Model):
     )
 
     VL_EXPL_PAT = fields.Monetary(
-        string="Valor (VL_EXPL_PAT)",
+        string="Valor da Exploração Econômica (VL_EXPL_PAT)",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -9470,7 +9470,7 @@ class RegistroX420(models.Model):
     )
 
     VL_EXPL_INT = fields.Monetary(
-        string="Valor (VL_EXPL_INT)",
+        string="Valor da Exploração dos Direitos Relativos",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -9532,7 +9532,7 @@ class RegistroX430(models.Model):
     )
 
     VL_SERV_SEM_ASSIST = fields.Monetary(
-        string="Valor dos Serviços Técnicos",
+        string="Valor dos Serviços Técnicos e de Assistência",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -9723,7 +9723,7 @@ class RegistroX450(models.Model):
     )
 
     VL_SERV_SEM_ASSIST = fields.Monetary(
-        string="Valor dos Serviços Técnicos",
+        string="Valor dos Serviços Técnicos e de Assistência",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -9801,7 +9801,7 @@ class RegistroX450(models.Model):
     )
 
     VL_JURO_PF = fields.Monetary(
-        string="VL_JURO_PF",
+        string="Valor dos Juros sobre o Capital Próprio Pagos",
         sped_length=19,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",

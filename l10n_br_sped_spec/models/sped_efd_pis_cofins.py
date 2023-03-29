@@ -276,7 +276,7 @@ class Registro0000(models.Model):
     )
 
     NUM_REC_ANTERIOR = fields.Char(
-        string="Número do Recibo",
+        string="Número do Recibo da Escrituração anterior",
         help=(
             "Número do Recibo da Escrituração anterior a ser retificada, "
             "utilizado quando TIPO_ESCRIT for igual a 1"
@@ -731,7 +731,7 @@ class Registro0145(models.Model):
     )
 
     VL_REC_DEMAIS_ATIV = fields.Monetary(
-        string="Valor (VL_REC_DEMAIS_ATIV)",
+        string="Valor da Receita Bruta da(s) Atividade(s)",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -847,7 +847,7 @@ class Registro0200(models.Model):
     )
 
     COD_ANT_ITEM = fields.Char(
-        string="Código anterior",
+        string="Código anterior do item com relação",
         sped_length=60,
         help=(
             "Código anterior do item com relação à última informação " "apresentada."
@@ -956,7 +956,7 @@ class Registro0205(models.Model):
     )
 
     COD_ANT_ITEM = fields.Char(
-        string="Código anterior",
+        string="Código anterior do item com relação",
         sped_length=60,
         help=(
             "Código anterior do item com relação à última informação " "apresentada."
@@ -1718,7 +1718,7 @@ class RegistroA170(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP – Tabela " "4.3.3."
@@ -1748,7 +1748,7 @@ class RegistroA170(models.Model):
     )
 
     CST_COFINS = fields.Integer(
-        string="Código (CST_COFINS)",
+        string="CST_COFINS",
         required=True,
         help=("Código da Situação Tributária referente ao COFINS – Tabela 4.3.4."),
     )
@@ -1774,7 +1774,7 @@ class RegistroA170(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -2114,14 +2114,14 @@ class RegistroC100(models.Model):
     )
 
     VL_PIS_ST = fields.Monetary(
-        string="Valor total",
+        string="Valor total do PIS retido",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor total do PIS retido por substituição tributária",
     )
 
     VL_COFINS_ST = fields.Monetary(
-        string="Valor total (VL_COFINS_ST)",
+        string="Valor total da COFINS retido",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor total da COFINS retido por substituição tributária",
@@ -2411,7 +2411,7 @@ class RegistroC170(models.Model):
     )
 
     VL_BC_ICMS_ST = fields.Monetary(
-        string="Valor da base",
+        string="Valor da base de cálculo referente",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor da base de cálculo referente à substituição tributária",
@@ -2618,7 +2618,7 @@ class RegistroC175(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
             "Tabela indicada no item 4.3.3."
@@ -2717,7 +2717,7 @@ class RegistroC175(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -2822,7 +2822,7 @@ class RegistroC181(models.Model):
     _sped_level = 4
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -2888,14 +2888,14 @@ class RegistroC181(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
 
     reg_C181_ids_RegistroC180_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.6.c180",
-        string="Consolidação",
+        string="Consolidação de Notas Fiscais Eletrônicas Emitidas",
         required=True,
         ondelete="cascade",
         help=(
@@ -2983,7 +2983,7 @@ class RegistroC185(models.Model):
 
     reg_C185_ids_RegistroC180_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.6.c180",
-        string="Consolidação",
+        string="Consolidação de Notas Fiscais Eletrônicas Emitidas",
         required=True,
         ondelete="cascade",
         help=(
@@ -3014,7 +3014,7 @@ class RegistroC188(models.Model):
 
     reg_C188_ids_RegistroC180_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.6.c180",
-        string="Consolidação",
+        string="Consolidação de Notas Fiscais Eletrônicas Emitidas",
         required=True,
         ondelete="cascade",
         help=(
@@ -3130,7 +3130,7 @@ class RegistroC191(models.Model):
     _sped_level = 4
 
     CNPJ_CPF_PART = fields.Char(
-        string="CNPJ/CPF do Participante a",
+        string="CNPJ/CPF do Participante a que se referem",
         sped_length=14,
         help=(
             "CNPJ/CPF do Participante a que se referem as operações "
@@ -3140,7 +3140,7 @@ class RegistroC191(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -3202,7 +3202,7 @@ class RegistroC191(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -3230,7 +3230,7 @@ class RegistroC195(models.Model):
     _sped_level = 4
 
     CNPJ_CPF_PART = fields.Char(
-        string="CNPJ/CPF do Participante a",
+        string="CNPJ/CPF do Participante a que se referem",
         sped_length=14,
         help=(
             "CNPJ/CPF do Participante a que se referem as operações "
@@ -3482,7 +3482,7 @@ class RegistroC381(models.Model):
     _sped_level = 4
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -3544,7 +3544,7 @@ class RegistroC381(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -3746,7 +3746,7 @@ class RegistroC396(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -3801,7 +3801,7 @@ class RegistroC396(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -3923,7 +3923,7 @@ class RegistroC405(models.Model):
     reg_C481_ids = fields.One2many(
         "l10n_br_sped.efd_pis_cofins.6.c481",
         "reg_C481_ids_RegistroC405_id",
-        string="C481 Resumo Diário",
+        string="C481 Resumo Diário de Documentos Emitidos",
         sped_card="1:N",
         sped_required="S",
         help=(
@@ -3935,7 +3935,7 @@ class RegistroC405(models.Model):
     reg_C485_ids = fields.One2many(
         "l10n_br_sped.efd_pis_cofins.6.c485",
         "reg_C485_ids_RegistroC405_id",
-        string="C485 Resumo Diário",
+        string="C485 Resumo Diário de Documentos Emitidos",
         sped_card="1:N",
         sped_required="S",
         help=(
@@ -3955,7 +3955,7 @@ class RegistroC481(models.Model):
     _sped_level = 5
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -4015,7 +4015,7 @@ class RegistroC481(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -4215,7 +4215,7 @@ class RegistroC491(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -4271,7 +4271,7 @@ class RegistroC491(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -4522,7 +4522,7 @@ class RegistroC501(models.Model):
     _sped_level = 4
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -4569,7 +4569,7 @@ class RegistroC501(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -4769,7 +4769,7 @@ class RegistroC600(models.Model):
     )
 
     VL_SERV_NT = fields.Monetary(
-        string="VL_SERV_NT",
+        string="Valor acumulado dos serviços não-tributados",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor acumulado dos serviços não-tributados pelo ICMS",
@@ -4807,7 +4807,7 @@ class RegistroC600(models.Model):
     )
 
     VL_ICMS_ST = fields.Monetary(
-        string="Valor acumulado",
+        string="Valor acumulado do ICMS retido",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor acumulado do ICMS retido por substituição tributária",
@@ -4877,7 +4877,7 @@ class RegistroC601(models.Model):
     _sped_level = 4
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -4916,7 +4916,7 @@ class RegistroC601(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -5199,7 +5199,7 @@ class RegistroC810(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -5252,7 +5252,7 @@ class RegistroC810(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -5291,7 +5291,7 @@ class RegistroC820(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -5348,7 +5348,7 @@ class RegistroC820(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -5489,7 +5489,7 @@ class RegistroC870(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -5542,7 +5542,7 @@ class RegistroC870(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -5588,7 +5588,7 @@ class RegistroC880(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -5645,7 +5645,7 @@ class RegistroC880(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -5848,7 +5848,7 @@ class RegistroD100(models.Model):
     )
 
     CHV_CTE_REF = fields.Integer(
-        string="Chave do CT-e",
+        string="Chave do CT-e de referência cujos valores",
         help=(
             "Chave do CT-e de referência cujos valores foram complementados "
             "(opção “1” do campo anterior) ou cujo débito foi anulado (opção "
@@ -5983,7 +5983,7 @@ class RegistroD101(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -6020,7 +6020,7 @@ class RegistroD101(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -6263,7 +6263,7 @@ class RegistroD201(models.Model):
     _sped_level = 4
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -6299,7 +6299,7 @@ class RegistroD201(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -6473,7 +6473,7 @@ class RegistroD300(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -6526,7 +6526,7 @@ class RegistroD300(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -6641,7 +6641,7 @@ class RegistroD350(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -6730,7 +6730,7 @@ class RegistroD350(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -6951,7 +6951,7 @@ class RegistroD501(models.Model):
     _sped_level = 4
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -6995,7 +6995,7 @@ class RegistroD501(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -7185,7 +7185,7 @@ class RegistroD600(models.Model):
     )
 
     VL_SERV_NT = fields.Monetary(
-        string="VL_SERV_NT",
+        string="Valor acumulado dos serviços não-tributados",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help="Valor acumulado dos serviços não-tributados pelo ICMS",
@@ -7298,7 +7298,7 @@ class RegistroD601(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -7475,7 +7475,7 @@ class RegistroF010(models.Model):
     reg_F120_ids = fields.One2many(
         "l10n_br_sped.efd_pis_cofins.6.f120",
         "reg_F120_ids_RegistroF010_id",
-        string="reg_F120_ids",
+        string="F120 Bens Incorporados",
         sped_card="1:N",
         sped_required="S",
         help=(
@@ -7487,7 +7487,7 @@ class RegistroF010(models.Model):
     reg_F130_ids = fields.One2many(
         "l10n_br_sped.efd_pis_cofins.6.f130",
         "reg_F130_ids_RegistroF010_id",
-        string="reg_F130_ids",
+        string="F130 Bens Incorporados",
         sped_card="1:N",
         sped_required="S",
         help=(
@@ -7651,7 +7651,7 @@ class RegistroF100(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -7728,7 +7728,7 @@ class RegistroF100(models.Model):
     IND_ORIG_CRED = fields.Char(string="Indicador da origem do crédito")
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -7805,7 +7805,7 @@ class RegistroF120(models.Model):
     )
 
     IDENT_BEM_IMOB = fields.Integer(
-        string="Identificação dos Bens/Grupo",
+        string="Identificação dos Bens/Grupo de Bens Incorporados",
         required=True,
         help=(
             "Identificação dos Bens/Grupo de Bens Incorporados ao Ativo "
@@ -7817,7 +7817,7 @@ class RegistroF120(models.Model):
     )
 
     IND_ORIG_CRED = fields.Char(
-        string="Indicador da origem",
+        string="Indicador da origem do bem incorporado",
         help=(
             "Indicador da origem do bem incorporado ao ativo imobilizado, "
             "gerador de crédito: 0 – Aquisição no Mercado Interno 1 – "
@@ -7826,7 +7826,7 @@ class RegistroF120(models.Model):
     )
 
     IND_UTIL_BEM_IMOB = fields.Integer(
-        string="Indicador",
+        string="Indicador da Utilização dos Bens Incorporados",
         required=True,
         help=(
             "Indicador da Utilização dos Bens Incorporados ao Ativo "
@@ -7857,7 +7857,7 @@ class RegistroF120(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -7922,7 +7922,7 @@ class RegistroF120(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -7977,7 +7977,7 @@ class RegistroF129(models.Model):
 
     reg_F129_ids_RegistroF120_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.6.f120",
-        string="reg_F129_ids_RegistroF120_id",
+        string="Bens Incorporados",
         required=True,
         ondelete="cascade",
         help=(
@@ -8018,7 +8018,7 @@ class RegistroF130(models.Model):
     )
 
     IND_ORIG_CRED = fields.Char(
-        string="Indicador da origem",
+        string="Indicador da origem do bem incorporado",
         help=(
             "Indicador da origem do bem incorporado ao ativo imobilizado, "
             "gerador de crédito: 0 – Aquisição no Mercado Interno 1 – "
@@ -8027,7 +8027,7 @@ class RegistroF130(models.Model):
     )
 
     IND_UTIL_BEM_IMOB = fields.Integer(
-        string="Indicador",
+        string="Indicador da Utilização dos Bens Incorporados",
         required=True,
         help=(
             "Indicador da Utilização dos Bens Incorporados ao Ativo "
@@ -8037,7 +8037,7 @@ class RegistroF130(models.Model):
     )
 
     MES_OPER_AQUIS = fields.Integer(
-        string="Mês/Ano",
+        string="Mês/Ano de Aquisição dos Bens Incorporados",
         help=(
             "Mês/Ano de Aquisição dos Bens Incorporados ao Ativo Imobilizado, "
             "com apuração de crédito com base no valor de aquisição."
@@ -8045,7 +8045,7 @@ class RegistroF130(models.Model):
     )
 
     VL_OPER_AQUIS = fields.Monetary(
-        string="Valor",
+        string="Valor de Aquisição dos Bens Incorporados",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8079,7 +8079,7 @@ class RegistroF130(models.Model):
     )
 
     IND_NR_PARC = fields.Integer(
-        string="Indicador do Número",
+        string="Indicador do Número de Parcelas",
         required=True,
         help=(
             "Indicador do Número de Parcelas a serem apropriadas (Crédito "
@@ -8090,7 +8090,7 @@ class RegistroF130(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -8160,7 +8160,7 @@ class RegistroF130(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -8215,7 +8215,7 @@ class RegistroF139(models.Model):
 
     reg_F139_ids_RegistroF130_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.6.f130",
-        string="reg_F139_ids_RegistroF130_id",
+        string="Bens Incorporados",
         required=True,
         ondelete="cascade",
         help=(
@@ -8264,7 +8264,7 @@ class RegistroF150(models.Model):
     )
 
     VL_BC_EST = fields.Monetary(
-        string="Valor da Base de Cálculo",
+        string="Valor da Base de Cálculo do Crédito sobre",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8275,7 +8275,7 @@ class RegistroF150(models.Model):
     )
 
     VL_BC_MEN_EST = fields.Monetary(
-        string="Valor da Base de Cálculo Mensal",
+        string="Valor da Base de Cálculo Mensal do Crédito sobre",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8286,7 +8286,7 @@ class RegistroF150(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -8351,7 +8351,7 @@ class RegistroF150(models.Model):
     DESC_EST = fields.Char(string="Descrição do estoque", sped_length=100)
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -8437,7 +8437,7 @@ class RegistroF200(models.Model):
     )
 
     VL_REC_ACUM = fields.Monetary(
-        string="Valor recebido acumulado até o mês anterior ao",
+        string="Valor recebido acumulado até o mês anterior",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=("Valor recebido acumulado até o mês anterior ao da escrituração."),
@@ -8451,7 +8451,7 @@ class RegistroF200(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -8626,7 +8626,7 @@ class RegistroF205(models.Model):
     )
 
     VL_BC_CUS_INC = fields.Monetary(
-        string="Valor da Base de Cálculo",
+        string="Valor da Base de Cálculo do Crédito sobre",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8637,7 +8637,7 @@ class RegistroF205(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -8658,7 +8658,7 @@ class RegistroF205(models.Model):
     )
 
     VL_CRED_PIS_ACUM = fields.Monetary(
-        string="Valor Total",
+        string="Valor Total do Crédito Acumulado sobre",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8669,7 +8669,7 @@ class RegistroF205(models.Model):
     )
 
     VL_CRED_PIS_DESC_ANT = fields.Monetary(
-        string="Parcela",
+        string="Parcela do crédito descontada",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8723,7 +8723,7 @@ class RegistroF205(models.Model):
     )
 
     VL_CRED_COFINS_ACUM = fields.Monetary(
-        string="Valor Total (VL_CRED_COFINS_ACUM)",
+        string="VL_CRED_COFINS_ACUM",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8734,7 +8734,7 @@ class RegistroF205(models.Model):
     )
 
     VL_CRED_COFINS_DESC_ANT = fields.Monetary(
-        string="Parcela (VL_CRED_COFINS_DESC_ANT)",
+        string="VL_CRED_COFINS_DESC_ANT",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8805,7 +8805,7 @@ class RegistroF210(models.Model):
     )
 
     VL_CUS_ORC_AJU = fields.Monetary(
-        string="Valor da Base de Calculo",
+        string="Valor da Base de Calculo do Crédito sobre",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8816,7 +8816,7 @@ class RegistroF210(models.Model):
     )
 
     VL_BC_CRED = fields.Monetary(
-        string="Valor da Base de Cálculo",
+        string="Valor da Base de Cálculo do Crédito sobre",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -8828,7 +8828,7 @@ class RegistroF210(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -8848,7 +8848,7 @@ class RegistroF210(models.Model):
     )
 
     VL_CRED_PIS_UTIL = fields.Monetary(
-        string="Valor",
+        string="Valor do Crédito sobre o custo orçado",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -8877,7 +8877,7 @@ class RegistroF210(models.Model):
     )
 
     VL_CRED_COFINS_UTIL = fields.Monetary(
-        string="Valor (VL_CRED_COFINS_UTIL)",
+        string="VL_CRED_COFINS_UTIL",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -8948,7 +8948,7 @@ class RegistroF500(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -9011,14 +9011,14 @@ class RegistroF500(models.Model):
     )
 
     COD_MOD = fields.Char(
-        string="Código do modelo",
+        string="Código do modelo do documento fiscal conforme",
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
     CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -9099,7 +9099,7 @@ class RegistroF510(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -9171,14 +9171,14 @@ class RegistroF510(models.Model):
     )
 
     COD_MOD = fields.Char(
-        string="Código do modelo",
+        string="Código do modelo do documento fiscal conforme",
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
     CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -9353,7 +9353,7 @@ class RegistroF550(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -9416,14 +9416,14 @@ class RegistroF550(models.Model):
     )
 
     COD_MOD = fields.Char(
-        string="Código do modelo",
+        string="Código do modelo do documento fiscal conforme",
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
     CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada / creditada",
     )
@@ -9504,7 +9504,7 @@ class RegistroF560(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
@@ -9575,14 +9575,14 @@ class RegistroF560(models.Model):
     )
 
     COD_MOD = fields.Char(
-        string="Código do modelo",
+        string="Código do modelo do documento fiscal conforme",
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
     CFOP = fields.Integer(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada / creditada",
     )
@@ -9695,7 +9695,7 @@ class RegistroF600(models.Model):
     )
 
     CNPJ = fields.Char(
-        string="CNPJ referente a",
+        string="CNPJ referente",
         required=True,
         help=(
             "CNPJ referente a: - Fonte Pagadora Responsável pela Retenção / "
@@ -9705,7 +9705,7 @@ class RegistroF600(models.Model):
     )
 
     VL_RET_PIS = fields.Monetary(
-        string="Valor Retido",
+        string="Valor Retido na Fonte – Parcela Referente",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -9780,7 +9780,7 @@ class RegistroF700(models.Model):
     )
 
     VL_BC_OPER = fields.Monetary(
-        string="Valor da Base de Cálculo da Operação",
+        string="Valor da Base de Cálculo da Operação que ensejou",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
@@ -9929,7 +9929,7 @@ class RegistroI100(models.Model):
     )
 
     CST_PIS_COFINS = fields.Integer(
-        string="Código",
+        string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à Receita informada no "
             "Campo 02 (Tabelas 4.3.3 e 4.3.4)"
@@ -10081,7 +10081,7 @@ class RegistroI200(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código",
+        string="Código da conta contábil referente",
         sped_length=255,
         help=(
             "Código da conta contábil referente ao valor informado no campo 04"
@@ -10112,7 +10112,7 @@ class RegistroI200(models.Model):
     reg_I300_ids = fields.One2many(
         "l10n_br_sped.efd_pis_cofins.6.i300",
         "reg_I300_ids_RegistroI200_id",
-        string="reg_I300_ids",
+        string="I300 Complemento das Operações – Detalhamento",
         sped_card="1:N",
         sped_required="UNDEF_REQUIRED",
         help=(
@@ -10185,7 +10185,7 @@ class RegistroI300(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código",
+        string="Código da conta contábil referente",
         sped_length=255,
         help=("Código da conta contábil referente ao valor informado no campo 03"),
     )
@@ -10233,7 +10233,7 @@ class RegistroI399(models.Model):
 
     reg_I399_ids_RegistroI300_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.6.i300",
-        string="reg_I399_ids_RegistroI300_id",
+        string="Complemento das Operações – Detalhamento",
         required=True,
         ondelete="cascade",
         help=(
@@ -10331,7 +10331,7 @@ class RegistroM100(models.Model):
     )
 
     VL_CRED_DISP = fields.Monetary(
-        string="Valor Total",
+        string="Valor Total do Crédito Disponível relativo",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -10606,7 +10606,7 @@ class RegistroM115(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
             "neste registro."
@@ -10635,13 +10635,13 @@ class RegistroM115(models.Model):
     )
 
     DT_OPER_AJ = fields.Date(
-        string="Data da operação a",
+        string="Data da operação a que se refere",
         required=True,
         help=("Data da operação a que se refere o ajuste informado neste " "registro."),
     )
 
     DESC_AJ = fields.Char(
-        string="Descrição da(s) operação(ões) a",
+        string="Descrição da(s) operação(ões) a que se refere",
         help=(
             "Descrição da(s) operação(ões) a que se refere o valor informado "
             "no Campo 02 (DET_VALOR_AJ)"
@@ -10726,7 +10726,7 @@ class RegistroM200(models.Model):
     )
 
     VL_CONT_NC_REC = fields.Monetary(
-        string="Valor",
+        string="Valor da Contribuição Não Cumulativa",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -10780,7 +10780,7 @@ class RegistroM200(models.Model):
     reg_M205_ids = fields.One2many(
         "l10n_br_sped.efd_pis_cofins.6.m205",
         "reg_M205_ids_RegistroM200_id",
-        string="M205 Contribuição",
+        string="M205 Contribuição para o PIS/Pasep",
         sped_card="1:N",
         sped_required="S",
         help=(
@@ -10819,7 +10819,7 @@ class RegistroM205(models.Model):
     )
 
     COD_REC = fields.Char(
-        string="código",
+        string="código da receita referente à contribuição",
         required=True,
         help=(
             "código da receita referente à contribuição a recolher, detalhada "
@@ -11247,7 +11247,7 @@ class RegistroM225(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
             "neste registro."
@@ -11276,13 +11276,13 @@ class RegistroM225(models.Model):
     )
 
     DT_OPER_AJ = fields.Date(
-        string="Data da operação a",
+        string="Data da operação a que se refere",
         required=True,
         help=("Data da operação a que se refere o ajuste informado neste " "registro."),
     )
 
     DESC_AJ = fields.Char(
-        string="Descrição da(s) operação(ões) a",
+        string="Descrição da(s) operação(ões) a que se refere",
         help=(
             "Descrição da(s) operação(ões) a que se refere o valor informado "
             "no Campo 02 (DET_VALOR_AJ)"
@@ -11401,7 +11401,7 @@ class RegistroM300(models.Model):
     )
 
     VL_CRED_DESC_DIFER = fields.Monetary(
-        string="Valor",
+        string="Valor do Crédito a Descontar vinculado",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=("Valor do Crédito a Descontar vinculado à contribuição diferida."),
@@ -11491,7 +11491,7 @@ class RegistroM400(models.Model):
     _sped_level = 2
 
     CST_PIS = fields.Char(
-        string="Código",
+        string="Código de Situação Tributária – CST",
         required=True,
         help=(
             "Código de Situação Tributária – CST das demais receitas auferidas"
@@ -11508,7 +11508,7 @@ class RegistroM400(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada.",
     )
@@ -11669,7 +11669,7 @@ class RegistroM500(models.Model):
     )
 
     VL_CRED_DISP = fields.Monetary(
-        string="Valor Total",
+        string="Valor Total do Crédito Disponível relativo",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -11944,7 +11944,7 @@ class RegistroM515(models.Model):
     )
 
     CST_COFINS = fields.Integer(
-        string="Código",
+        string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
             "neste registro."
@@ -11973,13 +11973,13 @@ class RegistroM515(models.Model):
     )
 
     DT_OPER_AJ = fields.Date(
-        string="Data da operação a",
+        string="Data da operação a que se refere",
         required=True,
         help=("Data da operação a que se refere o ajuste informado neste " "registro."),
     )
 
     DESC_AJ = fields.Char(
-        string="Descrição da(s) operação(ões) a",
+        string="Descrição da(s) operação(ões) a que se refere",
         help=(
             "Descrição da(s) operação(ões) a que se refere o valor informado "
             "no Campo 02 (DET_VALOR_AJ)"
@@ -12066,7 +12066,7 @@ class RegistroM600(models.Model):
     )
 
     VL_CONT_NC_REC = fields.Monetary(
-        string="Valor",
+        string="Valor da Contribuição Não Cumulativa",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -12162,7 +12162,7 @@ class RegistroM605(models.Model):
     )
 
     COD_REC = fields.Char(
-        string="código",
+        string="código da receita referente à contribuição",
         required=True,
         help=(
             "código da receita referente à contribuição a recolher, detalhada "
@@ -12603,7 +12603,7 @@ class RegistroM625(models.Model):
     )
 
     CST_COFINS = fields.Integer(
-        string="Código",
+        string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
             "neste registro."
@@ -12632,13 +12632,13 @@ class RegistroM625(models.Model):
     )
 
     DT_OPER_AJ = fields.Date(
-        string="Data da operação a",
+        string="Data da operação a que se refere",
         required=True,
         help=("Data da operação a que se refere o ajuste informado neste " "registro."),
     )
 
     DESC_AJ = fields.Char(
-        string="Descrição da(s) operação(ões) a",
+        string="Descrição da(s) operação(ões) a que se refere",
         help=(
             "Descrição da(s) operação(ões) a que se refere o valor informado "
             "no Campo 02 (DET_VALOR_AJ)"
@@ -12758,7 +12758,7 @@ class RegistroM700(models.Model):
     )
 
     VL_CRED_DESC_DIFER = fields.Monetary(
-        string="Valor",
+        string="Valor do Crédito a Descontar vinculado",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=("Valor do Crédito a Descontar vinculado à contribuição diferida."),
@@ -12800,7 +12800,7 @@ class RegistroM800(models.Model):
     _sped_level = 2
 
     CST_COFINS = fields.Char(
-        string="Código",
+        string="Código de Situação Tributária – CST",
         required=True,
         help=(
             "Código de Situação Tributária – CST das demais receitas auferidas"
@@ -12817,7 +12817,7 @@ class RegistroM800(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada.",
     )
@@ -12912,7 +12912,7 @@ class RegistroP010(models.Model):
     reg_P100_ids = fields.One2many(
         "l10n_br_sped.efd_pis_cofins.6.p100",
         "reg_P100_ids_RegistroP010_id",
-        string="reg_P100_ids",
+        string="P100 Contribuição Previdenciária sobre",
         sped_card="1:N",
         sped_required="S",
         help="P100 Contribuição Previdenciária sobre a Receita Bruta",
@@ -12941,7 +12941,7 @@ class RegistroP100(models.Model):
     )
 
     COD_ATIV_ECON = fields.Char(
-        string="COD_ATIV_ECON",
+        string="Código indicador correspondente",
         required=True,
         help=(
             "Código indicador correspondente à atividade sujeita a incidência "
@@ -12980,7 +12980,7 @@ class RegistroP100(models.Model):
     )
 
     ALIQ_CONT = fields.Float(
-        string="Alíquota",
+        string="Alíquota da Contribuição Previdenciária sobre",
         required=True,
         sped_length=8,
         xsd_type="TDec_1604",
@@ -12992,7 +12992,7 @@ class RegistroP100(models.Model):
     )
 
     VL_CONT_APU = fields.Monetary(
-        string="Valor",
+        string="Valor da Contribuição Previdenciária Apurada sobre",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13000,7 +13000,7 @@ class RegistroP100(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código",
+        string="Código da conta analítica contábil referente",
         sped_length=255,
         help=(
             "Código da conta analítica contábil referente à Contribuição "
@@ -13062,7 +13062,7 @@ class RegistroP110(models.Model):
     )
 
     DET_VALOR = fields.Float(
-        string="DET_VALOR",
+        string="Valor detalhado referente",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -13158,7 +13158,7 @@ class RegistroP200(models.Model):
     )
 
     VL_TOT_CONT_DEV = fields.Monetary(
-        string="Valor total",
+        string="Valor total da Contribuição Previdenciária sobre",
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
@@ -13169,7 +13169,7 @@ class RegistroP200(models.Model):
     )
 
     COD_REC = fields.Char(
-        string="Código",
+        string="Código de Receita referente",
         required=True,
         help=(
             "Código de Receita referente à Contribuição Previdenciária, "
@@ -13239,7 +13239,7 @@ class RegistroP210(models.Model):
 
     reg_P210_ids_RegistroP200_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.6.p200",
-        string="Consolidação",
+        string="Consolidação da Contribuição Previdenciária sobre",
         required=True,
         ondelete="cascade",
         help=("Consolidação da Contribuição Previdenciária sobre a Receita Bruta"),
@@ -13279,7 +13279,7 @@ class Registro1010(models.Model):
     )
 
     DESC_DEC_JUD = fields.Char(
-        string="DESC_DEC_JUD",
+        string="Descrição Resumida",
         sped_length=100,
         help=(
             "Descrição Resumida dos Efeitos Tributários abrangidos pela "
@@ -13292,7 +13292,7 @@ class Registro1010(models.Model):
     reg_1011_ids = fields.One2many(
         "l10n_br_sped.efd_pis_cofins.6.1011",
         "reg_1011_ids_Registro1010_id",
-        string="reg_1011_ids",
+        string="1011 Detalhamento das Contribuições",
         sped_card="1:N",
         sped_required="S",
         help=("1011 Detalhamento das Contribuições com Exigibilidade Suspensa"),
@@ -13307,7 +13307,7 @@ class Registro1011(models.Model):
     _sped_level = 3
 
     REG_REF = fields.Char(
-        string="Registro da escrituração",
+        string="Registro da escrituração que terá o detalhamento",
         help=(
             "Registro da escrituração que terá o detalhamento das "
             "contribuições sociais com exigibilidade suspensa (Blocos A, C, D,"
@@ -13694,7 +13694,7 @@ class Registro1050(models.Model):
     )
 
     NUM_REC = fields.Char(
-        string="Número do recibo da escrituração a",
+        string="Número do recibo da escrituração a que se refere",
         sped_length=80,
         help="Número do recibo da escrituração a que se refere o ajuste",
     )
@@ -13946,7 +13946,7 @@ class Registro1101(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -13986,7 +13986,7 @@ class Registro1101(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada.",
     )
@@ -13996,7 +13996,7 @@ class Registro1101(models.Model):
     DESC_COMPL = fields.Char(string="Descrição complementar do Documento/Operação")
 
     PER_ESCRIT = fields.Integer(
-        string="Mês/Ano da Escrituração",
+        string="Mês/Ano da Escrituração em que foi registrado",
         help=(
             "Mês/Ano da Escrituração em que foi registrado o "
             "documento/operação (Crédito pelo método da Apropriação Direta)."
@@ -14197,7 +14197,7 @@ class Registro1210(models.Model):
     )
 
     CST_PIS = fields.Integer(
-        string="Código",
+        string="Código da Situação Tributária referente",
         required=True,
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -14250,7 +14250,7 @@ class Registro1210(models.Model):
     )
 
     COD_CTA = fields.Char(
-        string="Código (COD_CTA)",
+        string="Código",
         sped_length=255,
         help="Código da conta analítica contábil debitada/creditada",
     )
@@ -14328,7 +14328,7 @@ class Registro1300(models.Model):
     _sped_level = 2
 
     IND_NAT_RET = fields.Integer(
-        string="Indicador de Natureza da Retenção",
+        string="Indicador de Natureza da Retenção na Fonte",
         required=True,
         help=(
             "Indicador de Natureza da Retenção na Fonte até 2013: 01 - "
@@ -14688,7 +14688,7 @@ class Registro1501(models.Model):
     DESC_COMPL = fields.Char(string="Descrição complementar do Documento/Operação")
 
     PER_ESCRIT = fields.Integer(
-        string="Mês/Ano da Escrituração",
+        string="Mês/Ano da Escrituração em que foi registrado",
         help=(
             "Mês/Ano da Escrituração em que foi registrado o "
             "documento/operação (Crédito pelo método da Apropriação Direta)."
@@ -15021,7 +15021,7 @@ class Registro1700(models.Model):
     _sped_level = 2
 
     IND_NAT_RET = fields.Integer(
-        string="Indicador de Natureza da Retenção",
+        string="Indicador de Natureza da Retenção na Fonte",
         required=True,
         help=(
             "Indicador de Natureza da Retenção na Fonte até 2013: 01 - "
@@ -15105,7 +15105,7 @@ class Registro1800(models.Model):
     )
 
     REC_RECEB_RET = fields.Float(
-        string="Receitas recebidas pela incorporadora",
+        string="Receitas recebidas pela incorporadora na venda",
         required=True,
         xsd_type="TDec_1602",
         digits=(
@@ -15222,7 +15222,7 @@ class Registro1900(models.Model):
     )
 
     COD_MOD = fields.Char(
-        string="Código do modelo",
+        string="Código do modelo do documento fiscal conforme",
         required=True,
         help=(
             "Código do modelo do documento fiscal conforme a Tabela 4.1.1, ou:"

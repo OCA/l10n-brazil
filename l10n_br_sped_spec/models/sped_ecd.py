@@ -181,7 +181,7 @@ class Registro0000(models.Model):
     )
 
     IND_GRANDE_PORTE = fields.Integer(
-        string="Indicador",
+        string="Indicador de entidade sujeita",
         required=True,
         sped_length=1,
         help=(
@@ -286,7 +286,7 @@ class Registro0007(models.Model):
     _sped_level = 2
 
     COD_ENT_REF = fields.Char(
-        string="Código",
+        string="Código da instituição responsável",
         required=True,
         help=(
             "Código da instituição responsável pela administração do cadastro "
@@ -463,7 +463,7 @@ class Registro0180(models.Model):
     _sped_level = 3
 
     COD_REL = fields.Integer(
-        string="Código",
+        string="Código do relacionamento conforme tabela publicada",
         required=True,
         sped_length=2,
         help=("Código do relacionamento conforme tabela publicada pelo Sped."),
@@ -638,7 +638,7 @@ class RegistroI012(models.Model):
     )
 
     NAT_LIVR = fields.Char(
-        string="Natureza do livro associado; finalidade a",
+        string="Natureza do livro associado; finalidade",
         required=True,
         sped_length=80,
         help=(
@@ -657,7 +657,7 @@ class RegistroI012(models.Model):
     )
 
     COD_HASH_AUX = fields.Char(
-        string="Código Hash",
+        string="Código Hash do arquivo correspondente",
         sped_length=40,
         help=(
             "Código Hash do arquivo correspondente ao livro auxiliar utilizado"
@@ -695,7 +695,7 @@ class RegistroI015(models.Model):
     _sped_level = 4
 
     COD_CTA_RES = fields.Char(
-        string="Código da(s) conta(s) analítica(s)",
+        string="Código da(s) conta(s) analítica(s) do Livro Diário",
         required=True,
         help=(
             "Código da(s) conta(s) analítica(s) do Livro Diário com "
@@ -720,7 +720,7 @@ class RegistroI020(models.Model):
     _sped_level = 3
 
     REG_COD = fields.Char(
-        string="Código do registro",
+        string="Código do registro que recepciona",
         required=True,
         sped_length=4,
         help="Código do registro que recepciona o campo adicional.",
@@ -779,7 +779,7 @@ class RegistroI030(models.Model):
     )
 
     NAT_LIVR = fields.Char(
-        string="Natureza do livro; finalidade a",
+        string="Natureza do livro; finalidade a que se destina",
         required=True,
         sped_length=80,
         help=("Natureza do livro; finalidade a que se destina o instrumento."),
@@ -1800,7 +1800,7 @@ class RegistroJ100(models.Model):
     _sped_level = 3
 
     COD_AGL = fields.Char(
-        string="O Código",
+        string="O Código de aglutinação atribuído",
         required=True,
         help=(
             "O Código de aglutinação atribuído pela pessoa jurídica. "
@@ -1812,7 +1812,7 @@ class RegistroJ100(models.Model):
     )
 
     IND_COD_AGL = fields.Char(
-        string="Indicador do tipo de código",
+        string="Indicador do tipo de código de aglutinação",
         required=True,
         sped_length=1,
         help=(
@@ -1899,7 +1899,7 @@ class RegistroJ100(models.Model):
     )
 
     NOTA_EXP_REF = fields.Char(
-        string="NOTA_EXP_REF",
+        string="Referência a numeração",
         sped_length=12,
         help=(
             "Referência a numeração das notas explicativas relativas às "
@@ -1943,7 +1943,7 @@ class RegistroJ150(models.Model):
     )
 
     IND_COD_AGL = fields.Char(
-        string="Indicador do tipo de código",
+        string="Indicador do tipo de código de aglutinação",
         required=True,
         sped_length=1,
         help=(
@@ -2028,7 +2028,7 @@ class RegistroJ150(models.Model):
     )
 
     NOTA_EXP_REF = fields.Char(
-        string="NOTA_EXP_REF",
+        string="Referência a numeração",
         sped_length=12,
         help=(
             "Referência a numeração das notas explicativas relativas às "
@@ -2122,7 +2122,7 @@ class RegistroJ210(models.Model):
     )
 
     NOTAS_EXP_REF = fields.Char(
-        string="NOTAS_EXP_REF",
+        string="Referência à numeração",
         sped_length=12,
         help=(
             "Referência à numeração das notas explicativas relativas às "
@@ -2228,7 +2228,7 @@ class RegistroJ800(models.Model):
     )
 
     ARQ_RTF = fields.Char(
-        string="Sequência de bytes",
+        string="Sequência de bytes que representem",
         required=True,
         help=(
             "Sequência de bytes que representem um único arquivo no formato "
@@ -2296,7 +2296,7 @@ class RegistroJ801(models.Model):
     )
 
     ARQ_RTF = fields.Char(
-        string="Sequência de bytes",
+        string="Sequência de bytes que representem",
         required=True,
         help=(
             "Sequência de bytes que representem um único arquivo no formato "
@@ -2337,7 +2337,7 @@ class RegistroJ900(models.Model):
     )
 
     NAT_LIVRO = fields.Char(
-        string="Natureza do livro; finalidade a",
+        string="Natureza do livro; finalidade a que se destinou",
         required=True,
         sped_length=80,
         help=("Natureza do livro; finalidade a que se destinou o instrumento."),
@@ -2423,7 +2423,7 @@ class RegistroJ930(models.Model):
     FONE = fields.Char(string="Telefone do signatário", sped_length=14)
 
     UF_CRC = fields.Char(
-        string="Indicação da unidade da federação",
+        string="Indicação da unidade da federação que expediu",
         sped_length=2,
         help="Indicação da unidade da federação que expediu o CRC.",
     )
@@ -2445,7 +2445,7 @@ class RegistroJ930(models.Model):
     )
 
     IND_RESP_LEGAL = fields.Char(
-        string="Identificação do signatário",
+        string="Identificação do signatário que será validado",
         required=True,
         sped_length=1,
         help=(
@@ -2502,7 +2502,7 @@ class RegistroJ932(models.Model):
     FONE_T = fields.Char(string="Telefone do signatário", sped_length=14)
 
     UF_CRC_T = fields.Char(
-        string="Indicação da unidade da federação",
+        string="Indicação da unidade da federação que expediu",
         sped_length=2,
         help="Indicação da unidade da federação que expediu o CRC.",
     )
@@ -2931,7 +2931,7 @@ class RegistroK310(models.Model):
     _sped_level = 4
 
     EMP_COD_PARTE = fields.Integer(
-        string="Código da empresa detentora do valor aglutinado",
+        string="Código da empresa detentora",
         required=True,
         sped_length=4,
         help=("Código da empresa detentora do valor aglutinado que foi eliminado"),
