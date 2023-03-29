@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 LAYOUT_VERSIONS = {
     "ecd": "9",
-    "ecf": "8",
+    "ecf": "8",  # TODO 9 ?
     "efd_icms_ipi": "17",
     "efd_pis_cofins": "6",
 }
@@ -370,17 +370,7 @@ class SpedMixin(models.AbstractModel):
 
     def generate_register_text(self, sped, line_count={}):
         code = self._name[-4:].upper()
-        keys = [
-            i[0]
-            for i in filter(
-                lambda i: "company" not in i[0]
-                and "currency" not in i[0]
-                and not i[1].automatic
-                and i[0]
-                and i[1].type not in ("many2one",),
-                self._fields.items(),
-            )
-        ]
+        keys = [i[0] for i in self._fields.items()]
         if (
             not keys
         ):  # happend with ECD I550, I555 and I555 with "LEIAUTE PARAMETRIZÁVEL"
@@ -390,15 +380,21 @@ class SpedMixin(models.AbstractModel):
             sped.write("\n|%s|" % (code,))
             line_count[0] += 1
             children = []
+            should_break_next = False
             for k, v in vals.items():
                 if k == "id":
                     continue
-
                 if self._fields[k].type == "one2many":
                     children.append(
                         self.env[self._fields[k].comodel_name].search([("id", "in", v)])
                     )
-                elif self._fields[k].type != "many2one":
+                    should_break_next = True
+                    continue # we assume it's the last register specific field
+                elif should_break_next:  # if the register has a parent but no children
+                    break
+                elif self._fields[k].type == "many2one":
+                    should_break_next = True # we assume the parent marks the end of register fields 
+                else:
                     if self._fields[k].type == "date":
                         if v:
                             val = v.strftime("%d%m%Y")
