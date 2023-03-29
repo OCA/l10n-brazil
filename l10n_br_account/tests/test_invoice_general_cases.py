@@ -48,6 +48,20 @@ class TestInvoiceDiscount(TransactionCase):
 
         product_id = self.env.ref("product.product_product_7")
 
+        invoice_line_vals = [
+            (
+                0,
+                0,
+                {
+                    "account_id": self.invoice_line_account_id.id,
+                    "product_id": product_id.id,
+                    "quantity": 1,
+                    "price_unit": 1000.0,
+                    "discount_value": 100.0,
+                },
+            )
+        ]
+
         self.move_id = (
             self.env["account.move"]
             .with_context({"check_move_validity": False})
@@ -62,25 +76,15 @@ class TestInvoiceDiscount(TransactionCase):
                     "fiscal_operation_id": self.fiscal_operation_id,
                     "move_type": "out_invoice",
                     "currency_id": self.company.currency_id.id,
+                    "invoice_line_ids": invoice_line_vals,
                 }
             )
         )
 
-        self.line_id = self.env["account.move.line"].create(
-            {
-                "move_id": self.move_id.id,
-                "account_id": self.invoice_line_account_id.id,
-                "product_id": product_id.id,
-                "quantity": 1,
-                "price_unit": 1000.0,
-                "discount_value": 100.0,
-            }
-        )
-
     def test_discount(self):
-        self.assertEqual(self.line_id.price_unit, 1000)
-        self.assertEqual(self.line_id.quantity, 1)
-        self.assertEqual(self.line_id.discount_value, 100)
-        self.assertEqual(self.line_id.discount, 10)
+        self.assertEqual(self.move_id.invoice_line_ids.price_unit, 1000)
+        self.assertEqual(self.move_id.invoice_line_ids.quantity, 1)
+        self.assertEqual(self.move_id.invoice_line_ids.discount_value, 100)
+        self.assertEqual(self.move_id.invoice_line_ids.discount, 10)
         self.move_id.invoice_line_ids._onchange_price_subtotal()
-        self.assertEqual(self.line_id.price_subtotal, 900)
+        self.assertEqual(self.move_id.invoice_line_ids.price_subtotal, 900)
