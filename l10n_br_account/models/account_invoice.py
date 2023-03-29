@@ -228,22 +228,6 @@ class AccountMove(models.Model):
                 defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
         return defaults
 
-    @api.model
-    def _move_autocomplete_invoice_lines_create(self, vals_list):
-        """
-        This method is called in the original AccountMove#create method.
-        And when the type is "entry" rather than "invoice", we should
-        force the dummy fiscal_document_id again or it would be removed
-        from the values and the _inherits system would create a new one.
-        So in general we always use this method to ensure the dummy is used
-        when document_type_id is empty.
-        """
-        vals_list = super()._move_autocomplete_invoice_lines_create(vals_list)
-        for vals in vals_list:
-            if not vals.get("document_type_id"):
-                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
-        return vals_list
-
     @api.model_create_multi
     def create(self, vals_list):
         invoice = super().create(vals_list)
@@ -394,6 +378,82 @@ class AccountMove(models.Model):
                     self.document_number, idx + 1, len(terms_lines)
                 )
         return result
+
+    @api.model
+    def _move_autocomplete_invoice_lines_create(self, vals_list):
+        # This method was copied entirely in order to be able to call _compute_amounts
+        # before _move_autocomplete_invoice_lines_values. This was necessary to ensure
+        # that the values needed to calculate the amount_currenry, credit and debit are
+        # always updated before creating the other lines (taxes and receivables/payables).
+
+        # # In v16.0 there was a big refactor that changed onchanges to computes.
+        # So when migrating, all the logic to calculate the amount_currency will need
+        # to be changed, which maybe this whole override isn't so bad as it will be
+        # temporary until v16.
+
+        """During the create of an account.move with only 'invoice_line_ids' set and
+        not 'line_ids', this method is called to auto compute accounting lines of the
+        invoice. In that case, accounts will be retrieved and taxes, cash rounding
+        and payment terms will be computed. At the end, the values will contains all
+        accounting lines in 'line_ids' and the moves should be balanced.
+
+        :param vals_list:   The list of values passed to the 'create' method.
+        :return:            Modified list of values.
+        """
+        new_vals_list = []
+        for vals in vals_list:
+            vals = dict(vals)
+
+            if vals.get("invoice_date") and not vals.get("date"):
+                vals["date"] = vals["invoice_date"]
+
+            default_move_type = vals.get("move_type") or self._context.get(
+                "default_move_type"
+            )
+            ctx_vals = {}
+            if default_move_type:
+                ctx_vals["default_move_type"] = default_move_type
+            if vals.get("journal_id"):
+                ctx_vals["default_journal_id"] = vals["journal_id"]
+                # reorder the companies in the context so that the company of the journal
+                # (which will be the company of the move) is the main one, ensuring all
+                # property fields are read with the correct company
+                journal_company = (
+                    self.env["account.journal"].browse(vals["journal_id"]).company_id
+                )
+                allowed_companies = self._context.get(
+                    "allowed_company_ids", journal_company.ids
+                )
+                reordered_companies = sorted(
+                    allowed_companies, key=lambda cid: cid != journal_company.id
+                )
+                ctx_vals["allowed_company_ids"] = reordered_companies
+            self_ctx = self.with_context(**ctx_vals)
+            vals = self_ctx._add_missing_default_values(vals)
+
+            is_invoice = vals.get("move_type") in self.get_invoice_types(
+                include_receipts=True
+            )
+
+            if "line_ids" in vals:
+                vals.pop("invoice_line_ids", None)
+                new_vals_list.append(vals)
+                continue
+
+            if is_invoice and "invoice_line_ids" in vals:
+                vals["line_ids"] = vals["invoice_line_ids"]
+
+            vals.pop("invoice_line_ids", None)
+
+            move = self_ctx.new(vals)
+            move.line_ids._compute_amounts()
+            new_vals_list.append(move._move_autocomplete_invoice_lines_values())
+
+        for vals in new_vals_list:
+            if not vals.get("document_type_id"):
+                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
+
+        return new_vals_list
 
     # @api.model
     # def invoice_line_move_line_get(self):
