@@ -102,6 +102,7 @@ class PurchaseOrder(models.Model):
         invoice_vals = super()._prepare_invoice()
         invoice_vals.update(
             {
+                "ind_final": self.ind_final,
                 "fiscal_operation_id": self.fiscal_operation_id.id,
                 "document_type_id": self.company_id.document_type_id.id,
             }
