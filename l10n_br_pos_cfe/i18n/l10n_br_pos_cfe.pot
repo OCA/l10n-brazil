@@ -1,0 +1,521 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_pos_cfe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/SatOrderReceipt.xml:0
+#, python-format
+msgid "# | COD | DESC | QTD | UN | VL UN R$ | (VL TR R$)* | VL ITEM R$"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/SatOrderReceipt.xml:0
+#, python-format
+msgid "* Valor aproximado dos tributos do item."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__999
+msgid "0 Outros"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__028
+msgid ""
+"00.122.327/0001-36 SANTINVEST S/A Crédito, Financiamento e Investimentos"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__021
+msgid ""
+"00.163.051/0001-34 Novo Pag Adm. e Proc. de Meios Eletrônicos de Pagto. "
+"Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__033
+msgid "00.604.122/0001-97 TRIVALE Administração Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__023
+msgid "00.904.951/0001-95 POLICARD Systems e Serviços Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__012
+msgid "01.027.058/0001-91 CIELO S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__009
+msgid "01.418.852/0001-66 BOURBON Adm. de Cartões de Crédito"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__025
+msgid "01.425.787/0001-04 REDECARD S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__027
+msgid "03.007.699/0001-00 RP Administração de Convênios Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__019
+msgid "03.012.230/0001-69 HIPERCARD Banco Multiplo S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__001
+msgid "03.106.213/0001-90 Administradora de Cartões Sicredi Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__002
+msgid "03.106.213/0002-71 Administradora de Cartões Sicredi Ltda.(filial RS)"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__018
+msgid "03.322.366/0001-75 FUNCIONAL CARD LTDA."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__015
+msgid "03.506.307/0001-57 Empresa Bras. Tec. Adm. Conv. Hom. Ltda. - EMBRATEC"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__013
+msgid "03.529.067/0001-06 CREDI 21 Participações Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__011
+msgid "03.722.919/0001-87 CETELEM Brasil S/A - CFI"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__010
+msgid "03.766.873/0001-06 CABAL Brasil Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__020
+msgid "03.966.317/0001-75 MAPA Admin. Conv. e Cartões Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__016
+msgid "04.432.048/0001-20 EMPÓRIO CARD LTDA"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__008
+msgid "04.627.085/0001-93 BIGCARD Adm. de Convenios e Serv."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/SatOrderReceipt.xml:0
+#, python-format
+msgid "05.07.05.04: Comete crime quem sonega"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__006
+msgid "07.679.404/0001-00 BANCO TOPÁZIO S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__017
+msgid "07.953.674/0001-50 FREEDDOM e Tecnologia e Serviços S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__007
+msgid "17.351.180/0001-59 BANCO TRIANGULO S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__024
+msgid "33.098.658/0001-37 PROVAR Negócios de Varejo Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__022
+msgid ""
+"43.180.355/0001-12 PERNAMBUCANAS Financiadora S/A Crédito, Fin. e Invest."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__032
+msgid "47.866.934/0001-74 TICKET Serviços S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__031
+msgid "51.427.102/0004-71 Tecnologia Bancária S/A - TECBAN"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__005
+msgid "58.160.789/0001-28 BANCO SAFRA S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__030
+msgid "60.114.865/0001-00 SOROCRED Meios de Pagamentos Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__003
+msgid "60.419.645/0001-95 Banco American Express S/A - AMEX"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__034
+msgid "61.071.387/0001-61 Unicard Banco Múltiplo S/A - TRICARD"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__004
+msgid "62.421.979/0001-29 BANCO GE - CAPITAL"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__029
+msgid "69.034.668/0001-56 SODEXHO Pass do Brasil Serviços e Comércio S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__014
+msgid "71.225.700/0001-22 ECX CARD Adm. e Processadora de Cartões S/A"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__026
+msgid "90.055.609/0001-50 RENNER Adm. Cartões de Crédito Ltda."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderSubtitleReceipt.xml:0
+#, python-format
+msgid "= T E S T E ="
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderSubtitleReceipt.xml:0
+#, python-format
+msgid "CANCELAMENTO"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderHeaderReceipt.xml:0
+#, python-format
+msgid "CNPJ:"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/SatOrderReceipt.xml:0
+#, python-format
+msgid "CPF/CNPJ do Consumidor:"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderSubtitleReceipt.xml:0
+#, python-format
+msgid "CUPOM FISCAL ELETRÔNICO - SAT"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_payment_method__sat_card_acquirer
+msgid "Card Acquirer"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__03
+msgid "Cartão Crédito"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__04
+msgid "Cartão Débito"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__02
+msgid "Cheque"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
+#, python-format
+msgid "Connection to Fiscal Interface failed"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
+#, python-format
+msgid "Connection to the Fiscal Interface failed"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderFooterReceipt.xml:0
+#, python-format
+msgid ""
+"Consulte o QRCode pelo aplicativo \"De olho na nota\", disponível na "
+"AppStore (Apple) e PlayStore (Android)."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__05
+msgid "Crédito Loja"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/SatOrderReceipt.xml:0
+#, python-format
+msgid "DADOS DO CUPOM FISCAL CANCELADO"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderFooterReceipt.xml:0
+#, python-format
+msgid "DADOS DO CUPOM FISCAL ELETRÔNICO DE CANCELAMENTO"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__01
+msgid "Dinheiro"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_config__display_name
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_order__display_name
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_payment_method__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
+#, python-format
+msgid "Documento já transmitido."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderSubtitleReceipt.xml:0
+#, python-format
+msgid "EXTRATO No."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
+#, python-format
+msgid "Erro ao se comunicar com a inteface fiscal"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/models.js:0
+#, python-format
+msgid "Falha ao cancelar o CF-E"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/models.js:0
+#, python-format
+msgid "Falha ao emitir o CF-E"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
+#, python-format
+msgid "Falha ao se comunicar com a inteface fiscal"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/ChromeWidgets/ProxyStatus.js:0
+#: code:addons/l10n_br_pos_cfe/static/src/js/ChromeWidgets/ProxyStatus.js:0
+#, python-format
+msgid "Fiscal"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_config__id
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_order__id
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_payment_method__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderHeaderReceipt.xml:0
+#, python-format
+msgid "IE:"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderHeaderReceipt.xml:0
+#, python-format
+msgid "IM:"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/PaymentScreen/PaymentScreen.js:0
+#, python-format
+msgid ""
+"It was not possible to communicate with the tax processor. Please contact "
+"support."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_config____last_update
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_order____last_update
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_payment_method____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/PaymentScreen/PaymentScreen.js:0
+#, python-format
+msgid "No Tax Processor Configured"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/ChromeWidgets/ProxyStatus.js:0
+#, python-format
+msgid "Offline"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__99
+msgid "Outros"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
+#: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
+#, python-format
+msgid "Please check if the Fiscal Interface is still connected."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model,name:l10n_br_pos_cfe.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model,name:l10n_br_pos_cfe.model_pos_order
+msgid "Point of Sale Orders"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model,name:l10n_br_pos_cfe.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderFooterReceipt.xml:0
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderFooterReceipt.xml:0
+#, python-format
+msgid "SAT No."
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_payment_method__sat_payment_mode
+msgid "SAT Payment Mode"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderTotalsReceipt.xml:0
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/SatOrderReceipt.xml:0
+#, python-format
+msgid "TOTAL R$"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderTotalsReceipt.xml:0
+#, python-format
+msgid "Total bruto de itens"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderTotalsReceipt.xml:0
+#, python-format
+msgid "Total de descontos sobre item"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/SatOrderReceipt.xml:0
+#, python-format
+msgid "Troco R$"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__10
+msgid "Vale Alimentação"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__13
+msgid "Vale Combustível"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__12
+msgid "Vale Presente"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_payment_mode__11
+msgid "Vale Refeição"
+msgstr ""
+
+#. module: l10n_br_pos_cfe
+#. openerp-web
+#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/SatOrderReceipt.xml:0
+#, python-format
+msgid "desconto sobre o item"
+msgstr ""

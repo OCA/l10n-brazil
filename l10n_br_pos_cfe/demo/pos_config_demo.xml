@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <function
+        model="pos.config"
+        name="_demo_configure_pos_config_sat_tanca"
+        eval="[[ref('point_of_sale.pos_config_main')]]"
+    />
+
+    <function
+        model="pos.config"
+        name="_demo_configure_pos_config_sat_tanca"
+        eval="[[ref('l10n_br_pos.pos_config_presumido')]]"
+    />
+
+</odoo>

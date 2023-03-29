@@ -62,7 +62,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         fiscal_view = self.env.ref(
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
         ).sudo()
-        fsc_doc = etree.fromstring(fiscal_view["arch"])
+        fsc_doc = etree.fromstring(
+            fiscal_view.with_context(inherit_branding=True).read_combined(["arch"])[
+                "arch"
+            ]
+        )
         doc = etree.fromstring(view_arch)
 
         if xpath_mappings is None:

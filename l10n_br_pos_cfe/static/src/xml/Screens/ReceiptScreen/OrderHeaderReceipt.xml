@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderHeaderReceipt" owl="1">
+        <div class="header">
+            <h2 class="header__name">
+                <t t-esc="name" />
+            </h2>
+
+            <div class="header__legal-name">
+                <t t-esc="legalName" />
+            </div>
+
+            <div class="header__address">
+                <t t-esc="addressStreetNumber" />
+                <br />
+                <t t-esc="addressDistrict" />
+                <br />
+                <t t-esc="addressCityZip" />
+            </div>
+
+            <div class="header__company-info">
+                <div class="company-info__cnpj-ie">
+                    <span>CNPJ: <t t-esc="cnpj" /></span>
+                </div>
+                <div class="company-info__cnpj-ie">
+                    <span>IE: <t t-esc="ie" /></span>
+                </div>
+                <div class="company-info__cnpj-ie">
+                    <span>IM: <t t-esc="im" /></span>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

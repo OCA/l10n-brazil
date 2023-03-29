@@ -111,6 +111,10 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
+    # override the incoterm inherited by the fiscal document
+    # to have the same value as the native incoterm of the invoice.
+    incoterm_id = fields.Many2one(related="invoice_incoterm_id")
+
     def _compute_fiscal_operation_type(self):
         for inv in self:
             if inv.move_type == "entry":
@@ -331,7 +335,7 @@ class AccountMove(models.Model):
             freight_value=base_line.freight_value,
             fiscal_price=base_line.fiscal_price,
             fiscal_quantity=base_line.fiscal_quantity,
-            uot=base_line.uot_id,
+            uot_id=base_line.uot_id,
             icmssn_range=base_line.icmssn_range_id,
             icms_origin=base_line.icms_origin,
         )
@@ -421,6 +425,17 @@ class AccountMove(models.Model):
     #
     #     return new_mv_lines_dict
     #
+
+    @api.onchange("partner_id")
+    def _onchange_partner_id(self):
+        # Even having this method in the l10n_br_fiscal.document.mixin.methods, the ORM
+        # seems to have some limitation with inherits when the parent model and the
+        # child model have the same field (in this case partner_id). This override was
+        # done to ensure that final_ind is set.
+        result = super()._onchange_partner_id()
+        if self.partner_id:
+            self.ind_final = self.partner_id.ind_final
+        return result
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):

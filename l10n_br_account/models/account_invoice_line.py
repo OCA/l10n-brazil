@@ -117,6 +117,22 @@ class AccountMoveLine(models.Model):
         ondelete="restrict",
     )
 
+    discount = fields.Float(
+        compute="_compute_discounts",
+        store=True,
+    )
+
+    @api.depends(
+        "quantity",
+        "price_unit",
+        "discount_value",
+    )
+    def _compute_discounts(self):
+        for line in self:
+            line.discount = (line.discount_value * 100) / (
+                line.quantity * line.price_unit or 1
+            )
+
     @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synchronized
@@ -259,7 +275,7 @@ class AccountMoveLine(models.Model):
                 freight_value=self.freight_value,
                 fiscal_price=self.fiscal_price,
                 fiscal_quantity=self.fiscal_quantity,
-                uot=self.uot_id,
+                uot_id=self.uot_id,
                 icmssn_range=self.icmssn_range_id,
                 icms_origin=self.icms_origin,
             ),
@@ -329,7 +345,7 @@ class AccountMoveLine(models.Model):
                 freight_value=self.env.context.get("freight_value"),
                 fiscal_price=self.env.context.get("fiscal_price"),
                 fiscal_quantity=self.env.context.get("fiscal_quantity"),
-                uot=self.env.context.get("uot_id"),
+                uot_id=self.env.context.get("uot_id"),
                 icmssn_range=self.env.context.get("icmssn_range"),
                 icms_origin=self.env.context.get("icms_origin"),
             )

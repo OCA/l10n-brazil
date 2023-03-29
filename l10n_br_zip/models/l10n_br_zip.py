@@ -149,7 +149,7 @@ class L10nBrZip(models.Model):
 
             # search city with name and state
             city = self.env["res.city"].search(
-                [("name", "=", cep.get("cidade")), ("state_id.id", "=", state.id)],
+                [("name", "ilike", cep.get("cidade")), ("state_id.id", "=", state.id)],
                 limit=1,
             )
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderSubtitleReceipt" owl="1">
+        <div class="subtitle">
+            <div class="subtitle__extract">
+                <span>EXTRATO No. <t t-esc="document_number" /></span>
+            </div>
+
+            <div class="subtitle__sales-action">
+                <span>CUPOM FISCAL ELETRÔNICO - SAT</span>
+                <br />
+                <t t-if="isCanceled">
+                    <span>CANCELAMENTO</span>
+                </t>
+            </div>
+
+            <t t-if="satAmbiente">
+                <div class="subtitle__test-env">
+                    <span class="test-env__title"> = T E S T E =</span>
+                    <br />
+                    <span
+                        class="test-env__divider"
+                    > >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> </span>
+                    <span
+                        class="test-env__divider"
+                    > >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> </span>
+                    <span
+                        class="test-env__divider"
+                    > >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> </span>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

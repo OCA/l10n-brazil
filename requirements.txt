@@ -10,6 +10,7 @@ num2words
 phonenumbers
 pycep_correios
 pyyaml
+satcomum
 unidecode
 workalendar
 xmldiff
