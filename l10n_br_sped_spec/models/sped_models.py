@@ -60,7 +60,7 @@ class SpedMixin(models.AbstractModel):
     res_id = fields.Many2oneReference(
         string="Record ID",
         help="ID of the target record in the database",
-        model_field="model",
+        model_field="res_model",
     )
     reference = fields.Char(
         string="Reference",
@@ -68,14 +68,18 @@ class SpedMixin(models.AbstractModel):
         readonly=True,
         store=False,
     )
+    res_model = fields.Char(string="Odoo Model")  # TODO compute_res_model using ir.model ?
 
-    @api.depends("model", "res_id")
+    @api.depends("res_model", "res_id")
     def _compute_reference(self):
         for res in self:
-            model = self.env["ir.model"].search([("name", "=", self.model)])
+            if not res.res_model:
+                res.reference = ""
+                continue
+            model = self.env["ir.model"].search([("model", "=", self.res_model)])
             if not model:
                 raise UserError(
-                    _("Undefined mapping model for Register %s") % (self._name,)
+                    _("Undefined mapping model for Register %s and model") % (self._name, self.res_model)
                 )
             res.reference = "%s,%s" % (model.model, res.res_id)
 
