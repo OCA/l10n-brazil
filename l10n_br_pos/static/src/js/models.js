@@ -106,6 +106,8 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
     });
 
+    models.load_fields("pos.payment.method", ["sat_card_accrediting"]);
+
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
@@ -510,6 +512,24 @@ odoo.define("l10n_br_pos.models", function (require) {
         decode_cancel_xml: function (XmlEncoded) {
             return decodeURIComponent(atob(XmlEncoded));
         },
+        add_paymentline: function (payment_method) {
+            const result = _super_order.add_paymentline.call(this, payment_method);
+
+            if (result) {
+                if (
+                    ["03", "04", "11", "12", "13"].includes(
+                        payment_method.sat_payment_mode
+                    ) &&
+                    !payment_method.use_payment_terminal
+                ) {
+                    result.sat_card_accrediting = "999";
+                } else if (payment_method.sat_card_accrediting) {
+                    result.sat_card_accrediting = payment_method.sat_card_accrediting;
+                }
+            }
+
+            return result;
+        },
     });
 
     var _super_order_line = models.Orderline.prototype;
@@ -566,9 +586,14 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     var _super_payment_line = models.Paymentline.prototype;
     models.Paymentline = models.Paymentline.extend({
+        initialize: function () {
+            _super_payment_line.initialize.apply(this, arguments);
+            this.sat_card_accrediting = null;
+        },
         _prepare_fiscal_json: function (json) {
             // TODO: Check requires data of payment line
             json.payment_status = this.payment_status;
+            json.sat_card_accrediting = this.sat_card_accrediting;
         },
         export_for_printing: function () {
             var json = _super_payment_line.export_for_printing.apply(this, arguments);
@@ -582,8 +607,23 @@ odoo.define("l10n_br_pos.models", function (require) {
     models.PosModel = models.PosModel.extend({
         initialize: function (session, attributes) {
             this.last_document_session_number = null;
+            this.sat_card_accrediting_list = null;
 
             return _super_posmodel.initialize.call(this, session, attributes);
+        },
+        check_card_accrediting: function (accrediting_document) {
+            let accrediting_code = "999";
+
+            for (const accrediting in this.sat_card_accrediting_list) {
+                if (
+                    accrediting_document ==
+                    this.sat_card_accrediting_list[accrediting][1].split(" ")[0]
+                ) {
+                    accrediting_code = this.sat_card_accrediting_list[accrediting][0];
+                }
+            }
+
+            return accrediting_code;
         },
     });
 });

@@ -12,7 +12,6 @@
             <group name="l10n_br_pos" position="inside">
                 <group>
                     <field name="sat_payment_mode" />
-                    <field name="sat_card_acquirer" />
                 </group>
             </group>
         </field>
