@@ -129,8 +129,8 @@ class TestL10nBrPosOrder(TransactionCase):
 
         order_data = {
             "order_id": order.id,
-            "sessionNum": 123456,
-            "key_cfe": "Cfe35181104113837000100590001128550021551657445",
+            "numSessao": 123456,
+            "chave_cfe": "Cfe35181104113837000100590001128550021551657445",
             "xml": "dGVzdGVfY2FuY2VsX2Zsb3c=",
         }
         order.cancel_order(order_data)
