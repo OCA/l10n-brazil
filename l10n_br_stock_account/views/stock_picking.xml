@@ -125,20 +125,26 @@
                             </group>
                         </page>
                         <page name="fiscal_line_extra_info" string="Extra Info" />
-                        <page name="accounting" string="Accounting" />
+                        <page name="accounting" string="Accounting">
+                            <group string="Taxes">
+                                <field name="fiscal_tax_ids" widget="many2many_tags" />
+                            </group>
+                            <group
+                                name="invoice_lines"
+                                string="Invoicing"
+                                colspan="4"
+                                groups="base.group_no_one"
+                                attrs="{'invisible': [('invoice_state', 'in', [False, 'none'])]}"
+                            >
+                                <field
+                                    name="invoice_line_ids"
+                                    readonly="1"
+                                    nolabel="1"
+                                />
+                            </group>
+                        </page>
                     </notebook>
                 </group>
-
-                <group
-                    name="invoice_lines"
-                    string="Invoicing"
-                    colspan="4"
-                    groups="base.group_no_one"
-                    attrs="{'invisible': [('invoice_state', 'in', [False, 'none'])]}"
-                >
-                    <field name="invoice_line_ids" readonly="1" nolabel="1" />
-                </group>
-
             </xpath>
             <xpath expr="//page[@name='extra']/group" position="inside">
                 <group name="delivery_costs" string="Delivery Costs">
@@ -164,6 +170,104 @@
 
                 </group>
             </xpath>
+
+            <notebook position="inside">
+
+                <page
+                    name="br_amounts"
+                    string="Amounts"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)]}"
+                >
+                    <field name="delivery_costs" invisible="1" />
+                    <field name="force_compute_delivery_costs_by_total" invisible="1" />
+                    <group>
+                        <group>
+                            <group string="ICMS">
+                                <field name="amount_icms_base" />
+                                <field name="amount_icms_value" />
+                                <field name="amount_icmssn_credit_value" />
+                            </group>
+                            <group string="ICMS DIFAL">
+                                <field name="amount_icms_destination_value" />
+                                <field name="amount_icms_origin_value" />
+                                <field name="amount_icmsfcp_value" />
+                            </group>
+                            <group string="ICMS ST">
+                                <field name="amount_icmsst_base" />
+                                <field name="amount_icmsst_value" />
+                            </group>
+                            <group string="IPI">
+                                <field name="amount_ipi_base" />
+                                <field name="amount_ipi_value" />
+                            </group>
+                            <group string="ISSQN">
+                                <field name="amount_issqn_base" />
+                                <field name="amount_issqn_value" />
+                                <field name="amount_issqn_wh_base" />
+                                <field name="amount_issqn_wh_value" />
+                            </group>
+                            <group string="PIS">
+                                <field name="amount_pis_base" />
+                                <field name="amount_pis_value" />
+                                <field name="amount_pis_wh_base" />
+                                <field name="amount_pis_wh_value" />
+                            </group>
+                            <group string="COFINS">
+                                <field name="amount_cofins_base" />
+                                <field name="amount_cofins_value" />
+                                <field name="amount_cofins_wh_base" />
+                                <field name="amount_cofins_wh_value" />
+                            </group>
+                            <group string="CSLL">
+                                <field name="amount_csll_base" />
+                                <field name="amount_csll_value" />
+                                <field name="amount_csll_wh_base" />
+                                <field name="amount_csll_wh_value" />
+                            </group>
+                            <group string="IRPJ">
+                                <field name="amount_irpj_base" />
+                                <field name="amount_irpj_value" />
+                                <field name="amount_irpj_wh_base" />
+                                <field name="amount_irpj_wh_value" />
+                            </group>
+                            <group string="INSS">
+                                <field name="amount_inss_base" />
+                                <field name="amount_inss_value" />
+                                <field name="amount_inss_wh_base" />
+                                <field name="amount_inss_wh_value" />
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Amounts">
+                                <field name="amount_price_gross" />
+                                <field name="amount_discount_value" />
+                                <field name="delivery_costs" invisible="1" />
+                                <field
+                                    name="amount_insurance_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                                />
+                                <field
+                                    name="amount_other_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                                />
+                                <field
+                                    name="amount_freight_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                                />
+                                <field name="amount_estimate_tax" />
+                                <field name="amount_tax" />
+                                <field name="amount_total" />
+                                <field name="amount_tax_withholding" />
+                                <field name="amount_financial_total" />
+                                <field name="amount_financial_total_gross" />
+                                <field name="amount_financial_discount_value" />
+                            </group>
+                        </group>
+                    </group>
+                </page>
+
+            </notebook>
+
         </field>
     </record>
 
