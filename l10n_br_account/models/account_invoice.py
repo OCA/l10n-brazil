@@ -132,6 +132,81 @@ class AccountMove(models.Model):
         """Get object lines instaces used to compute fields"""
         return self.mapped("invoice_line_ids")
 
+    def _compute_amount(self):
+        # TODO: Ao chamar apenas o super( como é feito nos outros
+        #  objetos que herdam o Mix Fiscal como o sale.order,
+        #  purchase.order e stock.picking) ao inves de chamar o do objeto
+        #  l10n_br_fiscal.document.mixin.methods é chamado apenas
+        #  o do account.move o que faz com que os valores Totais
+        #  fiquem divergentes dos calculos que são feitos na localização.
+        #  Reavaliar esse problema na v16 ou versão superior.
+        # return super()._compute_amount()
+        for move in self:
+            if not move.fiscal_document_id or not move.is_invoice(
+                include_receipts=True
+            ):
+                # Caso não seja um Documento Fiscal Brasileiro
+                # OU
+                # Caso não seja Fatura e sim um Pagamento
+                return super()._compute_amount()
+
+            super()._compute_amount()
+            lines = move._get_amount_lines()
+            if not lines:
+                # TODO por algum motivo no caso de criação da Fatura a partir
+                #  do sale.order sem isso o campo amount_total fica zero,
+                #  mesmo tendo o valor correto no dicionario de criação
+                #  e no metodo _create_invoices.
+                return {}
+
+            values = move.compute_br_amounts()
+            # Valores que so existem no account.move, estão na visão tree e se
+            # não forem calculados aqui acabam errados, o código é uma copia
+            # editada do metodo original.
+            total_to_pay = 0.0
+            total_residual = 0.0
+            total_residual_currency = 0.0
+            currencies = move._get_lines_onchange_currency().currency_id
+            for line in move.line_ids:
+                # === Invoices ===
+                if line.account_id.user_type_id.type in ("receivable", "payable"):
+                    # Residual amount.
+                    total_to_pay += line.balance
+                    total_residual += line.amount_residual
+                    total_residual_currency += line.amount_residual_currency
+
+            if move.move_type == "entry" or move.is_outbound():
+                sign = 1
+            else:
+                sign = -1
+            # TODO Por algum motivo se os calculos forem feitos da mesma
+            #  forma que o código original os valores ficam negativos em
+            #  casos que não deveriam.
+            # move.amount_residual = -sign * (total_residual_currency
+            #    if len(currencies) == 1 else total_residual)
+            # move.amount_untaxed_signed = -total_untaxed
+            # move.amount_tax_signed = -total_tax
+            # move.amount_total_signed = abs(total)
+            #    if move.move_type == 'entry' else -total
+            # move.amount_residual_signed = total_residual
+            values.update(
+                {
+                    "amount_residual": -sign
+                    * (
+                        total_residual_currency
+                        if len(currencies) == 1
+                        else total_residual
+                    ),
+                    "amount_untaxed_signed": values.get("amount_untaxed"),
+                    "amount_tax_signed": values.get("amount_tax"),
+                    "amount_total_signed": values.get("amount_total"),
+                    "amount_residual_signed": total_residual,
+                }
+            )
+
+            # Atualização com os valores Brasileiros
+            move.update(values)
+
     @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synced
