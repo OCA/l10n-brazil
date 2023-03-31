@@ -63,6 +63,127 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
             doc.update(values)
 
+    def compute_br_amounts(self):
+        # TODO: No account.move do modulo l10n_br_account o metodo
+        #  _compute_amount ao chamar o super ao inves de chamar o metodo
+        #  acima é chamado apenas o do account.move o que faz com que
+        #  os valores Totais fiquem divergentes do calculo que é feito
+        #  na localização, a forma encontrada para contornar o problema
+        #  é ter esse outro metodo com um nome diferetente.
+        #  Reavaliar esse problema na v16 ou versão superior.
+        fields = self._get_amount_fields()
+        values = {}
+        for doc in self:
+            values = {key: 0.0 for key in fields}
+            lines = doc._get_amount_lines()
+
+            for line in lines:
+                for field in fields:
+                    if field in line._fields.keys():
+                        values[field] += line[field]
+                    if field.replace("amount_", "") in line._fields.keys():
+                        # FIXME this field creates an error in invoice form
+                        if field == "amount_financial_discount_value":
+                            values[
+                                "amount_financial_discount_value"
+                            ] += 0  # line.financial_discount_value
+                        else:
+                            values[field] += line[field.replace("amount_", "")]
+
+            amount_untaxed = (
+                amount_fiscal
+            ) = (
+                amount_total
+            ) = (
+                amount_tax
+            ) = (
+                financial_total
+            ) = (
+                financial_total_gross
+            ) = (
+                financial_discount_value
+            ) = amount_freight_value = amount_insurance_value = amount_other_value = 0.0
+
+            for line in lines:
+
+                round_curr = line.currency_id or self.env.ref("base.BRL")
+                # Valor dos produtos
+                price_gross = round_curr.round(line.price_unit * line.quantity)
+
+                amount_untaxed += price_gross - line.discount_value
+
+                amount_fiscal += (
+                    round_curr.round(line.fiscal_price * line.fiscal_quantity)
+                    - line.discount_value
+                )
+                amount_tax += line.amount_tax_not_included
+
+                add_to_amount = sum([line[a] for a in line._add_fields_to_amount()])
+                rm_to_amount = sum([line[r] for r in line._rm_fields_to_amount()])
+
+                # Valores definidos pelo Total e não pela Linha
+                if (
+                    doc.company_id.delivery_costs == "total"
+                    or doc.force_compute_delivery_costs_by_total
+                ):
+                    # TODO: Nesse caso os valores do Frete, Seguro e Outros
+                    #  estão desatualizados( seria possível atualizar a linha? )
+                    #  por isso o valor será somado abaixo
+                    add_to_amount = 0.0
+
+                # Valor do documento (NF)
+                amount_total += (
+                    line.amount_untaxed + line.amount_tax + add_to_amount - rm_to_amount
+                )
+
+                # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
+                amount_taxed = (
+                    line.amount_untaxed + line.amount_tax + add_to_amount - rm_to_amount
+                ) - line.amount_tax_withholding
+
+                # Valor financeiro
+                if (
+                    line.fiscal_operation_line_id
+                    and line.fiscal_operation_line_id.add_to_amount
+                    and (not line.cfop_id or line.cfop_id.finance_move)
+                ):
+
+                    financial_total += amount_taxed
+                    financial_total_gross += amount_taxed + line.discount_value
+                    financial_discount_value += line.discount_value
+                else:
+                    financial_total_gross = financial_total = 0.0
+                    financial_discount_value = 0.0
+
+                amount_freight_value += line.freight_value
+                amount_insurance_value += line.insurance_value
+                amount_other_value += line.other_value
+
+            # Valores definidos pelo Total e não pela Linha
+            if (
+                doc.company_id.delivery_costs == "total"
+                or doc.force_compute_delivery_costs_by_total
+            ):
+                values["amount_freight_value"] = doc.amount_freight_value
+                values["amount_insurance_value"] = doc.amount_insurance_value
+                values["amount_other_value"] = doc.amount_other_value
+
+            values.update(
+                {
+                    "amount_untaxed": amount_untaxed,
+                    "amount_total": amount_total,
+                    "amount_tax": amount_tax,
+                    "amount_price_gross": amount_untaxed,
+                    "amount_financial_total": financial_total,
+                    "amount_financial_total_gross": financial_total_gross,
+                    "amount_freight_value": amount_freight_value,
+                    "amount_insurance_value": amount_insurance_value,
+                    "amount_other_value": amount_other_value,
+                }
+            )
+
+        return values
+
     def __document_comment_vals(self):
         return {
             "user": self.env.user,
