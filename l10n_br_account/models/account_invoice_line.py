@@ -313,54 +313,28 @@ class AccountMoveLine(models.Model):
         :param move_type:   The type of the move.
         :return:            A dictionary containing 'price_subtotal' & 'price_total'.
         """
-        result = super()._get_price_total_and_subtotal_model(
-            price_unit, quantity, discount, currency, product, partner, taxes, move_type
-        )
+        if not self.move_id.fiscal_document_id:
+            super()._get_price_total_and_subtotal_model(
+                price_unit,
+                quantity,
+                discount,
+                currency,
+                product,
+                partner,
+                taxes,
+                move_type,
+            )
 
-        # Compute 'price_subtotal'.
+        add_to_amount = sum([self[a] for a in self._add_fields_to_amount()])
+        rm_to_amount = sum([self[r] for r in self._rm_fields_to_amount()])
+
         line_discount_price_unit = price_unit * (1 - (discount / 100.0))
 
-        # Compute 'price_total'.
-        if taxes:
-            force_sign = (
-                -1 if move_type in ("out_invoice", "in_refund", "out_receipt") else 1
-            )
-            taxes_res = taxes._origin.with_context(force_sign=force_sign).compute_all(
-                line_discount_price_unit,
-                currency=currency,
-                quantity=quantity,
-                product=self.env.context.get("product_id"),
-                partner=self.env.context.get("partner_id"),
-                is_refund=move_type in ("out_refund", "in_refund"),
-                handle_price_include=True,  # FIXME
-                fiscal_taxes=self.env.context.get("fiscal_tax_ids"),
-                operation_line=self.env.context.get("fiscal_operation_line_id"),
-                ncm=self.env.context.get("ncm_id"),
-                nbs=self.env.context.get("nbs_id"),
-                nbm=self.env.context.get("nbm_id"),
-                cest=self.env.context.get("cest_id"),
-                discount_value=self.env.context.get("discount_value"),
-                insurance_value=self.env.context.get("insurance_value"),
-                other_value=self.env.context.get("other_value"),
-                freight_value=self.env.context.get("freight_value"),
-                fiscal_price=self.env.context.get("fiscal_price"),
-                fiscal_quantity=self.env.context.get("fiscal_quantity"),
-                uot_id=self.env.context.get("uot_id"),
-                icmssn_range=self.env.context.get("icmssn_range"),
-                icms_origin=self.env.context.get("icms_origin"),
-            )
+        # Valor do documento (NF)
+        price_subtotal = line_discount_price_unit * quantity
+        price_total = price_subtotal + add_to_amount - rm_to_amount + self.amount_tax
 
-            result["price_subtotal"] = taxes_res["total_excluded"]
-            result["price_total"] = taxes_res["total_included"]
-
-            fol = self.env.context.get("fiscal_operation_line_id")
-            if fol and not fol.fiscal_operation_id.deductible_taxes:
-                result["price_subtotal"] = (
-                    taxes_res["total_excluded"] - taxes_res["amount_tax_included"]
-                )
-                result["price_total"] = (
-                    taxes_res["total_included"] - taxes_res["amount_tax_included"]
-                )
+        result = {"price_total": price_total, "price_subtotal": price_subtotal}
 
         return result
 
