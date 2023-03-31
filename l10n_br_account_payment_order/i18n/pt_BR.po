@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-03-29 18:54+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2023-03-31 14:22+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -2715,13 +2715,13 @@ msgstr "Chave Pix"
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__pix_transfer_type
 msgid "Pix Transfer Type"
-msgstr "Tipo de Tranfer Pix"
+msgstr "Tipo de Transferência PIX"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__pix_transfer_type
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_bank_payment_line__pix_transfer_type
 msgid "Pix transfer type identification"
-msgstr "identificação do tipo de transferência pix"
+msgstr "identificação do tipo de transferência Pix"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_post
