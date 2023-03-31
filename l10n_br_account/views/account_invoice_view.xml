@@ -124,11 +124,48 @@
             </field>
             <field name="amount_untaxed" position="after">
                 <field string="(-) Discount" name="amount_discount_value" />
+                <field name="delivery_costs" invisible="1" />
+                <field name="force_compute_delivery_costs_by_total" invisible="1" />
+                <field
+                    name="amount_freight_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                />
+                <field
+                    name="amount_insurance_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                />
+                <field
+                    name="amount_other_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                />
+                <field
+                    name="amount_tax"
+                    string="Impostos"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                />
             </field>
             <field name="amount_total" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
 
+            <xpath
+                expr="//field[hasclass('oe_subtotal_footer_separator')]"
+                position="after"
+            >
+                <field
+                    name="amount_financial_total"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+            </xpath>
 
             <!-- invoice_line_ids tree (Invoice Lines) -->
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
