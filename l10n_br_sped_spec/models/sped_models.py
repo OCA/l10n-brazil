@@ -1,3 +1,4 @@
+from collections import defaultdict
 import datetime
 
 import logging
@@ -68,7 +69,9 @@ class SpedMixin(models.AbstractModel):
         readonly=True,
         store=False,
     )
-    res_model = fields.Char(string="Odoo Model")  # TODO compute_res_model using ir.model ?
+    res_model = fields.Char(
+        string="Odoo Model"
+    )  # TODO compute_res_model using ir.model ?
 
     @api.depends("res_model", "res_id")
     def _compute_reference(self):
@@ -79,7 +82,8 @@ class SpedMixin(models.AbstractModel):
             model = self.env["ir.model"].search([("model", "=", self.res_model)])
             if not model:
                 raise UserError(
-                    _("Undefined mapping model for Register %s and model") % (self._name, self.res_model)
+                    _("Undefined mapping model for Register %s and model")
+                    % (self._name, self.res_model)
                 )
             res.reference = "%s,%s" % (model.model, res.res_id)
 
@@ -224,7 +228,6 @@ class SpedMixin(models.AbstractModel):
                     ),
                     None,
                 )
-                print("\nREF", reg_code, register_class)
                 if register_class is None:
                     if "001" in reg_code or "990" in reg_code or reg_code == "9999":
                         continue
@@ -252,41 +255,7 @@ class SpedMixin(models.AbstractModel):
                     parent = parents[-1]
                     last_level = register_class._sped_level
 
-                values = line.split("|")[2:][:-1]
-                # TODO add specific method for ECD I550, I550 and I555 with LEIAUTE PARAMETRIZÁVEL
-                # as seen with demo, it seem we should take the rest of the line and put it in the
-                # RZ_CONT* text field!
-                vals = {}
-                for fname, field in register_class._fields.items():
-                    if field.automatic or fname.endswith("currency_id"):
-                        continue
-                    if len(values) == 0:
-                        break
-                    if field.type in ("many2one", "one2many"):
-                        print(
-                            "BAD REGISTER FIELDS!! more values than fields in Odoo!",
-                            values,
-                            fname,
-                        )
-                        break
-                    val = values.pop(0)
-
-                    if field.type == "integer":
-                        if val == "":
-                            vals[fname] = 0
-                        else:
-                            vals[fname] = int(val)
-
-                    elif field.type in ("float", "monetary"):
-                        if val == "":
-                            vals[fname] = 0.0
-                        else:
-                            vals[fname] = float(val.replace(",", "."))
-                    elif field.type == "date":
-                        if val != "":
-                            vals[fname] = datetime.datetime.strptime(val, "%d%m%Y")
-                    else:
-                        vals[fname] = val
+                vals = register_class.import_register(line)
 
                 if parent:
                     vals[
@@ -298,6 +267,45 @@ class SpedMixin(models.AbstractModel):
                     ] = parent.id
                 register = register_class.create(vals)
                 previous_register = register
+
+    @api.model
+    def import_register(cls, line):
+        values = line.split("|")[2:][:-1]
+        # TODO add specific method for ECD I550, I550 and I555 with LEIAUTE PARAMETRIZÁVEL
+        # as seen with demo, it seem we should take the rest of the line and put it in the
+        # RZ_CONT* text field!
+        vals = {}
+        for fname, field in cls._fields.items():
+            if field.automatic or fname.endswith("currency_id"):
+                continue
+            if len(values) == 0:
+                break
+            if field.type in ("many2one", "one2many"):
+                print(
+                    "BAD REGISTER FIELDS!! more values than fields in Odoo!",
+                    values,
+                    fname,
+                )
+                break
+            val = values.pop(0)
+
+            if field.type == "integer":
+                if val == "":
+                    vals[fname] = 0
+                else:
+                    vals[fname] = int(val)
+
+            elif field.type in ("float", "monetary"):
+                if val == "":
+                    vals[fname] = 0.0
+                else:
+                    vals[fname] = float(val.replace(",", "."))
+            elif field.type == "date":
+                if val != "":
+                    vals[fname] = datetime.datetime.strptime(val, "%d%m%Y")
+            else:
+                vals[fname] = val
+        return vals
 
     @api.model
     def generate_sped_text(cls, kind="ecd", version=None):
@@ -313,8 +321,15 @@ class SpedMixin(models.AbstractModel):
         ]  # mutable register line_count https://stackoverflow.com/a/15148557
         register0 = cls.env["l10n_br_sped.%s.%s.0000" % (kind, version)]
         register0.search([]).generate_register_text(sped, line_count)
+
+        count_by_bloco = defaultdict(int)
         for register_class in register_level2_classes:
             bloco = register_class._name[-4:][0].upper()
+            count_by_bloco[bloco] += register_class.search_count([])
+
+        for register_class in register_level2_classes:
+            bloco = register_class._name[-4:][0].upper()
+            registers = register_class.search([])  # TODO filter with company_id?
             if bloco != last_bloco:
                 if last_bloco:
                     sped.write(
@@ -326,10 +341,9 @@ class SpedMixin(models.AbstractModel):
                     )
                     line_total += line_count[0] + 1
                     line_count = [0]
-                sped.write("\n|%s001|0|" % (bloco,))
+                sped.write("\n|%s001|%s|" % (bloco, 0 if count_by_bloco[bloco] > 0 else 1))
                 line_count[0] += 1
 
-            registers = register_class.search([])  # TODO filter with company_id?
             registers.generate_register_text(sped, line_count)  # TODO use yield!
             last_bloco = bloco
 
@@ -389,11 +403,13 @@ class SpedMixin(models.AbstractModel):
                         self.env[self._fields[k].comodel_name].search([("id", "in", v)])
                     )
                     should_break_next = True
-                    continue # we assume it's the last register specific field
+                    continue  # we assume it's the last register specific field
                 elif should_break_next:  # if the register has a parent but no children
                     break
                 elif self._fields[k].type == "many2one":
-                    should_break_next = True # we assume the parent marks the end of register fields 
+                    should_break_next = (
+                        True  # we assume the parent marks the end of register fields
+                    )
                 else:
                     if self._fields[k].type == "date":
                         if v:
