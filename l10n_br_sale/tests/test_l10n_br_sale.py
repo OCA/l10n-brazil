@@ -178,6 +178,60 @@ class L10nBrSaleBaseTest(SavepointCase):
                 " dictionary from Sale Order.",
             )
 
+            # Testa se os Valores Totais estão iguais entre o Pedido e Fatura
+            self.assertEqual(
+                sale_order.amount_total,
+                invoice.amount_total,
+                "Error field Amount Total in Invoice" " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_tax,
+                invoice.amount_tax,
+                "Error field Amount Tax in Invoice" " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_untaxed,
+                invoice.amount_untaxed,
+                "Error field Amount Untaxed in Invoice"
+                " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_price_gross,
+                invoice.amount_price_gross,
+                "Error field Amount Price Gross in Invoice"
+                " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_financial_total,
+                invoice.amount_financial_total,
+                "Error field Amount Financial Total in "
+                "Invoice are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_financial_total_gross,
+                invoice.amount_financial_total_gross,
+                "Error field Amount Financial Total Gross"
+                " in Invoice are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_freight_value,
+                invoice.amount_freight_value,
+                "Error field Amount Freight in Invoice"
+                " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_insurance_value,
+                invoice.amount_insurance_value,
+                "Error field Amount Insurance in Invoice"
+                " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_other_value,
+                invoice.amount_other_value,
+                "Error field Amount Other Values in Invoice"
+                " are different from Sale Order.",
+            )
+
             for line in invoice.invoice_line_ids:
                 self.assertTrue(
                     line.fiscal_operation_line_id,
