@@ -118,20 +118,8 @@ class AccountMoveLine(models.Model):
     )
 
     discount = fields.Float(
-        compute="_compute_discounts",
         store=True,
     )
-
-    @api.depends(
-        "quantity",
-        "price_unit",
-        "discount_value",
-    )
-    def _compute_discounts(self):
-        for line in self:
-            line.discount = (line.discount_value * 100) / (
-                line.quantity * line.price_unit or 1
-            )
 
     @api.model
     def _shadowed_fields(self):
@@ -180,6 +168,11 @@ class AccountMoveLine(models.Model):
             doc_id = line.move_id.fiscal_document_id.id
             shadowed_fiscal_vals["document_id"] = doc_id
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
+            # TODO por algum motivo no caso de criação da Fatura a partir
+            #  do purchase.order, sale.order e stock.picking sem chamar
+            #  o _compute_amounts aqui o calculo do campo price_total não
+            #  leva em consideração os campos BR.
+            line._compute_amounts()
 
         return lines
 
@@ -417,3 +410,79 @@ class AccountMoveLine(models.Model):
             "debit": balance > 0.0 and balance or 0.0,
             "credit": balance < 0.0 and -balance or 0.0,
         }
+
+    @api.onchange(
+        "fiscal_price",
+        "discount_value",
+        "insurance_value",
+        "other_value",
+        "freight_value",
+        "fiscal_quantity",
+        "amount_tax_not_included",
+        "amount_tax_included",
+        "amount_tax_withholding",
+        "uot_id",
+        "product_id",
+        "partner_id",
+        "company_id",
+        "price_unit",
+        "quantity",
+    )
+    def _compute_amounts(self):
+        for line in self:
+            if not line.move_id.fiscal_document_id:
+                # Caso não tenha um Documento Fiscal,
+                # o caso do Brasil, retorna o super
+                return super()._compute_amounts()
+
+            super()._compute_amounts()
+            # Necessário para calcular de forma correta os
+            # valores do Brasil e alterar o campo price_total
+            if line.move_id.is_invoice(include_receipts=True):
+
+                round_curr = line.move_id.currency_id or self.env.ref("base.BRL")
+                # Valor dos produtos
+                line.price_gross = round_curr.round(line.price_unit * line.quantity)
+
+                if line.discount_value:
+                    line.discount = (line.discount_value * 100) / (
+                        line.quantity * line.price_unit or 1
+                    )
+
+                line.amount_untaxed = line.price_gross - line.discount_value
+
+                line.amount_fiscal = (
+                    round_curr.round(line.fiscal_price * line.fiscal_quantity)
+                    - line.discount_value
+                )
+
+                line.amount_tax = line.amount_tax_not_included
+
+                add_to_amount = sum([line[a] for a in line._add_fields_to_amount()])
+                rm_to_amount = sum([line[r] for r in line._rm_fields_to_amount()])
+
+                # Valor do documento (NF)
+                line.amount_total = (
+                    line.amount_untaxed + line.amount_tax + add_to_amount - rm_to_amount
+                )
+
+                # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
+                line.amount_taxed = line.amount_total - line.amount_tax_withholding
+
+                # Valor financeiro
+                if (
+                    line.fiscal_operation_line_id
+                    and line.fiscal_operation_line_id.add_to_amount
+                    and (not line.cfop_id or line.cfop_id.finance_move)
+                ):
+                    line.financial_total = line.amount_taxed
+                    line.financial_total_gross = (
+                        line.financial_total + line.discount_value
+                    )
+                    line.financial_discount_value = line.discount_value
+                else:
+                    line.financial_total_gross = line.financial_total = 0.0
+                    line.financial_discount_value = 0.0
+
+                # Define o campo para considerar os valores brasileiros
+                line.price_total = line.amount_total
