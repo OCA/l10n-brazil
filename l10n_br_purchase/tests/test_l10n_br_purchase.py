@@ -225,10 +225,70 @@ class L10nBrPurchaseBaseTest(SavepointCase):
                 " dictionary from Purchase Order.",
             )
 
+            # Valida os Totais
+            self.assertEqual(
+                order.amount_total,
+                invoice.amount_total,
+                "Error field Amount Total in Invoice"
+                " are different from Purchase Order.",
+            )
+
+            self.assertEqual(
+                order.amount_tax,
+                invoice.amount_tax,
+                "Error field Amount Tax in Invoice are"
+                " different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_untaxed,
+                invoice.amount_untaxed,
+                "Error field Amount Untaxed in Invoice"
+                " are different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_price_gross,
+                invoice.amount_price_gross,
+                "Error field Amount Price Gross in Invoice"
+                " are different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_financial_total,
+                invoice.amount_financial_total,
+                "Error field Amount Financial Total in Invoice"
+                " are different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_financial_total_gross,
+                invoice.amount_financial_total_gross,
+                "Error field Amount Financial Total Gross in Invoice"
+                " are different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_freight_value,
+                invoice.amount_freight_value,
+                "Error field Amount Freight in Invoice are different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_insurance_value,
+                invoice.amount_insurance_value,
+                "Error field Amount Insurance in Invoice are different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_other_value,
+                invoice.amount_other_value,
+                "Error field Amount Other Values in Invoice are different from Purchase Order.",
+            )
+
             for line in invoice.invoice_line_ids:
                 self.assertTrue(
                     line.fiscal_operation_line_id,
                     "Error to included Operation " "Line from Purchase Order Line.",
+                )
+                self.assertEqual(
+                    line.price_total,
+                    line.purchase_line_id.price_total,
+                    "Error field Price Total in Invoice Line"
+                    " are different from Purchase Order Line.",
                 )
 
         self.invoice_action = order.action_view_invoice()
