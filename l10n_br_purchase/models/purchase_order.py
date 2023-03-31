@@ -91,7 +91,22 @@ class PurchaseOrder(models.Model):
 
     @api.depends("order_line")
     def _compute_amount(self):
-        return super()._compute_amount()
+        for record in self:
+            if not record.fiscal_operation_id:
+                # Caso não tenha uma Operação Fiscal,
+                # o caso do Brasil, retorna o super
+                return super()._compute_amount()
+
+            super()._compute_amount()
+            for line in record.order_line:
+                # TODO para os valores price_subtotal e price_total ficarem corretos
+                #  é necessário chamar o metodo _compute_amount aqui, apesar dele
+                #  existir tanto nas Linhas desse modulo quanto do purchase.
+                #  Reavaliar na v16 ou versão superior.
+                line._compute_amount()
+
+            values = record.compute_br_amounts()
+            record.update(values)
 
     @api.depends("order_line.price_total")
     def _amount_all(self):
