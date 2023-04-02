@@ -33,6 +33,12 @@ class TestSupplierInvoice(SavepointCase):
             )
         )
 
+        cls.init_number_of_fiscal_docs = cls.env[
+            "l10n_br_fiscal.document"
+        ].search_count([])
+        cls.init_number_of_fiscal_doc_lines = cls.env[
+            "l10n_br_fiscal.document.line"
+        ].search_count([])
         cls.invoice_1 = cls.env["account.move"].create(
             dict(
                 name="Test Supplier Invoice 1",
@@ -73,6 +79,22 @@ class TestSupplierInvoice(SavepointCase):
                     )
                 ],
             )
+        )
+
+    def test_dummy_doc_usage(self):
+        self.assertEqual(
+            self.init_number_of_fiscal_docs,
+            self.env["l10n_br_fiscal.document"].search_count([]),
+            "Non fiscal invoices should not create fiscal documents"
+            "They should use the company dummy document instead.",
+        )
+
+    def test_dummy_doc_line_usage(self):
+        self.assertEqual(
+            self.init_number_of_fiscal_doc_lines,
+            self.env["l10n_br_fiscal.document.line"].search_count([]),
+            "Non fiscal invoices should not create fiscal document lines"
+            "They should use the company dummy document line instead.",
         )
 
     def test_state(self):
