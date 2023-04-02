@@ -1,7 +1,10 @@
-# @ 2018 Akretion - www.akretion.com.br -
-#   Magno Costa <magno.costa@akretion.com.br>
+# Copyright (C) 2018 - Magno Costa - Akretion
+# Copyright (C) 2023 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import mock
+
+from odoo.models import NewId
 from odoo.tests import SavepointCase
 
 
@@ -241,6 +244,90 @@ class TestCustomerInvoice(SavepointCase):
             "Non fiscal invoices should not create fiscal document lines"
             "They should use the company dummy document line instead.",
         )
+
+    def test_create_dont_recompute_existing_moves(self):
+        with mock.patch.object(
+            self.env.__class__.add_to_compute, "_original_method", wraps=None
+        ) as mocked_env:
+            invoice = self.env["account.move"].create(
+                dict(
+                    name="Test Customer Invoice 1",
+                    move_type="out_invoice",
+                    partner_id=self.env.ref("base.res_partner_3").id,
+                    journal_id=self.sale_journal.id,
+                    invoice_line_ids=[
+                        (
+                            0,
+                            0,
+                            {
+                                "product_id": self.env.ref(
+                                    "product.product_product_5"
+                                ).id,
+                                "quantity": 10.0,
+                                "price_unit": 450.0,
+                                "account_id": self.env["account.account"]
+                                .search(
+                                    [
+                                        (
+                                            "user_type_id",
+                                            "=",
+                                            self.env.ref(
+                                                "account.data_account_type_revenue"
+                                            ).id,
+                                        ),
+                                        (
+                                            "company_id",
+                                            "=",
+                                            self.env.company.id,
+                                        ),
+                                    ],
+                                    limit=1,
+                                )
+                                .id,
+                                "name": "product test 5",
+                                "uom_id": self.env.ref("uom.product_uom_unit").id,
+                            },
+                        )
+                    ],
+                )
+            )
+            for mock_call in mocked_env.mock_calls:
+                if (
+                    str(mock_call.args[1]).split(".")[:-1] == ["account", "move"]
+                    and mock_call.args[2]
+                    and not isinstance(mock_call.args[2][0].id, NewId)
+                ):
+                    self.assertEqual(mock_call.args[2], invoice)
+                elif (
+                    str(mock_call.args[1]).split(".")[:-1]
+                    == ["account", "move", "line"]
+                    and mock_call.args[2]
+                    and not isinstance(mock_call.args[2][0].id, NewId)
+                ):
+                    for line in mock_call.args[2]:
+                        self.assertIn(line, invoice.line_ids)
+
+    def test_write_dont_recompute_existing_moves(self):
+        with mock.patch.object(
+            self.env.__class__.add_to_compute, "_original_method", wraps=None
+        ) as mocked_env:
+            self.invoice_1.invoice_line_ids[0].write({"quantity": 20})
+
+            for mock_call in mocked_env.mock_calls:
+                if (
+                    str(mock_call.args[1]).split(".")[:-1] == ["account", "move"]
+                    and mock_call.args[2]
+                    and not isinstance(mock_call.args[2][0].id, NewId)
+                ):
+                    self.assertEqual(mock_call.args[2], self.invoice_1)
+                elif (
+                    str(mock_call.args[1]).split(".")[:-1]
+                    == ["account", "move", "line"]
+                    and mock_call.args[2]
+                    and not isinstance(mock_call.args[2][0].id, NewId)
+                ):
+                    for line in mock_call.args[2]:
+                        self.assertIn(line, self.invoice_1.line_ids)
 
     def test_state(self):
         self.assertEqual(
