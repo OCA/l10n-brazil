@@ -7,25 +7,33 @@ odoo.define("l10n_br_pos_cfe.CancelOrderButton", function (require) {
 
     const L10nBrPosNFCeCancelOrderButton = (CancelOrderButton) =>
         class extends CancelOrderButton {
-            /**
-             * @override
-             */
             async _onClick() {
                 const currentOrder = this.orderManagementContext.selectedOrder;
+
                 if (!currentOrder) return;
+
+                if (currentOrder.document_type !== "65") {
+                    super._onClick(...arguments);
+                    return;
+                }
+
                 const cancelReason = await this._show_selection_popup();
-                if (cancelReason) {
-                    try {
-                        rpc.query({
-                            model: "pos.order",
-                            method: "cancel_nfce_from_ui",
-                            args: [{}, currentOrder.name, cancelReason.cancel_reason],
-                        }).then(function (result) {
-                            currentOrder.state_edoc = result;
-                        });
-                    } catch (error) {
-                        throw error;
-                    }
+
+                if (!cancelReason) return;
+
+                try {
+                    const result = await rpc.query({
+                        model: "pos.order",
+                        method: "cancel_nfce_from_ui",
+                        args: [{}, currentOrder.name, cancelReason.cancel_reason],
+                    });
+                    currentOrder.state_edoc = result;
+                } catch (error) {
+                    console.error(
+                        "l10n_br_pos_nfce ~ file: CancelOrderButton.js:32 ~ error:",
+                        error
+                    );
+                    throw error;
                 }
             }
         };
