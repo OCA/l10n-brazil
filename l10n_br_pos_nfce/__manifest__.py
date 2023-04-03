@@ -31,6 +31,7 @@
         "static/src/xml/Screens/ReceiptScreen/NfceTotalsReceipt.xml",
         "static/src/xml/Screens/ReceiptScreen/NfcePaymentlineReceipt.xml",
         "static/src/xml/Screens/ReceiptScreen/NfceItemReceipt.xml",
+        "static/src/xml/Screens/ReceiptScreen/ReceiptScreen.xml",
     ],
     "installable": True,
 }
