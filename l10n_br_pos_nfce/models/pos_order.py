@@ -54,50 +54,52 @@ class PosOrder(models.Model):
 
     def _prepare_invoice_line(self, order_line):
         vals = super(PosOrder, self)._prepare_invoice_line(order_line)
-        pos_fiscal_map_ids = order_line.product_id.pos_fiscal_map_ids
+        pos_fiscal_map_id = order_line.product_id.pos_fiscal_map_ids.filtered(
+            lambda o: self.config_id.id == o.pos_config_id.id
+        )[0]
         fiscal_tax_ids = [
             (
                 6,
                 0,
                 [
-                    pos_fiscal_map_ids.icms_tax_id.id,
-                    pos_fiscal_map_ids.ipi_tax_id.id,
-                    pos_fiscal_map_ids.cofins_tax_id.id,
-                    pos_fiscal_map_ids.pis_tax_id.id,
+                    pos_fiscal_map_id.icms_tax_id.id,
+                    pos_fiscal_map_id.ipi_tax_id.id,
+                    pos_fiscal_map_id.cofins_tax_id.id,
+                    pos_fiscal_map_id.pis_tax_id.id,
                 ],
             )
         ]
         vals.update(
             {
                 "product_uom_id": order_line.product_uom_id.id,
-                "fiscal_operation_id": pos_fiscal_map_ids.fiscal_operation_id.id,
+                "fiscal_operation_id": pos_fiscal_map_id.fiscal_operation_id.id,
                 "tax_icms_or_issqn": "icms",
                 "uom_id": order_line.product_id.uom_id.id,
                 "ncm_id": order_line.product_id.ncm_id.id,
-                "fiscal_operation_line_id": pos_fiscal_map_ids.fiscal_operation_line_id.id,
-                "cfop_id": pos_fiscal_map_ids.cfop_id.id,
-                "uot_id": pos_fiscal_map_ids.uot_id.id,
+                "fiscal_operation_line_id": pos_fiscal_map_id.fiscal_operation_line_id.id,
+                "cfop_id": pos_fiscal_map_id.cfop_id.id,
+                "uot_id": pos_fiscal_map_id.uot_id.id,
                 "fiscal_genre_id": order_line.product_id.fiscal_genre_id.id,
-                "icms_tax_id": pos_fiscal_map_ids.icms_tax_id.id,
-                "icms_cst_id": pos_fiscal_map_ids.icms_cst_id.id,
-                "icms_base": pos_fiscal_map_ids.icms_base,
-                "icms_percent": pos_fiscal_map_ids.icms_percent,
-                "icms_value": pos_fiscal_map_ids.icms_value,
-                "ipi_tax_id": pos_fiscal_map_ids.ipi_tax_id.id,
-                "ipi_cst_id": pos_fiscal_map_ids.ipi_cst_id.id,
-                "ipi_base": pos_fiscal_map_ids.ipi_base,
-                "ipi_percent": pos_fiscal_map_ids.ipi_percent,
-                "ipi_value": pos_fiscal_map_ids.ipi_value,
-                "cofins_tax_id": pos_fiscal_map_ids.cofins_tax_id.id,
-                "cofins_cst_id": pos_fiscal_map_ids.cofins_cst_id.id,
-                "cofins_base": pos_fiscal_map_ids.cofins_base,
-                "cofins_percent": pos_fiscal_map_ids.cofins_percent,
-                "cofins_value": pos_fiscal_map_ids.cofins_value,
-                "pis_tax_id": pos_fiscal_map_ids.pis_tax_id.id,
-                "pis_cst_id": pos_fiscal_map_ids.pis_cst_id.id,
-                "pis_base": pos_fiscal_map_ids.pis_base,
-                "pis_percent": pos_fiscal_map_ids.pis_percent,
-                "pis_value": pos_fiscal_map_ids.pis_value,
+                "icms_tax_id": pos_fiscal_map_id.icms_tax_id.id,
+                "icms_cst_id": pos_fiscal_map_id.icms_cst_id.id,
+                "icms_base": pos_fiscal_map_id.icms_base,
+                "icms_percent": pos_fiscal_map_id.icms_percent,
+                "icms_value": pos_fiscal_map_id.icms_value,
+                "ipi_tax_id": pos_fiscal_map_id.ipi_tax_id.id,
+                "ipi_cst_id": pos_fiscal_map_id.ipi_cst_id.id,
+                "ipi_base": pos_fiscal_map_id.ipi_base,
+                "ipi_percent": pos_fiscal_map_id.ipi_percent,
+                "ipi_value": pos_fiscal_map_id.ipi_value,
+                "cofins_tax_id": pos_fiscal_map_id.cofins_tax_id.id,
+                "cofins_cst_id": pos_fiscal_map_id.cofins_cst_id.id,
+                "cofins_base": pos_fiscal_map_id.cofins_base,
+                "cofins_percent": pos_fiscal_map_id.cofins_percent,
+                "cofins_value": pos_fiscal_map_id.cofins_value,
+                "pis_tax_id": pos_fiscal_map_id.pis_tax_id.id,
+                "pis_cst_id": pos_fiscal_map_id.pis_cst_id.id,
+                "pis_base": pos_fiscal_map_id.pis_base,
+                "pis_percent": pos_fiscal_map_id.pis_percent,
+                "pis_value": pos_fiscal_map_id.pis_value,
                 "fiscal_tax_ids": fiscal_tax_ids,
             }
         )
