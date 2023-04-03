@@ -36,9 +36,12 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
         export_for_printing: function (json) {
             json = _super_order.export_for_printing.call(this, json);
+
+            if (this.pos.config.simplified_document_type !== "65") return json;
+
             const company = this.pos.company;
             const {
-                vat,
+                cnpj_cpf,
                 inscr_est,
                 legal_name,
                 street_name,
@@ -50,8 +53,8 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
             } = company;
             const {nfce_environment} = this.pos.config;
 
-            json.company = {
-                vat,
+            const companyInfo = {
+                cnpj_cpf,
                 inscr_est,
                 legal_name,
                 address: {
@@ -63,16 +66,27 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                     state: state_id[1],
                 },
             };
+
+            json.company = Object.assign({}, this.company, companyInfo);
             json.nfce_environment = nfce_environment;
 
-            const additionalInfo = {
+            const additionalInfo = this._buildNFCeAdditionalInfo();
+
+            return {...json, ...additionalInfo};
+        },
+
+        _buildNFCeAdditionalInfo: function () {
+            return {
                 url_consulta: this.url_consulta,
                 qr_code: this.qr_code,
                 authorization_date_string: this.authorization_date_string,
                 document_date_string: this.document_date_string,
             };
+        },
 
-            return {...json, ...additionalInfo};
+        _prepare_fiscal_json: function (json) {
+            _super_order._prepare_fiscal_json.apply(this, arguments);
+            json.document_type = this.document_type;
         },
     });
 
@@ -140,32 +154,34 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
         },
 
         _save_to_server: async function (orders, options) {
-            const res = await _super_posmodel._save_to_server.call(
+            const response = await _super_posmodel._save_to_server.call(
                 this,
                 orders,
                 options
             );
-            const invalidOrders = [];
-            const validOrders = [];
 
-            for (const option of res) {
+            if (this.env.pos.config.simplified_document_type !== "65") return response;
+
+            for (const orderOption of response) {
                 const order = this.get_order();
                 Object.assign(order, {
-                    authorization_protocol: option.authorization_protocol,
-                    document_key: option.document_key,
-                    document_number: option.document_number,
-                    url_consulta: option.url_consulta,
-                    qr_code: option.qr_code,
-                    authorization_date_string: option.authorization_date,
-                    document_date_string: option.document_date,
-                    document_serie: option.document_serie,
+                    authorization_protocol: orderOption.authorization_protocol,
+                    document_key: orderOption.document_key,
+                    document_number: orderOption.document_number,
+                    url_consulta: orderOption.url_consulta,
+                    qr_code: orderOption.qr_code,
+                    authorization_date_string: orderOption.authorization_date_string,
+                    document_date_string: orderOption.document_date_string,
+                    document_serie: orderOption.document_serie,
                 });
-                if (option.status_code !== "100") {
-                    invalidOrders.push(option);
-                } else {
-                    validOrders.push(option);
-                }
             }
+
+            const invalidOrders = response.filter(
+                ({status_code}) => status_code !== "100"
+            );
+            const validOrders = response.filter(
+                ({status_code}) => status_code === "100"
+            );
 
             if (validOrders.length > 0) {
                 Gui.showPopup("ConfirmPopup", {
@@ -174,23 +190,25 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 });
             }
 
-            if (invalidOrders.length === 1) {
-                const {pos_reference, status_description} = invalidOrders[0];
+            if (invalidOrders.length > 1) {
+                const invalidOrdersRefs = invalidOrders.map(({pos_reference}) =>
+                    pos_reference[1].join(", ")
+                );
+                const invalidOrdersObj = invalidOrders.reduce((obj, order) => {
+                    obj[order.pos_reference] = order.status_description;
+                    return obj;
+                }, {});
                 Gui.showPopup("ErrorPopup", {
                     title: "Error Issuing NFC-e",
-                    body: `The order ${pos_reference} had the following error: ${status_description}.`,
+                    body: `The following orders had their NFC-e rejected: ${invalidOrdersRefs}.`,
                 });
-            } else if (invalidOrders.length > 1) {
-                const msg = `The following orders: ${invalidOrders
-                    .map(({pos_reference}) => pos_reference[1])
-                    .join(", ")} had their NFC-e rejected.`;
-                Gui.showPopup("ErrorPopup", {
-                    title: "Error Issuing NFC-e",
-                    body: msg,
-                });
+                console.error(
+                    "l10n_br_pos_nfce ~ file: models.js:185 ~ invalidOrdersObj:",
+                    invalidOrdersObj
+                );
             }
 
-            return res;
+            return response;
         },
     });
 });
