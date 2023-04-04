@@ -107,16 +107,16 @@ class PosOrder(models.Model):
 
     @api.model
     def create_from_ui(self, orders, draft=False):
+        local_timezone = pytz.timezone("America/Sao_Paulo")
         response = super(PosOrder, self).create_from_ui(orders, draft)
         for option in response:
             order = self.env["pos.order"].search([("id", "=", option["id"])])
             if order.document_type == "65":
-                pytz.timezone("America/Sao_Paulo")
                 fiscal_document_id = order.account_move.fiscal_document_id
                 authorization_date = False
                 if fiscal_document_id.authorization_date:
                     authorization_date = fiscal_document_id.authorization_date.strftime(
-                        "%m/%d/%Y %H:%M:%S %Z"
+                        "%m/%d/%Y %H:%M:%S"
                     )
                 order.write({"state_edoc": fiscal_document_id.state_edoc})
                 option.update(
@@ -130,9 +130,9 @@ class PosOrder(models.Model):
                         "url_consulta": order.account_move.estado_de_consulta_da_nfce(),
                         "qr_code": order.account_move._monta_qrcode(),
                         "authorization_date": authorization_date,
-                        "document_date": fiscal_document_id.document_date.strftime(
-                            "%m/%d/%Y %H:%M:%S %Z"
-                        ),
+                        "document_date": fiscal_document_id.document_date.astimezone(
+                            local_timezone
+                        ).strftime("%m/%d/%Y %H:%M:%S"),
                     }
                 )
         return response
