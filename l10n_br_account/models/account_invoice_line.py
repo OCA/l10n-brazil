@@ -377,6 +377,10 @@ class AccountMoveLine(models.Model):
         # Compute 'price_subtotal'.
         line_discount_price_unit = price_unit * (1 - (discount / 100.0))
 
+        insurance_value = self.env.context.get("insurance_value", 0)
+        other_value = self.env.context.get("other_value", 0)
+        freight_value = self.env.context.get("other_value", 0)
+
         # Compute 'price_total'.
         if taxes:
             force_sign = (
@@ -397,9 +401,9 @@ class AccountMoveLine(models.Model):
                 nbm=self.env.context.get("nbm_id"),
                 cest=self.env.context.get("cest_id"),
                 discount_value=self.env.context.get("discount_value"),
-                insurance_value=self.env.context.get("insurance_value"),
-                other_value=self.env.context.get("other_value"),
-                freight_value=self.env.context.get("freight_value"),
+                insurance_value=insurance_value,
+                other_value=other_value,
+                freight_value=freight_value,
                 fiscal_price=self.env.context.get("fiscal_price"),
                 fiscal_quantity=self.env.context.get("fiscal_quantity"),
                 uot_id=self.env.context.get("uot_id"),
@@ -409,6 +413,10 @@ class AccountMoveLine(models.Model):
 
             result["price_subtotal"] = taxes_res["total_excluded"]
             result["price_total"] = taxes_res["total_included"]
+
+        result["price_total"] = (
+            result["price_total"] + insurance_value + other_value + freight_value
+        )
 
         return result
 
