@@ -170,8 +170,8 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                     document_number: orderOption.document_number,
                     url_consulta: orderOption.url_consulta,
                     qr_code: orderOption.qr_code,
-                    authorization_date_string: orderOption.authorization_date_string,
-                    document_date_string: orderOption.document_date_string,
+                    authorization_date_string: orderOption.authorization_date,
+                    document_date_string: orderOption.document_date,
                     document_serie: orderOption.document_serie,
                 });
             }
