@@ -5,6 +5,9 @@ from odoo import SUPERUSER_ID, _, api
 from odoo.exceptions import UserError
 from odoo.tools.sql import column_exists, create_column
 
+_logger = logging.getLogger(__name__)
+fake = Faker()
+
 
 def pre_init_hook(cr):
     """
@@ -114,3 +117,47 @@ def post_init_hook(cr, registry):
 
     for l10n_br_coa_chart in l10n_br_coa_charts:
         load_fiscal_taxes(env, l10n_br_coa_chart)
+
+    # populating a database with dummy data
+
+    num_records = 1000
+    _logger.info("Populating a database with %s dummy records", num_records)
+    partner_ids = env["res.partner"].search([]).ids
+    product_ids = env["product.product"].search([]).ids
+    start_date = datetime.strptime("2020-01-01", "%Y-%m-%d").date()
+    end_date = datetime.strptime("2023-12-31", "%Y-%m-%d").date()
+    for i in range(num_records):
+        start_time = time.perf_counter()
+        create_account_move_fake(env, partner_ids, product_ids, start_date, end_date)
+        elapsed_time = time.perf_counter() - start_time
+        _logger.info(
+            f"Created the invoice {i} of {num_records}. time: {elapsed_time:.6f} seconds"
+        )
+
+
+def create_account_move_fake(env, partner_ids, product_ids, start_date, end_date):
+    env["account.move"].create(
+        {
+            "move_type": "out_invoice",
+            "partner_id": random.choice(partner_ids),
+            "invoice_date": fake.date_between(start_date=start_date, end_date=end_date),
+            "invoice_line_ids": create_account_move_lines_fake_data(10, product_ids),
+        }
+    )
+
+
+def create_account_move_lines_fake_data(num_records, product_ids):
+    data = []
+    for _ in range(num_records):
+        data.append(
+            (
+                0,
+                0,
+                {
+                    "product_id": random.choice(product_ids),
+                    "quantity": random.randint(1, 100),
+                    "price_unit": round(fake.random.uniform(1, 100), 2),
+                },
+            )
+        )
+    return data
