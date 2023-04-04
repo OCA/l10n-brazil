@@ -161,6 +161,9 @@ class L10nBrSaleBaseTest(SavepointCase):
     def _invoice_sale_order(self, sale_order):
         sale_order.action_confirm()
 
+        # Testa os Impostos Dedutiveis
+        sale_order.fiscal_operation_id.deductible_taxes = True
+
         # Create and check invoice
         sale_order._create_invoices(final=True)
 

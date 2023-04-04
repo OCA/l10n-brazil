@@ -201,6 +201,29 @@ class SaleOrderLine(models.Model):
             self._compute_qty_delivered()
             result["fiscal_quantity"] = self.fiscal_qty_delivered
         result.update(super()._prepare_invoice_line(**optional_values))
+
+        # Atualiza os impostos contábeis relacionados aos impostos fiscais.
+        # TODO: Ver possibilidade de incluir o preenchimento do tax_ids
+        #  no metodo _prepare_br_fiscal_dict, seria possível?
+
+        # Caso a operação fiscal esteja definida para usar o impostos
+        # dedutíveis os impostos contáveis deduvíveis são adicionados na linha
+        # da movimentação/fatura.
+        deductible = False
+        if self.fiscal_operation_id and self.fiscal_operation_id.deductible_taxes:
+            deductible = True
+
+        result["tax_ids"] = [
+            (
+                6,
+                0,
+                self.env["l10n_br_fiscal.tax"]
+                .browse(result["fiscal_tax_ids"])
+                .account_taxes(user_type="sale", deductible=deductible)
+                .ids,
+            )
+        ]
+
         return result
 
     @api.onchange("product_uom", "product_uom_qty")
