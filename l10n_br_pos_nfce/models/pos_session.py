@@ -41,6 +41,7 @@ class PosSession(models.Model):
         state from entering the reconciliation process and preventing the
         session from being closed.
         """
+        response = super()._accumulate_amounts(data)
         amounts = lambda: {"amount": 0.0, "amount_converted": 0.0}  # noqa: E731
         tax_amounts = lambda: {  # noqa: E731
             "amount": 0.0,
@@ -210,55 +211,7 @@ class PosSession(models.Model):
                     partners = order.partner_id | order.partner_id.commercial_partner_id
                     partners._increase_rank("customer_rank")
 
-        if self.company_id.anglo_saxon_accounting:
-            global_session_pickings = self.picking_ids.filtered(
-                lambda p: not p.pos_order_id
-            )
-            if global_session_pickings:
-                stock_moves = (
-                    self.env["stock.move"]
-                    .sudo()
-                    .search(
-                        [
-                            ("picking_id", "in", global_session_pickings.ids),
-                            ("company_id.anglo_saxon_accounting", "=", True),
-                            (
-                                "product_id.categ_id.property_valuation",
-                                "=",
-                                "real_time",
-                            ),
-                        ]
-                    )
-                )
-                for move in stock_moves:
-                    exp_key = move.product_id._get_product_accounts()["expense"]
-                    out_key = (
-                        move.product_id.categ_id.property_stock_account_output_categ_id
-                    )
-                    amount = -sum(move.stock_valuation_layer_ids.mapped("value"))
-                    stock_expense[exp_key] = self._update_amounts(
-                        stock_expense[exp_key],
-                        {"amount": amount},
-                        move.picking_id.date,
-                        force_company_currency=True,
-                    )
-                    if move.location_id.usage == "customer":
-                        stock_return[out_key] = self._update_amounts(
-                            stock_return[out_key],
-                            {"amount": amount},
-                            move.picking_id.date,
-                            force_company_currency=True,
-                        )
-                    else:
-                        stock_output[out_key] = self._update_amounts(
-                            stock_output[out_key],
-                            {"amount": amount},
-                            move.picking_id.date,
-                            force_company_currency=True,
-                        )
-        MoveLine = self.env["account.move.line"].with_context(check_move_validity=False)
-
-        data.update(
+        response.update(
             {
                 "taxes": taxes,
                 "sales": sales,
@@ -272,7 +225,7 @@ class PosSession(models.Model):
                 "stock_output": stock_output,
                 "order_account_move_receivable_lines": order_account_move_receivable_lines,
                 "rounding_difference": rounding_difference,
-                "MoveLine": MoveLine,
             }
         )
-        return data
+
+        return response
