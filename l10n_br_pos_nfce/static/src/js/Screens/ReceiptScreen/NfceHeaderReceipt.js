@@ -43,7 +43,7 @@ odoo.define("l10n_br_pos_nfce.NfceHeaderReceipt", function (require) {
         }
 
         get companyCNPJ() {
-            return this.company.vat;
+            return this.company.cnpj_cpf;
         }
 
         get companyIE() {
