@@ -45,6 +45,7 @@
     "demo": [
         "demo/res_users_demo.xml",
     ],
+    "external_dependencies": {"python": ["faker"]},
     "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
     "installable": True,

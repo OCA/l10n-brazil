@@ -5,6 +5,7 @@ erpbrasil.base
 erpbrasil.edoc
 erpbrasil.edoc.pdf
 erpbrasil.transmissao
+faker
 nfelib
 num2words
 phonenumbers
