@@ -11,11 +11,22 @@ class FiscalTax(models.Model):
         account_taxes = self.env["account.tax"]
         for fiscal_tax in self:
             taxes = fiscal_tax._account_taxes()
+            # Atualiza os impostos contábeis relacionados aos impostos fiscais
             account_taxes |= taxes.filtered(
                 lambda t: t.type_tax_use == user_type
                 and t.active
-                and t.deductible == deductible
+                and t.deductible is False
             )
+            # Caso a operação fiscal esteja definida para usar o impostos
+            # dedutíveis os impostos contáveis dedutíveis são adicionados na linha
+            # da movimentação/fatura.
+            if deductible:
+                account_taxes |= taxes.filtered(
+                    lambda t: t.type_tax_use == user_type
+                    and t.active
+                    and t.deductible == deductible
+                )
+
         return account_taxes
 
     def _account_taxes(self):
