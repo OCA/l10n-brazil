@@ -110,13 +110,27 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         values.update(fiscal_values)
 
+        # Atualiza os impostos contábeis relacionados aos impostos fiscais.
+        # TODO: Ver possibilidade de incluir o preenchimento do tax_ids
+        #  no metodo _prepare_br_fiscal_dict, seria possível?
+        user_type = "sale"
+        if self._get_invoice_type() in ("in_invoice", "in_refund"):
+            user_type = "purchase"
+
+        # Caso a operação fiscal esteja definida para usar o impostos
+        # dedutíveis os impostos contáveis deduvíveis são adicionados na linha
+        # da movimentação/fatura.
+        deductible = False
+        if move.fiscal_operation_id and move.fiscal_operation_id.deductible_taxes:
+            deductible = True
+
         values["tax_ids"] = [
             (
                 6,
                 0,
                 self.env["l10n_br_fiscal.tax"]
-                .browse(fiscal_values["fiscal_tax_ids"])
-                .account_taxes()
+                .browse(values["fiscal_tax_ids"])
+                .account_taxes(user_type=user_type, deductible=deductible)
                 .ids,
             )
         ]
