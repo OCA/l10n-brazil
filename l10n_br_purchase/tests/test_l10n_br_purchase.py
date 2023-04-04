@@ -165,6 +165,9 @@ class L10nBrPurchaseBaseTest(SavepointCase):
     def _invoice_purchase_order(self, order):
         order.with_context(tracking_disable=True).button_confirm()
 
+        # Testa os Impostos Dedutiveis
+        order.fiscal_operation_id.deductible_taxes = True
+
         invoice_values = {
             "partner_id": order.partner_id.id,
             "move_type": "in_invoice",

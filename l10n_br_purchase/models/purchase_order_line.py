@@ -146,4 +146,26 @@ class PurchaseOrderLine(models.Model):
             fiscal_values.update(values)
             values.update(fiscal_values)
 
+            # Atualiza os impostos contábeis relacionados aos impostos fiscais.
+            # TODO: Ver possibilidade de incluir o preenchimento do tax_ids
+            #  no metodo _prepare_br_fiscal_dict, seria possível?
+
+            # Caso a operação fiscal esteja definida para usar o impostos
+            # dedutíveis os impostos contáveis dedutíveis são adicionados na linha
+            # da movimentação/fatura.
+            deductible = False
+            if self.fiscal_operation_id and self.fiscal_operation_id.deductible_taxes:
+                deductible = True
+
+            values["tax_ids"] = [
+                (
+                    6,
+                    0,
+                    self.env["l10n_br_fiscal.tax"]
+                    .browse(values["fiscal_tax_ids"])
+                    .account_taxes(user_type="purchase", deductible=deductible)
+                    .ids,
+                )
+            ]
+
         return values
