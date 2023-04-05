@@ -140,7 +140,6 @@ def post_init_hook(cr, registry):
         load_fiscal_taxes(env, l10n_br_coa_chart)
 
     # populating a database with dummy data
-
     num_records = 1000
     _logger.info("Populating a database with %s dummy records", num_records)
     partner_ids = env["res.partner"].search([]).ids
@@ -154,6 +153,7 @@ def post_init_hook(cr, registry):
         _logger.info(
             f"Created the invoice {i} of {num_records}. time: {elapsed_time:.6f} seconds"
         )
+        env.cr.commit()
 
 
 def create_account_move_fake(env, partner_ids, product_ids, start_date, end_date):
