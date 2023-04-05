@@ -4,6 +4,8 @@
 
 from odoo import fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
+
 
 class StockInvoiceOnshipping(models.TransientModel):
     _inherit = "stock.invoice.onshipping"
@@ -19,6 +21,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         pick = fields.first(pickings)
         if pick.purchase_id:
             values["purchase_id"] = pick.purchase_id.id
+            values["issuer"] = DOCUMENT_ISSUER_PARTNER
 
             if pick.purchase_id.payment_term_id.id != values.get(
                 "invoice_payment_term_id"
