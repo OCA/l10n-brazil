@@ -154,6 +154,7 @@ def post_init_hook(cr, registry):
         _logger.info(
             f"Created the invoice {i} of {num_records}. time: {elapsed_time:.6f} seconds"
         )
+        env.cr.commit()
 
 
 def create_account_move_fake(env, partner_ids, product_ids, start_date, end_date):
