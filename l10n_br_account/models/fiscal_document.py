@@ -16,6 +16,24 @@ class FiscalDocument(models.Model):
         string="Invoices",
     )
 
+    def modified(self, fnames, create=False, before=False):
+        """
+        Modifying a dummy fiscal document should not recompute
+        any account.move related to the same dummy fiscal document.
+        """
+        if not self.document_type_id:
+            return
+        return super().modified(fnames, create, before)
+
+    def _modified_triggers(self, tree, create=False):
+        """
+        Modifying a dummy fiscal document should not recompute
+        any account.move related to the same dummy fiscal document.
+        """
+        if not self.document_type_id:
+            return []
+        return super()._modified_triggers(tree, create)
+
     def unlink(self):
         non_draft_documents = self.filtered(
             lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
