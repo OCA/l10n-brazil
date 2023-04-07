@@ -21,8 +21,8 @@ class L10nBrPurchaseBaseTest(SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.main_company = cls.env.ref("base.main_company")
-        cls.company = cls.env.ref("base.main_company")
-        cls.po_products = cls.env.ref("l10n_br_purchase.main_po_only_products")
+        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        cls.po_products = cls.env.ref("l10n_br_purchase.lp_po_only_products")
         # cls.po_services = cls.env.ref(
         #     'l10n_br_purchase.main_po_only_services')
         # cls.po_prod_srv = cls.env.ref(
@@ -161,6 +161,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         purchase_line._onchange_fiscal_operation_id()
         purchase_line._onchange_fiscal_operation_line_id()
         purchase_line._onchange_fiscal_taxes()
+        purchase_line._onchange_fiscal_tax_ids()
 
     def _invoice_purchase_order(self, order):
         order.with_context(tracking_disable=True).button_confirm()
@@ -280,6 +281,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             )
 
             for line in invoice.invoice_line_ids:
+                line._onchange_price_subtotal()
                 self.assertTrue(
                     line.fiscal_operation_line_id,
                     "Error to included Operation " "Line from Purchase Order Line.",
@@ -445,14 +447,17 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         defined or By Line or By Total in Purchase Order.
         """
 
+        self._change_user_company(self.company)
         # Por padrão a definição dos campos está por Linha
         self.po_products.company_id.delivery_costs = "line"
+        self._run_purchase_order_onchanges(self.po_products)
         # Teste definindo os valores Por Linha
         for line in self.po_products.order_line:
             line.price_unit = 100.0
             line.freight_value = 10.0
             line.insurance_value = 10.0
             line.other_value = 10.0
+            self._run_purchase_line_onchanges(line)
 
         self._invoice_purchase_order(self.po_products)
 
@@ -529,3 +534,4 @@ class L10nBrPurchaseBaseTest(SavepointCase):
                     13.34,
                     "Unexpected value for the field Other Values in Purchase Order.",
                 )
+        self._change_user_company(self.main_company)
