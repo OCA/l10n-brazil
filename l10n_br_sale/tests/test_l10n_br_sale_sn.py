@@ -13,4 +13,4 @@ class TestL10nBrSaleSN(L10nBrSaleBaseTest):
         cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
         cls.so_products = cls.env.ref("l10n_br_sale.sn_so_only_products")
         cls.so_services = cls.env.ref("l10n_br_sale.sn_so_only_services")
-        cls.so_prod_srv = cls.env.ref("l10n_br_sale.sn_so_product_service")
+        cls.so_product_service = cls.env.ref("l10n_br_sale.sn_so_product_service")
