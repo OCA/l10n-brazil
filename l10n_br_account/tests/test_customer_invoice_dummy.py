@@ -247,7 +247,7 @@ class TestCustomerInvoice(SavepointCase):
 
     def test_create_dont_recompute_existing_moves(self):
         with mock.patch.object(
-            self.env.__class__.add_to_compute, "_original_method", wraps=None
+            self.env.__class__, "add_to_compute", wraps=None
         ) as mocked_env:
             invoice = self.env["account.move"].create(
                 dict(
@@ -293,40 +293,40 @@ class TestCustomerInvoice(SavepointCase):
             )
             for mock_call in mocked_env.mock_calls:
                 if (
-                    str(mock_call.args[1]).split(".")[:-1] == ["account", "move"]
-                    and mock_call.args[2]
-                    and not isinstance(mock_call.args[2][0].id, NewId)
+                    str(mock_call.args[0]).split(".")[:-1] == ["account", "move"]
+                    and mock_call.args[1]
+                    and not isinstance(mock_call.args[1][0].id, NewId)
                 ):
-                    self.assertEqual(mock_call.args[2], invoice)
+                    self.assertEqual(mock_call.args[1], invoice)
                 elif (
-                    str(mock_call.args[1]).split(".")[:-1]
+                    str(mock_call.args[0]).split(".")[:-1]
                     == ["account", "move", "line"]
-                    and mock_call.args[2]
-                    and not isinstance(mock_call.args[2][0].id, NewId)
+                    and mock_call.args[1]
+                    and not isinstance(mock_call.args[1][0].id, NewId)
                 ):
-                    for line in mock_call.args[2]:
+                    for line in mock_call.args[1]:
                         self.assertIn(line, invoice.line_ids)
 
     def test_write_dont_recompute_existing_moves(self):
         with mock.patch.object(
-            self.env.__class__.add_to_compute, "_original_method", wraps=None
+            self.env.__class__, "add_to_compute", wraps=None
         ) as mocked_env:
             self.invoice_1.invoice_line_ids[0].write({"quantity": 20})
 
             for mock_call in mocked_env.mock_calls:
                 if (
-                    str(mock_call.args[1]).split(".")[:-1] == ["account", "move"]
-                    and mock_call.args[2]
-                    and not isinstance(mock_call.args[2][0].id, NewId)
+                    str(mock_call.args[0]).split(".")[:-1] == ["account", "move"]
+                    and mock_call.args[1]
+                    and not isinstance(mock_call.args[1][0].id, NewId)
                 ):
-                    self.assertEqual(mock_call.args[2], self.invoice_1)
+                    self.assertEqual(mock_call.args[1], self.invoice_1)
                 elif (
-                    str(mock_call.args[1]).split(".")[:-1]
+                    str(mock_call.args[0]).split(".")[:-1]
                     == ["account", "move", "line"]
-                    and mock_call.args[2]
-                    and not isinstance(mock_call.args[2][0].id, NewId)
+                    and mock_call.args[1]
+                    and not isinstance(mock_call.args[1][0].id, NewId)
                 ):
-                    for line in mock_call.args[2]:
+                    for line in mock_call.args[1]:
                         self.assertIn(line, self.invoice_1.line_ids)
 
     def test_state(self):
