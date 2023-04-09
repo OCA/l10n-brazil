@@ -251,13 +251,9 @@ class AccountMove(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        recompute_inv_after_id = self.search([], order="id DESC", limit=1).id
-        invoices = super(
-            AccountMove,
-            self.with_context(recompute_account_move_after_id=recompute_inv_after_id),
-        ).create(vals_list)
-        invoices._write_shadowed_fields()
-        return invoices
+        invoice = super().create(vals_list)
+        invoice._write_shadowed_fields()
+        return invoice
 
     def write(self, values):
         result = super().write(values)
