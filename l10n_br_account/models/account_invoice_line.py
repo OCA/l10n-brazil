@@ -327,6 +327,19 @@ class AccountMoveLine(models.Model):
         price_subtotal = line_discount_price_unit * quantity
         price_total = price_subtotal + add_to_amount - rm_to_amount + self.amount_tax
 
+        # Caso sem Lançamentos Contábeis de Impostos de Dedutiveis
+        if not self.move_id.fiscal_operation_id.deductible_taxes:
+            price_total = (
+                price_subtotal
+                + add_to_amount
+                - rm_to_amount
+                + self.amount_tax
+                - self.icms_value
+                - self.ipi_value
+                - self.pis_value
+                - self.cofins_value
+            )
+
         result = {"price_total": price_total, "price_subtotal": price_subtotal}
 
         return result
