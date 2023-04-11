@@ -635,7 +635,6 @@ class NFeLine(spec_models.StackedModel):
     nfe40_pPIS = fields.Float(related="pis_percent", string="nfe40_pPIS")
 
     def _export_fields_nfe_40_pis(self, xsd_fields, class_obj, export_dict):
-
         remove_tags = {
             "nfe40_PISAliq": ["nfe40_PISQtde", "nfe40_PISNT", "nfe40_PISOutr"],
             "nfe40_PISQtde": ["nfe40_PISAliq", "nfe40_PISNT", "nfe40_PISOutr"],
@@ -643,8 +642,9 @@ class NFeLine(spec_models.StackedModel):
             "nfe40_PISOutr": ["nfe40_PISAliq", "nfe40_PISQtde", "nfe40_PISNT"],
         }
 
-        for tag_to_remove in remove_tags.get(self.nfe40_choice12):
-            xsd_fields.remove(tag_to_remove)
+        for tag_to_remove in remove_tags.get(self.nfe40_choice12, []):
+            if tag_to_remove in xsd_fields:
+                xsd_fields.remove(tag_to_remove)
 
     def _export_fields_pis(self, xsd_fields, class_obj, export_dict):
 
@@ -768,8 +768,9 @@ class NFeLine(spec_models.StackedModel):
             ],
         }
 
-        for tag_to_remove in remove_tags.get(self.nfe40_choice15):
-            xsd_fields.remove(tag_to_remove)
+        for tag_to_remove in remove_tags.get(self.nfe40_choice15, []):
+            if tag_to_remove in xsd_fields:
+                xsd_fields.remove(tag_to_remove)
 
     def _export_fields_cofins(self, xsd_fields, class_obj, export_dict):
 
