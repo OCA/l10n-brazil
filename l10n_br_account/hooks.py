@@ -1,14 +1,9 @@
 # Copyright (C) 2019 - Raphaël Valyi Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
-import sys
-
-from odoo import SUPERUSER_ID, api, registry as odoo_registry
-from odoo.modules import loading
+from odoo import SUPERUSER_ID, _, api
+from odoo.exceptions import UserError
 from odoo.tools.sql import column_exists, create_column
-
-_logger = logging.getLogger(__name__)
 
 
 def pre_init_hook(cr):
@@ -37,34 +32,21 @@ def pre_init_hook(cr):
         )
 
         if coa_modules:
-            registry = odoo_registry(cr.dbname)
-
-            # this xmlids hack is required to avoid deletion records
-            # just installed before this hook and before loaded_xmlids would
-            # be reset by load_modules.
-            loaded_xmlids = registry.loaded_xmlids.copy()
-
-            # without this, these modules would be installed twice
-            to_install = env["ir.module.module"].search([("state", "=", "to install")])
-            to_upgrade = env["ir.module.module"].search([("state", "=", "to upgrade")])
-            (to_install + to_upgrade).write({"state": "uninstalled"})
-
-            # strangely setting coa_modules as 'to install' would fail
-            coa_modules.write({"state": "to upgrade"})
-            # we need to commit so load_modules can see it.
-            # load_modules would commit soon after anyway.
-            cr.commit()  # pylint: disable=E8102
-            _logger.info("installing charts of accounts for demo context...")
-            loading.load_modules(registry._db, force_demo=True)
-            # this 2nd commit is required to be able to call the post_init_hook
-            cr.commit()  # pylint: disable=E8102
-            for mod in coa_modules:
-                py_module = sys.modules["odoo.addons.%s" % (mod.name,)]
-                py_module.post_init_hook(cr, registry)
-
-            to_install.write({"state": "to install"})
-            to_upgrade.write({"state": "to upgrade"})
-            registry.loaded_xmlids = loaded_xmlids.union(registry.loaded_xmlids)
+            raise UserError(
+                _(
+                    """It looks like your database %(database) is running with demo
+                   data. But the l10n_br_account module will need you to install the
+                   l10n_br_coa_simple and l10n_br_coa_generic
+                   chart of accounts modules first to load l10n_br_account demo data
+                   or run its tests properly (for production, these dependencies are not
+                   required, that is why these are not usual explicit
+                   module dependencies).
+                   Please install the l10n_br_coa_simple and l10n_br_coa_generic modules
+                   first and try installing the l10n_br_account module again.
+                """,
+                    database=cr.dbname,
+                )
+            )
 
     # Create fiscal_document_id fields
     if not column_exists(cr, "account_move", "fiscal_document_id"):
