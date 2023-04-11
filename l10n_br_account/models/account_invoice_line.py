@@ -486,3 +486,26 @@ class AccountMoveLine(models.Model):
 
                 # Define o campo para considerar os valores brasileiros
                 line.price_total = line.amount_total
+
+    @api.onchange(
+        "fiscal_price",
+        "discount_value",
+        "insurance_value",
+        "other_value",
+        "freight_value",
+        "fiscal_quantity",
+        "amount_tax_not_included",
+        "amount_tax_included",
+        "amount_tax_withholding",
+        "uot_id",
+        "product_id",
+        "partner_id",
+        "company_id",
+        "price_unit",
+        "quantity",
+    )
+    def _onchange_price_subtotal(self):
+        # Necessário adicionar os outros campos dentro no onchange
+        # para que os Lançamentos Contábeis seja calculados
+        # corretamente.
+        return super()._onchange_price_subtotal()
