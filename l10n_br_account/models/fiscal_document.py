@@ -73,26 +73,6 @@ class FiscalDocument(models.Model):
                 if record.date_in_out:
                     move_id.date = record.date_in_out.date()
 
-    def modified(self, fnames, create=False, before=False):
-        """
-        Modifying a dummy fiscal document (no document_type_id) should not recompute
-        any account.move related to the same dummy fiscal document.
-        """
-        filtered = self.filtered(
-            lambda rec: isinstance(rec.id, models.NewId) or rec.document_type_id
-        )
-        return super(FiscalDocument, filtered).modified(fnames, create, before)
-
-    def _modified_triggers(self, tree, create=False):
-        """
-        Modifying a dummy fiscal document (no document_type_id) should not recompute
-        any account.move related to the same dummy fiscal document.
-        """
-        filtered = self.filtered(
-            lambda rec: isinstance(rec.id, models.NewId) or rec.document_type_id
-        )
-        return super(FiscalDocument, filtered)._modified_triggers(tree, create)
-
     def unlink(self):
         non_draft_documents = self.filtered(
             lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
