@@ -551,6 +551,27 @@ msgid "Invoices"
 msgstr "Faturas"
 
 #. module: l10n_br_account
+#: code:addons/l10n_br_account/hooks.py:0
+#, python-format
+msgid ""
+"It looks like your database %(database) is running with demo\n"
+"                   data. But the l10n_br_account module will need you to "
+"install the\n"
+"                   l10n_br_coa_simple and l10n_br_coa_generic\n"
+"                   chart of accounts modules first to load l10n_br_account "
+"demo data\n"
+"                   or run its tests properly (for production, these "
+"dependencies are not\n"
+"                   required, that is why these are not usual explicit\n"
+"                   module dependencies).\n"
+"                   Please install the l10n_br_coa_simple and "
+"l10n_br_coa_generic modules\n"
+"                   first and try installing the l10n_br_account module "
+"again.\n"
+"                "
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_move
 msgid "Journal Entry"
 msgstr "Lançamento de Diário"
