@@ -3,13 +3,18 @@
 
 import logging
 
-from odoo import models
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
 
 class PosConfig(models.Model):
     _inherit = "pos.config"
+
+    document_serie_id = fields.Many2one(
+        string="Document Serie",
+        comodel_name="l10n_br_fiscal.document.serie",
+    )
 
     def _demo_configure_pos_config_sat_tanca(self):
         for record in self:
