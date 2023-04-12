@@ -1,4 +1,8 @@
-<PedidoEnvioLoteRPS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.prefeitura.sp.gov.br/nfe">
+<PedidoEnvioLoteRPS
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://www.prefeitura.sp.gov.br/nfe"
+>
     <Cabecalho xmlns="" Versao="1">
         <CPFCNPJRemetente>
             <CNPJ>59594315000157</CNPJ>
@@ -11,7 +15,8 @@
         <ValorTotalDeducoes>0</ValorTotalDeducoes>
     </Cabecalho>
     <RPS xmlns="">
-        <Assinatura>b'00035172001  00000000005020200604TNN0000000000100000000000000000006311900281493979000189'</Assinatura>
+        <Assinatura
+        >b'00035172001  00000000005020200604TNN0000000000100000000000000000006311900281493979000189'</Assinatura>
         <ChaveRPS>
             <InscricaoPrestador>35172</InscricaoPrestador>
             <SerieRPS>001</SerieRPS>
@@ -45,7 +50,8 @@
             <CEP>4576060</CEP>
         </EnderecoTomador>
         <EmailTomador>cliente1@cliente1.com.br</EmailTomador>
-        <Discriminacao>[ODOO_DEV] Customized Odoo Development|Documento emitido por: Marc Demo|</Discriminacao>
+        <Discriminacao
+        >[ODOO_DEV] Customized Odoo Development|Documento emitido por: Marc Demo|</Discriminacao>
         <ValorCargaTributaria>0</ValorCargaTributaria>
         <FonteCargaTributaria>100.0</FonteCargaTributaria>
     </RPS>
