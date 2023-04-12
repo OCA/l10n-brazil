@@ -144,3 +144,12 @@ class Certificate(models.Model):
     def write(self, values):
         values = self.update_certificate_data(values)
         return super().write(values)
+
+    @api.onchange("file", "password")
+    def _onchange_file_password(self):
+        if self.file and self.password:
+            self.update(
+                self.update_certificate_data(
+                    {"file": self.file, "password": self.password}
+                )
+            )
