@@ -15,17 +15,18 @@ class PosOrder(models.Model):
         pos_config_id = self.session_id.config_id
         payment_mode_id = self.payment_ids[0].payment_method_id.payment_mode_id
 
-        vals.update(
-            {
-                "document_type_id": pos_config_id.simplified_document_type_id.id,
-                "fiscal_operation_id": pos_config_id.out_pos_fiscal_operation_id.id,
-                "ind_pres": "1",
-                "document_serie_id": pos_config_id.nfce_document_serie_id.id,
-                "partner_id": pos_config_id.partner_id.id,
-                "payment_mode_id": payment_mode_id.id,
-                "nfe40_vTroco": self.amount_return,
-            }
-        )
+        if pos_config_id.simplified_document_type == "65":
+            vals.update(
+                {
+                    "document_type_id": pos_config_id.simplified_document_type_id.id,
+                    "fiscal_operation_id": pos_config_id.out_pos_fiscal_operation_id.id,
+                    "ind_pres": "1",
+                    "document_serie_id": pos_config_id.nfce_document_serie_id.id,
+                    "partner_id": pos_config_id.partner_id.id,
+                    "payment_mode_id": payment_mode_id.id,
+                    "nfe40_vTroco": self.amount_return,
+                }
+            )
 
         return vals
 
@@ -35,74 +36,80 @@ class PosOrder(models.Model):
             pos_order_vals, draft, existing_order
         )
         created_order = self.env["pos.order"].browse(res)
+        pos_config_id = created_order.session_id.config_id
 
-        # It was necessary to insert the next line so that the flow of issuing
-        #   the NFC-e by frontend becomes possible.
-        # What error that has been happening is: during the validation process
-        #   of the tax document, the required record that will become the tag of
-        #   payment, and which is being created automatically, does not exist
-        #   yet in the database and therefore account.move cannot link with it,
-        #   which ends up generating an error when validating the XML. Forcing
-        #   this record through the commit, the issue flow works through
-        #   from a record created by a POS session works perfectly
+        if pos_config_id.simplified_document_type == "65":
 
-        # TODO: Change the flow so that it is not necessary to commit to the db
-        self.env.cr.commit()  # pylint: disable=E8102
-        created_order.account_move.fiscal_document_id.action_document_confirm()
-        created_order.account_move.fiscal_document_id.action_document_send()
+            # It was necessary to insert the next line so that the flow of issuing
+            #   the NFC-e by frontend becomes possible.
+            # What error that has been happening is: during the validation process
+            #   of the tax document, the required record that will become the tag of
+            #   payment, and which is being created automatically, does not exist
+            #   yet in the database and therefore account.move cannot link with it,
+            #   which ends up generating an error when validating the XML. Forcing
+            #   this record through the commit, the issue flow works through
+            #   from a record created by a POS session works perfectly
+
+            # TODO: Change the flow so that it is not necessary to commit to the db
+            self.env.cr.commit()  # pylint: disable=E8102
+            created_order.account_move.fiscal_document_id.action_document_confirm()
+            created_order.account_move.fiscal_document_id.action_document_send()
         return res
 
     def _prepare_invoice_line(self, order_line):
         vals = super(PosOrder, self)._prepare_invoice_line(order_line)
-        pos_fiscal_map_id = order_line.product_id.pos_fiscal_map_ids.filtered(
-            lambda o: self.config_id.id == o.pos_config_id.id
-        )[0]
-        fiscal_tax_ids = [
-            (
-                6,
-                0,
-                [
-                    pos_fiscal_map_id.icms_tax_id.id,
-                    pos_fiscal_map_id.ipi_tax_id.id,
-                    pos_fiscal_map_id.cofins_tax_id.id,
-                    pos_fiscal_map_id.pis_tax_id.id,
-                ],
+        pos_config_id = self.session_id.config_id
+
+        if pos_config_id.simplified_document_type == "65":
+            pos_fiscal_map_id = order_line.product_id.pos_fiscal_map_ids.filtered(
+                lambda o: self.config_id.id == o.pos_config_id.id
+            )[0]
+            fiscal_tax_ids = [
+                (
+                    6,
+                    0,
+                    [
+                        pos_fiscal_map_id.icms_tax_id.id,
+                        pos_fiscal_map_id.ipi_tax_id.id,
+                        pos_fiscal_map_id.cofins_tax_id.id,
+                        pos_fiscal_map_id.pis_tax_id.id,
+                    ],
+                )
+            ]
+            vals.update(
+                {
+                    "product_uom_id": order_line.product_uom_id.id,
+                    "fiscal_operation_id": pos_fiscal_map_id.fiscal_operation_id.id,
+                    "tax_icms_or_issqn": "icms",
+                    "uom_id": order_line.product_id.uom_id.id,
+                    "ncm_id": order_line.product_id.ncm_id.id,
+                    "fiscal_operation_line_id": pos_fiscal_map_id.fiscal_operation_line_id.id,
+                    "cfop_id": pos_fiscal_map_id.cfop_id.id,
+                    "uot_id": pos_fiscal_map_id.uot_id.id,
+                    "fiscal_genre_id": order_line.product_id.fiscal_genre_id.id,
+                    "icms_tax_id": pos_fiscal_map_id.icms_tax_id.id,
+                    "icms_cst_id": pos_fiscal_map_id.icms_cst_id.id,
+                    "icms_base": pos_fiscal_map_id.icms_base,
+                    "icms_percent": pos_fiscal_map_id.icms_percent,
+                    "icms_value": pos_fiscal_map_id.icms_value,
+                    "ipi_tax_id": pos_fiscal_map_id.ipi_tax_id.id,
+                    "ipi_cst_id": pos_fiscal_map_id.ipi_cst_id.id,
+                    "ipi_base": pos_fiscal_map_id.ipi_base,
+                    "ipi_percent": pos_fiscal_map_id.ipi_percent,
+                    "ipi_value": pos_fiscal_map_id.ipi_value,
+                    "cofins_tax_id": pos_fiscal_map_id.cofins_tax_id.id,
+                    "cofins_cst_id": pos_fiscal_map_id.cofins_cst_id.id,
+                    "cofins_base": pos_fiscal_map_id.cofins_base,
+                    "cofins_percent": pos_fiscal_map_id.cofins_percent,
+                    "cofins_value": pos_fiscal_map_id.cofins_value,
+                    "pis_tax_id": pos_fiscal_map_id.pis_tax_id.id,
+                    "pis_cst_id": pos_fiscal_map_id.pis_cst_id.id,
+                    "pis_base": pos_fiscal_map_id.pis_base,
+                    "pis_percent": pos_fiscal_map_id.pis_percent,
+                    "pis_value": pos_fiscal_map_id.pis_value,
+                    "fiscal_tax_ids": fiscal_tax_ids,
+                }
             )
-        ]
-        vals.update(
-            {
-                "product_uom_id": order_line.product_uom_id.id,
-                "fiscal_operation_id": pos_fiscal_map_id.fiscal_operation_id.id,
-                "tax_icms_or_issqn": "icms",
-                "uom_id": order_line.product_id.uom_id.id,
-                "ncm_id": order_line.product_id.ncm_id.id,
-                "fiscal_operation_line_id": pos_fiscal_map_id.fiscal_operation_line_id.id,
-                "cfop_id": pos_fiscal_map_id.cfop_id.id,
-                "uot_id": pos_fiscal_map_id.uot_id.id,
-                "fiscal_genre_id": order_line.product_id.fiscal_genre_id.id,
-                "icms_tax_id": pos_fiscal_map_id.icms_tax_id.id,
-                "icms_cst_id": pos_fiscal_map_id.icms_cst_id.id,
-                "icms_base": pos_fiscal_map_id.icms_base,
-                "icms_percent": pos_fiscal_map_id.icms_percent,
-                "icms_value": pos_fiscal_map_id.icms_value,
-                "ipi_tax_id": pos_fiscal_map_id.ipi_tax_id.id,
-                "ipi_cst_id": pos_fiscal_map_id.ipi_cst_id.id,
-                "ipi_base": pos_fiscal_map_id.ipi_base,
-                "ipi_percent": pos_fiscal_map_id.ipi_percent,
-                "ipi_value": pos_fiscal_map_id.ipi_value,
-                "cofins_tax_id": pos_fiscal_map_id.cofins_tax_id.id,
-                "cofins_cst_id": pos_fiscal_map_id.cofins_cst_id.id,
-                "cofins_base": pos_fiscal_map_id.cofins_base,
-                "cofins_percent": pos_fiscal_map_id.cofins_percent,
-                "cofins_value": pos_fiscal_map_id.cofins_value,
-                "pis_tax_id": pos_fiscal_map_id.pis_tax_id.id,
-                "pis_cst_id": pos_fiscal_map_id.pis_cst_id.id,
-                "pis_base": pos_fiscal_map_id.pis_base,
-                "pis_percent": pos_fiscal_map_id.pis_percent,
-                "pis_value": pos_fiscal_map_id.pis_value,
-                "fiscal_tax_ids": fiscal_tax_ids,
-            }
-        )
         return vals
 
     @api.model
