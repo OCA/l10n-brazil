@@ -470,12 +470,11 @@ class NFeLine(spec_models.StackedModel):
 
     def _compute_nfe40_ICMSUFDest(self):
         for record in self:
-            if not record.icms_origin_percent and not record.icms_percent:
-                record.nfe40_pICMSInter = False
+            if record.icms_origin_percent:
+                record.nfe40_pICMSInter = str("%.02f" % record.icms_origin_percent)
             else:
-                record.nfe40_pICMSInter = str(
-                    "%.02f" % record.icms_origin_percent or record.icms_percent
-                )
+                record.nfe40_pICMSInter = False
+
             record.nfe40_pFCPUFDest = record.icmsfcp_percent
             record.nfe40_pICMSUFDest = record.icms_destination_percent
             record.nfe40_pICMSInterPart = record.icms_sharing_percent
