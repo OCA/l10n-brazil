@@ -52,6 +52,14 @@ class PosOrder(models.Model):
 
             # TODO: Change the flow so that it is not necessary to commit to the db
             self.env.cr.commit()  # pylint: disable=E8102
+
+            # FIXME: The next line is a workaround to fix the problem of the
+            #  missing compute fields in the fiscal document line.
+            for line in created_order.account_move.fiscal_document_id.fiscal_line_ids:
+                line._compute_choice12()
+                line._compute_choice15()
+                line.tax_icms_or_issqn = "icms"
+                line._compute_choice11()
             created_order.account_move.fiscal_document_id.action_document_confirm()
             created_order.account_move.fiscal_document_id.action_document_send()
         return res
