@@ -604,8 +604,6 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     models.PosModel = models.PosModel.extend({
         initialize: function (session, attributes) {
-            this.cnpj_cpf = null;
-
             this.last_document_session_number = null;
             this.sat_card_accrediting_list = null;
 
