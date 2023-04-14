@@ -18,24 +18,21 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
 
     const L10nBrPosPaymentScreen = (PaymentScreen_screen = PaymentScreen) =>
         class extends PaymentScreen_screen {
-            check_valid_cpf_cnpj(order) {
-                let result = true;
-                const client = order.get_client();
-
-                if (client) {
-                    let cnpj_cpf = null;
-                    if (client.cnpj_cpf) {
-                        cnpj_cpf = client.cnpj_cpf;
-                    } else {
-                        cnpj_cpf = client.name;
-                    }
-
-                    result = util.validate_cnpj_cpf(cnpj_cpf);
-                    if (!result) {
-                        order.set_client(null);
-                    }
+            checkValidCpfCnpj(currentOrder) {
+                if (!currentOrder.customer_tax_id && !currentOrder.get_client()) {
+                    return true;
                 }
 
+                const client = currentOrder.get_client();
+                if (!client) {
+                    return util.validate_cnpj_cpf(currentOrder.customer_tax_id);
+                }
+
+                const cnpj_cpf = client.cnpj_cpf || client.name;
+                const result = util.validate_cnpj_cpf(cnpj_cpf);
+                if (!result) {
+                    currentOrder.set_client(null);
+                }
                 return result;
             }
 
@@ -43,8 +40,7 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
                 var result = super._isOrderValid(isForceValidate);
                 if (this.env.pos.config.simplified_document_type) {
                     var order = this.env.pos.get_order();
-                    const valid_cpf_cnpj = this.check_valid_cpf_cnpj(order);
-                    if (valid_cpf_cnpj) {
+                    if (this.checkValidCpfCnpj(order)) {
                         result = await order.document_send(this);
                     } else {
                         Gui.showPopup("ErrorPopup", {
