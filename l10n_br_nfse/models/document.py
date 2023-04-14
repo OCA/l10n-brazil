@@ -61,7 +61,6 @@ class Document(models.Model):
         default="1",
     )
     verify_code = fields.Char(
-        readonly=True,
         copy=False,
     )
     nfse_environment = fields.Selection(
