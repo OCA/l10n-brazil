@@ -581,18 +581,9 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     models.PosModel = models.PosModel.extend({
         initialize: function (session, attributes) {
-            this.cnpj_cpf = null;
-
             this.last_document_session_number = null;
 
             return _super_posmodel.initialize.call(this, session, attributes);
-        },
-        get_cnpj_cpf: function () {
-            var order = this.get_order();
-            if (order) {
-                return order.get_cnpj_cpf();
-            }
-            return null;
         },
     });
 });
