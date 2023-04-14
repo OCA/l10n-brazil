@@ -305,13 +305,6 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_type
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_type
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_type
-msgid "Document Code"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_type_id
 msgid "Document Type"
 msgstr ""
