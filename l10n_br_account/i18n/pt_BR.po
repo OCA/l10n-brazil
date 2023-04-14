@@ -309,13 +309,6 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_type
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_type
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_type
-msgid "Document Code"
-msgstr "Código do Documento"
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_type_id
 msgid "Document Type"
 msgstr "Tipo do Documento"
@@ -842,6 +835,9 @@ msgstr ""
 msgid "You cannot edit an invoice related to a withholding entry"
 msgstr ""
 "Você não pode editar um documento relacionado a um lançamento de retenção"
+
+#~ msgid "Document Code"
+#~ msgstr "Código do Documento"
 
 #~ msgid "Credit Note"
 #~ msgstr "Anotação de crédito"
