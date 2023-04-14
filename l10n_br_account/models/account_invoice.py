@@ -99,12 +99,6 @@ class AccountMove(models.Model):
         ondelete="cascade",
     )
 
-    document_type = fields.Char(
-        related="document_type_id.code",
-        string="Document Code",
-        store=True,
-    )
-
     fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
         related=None,
