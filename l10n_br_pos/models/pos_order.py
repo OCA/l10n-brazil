@@ -323,7 +323,9 @@ class PosOrder(models.Model):
         order_fields["document_type_id"] = ui_order.get("document_type_id")
         order_fields["document_type"] = ui_order.get("document_type")
 
-        order_fields["cnpj_cpf"] = ui_order.get("cnpj_cpf")
+        order_fields["cnpj_cpf"] = ui_order.get("cnpj_cpf") or ui_order.get(
+            "customer_tax_id"
+        )
 
         order_fields["additional_data"] = ui_order.get("additional_data")
 
