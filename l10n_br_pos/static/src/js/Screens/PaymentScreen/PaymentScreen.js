@@ -19,6 +19,10 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
     const L10nBrPosPaymentScreen = (PaymentScreen) =>
         class extends PaymentScreen {
             checkValidCpfCnpj(currentOrder) {
+                if (!currentOrder.customer_tax_id) {
+                    return true;
+                }
+
                 const client = currentOrder.get_client();
                 if (!client) {
                     return util.validate_cnpj_cpf(currentOrder.customer_tax_id);
