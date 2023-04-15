@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
+
+        <record id="view_workalendar_holiday_import" model="ir.ui.view">
+            <field name="name">Import Holidays</field>
+            <field name="model">wizard.workalendar.holiday.import</field>
+            <field name="arch" type="xml">
+                <form string="Import Brazilian Holidays">
+                    <div class="oe_title">
+                        <label string="Import Public Holidays from" for="start_date" />
+                        <field name="start_date" class="oe_inline" readonly="0" />
+                        <label string="until" for="end_date" />
+                        <field name="end_date" class="oe_inline" readonly="1" />
+                    </div>
+                    <group>
+                        <group string="Interval">
+                            <field name="interval_type" />
+                            <field name="interval_number" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button
+                        name="holiday_import"
+                        string="Import"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+</odoo>

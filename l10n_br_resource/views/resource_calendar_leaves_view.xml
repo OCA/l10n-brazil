@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="resource_calendar_leaves_form_view">
+        <field name="name">resource.calendar.leaves.form (in l10n_br_resource)</field>
+        <field name="model">resource.calendar.leaves</field>
+        <field name="inherit_id" ref="resource.resource_calendar_leave_form" />
+        <field name="arch" type="xml">
+            <field name="calendar_id" position="after">
+                <field name="country_id" />
+                <field name="state_id" />
+                <field name="l10n_br_city_id" />
+            </field>
+            <field name="name" position="after">
+                <field name="leave_type" />
+                <field name="abrangencia" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="resource_calendar_leaves_search_view">
+        <field name="name">resource.calendar.leaves.search (in l10n_br_resource)</field>
+        <field name="model">resource.calendar.leaves</field>
+        <field name="inherit_id" ref="resource.view_resource_calendar_leaves_search" />
+        <field name="arch" type="xml">
+            <field name="calendar_id" position="after">
+                <field name="leave_type" />
+                <field name="abrangencia" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="resource_calendar_leaves_tree_view">
+        <field name="name">resource.calendar.leaves.tree (in l10n_br_resource)</field>
+        <field name="model">resource.calendar.leaves</field>
+        <field name="inherit_id" ref="resource.resource_calendar_leave_tree" />
+        <field name="arch" type="xml">
+            <field name="calendar_id" position="after">
+                <field name="leave_type" />
+                <field name="abrangencia" />
+            </field>
+        </field>
+    </record>
+</odoo>
