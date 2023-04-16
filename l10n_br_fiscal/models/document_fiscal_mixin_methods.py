@@ -88,7 +88,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             d.fiscal_line_ids._document_comment()
 
     @api.onchange("partner_id")
-    def _onchange_partner_id(self):
+    def _onchange_partner_id_fiscal(self):
         if self.partner_id:
             self.ind_final = self.partner_id.ind_final
 
