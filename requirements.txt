@@ -4,3 +4,4 @@ erpbrasil.base
 num2words
 phonenumbers
 pycep_correios
+workalendar
