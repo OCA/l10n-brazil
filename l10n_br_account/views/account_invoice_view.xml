@@ -72,6 +72,8 @@
                     <field name="ind_pres" invisible="1" />
                     <field name="fiscal_document_id" required="0" invisible="1" />
                     <field name="create_date" invisible="1" />
+                    <field name="operation_name" invisible="1" />
+                    <field name="comment_ids" invisible="1" />
                 </group>
             </xpath>
             <field name="ref" position="after">
