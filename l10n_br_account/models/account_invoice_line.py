@@ -426,20 +426,16 @@ class AccountMoveLine(models.Model):
         """Ao alterar o campo fiscal_tax_ids que contém os impostos fiscais,
         são atualizados os impostos contábeis relacionados"""
         result = super()._onchange_fiscal_tax_ids()
-        user_type = "sale"
 
         # Atualiza os impostos contábeis relacionados aos impostos fiscais
+        user_type = "sale"
         if self.move_id.move_type in ("in_invoice", "in_refund"):
             user_type = "purchase"
-        self.tax_ids |= self.fiscal_tax_ids.account_taxes(user_type=user_type)
 
-        # Caso a operação fiscal esteja definida para usar o impostos
-        # dedutíveis os impostos contáveis deduvíveis são adicionados na linha
-        # da movimentação/fatura.
-        if self.fiscal_operation_id and self.fiscal_operation_id.deductible_taxes:
-            self.tax_ids |= self.fiscal_tax_ids.account_taxes(
-                user_type=user_type, deductible=True
-            )
+        self.tax_ids = self.fiscal_tax_ids.account_taxes(
+            user_type=user_type, fiscal_operation=self.fiscal_operation_id
+        )
+
         return result
 
     @api.onchange(
