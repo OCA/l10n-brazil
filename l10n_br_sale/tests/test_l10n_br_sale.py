@@ -25,6 +25,8 @@ class L10nBrSaleBaseTest(SavepointCase):
         cls.so_services = cls.env.ref("l10n_br_sale.lc_so_only_services")
         cls.so_product_service = cls.env.ref("l10n_br_sale.lc_so_product_service")
         cls.fsc_op_sale = cls.env.ref("l10n_br_fiscal.fo_venda")
+        # Testa os Impostos Dedutiveis
+        cls.fsc_op_sale.deductible_taxes = True
         cls.fsc_op_line_sale = cls.env.ref("l10n_br_fiscal.fo_venda_venda")
         cls.fsc_op_line_sale_non_contr = cls.env.ref(
             "l10n_br_fiscal.fo_venda_venda_nao_contribuinte"
