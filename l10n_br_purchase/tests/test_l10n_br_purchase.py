@@ -28,6 +28,8 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         # cls.po_prod_srv = cls.env.ref(
         #     'l10n_br_purchase.main_po_product_service')
         cls.fsc_op_purchase = cls.env.ref("l10n_br_fiscal.fo_compras")
+        # Testa os Impostos Dedutiveis
+        cls.fsc_op_purchase.deductible_taxes = True
         cls.fsc_op_line_purchase = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
         cls.fsc_op_line_purchase_resale = cls.env.ref(
             "l10n_br_fiscal.fo_compras_compras_comercializacao"
