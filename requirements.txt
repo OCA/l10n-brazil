@@ -1,6 +1,10 @@
 # generated from manifests external_dependencies
 email_validator
+erpbrasil.assinatura
 erpbrasil.base
+erpbrasil.edoc
+erpbrasil.transmissao
+nfselib.ginfes
 num2words
 phonenumbers
 pycep_correios
