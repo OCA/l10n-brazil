@@ -117,24 +117,20 @@ class PurchaseOrderLine(models.Model):
         return result
 
     def _compute_tax_id(self):
-        result = super()._compute_tax_id()
         for line in self:
-            line.taxes_id |= line.fiscal_tax_ids.account_taxes(user_type="purchase")
-            if line.order_id.fiscal_operation_id.deductible_taxes:
-                line.taxes_id |= line.fiscal_tax_ids.account_taxes(
-                    user_type="purchase", deductible=True
+            if line.fiscal_operation_line_id:
+                super()._compute_tax_id()
+                line.taxes_id = line.fiscal_tax_ids.account_taxes(
+                    user_type="purchase", fiscal_operation=line.fiscal_operation_id
                 )
-        return result
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
-        result = super()._onchange_fiscal_tax_ids()
-        self.taxes_id |= self.fiscal_tax_ids.account_taxes(user_type="purchase")
-        if self.order_id.fiscal_operation_id.deductible_taxes:
-            self.taxes_id |= self.fiscal_tax_ids.account_taxes(
-                user_type="purchase", deductible=True
+        if self.fiscal_operation_line_id:
+            super()._onchange_fiscal_tax_ids()
+            self.taxes_id = self.fiscal_tax_ids.account_taxes(
+                user_type="purchase", fiscal_operation=self.fiscal_operation_id
             )
-        return result
 
     def _prepare_account_move_line(self, move=False):
         values = super()._prepare_account_move_line(move)
