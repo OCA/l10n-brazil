@@ -90,9 +90,7 @@ class PosOrder(models.Model):
         return fiscal_document.event_ids.create_event_save_xml(
             company_id=company,
             environment=(
-                EVENT_ENV_PROD
-                if self.company_id.nfe_environment == "1"
-                else EVENT_ENV_HML
+                EVENT_ENV_PROD if company.nfe_environment == "1" else EVENT_ENV_HML
             ),
             event_type="0",
             xml_file=authorization_file,
@@ -117,3 +115,31 @@ class PosOrder(models.Model):
         fiscal_document = order.account_move.fiscal_document_id
         fiscal_document.authorization_event_id = event_id
         fiscal_document.date_in_out = fields.Datetime.now()
+
+    @api.model
+    def cancel_order(self, result):
+        super().cancel_order(result)
+        order = self.browse(result["order_id"])
+        fiscal_document = order.account_move.fiscal_document_id
+        company = order.session_id.config_id.company_id
+        cancel_file_content = b64decode(result["xml"]).decode("utf-8")
+
+        cancel_event = fiscal_document.event_ids.create_event_save_xml(
+            company_id=company,
+            environment=(
+                EVENT_ENV_PROD if company.nfe_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="0",
+            xml_file=cancel_file_content,
+            document_id=fiscal_document,
+        )
+
+        order.account_move.state_edoc = "cancelada"
+
+        cancel_event._save_event_file(
+            file=cancel_file_content,
+            file_extension="xml",
+            authorization=True,
+        )
+
+        cancel_event.write({"state": "done"})
