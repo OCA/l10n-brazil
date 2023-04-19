@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Account Tax Group -->
+    <record id="l10n_br_coa.tax_group_ipi" model="account.tax.group">
+        <field name="name">IPI</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_ii" model="account.tax.group">
+        <field name="name">II</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_ii" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_icms" model="account.tax.group">
+        <field name="name">ICMS</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_icmssn" model="account.tax.group">
+        <field name="name">ICMS SN</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_icmsst" model="account.tax.group">
+        <field name="name">ICMS ST</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_icmsst" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_icmsfcp" model="account.tax.group">
+        <field name="name">ICMS FCP</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_pis" model="account.tax.group">
+        <field name="name">PIS</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_pisst" model="account.tax.group">
+        <field name="name">PIS ST</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_pisst" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_pis_wh" model="account.tax.group">
+        <field name="name">PIS WH</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_pis_wh" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_cofins" model="account.tax.group">
+        <field name="name">COFINS</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_cofinsst" model="account.tax.group">
+        <field name="name">COFINS ST</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_cofinsst" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_cofins_wh" model="account.tax.group">
+        <field name="name">COFINS WH</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_cofins_wh" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_issqn" model="account.tax.group">
+        <field name="name">ISSQN</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_issqn" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_issqn_wh" model="account.tax.group">
+        <field name="name">ISSQN WH</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_issqn_wh" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_csll" model="account.tax.group">
+        <field name="name">CSLL</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_csll" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_csll_wh" model="account.tax.group">
+        <field name="name">CSLL WH</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_csll_wh" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_ir" model="account.tax.group">
+        <field name="name">IR</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_ir" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_irpj" model="account.tax.group">
+        <field name="name">IRPJ</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_irpj" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_irpj_wh" model="account.tax.group">
+        <field name="name">IRPJ WH</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_irpj_wh" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_inss" model="account.tax.group">
+        <field name="name">INSS</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_inss" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_inss_wh" model="account.tax.group">
+        <field name="name">INSS WH</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_inss_wh" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_simples" model="account.tax.group">
+        <field name="name">Simples Nacional</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_simples" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_others" model="account.tax.group">
+        <field name="name">Outros</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_others" />
+    </record>
+
+</odoo>
