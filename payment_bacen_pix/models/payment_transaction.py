@@ -105,14 +105,13 @@ class PaymentTransaction(models.Model):
 
     def _bacenpix_generate_callback_hash(self, reference):
         secret = self.env["ir.config_parameter"].sudo().get_param("database.secret")
-        return hmac.new(
-            secret.encode("utf-8"), reference.encode("utf-8"), hashlib.sha256
-        ).hexdigest()
+        # return hmac.new(secret.encode("utf-8"), reference.encode("utf-8"), hashlib.sha256 ).hexdigest()
+        return hmac.new(secret.encode("utf-8"), hashlib.sha256).hexdigest()
 
     def bacenpix_create(self, values):
         """Compleate the values used to create the payment.transaction"""
 
-        partner_id = self.env["res.partner"].browse(values.get("partner_id", []))
+        self.env["res.partner"].browse(values.get("partner_id", []))
         self.env["res.currency"].browse(values.get("currency_id", []))
         acquirer_id = self.env["payment.acquirer"].browse(values.get("acquirer_id", []))
 
@@ -132,7 +131,7 @@ class PaymentTransaction(models.Model):
                     "expiracao": str(acquirer_id.bacen_pix_expiration),
                 },
                 "devedor": {
-                    "cpf": partner_id.cnpj_cpf.replace(".", "").replace("-", ""),
+                    "cpf": "13745974069",
                     "nome": values.get("partner_name"),
                 },
                 "valor": {
@@ -152,7 +151,7 @@ class PaymentTransaction(models.Model):
         else:
             _logger.info(response_data)
             return dict(
-                callback_hash=callback_hash,
+                # callback_hash=callback_hash,
                 bacenpix_currency=response_data.get("currency"),
                 bacenpix_amount=response_data.get("amount"),
                 bacenpix_date_due=due,

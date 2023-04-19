@@ -43,7 +43,7 @@ class PaymentAcquirer(models.Model):
 
     bacenpix_email_account = fields.Char("Email", groups="base.group_user")
     bacenpix_client_id = fields.Char("Client ID", groups="base.group_user")
-    bacenpx_client_secret = fields.Char("Client Secret", groups="base.group_user")
+    bacenpix_client_secret = fields.Char("Client Secret", groups="base.group_user")
     bacenpix_api_key = fields.Char(string="API KEY", groups="base.group_user")
     bacenpix_dev_app_key = fields.Char(string="Dev APP KEY", groups="base.group_user")
     bacen_pix_basic = fields.Char(string="Basic", groups="base.group_user")
@@ -80,7 +80,7 @@ class PaymentAcquirer(models.Model):
             + "lotecobv.write lotecobv.read pix.write pix.read webhook.read"
             + "webhook.write payloadlocation.write payloadlocation.read",
             "client_id": self.bacenpix_client_id,
-            "client_secret": self.bacenpx_client_secret,
+            "client_secret": self.bacenpix_client_secret,
         }
 
         headers = {
