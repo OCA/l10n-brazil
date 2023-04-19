@@ -20,7 +20,7 @@
                             attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
                         />
                         <field
-                            name="bacenpx_client_secret"
+                            name="bacenpix_client_secret"
                             attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
                         />
                         <field
