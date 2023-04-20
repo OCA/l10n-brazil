@@ -47,11 +47,9 @@
                             <group string="Configurações Gerais">
                                 <field name="bank_code_bc" invisible="1" />
                                 <field name="generate_own_number" />
-                                <field name="own_number_type" invisible="1" />
                                 <field
                                     name="own_number_sequence_id"
-                                    attrs="{'invisible': [('own_number_type', '!=', '2')],
-                                 'required': [('own_number_type', '==', '2'), ('payment_order_ok', '==', True), ('payment_type', '==', 'inbound')]}"
+                                    attrs="{'required': [('payment_method_code', 'in', ('240', '400', '500')), ('payment_type', '==', 'inbound')]}"
                                 />
                                 <field name="boleto_wallet" />
                                 <field name="boleto_modality" />
