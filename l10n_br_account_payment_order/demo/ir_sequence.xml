@@ -143,12 +143,6 @@
         <field eval="False" name="company_id" />
     </record>
 
-    <!-- Configuração Nosso Numero -
-         Por Carteira para testes com Multiplos CNAB -->
-    <record id="base.main_company" model="res.company">
-        <field name="own_number_type">2</field>
-    </record>
-
     <!-- Sequencia Nosso Numero -  por Carteira para testes com Multiplos CNAB -->
     <record id="sequence_own_number_automatic_test" model="ir.sequence">
         <field name="name">Nosso número - Manual Test</field>
