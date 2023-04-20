@@ -23,7 +23,6 @@
         # Views
         "views/pos_payment_method_view.xml",
         "views/closing_view.xml",
-        "views/pos_config_view.xml",
         # Templates
         "views/pos_template.xml",
     ],
