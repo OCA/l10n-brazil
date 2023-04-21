@@ -30,10 +30,9 @@ def post_init_hook(cr, registry):
     is_demo = cr.fetchone()[0]
     if is_demo:
         res_items = (
-            "..",
-            "tests",
             "nfe",
-            "v4_00",
+            "samples",
+            "v4_0",
             "leiauteNFe",
             "35180834128745000152550010000474491454651420-nfe.xml",
         )
