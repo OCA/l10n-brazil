@@ -440,16 +440,6 @@ ul.auto-toc {
 <li>Mapear e incluir os codigos dos bancos de cada CNAB 240 / 400, aqui devido a quantidade de possibilidades se trata de um “roadmap” constante onde contamos com PRs de outros contribuidores que irão implementar um caso que ainda não esteja cadastrado, apesar do codigo permitir que o cadastro seja feito na tela nesses casos.</li>
 <li>Processo de “Antecipação do Título junto ao Banco” ou “Venda do Título junto a Factoring” ver as alterações feitas na v14 <a class="reference external" href="https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592">https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592</a> .</li>
 <li>Com a separação do método que importa o arquivo do que registra o retorno do CNAB os arquivos e visões referentes foram comentados e estão aguardando um retorno da KMEE a respeito se serão apagados, extraidos para outro modulo, ou se de alguma forma deverão ser integrados ( detalhes em l10n_br_account_payment_order/models/__init__.py#L18 l10n_br_account_payment_order/__manifest__.py#L47 )</li>
-<li><dl class="first docutils">
-<dt>Confirmar a necessidade de ter a definição da Sequencia do “Nosso Numero” em três lugares diferentes:</dt>
-<dd><ul class="first last">
-<li>Cadastro da Sequencia no cadastro da Empresa, o campo é o mesmo usado no Modo de Pagamento porém nesse caso só funciona se a empresa usar apenas um CNAB, caso passe a usar mais de um essa informação vai precisar ser movida de qualquer forma para o cadastro do Modo de Pagto, portanto não seria melhor deixar apenas a opção de informar isso no Modo de Pagto e remover essa opção no cadastro da Empresa ?</li>
-<li>Numero Sequencial baseado no número da Fatura, até onde foi visto a sequencia do “Nosso numero” é independente da sequencia da Fatura, alguém sabe dizer se existe esse caso de uso ? Se sim, seria importante ter uma referencia sobre a qual caso se refere ex.: Banco X CNAB 240 e assim ficar claro para outros desenvolvedores o uso.</li>
-<li>Cadastro no Modo de Pagto, deve ser mantido e é melhor ser feito apenas aqui para centralizar o cadastro e por segurança devido as permissões de acesso o usuário que pode cadastrar um Modo de Pagto pode não ter acesso ao cadastro da Empresa.</li>
-</ul>
-</dd>
-</dl>
-</li>
 <li>CNAB de Pagamento, verificar a integração com o PR <a class="reference external" href="https://github.com/OCA/l10n-brazil/pull/972">https://github.com/OCA/l10n-brazil/pull/972</a> e a possibilidade de multiplos modos de pagamento na mesma Ordem de Pagamento <a class="reference external" href="https://github.com/odoo-brazil/l10n-brazil/pull/112">https://github.com/odoo-brazil/l10n-brazil/pull/112</a></li>
 <li>Verificar a possibilidade na v14 de remoção do ondele=’restrict’ no campo “move_line_id” e o campo “related” “ml_maturity_date” do account.payment.line no modulo dependente <a class="reference external" href="https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39">https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39</a> para permitir o processo de Cancelamento de uma Fatura quando existe uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes l10n_br_account_payment_order/models/account_payment_line.py#L130 )</li>
 <li>Funcionalidade de Agrupar Por/Group By não funciona em campos do tipo Many2Many, aparentemente isso foi resolvido na v15(verfificar na migração), isso é usado nos objetos referentes aos Codigos CNAB de Instrução e Retorno.</li>
@@ -572,6 +562,8 @@ If you spotted it first, help us smashing it by providing a detailed and welcome
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external" href="https://github.com/mbcosta"><img alt="mbcosta" src="https://github.com/mbcosta.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_order">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
