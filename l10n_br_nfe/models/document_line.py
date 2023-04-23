@@ -38,10 +38,7 @@ class NFeLine(spec_models.StackedModel):
     _force_stack_paths = ("det.imposto.",)
     _stack_skip = ("nfe40_det_infNFe_id",)
 
-    # When dynamic stacking is applied, the NFe line has the following structure.
-    # NOTE GenerateDS actually has a bug here putting II before IPI
-    # we fixed nfelib for NFe with II here https://github.com/akretion/nfelib/pull/47
-    # fortunately xsdata doesn't have this bug.
+    # When dynamic stacking is applied, the NFe line has the following structure:
     DET_TREE = """
 > <det>
     > <prod>
@@ -58,10 +55,10 @@ class NFeLine(spec_models.StackedModel):
         > <ICMS>
             > <ICMSPart>
             > <ICMSST>
-        > <II>
         > <IPI>
             > <IPITrib>
             > <IPINT>
+        > <II>
         > <ISSQN>
         > <PIS>
             > <PISAliq>
