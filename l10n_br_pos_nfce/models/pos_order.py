@@ -3,11 +3,16 @@
 
 import pytz
 
-from odoo import api, models
+from odoo import api, fields, models
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class PosOrder(models.Model):
     _inherit = "pos.order"
+
+    is_contingency = fields.Boolean(
+        string="Is Contingency?", default=False, readonly=True
+    )
 
     def _prepare_invoice_vals(self):
         vals = super(PosOrder, self)._prepare_invoice_vals()
@@ -27,6 +32,24 @@ class PosOrder(models.Model):
                     "nfe40_vTroco": self.amount_return,
                 }
             )
+            if self.document_key and not self.authorization_protocol:
+                self.is_contingency = True
+                vals.update(
+                    {
+                        "document_key": self.document_key,
+                        "document_number": self.document_number,
+                    }
+                )
+                pos_config_id.nfce_document_serie_sequence_number_next = (
+                    self.document_number
+                )
+            else:
+                vals.update(
+                    {
+                        "document_number": pos_config_id.nfce_document_serie_sequence_number_next  # noqa
+                    }
+                )
+                pos_config_id.nfce_document_serie_sequence_number_next += 1
 
         return vals
 
@@ -60,8 +83,19 @@ class PosOrder(models.Model):
                 line._compute_choice15()
                 line.tax_icms_or_issqn = "icms"
                 line._compute_choice11()
+            if created_order.is_contingency:
+                created_order.account_move.fiscal_document_id.write(
+                    {
+                        "edoc_transmission": "9",
+                        "nfe40_dhCont": fields.Datetime.now().strftime(
+                            DEFAULT_SERVER_DATETIME_FORMAT
+                        ),
+                        "nfe40_xJust": "Sem comunicação com a Internet.",
+                    }
+                )
             created_order.account_move.fiscal_document_id.action_document_confirm()
             created_order.account_move.fiscal_document_id.action_document_send()
+
         return res
 
     def _prepare_invoice_line(self, order_line):
