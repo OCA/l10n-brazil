@@ -8,7 +8,37 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
     "use strict";
 
     const models = require("point_of_sale.models");
-    const {Gui} = require("point_of_sale.Gui");
+    const {ChaveEdoc} = require("l10n_br_pos_nfce.utils");
+
+    const BRAZILIAN_STATES_IBGE_CODE_MAP = {
+        "Acre (BR)": "12",
+        "Alagoas (BR)": "27",
+        "Amazonas (BR)": "13",
+        "Amapá (BR)": "16",
+        "Bahia (BR)": "29",
+        "Ceará (BR)": "23",
+        "Distrito Federal (BR)": "53",
+        "Espírito Santo (BR)": "32",
+        "Goiás (BR)": "52",
+        "Maranhão (BR)": "21",
+        "Minas Gerais (BR)": "31",
+        "Mato Grosso do Sul (BR)": "50",
+        "Mato Grosso (BR)": "51",
+        "Pará (BR)": "15",
+        "Paraíba (BR)": "25",
+        "Pernambuco (BR)": "26",
+        "Piauí (BR)": "22",
+        "Paraná (BR)": "41",
+        "Rio de Janeiro (BR)": "33",
+        "Rio Grande do Norte (BR)": "24",
+        "Rondônia (BR)": "11",
+        "Roraima (BR)": "14",
+        "Rio Grande do Sul (BR)": "43",
+        "Santa Catarina (BR)": "42",
+        "Sergipe (BR)": "28",
+        "São Paulo (BR)": "35",
+        "Tocantins (BR)": "17",
+    };
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
@@ -153,16 +183,75 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
             return invoiced;
         },
 
-        _save_to_server: async function (orders, options) {
-            const response = await _super_posmodel._save_to_server.call(
-                this,
-                orders,
-                options
-            );
+        _save_to_server: async function (orders, options = {}) {
+            if (this.env.pos.config.simplified_document_type !== "65") {
+                return _super_posmodel._save_to_server.call(this, orders, options);
+            }
 
-            if (this.env.pos.config.simplified_document_type !== "65") return response;
+            if (!orders || !orders.length) {
+                return Promise.resolve([]);
+            }
 
-            for (const orderOption of response) {
+            const self = this;
+            const timeout =
+                typeof options.timeout === "number"
+                    ? options.timeout
+                    : 30000 * orders.length;
+
+            const order_ids_to_sync = _.pluck(orders, "id");
+
+            const args = [
+                _.map(orders, (order) => {
+                    order.to_invoice = options.to_invoice || false;
+                    return order;
+                }),
+            ];
+
+            return this.rpc(
+                {
+                    model: "pos.order",
+                    method: "create_from_ui",
+                    args: args,
+                    kwargs: {context: this.session.user_context},
+                },
+                {
+                    timeout: timeout,
+                    shadow: !options.to_invoice,
+                }
+            )
+                .then(async (server_ids) => {
+                    _.each(order_ids_to_sync, (order_id) => {
+                        self.db.remove_order(order_id);
+                    });
+                    self.set("failed", false);
+                    await self._fillNFCeAdditionalInfo(server_ids);
+                    await self._updateNFCeSerieNumber();
+                    return server_ids;
+                })
+                .catch((reason) => {
+                    const error = reason.message;
+                    console.error("Failed to send orders:", orders);
+                    if (error.code === 200) {
+                        if (
+                            (!self.get("failed") || options.show_error) &&
+                            !options.to_invoice
+                        ) {
+                            self.set("failed", error);
+                            throw error;
+                        }
+                    }
+                    self._contingenciaNFCe(orders);
+                    self.set("failed", true);
+                    return orders.map((order) => {
+                        return {
+                            pos_reference: order.data.name,
+                        };
+                    });
+                });
+        },
+
+        _fillNFCeAdditionalInfo: function (orders) {
+            for (const orderOption of orders) {
                 const order = this.get_order();
                 Object.assign(order, {
                     authorization_protocol: orderOption.authorization_protocol,
@@ -176,39 +265,80 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 });
             }
 
-            const invalidOrders = response.filter(
+            const invalidOrders = orders.filter(
                 ({status_code}) => status_code !== "100"
             );
-            const validOrders = response.filter(
-                ({status_code}) => status_code === "100"
-            );
+            const validOrders = orders.filter(({status_code}) => status_code === "100");
 
             if (validOrders.length > 0) {
-                Gui.showPopup("ConfirmPopup", {
-                    title: "NFC-e Issuance",
-                    body: "NFC-e issued successfully.",
-                });
+                console.log("NFC-e issued successfully");
             }
 
             if (invalidOrders.length > 1) {
                 const invalidOrdersRefs = invalidOrders.map(({pos_reference}) =>
                     pos_reference[1].join(", ")
                 );
-                const invalidOrdersObj = invalidOrders.reduce((obj, order) => {
-                    obj[order.pos_reference] = order.status_description;
-                    return obj;
-                }, {});
-                Gui.showPopup("ErrorPopup", {
-                    title: "Error Issuing NFC-e",
-                    body: `The following orders had their NFC-e rejected: ${invalidOrdersRefs}.`,
-                });
-                console.error(
-                    "l10n_br_pos_nfce ~ file: models.js:185 ~ invalidOrdersObj:",
-                    invalidOrdersObj
-                );
+                console.warn(`NFC-e not issued: ${invalidOrdersRefs.join(", ")}`);
             }
+        },
 
-            return response;
+        _contingenciaNFCe: function (orders) {
+            const state = this.env.pos.company.state_id[1];
+            const cnpj = this.env.pos.company.cnpj_cpf.replace(/([^\w ]|_)/g, "");
+            const currentDate = new Date();
+            const ordersToSend = this.env.pos.db.get_orders();
+            // Get the two last digits of year and month with padstart 2
+            const yearMonth =
+                currentDate.getFullYear().toString().substr(-2) +
+                (currentDate.getMonth() + 1).toString().padStart(2, "0");
+            for (let i = 0; i < orders.length; i++) {
+                const currentOrder = this.get_order();
+                if (!currentOrder.document_number) {
+                    currentOrder.document_serie = this.env.pos.config.nfce_document_serie_code.padStart(
+                        3,
+                        "0"
+                    );
+                    currentOrder.document_number = this.env.pos.config.nfce_document_serie_sequence_number_next;
+                    const chaveEdoc = new ChaveEdoc(
+                        false,
+                        BRAZILIAN_STATES_IBGE_CODE_MAP[state],
+                        yearMonth,
+                        cnpj,
+                        this.env.pos.config.simplified_document_type,
+                        currentOrder.document_serie,
+                        currentOrder.document_number.toString().padStart(9, "0"),
+                        "9"
+                    );
+                    currentOrder.document_key = chaveEdoc.generatedChave;
+                    currentOrder.document_date_string = currentDate.toLocaleString();
+                    this.env.pos.config.nfce_document_serie_sequence_number_next += 1;
+                    for (let j = 0; j < ordersToSend.length; j++) {
+                        if (orders[i].id === ordersToSend[j].id) {
+                            ordersToSend[j].data.document_key =
+                                currentOrder.document_key;
+                            ordersToSend[j].data.document_number =
+                                currentOrder.document_number;
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        _updateNFCeSerieNumber: function () {
+            const self = this;
+            this.rpc({
+                model: "pos.config",
+                method: "update_nfce_serie_number",
+                args: [
+                    [],
+                    this.env.pos.config.id,
+                    this.env.pos.config.nfce_document_serie_sequence_number_next,
+                ],
+            }).then((result) => {
+                console.log("NFC-e serie number updated successfully");
+                self.env.pos.config.nfce_document_serie_sequence_number_next = result;
+            });
         },
     });
 });
