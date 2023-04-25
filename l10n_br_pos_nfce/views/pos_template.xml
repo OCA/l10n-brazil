@@ -53,6 +53,10 @@
                 rel="stylesheet"
                 href="/l10n_br_pos_nfce/static/src/css/ReceiptOrder.css"
             />
+            <script
+                src="/l10n_br_pos_nfce/static/src/js/utils.js"
+                type="text/javascript"
+            />
             </xpath>
         </template>
 </odoo>
