@@ -1,0 +1,104 @@
+interactions:
+  - request:
+      body:
+        '{"grant_type" : "client_credentials", "scope" : "cob.write cob.read pix.read
+        pix.write"}'
+      headers:
+        Accept:
+          - "*/*"
+        Authorization:
+          - "test_client_basic"
+        Content-Type:
+          - "application/json"
+      method: POST
+      uri: https://oauth.sandbox.bb.com.br/oauth/token?client_id=test_client_id&client_secret=test_client_secret
+    response:
+      body:
+        string:
+          '{"access_token":"TOa4SDfksqfbnsAR0Z570phKKvzkwuwiRpDBNQXirBGIEVrM2FBQmg5qfdeki0BjArxWljlVAzMk20WimiNQ.HcmxPr0yjlA9t4jK_W6tnWoN0BLb9bu9K25r8aMOoLM2yugKmhZuM1lIJlD5xw_S_U8JGAW73t9gczYPietxjgRgB9LVaX9O_hQkb8tfOwWwMmnfTrsfBkG1GEHdAZv2lVEN35qSQAyT6mXEfLQtPIc0ln7zvl4fIMYI4vdFBLm6YR69jASSXgsukzuhnOLdVkE5hMvCgnQ63xYoTNLBg7w3kOFxX5Aw_MQzUSp0nEilFDpAZJRjqEukh9eJiGzGHD6j7v7w9QIFk0dPoyh9mQtUQsISKkSzXPADsEY0I9_JMmgLTjyOEXyxStGWq1Nqdi7OP85KFrSO4q14nF6iXhTYn81JNK1zdCENJamwo63LZpUmTx1y6of10vI8ji9HVcBZ13rWllYW2WDIxBPSJ5DAJRZG6OLVEwpv0Ay9otzPvdE4FaHJgm7pTGYt9OUdKwghnI2cdgP8c8ODDczHufHeKPKfmSlDdOOusZHb2mYSs_M6V8vun4w8Tlj3VhrofLh9okf8kiJdGfHORIG6PzQ2td_H1FPC8V5FZGPxelSyaL8rOeWkpsC0PtyUNdiMdD7mmytVivrTdR5dblyId7RDNHECFXQLiDRexSZK9hbQpIgpwdoPFulTqeWlmLSQa9cErLwLdRlWyiuC9jBSI6HgCO93w0h6IlMNEyik1hhrr_AT3oT04_a2VXFZc3vDhAZQXu5UkMEumt4gdFu6Z1mfyIZW95SHRFbQQKakNy7cF3PjC61ZFYhJ2AKyfHSlwOUlxHg966n9whheNRyW4y3FfAfyBJzoao2iENOSqYX7SvLQc2oX2ISKRlBcgp3JZaw1boghP67ZS3gtDSIcvi5oRsMsrjntbKFGku9BhJHZ15sHlHaByKVfGiyyAFXdW5JNIy5CODifZHUtpxfiiByICmypN5hPKxDN-45z03jyQyuAARbIPMrzDVYIqPNx6QNuTzaa27mow.eW_gmXCWG4WqzzvEERrV46rfPXVm_xtFyDIKU0LNAEHdHGUiJPMCeTpIY2G6BRRIKTo1YRg2uwBCLiRpQhNPw",
+          "token_type":"Bearer", "expires_in":600, "scope":"pix.read pix.write cob.write
+          cob.read"}'
+      headers:
+        Content-Length:
+          - "1262"
+        X-DNS-Prefetch-Control:
+          - "off"
+        X-Download-Options:
+          - noopen
+        Content-Security-Policy:
+          - frame-ancestors 'self'
+        ETag:
+          - W/"4ee-lkHFBp72zsq7LreNBBA34XH/VYw"
+        Connection:
+          - keep-alive Strict-Transport-Security:]
+          - max-age=15724800; includeSubDomains
+        Date:
+          - Thu, 27 Apr 2023 13:24:32 GMT
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Content-Type-Options:
+          - nosniff
+        X-XSS-Protection:
+          - 1, mode=block
+        Access-Control-Allow-Origin:
+          - "*"
+        Content-Type:
+          - application/json; charset=utf-8
+      status:
+        code: 201
+        message: Created
+  - request:
+      body:
+        '{"calendario": {"expiracao": "3600"}, "devedor": {"cpf": "12345678909", "nome":
+        "Francisco da Silva"}, "valor": {"original": "123.45"}, "chave":
+        "7f6844d0-de89-47e5-9ef7-e0a35a681615"}'
+      headers:
+        Accept:
+          - "*/*"
+        Authorization:
+          - "Bearer
+            ZXlKcFpDSTZJbU13TjJOa09EWXlMVEJqWkRNdE5EWmlOaTA0TW1Sa0xUSmhNakUyWVRGak1qVTBZaUlzSW1OdlpHbG5iMUIxWW14cFkyRmtiM0lpT2pBc0ltTnZaR2xuYjFOdlpuUjNZWEpsSWpvMk1EWTBPU3dpYzJWeGRXVnVZMmxoYkVsdWMzUmhiR0ZqWVc4aU9qRjk6ZXlKcFpDSTZJbUZtTUdRd04yUXROV1EzTmkwME5UTXpMV0k0TldJdE1EUTRNV1F6TjJFNVpXUXdaRGMyTkdNME1HTXRJaXdpWTI5a2FXZHZVSFZpYkdsallXUnZjaUk2TUN3aVkyOWthV2R2VTI5bWRIZGhjbVVpT2pZd05qUTVMQ0p6WlhGMVpXNWphV0ZzU1c1emRHRnNZV05oYnlJNk1Td2ljMlZ4ZFdWdVkybGhiRU55WldSbGJtTnBZV3dpT2pFc0ltRnRZbWxsYm5SbElqb2lhRzl0YjJ4dloyRmpZVzhpTENKcFlYUWlPakUyT0RJME9EWTFOamt3TUROOQ=="
+        Content-Type:
+          - "application/json"
+      method: PUT
+      uri: https://api.sandbox.bb.com.br/pix/v1/cob/?txid=12345678909&gw-dev-app-key=7415558232312afe7fb3ccf1e0508aef
+    response:
+      body:
+        string:
+          '{"status":"ATIVA", "calendario":{"criacao":"2023-04-27T08:48:34.64-03:00",
+          "expiracao":"3600"},
+          "location":"qrcodepix-h.bb.com.br/pix/v2/746d9fda-07ba-4b26-9c4d-1607e85e2ceb",
+          "textoImagemQRcode":"00020101021226870014br.gov.bcb.pix2565qrcodepix-h.bb.com.br/pix/v2/746d9fda-07ba-4b26-9c4d-1607e85e2ceb5204000053039865802BR5920ALAN
+          GUIACHERO BUENO6008BRASILIA62070503***6304F1E4","txid":"12345678909",
+          "revisao":0, "devedor":{"cpf":"12345678909", "nome":"Francisco da Silva"},
+          "valor":{"original":"123.45"}, "chave":"7f6844d0-de89-47e5-9ef7-e0a35a681615",
+          "solicitacaoPagador":"Solicitacao Pix"}'
+      headers:
+        Content-Length:
+          - "607"
+        X-DNS-Prefetch-Control:
+          - "off"
+        X-Download-Options:
+          - noopen
+        Content-Security-Policy:
+          - frame-ancestors 'self'
+        ETag:
+          - W/"25f-aIBZXJq2+HSUm/pA6HbXnJslq+g"
+        Connection:
+          - keep-alive Strict-Transport-Security:]
+          - max-age=15724800; includeSubDomains
+        Date:
+          - Thu, 27 Apr 2023 11:48:34 GMT
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Content-Type-Options:
+          - nosniff
+        X-XSS-Protection:
+          - 1, mode=block
+        Access-Control-Allow-Origin:
+          - "*"
+        Content-Type:
+          - application/json; charset=utf-8
+      status:
+        code: 200
+        message: OK

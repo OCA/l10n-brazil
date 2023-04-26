@@ -108,9 +108,7 @@ class PaymentAcquirer(models.Model):
             "Content-Type": "application/json",
         }
 
-    # def _bacenpix_new_transaction(self, tx_id, payload):
-    def _bacenpix_new_transaction(self, payload):
-        tx_id = 123123124
+    def _bacenpix_new_transaction(self, tx_id, payload):
         if self.state == "test":
             params = {"txid": tx_id, "gw-dev-app-key": self.bacenpix_dev_app_key}
         else:
