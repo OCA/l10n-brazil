@@ -9,7 +9,10 @@
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "depends": ["payment"],
+    "depends": [
+        "l10n_br_base",
+        "website_sale",
+    ],
     "data": [
         "views/payment_transfer_templates.xml",
         "data/payment_icon_data.xml",

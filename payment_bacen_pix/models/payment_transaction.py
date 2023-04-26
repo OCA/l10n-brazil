@@ -1,6 +1,8 @@
 # Copyright 2022 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import hashlib
+import hmac
 import json
 import logging
 from datetime import datetime
@@ -102,36 +104,37 @@ class PaymentTransaction(models.Model):
             _logger.info("BACENPIX_STATUS_REFUNDED")
 
     def _bacenpix_validate_webhook(self, valid_token, post):
-        callback_hash = self._bacenpix_generate_callback_hash(self.reference)
+        callback_hash = self._bacenpix_generate_callback_hash(self.bacenpix_txid)
         if not consteq(ustr(valid_token), callback_hash):
             _logger.warning("Invalid callback signature for transaction %d" % (self.id))
             return False
         _logger.info("Invalid callback signature for transaction %d" % (self.id))
         return self._bacenpix_check_transaction_status(post)
 
-    # def _bacenpix_generate_callback_hash(self, reference):
-    def _bacenpix_generate_callback_hash(self):
-        # secret = self.env["ir.config_parameter"].sudo().get_param("database.secret")
-        # return hmac.new(secret.encode("utf-8"), reference.encode("utf-8"), hashlib.sha256 ).hexdigest()
-        # return hmac.new(secret.encode("utf-8"), '', hashlib.sha256).hexdigest()
-        return "urlcallback"
+    def _bacenpix_generate_callback_hash(self, reference):
+        secret = self.env["ir.config_parameter"].sudo().get_param("database.secret")
+        return hmac.new(
+            secret.encode("utf-8"), reference.encode("utf-8"), hashlib.sha256
+        ).hexdigest()
 
     def bacenpix_create(self, values):
         """Compleate the values used to create the payment.transaction"""
         partner_id = self.env["res.partner"].browse(values.get("partner_id", []))
-        currency_id = self.env["res.currency"].browse(values.get("currency_id", []))
         acquirer_id = self.env["payment.acquirer"].browse(values.get("acquirer_id", []))
+        currency_id = acquirer_id.create_uid.currency_id
 
         due = fields.Date.context_today(self)
         due = datetime.combine(due, datetime.max.time())
 
         base_url = acquirer_id.get_base_url()
-        # TODO:
-        # callback_hash = self._bacenpix_generate_callback_hash(values.get("reference"))
-        callback_hash = self._bacenpix_generate_callback_hash()
+
+        if values.get("bacenpix_txid"):
+            txid = values.get("bacenpix_txid")
+        else:
+            txid = (partner_id.cnpj_cpf.replace(".", "").replace("-", ""),)
+        callback_hash = self._bacenpix_generate_callback_hash(str(txid))
         webhook = url_join(base_url, "/webhook/{}".format(callback_hash))
         _logger.info(webhook)
-
         payload = json.dumps(
             {
                 "calendario": {
@@ -147,11 +150,8 @@ class PaymentTransaction(models.Model):
                 "chave": str(acquirer_id.bacen_pix_key),
             }
         )
-        if values.get("txid"):
-            values.get("txid")
-        else:
-            partner_id.cnpj_cpf.replace(".", "").replace("-", "")
-        response = acquirer_id._bacenpix_new_transaction(payload)
+
+        response = acquirer_id._bacenpix_new_transaction(txid, payload)
         response_data = response.json()
         if not response.ok:
             raise ValidationError(
@@ -160,7 +160,7 @@ class PaymentTransaction(models.Model):
         else:
             _logger.info(response_data)
             return dict(
-                # callback_hash=callback_hash,
+                callback_hash=callback_hash,
                 currency_id=currency_id.id,
                 bacenpix_currency=response_data.get("currency"),
                 bacenpix_amount=values.get("amount"),
