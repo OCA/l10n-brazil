@@ -2,11 +2,8 @@
 # License MIT - See https://opensource.org/license/mit
 
 import logging
-import os
 import time
 from datetime import datetime
-
-import vcr
 
 import odoo
 
@@ -20,21 +17,25 @@ _logger = logging.getLogger(__name__)
 class BacenCommon(PaymentAcquirerCommon):
     def setUp(self):
         super(BacenCommon, self).setUp()
+        self.bacen = self.env.ref("payment_bacen_pix.payment_acquirer_bacenpix")
 
 
 @odoo.tests.tagged("post_install", "-at_install")
 class BacenTest(BacenCommon):
     # TESTE SUCESSO
-    @vcr.use_cassette(os.path.dirname(__file__) + "/fixtures/test_pix_bacen.yaml")
+    # @vcr.use_cassette(os.path.dirname(__file__) + "/fixtures/test_pix_bacen.yaml")
     def test_bacen_pix(self):
+        self.bacen.state = "test"
         payment_acquirer = None
         tx = None
         # try:
         payment_acquirer = self.env["payment.acquirer"].create(
             {
-                "name": "teste",
+                "name": "bacenpix",
+                "state": "test",
                 "provider": "bacenpix",
-                "bacenpix_email_account": "teste@testando.com",
+                "bacenpix_email_account": "bacen_pix_key",
+                "bacen_pix_key": "7f6844d0-de89-47e5-9ef7-e0a35a681615",
                 "bacenpix_client_id": "eyJpZCI6ImY2NmZlYmEtYThmNC0iLCJjb2RpZ29QdWJsaWNhZG9yIjowLCJjb2RpZ29Tb2Z0d2FyZSI6NDExNDksInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ",
                 "bacenpix_client_secret": "eyJpZCI6IjY2NjUwZjUtZGY4Ny00NGM0IiwiY29kaWdvUHVibGljYWRvciI6MCwiY29kaWdvU29mdHdhcmUiOjQxMTQ5LCJzZXF1ZW5jaWFsSW5zdGFsYWNhbyI6MSwic2VxdWVuY2lhbENyZWRlbmNpYWwiOjEsImFtYmllbnRlIjoiaG9tb2xvZ2FjYW8iLCJpYXQiOjE2NTk3MDk0ODUyODZ9",
                 "bacenpix_dev_app_key": "d27bf7790affab30136fe17de0050d56b9a1a5bc",
@@ -45,9 +46,11 @@ class BacenTest(BacenCommon):
         # Create transaction
         tx = self.env["payment.transaction"].create(
             {
+                "acquirer_id": 14,
                 "bacenpix_date_due": datetime.now(),
                 "bacenpix_currency": "BRL",
                 "bacenpix_amount": 42.42,
+                "partner_name": "Francisco da Silva",
             }
         )
         # except Exception as e:

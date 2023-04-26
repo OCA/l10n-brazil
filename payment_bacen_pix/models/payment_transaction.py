@@ -1,8 +1,6 @@
 # Copyright 2022 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import hashlib
-import hmac
 import json
 import logging
 from datetime import datetime
@@ -31,6 +29,14 @@ class PaymentTransaction(models.Model):
     bacenpix_qrcode = fields.Char()
     bacenpix_currency = fields.Char()
     bacenpix_amount = fields.Float()
+    bacenpix_criacao = fields.Char()
+    bacenpix_expiracao = fields.Char()
+    bacenpix_location = fields.Char()
+    bacenpix_txid = fields.Char()
+    bacenpix_chave = fields.Char()
+    bacenpix_state = fields.Char()
+    bacenpix_state_message = fields.Char()
+    textoImagemQRcode = fields.Char()
 
     def _get_processing_info(self):
         # Devolver Dados do QRCODE
@@ -103,25 +109,26 @@ class PaymentTransaction(models.Model):
         _logger.info("Invalid callback signature for transaction %d" % (self.id))
         return self._bacenpix_check_transaction_status(post)
 
-    def _bacenpix_generate_callback_hash(self, reference):
-        secret = self.env["ir.config_parameter"].sudo().get_param("database.secret")
+    # def _bacenpix_generate_callback_hash(self, reference):
+    def _bacenpix_generate_callback_hash(self):
+        # secret = self.env["ir.config_parameter"].sudo().get_param("database.secret")
         # return hmac.new(secret.encode("utf-8"), reference.encode("utf-8"), hashlib.sha256 ).hexdigest()
-        return hmac.new(secret.encode("utf-8"), hashlib.sha256).hexdigest()
+        # return hmac.new(secret.encode("utf-8"), '', hashlib.sha256).hexdigest()
+        return "urlcallback"
 
     def bacenpix_create(self, values):
         """Compleate the values used to create the payment.transaction"""
-
-        self.env["res.partner"].browse(values.get("partner_id", []))
-        self.env["res.currency"].browse(values.get("currency_id", []))
+        partner_id = self.env["res.partner"].browse(values.get("partner_id", []))
+        currency_id = self.env["res.currency"].browse(values.get("currency_id", []))
         acquirer_id = self.env["payment.acquirer"].browse(values.get("acquirer_id", []))
 
         due = fields.Date.context_today(self)
         due = datetime.combine(due, datetime.max.time())
 
         base_url = acquirer_id.get_base_url()
-
-        callback_hash = self._bacenpix_generate_callback_hash(values.get("reference"))
-
+        # TODO:
+        # callback_hash = self._bacenpix_generate_callback_hash(values.get("reference"))
+        callback_hash = self._bacenpix_generate_callback_hash()
         webhook = url_join(base_url, "/webhook/{}".format(callback_hash))
         _logger.info(webhook)
 
@@ -131,7 +138,7 @@ class PaymentTransaction(models.Model):
                     "expiracao": str(acquirer_id.bacen_pix_expiration),
                 },
                 "devedor": {
-                    "cpf": "13745974069",
+                    "cpf": partner_id.cnpj_cpf.replace(".", "").replace("-", ""),
                     "nome": values.get("partner_name"),
                 },
                 "valor": {
@@ -140,9 +147,11 @@ class PaymentTransaction(models.Model):
                 "chave": str(acquirer_id.bacen_pix_key),
             }
         )
-
-        txid = values.get("tx_id")
-        response = acquirer_id._bacenpix_new_transaction(txid, payload)
+        if values.get("txid"):
+            values.get("txid")
+        else:
+            partner_id.cnpj_cpf.replace(".", "").replace("-", "")
+        response = acquirer_id._bacenpix_new_transaction(payload)
         response_data = response.json()
         if not response.ok:
             raise ValidationError(
@@ -152,17 +161,20 @@ class PaymentTransaction(models.Model):
             _logger.info(response_data)
             return dict(
                 # callback_hash=callback_hash,
+                currency_id=currency_id.id,
                 bacenpix_currency=response_data.get("currency"),
-                bacenpix_amount=response_data.get("amount"),
+                bacenpix_amount=values.get("amount"),
                 bacenpix_date_due=due,
-                bacenpix_qrcode=response_data.get("qrcode"),
+                bacenpix_qrcode=response_data["textoImagemQRcode"],
+                amount=values.get("amount"),
                 date=datetime.now(),
-                criacao=response_data.get("criacao"),
-                expiracao=response_data.get("expiracao"),
-                location=response_data.get("location"),
-                textoImagemQRcode=response_data.get("textoImagemQRcode"),
-                txid=response_data.get("txid"),
-                chave=response_data.get("chave"),
-                state=response_data.get("ok"),
-                state_message=response_data.get("text"),
+                state="draft",
+                textoImagemQRcode=response_data["textoImagemQRcode"],
+                bacenpix_criacao=response_data["calendario"]["criacao"],
+                bacenpix_expiracao=response_data["calendario"]["expiracao"],
+                bacenpix_location=response_data["location"],
+                bacenpix_txid=response_data["txid"],
+                bacenpix_chave=response_data["chave"],
+                bacenpix_state=response_data["status"],
+                bacenpix_state_message=response_data["solicitacaoPagador"],
             )

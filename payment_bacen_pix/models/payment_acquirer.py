@@ -13,12 +13,12 @@ _logger = logging.getLogger(__name__)
 
 BACENPIX_PROVIDER = "bacenpix"
 
-SANDBOX_GET_TOKEN_URL = "https://oauth.hm.bb.com.br/"
+SANDBOX_GET_TOKEN_URL = "https://oauth.sandbox.bb.com.br/"
 PROD_GET_TOKEN_URL = "https://oauth.bb.com.br/"
 
 BACENPIX_GET_TOKEN = {"enabled": PROD_GET_TOKEN_URL, "test": SANDBOX_GET_TOKEN_URL}
 
-SANDBOX_URL = "https://api.hm.bb.com.br/"
+SANDBOX_URL = "https://api.sandbox.bb.com.br/"
 PROD_URL = "https://api-pix.bb.com.br/"
 
 AUTH_ENDPOINT = "oauth/token"
@@ -75,16 +75,15 @@ class PaymentAcquirer(models.Model):
 
     def bacen_pix_get_token(self):
         querystring = {
-            "grant_type": "client_credentials",
-            "scope": "cob.write cob.read cobv.write cobv.read"
-            + "lotecobv.write lotecobv.read pix.write pix.read webhook.read"
-            + "webhook.write payloadlocation.write payloadlocation.read",
             "client_id": self.bacenpix_client_id,
             "client_secret": self.bacenpix_client_secret,
         }
-
+        payload = {
+            "grant_type": "client_credentials",
+            "scope": "cob.write cob.read pix.read pix.write",
+        }
         headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
             "Authorization": self.bacen_pix_basic,
         }
         response = requests.request(
@@ -92,8 +91,9 @@ class PaymentAcquirer(models.Model):
             url_join(BACENPIX_GET_TOKEN[self.state], AUTH_ENDPOINT),
             params=querystring,
             headers=headers,
+            json=payload,
         )
-        if response.status_code != 200:
+        if response.status_code != 200 and response.status_code != 201:
             self.bacenpix_api_key = "Error"
         else:
             response_data = json.loads(json.dumps(response.json()))
@@ -108,9 +108,13 @@ class PaymentAcquirer(models.Model):
             "Content-Type": "application/json",
         }
 
-    def _bacenpix_new_transaction(self, tx_id, payload):
+    # def _bacenpix_new_transaction(self, tx_id, payload):
+    def _bacenpix_new_transaction(self, payload):
         tx_id = 123123124
-        params = {"gw-dev-app-key": self.bacenpix_dev_app_key, "txid": tx_id}
+        if self.state == "test":
+            params = {"txid": tx_id, "gw-dev-app-key": self.bacenpix_dev_app_key}
+        else:
+            params = {"txid": tx_id}
         response = requests.request(
             "PUT",
             url_join(BACENPIX[self.state], PIX_ENDPOINT_V1),
