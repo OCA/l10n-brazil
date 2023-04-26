@@ -1,85 +1,74 @@
 # Copyright 2023 KMEE
 # License MIT - See https://opensource.org/license/mit
 
-import logging
-import time
+import os
 from datetime import datetime
+
+import vcr
 
 import odoo
 
-from odoo.addons.payment.tests.common import PaymentAcquirerCommon
-
-_logger = logging.getLogger(__name__)
-
-# from odoo.exceptions import ValidationError
-
-
-class BacenCommon(PaymentAcquirerCommon):
-    def setUp(self):
-        super(BacenCommon, self).setUp()
-        self.bacen = self.env.ref("payment_bacen_pix.payment_acquirer_bacenpix")
-
 
 @odoo.tests.tagged("post_install", "-at_install")
-class BacenTest(BacenCommon):
-    # TESTE SUCESSO
-    # @vcr.use_cassette(os.path.dirname(__file__) + "/fixtures/test_pix_bacen.yaml")
-    def test_bacen_pix(self):
-        self.bacen.state = "test"
-        payment_acquirer = None
-        tx = None
-        # try:
-        payment_acquirer = self.env["payment.acquirer"].create(
+class BacenCommon(odoo.tests.HttpCase):
+    def setUp(self):
+        super(BacenCommon, self).setUp()
+
+        bacenpix_client_id = "test_client_id"
+        bacenpix_client_secret = "test_client_secret"
+        bacenpix_basic = "test_client_basic"
+
+        self.bacen = self.env["payment.acquirer"].create(
             {
-                "name": "bacenpix",
-                "state": "test",
+                "name": "Bacen (pix)",
                 "provider": "bacenpix",
-                "bacenpix_email_account": "bacen_pix_key",
+                "bacenpix_email_account": "test@example.com",
                 "bacen_pix_key": "7f6844d0-de89-47e5-9ef7-e0a35a681615",
-                "bacenpix_client_id": "eyJpZCI6ImY2NmZlYmEtYThmNC0iLCJjb2RpZ29QdWJsaWNhZG9yIjowLCJjb2RpZ29Tb2Z0d2FyZSI6NDExNDksInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ",
-                "bacenpix_client_secret": "eyJpZCI6IjY2NjUwZjUtZGY4Ny00NGM0IiwiY29kaWdvUHVibGljYWRvciI6MCwiY29kaWdvU29mdHdhcmUiOjQxMTQ5LCJzZXF1ZW5jaWFsSW5zdGFsYWNhbyI6MSwic2VxdWVuY2lhbENyZWRlbmNpYWwiOjEsImFtYmllbnRlIjoiaG9tb2xvZ2FjYW8iLCJpYXQiOjE2NTk3MDk0ODUyODZ9",
-                "bacenpix_dev_app_key": "d27bf7790affab30136fe17de0050d56b9a1a5bc",
-                "bacen_pix_basic": "Basic ZXlKcFpDSTZJbVkyTm1abFltRXRZVGhtTkMwaUxDSmpiMlJwWjI5UWRXSnNhV05oWkc5eUlqb3dMQ0pqYjJScFoyOVRiMlowZDJGeVpTSTZOREV4TkRrc0luTmxjWFZsYm1OcFlXeEpibk4wWVd4aFkyRnZJam94ZlE6ZXlKcFpDSTZJalkyTmpVd1pqVXRaR1k0TnkwME5HTTBJaXdpWTI5a2FXZHZVSFZpYkdsallXUnZjaUk2TUN3aVkyOWthV2R2VTI5bWRIZGhjbVVpT2pReE1UUTVMQ0p6WlhGMVpXNWphV0ZzU1c1emRHRnNZV05oYnlJNk1Td2ljMlZ4ZFdWdVkybGhiRU55WldSbGJtTnBZV3dpT2pFc0ltRnRZbWxsYm5SbElqb2lhRzl0YjJ4dloyRmpZVzhpTENKcFlYUWlPakUyTlRrM01EazBPRFV5T0RaOQ==",
+                "bacenpix_client_id": bacenpix_client_id,
+                "bacenpix_client_secret": bacenpix_client_secret,
+                "bacenpix_dev_app_key": "7415558232312afe7fb3ccf1e0508aef",
+                "bacen_pix_basic": bacenpix_basic,
+                "bacenpix_api_key": "",
             }
         )
-        time.sleep(2)
-        # Create transaction
+
+        self.bacen.write(
+            {
+                "state": "test",
+            }
+        )
+
+
+class BacenTest(BacenCommon):
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_pix_bacen.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
+    def test_bacen_pix(self):
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Francisco da Silva",
+                "email": "test@partner.com",
+                "cnpj_cpf": "123.456.789-09",
+            }
+        )
+
         tx = self.env["payment.transaction"].create(
             {
-                "acquirer_id": 14,
+                "acquirer_id": self.bacen.id,
+                "partner_id": partner.id,
                 "bacenpix_date_due": datetime.now(),
                 "bacenpix_currency": "BRL",
                 "bacenpix_amount": 42.42,
-                "partner_name": "Francisco da Silva",
+                "partner_name": partner.name,
+                "bacenpix_txid": 12345678909,
+                "amount": "123.45",
             }
         )
-        # except Exception as e:
-        #    _logger.warning(e)
-        values = {
-            "partner_id": 1,
-            "acquirer_id": "bacenpix",
-            "invoice_ids": 2,
-            "reference": 321,
-            "amount": 42.42,
-            "partner_name": "Fulano",
-        }
 
-        payment_acquirer.bacen_pix_get_token()
-        res = tx.bacenpix_create(values)
+        self.assertEqual(tx.state_message, 0)
 
-        self.assertEqual(res.state_message, 0)
-
-
-# """  # Testes de ERRO do Token
-# @vcr.use_cassette(os.path.dirname(__file__) + "/fixtures/test_pix_bacen_fail_token.yaml")
-# def test_bacen_pix_fail_token(self):
-#     self.bacen.write({
-#         'bacenpix_client_id' : 'eyJpZCI6ImY2NmZlYmEtYThmNC0iLCJjb2RpZ29QdWJsaWNhZG9yIjowLCJjb2RpZ29Tb2Z0d2FyZSI6NDExNDksInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ',
-#         'bacenpix_client_secret': 'wrongclientsecret',
-#         'bacenpix_dev_app_key': 'd27bf7790affab30136fe17de0050d56b9a1a5bc',
-#         'bacen_pix_basic': 'Basic ZXlKcFpDSTZJbVkyTm1abFltRXRZVGhtTkMwaUxDSmpiMlJwWjI5UWRXSnNhV05oWkc5eUlqb3dMQ0pqYjJScFoyOVRiMlowZDJGeVpTSTZOREV4TkRrc0luTmxjWFZsYm1OcFlXeEpibk4wWVd4aFkyRnZJam94ZlE6ZXlKcFpDSTZJalkyTmpVd1pqVXRaR1k0TnkwME5HTTBJaXdpWTI5a2FXZHZVSFZpYkdsallXUnZjaUk2TUN3aVkyOWthV2R2VTI5bWRIZGhjbVVpT2pReE1UUTVMQ0p6WlhGMVpXNWphV0ZzU1c1emRHRnNZV05oYnlJNk1Td2ljMlZ4ZFdWdVkybGhiRU55WldSbGJtTnBZV3dpT2pFc0ltRnRZbWxsYm5SbElqb2lhRzl0YjJ4dloyRmpZVzhpTENKcFlYUWlPakUyTlRrM01EazBPRFV5T0RaOQ==',
-#     })
-#     self.bacen.bacen_pix_get_token()
-#
-#        self.assertEqual(self.payment_acquirer.bacenpix_api_key, "Error")
-# """
+    def test_bacen_pix_fail_token(self):
+        self.bacen.bacen_pix_get_token()
+        self.assertEqual(self.bacen.bacenpix_api_key, "Error")

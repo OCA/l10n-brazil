@@ -1,0 +1,105 @@
+interactions:
+  - request:
+      body:
+        '{"grant_type" : "client_credentials", "scope" : "cob.write cob.read pix.read
+        pix.write"}'
+      headers:
+        Accept:
+          - "*/*"
+        Authorization:
+          - "Basic
+            ZXlKcFpDSTZJbU13TjJOa09EWXlMVEJqWkRNdE5EWmlOaTA0TW1Sa0xUSmhNakUyWVRGak1qVTBZaUlzSW1OdlpHbG5iMUIxWW14cFkyRmtiM0lpT2pBc0ltTnZaR2xuYjFOdlpuUjNZWEpsSWpvMk1EWTBPU3dpYzJWeGRXVnVZMmxoYkVsdWMzUmhiR0ZqWVc4aU9qRjk6ZXlKcFpDSTZJbUZtTUdRd04yUXROV1EzTmkwME5UTXpMV0k0TldJdE1EUTRNV1F6TjJFNVpXUXdaRGMyTkdNME1HTXRJaXdpWTI5a2FXZHZVSFZpYkdsallXUnZjaUk2TUN3aVkyOWthV2R2VTI5bWRIZGhjbVVpT2pZd05qUTVMQ0p6WlhGMVpXNWphV0ZzU1c1emRHRnNZV05oYnlJNk1Td2ljMlZ4ZFdWdVkybGhiRU55WldSbGJtTnBZV3dpT2pFc0ltRnRZbWxsYm5SbElqb2lhRzl0YjJ4dloyRmpZVzhpTENKcFlYUWlPakUyT0RJME9EWTFOamt3TUROOQ=="
+        Content-Type:
+          - "application/json"
+      method: POST
+      uri: https://oauth.sandbox.bb.com.br/oauth/token?client_id=eyJpZCI6ImY2NmZlYmEtYThmNC0iLCJjb2RpZ29QdWJsaWNhZG9yIjowLCJjb2RpZ29Tb2Z0d2FyZSI6NDExNDksInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ&client_secret=eyJpZCI6IjY2NjUwZjUtZGY4Ny00NGM0IiwiY29kaWdvUHVibGljYWRvciI6MCwiY29kaWdvU29mdHdhcmUiOjQxMTQ5LCJzZXF1ZW5jaWFsSW5zdGFsYWNhbyI6MSwic2VxdWVuY2lhbENyZWRlbmNpYWwiOjEsImFtYmllbnRlIjoiaG9tb2xvZ2FjYW8iLCJpYXQiOjE2NTk3MDk0ODUyODZ9
+    response:
+      body:
+        string:
+          '{"access_token":"TOa4SDfksqfbnsAR0Z570phKKvzkwuwiRpDBNQXirBGIEVrM2FBQmg5qfdeki0BjArxWljlVAzMk20WimiNQ.HcmxPr0yjlA9t4jK_W6tnWoN0BLb9bu9K25r8aMOoLM2yugKmhZuM1lIJlD5xw_S_U8JGAW73t9gczYPietxjgRgB9LVaX9O_hQkb8tfOwWwMmnfTrsfBkG1GEHdAZv2lVEN35qSQAyT6mXEfLQtPIc0ln7zvl4fIMYI4vdFBLm6YR69jASSXgsukzuhnOLdVkE5hMvCgnQ63xYoTNLBg7w3kOFxX5Aw_MQzUSp0nEilFDpAZJRjqEukh9eJiGzGHD6j7v7w9QIFk0dPoyh9mQtUQsISKkSzXPADsEY0I9_JMmgLTjyOEXyxStGWq1Nqdi7OP85KFrSO4q14nF6iXhTYn81JNK1zdCENJamwo63LZpUmTx1y6of10vI8ji9HVcBZ13rWllYW2WDIxBPSJ5DAJRZG6OLVEwpv0Ay9otzPvdE4FaHJgm7pTGYt9OUdKwghnI2cdgP8c8ODDczHufHeKPKfmSlDdOOusZHb2mYSs_M6V8vun4w8Tlj3VhrofLh9okf8kiJdGfHORIG6PzQ2td_H1FPC8V5FZGPxelSyaL8rOeWkpsC0PtyUNdiMdD7mmytVivrTdR5dblyId7RDNHECFXQLiDRexSZK9hbQpIgpwdoPFulTqeWlmLSQa9cErLwLdRlWyiuC9jBSI6HgCO93w0h6IlMNEyik1hhrr_AT3oT04_a2VXFZc3vDhAZQXu5UkMEumt4gdFu6Z1mfyIZW95SHRFbQQKakNy7cF3PjC61ZFYhJ2AKyfHSlwOUlxHg966n9whheNRyW4y3FfAfyBJzoao2iENOSqYX7SvLQc2oX2ISKRlBcgp3JZaw1boghP67ZS3gtDSIcvi5oRsMsrjntbKFGku9BhJHZ15sHlHaByKVfGiyyAFXdW5JNIy5CODifZHUtpxfiiByICmypN5hPKxDN-45z03jyQyuAARbIPMrzDVYIqPNx6QNuTzaa27mow.eW_gmXCWG4WqzzvEERrV46rfPXVm_xtFyDIKU0LNAEHdHGUiJPMCeTpIY2G6BRRIKTo1YRg2uwBCLiRpQhNPw",
+          "token_type":"Bearer", "expires_in":600, "scope":"pix.read pix.write cob.write
+          cob.read"}'
+      headers:
+        Content-Length:
+          - "1262"
+        X-DNS-Prefetch-Control:
+          - "off"
+        X-Download-Options:
+          - noopen
+        Content-Security-Policy:
+          - frame-ancestors 'self'
+        ETag:
+          - W/"4ee-lkHFBp72zsq7LreNBBA34XH/VYw"
+        Connection:
+          - keep-alive Strict-Transport-Security:]
+          - max-age=15724800; includeSubDomains
+        Date:
+          - Thu, 27 Apr 2023 13:24:32 GMT
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Content-Type-Options:
+          - nosniff
+        X-XSS-Protection:
+          - 1, mode=block
+        Access-Control-Allow-Origin:
+          - "*"
+        Content-Type:
+          - application/json; charset=utf-8
+      status:
+        code: 201
+        message: Created
+  - request:
+      body:
+        '{"calendario": {"expiracao": "3600"}, "devedor": {"cpf": "12345678909", "nome":
+        "Francisco da Silva"}, "valor": {"original": "123.45"}, "chave":
+        "7f6844d0-de89-47e5-9ef7-e0a35a681615"}'
+      headers:
+        Accept:
+          - "*/*"
+        Authorization:
+          - "Bearer
+            TXJIBabH_25BtkA-iZjqNly0W36pWA141DAnl7g5iRx2thNE4D9mCfRt-dwfKmZVfx3f03gmFy65I0VJ4AfpyQ.CqWhXiEarXpi3yUnTZCeBdo806yk79wivR0GpPy4CAmqOqrwLsUVlVB8dWAc6gXm_zZlHbN5EEjXjHmhMqINhdnyMaNlGMu6ysmQvjEdVh5hxBY2XJsSKDegEnxwlV9GKJ9FLg9jwVBV00PMw-x-g5S-cud3rBpG5qyzv_ud_uRorAOFDa1E2d49YCNMZ4JSrWx_2MQSxqdsMHngr9yhfswPvyDs15cadK57rDxKcUy5VN6h9Qa-xzHbi8calo1IkjX5kKftiUljxXHdVe0ZVrb5HAK4ryT8UQtyo0_Wqn4FkIEs7h896BZhr8mY9vlcQrKLmc3LSOwQwC5JFkhTFBFT1Pvwf1VPomM-BDu3GAPK-Zv6ze7cVB_Z0duSBSvt33EfbvQmcU1LrNLOY8DGgoOZ058gsLRYOV42r-CeE8MALzV9XM2KeIYOShrRxnOU6XOg0bB3xOGg0UGM8c5bE7CleEsfs3Y1-tsMeVcdWr4-8kkIUhGP1ODdhwnThAIm78VYGpf6_or8VyAD-dt045uqVocsLdLMLaSjbGtgoGRPHcRmScUhXdo1RWl_eWczuJV2D2gsNyw6T-4CjzR3xGZSqSyDA2J2eRZAmwB969-S0kW-PxklKQYi6n_DdIETRvI51S-VVWgMYoraCczZRjLJIIsCvETXYJti9w81bxtcdWtWEjJITBHftJG7RMujE4apnA1LGL85MOffxSIoBQsDUJliBSXus0dz2ucyuCdlmuVfYcX3HE71cqvDYT5Zd8CzTER75OYEVFnucgzCjxCtls5sVPTI_OUmSwrtRacIc7-zQr3f9xILF63p28JHzWzY3jT39WHlZvn58kVUbPuxLraEjpwKDHzpNORFivhhMnZk8N5EggP1iG6peITE2x-QEW83eIiNzc1L3wcAk3NGfAFG16TqBArn6_zaxXnpSp3nR19L1LbDT2AqGl8cxYkAcBe69FON-9jl7lePMDRPlSq3T9vQH6pwKivGkkIfNpwK4SgeqIC7MjfBv9tl82W19pyfLZeGdZGyl2gt4nIQIguBw8jMki1OEaVsbHc.Mw7NdZpdT4ZeZ8hRrK4aBPjdlaqIFv6LVuLxz3ANM9E3On59ghv80rxbm7-1OPg4L5bNuQuetpuGSrD_xn5K2Q"
+        Content-Type:
+          - "application/json"
+      method: PUT
+      uri: https://api.sandbox.bb.com.br/pix/v1/cob/?txid=12345678909&gw-dev-app-key=d27bf7790affab30136fe17de0050d56b9a1a5bc
+    response:
+      body:
+        string:
+          b'{"status":"ATIVA", "calendario":{"criacao":"2023-04-27T08:48:34.64-03:00",
+          "expiracao":"3600"},
+          "location":"qrcodepix-h.bb.com.br/pix/v2/746d9fda-07ba-4b26-9c4d-1607e85e2ceb",
+          "textoImagemQRcode":"00020101021226870014br.gov.bcb.pix2565qrcodepix-h.bb.com.br/pix/v2/746d9fda-07ba-4b26-9c4d-1607e85e2ceb5204000053039865802BR5920ALAN
+          GUIACHERO BUENO6008BRASILIA62070503***6304F1E4","txid":"12345678909",
+          "revisao":0, "devedor":{"cpf":"12345678909", "nome":"Francisco da Silva"},
+          "valor":{"original":"123.45"}, "chave":"7f6844d0-de89-47e5-9ef7-e0a35a681615",
+          "solicitacaoPagador":"Solicitacao Pix"}'
+      headers:
+        Content-Length:
+          - "607"
+        X-DNS-Prefetch-Control:
+          - off
+        X-Download-Options:
+          - noopen
+        Content-Security-Policy:
+          - frame-ancestors 'self'
+        ETag:
+          - W/"25f-aIBZXJq2+HSUm/pA6HbXnJslq+g"
+        Connection:
+          - keep-alive Strict-Transport-Security:]
+          - max-age=15724800; includeSubDomains
+        Date:
+          - Thu, 27 Apr 2023 11:48:34 GMT
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Content-Type-Options:
+          - nosniff
+        X-XSS-Protection:
+          - 1, mode=block
+        Access-Control-Allow-Origin:
+          - "*"
+        Content-Type:
+          - application/json; charset=utf-8
+      status:
+        code: 201
+        message: Created
