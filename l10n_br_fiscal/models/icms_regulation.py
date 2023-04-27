@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 from ..constants.fiscal import (
     FISCAL_OUT,
+    NFE_IND_IE_DEST_9,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ICMS_FCP,
     TAX_DOMAIN_ICMS_ST,
@@ -29,6 +30,9 @@ VIEW = """
         </page>
         <page name="uf_{0}_others" string="Outros">
             <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {4}, 'default_state_from_id': {5}}}"/>
+        </page>
+        <page name="uf_{0}_benefit" string="Tax Benefit">
+            <field name="tax_benefit_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_benefit_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_id': {5}}}" />
         </page>
     </notebook>
 </page>
@@ -91,6 +95,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_ac_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit AC",
+        domain=[
+            ("state_id.code", "in", ("AC", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_al_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -131,6 +145,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "AL"),
             ("state_to_ids.code", "=", "AL"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_al_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit AL",
+        domain=[
+            ("state_id.code", "in", ("AL", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -177,6 +201,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_am_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit AM",
+        domain=[
+            ("state_id.code", "in", ("AM", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_ap_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -217,6 +251,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "AP"),
             ("state_to_ids.code", "=", "AP"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_ap_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit AP",
+        domain=[
+            ("state_id.code", "in", ("AP", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -264,6 +308,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_ba_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit BA",
+        domain=[
+            ("state_id.code", "in", ("BA", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_ce_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -305,6 +359,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "CE"),
             ("state_to_ids.code", "=", "CE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_ce_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit CE",
+        domain=[
+            ("state_id.code", "in", ("CE", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -352,6 +416,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_df_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit DF",
+        domain=[
+            ("state_id.code", "in", ("DF", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_es_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -393,6 +467,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "ES"),
             ("state_to_ids.code", "=", "ES"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_es_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit ES",
+        domain=[
+            ("state_id.code", "in", ("ES", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -440,6 +524,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_go_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit GO",
+        domain=[
+            ("state_id.code", "in", ("GO", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_ma_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -481,6 +575,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "MA"),
             ("state_to_ids.code", "=", "MA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_ma_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit MA",
+        domain=[
+            ("state_id.code", "in", ("MA", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -528,6 +632,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_mt_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit MT",
+        domain=[
+            ("state_id.code", "in", ("MT", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_ms_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -569,6 +683,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "MS"),
             ("state_to_ids.code", "=", "MS"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_ms_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit MS",
+        domain=[
+            ("state_id.code", "in", ("MS", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -616,6 +740,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_mg_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit MG",
+        domain=[
+            ("state_id.code", "in", ("MG", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_pa_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -657,6 +791,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "PA"),
             ("state_to_ids.code", "=", "PA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_pa_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit PA",
+        domain=[
+            ("state_id.code", "in", ("PA", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -704,6 +848,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_pb_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit PB",
+        domain=[
+            ("state_id.code", "in", ("PB", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_pr_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -745,6 +899,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "PR"),
             ("state_to_ids.code", "=", "PR"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_pr_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit PR",
+        domain=[
+            ("state_id.code", "in", ("PR", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -792,6 +956,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_pe_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit PE",
+        domain=[
+            ("state_id.code", "in", ("PE", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_pi_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -833,6 +1007,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "PI"),
             ("state_to_ids.code", "=", "PI"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_pi_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit PI",
+        domain=[
+            ("state_id.code", "in", ("PI", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -880,6 +1064,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_rn_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit RN",
+        domain=[
+            ("state_id.code", "in", ("RN", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_rs_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -921,6 +1115,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "RS"),
             ("state_to_ids.code", "=", "RS"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_rs_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit RS",
+        domain=[
+            ("state_id.code", "in", ("RS", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -968,6 +1172,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_rj_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit RJ",
+        domain=[
+            ("state_id.code", "in", ("RJ", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_ro_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -1009,6 +1223,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "RO"),
             ("state_to_ids.code", "=", "RO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_ro_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit RO",
+        domain=[
+            ("state_id.code", "in", ("RO", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -1056,6 +1280,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_rr_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit RR",
+        domain=[
+            ("state_id.code", "in", ("RR", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_sc_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -1100,6 +1334,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_sc_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit SC",
+        domain=[
+            ("state_id.code", "in", ("SC", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_sp_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -1140,6 +1384,16 @@ class ICMSRegulation(models.Model):
             ("state_from_id.code", "=", "SP"),
             ("state_to_ids.code", "=", "SP"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+        ],
+    )
+
+    tax_benefit_sp_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit SP",
+        domain=[
+            ("state_id.code", "in", ("SP", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
     )
 
@@ -1187,6 +1441,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_se_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit SE",
+        domain=[
+            ("state_id.code", "in", ("SE", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     icms_internal_to_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="icms_regulation_id",
@@ -1231,6 +1495,16 @@ class ICMSRegulation(models.Model):
         ],
     )
 
+    tax_benefit_to_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.benefit",
+        inverse_name="icms_regulation_id",
+        string="Tax Benefit TO",
+        domain=[
+            ("state_id.code", "in", ("TO", False)),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
     @api.model
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
@@ -1265,229 +1539,45 @@ class ICMSRegulation(models.Model):
 
         return view_super
 
-    def map_tax_icms(
+    def _build_map_tax_def_domain(
         self,
         company,
         partner,
-        product,
+        tax_group_icms=None,
         ncm=None,
         nbm=None,
         cest=None,
-        operation_line=None,
-        ind_final=None,
     ):
         self.ensure_one()
-        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
-        icms_taxes = self.env["l10n_br_fiscal.tax"]
-        tax_group_icms = self.env.ref("l10n_br_fiscal.tax_group_icms")
+        domain = [
+            ("icms_regulation_id", "=", self.id),
+            ("state", "=", "approved"),
+            ("tax_group_id", "=", tax_group_icms.id),
+        ]
 
-        # ICMS
-        # ICMS tax imported
-        if (
-            product.icms_origin in ICMS_ORIGIN_TAX_IMPORTED
-            and company.state_id != partner.state_id
-            and operation_line.fiscal_operation_type == FISCAL_OUT
-        ):
-            icms_taxes |= self.icms_imported_tax_id
-        else:
-            # ICMS
-            if not ncm:
-                ncm = product.ncm_id
-
-            if not cest:
-                cest = product.cest_id
-
-            domain = [
-                ("icms_regulation_id", "=", self.id),
-                ("state", "=", "approved"),
-                ("tax_group_id", "=", tax_group_icms.id),
+        if tax_group_icms.tax_domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_ST):
+            domain += [
                 ("state_from_id", "=", company.state_id.id),
                 ("state_to_ids", "=", partner.state_id.id),
             ]
 
-            icms_defs = tax_definitions.search(domain)
-
-            if len(icms_defs) == 1:
-                tax_definitions |= icms_defs
-            else:
-                icms_defs_specific = icms_defs.filtered(
-                    lambda d: ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids
-                )
-
-                icms_defs_generic = icms_defs.filtered(
-                    lambda d: not d.ncm_ids.ids
-                    and not d.nbm_ids.ids
-                    and not d.cest_ids.ids
-                    and not d.product_ids.ids
-                )
-
-                if icms_defs_specific:
-                    icms_defs = icms_defs_specific
-                else:
-                    icms_defs = icms_defs_generic
-
-                tax_definitions_with_ind_final = icms_defs.filtered(
-                    lambda d: d.ind_final
-                )
-                if tax_definitions_with_ind_final:
-                    tax_definitions = icms_defs.filtered(
-                        lambda d: ind_final == d.ind_final
-                    )
-                else:
-                    tax_definitions = icms_defs
-        icms_taxes |= tax_definitions.mapped("tax_id")
-        return icms_taxes
-
-    def map_tax_icmsst(
-        self,
-        company,
-        partner,
-        product,
-        ncm=None,
-        nbm=None,
-        cest=None,
-        operation_line=None,
-    ):
-        self.ensure_one()
-        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
-        icms_taxes = self.env["l10n_br_fiscal.tax"]
-        tax_group_icmsst = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
-
-        if not ncm:
-            ncm = product.ncm_id
-
-        if not cest:
-            cest = product.cest_id
-
-        # ICMS ST
-        domain = [
-            ("icms_regulation_id", "=", self.id),
-            ("state", "=", "approved"),
-            ("state_from_id", "=", company.state_id.id),
-            ("tax_group_id", "=", tax_group_icmsst.id),
-            "|",
-            ("state_to_ids", "=", partner.state_id.id),
-            ("state_to_ids", "=", company.state_id.id),
-            ("ncm_ids", "=", ncm.id),
-            ("cest_ids", "=", cest.id),
-        ]
-
-        icmsst_defs = tax_definitions.search(domain)
-
-        if len(icmsst_defs) == 1:
-            tax_definitions |= icmsst_defs
-        else:
-            tax_definitions |= icmsst_defs.filtered(
-                lambda d: ncm.id in d.ncm_ids.ids
-                or nbm.id in d.nbm_ids.ids
-                or cest.id in d.cest_ids.ids
-                or product.id in d.product_ids.ids
-            )
-
-        icms_taxes |= tax_definitions.mapped("tax_id")
-        return icms_taxes
-
-    def map_tax_icmsfcp(
-        self,
-        company,
-        partner,
-        product,
-        ncm=None,
-        nbm=None,
-        cest=None,
-        operation_line=None,
-    ):
-
-        self.ensure_one()
-        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
-        icms_taxes = self.env["l10n_br_fiscal.tax"]
-        tax_group_icmsfcp = self.env.ref("l10n_br_fiscal.tax_group_icmsfcp")
-
-        # ICMS FCP for DIFAL
-        if (
-            company.state_id != partner.state_id
-            and operation_line.fiscal_operation_type == FISCAL_OUT
-            and not partner.is_company
-        ):
-
-            if not ncm:
-                ncm = product.ncm_id
-
-            if not cest:
-                cest = product.cest_id
-
-            domain = [
-                ("icms_regulation_id", "=", self.id),
-                ("state", "=", "approved"),
-                ("tax_group_id", "=", tax_group_icmsfcp.id),
+        if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_ST:
+            domain += [
+                "|",
+                ("state_to_ids", "=", partner.state_id.id),
+                ("state_to_ids", "=", company.state_id.id),
+                ("ncm_ids", "=", ncm.id),
+                ("nbm_ids", "=", nbm.id),
+                ("cest_ids", "=", cest.id),
             ]
 
-            if operation_line.fiscal_operation_type == FISCAL_OUT:
-                domain.append(("state_to_ids", "=", partner.state_id.id))
-            else:
-                domain.append(("state_from_id", "=", partner.state_id.id))
+        if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_FCP:
+            domain += [("state_to_ids", "=", partner.state_id.id)]
 
-            icmsfcp_defs = tax_definitions.search(domain)
+        return domain
 
-            if len(icmsfcp_defs) == 1:
-                tax_definitions |= icmsfcp_defs
-            else:
-
-                icmsfcp_defs_specific = icmsfcp_defs.filtered(
-                    lambda d: ncm.id in d.ncm_ids.ids
-                    or nbm.id in d.nbm_ids.ids
-                    or cest.id in d.cest_ids.ids
-                    or product.id in d.product_ids.ids
-                )
-
-                icmsfcp_defs_generic = icmsfcp_defs.filtered(
-                    lambda d: not d.ncm_ids.ids
-                    and not d.nbm_ids.ids
-                    and not d.cest_ids.ids
-                    and not d.product_ids.ids
-                )
-
-                if icmsfcp_defs_specific:
-                    tax_definitions |= icmsfcp_defs_specific
-                else:
-                    tax_definitions |= icmsfcp_defs_generic
-
-        icms_taxes |= tax_definitions.mapped("tax_id")
-        return icms_taxes
-
-    def map_tax_icms_difal(
-        self,
-        company,
-        partner,
-        product,
-        ncm=None,
-        nbm=None,
-        cest=None,
-        operation_line=None,
-    ):
-        self.ensure_one()
+    def _tax_definition_search(self, domain, ncm, nbm, cest, product, ind_final=None):
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
-        icms_taxes = self.env["l10n_br_fiscal.tax"]
-        tax_group_icms = self.env.ref("l10n_br_fiscal.tax_group_icms")
-
-        # ICMS
-        if not ncm:
-            ncm = product.ncm_id
-
-        if not cest:
-            cest = product.cest_id
-
-        domain = [
-            ("icms_regulation_id", "=", self.id),
-            ("state", "=", "approved"),
-            ("state_from_id", "=", partner.state_id.id),
-            ("state_to_ids", "=", partner.state_id.id),
-            ("tax_group_id", "=", tax_group_icms.id),
-        ]
-
         icms_defs = tax_definitions.search(domain)
 
         if len(icms_defs) == 1:
@@ -1499,22 +1589,137 @@ class ICMSRegulation(models.Model):
                 or cest.id in d.cest_ids.ids
                 or product.id in d.product_ids.ids
             )
-
             icms_defs_generic = icms_defs.filtered(
                 lambda d: not d.ncm_ids.ids
                 and not d.nbm_ids.ids
                 and not d.cest_ids.ids
                 and not d.product_ids.ids
             )
+            tax_definitions_with_ind_final = icms_defs.filtered(lambda d: d.ind_final)
 
-            if icms_defs_specific:
-                tax_definitions |= icms_defs_specific
+            if tax_definitions_with_ind_final:
+                tax_definitions = icms_defs.filtered(lambda d: ind_final == d.ind_final)
             else:
-                tax_definitions |= icms_defs_generic
+                if icms_defs_specific:
+                    tax_definitions |= icms_defs_specific
+                else:
+                    tax_definitions |= icms_defs_generic
+        return tax_definitions
 
-        icms_taxes |= tax_definitions.mapped("tax_id")
-        return icms_taxes
+    def _map_tax_def_icms(
+        self,
+        company,
+        partner,
+        product,
+        ncm=None,
+        nbm=None,
+        cest=None,
+        operation_line=None,
+        ind_final=None,
+    ):
+        self.ensure_one()
+        icms_taxes = self.env["l10n_br_fiscal.tax"]
+        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
+        tax_group_icms = self.env.ref("l10n_br_fiscal.tax_group_icms")
 
+        # ICMS tax imported
+        if (
+            product.icms_origin in ICMS_ORIGIN_TAX_IMPORTED
+            and company.state_id != partner.state_id
+            and operation_line.fiscal_operation_type == FISCAL_OUT
+        ):
+            icms_taxes |= self.icms_imported_tax_id
+        else:
+            # ICMS
+            domain = self._build_map_tax_def_domain(
+                company, partner, tax_group_icms, ncm, nbm, cest
+            )
+
+            tax_definitions = self._tax_definition_search(
+                domain, ncm, nbm, cest, product, ind_final
+            )
+        return icms_taxes, tax_definitions
+
+    def _map_tax_def_icmsst(
+        self,
+        company,
+        partner,
+        product,
+        ncm=None,
+        nbm=None,
+        cest=None,
+        operation_line=None,
+    ):
+        self.ensure_one()
+        tax_group_icmsst = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
+
+        # ICMS ST
+        domain = self._build_map_tax_def_domain(
+            company, partner, tax_group_icmsst, ncm, nbm, cest
+        )
+
+        tax_definitions = self._tax_definition_search(domain, ncm, nbm, cest, product)
+        return tax_definitions
+
+    def map_tax_def_icms_difal(
+        self,
+        company,
+        partner,
+        product,
+        ncm=None,
+        nbm=None,
+        cest=None,
+        operation_line=None,
+    ):
+        self.ensure_one()
+        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
+        tax_group_icms = self.env.ref("l10n_br_fiscal.tax_group_icms")
+
+        if (
+            company.state_id != partner.state_id
+            and partner.ind_ie_dest == NFE_IND_IE_DEST_9
+            and operation_line.fiscal_operation_type == FISCAL_OUT
+        ):
+            domain = self._build_map_tax_def_domain(
+                partner, partner, tax_group_icms, ncm, nbm, cest
+            )
+
+            tax_definitions = self._tax_definition_search(
+                domain, ncm, nbm, cest, product
+            )
+        return tax_definitions.mapped("tax_id"), tax_definitions
+
+    def _map_tax_def_icmsfcp(
+        self,
+        company,
+        partner,
+        product,
+        ncm=None,
+        nbm=None,
+        cest=None,
+        operation_line=None,
+    ):
+        self.ensure_one()
+        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
+        tax_group_icmsfcp = self.env.ref("l10n_br_fiscal.tax_group_icmsfcp")
+
+        # ICMS FCP for DIFAL
+        if (
+            company.state_id != partner.state_id
+            and operation_line.fiscal_operation_type == FISCAL_OUT
+            and partner.ind_ie_dest == NFE_IND_IE_DEST_9
+        ):
+            domain = self._build_map_tax_def_domain(
+                partner, partner, tax_group_icmsfcp, ncm, nbm, cest
+            )
+
+            tax_definitions = self._tax_definition_search(
+                domain, ncm, nbm, cest, product
+            )
+
+        return tax_definitions
+
+    # TODO adicionar o argumento CFOP????
     def map_tax(
         self,
         company,
@@ -1526,19 +1731,28 @@ class ICMSRegulation(models.Model):
         operation_line=None,
         ind_final=None,
     ):
+        if product:
+            if not ncm:
+                ncm = product.ncm_id
 
-        icms_taxes = self.env["l10n_br_fiscal.tax"]
+            if not nbm:
+                nbm = product.nbm_id
 
-        icms_taxes |= self.map_tax_icms(
+            if not cest:
+                cest = product.cest_id
+
+        icms_taxes, icms_def_taxes = self._map_tax_def_icms(
             company, partner, product, ncm, nbm, cest, operation_line, ind_final
         )
 
-        icms_taxes |= self.map_tax_icmsst(
+        icms_def_taxes |= self._map_tax_def_icmsst(
             company, partner, product, ncm, nbm, cest, operation_line
         )
 
-        icms_taxes |= self.map_tax_icmsfcp(
+        icms_def_taxes |= self._map_tax_def_icmsfcp(
             company, partner, product, ncm, nbm, cest, operation_line
         )
 
-        return icms_taxes
+        icms_taxes |= icms_def_taxes.mapped("tax_id")
+
+        return icms_taxes, icms_def_taxes
