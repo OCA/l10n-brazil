@@ -13,6 +13,7 @@ from ..constants.fiscal import (
     PRODUCT_FISCAL_TYPE,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ISSQN,
+    TAX_DOMAIN_IPI,
     TAX_FRAMEWORK,
     TAX_FRAMEWORK_NORMAL,
     TAX_ICMS_OR_ISSQN,
@@ -176,15 +177,21 @@ class OperationLine(models.Model):
         return cfop
 
     def _build_mapping_result_ipi(self, mapping_result, tax_definition):
-        mapping_result[
-            "ipi_guideline"
-        ] = tax_definition.ipi_guideline_id or self.env.ref(
-            "l10n_br_fiscal.tax_guideline_999"
-        )
+        if tax_definition:
+            mapping_result[
+                "ipi_guideline"
+            ] = tax_definition.ipi_guideline_id or self.env.ref(
+                "l10n_br_fiscal.tax_guideline_999"
+            )
+
+    def _build_mapping_result_icms(self, mapping_result, tax_definition):
+        if tax_definition:
+            mapping_result["icms_tax_benefit_id"] = tax_definition.tax_benefit_id.id
 
     def _build_mapping_result(self, mapping_result, tax_definition):
         mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
-        self._build_mapping_result_ipi(mapping_result, tax_definition)
+        self._build_mapping_result_icms(mapping_result, tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS))
+        self._build_mapping_result_ipi(mapping_result, tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_IPI))
 
     def map_fiscal_taxes(
         self,
@@ -231,7 +238,7 @@ class OperationLine(models.Model):
 
             # 3 From ICMS Regulation
             if company.icms_regulation_id:
-                tax_icms_ids = company.icms_regulation_id.map_tax(
+                icms_taxes, icms_tax_defs = company.icms_regulation_id.map_tax(
                     company=company,
                     partner=partner,
                     product=product,
@@ -241,7 +248,10 @@ class OperationLine(models.Model):
                     operation_line=self,
                 )
 
-                for tax in tax_icms_ids:
+                for tax_def in icms_tax_defs:
+                    self._build_mapping_result_icms(mapping_result, tax_def)
+                
+                for tax in icms_taxes:
                     mapping_result["taxes"][tax.tax_domain] = tax
 
         # 4 From Operation Line
