@@ -76,7 +76,7 @@ class TaxDefinition(models.Model):
         string="CST",
         readonly=True,
         domain="[('cst_type', 'in', (type_in_out, 'all')), "
-        "('tax_domain', '=', tax_domain)]",
+        "('tax_group_id', '=', tax_group_id)]",
     )
 
     cst_code = fields.Char(
