@@ -19,7 +19,7 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
     const L10nBrPosPaymentScreen = (PaymentScreen) =>
         class extends PaymentScreen {
             checkValidCpfCnpj(currentOrder) {
-                if (!currentOrder.customer_tax_id) {
+                if (!currentOrder.customer_tax_id && !currentOrder.get_client()) {
                     return true;
                 }
 
@@ -38,9 +38,9 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
 
             async _isOrderValid(isForceValidate) {
                 var result = super._isOrderValid(isForceValidate);
-                var currentOrder = this.env.pos.get_order();
-                if (this.checkValidCpfCnpj(currentOrder)) {
-                    result = await currentOrder.document_send(this);
+                var order = this.env.pos.get_order();
+                if (this.checkValidCpfCnpj(order)) {
+                    result = await order.document_send(this);
                     return result;
                 }
                 Gui.showPopup("ErrorPopup", {
