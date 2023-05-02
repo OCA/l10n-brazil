@@ -398,9 +398,7 @@ class Tax(models.Model):
             icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line
             )
-            icmsfcp_tax_difal, _ = company.icms_regulation_id.map_tax_def_icmsfcp(
-                company, partner, product, ncm, nbm, cest, operation_line
-            )
+            icmsfcp_tax_difal = tax_dict_ipi = taxes_dict.get("icmsfcp", {})
 
             # Difal - Origin Percent
             icms_origin_perc = tax_dict.get("percent_amount")
@@ -416,7 +414,7 @@ class Tax(models.Model):
             # Difal - FCP Percent
             icmsfcp_perc = 0.00
             if icmsfcp_tax_difal:
-                icmsfcp_perc = icmsfcp_tax_difal[0].percent_amount
+                icmsfcp_perc = icmsfcp_tax_difal.get("percent_amount")
 
             # Difal - Base
             icms_base = tax_dict.get("base")

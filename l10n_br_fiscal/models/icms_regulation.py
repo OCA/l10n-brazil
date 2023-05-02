@@ -1564,7 +1564,7 @@ class ICMSRegulation(models.Model):
                 ("state_to_ids", "=", partner.state_id.id),
             ]
 
-        if tax_group_icms.tax_domain in TAX_DOMAIN_ICMS_ST:
+        if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_ST:
             domain += [
                 "|",
                 ("state_to_ids", "=", partner.state_id.id),
@@ -1575,7 +1575,7 @@ class ICMSRegulation(models.Model):
             ]
 
         if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_FCP:
-            domain += [("state_from_id", "=", partner.state_id.id)]
+            domain += [("state_to_ids", "=", partner.state_id.id)]
 
         return domain
 
@@ -1617,6 +1617,7 @@ class ICMSRegulation(models.Model):
     ):
         self.ensure_one()
         icms_taxes = self.env["l10n_br_fiscal.tax"]
+        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
         tax_group_icms = self.env.ref("l10n_br_fiscal.tax_group_icms")
 
         # ICMS tax imported
@@ -1660,37 +1661,6 @@ class ICMSRegulation(models.Model):
         )
         return tax_definitions
 
-    def map_tax_def_icmsfcp(
-        self,
-        company,
-        partner,
-        product,
-        ncm=None,
-        nbm=None,
-        cest=None,
-        operation_line=None,
-    ):
-        self.ensure_one()
-        # TODO colocar essa logica dentro do submetodo _tax_definition_search
-        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
-        tax_group_icmsfcp = self.env.ref("l10n_br_fiscal.tax_group_icmsfcp")
-
-        # ICMS FCP for DIFAL
-        if (
-            company.state_id != partner.state_id
-            and operation_line.fiscal_operation_type == FISCAL_OUT
-            and partner.ind_ie_dest == NFE_IND_IE_DEST_9
-        ):
-            domain = self._build_map_tax_def_domain(
-                partner, partner, tax_group_icmsfcp, ncm, nbm, cest
-            )
-            
-            tax_definitions = self._tax_definition_search(
-                domain, ncm, nbm, cest, product
-            )
-
-        return tax_definitions
-
     def map_tax_def_icms_difal(
         self,
         company,
@@ -1717,6 +1687,36 @@ class ICMSRegulation(models.Model):
             tax_definitions = self._tax_definition_search(
                 domain, ncm, nbm, cest, product
             )
+        return tax_definitions.mapped("tax_id"), tax_definitions
+
+    def _map_tax_def_icmsfcp(
+        self,
+        company,
+        partner,
+        product,
+        ncm=None,
+        nbm=None,
+        cest=None,
+        operation_line=None,
+    ):
+        self.ensure_one()
+        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
+        tax_group_icmsfcp = self.env.ref("l10n_br_fiscal.tax_group_icmsfcp")
+
+        # ICMS FCP for DIFAL
+        if (
+            company.state_id != partner.state_id
+            and operation_line.fiscal_operation_type == FISCAL_OUT
+            and partner.ind_ie_dest == NFE_IND_IE_DEST_9
+        ):
+            domain = self._build_map_tax_def_domain(
+                partner, partner, tax_group_icmsfcp, ncm, nbm, cest
+            )
+
+            tax_definitions = self._tax_definition_search(
+                domain, ncm, nbm, cest, product
+            )
+
         return tax_definitions
 
     # TODO adicionar o argumento de para uso e consumo
@@ -1746,6 +1746,10 @@ class ICMSRegulation(models.Model):
         )
 
         icms_def_taxes |= self._map_tax_def_icmsst(
+            company, partner, product, ncm, nbm, cest, operation_line
+        )
+
+        icms_def_taxes |= self._map_tax_def_icmsfcp(
             company, partner, product, ncm, nbm, cest, operation_line
         )
 
