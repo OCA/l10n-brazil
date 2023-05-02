@@ -18,6 +18,16 @@ msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "<option value=\"\">Country...</option>"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "<option value=\"\">select...</option>"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Bairro"
 msgstr "Bairro"
 
@@ -60,11 +70,6 @@ msgstr "Confirmar<span class=\"fa fa-long-arrow-right\"/>"
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Country"
 msgstr "País"
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Country..."
-msgstr "País…"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -126,7 +131,8 @@ msgstr "Seu Nome"
 msgid "Zip / Postal Code"
 msgstr "CEP"
 
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "select..."
-msgstr "selecione..."
+#~ msgid "Country..."
+#~ msgstr "País…"
+
+#~ msgid "select..."
+#~ msgstr "selecione..."
