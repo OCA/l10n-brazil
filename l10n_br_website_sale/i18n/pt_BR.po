@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_website_sale
+# 	* l10n_br_website_sale
 #
 msgid ""
 msgstr ""
@@ -18,19 +18,32 @@ msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "<i class=\"fa fa-chevron-left\"/>\n"
-"                        <span>Back</span>"
-msgstr ""
+msgid ""
 "<i class=\"fa fa-chevron-left\"/>\n"
-"                        <span>Voltar</span>"
+"                            <span>Back</span>"
+msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "<span>Next</span>\n"
-"                        <i class=\"fa fa-chevron-right\"/>"
+msgid "<option value=\"\">Country...</option>"
 msgstr ""
-"<span>Próximo</span>\n"
-"                        <i class=\"fa fa-chevron-right\"/>"
+
+#. module: l10n_br_website_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
+msgid "<option value=\"\">State / Province...</option>"
+msgstr ""
+
+#. module: l10n_br_website_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
+msgid "<option value=\"\">select...</option>"
+msgstr ""
+
+#. module: l10n_br_website_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
+msgid ""
+"<span>Next</span>\n"
+"                            <i class=\"fa fa-chevron-right\"/>"
+msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
@@ -64,11 +77,6 @@ msgstr "País"
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Country..."
-msgstr "País…"
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
 msgid "Email"
 msgstr "E-mail"
 
@@ -99,8 +107,10 @@ msgstr "Telefone"
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Ship to the same address\n"
-"                                    <span class=\"ship_to_other text-muted\" style=\"display: none\">\n"
+msgid ""
+"Ship to the same address\n"
+"                                    <span class=\"ship_to_other text-muted\" "
+"style=\"display: none\">\n"
 "                                        &amp;nbsp;(<i>Your shipping address\n"
 "                                        will be requested later) </i></span>"
 msgstr ""
@@ -108,21 +118,17 @@ msgstr ""
 "                                    <span class=\"ship_to_other text-muted\" "
 "style=\"display: none\">\n"
 "                                        &amp;nbsp;(<i>Seu endereço de envio\n"
-"                                        será solicitado mais tarde)</i> "
-"</span>"
+"                                        será solicitado mais tarde)</i> </"
+"span>"
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "State /\n"
+msgid ""
+"State /\n"
 "                            Province"
 msgstr ""
 "Estado /\n"
 "                            Província"
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "State / Province..."
-msgstr "Estado / Província..."
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
@@ -131,7 +137,8 @@ msgstr "Endereço"
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Tipo de\n"
+msgid ""
+"Tipo de\n"
 "                            Pessoa:"
 msgstr ""
 "Tipo de\n"
@@ -142,7 +149,25 @@ msgstr ""
 msgid "Zip Code"
 msgstr "CEP"
 
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "select..."
-msgstr "selecione..."
+#~ msgid ""
+#~ "<i class=\"fa fa-chevron-left\"/>\n"
+#~ "                        <span>Back</span>"
+#~ msgstr ""
+#~ "<i class=\"fa fa-chevron-left\"/>\n"
+#~ "                        <span>Voltar</span>"
+
+#~ msgid ""
+#~ "<span>Next</span>\n"
+#~ "                        <i class=\"fa fa-chevron-right\"/>"
+#~ msgstr ""
+#~ "<span>Próximo</span>\n"
+#~ "                        <i class=\"fa fa-chevron-right\"/>"
+
+#~ msgid "Country..."
+#~ msgstr "País…"
+
+#~ msgid "State / Province..."
+#~ msgstr "Estado / Província..."
+
+#~ msgid "select..."
+#~ msgstr "selecione..."
