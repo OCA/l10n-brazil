@@ -15,6 +15,16 @@ msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "<option value=\"\">Country...</option>"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "<option value=\"\">select...</option>"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Bairro"
 msgstr ""
 
@@ -53,11 +63,6 @@ msgstr ""
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Country"
-msgstr ""
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Country..."
 msgstr ""
 
 #. module: l10n_br_portal
@@ -118,9 +123,4 @@ msgstr ""
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Zip / Postal Code"
-msgstr ""
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "select..."
 msgstr ""
