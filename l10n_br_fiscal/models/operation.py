@@ -230,6 +230,12 @@ class Operation(models.Model):
             ("tax_icms_or_issqn", "=", False),
         ]
 
+        domain += [
+            "|",
+            ("icms_origin", "=", product.icms_origin),
+            ("icms_origin", "=", False),
+        ]
+
         return domain
 
     def line_definition(self, company, partner, product):
@@ -237,11 +243,27 @@ class Operation(models.Model):
         if not company:
             company = self.env.company
 
-        line = self.line_ids.search(
-            self._line_domain(company, partner, product), limit=1
-        )
+        lines = self.line_ids.search(self._line_domain(company, partner, product))
 
-        return line
+        return self._select_best_line(lines)
+
+    def _select_best_line(self, lines):
+        if not lines:
+            return self.env["l10n_br_fiscal.operation.line"]
+
+        def score(line):
+            fields = [
+                "company_tax_framework",
+                "ind_ie_dest",
+                "partner_tax_framework",
+                "product_type",
+                "tax_icms_or_issqn",
+                "icms_origin",
+            ]
+            return sum(1 for field in fields if getattr(line, field))
+
+        best_line = max(lines, key=score)
+        return best_line
 
     @api.onchange("operation_subsequent_ids")
     def _onchange_operation_subsequent_ids(self):
