@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderPaymentReceipt" owl="1">
+        <div class="receipt-paymentline">
+            <div class="paymentline__name">
+                <span><t t-esc="name" /></span>
+            </div>
+
+            <div class="paymentline__amount">
+                <span><t t-esc="amount" /></span>
+            </div>
+        </div>
+    </t>
+
+</templates>

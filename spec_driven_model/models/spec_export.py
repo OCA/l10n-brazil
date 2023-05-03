@@ -57,10 +57,23 @@ class AbstractSpecMixin(models.AbstractModel):
         that will later be injected as **kwargs in the proper XML Python
         binding constructors. Hence the value can either be simple values or
         sub binding instances already properly instanciated.
+
+        This method implements a dynamic dispatch checking if there is any
+        method called _export_fields_CLASS_NAME to update the xsd_fields
+        and export_dict variables, this way we allow controlling the
+        flow of fields to export or injecting specific values ​​in the
+        field export.
         """
         self.ensure_one()
         binding_class = self._get_binding_class(class_obj)
         binding_class_spec = {i.name: i for i in binding_class.member_data_items_}
+
+        class_name = class_obj._name.replace(".", "_")
+        export_method_name = "_export_fields_%s" % class_name
+        if hasattr(self, export_method_name):
+            xsd_fields = [i for i in xsd_fields]
+            export_method = getattr(self, export_method_name)
+            export_method(xsd_fields, class_obj, export_dict)
 
         for xsd_field in xsd_fields:
             if not xsd_field:
@@ -74,7 +87,9 @@ class AbstractSpecMixin(models.AbstractModel):
                 # this can happen with a o2m generated foreign key for instance
                 continue
             member_spec = binding_class_spec[field_spec_name]
-            field_data = self._export_field(xsd_field, class_obj, member_spec)
+            field_data = self._export_field(
+                xsd_field, class_obj, member_spec, export_dict.get(field_spec_name)
+            )
             if xsd_field in self._stacking_points.keys():
                 if not field_data:
                     # stacked nested tags are skipped if empty
@@ -84,7 +99,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
             export_dict[field_spec_name] = field_data
 
-    def _export_field(self, xsd_field, class_obj, member_spec):
+    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         """
         Maps a single Odoo field to a python binding value according to the
         kind of field.
@@ -112,7 +127,7 @@ class AbstractSpecMixin(models.AbstractModel):
             and self[xsd_field] is not False
         ):
             return self._export_float_monetary(
-                xsd_field, member_spec, class_obj, xsd_required
+                xsd_field, member_spec, class_obj, xsd_required, export_value
             )
         elif type(self[xsd_field]) == str:
             return self[xsd_field].strip()
@@ -140,12 +155,18 @@ class AbstractSpecMixin(models.AbstractModel):
             relational_data.append(field_data)
         return relational_data
 
-    def _export_float_monetary(self, field_name, member_spec, class_obj, xsd_required):
+    def _export_float_monetary(
+        self, field_name, member_spec, class_obj, xsd_required, export_value=None
+    ):
         self.ensure_one()
+        field_data = export_value or self[field_name]
+        # TODO check xsd_required for all fields to export?
+        if not field_data and not xsd_required:
+            return False
         if member_spec.data_type[0]:
             TDec = "".join(filter(lambda x: x.isdigit(), member_spec.data_type[0]))[-2:]
             my_format = "%.{}f".format(TDec)
-            return str(my_format % self[field_name])
+            return str(my_format % field_data)
         else:
             raise NotImplementedError
 

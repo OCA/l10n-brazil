@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:25+0000\n"
-"PO-Revision-Date: 2021-02-02 02:25+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2023-03-29 18:54+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_br_purchase_stock
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
@@ -27,17 +28,17 @@ msgstr ""
 #. module: l10n_br_purchase_stock
 #: model:ir.model,name:l10n_br_purchase_stock.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model,name:l10n_br_purchase_stock.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajuste de configurações"
+msgstr "Ajustes de Configurações"
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__purchase_fiscal_operation_id
 msgid "Default Fiscal Operation for Purchase"
-msgstr ""
+msgstr "Operação Fiscal Padrão para Compra"
 
 #. module: l10n_br_purchase_stock
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
@@ -45,13 +46,15 @@ msgid ""
 "If enabled, activates 3-way matching on vendor bills : the items must be "
 "received in order to pay the invoice."
 msgstr ""
+"Se ativado, ativa a conciliação de 3 vias nas faturas de fornecedores: os "
+"itens devem ser recebidos para pagar a fatura."
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__purchase_create_invoice_policy
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__purchase_create_invoice_policy
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__purchase_create_invoice_policy
 msgid "Purchase Create Invoice Policy"
-msgstr ""
+msgstr "Política de Criação de Faturas de Compra"
 
 #. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/purchase_order.py:13
@@ -72,7 +75,7 @@ msgstr "Linha de Pedido de Compra"
 #. module: l10n_br_purchase_stock
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
 msgid "Select invoiced based on order or picking"
-msgstr ""
+msgstr "Selecione faturas com base no pedido ou na separação de mercadorias"
 
 #. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/purchase_order.py:14
@@ -80,14 +83,14 @@ msgstr ""
 #: code:addons/l10n_br_purchase_stock/models/res_config_settings.py:13
 #: selection:purchase.order,purchase_create_invoice_policy:0
 #: selection:res.company,purchase_create_invoice_policy:0
-#, fuzzy, python-format
+#, python-format
 msgid "Stock Picking"
-msgstr "Separação Devolvida"
+msgstr "Separação de Estoque"
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model,name:l10n_br_purchase_stock.model_stock_rule
 msgid "Stock Rule"
-msgstr "Regra de estoque"
+msgstr "Regra de Estoque"
 
 #~ msgid "<span class=\"o_stat_text\">Purchase Orders</span>"
 #~ msgstr "<span class=\"o_stat_text\">Ordens de compra</span>"

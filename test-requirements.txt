@@ -1,0 +1,4 @@
+vcrpy  # Needed by payment_pagseguro
+odoo-test-helper  # Needed by spec_driven_model
+signxml<3.1.0
+odoo14-addon-account-payment-order<14.0.2.0.0

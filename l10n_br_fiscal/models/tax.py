@@ -646,35 +646,30 @@ class Tax(models.Model):
 
         for tax in self.sorted(key=lambda t: sequence.get(t.tax_domain)):
             taxes[tax.tax_domain] = dict(TAX_DICT_VALUES)
+            # Define CST FROM TAX
+            operation_line = kwargs.get("operation_line")
+            fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
+            kwargs.update({"cst": tax.cst_from_tax(fiscal_operation_type)})
             try:
-                # Define CST FROM TAX
-                operation_line = kwargs.get("operation_line")
-                fiscal_operation_type = (
-                    operation_line.fiscal_operation_type or FISCAL_OUT
-                )
-                kwargs.update({"cst": tax.cst_from_tax(fiscal_operation_type)})
-
                 compute_method = getattr(self, "_compute_%s" % tax.tax_domain)
                 taxes[tax.tax_domain].update(compute_method(tax, taxes, **kwargs))
-                if taxes[tax.tax_domain]["tax_include"]:
-                    result_amounts["amount_included"] += taxes[tax.tax_domain].get(
-                        "tax_value", 0.00
-                    )
-                else:
-                    result_amounts["amount_not_included"] += taxes[tax.tax_domain].get(
-                        "tax_value", 0.00
-                    )
-
-                if taxes[tax.tax_domain]["tax_withholding"]:
-                    result_amounts["amount_withholding"] += taxes[tax.tax_domain].get(
-                        "tax_value", 0.00
-                    )
 
             except AttributeError:
                 taxes[tax.tax_domain].update(tax._compute_tax(tax, taxes, **kwargs))
-                # Caso não exista campos especificos dos impostos
-                # no documento fiscal, os mesmos são calculados.
-                continue
+
+            if taxes[tax.tax_domain]["tax_include"]:
+                result_amounts["amount_included"] += taxes[tax.tax_domain].get(
+                    "tax_value", 0.00
+                )
+            else:
+                result_amounts["amount_not_included"] += taxes[tax.tax_domain].get(
+                    "tax_value", 0.00
+                )
+
+            if taxes[tax.tax_domain]["tax_withholding"]:
+                result_amounts["amount_withholding"] += taxes[tax.tax_domain].get(
+                    "tax_value", 0.00
+                )
 
         # Estimate taxes
         result_amounts["estimate_tax"] = self._compute_estimate_taxes(**kwargs)

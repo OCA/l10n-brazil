@@ -253,15 +253,13 @@ class TaxDefinition(models.Model):
             raise UserError(
                 _("You cannot delete an Tax Definition which is not draft !")
             )
-        return super(TaxDefinition, self).unlink()
+        return super().unlink()
 
     def action_search_ncms(self):
         ncm = self.env["l10n_br_fiscal.ncm"]
         for r in self:
             domain = []
 
-            # Clear Field to recompute
-            r.ncm_ids = False
             if r.ncms:
                 domain += misc.domain_field_codes(r.ncms)
 
@@ -277,27 +275,27 @@ class TaxDefinition(models.Model):
 
             if domain:
                 r.ncm_ids = ncm.search(domain)
+            else:
+                r.ncm_ids = False
 
     def action_search_cests(self):
         cest = self.env["l10n_br_fiscal.cest"]
         for r in self:
             domain = []
 
-            # Clear Field
-            r.cest_ids = False
             if r.cests:
                 domain += misc.domain_field_codes(r.cests, code_size=7)
 
             if domain:
                 r.cest_ids = cest.search(domain)
+            else:
+                r.cest_ids = False
 
     def action_search_nbms(self):
         nbm = self.env["l10n_br_fiscal.nbm"]
         for r in self:
             domain = []
 
-            # Clear Field
-            r.nbm_ids = False
             if r.nbms:
                 domain += misc.domain_field_codes(r.nbms, code_size=10)
 
@@ -311,35 +309,34 @@ class TaxDefinition(models.Model):
 
             if domain:
                 r.nbm_ids = nbm.search(domain)
+            else:
+                r.nbm_ids = False
 
-    @api.model
-    def create(self, values):
-        create_super = super(TaxDefinition, self).create(values)
+    @api.model_create_multi
+    def create(self, vals_list):
+        create_super = super().create(vals_list)
         ncm_fields_list = ("ncms", "not_in_ncms", "ncm_exception")
-        if set(ncm_fields_list).intersection(values.keys()):
-            create_super.with_context(do_not_write=True).action_search_ncms()
-
-        if "cests" in values.keys():
-            create_super.with_context(do_not_write=True).action_search_cests()
-
-        if "nbms" in values.keys():
-            create_super.with_context(do_not_write=True).action_search_nbms()
-
+        for index, values in enumerate(vals_list):
+            if set(ncm_fields_list).intersection(values.keys()):
+                create_super[index].with_context(do_not_write=True).action_search_ncms()
+            if "cests" in values.keys():
+                create_super[index].with_context(
+                    do_not_write=True
+                ).action_search_cests()
+            if "nbms" in values.keys():
+                create_super[index].with_context(do_not_write=True).action_search_nbms()
         return create_super
 
     def write(self, values):
-        write_super = super(TaxDefinition, self).write(values)
+        write_super = super().write(values)
         ncm_fields_list = ("ncms", "not_in_ncms", "ncm_exception")
         do_not_write = self.env.context.get("do_not_write")
         if set(ncm_fields_list).intersection(values.keys()) and not do_not_write:
             self.with_context(do_not_write=True).action_search_ncms()
-
         if "cests" in values.keys() and not do_not_write:
             self.with_context(do_not_write=True).action_search_cests()
-
         if "nbms" in values.keys() and not do_not_write:
             self.with_context(do_not_write=True).action_search_nbms()
-
         return write_super
 
     def map_tax_definition(

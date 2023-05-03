@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!--  Crédito  -->
+
+    <record id="l10n_br_pos.presumido_credito_visa" model="pos.payment.method">
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_credito_master" model="pos.payment.method">
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_credito_elo" model="pos.payment.method">
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_credito_amex" model="pos.payment.method">
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_credito_hipercard" model="pos.payment.method">
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <!--  Débito  -->
+
+    <record id="l10n_br_pos.presumido_debito_visa" model="pos.payment.method">
+        <field name="sat_payment_mode">04</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_debito_master" model="pos.payment.method">
+        <field name="sat_payment_mode">04</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_debito_elo" model="pos.payment.method">
+        <field name="sat_payment_mode">04</field>
+    </record>
+
+    <!--  Alimentação  -->
+
+    <record id="l10n_br_pos.presumido_vale_vr_ben" model="pos.payment.method">
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_vale_vr_alelo" model="pos.payment.method">
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_vale_vr_sodexo" model="pos.payment.method">
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_vale_vr_tr" model="pos.payment.method">
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <!--  Outros  -->
+
+    <record id="l10n_br_pos.presumido_pix" model="pos.payment.method">
+        <field name="sat_payment_mode">04</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_delivery" model="pos.payment.method">
+        <field name="sat_payment_mode">99</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_voucher" model="pos.payment.method">
+        <field name="sat_payment_mode">05</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_convenio" model="pos.payment.method">
+        <field name="sat_payment_mode">05</field>
+    </record>
+
+    <record id="l10n_br_pos.presumido_dinheiro" model="pos.payment.method">
+        <field name="sat_payment_mode">01</field>
+    </record>
+
+</odoo>

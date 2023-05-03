@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-inherit="point_of_sale.OrderList" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('header', 'customer')]" position="before">
+            <div class="header document_serie_number">Documento Fiscal</div>
+        </xpath>
+        <xpath expr="//div[hasclass('header', 'total')]" position="after">
+            <div class="header edoc_state">Situação</div>
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderFooterReceipt" owl="1">
+        <div class="footer">
+            <div class="footer__sat-info">
+                SAT No. <t t-esc="satNumber" />
+            </div>
+
+            <div class="footer__date">
+                <t t-esc="document_date" />
+            </div>
+
+            <div class="footer__barcode">
+                <div class="footer_barcodeKey">
+                    <t t-esc="document_key" />
+                </div>
+                <div class="satBarcode">
+                    <img id="satBarcode" />
+                </div>
+            </div>
+
+            <div class="footer__qrcode" id="footer__qrcode">
+            </div>
+
+            <t t-if="isCanceled">
+                <span
+                    class="receipt__divider"
+                >---------------------------------------------------------</span>
+                <div class="subtitle__cancel">
+                    <span>DADOS DO CUPOM FISCAL ELETRÔNICO DE CANCELAMENTO</span>
+                </div>
+                <div class="footer__sat-info">
+                    SAT No. <t t-esc="satNumber" />
+                </div>
+
+                <div class="footer__date">
+                    <t t-esc="document_date_cancel" />
+                </div>
+
+                <div class="footer__barcode">
+                    <div class="footer_barcodeKey">
+                        <t t-esc="document_key_cancel" />
+                    </div>
+                    <div class="satBarcode">
+                        <img id="satBarcodeCancel" />
+                    </div>
+                </div>
+
+                <div class="footer__qrcode" id="footer__qrcode-cancel">
+                </div>
+            </t>
+
+            <div class="footer__observation">
+                Consulte o QRCode pelo aplicativo "De olho na nota", disponível na AppStore (Apple) e PlayStore (Android).
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -261,6 +261,11 @@ class CNABFileParser(FileParser):
                 # porém o que importa aqui é apenas os últimos 9 digitos que é
                 # de fato a sequência númerica.
                 nosso_numero_sem_dig = linha_cnab["nosso_numero"][-9:]
+            elif bank_name_brcobranca == "banco_brasil":
+                # no banco do brasil o nosso numero vem concatenado com o código de
+                # convênio, sendo apenas os últimos 10 dígitos a sequencia do nosso
+                # número usado para procurar o move line.
+                nosso_numero_sem_dig = linha_cnab["nosso_numero"][-10:]
             else:
                 nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
 
@@ -436,9 +441,14 @@ class CNABFileParser(FileParser):
                 str(linha_cnab["data_credito"]), date_format
             ).date()
 
-        # Valor Desconto
-        if linha_cnab.get("desconto"):
-            valor_desconto = self.cnab_str_to_float(linha_cnab["desconto"])
+        # Na própria lib o desconto é tratado com duas keys diferentes
+        # dependendo do banco e do formato. Também há um erro de escrita que foi tratado
+        # aqui porque uma alteração da lib poderia quebrar outras implementações.
+        desconto_linha = linha_cnab.get("desconto") or linha_cnab.get(
+            "desconto_concedito"
+        )
+        if desconto_linha:
+            valor_desconto = self.cnab_str_to_float(desconto_linha)
             if valor_desconto > 0.0:
                 row_list.append(
                     {

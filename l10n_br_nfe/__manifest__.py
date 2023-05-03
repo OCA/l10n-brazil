@@ -3,13 +3,14 @@
 
 {
     "name": "NF-e",
-    "summary": "Brazilian Eletronic Invoice NF-e .",
+    "summary": "Brazilian Eletronic Invoice NF-e",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Akretion," "KMEE," "Odoo Community Association (OCA)",
+    "maintainers": ["rvalyi", "renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "14.0.5.2.0",
+    "version": "14.0.7.1.5",
     "depends": [
         "l10n_br_fiscal",
         "l10n_br_nfe_spec",

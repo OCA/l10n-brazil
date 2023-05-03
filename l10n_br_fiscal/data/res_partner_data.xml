@@ -2,8 +2,8 @@
 <odoo noupdate="True">
 
     <record id="res_partner_anonimo" model="res.partner">
-        <field name="name">Consumidor Anonônimo</field>
-        <field name="legal_name">Consumidor Anonônimo</field>
+        <field name="name">Consumidor Anônimo</field>
+        <field name="legal_name">Consumidor Anônimo</field>
         <field
             name="fiscal_profile_id"
             ref="l10n_br_fiscal.partner_fiscal_profile_pfnc"

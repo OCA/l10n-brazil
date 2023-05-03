@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-07 19:44+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2023-03-29 18:54+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -99,6 +99,7 @@ msgstr "Caminhão Baú"
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__carrier_id
@@ -128,12 +129,12 @@ msgstr "País"
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__create_uid
 msgid "Created by"
-msgstr "Criado Por"
+msgstr "Criado por"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__create_date
 msgid "Created on"
-msgstr "Criado Em"
+msgstr "Criado em"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__carrier_id
@@ -197,12 +198,10 @@ msgid "ID"
 msgstr "ID"
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__incoterm_id
@@ -224,12 +223,10 @@ msgid "Informação usada na emissão de Documentos Fiscais"
 msgstr "Informação usada na emissão de Documentos Fiscais"
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_move__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_payment__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_contract_contract__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_pos_order__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_repair_order__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__incoterm_id
@@ -238,8 +235,8 @@ msgid ""
 "International Commercial Terms are a series of predefined commercial terms "
 "used in international transactions."
 msgstr ""
-"International Commercial Terms são uma série de termos comerciais pré "
-"definidos usados em transações internacionais."
+"International Commercial Terms são uma série de termos comerciais "
+"predefinidos utilizados em transações internacionais."
 
 #. module: l10n_br_delivery
 #: model:ir.model,name:l10n_br_delivery.model_account_move
@@ -255,17 +252,17 @@ msgstr "Lançamento de Diário"
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking____last_update
 msgid "Last Modified on"
-msgstr "Última modificação em"
+msgstr "Última Modificação em"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr "Última Atualização por"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__write_date
 msgid "Last Updated on"
-msgstr "Última atualização em"
+msgstr "Última Atualização em"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__type

@@ -8,7 +8,7 @@ from odoo.tools import mute_logger
 
 class TestCompanyFiscalDummy(TransactionCase):
     def setUp(self):
-        super(TestCompanyFiscalDummy, self).setUp()
+        super().setUp()
         self.company = self.env["res.company"].create(
             {
                 "name": "Company Test",

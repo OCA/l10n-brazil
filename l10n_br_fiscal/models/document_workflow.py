@@ -102,6 +102,7 @@ class DocumentWorkflow(models.AbstractModel):
         return True
 
     def _exec_before_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+        self._document_date()
         return True
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
@@ -238,6 +239,8 @@ class DocumentWorkflow(models.AbstractModel):
     def _document_date(self):
         if not self.document_date:
             self.document_date = self._date_server_format()
+        if not self.date_in_out:
+            self.date_in_out = self._date_server_format()
 
     def _document_check(self):
         return True
@@ -249,9 +252,10 @@ class DocumentWorkflow(models.AbstractModel):
                 MODELO_FISCAL_NFCE,
                 MODELO_FISCAL_CTE,
             ):
+                date = fields.Datetime.context_timestamp(record, record.document_date)
                 chave_edoc = ChaveEdoc(
-                    ano_mes=record.document_date.strftime("%y%m").zfill(4),
-                    cnpj_emitente=record.company_cnpj_cpf,
+                    ano_mes=date.strftime("%y%m").zfill(4),
+                    cnpj_cpf_emitente=record.company_cnpj_cpf,
                     codigo_uf=(
                         record.company_state_id
                         and record.company_state_id.ibge_code
@@ -303,6 +307,8 @@ class DocumentWorkflow(models.AbstractModel):
                 if not line.comment_ids and line.fiscal_operation_line_id.comment_ids:
                     line.comment_ids |= line.fiscal_operation_line_id.comment_ids
             self._change_state(SITUACAO_EDOC_A_ENVIAR)
+        else:
+            self._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def action_document_confirm(self):
         to_confirm = self.filtered(lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR)
@@ -330,7 +336,10 @@ class DocumentWorkflow(models.AbstractModel):
     def action_document_back2draft(self):
         self.xml_error_message = False
         self.file_report_id = False
-        self._change_state(SITUACAO_EDOC_EM_DIGITACAO)
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self._change_state(SITUACAO_EDOC_EM_DIGITACAO)
+        else:
+            self.state_edoc = SITUACAO_EDOC_EM_DIGITACAO
 
     def _document_cancel(self, justificative):
         self.ensure_one()
@@ -340,11 +349,14 @@ class DocumentWorkflow(models.AbstractModel):
 
     def action_document_cancel(self):
         self.ensure_one()
-        if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
-            result = self.env["ir.actions.act_window"]._for_xml_id(
-                "l10n_br_fiscal.document_cancel_wizard_action"
-            )
-            return result
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+                result = self.env["ir.actions.act_window"]._for_xml_id(
+                    "l10n_br_fiscal.document_cancel_wizard_action"
+                )
+                return result
+        else:
+            self.state_edoc = SITUACAO_EDOC_CANCELADA
 
     def action_document_invalidate(self):
         self.ensure_one()

@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 09:02+0000\n"
-"PO-Revision-Date: 2022-10-31 20:43+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2023-03-29 18:54+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -47,6 +47,11 @@ msgstr "Mixin de Linha de Documento da Conta"
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_search
 msgid "Account Journal"
 msgstr "Diário de Conta"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr "Reversão de Movimento Contábil"
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
@@ -131,12 +136,12 @@ msgstr "CNPJ/CPF"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_cst_code
 msgid "COFINS CST Code"
-msgstr "Código CST COFINS"
+msgstr "Código CST de COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_cst_code
 msgid "COFINS ST CST Code"
-msgstr "Código CST COFINS ST"
+msgstr "Código CST ST COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_is_company
@@ -276,9 +281,15 @@ msgid "Devolver"
 msgstr "Devolver"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__discount
+msgid "Discount (%)"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__display_name
@@ -298,11 +309,12 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_type
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_type
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_type
-msgid "Document Code"
-msgstr "Código do Documento"
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_line_ids
+msgid "Document Lines"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_type_id
@@ -317,6 +329,16 @@ msgid ""
 msgstr ""
 "Linha do documento fictício não encontrada. Entre em contato com o "
 "administrador do sistema."
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_invoice.py:0
+#, python-format
+msgid ""
+"Document without Return Fiscal Operation! \n"
+" Force one!"
+msgstr ""
+"Documento sem Operação Fiscal de Retorno! \n"
+" Force uma!"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_electronic
@@ -421,6 +443,11 @@ msgid "Fiscal Taxes"
 msgstr "Impostos Fiscais"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__force_fiscal_operation_id
+msgid "Force Fiscal Operation"
+msgstr "Forçar Operação Fiscal"
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_code
 msgid "ICMS CST Code"
 msgstr "Código CST do ICMS"
@@ -429,6 +456,7 @@ msgstr "Código CST do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__id
@@ -468,6 +496,13 @@ msgid "Incomming Document"
 msgstr "Documento de Entrada"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__incoterm_id
+msgid "Incoterm"
+msgstr "Incoterm"
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_incoterms
 msgid "Incoterms"
 msgstr "Incoterms"
@@ -476,6 +511,17 @@ msgstr "Incoterms"
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__fiscal_tax_line_id
 msgid "Indicates that this journal item is a tax line"
 msgstr "Indica que este item de diário é uma linha de imposto"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__incoterm_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__incoterm_id
+msgid ""
+"International Commercial Terms are a series of predefined commercial terms "
+"used in international transactions."
+msgstr ""
+"International Commercial Terms são uma série de termos comerciais "
+"predefinidos utilizados em transações internacionais."
 
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_invalidate_number_wizard
@@ -506,6 +552,27 @@ msgid "Invoices"
 msgstr "Faturas"
 
 #. module: l10n_br_account
+#: code:addons/l10n_br_account/hooks.py:0
+#, python-format
+msgid ""
+"It looks like your database %(database) is running with demo\n"
+"                   data. But the l10n_br_account module will need you to "
+"install the\n"
+"                   l10n_br_coa_simple and l10n_br_coa_generic\n"
+"                   chart of accounts modules first to load l10n_br_account "
+"demo data\n"
+"                   or run its tests properly (for production, these "
+"dependencies are not\n"
+"                   required, that is why these are not usual explicit\n"
+"                   module dependencies).\n"
+"                   Please install the l10n_br_coa_simple and "
+"l10n_br_coa_generic modules\n"
+"                   first and try installing the l10n_br_account module "
+"again.\n"
+"                "
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_move
 msgid "Journal Entry"
 msgstr "Lançamento de Diário"
@@ -519,6 +586,7 @@ msgstr "Item de Diário"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template____last_update
@@ -543,6 +611,20 @@ msgstr "Última Modificação em"
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "Legal Name"
 msgstr "Razão Social"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_invoice.py:0
+#, python-format
+msgid ""
+"Line without Return Fiscal Operation! \n"
+"\n"
+"                            Please force one! \n"
+"{}"
+msgstr ""
+"Linha sem Operação Fiscal de Retorno! \n"
+"\n"
+"                            Por favor force uma! \n"
+"{}"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
@@ -601,12 +683,12 @@ msgstr "Documento de Saída"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_cst_code
 msgid "PIS CST Code"
-msgstr "PIS CST Código"
+msgstr "Código CST do PIS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_cst_code
 msgid "PIS ST CST Code"
-msgstr "Código PIS ST CST"
+msgstr "Código CST do PIS ST"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_id
@@ -719,7 +801,7 @@ msgstr "Modelos para Impostos"
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__legal_name
 msgid "Used in fiscal documents"
-msgstr "Usado nos documentos fiscais"
+msgstr "Usado em documentos fiscais"
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
@@ -762,6 +844,9 @@ msgid "You cannot edit an invoice related to a withholding entry"
 msgstr ""
 "Você não pode editar um documento relacionado a um lançamento de retenção"
 
+#~ msgid "Document Code"
+#~ msgstr "Código do Documento"
+
 #~ msgid "Credit Note"
 #~ msgstr "Anotação de crédito"
 
@@ -774,9 +859,6 @@ msgstr ""
 #~ msgid "Fiscal Operation: There is not Return Operation for %s !"
 #~ msgstr ""
 #~ "Operação Fiscal: Não esta definida a operação de devolução para %s !"
-
-#~ msgid "Force Fiscal Operation"
-#~ msgstr "Forçar Operação Fiscal"
 
 #~ msgid "Invoice Line"
 #~ msgstr "Linha da Fatura"

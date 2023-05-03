@@ -12,6 +12,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     FISCAL_IN_OUT_ALL,
     FISCAL_OUT,
+    MODELO_FISCAL_NFE,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
 )
@@ -99,17 +100,15 @@ class AccountMove(models.Model):
         ondelete="cascade",
     )
 
-    document_type = fields.Char(
-        related="document_type_id.code",
-        string="Document Code",
-        store=True,
-    )
-
     fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
         related=None,
         compute="_compute_fiscal_operation_type",
     )
+
+    # override the incoterm inherited by the fiscal document
+    # to have the same value as the native incoterm of the invoice.
+    incoterm_id = fields.Many2one(related="invoice_incoterm_id")
 
     def _compute_fiscal_operation_type(self):
         for inv in self:
@@ -246,8 +245,8 @@ class AccountMove(models.Model):
         return vals_list
 
     @api.model_create_multi
-    def create(self, values):
-        invoice = super().create(values)
+    def create(self, vals_list):
+        invoice = super().create(vals_list)
         invoice._write_shadowed_fields()
         return invoice
 
@@ -331,7 +330,7 @@ class AccountMove(models.Model):
             freight_value=base_line.freight_value,
             fiscal_price=base_line.fiscal_price,
             fiscal_quantity=base_line.fiscal_quantity,
-            uot=base_line.uot_id,
+            uot_id=base_line.uot_id,
             icmssn_range=base_line.icmssn_range_id,
             icms_origin=base_line.icms_origin,
         )
@@ -431,11 +430,12 @@ class AccountMove(models.Model):
 
     def open_fiscal_document(self):
         if self.env.context.get("move_type", "") == "out_invoice":
-            action = self.env.ref("l10n_br_account.fiscal_invoice_out_action").read()[0]
+            xmlid = "l10n_br_account.fiscal_invoice_out_action"
         elif self.env.context.get("move_type", "") == "in_invoice":
-            action = self.env.ref("l10n_br_account.fiscal_invoice_in_action").read()[0]
+            xmlid = "l10n_br_account.fiscal_invoice_in_action"
         else:
-            action = self.env.ref("l10n_br_account.fiscal_invoice_all_action").read()[0]
+            xmlid = "l10n_br_account.fiscal_invoice_all_action"
+        action = self.env["ir.actions.act_window"]._for_xml_id(xmlid)
         form_view = [(self.env.ref("l10n_br_account.fiscal_invoice_form").id, "form")]
         if "views" in action:
             action["views"] = form_view + [
@@ -554,70 +554,62 @@ class AccountMove(models.Model):
         if not self.document_type_id:
             self.document_number = ""
 
-    # TODO FIXME migrate. refund method are very different in Odoo 13+
-    # def _get_refund_common_fields(self):
-    #     fields = super()._get_refund_common_fields()
-    #     fields += [
-    #         "fiscal_operation_id",
-    #         "document_type_id",
-    #         "document_serie_id",
-    #     ]
-    #     return fields
+    def _reverse_moves(self, default_values_list=None, cancel=False):
+        new_moves = super()._reverse_moves(
+            default_values_list=default_values_list, cancel=cancel
+        )
+        force_fiscal_operation_id = False
+        if self.env.context.get("force_fiscal_operation_id"):
+            force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
+                self.env.context.get("force_fiscal_operation_id")
+            )
+        for record in new_moves.filtered(lambda i: i.document_type_id):
+            if (
+                not force_fiscal_operation_id
+                and not record.fiscal_operation_id.return_fiscal_operation_id
+            ):
+                raise UserError(
+                    _("""Document without Return Fiscal Operation! \n Force one!""")
+                )
 
-    # @api.returns("self")
-    # def refund(self, date=None, date=None, description=None, journal_id=None):
-    #     new_invoices = super().refund(date, date, description, journal_id)
+            record.fiscal_operation_id = (
+                force_fiscal_operation_id
+                or record.fiscal_operation_id.return_fiscal_operation_id
+            )
+            record._onchange_fiscal_operation_id()
 
-    #     force_fiscal_operation_id = False
-    #     if self.env.context.get("force_fiscal_operation_id"):
-    #         force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
-    #             self.env.context.get("force_fiscal_operation_id")
-    #         )
+            for line in record.invoice_line_ids:
+                if (
+                    not force_fiscal_operation_id
+                    and not line.fiscal_operation_id.return_fiscal_operation_id
+                ):
+                    raise UserError(
+                        _(
+                            """Line without Return Fiscal Operation! \n
+                            Please force one! \n{}""".format(
+                                line.name
+                            )
+                        )
+                    )
 
-    #     for record in new_invoices.filtered(lambda i: i.document_type_id):
-    #         if (
-    #             not force_fiscal_operation_id
-    #             and not record.fiscal_operation_id.return_fiscal_operation_id
-    #         ):
-    #             raise UserError(
-    #                 _("""Document without Return Fiscal Operation! \n Force one!""")
-    #             )
+                line.fiscal_operation_id = (
+                    force_fiscal_operation_id
+                    or line.fiscal_operation_id.return_fiscal_operation_id
+                )
+                line._onchange_fiscal_operation_id()
 
-    #         record.fiscal_operation_id = (
-    #             force_fiscal_operation_id
-    #             or record.fiscal_operation_id.return_fiscal_operation_id
-    #         )
-    #         record.fiscal_document_id._onchange_fiscal_operation_id()
+            # Adds the related document to the NF-e.
+            # this is required for correct xml validation
+            if record.document_type_id and record.document_type_id.code in (
+                MODELO_FISCAL_NFE
+            ):
+                record.fiscal_document_id._document_reference(
+                    record.reversed_entry_id.fiscal_document_id
+                )
 
-    #         for line in record.line_ids:
-    #             if (
-    #                 not force_fiscal_operation_id
-    #                 and not line.fiscal_operation_id.return_fiscal_operation_id
-    #             ):
-    #                 raise UserError(
-    #                     _(
-    #                         """Line without Return Fiscal Operation! \n
-    #                         Please force one! \n{}""".format(
-    #                             line.name
-    #                         )
-    #                     )
-    #                 )
+        return new_moves
 
-    #             line.fiscal_operation_id = (
-    #                 force_fiscal_operation_id
-    #                 or line.fiscal_operation_id.return_fiscal_operation_id
-    #             )
-    #             line._onchange_fiscal_operation_id()
-
-    #         refund_inv_id = record.refund_move_id
-
-    #         if record.refund_move_id.document_type_id:
-    #             record.fiscal_document_id._document_reference(
-    #                 refund_inv_id.fiscal_document_id
-    #             )
-
-    #     return new_invoices
-
+    # Migrar para v14.0 .. talvez nao precise mais disso.
     # def _refund_cleanup_lines(self, lines):
     #     result = super()._refund_cleanup_lines(lines)
     #     for _a, _b, vals in result:

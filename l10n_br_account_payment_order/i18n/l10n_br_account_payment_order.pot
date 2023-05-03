@@ -850,7 +850,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__boleto
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.res_company_form
 #, python-format
 msgid "Boleto"
 msgstr ""
@@ -1261,6 +1260,7 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:account.payment.method,name:l10n_br_account_payment_order.payment_mode_type_cnab240
+#: model:account.payment.method,name:l10n_br_account_payment_order.payment_mode_type_cnab240_out
 msgid "Cnab240"
 msgstr ""
 
@@ -1371,11 +1371,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__communication_type
 msgid "Communication Type"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model,name:l10n_br_account_payment_order.model_res_company
-msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1724,6 +1719,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__boleto_discount_perc
+msgid "Desconto de pontualidade"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__dinheiro
 #, python-format
@@ -1752,7 +1752,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_res_company__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -1806,14 +1805,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__move_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__invoice_id
 msgid "Fatura"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid ""
-"Favor acessar aba Cobrança da configuração da sua empresa para determinar o "
-"tipo de sequencia utilizada nas cobrancas"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1929,7 +1920,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_res_company__id
 msgid "ID"
 msgstr ""
 
@@ -2044,11 +2034,6 @@ msgid "Instruções de cobrança"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.res_company_form
-msgid "Integração Bancária"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_log_form_view
 msgid "Invoice Lines"
 msgstr ""
@@ -2147,7 +2132,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_res_company____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -2417,11 +2401,6 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__res_company__own_number_type__1
-msgid "Numero sequêncial da Fatura"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_accept__n
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_accept__n
 msgid "Não"
@@ -2638,6 +2617,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_discount_perc
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_discount_perc
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move_line__boleto_discount_perc
 msgid "Percentual de Desconto até a Data de Vencimento"
 msgstr ""
 
@@ -2804,18 +2784,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__own_number_sequence_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__own_number_sequence_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_res_company__own_number_sequence_id
 msgid "Sequência do Nosso Número"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__res_company__own_number_type__2
-msgid "Sequêncial único por carteira"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__res_company__own_number_type__0
-msgid "Sequêncial único por empresa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2959,12 +2928,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__service_type
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_bank_payment_line__service_type
 msgid "Tipo de Serviço"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__own_number_type
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_res_company__own_number_type
-msgid "Tipo de nosso número"
 msgstr ""
 
 #. module: l10n_br_account_payment_order

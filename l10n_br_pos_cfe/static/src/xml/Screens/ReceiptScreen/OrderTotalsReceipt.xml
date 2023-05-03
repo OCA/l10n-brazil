@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderTotalsReceipt" owl="1">
+        <div class="totals">
+            <div class="totals__subtotal">
+                <div>
+                    <span>Total bruto de itens</span>
+                </div>
+
+                <div>
+                    <span><t t-esc="subtotal" /></span>
+                </div>
+            </div>
+
+            <div class="totals__discounts">
+                <div>
+                    <span>Total de descontos sobre item</span>
+                </div>
+
+                <div>
+                    <span>- <t t-esc="total_discount" /></span>
+                </div>
+            </div>
+
+            <div class="totals__amount">
+                <div>
+                    <span>TOTAL R$</span>
+                </div>
+
+                <div>
+                    <span><t t-esc="total_with_tax" /></span>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

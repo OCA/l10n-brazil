@@ -63,7 +63,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         fiscal_view = self.env.ref(
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
         ).sudo()
-        fsc_doc = etree.fromstring(fiscal_view["arch"])
+        fsc_doc = etree.fromstring(
+            fiscal_view.with_context(inherit_branding=True).read_combined(["arch"])[
+                "arch"
+            ]
+        )
         doc = etree.fromstring(view_arch)
 
         if xpath_mappings is None:
@@ -131,10 +135,14 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "freight_value",
         "fiscal_quantity",
         "amount_tax_not_included",
+        "amount_tax_included",
+        "amount_tax_withholding",
         "uot_id",
         "product_id",
         "partner_id",
         "company_id",
+        "price_unit",
+        "quantity",
     )
     def _compute_amounts(self):
         for record in self:

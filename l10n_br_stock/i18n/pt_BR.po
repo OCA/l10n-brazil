@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-07 19:44+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2023-01-07 22:49+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Nome Exibido"
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_internal
@@ -46,7 +46,7 @@ msgstr "Transferências Internas"
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking____last_update
 msgid "Last Modified on"
-msgstr "Última modificação em"
+msgstr "Última Modificação em"
 
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__legal_name
@@ -90,7 +90,7 @@ msgstr "Transferir"
 #. module: l10n_br_stock
 #: model:ir.model.fields,help:l10n_br_stock.field_stock_picking__legal_name
 msgid "Used in fiscal documents"
-msgstr "Usado nos documentos fiscais"
+msgstr "Usado em documentos fiscais"
 
 #~ msgid "Inscr. Estadual"
 #~ msgstr "Inscr. Estadual"

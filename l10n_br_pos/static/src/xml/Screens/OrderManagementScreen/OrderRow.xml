@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-inherit="point_of_sale.OrderRow" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('item', 'customer')]" position="before">
+            <div class="item document_serie_number"><t
+                    t-esc="document_serie_number or ''"
+                /></div>
+        </xpath>
+        <xpath expr="//div[hasclass('item', 'total')]" position="after">
+            <div class="item edoc_state"><t t-esc="edoc_state or ''" /></div>
+        </xpath>
+    </t>
+</templates>

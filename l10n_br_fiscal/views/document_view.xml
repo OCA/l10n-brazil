@@ -415,6 +415,11 @@
                                 <field name="justification" />
                                 <field name="create_date" />
                                 <field name="state" />
+                                <button
+                                                name="print_document_event"
+                                                icon="fa-print"
+                                                type="object"
+                                            />
                             </tree>
                         </field>
                     </group>

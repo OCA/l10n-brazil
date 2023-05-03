@@ -480,6 +480,11 @@ msgid "Discount"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__discount
+msgid "Discount (%)"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__discount_value
 msgid "Discount Value"
 msgstr ""
@@ -984,6 +989,11 @@ msgid "IRPJ RET % Reduction"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__irpj_wh_value
 msgid "IRPJ RET Value"
 msgstr ""
@@ -1087,6 +1097,7 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__issqn_value
 msgid "ISSQN Value"
 msgstr ""
 
@@ -1422,18 +1433,8 @@ msgid "Produto em Processo"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__irpj_wh_base
-msgid "RPJ RET Base"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
 msgid "Razão Social"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__issqn_value
-msgid "SSQN Value"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1648,6 +1649,16 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__legal_name
 msgid "Used in fiscal documents"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__user_discount_value
+msgid "User Discount Value"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__user_total_discount
+msgid "User Total Discount"
 msgstr ""
 
 #. module: l10n_br_sale

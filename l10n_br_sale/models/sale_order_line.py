@@ -88,6 +88,16 @@ class SaleOrderLine(models.Model):
 
     discount_fixed = fields.Boolean(string="Fixed Discount?")
 
+    discount = fields.Float(
+        compute="_compute_discounts",
+        store=True,
+    )
+
+    discount_value = fields.Monetary(
+        compute="_compute_discounts",
+        store=True,
+    )
+
     ind_final = fields.Selection(related="order_id.ind_final")
 
     # Usado para tornar Somente Leitura os campos dos custos
@@ -103,6 +113,31 @@ class SaleOrderLine(models.Model):
     price_subtotal = fields.Monetary(compute_sudo=True)
     price_tax = fields.Monetary(compute_sudo=True)
     price_total = fields.Monetary(compute_sudo=True)
+
+    user_total_discount = fields.Boolean(compute="_compute_user_total_discount")
+    user_discount_value = fields.Boolean(compute="_compute_user_discount_value")
+
+    # Depends of price_unit because we need an field to force compute in new records
+    # not created yet. This field is necessary to compute readonly condition for
+    # discount/discount value.
+    @api.depends("price_unit")
+    def _compute_user_total_discount(self):
+        for rec in self:
+            if self.env.user.has_group("l10n_br_sale.group_total_discount"):
+                rec.user_total_discount = True
+            else:
+                rec.user_total_discount = False
+
+    # Depends of price_unit because we need an field to force compute in new records
+    # not created yet. This field is necessary to compute readonly condition for
+    # discount/discount value.
+    @api.depends("price_unit")
+    def _compute_user_discount_value(self):
+        for rec in self:
+            if self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
+                rec.user_discount_value = True
+            else:
+                rec.user_discount_value = False
 
     @api.model
     def _cnae_domain(self):
@@ -195,21 +230,32 @@ class SaleOrderLine(models.Model):
                 )
         return result
 
-    @api.onchange("discount")
-    def _onchange_discount_percent(self):
-        """Update discount value"""
-        if not self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
-            self.discount_value = (self.product_uom_qty * self.price_unit) * (
-                self.discount / 100
-            )
+    def need_change_discount_value(self):
+        return not self.user_discount_value or (
+            self.user_total_discount and not self.discount_fixed
+        )
 
-    @api.onchange("discount_value")
-    def _onchange_discount_value(self):
-        """Update discount percent"""
-        if self.env.user.has_group("l10n_br_sale.group_discount_per_value"):
-            self.discount = (self.discount_value * 100) / (
-                self.product_uom_qty * self.price_unit or 1
-            )
+    @api.depends(
+        "order_id",
+        "order_id.discount_rate",
+        "discount_fixed",
+        "product_uom_qty",
+        "price_unit",
+        "discount",
+        "discount_value",
+    )
+    def _compute_discounts(self):
+        for line in self:
+            if not line.discount_fixed and line.user_total_discount:
+                line.discount = line.order_id.discount_rate
+            elif not line.need_change_discount_value():
+                line.discount = (line.discount_value * 100) / (
+                    line.product_uom_qty * line.price_unit or 1
+                )
+            if line.need_change_discount_value():
+                line.discount_value = (line.product_uom_qty * line.price_unit) * (
+                    line.discount / 100
+                )
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
@@ -220,3 +266,25 @@ class SaleOrderLine(models.Model):
                 user_type="sale", deductible=True
             )
         return result
+
+    def _get_product_price(self):
+        self.ensure_one()
+
+        if (
+            self.fiscal_operation_id.default_price_unit == "sale_price"
+            and self.order_id.pricelist_id
+            and self.order_id.partner_id
+        ):
+            self.price_unit = self.product_id._get_tax_included_unit_price(
+                self.company_id,
+                self.order_id.currency_id,
+                self.order_id.date_order,
+                "sale",
+                fiscal_position=self.order_id.fiscal_position_id,
+                product_price_unit=self._get_display_price(self.product_id),
+                product_currency=self.order_id.currency_id,
+            )
+        elif self.fiscal_operation_id.default_price_unit == "cost_price":
+            self.price_unit = self.product_id.standard_price
+        else:
+            self.price_unit = 0.00

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="l10n_br_pos_account_account" model="account.account">
+        <field name="name">Account for POS Test</field>
+        <field name="code">1.1.1.1</field>
+        <field name="reconcile">1</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="user_type_id" ref="account.data_account_type_receivable" />
+    </record>
+
+    <!--  Crédito  -->
+
+    <record id="presumido_credito_visa" model="pos.payment.method">
+        <field name="name">Crédito Visa</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_credito_master" model="pos.payment.method">
+        <field name="name">Crédito Master</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_credito_elo" model="pos.payment.method">
+        <field name="name">Crédito Elo</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_credito_amex" model="pos.payment.method">
+        <field name="name">Crédito Amex</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_credito_hipercard" model="pos.payment.method">
+        <field name="name">Crédito Hipercard</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <!--  Débito  -->
+
+    <record id="presumido_debito_visa" model="pos.payment.method">
+        <field name="name">Débito Visa</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_debito_master" model="pos.payment.method">
+        <field name="name">Débito Master</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_debito_elo" model="pos.payment.method">
+        <field name="name">Débito Elo</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <!--  Alimentação  -->
+
+    <record id="presumido_vale_vr_ben" model="pos.payment.method">
+        <field name="name">VR Ben</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_vale_vr_alelo" model="pos.payment.method">
+        <field name="name">VR Alelo</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_vale_vr_sodexo" model="pos.payment.method">
+        <field name="name">VR Sodexo</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_vale_vr_tr" model="pos.payment.method">
+        <field name="name">VR TR</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <!--  Outros  -->
+
+    <record id="presumido_pix" model="pos.payment.method">
+        <field name="name">PIX</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_delivery" model="pos.payment.method">
+        <field name="name">Delivery App</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_voucher" model="pos.payment.method">
+        <field name="name">Vouchers</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_convenio" model="pos.payment.method">
+        <field name="name">Convênios</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+    <record id="presumido_dinheiro" model="pos.payment.method">
+        <field name="name">Dinheiro</field>
+        <field name="is_cash_count">True</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="cash_journal_id"
+            model="account.journal"
+            search="[('type', '=', 'cash'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)]"
+        />
+        <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+    </record>
+
+</odoo>

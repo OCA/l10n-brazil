@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+
+    <record id="cnab_structure_payment_mode_form" model="ir.ui.view">
+        <field name="name">cnab_structure_payment_mode_form</field>
+        <field name="model">account.payment.mode</field>
+        <field name="priority">99</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_account_payment_order.l10n_br_account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <group name="main" position="after">
+                <group name="cnab_structure">
+                    <field name="cnab_structure_ok" />
+                      <field
+                        name="cnab_structure_id"
+                        attrs="{'invisible': ['|',('cnab_structure_ok','!=',True),('bank_account_link','=','variable')]}"
+                    />
+                    <field
+                        name="cnab_payment_way_ids"
+                        attrs="{'invisible': [('cnab_structure_ok','!=',True)]}"
+                    >
+                        <tree>
+                            <field name="name" />
+                            <field name="cnab_structure_id" />
+                        </tree>
+                    </field>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

@@ -69,10 +69,11 @@
                     <field name="fiscal_operation_type" invisible="1" />
                     <field name="name" invisible="1" />
                     <field name="edoc_purpose" invisible="1" />
-                    <field name="ind_final" invisible="1" />
                     <field name="ind_pres" invisible="1" />
                     <field name="fiscal_document_id" required="0" invisible="1" />
                     <field name="create_date" invisible="1" />
+                    <field name="operation_name" invisible="1" />
+                    <field name="comment_ids" invisible="1" />
                 </group>
             </xpath>
             <field name="ref" position="after">
@@ -97,17 +98,19 @@
                     attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
+                    name="ind_final"
+                    attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
                     name="issuer"
                     attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
                     name="document_serie_id"
-                    requied="0"
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
                     name="document_serie"
-                    requied="0"
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
@@ -284,7 +287,7 @@
                         force_save="1"
                         groups="uom.group_uom"
                         class="oe_inline oe_no_button"
-                        attrs="{'required': [('display_type', '=', False)], 'invisible': [('document_type_id', '=', False)]}"
+                        attrs="{'required': [('display_type', '=', False),('document_type_id', '!=', False)], 'invisible': [('document_type_id', '=', False)]}"
                     />
                 </div>
                 <field

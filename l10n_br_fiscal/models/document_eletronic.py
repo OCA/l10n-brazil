@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER,
@@ -27,7 +27,6 @@ class DocumentEletronic(models.AbstractModel):
     issuer = fields.Selection(
         selection=DOCUMENT_ISSUER,
         default=DOCUMENT_ISSUER_COMPANY,
-        required=True,
     )
 
     status_code = fields.Char(
@@ -156,7 +155,7 @@ class DocumentEletronic(models.AbstractModel):
         to update the state of the transmited document,
 
         def _eletronic_document_send(self):
-            super(DocumentEletronic, self)._document_send()
+            super()._document_send()
             for record in self.filtered(myfilter):
                 Do your transmission stuff
                 [...]
@@ -217,3 +216,13 @@ class DocumentEletronic(models.AbstractModel):
         """Retorna o status do documento em texto e se necessário,
         atualiza o status do documento"""
         return
+
+    @api.constrains("issuer")
+    def _check_issuer(self):
+        for record in self.filtered(lambda d: d.document_electronic):
+            if not record.issuer:
+                raise ValidationError(
+                    _(
+                        "The field 'Issuer' is required for brazilian electronic documents!"
+                    )
+                )

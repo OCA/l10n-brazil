@@ -1,0 +1,207 @@
+.receipt__divider {
+    margin: 0;
+    padding: 0;
+}
+
+.pos-receipt {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER */
+
+.header__name {
+    text-align: center;
+    font-size: 26px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+.header__legal-name {
+    text-align: center;
+    font-size: 24px;
+}
+
+.header__address {
+    text-align: center;
+    font-size: 22px;
+}
+
+.header__company-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    margin-top: 10px;
+    align-items: flex-start;
+}
+
+/* SUBTITLE */
+
+.subtitle__extract {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.subtitle__sales-action {
+    text-align: center;
+    font-size: 22px;
+}
+
+.subtitle__test-env {
+    text-align: center;
+}
+
+.test-env__title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.test-env__divider {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.subtitle__cancel {
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* BODY */
+
+.body__header {
+    font-size: 16px;
+}
+
+.body__orderlines {
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    text-align: initial;
+}
+
+.orderline__left {
+    display: flex;
+    /* align-content: center; */
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.orderline__right {
+    display: flex;
+    /* align-content: center; */
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.body__end {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.body__message {
+    font-size: 12px;
+}
+
+.body__caption {
+    font-size: 16px;
+}
+
+.body__line-discount {
+    font-size: 14;
+    margin: 2px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.orderline__element {
+    margin-left: 2px;
+}
+
+/* TOTAL */
+
+.totals {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.totals__subtotal {
+    display: flex;
+    justify-content: space-between;
+}
+
+.totals__discounts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.totals__amount {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+/* PAYMENT */
+
+.receipt-paymentline {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.receipt__change {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+/* FOOTER */
+
+.footer__sat-info {
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.footer__date {
+    font-size: 22px;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.footer_barcodeKey {
+    font-size: 16px;
+}
+
+.footer__barcode {
+    font-size: 12px;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.footer__barcode-image {
+    margin: 10px 0;
+    width: 300px;
+    height: 50px;
+}
+
+.footer__qrcode {
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.footer__observation {
+    font-size: 12px;
+    text-align: center;
+}

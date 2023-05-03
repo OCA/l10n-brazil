@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-28 01:20+0000\n"
-"PO-Revision-Date: 2022-12-06 23:53+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2023-02-10 17:00+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -22,72 +22,72 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_withholding
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_withholding
 msgid "(-) Amount Tax Withholding"
-msgstr ""
+msgstr "(-) Valor Retido na Fonte"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Amount Gross</strong>"
-msgstr ""
+msgstr "<strong>Total Bruto</strong>"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Amount Untaxed</strong>"
-msgstr ""
+msgstr "<strong>Total Sem Impostos</strong>"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Freight</strong>"
-msgstr ""
+msgstr "<strong>Frete</strong>"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Insurance</strong>"
-msgstr ""
+msgstr "<strong>Seguro</strong>"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Operations</strong>"
-msgstr ""
+msgstr "<strong>Operações</strong>"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Other Costs</strong>"
-msgstr ""
+msgstr "<strong>Outros Custos</strong>"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Parts</strong>"
-msgstr ""
+msgstr "<strong>Partes</strong>"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
 msgid "Accounting"
-msgstr ""
+msgstr "Contabilidade"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__additional_data
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__additional_data
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__additional_data
 msgid "Additional Data"
-msgstr ""
+msgstr "Dados Adicionais"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__manual_additional_data
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__manual_additional_data
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_line__manual_additional_data
 msgid "Additional data manually entered by user"
-msgstr ""
+msgstr "Dados adicionais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_discount_value
 msgid "Amount Discount"
-msgstr ""
+msgstr "Total do Desconto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_estimate_tax
 msgid "Amount Estimate Tax"
-msgstr ""
+msgstr "Total Estimado de Impostos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__financial_total
@@ -95,7 +95,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__financial_total
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_financial_total
 msgid "Amount Financial"
-msgstr ""
+msgstr "Total Financeiro"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__financial_total_gross
@@ -103,66 +103,66 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_financial_total_gross
 msgid "Amount Financial Gross"
-msgstr ""
+msgstr "Total Financeiro Bruto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_fiscal
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_fiscal
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_fiscal
 msgid "Amount Fiscal"
-msgstr ""
+msgstr "Total Fiscal"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_price_gross
 msgid "Amount Gross"
-msgstr "Valor Bruto"
+msgstr "Total Bruto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax
 msgid "Amount Tax"
-msgstr ""
+msgstr "Total de Imposto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_included
 msgid "Amount Tax Included"
-msgstr ""
+msgstr "Total Impostos Inclusos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_not_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_not_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr ""
+msgstr "Total Não incluído Impostos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
 msgid "Amount Tax Withholding"
-msgstr ""
+msgstr "Total de Imposto Retido na Fonte"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_taxed
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_taxed
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_taxed
 msgid "Amount Taxed"
-msgstr ""
+msgstr "Total Tributado"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_total
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_total
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_total
 msgid "Amount Total"
-msgstr ""
+msgstr "Valor Total"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_untaxed
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_untaxed
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_untaxed
 msgid "Amount Untaxed"
-msgstr ""
+msgstr "Total sem Impostos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_gross
@@ -170,7 +170,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_line__price_gross
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__amount_price_gross
 msgid "Amount without discount."
-msgstr "Valor sem desconto."
+msgstr "Total sem desconto."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__ind_pres
@@ -182,28 +182,28 @@ msgstr "Presença do Comprador"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cest_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cest_id
 msgid "CEST"
-msgstr ""
+msgstr "CEST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cfop_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cfop_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cfop_id
 msgid "CFOP"
-msgstr ""
+msgstr "CFOP"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cfop_destination
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cfop_destination
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cfop_destination
 msgid "CFOP Destination"
-msgstr ""
+msgstr "CFOP Destino"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cnae_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cnae_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cnae_id
 msgid "CNAE Code"
-msgstr ""
+msgstr "Código CNAE"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__cnpj_cpf
@@ -215,14 +215,14 @@ msgstr "CNPJ/CPF"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_percent
 msgid "COFINS %"
-msgstr ""
+msgstr "% COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_reduction
 msgid "COFINS % Reduction"
-msgstr ""
+msgstr "% Redução COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_base
@@ -230,115 +230,115 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_cofins_base
 msgid "COFINS Base"
-msgstr ""
+msgstr "Base para COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_base_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_base_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_base_id
 msgid "COFINS Base Code"
-msgstr ""
+msgstr "COFINS Código da Base"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_base_type
 msgid "COFINS Base Type"
-msgstr ""
+msgstr "COFINS Tipo da Base"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_cst_code
 msgid "COFINS CST Code"
-msgstr ""
+msgstr "Código CST de COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_credit_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_credit_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_credit_id
 msgid "COFINS Credit Code"
-msgstr ""
+msgstr "Código de Crédito de COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_wh_percent
 msgid "COFINS RET %"
-msgstr ""
+msgstr "% RET COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_wh_reduction
 msgid "COFINS RET % Reduction"
-msgstr ""
+msgstr "% Redução de RETENÇÃO de COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr ""
+msgstr "Base para COFINS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_wh_value
 msgid "COFINS RET Value"
-msgstr ""
+msgstr "Valor RET COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_cofins_wh_base
 msgid "COFINS Ret Base"
-msgstr ""
+msgstr "Base para RET COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_cofins_wh_value
 msgid "COFINS Ret Value"
-msgstr ""
+msgstr "Valor RET COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofinsst_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofinsst_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofinsst_percent
 msgid "COFINS ST %"
-msgstr ""
+msgstr "% ST COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofinsst_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofinsst_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofinsst_reduction
 msgid "COFINS ST % Reduction"
-msgstr ""
+msgstr "% Redução ST COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofinsst_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofinsst_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofinsst_base
 msgid "COFINS ST Base"
-msgstr ""
+msgstr "Base para ST COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofinsst_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofinsst_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofinsst_base_type
 msgid "COFINS ST Base Type"
-msgstr ""
+msgstr "Tipo de Base ST COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofinsst_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofinsst_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofinsst_cst_code
 msgid "COFINS ST CST Code"
-msgstr ""
+msgstr "Código CST ST COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofinsst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofinsst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofinsst_value
 msgid "COFINS ST Value"
-msgstr ""
+msgstr "Valor de ST do COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_value
@@ -346,28 +346,28 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_cofins_value
 msgid "COFINS Value"
-msgstr ""
+msgstr "Valor do COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_wh_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_wh_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_wh_base_type
 msgid "COFINS WH Base Type"
-msgstr ""
+msgstr "Tipo de Base COFINS WH"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__csll_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_percent
 msgid "CSLL %"
-msgstr ""
+msgstr "% CSLL"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__csll_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_reduction
 msgid "CSLL % Reduction"
-msgstr ""
+msgstr "% de Redução do CSLL"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_base
@@ -375,45 +375,45 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_csll_base
 msgid "CSLL Base"
-msgstr ""
+msgstr "Base para CSLL"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__csll_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_wh_percent
 msgid "CSLL RET %"
-msgstr ""
+msgstr "% CSLL RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__csll_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_wh_reduction
 msgid "CSLL RET % Reduction"
-msgstr ""
+msgstr "% de Redução CSLL RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__csll_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_wh_base
 msgid "CSLL RET Base"
-msgstr ""
+msgstr "Base para CSLL RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__csll_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_wh_value
 msgid "CSLL RET Value"
-msgstr ""
+msgstr "Valor RET CSLL"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_csll_wh_base
 msgid "CSLL Ret Base"
-msgstr ""
+msgstr "Base para CSLL RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_csll_wh_value
 msgid "CSLL Ret Value"
-msgstr ""
+msgstr "Valor RET CSLL"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_value
@@ -421,49 +421,49 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_csll_value
 msgid "CSLL Value"
-msgstr ""
+msgstr "Valor CSLL"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_cst_id
 msgid "CST COFINS"
-msgstr ""
+msgstr "CST COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofinsst_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofinsst_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofinsst_cst_id
 msgid "CST COFINS ST"
-msgstr ""
+msgstr "CST COFINS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_cst_id
 msgid "CST ICMS"
-msgstr ""
+msgstr "CST ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ipi_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_cst_id
 msgid "CST IPI"
-msgstr ""
+msgstr "CST IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_cst_id
 msgid "CST PIS"
-msgstr ""
+msgstr "CST PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pisst_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pisst_cst_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pisst_cst_id
 msgid "CST PIS ST"
-msgstr ""
+msgstr "CST PIS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__partner_id
@@ -481,7 +481,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__city_taxation_code_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__city_taxation_code_id
 msgid "City Taxation Code"
-msgstr ""
+msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__comment_ids
@@ -508,12 +508,12 @@ msgstr "Empresa"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__partner_company_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__partner_company_type
 msgid "Company Type"
-msgstr ""
+msgstr "Tipo de Empresa"
 
 #. module: l10n_br_repair
 #: model:ir.model,name:l10n_br_repair.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajuste de Configurações"
+msgstr "Ajustes de Configurações"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__copy_repair_quotation_notes
@@ -536,22 +536,22 @@ msgstr "Copiar notas de cotação de reparo em documentos fiscais"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__currency_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Moeda"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_id
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__customer_additional_data
 msgid "Customer Additional Data"
-msgstr ""
+msgstr "Dados Adicionais do Cliente"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__manual_customer_additional_data
 msgid "Customer Additional data manually entered by user"
-msgstr ""
+msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__client_order_ref
@@ -561,7 +561,7 @@ msgstr "Referência do Cliente"
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_ii_customhouse_charges
 msgid "Customhouse Charges"
-msgstr ""
+msgstr "Encargos Alfandegários"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__delivery_costs
@@ -569,6 +569,8 @@ msgid ""
 "Define if costs of Insurance, Freight and Other Costs should be informed by "
 "Line or by Total."
 msgstr ""
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
+"por Linha ou por Total."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__delivery_costs
@@ -586,7 +588,7 @@ msgstr "Descrição"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ii_customhouse_charges
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ii_customhouse_charges
 msgid "Despesas Aduaneiras"
-msgstr ""
+msgstr "Despesas Aduaneiras"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__discount_value
@@ -603,7 +605,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_config_settings__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome Exibido"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__estimate_tax
@@ -616,35 +618,35 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
 msgid "Extra Info"
-msgstr ""
+msgstr "Informação Extra"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_value_wh
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcp_value_wh
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcp_value_wh
 msgid "FCP WH"
-msgstr ""
+msgstr "FCP WH"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcp_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcp_wh_percent
 msgid "FCP WH %"
-msgstr ""
+msgstr "% FCP WH"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_base_wh
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcp_base_wh
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcp_base_wh
 msgid "FCP WH Base"
-msgstr ""
+msgstr "Base para FCP WH"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ind_final
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ind_final
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__ind_final
 msgid "Final Consumption Operation"
-msgstr ""
+msgstr "Operação de Consumo Final"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__financial_discount_value
@@ -652,17 +654,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__financial_discount_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_financial_discount_value
 msgid "Financial Discount Value"
-msgstr ""
+msgstr "Valor do Desconto Financeiro"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_additional_data
 msgid "Fiscal Additional Data"
-msgstr ""
+msgstr "Dados Adicionais Fiscais"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
-msgstr ""
+msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_document_count
@@ -677,28 +679,28 @@ msgstr ""
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_operation_type
 msgid "Fiscal Operation Type"
-msgstr ""
+msgstr "Tipo de Operação Fiscal"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_price
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_price
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_price
 msgid "Fiscal Price"
-msgstr ""
+msgstr "Preço Fiscal"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_genre_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_genre_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_genre_id
 msgid "Fiscal Product Genre"
-msgstr ""
+msgstr "Gênero Fiscal do Produto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_genre_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_genre_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_genre_code
 msgid "Fiscal Product Genre Code"
-msgstr ""
+msgstr "Código do Gênero Fiscal do Produto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_quantity
@@ -721,12 +723,12 @@ msgstr "Impostos Fiscais"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_type
 msgid "Fiscal Type"
-msgstr ""
+msgstr "Tipo Fiscal"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__force_compute_delivery_costs_by_total
 msgid "Force Compute Delivery Costs By Total"
-msgstr ""
+msgstr "Forçar Cálculo de Custos de Entrega por Total"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__freight_value
@@ -734,7 +736,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__freight_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_freight_value
 msgid "Freight Value"
-msgstr ""
+msgstr "Valor do Frete"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_gross
@@ -748,14 +750,14 @@ msgstr "Quantidade Bruta"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_percent
 msgid "ICMS %"
-msgstr ""
+msgstr "% ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_reduction
 msgid "ICMS % Reduction"
-msgstr ""
+msgstr "% de Redução de ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_base
@@ -763,82 +765,82 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icms_base
 msgid "ICMS Base"
-msgstr ""
+msgstr "Base para ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_base_type
 msgid "ICMS Base Type"
-msgstr ""
+msgstr "Tipo base do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_cst_code
 msgid "ICMS CST Code"
-msgstr ""
+msgstr "Código CST do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_destination_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_destination_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_destination_value
 msgid "ICMS Dest. Value"
-msgstr ""
+msgstr "Valor do Dest. ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_destination_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_destination_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_destination_base
 msgid "ICMS Destination Base"
-msgstr ""
+msgstr "Base de Destino do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icms_destination_value
 msgid "ICMS Destination Value"
-msgstr ""
+msgstr "Valor Destino ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_effective_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_effective_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_effective_value
 msgid "ICMS Effective"
-msgstr ""
+msgstr "ICMS Efetivo"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_effective_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_effective_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_effective_percent
 msgid "ICMS Effective %"
-msgstr ""
+msgstr "% ICMS Efetivo"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_effective_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_effective_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_effective_reduction
 msgid "ICMS Effective % Reduction"
-msgstr ""
+msgstr "% de Redução ICMS Efetivo"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_effective_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_effective_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_effective_base
 msgid "ICMS Effective Base"
-msgstr ""
+msgstr "Base para ICMS Efetivo"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_destination_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_destination_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_destination_percent
 msgid "ICMS External %"
-msgstr ""
+msgstr "% ICMS Externo"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcp_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcp_percent
 msgid "ICMS FCP %"
-msgstr ""
+msgstr "% ICMS FCP"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_base
@@ -846,14 +848,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcp_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icmsfcp_base
 msgid "ICMS FCP Base"
-msgstr ""
+msgstr "Base para ICMS FCP"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcpst_value
 msgid "ICMS FCP ST Value"
-msgstr ""
+msgstr "Valor ICMS FCP ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_value
@@ -861,21 +863,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcp_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icmsfcp_value
 msgid "ICMS FCP Value"
-msgstr ""
+msgstr "Valor do ICMS FCP"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_origin_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_origin_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_origin_percent
 msgid "ICMS Internal %"
-msgstr ""
+msgstr "% ICMS Interno"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_origin
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_origin
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_origin
 msgid "ICMS Origin"
-msgstr ""
+msgstr "Origem do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_origin_value
@@ -883,63 +885,63 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_origin_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icms_origin_value
 msgid "ICMS Origin Value"
-msgstr ""
+msgstr "Valor do ICMS de Origem"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_relief_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_relief_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_relief_id
 msgid "ICMS Relief"
-msgstr ""
+msgstr "Alívio do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_relief_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_relief_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_relief_value
 msgid "ICMS Relief Value"
-msgstr ""
+msgstr "Valor de Alívio do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmssn_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmssn_percent
 msgid "ICMS SN %"
-msgstr ""
+msgstr "% ICMS SN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmssn_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmssn_base
 msgid "ICMS SN Base"
-msgstr ""
+msgstr "Base do ICMS SN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_credit_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmssn_credit_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmssn_credit_value
 msgid "ICMS SN Credit"
-msgstr ""
+msgstr "Crédito ICMS SN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmssn_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmssn_reduction
 msgid "ICMS SN Reduction"
-msgstr ""
+msgstr "Redução do ICMS SN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsst_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_percent
 msgid "ICMS ST %"
-msgstr ""
+msgstr "% ICMS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsst_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_reduction
 msgid "ICMS ST % Reduction"
-msgstr ""
+msgstr "% Redução de ICMS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_base
@@ -947,21 +949,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icmsst_base
 msgid "ICMS ST Base"
-msgstr ""
+msgstr "Base do ICMS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsst_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_base_type
 msgid "ICMS ST Base Type"
-msgstr ""
+msgstr "Tipo de Base do ICMS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_mva_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsst_mva_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_mva_percent
 msgid "ICMS ST MVA %"
-msgstr ""
+msgstr "% ICMS ST MVA"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_value
@@ -969,42 +971,42 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icmsst_value
 msgid "ICMS ST Value"
-msgstr ""
+msgstr "Valor do ICMS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsst_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_wh_percent
 msgid "ICMS ST WH %"
-msgstr ""
+msgstr "% ICMS ST WH"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsst_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_wh_base
 msgid "ICMS ST WH Base"
-msgstr ""
+msgstr "Base do ICMS ST WH"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsst_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_wh_value
 msgid "ICMS ST WH Value"
-msgstr ""
+msgstr "Valor do ICMS ST WH"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_sharing_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_sharing_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_sharing_percent
 msgid "ICMS Sharing %"
-msgstr ""
+msgstr "% de Compartilhamento do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_substitute
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_substitute
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_substitute
 msgid "ICMS Substitute"
-msgstr ""
+msgstr "ICMS Substituto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_value
@@ -1012,19 +1014,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icms_value
 msgid "ICMS Value"
-msgstr ""
+msgstr "Valor do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__tax_icms_or_issqn
 msgid "ICMS or ISSQN Tax"
-msgstr ""
+msgstr "Imposto sobre ICMS ou ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
-msgstr ""
+msgstr "Valor do Crédito de ICMSSN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__id
@@ -1034,14 +1036,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_config_settings__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ii_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ii_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ii_percent
 msgid "II %"
-msgstr ""
+msgstr "% II"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ii_base
@@ -1049,7 +1051,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ii_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_ii_base
 msgid "II Base"
-msgstr ""
+msgstr "Base do II"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ii_value
@@ -1057,21 +1059,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ii_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_ii_value
 msgid "II Value"
-msgstr ""
+msgstr "Valor do II"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__inss_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_percent
 msgid "INSS %"
-msgstr ""
+msgstr "% INSS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__inss_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_reduction
 msgid "INSS % Reduction"
-msgstr ""
+msgstr "% de Redução do INSS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_base
@@ -1079,45 +1081,45 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_inss_base
 msgid "INSS Base"
-msgstr ""
+msgstr "Base do INSS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__inss_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_wh_percent
 msgid "INSS RET %"
-msgstr ""
+msgstr "% INSS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__inss_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_wh_reduction
 msgid "INSS RET % Reduction"
-msgstr ""
+msgstr "% de Redução do INSS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__inss_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_wh_base
 msgid "INSS RET Base"
-msgstr ""
+msgstr "Base do INSS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__inss_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_wh_value
 msgid "INSS RET Value"
-msgstr ""
+msgstr "Valor do INSS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_inss_wh_base
 msgid "INSS Ret Base"
-msgstr ""
+msgstr "Base do INSS Ret"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_inss_wh_value
 msgid "INSS Ret Value"
-msgstr ""
+msgstr "Valor do INSS Ret"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_value
@@ -1125,28 +1127,28 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_inss_value
 msgid "INSS Value"
-msgstr ""
+msgstr "Valor do INSS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ii_iof_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ii_iof_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ii_iof_value
 msgid "IOF Value"
-msgstr ""
+msgstr "Valor IOF"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ipi_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_percent
 msgid "IPI %"
-msgstr ""
+msgstr "% IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ipi_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_reduction
 msgid "IPI % Reduction"
-msgstr ""
+msgstr "% Redução do IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_base
@@ -1154,28 +1156,28 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_ipi_base
 msgid "IPI Base"
-msgstr ""
+msgstr "Base do IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ipi_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_base_type
 msgid "IPI Base Type"
-msgstr ""
+msgstr "Tipo da Base do IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ipi_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_cst_code
 msgid "IPI CST Code"
-msgstr ""
+msgstr "Código CST do IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_guideline_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ipi_guideline_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_guideline_id
 msgid "IPI Guideline"
-msgstr ""
+msgstr "Diretriz do IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_value
@@ -1183,21 +1185,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_ipi_value
 msgid "IPI Value"
-msgstr ""
+msgstr "Valor do IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_percent
 msgid "IRPJ %"
-msgstr ""
+msgstr "% IRPJ"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_reduction
 msgid "IRPJ % Reduction"
-msgstr ""
+msgstr "% Redução do IRPJ"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_base
@@ -1205,20 +1207,27 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_irpj_base
 msgid "IRPJ Base"
-msgstr ""
+msgstr "Base do IRPJ"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_percent
 msgid "IRPJ RET %"
-msgstr ""
+msgstr "% RET IRPJ"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_reduction
 msgid "IRPJ RET % Reduction"
+msgstr "% Redução do IRPJ RET"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_base
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_base
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_base
+msgid "IRPJ RET Base"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -1226,17 +1235,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_value
 msgid "IRPJ RET Value"
-msgstr ""
+msgstr "Valor do IRPJ RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_irpj_wh_base
 msgid "IRPJ Ret Base"
-msgstr ""
+msgstr "Base do IRPJ Ret"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_irpj_wh_value
 msgid "IRPJ Ret Value"
-msgstr ""
+msgstr "Valor do IRPJ Ret"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_value
@@ -1244,21 +1253,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_irpj_value
 msgid "IRPJ Value"
-msgstr ""
+msgstr "Valor do IRPJ"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_percent
 msgid "ISSQN %"
-msgstr ""
+msgstr "% ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_reduction
 msgid "ISSQN % Reduction"
-msgstr ""
+msgstr "% de Redução do ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_base
@@ -1266,106 +1275,109 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_issqn_base
 msgid "ISSQN Base"
-msgstr ""
+msgstr "Base do ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_fg_city_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_fg_city_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_fg_city_id
 msgid "ISSQN City"
-msgstr ""
+msgstr "Cidade do ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_deduction_amount
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_deduction_amount
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_deduction_amount
 msgid "ISSQN Deduction Value"
-msgstr ""
+msgstr "Valor de Dedução do ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_desc_cond_amount
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_desc_cond_amount
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_desc_cond_amount
 msgid "ISSQN Discount Cond"
-msgstr ""
+msgstr "Desconto Cond. do ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_desc_incond_amount
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_desc_incond_amount
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_desc_incond_amount
 msgid "ISSQN Discount Incond"
-msgstr ""
+msgstr "Desconto Incond. do ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_eligibility
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_eligibility
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_eligibility
 msgid "ISSQN Eligibility"
-msgstr ""
+msgstr "Elegibilidade do ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_incentive
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_incentive
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_incentive
 msgid "ISSQN Incentive"
-msgstr ""
+msgstr "Incentivo ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_other_amount
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_other_amount
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_other_amount
 msgid "ISSQN Other Value"
-msgstr ""
+msgstr "Outro Valor ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_wh_percent
 msgid "ISSQN RET %"
-msgstr ""
+msgstr "% RET ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_wh_reduction
 msgid "ISSQN RET % Reduction"
-msgstr ""
+msgstr "% de Redução ISSQN RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_wh_base
 msgid "ISSQN RET Base"
-msgstr ""
+msgstr "Base do ISSQN RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_wh_value
 msgid "ISSQN RET Value"
-msgstr ""
+msgstr "Valor ISSQN RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_issqn_wh_base
 msgid "ISSQN Ret Base"
-msgstr ""
+msgstr "Base do ISSQN Ret"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_issqn_wh_value
 msgid "ISSQN Ret Value"
-msgstr ""
+msgstr "Valor ISSQN Ret"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_value
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_value
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_issqn_value
 msgid "ISSQN Value"
-msgstr ""
+msgstr "Valor ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cfop_destination
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__cfop_destination
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_line__cfop_destination
 msgid "Identifies the operation destination."
-msgstr ""
+msgstr "Identifica o destino da operação."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__insurance_value
@@ -1373,7 +1385,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_insurance_value
 msgid "Insurance Value"
-msgstr ""
+msgstr "Valor do Seguro"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__invoice_count
@@ -1394,12 +1406,12 @@ msgstr "Faturas"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_config_settings____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__legal_name
 msgid "Legal Name"
-msgstr "Nome Legal"
+msgstr "Razão Social"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__manual_additional_data
@@ -1411,7 +1423,7 @@ msgstr "Dado Adicional Manual"
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__manual_customer_additional_data
 msgid "Manual Customer Additional Data"
-msgstr ""
+msgstr "Dado Adicional do Cliente Manual"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__manual_fiscal_additional_data
@@ -1423,35 +1435,35 @@ msgstr "Dado Adicional Fiscal Manual"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__nbm_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__nbm_id
 msgid "NBM"
-msgstr ""
+msgstr "NBM"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__nbs_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__nbs_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__nbs_id
 msgid "NBS"
-msgstr ""
+msgstr "NBS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ncm_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ncm_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ncm_id
 msgid "NCM"
-msgstr ""
+msgstr "NCM"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__simple_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__simple_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__simple_value
 msgid "National Simple Taxes"
-msgstr ""
+msgstr "Impostos do Simples Nacional"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__simple_without_icms_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__simple_without_icms_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
-msgstr ""
+msgstr "Impostos do Simples Nacional sem ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_id
@@ -1466,12 +1478,12 @@ msgstr "Operação"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_line_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_line_id
 msgid "Operation Line"
-msgstr ""
+msgstr "Linha de Operação"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__operation_name
 msgid "Operation Name"
-msgstr ""
+msgstr "Nome da Operação"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__repair_fiscal_operation_id
@@ -1488,27 +1500,27 @@ msgstr "Outros Custos"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__other_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__other_value
 msgid "Other Value"
-msgstr ""
+msgstr "Outros Valores"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
 msgid "Others"
-msgstr ""
+msgstr "Outros"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_percent
 msgid "PIS %"
-msgstr ""
+msgstr "% PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_reduction
 msgid "PIS % Reduction"
-msgstr ""
+msgstr "% Redução do PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_base
@@ -1516,115 +1528,115 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_pis_base
 msgid "PIS Base"
-msgstr ""
+msgstr "Base do PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_base_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_base_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_base_id
 msgid "PIS Base Code"
-msgstr ""
+msgstr "Código da Base do PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_base_type
 msgid "PIS Base Type"
-msgstr ""
+msgstr "Tipo da Base do PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_cst_code
 msgid "PIS CST Code"
-msgstr ""
+msgstr "Código CST do PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_credit_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_credit_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_credit_id
 msgid "PIS Credit"
-msgstr ""
+msgstr "Crédito do PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_wh_percent
 msgid "PIS RET %"
-msgstr ""
+msgstr "% PIS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_wh_reduction
 msgid "PIS RET % Reduction"
-msgstr ""
+msgstr "% de Redução do PIS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_wh_base
 msgid "PIS RET Base"
-msgstr ""
+msgstr "Base do PIS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_wh_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_wh_value
 msgid "PIS RET Value"
-msgstr ""
+msgstr "Valor do PIS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_pis_wh_base
 msgid "PIS Ret Base"
-msgstr ""
+msgstr "Base do PIS Ret"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_pis_wh_value
 msgid "PIS Ret Value"
-msgstr ""
+msgstr "Valor do PIS Ret"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pisst_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pisst_percent
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pisst_percent
 msgid "PIS ST %"
-msgstr ""
+msgstr "% PIS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pisst_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pisst_reduction
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pisst_reduction
 msgid "PIS ST % Reduction"
-msgstr ""
+msgstr "% de Redução do PIS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pisst_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pisst_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pisst_base
 msgid "PIS ST Base"
-msgstr ""
+msgstr "Base do PIS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pisst_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pisst_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pisst_base_type
 msgid "PIS ST Base Type"
-msgstr ""
+msgstr "Tipo da Base do PIS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pisst_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pisst_cst_code
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pisst_cst_code
 msgid "PIS ST CST Code"
-msgstr ""
+msgstr "Código CST do PIS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pisst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pisst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pisst_value
 msgid "PIS ST Value"
-msgstr ""
+msgstr "Valor do PIS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_value
@@ -1632,14 +1644,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_pis_value
 msgid "PIS Value"
-msgstr ""
+msgstr "Valor do PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_wh_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_wh_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_wh_base_type
 msgid "PIS WH Base Type"
-msgstr ""
+msgstr "Tipo da Base do PIS WH"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__quantity
@@ -1659,14 +1671,14 @@ msgstr "Parceiro"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__partner_order
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__partner_order
 msgid "Partner Order (xPed)"
-msgstr ""
+msgstr "Pedido de Parceiro (xPed)"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__partner_order_line
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__partner_order_line
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__partner_order_line
 msgid "Partner Order Line (nItemPed)"
-msgstr ""
+msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_repair
 #: code:addons/l10n_br_repair/models/repair_order.py:0
@@ -1682,7 +1694,7 @@ msgstr "Preço Total"
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_unit
 msgid "Price Unit"
-msgstr ""
+msgstr "Preço Unitário"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__product_id
@@ -1697,16 +1709,9 @@ msgid "Quantity"
 msgstr "Quantidade"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_base
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_base
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_base
-msgid "RPJ RET Base"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.res_company_form_view
 msgid "Repair"
-msgstr "Reparar"
+msgstr "Reparo"
 
 #. module: l10n_br_repair
 #: model:ir.model,name:l10n_br_repair.model_repair_fee
@@ -1724,25 +1729,18 @@ msgid "Repair Order"
 msgstr "Ordem de Reparo"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_value
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_value
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_value
-msgid "SSQN Value"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__service_type_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__service_type_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__service_type_id
 msgid "Service Type LC 166"
-msgstr ""
+msgstr "Tipo de Serviço LC 166"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_range_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmssn_range_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmssn_range_id
 msgid "Simplified Range Tax"
-msgstr ""
+msgstr "Intervalo do Imposto Simplificado"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__ie
@@ -1761,35 +1759,35 @@ msgstr "Subtotal"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_tax_id
 msgid "Tax COFINS"
-msgstr ""
+msgstr "Imposto COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_wh_tax_id
 msgid "Tax COFINS RET"
-msgstr ""
+msgstr "Imposto COFINS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofinsst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofinsst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofinsst_tax_id
 msgid "Tax COFINS ST"
-msgstr ""
+msgstr "Imposto COFINS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__csll_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_tax_id
 msgid "Tax CSLL"
-msgstr ""
+msgstr "Imposto CSLL"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__csll_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__csll_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__csll_wh_tax_id
 msgid "Tax CSLL RET"
-msgstr ""
+msgstr "Imposto CSLL RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__tax_framework
@@ -1802,112 +1800,112 @@ msgstr "Estrutura Tributária"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_tax_id
 msgid "Tax ICMS"
-msgstr ""
+msgstr "Imposto ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcp_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcp_tax_id
 msgid "Tax ICMS FCP"
-msgstr ""
+msgstr "Imposto ICMS FCP"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmssn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmssn_tax_id
 msgid "Tax ICMS SN"
-msgstr ""
+msgstr "Imposto ICMS SN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsst_tax_id
 msgid "Tax ICMS ST"
-msgstr ""
+msgstr "Imposto ICMS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ii_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ii_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ii_tax_id
 msgid "Tax II"
-msgstr ""
+msgstr "Imposto II"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__inss_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_tax_id
 msgid "Tax INSS"
-msgstr ""
+msgstr "Imposto INSS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__inss_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__inss_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__inss_wh_tax_id
 msgid "Tax INSS RET"
-msgstr ""
+msgstr "Imposto INSS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ipi_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_tax_id
 msgid "Tax IPI"
-msgstr ""
+msgstr "Imposto IPI"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_tax_id
 msgid "Tax IRPJ"
-msgstr ""
+msgstr "Imposto IRPJ"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_tax_id
 msgid "Tax IRPJ RET"
-msgstr ""
+msgstr "Imposto IRPJ RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_tax_id
 msgid "Tax ISSQN"
-msgstr ""
+msgstr "Imposto ISSQN"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__issqn_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__issqn_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__issqn_wh_tax_id
 msgid "Tax ISSQN RET"
-msgstr ""
+msgstr "Imposto ISSQN RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_tax_id
 msgid "Tax PIS"
-msgstr ""
+msgstr "Imposto PIS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pis_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pis_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pis_wh_tax_id
 msgid "Tax PIS RET"
-msgstr ""
+msgstr "Imposto PIS RET"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__pisst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__pisst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__pisst_tax_id
 msgid "Tax PIS ST"
-msgstr ""
+msgstr "Imposto PIS ST"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__uot_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__uot_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__uot_id
 msgid "Tax UoM"
-msgstr ""
+msgstr "UoM Fiscal"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax
@@ -1921,14 +1919,14 @@ msgstr "Impostos"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_total
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_total
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_type
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__uom_id
@@ -1941,12 +1939,12 @@ msgstr "UOM"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_unit
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_unit
 msgid "Unit Price"
-msgstr ""
+msgstr "Preço Unitário"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_untaxed
 msgid "Untaxed Amount"
-msgstr ""
+msgstr "Valor Sem Impostos"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__legal_name

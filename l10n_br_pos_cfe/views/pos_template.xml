@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <template
+        id="pos_l10n_br_assets_backend"
+        name="pos_l10n_br_assets_backend"
+        inherit_id="point_of_sale.assets"
+    >
+            <xpath expr="." position="inside">
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ChromeWidgets/ProxyStatus.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/devices.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/models.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/PaymentScreen/PaymentScreen.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ReceiptScreen/OrderRowReceipt.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ReceiptScreen/OrderHeaderReceipt.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ReceiptScreen/OrderFooterReceipt.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ReceiptScreen/OrderTotalsReceipt.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ReceiptScreen/OrderPaymentReceipt.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ReceiptScreen/OrderSubtitleReceipt.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ReceiptScreen/SatOrderReceipt.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/ReceiptScreen/ReceiptScreen.js"
+                type="text/javascript"
+            />
+                <script
+                src="/l10n_br_pos_cfe/static/src/js/OrderManagementScreen/ReprintReceiptScreen.js"
+                type="text/javascript"
+            />
+            </xpath>
+
+            <xpath expr="//link[@id='pos-stylesheet']" position="after">
+                <link rel="stylesheet" href="/l10n_br_pos_cfe/static/src/css/pos.css" />
+            </xpath>
+        </template>
+</odoo>

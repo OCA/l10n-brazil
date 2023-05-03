@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+    <record model="ir.ui.view" id="cnab_line_fields_group_tree_view">
+        <field name="model">cnab.line.field.group</field>
+        <field name="arch" type="xml">
+            <tree default_order='cnab_line_id, id ASC' create="false">
+                <field name="name" />
+                <field name="cnab_line_id" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="cnab_line_field_group_form_view">
+        <field name="model">cnab.line.field.group</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="cnab_line_id" />
+                        <field
+                            name="field_ids"
+                            mode='tree'
+                            widget='many2many'
+                            context="{'default_cnab_line_id': cnab_line_id, 'default_cnab_group_id': active_id}"
+                        >
+                        <tree>
+                            <field name="state" invisible="True" />
+                            <field name="name" />
+                            <field name="start_pos" />
+                            <field name="end_pos" />
+                            <field name="cnab_line_id" invisible="True" />
+                            <field name="cnab_group_id" invisible="True" />
+                        </tree>
+                     </field>
+                </group>
+                    <span class="o_form_label" modifiers="{}">
+                        Conditions
+                    </span>
+                    <div class="text-muted" modifiers="{}">
+                        A field group will be informed in the cnab file based on the condition of a value of another field.
+                    </div>
+                    <field
+                        name="condition_ids"
+                        nolabel="1"
+                        context="{'default_cnab_group_id': id}"
+                    >
+                        <tree editable="top">
+                            <field name="state" invisible="True" />
+                            <field name="cnab_group_id" invisible="True" />
+                            <field name="cnab_line_id" invisible="True" />
+                            <field name="field_id" />
+                            <field name="operator" />
+                            <field name="json_value" />
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_cnab_line_fields_group">
+        <field name="name">CNAB Fields Group</field>
+        <field name="res_model">cnab.line.field.group</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

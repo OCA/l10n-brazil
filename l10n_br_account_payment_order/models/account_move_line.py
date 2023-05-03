@@ -70,6 +70,13 @@ class AccountMoveLine(models.Model):
         default="inicial",
     )
 
+    boleto_discount_perc = fields.Float(
+        string="Desconto de pontualidade",
+        digits="Account",
+        help="Percentual de Desconto até a Data de Vencimento",
+        related="payment_mode_id.boleto_discount_perc",
+    )
+
     instructions = fields.Text(
         string="Instruções de cobrança",
         readonly=True,
@@ -140,6 +147,7 @@ class AccountMoveLine(models.Model):
             vals["partner_pix_id"] = self.partner_id.pix_key_ids[0].id
         # Preenchendo apenas nos casos CNAB
         if self.payment_mode_id.payment_method_code in BR_CODES_PAYMENT_ORDER:
+            digits = self.env["decimal.precision"].precision_get("Account")
             vals.update(
                 {
                     "own_number": self.own_number,
@@ -156,6 +164,9 @@ class AccountMoveLine(models.Model):
                     "ml_maturity_date": self.date_maturity,
                     "move_id": self.move_id.id,
                     "service_type": self._get_default_service_type(),
+                    "discount_value": round(
+                        self.amount_currency * (self.boleto_discount_perc / 100), digits
+                    ),
                 }
             )
 

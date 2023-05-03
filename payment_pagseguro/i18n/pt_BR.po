@@ -6,30 +6,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-29 20:47+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2023-01-20 04:39+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: payment_pagseguro
 #: model_terms:ir.ui.view,arch_db:payment_pagseguro.pagseguro_s2s_form
 msgid "CVC"
-msgstr ""
+msgstr "CVC"
 
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_transaction__pagseguro_s2s_void_link
 msgid "Cancel Link"
-msgstr ""
+msgstr "Cancelar Link"
 
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_transaction__pagseguro_s2s_capture_link
 msgid "Capture Link Pagseguro"
-msgstr ""
+msgstr "Capturar Link Pagseguro"
 
 #. module: payment_pagseguro
 #: model_terms:ir.ui.view,arch_db:payment_pagseguro.pagseguro_s2s_form
@@ -44,7 +44,7 @@ msgstr "Nome do titular do cartão"
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_transaction__pagseguro_s2s_check_link
 msgid "Check Link Pagseguro"
-msgstr ""
+msgstr "Verificar Link Pagseguro"
 
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_acquirer__display_name
@@ -68,14 +68,14 @@ msgstr "Expira (MM/YY)"
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_token__card_holder
 msgid "Holder"
-msgstr ""
+msgstr "Portador"
 
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_acquirer__id
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_token__id
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_transaction__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_acquirer____last_update
@@ -88,27 +88,27 @@ msgstr "Última Modificação em"
 #: model:ir.model.fields.selection,name:payment_pagseguro.selection__payment_acquirer__provider__pagseguro
 #: model:payment.acquirer,name:payment_pagseguro.payment_acquirer_pagseguro
 msgid "Pagseguro"
-msgstr ""
+msgstr "Pagseguro"
 
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_acquirer__pagseguro_token
 msgid "Pagseguro Token"
-msgstr ""
+msgstr "Token Pagseguro"
 
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_token__pagseguro_card_token
 msgid "Pagseguro card Token"
-msgstr ""
+msgstr "Token Cartão Pagseguro"
 
 #. module: payment_pagseguro
 #: model:ir.model,name:payment_pagseguro.model_payment_acquirer
 msgid "Payment Acquirer"
-msgstr ""
+msgstr "Adquirente de Pagamento"
 
 #. module: payment_pagseguro
 #: model:ir.model,name:payment_pagseguro.model_payment_token
 msgid "Payment Token"
-msgstr ""
+msgstr "Token de Pagamento"
 
 #. module: payment_pagseguro
 #: model:ir.model,name:payment_pagseguro.model_payment_transaction
