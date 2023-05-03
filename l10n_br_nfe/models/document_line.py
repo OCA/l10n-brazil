@@ -304,7 +304,7 @@ class NFeLine(spec_models.StackedModel):
         if not self.cofinsst_value:
             xsd_fields.remove("nfe40_COFINSST")
 
-        if not self.ii_value:
+        if not self.ii_value and "nfe40_II" in xsd_fields:
             xsd_fields.remove("nfe40_II")
 
     ##################################################
@@ -470,12 +470,11 @@ class NFeLine(spec_models.StackedModel):
 
     def _compute_nfe40_ICMSUFDest(self):
         for record in self:
-            if not record.icms_origin_percent and not record.icms_percent:
-                record.nfe40_pICMSInter = False
+            if record.icms_origin_percent:
+                record.nfe40_pICMSInter = str("%.02f" % record.icms_origin_percent)
             else:
-                record.nfe40_pICMSInter = str(
-                    "%.02f" % record.icms_origin_percent or record.icms_percent
-                )
+                record.nfe40_pICMSInter = False
+
             record.nfe40_pFCPUFDest = record.icmsfcp_percent
             record.nfe40_pICMSUFDest = record.icms_destination_percent
             record.nfe40_pICMSInterPart = record.icms_sharing_percent
@@ -635,7 +634,6 @@ class NFeLine(spec_models.StackedModel):
     nfe40_pPIS = fields.Float(related="pis_percent", string="nfe40_pPIS")
 
     def _export_fields_nfe_40_pis(self, xsd_fields, class_obj, export_dict):
-
         remove_tags = {
             "nfe40_PISAliq": ["nfe40_PISQtde", "nfe40_PISNT", "nfe40_PISOutr"],
             "nfe40_PISQtde": ["nfe40_PISAliq", "nfe40_PISNT", "nfe40_PISOutr"],
@@ -643,8 +641,9 @@ class NFeLine(spec_models.StackedModel):
             "nfe40_PISOutr": ["nfe40_PISAliq", "nfe40_PISQtde", "nfe40_PISNT"],
         }
 
-        for tag_to_remove in remove_tags.get(self.nfe40_choice12):
-            xsd_fields.remove(tag_to_remove)
+        for tag_to_remove in remove_tags.get(self.nfe40_choice12, []):
+            if tag_to_remove in xsd_fields:
+                xsd_fields.remove(tag_to_remove)
 
     def _export_fields_pis(self, xsd_fields, class_obj, export_dict):
 
@@ -768,8 +767,9 @@ class NFeLine(spec_models.StackedModel):
             ],
         }
 
-        for tag_to_remove in remove_tags.get(self.nfe40_choice15):
-            xsd_fields.remove(tag_to_remove)
+        for tag_to_remove in remove_tags.get(self.nfe40_choice15, []):
+            if tag_to_remove in xsd_fields:
+                xsd_fields.remove(tag_to_remove)
 
     def _export_fields_cofins(self, xsd_fields, class_obj, export_dict):
 

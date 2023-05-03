@@ -12,6 +12,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     FISCAL_IN_OUT_ALL,
     FISCAL_OUT,
+    MODELO_FISCAL_NFE,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
 )
@@ -97,12 +98,6 @@ class AccountMove(models.Model):
         required=True,
         copy=False,
         ondelete="cascade",
-    )
-
-    document_type = fields.Char(
-        related="document_type_id.code",
-        string="Document Code",
-        store=True,
     )
 
     fiscal_operation_type = fields.Selection(
@@ -426,17 +421,6 @@ class AccountMove(models.Model):
     #     return new_mv_lines_dict
     #
 
-    @api.onchange("partner_id")
-    def _onchange_partner_id(self):
-        # Even having this method in the l10n_br_fiscal.document.mixin.methods, the ORM
-        # seems to have some limitation with inherits when the parent model and the
-        # child model have the same field (in this case partner_id). This override was
-        # done to ensure that final_ind is set.
-        result = super()._onchange_partner_id()
-        if self.partner_id:
-            self.ind_final = self.partner_id.ind_final
-        return result
-
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         result = super()._onchange_fiscal_operation_id()
@@ -614,14 +598,14 @@ class AccountMove(models.Model):
                 )
                 line._onchange_fiscal_operation_id()
 
-            # Migrar para v14.0 .. talvez nao precise mais disso.
-            # Nao ficou claro o objetivo deste trecho
-            # refund_inv_id = record.reversal_move_id
-            #
-            # if record.refund_move_id.document_type_id:
-            #     record.fiscal_document_id._document_reference(
-            #         refund_inv_id.fiscal_document_id
-            #     )
+            # Adds the related document to the NF-e.
+            # this is required for correct xml validation
+            if record.document_type_id and record.document_type_id.code in (
+                MODELO_FISCAL_NFE
+            ):
+                record.fiscal_document_id._document_reference(
+                    record.reversed_entry_id.fiscal_document_id
+                )
 
         return new_moves
 

@@ -305,10 +305,11 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_type
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_type
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_type
-msgid "Document Code"
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_line_ids
+msgid "Document Lines"
 msgstr ""
 
 #. module: l10n_br_account
@@ -537,6 +538,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__move_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__move_ids
 msgid "Invoices"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/hooks.py:0
+#, python-format
+msgid ""
+"It looks like your database %(database) is running with demo\n"
+"                   data. But the l10n_br_account module will need you to install the\n"
+"                   l10n_br_coa_simple and l10n_br_coa_generic\n"
+"                   chart of accounts modules first to load l10n_br_account demo data\n"
+"                   or run its tests properly (for production, these dependencies are not\n"
+"                   required, that is why these are not usual explicit\n"
+"                   module dependencies).\n"
+"                   Please install the l10n_br_coa_simple and l10n_br_coa_generic modules\n"
+"                   first and try installing the l10n_br_account module again.\n"
+"                "
 msgstr ""
 
 #. module: l10n_br_account
