@@ -287,7 +287,7 @@ class Document(models.Model):
         # assinatura += ''.zfill(14)
         # assinatura += 'N'
 
-        return assinatura.encode()
+        return assinatura
 
     def _map_taxation_rps(self, operation_nature):
         # FIXME: Lidar com diferença de tributado em São Paulo ou não
