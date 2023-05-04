@@ -52,7 +52,7 @@ CREDENCIADORAS_CARTAO = [
 class PosPaymentMethod(models.Model):
     _inherit = "pos.payment.method"
 
-    sat_card_accrediting = fields.Selection(
+    sat_card_acquirer = fields.Selection(
         CREDENCIADORAS_CARTAO, "Credenciadora do Cartão"
     )
 
