@@ -544,7 +544,7 @@ msgstr ""
 #: code:addons/l10n_br_account/hooks.py:0
 #, python-format
 msgid ""
-"It looks like your database %(database) is running with demo\n"
+"It looks like your database %s(database) is running with demo\n"
 "                   data. But the l10n_br_account module will need you to install the\n"
 "                   l10n_br_coa_simple and l10n_br_coa_generic\n"
 "                   chart of accounts modules first to load l10n_br_account demo data\n"
