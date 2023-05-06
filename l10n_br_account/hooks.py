@@ -34,7 +34,7 @@ def pre_init_hook(cr):
         if coa_modules:
             raise UserError(
                 _(
-                    """It looks like your database %s(database) is running with demo
+                    """It looks like your database %s is running with demo
                    data. But the l10n_br_account module will need you to install the
                    l10n_br_coa_simple and l10n_br_coa_generic
                    chart of accounts modules first to load l10n_br_account demo data
@@ -44,7 +44,7 @@ def pre_init_hook(cr):
                    Please install the l10n_br_coa_simple and l10n_br_coa_generic modules
                    first and try installing the l10n_br_account module again.
                 """,
-                    database=cr.dbname,
+                    cr.dbname,
                 )
             )
 
