@@ -114,6 +114,7 @@ class TestGeneratePaymentInfo(SavepointCase):
             {
                 "account_id": cls.invoice_line_account_id.id,
                 "quantity": 1,
+                "uom_id": cls.env.ref("uom.product_uom_unit").id,
                 "price_unit": 450.0,
                 "name": "Product - Invoice Line Test",
                 "fiscal_operation_line_id": cls.env.ref(
@@ -208,3 +209,15 @@ class TestGeneratePaymentInfo(SavepointCase):
                 "90",
                 "Error in nfe40_tPag field, should be 90 - Sem Pagamento.",
             )
+
+    def test_valid_nfe_xml(self):
+        """
+        Test that NFe XML is valid. This in fact tests that NFe computed fields are
+        properly computed.
+        In fact this tests this bug with dummy documents(lines) compute triggers
+        https://github.com/OCA/l10n-brazil/issues/2451
+        is fixed.
+        """
+        invoice = self.invoice
+        invoice.fiscal_document_id._document_export()
+        self.assertEqual(invoice.fiscal_document_id.xml_error_message, False)
