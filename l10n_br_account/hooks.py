@@ -1,6 +1,13 @@
 # Copyright (C) 2019 - Raphaël Valyi Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+import random
+import time
+from datetime import datetime
+
+from faker import Faker
+
 from odoo import SUPERUSER_ID, _, api
 from odoo.exceptions import UserError
 from odoo.tools.sql import column_exists, create_column
@@ -149,7 +156,7 @@ def create_account_move_fake(env, partner_ids, product_ids, start_date, end_date
 
 def create_account_move_lines_fake_data(num_records, product_ids):
     data = []
-    for _ in range(num_records):
+    for _item in range(num_records):
         data.append(
             (
                 0,
