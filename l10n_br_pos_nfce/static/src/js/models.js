@@ -9,36 +9,24 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
     const models = require("point_of_sale.models");
     const {ChaveEdoc} = require("l10n_br_pos_nfce.utils");
+    const {
+        NFeXML,
+        BRAZILIAN_STATES_IBGE_CODE_MAP,
+    } = require("l10n_br_pos_nfce.nfe-xml");
 
-    const BRAZILIAN_STATES_IBGE_CODE_MAP = {
-        "Acre (BR)": "12",
-        "Alagoas (BR)": "27",
-        "Amazonas (BR)": "13",
-        "Amapá (BR)": "16",
-        "Bahia (BR)": "29",
-        "Ceará (BR)": "23",
-        "Distrito Federal (BR)": "53",
-        "Espírito Santo (BR)": "32",
-        "Goiás (BR)": "52",
-        "Maranhão (BR)": "21",
-        "Minas Gerais (BR)": "31",
-        "Mato Grosso do Sul (BR)": "50",
-        "Mato Grosso (BR)": "51",
-        "Pará (BR)": "15",
-        "Paraíba (BR)": "25",
-        "Pernambuco (BR)": "26",
-        "Piauí (BR)": "22",
-        "Paraná (BR)": "41",
-        "Rio de Janeiro (BR)": "33",
-        "Rio Grande do Norte (BR)": "24",
-        "Rondônia (BR)": "11",
-        "Roraima (BR)": "14",
-        "Rio Grande do Sul (BR)": "43",
-        "Santa Catarina (BR)": "42",
-        "Sergipe (BR)": "28",
-        "São Paulo (BR)": "35",
-        "Tocantins (BR)": "17",
-    };
+    models.load_models({
+        model: "uom.uom",
+        fields: ["id", "code", "category_id", "active"],
+        // eslint-disable-next-line no-unused-vars
+        domain: function (self) {
+            return [["active", "=", true]];
+        },
+        loaded: function (self, uoms) {
+            self.uoms = uoms;
+        },
+    });
+
+    models.load_fields("res.company", ["nfce_csc_token", "nfce_csc_code"]);
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
@@ -117,6 +105,90 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
         _prepare_fiscal_json: function (json) {
             _super_order._prepare_fiscal_json.apply(this, arguments);
             json.document_type = this.document_type;
+        },
+
+        get_total_icms: function () {
+            const orderlines = this.get_orderlines();
+            let totalICMS = 0;
+
+            for (let i = 0; i < orderlines.length; i++) {
+                const line = orderlines[i];
+                const product_fiscal_map = this.pos.fiscal_map_by_template_id[
+                    line.product.product_tmpl_id
+                ];
+                if (product_fiscal_map) {
+                    if (product_fiscal_map.icms_cst_code === "00") {
+                        totalICMS += product_fiscal_map.icms_value;
+                    }
+                }
+            }
+
+            return totalICMS;
+        },
+
+        get_total_pis: function () {
+            const orderlines = this.get_orderlines();
+            let totalPIS = 0;
+
+            for (let i = 0; i < orderlines.length; i++) {
+                const line = orderlines[i];
+                const product_fiscal_map = this.pos.fiscal_map_by_template_id[
+                    line.product.product_tmpl_id
+                ];
+                if (product_fiscal_map) {
+                    totalPIS += product_fiscal_map.pis_value;
+                }
+            }
+
+            return totalPIS;
+        },
+
+        get_total_cofins: function () {
+            const orderlines = this.get_orderlines();
+            let totalCofins = 0;
+
+            for (let i = 0; i < orderlines.length; i++) {
+                const line = orderlines[i];
+                const product_fiscal_map = this.pos.fiscal_map_by_template_id[
+                    line.product.product_tmpl_id
+                ];
+                if (product_fiscal_map) {
+                    totalCofins += product_fiscal_map.cofins_value;
+                }
+            }
+
+            return totalCofins;
+        },
+
+        get_total_without_discount: function () {
+            const orderlines = this.get_orderlines();
+            let totalWithoutDiscount = 0;
+
+            for (let i = 0; i < orderlines.length; i++) {
+                const line = orderlines[i];
+                totalWithoutDiscount += line.product.lst_price * line.quantity;
+            }
+
+            return totalWithoutDiscount;
+        },
+
+        get_total_icms_base: function () {
+            const orderlines = this.get_orderlines();
+            let totalICMSBase = 0;
+
+            for (let i = 0; i < orderlines.length; i++) {
+                const line = orderlines[i];
+                const product_fiscal_map = this.pos.fiscal_map_by_template_id[
+                    line.product.product_tmpl_id
+                ];
+                if (product_fiscal_map) {
+                    if (product_fiscal_map.icms_cst_code === "00") {
+                        totalICMSBase += product_fiscal_map.icms_base;
+                    }
+                }
+            }
+
+            return totalICMSBase;
         },
     });
 
@@ -312,6 +384,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                     currentOrder.document_key = chaveEdoc.generatedChave;
                     currentOrder.document_date_string = currentDate.toLocaleString();
                     this.env.pos.config.nfce_document_serie_sequence_number_next += 1;
+                    this._qrCodeNFCeContingency(currentOrder, chaveEdoc);
                     for (let j = 0; j < ordersToSend.length; j++) {
                         if (orders[i].id === ordersToSend[j].id) {
                             ordersToSend[j].data.document_key =
@@ -339,6 +412,11 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 console.log("NFC-e serie number updated successfully");
                 self.env.pos.config.nfce_document_serie_sequence_number_next = result;
             });
+        },
+
+        _qrCodeNFCeContingency: async function (currentOrder, chaveEdoc) {
+            const xml = new NFeXML(this.env.pos, currentOrder, chaveEdoc);
+            currentOrder.qr_code = await xml.generateQRCodeText();
         },
     });
 });
