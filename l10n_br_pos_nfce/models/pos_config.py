@@ -31,6 +31,10 @@ class PosConfig(models.Model):
         default=lambda self: self._default_next_number(),
     )
 
+    nfce_city_ibge_code = fields.Char(
+        related="company_id.city_id.ibge_code",
+    )
+
     def _default_next_number(self):
         if self.nfce_document_serie_id:
             return (
