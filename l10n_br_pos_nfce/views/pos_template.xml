@@ -58,6 +58,10 @@
                 type="text/javascript"
             />
             <script
+                src="/l10n_br_pos_nfce/static/src/js/nfe-xml.js"
+                type="text/javascript"
+            />
+            <script
                 src="/l10n_br_pos_nfce/static/src/lib/xmlbuilder2.min.js"
                 type="text/javascript"
             />
