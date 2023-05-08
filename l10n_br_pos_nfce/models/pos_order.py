@@ -4,7 +4,6 @@
 import pytz
 
 from odoo import api, fields, models
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class PosOrder(models.Model):
@@ -86,10 +85,9 @@ class PosOrder(models.Model):
             if created_order.is_contingency:
                 created_order.account_move.fiscal_document_id.write(
                     {
+                        "document_date": created_order.date_order,
                         "edoc_transmission": "9",
-                        "nfe40_dhCont": fields.Datetime.now().strftime(
-                            DEFAULT_SERVER_DATETIME_FORMAT
-                        ),
+                        "nfe40_dhCont": created_order.date_order,
                         "nfe40_xJust": "Sem comunicação com a Internet.",
                     }
                 )
