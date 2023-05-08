@@ -29,14 +29,10 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
         53: ["DF", "Distrito Federal"],
     };
 
-    const CODIGO_ESTADOS_IBGE = Object.keys(ESTADOS_IBGE);
-
     const EDOC_PREFIXO = {
         55: "NFe",
         65: "NFCE",
     };
-
-    const CODIGO_MODELOS_EDOC = Object.keys(EDOC_PREFIXO);
 
     function modulo11(base) {
         const pesos = "23456789".repeat(Math.floor(base.length / 8) + 1);
@@ -50,15 +46,15 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
     }
 
     class ChaveEdoc {
-        static CUF = [0, 2];
-        static AAMM = [2, 6];
-        static CNPJ_CPF = [6, 20];
-        static MODELO = [20, 22];
-        static SERIE = [22, 25];
-        static NUMERO = [25, 34];
-        static FORMA = [34, 35];
-        static CODIGO = [35, 43];
-        static DV = [43];
+        static CUF = [0, 2]; // eslint-disable-line
+        static AAMM = [2, 6]; // eslint-disable-line
+        static CNPJ_CPF = [6, 20]; // eslint-disable-line
+        static MODELO = [20, 22]; // eslint-disable-line
+        static SERIE = [22, 25]; // eslint-disable-line
+        static NUMERO = [25, 34]; // eslint-disable-line
+        static FORMA = [34, 35]; // eslint-disable-line
+        static CODIGO = [35, 43]; // eslint-disable-line
+        static DV = [43]; // eslint-disable-line
 
         constructor(
             chave = false,
@@ -138,6 +134,8 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
                 codigo = codigo.padStart(TAMANHO_CODIGO, "0");
             }
 
+            this._codigoAleatorio = codigo;
+
             return codigo;
         }
 
@@ -152,7 +150,11 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
         set chaveGerada(textChave) {
             this._generatedChave = textChave;
         }
+
+        get codigoAleatorio() {
+            return this._codigoAleatorio;
+        }
     }
 
-    return {ChaveEdoc};
+    return {ChaveEdoc, ESTADOS_IBGE};
 });
