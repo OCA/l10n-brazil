@@ -1931,16 +1931,6 @@ msgid "Cancelation"
 msgstr "Cancelamento"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid ""
-"Canceling the document is not allowed: one or more associated documents have "
-"already been authorized."
-msgstr ""
-"O cancelamento do documento não é permitido: um ou mais documentos "
-"associados já foram autorizados."
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_mdfe__cancellation_datetime
 msgid "Cancellation Date"
 msgstr "Data de cancelamento"
@@ -8110,12 +8100,6 @@ msgid "Send Email"
 msgstr "Enviar E-mail"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid "Send Fiscal Document Email Notification"
-msgstr "Enviar notificação de e-mail de documentos fiscais"
-
-#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__state__send
 #, python-format
@@ -8923,12 +8907,6 @@ msgid "The field 'Issuer' is required for brazilian electronic documents!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid "The fiscal operation {} has no return Fiscal Operation defined"
-msgstr "A operação fiscal {} não tem retorno Operação Fiscal definida"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__compute_sequence
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__compute_sequence
 msgid ""
@@ -8954,18 +8932,6 @@ msgid ""
 msgstr ""
 "O imposto é devido no local do estabelecimento do prestador, exceto nos "
 "casos em que este campo é verdadeiro, onde será devido no local de provisão."
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid "There is already a fiscal document with this Serie: {}, Number: {} !"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid "There is already a fiscal document with this key: {} !"
-msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_dashboard_action
@@ -9033,12 +8999,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__uom_id
 msgid "UOM"
 msgstr "UOM"
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid "Unidentified Consumer"
-msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.uom_menu
@@ -9340,12 +9300,6 @@ msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr "Você não pode excluir uma Definição de Imposto que não é rascunho !"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid "You cannot delete fiscal document number {} with the status: {}!"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document_workflow.py:0
 #, python-format
 msgid "You cannot invalidate this document"
@@ -9465,6 +9419,22 @@ msgstr "{} Falha na Estimativa de Imposto"
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#, python-format
+#~ msgid ""
+#~ "Canceling the document is not allowed: one or more associated documents "
+#~ "have already been authorized."
+#~ msgstr ""
+#~ "O cancelamento do documento não é permitido: um ou mais documentos "
+#~ "associados já foram autorizados."
+
+#, python-format
+#~ msgid "Send Fiscal Document Email Notification"
+#~ msgstr "Enviar notificação de e-mail de documentos fiscais"
+
+#, python-format
+#~ msgid "The fiscal operation {} has no return Fiscal Operation defined"
+#~ msgstr "A operação fiscal {} não tem retorno Operação Fiscal definida"
 
 #~ msgid "Date Move"
 #~ msgstr "Movimento de data"
