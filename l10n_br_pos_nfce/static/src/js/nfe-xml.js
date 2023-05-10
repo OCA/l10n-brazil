@@ -143,6 +143,19 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
             2: "http://homologacao.sefaz.to.gov.br/nfce/qrcode?p=",
         },
     };
+
+    const CODIGO_BANDEIRA_CARTAO = {
+        "01": "Visa",
+        "02": "Mastercard",
+        "03": "American Express",
+        "04": "Sorocred",
+        "05": "Diners Club",
+        "06": "Elo",
+        "07": "Hipercard",
+        "08": "Aura",
+        "09": "Cabal",
+        99: "Outros",
+    };
     class NFeXML {
         constructor(pos, order, chaveEdoc) {
             this.pos = pos;
@@ -183,6 +196,16 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
             const VERSION = "4.00";
             const {chaveEdoc} = this;
 
+            const pag = {
+                detPag: this.order.get_paymentlines().map((paymentline) => {
+                    return this.mountPaymentTag(paymentline);
+                }),
+            };
+
+            if (this.order.get_change() > 0) {
+                pag.vTroco = this.order.get_change().toFixed(2);
+            }
+
             // eslint-disable-next-line no-undef
             return xmlbuilder2.create({
                 infNFe: {
@@ -196,9 +219,7 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
                     det: this.mountOrderLinesTag(),
                     total: this.mountTotalsTag(),
                     transp: this.mountTransportTag(),
-                    pag: this.order.get_paymentlines().map((paymentline) => ({
-                        detPag: this.mountPaymentTag(paymentline),
-                    })),
+                    pag: pag,
                 },
             });
         }
@@ -485,10 +506,41 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
         }
 
         mountPaymentTag(paymentline) {
+            const paymentModes = this.pos.paymentModes;
+            const paymentMethod = paymentline.payment_method;
+            const paymentLineMode = paymentModes.find(
+                (mode) => mode.id === paymentMethod.payment_mode_id[0]
+            );
+            if (paymentLineMode.fiscal_payment_mode === "01") {
+                return {
+                    indPag: "0",
+                    tPag: paymentLineMode.fiscal_payment_mode,
+                    vPag: paymentline.amount.toFixed(2),
+                };
+            } else if (paymentLineMode.fiscal_payment_mode === "99") {
+                return {
+                    indPag: "0",
+                    tPag: paymentLineMode.fiscal_payment_mode,
+                    xPag: "Outros",
+                    vPag: paymentline.amount.toFixed(2),
+                };
+            }
             return {
                 indPag: "0",
-                tPag: "01",
+                tPag: paymentLineMode.fiscal_payment_mode,
                 vPag: paymentline.amount.toFixed(2),
+                card: {
+                    tpIntegra: "1",
+                    CNPJ: paymentline.terminal_transaction_network_cnpj.replace(
+                        /([^\w ]|_)/g,
+                        ""
+                    ),
+                    tBand:
+                        CODIGO_BANDEIRA_CARTAO[
+                            paymentline.terminal_transaction_administrator
+                        ],
+                    cAut: paymentline.transaction_id,
+                },
             };
         }
 
