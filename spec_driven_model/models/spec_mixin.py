@@ -19,7 +19,13 @@ class SpecMixin(models.AbstractModel):
     # _schema_name = 'your_schema_name'
 
     def _valid_field_parameter(self, field, name):
-        if name in ("xsd_type", "xsd_required", "choice"):
+        if name in (
+            "xsd_type",
+            "xsd_required",
+            "choice",
+            "xsd_choice_required",
+            "xsd_implicit",
+        ):
             return True
         else:
             return super()._valid_field_parameter(field, name)
