@@ -255,8 +255,8 @@ class TestFiscalTax(common.TransactionCase):
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
         test_result = {
-            "amount_included": 128.9,
-            "amount_not_included": 40.95,
+            "amount_included": 142.74,
+            "amount_not_included": 52.18,
             "amount_withholding": 0.0,
             "estimate_tax": 0.0,
             "taxes": {
@@ -269,38 +269,38 @@ class TestFiscalTax(common.TransactionCase):
                     "tax_value": 24.82,
                 },
                 "ipi": {
-                    "base": 272.98,
+                    "base": 347.85,
                     "base_reduction": 0.0,
                     "percent_amount": 15.0,
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
-                    "tax_value": 40.95,
+                    "tax_value": 52.18,
                 },
                 "icms": {
-                    "base": 425.73,
+                    "base": 450.8,
                     "base_reduction": 0.0,
                     "percent_amount": 17.00,
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
-                    "tax_value": 72.37,
-                    "add_to_base": 180.07,
+                    "tax_value": 76.64,
+                    "add_to_base": 200.87,
                     "remove_from_base": 74.87,
                 },
                 "pis": {
-                    "base": 248.16,
+                    "base": 323.03,
                     "base_reduction": 0.0,
                     "percent_amount": 2.10,
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
-                    "tax_value": 5.21,
+                    "tax_value": 6.78,
                 },
                 "cofins": {
-                    "base": 248.16,
+                    "base": 323.03,
                     "base_reduction": 0.0,
                     "percent_amount": 10.68,
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
-                    "tax_value": 26.50,
+                    "tax_value": 34.5,
                 },
             },
         }
