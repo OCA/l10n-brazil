@@ -2,8 +2,22 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import pytz
+import re
 
 from odoo import api, fields, models
+
+CODIGO_BANDEIRA_CARTAO = {
+    '01': 'Visa',
+    '02': 'Mastercard',
+    '03': 'American Express',
+    '04': 'Sorocred',
+    '05': 'Diners Club',
+    '06': 'Elo',
+    '07': 'Hipercard',
+    '08': 'Aura',
+    '09': 'Cabal',
+    '99': 'Outros',
+}
 
 
 class PosOrder(models.Model):
@@ -75,6 +89,43 @@ class PosOrder(models.Model):
             # TODO: Change the flow so that it is not necessary to commit to the db
             self.env.cr.commit()  # pylint: disable=E8102
 
+            for temp in created_order.account_move.fiscal_document_id.nfe40_detPag:
+                temp.unlink()
+
+            for payment in created_order.payment_ids:
+                if payment.payment_method_id[0].payment_mode_id.fiscal_payment_mode in ["03", "04"]:
+                    card_vals = {
+                        "nfe40_tpIntegra": "1",
+                        "nfe40_CNPJ": re.sub(r'[^\w\s]', '', payment.terminal_transaction_network_cnpj),
+                        "nfe40_tBand": CODIGO_BANDEIRA_CARTAO[payment.terminal_transaction_administrator],
+                        "nfe40_cAut": payment.transaction_id,
+                    }
+                    vals = {
+                        "nfe40_indPag": "0",
+                        "nfe40_tPag": payment.payment_method_id.payment_mode_id.fiscal_payment_mode,
+                        "nfe40_vPag": payment.amount,
+                    }
+                    created_order.account_move.fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
+                    result = self.env["nfe.40.card"].create(card_vals)
+                    self.env.cr.commit()    # pylint: disable=E8102
+                    created_order.account_move.fiscal_document_id.nfe40_detPag[-1].write({"nfe40_card": result.id})
+                elif payment.payment_method_id[0].payment_mode_id.fiscal_payment_mode == "99":
+                    vals = {
+                        "nfe40_indPag": "0",
+                        "nfe40_tPag": payment.payment_method_id.payment_mode_id.fiscal_payment_mode,
+                        "nfe40_xPag": "Outros",
+                        "nfe40_vPag": payment.amount,
+                    }
+                    created_order.account_move.fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
+                else:
+                    vals = {
+                        "nfe40_indPag": "0",
+                        "nfe40_tPag": payment.payment_method_id.payment_mode_id.fiscal_payment_mode,
+                        "nfe40_vPag": payment.amount,
+                    }
+                    created_order.account_move.fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
+
+            self.env.cr.commit()    # pylint: disable=E8102
             # FIXME: The next line is a workaround to fix the problem of the
             #  missing compute fields in the fiscal document line.
             for line in created_order.account_move.fiscal_document_id.fiscal_line_ids:
