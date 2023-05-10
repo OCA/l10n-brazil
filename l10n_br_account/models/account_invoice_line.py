@@ -489,7 +489,6 @@ class AccountMoveLine(models.Model):
         "move_id",
         "move_id.move_type",
         "move_id.fiscal_operation_id",
-        "move_id.fiscal_operation_id.deductible_taxes",
         "amount_untaxed",
         "amount_tax_included",
         "amount_tax_not_included",
