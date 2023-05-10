@@ -26,6 +26,8 @@ from ..constants.fiscal import (
     SITUACAO_EDOC_INUTILIZADA,
 )
 
+PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
+
 
 class Document(models.Model):
     """Implementação base dos documentos fiscais
@@ -217,6 +219,22 @@ class Document(models.Model):
         compute="_compute_document_subsequent_generated",
         default=False,
     )
+
+    @api.constrains("document_type", "state_edoc", "fiscal_line_ids")
+    def _check_product_default_code(self):
+        for rec in self:
+            if (
+                rec.document_type in PRODUCT_CODE_FISCAL_DOCUMENT_TYPES
+                and rec.state_edoc == "a_enviar"
+            ):
+                for line in rec.fiscal_line_ids:
+                    if not line.product_id.default_code:
+                        raise ValidationError(
+                            _(
+                                f"The product {line.product_id.display_name} "
+                                f"must have a default code."
+                            )
+                        )
 
     @api.constrains("document_key")
     def _check_key(self):
