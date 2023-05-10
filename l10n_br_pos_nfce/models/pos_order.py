@@ -1,22 +1,23 @@
 # Copyright (C) 2023  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import pytz
 import re
+
+import pytz
 
 from odoo import api, fields, models
 
 CODIGO_BANDEIRA_CARTAO = {
-    '01': 'Visa',
-    '02': 'Mastercard',
-    '03': 'American Express',
-    '04': 'Sorocred',
-    '05': 'Diners Club',
-    '06': 'Elo',
-    '07': 'Hipercard',
-    '08': 'Aura',
-    '09': 'Cabal',
-    '99': 'Outros',
+    "01": "Visa",
+    "02": "Mastercard",
+    "03": "American Express",
+    "04": "Sorocred",
+    "05": "Diners Club",
+    "06": "Elo",
+    "07": "Hipercard",
+    "08": "Aura",
+    "09": "Cabal",
+    "99": "Outros",
 }
 
 
@@ -72,69 +73,13 @@ class PosOrder(models.Model):
             pos_order_vals, draft, existing_order
         )
         created_order = self.env["pos.order"].browse(res)
+        fiscal_document_id = created_order.account_move.fiscal_document_id
         pos_config_id = created_order.session_id.config_id
 
         if pos_config_id.simplified_document_type == "65":
 
-            # It was necessary to insert the next line so that the flow of issuing
-            #   the NFC-e by frontend becomes possible.
-            # What error that has been happening is: during the validation process
-            #   of the tax document, the required record that will become the tag of
-            #   payment, and which is being created automatically, does not exist
-            #   yet in the database and therefore account.move cannot link with it,
-            #   which ends up generating an error when validating the XML. Forcing
-            #   this record through the commit, the issue flow works through
-            #   from a record created by a POS session works perfectly
-
-            # TODO: Change the flow so that it is not necessary to commit to the db
-            self.env.cr.commit()  # pylint: disable=E8102
-
-            for temp in created_order.account_move.fiscal_document_id.nfe40_detPag:
-                temp.unlink()
-
-            for payment in created_order.payment_ids:
-                if payment.payment_method_id[0].payment_mode_id.fiscal_payment_mode in ["03", "04"]:
-                    card_vals = {
-                        "nfe40_tpIntegra": "1",
-                        "nfe40_CNPJ": re.sub(r'[^\w\s]', '', payment.terminal_transaction_network_cnpj),
-                        "nfe40_tBand": CODIGO_BANDEIRA_CARTAO[payment.terminal_transaction_administrator],
-                        "nfe40_cAut": payment.transaction_id,
-                    }
-                    vals = {
-                        "nfe40_indPag": "0",
-                        "nfe40_tPag": payment.payment_method_id.payment_mode_id.fiscal_payment_mode,
-                        "nfe40_vPag": payment.amount,
-                    }
-                    created_order.account_move.fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
-                    result = self.env["nfe.40.card"].create(card_vals)
-                    self.env.cr.commit()    # pylint: disable=E8102
-                    created_order.account_move.fiscal_document_id.nfe40_detPag[-1].write({"nfe40_card": result.id})
-                elif payment.payment_method_id[0].payment_mode_id.fiscal_payment_mode == "99":
-                    vals = {
-                        "nfe40_indPag": "0",
-                        "nfe40_tPag": payment.payment_method_id.payment_mode_id.fiscal_payment_mode,
-                        "nfe40_xPag": "Outros",
-                        "nfe40_vPag": payment.amount,
-                    }
-                    created_order.account_move.fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
-                else:
-                    vals = {
-                        "nfe40_indPag": "0",
-                        "nfe40_tPag": payment.payment_method_id.payment_mode_id.fiscal_payment_mode,
-                        "nfe40_vPag": payment.amount,
-                    }
-                    created_order.account_move.fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
-
-            self.env.cr.commit()    # pylint: disable=E8102
-            # FIXME: The next line is a workaround to fix the problem of the
-            #  missing compute fields in the fiscal document line.
-            for line in created_order.account_move.fiscal_document_id.fiscal_line_ids:
-                line._compute_choice12()
-                line._compute_choice15()
-                line.tax_icms_or_issqn = "icms"
-                line._compute_choice11()
             if created_order.is_contingency:
-                created_order.account_move.fiscal_document_id.write(
+                fiscal_document_id.write(
                     {
                         "document_date": created_order.date_order,
                         "edoc_transmission": "9",
@@ -142,8 +87,62 @@ class PosOrder(models.Model):
                         "nfe40_xJust": "Sem comunicação com a Internet.",
                     }
                 )
-            created_order.account_move.fiscal_document_id.action_document_confirm()
-            created_order.account_move.fiscal_document_id.action_document_send()
+
+            # FIXME: The next line is a workaround to fix the problem of the
+            #  missing compute fields in the fiscal document line.
+            for line in fiscal_document_id.fiscal_line_ids:
+                line._compute_choice12()
+                line._compute_choice15()
+                line.tax_icms_or_issqn = "icms"
+                line._compute_choice11()
+
+            # The line below was added to enable frontend issuance of NFC-e. A
+            #   necessary record for payment tag creation does not exist in the
+            #   database during tax document validation, which causes an XML
+            #   validation error. The record is added through commit to resolve
+            #   this issue and ensure successfull record creation.
+
+            # TODO: Change the flow so that it is not necessary to commit to the db
+            self.env.cr.commit()  # pylint: disable=E8102
+
+            # Remove the onChange generated payment tag to create a new one
+            fiscal_document_id.nfe40_detPag.unlink()
+
+            for payment in created_order.payment_ids:
+                if payment.amount > 0:
+                    payment_mode_id = payment.payment_method_id.payment_mode_id
+                    vals = {
+                        "nfe40_indPag": "0",
+                        "nfe40_tPag": payment_mode_id.fiscal_payment_mode,
+                        "nfe40_vPag": payment.amount,
+                    }
+                    if payment_mode_id.fiscal_payment_mode in ["03", "04"]:
+                        cnpj = re.sub(
+                            r"[^\w\s]", "", payment.terminal_transaction_network_cnpj
+                        )
+                        card_accq = payment.terminal_transaction_administrator
+                        card_vals = {
+                            "nfe40_tpIntegra": "1",
+                            "nfe40_CNPJ": cnpj,
+                            "nfe40_tBand": CODIGO_BANDEIRA_CARTAO[card_accq],
+                            "nfe40_cAut": payment.transaction_id,
+                        }
+                        fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
+                        result = self.env["nfe.40.card"].create(card_vals)
+                        fiscal_document_id.nfe40_detPag[-1].write(
+                            {"nfe40_card": result.id}
+                        )
+                    elif payment_mode_id.fiscal_payment_mode == "99":
+                        vals.update({"nfe40_xPag": "Outros"})
+                        fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
+                    else:
+                        fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
+
+            # Same use case as the one above
+            self.env.cr.commit()  # pylint: disable=E8102
+
+            fiscal_document_id.action_document_confirm()
+            fiscal_document_id.action_document_send()
 
         return res
 
