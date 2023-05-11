@@ -168,6 +168,8 @@ class PosOrder(models.Model):
             ]
             vals.update(
                 {
+                    "discount_value": (order_line.discount * order_line.amount_total)
+                    / 100,
                     "product_uom_id": order_line.product_uom_id.id,
                     "fiscal_operation_id": pos_fiscal_map_id.fiscal_operation_id.id,
                     "tax_icms_or_issqn": "icms",
