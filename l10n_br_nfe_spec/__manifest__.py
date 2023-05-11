@@ -6,11 +6,6 @@
     "category": "Accounting",
     "summary": "nfe spec",
     "depends": ["base"],
-    "external_dependencies": {
-        "python": [
-            "nfelib",  # (only for tests)
-        ],
-    },
     "installable": True,
     "application": False,
     "development_status": "Production/Stable",
