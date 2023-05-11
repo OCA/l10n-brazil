@@ -103,10 +103,9 @@ spec_models.NfeSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
 class NFeImportTest(SavepointCase):
     def test_import_nfe1(self):
         res_items = (
-            "..",
-            "tests",
             "nfe",
-            "v4_00",
+            "samples",
+            "v4_0",
             "leiauteNFe",
             "26180875335849000115550010000016871192213331-nfe.xml",
         )
@@ -120,10 +119,9 @@ class NFeImportTest(SavepointCase):
 
     def test_import_nfe2(self):
         res_items = (
-            "..",
-            "tests",
             "nfe",
-            "v4_00",
+            "samples",
+            "v4_0",
             "leiauteNFe",
             "35180834128745000152550010000476491552806942-nfe.xml",
         )
