@@ -5,7 +5,7 @@
     "name": "Spec Driven Model",
     "summary": """
         Tools for specifications driven mixins (from xsd for instance)""",
-    "version": "14.0.3.1.2",
+    "version": "14.0.4.0.0",
     "maintainers": ["rvalyi"],
     "license": "LGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
