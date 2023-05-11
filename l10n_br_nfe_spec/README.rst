@@ -32,15 +32,21 @@ Um módulo que usa ele é o módulo `l10n_br_nfe` que permite transmitir as NF-e
 Geração
 ~~~~~~~
 
-O código dos mixins Odoo desse módulo é 100% gerado a partir dos últimos esquemas XSD da Fazenda usando generateDS e essa extensão dele:
+O código dos mixins Odoo desse módulo é 100% gerado a partir dos últimos esquemas xsd da Fazenda usando xsdata e essa extensão dele:
 
-https://github.com/akretion/generateds-odoo
+https://github.com/akretion/xsdata-odoo
 
-Depois de baixar os esquemas na pasta /tmp/generated/schemas/nfe/v4_00 basta fazer o comando:
+
+Para accessar aos schemas xsd, pode ser mais facil fazer um clone da lib nfelib e gerar
+o codigo dentro da pasta:
 
 .. code-block:: bash
 
-   python gends_run_gen_odoo.py -f -l nfe -x 4_00 -e '^ICMS\d+|^ICMSSN\d+' -d . -v /tmp/generated/schemas/nfe/v4_00/leiauteNFe_v4.00.xsd
+    git clone https://github.com/akretion/nfelib
+    cd nfelib
+    export XSDATA_SCHEMA=nfe; export XSDATA_VERSION=40; export XSDATA_SKIP="^ICMS.ICMS\d+|^ICMS.ICMSSN\d+"
+    xsdata generate /tmp/nfelib/nfelib/schemas/nfe/v4_0 --package nfelib.odoo.nfe.v4_0 --output=odoo
+    mv nfelib/odoo/nfe/v4_0 <caminho_do_odoo>/l10n_br_nfe_spec/models/v4_0
 
 
 Prefixo dos campos e versão
@@ -64,7 +70,7 @@ Casos das tags de ICMS e ICMSSN
 Para facilitar a validação das tags de ICMS e ICMSSN, o esquema contem tags especificas para cada tipo desses impostos.
 Porem, Depois no Odoo o modelo é diferente com uma class apenas. Se a gente injectasse todos esses mixins de ICMS e ICMSSN na mesma class Odoo
 a gente teria colisão de campos, com campos com o mesmo nome e seleções diferentes... Para evitar esses problemas, filtramos as classes
-desses tags (opção -x no generateds-odoo). De qualquer forma, ja que o Odoo e o módulo l10n_br_fiscal tem modelos proprios para os impostos
+desses tags (usando o export XSDATA_SKIP antes de chamar xsdata generate). De qualquer forma, já que o Odoo e o módulo l10n_br_fiscal tem modelos proprios para os impostos
 temos que assumir que o mapping das tags de impostos nao pode ser tão automatizada.
 
 **Table of contents**
