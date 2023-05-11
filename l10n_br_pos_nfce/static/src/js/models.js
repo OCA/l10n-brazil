@@ -29,13 +29,14 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
     models.load_models({
         model: "account.payment.mode",
         fields: ["id", "active", "name", "fiscal_payment_mode"],
+        // eslint-disable-next-line no-unused-vars
         domain: function (self) {
             return [["active", "=", true]];
         },
         loaded: function (self, paymentModes) {
             self.paymentModes = paymentModes;
-        }
-    })
+        },
+    });
 
     models.load_fields("pos.payment.method", ["payment_mode_id"]);
     models.load_fields("res.company", ["nfce_csc_token", "nfce_csc_code"]);
