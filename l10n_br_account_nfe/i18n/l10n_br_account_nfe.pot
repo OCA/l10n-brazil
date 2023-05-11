@@ -139,11 +139,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
-msgid "Grupo de detalhamento da forma de pagamento"
+msgid "Grupo de detalhamento da forma"
 msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_nfe_40_detpag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_move__nfe40_detPag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_payment__nfe40_detPag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
 msgid "Grupo de detalhamento da forma de pagamento."
 msgstr ""
 
