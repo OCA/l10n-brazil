@@ -184,9 +184,13 @@ class AccountMoveLine(models.Model):
                     for field in [*ACCOUNTING_FIELDS, *BUSINESS_FIELDS]
                 )
             ):
-                move_line = self.env["account.move.line"].new(values.copy())
-                move_line._compute_amounts()
-                computed_values = move_line._convert_to_write(move_line._cache)
+                fisc_values = {
+                    key: values[key]
+                    for key in self.env["l10n_br_fiscal.document.line"]._fields.keys()
+                    if values.get(key)
+                }
+                fiscal_line = self.env["l10n_br_fiscal.document.line"].new(fisc_values)
+                fiscal_line._compute_amounts()
                 values.update(
                     self._get_amount_credit_debit_model(
                         move_id,
@@ -197,7 +201,7 @@ class AccountMoveLine(models.Model):
                         amount_tax_not_included=values.get(
                             "amount_tax_not_included", 0
                         ),
-                        amount_taxed=computed_values.get("amount_taxed", 0),
+                        amount_taxed=fiscal_line.amount_taxed,
                         currency_id=move_id.currency_id,
                         company_id=move_id.company_id,
                         date=move_id.date,
