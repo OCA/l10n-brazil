@@ -376,93 +376,168 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
         }
 
         mountICMSTag(line) {
-            /**
-             * TODO: Implementar os demais CSTs
-             */
             const product = line.product;
             const taxes = this.pos.fiscal_map_by_template_id[product.product_tmpl_id];
-            if (taxes.icms_cst_code === "00") {
-                return {
-                    ICMS00: {
-                        orig: taxes.icms_origin,
-                        CST: taxes.icms_cst_code,
-                        modBC: "0",
-                        vBC: taxes.icms_base.toFixed(2),
-                        pICMS: taxes.icms_percent.toFixed(4),
-                        vICMS: taxes.icms_value.toFixed(2),
-                    },
-                };
-            } else if (taxes.icms_cst_code === "60") {
-                return {
-                    ICMS60: {
-                        orig: taxes.icms_origin,
-                        CST: taxes.icms_cst_code,
-                        vBCSTRet: "0.00",
-                        pST: (taxes.icmsst_percent + taxes.icms_percent).toFixed(4),
-                        vICMSSubstituto: taxes.icms_substitute.toFixed(2),
-                        vICMSSTRet: "0.00",
-                        vBCFCPSTRet: "0.00",
-                        pFCPSTRet: taxes.icmsst_percent.toFixed(4),
-                        vFCPSTRet: taxes.icmsst_value.toFixed(2),
-                        pRedBCEfet: "0.0000",
-                        vBCEfet: taxes.icms_effective_base.toFixed(2),
-                        pICMSEfet: taxes.icms_effective_percent.toFixed(4),
-                        vICMSEfet: taxes.icms_effective_value.toFixed(2),
-                    },
-                };
+            const {icms_cst_code, icms_origin} = taxes;
+
+            switch (icms_cst_code) {
+                case "00":
+                    return {
+                        ICMS00: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                            modBC: "0",
+                            vBC: taxes.icms_base.toFixed(2),
+                            pICMS: taxes.icms_percent.toFixed(4),
+                            vICMS: taxes.icms_value.toFixed(2),
+                        },
+                    };
+                case "10":
+                    return {
+                        ICMS10: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                            modBC: "0",
+                            vBC: taxes.icms_base.toFixed(2),
+                            pICMS: taxes.icms_percent.toFixed(4),
+                            vICMS: taxes.icms_value.toFixed(2),
+                        },
+                    };
+                case "20":
+                    return {
+                        ICMS20: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                            modBC: "0",
+                            pRedBC: taxes.icms_reduction.toFixed(4),
+                            vBC: taxes.icms_base.toFixed(2),
+                            pICMS: taxes.icms_percent.toFixed(4),
+                            vICMS: taxes.icms_value.toFixed(2),
+                        },
+                    };
+                case "30":
+                    return {
+                        ICMS30: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                            modBCST: "0",
+                            pMVAST: taxes.icmsst_mva_percent.toFixed(4),
+                            pRedBCST: taxes.icmsst_reduction.toFixed(4),
+                            vBCST: taxes.icmsst_base.toFixed(2),
+                            pICMSST: taxes.icmsst_percent.toFixed(4),
+                            vICMSST: taxes.icmsst_value.toFixed(2),
+                        },
+                    };
+                case "51":
+                    return {
+                        ICMS51: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                            modBC: "0",
+                            pRedBC: taxes.icms_reduction.toFixed(4),
+                            vBC: taxes.icms_base.toFixed(2),
+                            pICMS: taxes.icms_percent.toFixed(4),
+                            vICMSOp: "0.00", // FIXME
+                            pDif: "0.0000", // FIXME
+                            vICMSDif: "0.00", // FIXME
+                            vICMS: taxes.icms_value.toFixed(2),
+                        },
+                    };
+                case "60":
+                    return {
+                        ICMS60: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                            vBCSTRet: taxes.icmsst_wh_base.toFixed(2),
+                            pST: (taxes.icmsst_percent + taxes.icms_percent).toFixed(4),
+                            vICMSSubstituto: taxes.icms_substitute.toFixed(2),
+                            vICMSSTRet: taxes.icmsst_wh_value.toFixed(2),
+                            vBCFCPSTRet: taxes.icmsfcp_base_wh.toFixed(2),
+                            pFCPSTRet: taxes.icmsst_percent.toFixed(4),
+                            vFCPSTRet: taxes.icmsst_value.toFixed(2),
+                            pRedBCEfet: taxes.icms_effective_reduction.toFixed(4),
+                            vBCEfet: taxes.icms_effective_base.toFixed(2),
+                            pICMSEfet: taxes.icms_effective_percent.toFixed(4),
+                            vICMSEfet: taxes.icms_effective_value.toFixed(2),
+                        },
+                    };
+                case "70":
+                    return {
+                        ICMS70: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                            modBC: "0",
+                            pRedBC: taxes.icms_reduction.toFixed(4),
+                            vBC: taxes.icms_base.toFixed(2),
+                            pICMS: taxes.icms_percent.toFixed(4),
+                            vICMS: taxes.icms_value.toFixed(2),
+                        },
+                    };
+                case "90":
+                    return {
+                        ICMS90: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                        },
+                    };
+                default:
+                    return {
+                        ICMS40: {
+                            orig: icms_origin,
+                            CST: icms_cst_code,
+                        },
+                    };
             }
-            return {
-                ICMS40: {
-                    orig: taxes.icms_origin,
-                    CST: taxes.icms_cst_code,
-                },
-            };
         }
 
         mountPISTag(line) {
-            /**
-             * TODO: Implementar os demais CSTs
-             */
             const product = line.product;
             const taxes = this.pos.fiscal_map_by_template_id[product.product_tmpl_id];
-            if (taxes.pis_cst_code === "01") {
+            const {pis_cst_code, pis_base, pis_percent, pis_value} = taxes;
+
+            if (["01", "02"].includes(pis_cst_code)) {
                 return {
                     PISAliq: {
-                        CST: taxes.pis_cst_code,
-                        vBC: taxes.pis_base.toFixed(2),
-                        pPIS: taxes.pis_percent.toFixed(4),
-                        vPIS: taxes.pis_value.toFixed(2),
+                        CST: pis_cst_code,
+                        vBC: pis_base.toFixed(2),
+                        pPIS: pis_percent.toFixed(4),
+                        vPIS: pis_value.toFixed(2),
                     },
                 };
             }
-            return {
-                PISNT: {
-                    CST: taxes.pis_cst_code,
-                },
-            };
+
+            if (["04", "06", "07", "08", "09"].includes(pis_cst_code)) {
+                return {
+                    PISNT: {
+                        CST: pis_cst_code,
+                    },
+                };
+            }
         }
 
         mountCofinsTag(line) {
-            /**
-             * TODO: Implementar os demais CSTs
-             */
             const product = line.product;
             const taxes = this.pos.fiscal_map_by_template_id[product.product_tmpl_id];
-            if (taxes.cofins_cst_code === "01") {
+            const {cofins_cst_code, cofins_base, cofins_percent, cofins_value} = taxes;
+
+            if (["01", "02"].includes(cofins_cst_code)) {
                 return {
                     COFINSAliq: {
-                        CST: taxes.cofins_cst_code,
-                        vBC: taxes.cofins_base.toFixed(2),
-                        pCOFINS: taxes.cofins_percent.toFixed(4),
-                        vCOFINS: taxes.cofins_value.toFixed(2),
+                        CST: cofins_cst_code,
+                        vBC: cofins_base.toFixed(2),
+                        pCOFINS: cofins_percent.toFixed(4),
+                        vCOFINS: cofins_value.toFixed(2),
                     },
                 };
             }
-            return {
-                COFINSNT: {
-                    CST: taxes.cofins_cst_code,
-                },
-            };
+
+            if (["04", "05", "06", "07", "08", "09"].includes(cofins_cst_code)) {
+                return {
+                    COFINSNT: {
+                        CST: cofins_cst_code,
+                    },
+                };
+            }
         }
 
         mountTotalsTag() {
@@ -587,7 +662,8 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
         }
 
         generateBase64HashFromXML() {
-            const xmlString = this.getXMLMountedString();
+            let xmlString = this.getXMLMountedString();
+            xmlString = xmlString.replace('<?xml version="1.0"?>', "");
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(xmlString, "text/xml");
             const canonicalized = new XMLSerializer()
