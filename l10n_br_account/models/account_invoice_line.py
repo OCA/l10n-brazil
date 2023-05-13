@@ -339,6 +339,7 @@ class AccountMoveLine(models.Model):
                 uot_id=self.uot_id,
                 icmssn_range=self.icmssn_range_id,
                 icms_origin=self.icms_origin,
+                ind_final=self.ind_final,
             ),
         )._get_price_total_and_subtotal(
             price_unit=price_unit or self.price_unit,
@@ -413,6 +414,7 @@ class AccountMoveLine(models.Model):
                 uot_id=self.env.context.get("uot_id"),
                 icmssn_range=self.env.context.get("icmssn_range"),
                 icms_origin=self.env.context.get("icms_origin"),
+                ind_final=self.env.context.get("ind_final"),
             )
 
             result["price_subtotal"] = taxes_res["total_excluded"]
