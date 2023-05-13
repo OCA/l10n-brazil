@@ -309,7 +309,7 @@
                 <field name="exclude_from_invoice_tab" invisible="1" />
                 <field name="account_internal_type" invisible="1" />
                 <field name="account_internal_group" invisible="1" />
-
+                <field name="ind_final" invisible="1" />
                 <field name="partner_company_type" force_save="1" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="amount_tax_withholding" invisible="1" />
