@@ -273,6 +273,22 @@ class AccountMove(models.Model):
                 defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
         return defaults
 
+    @api.model
+    def _move_autocomplete_invoice_lines_create(self, vals_list):
+        new_vals_list = super(
+            AccountMove, self.with_context(lines_compute_amounts=True)
+        )._move_autocomplete_invoice_lines_create(vals_list)
+        for vals in new_vals_list:
+            if not vals.get("document_type_id"):
+                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
+        return new_vals_list
+
+    def _move_autocomplete_invoice_lines_values(self):
+        self.ensure_one()
+        if self._context.get("lines_compute_amounts"):
+            self.line_ids._compute_amounts()
+        return super()._move_autocomplete_invoice_lines_values()
+
     @api.model_create_multi
     def create(self, vals_list):
         invoice = super().create(vals_list)
@@ -423,22 +439,6 @@ class AccountMove(models.Model):
                     self.document_number, idx + 1, len(terms_lines)
                 )
         return result
-
-    @api.model
-    def _move_autocomplete_invoice_lines_create(self, vals_list):
-        new_vals_list = super(
-            AccountMove, self.with_context(lines_compute_amounts=True)
-        )._move_autocomplete_invoice_lines_create(vals_list)
-        for vals in new_vals_list:
-            if not vals.get("document_type_id"):
-                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
-        return new_vals_list
-
-    def _move_autocomplete_invoice_lines_values(self):
-        self.ensure_one()
-        if self._context.get("lines_compute_amounts"):
-            self.line_ids._compute_amounts()
-        return super()._move_autocomplete_invoice_lines_values()
 
     # @api.model
     # def invoice_line_move_line_get(self):
