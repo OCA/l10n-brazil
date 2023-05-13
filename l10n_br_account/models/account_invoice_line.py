@@ -191,6 +191,10 @@ class AccountMoveLine(models.Model):
                 }
                 fiscal_line = self.env["l10n_br_fiscal.document.line"].new(fisc_values)
                 fiscal_line._compute_amounts()
+                cfop = values.get("cfop_id")
+                cfop_id = (
+                    self.env["l10n_br_fiscal.cfop"].browse(cfop) if cfop else False
+                )
                 values.update(
                     self._get_amount_credit_debit_model(
                         move_id,
@@ -205,6 +209,7 @@ class AccountMoveLine(models.Model):
                         currency_id=move_id.currency_id,
                         company_id=move_id.company_id,
                         date=move_id.date,
+                        cfop_id=cfop_id,
                     )
                 )
         lines = super().create(vals_list)
@@ -271,6 +276,7 @@ class AccountMoveLine(models.Model):
                     currency_id=line.currency_id,
                     company_id=line.company_id,
                     date=line.date,
+                    cfop_id=line.cfop_id,
                 )
                 result |= super(AccountMoveLine, line).write(to_write)
 
@@ -532,6 +538,7 @@ class AccountMoveLine(models.Model):
         currency_id=None,
         company_id=None,
         date=None,
+        cfop_id=None,
     ):
         self.ensure_one()
         # The formatting was a little strange, but I tried to make it as close as
@@ -554,6 +561,7 @@ class AccountMoveLine(models.Model):
             date=(self.date or fields.Date.context_today(self))
             if date is None
             else date,
+            cfop_id=self.cfop_id if cfop_id is None else cfop_id,
         )
 
     def _get_amount_credit_debit_model(
@@ -566,6 +574,7 @@ class AccountMoveLine(models.Model):
         currency_id,
         company_id,
         date,
+        cfop_id,
     ):
 
         if exclude_from_invoice_tab:
@@ -576,13 +585,15 @@ class AccountMoveLine(models.Model):
             sign = -1
         else:
             sign = 1
-
-        if move_id.fiscal_operation_id.deductible_taxes:
-            amount_currency = amount_taxed
+        if cfop_id and not cfop_id.finance_move:
+            amount_currency = 0
         else:
-            amount_currency = (
-                amount_taxed - amount_tax_included - amount_tax_not_included
-            )
+            if move_id.fiscal_operation_id.deductible_taxes:
+                amount_currency = amount_taxed
+            else:
+                amount_currency = (
+                    amount_taxed - amount_tax_included - amount_tax_not_included
+                )
 
         amount_currency = amount_currency * sign
 
