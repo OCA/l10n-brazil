@@ -231,6 +231,7 @@ class AccountMove(models.Model):
         "line_ids.amount_residual_currency",
         "line_ids.payment_id.state",
         "line_ids.full_reconcile_id",
+        "ind_final",
     )
     def _compute_amount(self):
         if self.company_id.country_id.code != "BR":
@@ -260,6 +261,11 @@ class AccountMove(models.Model):
             move.amount_tax_signed = sign * sum(inv_line_ids.mapped("amount_tax"))
 
         return result
+
+    @api.onchange("ind_final")
+    def _onchange_ind_final(self):
+        """Trigger the recompute of the taxes when the ind_final is changed"""
+        return self._recompute_dynamic_lines(recompute_all_taxes=True)
 
     @api.model
     def default_get(self, fields_list):
