@@ -1,0 +1,549 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_nfse
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_nfse
+#: model:ir.actions.report,print_report_name:l10n_br_nfse.report_br_nfse_danfe
+msgid "'%s - NF - %s' % (object.document_number, object.partner_id.name)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "( ) Sim (X) Não"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(-) Deduções permitidas em lei"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(-) Desconto Condicionado"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(-) Desconto Incondicionado"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(-) ISS Retido"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(-) Retenções Federais"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(=) Valor Líquido R$"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(=) Valor do ISS: R$"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(X) Sim ( ) Não"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "(x) Alíquota %"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "- CEP:"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "/ IBPT"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "0 - Nenhum"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "0,00"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "1 - Sim"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "1 - Tributação no <br>município</br>"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid ""
+"1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br/>\n"
+"                    2- A autenticidade desta Nota Fiscal poderá ser verificada no site,"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "2 - Não"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid ""
+"3 - Documento emitido por ME ou EPP optante pelo Simples Nacional.Não gera "
+"direito a crédito fiscal de ISS e IPI."
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid ""
+"<br/>\n"
+"                    Secretaria Municipal da Fazenda\n"
+"                    <br/>\n"
+"                    NOTA FISCAL ELETRÔNICA DE SERVIÇO"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "<span>Número da NFS-e</span><br/>"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Avisos"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Base de Cálculo"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "COFINS"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "CSLL"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
+msgid "City Settings"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__city_taxation_code_id
+msgid "City Taxation Code"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Competência"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Complemento:"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__4
+msgid "Cooperativa"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__cultural_sponsor
+msgid "Cultural Sponsor"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__rps_type__3
+msgid "Cupom"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Código de Verificação"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Código do Serviço / Atividade"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Dados Adicionais"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Dados do Prestador de Serviços"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Dados do Tomador de Serviços"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Data e Hora da Emissão"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Discriminação dos serviços"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "E-mail:"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__edoc_error_message
+msgid "Edoc Error Message"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Endereço"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__2
+msgid "Estimativa"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__5
+msgid "Exigibilidade suspensa por decisão judicial"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__6
+msgid "Exigibilidade suspensa por procedimento administrativo"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__fiscal_deductions_value
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_product__fiscal_deductions_value
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__fiscal_deductions_value
+msgid "Fiscal Deductions"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document_line
+msgid "Fiscal Document Line"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
+msgid "General Settings"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__nfse_environment__2
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__nfse_environment__2
+msgid "Homologação"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "INSS"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "IR"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "ISS a reter:"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__4
+msgid "Imune"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Incentivador Cultural: 2 - Não"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Insc. Municipal"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__3
+msgid "Isenção"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Local da Prestação"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__1
+msgid "Microempresa Municipal"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__5
+msgid "Microempresario Individual(MEI)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__6
+msgid "Microempresario e Empresa de Pequeno Porte(ME EPP)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Município"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
+msgid "NFS-e"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_city_logo
+msgid "NFSe City Logo"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__nfse_environment
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_environment
+msgid "NFSe Environment"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__provedor_nfse
+msgid "NFSe Provider"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_website
+msgid "NFSe Website"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Natureza Operação"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "No. da NFS-e substituída"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Nome Fantasia"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.actions.report,name:l10n_br_nfse.report_br_nfse_danfe
+msgid "Nota de Serviço"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Número do RPS"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__operation_nature
+msgid "Operation Nature"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Opção Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__other_retentions_value
+msgid "Other Retentions"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Outras Retenções"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "PIS"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Prefeitura do Município de"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__nfse_environment__1
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__nfse_environment__1
+msgid "Produção"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__rps_type__2
+msgid "RPS Nota Fiscal Conjugada (Mista)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_type
+msgid "RPS Type"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Razão Social/Nome"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__rps_type__1
+msgid "Recibo provisório de Serviços"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Regime esp. Tributação"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__3
+msgid "Sociedade de Profissionais"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__taxation_special_regime
+msgid "Taxation Special Regime"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Telefone:"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__2
+msgid "Tributação fora do município"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__1
+msgid "Tributação no município"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Tributos Federais (Lei 12.741/2012)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Valor Aproximado dos Tributos R$ / Fonte"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Valor dos Serviços R$"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__verify_code
+msgid "Verify Code"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "com a utilização do Código de Verificação.<br/>"
+msgstr ""

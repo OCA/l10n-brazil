@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="document_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.line.form</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_line_form" />
+        <field name="arch" type="xml">
+            <field name="fiscal_price" position="after">
+                <field name="fiscal_deductions_value" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
