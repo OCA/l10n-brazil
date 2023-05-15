@@ -634,13 +634,13 @@ TPROCEMI = [
 ]
 
 """Tipo Origem da mercadoria CST ICMS origem da mercadoria: 0-Nacional
-    exceto as indicadas nos códigos 3, 4, 5 e 8;
-    1-Estrangeira - Importação direta; 2-Estrangeira - Adquirida no mercado
-    interno; 3-Nacional, conteudo superior 40% e inferior ou igual a 70%;
-    4-Nacional, processos produtivos básicos; 5-Nacional, conteudo inferior
-    40%; 6-Estrangeira - Importação direta, com similar nacional, lista CAMEX;
-    7-Estrangeira - mercado interno, sem simular,lista CAMEX;8-Nacional,
-    Conteúdo de Importação superior a 70%."""
+    exceto as indicadas nos códigos 3, 4, 5 e 8;1-Estrangeira - Importação
+    direta; 2-Estrangeira - Adquirida no mercado interno; 3-Nacional,
+    conteudo superior 40% e inferior ou igual a 70%; 4-Nacional, processos
+    produtivos básicos; 5-Nacional, conteudo inferior 40%; 6-Estrangeira -
+    Importação direta, com similar nacional, lista CAMEX; 7-Estrangeira -
+    mercado interno, sem simular,lista CAMEX;8-Nacional, Conteúdo de
+    Importação superior a 70%."""
 TORIG = [
     ("0", "0"),
     ("1", "1"),
@@ -1815,6 +1815,18 @@ class Nfref(models.AbstractModel):
             " por Código da UF (tabela do IBGE) + AAMM da emissão + CNPJ do "
             "Emitente + modelo, série e número da NF-e Referenciada + Código "
             "Numérico + DV."
+        ),
+    )
+
+    nfe40_refNFeSig = fields.Char(
+        string="Referencia uma NF-e",
+        choice="nfref",
+        xsd_choice_required=True,
+        xsd_type="TChNFe",
+        help=(
+            "Referencia uma NF-e (modelo 55) emitida anteriormente pela sua "
+            "Chave de Acesso com código numérico zerado, permitindo manter o "
+            "sigilo da NF-e referenciada."
         ),
     )
 
