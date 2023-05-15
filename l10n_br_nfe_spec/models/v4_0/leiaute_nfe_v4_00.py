@@ -159,6 +159,12 @@ ICMS00_MODBC = [
     ("3", "Valor da Operação."),
 ]
 
+"""Tributção pelo ICMS
+    02= Tributação monofásica própria sobre combustíveis;"""
+ICMS02_CST = [
+    ("02", "02"),
+]
+
 "CST"
 ICMS10_CST = [
     ("10", "Tributada e com cobrança do ICMS por substituição tributária"),
@@ -188,6 +194,20 @@ ICMS10_MOTDESICMSST = [
     ("3", "Uso na agropecuária"),
     ("9", "Outros"),
     ("12", "Fomento agropecuário."),
+]
+
+"""Tributção pelo ICMS
+    15= Tributação monofásica própria e com responsabilidade pela retenção sobre
+    combustíveis;"""
+ICMS15_CST = [
+    ("15", "15"),
+]
+
+"""Motivo da redução do adrem
+    1= Transporte coletivo de passageiros; 9=Outros;"""
+ICMS15_MOTREDADREM = [
+    ("1", "1"),
+    ("9", "9"),
 ]
 
 "Tributção pelo ICMS"
@@ -273,9 +293,21 @@ ICMS51_MODBC = [
     ("3", "Valor da Operação."),
 ]
 
+"""Tributção pelo ICMS
+    53= Tributação monofásica sobre combustíveis com recolhimento diferido;"""
+ICMS53_CST = [
+    ("53", "53"),
+]
+
 "Tributação pelo ICMS"
 ICMS60_CST = [
     ("60", "ICMS cobrado anteriormente por substituição tributária"),
+]
+
+"""Tributção pelo ICMS
+    61= Tributação monofásica sobre combustíveis cobrada anteriormente"""
+ICMS61_CST = [
+    ("61", "61"),
 ]
 
 "Tributção pelo ICMS"
@@ -749,6 +781,12 @@ IDE_TPIMP = [
 IDE_TPNF = [
     ("0", "entrada"),
     ("1", "saída)"),
+]
+
+"Indicador de importação 0=Nacional; 1=Importado;"
+ORIGCOMB_INDIMPORT = [
+    ("0", "0"),
+    ("1", "1"),
 ]
 
 "Origem do processo, informar"
@@ -3156,6 +3194,25 @@ class Comb(models.AbstractModel):
         comodel_name="nfe.40.encerrante", string="Informações do grupo de 'encerrante'"
     )
 
+    nfe40_pBio = fields.Float(
+        string="Percentual do índice de mistura",
+        xsd_type="TDec_03v00a04Max100Opc",
+        digits=(
+            3,
+            0,
+        ),
+        help=(
+            "Percentual do índice de mistura do Biodiesel (B100) no Óleo "
+            "Diesel B instituído pelo órgão regulamentador"
+        ),
+    )
+
+    nfe40_origComb = fields.One2many(
+        "nfe.40.origcomb",
+        "nfe40_origComb_comb_id",
+        string="Grupo indicador da origem do combustível",
+    )
+
 
 class Cide(models.AbstractModel):
     "CIDE Combustíveis"
@@ -3241,6 +3298,42 @@ class Encerrante(models.AbstractModel):
             3,
         ),
         help="Valor do Encerrante no final do abastecimento",
+    )
+
+
+class OrigComb(models.AbstractModel):
+    "Grupo indicador da origem do combustível"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "nfe.40.origcomb"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Det.Prod.Comb.OrigComb"
+    _generateds_type = "origCombType"
+
+    nfe40_origComb_comb_id = fields.Many2one(
+        comodel_name="nfe.40.comb", xsd_implicit=True, ondelete="cascade"
+    )
+    nfe40_indImport = fields.Selection(
+        ORIGCOMB_INDIMPORT,
+        string="Indicador",
+        xsd_required=True,
+        help="Indicador de importação 0=Nacional; 1=Importado;",
+    )
+
+    nfe40_cUFOrig = fields.Selection(
+        TCODUFIBGE,
+        string="UF de origem do produtor ou do importado",
+        xsd_required=True,
+        xsd_type="TCodUfIBGE",
+    )
+
+    nfe40_pOrig = fields.Float(
+        string="Percentual originário para a UF",
+        xsd_required=True,
+        xsd_type="TDec_03v00a04Max100Opc",
+        digits=(
+            3,
+            0,
+        ),
     )
 
 
@@ -4879,6 +4972,53 @@ class Icmstot(models.AbstractModel):
             "Valor Total do FCP (Fundo de Combate à Pobreza) retido "
             "anteriormente por substituição tributária."
         ),
+    )
+
+    nfe40_qBCMono = fields.Monetary(
+        string="Valor total da quantidade tributada",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=("Valor total da quantidade tributada do ICMS monofásico próprio"),
+    )
+
+    nfe40_vICMSMono = fields.Monetary(
+        string="Valor total do ICMS monofásico próprio",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    nfe40_qBCMonoReten = fields.Monetary(
+        string="qBCMonoReten",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total da quantidade tributada do ICMS monofásico sujeito a "
+            "retenção"
+        ),
+    )
+
+    nfe40_vICMSMonoReten = fields.Monetary(
+        string="Valor total do ICMS monofásico sujeito",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help="Valor total do ICMS monofásico sujeito a retenção",
+    )
+
+    nfe40_qBCMonoRet = fields.Monetary(
+        string="qBCMonoRet",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total da quantidade tributada do ICMS monofásico retido "
+            "anteriormente"
+        ),
+    )
+
+    nfe40_vICMSMonoRet = fields.Monetary(
+        string="Valor",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help="Valor do ICMS monofásico retido anteriormente",
     )
 
     nfe40_vProd = fields.Monetary(
