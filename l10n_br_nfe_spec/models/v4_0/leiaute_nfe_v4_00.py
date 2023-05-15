@@ -599,209 +599,6 @@ PISST_INDSOMAPISST = [
     ("1", "1"),
 ]
 
-"Tipo Código da Lista de Serviços LC 116/2003"
-TCLISTSERV = [
-    ("01.01", "01.01"),
-    ("01.02", "01.02"),
-    ("01.03", "01.03"),
-    ("01.04", "01.04"),
-    ("01.05", "01.05"),
-    ("01.06", "01.06"),
-    ("01.07", "01.07"),
-    ("01.08", "01.08"),
-    ("01.09", "01.09"),
-    ("02.01", "02.01"),
-    ("03.02", "03.02"),
-    ("03.03", "03.03"),
-    ("03.04", "03.04"),
-    ("03.05", "03.05"),
-    ("04.01", "04.01"),
-    ("04.02", "04.02"),
-    ("04.03", "04.03"),
-    ("04.04", "04.04"),
-    ("04.05", "04.05"),
-    ("04.06", "04.06"),
-    ("04.07", "04.07"),
-    ("04.08", "04.08"),
-    ("04.09", "04.09"),
-    ("04.10", "04.10"),
-    ("04.11", "04.11"),
-    ("04.12", "04.12"),
-    ("04.13", "04.13"),
-    ("04.14", "04.14"),
-    ("04.15", "04.15"),
-    ("04.16", "04.16"),
-    ("04.17", "04.17"),
-    ("04.18", "04.18"),
-    ("04.19", "04.19"),
-    ("04.20", "04.20"),
-    ("04.21", "04.21"),
-    ("04.22", "04.22"),
-    ("04.23", "04.23"),
-    ("05.01", "05.01"),
-    ("05.02", "05.02"),
-    ("05.03", "05.03"),
-    ("05.04", "05.04"),
-    ("05.05", "05.05"),
-    ("05.06", "05.06"),
-    ("05.07", "05.07"),
-    ("05.08", "05.08"),
-    ("05.09", "05.09"),
-    ("06.01", "06.01"),
-    ("06.02", "06.02"),
-    ("06.03", "06.03"),
-    ("06.04", "06.04"),
-    ("06.05", "06.05"),
-    ("06.06", "06.06"),
-    ("07.01", "07.01"),
-    ("07.02", "07.02"),
-    ("07.03", "07.03"),
-    ("07.04", "07.04"),
-    ("07.05", "07.05"),
-    ("07.06", "07.06"),
-    ("07.07", "07.07"),
-    ("07.08", "07.08"),
-    ("07.09", "07.09"),
-    ("07.10", "07.10"),
-    ("07.11", "07.11"),
-    ("07.12", "07.12"),
-    ("07.13", "07.13"),
-    ("07.16", "07.16"),
-    ("07.17", "07.17"),
-    ("07.18", "07.18"),
-    ("07.19", "07.19"),
-    ("07.20", "07.20"),
-    ("07.21", "07.21"),
-    ("07.22", "07.22"),
-    ("08.01", "08.01"),
-    ("08.02", "08.02"),
-    ("09.01", "09.01"),
-    ("09.02", "09.02"),
-    ("09.03", "09.03"),
-    ("10.01", "10.01"),
-    ("10.02", "10.02"),
-    ("10.03", "10.03"),
-    ("10.04", "10.04"),
-    ("10.05", "10.05"),
-    ("10.06", "10.06"),
-    ("10.07", "10.07"),
-    ("10.08", "10.08"),
-    ("10.09", "10.09"),
-    ("10.10", "10.10"),
-    ("11.01", "11.01"),
-    ("11.02", "11.02"),
-    ("11.03", "11.03"),
-    ("11.04", "11.04"),
-    ("12.01", "12.01"),
-    ("12.02", "12.02"),
-    ("12.03", "12.03"),
-    ("12.04", "12.04"),
-    ("12.05", "12.05"),
-    ("12.06", "12.06"),
-    ("12.07", "12.07"),
-    ("12.08", "12.08"),
-    ("12.09", "12.09"),
-    ("12.10", "12.10"),
-    ("12.11", "12.11"),
-    ("12.12", "12.12"),
-    ("12.13", "12.13"),
-    ("12.14", "12.14"),
-    ("12.15", "12.15"),
-    ("12.16", "12.16"),
-    ("12.17", "12.17"),
-    ("13.02", "13.02"),
-    ("13.03", "13.03"),
-    ("13.04", "13.04"),
-    ("13.05", "13.05"),
-    ("14.01", "14.01"),
-    ("14.02", "14.02"),
-    ("14.03", "14.03"),
-    ("14.04", "14.04"),
-    ("14.05", "14.05"),
-    ("14.06", "14.06"),
-    ("14.07", "14.07"),
-    ("14.08", "14.08"),
-    ("14.09", "14.09"),
-    ("14.10", "14.10"),
-    ("14.11", "14.11"),
-    ("14.12", "14.12"),
-    ("14.13", "14.13"),
-    ("14.14", "14.14"),
-    ("15.01", "15.01"),
-    ("15.02", "15.02"),
-    ("15.03", "15.03"),
-    ("15.04", "15.04"),
-    ("15.05", "15.05"),
-    ("15.06", "15.06"),
-    ("15.07", "15.07"),
-    ("15.08", "15.08"),
-    ("15.09", "15.09"),
-    ("15.10", "15.10"),
-    ("15.11", "15.11"),
-    ("15.12", "15.12"),
-    ("15.13", "15.13"),
-    ("15.14", "15.14"),
-    ("15.15", "15.15"),
-    ("15.16", "15.16"),
-    ("15.17", "15.17"),
-    ("15.18", "15.18"),
-    ("16.01", "16.01"),
-    ("16.02", "16.02"),
-    ("17.01", "17.01"),
-    ("17.02", "17.02"),
-    ("17.03", "17.03"),
-    ("17.04", "17.04"),
-    ("17.05", "17.05"),
-    ("17.06", "17.06"),
-    ("17.08", "17.08"),
-    ("17.09", "17.09"),
-    ("17.10", "17.10"),
-    ("17.11", "17.11"),
-    ("17.12", "17.12"),
-    ("17.13", "17.13"),
-    ("17.14", "17.14"),
-    ("17.15", "17.15"),
-    ("17.16", "17.16"),
-    ("17.17", "17.17"),
-    ("17.18", "17.18"),
-    ("17.19", "17.19"),
-    ("17.20", "17.20"),
-    ("17.21", "17.21"),
-    ("17.22", "17.22"),
-    ("17.23", "17.23"),
-    ("17.24", "17.24"),
-    ("17.25", "17.25"),
-    ("18.01", "18.01"),
-    ("19.01", "19.01"),
-    ("20.01", "20.01"),
-    ("20.02", "20.02"),
-    ("20.03", "20.03"),
-    ("21.01", "21.01"),
-    ("22.01", "22.01"),
-    ("23.01", "23.01"),
-    ("24.01", "24.01"),
-    ("25.01", "25.01"),
-    ("25.02", "25.02"),
-    ("25.03", "25.03"),
-    ("25.04", "25.04"),
-    ("25.05", "25.05"),
-    ("26.01", "26.01"),
-    ("27.01", "27.01"),
-    ("28.01", "28.01"),
-    ("29.01", "29.01"),
-    ("30.01", "30.01"),
-    ("31.01", "31.01"),
-    ("32.01", "32.01"),
-    ("33.01", "33.01"),
-    ("34.01", "34.01"),
-    ("35.01", "35.01"),
-    ("36.01", "36.01"),
-    ("37.01", "37.01"),
-    ("38.01", "38.01"),
-    ("39.01", "39.01"),
-    ("40.01", "40.01"),
-]
-
 "Código do país"
 TENDEREMI_CPAIS = [
     ("1058", "1058"),
@@ -961,6 +758,18 @@ PROCREF_INDPROC = [
     ("2", "Justiça Estadual"),
     ("3", "Secex/RFB"),
     ("9", "Outros"),
+]
+
+"""Tipo do ato concessório
+    Para origem do Processo na SEFAZ (indProc=0), informar o
+    tipo de ato concessório:
+    08=Termo de Acordo;
+    10=Regime Especial;
+    12=Autorização específica;"""
+PROCREF_TPATO = [
+    ("08", "08"),
+    ("10", "10"),
+    ("12", "12"),
 ]
 
 PROD_INDESCALA = [
@@ -2445,6 +2254,12 @@ class Det(models.AbstractModel):
             "Informações adicionais do produto (norma referenciada, "
             "informações complementares, etc)"
         ),
+    )
+
+    nfe40_obsItem = fields.Many2one(
+        comodel_name="nfe.40.obsitem",
+        string="Grupo de observações de uso livre",
+        help="Grupo de observações de uso livre (para o item da NF-e)",
     )
 
     nfe40_nItem = fields.Char(string="Número do item do NF", xsd_required=True)
@@ -4503,6 +4318,30 @@ class Icmspart(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
+    nfe40_vBCFCPST = fields.Monetary(
+        string="Valor da Base de cálculo do FCP retido",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=("Valor da Base de cálculo do FCP retido por substituicao " "tributaria."),
+    )
+
+    nfe40_pFCPST = fields.Float(
+        string="Percentual de FCP retido",
+        xsd_type="TDec_0302a04Opc",
+        digits=(
+            3,
+            2,
+        ),
+        help="Percentual de FCP retido por substituição tributária.",
+    )
+
+    nfe40_vFCPST = fields.Monetary(
+        string="Valor do FCP retido",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help="Valor do FCP retido por substituição tributária.",
+    )
+
     nfe40_pBCOp = fields.Float(
         string="Percentual para determinação do valor",
         xsd_required=True,
@@ -4745,8 +4584,7 @@ class Issqn(models.AbstractModel):
         ),
     )
 
-    nfe40_cListServ = fields.Selection(
-        TCLISTSERV,
+    nfe40_cListServ = fields.Char(
         string="Item da lista de serviços da LC 116/03",
         xsd_required=True,
         xsd_type="TCListServ",
@@ -4862,6 +4700,53 @@ class Ipi(models.AbstractModel):
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
     )
+
+
+class ObsItem(models.AbstractModel):
+    "Grupo de observações de uso livre (para o item da NF-e)"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "nfe.40.obsitem"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Det.ObsItem"
+    _generateds_type = "obsItemType"
+
+    nfe40_obsCont = fields.Many2one(
+        comodel_name="nfe.40.det_obscont",
+        string="Grupo de observações de uso livre",
+        help="Grupo de observações de uso livre (para o item da NF-e)",
+    )
+
+    nfe40_obsFisco = fields.Many2one(
+        comodel_name="nfe.40.det_obsfisco",
+        string="obsFisco",
+        help="Grupo de observações de uso livre (para o item da NF-e)",
+    )
+
+
+class DetObsCont(models.AbstractModel):
+    "Grupo de observações de uso livre (para o item da NF-e)"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "nfe.40.det_obscont"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Det.ObsItem.ObsCont"
+    _generateds_type = "obsContType"
+
+    nfe40_xTexto = fields.Char(string="xTexto", xsd_required=True)
+
+    nfe40_xCampo = fields.Char(string="xCampo", xsd_required=True)
+
+
+class DetObsFisco(models.AbstractModel):
+    "Grupo de observações de uso livre (para o item da NF-e)"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "nfe.40.det_obsfisco"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Det.ObsItem.ObsFisco"
+    _generateds_type = "obsFiscoType"
+
+    nfe40_xTexto = fields.Char(string="xTexto", xsd_required=True)
+
+    nfe40_xCampo = fields.Char(string="xCampo", xsd_required=True)
 
 
 class Total(models.AbstractModel):
@@ -5619,7 +5504,7 @@ class InfAdic(models.AbstractModel):
     )
 
     nfe40_obsCont = fields.One2many(
-        "nfe.40.obscont",
+        "nfe.40.infadic_obscont",
         "nfe40_obsCont_infAdic_id",
         string="Campo de uso livre do contribuinte",
         help=(
@@ -5629,7 +5514,7 @@ class InfAdic(models.AbstractModel):
     )
 
     nfe40_obsFisco = fields.One2many(
-        "nfe.40.obsfisco",
+        "nfe.40.infadic_obsfisco",
         "nfe40_obsFisco_infAdic_id",
         string="Campo de uso exclusivo do Fisco",
         help=(
@@ -5646,13 +5531,10 @@ class InfAdic(models.AbstractModel):
     )
 
 
-class ObsCont(models.AbstractModel):
-    """Campo de uso livre do contribuinte
-    informar o nome do campo no atributo xCampo
-    e o conteúdo do campo no xTexto"""
-
+class InfAdicObsCont(models.AbstractModel):
+    "Grupo de observações de uso livre (para o item da NF-e)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "nfe.40.obscont"
+    _name = "nfe.40.infadic_obscont"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.InfAdic.ObsCont"
     _generateds_type = "obsContType"
@@ -5665,13 +5547,10 @@ class ObsCont(models.AbstractModel):
     nfe40_xCampo = fields.Char(string="xCampo", xsd_required=True)
 
 
-class ObsFisco(models.AbstractModel):
-    """Campo de uso exclusivo do Fisco
-    informar o nome do campo no atributo xCampo
-    e o conteúdo do campo no xTexto"""
-
+class InfAdicObsFisco(models.AbstractModel):
+    "Grupo de observações de uso livre (para o item da NF-e)"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "nfe.40.obsfisco"
+    _name = "nfe.40.infadic_obsfisco"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.InfAdic.ObsFisco"
     _generateds_type = "obsFiscoType"
@@ -5708,6 +5587,17 @@ class ProcRef(models.AbstractModel):
         help=(
             "Origem do processo, informar com:\n0 - SEFAZ;\n1 - Justiça "
             "Federal;\n2 - Justiça Estadual;\n3 - Secex/RFB;\n9 - Outros"
+        ),
+    )
+
+    nfe40_tpAto = fields.Selection(
+        PROCREF_TPATO,
+        string="Tipo do ato concessório",
+        help=(
+            "Tipo do ato concessório\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPara origem "
+            "do Processo na SEFAZ (indProc=0), informar o\ntipo de ato "
+            "concessório:\n08=Termo de Acordo;\n10=Regime "
+            "Especial;\n12=Autorização específica;"
         ),
     )
 
