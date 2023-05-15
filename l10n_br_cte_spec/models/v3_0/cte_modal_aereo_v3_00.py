@@ -125,9 +125,10 @@ class NatCarga(models.AbstractModel):
         ),
     )
 
-    cte30_cInfManu = fields.One2many(
-        "cte.30.natcargacinfmanu",
-        "cte30_cInfManu_natCarga_id",
+    cte30_cInfManu = fields.Selection(
+        NATCARGA_CINFMANU, 
+#        "cte.30.natcargacinfmanu",
+#        "cte30_cInfManu_natCarga_id",
         string="Informações de manuseio",
         help=(
             "Informações de manuseio\n01 - certificado do expedidor para "

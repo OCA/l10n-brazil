@@ -13,7 +13,7 @@ from .tipos_geral_cte_v3_00 import (
     TMODCTOS,
     TMODGTVE,
     TMODNF,
-    TUFSEMEX,
+    TUF_SEM_EX,
     TUF,
     TTIPOUNIDCARGA,
     TTIPOUNIDTRANSP,
@@ -1496,25 +1496,25 @@ class TcteOsCompl(models.AbstractModel):
 
     cte30_xObs = fields.Char(string="Observações Gerais")
 
-    cte30_obsCont = fields.One2many(
-        "cte.30.tcteos_obscont",
-        "cte30_ObsCont_compl_id",
-        string="Campo de uso livre do contribuinte",
-        help=(
-            "Campo de uso livre do contribuinte\nInformar o nome do campo no "
-            "atributo xCampo e o conteúdo do campo no XTexto"
-        ),
-    )
+#    cte30_obsCont = fields.One2many(
+#        "cte.30.tcteos_obscont",
+#        "cte30_ObsCont_compl_id",
+#        string="Campo de uso livre do contribuinte",
+#        help=(
+#            "Campo de uso livre do contribuinte\nInformar o nome do campo no "
+#            "atributo xCampo e o conteúdo do campo no XTexto"
+#        ),
+#    )
 
-    cte30_obsFisco = fields.One2many(
-        "cte.30.tcteos_obsfisco",
-        "cte30_ObsFisco_compl_id",
-        string="ObsFisco",
-        help=(
-            "Campo de uso livre do contribuinte\nInformar o nome do campo no "
-            "atributo xCampo e o conteúdo do campo no XTexto"
-        ),
-    )
+#    cte30_obsFisco = fields.One2many(
+#        "cte.30.tcteos_obsfisco",
+#        "cte30_ObsFisco_compl_id",
+#        string="ObsFisco",
+#        help=(
+#            "Campo de uso livre do contribuinte\nInformar o nome do campo no "
+#            "atributo xCampo e o conteúdo do campo no XTexto"
+#        ),
+#    )
 
 
 class TcteOsObsCont(models.AbstractModel):
@@ -1661,11 +1661,11 @@ class TcteOsVPrest(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    cte30_comp = fields.One2many(
-        "cte.30.comp",
-        "cte30_Comp_vPrest_id",
-        string="Componentes do Valor da Prestação",
-    )
+#    cte30_comp = fields.One2many(
+#        "cte.30.comp",
+#        "cte30_Comp_vPrest_id",
+#        string="Componentes do Valor da Prestação",
+#    )
 
 
 class Comp(models.AbstractModel):
@@ -2114,9 +2114,9 @@ class TcteOsCobr(models.AbstractModel):
         comodel_name="cte.30.tcteos_fat", string="Dados da fatura"
     )
 
-    cte30_dup = fields.One2many(
-        "cte.30.tcteos_dup", "cte30_dup_cobr_id", string="Dados das duplicatas"
-    )
+#    cte30_dup = fields.One2many(
+#        "cte.30.tcteos_dup", "cte30_dup_cobr_id", string="Dados das duplicatas"
+#    )
 
 
 class TcteOsFat(models.AbstractModel):
@@ -3899,15 +3899,15 @@ class TcteCompl(models.AbstractModel):
 
     cte30_xObs = fields.Char(string="Observações Gerais")
 
-    cte30_obsCont = fields.One2many(
-        "cte.30.tcte_obscont",
-        "cte30_ObsCont_compl_id",
-        string="Campo de uso livre do contribuinte",
-        help=(
-            "Campo de uso livre do contribuinte\nInformar o nome do campo no "
-            "atributo xCampo e o conteúdo do campo no XTexto"
-        ),
-    )
+#    cte30_obsCont = fields.One2many(
+#        "cte.30.tcte_obscont",
+#        "cte30_ObsCont_compl_id",
+#        string="Campo de uso livre do contribuinte",
+#        help=(
+#            "Campo de uso livre do contribuinte\nInformar o nome do campo no "
+#            "atributo xCampo e o conteúdo do campo no XTexto"
+#        ),
+#    )
 
     cte30_obsFisco = fields.One2many(
         "cte.30.tcte_obsfisco",
@@ -4518,11 +4518,11 @@ class TcteVPrest(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    cte30_comp = fields.One2many(
-        "cte.30.comp",
-        "cte30_Comp_vPrest_id",
-        string="Componentes do Valor da Prestação",
-    )
+#    cte30_comp = fields.One2many(
+#        "cte.30.comp",
+#        "cte30_Comp_vPrest_id",
+#        string="Componentes do Valor da Prestação",
+#    )
 
 
 class Comp(models.AbstractModel):

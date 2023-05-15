@@ -49,6 +49,9 @@ class MultimodalSeg(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "Multimodal.Seg"
 
+    cte30_seg_infCTeNorm_id = fields.Many2one(
+        comodel_name="cte.30.infctenorm", xsd_implicit=True, ondelete="cascade"
+    )
     cte30_infSeg = fields.Many2one(
         comodel_name="cte.30.infseg",
         string="Informações da seguradora",

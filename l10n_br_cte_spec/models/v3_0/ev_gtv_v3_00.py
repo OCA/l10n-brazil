@@ -5,7 +5,7 @@
 import textwrap
 from odoo import fields, models
 
-from .cte_tipos_basico_v3_00 import INFESPECIETPESPECIE
+from .cte_tipos_basico_v3_00 import INFESPECIE_TPESPECIE
 
 from .tipos_geral_cte_v3_00 import TUF
 
@@ -121,6 +121,9 @@ class InfGtvInfEspecie(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "EvGtv.InfGtv.InfEspecie"
 
+    cte30_infEspecie_detGTV_id = fields.Many2one(
+        comodel_name="cte.30.detgtv", xsd_implicit=True, ondelete="cascade"
+    )
     cte30_infEspecie_infGTV_id = fields.Many2one(
         comodel_name="cte.30.infgtv", xsd_implicit=True, ondelete="cascade"
     )
