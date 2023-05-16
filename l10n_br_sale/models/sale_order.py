@@ -263,8 +263,9 @@ class SaleOrder(models.Model):
                                 order_line.invoice_lines = invoice.invoice_line_ids
                             invoice_id.invoice_line_ids -= inv_line
 
+            # set the document serie for original invoice
             invoice_created_by_super.document_serie_id = (
-                fiscal_document_type.get_document_serie(
+                invoice_created_by_super.document_type_id.get_document_serie(
                     invoice_created_by_super.company_id,
                     invoice_created_by_super.fiscal_operation_id,
                 )
