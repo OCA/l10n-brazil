@@ -265,6 +265,8 @@ class AccountMove(models.Model):
     @api.onchange("ind_final")
     def _onchange_ind_final(self):
         """Trigger the recompute of the taxes when the ind_final is changed"""
+        for line in self.invoice_line_ids:
+            line._onchange_fiscal_operation_id()
         return self._recompute_dynamic_lines(recompute_all_taxes=True)
 
     @api.model
