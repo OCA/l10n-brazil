@@ -147,7 +147,7 @@ class NFeRelated(spec_models.StackedModel):
             xsd_fields = [
                 f
                 for f in xsd_fields
-                if f not in [i[0] for i in class_obj._fields["nfe40_choice4"].selection]
+                if f not in [i[0] for i in self._fields["nfe40_choice4"].selection]
             ]
             xsd_fields += [self.nfe40_choice4]
         return super()._export_fields(xsd_fields, class_obj, export_dict)
