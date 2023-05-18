@@ -526,10 +526,30 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cnae__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cst__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_data_abstract__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_data_ncm_nbs_abstract__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_data_product_abstract__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_email__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_control_seal__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline_class__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_base__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_credit__active
 msgid "Active"
 msgstr ""
 
@@ -991,6 +1011,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.certificate_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_email_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_serie_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
 msgid "Archived"
 msgstr ""
 
@@ -9048,6 +9069,18 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/document_line.py:0
 #, python-format
 msgid "You cannot unlink Fiscal Document Line Dummy !"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/data_abstract.py:0
+#, python-format
+msgid "You don't have permission to archive records."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/data_abstract.py:0
+#, python-format
+msgid "You don't have permission to unarchive records."
 msgstr ""
 
 #. module: l10n_br_fiscal
