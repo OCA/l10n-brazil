@@ -28,7 +28,12 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
                     return util.validate_cnpj_cpf(currentOrder.customer_tax_id);
                 }
 
-                const cnpj_cpf = client.cnpj_cpf || client.name;
+                const cnpj_cpf = client.cnpj_cpf;
+
+                if (!cnpj_cpf) {
+                    return true;
+                }
+
                 const result = util.validate_cnpj_cpf(cnpj_cpf);
                 if (!result) {
                     currentOrder.set_client(null);
