@@ -806,7 +806,7 @@ class NFe(spec_models.StackedModel):
                 edoc_type=edoc_type,
                 lang="pt_BR",
             )
-            .build(nfe_binding.infNFe, dry_run=dry_run)
+            .build_from_binding(nfe_binding.infNFe, dry_run=dry_run)
         )
         document.imported_document = True
         self._invert_fiscal_operation_type(document, nfe_binding, edoc_type)
