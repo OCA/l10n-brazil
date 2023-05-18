@@ -79,14 +79,14 @@ class NfeImport(models.TransientModel):
             self.document_key = document.chave
             self.document_number = int(document.numero_documento)
             self.document_serie = int(document.numero_serie)
-            self.partner_cpf_cnpj = document.cnpj_emitente
+            self.partner_cpf_cnpj = document.cnpj_cpf_emitente
             self.partner_name = (
                 parsed_xml.infNFe.emit.xFant or parsed_xml.infNFe.emit.xNome
             )
             self.partner_id = self.env["res.partner"].search(
                 [
                     "|",
-                    ("cnpj_cpf", "=", document.cnpj_emitente),
+                    ("cnpj_cpf", "=", document.cnpj_cpf_emitente),
                     ("nfe40_xNome", "=", parsed_xml.infNFe.emit.xNome),
                 ],
                 limit=1,
@@ -123,7 +123,7 @@ class NfeImport(models.TransientModel):
         )
 
         self.fiscal_operation_type = (
-            "in" if document.cnpj_emitente != self.company_id.cnpj_cpf else "out"
+            "in" if document.cnpj_cpf_emitente != self.company_id.cnpj_cpf else "out"
         )
 
         edoc = self.env["l10n_br_fiscal.document"].import_xml(
