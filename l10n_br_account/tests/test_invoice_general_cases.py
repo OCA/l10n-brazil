@@ -1,7 +1,13 @@
 # Copyright (C) 2023-Today - Engenere (<https://engenere.one>).
 # @author Felipe Motter Pereira <felipe@engenere.one>
 
+from datetime import datetime, time, timedelta
+
+from pytz import UTC, timezone
+
 from odoo.tests import TransactionCase
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
 
 
 class TestInvoiceDiscount(TransactionCase):
@@ -88,3 +94,63 @@ class TestInvoiceDiscount(TransactionCase):
         self.assertEqual(self.move_id.invoice_line_ids.discount, 10)
         self.move_id.invoice_line_ids._onchange_price_subtotal()
         self.assertEqual(self.move_id.invoice_line_ids.price_subtotal, 900)
+
+    def test_document_date(self):
+        self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
+        user_tz = timezone(self.env.user.tz or "UTC")
+        original_date = datetime.combine(datetime.now().date(), time.min)
+        # Convert the original_date to the user's timezone and remove the time for comparison
+        original_date_in_user_tz = (
+            user_tz.localize(original_date).astimezone(UTC).replace(tzinfo=None)
+        )
+        original_date_without_time = original_date_in_user_tz.date()
+
+        self.move_id.invoice_date = original_date.date()
+        self.move_id.fiscal_document_id._compute_document_date()
+
+        self.assertEqual(
+            self.move_id.fiscal_document_id.document_date.date(),
+            original_date_without_time,
+            "Computed document date is incorrect",
+        )
+
+    def test_inverse_document_date(self):
+        self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
+        new_date = datetime.now() - timedelta(days=2)
+        self.move_id.fiscal_document_id.document_date = new_date
+        self.move_id.fiscal_document_id._inverse_document_date()
+
+        self.assertEqual(
+            self.move_id.invoice_date,
+            new_date.date(),
+            "Inverse computed invoice date is incorrect",
+        )
+
+    def test_date_in_out(self):
+        self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
+        user_tz = timezone(self.env.user.tz or "UTC")
+        original_date = datetime.combine(datetime.now().date(), time.min)
+        # Convert the original_date to the user's timezone and remove the time for comparison
+        original_date_in_user_tz = (
+            user_tz.localize(original_date).astimezone(UTC).replace(tzinfo=None)
+        )
+        original_date_without_time = original_date_in_user_tz.date()
+        self.move_id.date = original_date.date()
+        self.move_id.fiscal_document_id._compute_date_in_out()
+
+        self.assertEqual(
+            self.move_id.fiscal_document_id.date_in_out.date(),
+            original_date_without_time,
+            "Computed date in out is incorrect",
+        )
+
+    def test_inverse_date_in_out(self):
+        self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
+        new_date = datetime.now() - timedelta(days=2)
+        self.move_id.fiscal_document_id.date_in_out = new_date
+        self.move_id.fiscal_document_id._inverse_date_in_out()
+        self.assertEqual(
+            self.move_id.date,
+            new_date.date(),
+            "Inverse computed account date is incorrect",
+        )
