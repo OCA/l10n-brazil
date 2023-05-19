@@ -216,6 +216,57 @@ class AccountMove(models.Model):
 
         return invoice_view
 
+    @api.depends(
+        "line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched",
+        "line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual",
+        "line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual_currency",
+        "line_ids.matched_credit_ids.credit_move_id.move_id.payment_id.is_matched",
+        "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual",
+        "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual_currency",
+        "line_ids.debit",
+        "line_ids.credit",
+        "line_ids.currency_id",
+        "line_ids.amount_currency",
+        "line_ids.amount_residual",
+        "line_ids.amount_residual_currency",
+        "line_ids.payment_id.state",
+        "line_ids.full_reconcile_id",
+        "ind_final",
+    )
+    def _compute_amount(self):
+        if self.company_id.country_id.code != "BR":
+            return super()._compute_amount()
+        for move in self:
+            for line in move.line_ids:
+                if (
+                    move.is_invoice(include_receipts=True)
+                    and not line.exclude_from_invoice_tab
+                ):
+                    line._update_taxes()
+
+        result = super()._compute_amount()
+        for move in self:
+            if move.move_type == "entry" or move.is_outbound():
+                sign = -1
+            else:
+                sign = 1
+            inv_line_ids = move.line_ids.filtered(
+                lambda l: not l.exclude_from_invoice_tab
+            )
+            move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
+            move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
+            move.amount_untaxed_signed = sign * sum(
+                inv_line_ids.mapped("amount_untaxed")
+            )
+            move.amount_tax_signed = sign * sum(inv_line_ids.mapped("amount_tax"))
+
+        return result
+
+    @api.onchange("ind_final")
+    def _onchange_ind_final(self):
+        """Trigger the recompute of the taxes when the ind_final is changed"""
+        return self._recompute_dynamic_lines(recompute_all_taxes=True)
+
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
@@ -230,19 +281,19 @@ class AccountMove(models.Model):
 
     @api.model
     def _move_autocomplete_invoice_lines_create(self, vals_list):
-        """
-        This method is called in the original AccountMove#create method.
-        And when the type is "entry" rather than "invoice", we should
-        force the dummy fiscal_document_id again or it would be removed
-        from the values and the _inherits system would create a new one.
-        So in general we always use this method to ensure the dummy is used
-        when document_type_id is empty.
-        """
-        vals_list = super()._move_autocomplete_invoice_lines_create(vals_list)
-        for vals in vals_list:
+        new_vals_list = super(
+            AccountMove, self.with_context(lines_compute_amounts=True)
+        )._move_autocomplete_invoice_lines_create(vals_list)
+        for vals in new_vals_list:
             if not vals.get("document_type_id"):
                 vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
-        return vals_list
+        return new_vals_list
+
+    def _move_autocomplete_invoice_lines_values(self):
+        self.ensure_one()
+        if self._context.get("lines_compute_amounts"):
+            self.line_ids._compute_amounts()
+        return super()._move_autocomplete_invoice_lines_values()
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -333,6 +384,7 @@ class AccountMove(models.Model):
             uot_id=base_line.uot_id,
             icmssn_range=base_line.icmssn_range_id,
             icms_origin=base_line.icms_origin,
+            ind_final=base_line.ind_final,
         )
 
         return balance_taxes_res
