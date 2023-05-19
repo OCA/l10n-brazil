@@ -40,6 +40,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
     models.load_fields("pos.payment.method", ["payment_mode_id"]);
     models.load_fields("res.company", ["nfce_csc_token", "nfce_csc_code"]);
+    models.load_fields("res.partner", ["is_anonymous_consumer"]);
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
