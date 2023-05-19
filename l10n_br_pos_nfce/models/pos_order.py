@@ -41,7 +41,7 @@ class PosOrder(models.Model):
                     "fiscal_operation_id": pos_config_id.out_pos_fiscal_operation_id.id,
                     "ind_pres": "1",
                     "document_serie_id": pos_config_id.nfce_document_serie_id.id,
-                    "partner_id": pos_config_id.partner_id.id,
+                    "partner_id": self.partner_id.id,
                     "payment_mode_id": payment_mode_id.id,
                     "nfe40_vTroco": self.amount_return,
                 }
@@ -77,7 +77,6 @@ class PosOrder(models.Model):
         pos_config_id = created_order.session_id.config_id
 
         if pos_config_id.simplified_document_type == "65":
-
             if created_order.is_contingency:
                 fiscal_document_id.write(
                     {
@@ -88,8 +87,7 @@ class PosOrder(models.Model):
                     }
                 )
 
-            # FIXME: The next line is a workaround to fix the problem of the
-            #  missing compute fields in the fiscal document line.
+            # FIXME: Workaround to fix the problem of missing compute fields in fiscal document lines
             for line in fiscal_document_id.fiscal_line_ids:
                 line._compute_choice12()
                 line._compute_choice15()
@@ -101,11 +99,10 @@ class PosOrder(models.Model):
             #   database during tax document validation, which causes an XML
             #   validation error. The record is added through commit to resolve
             #   this issue and ensure successfull record creation.
-
             # TODO: Change the flow so that it is not necessary to commit to the db
             self.env.cr.commit()  # pylint: disable=E8102
 
-            # Remove the onChange generated payment tag to create a new one
+            # Remove the onChange-generated payment tag to create a new one
             fiscal_document_id.nfe40_detPag.unlink()
 
             for payment in created_order.payment_ids:
@@ -138,11 +135,39 @@ class PosOrder(models.Model):
                     else:
                         fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
 
+            # Fill the CPF/CNPJ in anonymous consumer before sending the document
+            #   so that the minimum information is included in the XML
+            if (
+                created_order.cnpj_cpf
+                and created_order.partner_id.is_anonymous_consumer
+            ):
+                if len(created_order.cnpj_cpf) == 14:
+                    created_order.partner_id.write(
+                        {
+                            "company_type": "company",
+                            "ind_ie_dest": "9",
+                        }
+                    )
+                    created_order.partner_id.nfe40_CPF = ""
+                else:
+                    created_order.partner_id.nfe40_CNPJ = ""
+                created_order.partner_id.write({"cnpj_cpf": created_order.cnpj_cpf})
+                fiscal_document_id.nfe40_dest.nfe40_xNome = ""
+
             # Same use case as the one above
             self.env.cr.commit()  # pylint: disable=E8102
 
             fiscal_document_id.action_document_confirm()
             fiscal_document_id.action_document_send()
+
+            # Clean the CPF/CNPJ in anonymous consumer after sending the document
+            if (
+                created_order.cnpj_cpf
+                and created_order.partner_id.is_anonymous_consumer
+            ):
+                created_order.partner_id.write(
+                    {"company_type": "person", "cnpj_cpf": False}
+                )
 
         return res
 

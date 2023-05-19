@@ -156,6 +156,10 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
         "09": "Cabal",
         99: "Outros",
     };
+
+    const removePontuaction = (text) => {
+        return text.replace(/([^\w ]|_)/g, "");
+    };
     class NFeXML {
         constructor(pos, order, chaveEdoc) {
             this.pos = pos;
@@ -260,22 +264,23 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
 
         mountEmitterTag() {
             const state = this.pos.company.state_id[1];
+            const company = this.pos.company;
             return {
-                CNPJ: this.pos.company.cnpj_cpf.replace(/([^\w ]|_)/g, ""),
-                xNome: this.pos.company.legal_name,
-                xFant: this.pos.company.name,
+                CNPJ: removePontuaction(company.cnpj_cpf),
+                xNome: company.legal_name,
+                xFant: company.name,
                 enderEmit: {
-                    xLgr: this.pos.company.street_name,
-                    nro: this.pos.company.street_number,
-                    xBairro: this.pos.company.district,
-                    cMun: this.pos.config.nfce_city_ibge_code,
-                    xMun: this.pos.company.city_id[1],
+                    xLgr: company.street_name,
+                    nro: company.street_number,
+                    xBairro: company.district,
+                    cMun: company.nfce_city_ibge_code,
+                    xMun: company.city_id[1],
                     UF: ESTADOS_IBGE[BRAZILIAN_STATES_IBGE_CODE_MAP[state]][0],
-                    CEP: this.pos.company.zip.replace(/([^\w ]|_)/g, ""),
+                    CEP: removePontuaction(company.zip),
                     cPais: "1058",
                     xPais: "Brasil",
                 },
-                IE: this.pos.company.inscr_est.replace(/([^\w ]|_)/g, ""),
+                IE: removePontuaction(company.inscr_est),
                 CRT: "3",
             };
         }
@@ -283,23 +288,40 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
         mountDestinataryTag() {
             const state = this.pos.company.state_id[1];
             const NFCeEnvironment = this.pos.config.nfce_environment;
+            const client = this.order.get_client();
+            const customerTaxID = this.order.customer_tax_id;
+            const isCPF = customerTaxID.length === 11;
             let name = "";
+
             if (NFCeEnvironment === "2") {
                 name = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL";
             } else {
-                name = this.order.get_client().name;
+                name = client.name || "";
             }
+
+            if (client.is_anonymous_consumer) {
+                if (customerTaxID.length === 11 || customerTaxID.length === 14) {
+                    return {
+                        [isCPF ? "CPF" : "CNPJ"]: removePontuaction(customerTaxID),
+                        xNome: name,
+                        indIEDest: "9",
+                    };
+                }
+                return;
+            }
+            const clientCnpjCpf = client.cnpj_cpf;
+
             return {
-                CPF: this.order.get_client().cnpj_cpf.replace(/([^\w ]|_)/g, ""),
+                CPF: removePontuaction(clientCnpjCpf),
                 xNome: name,
                 enderDest: {
-                    xLgr: this.order.get_client().street_name,
-                    nro: this.order.get_client().street_number,
-                    xBairro: this.order.get_client().district,
+                    xLgr: client.street_name,
+                    nro: client.street_number,
+                    xBairro: client.district,
                     cMun: this.pos.config.nfce_city_ibge_code,
-                    xMun: this.order.get_client().city_id[1],
+                    xMun: client.city_id[1],
                     UF: ESTADOS_IBGE[BRAZILIAN_STATES_IBGE_CODE_MAP[state]][0],
-                    CEP: this.order.get_client().zip.replace(/([^\w ]|_)/g, ""),
+                    CEP: removePontuaction(client.zip),
                     cPais: "1058",
                     xPais: "Brasil",
                 },
@@ -309,16 +331,24 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
 
         mountDeliveryTag() {
             const state = this.pos.company.state_id[1];
+            const client = this.order.get_client();
+            const customerTaxID = this.order.customer_tax_id;
+            const isCPF = customerTaxID.length === 11;
+
+            if (client.is_anonymous_consumer) {
+                return;
+            }
+
             return {
-                CPF: this.order.get_client().cnpj_cpf.replace(/([^\w ]|_)/g, ""),
-                xNome: this.order.get_client().name,
-                xLgr: this.order.get_client().street_name,
-                nro: this.order.get_client().street_number,
-                xBairro: this.order.get_client().district,
+                [isCPF ? "CPF" : "CNPJ"]: removePontuaction(customerTaxID),
+                xNome: client.name,
+                xLgr: client.street_name,
+                nro: client.street_number,
+                xBairro: client.district,
                 cMun: this.pos.config.nfce_city_ibge_code,
-                xMun: this.order.get_client().city_id[1],
+                xMun: client.city_id[1],
                 UF: ESTADOS_IBGE[BRAZILIAN_STATES_IBGE_CODE_MAP[state]][0],
-                CEP: this.order.get_client().zip.replace(/([^\w ]|_)/g, ""),
+                CEP: removePontuaction(client.zip),
                 cPais: "1058",
                 xPais: "Brasil",
             };
