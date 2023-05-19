@@ -39,7 +39,7 @@ odoo.define("l10n_br_pos_nfce.NfceFooterReceipt", function (require) {
         }
 
         get hasConsumer() {
-            return false;
+            return this.order.customer_tax_id;
         }
 
         get notIssuedInContingency() {
