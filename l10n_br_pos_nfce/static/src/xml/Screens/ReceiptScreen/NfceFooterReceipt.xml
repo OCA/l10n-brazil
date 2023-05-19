@@ -5,7 +5,7 @@
             <div class="footerText">
                 <div class="consumerInfo">
                     <t t-if="hasConsumer">
-                        <p><b>CONSUMIDOR:</b> CPF/CNPJ do CONSUMIDOR</p>
+                        <p><b>CONSUMIDOR:</b> <t t-esc="hasConsumer" /></p>
                     </t>
                     <t t-else="">
                         <p class="consumerNotIdentified">Consumidor Nao Identificado</p>
