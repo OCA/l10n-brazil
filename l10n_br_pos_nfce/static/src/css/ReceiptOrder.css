@@ -3,14 +3,10 @@
     --fontSizeBody: 20px;
 }
 
-.pos-receipt-container {
+.pos-receipt-container-nfce {
     flex: 0 1 500px !important ;
-}
-
-.pos-receipt {
-    width: 100% !important;
-    margin: 2px;
-    padding: 0 !important;
+    overflow: auto;
+    background-color: white;
 }
 
 .nfceSeparator {
