@@ -231,6 +231,7 @@ class AccountInvoice(models.Model):
         else:
             invoice = super().create(values)
         invoice._write_shadowed_fields()
+        invoice.compute_taxes()
         return invoice
 
     def _recompute_todo(self, field):
