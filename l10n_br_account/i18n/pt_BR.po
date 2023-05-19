@@ -99,6 +99,16 @@ msgid "All Documents"
 msgstr "Todos os Documentos"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_taxed
+msgid "Amount Taxed"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_untaxed
+msgid "Amount Untaxed"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Amounts"
 msgstr "Totais"
