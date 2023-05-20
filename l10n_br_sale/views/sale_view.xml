@@ -65,9 +65,21 @@
                 />
             </field>
             <field name="validity_date" position="after">
-                <field name="fiscal_operation_id" required="True" />
-                <field name="ind_final" required="True" />
-                <field name="ind_pres" required="True" />
+                <field name="company_country_id" invisible="1" />
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="ind_final"
+                    required="0"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)],'required': [('fiscal_operation_id', '!=', False)]}"
+                />
+                <field
+                    name="ind_pres"
+                    required="0"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)],'required': [('fiscal_operation_id', '!=', False)]}"
+                />
             </field>
             <field name="note" position="replace">
                 <group>
@@ -151,36 +163,38 @@
                 expr="//field[@name='order_line']/form//label[@for='customer_lead']"
                 position="before"
             >
+                <field name="order_fiscal_operation_id" invisible="1" />
+                <field name="company_country_id" invisible="1" />
                 <field
                     name="fiscal_operation_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('order_fiscal_operation_id', '!=', False),('display_type', '=', False)], 'invisible': [('company_country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('order_fiscal_operation_id', '!=', False),('display_type', '=', False)], 'invisible': [('company_country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="cfop_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('company_country_id', '!=', %(base.br)d)]}"
                 />
                 <field name="price_total" invisible="1" />
                 <field name="price_subtotal" invisible="1" />
                 <field
                     name="service_type_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('company_country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="city_taxation_code_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('company_country_id', '!=', %(base.br)d)]}"
                     options="{'no_create': True}"
                 />
                 <field
                     name="cnae_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('company_country_id', '!=', %(base.br)d)]}"
                     options="{'no_create': True}"
                 />
             </xpath>
@@ -199,9 +213,9 @@
                 <label
                     for="fiscal_quantity"
                     string="Fiscal Quantity"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}"
                 />
-                <div attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}">
+                <div attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}">
                     <field
                         context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
                         name="fiscal_quantity"
@@ -217,19 +231,20 @@
                 </div>
                 <field
                     name="fiscal_price"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}"
                 />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form/field[@name='name']"
                 position="after"
             >
-                <field name="country_id" invisible="1" />
-                <notebook attrs="{'invisible': [('display_type', '!=', False)]}">
+                <notebook
+                    attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}"
+                >
                     <page
                         name="fiscal_taxes"
                         string="Taxes"
-                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                        attrs="{'invisible': [('display_type', '!=', False)]}"
                     />
                     <page
                         string="Invoice Lines"

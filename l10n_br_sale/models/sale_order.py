@@ -26,6 +26,8 @@ class SaleOrder(models.Model):
         domain = [("state", "=", "approved")]
         return domain
 
+    company_country_id = fields.Many2one(related="company_id.country_id", store=True)
+
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
@@ -141,6 +143,9 @@ class SaleOrder(models.Model):
         lines = super()._get_invoiceable_lines(final=final)
         document_type_id = self._context.get("document_type_id")
 
+        if not document_type_id:
+            return lines
+
         return [
             line
             for line in lines
@@ -149,6 +154,9 @@ class SaleOrder(models.Model):
         ]
 
     def _create_invoices(self, grouped=False, final=False, date=None):
+        if not self.fiscal_operation_id:
+            return super()._create_invoices(grouped=grouped, final=final, date=date)
+
         document_types = {
             line.fiscal_operation_line_id.get_document_type(line.company_id)
             for sale in self
@@ -174,6 +182,10 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
+
+        if not self.fiscal_operation_id:
+            return result
+
         result.update(self._prepare_br_fiscal_dict())
 
         document_type_id = self._context.get("document_type_id")
