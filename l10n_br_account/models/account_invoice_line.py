@@ -21,7 +21,6 @@ SHADOWED_FIELDS = [
     "uom_id",
     "quantity",
     "price_unit",
-    "discount_value",
 ]
 
 
@@ -139,6 +138,13 @@ class AccountMoveLine(models.Model):
         from the parent."""
         return SHADOWED_FIELDS
 
+    @api.model
+    def _inject_shadowed_fields(self, vals_list):
+        for vals in vals_list:
+            for field in self._shadowed_fields():
+                if vals.get(field):
+                    vals["fiscal_%s" % (field,)] = vals[field]
+
     def _prepare_shadowed_fields_dict(self, default=False):
         self.ensure_one()
         vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
@@ -165,6 +171,7 @@ class AccountMoveLine(models.Model):
                         )
                     )
                 values["fiscal_document_line_id"] = dummy_line.id
+                continue  # dummy doc line, we can skip all l10n-brazil logic
 
             values.update(
                 self._update_fiscal_quantity(
@@ -175,6 +182,7 @@ class AccountMoveLine(models.Model):
                     values.get("uot_id"),
                 )
             )
+            values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
             if (
                 move_id.is_invoice(include_receipts=True)
@@ -212,17 +220,14 @@ class AccountMoveLine(models.Model):
                         cfop_id=cfop_id,
                     )
                 )
+        self._inject_shadowed_fields(vals_list)
         lines = super().create(vals_list)
-
-        for line in lines.filtered(lambda l: l.fiscal_document_line_id != dummy_line):
-            shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
-            doc_id = line.move_id.fiscal_document_id.id
-            shadowed_fiscal_vals["document_id"] = doc_id
-            line.fiscal_document_line_id.write(shadowed_fiscal_vals)
-
         return lines
 
     def write(self, values):
+        if len(self) == 0:  # it does happen (cash basis) -> optimization: return fast
+            return
+
         dummy_doc = self.env.company.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         non_dummy = self.filtered(lambda l: l.fiscal_document_line_id != dummy_line)

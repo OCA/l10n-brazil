@@ -14,6 +14,16 @@ class FiscalDocumentLine(models.Model):
         string="Invoice Lines",
     )
 
+    fiscal_name = fields.Text(related="name")
+    fiscal_partner_id = fields.Many2one(related="partner_id")
+    fiscal_company_id = fields.Many2one(related="company_id")
+    fiscal_currency_id = fields.Many2one(related="currency_id")
+    fiscal_product_id = fields.Many2one(related="product_id")
+    fiscal_uom_id = fields.Many2one(related="uom_id")
+    fiscal_quantity = fields.Float(related="quantity")
+    fiscal_price_unit = fields.Float(related="price_unit")
+
+
     def modified(self, fnames, create=False, before=False):
         """
         Modifying a dummy fiscal document (no document_type_id) line should not recompute
