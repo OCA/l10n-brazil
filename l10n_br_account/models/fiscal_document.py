@@ -16,6 +16,16 @@ class FiscalDocument(models.Model):
         string="Invoices",
     )
 
+    fiscal_partner_id = fields.Many2one(related="partner_id")
+    fiscal_company_id = fields.Many2one(related="company_id")
+    fiscal_currency_id = fields.Many2one(related="currency_id")
+    fiscal_partner_shipping_id = fields.Many2one(related="partner_shipping_id")
+    fiscal_user_id = fields.Many2one(related="user_id")
+
+    def write(self, vals):
+        if self.document_type_id:
+            return super().write(vals)
+
     def modified(self, fnames, create=False, before=False):
         """
         Modifying a dummy fiscal document (no document_type_id) should not recompute
