@@ -55,6 +55,8 @@ from ..constants.nfe import (
     NFE_VERSIONS,
 )
 
+PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
+
 _logger = logging.getLogger(__name__)
 
 
@@ -681,6 +683,23 @@ class NFe(spec_models.StackedModel):
     ################################
     # Business Model Methods
     ################################
+
+    @api.constrains("document_type", "state_edoc", "fiscal_line_ids")
+    def _check_product_default_code(self):
+        for rec in self:
+            if (
+                rec.document_type in PRODUCT_CODE_FISCAL_DOCUMENT_TYPES
+                and rec.state_edoc == "a_enviar"
+            ):
+                for line in rec.fiscal_line_ids:
+                    if not line.product_id.default_code and not line.nfe40_cProd:
+                        raise ValidationError(
+                            _(
+                                f"The product {line.product_id.display_name} "
+                                f"must have a default code or the product code"
+                                f"line field (nfe40_cProd) should be filled."
+                            )
+                        )
 
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
