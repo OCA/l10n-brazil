@@ -133,18 +133,12 @@ class AccountMove(models.Model):
         from the parent."""
         return SHADOWED_FIELDS
 
-    def _prepare_shadowed_fields_dict(self, default=False):
-        self.ensure_one()
-        vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
-        if default:  # in case you want to use new rather than write later
-            return {"default_%s" % (k,): vals[k] for k in vals.keys()}
-        return vals
-
-    def _write_shadowed_fields(self):
-        for invoice in self:
-            if invoice.document_type_id:
-                shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
-                invoice.fiscal_document_id.write(shadowed_fiscal_vals)
+    @api.model
+    def _inject_shadowed_fields(self, vals_list):
+        for vals in vals_list:
+            for field in self._shadowed_fields():
+                if vals.get(field):
+                    vals["fiscal_%s" % (field,)] = vals[field]
 
     @api.model
     def fields_view_get(
@@ -299,13 +293,13 @@ class AccountMove(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        self._inject_shadowed_fields(vals_list)
         invoice = super().create(vals_list)
-        invoice._write_shadowed_fields()
         return invoice
 
     def write(self, values):
+        self._inject_shadowed_fields([values])
         result = super().write(values)
-        self._write_shadowed_fields()
         return result
 
     def unlink(self):
