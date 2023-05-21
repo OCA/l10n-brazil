@@ -14,6 +14,15 @@ class FiscalDocumentLine(models.Model):
         string="Invoice Lines",
     )
 
+    # proxy fields to enable writing the related (shadowed) fields
+    # to the fiscal doc line from the aml through the _inherits system
+    # despite they have the same names.
+    fiscal_name = fields.Text(related="name", readonly=False)
+    fiscal_product_id = fields.Many2one(related="product_id", readonly=False)
+    fiscal_uom_id = fields.Many2one(related="uom_id", readonly=False)
+    fiscal_quantity = fields.Float(related="quantity", readonly=False)
+    fiscal_price_unit = fields.Float(related="price_unit", readonly=False)
+
     def modified(self, fnames, create=False, before=False):
         """
         Modifying a dummy fiscal document (no document_type_id) line should not recompute
