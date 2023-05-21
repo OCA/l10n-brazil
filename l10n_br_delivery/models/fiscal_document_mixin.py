@@ -20,6 +20,8 @@ class FiscalDocumentMixin(models.AbstractModel):
         " transactions.",
     )
 
+    fiscal_incoterm_id = fields.Many2one(related="incoterm_id")
+
     carrier_id = fields.Many2one(
         comodel_name="delivery.carrier",
         string="Carrier",
