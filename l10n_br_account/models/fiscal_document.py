@@ -23,6 +23,22 @@ class FiscalDocument(models.Model):
         string="Invoices",
     )
 
+    # proxy fields to enable writing the related (shadowed) fields
+    # to the fiscal document from the account.move through the _inherits system
+    # despite they have the same names.
+    fiscal_partner_id = fields.Many2one(related="partner_id", readonly=False)
+    fiscal_company_id = fields.Many2one(related="company_id", readonly=False)
+    fiscal_currency_id = fields.Many2one(related="currency_id", readonly=False)
+    fiscal_partner_shipping_id = fields.Many2one(
+        related="partner_shipping_id", readonly=False
+    )
+    fiscal_user_id = fields.Many2one(related="user_id", readonly=False)
+
+    # commented out because of badly written TestInvoiceDiscount.test_date_in_out
+    #    def write(self, vals):
+    #        if self.document_type_id:
+    #            return super().write(vals)
+
     fiscal_line_ids = fields.One2many(
         copy=False,
     )
