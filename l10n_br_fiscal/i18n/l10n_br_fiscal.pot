@@ -1754,6 +1754,14 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#, python-format
+msgid ""
+"Canceling the document is not allowed: one or more associated documents have"
+" already been authorized."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_mdfe__cancellation_datetime
 msgid "Cancellation Date"
 msgstr ""
@@ -7876,6 +7884,12 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#, python-format
+msgid "Send Fiscal Document Email Notification"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__state__send
 #, python-format
@@ -8675,6 +8689,13 @@ msgid "The field 'Issuer' is required for brazilian electronic documents!"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#, python-format
+msgid "The fiscal operation {} has no return Fiscal Operation defined"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__compute_sequence
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__compute_sequence
 msgid ""
@@ -8695,6 +8716,18 @@ msgid ""
 "The tax is due at the location of the provider establishment, except in the "
 "cases that this field is true, where it will be due at the place of "
 "provision."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#, python-format
+msgid "There is already a fiscal document with this Serie: {}, Number: {} !"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#, python-format
+msgid "There is already a fiscal document with this key: {} !"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8762,6 +8795,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__uom_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__uom_id
 msgid "UOM"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#, python-format
+msgid "Unidentified Consumer"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9057,6 +9096,12 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "You cannot delete an Tax Definition which is not draft !"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#, python-format
+msgid "You cannot delete fiscal document number {} with the status: {}!"
 msgstr ""
 
 #. module: l10n_br_fiscal
