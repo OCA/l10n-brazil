@@ -48,7 +48,6 @@ MOVE_TAX_USER_TYPE = {
 SHADOWED_FIELDS = [
     "company_id",
     "currency_id",
-    "partner_shipping_id",
     "user_id",
 ]
 
@@ -136,6 +135,7 @@ class AccountMove(models.Model):
         self.ensure_one()
         vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
         vals["partner_id"] = self.partner_id.commercial_partner_id.id
+        vals["partner_shipping_id"] = self.partner_shipping_id.commercial_partner_id.id
         if default:  # in case you want to use new rather than write later
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
