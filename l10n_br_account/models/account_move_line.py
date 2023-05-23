@@ -18,8 +18,6 @@ from .account_move import InheritsCheckMuteLogger
 # don't need to be written through the account.move.line write.
 SHADOWED_FIELDS = [
     "name",
-    "company_id",
-    "currency_id",
     "product_id",
     "quantity",
     "price_unit",
