@@ -112,6 +112,24 @@ class ResCompany(spec_models.SpecModel):
         default=False,
     )
 
+    nfce_qrcode_version = fields.Selection(
+        selection=[("1", "1.00"), ("2", "2.00")],
+        string="QRCode Version",
+        default="2",
+    )
+
+    nfce_csc_token = fields.Char(
+        string="CSC Token",
+        help="Token CSC (Código de Segurança do Contribuinte) "
+        "fornecido pela SEFAZ para a NFC-e",
+    )
+
+    nfce_csc_code = fields.Char(
+        string="CSC Code",
+        help="Código CSC (Código de Segurança do Contribuinte) "
+        "fornecido pela SEFAZ para a NFC-e",
+    )
+
     def _compute_nfe_data(self):
         # compute because a simple related field makes the match_record fail
         for rec in self:
