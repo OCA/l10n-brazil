@@ -337,6 +337,7 @@
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='account_id']"
                 position="attributes"
             >
+                <attribute name="readonly">0</attribute>
                 <attribute name="groups">account.group_account_readonly</attribute>
                 <attribute
                     name="domain"
