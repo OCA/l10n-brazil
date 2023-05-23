@@ -138,12 +138,6 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:0
-#, python-format
-msgid "Authorization Protocol Not Found!"
-msgstr "Protocolo de Autorização Não Encontrado!"
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vBC
 msgid "BC do ICMS"
 msgstr ""
@@ -290,7 +284,6 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:0
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:0
 #, python-format
 msgid "Certificado não encontrado"
@@ -2424,6 +2417,10 @@ msgid ""
 "versão do aplicativo utilizado no processo de\n"
 "emissão"
 msgstr ""
+
+#, python-format
+#~ msgid "Authorization Protocol Not Found!"
+#~ msgstr "Protocolo de Autorização Não Encontrado!"
 
 #~ msgid "ICMS/II/IPI/ISSQN"
 #~ msgstr "ICMS/II/IPI/ISSQN"
