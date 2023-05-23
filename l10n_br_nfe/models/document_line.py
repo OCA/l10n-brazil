@@ -304,6 +304,9 @@ class NFeLine(spec_models.StackedModel):
         if not self.cfop_id.is_import and "nfe40_II" in xsd_fields:
             xsd_fields.remove("nfe40_II")
 
+        if self.document_id.document_type == "65":
+            xsd_fields.remove("nfe40_IPI")
+
     ##################################################
     # NF-e tag: ICMS
     # Grupo N01. ICMS Normal e ST
