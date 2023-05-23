@@ -11,6 +11,8 @@ from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.edoc.nfce import NFCe as edoc_nfce
+from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
@@ -205,10 +207,7 @@ class NFe(spec_models.StackedModel):
 
     nfe40_dhEmi = fields.Datetime(related="document_date")
 
-    nfe40_dhSaiEnt = fields.Datetime(
-        compute="_compute_nfe40_dhSaiEnt",
-        inverse="_inverse_nfe40_dhSaiEnt",
-    )
+    nfe40_dhSaiEnt = fields.Datetime(related="date_in_out")
 
     nfe40_tpNF = fields.Selection(
         compute="_compute_ide_data",
@@ -921,6 +920,8 @@ class NFe(spec_models.StackedModel):
 
             processador = record._processador()
             for edoc in record.serialize():
+                if self.document_type == "65":
+                    processador.monta_qrcode(edoc)
                 processo = None
                 for p in processador.processar_documento(edoc):
                     processo = p
