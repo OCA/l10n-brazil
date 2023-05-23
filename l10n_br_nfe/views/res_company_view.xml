@@ -23,6 +23,14 @@
                           <field name="nfe_authorize_technical_download_xml" />
                       </group>
                   </group>
+
+                  <group name="nfce_settings" string="NFC-e Default Settings">
+                    <group>
+                        <field name="nfce_qrcode_version" />
+                        <field name="nfce_csc_token" />
+                        <field name="nfce_csc_code" />
+                    </group>
+                  </group>
               </page>
             </xpath>
         </field>
