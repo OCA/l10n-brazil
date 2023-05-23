@@ -62,14 +62,15 @@ class PartnerPix(models.Model):
             )
         except EmailSyntaxError as e:
             raise ValidationError(_(f"{email.strip()} is an invalid email")) from e
-        if len(result.normalized) > 77:
+        normalized_email = result.normalized
+        if len(normalized_email) > 77:
             raise ValidationError(
                 _(
                     f"The email is too long, "
                     f"a maximum of 77 characters is allowed: \n{email.strip()}"
                 )
             ) from None
-        return result.normalized
+        return normalized_email
 
     def _normalize_phone(self, phone):
         try:
