@@ -162,6 +162,10 @@
                                     <field name="processador_edoc" />
                                     <field name="document_save_disk" />
                                     <field name="document_type_id" />
+                                    <field
+                                        name="anonymous_partner_id"
+                                        domain="[('is_anonymous_consumer', '=', True)]"
+                                    />
                                 </group>
                                 <group />
                             </group>
