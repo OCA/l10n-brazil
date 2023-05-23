@@ -16,6 +16,10 @@ from .account_move import InheritsCheckMuteLogger
 # Fields that are related in l10n_br_fiscal.document.line like partner_id or company_id
 # don't need to be written through the account.move.line write.
 SHADOWED_FIELDS = [
+<<<<<<< HEAD
+=======
+    "name",
+>>>>>>> 23850092e ([FIX] l10n_br_account: commercial partner for fiscal)
     "product_id",
     "name",
     "quantity",
