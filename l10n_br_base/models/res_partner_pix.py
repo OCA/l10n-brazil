@@ -62,7 +62,7 @@ class PartnerPix(models.Model):
             )
         except EmailSyntaxError as e:
             raise ValidationError(_(f"{email.strip()} is an invalid email")) from e
-        normalized_email = result["local"].lower() + "@" + result["domain_i18n"]
+        normalized_email = result.normalized
         if len(normalized_email) > 77:
             raise ValidationError(
                 _(
