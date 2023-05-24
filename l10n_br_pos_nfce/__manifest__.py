@@ -16,6 +16,7 @@
         "l10n_br_account_nfe",
     ],
     "data": [
+        "views/res_partner.xml",
         "views/pos_payment_method.xml",
         "views/pos_template.xml",
         "views/pos_config_view.xml",
