@@ -419,8 +419,20 @@ class NFe(spec_models.StackedModel):
 
     nfe40_entrega = fields.Many2one(
         comodel_name="res.partner",
-        related="partner_shipping_id",
+        compute="_compute_entrega_data",
+        readonly=True,
+        string="Entrega",
     )
+
+    ##########################
+    # NF-e tag: entrega
+    # Compute Methods
+    ##########################
+
+    @api.depends("partner_shipping_id")
+    def _compute_entrega_data(self):
+        for rec in self:
+            rec.nfe40_entrega = rec.partner_shipping_id
 
     ##########################
     # NF-e tag: retirada
