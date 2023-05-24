@@ -499,8 +499,6 @@ class AccountMoveLine(models.Model):
 
     @api.onchange(
         "move_id",
-        "move_id.move_type",
-        "move_id.fiscal_operation_id",
         "amount_untaxed",
         "amount_tax_included",
         "amount_tax_not_included",
