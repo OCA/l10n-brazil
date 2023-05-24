@@ -81,13 +81,14 @@ class PosOrder(models.Model):
                 fiscal_document_id.write(
                     {
                         "document_date": created_order.date_order,
-                        "edoc_transmission": "9",
+                        "nfe_transmission": "9",
                         "nfe40_dhCont": created_order.date_order,
                         "nfe40_xJust": "Sem comunicação com a Internet.",
                     }
                 )
 
-            # FIXME: Workaround to fix the problem of missing compute fields in fiscal document lines
+            # FIXME: Workaround to fix the problem of missing compute fields in
+            #   fiscal document lines
             for line in fiscal_document_id.fiscal_line_ids:
                 line._compute_choice12()
                 line._compute_choice15()
