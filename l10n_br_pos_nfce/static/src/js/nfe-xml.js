@@ -289,6 +289,11 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
             const state = this.pos.company.state_id[1];
             const NFCeEnvironment = this.pos.config.nfce_environment;
             const client = this.order.get_client();
+
+            if (client.is_anonymous_consumer) {
+                return;
+            }
+
             const customerTaxID = this.order.customer_tax_id;
             const isCPF = customerTaxID.length === 11;
             let name = "";
@@ -299,15 +304,15 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
                 name = client.name || "";
             }
 
-            if (client.is_anonymous_consumer) {
-                if (customerTaxID.length === 11 || customerTaxID.length === 14) {
-                    return {
-                        [isCPF ? "CPF" : "CNPJ"]: removePontuaction(customerTaxID),
-                        xNome: name,
-                        indIEDest: "9",
-                    };
-                }
-                return;
+            if (
+                client.is_anonymous_consumer &&
+                (customerTaxID.length === 11 || customerTaxID.length === 14)
+            ) {
+                return {
+                    [isCPF ? "CPF" : "CNPJ"]: removePontuaction(customerTaxID),
+                    xNome: name,
+                    indIEDest: "9",
+                };
             }
             const clientCnpjCpf = client.cnpj_cpf;
 
@@ -332,12 +337,13 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
         mountDeliveryTag() {
             const state = this.pos.company.state_id[1];
             const client = this.order.get_client();
-            const customerTaxID = this.order.customer_tax_id;
-            const isCPF = customerTaxID.length === 11;
 
             if (client.is_anonymous_consumer) {
                 return;
             }
+
+            const customerTaxID = this.order.customer_tax_id;
+            const isCPF = customerTaxID.length === 11;
 
             return {
                 [isCPF ? "CPF" : "CNPJ"]: removePontuaction(customerTaxID),
