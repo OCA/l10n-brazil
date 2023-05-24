@@ -125,7 +125,7 @@ class AccountMove(models.Model):
             "system_env": self.nfe40_tpAmb,
             "unformatted_amount_freight_value": self.amount_freight_value,
             "unformatted_amount_discount_value": self.amount_discount_value,
-            "contingency": True if not self.edoc_transmission == "1" else False,
+            "contingency": True if not self.nfe_transmission == "1" else False,
             "homologation_environment": True if self.nfe_environment == "2" else False,
         }
 
@@ -160,7 +160,7 @@ class AccountMove(models.Model):
         return payments_list
 
     def _monta_qrcode(self):
-        if self.edoc_transmission == "1":
+        if self.nfe_transmission == "1":
             return self._online_qrcode()
         else:
             return self._offline_qrcode()
