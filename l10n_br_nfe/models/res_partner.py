@@ -54,14 +54,14 @@ class ResPartner(spec_models.SpecModel):
     nfe40_CPF = fields.Char(
         compute="_compute_nfe_data", inverse="_inverse_nfe40_CPF", store=True
     )
-    nfe40_xLgr = fields.Char(related="street_name", readonly=True)
-    nfe40_nro = fields.Char(related="street_number", readonly=True)
-    nfe40_xCpl = fields.Char(related="street2", readonly=True)
-    nfe40_xBairro = fields.Char(related="district", readonly=True)
-    nfe40_cMun = fields.Char(related="city_id.ibge_code", readonly=True)
-    nfe40_xMun = fields.Char(related="city_id.name", readonly=True)
+    nfe40_xLgr = fields.Char(readonly=True, compute="_compute_nfe40_ender")
+    nfe40_nro = fields.Char(readonly=True, compute="_compute_nfe40_ender")
+    nfe40_xCpl = fields.Char(readonly=True, compute="_compute_nfe40_ender")
+    nfe40_xBairro = fields.Char(readonly=True, compute="_compute_nfe40_ender")
+    nfe40_cMun = fields.Char(readonly=True, compute="_compute_nfe40_ender")
+    nfe40_xMun = fields.Char(readonly=True, compute="_compute_nfe40_ender")
     # Char overriding Selection:
-    nfe40_UF = fields.Char(related="state_id.code")
+    nfe40_UF = fields.Char(compute="_compute_nfe40_ender")
 
     # Emit
     nfe40_choice6 = fields.Selection(
@@ -73,8 +73,8 @@ class ResPartner(spec_models.SpecModel):
     nfe40_CEP = fields.Char(
         compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP", compute_sudo=True
     )
-    nfe40_cPais = fields.Char(related="country_id.bc_code")
-    nfe40_xPais = fields.Char(related="country_id.name")
+    nfe40_cPais = fields.Char(compute="_compute_nfe40_ender")
+    nfe40_xPais = fields.Char(compute="_compute_nfe40_ender")
     nfe40_fone = fields.Char(
         compute="_compute_nfe_data", inverse="_inverse_nfe40_fone", compute_sudo=True
     )
@@ -257,3 +257,20 @@ class ResPartner(spec_models.SpecModel):
                 return self.vat or self.cnpj_cpf or self.rg or "EXTERIOR"
 
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
+
+    ##########################
+    # NF-e tag: enderXXX
+    # Compute Methods
+    ##########################
+
+    def _compute_nfe40_ender(self):
+        for rec in self:
+            rec.nfe40_xLgr = rec.street_name
+            rec.nfe40_nro = rec.street_number
+            rec.nfe40_xCpl = rec.street2
+            rec.nfe40_xBairro = rec.district
+            rec.nfe40_cMun = rec.city_id.ibge_code
+            rec.nfe40_xMun = rec.city_id.name
+            rec.nfe40_UF = rec.state_id.code
+            rec.nfe40_cPais = rec.country_id.bc_code
+            rec.nfe40_xPais = rec.country_id.name
