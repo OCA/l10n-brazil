@@ -22,6 +22,7 @@ from requests import Session
 
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
@@ -1122,3 +1123,19 @@ class NFe(spec_models.StackedModel):
                 protocol_number=retevento.infEvento.nProt,
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
+
+    def _process_document_in_contingency(self):
+        copy_invoice = (
+            self.env["account.move"]
+            .search([("fiscal_document_id", "=", self.id)], limit=1)
+            .copy()
+        )
+        vals = {
+            "nfe_transmission": "9",
+            "nfe40_dhCont": fields.Datetime.now().strftime(
+                DEFAULT_SERVER_DATETIME_FORMAT
+            ),
+            "nfe40_xJust": "Sem comunicacao com o servidor da Sefaz.",
+        }
+        copy_invoice.fiscal_document_id.write(vals)
+        copy_invoice.action_post()
