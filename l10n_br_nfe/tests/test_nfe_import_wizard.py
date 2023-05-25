@@ -94,7 +94,6 @@ class NFeImportWizardTest(SavepointCase):
         wizard.imported_products_ids.product_id = self.env.ref(
             "product.product_product_5"
         )
-        wizard.imported_products_ids.ncm_choice = "internal"
         action = wizard.import_nfe_xml()
         edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
         self.assertEqual(
