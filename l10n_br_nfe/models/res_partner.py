@@ -54,14 +54,46 @@ class ResPartner(spec_models.SpecModel):
     nfe40_CPF = fields.Char(
         compute="_compute_nfe_data", inverse="_inverse_nfe40_CPF", store=True
     )
-    nfe40_xLgr = fields.Char(readonly=True, compute="_compute_nfe40_ender")
-    nfe40_nro = fields.Char(readonly=True, compute="_compute_nfe40_ender")
-    nfe40_xCpl = fields.Char(readonly=True, compute="_compute_nfe40_ender")
-    nfe40_xBairro = fields.Char(readonly=True, compute="_compute_nfe40_ender")
-    nfe40_cMun = fields.Char(readonly=True, compute="_compute_nfe40_ender")
-    nfe40_xMun = fields.Char(readonly=True, compute="_compute_nfe40_ender")
+    nfe40_xLgr = fields.Char(
+        readonly=True,
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        store=True,
+    )
+    nfe40_nro = fields.Char(
+        readonly=True,
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        store=True,
+    )
+    nfe40_xCpl = fields.Char(
+        readonly=True,
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        store=True,
+    )
+    nfe40_xBairro = fields.Char(
+        readonly=True,
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        store=True,
+    )
+    nfe40_cMun = fields.Char(
+        readonly=True,
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        store=True,
+    )
+    nfe40_xMun = fields.Char(
+        readonly=True,
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        store=True,
+    )
     # Char overriding Selection:
-    nfe40_UF = fields.Char(compute="_compute_nfe40_ender")
+    nfe40_UF = fields.Char(
+        compute="_compute_nfe40_ender", inverse="_inverse_nfe40_ender", store=True
+    )
 
     # Emit
     nfe40_choice6 = fields.Selection(
@@ -73,8 +105,12 @@ class ResPartner(spec_models.SpecModel):
     nfe40_CEP = fields.Char(
         compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP", compute_sudo=True
     )
-    nfe40_cPais = fields.Char(compute="_compute_nfe40_ender")
-    nfe40_xPais = fields.Char(compute="_compute_nfe40_ender")
+    nfe40_cPais = fields.Char(
+        compute="_compute_nfe40_ender", inverse="_inverse_nfe40_ender", store=True
+    )
+    nfe40_xPais = fields.Char(
+        compute="_compute_nfe40_ender", inverse="_inverse_nfe40_ender", store=True
+    )
     nfe40_fone = fields.Char(
         compute="_compute_nfe_data", inverse="_inverse_nfe40_fone", compute_sudo=True
     )
@@ -274,3 +310,24 @@ class ResPartner(spec_models.SpecModel):
             rec.nfe40_UF = rec.state_id.code
             rec.nfe40_cPais = rec.country_id.bc_code
             rec.nfe40_xPais = rec.country_id.name
+
+    def _inverse_nfe40_ender(self):
+        for rec in self:
+            if rec.nfe40_cMun and rec.nfe40_cPais and rec.nfe40_UF:
+                city_id = self.env["res.city"].search(
+                    [("ibge_code", "=", rec.nfe40_cMun)]
+                )
+                country_id = self.env["res.country"].search(
+                    [("bc_code", "=", rec.nfe40_cPais)]
+                )
+                state_id = self.env["res.country.state"].search(
+                    [("code", "=", rec.nfe40_UF), ("country_id", "=", country_id.id)]
+                )
+
+                rec.street_name = rec.nfe40_xLgr
+                rec.street_number = rec.nfe40_nro
+                rec.street2 = rec.nfe40_xCpl
+                rec.district = rec.nfe40_xBairro
+                rec.city_id = city_id
+                rec.country_id = country_id
+                rec.state_id = state_id
