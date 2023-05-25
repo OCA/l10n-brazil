@@ -132,7 +132,6 @@ class NfeImport(models.TransientModel):
             edoc_type=self.fiscal_operation_type,
         )
 
-        self._set_partner_as_supplier(edoc)
         self._attach_original_nfe_xml_to_document(edoc)
 
         return {
@@ -143,9 +142,6 @@ class NfeImport(models.TransientModel):
             "res_id": edoc.id,
             "res_model": "l10n_br_fiscal.document",
         }
-
-    def _set_partner_as_supplier(self, edoc):
-        edoc.partner_id.supplier = True
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         vals = {
