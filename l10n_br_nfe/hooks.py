@@ -29,6 +29,9 @@ def post_init_hook(cr, registry):
     cr.execute("select demo from ir_module_module where name='l10n_br_nfe';")
     is_demo = cr.fetchone()[0]
     if is_demo:
+        pt_br_lang = env.ref("base.lang_pt_BR")
+        if pt_br_lang and not pt_br_lang.active:
+            env["base.language.install"].create({"lang": "pt_BR"}).lang_install()
         res_items = (
             "..",
             "tests",
