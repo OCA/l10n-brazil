@@ -58,41 +58,43 @@ class ResPartner(spec_models.SpecModel):
         readonly=True,
         compute="_compute_nfe40_ender",
         inverse="_inverse_nfe40_ender",
-        store=True,
+        compute_sudo=True,
     )
     nfe40_nro = fields.Char(
         readonly=True,
         compute="_compute_nfe40_ender",
         inverse="_inverse_nfe40_ender",
-        store=True,
+        compute_sudo=True,
     )
     nfe40_xCpl = fields.Char(
         readonly=True,
         compute="_compute_nfe40_ender",
         inverse="_inverse_nfe40_ender",
-        store=True,
+        compute_sudo=True,
     )
     nfe40_xBairro = fields.Char(
         readonly=True,
         compute="_compute_nfe40_ender",
         inverse="_inverse_nfe40_ender",
-        store=True,
+        compute_sudo=True,
     )
     nfe40_cMun = fields.Char(
         readonly=True,
         compute="_compute_nfe40_ender",
         inverse="_inverse_nfe40_ender",
-        store=True,
+        compute_sudo=True,
     )
     nfe40_xMun = fields.Char(
         readonly=True,
         compute="_compute_nfe40_ender",
         inverse="_inverse_nfe40_ender",
-        store=True,
+        compute_sudo=True,
     )
     # Char overriding Selection:
     nfe40_UF = fields.Char(
-        compute="_compute_nfe40_ender", inverse="_inverse_nfe40_ender", store=True
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        compute_sudo=True,
     )
 
     # Emit
@@ -106,10 +108,14 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP", compute_sudo=True
     )
     nfe40_cPais = fields.Char(
-        compute="_compute_nfe40_ender", inverse="_inverse_nfe40_ender", store=True
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        compute_sudo=True,
     )
     nfe40_xPais = fields.Char(
-        compute="_compute_nfe40_ender", inverse="_inverse_nfe40_ender", store=True
+        compute="_compute_nfe40_ender",
+        inverse="_inverse_nfe40_ender",
+        compute_sudo=True,
     )
     nfe40_fone = fields.Char(
         compute="_compute_nfe_data", inverse="_inverse_nfe40_fone", compute_sudo=True
@@ -299,6 +305,15 @@ class ResPartner(spec_models.SpecModel):
     # Compute Methods
     ##########################
 
+    @api.depends(
+        "street_name",
+        "street_number",
+        "street2",
+        "district",
+        "city_id",
+        "state_id",
+        "country_id",
+    )
     def _compute_nfe40_ender(self):
         for rec in self:
             rec.nfe40_xLgr = rec.street_name
