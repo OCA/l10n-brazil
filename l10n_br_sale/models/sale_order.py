@@ -4,6 +4,7 @@
 from functools import partial
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 from odoo.tools import float_is_zero
 from odoo.tools.misc import formatLang
 
@@ -136,6 +137,40 @@ class SaleOrder(models.Model):
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
         return result
 
+    def _get_invoiceable_lines(self, final=False):
+        lines = super()._get_invoiceable_lines(final=final)
+        document_type_id = self._context.get("document_type_id")
+
+        return [
+            line
+            for line in lines
+            if line.fiscal_operation_line_id.get_document_type(line.company_id).id
+            == document_type_id
+        ]
+
+    def _create_invoices(self, grouped=False, final=False, date=None):
+        document_types = {
+            line.fiscal_operation_line_id.get_document_type(line.company_id)
+            for sale in self
+            for line in sale.order_line
+        }
+
+        moves = []
+        for document_type in document_types:
+            self = self.with_context(document_type_id=document_type.id)
+            try:
+                moves += super()._create_invoices(
+                    grouped=grouped, final=final, date=date
+                )
+            except UserError:
+                # TODO: Avoid only when it is "nothing to invoice error"
+                pass
+
+        if not moves:
+            raise self._nothing_to_invoice_error()
+
+        return moves
+
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
@@ -164,114 +199,6 @@ class SaleOrder(models.Model):
                 result["journal_id"] = self.fiscal_operation_id.journal_id.id
 
         return result
-
-    def _create_invoices(self, grouped=False, final=False, date=None):
-
-        inv_ids = super()._create_invoices(grouped=grouped, final=final, date=date)
-
-        # In brazilian localization we need to overwrite this method
-        # because when there are a sale order line with different Document
-        # Fiscal Type the method should be create invoices separated.
-        document_type_list = []
-
-        for invoice_id in inv_ids:
-            invoice_created_by_super = invoice_id
-
-            # Identify how many Document Types exist
-            for inv_line in invoice_created_by_super.invoice_line_ids:
-
-                if inv_line.display_type or not inv_line.fiscal_operation_line_id:
-                    continue
-
-                fiscal_document_type = (
-                    inv_line.fiscal_operation_line_id.get_document_type(
-                        inv_line.move_id.company_id
-                    )
-                )
-
-                if fiscal_document_type.id not in document_type_list:
-                    document_type_list.append(fiscal_document_type.id)
-
-            # Check if there more than one Document Type
-            if (
-                fiscal_document_type.id != invoice_created_by_super.document_type_id.id
-            ) or (len(document_type_list) > 1):
-
-                # Remove the First Document Type,
-                # already has Invoice created
-                invoice_created_by_super.document_type_id = document_type_list.pop(0)
-
-                for document_type in document_type_list:
-                    document_type = self.env["l10n_br_fiscal.document.type"].browse(
-                        document_type
-                    )
-
-                    inv_obj = self.env["account.move"]
-                    invoices = {}
-                    references = {}
-                    invoices_origin = {}
-                    invoices_name = {}
-
-                    for order in self:
-                        group_key = (
-                            order.id
-                            if grouped
-                            else (order.partner_invoice_id.id, order.currency_id.id)
-                        )
-
-                        if group_key not in invoices:
-                            inv_data = order.with_context(
-                                document_type_id=document_type.id
-                            )._prepare_invoice()
-                            invoice = inv_obj.create(inv_data)
-                            references[invoice] = order
-                            invoices[group_key] = invoice
-                            invoices_origin[group_key] = [invoice.invoice_origin]
-                            invoices_name[group_key] = [invoice.name]
-                            inv_ids = inv_ids + invoice
-                        elif group_key in invoices:
-                            if order.name not in invoices_origin[group_key]:
-                                invoices_origin[group_key].append(order.name)
-                            if (
-                                order.client_order_ref
-                                and order.client_order_ref
-                                not in invoices_name[group_key]
-                            ):
-                                invoices_name[group_key].append(order.client_order_ref)
-
-                    # Update Invoice Line
-                    for inv_line in invoice_created_by_super.invoice_line_ids:
-                        fiscal_document_type = (
-                            inv_line.fiscal_operation_line_id.get_document_type(
-                                inv_line.move_id.company_id
-                            )
-                        )
-                        if fiscal_document_type.id == document_type.id:
-                            copied_vals = inv_line.copy_data()[0]
-                            copied_vals["move_id"] = invoice.id
-                            copied_vals["recompute_tax_line"] = True
-                            new_line = self.env["account.move.line"].new(copied_vals)
-                            invoice.invoice_line_ids += new_line
-                            order_line = self.order_line.filtered(
-                                lambda x: x.invoice_lines in inv_line
-                            )
-                            if len(order_line.invoice_lines) > 1:
-                                # TODO: É valido tratar isso no caso de já ter mais
-                                #  faturas geradas e vinvuladas a linha
-                                continue
-                            else:
-                                order_line.invoice_lines = invoice.invoice_line_ids
-                            invoice_id.invoice_line_ids -= inv_line
-
-            # set the document serie for original invoice
-            invoice_created_by_super.document_serie_id = (
-                invoice_created_by_super.document_type_id.get_document_serie(
-                    invoice_created_by_super.company_id,
-                    invoice_created_by_super.fiscal_operation_id,
-                )
-            )
-
-        return inv_ids
 
     def _amount_by_group(self):
         for order in self:
