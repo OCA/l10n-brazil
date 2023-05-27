@@ -1,7 +1,8 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 from odoo.tools import float_is_zero
 
 from ..constants.fiscal import (
@@ -22,9 +23,7 @@ from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
     ICMS_CST_RELIEF,
-    ICMS_DIFAL_DOUBLE_BASE,
     ICMS_DIFAL_PARTITION,
-    ICMS_DIFAL_UNIQUE_BASE,
     ICMS_ORIGIN_TAX_IMPORTED,
     ICMS_SN_CST_WITH_CREDIT,
     ICMS_ST_BASE_TYPE,
@@ -396,7 +395,10 @@ class Tax(models.Model):
             or operation_line.fiscal_operation_id.fiscal_type == "return_in"
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
-            icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
+            (
+                icms_tax_difal,
+                tax_definitions,
+            ) = company.icms_regulation_id.map_tax_def_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line, ind_final
             )
             icmsfcp_tax_difal = taxes_dict.get("icmsfcp", {})
@@ -424,10 +426,16 @@ class Tax(models.Model):
             # Difal - ICMS Dest Value
             icms_dest_value = currency.round(icms_base * (icms_dest_perc / 100))
 
-            if partner.state_id.code in ICMS_DIFAL_UNIQUE_BASE:
+            icms_difal_regulation = company.icms_difal_regulation_id
+            if not icms_difal_regulation:
+                raise UserError(
+                    _("The company '%s' don't have a ICMS Difal Regulation defined.")
+                    % (company.name)
+                )
+            if partner.state_id in icms_difal_regulation.unique_base_state_ids:
                 difal_icms_base = icms_base
 
-            if partner.state_id.code in ICMS_DIFAL_DOUBLE_BASE:
+            elif partner.state_id in icms_difal_regulation.double_base_state_ids:
                 difal_icms_base = currency.round(
                     (icms_base - icms_origin_value)
                     / (1 - ((icms_dest_perc + icmsfcp_perc) / 100))
@@ -435,6 +443,14 @@ class Tax(models.Model):
 
                 icms_dest_value = currency.round(
                     difal_icms_base * (icms_dest_perc / 100)
+                )
+            else:
+                raise UserError(
+                    _(
+                        "The state of partner '%s' does not have a defined "
+                        "base in the icms difal regulation."
+                    )
+                    % (partner.state_id.code)
                 )
 
             difal_value = icms_dest_value - icms_origin_value

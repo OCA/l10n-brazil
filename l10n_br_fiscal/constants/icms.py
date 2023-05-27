@@ -105,41 +105,6 @@ ICMS_DIFAL_PARTITION = {
 }
 
 
-ICMS_DIFAL_UNIQUE_BASE = [
-    "DF",
-    "ES",
-    "MA",
-    "MS",
-    "PE",
-    "RJ",
-    "RN",
-    "RR",
-]
-
-
-ICMS_DIFAL_DOUBLE_BASE = [
-    "AC",
-    "AL",
-    "AP",
-    "AM",
-    "BA",
-    "CE",
-    "GO",
-    "MG",
-    "MT",
-    "PA",
-    "PB",
-    "PI",
-    "PR",
-    "RO",
-    "RS",
-    "SC",
-    "SE",
-    "SP",
-    "TO",
-]
-
-
 ICSM_CST_CSOSN_ST_BASE = ["10", "30", "70", "90", "201", "202", "203", "900"]
 
 ICMS_CST_RELIEF = ["20", "30", "40", "41", "50", "70", "90"]
