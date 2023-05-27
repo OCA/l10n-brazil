@@ -25,7 +25,7 @@ class NFeRelated(spec_models.StackedModel):
     _schema_name = "nfe"
     _schema_version = "4.0.0"
     _odoo_module = "l10n_br_nfe"
-    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
+    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
     _spec_tab_name = "NFe"
     _stack_skip = ("nfe40_NFref_ide_id",)
     # all m2o below this level will be stacked even if not required:
@@ -39,6 +39,14 @@ class NFeRelated(spec_models.StackedModel):
     > <refECF>"""
 
     nfe40_choice4 = fields.Selection(
+        [
+            ("nfe40_refNFe", "refNFe"),
+            ("nfe40_refNF", "refNF"),
+            ("nfe40_refNFP", "refNFP"),
+            ("nfe40_refCTe", "refCTe"),
+            ("nfe40_refECF", "refECF"),
+        ],
+        "refNFe/refNF/refNFP/refCTe/refECF",
         compute="_compute_nfe_data",
         inverse="_inverse_nfe40_choice4",
     )
@@ -139,7 +147,7 @@ class NFeRelated(spec_models.StackedModel):
             xsd_fields = [
                 f
                 for f in xsd_fields
-                if f not in [i[0] for i in class_obj._fields["nfe40_choice4"].selection]
+                if f not in [i[0] for i in self._fields["nfe40_choice4"].selection]
             ]
             xsd_fields += [self.nfe40_choice4]
         return super()._export_fields(xsd_fields, class_obj, export_dict)

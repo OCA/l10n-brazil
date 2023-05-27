@@ -95,6 +95,16 @@ msgid "All Documents"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_taxed
+msgid "Amount Taxed"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_untaxed
+msgid "Amount Untaxed"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Amounts"
 msgstr ""
@@ -267,6 +277,14 @@ msgid "Create a new NFS-e"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__date_in_out
+msgid "Date IN/OUT"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__deductible_taxes
 msgid "Deductible Taxes"
 msgstr ""
@@ -302,6 +320,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_res_company__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__document_date
+msgid "Document Date"
 msgstr ""
 
 #. module: l10n_br_account
@@ -544,7 +570,7 @@ msgstr ""
 #: code:addons/l10n_br_account/hooks.py:0
 #, python-format
 msgid ""
-"It looks like your database %(database) is running with demo\n"
+"It looks like your database %s is running with demo\n"
 "                   data. But the l10n_br_account module will need you to install the\n"
 "                   l10n_br_coa_simple and l10n_br_coa_generic\n"
 "                   chart of accounts modules first to load l10n_br_account demo data\n"

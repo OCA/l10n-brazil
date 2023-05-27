@@ -33,7 +33,7 @@
 "document_57","57","Conhecimento de Transporte Eletrônico – CT-e","True","CTe","ct-e","icms"
 "document_59","59","Cupom Fiscal Eletrônico - CF-e","True","CFe","cf-e","icms"
 "document_60","60","Cupom Fiscal Eletrônico CF-e-ECF","True",,,"icms"
-"document_65","65","Nota Fiscal Eletrônica ao Consumidor Final – NFC-e","True","NFCe","nfc-e","icms"
+"document_65","65","Nota Fiscal Eletrônica ao Consumidor Final – NFC-e","True","NFe","nfc-e","icms"
 "document_63","63","Bilhete de Passagem Eletrônico - BP-e","True","BPe","bp-e","icms"
 "document_66","66","Nota Fiscal de Energia Elétrica Eletrônica - NF3e","True","NF3e","nf3-e","icms"
 "document_67","67","Conhecimento de Transporte Eletrônico para Outros Serviços - CT-e OS","True",,,"icms"
