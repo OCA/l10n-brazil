@@ -198,6 +198,17 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
+.. |maintainer-rvalyi| image:: https://github.com/rvalyi.png?size=40px
+    :target: https://github.com/rvalyi
+    :alt: rvalyi
+.. |maintainer-mbcosta| image:: https://github.com/mbcosta.png?size=40px
+    :target: https://github.com/mbcosta
+    :alt: mbcosta
+
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-rvalyi| |maintainer-mbcosta| 
+
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_brcobranca>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
