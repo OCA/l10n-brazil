@@ -1,0 +1,24 @@
+"id","name","tax_domain","tax_include","tax_withholding","sequence","compute_sequence","tax_scope","partner_id:id","wh_due_day"
+"tax_group_cofins","COFINS","cofins","True","False",40,"40","federal",,
+"tax_group_cofins_wh","COFINS RET","cofins_wh","True","True",80,"40","federal","res_partner_ministerio_fazenda",20
+"tax_group_cofinsst","COFINS ST","cofinsst","True","False",140,"40","federal",,
+"tax_group_csll","CSLL","csll","True","False",999,"999","federal",,
+"tax_group_csll_wh","CSLL RET","csll_wh","True","True",120,"999","federal","res_partner_ministerio_fazenda",20
+"tax_group_icms","ICMS","icms","True","False",15,"30","state",,
+"tax_group_icmsfcp","ICMS FCP","icmsfcp","True","False",135,"135","state",,
+"tax_group_icmssn","ICMS - Simples Nacional","icmssn","True","False",125,"125","state",,
+"tax_group_icmsst","ICMS ST","icmsst","False","False",130,"130","state",,
+"tax_group_ii","II","ii","True","False",60,"10","federal",,
+"tax_group_inss","INSS","inss","True","False",999,"999","federal",,
+"tax_group_inss_wh","INSS RET","inss_wh","True","True",110,"999","federal","res_partner_previdencia_social",20
+"tax_group_ipi","IPI","ipi","False","False",30,"20","federal",,
+"tax_group_ir","IR","ir","True","False",999,"999","federal",,
+"tax_group_irpj","IRPJ","irpj","True","False",999,"999","federal",,
+"tax_group_irpj_wh","IRPJ RET","irpj_wh","True","True",100,"999","federal","res_partner_ministerio_fazenda",20
+"tax_group_issqn","ISSQN","issqn","True","False",20,"50","city",,
+"tax_group_issqn_wh","ISSQN RET","issqn_wh","True","True",70,"50","city","res_partner_prefeitura_municipal",10
+"tax_group_others","Outros","others","True","False",999,"999","other",,
+"tax_group_pis","PIS","pis","True","False",50,"40","federal",,
+"tax_group_pis_wh","PIS RET","pis_wh","True","True",90,"40","federal","res_partner_ministerio_fazenda",20
+"tax_group_pisst","PIS ST","pisst","True","False",150,"40","federal",,
+"tax_group_simples","Simples Nacional","simples","True","False",10,"999","federal",,

@@ -69,7 +69,7 @@ enable=anomalous-backslash-in-string,
     deprecated-openerp-xml-node,
     duplicate-po-message-definition,
     except-pass,
-    file-not-used,
+    # file-not-used, Removed because l10n_br_fiscal has many files only on hook
     invalid-commit,
     manifest-maintainers-list,
     missing-newline-extrafiles,

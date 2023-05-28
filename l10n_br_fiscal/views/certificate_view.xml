@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="certificate_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.certificate.search</field>
+        <field name="model">l10n_br_fiscal.certificate</field>
+        <field name="arch" type="xml">
+            <search string="Certificate">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <record id="certificate_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.certificate.tree</field>
+        <field name="model">l10n_br_fiscal.certificate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="type" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="certificate_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.certificate.form</field>
+        <field name="model">l10n_br_fiscal.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Certificate">
+                <sheet>
+                    <div>
+                        <h1 class="mt0">
+                            <field
+                                name="name"
+                                class="oe_inline"
+                                attrs="{'invisible': [('name', '=', True)]}"
+                            />
+                        </h1>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+
+            <field name="active" invisible="1" />
+            <widget
+                            name="web_ribbon"
+                            title="Archived"
+                            bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"
+                        />
+
+                    </div>
+                    <group>
+                      <field name="type" />
+                      <field name="subtype" />
+                    </group>
+                    <group>
+                        <group string="File">
+                            <field name="file_name" invisible="1" />
+                            <field name="file" filename="file_name" />
+                        </group>
+                        <group string="Password">
+                            <field name="password" password="True" />
+                        </group>
+                    </group>
+                    <group
+                        string="Certificate Infos"
+                        attrs="{'invisible': [('file', '=', False)]}"
+                    >
+                        <group>
+                            <field name="issuer_name" readonly="1" />
+                            <field name="owner_name" readonly="1" />
+                            <field name="owner_cnpj_cpf" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="date_start" force_save="1" readonly="1" />
+                            <field name="date_expiration" force_save="1" readonly="1" />
+                            <field name="is_valid" readonly="1" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

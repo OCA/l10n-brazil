@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="wizard_document_status_form">
+        <field
+            name="name"
+        >wizard.l10n_br_fiscal.base.wizard.mixin (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.document.status.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Document Status">
+                <field invisible="1" name="state" />
+                <group name="document_info">
+                    <group name="document_info_right">
+                        <field name="partner_id" readonly="1" />
+                        <field name="document_id" readonly="1" />
+                    </group>
+                    <group name="document_info_left">
+                        <field name="document_type" invisible="1" />
+                        <field name="document_type_id" readonly="1" />
+                        <field name="document_serie" readonly="1" />
+                        <field name="document_number" readonly="1" />
+                        <field
+                            name="rps_number"
+                            attrs="{'invisible': [('document_type', '!=', 'SE')]}"
+                            readonly="1"
+                        />
+                    </group>
+                </group>
+                <group name="document_key_group">
+                    <field name="document_key" readonly="1" />
+                </group>
+                <group states="done" name="document_status">
+                    <field name="document_status" />
+                </group>
+                <footer>
+                    <button
+                        name="doit"
+                        string="Get Status"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Close" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="wizard_document_status_act_multi">
+        <field name="name">Document Status</field>
+        <field name="res_model">l10n_br_fiscal.document.status.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="binding_model_id" ref="model_l10n_br_fiscal_document" />
+        <field name="target">new</field>
+    </record>
+
+</odoo>
