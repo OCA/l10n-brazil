@@ -13,4 +13,3 @@ pyyaml
 satcomum
 unidecode
 workalendar
-xmldiff
