@@ -15,7 +15,7 @@
             "erpbrasil.edoc",
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
-            "erpbrasil.base",
+            "erpbrasil.base>=2.3.0",
         ],
     },
     "depends": [
