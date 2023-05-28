@@ -12,7 +12,6 @@
     "development_status": "Production/Stable",
     "version": "14.0.12.1.0",
     "depends": [
-        "uom",
         "product",
         "l10n_br_base",
     ],
@@ -110,7 +109,6 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "erpbrasil.base",
             "erpbrasil.assinatura",
         ]
     },
