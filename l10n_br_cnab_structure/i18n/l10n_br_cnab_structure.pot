@@ -144,11 +144,6 @@ msgid "Bank Last Position"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model,name:l10n_br_cnab_structure.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr ""
-
-#. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_bank_start_pos
 msgid "Bank Start Position"
 msgstr ""
@@ -181,7 +176,7 @@ msgid "Batch Start Position"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__batch_template_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__batch_template_id
 msgid "Batch Template"
 msgstr ""
 
@@ -417,7 +412,7 @@ msgid "Cnab Batch"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__cnab_beneficiary_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_beneficiary_name
 msgid "Cnab Beneficiary Name"
 msgstr ""
 
@@ -455,7 +450,7 @@ msgid "Cnab Occurrence"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__cnab_payment_way_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_payment_way_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_payment_way_ids
 msgid "Cnab Payment Way"
 msgstr ""
@@ -466,13 +461,13 @@ msgid "Cnab Pix Key Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__cnab_pix_transfer_type_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_pix_transfer_type_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_pix_transfer_type_ids
 msgid "Cnab Pix Transfer Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__cnab_pix_type_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_pix_type_id
 msgid "Cnab Pix Type"
 msgstr ""
 
@@ -671,9 +666,9 @@ msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__display_name
@@ -846,9 +841,9 @@ msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__id
@@ -978,9 +973,9 @@ msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition____last_update
@@ -1091,7 +1086,7 @@ msgid "Map Sending"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: code:addons/l10n_br_cnab_structure/models/bank_payment_line.py:0
+#: code:addons/l10n_br_cnab_structure/models/account_payment_line.py:0
 #, python-format
 msgid "Mapping for batch template not found"
 msgstr ""
@@ -1135,7 +1130,7 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,help:l10n_br_cnab_structure.field_bank_payment_line__cnab_beneficiary_name
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_payment_line__cnab_beneficiary_name
 msgid ""
 "Name of the beneficiary (Nome do Favorecido) that will be informed in the "
 "CNAB."
@@ -1338,6 +1333,11 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_document
 msgid "Partners's document number, it can be a CNPJ or CPF."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_account_payment_line
+msgid "Payment Lines"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
