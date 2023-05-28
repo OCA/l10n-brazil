@@ -37,12 +37,9 @@
     "external_dependencies": {
         "python": [
             "nfelib",
-            "erpbrasil.base",
-            "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
             "erpbrasil.edoc.pdf",
-            "xmldiff",
         ],
     },
 }
