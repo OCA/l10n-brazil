@@ -104,8 +104,6 @@ class AccountPaymentMode(models.Model):
         "fixed_journal_id",
         "boleto_wallet",
         "group_lines",
-        "generate_move",
-        "post_move",
     )
     def _check_cnab_restriction(self):
         for record in self:
@@ -117,10 +115,6 @@ class AccountPaymentMode(models.Model):
             fields_forbidden_cnab = []
             if record.group_lines:
                 fields_forbidden_cnab.append("Group Lines")
-            if record.generate_move:
-                fields_forbidden_cnab.append("Generated Moves")
-            if record.post_move:
-                fields_forbidden_cnab.append("Post Moves")
 
             for field in fields_forbidden_cnab:
                 raise ValidationError(
@@ -152,8 +146,6 @@ class AccountPaymentMode(models.Model):
             if record.payment_method_code in BR_CODES_PAYMENT_ORDER:
                 # Campos Default que não devem estar marcados no caso CNAB
                 record.group_lines = False
-                record.generate_move = False
-                record.post_move = False
                 # Selecionavel na Ordem de Pagamento
                 record.payment_order_ok = True
 

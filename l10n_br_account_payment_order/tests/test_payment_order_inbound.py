@@ -35,8 +35,9 @@ class TestPaymentOrderInbound(SavepointCase):
         )
 
         # Journal
+        cls.main_company = cls.env.ref("base.main_company")
         cls.journal_cash = cls.env["account.journal"].search(
-            [("type", "=", "cash")], limit=1
+            [("type", "=", "cash"), ("company_id", "=", cls.main_company.id)], limit=1
         )
         cls.payment_method_manual_in = cls.env.ref(
             "account.account_payment_method_manual_in"
@@ -118,9 +119,6 @@ class TestPaymentOrderInbound(SavepointCase):
         # Open payment order
         payment_order.draft2open()
 
-        # Criação da Bank Line
-        self.assertEqual(len(payment_order.bank_line_ids), 2)
-
         # A geração do arquivo é feita pelo modulo que implementa a
         # biblioteca a ser usada
         # Generate and upload
@@ -129,8 +127,8 @@ class TestPaymentOrderInbound(SavepointCase):
 
         self.assertEqual(payment_order.state, "open")
 
-        # Verifica os campos CNAB na linhas de bancarias
-        for line in payment_order.bank_line_ids:
+        # Verifica os campos CNAB na linhas de pagamentos
+        for line in payment_order.payment_line_ids:
             assert line.own_number, "own_number field is not filled in Payment Line."
             assert (
                 line.mov_instruction_code_id

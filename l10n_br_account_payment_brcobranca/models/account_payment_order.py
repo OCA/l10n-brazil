@@ -135,7 +135,7 @@ class PaymentOrder(models.Model):
             )
 
         pagamentos = []
-        for line in self.bank_line_ids:
+        for line in self.payment_line_ids:
             pagamentos.append(line.prepare_bank_payment_line(bank_brcobranca))
 
         remessa_values = {
@@ -158,7 +158,7 @@ class PaymentOrder(models.Model):
             if bank_method:
                 bank_method(remessa_values)
         except Exception:
-            _logger.warning("can't generate paymeny file")
+            pass
 
         remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
