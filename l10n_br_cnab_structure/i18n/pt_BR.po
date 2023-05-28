@@ -165,11 +165,6 @@ msgid "Bank Last Position"
 msgstr "Posição Final do Banco"
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model,name:l10n_br_cnab_structure.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Linhas de Pagamento Bancário"
-
-#. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_bank_start_pos
 msgid "Bank Start Position"
 msgstr "Posição Inicial do Banco"
@@ -202,7 +197,7 @@ msgid "Batch Start Position"
 msgstr "Posição inicial do Lote"
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__batch_template_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__batch_template_id
 msgid "Batch Template"
 msgstr "Modelo de Lote"
 
@@ -443,7 +438,7 @@ msgid "Cnab Batch"
 msgstr "Lote CNAB"
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__cnab_beneficiary_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_beneficiary_name
 msgid "Cnab Beneficiary Name"
 msgstr ""
 
@@ -481,7 +476,7 @@ msgid "Cnab Occurrence"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__cnab_payment_way_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_payment_way_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_payment_way_ids
 msgid "Cnab Payment Way"
 msgstr "Forma de Pagamento da Cnab"
@@ -492,13 +487,13 @@ msgid "Cnab Pix Key Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__cnab_pix_transfer_type_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_pix_transfer_type_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_pix_transfer_type_ids
 msgid "Cnab Pix Transfer Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__cnab_pix_type_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_pix_type_id
 msgid "Cnab Pix Type"
 msgstr ""
 
@@ -697,9 +692,9 @@ msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__display_name
@@ -771,7 +766,8 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__sending_dynamic_content
 msgid ""
-"Expression in Python to define the final value of the content,you can use the following predefined words: \n"
+"Expression in Python to define the final value of the content,you can use "
+"the following predefined words: \n"
 "\n"
 "'content' returns the value of the mapped content source field. \n"
 "'time' class to handle date. \n"
@@ -781,7 +777,8 @@ msgid ""
 "'patment_type_code' return the batch payment type \n"
 "'qty_batches' returns the number of batches \n"
 "'qty_records' returns the number of records \n"
-"'batch_detail_lines' returns a list of batch detail records.'segment_code' returns the code of the segment defined in the header of the line."
+"'batch_detail_lines' returns a list of batch detail records.'segment_code' "
+"returns the code of the segment defined in the header of the line."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -872,9 +869,9 @@ msgstr "Arquivo de Cabeçalho"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__id
@@ -970,8 +967,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_dest_field
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_source_field
 msgid ""
-"Inform the field with the origin of the content, expressed with dot "
-"notation."
+"Inform the field with the origin of the content, expressed with dot notation."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -1004,9 +1000,9 @@ msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_bank_payment_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition____last_update
@@ -1117,7 +1113,7 @@ msgid "Map Sending"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: code:addons/l10n_br_cnab_structure/models/bank_payment_line.py:0
+#: code:addons/l10n_br_cnab_structure/models/account_payment_line.py:0
 #, python-format
 msgid "Mapping for batch template not found"
 msgstr ""
@@ -1161,7 +1157,7 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,help:l10n_br_cnab_structure.field_bank_payment_line__cnab_beneficiary_name
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_payment_line__cnab_beneficiary_name
 msgid ""
 "Name of the beneficiary (Nome do Favorecido) that will be informed in the "
 "CNAB."
@@ -1364,6 +1360,11 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__partner_document
 msgid "Partners's document number, it can be a CNPJ or CPF."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_account_payment_line
+msgid "Payment Lines"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -1636,8 +1637,7 @@ msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_start_pos
-msgid ""
-"Start position of segment of an detail record. Only for detail records."
+msgid "Start position of segment of an detail record. Only for detail records."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -1793,3 +1793,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_line_group_field_condition__operator__not_in
 msgid "not in"
 msgstr ""
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Linhas de Pagamento Bancário"
