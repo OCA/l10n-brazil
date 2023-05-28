@@ -22,11 +22,6 @@ msgid "Automatic Reconcile payment returns"
 msgstr "Reconciliar automaticamente as devoluções de pagamento"
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_bank_payment_line
-msgid "Bank Payment Lines"
-msgstr "Linhas de Pagamento Bancário"
-
-#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_bank_statement_line__file_boleto_pdf_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__file_boleto_pdf_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment__file_boleto_pdf_id
@@ -67,9 +62,9 @@ msgstr "Código (não modificar)"
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_bank_payment_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
@@ -83,9 +78,9 @@ msgstr "Habilitar reconciliação do retorno de pagamento automático."
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_bank_payment_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__id
 msgid "ID"
 msgstr "ID"
@@ -148,9 +143,9 @@ msgstr "Item de Diário"
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_bank_payment_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
@@ -169,6 +164,11 @@ msgstr ""
 #, python-format
 msgid "Nothing to import: The file is empty"
 msgstr "Nada a importar: O arquivo está vazio"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_line
+msgid "Payment Lines"
+msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_mode
@@ -214,6 +214,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr "Tipo de importação"
+
+#~ msgid "Bank Payment Lines"
+#~ msgstr "Linhas de Pagamento Bancário"
 
 #, python-format
 #~ msgid "The Bank %s CNAB %s is not implemented in BRCobranca."
