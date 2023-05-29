@@ -1,5 +1,6 @@
 # Copyright (C) 2021  Gabriel Cardoso de Faria - Kmee
 # Copyright (C) 2022  Renan Hiroki Bastos - Kmee
+# Copyright (C) 2023  Luiz Felipe do Divino - Kmee
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
@@ -53,6 +54,8 @@ class NfeImport(models.TransientModel):
         inverse_name="import_xml_id",
     )
 
+    nat_op = fields.Char(string="Natureza da Operação")
+
     def _parse_xml_import_wizard(self, xml):
         parsed_xml = parse_xml_nfe(xml)
         document = detectar_chave_edoc(parsed_xml.infNFe.Id[3:])
@@ -93,14 +96,39 @@ class NfeImport(models.TransientModel):
                 limit=1,
             )
             self._check_nfe_xml_products(parsed_xml)
-            if self.partner_id:
-                self._get_product_supplierinfo()
+            if self.nfe_xml:
+                parsed_xml, document = self._parse_xml_import_wizard(
+                    base64.b64decode(self.nfe_xml)
+                )
+                self.nat_op = parsed_xml.infNFe.ide.natOp
+                if self.partner_id:
+                    self._get_product_supplierinfo()
             for line in self.imported_products_ids:
                 line.onchange_product_id()
 
     def _check_nfe_xml_products(self, parsed_xml):
         product_ids = []
         for product in parsed_xml.infNFe.det:
+            vICMS = 0
+            pICMS = 0
+            pIPI = 0
+            vIPI = 0
+            icms_tags = [
+                tag for tag in dir(product.imposto.ICMS) if tag.startswith("ICMS")
+            ]
+            for tag in icms_tags:
+                if getattr(product.imposto.ICMS, tag) is not None:
+                    icms_choice = getattr(product.imposto.ICMS, tag)
+            if hasattr(icms_choice, "pICMS"):
+                pICMS = icms_choice.pICMS
+            if hasattr(icms_choice, "vICMS"):
+                vICMS = icms_choice.vICMS
+            ipi_trib = product.imposto.IPI.IPITrib
+            if ipi_trib is not None:
+                if hasattr(ipi_trib, "pIPI"):
+                    pIPI = ipi_trib.pIPI
+                if hasattr(ipi_trib, "vIPI"):
+                    vIPI = ipi_trib.vIPI
             product_ids.append(
                 self.env["l10n_br_nfe.import_xml.products"]
                 .create(
@@ -108,6 +136,11 @@ class NfeImport(models.TransientModel):
                         "product_name": product.prod.xProd,
                         "product_code": product.prod.cProd,
                         "ncm_xml": product.prod.NCM,
+                        "cfop_xml": product.prod.CFOP,
+                        "icms_percent": pICMS,
+                        "icms_value": vICMS,
+                        "ipi_percent": pIPI,
+                        "ipi_value": vIPI,
                         "uom_internal": self.env["uom.uom"]
                         .search([("code", "=", product.prod.uCom)], limit=1)
                         .id,
@@ -296,6 +329,16 @@ class NfeImportProducts(models.TransientModel):
         ],
         required=False,
     )
+
+    cfop_xml = fields.Char(string="CFOP no XML")
+
+    icms_percent = fields.Char(string="Alíquota ICMS")
+
+    icms_value = fields.Char(string="Valor ICMS")
+
+    ipi_percent = fields.Char(string="Alíquota IPI")
+
+    ipi_value = fields.Char(string="Valor IPI")
 
     @api.onchange("product_id")
     def onchange_product_id(self):

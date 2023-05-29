@@ -25,6 +25,7 @@
                         <field name="document_key" readonly="True" />
                         <field name="document_number" readonly="True" />
                         <field name="document_serie" readonly="True" />
+                        <field name="nat_op" readonly="1" />
                     </group>
                     <group>
                         <field name="partner_cpf_cnpj" readonly="True" />
@@ -50,12 +51,17 @@
                                 attrs="{'readonly': ['|', ('product_id', '=', False), ('ncm_match', '=', True)]}"
                             />
                             <field name="ncm_internal" />
+                            <field name="ncm_xml" readonly="1" />
                             <field
                                 name="uom_internal"
                                 options="{'no_quick_create': True, 'no_create': True}"
                             />
                             <field name="product_name" readonly="True" />
-                            <field name="ncm_xml" readonly="1" />
+                            <field name="cfop_xml" readonly="1" />
+                            <field name="icms_percent" readonly="1" />
+                            <field name="icms_value" readonly="1" />
+                            <field name="ipi_percent" readonly="1" />
+                            <field name="ipi_value" readonly="1" />
                             <field name="quantity_com" readonly="True" />
                             <field name="uom_com" readonly="True" />
                             <field name="price_unit_com" readonly="True" />
