@@ -7,7 +7,7 @@ import base64
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import MissingError, UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_IN_OUT_ALL
 from odoo.addons.l10n_br_nfe.models.document import parse_xml_nfe
@@ -56,6 +56,7 @@ class NfeImport(models.TransientModel):
     def _parse_xml_import_wizard(self, xml):
         parsed_xml = parse_xml_nfe(xml)
         document = detectar_chave_edoc(parsed_xml.infNFe.Id[3:])
+        parsed_xml = self._edit_parsed_xml(parsed_xml)
 
         return parsed_xml, document
 
@@ -94,6 +95,8 @@ class NfeImport(models.TransientModel):
             self._check_nfe_xml_products(parsed_xml)
             if self.partner_id:
                 self._get_product_supplierinfo()
+            for line in self.imported_products_ids:
+                line.onchange_product_id()
 
     def _check_nfe_xml_products(self, parsed_xml):
         product_ids = []
@@ -103,6 +106,11 @@ class NfeImport(models.TransientModel):
                 .create(
                     {
                         "product_name": product.prod.xProd,
+                        "product_code": product.prod.cProd,
+                        "ncm_xml": product.prod.NCM,
+                        "uom_internal": self.env["uom.uom"]
+                        .search([("code", "=", product.prod.uCom)], limit=1)
+                        .id,
                         "uom_com": product.prod.uCom,
                         "quantity_com": product.prod.qCom,
                         "price_unit_com": product.prod.vUnCom,
@@ -119,7 +127,6 @@ class NfeImport(models.TransientModel):
             self.imported_products_ids = [(6, 0, product_ids)]
 
     def import_nfe_xml(self):
-
         parsed_xml, document = self._parse_xml_import_wizard(
             base64.b64decode(self.nfe_xml)
         )
@@ -199,6 +206,20 @@ class NfeImport(models.TransientModel):
                 supplier_info = self.env["product.supplierinfo"].create(values)
                 supplier_info.product_id.write({"seller_ids": [(4, supplier_info.id)]})
 
+    def _edit_parsed_xml(self, parsed_xml):
+        for product_line in self.imported_products_ids:
+            internal_product = product_line.product_id
+            if not internal_product:
+                continue
+            for xml_product in parsed_xml.infNFe.det:
+                if xml_product.prod.cProd == product_line.product_code:
+                    xml_product.prod.xProd = internal_product.name
+                    xml_product.prod.cProd = internal_product.default_code
+                    xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
+                    xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
+                    xml_product.prod.uCom = product_line.uom_internal.code
+        return parsed_xml
+
 
 class NfeImportProducts(models.TransientModel):
     _name = "l10n_br_nfe.import_xml.products"
@@ -220,3 +241,16 @@ class NfeImportProducts(models.TransientModel):
     total = fields.Float(string="Total")
 
     import_xml_id = fields.Many2one(comodel_name="l10n_br_nfe.import_xml")
+
+    product_code = fields.Char(string="Partner Product Code")
+
+    product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Product Internal Reference",
+    )
+
+    uom_internal = fields.Many2one(
+        "uom.uom",
+        "Internal UOM",
+        help="Internal UoM, equivalent to the comercial one in the document",
+    )
