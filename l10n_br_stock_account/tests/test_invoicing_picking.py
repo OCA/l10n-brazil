@@ -44,6 +44,8 @@ class InvoicingPickingTest(SavepointCase):
         """Test Invoicing Picking"""
         self._change_user_company(self.company)
 
+        # Testa os Impostos Dedutiveis
+        self.stock_picking_sp.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.invoice_model.search_count([])
         self._run_fiscal_onchanges(self.stock_picking_sp)
 
