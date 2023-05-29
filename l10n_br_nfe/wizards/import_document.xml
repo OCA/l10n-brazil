@@ -58,6 +58,7 @@
                             />
                             <field name="product_name" readonly="True" />
                             <field name="cfop_xml" readonly="1" />
+                            <field name="new_cfop_id" />
                             <field name="icms_percent" readonly="1" />
                             <field name="icms_value" readonly="1" />
                             <field name="ipi_percent" readonly="1" />

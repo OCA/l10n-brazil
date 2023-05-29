@@ -276,6 +276,8 @@ class NfeImport(models.TransientModel):
                     xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
                     xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
                     xml_product.prod.uCom = product_line.uom_internal.code
+                    if product_line.new_cfop_id:
+                        xml_product.prod.CFOP = product_line.new_cfop_id.code
         return parsed_xml
 
 
@@ -331,6 +333,13 @@ class NfeImportProducts(models.TransientModel):
     )
 
     cfop_xml = fields.Char(string="CFOP no XML")
+
+    new_cfop_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cfop",
+        string="Alterar CFOP",
+        default=False,
+        required=False,
+    )
 
     icms_percent = fields.Char(string="Alíquota ICMS")
 
