@@ -1,7 +1,6 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from datetime import datetime
 
 from odoo import fields
 from odoo.tests.common import TransactionCase
@@ -12,6 +11,9 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
         super().setUp()
         self.env.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         self.pos_config = self.env.ref("l10n_br_pos.pos_config_presumido")
+        self.pos_config.simplified_document_type_id = self.env.ref(
+            "l10n_br_fiscal.document_65"
+        ).id
         self.payment_method_id = self.env["account.payment.method"].create(
             {
                 "name": "Manual Test NFCe",
@@ -41,6 +43,9 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
                 "list_price": 0.90,
             }
         )
+        self.pos_config.partner_id = self.env.ref(
+            "l10n_br_fiscal.res_partner_anonimo"
+        ).id
 
     def compute_tax(self, product, price, qty=1, taxes=None):
         if not taxes:
@@ -82,7 +87,7 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
                     ]
                 ],
                 "name": "Order 00042-003-0014",
-                "partner_id": False,
+                "partner_id": self.pos_config.partner_id.id,
                 "pos_session_id": current_session.id,
                 "sequence_number": 2,
                 "statement_ids": [
@@ -98,26 +103,25 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
                 ],
                 "uid": "00042-003-0014",
                 "user_id": self.env.uid,
+                "to_invoice": True,
             },
             "id": "00042-003-0014",
-            "authorization_date": datetime.fromisoformat("2022-01-01T12:00:00"),
-            "document_number": "123456",
-            "document_key": "35181104113837000100590001128550021551657445",
             "document_type_id": 33,
-            "document_session_number": 123456,
-            "document_serie": "123456789",
             "fiscal_operation_id": 1,
-            "status_code": "06000",
-            "state_edoc": "autorizada",
-            "to_invoice": True,
         }
         self.env["pos.order"].create_from_ui([generic_order])
 
-    def test_l10n_br_pos_nfce_create_from_ui(self):
+    def test_nfce_create_from_ui(self):
+        self.pos_config.update_pos_fiscal_map()
         self.pos_config.open_session_cb(check_coa=False)
         current_session = self.pos_config.current_session_id
         num_starting_orders = len(current_session.order_ids)
         self._generate_order()
+
+        self.assertTrue(
+            current_session.order_ids[0].account_move, "No account move created."
+        )
+
         self.assertEqual(
             num_starting_orders + 1,
             len(current_session.order_ids),
@@ -125,6 +129,7 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
         )
 
     def test_l10n_br_pos_nfce_cancel_from_ui(self):
+        self.pos_config.update_pos_fiscal_map()
         self.pos_config.open_session_cb(check_coa=False)
         current_session = self.pos_config.current_session_id
         num_starting_orders = len(current_session.order_ids)
@@ -132,7 +137,7 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
         order = current_session.order_ids[0]
         self.env["pos.order"].cancel_nfce_from_ui(order["pos_reference"], "Teste")
         self.assertEqual(
-            num_starting_orders,
+            num_starting_orders + 2,
             len(current_session.order_ids),
             "Cancelled order not encoded",
         )
