@@ -92,6 +92,8 @@ class NfeImport(models.TransientModel):
                 limit=1,
             )
             self._check_nfe_xml_products(parsed_xml)
+            if self.partner_id:
+                self._get_product_supplierinfo()
 
     def _check_nfe_xml_products(self, parsed_xml):
         product_ids = []
@@ -133,6 +135,7 @@ class NfeImport(models.TransientModel):
         )
 
         self._attach_original_nfe_xml_to_document(edoc)
+        self._set_product_supplierinfo(edoc)
 
         return {
             "name": _("Documento Importado"),
@@ -152,6 +155,49 @@ class NfeImport(models.TransientModel):
             "res_id": edoc.id,
         }
         self.env["ir.attachment"].create(vals)
+
+    def _search_supplierinfo(self, partner_id, product_name, product_code):
+        return self.env["product.supplierinfo"].search(
+            [
+                ("name", "=", partner_id.id),
+                "|",
+                ("product_name", "=", product_name),
+                ("product_code", "=", product_code),
+            ],
+            limit=1,
+        )
+
+    def _get_product_supplierinfo(self):
+        for product_line in self.imported_products_ids:
+            product_supplierinfo = self._search_supplierinfo(
+                self.partner_id, product_line.product_name, product_line.product_code
+            )
+            if product_supplierinfo:
+                product_line.product_id = product_supplierinfo.product_id
+                product_line.uom_internal = product_supplierinfo.partner_uom
+
+    def _set_product_supplierinfo(self, edoc):
+        for product_line in self.imported_products_ids:
+            product_supplierinfo = self._search_supplierinfo(
+                edoc.partner_id, product_line.product_name, product_line.product_code
+            )
+            values = {
+                "product_id": product_line.product_id.id,
+                "product_name": product_line.product_name,
+                "product_code": product_line.product_code,
+                "price": self.env["uom.uom"]
+                .browse(product_line.uom_internal.id)
+                ._compute_price(
+                    product_line.price_unit_com, product_line.product_id.uom_id
+                ),
+                "partner_uom": product_line.uom_internal.id,
+            }
+            if product_supplierinfo:
+                product_supplierinfo.update(values)
+            else:
+                values["name"] = edoc.partner_id.id
+                supplier_info = self.env["product.supplierinfo"].create(values)
+                supplier_info.product_id.write({"seller_ids": [(4, supplier_info.id)]})
 
 
 class NfeImportProducts(models.TransientModel):
