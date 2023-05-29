@@ -206,6 +206,26 @@ class NfeImport(models.TransientModel):
                 supplier_info = self.env["product.supplierinfo"].create(values)
                 supplier_info.product_id.write({"seller_ids": [(4, supplier_info.id)]})
 
+    def _check_ncm(self, xml_product, wizard_product, ncm_choice):
+        if (
+            not ncm_choice
+            and wizard_product.ncm_id
+            and hasattr(xml_product, "NCM")
+            and xml_product.NCM
+            and xml_product.NCM != wizard_product.ncm_id.code.replace(".", "")
+        ):
+            raise UserError(
+                _(
+                    """O NCM do produto {} no cadastro interno é diferente do
+                      NCM na nota. Selecione qual NCM deve ser utilizado.\n
+                      NCM interno: {}\nNCM na nota: {}""".format(
+                        wizard_product.display_name,
+                        wizard_product.ncm_id.code,
+                        xml_product.NCM,
+                    )
+                )
+            )
+
     def _edit_parsed_xml(self, parsed_xml):
         for product_line in self.imported_products_ids:
             internal_product = product_line.product_id
@@ -213,6 +233,11 @@ class NfeImport(models.TransientModel):
                 continue
             for xml_product in parsed_xml.infNFe.det:
                 if xml_product.prod.cProd == product_line.product_code:
+                    self._check_ncm(
+                        xml_product.prod,
+                        product_line.product_id,
+                        product_line.ncm_choice,
+                    )
                     xml_product.prod.xProd = internal_product.name
                     xml_product.prod.cProd = internal_product.default_code
                     xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
@@ -254,3 +279,54 @@ class NfeImportProducts(models.TransientModel):
         "Internal UOM",
         help="Internal UoM, equivalent to the comercial one in the document",
     )
+
+    ncm_xml = fields.Char(string="Código NCM no XML")
+
+    ncm_internal = fields.Char(
+        string="Código NCM Interno", related="product_id.ncm_id.code"
+    )
+
+    ncm_match = fields.Boolean(string="NCMs iguais", default=False)
+
+    ncm_choice = fields.Selection(
+        string="Escolha de NCM",
+        selection=[
+            ("xml", "NCM do XML"),
+            ("internal", "NCM Interno"),
+        ],
+        required=False,
+    )
+
+    @api.onchange("product_id")
+    def onchange_product_id(self):
+        self.ncm_match = False
+        ncm_internal = ""
+        ncm_xml = ""
+        if self.product_id:
+            try:
+                ncm_internal = self.product_id.ncm_id.code.replace(".", "")
+            except Exception:
+                raise UserError(_("Product without NCM!"))
+        if self.ncm_xml:
+            ncm_xml = self.ncm_xml.replace(".", "")
+        if ncm_internal and ncm_xml and ncm_internal == ncm_xml:
+            self.ncm_choice = False
+            self.ncm_match = True
+
+    def choose_ncm(self, xml_product):
+        if self.ncm_match is False:
+            if self.ncm_choice == "xml":
+                ncm_id = self.env["l10n_br_fiscal.ncm"].search(
+                    [("code_unmasked", "=", xml_product.prod.NCM)]
+                )
+                if len(ncm_id) > 1:
+                    ncm_id = ncm_id.filtered(
+                        lambda n: not n.name.startswith(".Ex ")
+                        and not n.name.startswith("Ex ")
+                    )
+                if ncm_id:
+                    self.product_id.ncm_id = ncm_id
+                else:
+                    raise MissingError(_("Ncm do XML não foi encontrado."))
+            elif self.ncm_choice == "internal":
+                xml_product.prod.NCM = self.product_id.ncm_id.code.replace(".", "")

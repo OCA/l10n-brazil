@@ -44,11 +44,18 @@
                                 options="{'no_quick_create': True, 'no_create': True}"
                                 domain="[('purchase_ok', '=', True)]"
                             />
+                            <field name="ncm_match" readonly="1" />
+                            <field
+                                name="ncm_choice"
+                                attrs="{'readonly': ['|', ('product_id', '=', False), ('ncm_match', '=', True)]}"
+                            />
+                            <field name="ncm_internal" />
                             <field
                                 name="uom_internal"
                                 options="{'no_quick_create': True, 'no_create': True}"
                             />
-                            <field name="product_name" readonly="False" />
+                            <field name="product_name" readonly="True" />
+                            <field name="ncm_xml" readonly="1" />
                             <field name="quantity_com" readonly="True" />
                             <field name="uom_com" readonly="True" />
                             <field name="price_unit_com" readonly="True" />
