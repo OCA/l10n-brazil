@@ -156,6 +156,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice8 = "nfe40_CNPJ"
                     rec.nfe40_choice19 = "nfe40_CNPJ"
                     rec.nfe40_CNPJ = cnpj_cpf
+                    rec.nfe40_CPF = None
                 else:
                     rec.nfe40_choice2 = "nfe40_CPF"
                     rec.nfe40_choice6 = "nfe40_CPF"
@@ -163,8 +164,9 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice8 = "nfe40_CPF"
                     rec.nfe40_choice19 = "nfe40_CPF"
                     rec.nfe40_CPF = cnpj_cpf
+                    rec.nfe40_CNPJ = None
 
-            if rec.inscr_est and rec.is_company:
+            if rec.inscr_est:
                 rec.nfe40_IE = punctuation_rm(rec.inscr_est)
             else:
                 rec.nfe40_IE = None
