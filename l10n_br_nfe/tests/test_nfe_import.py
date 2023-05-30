@@ -20,10 +20,9 @@ class NFeImportTest(SavepointCase):
             "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
         res_items = (
-            "..",
-            "tests",
             "nfe",
-            "v4_00",
+            "samples",
+            "v4_0",
             "leiauteNFe",
             "35180834128745000152550010000474281920007498-nfe.xml",
         )
@@ -46,10 +45,9 @@ class NFeImportTest(SavepointCase):
             "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
         res_items = (
-            "..",
-            "tests",
             "nfe",
-            "v4_00",
+            "samples",
+            "v4_0",
             "leiauteNFe",
             "35180834128745000152550010000474281920007498-nfe.xml",
         )
