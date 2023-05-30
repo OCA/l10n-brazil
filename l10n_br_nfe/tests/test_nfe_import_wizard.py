@@ -46,7 +46,9 @@ class NFeImportWizardTest(SavepointCase):
         )
         # Check wizard product info
         self.assertEqual(
-            wizard.imported_products_ids[0].product_name, "[E-COM11] Cabinet with Doors"
+            f"[{wizard.imported_products_ids[0].product_code}] "
+            f"{wizard.imported_products_ids[0].product_name}",
+            "[E-COM11] Cabinet with Doors",
         )
         self.assertEqual(wizard.imported_products_ids[0].uom_com, "UNID")
         self.assertEqual(wizard.imported_products_ids[0].quantity_com, 1)
@@ -63,7 +65,38 @@ class NFeImportWizardTest(SavepointCase):
         wizard._onchange_partner_id()
         action = wizard.import_nfe_xml()
         edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
-        delivery_adress = edoc.partner_id.child_ids[0]
-        self.assertFalse(delivery_adress.country_id)
-        self.assertFalse(delivery_adress.crc_state_id)
-        self.assertFalse(delivery_adress.city_id)
+        delivery_adress = edoc.partner_id
+        self.assertTrue(delivery_adress.country_id)
+        self.assertTrue(delivery_adress.state_id)
+        self.assertTrue(delivery_adress.city_id)
+
+    def test_import_nfe_xml(self):
+        xml = self.xml_2
+        wizard = self.wizard
+        wizard.importing_type = "xml_file"
+        wizard.nfe_xml = base64.b64encode(xml)
+        wizard._onchange_partner_id()
+        wizard.imported_products_ids.product_id = self.env.ref(
+            "product.product_product_5"
+        )
+        action = wizard.import_nfe_xml()
+        edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
+        self.assertEqual(
+            wizard.imported_products_ids.product_id, edoc.fiscal_line_ids.product_id
+        )
+
+    def test_import_nfe_xml_internal_ncm(self):
+        xml = self.xml_2
+        wizard = self.wizard
+        wizard.importing_type = "xml_file"
+        wizard.nfe_xml = base64.b64encode(xml)
+        wizard._onchange_partner_id()
+        wizard.imported_products_ids.product_id = self.env.ref(
+            "product.product_product_5"
+        )
+        wizard.imported_products_ids.ncm_choice = "internal"
+        action = wizard.import_nfe_xml()
+        edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
+        self.assertEqual(
+            wizard.imported_products_ids.product_id.ncm_id, edoc.fiscal_line_ids.ncm_id
+        )
