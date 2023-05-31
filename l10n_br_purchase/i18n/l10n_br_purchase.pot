@@ -409,6 +409,11 @@ msgid "Despesas Aduaneiras"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
+msgid "Discount"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__discount_value
 msgid "Discount Value"
 msgstr ""
@@ -536,6 +541,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__freight_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__freight_value
 msgid "Freight Value"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
+msgid "Gross"
 msgstr ""
 
 #. module: l10n_br_purchase
