@@ -33,7 +33,7 @@ addon | version | maintainers | summary
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 14.0.2.2.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
 [l10n_br_contract](l10n_br_contract/) | 14.0.2.2.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Customization of Contract module for implementations in Brazil.
 [l10n_br_crm](l10n_br_crm/) | 14.0.1.0.2 |  | Brazilian Localization CRM
-[l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
+[l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 14.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 14.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | delivery module Brazilian Localization
 [l10n_br_delivery_nfe](l10n_br_delivery_nfe/) | 14.0.1.1.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Delivery NFe
 [l10n_br_fiscal](l10n_br_fiscal/) | 14.0.12.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
