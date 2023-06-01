@@ -11,61 +11,19 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
         super().setUp()
         self.env.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         self.pos_config = self.env.ref("l10n_br_pos.pos_config_presumido")
-        self.pos_config.simplified_document_type_id = self.env.ref(
-            "l10n_br_fiscal.document_65"
-        ).id
-        self.payment_method_id = self.env["account.payment.method"].create(
-            {
-                "name": "Manual Test NFCe",
-                "code": "nfce",
-                "payment_type": "inbound",
-            }
-        )
-        vals = {
-            "name": "Dinheiro",
-            "payment_method_id": self.payment_method_id.id,
-            "payment_type": "inbound",
-            "fiscal_payment_mode": "01",
-            "bank_account_link": "variable",
-            "variable_journal_ids": [
-                self.env.ref("l10n_br_pos.pos_sale_journal_presumido").id
-            ],
-        }
-        self.account_payment_mode = self.env["account.payment.mode"].create(vals)
-        self.cash_payment_method = self.env.ref("l10n_br_pos.presumido_dinheiro")
-        self.cash_payment_method.write(
-            {"payment_mode_id": [(1, 0, self.account_payment_mode.id)]}
-        )
-        self.led_lamp = self.env["product.product"].create(
-            {
-                "name": "LED Lamp",
-                "available_in_pos": True,
-                "list_price": 0.90,
-            }
-        )
-        self.pos_config.partner_id = self.env.ref(
-            "l10n_br_fiscal.res_partner_anonimo"
-        ).id
+        self.product_id = self.env.ref("point_of_sale.desk_organizer_product_template")
 
-    def compute_tax(self, product, price, qty=1, taxes=None):
-        if not taxes:
-            taxes = product.taxes_id.filtered(
-                lambda t: t.company_id.id == self.env.company.id
-            )
-        currency = self.pos_config.pricelist_id.currency_id
-        res = taxes.compute_all(price, currency, qty, product=product)
-        untax = res["total_excluded"]
-        return untax, sum(tax.get("amount", 0.0) for tax in res["taxes"])
-
-    def _generate_order(self):
+    def test_nfce_create_from_ui(self):
+        self.pos_config.update_pos_fiscal_map()
+        self.pos_config.open_session_cb(check_coa=False)
         current_session = self.pos_config.current_session_id
-        untax, atax = self.compute_tax(self.led_lamp, 0.9)
+        num_starting_orders = len(current_session.order_ids)
         generic_order = {
             "data": {
-                "amount_paid": untax + atax,
+                "amount_paid": self.product_id.list_price,
                 "amount_return": 0,
-                "amount_tax": atax,
-                "amount_total": untax + atax,
+                "amount_tax": self.product_id.list_price,
+                "amount_total": self.product_id.list_price,
                 "creation_date": fields.Datetime.to_string(fields.Datetime.now()),
                 "fiscal_position_id": False,
                 "pricelist_id": self.pos_config.available_pricelist_ids[0].id,
@@ -77,12 +35,15 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
                             "discount": 0,
                             "id": 42,
                             "pack_lot_ids": [],
-                            "price_unit": 0.9,
-                            "product_id": self.led_lamp.id,
-                            "price_subtotal": 0.9,
-                            "price_subtotal_incl": 1.04,
+                            "product_id": self.env["product.product"]
+                            .search([("product_tmpl_id", "=", self.product_id.id)])
+                            .id,
+                            "price_unit": self.product_id.list_price,
+                            "price_subtotal": self.product_id.list_price,
+                            "price_subtotal_incl": self.product_id.list_price,
                             "qty": 1,
-                            "tax_ids": [(6, 0, self.led_lamp.taxes_id.ids)],
+                            "tax_ids": [(6, 0, self.product_id.taxes_id.ids)],
+                            "full_product_name": self.product_id.name,
                         },
                     ]
                 ],
@@ -95,28 +56,23 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
                         0,
                         0,
                         {
-                            "amount": untax + atax,
+                            "amount": self.product_id.list_price,
                             "name": fields.Datetime.now(),
-                            "payment_method_id": self.cash_payment_method.id,
+                            "payment_method_id": self.env.ref(
+                                "l10n_br_pos.presumido_dinheiro"
+                            ).id,
                         },
                     ]
                 ],
                 "uid": "00042-003-0014",
                 "user_id": self.env.uid,
                 "to_invoice": True,
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_65").id,
             },
             "id": "00042-003-0014",
-            "document_type_id": 33,
-            "fiscal_operation_id": 1,
         }
         self.env["pos.order"].create_from_ui([generic_order])
-
-    def test_nfce_create_from_ui(self):
-        self.pos_config.update_pos_fiscal_map()
-        self.pos_config.open_session_cb(check_coa=False)
-        current_session = self.pos_config.current_session_id
-        num_starting_orders = len(current_session.order_ids)
-        self._generate_order()
 
         self.assertTrue(
             current_session.order_ids[0].account_move, "No account move created."
@@ -128,16 +84,157 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
             "Submitted order not encoded",
         )
 
-    def test_l10n_br_pos_nfce_cancel_from_ui(self):
-        self.pos_config.update_pos_fiscal_map()
+    def test_nfce_payment_with_credit(self):
         self.pos_config.open_session_cb(check_coa=False)
         current_session = self.pos_config.current_session_id
         num_starting_orders = len(current_session.order_ids)
-        self._generate_order()
-        order = current_session.order_ids[0]
-        self.env["pos.order"].cancel_nfce_from_ui(order["pos_reference"], "Teste")
-        self.assertEqual(
-            num_starting_orders + 2,
-            len(current_session.order_ids),
-            "Cancelled order not encoded",
+        generic_order = {
+            "data": {
+                "amount_paid": self.product_id.list_price,
+                "amount_return": 0,
+                "amount_tax": self.product_id.list_price,
+                "amount_total": self.product_id.list_price,
+                "creation_date": fields.Datetime.to_string(fields.Datetime.now()),
+                "fiscal_position_id": False,
+                "pricelist_id": self.pos_config.available_pricelist_ids[0].id,
+                "lines": [
+                    [
+                        0,
+                        0,
+                        {
+                            "discount": 0,
+                            "id": 42,
+                            "pack_lot_ids": [],
+                            "product_id": self.env["product.product"]
+                            .search([("product_tmpl_id", "=", self.product_id.id)])
+                            .id,
+                            "price_unit": self.product_id.list_price,
+                            "price_subtotal": self.product_id.list_price,
+                            "price_subtotal_incl": self.product_id.list_price,
+                            "qty": 1,
+                            "tax_ids": [(6, 0, self.product_id.taxes_id.ids)],
+                            "full_product_name": self.product_id.name,
+                        },
+                    ]
+                ],
+                "name": "Order 00042-003-0015",
+                "partner_id": self.pos_config.partner_id.id,
+                "pos_session_id": current_session.id,
+                "sequence_number": 3,
+                "statement_ids": [
+                    [
+                        0,
+                        0,
+                        {
+                            "amount": self.product_id.list_price,
+                            "name": fields.Datetime.now(),
+                            "payment_method_id": self.env.ref(
+                                "l10n_br_pos.presumido_credito_visa"
+                            ).id,
+                        },
+                    ]
+                ],
+                "uid": "00042-003-0015",
+                "user_id": self.env.uid,
+                "to_invoice": True,
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_65").id,
+            },
+            "id": "00042-003-0015",
+        }
+        self.env["pos.order"].create_from_ui([generic_order])
+
+        self.assertTrue(
+            current_session.order_ids[0].account_move, "No account move created."
         )
+        self.assertEqual(
+            num_starting_orders + 1,
+            len(current_session.order_ids),
+            "Submitted order not encoded",
+        )
+
+    def test_nfce_payment_with_pix(self):
+        self.pos_config.open_session_cb(check_coa=False)
+        current_session = self.pos_config.current_session_id
+        num_starting_orders = len(current_session.order_ids)
+        generic_order = {
+            "data": {
+                "amount_paid": self.product_id.list_price,
+                "amount_return": 0,
+                "amount_tax": self.product_id.list_price,
+                "amount_total": self.product_id.list_price,
+                "creation_date": fields.Datetime.to_string(fields.Datetime.now()),
+                "fiscal_position_id": False,
+                "pricelist_id": self.pos_config.available_pricelist_ids[0].id,
+                "lines": [
+                    [
+                        0,
+                        0,
+                        {
+                            "discount": 0,
+                            "id": 42,
+                            "pack_lot_ids": [],
+                            "product_id": self.env["product.product"]
+                            .search([("product_tmpl_id", "=", self.product_id.id)])
+                            .id,
+                            "price_unit": self.product_id.list_price,
+                            "price_subtotal": self.product_id.list_price,
+                            "price_subtotal_incl": self.product_id.list_price,
+                            "qty": 1,
+                            "tax_ids": [(6, 0, self.product_id.taxes_id.ids)],
+                            "full_product_name": self.product_id.name,
+                        },
+                    ]
+                ],
+                "name": "Order 00042-003-0016",
+                "partner_id": self.pos_config.partner_id.id,
+                "pos_session_id": current_session.id,
+                "sequence_number": 4,
+                "statement_ids": [
+                    [
+                        0,
+                        0,
+                        {
+                            "amount": self.product_id.list_price,
+                            "name": fields.Datetime.now(),
+                            "payment_method_id": self.env.ref(
+                                "l10n_br_pos.presumido_pix"
+                            ).id,
+                        },
+                    ]
+                ],
+                "uid": "00042-003-0016",
+                "user_id": self.env.uid,
+                "to_invoice": True,
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_65").id,
+            },
+            "id": "00042-003-0016",
+        }
+        self.env["pos.order"].create_from_ui([generic_order])
+
+        self.assertTrue(
+            current_session.order_ids[0].account_move, "No account move created."
+        )
+        self.assertEqual(
+            num_starting_orders + 1,
+            len(current_session.order_ids),
+            "Submitted order not encoded",
+        )
+
+    def test_l10n_br_pos_nfce_cancel_from_ui(self):
+        self.pos_config.open_session_cb(check_coa=False)
+        current_session = self.pos_config.current_session_id
+        order = current_session.order_ids[0]
+        order.account_move.fiscal_document_id.write(
+            {"authorization_protocol": fields.Datetime.now()}
+        )
+        self.env["pos.order"].cancel_nfce_from_ui(order["pos_reference"], "Teste")
+
+        self.assertEqual(
+            order.account_move.fiscal_document_id.state,
+            "cancelada",
+            "NF-e not cancelled",
+        )
+
+        self.assertEqual(order.state_edoc, "cancelada", "Order not cancelled")
