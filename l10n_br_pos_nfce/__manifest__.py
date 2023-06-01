@@ -23,7 +23,9 @@
         "report/reports.xml",
         "report/danfe_nfce.xml",
     ],
-    "demo": [],
+    "demo": [
+        "demo/l10n_br_pos_nfce.xml",
+    ],
     "qweb": [
         "static/src/xml/Screens/ReceiptScreen/NfceOrderReceipt.xml",
         "static/src/xml/Screens/ReceiptScreen/NfceHeaderReceipt.xml",
