@@ -1,4 +1,6 @@
-odoo.define("l10n_br_pos_nfce.utils", function (require) {
+odoo.define("l10n_br_pos_nfce.utils", function (require) { // eslint-disable-line no-unused-vars
+    "use strict";
+
     const ESTADOS_IBGE = {
         11: ["RO", "Rondônia"],
         12: ["AC", "Acre"],
@@ -46,16 +48,6 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
     }
 
     class ChaveEdoc {
-        static CUF = [0, 2]; // eslint-disable-line
-        static AAMM = [2, 6]; // eslint-disable-line
-        static CNPJ_CPF = [6, 20]; // eslint-disable-line
-        static MODELO = [20, 22]; // eslint-disable-line
-        static SERIE = [22, 25]; // eslint-disable-line
-        static NUMERO = [25, 34]; // eslint-disable-line
-        static FORMA = [34, 35]; // eslint-disable-line
-        static CODIGO = [35, 43]; // eslint-disable-line
-        static DV = [43]; // eslint-disable-line
-
         constructor(
             chave = false,
             codigoUF = false,
@@ -155,6 +147,16 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
             return this._codigoAleatorio;
         }
     }
+
+    ChaveEdoc.CUF = [0, 2];
+    ChaveEdoc.AAMM = [2, 6];
+    ChaveEdoc.CNPJ_CPF = [6, 20];
+    ChaveEdoc.MODELO = [20, 22];
+    ChaveEdoc.SERIE = [22, 25];
+    ChaveEdoc.NUMERO = [25, 34];
+    ChaveEdoc.FORMA = [34, 35];
+    ChaveEdoc.CODIGO = [35, 43];
+    ChaveEdoc.DV = [43];
 
     return {ChaveEdoc, ESTADOS_IBGE};
 });
