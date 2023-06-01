@@ -15,6 +15,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_account_payment_order',
         'odoo14-addon-l10n_br_base',
         'odoo14-addon-l10n_br_cnab_structure',
+        'odoo14-addon-l10n_br_cnpj_search',
         'odoo14-addon-l10n_br_coa',
         'odoo14-addon-l10n_br_coa_generic',
         'odoo14-addon-l10n_br_coa_simple',
