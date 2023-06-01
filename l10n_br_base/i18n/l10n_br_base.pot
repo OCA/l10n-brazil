@@ -10249,6 +10249,11 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+msgid "IE"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__ispb_number
 msgid "ISPB Number"
 msgstr ""
@@ -17566,11 +17571,6 @@ msgid "Paquetá"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "Para ISENTO deixe vazio ou escreva 'ISENTO'"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3303609
 msgid "Paracambi"
 msgstr ""
@@ -23305,7 +23305,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__inscr_est
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "State Tax Number"
 msgstr ""
 
