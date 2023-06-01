@@ -104,7 +104,8 @@ class PosOrder(models.Model):
             self.env.cr.commit()  # pylint: disable=E8102
 
             # Remove the onChange-generated payment tag to create a new one
-            fiscal_document_id.nfe40_detPag.unlink()
+            if fiscal_document_id.nfe40_detPag:
+                fiscal_document_id.nfe40_detPag.unlink()
 
             for payment in created_order.payment_ids:
                 if payment.amount > 0:
@@ -115,15 +116,26 @@ class PosOrder(models.Model):
                         "nfe40_vPag": payment.amount,
                     }
                     if payment_mode_id.fiscal_payment_mode in ["03", "04"]:
-                        cnpj = re.sub(
-                            r"[^\w\s]", "", payment.terminal_transaction_network_cnpj
+                        terminal_transaction_network_cnpj = (
+                            payment.terminal_transaction_network_cnpj
+                            if hasattr(payment, "terminal_transaction_network_cnpj")
+                            else ""
                         )
-                        card_accq = payment.terminal_transaction_administrator
+                        cnpj = re.sub(r"[^\w\s]", "", terminal_transaction_network_cnpj)
+                        card_accq = (
+                            payment.terminal_transaction_administrator
+                            if hasattr(payment, "terminal_transaction_administrator")
+                            else ""
+                        )
                         card_vals = {
                             "nfe40_tpIntegra": "1",
-                            "nfe40_CNPJ": cnpj,
-                            "nfe40_tBand": CODIGO_BANDEIRA_CARTAO[card_accq],
-                            "nfe40_cAut": payment.transaction_id,
+                            "nfe40_CNPJ": cnpj or "",
+                            "nfe40_tBand": CODIGO_BANDEIRA_CARTAO[card_accq]
+                            if card_accq in CODIGO_BANDEIRA_CARTAO
+                            else "",
+                            "nfe40_cAut": payment.transaction_id
+                            if hasattr(payment, "transaction_id")
+                            else "",
                         }
                         fiscal_document_id.nfe40_detPag = [(0, 0, vals)]
                         result = self.env["nfe.40.card"].create(card_vals)
@@ -138,10 +150,7 @@ class PosOrder(models.Model):
 
             # Fill the CPF/CNPJ in anonymous consumer before sending the document
             #   so that the minimum information is included in the XML
-            if (
-                created_order.cnpj_cpf
-                and created_order.partner_id.is_anonymous_consumer
-            ):
+            if self._check_the_anonymous_consumer(created_order):
                 if len(created_order.cnpj_cpf) == 14:
                     created_order.partner_id.write(
                         {
@@ -158,28 +167,34 @@ class PosOrder(models.Model):
             # Same use case as the one above
             self.env.cr.commit()  # pylint: disable=E8102
 
-            fiscal_document_id.action_document_confirm()
-            fiscal_document_id.action_document_send()
+            try:
+                fiscal_document_id.action_document_confirm()
+                fiscal_document_id.action_document_send()
+            except Exception:
+                pass
 
             # Clean the CPF/CNPJ in anonymous consumer after sending the document
-            if (
-                created_order.cnpj_cpf
-                and created_order.partner_id.is_anonymous_consumer
-            ):
+            if self._check_the_anonymous_consumer(created_order):
                 created_order.partner_id.write(
                     {"company_type": "person", "cnpj_cpf": False}
                 )
 
         return res
 
+    def _check_the_anonymous_consumer(self, created_order):
+        return created_order.cnpj_cpf and created_order.partner_id.is_anonymous_consumer
+
     def _prepare_invoice_line(self, order_line):
         vals = super(PosOrder, self)._prepare_invoice_line(order_line)
         pos_config_id = self.session_id.config_id
 
         if pos_config_id.simplified_document_type == "65":
-            pos_fiscal_map_id = order_line.product_id.pos_fiscal_map_ids.filtered(
-                lambda o: self.config_id.id == o.pos_config_id.id
-            )[0]
+            fiscal_map_id = order_line.product_id.pos_fiscal_map_ids.search(
+                [("pos_config_id", "=", self.config_id.id)], limit=1
+            )
+            pos_fiscal_map_id = self.env["l10n_br_pos.product_fiscal_map"].browse(
+                fiscal_map_id.id
+            )
             fiscal_tax_ids = [
                 (
                     6,
@@ -264,21 +279,36 @@ class PosOrder(models.Model):
 
     def cancel_nfce_from_ui(self, order_id, cancel_reason):
         order = self.env["pos.order"].search([("pos_reference", "=", order_id)])
-        order.account_move.fiscal_document_id._document_cancel(cancel_reason)
-        vals = {
-            "state_edoc": order.account_move.fiscal_document_id.state_edoc,
-            "state": "cancel",
-        }
-        order.write(vals)
-        order.account_move.write({"state": "cancel"})
-        order.with_context(
-            mail_create_nolog=True,
-            tracking_disable=True,
-            mail_create_nosubscribe=True,
-            mail_notrack=True,
-        ).refund()
-        refund_order = self.search(
-            [("pos_reference", "=", order.pos_reference), ("amount_total", ">", 0)]
-        )
-        refund_order.pos_reference = f"{order.pos_reference}-cancelled"
+        try:
+            order.account_move.fiscal_document_id._document_cancel(cancel_reason)
+        except Exception as e:
+            error_message = f"Failed to cancel fiscal document: {str(e)}"
+            error_response = {
+                "status_code": 400,
+                "message": error_message,
+            }
+            return error_response
+        finally:
+            if order.account_move.fiscal_document_id.state_edoc == "cancelada":
+                vals = {
+                    "state_edoc": order.account_move.fiscal_document_id.state_edoc,
+                    "state": "cancel",
+                }
+                order.write(vals)
+                order.account_move.write({"state": "cancel"})
+                order.with_context(
+                    mail_create_nolog=True,
+                    tracking_disable=True,
+                    mail_create_nosubscribe=True,
+                    mail_notrack=True,
+                ).refund()
+                refund_order = self.search(
+                    [
+                        ("pos_reference", "=", order.pos_reference),
+                        ("amount_total", ">", 0),
+                    ]
+                )
+                refund_order.pos_reference = f"{order.pos_reference}-cancelled"
+            else:
+                raise Exception("Não foi possível cancelar a NFC-e.")
         return order.account_move.fiscal_document_id.state_edoc
