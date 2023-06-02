@@ -6,9 +6,9 @@ import logging
 import subprocess
 from unittest import mock
 
-from erpbrasil.edoc.edoc import DocumentoEletronico
 from erpbrasil.edoc.resposta import analisar_retorno_raw
 from lxml import etree
+from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter as DocumentoEletronico
 from nfelib.v4_00 import (
     retConsReciNFe,
     retConsStatServ,
