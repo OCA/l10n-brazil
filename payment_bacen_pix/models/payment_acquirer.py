@@ -92,6 +92,7 @@ class PaymentAcquirer(models.Model):
             params=querystring,
             headers=headers,
             json=payload,
+            verify=False,
         )
         if response.status_code != 200 and response.status_code != 201:
             self.bacenpix_api_key = "Error"
@@ -119,6 +120,7 @@ class PaymentAcquirer(models.Model):
             params=params,
             headers=self._bacenpix_header(),
             data=payload,
+            verify=False,
         )
         return response
 
@@ -128,6 +130,7 @@ class PaymentAcquirer(models.Model):
             url_join(BACENPIX[self.state], TRANSACTION_STATUS_V1.format(tx_bacen_id)),
             headers=self._bacenpix_header(),
             data={},
+            verify=False,
         )
         return response
 
