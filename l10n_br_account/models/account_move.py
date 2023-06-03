@@ -302,9 +302,32 @@ class AccountMove(models.Model):
             self.line_ids._compute_amounts()
         return super()._move_autocomplete_invoice_lines_values()
 
+    @api.model
+    def _copy_nfe_di_to_line_ids(self, vals_list):
+        """
+        Function to copy 'nfe40_DI' value from 'invoice_line_ids' to 'line_ids'.
+        """
+        for vals in vals_list:
+            # Ensure 'invoice_line_ids' and 'line_ids' exist in 'values'
+            if not (vals.get("invoice_line_ids") and vals.get("line_ids")):
+                return
+
+            # Create a mapping of line id to 'nfe40_DI' for 'invoice_line_ids'
+            inv_line_map = {
+                inv_line[1]: inv_line[2].get("nfe40_DI")
+                for inv_line in vals["invoice_line_ids"]
+                if inv_line[2] is not False and inv_line[2].get("nfe40_DI") is not None
+            }
+
+            # Update 'line_ids' with 'nfe40_DI' from 'invoice_line_ids'
+            for line in vals["line_ids"]:
+                if line[1] in inv_line_map:
+                    line[2]["nfe40_DI"] = inv_line_map[line[1]]
+
     @api.model_create_multi
     def create(self, vals_list):
         self._inject_shadowed_fields(vals_list)
+        self._copy_nfe_di_to_line_ids(vals_list)
         invoice = super(AccountMove, self.with_context(create_from_move=True)).create(
             vals_list
         )
@@ -312,6 +335,7 @@ class AccountMove(models.Model):
 
     def write(self, values):
         self._inject_shadowed_fields([values])
+        self._copy_nfe_di_to_line_ids([values])
         result = super().write(values)
         return result
 

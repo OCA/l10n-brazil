@@ -22,6 +22,7 @@
     ],
     "data": [
         "views/account_payment_mode.xml",
+        "views/account_move_views.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,

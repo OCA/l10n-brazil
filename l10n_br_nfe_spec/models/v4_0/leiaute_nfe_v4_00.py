@@ -2733,6 +2733,12 @@ class Di(models.AbstractModel):
     _binding_type = "Tnfe.InfNfe.Det.Prod.Di"
     _generateds_type = "DIType"
 
+    def name_get(self):
+        result = []
+        for di in self:
+            result.append((di.id, "%s" % (di.nfe40_nDI or "")))
+        return result
+
     nfe40_DI_prod_id = fields.Many2one(
         comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
     )

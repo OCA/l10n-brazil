@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<record id="view_move_form_inherit" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_br_account.invoice_form" />
+        <field name="arch" type="xml">
+        <xpath
+                expr="//field[@name='invoice_line_ids']/form//page[@name='fiscal_line_extra_info']"
+                position="after"
+            >
+            <page name="import_documents" string="Import Documents">
+                <field
+                        name="nfe40_DI"
+                        context="{'form_view_ref': 'l10n_br_nfe.l10n_br_nfe_di_form_view', 'tree_view_ref': 'l10n_br_nfe.l10n_br_nfe_di_tree_view'}"
+                    />
+            </page>
+        </xpath>
+    </field>
+</record>
+</odoo>
