@@ -17,7 +17,6 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     def write(self, values):
-
         result = super().write(values)
         MOVE_LINE_FIELDS = ["date_maturity", "name", "amount_currency"]
         if any(field in values.keys() for field in MOVE_LINE_FIELDS):
