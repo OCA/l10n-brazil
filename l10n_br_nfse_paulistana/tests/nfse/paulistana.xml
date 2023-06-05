@@ -16,7 +16,7 @@
     </Cabecalho>
     <RPS xmlns="">
         <Assinatura
-        >b'00035172001  00000000005020200604TNN0000000000100000000000000000006311900281493979000189'</Assinatura>
+        >00035172001  00000000005020200604TNN0000000000100000000000000000006311900281493979000189</Assinatura>
         <ChaveRPS>
             <InscricaoPrestador>35172</InscricaoPrestador>
             <SerieRPS>001</SerieRPS>
