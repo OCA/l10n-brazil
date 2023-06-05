@@ -43,6 +43,10 @@ class FiscalDocument(models.Model):
         copy=False,
     )
 
+    # For some reason, perhaps limitation of _inhertis,
+    # the related directly in the account.move does not work correctly.
+    incoterm_id = fields.Many2one(related="move_ids.invoice_incoterm_id")
+
     document_date = fields.Datetime(
         compute="_compute_document_date", inverse="_inverse_document_date", store=True
     )
