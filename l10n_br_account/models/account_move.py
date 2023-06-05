@@ -108,10 +108,6 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
-    # override the incoterm inherited by the fiscal document
-    # to have the same value as the native incoterm of the invoice.
-    incoterm_id = fields.Many2one(related="invoice_incoterm_id")
-
     def _compute_fiscal_operation_type(self):
         for inv in self:
             if inv.move_type == "entry":
