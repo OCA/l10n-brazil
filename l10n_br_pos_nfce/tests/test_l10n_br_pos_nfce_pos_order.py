@@ -13,7 +13,7 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
         self.pos_config = self.env.ref("l10n_br_pos.pos_config_presumido")
         self.product_id = self.env.ref("point_of_sale.desk_organizer_product_template")
 
-    def test_nfce_create_from_ui(self):
+    def test_01_nfce_create_from_ui(self):
         self.pos_config.update_pos_fiscal_map()
         self.pos_config.open_session_cb(check_coa=False)
         current_session = self.pos_config.current_session_id
@@ -84,7 +84,7 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
             "Submitted order not encoded",
         )
 
-    def test_nfce_payment_with_credit(self):
+    def test_02_nfce_payment_with_credit(self):
         self.pos_config.open_session_cb(check_coa=False)
         current_session = self.pos_config.current_session_id
         num_starting_orders = len(current_session.order_ids)
@@ -153,7 +153,7 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
             "Submitted order not encoded",
         )
 
-    def test_nfce_payment_with_pix(self):
+    def test_03_nfce_payment_with_pix(self):
         self.pos_config.open_session_cb(check_coa=False)
         current_session = self.pos_config.current_session_id
         num_starting_orders = len(current_session.order_ids)
@@ -222,7 +222,7 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
             "Submitted order not encoded",
         )
 
-    def test_l10n_br_pos_nfce_cancel_from_ui(self):
+    def test_04_nfce_cancel_from_ui(self):
         self.pos_config.open_session_cb(check_coa=False)
         current_session = self.pos_config.current_session_id
         order = current_session.order_ids[0]
