@@ -25,11 +25,18 @@ class CNPJWebservice(models.AbstractModel):
     @api.model
     def get_provider(self):
         """Return selected provider in config"""
-        return (
+        if (
             self.env["ir.config_parameter"]
             .sudo()
             .get_param("l10n_br_cnpj_search.cnpj_provider")
-        )
+        ):
+            return (
+                self.env["ir.config_parameter"]
+                .sudo()
+                .get_param("l10n_br_cnpj_search.cnpj_provider")
+            )
+        else:
+            return "receitaws"
 
     @api.model
     def get_api_url(self, cnpj):
