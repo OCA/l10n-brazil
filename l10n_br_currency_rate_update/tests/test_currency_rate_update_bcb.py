@@ -7,36 +7,33 @@ from os import environ
 from unittest import mock
 
 from dateutil.relativedelta import relativedelta
+from decorator import decorate
 
 from odoo import fields
-from odoo.tests import OdooSuite, SavepointCase
+from odoo.tests import SavepointCase
 
 _logger = logging.getLogger(__name__)
 
 
-def addTest(self, test):
-    """
-    Monkey patch OdooSuite to query the Banco Do Brasil only
-    1 day out of 7 and skip tests otherwise.
-    Indeed the BCB webservice often returns errors and it sucks
-    to crash the entire l10n-brazil test suite because of this.
-    the CI_FORCE_BCB env var can be set to force the test anyhow.
-    """
-    if type(test).__name__ == "TestCurrencyRateUpdateBCB":
-        if (
-            datetime.now().day % 7 == 0
-            or environ.get("CI_FORCE_BCB")
-            or test._testMethodName in ["test_mock", "test_get_supported_currencies"]
-        ):
-            return OdooSuite.addTest._original_method(self, test)
-        else:
-            _logger.info("Skipping test because datetime.now().day % 7 != 0")
+def _not_every_day_test(method, self, modulo=7, remaining=1):
+    if datetime.now().day % modulo == remaining or environ.get("CI_FORCE_IBPT"):
+        return method(self)
     else:
-        return OdooSuite.addTest._original_method(self, test)
+        return lambda: _logger.info(
+            "Skipping test today because datetime.now().day %% %s != %s"
+            % (modulo, remaining)
+        )
 
 
-addTest._original_method = OdooSuite.addTest
-OdooSuite.addTest = addTest
+def not_every_day_test(method):
+    """
+    Decorate test methods to query the Banco Do Brasil only
+    1 day out of 7 and skip tests otherwise.
+    Indeed the IBPT webservice often returns errors and it sucks
+    to crash the entire l10n-brazil test suite because of this.
+    the CI_FORCE_IBPT env var can be set to force the test anyhow.
+    """
+    return decorate(method, _not_every_day_test)
 
 
 def mocked_requests_get(*args, **kwargs):
@@ -132,15 +129,18 @@ class TestCurrencyRateUpdateBCB(SavepointCase):
         self.assertTrue(rates)
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
+    @not_every_day_test
     def test_get_supported_currencies(self):
         currencies = self.bcb_provider._get_supported_currencies()
         self.assertTrue(currencies)
 
+    @not_every_day_test
     def test_update_BCB_today(self):
         """No checks are made since today may not be a banking day"""
         self.bcb_provider._update(self.today, self.today)
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
+    @not_every_day_test
     def test_update_BCB_month(self):
         self.bcb_provider._update(self.today - relativedelta(months=1), self.today)
 
@@ -151,6 +151,7 @@ class TestCurrencyRateUpdateBCB(SavepointCase):
 
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
+    @not_every_day_test
     def test_update_BCB_year(self):
         self.bcb_provider._update(self.today - relativedelta(years=1), self.today)
 
@@ -161,6 +162,7 @@ class TestCurrencyRateUpdateBCB(SavepointCase):
 
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
+    @not_every_day_test
     def test_update_BCB_scheduled(self):
         self.bcb_provider.interval_type = "days"
         self.bcb_provider.interval_number = 14
@@ -174,6 +176,7 @@ class TestCurrencyRateUpdateBCB(SavepointCase):
 
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
+    @not_every_day_test
     def test_update_BCB_no_base_update(self):
         self.bcb_provider.interval_type = "days"
         self.bcb_provider.interval_number = 14
