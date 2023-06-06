@@ -1,5 +1,7 @@
-odoo.define("l10n_br_pos_nfce.utils", function (require) { // eslint-disable-line no-unused-vars
+odoo.define("l10n_br_pos_nfce.utils", function (require) {
     "use strict";
+
+    require("web.dom_ready");
 
     const ESTADOS_IBGE = {
         11: ["RO", "Rondônia"],
