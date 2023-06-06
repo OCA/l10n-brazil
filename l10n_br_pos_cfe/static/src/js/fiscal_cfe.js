@@ -243,7 +243,7 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
                 json: order_json,
             });
             const end = Date.now();
-            console.log(`Execution time: ${end - start} ms`);
+            console.log(`Tempo de Execução - Enviar Cfe Sat: ${end - start} ms`);
 
             return res
         },
