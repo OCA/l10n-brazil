@@ -238,3 +238,4 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
         )
 
         self.assertEqual(order.state_edoc, "cancelada", "Order not cancelled")
+        current_session.action_pos_session_closing_control()
