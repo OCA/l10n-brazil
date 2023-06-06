@@ -26,6 +26,10 @@ odoo.define("l10n_br_pos_cfe.ReceiptScreen", function (require) {
                     this.whenClosing();
                 }
             }
+            async _printReceipt() {
+                console.log("🚀 ~ file: ReceiptScreen.js:33 ~ extends ~ _printReceipt ~ this.orderReceipt.el.outerHTML: ", this.orderReceipt.el.outerHTML)
+                return await ReceiptScreen.prototype._printReceipt.call(this);
+            }
         };
 
     Registries.Component.extend(ReceiptScreen, L10nBrPosCfeReceiptScreen);

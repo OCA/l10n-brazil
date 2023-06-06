@@ -237,9 +237,14 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
         },
 
         send_order_job: function (order_json) {
-            return this.connection.rpc("/hw_proxy/enviar_cfe_sat", {
+
+            console.time("🚀 ~ file: fiscal_cfe.js:244 ~ send_order_job ~ start_time")
+            const res = this.connection.rpc("/hw_proxy/enviar_cfe_sat", {
                 json: order_json,
             });
+            console.timeEnd("🚀 ~ file: fiscal_cfe.js:244 ~ send_order_job ~ end_time")
+
+            return res
         },
 
         cancel_order_job: function (order_json) {
