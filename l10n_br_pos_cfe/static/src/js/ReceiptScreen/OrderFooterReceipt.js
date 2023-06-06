@@ -6,6 +6,8 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
 
     class OrderFooterReceipt extends PosComponent {
         mounted() {
+            this.footerEvent = new Event("footer-mounted");
+
             this._generateBarcode(this.getFormattedDocumentKey());
             this._generateQRCode();
 
@@ -36,13 +38,21 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
         }
 
         async _generateQRCode() {
+            const qrcode = document.getElementById("footer__qrcode");
+            new MutationObserver(this.dispatchEventOnQrCodeMounted.bind(this)).observe(
+                qrcode,
+                {
+                    subtree: true,
+                    attributes: true,
+                    attributeFilter: ["style"],
+                }
+            );
+
             // eslint-disable-next-line
-            return await new QRCode(document.getElementById("footer__qrcode"), {
+            return await new QRCode(qrcode, {
                 text: this.getTextForQRCode(),
                 width: 275,
                 height: 275,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
                 // eslint-disable-next-line
                 correctLevel: QRCode.CorrectLevel.L,
             });
@@ -87,16 +97,36 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
         }
 
         async _generateQRCodeCancel() {
+            const qrcodeCancel = document.getElementById("footer__qrcode-cancel");
+            new MutationObserver(this.dispatchEventOnQrCodeMounted.bind(this)).observe(
+                qrcodeCancel,
+                {
+                    subtree: true,
+                    attributes: true,
+                    attributeFilter: ["style"],
+                }
+            );
+
             // eslint-disable-next-line
-            return await new QRCode(document.getElementById("footer__qrcode-cancel"), {
+            return await new QRCode(qrcodeCancel, {
                 text: this.getTextForQRCodeCancel(),
                 width: 275,
                 height: 275,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
                 // eslint-disable-next-line
                 correctLevel: QRCode.CorrectLevel.L,
             });
+        }
+
+        dispatchEventOnQrCodeMounted(mutationList, observer) {
+            for (const mutation of mutationList) {
+                if (
+                    mutation.target.tagName === "IMG" &&
+                    mutation.target.style.display === "block"
+                ) {
+                    window.dispatchEvent(this.footerEvent);
+                    observer.disconnect();
+                }
+            }
         }
 
         getTextForQRCodeCancel() {
