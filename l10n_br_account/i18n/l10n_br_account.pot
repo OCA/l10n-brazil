@@ -356,14 +356,14 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice_line.py:0
+#: code:addons/l10n_br_account/models/account_move_line.py:0
 #, python-format
 msgid ""
 "Document line dummy not found. Please contact your system administrator."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "Document without Return Fiscal Operation! \n"
@@ -635,7 +635,7 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "Line without Return Fiscal Operation! \n"
@@ -884,7 +884,7 @@ msgid "WH Account Move Line"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "You can't set this document number: {} to draft because this document is "
@@ -898,7 +898,7 @@ msgid "You cannot delete a fiscal document which is not draft state."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice_line.py:0
+#: code:addons/l10n_br_account/models/account_move_line.py:0
 #, python-format
 msgid "You cannot edit an invoice related to a withholding entry"
 msgstr ""
