@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('pos-receipt-container')]" position="replace">
+            <t t-if="currentOrder.document_type === '59'">
+                <div class="pos-receipt-container">
+                    <OrderReceipt order="currentOrder" t-ref="order-receipt" />
+                </div>
+            </t>
+            <t t-if="currentOrder.document_type === '65'">
+                <div class="pos-receipt-container-nfce">
+                    <NFCeOrderReceipt order="currentOrder" t-ref="nfce-order-receipt" />
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>

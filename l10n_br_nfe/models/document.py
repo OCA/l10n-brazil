@@ -12,6 +12,7 @@ from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.edoc.nfce import NFCe as edoc_nfce
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -21,6 +22,7 @@ from requests import Session
 
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
@@ -204,11 +206,23 @@ class NFe(spec_models.StackedModel):
 
     nfe40_dhEmi = fields.Datetime(related="document_date")
 
-    nfe40_dhSaiEnt = fields.Datetime(related="date_in_out")
+    nfe40_dhSaiEnt = fields.Datetime(
+        compute="_compute_nfe40_dhSaiEnt",
+        inverse="_inverse_nfe40_dhSaiEnt",
+    )
 
     nfe40_tpNF = fields.Selection(
         compute="_compute_ide_data",
         inverse="_inverse_nfe40_tpNF",
+    )
+
+    nfe_dhCont = fields.Date(
+        readonly=True,
+        copy=False,
+    )
+
+    nfe_xJust = fields.Char(
+        readonly=True,
     )
 
     nfe40_idDest = fields.Selection(compute="_compute_nfe40_idDest")
@@ -296,6 +310,14 @@ class NFe(spec_models.StackedModel):
             else:
                 doc.nfe40_idDest = "3"
 
+    @api.depends("date_in_out")
+    def _compute_nfe40_dhSaiEnt(self):
+        for doc in self:
+            if doc.document_type == "65":
+                doc.nfe40_dhSaiEnt = None
+            else:
+                doc.nfe40_dhSaiEnt = doc.date_in_out
+
     ##########################
     # NF-e tag: ide
     # Inverse Methods
@@ -319,6 +341,13 @@ class NFe(spec_models.StackedModel):
         for doc in self:
             if doc.nfe40_tpEmis:
                 doc.nfe_transmission = doc.nfe40_tpEmis
+
+    def _inverse_nfe40_dhSaiEnt(self):
+        for doc in self:
+            if doc.document_type == "65":
+                doc.nfe40_dhSaiEnt = None
+            else:
+                doc.date_in_out = doc.nfe40_dhSaiEnt
 
     ##########################
     # NF-e tag: NFref
@@ -390,8 +419,20 @@ class NFe(spec_models.StackedModel):
 
     nfe40_entrega = fields.Many2one(
         comodel_name="res.partner",
-        related="partner_shipping_id",
+        compute="_compute_entrega_data",
+        readonly=True,
+        string="Entrega",
     )
+
+    ##########################
+    # NF-e tag: entrega
+    # Compute Methods
+    ##########################
+
+    @api.depends("partner_shipping_id")
+    def _compute_entrega_data(self):
+        for rec in self:
+            rec.nfe40_entrega = rec.partner_shipping_id
 
     ##########################
     # NF-e tag: retirada
@@ -741,13 +782,21 @@ class NFe(spec_models.StackedModel):
         )
         session = Session()
         session.verify = False
-        transmissao = TransmissaoSOAP(certificado, session)
-        return edoc_nfe(
-            transmissao,
-            self.company_id.state_id.ibge_code,
-            versao=self.nfe_version,
-            ambiente=self.nfe_environment,
-        )
+        params = {
+            "transmissao": TransmissaoSOAP(certificado, session),
+            "uf": self.company_id.state_id.ibge_code,
+            "versao": self.nfe_version,
+            "ambiente": self.nfe_environment,
+        }
+
+        if self.document_type == "65":
+            params.update(
+                csc_token=self.company_id.nfce_csc_token,
+                csc_code=self.company_id.nfce_csc_code,
+            )
+            return edoc_nfce(**params)
+
+        return edoc_nfe(**params)
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
@@ -772,8 +821,18 @@ class NFe(spec_models.StackedModel):
             self._valida_xml(xml_assinado)
         return result
 
-    def atualiza_status_nfe(self, infProt, xml_file):
+    def atualiza_status_nfe(self, processo):
         self.ensure_one()
+
+        xml_file = processo.envio_xml.decode("utf-8")
+
+        if hasattr(processo, "protocolo"):
+            # Assincrono
+            infProt = processo.protocolo.infProt
+        else:
+            # Sincrono
+            infProt = processo.resposta.protNFe.infProt
+
         # TODO: Verificar a consulta de notas
         # if not infProt.chNFe == self.key:
         #     self = self.search([
@@ -838,6 +897,8 @@ class NFe(spec_models.StackedModel):
                 return
             processador = record._processador()
             for edoc in record.serialize():
+                if self.document_type == "65":
+                    processador.monta_qrcode(edoc)
                 processo = None
                 for p in processador.processar_documento(edoc):
                     processo = p
@@ -847,10 +908,41 @@ class NFe(spec_models.StackedModel):
                         )
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
-                record.atualiza_status_nfe(
-                    processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
+                record.atualiza_status_nfe(processo)
+
+                if hasattr(processo, "protocolo"):
+                    status = processo.protocolo.infProt.cStat
+                else:
+                    status = processo.resposta.cStat
+
+                if status in AUTORIZADO:
+                    try:
+                        record.make_pdf()
+                    except Exception as e:
+                        # Não devemos interromper o fluxo
+                        # E dar rollback em um documento
+                        # autorizado, podendo perder dados.
+
+                        # Se der problema que apareça quando
+                        # o usuário clicar no gera PDF novamente.
+                        _logger.error("DANFE Error \n {}".format(e))
+
+            elif processo.resposta.cStat in DENEGADO:
+                state = SITUACAO_EDOC_DENEGADA
+
+                record._change_state(state)
+
+                record.write(
+                    {
+                        "status_code": processo.resposta.cStat,
+                        "status_name": processo.resposta.xMotivo,
+                    }
                 )
-            elif processo.resposta.cStat == "225":
+
+            elif processo.resposta.cStat in ["108", "109"]:
+                record._process_document_in_contingency()
+
+            else:
                 state = SITUACAO_EDOC_REJEITADA
 
                 record._change_state(state)
@@ -1047,3 +1139,19 @@ class NFe(spec_models.StackedModel):
                 protocol_number=retevento.infEvento.nProt,
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
+
+    def _process_document_in_contingency(self):
+        copy_invoice = (
+            self.env["account.move"]
+            .search([("fiscal_document_id", "=", self.id)], limit=1)
+            .copy()
+        )
+        vals = {
+            "nfe_transmission": "9",
+            "nfe40_dhCont": fields.Datetime.now().strftime(
+                DEFAULT_SERVER_DATETIME_FORMAT
+            ),
+            "nfe40_xJust": "Sem comunicacao com o servidor da Sefaz.",
+        }
+        copy_invoice.fiscal_document_id.write(vals)
+        copy_invoice.action_post()
