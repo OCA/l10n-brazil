@@ -281,34 +281,26 @@ class PosOrder(models.Model):
         order = self.env["pos.order"].search([("pos_reference", "=", order_id)])
         try:
             order.account_move.fiscal_document_id._document_cancel(cancel_reason)
-        except Exception as e:
-            error_message = f"Failed to cancel fiscal document: {str(e)}"
-            error_response = {
-                "status_code": 400,
-                "message": error_message,
-            }
-            return error_response
+        except Exception:
+            pass
         finally:
-            if order.account_move.fiscal_document_id.state_edoc == "cancelada":
-                vals = {
-                    "state_edoc": order.account_move.fiscal_document_id.state_edoc,
-                    "state": "cancel",
-                }
-                order.write(vals)
-                order.account_move.write({"state": "cancel"})
-                order.with_context(
-                    mail_create_nolog=True,
-                    tracking_disable=True,
-                    mail_create_nosubscribe=True,
-                    mail_notrack=True,
-                ).refund()
-                refund_order = self.search(
-                    [
-                        ("pos_reference", "=", order.pos_reference),
-                        ("amount_total", ">", 0),
-                    ]
-                )
-                refund_order.pos_reference = f"{order.pos_reference}-cancelled"
-            else:
-                raise Exception("Não foi possível cancelar a NFC-e.")
+            vals = {
+                "state_edoc": order.account_move.fiscal_document_id.state_edoc,
+                "state": "cancel",
+            }
+            order.write(vals)
+            order.account_move.write({"state": "cancel"})
+            order.with_context(
+                mail_create_nolog=True,
+                tracking_disable=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+            ).refund()
+            refund_order = self.search(
+                [
+                    ("pos_reference", "=", order.pos_reference),
+                    ("amount_total", ">", 0),
+                ]
+            )
+            refund_order.pos_reference = f"{order.pos_reference}-cancelled"
         return order.account_move.fiscal_document_id.state_edoc
