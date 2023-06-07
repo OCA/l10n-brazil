@@ -18,32 +18,33 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
 
     const L10nBrPosPaymentScreen = (PaymentScreen) =>
         class extends PaymentScreen {
-            check_valid_cpf_cnpj(order) {
-                let result = true;
-                const client = order.get_client();
-
-                if (client) {
-                    let cnpj_cpf = null;
-                    if (client.cnpj_cpf) {
-                        cnpj_cpf = client.cnpj_cpf;
-                    } else {
-                        cnpj_cpf = client.name;
-                    }
-
-                    result = util.validate_cnpj_cpf(cnpj_cpf);
-                    if (!result) {
-                        order.set_client(null);
-                    }
+            checkValidCpfCnpj(currentOrder) {
+                if (!currentOrder.customer_tax_id && !currentOrder.get_client()) {
+                    return true;
                 }
 
+                const client = currentOrder.get_client();
+                if (!client) {
+                    return util.validate_cnpj_cpf(currentOrder.customer_tax_id);
+                }
+
+                const cnpj_cpf = client.cnpj_cpf;
+
+                if (!cnpj_cpf) {
+                    return true;
+                }
+
+                const result = util.validate_cnpj_cpf(cnpj_cpf);
+                if (!result) {
+                    currentOrder.set_client(null);
+                }
                 return result;
             }
 
             async _isOrderValid(isForceValidate) {
                 var result = super._isOrderValid(isForceValidate);
                 var order = this.env.pos.get_order();
-                const valid_cpf_cnpj = this.check_valid_cpf_cnpj(order);
-                if (valid_cpf_cnpj) {
+                if (this.checkValidCpfCnpj(order)) {
                     result = await order.document_send(this);
                     return result;
                 }
