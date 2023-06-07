@@ -96,7 +96,9 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(socios, expected_socios)
 
     def test_serpro_empresa(self):
-        self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).unlink()
+        self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
+            {"active": False}
+        )
         self.set_param("serpro_schema", "empresa")
 
         dummy_empresa = self.model.create(
@@ -118,7 +120,9 @@ class TestTestSerPro(TestCnpjCommon):
         self.assert_socios(dummy_empresa, expected_cnpjs)
 
     def test_serpro_qsa(self):
-        self.model.search([("cnpj_cpf", "=", "54447820000155")]).unlink()
+        self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
+            {"active": False}
+        )
         self.set_param("serpro_schema", "qsa")
 
         dummy_qsa = self.model.create(
