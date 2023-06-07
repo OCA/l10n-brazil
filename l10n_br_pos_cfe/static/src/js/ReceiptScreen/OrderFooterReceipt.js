@@ -6,7 +6,7 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
 
     class OrderFooterReceipt extends PosComponent {
         mounted() {
-            const footerMounterEvent = new Event("footer-mounted");
+            this.footerMountedEvent = new Event("footer-mounted");
 
             this._generateBarcode(this.getFormattedDocumentKey());
             this._generateQRCode();
@@ -15,8 +15,6 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
                 this._generateBarcodeCancel(this.getFormattedDocumentKeyCancel());
                 this._generateQRCodeCancel();
             }
-
-            setTimeout(() => window.dispatchEvent(footerMounterEvent), 5000);
         }
 
         get order() {
@@ -40,9 +38,16 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
         }
 
         async _generateQRCode() {
-            // eslint-disable-next-line
+            const qrCode = document.getElementById("footer__qrcode");
+            new MutationObserver(this.observerCallback.bind(this)).observe(qrCode, {
+                attributes: true,
+                subtree: true,
+                attributeFilter: ["style"]
+            });
+
             const start = Date.now();
 
+            // eslint-disable-next-line
             await new QRCode(document.getElementById("footer__qrcode"), {
                 text: this.getTextForQRCode(),
                 width: 275,
@@ -96,8 +101,15 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
         }
 
         async _generateQRCodeCancel() {
+            const qrCodeCancel = document.getElementById("footer__qrcode-cancel");
+            new MutationObserver(this.observerCallback.bind(this)).observe(qrCodeCancel, {
+                attributes: true,
+                subtree: true,
+                attributeFilter: ["style"]
+            });
+
             // eslint-disable-next-line
-            return await new QRCode(document.getElementById("footer__qrcode-cancel"), {
+            return await new QRCode(qrCodeCancel, {
                 text: this.getTextForQRCodeCancel(),
                 width: 275,
                 height: 275,
@@ -129,6 +141,20 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
                 "|",
                 qrCodeSignature
             );
+        }
+
+        observerCallback(mutationList, observer) {
+            const self = this;
+            _.each(mutationList, (mutation) => {
+                const currEl = mutation.target;
+                if (mutation.type == "attributes" &&
+                    currEl.tagName === "IMG" &&
+                    currEl.style.display === "block"
+                ) {
+                    window.dispatchEvent(self.footerMountedEvent);
+                    observer.disconnect();
+                }
+            });
         }
 
         // Getters //
