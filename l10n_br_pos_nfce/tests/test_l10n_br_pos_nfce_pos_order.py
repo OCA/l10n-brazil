@@ -231,5 +231,5 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
         )
         self.env["pos.order"].cancel_nfce_from_ui(order["pos_reference"], "Teste")
 
-        self.assertEqual(order.cancel, "cancelada", "Order not cancelled")
+        self.assertEqual(order.state, "cancel", "Order not cancelled")
         current_session.action_pos_session_closing_control()
