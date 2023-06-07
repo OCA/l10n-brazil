@@ -39,6 +39,7 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
             // eslint-disable-next-line
             const start = Date.now();
 
+            const qrCodeMountedEvent = new Event("qrcode-mounted");
             await new QRCode(document.getElementById("footer__qrcode"), {
                 text: this.getTextForQRCode(),
                 width: 275,
@@ -48,9 +49,9 @@ odoo.define("l10n_br_pos_cfe.OrderFooterReceipt", function (require) {
                 // eslint-disable-next-line
                 correctLevel: QRCode.CorrectLevel.L,
             });
+            window.dispatchEvent(qrCodeMountedEvent);
 
             const end = Date.now();
-            console.log(`Gerar QR Code - Início: ${start}`);
             console.log(`Gerar QR Code - Tempo de Execução: ${end - start} ms`);
         }
 
