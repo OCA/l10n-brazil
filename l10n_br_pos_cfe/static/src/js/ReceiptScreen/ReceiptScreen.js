@@ -20,7 +20,7 @@ odoo.define("l10n_br_pos_cfe.ReceiptScreen", function (require) {
                 super.setup();
 
                 useListener("autoprint", this.cfePrinting);
-                useExternalListener(window, "qrcode-mounted", this.triggerAutoPrintEvent);
+                useExternalListener(window, "footer-mounted", this.triggerAutoPrintEvent);
             }
 
             // @override
