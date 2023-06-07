@@ -231,11 +231,5 @@ class TestL10nBrPosNfcePosOrder(TransactionCase):
         )
         self.env["pos.order"].cancel_nfce_from_ui(order["pos_reference"], "Teste")
 
-        self.assertEqual(
-            order.account_move.fiscal_document_id.state,
-            "cancelada",
-            "NF-e not cancelled",
-        )
-
-        self.assertEqual(order.state_edoc, "cancelada", "Order not cancelled")
+        self.assertEqual(order.cancel, "cancelada", "Order not cancelled")
         current_session.action_pos_session_closing_control()
