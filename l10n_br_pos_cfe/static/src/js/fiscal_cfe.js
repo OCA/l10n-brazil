@@ -237,9 +237,15 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
         },
 
         send_order_job: function (order_json) {
-            return this.connection.rpc("/hw_proxy/enviar_cfe_sat", {
+
+            const start = Date.now();
+            const res = this.connection.rpc("/hw_proxy/enviar_cfe_sat", {
                 json: order_json,
             });
+            const end = Date.now();
+            console.log(`Enviar Cfe Sat - Tempo de Execução: ${end - start} ms`);
+
+            return res
         },
 
         cancel_order_job: function (order_json) {

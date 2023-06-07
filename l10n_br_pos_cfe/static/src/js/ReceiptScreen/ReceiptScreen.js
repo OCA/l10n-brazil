@@ -11,20 +11,39 @@ odoo.define("l10n_br_pos_cfe.ReceiptScreen", function (require) {
 
     const ReceiptScreen = require("point_of_sale.ReceiptScreen");
     const Registries = require("point_of_sale.Registries");
+    const {useListener} = require("web.custom_hooks");
+    const {useExternalListener} = owl.hooks;
 
     const L10nBrPosCfeReceiptScreen = (ReceiptScreen) =>
         class extends ReceiptScreen {
+            setup() {
+                super.setup();
+
+                useListener("autoprint", this.cfePrinting);
+                useExternalListener(window, "footer-mounted", this.triggerAutoPrintEvent);
+            }
+
             // @override
             async handleAutoPrint() {
-                if (this._shouldAutoPrint()) {
-                    setTimeout(() => this.cfePrinting(), 1000);
+                return;
+            }
+
+            triggerAutoPrintEvent() {
+                if (this._shouldAutoPrint()){
+                    this.trigger("autoprint");
                 }
             }
+
             async cfePrinting() {
                 await this.printReceipt();
                 if (this.currentOrder._printed && this._shouldCloseImmediately()) {
                     this.whenClosing();
                 }
+            }
+
+            async _printReceipt() {
+                console.log("🚀 ~ file: ReceiptScreen.js:33 ~ extends ~ _printReceipt ~ this.orderReceipt.el.outerHTML: ", this.orderReceipt.el.outerHTML)
+                return await ReceiptScreen.prototype._printReceipt.call(this);
             }
         };
 
