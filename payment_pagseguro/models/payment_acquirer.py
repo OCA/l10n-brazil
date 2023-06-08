@@ -31,16 +31,24 @@ class PaymentAcquirerPagseguro(models.Model):
 
         Cvc, number and expiry date card info should be empty by this point.
         """
+        card_holder = (
+            data["cc_holder_name"]
+            if "cc_holder_name" in data
+            else data["card_holder_name"]
+        )
+        pagseguro_card_token = (
+            data["cc_token"] if "cc_token" in data else data["card_token"]
+        )
         payment_token = (
             self.env["payment.token"]
             .sudo()
             .create(
                 {
-                    "cc_holder_name": data["cc_holder_name"],
+                    "card_holder": card_holder,
                     "acquirer_ref": int(data["partner_id"]),
                     "acquirer_id": int(data["acquirer_id"]),
                     "partner_id": int(data["partner_id"]),
-                    "pagseguro_card_token": data["cc_token"],
+                    "pagseguro_card_token": pagseguro_card_token,
                 }
             )
         )

@@ -34,10 +34,14 @@ class PaymentTokenPagSeguro(models.Model):
 
         customer_params = {"description": description}
 
+        pagseguro_card_token = (
+            values["pagseguro_card_token"] if "pagseguro_card_token" in values else ""
+        )
+
         res = {
             "acquirer_ref": partner_id.id,
             "name": "%s" % (customer_params.get("description")),
-            "pagseguro_card_token": values["pagseguro_card_token"],
+            "pagseguro_card_token": pagseguro_card_token,
         }
 
         return res
