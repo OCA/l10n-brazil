@@ -12,6 +12,7 @@
     "depends": ["account_due_list"],
     "data": [
         "views/account_invoice_view.xml",
+        "views/account_move_line.xml",
     ],
     "installable": True,
     "auto_install": True,

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 Engenere.one
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="account_move_line_form_view">
+        <field name="name">account.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <field name="parent_state" invisible="1" />
+                    <field name="reconciled" invisible="1" />
+                    <field name="account_internal_type" invisible="1" />
+                    <button
+                        name="action_register_payment"
+                        id="account_invoice_payment_btn"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': ['|', '|', ('parent_state', '!=', 'posted'), ('reconciled', '=', True), ('account_internal_type', 'not in', ('receivable', 'payable'))]}"
+                        context="{'dont_redirect_to_payments': True}"
+                        string="Register Payment"
+                        groups="account.group_account_invoice"
+                    />
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="account_move_line_tree_view">
+        <field name="name">account.move.line.tree</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account_due_list.view_payments_tree" />
+        <field name="arch" type="xml">
+            <field name="date" position="before">
+                <header>
+                    <button
+                        name="action_register_payment"
+                        type="object"
+                        string="Register Payment"
+                        groups="account.group_account_user"
+                    />
+                </header>
+            </field>
+        </field>
+    </record>
+
+</odoo>
