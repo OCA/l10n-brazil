@@ -88,23 +88,6 @@ def post_init_hook(cr, registry):
                 kind="demo",
             )
 
-        env = api.Environment(cr, SUPERUSER_ID, {})
-
-        companies = [
-            env.ref("base.main_company", raise_if_not_found=False),
-            env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False),
-            env.ref("l10n_br_base.empresa_simples_nacional", raise_if_not_found=False),
-        ]
-
-        for company in companies:
-            l10n_br_fiscal_certificate_id = env["l10n_br_fiscal.certificate"]
-            company.certificate_nfe_id = l10n_br_fiscal_certificate_id.create(
-                misc.prepare_fake_certificate_vals()
-            )
-            company.certificate_ecnpj_id = l10n_br_fiscal_certificate_id.create(
-                misc.prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
-            )
-
     if tools.config["without_demo"]:
         prodfiles = []
         # Load full CSV files with few lines unless a flag
@@ -156,6 +139,8 @@ def post_init_hook(cr, registry):
             kind="init",
         )
 
+    _load_demo_companies_certificates(cr)
+
     # Load post demo files
     if not tools.config["without_demo"]:
         posdemofiles = [
@@ -184,4 +169,33 @@ def post_init_hook(cr, registry):
             {
                 "fiscal_dummy_id": c._default_fiscal_dummy_id().id,
             }
+        )
+
+
+def _load_demo_companies_certificates(cr):
+    env = api.Environment(cr, SUPERUSER_ID, {})
+
+    companies = [
+        env.ref("base.main_company", raise_if_not_found=False),
+        env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False),
+        env.ref("l10n_br_base.empresa_simples_nacional", raise_if_not_found=False),
+    ]
+
+    try:
+        for company in companies:
+            l10n_br_fiscal_certificate = env["l10n_br_fiscal.certificate"]
+            company.certificate_nfe_id = l10n_br_fiscal_certificate.create(
+                misc.prepare_fake_certificate_vals()
+            )
+            company.certificate_ecnpj_id = l10n_br_fiscal_certificate.create(
+                misc.prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
+            )
+
+    except NameError:  # (means from erpbrasil.assinatura import misc failed)
+        _logger.error(
+            _(
+                "Python Library erpbrasil.assinatura not installed!"
+                "You can install it later with: pip install erpbrasil.assinatura."
+                "Demo companies fake A1 certificates were not created."
+            )
         )

@@ -5,14 +5,24 @@
 import logging
 import os
 
-from erpbrasil.assinatura import misc
 from erpbrasil.base.misc import punctuation_rm
 
+from odoo import _
 from odoo.tools import config
 
 from ..constants.fiscal import CERTIFICATE_TYPE_NFE, EVENT_ENV_HML, EVENT_ENV_PROD
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.assinatura import misc
+except ImportError:
+    _logger.error(
+        _(
+            "Python Library erpbrasil.assinatura not installed!"
+            "You can install it with: pip install erpbrasil.assinatura."
+        )
+    )
 
 
 def domain_field_codes(
