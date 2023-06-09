@@ -361,3 +361,7 @@ class TestCustomerInvoice(SavepointCase):
                 self.invoice_3.fiscal_document_id.id,
                 "line.document_id should be equal invoice fiscal_document_id",
             )
+
+    def test_invoice_copy(self):
+        invoice_copy = self.invoice_1.copy()
+        self.assertEqual(len(invoice_copy), 1)
