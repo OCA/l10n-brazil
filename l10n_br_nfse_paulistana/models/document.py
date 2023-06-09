@@ -330,29 +330,7 @@ class Document(models.Model):
                     processo = None
                     for p in processador.processar_documento(edoc):
                         processo = p
-
                         retorno = ET.fromstring(processo.retorno)
-                        if processo.webservice in ENVIO_LOTE_RPS:
-
-                            if retorno:
-                                if processo.resposta.Cabecalho.Sucesso:
-                                    record._change_state(SITUACAO_EDOC_AUTORIZADA)
-                                    vals["status_name"] = _("Procesado com Sucesso")
-                                    vals["status_code"] = 4
-                                    vals["edoc_error_message"] = ""
-                                else:
-                                    mensagem_erro = ""
-                                    for erro in retorno.findall("Erro"):
-                                        codigo = erro.find("Codigo").text
-                                        descricao = erro.find("Descricao").text
-                                        mensagem_erro += (
-                                            codigo + " - " + descricao + "\n"
-                                        )
-
-                                    vals["edoc_error_message"] = mensagem_erro
-                                    vals["status_name"] = _("Procesado com Erro")
-                                    vals["status_code"] = 3
-                                    record._change_state(SITUACAO_EDOC_REJEITADA)
 
                         if processo.webservice in CONSULTA_LOTE:
                             if processo.resposta.Cabecalho.Sucesso:
@@ -372,10 +350,29 @@ class Document(models.Model):
                                     protocol_number=protocolo,
                                     file_response_xml=processo.retorno,
                                 )
+                            continue
 
+                        if processo.webservice in ENVIO_LOTE_RPS:
+                            if retorno:
+                                if processo.resposta.Cabecalho.Sucesso:
+                                    record._change_state(SITUACAO_EDOC_AUTORIZADA)
+                                    vals["status_name"] = _("Procesado com Sucesso")
+                                    vals["status_code"] = 4
+                                    vals["edoc_error_message"] = ""
+                                else:
+                                    mensagem_erro = ""
+                                    for erro in retorno.findall("Erro"):
+                                        codigo = erro.find("Codigo").text
+                                        descricao = erro.find("Descricao").text
+                                        mensagem_erro += (
+                                            codigo + " - " + descricao + "\n"
+                                        )
+
+                                    vals["edoc_error_message"] = mensagem_erro
+                                    vals["status_name"] = _("Procesado com Erro")
+                                    vals["status_code"] = 3
+                                    record._change_state(SITUACAO_EDOC_REJEITADA)
                 record.write(vals)
-            if record.status_code == "4":
-                record.make_pdf()
         return
 
     def _document_status(self):
