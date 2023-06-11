@@ -157,12 +157,15 @@ class NFe(spec_models.StackedModel):
 
     @api.depends("document_type_id", "document_key")
     def _compute_id_tag(self):
-        """Set schema data which are not just related fields"""
-
-        for record in self.filtered(filter_processador_edoc_nfe):
-            # id
+        """Set the <infNFe> Id attribute"""
+        for record in self:
             if (
                 record.document_type_id
+                and record.document_type_id.code
+                in (
+                    MODELO_FISCAL_NFE,
+                    MODELO_FISCAL_NFCE,
+                )
                 and record.document_type_id.prefix
                 and record.document_key
             ):
