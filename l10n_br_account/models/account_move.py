@@ -322,15 +322,6 @@ class AccountMove(models.Model):
         self.clear_caches()
         return result
 
-    @api.returns("self", lambda value: value.id)
-    def copy(self, default=None):
-        default = default or {}
-        if self.document_type_id:
-            default["fiscal_line_ids"] = False
-        else:
-            default["fiscal_line_ids"] = self.line_ids[0]
-        return super().copy(default)
-
     @api.model
     def _serialize_tax_grouping_key(self, grouping_dict):
         return "-".join(str(v) for v in grouping_dict.values())
