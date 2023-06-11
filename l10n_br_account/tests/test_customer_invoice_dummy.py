@@ -361,3 +361,42 @@ class TestCustomerInvoice(SavepointCase):
                 self.invoice_3.fiscal_document_id.id,
                 "line.document_id should be equal invoice fiscal_document_id",
             )
+
+    def test_invoice_copy_with_dummy(self):
+        """
+        Tests the functionality of copying an invoice while using a fiscal dummy.
+        It verifies that the new invoice isn't recognized as a fiscal document,
+        the same fiscal dummy is used, and that no new entries were created.
+        """
+
+        # Retrieve initial count of fiscal document lines
+        init_number_of_fiscal_doc_lines = self.env[
+            "l10n_br_fiscal.document.line"
+        ].search_count([])
+
+        invoice_copy = self.invoice_1.copy()
+
+        # Confirm that the copied invoice uses the fiscal dummy
+        self.assertFalse(self.invoice_1.document_type_id.exists())
+        self.assertFalse(invoice_copy.document_type_id.exists())
+
+        # Check that no new fiscal document lines were created after copying the invoice
+        final_number_of_fiscal_doc_lines = self.env[
+            "l10n_br_fiscal.document.line"
+        ].search_count([])
+        self.assertEqual(
+            init_number_of_fiscal_doc_lines, final_number_of_fiscal_doc_lines
+        )
+
+        # Retrieve the dummy fiscal document line
+        dummy_fiscal_document_line = (
+            self.invoice_1.company_id.fiscal_dummy_id.fiscal_line_ids[0]
+        )
+
+        # Check that all account move lines are associated with the fiscal dummy
+        for line in invoice_copy.line_ids:
+            self.assertEqual(
+                line.fiscal_document_line_id.id, dummy_fiscal_document_line.id
+            )
+
+        self.assertEqual(len(invoice_copy), 1)
