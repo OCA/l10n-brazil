@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 04:54+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2023-06-14 13:11+0000\n"
+"Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj
@@ -24,7 +24,7 @@ msgstr "CNPJ"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_cpf
 msgid "CNPJ/CPF"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cpf
@@ -34,7 +34,7 @@ msgstr "CPF"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__city_id
 msgid "City of Address"
-msgstr ""
+msgstr "Cidade do Endereço"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
@@ -51,21 +51,21 @@ msgstr "Bairro"
 #: code:addons/l10n_br_crm/models/crm_lead.py:0
 #, python-format
 msgid "Invalid CNPJ!"
-msgstr ""
+msgstr "CNPJ Invalido!"
 
 #. module: l10n_br_crm
 #. odoo-python
 #: code:addons/l10n_br_crm/models/crm_lead.py:0
 #, python-format
 msgid "Invalid CPF!"
-msgstr ""
+msgstr "CPF Invalido!"
 
 #. module: l10n_br_crm
 #. odoo-python
 #: code:addons/l10n_br_crm/models/crm_lead.py:0
 #, python-format
 msgid "Invalid State Tax Number!"
-msgstr ""
+msgstr "Inscrição Estadual Invalida!"
 
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
@@ -80,22 +80,22 @@ msgstr "Razão Social"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_mun
 msgid "Municipal Tax Number"
-msgstr ""
+msgstr "Cod. Municipal"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__name_surname
 msgid "Name and Surname"
-msgstr ""
+msgstr "Nome e Sobrenome"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__name_surname
 msgid "Name used in fiscal documents"
-msgstr ""
+msgstr "Nome usado nos Docs. Fiscais"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__state_tax_number_ids
 msgid "Others State Tax Number"
-msgstr ""
+msgstr "Outros Número de Contribuinte Estadual"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__rg
@@ -105,17 +105,17 @@ msgstr "RG"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
 msgid "State Tax Number"
-msgstr ""
+msgstr "Número de inscrição estadual"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_name
 msgid "Street Name"
-msgstr ""
+msgstr "Nome da Rua"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_number
 msgid "Street Number"
-msgstr ""
+msgstr "Número"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__suframa
@@ -125,7 +125,7 @@ msgstr "Suframa"
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_name
 msgid "Used in fiscal documents"
-msgstr ""
+msgstr "Usado em Documentos Fiscais"
 
 #, python-format
 #~ msgid "CNPJ inválido!"
