@@ -17,7 +17,13 @@ class TaxDefinitionBenefit(models.Model):
     )
 
     code = fields.Char(
+        string="Code",
         size=8,
+        states={"draft": [("readonly", False)]},
+    )
+
+    name = fields.Char(
+        string="Name",
         states={"draft": [("readonly", False)]},
     )
 
@@ -35,16 +41,20 @@ class TaxDefinitionBenefit(models.Model):
     # Informar o anexo do Regulamento do ICMS.
 
     # Artigo
-    # Informar o artigo referente ao enquadramento legal da operação ou prestação geradora de crédito acumulado.
+    # Informar o artigo referente ao enquadramento legal da operação
+    # ou prestação geradora de crédito acumulado.
 
     # Inciso
-    # Informar o inciso referente ao enquadramento legal da operação ou prestação geradora de crédito acumulado.
+    # Informar o inciso referente ao enquadramento legal da operação
+    # ou prestação geradora de crédito acumulado.
 
     # Alínea
-    # Alínea referente ao enquadramento legal da operação ou prestação geradora de crédito acumulado.
+    # Alínea referente ao enquadramento legal da operação ou prestação
+    # geradora de crédito acumulado.
 
     # Parágrafo
-    # Informar o parágrafo referente ao enquadramento legal da operação ou prestação geradora de crédito acumulado.
+    # Informar o parágrafo referente ao enquadramento legal da operação
+    # ou prestação geradora de crédito acumulado.
 
     # Item RICMS
     # Informar o item do Regulamento do ICMS.
@@ -62,22 +72,22 @@ class TaxDefinitionBenefit(models.Model):
 
             if tax_definition.ncm_ids:
                 domain.append(
-                    ("ncm_ids", "=", tax_definition.ncm_ids.ids),
+                    ("ncm_ids", "in", tax_definition.ncm_ids.ids),
                 )
 
             if tax_definition.cest_ids:
                 domain.append(
-                    ("cest_ids", "=", tax_definition.cest_ids.ids),
+                    ("cest_ids", "in", tax_definition.cest_ids.ids),
                 )
 
             if tax_definition.nbm_ids:
                 domain.append(
-                    ("nbm_ids", "=", tax_definition.nbm_ids.ids),
+                    ("nbm_ids", "in", tax_definition.nbm_ids.ids),
                 )
 
             if tax_definition.product_ids:
                 domain.append(
-                    ("product_ids", "=", tax_definition.product_ids.ids),
+                    ("product_ids", "in", tax_definition.product_ids.ids),
                 )
 
             if tax_definition.ncm_exception:
@@ -91,27 +101,21 @@ class TaxDefinitionBenefit(models.Model):
     def _check_tax_benefit_code(self):
         for record in self:
             if record.is_benefit:
-                domain = self._get_search_domain(record)
-                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
-                    raise ValidationError(
-                        _("Tax Benefit already exists " "for this ICMS and Tax Group !")
-                    )
-
                 if record.code:
                     if len(record.code) != 8:
                         raise ValidationError(
-                            _("Tax benefit code must be 8 characters !")
+                            _("Tax benefit code must be 8 characters!")
                         )
 
                     if record.code[:2].upper() != record.state_from_id.code.upper():
                         raise ValidationError(
-                            _("Tax benefit code must be start with state code !")
+                            _("Tax benefit code must be start with state code!")
                         )
 
                     if record.code[3:4] != record.benefit_type:
                         raise ValidationError(
                             _(
                                 "The tax benefit code must contain "
-                                "the type of benefit !"
+                                "the type of benefit!"
                             )
                         )
