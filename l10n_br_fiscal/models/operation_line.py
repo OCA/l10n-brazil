@@ -275,7 +275,9 @@ class OperationLine(models.Model):
             self._build_mapping_result(mapping_result, tax_definition)
 
         # 5 From CFOP
-        for tax_definition in mapping_result["cfop"].tax_definition_ids.map_tax_definition(
+        for tax_definition in mapping_result[
+            "cfop"
+        ].tax_definition_ids.map_tax_definition(
             company,
             partner,
             product,
@@ -283,7 +285,7 @@ class OperationLine(models.Model):
             nbm=nbm,
             nbs=nbs,
             cest=cest,
-            city_taxation_code=city_taxation_code
+            city_taxation_code=city_taxation_code,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
