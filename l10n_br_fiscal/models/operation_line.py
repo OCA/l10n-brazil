@@ -176,8 +176,8 @@ class OperationLine(models.Model):
             mapping_result["ipi_guideline"] = tax_definition.ipi_guideline_id
 
     def _build_mapping_result_icms(self, mapping_result, tax_definition):
-        if tax_definition and tax_definition.tax_benefit_id.id:
-            mapping_result["icms_tax_benefit_id"] = tax_definition.tax_benefit_id.id
+        if tax_definition and tax_definition.is_benefit:
+            mapping_result["icms_tax_benefit_id"] = tax_definition.id
 
     def _build_mapping_result(self, mapping_result, tax_definition):
         mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
