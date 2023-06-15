@@ -18,14 +18,18 @@ _logger = logging.getLogger(__name__)
 
 
 class TestNFeExport(TransactionCase):
-    def setUp(self):
+    def setUp(self, nfe_list):
         super(TestNFeExport, self).setUp()
         hooks.register_hook(
             self.env,
             "l10n_br_nfe",
             "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
-        self.nfe_list = []
+        self.nfe_list = nfe_list
+        for nfe_data in self.nfe_list:
+            nfe = self.env.ref(nfe_data["record_ref"])
+            nfe_data["nfe"] = nfe
+            self.prepare_test_nfe(nfe)
 
     def prepare_test_nfe(self, nfe):
         """
@@ -41,50 +45,44 @@ class TestNFeExport(TransactionCase):
             line._onchange_fiscal_operation_line_id()
 
         nfe._compute_amount()
+        nfe.nfe40_detPag = [
+            (5, 0, 0),
+            (
+                0,
+                0,
+                {
+                    "nfe40_indPag": "0",
+                    "nfe40_tPag": "01",
+                    "nfe40_vPag": nfe.amount_financial_total,
+                },
+            ),
+        ]
+        nfe.action_document_confirm()
+        nfe.document_date = datetime.strptime(
+            "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
+        )
+        nfe.date_in_out = datetime.strptime("2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S")
+        nfe.nfe40_cNF = "06277716"
+        nfe.with_context(lang="pt_BR")._document_export()
 
-    def test_serialize_xml(self):
+    def serialize_xml(self, nfe_data):
         for nfe in self.nfe_list:
-            nfe_id = nfe["record_id"]
-
-            self.prepare_test_nfe(nfe_id)
-
+            nfe = nfe_data["nfe"]
             xml_path = os.path.join(
                 l10n_br_nfe.__path__[0],
                 "tests",
                 "nfe",
                 "v4_00",
                 "leiauteNFe",
-                nfe["xml_file"],
+                nfe_data["xml_file"],
             )
-            nfe_id.nfe40_detPag = [
-                (5, 0, 0),
-                (
-                    0,
-                    0,
-                    {
-                        "nfe40_indPag": "0",
-                        "nfe40_tPag": "01",
-                        "nfe40_vPag": nfe_id.amount_financial_total,
-                    },
-                ),
-            ]
-            nfe_id.action_document_confirm()
-            nfe_id.document_date = datetime.strptime(
-                "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
-            )
-            nfe_id.date_in_out = datetime.strptime(
-                "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
-            )
-            nfe_id.nfe40_cNF = "06277716"
-            nfe_id.with_context(lang="pt_BR")._document_export()
             output = os.path.join(
                 config["data_dir"],
                 "filestore",
                 self.cr.dbname,
-                nfe_id.send_file_id.store_fname,
+                nfe.send_file_id.store_fname,
             )
             _logger.info("XML file saved at %s" % (output,))
-            nfe_id.company_id.country_id.name = "Brazil"  # clean mess
+            nfe.company_id.country_id.name = "Brazil"  # clean mess
             diff = main.diff_files(output, xml_path)
-            _logger.info("Diff with expected XML (if any): %s" % (diff,))
-            assert len(diff) == 0
+            return diff
