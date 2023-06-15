@@ -176,6 +176,7 @@
                                         force_save="1"
                                         attrs="{'readonly': ['|', ('icms_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"
                                     />
+                    <field name="icms_tax_benefit_id" force_save="1" />
                   </group>
                   <group>
                       <group>

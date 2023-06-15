@@ -72,6 +72,8 @@
           <group>
             <field
                             name="tax_group_id"
+                            force_save="1"
+                            attrs="{'readonly': [('icms_regulation_id', '!=', False)]}"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
             <field name="type_in_out" invisible="1" />
@@ -87,6 +89,7 @@
                         />
             <field
                             name="cst_id"
+                            force_save="1"
                             attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
@@ -95,6 +98,29 @@
                             attrs="{'invisible': [('tax_domain', '!=', 'ipi')]}"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
+            <field
+                            name="is_benefit"
+                            attrs="{'invisible': [('tax_domain', '!=', 'icms')]}"
+                        />
+          </group>
+          <group
+                        name="tax_benefit"
+                        string="Tax Benefit"
+                        attrs="{'invisible': [('is_benefit', '=', False)]}"
+                    >
+                <field
+                            name="code"
+                            attrs="{'required': [('is_benefit', '!=', False)]}"
+                        />
+                <field
+                            name="description"
+                            attrs="{'required': [('is_benefit', '!=', False)]}"
+                        />
+                <field
+                            name="benefit_type"
+                            attrs="{'required': [('is_benefit', '!=', False)]}"
+                        />
+
           </group>
           <group
                         name="state"
