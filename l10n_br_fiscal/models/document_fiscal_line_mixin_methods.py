@@ -351,6 +351,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             self.cfop_id = mapping_result["cfop"]
             self.ipi_guideline_id = mapping_result["ipi_guideline"]
+            self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
             taxes = self.env["l10n_br_fiscal.tax"]
             for tax in mapping_result["taxes"].values():
                 taxes |= tax
@@ -549,9 +550,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "icms_destination_percent",
         "icms_sharing_percent",
         "icms_origin_value",
+        "icms_tax_benefit_id",
     )
     def _onchange_icms_fields(self):
-        pass
+        if self.icms_tax_benefit_id:
+            self.icms_tax_id = self.icms_tax_benefit_id.tax_id
 
     def _set_fields_icmssn(self, tax_dict):
         self.ensure_one()
