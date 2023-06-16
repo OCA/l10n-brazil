@@ -5,6 +5,9 @@ from odoo import api, fields, models
 
 from ..constants.fiscal import (
     CFOP_DESTINATION,
+    CFOP_DESTINATION_EXPORT,
+    CFOP_DESTINATION_EXTERNAL,
+    CFOP_DESTINATION_INTERNAL,
     CFOP_TYPE_MOVE,
     CFOP_TYPE_MOVE_DEFAULT,
     FISCAL_IN_OUT,
@@ -27,7 +30,6 @@ class Cfop(models.Model):
 
     destination = fields.Selection(
         selection=CFOP_DESTINATION,
-        required=True,
         help="Identifies the operation destination.",
         compute="_compute_destination",
         store=True,
@@ -74,7 +76,15 @@ class Cfop(models.Model):
         """Compute the destination based on the first digit of the CFOP code"""
         for cfop in self:
             if cfop.code:
-                cfop.destination = cfop.code[0:1]
+                first_digit = cfop.code[0:1]
+                if first_digit in ["1", "5"]:
+                    cfop.destination = CFOP_DESTINATION_INTERNAL
+                elif first_digit in ["2", "6"]:
+                    cfop.destination = CFOP_DESTINATION_EXTERNAL
+                elif first_digit in ["3", "7"]:
+                    cfop.destination = CFOP_DESTINATION_EXPORT
+                else:
+                    cfop.destination = False
             else:
                 cfop.destination = False
 
