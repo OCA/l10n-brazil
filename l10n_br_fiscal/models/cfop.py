@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 from ..constants.fiscal import (
     CFOP_DESTINATION,
@@ -30,6 +30,8 @@ class Cfop(models.Model):
         string="Destination",
         required=True,
         help="Identifies the operation destination.",
+        compute="_compute_destination",
+        store=True,
     )
 
     cfop_inverse_id = fields.Many2one(
@@ -68,6 +70,15 @@ class Cfop(models.Model):
         inverse_name="cfop_id",
         string="Tax Definition",
     )
+
+    @api.depends("code")
+    def _compute_destination(self):
+        """Compute the destination based on the first digit of the CFOP code"""
+        for cfop in self:
+            if cfop.code:
+                cfop.destination = cfop.code[0:1]
+            else:
+                cfop.destination = False
 
     _sql_constraints = [
         (
