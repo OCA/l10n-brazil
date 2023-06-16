@@ -35,6 +35,11 @@ class Cfop(models.Model):
         store=True,
     )
 
+    is_import = fields.Boolean(
+        string="Is Import?",
+        compute="_compute_is_import",
+    )
+
     cfop_inverse_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="Inverse CFOP",
@@ -70,6 +75,13 @@ class Cfop(models.Model):
         inverse_name="cfop_id",
         string="Tax Definition",
     )
+
+    def _compute_is_import(self):
+        for cfop in self:
+            if cfop.code:
+                cfop.is_import = cfop.code[0:1] == "3"
+            else:
+                cfop.is_import = False
 
     @api.depends("code")
     def _compute_destination(self):
