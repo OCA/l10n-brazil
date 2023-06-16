@@ -537,6 +537,7 @@ msgstr "Documento de Entrada"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__incoterm_id
 msgid "Incoterm"
 msgstr "Incoterm"
 
@@ -554,6 +555,7 @@ msgstr "Indica que este item de diário é uma linha de imposto"
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__incoterm_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__incoterm_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__incoterm_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__incoterm_id
 msgid ""
 "International Commercial Terms are a series of predefined commercial terms "
 "used in international transactions."
