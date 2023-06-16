@@ -18,7 +18,14 @@
                             <group string="Tax Framework">
                                 <field name="tax_framework" />
                                 <field name="accountant_id" />
-                                <field name="technical_support_id" />
+                                <field
+                                    name="accounting_office"
+                                    domain="[('is_company', '=', True)]"
+                                />
+                                <field
+                                    name="technical_support_id"
+                                    domain="[('is_company', '=', True)]"
+                                />
                             </group>
                             <group
                                 name="simples"
