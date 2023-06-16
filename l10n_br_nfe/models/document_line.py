@@ -7,6 +7,7 @@ from unicodedata import normalize
 
 from odoo import api, fields
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import CFOP_DESTINATION_EXPORT
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -301,7 +302,10 @@ class NFeLine(spec_models.StackedModel):
         if not self.cofinsst_value:
             xsd_fields.remove("nfe40_COFINSST")
 
-        if not self.ii_value and "nfe40_II" in xsd_fields:
+        if (
+            self.cfop_destination != CFOP_DESTINATION_EXPORT
+            and "nfe40_II" in xsd_fields
+        ):
             xsd_fields.remove("nfe40_II")
 
     ##################################################
