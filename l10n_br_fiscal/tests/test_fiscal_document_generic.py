@@ -347,10 +347,11 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
             # ICMS FCP
-            self.assertFalse(
-                line.icmsfcp_tax_id,
-                "Error to mapping ICMS FCP 2%"
-                " for Venda de Contribuinte Dentro do Estado.",
+            self.assertEqual(
+                line.icmsfcp_tax_id.name,
+                "FCP 2%",
+                "Erro ao mapear ICMS FCP 2%"
+                " para Venda de Contribuinte p/ Não Contribuinte.",
             )
 
             # IPI
