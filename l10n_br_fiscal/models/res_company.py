@@ -259,6 +259,10 @@ class ResCompany(models.Model):
 
     accountant_id = fields.Many2one(comodel_name="res.partner", string="Accountant")
 
+    accounting_office = fields.Many2one(
+        comodel_name="res.partner", string="Accounting Office"
+    )
+
     technical_support_id = fields.Many2one(
         comodel_name="res.partner", string="Technical Support"
     )
