@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
+import sys
 from datetime import datetime
 
 from erpbrasil.assinatura import certificado as cert
@@ -20,6 +21,11 @@ try:
     from erpbrasil.base.misc import punctuation_rm
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
+
+if sys.version_info < (3, 7):
+    from backports.datetime_fromisoformat import MonkeyPatch
+
+    MonkeyPatch.patch_fromisoformat()
 
 
 class InvalidateNumber(models.Model):
