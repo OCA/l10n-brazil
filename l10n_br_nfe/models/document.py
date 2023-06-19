@@ -12,6 +12,7 @@ from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.base.fiscal.edoc.cnpj_cpf import formata
 from erpbrasil.edoc.nfce import NFCe as edoc_nfce
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
@@ -1155,3 +1156,27 @@ class NFe(spec_models.StackedModel):
         }
         copy_invoice.fiscal_document_id.write(vals)
         copy_invoice.action_post()
+
+    def _invert_fiscal_operation_type(self, document, nfe_binding, edoc_type):
+        if edoc_type == "in" and document.company_id.cnpj_cpf != formata(
+            nfe_binding.infNFe.emit.CNPJ
+        ):
+            document.fiscal_operation_type = "in"
+            document.issuer = "partner"
+
+    def _import_xml(self, nfe_binding, dry_run, edoc_type="out"):
+        document = (
+            self.env["nfe.40.infnfe"]
+            .with_context(
+                tracking_disable=True,
+                edoc_type=edoc_type,
+                lang="pt_BR",
+            )
+            .build_from_binding(nfe_binding.infNFe, dry_run=dry_run)
+        )
+        document.imported_document = True
+        self._invert_fiscal_operation_type(document, nfe_binding, edoc_type)
+        return document
+
+    def import_xml(self, nfe_binding, dry_run, edoc_type="out"):
+        return self._import_xml(nfe_binding, dry_run, edoc_type)
