@@ -149,10 +149,13 @@ class AccountMoveLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         for values in vals_list:
             move_id = self.env["account.move"].browse(values["move_id"])
+            company_id = self.env["res.company"].browse(
+                values.get("company_id") or move_id.company_id.id
+            )
+            dummy_doc = company_id.fiscal_dummy_id
+            dummy_line = fields.first(dummy_doc.fiscal_line_ids)
             fiscal_doc_id = move_id.fiscal_document_id.id
 
             if fiscal_doc_id == dummy_doc.id or values.get("exclude_from_invoice_tab"):
@@ -217,7 +220,14 @@ class AccountMoveLine(models.Model):
         return super().create(vals_list)
 
     def write(self, values):
-        dummy_doc = self.env.company.fiscal_dummy_id
+        if values.get("move_id"):
+            move_id = self.env["account.move"].browse(values["move_id"])
+        else:
+            move_id = self.move_id
+        company_id = self.env["res.company"].browse(
+            values.get("company_id") or move_id.company_id.id
+        )
+        dummy_doc = company_id.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         non_dummy = self.filtered(lambda l: l.fiscal_document_line_id != dummy_line)
         self._inject_shadowed_fields([values])
@@ -272,7 +282,7 @@ class AccountMoveLine(models.Model):
         return result
 
     def unlink(self):
-        dummy_doc = self.env.company.fiscal_dummy_id
+        dummy_doc = self.company_id.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
         for inv_line in self:

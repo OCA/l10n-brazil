@@ -280,7 +280,11 @@ class AccountMove(models.Model):
         )._move_autocomplete_invoice_lines_create(vals_list)
         for vals in new_vals_list:
             if not vals.get("document_type_id"):
-                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
+                if vals.get("company_id"):
+                    company_id = self.env["res.company"].browse(vals.get("company_id"))
+                else:
+                    company_id = self.env.company
+                vals["fiscal_document_id"] = company_id.fiscal_dummy_id.id
         return new_vals_list
 
     def _move_autocomplete_invoice_lines_values(self):
@@ -309,7 +313,7 @@ class AccountMove(models.Model):
                 continue
             if (
                 move.fiscal_document_id
-                and move.fiscal_document_id.id != self.env.company.fiscal_dummy_id.id
+                and move.fiscal_document_id.id != move.company_id.fiscal_dummy_id.id
             ):
                 unlink_documents |= move.fiscal_document_id
             unlink_moves |= move
