@@ -66,6 +66,14 @@ class DocumentLine(models.Model):
         model_view["fields"] = xfields
         return model_view
 
+    def prepare_line_service_description(self):
+        description = str(self.name[:2000] or "") + (
+            "|%s|" % self.additional_data.replace("\n", "|")
+            if self.additional_data
+            else ""
+        )
+        return description
+
     def prepare_line_servico(self):
         return {
             "valor_servicos": round(self.amount_total, 2),
@@ -92,7 +100,7 @@ class DocumentLine(models.Model):
             and self.service_type_id.code.replace(".", ""),
             "codigo_tributacao_municipio": self.city_taxation_code_id.code or "",
             "municipio_prestacao_servico": self.issqn_fg_city_id.ibge_code or "",
-            "discriminacao": str(self.name[:2000] or ""),
+            "discriminacao": self.prepare_line_service_description(),
             "codigo_cnae": misc.punctuation_rm(self.cnae_id.code) or None,
             "valor_desconto_incondicionado": round(self.discount_value, 2),
         }
