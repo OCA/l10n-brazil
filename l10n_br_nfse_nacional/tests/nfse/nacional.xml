@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPS xmlns="http://www.sped.fazenda.gov.br/nfse">
+  <infDPS Id="rps50">
+    <tpAmb>2</tpAmb>
+    <dhEmi>2020-06-04T13:58:46</dhEmi>
+    <verAplic>Odoo OCA</verAplic>
+    <serie>001</serie>
+    <nDPS>50</nDPS>
+    <prest>
+      <CNPJ>59594315000157</CNPJ>
+      <IM>35172</IM>
+      <regTrib>
+        <opSimpNac>1</opSimpNac>
+        <regEspTrib>1</regEspTrib>
+      </regTrib>
+    </prest>
+    <toma>
+      <CNPJ>81493979000189</CNPJ>
+      <end>
+        <endNac>
+          <cMun>3550308</cMun>
+          <CEP>4576060</CEP>
+        </endNac>
+        <xLgr>Rua Samuel Morse</xLgr>
+        <nro>135</nro>
+        <xBairro>Brooklin</xBairro>
+      </end>
+    </toma>
+    <serv>
+      <cServ>
+        <cTribMun>6311900</cTribMun>
+        <xDescServ>[ODOO_DEV] Customized Odoo Development</xDescServ>
+      </cServ>
+    </serv>
+    <valores>
+      <vServPrest>
+        <vServ>100.0</vServ>
+      </vServPrest>
+      <vDescCondIncond>
+        <vDescIncond>0.0</vDescIncond>
+      </vDescCondIncond>
+      <vDedRed>
+        <vDR>0.0</vDR>
+      </vDedRed>
+      <trib>
+        <tribMun />
+        <tribNac>
+          <piscofins>
+            <vPis>0.0</vPis>
+            <vCofins>0.0</vCofins>
+          </piscofins>
+          <vRetCSLL>0.0</vRetCSLL>
+        </tribNac>
+        <totTrib>
+          <pTotTribSN>0.05</pTotTribSN>
+        </totTrib>
+      </trib>
+    </valores>
+  </infDPS>
+</DPS>
