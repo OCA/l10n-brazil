@@ -4,6 +4,7 @@
 import base64
 import gzip
 import logging
+from datetime import datetime
 from os import environ
 from pathlib import Path
 
@@ -73,16 +74,16 @@ class NFSeRESTClient(object):
         compressed_data = gzip.compress(edoc_xml.encode())
         encoded_data = base64.b64encode(compressed_data).decode()
         payload = {"dpsXmlGZipB64": encoded_data}
-        return self._send(NFSE_URL + "/nfse", payload)
+        return self._post(NFSE_URL + "/nfse", payload)
 
-    def _send(self, url, payload):
+    def _post(self, url, payload):
         headers = {"Content-Type": "application/json"}
         with ArquivoCertificado(self.certificate, "r") as (key, cert):
             response = requests.post(url, json=payload, headers=headers, verify=False)
-            _logger.info("********** RESPONSE TODO REMOVE", response)
-            _logger.info("********** RESPONSE TODO REMOVE", response.text)
+            _logger.info("********** RESPONSE TODO REMOVE %s", response.status_code)
+            _logger.info("********** RESPONSE TODO REMOVE %s", response.text)
             if response.status_code == 201:
-                return response.json()
+                return response
             else:
                 raise UserError(_("%s - %s" % (response.status_code, response.text)))
 
@@ -362,47 +363,27 @@ class Document(models.Model):
             processador = record._processador_nfse_nacional()
             for edoc in record.serialize():
                 response = processador.processar_documento(edoc)
+                json = response.json()
                 vals = {
-                    "document_number": response["idDPS"],  # TODO sure?
-                    "authorization_date": response["dataHoraProcessamento"],
+                    "document_number": json["idDps"],
+                    "authorization_date": json["dataHoraProcessamento"],
                 }
-                #                    vals["verify_code"] = comp.Nfse.InfNfse.CodigoVerificacao
+                # TODO?  vals["verify_code"] = comp.Nfse.InfNfse.CodigoVerificacao
 
-                decoded_data = base64.b64decode(response["nfseXmlGZipB64"])
+                decoded_data = base64.b64decode(json["nfseXmlGZipB64"])
                 decompressed_data = gzip.decompress(decoded_data)
                 nfse_xml = decompressed_data.decode()
                 record.authorization_event_id.set_done(
-                    #                    status_code=vals["status_code"],
-                    #                    response=vals["status_name"],
-                    protocol_date=vals["authorization_date"],
-                    #                    protocol_number=protocolo,
+                    status_code=response.status_code,
+                    response="FIXME não tem?",  # FIXME
+                    protocol_date=datetime.strptime(
+                        vals["authorization_date"], "%Y-%m-%dT%H:%M:%S.%fZ"
+                    ),
+                    protocol_number="FIXME não tem",  # FIXME
                     file_response_xml=nfse_xml,
                 )
                 # TODO is it normal to do that in a record.serialize loop?
                 record._change_state(SITUACAO_EDOC_AUTORIZADA)
-
-                # TODO ler/tratar?
-
-            #  "dataHoraProcessamento": "2020-07-30T17:28:42.584Z",
-            #  "idDps": "string",
-            #  "chaveAcesso": "string",
-            #  "nfseXmlGZipB64": "string",
-            #  "alertas": [
-            #   {
-            #      "mensagem": "string",
-            #      "parametros": [
-            #        "string"
-            #      ],
-            #      "codigo": "string",
-            #      "descricao": "string",
-            #      "complemento": "string"
-            #    }
-            #  ]
-            # }
-
-            # TODO use SITUACAO_EDOC_AUTORIZADA or SITUACAO_EDOC_REJEITADA?
-
-        return
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
         super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
