@@ -1,9 +1,12 @@
 # Copyright (C) 2023 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import base64
+import gzip
 import logging
 import os
 from datetime import datetime
+from unittest import mock
 
 from xmldiff import main
 
@@ -18,12 +21,61 @@ from ... import l10n_br_nfse_nacional
 _logger = logging.getLogger(__name__)
 
 
+FAKE_NFSE = """<?xml version="1.0" encoding="utf-8"?>
+<NFSe versao="1.00" xmlns="http://www.sped.fazenda.gov.br/nfse">
+    <infNFSe Id="NFS14001591201761135000132000000000000022097781063609">
+    </infNFSe>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#" />
+</NFSe>
+"""
+
+compressed_nfse = gzip.compress(FAKE_NFSE.encode())
+encoded_nfse = base64.b64encode(compressed_nfse).decode()
+
+
+def mocked_requests_post(*args, **kwargs):
+    class MockResponse:
+        def __init__(self, json_data, status_code):
+            self.json_data = json_data
+            self.status_code = status_code
+            self.text = str(json_data)
+
+        def ok(self):
+            return True
+
+        def json(self):
+            return self.json_data
+
+    if args[0].endswith("/nfse"):
+        return MockResponse(
+            {
+                "tipoAmbiente": 2,
+                "versaoAplicativo": "42",
+                "dataHoraProcessamento": "2020-07-30T17:28:42.584Z",
+                "idDps": "123456",
+                "chaveAcesso": "blabla",
+                "nfseXmlGZipB64": encoded_nfse,
+                "alertas": [
+                    {
+                        "mensagem": "string",
+                        "parametros": ["string"],
+                        "codigo": "codigo",
+                        "descricao": "descriçao",
+                        "complemento": "complemento",
+                    }
+                ],
+            },
+            201,
+        )
+
+
 class TestFiscalDocumentNFSeNacional(TestFiscalDocumentNFSeCommon):
     def setUp(self):
         super(TestFiscalDocumentNFSeNacional, self).setUp()
         self.company.provedor_nfse = "nacional"
 
-    def test_nfse_nacional(self):
+    @mock.patch("requests.post", side_effect=mocked_requests_post)
+    def test_nfse_nacional(self, mocked_requests_post):
         """Test NFS-e same state."""
 
         xml_path = os.path.join(
@@ -69,4 +121,5 @@ class TestFiscalDocumentNFSeNacional(TestFiscalDocumentNFSeCommon):
         assert len(diff) == 0
 
         # TODO mock and test
-        # self.nfse_same_state.action_document_send()
+        self.nfse_same_state.action_document_send()
+        # self.nfse_same_state.cancel_document_nacional()
