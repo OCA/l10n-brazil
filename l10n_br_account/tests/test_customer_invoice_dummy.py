@@ -4,6 +4,7 @@
 
 import mock
 
+from odoo.exceptions import UserError
 from odoo.models import NewId
 from odoo.tests import SavepointCase
 
@@ -400,3 +401,13 @@ class TestCustomerInvoice(SavepointCase):
             )
 
         self.assertEqual(len(invoice_copy), 1)
+
+    def test_has_fiscal_dummy(self):
+        fiscal_dummy = self.invoice_1.company_id.fiscal_dummy_id
+        self.assertEqual(fiscal_dummy.id, self.invoice_1.fiscal_document_id.id)
+        self.assertTrue(self.invoice_1.has_fiscal_dummy)
+
+    def test_set_document_type_with_dummy(self):
+        self.assertTrue(self.invoice_1.has_fiscal_dummy)
+        with self.assertRaises(UserError):
+            self.invoice_1.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
