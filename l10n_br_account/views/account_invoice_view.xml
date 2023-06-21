@@ -74,6 +74,7 @@
                     <field name="create_date" invisible="1" />
                     <field name="operation_name" invisible="1" />
                     <field name="comment_ids" invisible="1" />
+                    <field name="has_fiscal_dummy" invisible="1" />
                 </group>
             </xpath>
             <field name="ref" position="after">
@@ -85,10 +86,12 @@
                             '|',
                             '&amp;',
                             '|',
+                            '|',
                             ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
                             ('create_date', '=', True),
                             ('document_type_id', '=', False),
                             ('currency_id', '!=',  %(base.BRL)d),
+                            ('has_fiscal_dummy', '=', True),
                         ],
                     'readonly': [('state', '!=', 'draft')]
                 }"
