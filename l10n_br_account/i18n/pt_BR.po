@@ -486,6 +486,13 @@ msgid "Force Fiscal Operation"
 msgstr "Forçar Operação Fiscal"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__has_fiscal_dummy
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__has_fiscal_dummy
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__has_fiscal_dummy
+msgid "Has Fiscal Dummy"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_code
 msgid "ICMS CST Code"
 msgstr "Código CST do ICMS"
@@ -907,6 +914,12 @@ msgstr "Voltar para Digitação"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__wh_move_line_id
 msgid "WH Account Move Line"
 msgstr "Linha de Movimento Contábil RET"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "You can't set a document type to a fiscal dummy document."
+msgstr ""
 
 #. module: l10n_br_account
 #: code:addons/l10n_br_account/models/account_move.py:0
