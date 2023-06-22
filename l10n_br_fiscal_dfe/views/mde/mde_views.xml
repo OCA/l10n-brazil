@@ -1,11 +1,12 @@
-<odoo>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
-    Copyright 2020 KMEE INFORMATICA LTDA
+    Copyright 2023 KMEE INFORMATICA LTDA
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-    <record model="ir.ui.view" id="view_l10n_br_fiscal_mdfe_form">
-        <field name="name">l10n_br_fiscal_mdfe.form</field>
-        <field name="model">l10n_br_fiscal.mdfe</field>
+<odoo>
+    <record model="ir.ui.view" id="view_l10n_br_fiscal_mde_form">
+        <field name="name">l10n_br_fiscal_mde.form</field>
+        <field name="model">l10n_br_fiscal.mde</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Manifestation">
@@ -62,13 +63,12 @@
                 </header>
                 <group>
                     <group>
-                        <field name="document_key" select="1" required="1" />
+                        <field name="key" select="1" required="1" />
                         <field name="document_id" />
-                        <field name="document_number" />
+                        <field name="number" />
                         <field name="nsu" />
                         <field name="ie" />
                         <field name="company_id" required="1" />
-                        <field name="supplier" />
                     </group>
                     <group>
                         <field name="operation_type" readonly="1" />
@@ -84,12 +84,11 @@
         </field>
     </record>
 
-    <record id="view_l10n_br_fiscal_mdfe_filter" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal_mdfe.select</field>
-        <field name="model">l10n_br_fiscal.mdfe</field>
+    <record id="view_l10n_br_fiscal_mde_filter" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_mde.select</field>
+        <field name="model">l10n_br_fiscal.mde</field>
         <field name="arch" type="xml">
             <search string="Filter">
-                <field name="supplier" string="Supplier" />
                 <field name="company_id" string="Razão Social" />
                 <field name="cnpj_cpf" string="Cnpj supplier" />
                 <field name="state" string="State" />
@@ -122,14 +121,13 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_l10n_br_fiscal_mdfe_tree">
-        <field name="name">l10n_br_fiscal_mdfe.tree</field>
-        <field name="model">l10n_br_fiscal.mdfe</field>
+    <record model="ir.ui.view" id="view_l10n_br_fiscal_mde_tree">
+        <field name="name">l10n_br_fiscal_mde.tree</field>
+        <field name="model">l10n_br_fiscal.mde</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree create="false" limit="5">
                 <field name="nsu" />
-                <field name="supplier" />
                 <field name="cnpj_cpf" />
                 <field name="company_id" required="1" />
                 <field name="emission_datetime" />
@@ -141,7 +139,7 @@
 
     <record id="action_gerencia_selecionados_button" model="ir.actions.server">
         <field name="name">Manage Selected</field>
-        <field name="model_id" ref="model_l10n_br_fiscal_mdfe" />
+        <field name="model_id" ref="model_l10n_br_fiscal_mde" />
         <field name="state">code</field>
         <field name="code">
 
@@ -160,18 +158,9 @@ action= {
         </field>
     </record>
 
-    <!-- TODO: Encontrar alterativa para ir.values-->
-<!--    <record id="gerencia_selecionados_button" model="ir.values">-->
-<!--        <field name="name">gerencia.selecionados.button</field>-->
-<!--        <field name="model">l10n_br_fiscal.mdfe</field>-->
-<!--        <field name="key" >action</field>-->
-<!--        <field name="key2">client_action_multi</field>-->
-<!--        <field name="value" eval="'ir.actions.server,%d'%action_gerencia_selecionados_button"/>-->
-<!--    </record>-->
-
-    <record model="ir.actions.act_window" id="l10n_br_fiscal_mdfe_action">
+    <record model="ir.actions.act_window" id="l10n_br_fiscal_mde_action">
         <field name="name">Manifestation</field>
-        <field name="res_model">l10n_br_fiscal.mdfe</field>
+        <field name="res_model">l10n_br_fiscal.mde</field>
         <field name="view_mode">tree,form</field>
     </record>
 
