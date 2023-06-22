@@ -82,8 +82,6 @@
         "views/uom_uom.xml",
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
-        #        "views/mdfe/mdfe_views.xml",
-        #        "views/dfe/dfe_views.xml",
         "views/operation_dashboard_view.xml",
         "views/document_event_view.xml",
         # Reports
