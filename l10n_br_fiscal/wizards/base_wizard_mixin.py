@@ -73,7 +73,7 @@ class BaseWizardMixin(models.TransientModel):
         active_model = self._context.get("active_model")
 
         if self._prepare_key_fields().get(active_model):
-            active_id = self.env._context["active_id"]
+            active_id = self._context["active_id"]
             active_vals = (
                 self.env[active_model]
                 .browse(active_id)
