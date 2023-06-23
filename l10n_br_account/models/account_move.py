@@ -74,21 +74,6 @@ class AccountMove(models.Model):
         default=True,
     )
 
-    cnpj_cpf = fields.Char(
-        string="CNPJ/CPF",
-        related="partner_id.cnpj_cpf",
-    )
-
-    legal_name = fields.Char(
-        string="Adapted Legal Name",
-        related="partner_id.legal_name",
-    )
-
-    ie = fields.Char(
-        string="Adapted State Tax Number",
-        related="partner_id.inscr_est",
-    )
-
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
         string="Electronic?",
