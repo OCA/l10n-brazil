@@ -371,6 +371,8 @@ class AccountMove(models.Model):
             icms_origin=base_line.icms_origin,
             ind_final=base_line.ind_final,
             icms_base_manual=base_line.icms_base_manual,
+            icmsst_base_manual=base_line.icmsst_base_manual,
+            icmsst_value_manual=base_line.icmsst_value_manual,
         )
 
         return balance_taxes_res

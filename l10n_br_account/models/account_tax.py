@@ -43,6 +43,8 @@ class AccountTax(models.Model):
         icms_origin=None,
         ind_final=FINAL_CUSTOMER_NO,
         icms_base_manual=None,
+        icmsst_base_manual=None,
+        icmsst_value_manual=None,
     ):
         """Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
@@ -115,6 +117,8 @@ class AccountTax(models.Model):
             icms_origin=icms_origin or product.icms_origin,
             ind_final=ind_final,
             icms_base_manual=icms_base_manual,
+            icmsst_base_manual=icmsst_base_manual,
+            icmsst_value_manual=icmsst_value_manual,
         )
 
         taxes_results["amount_tax_included"] = fiscal_taxes_results["amount_included"]
