@@ -288,15 +288,18 @@ class Tax(models.Model):
 
         base_amount = tax_dict.get("base", 0.00)
 
-        if tax_dict["base_type"] == "percent":
-            tax_dict["tax_value"] = currency.round(
-                base_amount * (tax_dict["percent_amount"] / 100)
-            )
+        # the value may have been entered manually
+        if not tax_dict["tax_value"]:
 
-        if tax_dict["base_type"] in ("quantity", "fixed"):
-            tax_dict["tax_value"] = currency.round(
-                base_amount * tax_dict["value_amount"]
-            )
+            if tax_dict["base_type"] == "percent":
+                tax_dict["tax_value"] = currency.round(
+                    base_amount * (tax_dict["percent_amount"] / 100)
+                )
+
+            if tax_dict["base_type"] in ("quantity", "fixed"):
+                tax_dict["tax_value"] = currency.round(
+                    base_amount * tax_dict["value_amount"]
+                )
 
         return tax_dict
 
@@ -515,15 +518,25 @@ class Tax(models.Model):
         tax_dict_ipi = taxes_dict.get("ipi", {})
         tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
 
+        icmsst_base_manual = kwargs.get("icmsst_base_manual", 0.0)
+        icmsst_value_manual = kwargs.get("icmsst_value_manual", 0.0)
+
         if taxes_dict.get(tax.tax_domain):
             taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = tax.icmsst_mva_percent
 
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
+        # Set ICMS ST manual values
+        if icmsst_base_manual:
+            taxes_dict[tax.tax_domain].update({"base": icmsst_base_manual})
+        if icmsst_value_manual:
+            taxes_dict[tax.tax_domain].update({"tax_value": icmsst_value_manual})
+
+        # o _compute_tax_base já é chamado no _compute_tax_base
+        # taxes_dict[tax.tax_domain].update(
+        #     self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        # )
 
         tax_dict = self._compute_tax(tax, taxes_dict, **kwargs)
-        if tax_dict.get("icmsst_mva_percent"):
+        if tax_dict.get("icmsst_mva_percent") and not icmsst_value_manual:
             tax_dict["tax_value"] -= taxes_dict.get("icms", {}).get("tax_value", 0.0)
 
         return tax_dict

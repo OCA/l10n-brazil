@@ -212,6 +212,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
             icms_base_manual=self.icms_base_manual,
+            icmsst_base_manual=self.icmsst_base_manual,
+            icmsst_value_manual=self.icmsst_value_manual,
             ind_final=self.ind_final,
         )
 
@@ -776,6 +778,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "other_value",
         "freight_value",
         "icms_base_manual",
+        "icmsst_base_manual",
+        "icmsst_value_manual",
     )
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())

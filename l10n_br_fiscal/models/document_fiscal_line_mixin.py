@@ -385,6 +385,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=ICMS_ST_BASE_TYPE_DEFAULT,
     )
 
+    icmsst_base_manual = fields.Monetary(
+        string="Manual ICMS ST Base",
+        help="Value of the ICMS ST Base calculated manually. "
+        "Leave this field blank for automatic calculation.",
+    )
+
+    icmsst_value_manual = fields.Monetary(
+        string="Manual ICMS ST Value",
+        help="Value of the ICMS ST Value calculated manually. "
+        "Leave this field blank for automatic calculation.",
+    )
+
     # pMVAST - Percentual da margem de valor Adicionado do ICMS ST
     icmsst_mva_percent = fields.Float(string="ICMS ST MVA %")
 

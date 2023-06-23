@@ -286,9 +286,19 @@
                                             attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
                                         />
                         <field
+                                            name="icmsst_base_manual"
+                                            force_save="1"
+                                            attrs="{'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
+                                        />
+                        <field
                                             name="icmsst_base"
                                             force_save="1"
                                             attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
+                                        />
+                        <field
+                                            name="icmsst_value_manual"
+                                            force_save="1"
+                                            attrs="{'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
                                         />
                         <field
                                             name="icmsst_value"
