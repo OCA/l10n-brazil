@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 KMEE (Renan Hiroki Bastos <renan.hiroki@kmee.com.br>)
+     Copyright 2023 KMEE (Luiz Felipe do Divino <luiz.divino@kmee.com.br>)
+     Copyright 2023 KMEE (Felipe Zago <felipe.zago@kmee.com.br>)
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="l10n_br_nfe_purchase_order_form" model="ir.ui.view">
+        <field name="name">l10n.br.nfe.purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='other_info']" position="inside">
+                <field name="imported" readonly="1" />
+                <field
+                    name="origin_nfe_id"
+                    attrs="{'invisible': [('imported', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_purchase_tree_all" model="ir.actions.act_window">
+        <field name="name">Purchases</field>
+        <field name="res_model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="purchase.purchase_order_tree" />
+    </record>
+
+    <record id="action_purchase_form_all" model="ir.actions.act_window">
+        <field name="name">Purchases</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="purchase.purchase_order_form" />
+    </record>
+
+</odoo>
