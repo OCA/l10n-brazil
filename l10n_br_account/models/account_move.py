@@ -61,7 +61,7 @@ class AccountMove(models.Model):
     _inherit = [
         _name,
         "l10n_br_fiscal.document.mixin.methods",
-        "l10n_br_fiscal.document.invoice.mixin",
+        "l10n_br_fiscal.document.move.mixin",
     ]
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
     _order = "date DESC, name DESC"
