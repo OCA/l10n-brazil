@@ -300,6 +300,18 @@ class AccountMoveLine(models.Model):
         price_subtotal,
         force_computation=False,
     ):
+        if self.env.company.country_id.code != "BR":
+            return super()._get_fields_onchange_balance_model(
+                quantity=quantity,
+                discount=discount,
+                amount_currency=amount_currency,
+                move_type=move_type,
+                currency=currency,
+                taxes=taxes,
+                price_subtotal=price_subtotal,
+                force_computation=force_computation,
+            )
+
         return {}
 
     def _get_price_total_and_subtotal(
@@ -504,7 +516,7 @@ class AccountMoveLine(models.Model):
         # completely new onchange, even if the name is not totally consistent with the
         # fields declared in the api.onchange.
         if self.company_id.country_id.code != "BR":
-            return super(AccountMoveLine, self)._onchange_price_subtotal()
+            return super()._onchange_price_subtotal()
         for line in self:
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
