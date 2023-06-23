@@ -66,45 +66,43 @@ class NfeImport(models.TransientModel):
     @api.onchange("nfe_xml")
     def _onchange_partner_id(self):
         if self.nfe_xml:
-            parsed_xml, document = self._parse_xml_import_wizard(
-                base64.b64decode(self.nfe_xml)
-            )
+            self.set_fields_data_by_xml()
 
-            nfe_model_code = self.env.ref("l10n_br_fiscal.document_55").code
+            if self.partner_id:
+                self._get_product_supplierinfo()
 
-            if document.modelo_documento != nfe_model_code:
-                raise UserError(
-                    _(
-                        f"Incorrect fiscal document model! "
-                        f"Accepted one is {nfe_model_code}"
-                    )
-                )
-
-            self.document_key = document.chave
-            self.document_number = int(document.numero_documento)
-            self.document_serie = int(document.numero_serie)
-            self.partner_cpf_cnpj = document.cnpj_cpf_emitente
-            self.partner_name = (
-                parsed_xml.infNFe.emit.xFant or parsed_xml.infNFe.emit.xNome
-            )
-            self.partner_id = self.env["res.partner"].search(
-                [
-                    "|",
-                    ("cnpj_cpf", "=", document.cnpj_cpf_emitente),
-                    ("nfe40_xNome", "=", parsed_xml.infNFe.emit.xNome),
-                ],
-                limit=1,
-            )
-            self._check_nfe_xml_products(parsed_xml)
-            if self.nfe_xml:
-                parsed_xml, document = self._parse_xml_import_wizard(
-                    base64.b64decode(self.nfe_xml)
-                )
-                self.nat_op = parsed_xml.infNFe.ide.natOp
-                if self.partner_id:
-                    self._get_product_supplierinfo()
             for line in self.imported_products_ids:
                 line.onchange_product_id()
+
+    def set_fields_data_by_xml(self):
+        parsed_xml, document = self._parse_xml_import_wizard(
+            base64.b64decode(self.nfe_xml)
+        )
+
+        nfe_model_code = self.env.ref("l10n_br_fiscal.document_55").code
+        if document.modelo_documento != nfe_model_code:
+            raise UserError(
+                _(
+                    f"Incorrect fiscal document model! "
+                    f"Accepted one is {nfe_model_code}"
+                )
+            )
+
+        self.document_key = document.chave
+        self.document_number = int(document.numero_documento)
+        self.document_serie = int(document.numero_serie)
+        self.partner_cpf_cnpj = document.cnpj_cpf_emitente
+        self.partner_name = parsed_xml.infNFe.emit.xFant or parsed_xml.infNFe.emit.xNome
+        self.partner_id = self.env["res.partner"].search(
+            [
+                "|",
+                ("cnpj_cpf", "=", document.cnpj_cpf_emitente),
+                ("nfe40_xNome", "=", parsed_xml.infNFe.emit.xNome),
+            ],
+            limit=1,
+        )
+        self.nat_op = parsed_xml.infNFe.ide.natOp
+        self._check_nfe_xml_products(parsed_xml)
 
     def _check_nfe_xml_products(self, parsed_xml):
         product_ids = []
