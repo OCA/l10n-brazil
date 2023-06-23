@@ -339,6 +339,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         selection=ICMS_ORIGIN, string="ICMS Origin", default=ICMS_ORIGIN_DEFAULT
     )
 
+    icms_base_manual = fields.Monetary(
+        string="Manual ICMS Base",
+        help="Value of the ICMS Base calculated manually. "
+        "Leave this field blank for automatic calculation.",
+    )
+
     # vBC - Valor da base de cálculo do ICMS
     icms_base = fields.Monetary(string="ICMS Base")
 

@@ -101,6 +101,7 @@ class TestFiscalTax(common.TransactionCase):
             "icmssn_range": False,
             "icms_origin": ICMS_ORIGIN_DEFAULT,
             "ind_final": FINAL_CUSTOMER_YES,
+            "icms_base_manual": 0.00,
         }
 
     def test_compute_taxes_01(self):

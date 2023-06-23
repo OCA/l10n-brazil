@@ -202,6 +202,10 @@
                                             attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"
                                         />
                         <field
+                                            name="icms_base_manual"
+                                            attrs="{'invisible': ['|', ('tax_framework', '=', '2'), ('icms_cst_code', 'not in', ('00', '10', '20', '30', '40', '41', '50', '51', '60', '70', '90', '900'))]}"
+                                        />
+                        <field
                                             name="icms_base"
                                             force_save="1"
                                             attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': ['|', ('tax_framework', '=', '2'), ('icms_cst_code', 'not in', ('00', '10', '20', '30', '40', '41', '50', '51', '60', '70', '90', '900'))]}"
