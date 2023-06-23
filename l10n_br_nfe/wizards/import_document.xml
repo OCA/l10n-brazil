@@ -20,7 +20,10 @@
                     string="Pré Visualização da NF-e"
                     attrs="{'invisible': [('nfe_xml', '=', False)]}"
                 />
-                <group attrs="{'invisible': [('nfe_xml', '=', False)]}">
+                <group
+                    id="document_info"
+                    attrs="{'invisible': [('nfe_xml', '=', False)]}"
+                >
                     <group>
                         <field name="document_key" readonly="True" />
                         <field name="document_number" readonly="True" />

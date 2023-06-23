@@ -168,11 +168,7 @@ class NfeImport(models.TransientModel):
             "in" if document.cnpj_cpf_emitente != self.company_id.cnpj_cpf else "out"
         )
 
-        edoc = self.env["l10n_br_fiscal.document"].import_xml(
-            parsed_xml,
-            dry_run=False,
-            edoc_type=self.fiscal_operation_type,
-        )
+        edoc = self._create_edoc_from_xml(parsed_xml)
 
         self._attach_original_nfe_xml_to_document(edoc)
         self._set_product_supplierinfo(edoc)
@@ -185,6 +181,13 @@ class NfeImport(models.TransientModel):
             "res_id": edoc.id,
             "res_model": "l10n_br_fiscal.document",
         }
+
+    def _create_edoc_from_xml(self, xml):
+        return self.env["l10n_br_fiscal.document"].import_xml(
+            xml,
+            dry_run=False,
+            edoc_type=self.fiscal_operation_type,
+        )
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         vals = {
