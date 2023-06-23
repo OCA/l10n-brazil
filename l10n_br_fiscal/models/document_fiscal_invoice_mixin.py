@@ -6,9 +6,9 @@ from odoo import api, fields, models
 from ..constants.fiscal import DOCUMENT_ISSUER_COMPANY
 
 
-class FiscalDocumentInvoiceMixin(models.AbstractModel):
-    _name = "l10n_br_fiscal.document.invoice.mixin"
-    _description = "Invoice Document Fiscal Mixin"
+class DocumentMoveMixin(models.AbstractModel):
+    _name = "l10n_br_fiscal.document.move.mixin"
+    _description = "Move Document Fiscal Mixin"
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
