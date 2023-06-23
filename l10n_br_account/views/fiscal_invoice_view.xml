@@ -9,9 +9,9 @@
         <field name="arch" type="xml">
           <xpath expr="//field[@name='document_number']" position="after">
               <field name="name" string="Account Number" invisible="1" />
-              <field name="legal_name" string="Legal Name" />
-              <field name="cnpj_cpf" string="CNPJ/CPF" />
-              <field name="ie" string="State Tax Number" />
+              <field name="partner_legal_name" string="Legal Name" />
+              <field name="partner_cnpj_cpf" string="CNPJ/CPF" />
+              <field name="partner_inscr_est" string="State Tax Number" />
           </xpath>
         </field>
     </record>
