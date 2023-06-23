@@ -149,7 +149,9 @@ class AccountMove(models.Model):
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
         invoice_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
-        if view_type == "form":
+        if self.env.company.country_id.code != "BR":
+            return invoice_view
+        elif view_type == "form":
             view = self.env["ir.ui.view"]
 
             if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
@@ -232,9 +234,7 @@ class AccountMove(models.Model):
         "ind_final",
     )
     def _compute_amount(self):
-        if self.company_id.country_id.code != "BR":
-            return super()._compute_amount()
-        for move in self:
+        for move in self.filtered(lambda m: m.company_id.country_id.code == "BR"):
             for line in move.line_ids:
                 if (
                     move.is_invoice(include_receipts=True)
@@ -243,7 +243,7 @@ class AccountMove(models.Model):
                     line._update_taxes()
 
         result = super()._compute_amount()
-        for move in self:
+        for move in self.filtered(lambda m: m.company_id.country_id.code == "BR"):
             if move.move_type == "entry" or move.is_outbound():
                 sign = -1
             else:
