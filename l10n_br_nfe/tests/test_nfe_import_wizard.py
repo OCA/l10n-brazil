@@ -31,16 +31,16 @@ class NFeImportWizardTest(SavepointCase):
     def test_onchange_nfe_xml(self):
         xml = self.xml_1
         wizard = self.wizard
-        wizard.nfe_xml = base64.b64encode(xml)
-        wizard._onchange_partner_id()
+        wizard.xml = base64.b64encode(xml)
+        wizard._onchange_xml()
         # Check wizard header info
         self.assertEqual(
             wizard.document_key, "35200159594315000157550010000000012062777161"
         )
         self.assertEqual(wizard.document_number, "1")
         self.assertEqual(wizard.document_serie, "1")
-        self.assertEqual(wizard.partner_cpf_cnpj, "59.594.315/0001-57")
-        self.assertEqual(wizard.partner_name, "TESTE - Simples Nacional")
+        self.assertEqual(wizard.xml_partner_cpf_cnpj, "59.594.315/0001-57")
+        self.assertEqual(wizard.xml_partner_name, "TESTE - Simples Nacional")
         self.assertEqual(
             wizard.partner_id, self.env.ref("l10n_br_base.simples_nacional_partner")
         )
@@ -61,40 +61,40 @@ class NFeImportWizardTest(SavepointCase):
     def test_match_country_state_city(self):
         xml = self.xml_2
         wizard = self.wizard
-        wizard.nfe_xml = base64.b64encode(xml)
-        wizard._onchange_partner_id()
-        action = wizard.import_nfe_xml()
+        wizard.xml = base64.b64encode(xml)
+        wizard._onchange_xml()
+        action = wizard.import_xml()
         edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
         delivery_adress = edoc.partner_id
         self.assertTrue(delivery_adress.country_id)
         self.assertTrue(delivery_adress.state_id)
         self.assertTrue(delivery_adress.city_id)
 
-    def test_import_nfe_xml(self):
+    def test_import_xml(self):
         xml = self.xml_2
         wizard = self.wizard
         wizard.importing_type = "xml_file"
-        wizard.nfe_xml = base64.b64encode(xml)
-        wizard._onchange_partner_id()
+        wizard.xml = base64.b64encode(xml)
+        wizard._onchange_xml()
         wizard.imported_products_ids.product_id = self.env.ref(
             "product.product_product_5"
         )
-        action = wizard.import_nfe_xml()
+        action = wizard.import_xml()
         edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
         self.assertEqual(
             wizard.imported_products_ids.product_id, edoc.fiscal_line_ids.product_id
         )
 
-    def test_import_nfe_xml_internal_ncm(self):
+    def test_import_xml_internal_ncm(self):
         xml = self.xml_2
         wizard = self.wizard
         wizard.importing_type = "xml_file"
-        wizard.nfe_xml = base64.b64encode(xml)
-        wizard._onchange_partner_id()
+        wizard.xml = base64.b64encode(xml)
+        wizard._onchange_xml()
         wizard.imported_products_ids.product_id = self.env.ref(
             "product.product_product_5"
         )
-        action = wizard.import_nfe_xml()
+        action = wizard.import_xml()
         edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
         self.assertEqual(
             wizard.imported_products_ids.product_id.ncm_id, edoc.fiscal_line_ids.ncm_id

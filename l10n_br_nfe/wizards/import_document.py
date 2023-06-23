@@ -10,43 +10,18 @@ from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_IN_OUT_ALL
 from odoo.addons.l10n_br_nfe.models.document import parse_xml_nfe
-
-IMPORTING_TYPES = [
-    ("xml_file", "NFe XML File"),
-    ("nfe_key", "NFe key (Not Implemented)"),
-    ("manually", "Manually (Not Implemented)"),
-]
 
 
 class NfeImport(models.TransientModel):
     """Importar XML Nota Fiscal Eletrônica"""
 
     _name = "l10n_br_nfe.import_xml"
-    _inherit = "l10n_br_fiscal.base.wizard.mixin"
+    _inherit = "l10n_br_fiscal.document.import.wizard.mixin"
 
-    company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company",
-        default=lambda self: self.env.user.company_id,
-    )
+    xml_partner_cpf_cnpj = fields.Char(string="Imported Partner Identification")
 
-    importing_type = fields.Selection(
-        string="Importing Type", selection=IMPORTING_TYPES, required=True
-    )
-
-    nfe_xml = fields.Binary(
-        string="NFe XML to Import",
-    )
-
-    fiscal_operation_type = fields.Selection(
-        string="Fiscal Operation Type", selection=FISCAL_IN_OUT_ALL
-    )
-
-    partner_cpf_cnpj = fields.Char(string="Partner Documentation")
-
-    partner_name = fields.Char(string="Partner Name")
+    xml_partner_name = fields.Char(string="Imported Partner Name")
 
     imported_products_ids = fields.One2many(
         string="Imported Products",
@@ -56,28 +31,41 @@ class NfeImport(models.TransientModel):
 
     nat_op = fields.Char(string="Natureza da Operação")
 
-    def _parse_xml_import_wizard(self, xml):
-        parsed_xml = parse_xml_nfe(xml)
-        document = detectar_chave_edoc(parsed_xml.infNFe.Id[3:])
-        parsed_xml = self._edit_parsed_xml(parsed_xml)
-
-        return parsed_xml, document
-
-    @api.onchange("nfe_xml")
-    def _onchange_partner_id(self):
-        if self.nfe_xml:
-            self.set_fields_data_by_xml()
+    @api.onchange("xml")
+    def _onchange_xml(self):
+        if self.xml:
+            self.set_fields_by_xml_data()
 
             if self.partner_id:
                 self._get_product_supplierinfo()
 
-            for line in self.imported_products_ids:
-                line.onchange_product_id()
+    def parse_xml(self):
+        return self._edit_parsed_xml(parse_xml_nfe(base64.b64decode(self.xml)))
 
-    def set_fields_data_by_xml(self):
-        parsed_xml, document = self._parse_xml_import_wizard(
-            base64.b64decode(self.nfe_xml)
+    def create_edoc_from_xml(self):
+        self.set_fiscal_operation_type()
+
+        edoc = self.env["l10n_br_fiscal.document"].import_nfe_xml(
+            self.parse_xml(),
+            edoc_type=self.fiscal_operation_type,
         )
+
+        self._attach_original_nfe_xml_to_document(edoc)
+        self._set_product_supplierinfo(edoc)
+
+        return edoc
+
+    def set_fiscal_operation_type(self):
+        document = self.get_document_by_xml(self.parse_xml())
+
+        if document.cnpj_cpf_emitente == self.company_id.cnpj_cpf:
+            self.fiscal_operation_type = "out"
+        else:
+            self.fiscal_operation_type = "in"
+
+    def set_fields_by_xml_data(self):
+        parsed_xml = self.parse_xml()
+        document = self.get_document_by_xml(parsed_xml)
 
         nfe_model_code = self.env.ref("l10n_br_fiscal.document_55").code
         if document.modelo_documento != nfe_model_code:
@@ -91,8 +79,10 @@ class NfeImport(models.TransientModel):
         self.document_key = document.chave
         self.document_number = int(document.numero_documento)
         self.document_serie = int(document.numero_serie)
-        self.partner_cpf_cnpj = document.cnpj_cpf_emitente
-        self.partner_name = parsed_xml.infNFe.emit.xFant or parsed_xml.infNFe.emit.xNome
+        self.xml_partner_cpf_cnpj = document.cnpj_cpf_emitente
+        self.xml_partner_name = (
+            parsed_xml.infNFe.emit.xFant or parsed_xml.infNFe.emit.xNome
+        )
         self.partner_id = self.env["res.partner"].search(
             [
                 "|",
@@ -103,6 +93,12 @@ class NfeImport(models.TransientModel):
         )
         self.nat_op = parsed_xml.infNFe.ide.natOp
         self._check_nfe_xml_products(parsed_xml)
+
+    def get_document_by_xml(self, xml):
+        if not hasattr(xml, "infNFe"):
+            return
+
+        return detectar_chave_edoc(xml.infNFe.Id[3:])
 
     def _check_nfe_xml_products(self, parsed_xml):
         product_ids = []
@@ -157,45 +153,16 @@ class NfeImport(models.TransientModel):
         if product_ids:
             self.imported_products_ids = [(6, 0, product_ids)]
 
-    def import_nfe_xml(self):
-        parsed_xml, document = self._parse_xml_import_wizard(
-            base64.b64decode(self.nfe_xml)
-        )
-
-        self.fiscal_operation_type = (
-            "in" if document.cnpj_cpf_emitente != self.company_id.cnpj_cpf else "out"
-        )
-
-        edoc = self._create_edoc_from_xml(parsed_xml)
-
-        self._attach_original_nfe_xml_to_document(edoc)
-        self._set_product_supplierinfo(edoc)
-
-        return {
-            "name": _("Documento Importado"),
-            "type": "ir.actions.act_window",
-            "target": "current",
-            "views": [[False, "form"]],
-            "res_id": edoc.id,
-            "res_model": "l10n_br_fiscal.document",
-        }
-
-    def _create_edoc_from_xml(self, xml):
-        return self.env["l10n_br_fiscal.document"].import_xml(
-            xml,
-            dry_run=False,
-            edoc_type=self.fiscal_operation_type,
-        )
-
     def _attach_original_nfe_xml_to_document(self, edoc):
-        vals = {
-            "name": "NFe-Importada-{}.xml".format(edoc.document_key),
-            "datas": base64.b64decode(self.nfe_xml),
-            "description": "XML NFe - Importada por XML",
-            "res_model": "l10n_br_fiscal.document",
-            "res_id": edoc.id,
-        }
-        self.env["ir.attachment"].create(vals)
+        return self.env["ir.attachment"].create(
+            {
+                "name": "NFe-Importada-{}.xml".format(edoc.document_key),
+                "datas": base64.b64decode(self.xml),
+                "description": "XML NFe - Importada por XML",
+                "res_model": "l10n_br_fiscal.document",
+                "res_id": edoc.id,
+            }
+        )
 
     def _search_supplierinfo(self, partner_id, product_name, product_code):
         return self.env["product.supplierinfo"].search(
@@ -241,10 +208,8 @@ class NfeImport(models.TransientModel):
                 supplier_info.product_id.write({"seller_ids": [(4, supplier_info.id)]})
 
     def _edit_parsed_xml(self, parsed_xml):
-        for product_line in self.imported_products_ids:
+        for product_line in self.imported_products_ids.filtered("product_id"):
             internal_product = product_line.product_id
-            if not internal_product:
-                continue
             for xml_product in parsed_xml.infNFe.det:
                 if xml_product.prod.cProd == product_line.product_code:
                     xml_product.prod.xProd = internal_product.name

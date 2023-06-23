@@ -12,7 +12,7 @@ from io import StringIO
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
-from erpbrasil.base.fiscal.edoc import ChaveEdoc, cnpj_cpf
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -46,6 +46,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
+from odoo.addons.l10n_br_fiscal.tools.misc import format_cnpj_cpf
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
@@ -633,6 +634,15 @@ class NFe(spec_models.StackedModel):
                 field_data.nItem = i
         return res
 
+    @api.model
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        return {
+            **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
+            "active": False,
+        }
+
     def _build_attr(self, node, fields, vals, path, attr):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
         value = getattr(node, attr.get_name())
@@ -791,30 +801,6 @@ class NFe(spec_models.StackedModel):
             self._valida_xml(xml_assinado)
         return result
 
-    def _invert_fiscal_operation_type(self, document, nfe_binding, edoc_type):
-        if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
-            nfe_binding.infNFe.emit.CNPJ
-        ):
-            document.fiscal_operation_type = "in"
-            document.issuer = "partner"
-
-    def _import_xml(self, nfe_binding, dry_run, edoc_type="out"):
-        document = (
-            self.env["nfe.40.infnfe"]
-            .with_context(
-                tracking_disable=True,
-                edoc_type=edoc_type,
-                lang="pt_BR",
-            )
-            .build_from_binding(nfe_binding.infNFe, dry_run=dry_run)
-        )
-        document.imported_document = True
-        self._invert_fiscal_operation_type(document, nfe_binding, edoc_type)
-        return document
-
-    def import_xml(self, nfe_binding, dry_run, edoc_type="out"):
-        return self._import_xml(nfe_binding, dry_run, edoc_type)
-
     def atualiza_status_nfe(self, infProt, xml_file):
         self.ensure_one()
         # TODO: Verificar a consulta de notas
@@ -946,6 +932,26 @@ class NFe(spec_models.StackedModel):
                 "type": "binary",
             }
         )
+
+    def import_nfe_xml(self, xml, edoc_type="out"):
+        document = (
+            self.env["nfe.40.infnfe"]
+            .with_context(
+                tracking_disable=True,
+                edoc_type=edoc_type,
+                lang="pt_BR",
+            )
+            .build_from_binding(xml.infNFe)
+        )
+        document.imported_document = True
+
+        if edoc_type == "in" and document.company_id.cnpj_cpf != format_cnpj_cpf(
+            xml.infNFe.emit.CNPJ
+        ):
+            document.fiscal_operation_type = "in"
+            document.issuer = "partner"
+
+        return document
 
     def temp_xml_autorizacao(self, xml_string):
         """TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
