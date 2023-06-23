@@ -26,7 +26,11 @@ def _auto_install_l10n_br_generic_module(env):
         # Load all l10n_br COA in Demo
         if not tools.config["without_demo"]:
             module_name_domain = [
-                ("name", "in", ("l10n_br_coa_simple", "l10n_br_coa_generic"))
+                (
+                    "name",
+                    "in",
+                    ("l10n_br_coa_simple", "l10n_br_coa_generic", "l10n_generic_coa"),
+                )
             ]
 
         module_ids = env["ir.module.module"].search(
