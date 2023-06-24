@@ -19,7 +19,6 @@ class L10nBrRepairBaseTest(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.main_company = cls.env.ref("base.main_company")
         cls.company = cls.env.ref("base.main_company")
         cls.so_products = cls.env.ref("l10n_br_repair.main_so_only_products")
         cls.so_services = cls.env.ref("l10n_br_repair.main_so_only_services")
@@ -338,8 +337,6 @@ class L10nBrRepairBaseTest(SavepointCase):
         self.assertEqual(action_created_invoice["type"], "ir.actions.act_window")
         self.assertEqual(action_created_invoice["view_mode"], "form")
 
-        self._change_user_company(self.company)
-
     def test_l10n_br_repair_services(self):
         """Test brazilian Repair Order with only Services."""
         self._change_user_company(self.company)
@@ -459,8 +456,6 @@ class L10nBrRepairBaseTest(SavepointCase):
         action_created_invoice = self.so_services.action_created_invoice()
         self.assertEqual(action_created_invoice["type"], "ir.actions.act_window")
         self.assertEqual(action_created_invoice["view_mode"], "form")
-
-        self._change_user_company(self.company)
 
     def test_l10n_br_repair_products_services(self):
         """Test brazilian Repair Order with Product and Services."""
@@ -700,8 +695,6 @@ class L10nBrRepairBaseTest(SavepointCase):
         action_created_invoice = self.so_prod_srv.action_created_invoice()
         self.assertEqual(action_created_invoice["type"], "ir.actions.act_window")
         self.assertEqual(action_created_invoice["view_mode"], "tree,form")
-
-        self._change_user_company(self.main_company)
 
     def test_action_views(self):
         act1 = self.so_services.action_created_invoice()
