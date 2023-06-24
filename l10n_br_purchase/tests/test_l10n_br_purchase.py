@@ -20,7 +20,6 @@ class L10nBrPurchaseBaseTest(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.main_company = cls.env.ref("base.main_company")
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.po_products = cls.env.ref("l10n_br_purchase.lp_po_only_products")
         # cls.po_services = cls.env.ref(
@@ -433,7 +432,6 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             )
 
         self._invoice_purchase_order(self.po_products)
-        self._change_user_company(self.main_company)
 
     def test_fields_view_get(self):
         """Test Purchase Order fields_view_get."""
@@ -536,4 +534,3 @@ class L10nBrPurchaseBaseTest(SavepointCase):
                     13.34,
                     "Unexpected value for the field Other Values in Purchase Order.",
                 )
-        self._change_user_company(self.main_company)
