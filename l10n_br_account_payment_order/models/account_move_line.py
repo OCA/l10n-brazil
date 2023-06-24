@@ -21,7 +21,7 @@ class AccountMoveLine(models.Model):
     # Data de Vencimentos/date_maturity senão ficam fora de ordem:
     #  ex.: own_number 201 31/12/2020, own_number 202 18/11/2020
     #  Isso causa confusão pois a primeira parcela fica como sendo a segunda.
-    _order = "date desc, date_maturity ASC, id desc"
+    _order = "date desc, date_maturity asc, move_name desc, id"
 
     cnab_state = fields.Selection(
         selection=ESTADOS_CNAB,
@@ -280,7 +280,6 @@ class AccountMoveLine(models.Model):
                     )
 
     def reconcile(self):
-
         res = super().reconcile()
         for record in self:
             # Verificar Casos de CNAB
