@@ -390,7 +390,6 @@ class L10nBrSaleBaseTest(SavepointCase):
             )
 
         self._invoice_sale_order(self.so_products)
-        self._change_user_company(self.main_company)
 
     def test_l10n_br_sale_services(self):
         """Test brazilian Sale Order with only Services."""
@@ -507,7 +506,6 @@ class L10nBrSaleBaseTest(SavepointCase):
             )
 
         self._invoice_sale_order(self.so_services)
-        self._change_user_company(self.main_company)
 
     def test_l10n_br_sale_product_service(self):
         """Test brazilian Sale Order with Product and Service."""
@@ -521,7 +519,6 @@ class L10nBrSaleBaseTest(SavepointCase):
         self.so_product_service._create_invoices(final=True)
         # Devem existir duas Faturas/Documentos Fiscais
         self.assertEqual(2, self.so_product_service.invoice_count)
-        self._change_user_company(self.main_company)
 
     def test_fields_freight_insurance_other_costs(self):
         """Test fields Freight, Insurance and Other Costs when
@@ -615,4 +612,3 @@ class L10nBrSaleBaseTest(SavepointCase):
                     11.43,
                     "Unexpected value for the field Other Values in Sale line.",
                 )
-        self._change_user_company(self.main_company)
