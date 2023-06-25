@@ -1,25 +1,24 @@
-from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase, tagged
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES
 
 
 @tagged("icms")
-class TestICMSRegulation(TransactionCase):
-    def setUp(self):
-        super().setUp()
+class TestICMSRegulation(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner = cls.env.ref("l10n_br_base.res_partner_akretion")
+        cls.company = cls.env.ref("base.main_company")
+        cls.product = cls.env.ref("product.product_product_1")
+        cls.nbm = cls.env["l10n_br_fiscal.nbm"]
+        cls.icms_regulation = cls.env.ref("l10n_br_fiscal.tax_icms_regulation")
 
-        self.partner = self.env.ref("l10n_br_base.res_partner_akretion")
-        self.company = self.env.ref("base.main_company")
-        self.product = self.env.ref("product.product_product_1")
-        self.nbm = self.env["l10n_br_fiscal.nbm"]
-        self.icms_regulation = self.env.ref("l10n_br_fiscal.tax_icms_regulation")
-
-        self.sc_state_id = self.env.ref("base.state_br_sc")
-        self.sp_state_id = self.env.ref("base.state_br_sp")
-        self.venda_operation_line_id = self.env.ref("l10n_br_fiscal.fo_venda_venda")
-        self.ncm_48191000_id = self.env.ref("l10n_br_fiscal.ncm_48191000")
-        self.ncm_energia_id = self.env.ref("l10n_br_fiscal.ncm_27160000")
+        cls.sc_state_id = cls.env.ref("base.state_br_sc")
+        cls.sp_state_id = cls.env.ref("base.state_br_sp")
+        cls.venda_operation_line_id = cls.env.ref("l10n_br_fiscal.fo_venda_venda")
+        cls.ncm_48191000_id = cls.env.ref("l10n_br_fiscal.ncm_48191000")
+        cls.ncm_energia_id = cls.env.ref("l10n_br_fiscal.ncm_27160000")
 
     def test_icms_sc_sc_ind_final_yes_default(self):
         tax_icms = self.find_icms_tax(
