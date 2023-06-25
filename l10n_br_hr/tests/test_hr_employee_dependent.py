@@ -2,20 +2,21 @@ from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import ValidationError
 from odoo.fields import Date
-from odoo.tests import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestHrEmployeeDependent(TransactionCase):
-    def setUp(self):
-        super(TestHrEmployeeDependent, self).setUp()
+class TestHrEmployeeDependent(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.employee = self.env["hr.employee"]
-        self.employee = self.employee.create(
+        cls.employee = cls.env["hr.employee"]
+        cls.employee = cls.employee.create(
             {
-                "address_id": self.env["res.partner"].search([]).company_id.id,
-                "company_id": self.env["res.partner"].search([]).company_id.id,
-                "department_id": self.env["hr.department"],
-                "civil_certificate_type_id": self.env["hr.civil.certificate.type"],
+                "address_id": cls.env["res.partner"].search([]).company_id.id,
+                "company_id": cls.env["res.partner"].search([]).company_id.id,
+                "department_id": cls.env["hr.department"],
+                "civil_certificate_type_id": cls.env["hr.civil.certificate.type"],
                 "deficiency_id": 1,
                 "deficiency_description": "Deficiency in index finger",
                 "name": "l10n brazil demo employee",
@@ -24,21 +25,21 @@ class TestHrEmployeeDependent(TransactionCase):
             }
         )
 
-        self.employee_dependent = self.env["hr.employee.dependent"]
-        self.employee_dependent = self.employee_dependent.create(
+        cls.employee_dependent = cls.env["hr.employee.dependent"]
+        cls.employee_dependent = cls.employee_dependent.create(
             {
-                "employee_id": self.employee.id,
+                "employee_id": cls.employee.id,
                 "name": "Dependent 01",
                 "dependent_dob": "2019-01-01",
                 "inscr_est": "49.365.539-6",
                 "cnpj_cpf": "417.668.850-55",
-                "dependent_type_id": self.env["hr.dependent.type"].search([])[0].id,
+                "dependent_type_id": cls.env["hr.dependent.type"].search([])[0].id,
             }
         )
 
-        self.employee._check_dependents()
-        self.assertTrue(self.employee, "Error on create a l10n_br employee")
-        self.assertTrue(self.employee_dependent, "Error on create a employee dependent")
+        cls.employee._check_dependents()
+        cls.assertTrue(cls.employee, "Error on create a l10n_br employee")
+        cls.assertTrue(cls.employee_dependent, "Error on create a employee dependent")
 
     def test_invalid_hr_employee_dependent_cpf(self):
         try:
