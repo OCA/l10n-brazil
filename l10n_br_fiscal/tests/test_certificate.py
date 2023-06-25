@@ -7,61 +7,63 @@ from erpbrasil.assinatura import misc
 
 from odoo import fields
 from odoo.exceptions import ValidationError
-from odoo.tests import common
+from odoo.tests import SavepointCase
 from odoo.tools.misc import format_date
 
 
-class TestCertificate(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
+class TestCertificate(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company_model = cls.env["res.company"]
+        cls.certificate_model = cls.env["l10n_br_fiscal.certificate"]
+        cls.company = cls._create_compay()
+        cls._switch_user_company(cls.env.user, cls.company)
 
-        self.company_model = self.env["res.company"]
-        self.certificate_model = self.env["l10n_br_fiscal.certificate"]
-        self.company = self._create_compay()
-        self._switch_user_company(self.env.user, self.company)
-
-        self.cert_country = "BR"
-        self.cert_issuer_a = "EMISSOR A TESTE"
-        self.cert_issuer_b = "EMISSOR B TESTE"
-        self.cert_subject_valid = "CERTIFICADO VALIDO TESTE"
-        self.cert_date_exp = fields.Datetime.today() + timedelta(days=365)
-        self.cert_subject_invalid = "CERTIFICADO INVALIDO TESTE"
-        self.cert_passwd = "123456"
-        self.cert_name = "{} - {} - {} - Valid: {}".format(
+        cls.cert_country = "BR"
+        cls.cert_issuer_a = "EMISSOR A TESTE"
+        cls.cert_issuer_b = "EMISSOR B TESTE"
+        cls.cert_subject_valid = "CERTIFICADO VALIDO TESTE"
+        cls.cert_date_exp = fields.Datetime.today() + timedelta(days=365)
+        cls.cert_subject_invalid = "CERTIFICADO INVALIDO TESTE"
+        cls.cert_passwd = "123456"
+        cls.cert_name = "{} - {} - {} - Valid: {}".format(
             "NF-E",
             "A1",
-            self.cert_subject_valid,
-            format_date(self.env, self.cert_date_exp),
+            cls.cert_subject_valid,
+            format_date(cls.env, cls.cert_date_exp),
         )
 
-        self.certificate_valid = misc.create_fake_certificate_file(
+        cls.certificate_valid = misc.create_fake_certificate_file(
             valid=True,
-            passwd=self.cert_passwd,
-            issuer=self.cert_issuer_a,
-            country=self.cert_country,
-            subject=self.cert_subject_valid,
+            passwd=cls.cert_passwd,
+            issuer=cls.cert_issuer_a,
+            country=cls.cert_country,
+            subject=cls.cert_subject_valid,
         )
-        self.certificate_invalid = misc.create_fake_certificate_file(
+        cls.certificate_invalid = misc.create_fake_certificate_file(
             valid=False,
-            passwd=self.cert_passwd,
-            issuer=self.cert_issuer_b,
-            country=self.cert_country,
-            subject=self.cert_subject_invalid,
+            passwd=cls.cert_passwd,
+            issuer=cls.cert_issuer_b,
+            country=cls.cert_country,
+            subject=cls.cert_subject_invalid,
         )
 
-    def _create_compay(self):
+    @classmethod
+    def _create_compay(cls):
         """Creating a company"""
-        company = self.env["res.company"].create(
+        company = cls.env["res.company"].create(
             {
                 "name": "Company Test Fiscal BR",
                 "cnpj_cpf": "42.245.642/0001-09",
-                "country_id": self.env.ref("base.br").id,
-                "state_id": self.env.ref("base.state_br_sp").id,
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_sp").id,
             }
         )
         return company
 
-    def _switch_user_company(self, user, company):
+    @classmethod
+    def _switch_user_company(cls, user, company):
         """Add a company to the user's allowed & set to current."""
         user.write(
             {
