@@ -3,49 +3,50 @@
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestInvoiceRefund(TransactionCase):
-    def setUp(self):
-        super().setUp()
+class TestInvoiceRefund(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.sale_account = self.env["account.account"].create(
+        cls.sale_account = cls.env["account.account"].create(
             dict(
                 code="X1020",
                 name="Product Refund Sales - (test)",
-                user_type_id=self.env.ref("account.data_account_type_revenue").id,
+                user_type_id=cls.env.ref("account.data_account_type_revenue").id,
             )
         )
 
-        self.refund_journal = self.env["account.journal"].create(
+        cls.refund_journal = cls.env["account.journal"].create(
             dict(
                 name="Refund Journal - (test)",
                 code="TREJ",
                 type="sale",
                 refund_sequence=True,
-                default_account_id=self.sale_account.id,
+                default_account_id=cls.sale_account.id,
             )
         )
 
-        self.reverse_vals = {
+        cls.reverse_vals = {
             "date": fields.Date.from_string("2019-02-01"),
             "reason": "no reason",
             "refund_method": "refund",
-            "journal_id": self.refund_journal.id,
+            "journal_id": cls.refund_journal.id,
         }
 
-        self.invoice = self.env["account.move"].create(
+        cls.invoice = cls.env["account.move"].create(
             dict(
                 name="Test Refund Invoice",
                 move_type="out_invoice",
-                invoice_payment_term_id=self.env.ref(
+                invoice_payment_term_id=cls.env.ref(
                     "account.account_payment_term_advance"
                 ).id,
-                partner_id=self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
-                journal_id=self.refund_journal.id,
-                document_type_id=self.env.ref("l10n_br_fiscal.document_55").id,
-                document_serie_id=self.env.ref(
+                partner_id=cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                journal_id=cls.refund_journal.id,
+                document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
+                document_serie_id=cls.env.ref(
                     "l10n_br_fiscal.empresa_lc_document_55_serie_1"
                 ).id,
                 invoice_line_ids=[
@@ -53,30 +54,30 @@ class TestInvoiceRefund(TransactionCase):
                         0,
                         0,
                         {
-                            "product_id": self.env.ref("product.product_product_6").id,
+                            "product_id": cls.env.ref("product.product_product_6").id,
                             "quantity": 1.0,
                             "price_unit": 100.0,
-                            "account_id": self.env["account.account"]
+                            "account_id": cls.env["account.account"]
                             .search(
                                 [
                                     (
                                         "user_type_id",
                                         "=",
-                                        self.env.ref(
+                                        cls.env.ref(
                                             "account.data_account_type_revenue"
                                         ).id,
                                     ),
                                     (
                                         "company_id",
                                         "=",
-                                        self.env.company.id,
+                                        cls.env.company.id,
                                     ),
                                 ],
                                 limit=1,
                             )
                             .id,
                             "name": "Refund Test",
-                            "uom_id": self.env.ref("uom.product_uom_unit").id,
+                            "uom_id": cls.env.ref("uom.product_uom_unit").id,
                         },
                     )
                 ],
