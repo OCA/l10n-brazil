@@ -5,6 +5,7 @@ import odoo.tests.common as test_common
 from odoo import fields
 
 
+# for some reason conversion to SavepointCase fails
 class TestResourceCalendar(test_common.SingleTransactionCase):
     def setUp(self):
         super(TestResourceCalendar, self).setUp()

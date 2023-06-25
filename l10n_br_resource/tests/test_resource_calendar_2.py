@@ -1,25 +1,25 @@
 from datetime import date, datetime
 
-from odoo.tests import common
+from odoo.tests import SavepointCase
 
 
-class TestResourceCalendar(common.TransactionCase):
-    def setUp(self):
-        super(TestResourceCalendar, self).setUp()
-        self.calendar = self.env["resource.calendar"].create({"name": "Test Calendar"})
+class TestResourceCalendar(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.calendar = cls.env["resource.calendar"].create({"name": "Test Calendar"})
 
-        self.env["resource.calendar.leaves"].create(
+        cls.env["resource.calendar.leaves"].create(
             {
                 "name": "Christmas",
                 "date_from": date(2023, 12, 25),
                 "date_to": date(2023, 12, 25),
                 "leave_type": "F",
-                "calendar_id": self.calendar.id,
+                "calendar_id": cls.calendar.id,
             }
         )
 
     def test_data_eh_feriado(self):
-
         holiday_date = datetime(2023, 12, 25)
         result = self.calendar.data_eh_feriado(holiday_date)
         expected_result = True
@@ -73,7 +73,6 @@ class TestResourceCalendar(common.TransactionCase):
         )
 
     def test_data_eh_feriado_emendado(self):
-
         reference_data = datetime(2023, 9, 7, 15, 0, 0)
         expected_result = False
 
