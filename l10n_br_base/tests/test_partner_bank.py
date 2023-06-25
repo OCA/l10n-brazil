@@ -3,15 +3,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.exceptions import UserError
-from odoo.tests import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class PartnerBankTest(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.partner_bank_model = self.env["res.partner.bank"]
-        self.partner_id = self.env.ref("l10n_br_base.res_partner_amd")
-        self.bank_id = self.env.ref("l10n_br_base.res_bank_001")
+class PartnerBankTest(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner_bank_model = cls.env["res.partner.bank"]
+        cls.partner_id = cls.env.ref("l10n_br_base.res_partner_amd")
+        cls.bank_id = cls.env.ref("l10n_br_base.res_bank_001")
 
     def test_ok_transactional_acc_type(self):
         ok_bank_vals = {
