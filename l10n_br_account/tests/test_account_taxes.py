@@ -1,19 +1,18 @@
 # Copyright (C) 2020  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestAccountTaxes(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
-        self.l10n_br_company = self.env["res.company"].create(
+class TestAccountTaxes(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.l10n_br_company = cls.env["res.company"].create(
             {"name": "Empresa Teste do Plano de Contas Simplificado"}
         )
-
-        self.env.user.company_ids += self.l10n_br_company
-        self.env.company = self.l10n_br_company
+        cls.env.user.company_ids += cls.l10n_br_company
+        cls.env.company = cls.l10n_br_company
 
     def test_account_taxes(self):
         """Test if account taxes are related with fiscal taxes"""
