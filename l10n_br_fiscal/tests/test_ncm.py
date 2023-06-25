@@ -3,26 +3,25 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.exceptions import AccessError
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestNcm(TransactionCase):
-    def setUp(self):
-        super(TestNcm, self).setUp()
+class TestNcm(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
         # Create a test user with manager rights
-        self.test_user_manager = self.env["res.users"].create(
+        cls.test_user_manager = cls.env["res.users"].create(
             {
                 "name": "Test User Manager",
                 "login": "test_user_manager",
-                "groups_id": [
-                    (6, 0, [self.env.ref("l10n_br_fiscal.group_manager").id])
-                ],
+                "groups_id": [(6, 0, [cls.env.ref("l10n_br_fiscal.group_manager").id])],
             }
         )
 
         # Create a test user without manager rights
-        self.test_user = self.env["res.users"].create(
+        cls.test_user = cls.env["res.users"].create(
             {
                 "name": "Test User",
                 "login": "test_user",
@@ -30,7 +29,7 @@ class TestNcm(TransactionCase):
         )
 
         # Fetch an existing record
-        self.test_record = self.env.ref("l10n_br_fiscal.ncm_00000000")
+        cls.test_record = cls.env.ref("l10n_br_fiscal.ncm_00000000")
 
     def test_action_archive_manager(self):
         self.test_record.with_user(self.test_user_manager).action_archive()

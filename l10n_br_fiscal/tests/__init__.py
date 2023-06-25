@@ -1,16 +1,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from . import test_cnae
-from . import test_service_type
-from . import test_partner_profile
-from . import test_certificate
-from . import test_ibpt_product
-from . import test_ibpt_service
-from . import test_fiscal_tax
-from . import test_workflow
-from . import test_fiscal_document_generic
-from . import test_subsequent_operation
-from . import test_uom_uom
-from . import test_fiscal_document_nfse
-from . import test_icms_regulation
-from . import test_ncm
+from . import (
+    test_certificate,
+    test_cnae,
+    test_fiscal_document_generic,
+    test_fiscal_document_nfse,
+    test_fiscal_tax,
+    test_ibpt_product,
+    test_ibpt_service,
+    test_icms_regulation,
+    test_ncm,
+    test_partner_profile,
+    test_service_type,
+    test_subsequent_operation,
+    test_uom_uom,
+    test_workflow,
+)
