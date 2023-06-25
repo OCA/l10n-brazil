@@ -1,18 +1,19 @@
 from odoo.exceptions import ValidationError
-from odoo.tests import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestL10nBr(TransactionCase):
-    def setUp(self):
-        super(TestL10nBr, self).setUp()
+class TestL10nBr(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.employee = self.env["hr.employee"]
-        self.employee = self.employee.create(
+        cls.employee = cls.env["hr.employee"]
+        cls.employee = cls.employee.create(
             {
-                "address_id": self.env["res.partner"].search([]).company_id.id,
-                "company_id": self.env["res.partner"].search([]).company_id.id,
-                "department_id": self.env["hr.department"],
-                "civil_certificate_type_id": self.env["hr.civil.certificate.type"],
+                "address_id": cls.env["res.partner"].search([]).company_id.id,
+                "company_id": cls.env["res.partner"].search([]).company_id.id,
+                "department_id": cls.env["hr.department"],
+                "civil_certificate_type_id": cls.env["hr.civil.certificate.type"],
                 "deficiency_id": 1,
                 "deficiency_description": "Deficiency in index finger",
                 "name": "l10n brazil demo employee",
@@ -21,7 +22,7 @@ class TestL10nBr(TransactionCase):
             }
         )
 
-        self.assertTrue(self.employee, "Error on create a l10n_br employee")
+        cls.assertTrue(cls.employee, "Error on create a l10n_br employee")
 
     def test_invalid_hr_employee_cpf(self):
         try:
