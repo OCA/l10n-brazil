@@ -71,20 +71,6 @@ msgid "Active"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__legal_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__legal_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__legal_name
-msgid "Adapted Legal Name"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__ie
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__ie
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__ie
-msgid "Adapted State Tax Number"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__all
 msgid "All"
 msgstr ""
@@ -131,9 +117,6 @@ msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cnpj_cpf
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "CNPJ/CPF"
@@ -861,11 +844,8 @@ msgid "UOM"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__company_legal_name
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_legal_name
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__legal_name
 msgid "Used in fiscal documents"
 msgstr ""
 
