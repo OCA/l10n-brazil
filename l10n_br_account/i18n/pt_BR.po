@@ -75,20 +75,6 @@ msgid "Active"
 msgstr "Ativo"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__legal_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__legal_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__legal_name
-msgid "Adapted Legal Name"
-msgstr "Razão Social"
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__ie
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__ie
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__ie
-msgid "Adapted State Tax Number"
-msgstr "Inscrição Estadual"
-
-#. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__all
 msgid "All"
 msgstr "Todos"
@@ -135,9 +121,6 @@ msgid "CNPJ"
 msgstr "CNPJ"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cnpj_cpf
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "CNPJ/CPF"
@@ -884,11 +867,8 @@ msgid "UOM"
 msgstr "UDM"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__company_legal_name
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_legal_name
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__legal_name
 msgid "Used in fiscal documents"
 msgstr "Usado em documentos fiscais"
 
@@ -945,6 +925,12 @@ msgstr ""
 msgid "You cannot edit an invoice related to a withholding entry"
 msgstr ""
 "Você não pode editar um documento relacionado a um lançamento de retenção"
+
+#~ msgid "Adapted Legal Name"
+#~ msgstr "Razão Social"
+
+#~ msgid "Adapted State Tax Number"
+#~ msgstr "Inscrição Estadual"
 
 #~ msgid "Document Code"
 #~ msgstr "Código do Documento"
