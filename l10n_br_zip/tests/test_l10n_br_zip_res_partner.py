@@ -4,37 +4,38 @@
 
 from unittest import mock
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 _module_ns = "odoo.addons.l10n_br_zip"
 _provider_class = _module_ns + ".models.l10n_br_zip" + ".L10nBrZip"
 
 
-class L10nBRZipTest(TransactionCase):
-    def setUp(self):
-        super().setUp()
+class L10nBRZipTest(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.zip_obj = self.env["l10n_br.zip"]
-        self.zip_1 = self.zip_obj.create(
+        cls.zip_obj = cls.env["l10n_br.zip"]
+        cls.zip_1 = cls.zip_obj.create(
             dict(
                 zip_code="01310923",
-                city_id=self.env.ref("l10n_br_base.city_3550308").id,
-                state_id=self.env.ref("base.state_br_sp").id,
-                country_id=self.env.ref("base.br").id,
+                city_id=cls.env.ref("l10n_br_base.city_3550308").id,
+                state_id=cls.env.ref("base.state_br_sp").id,
+                country_id=cls.env.ref("base.br").id,
                 street_name="Avenida Paulista 1842",
                 street_type="Avenida",
                 district="Bela Vista",
             )
         )
-        self.res_partner = self.env.ref("l10n_br_base.res_partner_akretion")
-        self.res_partner_1 = self.env["res.partner"].create(
+        cls.res_partner = cls.env.ref("l10n_br_base.res_partner_akretion")
+        cls.res_partner_1 = cls.env["res.partner"].create(
             dict(
                 name="teste",
                 street_name="paulista",
                 district="Bela Vista",
-                country_id=self.env.ref("base.br").id,
-                state_id=self.env.ref("base.state_br_sp").id,
-                city_id=self.env.ref("l10n_br_base.city_3550308").id,
+                country_id=cls.env.ref("base.br").id,
+                state_id=cls.env.ref("base.state_br_sp").id,
+                city_id=cls.env.ref("l10n_br_base.city_3550308").id,
             )
         )
 
