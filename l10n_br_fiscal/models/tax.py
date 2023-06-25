@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.tools import float_is_zero
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
@@ -184,6 +183,8 @@ class Tax(models.Model):
 
     @api.model
     def _compute_tax_base(self, tax, tax_dict, **kwargs):
+        """Calculates the base, percentage, and tax amount."""
+
         company = kwargs.get("company", tax.env.company)
         currency = kwargs.get("currency", company.currency_id)
         fiscal_price = kwargs.get("fiscal_price", 0.00)
@@ -194,53 +195,55 @@ class Tax(models.Model):
         freight_value = kwargs.get("freight_value", 0.00)
         other_value = kwargs.get("other_value", 0.00)
 
-        if tax.tax_group_id.base_with_additional_values:
-            tax_dict["add_to_base"] += sum(
-                [freight_value, insurance_value, other_value]
-            )
-        tax_dict["remove_from_base"] += sum([discount_value])
-
-        base = 0.00
-
         if not tax_dict.get("percent_amount") and tax.percent_amount:
             tax_dict["percent_amount"] = tax.percent_amount
 
         if not tax_dict.get("value_amount") and tax.value_amount:
             tax_dict["value_amount"] = tax.value_amount
 
-        if tax_dict["base_type"] == "percent":
-            # Compute initial Tax Base for base_type Percent
-            base = currency.round(fiscal_price * fiscal_quantity)
+        if tax_dict.get("base_manual"):
+            base_amount = tax_dict["base_manual"]
+        else:
+            # calculate base
+            if tax.tax_group_id.base_with_additional_values:
+                tax_dict["add_to_base"] += sum(
+                    [freight_value, insurance_value, other_value]
+                )
+            tax_dict["remove_from_base"] += sum([discount_value])
 
-        if tax_dict["base_type"] == "quantity":
-            # Compute initial Tax Base for base_type Quantity
-            base = fiscal_quantity
+            if tax_dict["base_type"] == "percent":
+                # Compute initial Tax Base for base_type Percent
+                base = currency.round(fiscal_price * fiscal_quantity)
 
-        if tax_dict["base_type"] == "fixed":
-            # Compute initial Tax Base
-            base = currency.round(tax_dict["value_amount"] * fiscal_quantity)
+            if tax_dict["base_type"] == "quantity":
+                # Compute initial Tax Base for base_type Quantity
+                base = fiscal_quantity
 
-        # Update Base Value
-        base_amount = currency.round(
-            (base + tax_dict["add_to_base"]) - tax_dict["remove_from_base"]
-        )
+            if tax_dict["base_type"] == "fixed":
+                # Compute initial Tax Base
+                base = currency.round(tax_dict["value_amount"] * fiscal_quantity)
 
-        # Compute Tax Base Reduction
-        base_reduction = base_amount * abs(tax.percent_reduction / 100)
-
-        # Compute Tax Base Amount
-        if compute_reduction:
-            base_amount = currency.round(base_amount - base_reduction)
-
-        if tax_dict.get("icmsst_mva_percent"):
+            # Update Base Value
             base_amount = currency.round(
-                base_amount * (1 + (tax_dict["icmsst_mva_percent"] / 100))
+                (base + tax_dict["add_to_base"]) - tax_dict["remove_from_base"]
             )
 
-        if tax_dict.get("compute_with_tax_value"):
-            base_amount = currency.round(
-                base_amount / (1 - (tax_dict["percent_amount"] / 100))
-            )
+            # Compute Tax Base Reduction
+            base_reduction = base_amount * abs(tax.percent_reduction / 100)
+
+            # Compute Tax Base Amount
+            if compute_reduction:
+                base_amount = currency.round(base_amount - base_reduction)
+
+            if tax_dict.get("icmsst_mva_percent"):
+                base_amount = currency.round(
+                    base_amount * (1 + (tax_dict["icmsst_mva_percent"] / 100))
+                )
+
+            if tax_dict.get("compute_with_tax_value"):
+                base_amount = currency.round(
+                    base_amount / (1 - (tax_dict["percent_amount"] / 100))
+                )
 
         if (
             not tax.percent_amount
@@ -264,6 +267,11 @@ class Tax(models.Model):
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
 
         tax_dict = taxes_dict.get(tax.tax_domain)
+
+        # extract manual values
+        base_manual = kwargs.get(f"{tax.tax_domain}_base_manual")
+        tax_value_manual = kwargs.get(f"{tax.tax_domain}_value_manual")
+
         tax_dict.update(
             {
                 "name": tax.name,
@@ -275,6 +283,8 @@ class Tax(models.Model):
                 "percent_reduction": tax.percent_reduction,
                 "percent_amount": tax_dict.get("percent_amount", tax.percent_amount),
                 "cst_id": tax.cst_from_tax(fiscal_operation_type),
+                "base_manual": base_manual,
+                "tax_value_manual": tax_value_manual,
             }
         )
 
@@ -283,21 +293,22 @@ class Tax(models.Model):
             tax_dict_icms = taxes_dict.get("icms", {})
             tax_dict["remove_from_base"] += tax_dict_icms.get("tax_value", 0.00)
 
-        # TODO futuramente levar em consideração outros tipos de base de calculo
-        if float_is_zero(tax_dict.get("base", 0.00), currency.decimal_places):
-            tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
+        tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
 
         base_amount = tax_dict.get("base", 0.00)
 
-        if tax_dict["base_type"] == "percent":
-            tax_dict["tax_value"] = currency.round(
-                base_amount * (tax_dict["percent_amount"] / 100)
-            )
+        if tax_dict.get("tax_value_manual"):
+            tax_dict["tax_value"] = tax_dict["tax_value_manual"]
+        else:
+            if tax_dict["base_type"] == "percent":
+                tax_dict["tax_value"] = currency.round(
+                    base_amount * (tax_dict["percent_amount"] / 100)
+                )
 
-        if tax_dict["base_type"] in ("quantity", "fixed"):
-            tax_dict["tax_value"] = currency.round(
-                base_amount * tax_dict["value_amount"]
-            )
+            if tax_dict["base_type"] in ("quantity", "fixed"):
+                tax_dict["tax_value"] = currency.round(
+                    base_amount * tax_dict["value_amount"]
+                )
 
         return tax_dict
 
@@ -537,12 +548,8 @@ class Tax(models.Model):
         if taxes_dict.get(tax.tax_domain):
             taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = tax.icmsst_mva_percent
 
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         tax_dict = self._compute_tax(tax, taxes_dict, **kwargs)
-        if tax_dict.get("icmsst_mva_percent"):
+        if tax_dict.get("icmsst_mva_percent") and not tax_dict.get("tax_value_manual"):
             tax_dict["tax_value"] -= taxes_dict.get("icms", {}).get("tax_value", 0.0)
 
         return tax_dict
