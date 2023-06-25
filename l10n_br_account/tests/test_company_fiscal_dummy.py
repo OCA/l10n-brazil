@@ -2,14 +2,15 @@
 
 from psycopg2 import IntegrityError
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 from odoo.tools import mute_logger
 
 
-class TestCompanyFiscalDummy(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.company = self.env["res.company"].create(
+class TestCompanyFiscalDummy(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env["res.company"].create(
             {
                 "name": "Company Test",
             }
