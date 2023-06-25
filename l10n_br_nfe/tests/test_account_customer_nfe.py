@@ -3,19 +3,20 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestCustomerNFe(TransactionCase):
-    def setUp(self):
-        super(TestCustomerNFe, self).setUp()
-        self.invoice_same_state = self.env.ref(
+class TestCustomerNFe(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.invoice_same_state = cls.env.ref(
             "l10n_br_account_product.demo_nfe_same_state"
         )
-        self.invoice_other_costs = self.env.ref(
+        cls.invoice_other_costs = cls.env.ref(
             "l10n_br_account_product.demo_nfe_other_costs"
         )
-        self.invoice_difal = self.env.ref("l10n_br_account_product.demo_nfe_difal")
+        cls.invoice_difal = cls.env.ref("l10n_br_account_product.demo_nfe_difal")
 
     def test_customer_nfe_same_state(self):
         """Test customer NFe same state 'Contribuinte'"""
