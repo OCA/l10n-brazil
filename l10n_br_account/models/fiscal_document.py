@@ -93,26 +93,6 @@ class FiscalDocument(models.Model):
                 if record.date_in_out:
                     move_id.date = record.date_in_out.date()
 
-    def modified(self, fnames, create=False, before=False):
-        """
-        Modifying a dummy fiscal document (no document_type_id) should not recompute
-        any account.move related to the same dummy fiscal document.
-        """
-        filtered = self.filtered(
-            lambda rec: isinstance(rec.id, models.NewId) or rec.document_type_id
-        )
-        return super(FiscalDocument, filtered).modified(fnames, create, before)
-
-    def _modified_triggers(self, tree, create=False):
-        """
-        Modifying a dummy fiscal document (no document_type_id) should not recompute
-        any account.move related to the same dummy fiscal document.
-        """
-        filtered = self.filtered(
-            lambda rec: isinstance(rec.id, models.NewId) or rec.document_type_id
-        )
-        return super(FiscalDocument, filtered)._modified_triggers(tree, create)
-
     def unlink(self):
         non_draft_documents = self.filtered(
             lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
@@ -126,12 +106,24 @@ class FiscalDocument(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        self.env.cr.execute(
+            "alter table account_move alter column fiscal_document_id drop not null;"
+        )  # FIXME move to _auto_init
         # OVERRIDE
         # force creation of fiscal_document_line only when creating an AML record
         # In order not to affect the creation of the dummy document, a test was included
         # that verifies that the ACTIVE field is not False. As the main characteristic
         # of the dummy document is the ACTIVE field is False
+        records = []
         for values in vals_list:
-            if values.get("fiscal_line_ids") and values.get("active") is not False:
+            if not values.get("document_type_id") and not values.get(
+                "document_serie_id"
+            ):
+                # means we should skip the fiscal document creation
+                continue
+            if (
+                values.get("fiscal_line_ids") and values.get("active") is not False
+            ):  # TODO can we remove the active test?
                 values.update({"fiscal_line_ids": False})
-        return super().create(vals_list)
+            records.append(super().create(values))  # TODO repair batch create
+        return records
