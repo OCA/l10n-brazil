@@ -110,6 +110,7 @@ odoo.define("l10n_br_pos.models", function (require) {
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
             // CORE METHODS
+            /* eslint complexity: ["error", 30] */
             _super_order.initialize.apply(this, arguments, options);
             this.init_locked = true;
 
@@ -358,7 +359,8 @@ odoo.define("l10n_br_pos.models", function (require) {
             return taxes;
         },
         compute_message: function (templateString, taxes) {
-            /* Compute fiscal message */
+            // Compute fiscal message
+            // eslint-disable-next-line no-new-func
             return new Function(`return \`${templateString}\`;`).call(this, taxes);
         },
         _document_status_popup: function () {

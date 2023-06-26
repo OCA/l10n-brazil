@@ -8,8 +8,8 @@ odoo.define("l10n_br_pos_cfe.SatOrderReceipt", function (require) {
 
     const round_pr = utils.round_precision;
 
-    const SatOrderReceipt = (OrderReceipt) =>
-        class extends OrderReceipt {
+    const SatOrderReceipt = (OrderReceipt_screen = OrderReceipt) =>
+        class extends OrderReceipt_screen {
             get isCanceled() {
                 return this.props.order.state_edoc === "cancelada";
             }
