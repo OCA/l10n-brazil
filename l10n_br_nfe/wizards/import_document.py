@@ -4,6 +4,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
+from datetime import datetime
 
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 
@@ -31,6 +32,23 @@ class NfeImport(models.TransientModel):
 
     nat_op = fields.Char(string="Natureza da Operação")
 
+    purchase_link_type = fields.Selection(
+        selection=[
+            ("choose", "Choose"),
+            ("create", "Create"),
+        ],
+        default="choose",
+        string="Purchase Link Type",
+    )
+
+    purchase_id = fields.Many2one(
+        comodel_name="purchase.order",
+        string="Purchase Order",
+        required=False,
+        default=False,
+        domain=False,
+    )
+
     @api.onchange("xml")
     def _onchange_xml(self):
         if self.xml:
@@ -38,6 +56,23 @@ class NfeImport(models.TransientModel):
 
             if self.partner_id:
                 self.imported_products_ids._set_product_supplierinfo_data()
+
+    @api.onchange("partner_cpf_cnpj")
+    def _onchange_partner_cpf_cnpj(self):
+        domain = {}
+        if self.partner_cpf_cnpj:
+            supplyer_id = self.env["res.partner"].search(
+                [("cnpj_cpf", "=", self.partner_cpf_cnpj)]
+            )
+            purchase_order_ids = self.env["purchase.order"].search(
+                [
+                    ("partner_id", "=", supplyer_id.id),
+                    ("state", "not in", ["done", "cancel"]),
+                ]
+            )
+
+            domain = {"purchase_id": [("id", "in", purchase_order_ids.ids)]}
+        return {"domain": domain}
 
     def set_fields_by_xml_data(self):
         parsed_xml = self.parse_xml()
@@ -94,28 +129,6 @@ class NfeImport(models.TransientModel):
 
         self.imported_products_ids = [(6, 0, product_ids)]
 
-    def create_edoc_from_xml(self):
-        self.set_fiscal_operation_type()
-
-        edoc = self.env["l10n_br_fiscal.document"].import_nfe_xml(
-            self.parse_xml(),
-            edoc_type=self.fiscal_operation_type,
-        )
-        self._attach_original_nfe_xml_to_document(edoc)
-        self.imported_products_ids._create_or_update_product_supplierinfo(
-            partner_id=edoc.partner_id
-        )
-
-        return edoc
-
-    def set_fiscal_operation_type(self):
-        document = self.get_document_by_xml(self.parse_xml())
-
-        if document.cnpj_cpf_emitente == self.company_id.cnpj_cpf:
-            self.fiscal_operation_type = "out"
-        else:
-            self.fiscal_operation_type = "in"
-
     def _prepare_imported_product_values(self, product):
         taxes = self._get_taxes_from_xml_product(product)
         uom_id = self.env["uom.uom"].search([("code", "=", product.prod.uCom)], limit=1)
@@ -161,6 +174,74 @@ class NfeImport(models.TransientModel):
                 vIPI = ipi_trib.vIPI
 
         return {"vICMS": vICMS, "pICMS": pICMS, "vIPI": vIPI, "pIPI": pIPI}
+
+    def create_edoc_from_xml(self):
+        self.set_fiscal_operation_type()
+
+        edoc = self.env["l10n_br_fiscal.document"].import_nfe_xml(
+            self.parse_xml(),
+            edoc_type=self.fiscal_operation_type,
+        )
+        self._attach_original_nfe_xml_to_document(edoc)
+        self.imported_products_ids._create_or_update_product_supplierinfo(
+            partner_id=edoc.partner_id
+        )
+
+        if not self.purchase_id and self.purchase_link_type == "create":
+            self.purchase_id = self.create_purchase_order(edoc)
+
+        return edoc
+
+    def set_fiscal_operation_type(self):
+        document = self.get_document_by_xml(self.parse_xml())
+
+        if document.cnpj_cpf_emitente == self.company_id.cnpj_cpf:
+            self.fiscal_operation_type = "out"
+        else:
+            self.fiscal_operation_type = "in"
+
+    def create_purchase_order(self, document):
+        self.set_fields_by_xml_data()
+
+        purchase = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_id.id,
+                "currency_id": self.env.user.company_id.currency_id.id,
+                "fiscal_operation_id": self.get_purchase_fiscal_operation_id(),
+                "date_order": datetime.now(),
+                "origin_nfe_id": document.id,
+                "imported": True,
+            }
+        )
+        document.linked_purchase_ids = [(4, purchase.id)]
+
+        purchase_lines = []
+        for line in document.fiscal_line_ids:
+            product_uom = line.uom_id or line.product_id.uom_id
+            purchase_line = self.env["purchase.order.line"].create(
+                {
+                    "product_id": line.product_id.id,
+                    "origin_nfe_line_id": line.id,
+                    "name": line.product_id.display_name,
+                    "date_planned": datetime.now(),
+                    "product_qty": line.quantity,
+                    "product_uom": product_uom.id,
+                    "price_unit": line.price_unit,
+                    "price_subtotal": line.amount_total,
+                    "order_id": purchase.id,
+                }
+            )
+            purchase_lines.append(purchase_line.id)
+        purchase.write({"order_line": [(6, 0, purchase_lines)]})
+        purchase.button_confirm()
+        return purchase
+
+    def get_purchase_fiscal_operation_id(self):
+        default_fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras").id
+        return (
+            self.env.user.company_id.purchase_fiscal_operation_id.id
+            or default_fiscal_operation_id
+        )
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         return self.env["ir.attachment"].create(

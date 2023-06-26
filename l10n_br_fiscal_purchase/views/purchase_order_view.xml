@@ -5,7 +5,7 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
 
-    <record id="l10n_br_nfe_purchase_order_form" model="ir.ui.view">
+    <record id="l10n_br_fiscal_purchase_order_form" model="ir.ui.view">
         <field name="name">l10n.br.nfe.purchase.order.form</field>
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form" />
@@ -13,7 +13,7 @@
             <xpath expr="//group[@name='other_info']" position="inside">
                 <field name="imported" readonly="1" />
                 <field
-                    name="origin_nfe_id"
+                    name="origin_document_id"
                     attrs="{'invisible': [('imported', '=', False)]}"
                 />
             </xpath>

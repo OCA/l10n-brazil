@@ -8,12 +8,14 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     _inherit = "l10n_br_fiscal.document.mixin.methods"
 
     def action_open_purchase(self):
-        result = self.env.ref("l10n_br_nfe_purchase.action_purchase_tree_all").read()[0]
+        result = self.env.ref(
+            "l10n_br_fiscal_purchase.action_purchase_tree_all"
+        ).read()[0]
         purchase_ids = self.mapped("linked_purchase_ids")
 
         if len(purchase_ids) == 1:
             result = self.env.ref(
-                "l10n_br_nfe_purchase.action_purchase_form_all"
+                "l10n_br_fiscal_purchase.action_purchase_form_all"
             ).read()[0]
             result["res_id"] = purchase_ids[0].id
         else:

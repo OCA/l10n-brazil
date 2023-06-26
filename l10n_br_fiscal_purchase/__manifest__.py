@@ -2,20 +2,19 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "L10n Br Nfe Purchase",
+    "name": "L10n Br Fiscal Purchase",
     "summary": """
-        NFe Purchase""",
+        Fiscal Purchase""",
     "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
-        "l10n_br_nfe",
+        "l10n_br_fiscal",
         "l10n_br_purchase",
     ],
     "data": [
-        "views/nfe_document_view.xml",
+        "views/document_view.xml",
         "views/purchase_order_view.xml",
-        "wizards/import_document.xml",
     ],
 }
