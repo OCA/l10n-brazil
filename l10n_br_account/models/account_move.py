@@ -82,7 +82,6 @@ class AccountMove(models.Model):
     fiscal_document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Document",
-        required=True,
         copy=False,
         ondelete="cascade",
     )
@@ -99,15 +98,19 @@ class AccountMove(models.Model):
 
     def _compute_has_fiscal_dummy(self):
         for rec in self:
+            #            rec.has_fiscal_dummy = not rec.fiscal_document_id
             rec.has_fiscal_dummy = (
                 rec.fiscal_document_id.id == rec.company_id.fiscal_dummy_id.id
+                or not rec.fiscal_document_id
             )
 
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
         for rec in self:
+            #            has_fiscal_dummy = not rec.fiscal_document_id
             has_fiscal_dummy = (
                 rec.fiscal_document_id.id == rec.company_id.fiscal_dummy_id.id
+                or not rec.fiscal_document_id
             )
             if has_fiscal_dummy and rec.document_type_id:
                 raise UserError(
@@ -286,7 +289,9 @@ class AccountMove(models.Model):
         )._move_autocomplete_invoice_lines_create(vals_list)
         for vals in new_vals_list:
             if not vals.get("document_type_id"):
-                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
+                vals[
+                    "fiscal_document_id"
+                ] = False  # self.env.company.fiscal_dummy_id.id
         return new_vals_list
 
     def _move_autocomplete_invoice_lines_values(self):
@@ -313,10 +318,7 @@ class AccountMove(models.Model):
         for move in self:
             if not move.exists():
                 continue
-            if (
-                move.fiscal_document_id
-                and move.fiscal_document_id.id != self.env.company.fiscal_dummy_id.id
-            ):
+            if move.fiscal_document_id and move.fiscal_document_id:
                 unlink_documents |= move.fiscal_document_id
             unlink_moves |= move
         result = super(AccountMove, unlink_moves).unlink()
