@@ -209,7 +209,7 @@ class NfeImport(models.TransientModel):
                 "currency_id": self.env.user.company_id.currency_id.id,
                 "fiscal_operation_id": self.get_purchase_fiscal_operation_id(),
                 "date_order": datetime.now(),
-                "origin_nfe_id": document.id,
+                "origin_document_id": document.id,
                 "imported": True,
             }
         )
@@ -221,7 +221,7 @@ class NfeImport(models.TransientModel):
             purchase_line = self.env["purchase.order.line"].create(
                 {
                     "product_id": line.product_id.id,
-                    "origin_nfe_line_id": line.id,
+                    "origin_document_line_id": line.id,
                     "name": line.product_id.display_name,
                     "date_planned": datetime.now(),
                     "product_qty": line.quantity,

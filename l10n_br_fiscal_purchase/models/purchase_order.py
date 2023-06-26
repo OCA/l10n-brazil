@@ -15,6 +15,7 @@ class PurchaseOrder(models.Model):
         return {
             **super()._prepare_invoice(),
             "fiscal_document_id": self.origin_document_id.id,
+            "document_type_id": self.origin_document_id.document_type_id.id,
         }
 
 
