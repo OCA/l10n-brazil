@@ -3,8 +3,7 @@
 
 from requests import get
 
-from odoo import _, api, models
-from odoo.exceptions import UserError
+from odoo import api, models
 
 
 class PartyMixin(models.AbstractModel):
@@ -28,13 +27,6 @@ class PartyMixin(models.AbstractModel):
             data = webservice.sintegra_validate(response)
             values = webservice._sintegra_import_data(data)
             self.write(values)
-        else:
-            raise UserError(
-                _(
-                    "It is necessary to activate the option to use the IE search to use this "
-                    + "functionality."
-                )
-            )
 
     @api.model
     def enabled_ie_search(self):

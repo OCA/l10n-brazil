@@ -4,7 +4,6 @@
 import logging
 import time  # You can't send multiple requests at the same time in trial version
 
-from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from .common import TestCnpjCommon
@@ -29,11 +28,3 @@ class TestTestSintegra(TestCnpjCommon):
         dummy.ie_search()
 
         self.assertEqual(dummy.inscr_est, "149848403115")
-
-    def test_sintegra_ie_search_disabled(self):
-        dummy = self.model.create({"name": "Dummy", "cnpj_cpf": "06990590000123"})
-        self.set_param("ie_search", False)
-        time.sleep(1)  # to avoid too many requests
-        with self.assertRaises(UserError):
-            dummy._onchange_cnpj_cpf()
-            dummy.ie_search()
