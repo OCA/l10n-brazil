@@ -94,28 +94,6 @@ class NfeImport(models.TransientModel):
 
         self.imported_products_ids = [(6, 0, product_ids)]
 
-    def create_edoc_from_xml(self):
-        self.set_fiscal_operation_type()
-
-        edoc = self.env["l10n_br_fiscal.document"].import_nfe_xml(
-            self.parse_xml(),
-            edoc_type=self.fiscal_operation_type,
-        )
-        self._attach_original_nfe_xml_to_document(edoc)
-        self.imported_products_ids._create_or_update_product_supplierinfo(
-            partner_id=edoc.partner_id
-        )
-
-        return edoc
-
-    def set_fiscal_operation_type(self):
-        document = self.get_document_by_xml(self.parse_xml())
-
-        if document.cnpj_cpf_emitente == self.company_id.cnpj_cpf:
-            self.fiscal_operation_type = "out"
-        else:
-            self.fiscal_operation_type = "in"
-
     def _prepare_imported_product_values(self, product):
         taxes = self._get_taxes_from_xml_product(product)
         uom_id = self.env["uom.uom"].search([("code", "=", product.prod.uCom)], limit=1)
@@ -161,6 +139,28 @@ class NfeImport(models.TransientModel):
                 vIPI = ipi_trib.vIPI
 
         return {"vICMS": vICMS, "pICMS": pICMS, "vIPI": vIPI, "pIPI": pIPI}
+
+    def create_edoc_from_xml(self):
+        self.set_fiscal_operation_type()
+
+        edoc = self.env["l10n_br_fiscal.document"].import_nfe_xml(
+            self.parse_xml(),
+            edoc_type=self.fiscal_operation_type,
+        )
+        self._attach_original_nfe_xml_to_document(edoc)
+        self.imported_products_ids._create_or_update_product_supplierinfo(
+            partner_id=edoc.partner_id
+        )
+
+        return edoc
+
+    def set_fiscal_operation_type(self):
+        document = self.get_document_by_xml(self.parse_xml())
+
+        if document.cnpj_cpf_emitente == self.company_id.cnpj_cpf:
+            self.fiscal_operation_type = "out"
+        else:
+            self.fiscal_operation_type = "in"
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         return self.env["ir.attachment"].create(
