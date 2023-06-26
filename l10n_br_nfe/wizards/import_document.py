@@ -5,6 +5,7 @@
 
 import base64
 import io
+from datetime import datetime
 
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
@@ -170,6 +171,49 @@ class NfeImport(models.TransientModel):
             self.fiscal_operation_type = "out"
         else:
             self.fiscal_operation_type = "in"
+
+    def create_purchase_order(self, document):
+        self.set_fields_by_xml_data()
+
+        purchase = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_id.id,
+                "currency_id": self.env.user.company_id.currency_id.id,
+                "fiscal_operation_id": self.get_purchase_fiscal_operation_id(),
+                "date_order": datetime.now(),
+                "origin_document_id": document.id,
+                "imported": True,
+            }
+        )
+        document.linked_purchase_ids = [(4, purchase.id)]
+
+        purchase_lines = []
+        for line in document.fiscal_line_ids:
+            product_uom = line.uom_id or line.product_id.uom_id
+            purchase_line = self.env["purchase.order.line"].create(
+                {
+                    "product_id": line.product_id.id,
+                    "origin_document_line_id": line.id,
+                    "name": line.product_id.display_name,
+                    "date_planned": datetime.now(),
+                    "product_qty": line.quantity,
+                    "product_uom": product_uom.id,
+                    "price_unit": line.price_unit,
+                    "price_subtotal": line.amount_total,
+                    "order_id": purchase.id,
+                }
+            )
+            purchase_lines.append(purchase_line.id)
+        purchase.write({"order_line": [(6, 0, purchase_lines)]})
+        purchase.button_confirm()
+        return purchase
+
+    def get_purchase_fiscal_operation_id(self):
+        default_fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras").id
+        return (
+            self.env.user.company_id.purchase_fiscal_operation_id.id
+            or default_fiscal_operation_id
+        )
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         return self.env["ir.attachment"].create(
