@@ -32,6 +32,23 @@ class NfeImport(models.TransientModel):
 
     nat_op = fields.Char(string="Natureza da Operação")
 
+    purchase_link_type = fields.Selection(
+        selection=[
+            ("choose", "Choose"),
+            ("create", "Create"),
+        ],
+        default="choose",
+        string="Purchase Link Type",
+    )
+
+    purchase_id = fields.Many2one(
+        comodel_name="purchase.order",
+        string="Purchase Order",
+        required=False,
+        default=False,
+        domain=False,
+    )
+
     @api.onchange("xml")
     def _onchange_xml(self):
         if self.xml:
@@ -39,6 +56,23 @@ class NfeImport(models.TransientModel):
 
             if self.partner_id:
                 self.imported_products_ids._set_product_supplierinfo_data()
+
+    @api.onchange("partner_cpf_cnpj")
+    def _onchange_partner_cpf_cnpj(self):
+        domain = {}
+        if self.partner_cpf_cnpj:
+            supplyer_id = self.env["res.partner"].search(
+                [("cnpj_cpf", "=", self.partner_cpf_cnpj)]
+            )
+            purchase_order_ids = self.env["purchase.order"].search(
+                [
+                    ("partner_id", "=", supplyer_id.id),
+                    ("state", "not in", ["done", "cancel"]),
+                ]
+            )
+
+            domain = {"purchase_id": [("id", "in", purchase_order_ids.ids)]}
+        return {"domain": domain}
 
     def set_fields_by_xml_data(self):
         parsed_xml = self.parse_xml()
@@ -163,6 +197,9 @@ class NfeImport(models.TransientModel):
         self.imported_products_ids._find_or_create_product_supplierinfo()
 
         edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
+
+        if not self.purchase_id and self.purchase_link_type == "create":
+            self.purchase_id = self.create_purchase_order(edoc)
 
         return edoc
 
