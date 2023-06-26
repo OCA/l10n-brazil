@@ -2,12 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+import os
 import time  # You can't send multiple requests at the same time in trial version
-from datetime import datetime
-from os import environ
-from unittest import mock
 
-from decorator import decorate
+import vcr
 
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
@@ -15,146 +13,6 @@ from odoo.tests import tagged
 from .common import TestCnpjCommon
 
 _logger = logging.getLogger(__name__)
-
-
-def _not_every_day_test(method, self, modulo=7, remaining=0):
-    if datetime.now().day % modulo == remaining:
-        return method(self)
-    elif environ.get("CI_FORCE_serpro"):
-        return method(self)
-    else:
-        return lambda: _logger.info(
-            "Skipping test today because datetime.now().day %% %s != %s"
-            % (modulo, remaining)
-        )
-
-
-def not_every_day_test(method):
-    """
-    Decorate test methods to query the SERPRO only
-    1 day out of 7 and skip tests otherwise in order to prevent
-    errors in the API to disrupt the tests from l10n-br test suite.
-    The CI_FORCE_serpro env var can be set to force the test anyhow.
-    """
-    return decorate(method, _not_every_day_test)
-
-
-def mocked_requests_get(*args, **kwargs):
-    class MockResponse:
-        def __init__(self, json_data, status_code):
-            self.json_data = json_data
-            self.status_code = status_code
-
-        def ok(self):
-            return True
-
-        def json(self):
-            return self.json_data
-
-    return MockResponse(
-        {
-            "ni": "34238864000168",
-            "tipoEstabelecimento": "1",
-            "nomeEmpresarial": "UHIEQKX WHNHIWD NH  FIXKHUUWPHMVX NH NWNXU (UHIFIX)",
-            "nomeFantasia": "UHIFIX UHNH",
-            "situacaoCadastral": {"codigo": "2", "data": "2019-06-19", "motivo": ""},
-            "naturezaJuridica": {"codigo": "2011", "descricao": "Empresa Pública"},
-            "dataAbertura": "1967-06-30",
-            "cnaePrincipal": {
-                "codigo": "6204000",
-                "descricao": "Consultoria em tecnologia da informação",
-            },
-            "endereco": {
-                "tipoLogradouro": "SETOR",
-                "logradouro": "NH BIWMNH WIHW MXIVH",
-                "numero": "Q.601",
-                "complemento": "LOTE V",
-                "cep": "70836900",
-                "bairro": "ASA NORTE",
-                "municipio": {"codigo": "9701", "descricao": "BRASILIA"},
-                "uf": "DF",
-                "pais": {"codigo": "105", "descricao": "BRASIL"},
-            },
-            "municipioJurisdicao": {"codigo": "0110100", "descricao": "BRASÍLIA"},
-            "telefones": [
-                {"ddd": "61", "numero": "22222222"},
-                {"ddd": "61", "numero": "33333333"},
-            ],
-            "correioEletronico": "EMPRESA@EMPRESA.BR",
-            "capitalSocial": 0,
-            "porte": "05",
-            "situacaoEspecial": "",
-            "dataSituacaoEspecial": "",
-            "informacoesAdicionais": {},
-            "socios": [
-                {
-                    "tipoSocio": "2",
-                    "cpf": "07119488449",
-                    "nome": "LUIZA ARAUJO DE OLIVEIRA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "23982012600",
-                    "nome": "JOANA ALVES MUNDIM PENA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "13946994415",
-                    "nome": "LUIZA BARBOSA BEZERRA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "00031298702",
-                    "nome": "MARCELO ANTONIO BARROS DE CICCO",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "76822320300",
-                    "nome": "LUIZA ALDENORA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-            ],
-        }
-    )
 
 
 @tagged("post_install", "-at_install")
@@ -167,32 +25,11 @@ class TestTestSerPro(TestCnpjCommon):
         self.set_param("serpro_trial", True)
         self.set_param("serpro_schema", "basica")
 
-    @mock.patch("requests.get", side_effect=mocked_requests_get)
-    def test_mock(self, mock_get):
-        self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).unlink()
-        self.set_param("serpro_schema", "empresa")
-
-        dummy_empresa = self.model.create(
-            {"name": "Dummy Empresa", "cnpj_cpf": "34.238.864/0001-68"}
-        )
-
-        time.sleep(3)  # Pause
-        dummy_empresa._onchange_cnpj_cpf()
-        dummy_empresa.search_cnpj()
-        self.assertEqual(dummy_empresa.name, "Uhifix Uhnh")
-        self.assertEqual(dummy_empresa.email, "EMPRESA@EMPRESA.BR")
-        self.assertEqual(dummy_empresa.street_name, "Nh Biwmnh Wihw Mxivh")
-        self.assertEqual(dummy_empresa.street2, "Lote V")
-        self.assertEqual(dummy_empresa.street_number, "Q.601")
-        self.assertEqual(dummy_empresa.zip, "70836900")
-        self.assertEqual(dummy_empresa.district, "Asa Norte")
-        self.assertEqual(dummy_empresa.phone, "(61) 22222222")
-        self.assertEqual(dummy_empresa.mobile, "(61) 33333333")
-        self.assertEqual(dummy_empresa.state_id.code, "DF")
-        self.assertEqual(dummy_empresa.equity_capital, 0)
-        self.assertEqual(dummy_empresa.cnae_main_id.code, "6204-0/00")
-
-    @not_every_day_test
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_serpro_basica.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
     def test_serpro_basica(self):
         dummy_basica = self.model.create(
             {"name": "Dummy Basica", "cnpj_cpf": "34.238.864/0001-68"}
@@ -219,7 +56,11 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(dummy_basica.equity_capital, 0)
         self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
-    @not_every_day_test
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_serpro_not_found.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
     def test_serpro_not_found(self):
         # Na versão Trial só há alguns registros de CNPJ cadastrados
         invalid = self.model.create(
@@ -270,7 +111,11 @@ class TestTestSerPro(TestCnpjCommon):
 
         self.assertEqual(socios, expected_socios)
 
-    @not_every_day_test
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_serpro_empresa.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
     def test_serpro_empresa(self):
         self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
             {"active": False}
@@ -295,7 +140,11 @@ class TestTestSerPro(TestCnpjCommon):
 
         self.assert_socios(dummy_empresa, expected_cnpjs)
 
-    @not_every_day_test
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_serpro_qsa.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
     def test_serpro_qsa(self):
         self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
             {"active": False}
