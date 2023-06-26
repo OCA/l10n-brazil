@@ -11,9 +11,9 @@
             <xpath expr="//group[@id='document_info']" position="after">
                 <separator
                     string="Conciliar com uma ordem de compra"
-                    attrs="{'invisible': [('nfe_xml', '=', False)]}"
+                    attrs="{'invisible': [('xml', '=', False)]}"
                 />
-                <group attrs="{'invisible': [('nfe_xml', '=', False)]}">
+                <group attrs="{'invisible': [('xml', '=', False)]}">
                     <group>
                         <field name="purchase_link_type" />
                         <field

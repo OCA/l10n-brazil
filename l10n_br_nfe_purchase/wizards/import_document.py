@@ -43,23 +43,22 @@ class NfeImport(models.TransientModel):
             domain = {"purchase_id": [("id", "in", purchase_order_ids.ids)]}
         return {"domain": domain}
 
-    def _create_edoc_from_xml(self):
-        edoc = super()._create_edoc_from_xml()
+    def create_edoc_from_xml(self):
+        edoc = super().create_edoc_from_xml()
 
         if not self.purchase_id and self.purchase_link_type == "create":
-            self.purchase_id = self._create_purchase_order(edoc)
+            self.purchase_id = self.create_purchase_order(edoc)
 
         return edoc
 
-    def _create_purchase_order(self, document):
-        self.set_fields_data_by_xml()
+    def create_purchase_order(self, document):
+        self.set_fields_by_xml_data()
 
-        company = self.env.user.company_id
         purchase = self.env["purchase.order"].create(
             {
                 "partner_id": self.partner_id.id,
-                "currency_id": company.currency_id.id,
-                "fiscal_operation_id": company.purchase_fiscal_operation_id.id,
+                "currency_id": self.env.user.company_id.currency_id.id,
+                "fiscal_operation_id": self.get_purchase_fiscal_operation_id(),
                 "date_order": datetime.now(),
                 "origin_nfe_id": document.id,
                 "imported": True,
@@ -87,3 +86,10 @@ class NfeImport(models.TransientModel):
         purchase.write({"order_line": [(6, 0, purchase_lines)]})
         purchase.button_confirm()
         return purchase
+
+    def get_purchase_fiscal_operation_id(self):
+        default_fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras").id
+        return (
+            self.env.user.company_id.purchase_fiscal_operation_id.id
+            or default_fiscal_operation_id
+        )
