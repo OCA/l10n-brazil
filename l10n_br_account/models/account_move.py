@@ -98,21 +98,12 @@ class AccountMove(models.Model):
 
     def _compute_has_fiscal_dummy(self):
         for rec in self:
-            #            rec.has_fiscal_dummy = not rec.fiscal_document_id
-            rec.has_fiscal_dummy = (
-                rec.fiscal_document_id.id == rec.company_id.fiscal_dummy_id.id
-                or not rec.fiscal_document_id
-            )
+            rec.has_fiscal_dummy = not rec.fiscal_document_id
 
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
         for rec in self:
-            #            has_fiscal_dummy = not rec.fiscal_document_id
-            has_fiscal_dummy = (
-                rec.fiscal_document_id.id == rec.company_id.fiscal_dummy_id.id
-                or not rec.fiscal_document_id
-            )
-            if has_fiscal_dummy and rec.document_type_id:
+            if rec.document_type_id and not rec.fiscal_document_id:
                 raise UserError(
                     _("You can't set a document type to a fiscal dummy document.")
                 )
