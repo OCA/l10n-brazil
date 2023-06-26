@@ -288,3 +288,20 @@ class ResPartner(spec_models.SpecModel):
                 return self.vat or self.cnpj_cpf or self.rg or "EXTERIOR"
 
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
+
+    @api.model
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        domain_cnpj = []
+        if parent_dict.get("nfe40_CNPJ"):
+            rec_dict["cnpj_cpf"] = parent_dict["nfe40_CNPJ"]
+            domain_cnpj = [
+                "|",
+                ("cnpj_cpf", "=", rec_dict["cnpj_cpf"]),
+                ("cnpj_cpf", "=", format_cnpj_cpf(rec_dict["cnpj_cpf"])),
+            ]
+
+        match = self.search(domain_cnpj, limit=1)
+        if match:
+            return match.id
+
+        return self.with_context(parent_dict=parent_dict).create(rec_dict).id
