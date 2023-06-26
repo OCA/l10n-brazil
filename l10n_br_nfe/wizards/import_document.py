@@ -37,45 +37,13 @@ class NfeImport(models.TransientModel):
             self.set_fields_by_xml_data()
 
             if self.partner_id:
-                self._get_product_supplierinfo()
-
-    def parse_xml(self):
-        return self._edit_parsed_xml(parse_xml_nfe(base64.b64decode(self.xml)))
-
-    def create_edoc_from_xml(self):
-        self.set_fiscal_operation_type()
-
-        edoc = self.env["l10n_br_fiscal.document"].import_nfe_xml(
-            self.parse_xml(),
-            edoc_type=self.fiscal_operation_type,
-        )
-
-        self._attach_original_nfe_xml_to_document(edoc)
-        self._set_product_supplierinfo(edoc)
-
-        return edoc
-
-    def set_fiscal_operation_type(self):
-        document = self.get_document_by_xml(self.parse_xml())
-
-        if document.cnpj_cpf_emitente == self.company_id.cnpj_cpf:
-            self.fiscal_operation_type = "out"
-        else:
-            self.fiscal_operation_type = "in"
+                self.imported_products_ids._set_product_supplierinfo_data()
 
     def set_fields_by_xml_data(self):
         parsed_xml = self.parse_xml()
         document = self.get_document_by_xml(parsed_xml)
 
-        nfe_model_code = self.env.ref("l10n_br_fiscal.document_55").code
-        if document.modelo_documento != nfe_model_code:
-            raise UserError(
-                _(
-                    f"Incorrect fiscal document model! "
-                    f"Accepted one is {nfe_model_code}"
-                )
-            )
-
+        self.check_xml_data(parsed_xml)
         self.document_key = document.chave
         self.document_number = int(document.numero_documento)
         self.document_serie = int(document.numero_serie)
@@ -92,7 +60,10 @@ class NfeImport(models.TransientModel):
             limit=1,
         )
         self.nat_op = parsed_xml.infNFe.ide.natOp
-        self._check_nfe_xml_products(parsed_xml)
+        self._create_imported_products_by_xml(parsed_xml)
+
+    def parse_xml(self):
+        return self._edit_parsed_xml(parse_xml_nfe(base64.b64decode(self.xml)))
 
     def get_document_by_xml(self, xml):
         if not hasattr(xml, "infNFe"):
@@ -100,58 +71,96 @@ class NfeImport(models.TransientModel):
 
         return detectar_chave_edoc(xml.infNFe.Id[3:])
 
-    def _check_nfe_xml_products(self, parsed_xml):
+    def check_xml_data(self, xml):
+        document = self.get_document_by_xml(xml)
+        nfe_model_code = self.env.ref("l10n_br_fiscal.document_55").code
+
+        if document.modelo_documento != nfe_model_code:
+            raise UserError(
+                _(
+                    f"Incorrect fiscal document model! "
+                    f"Accepted one is {nfe_model_code}"
+                )
+            )
+
+    def _create_imported_products_by_xml(self, xml):
         product_ids = []
-        for product in parsed_xml.infNFe.det:
-            vICMS = 0
-            pICMS = 0
-            pIPI = 0
-            vIPI = 0
-            icms_tags = [
-                tag for tag in dir(product.imposto.ICMS) if tag.startswith("ICMS")
-            ]
-            for tag in icms_tags:
-                if getattr(product.imposto.ICMS, tag) is not None:
-                    icms_choice = getattr(product.imposto.ICMS, tag)
-            if hasattr(icms_choice, "pICMS"):
-                pICMS = icms_choice.pICMS
-            if hasattr(icms_choice, "vICMS"):
-                vICMS = icms_choice.vICMS
-            ipi_trib = product.imposto.IPI.IPITrib
-            if ipi_trib is not None:
-                if hasattr(ipi_trib, "pIPI"):
-                    pIPI = ipi_trib.pIPI
-                if hasattr(ipi_trib, "vIPI"):
-                    vIPI = ipi_trib.vIPI
+        for product in xml.infNFe.det:
             product_ids.append(
                 self.env["l10n_br_nfe.import_xml.products"]
-                .create(
-                    {
-                        "product_name": product.prod.xProd,
-                        "product_code": product.prod.cProd,
-                        "ncm_xml": product.prod.NCM,
-                        "cfop_xml": product.prod.CFOP,
-                        "icms_percent": pICMS,
-                        "icms_value": vICMS,
-                        "ipi_percent": pIPI,
-                        "ipi_value": vIPI,
-                        "uom_internal": self.env["uom.uom"]
-                        .search([("code", "=", product.prod.uCom)], limit=1)
-                        .id,
-                        "uom_com": product.prod.uCom,
-                        "quantity_com": product.prod.qCom,
-                        "price_unit_com": product.prod.vUnCom,
-                        "uom_trib": product.prod.uTrib,
-                        "quantity_trib": product.prod.qTrib,
-                        "price_unit_trib": product.prod.vUnTrib,
-                        "total": product.prod.vProd,
-                        "import_xml_id": self.id,
-                    }
-                )
+                .create(self._prepare_imported_product_values(product))
                 .id
             )
-        if product_ids:
-            self.imported_products_ids = [(6, 0, product_ids)]
+
+        self.imported_products_ids = [(6, 0, product_ids)]
+
+    def create_edoc_from_xml(self):
+        self.set_fiscal_operation_type()
+
+        edoc = self.env["l10n_br_fiscal.document"].import_nfe_xml(
+            self.parse_xml(),
+            edoc_type=self.fiscal_operation_type,
+        )
+        self._attach_original_nfe_xml_to_document(edoc)
+        self.imported_products_ids._create_or_update_product_supplierinfo(
+            partner_id=edoc.partner_id
+        )
+
+        return edoc
+
+    def set_fiscal_operation_type(self):
+        document = self.get_document_by_xml(self.parse_xml())
+
+        if document.cnpj_cpf_emitente == self.company_id.cnpj_cpf:
+            self.fiscal_operation_type = "out"
+        else:
+            self.fiscal_operation_type = "in"
+
+    def _prepare_imported_product_values(self, product):
+        taxes = self._get_taxes_from_xml_product(product)
+        uom_id = self.env["uom.uom"].search([("code", "=", product.prod.uCom)], limit=1)
+
+        return {
+            "product_name": product.prod.xProd,
+            "product_code": product.prod.cProd,
+            "ncm_xml": product.prod.NCM,
+            "cfop_xml": product.prod.CFOP,
+            "icms_percent": taxes["pICMS"],
+            "icms_value": taxes["vICMS"],
+            "ipi_percent": taxes["pIPI"],
+            "ipi_value": taxes["vIPI"],
+            "uom_internal": uom_id.id,
+            "uom_com": product.prod.uCom,
+            "quantity_com": product.prod.qCom,
+            "price_unit_com": product.prod.vUnCom,
+            "uom_trib": product.prod.uTrib,
+            "quantity_trib": product.prod.qTrib,
+            "price_unit_trib": product.prod.vUnTrib,
+            "total": product.prod.vProd,
+            "import_xml_id": self.id,
+        }
+
+    def _get_taxes_from_xml_product(self, product):
+        vICMS = 0
+        pICMS = 0
+        pIPI = 0
+        vIPI = 0
+        icms_tags = [tag for tag in dir(product.imposto.ICMS) if tag.startswith("ICMS")]
+        for tag in icms_tags:
+            if getattr(product.imposto.ICMS, tag) is not None:
+                icms_choice = getattr(product.imposto.ICMS, tag)
+        if hasattr(icms_choice, "pICMS"):
+            pICMS = icms_choice.pICMS
+        if hasattr(icms_choice, "vICMS"):
+            vICMS = icms_choice.vICMS
+        ipi_trib = product.imposto.IPI.IPITrib
+        if ipi_trib is not None:
+            if hasattr(ipi_trib, "pIPI"):
+                pIPI = ipi_trib.pIPI
+            if hasattr(ipi_trib, "vIPI"):
+                vIPI = ipi_trib.vIPI
+
+        return {"vICMS": vICMS, "pICMS": pICMS, "vIPI": vIPI, "pIPI": pIPI}
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         return self.env["ir.attachment"].create(
@@ -164,61 +173,20 @@ class NfeImport(models.TransientModel):
             }
         )
 
-    def _search_supplierinfo(self, partner_id, product_name, product_code):
-        return self.env["product.supplierinfo"].search(
-            [
-                ("name", "=", partner_id.id),
-                "|",
-                ("product_name", "=", product_name),
-                ("product_code", "=", product_code),
-            ],
-            limit=1,
-        )
-
-    def _get_product_supplierinfo(self):
-        for product_line in self.imported_products_ids:
-            product_supplierinfo = self._search_supplierinfo(
-                self.partner_id, product_line.product_name, product_line.product_code
-            )
-            if product_supplierinfo:
-                product_line.product_id = product_supplierinfo.product_id
-                product_line.uom_internal = product_supplierinfo.partner_uom
-
-    def _set_product_supplierinfo(self, edoc):
-        for product_line in self.imported_products_ids:
-            product_supplierinfo = self._search_supplierinfo(
-                edoc.partner_id, product_line.product_name, product_line.product_code
-            )
-            values = {
-                "product_id": product_line.product_id.id,
-                "product_name": product_line.product_name,
-                "product_code": product_line.product_code,
-                "price": self.env["uom.uom"]
-                .browse(product_line.uom_internal.id)
-                ._compute_price(
-                    product_line.price_unit_com, product_line.product_id.uom_id
-                ),
-                "partner_uom": product_line.uom_internal.id,
-            }
-            if product_supplierinfo:
-                product_supplierinfo.update(values)
-            else:
-                values["name"] = edoc.partner_id.id
-                supplier_info = self.env["product.supplierinfo"].create(values)
-                supplier_info.product_id.write({"seller_ids": [(4, supplier_info.id)]})
-
     def _edit_parsed_xml(self, parsed_xml):
         for product_line in self.imported_products_ids.filtered("product_id"):
             internal_product = product_line.product_id
             for xml_product in parsed_xml.infNFe.det:
-                if xml_product.prod.cProd == product_line.product_code:
-                    xml_product.prod.xProd = internal_product.name
-                    xml_product.prod.cProd = internal_product.default_code
-                    xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
-                    xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
-                    xml_product.prod.uCom = product_line.uom_internal.code
-                    if product_line.new_cfop_id:
-                        xml_product.prod.CFOP = product_line.new_cfop_id.code
+                if xml_product.prod.cProd != product_line.product_code:
+                    continue
+
+                xml_product.prod.xProd = internal_product.name
+                xml_product.prod.cProd = internal_product.default_code
+                xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
+                xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
+                xml_product.prod.uCom = product_line.uom_internal.code
+                if product_line.new_cfop_id:
+                    xml_product.prod.CFOP = product_line.new_cfop_id.code
         return parsed_xml
 
 
@@ -279,7 +247,49 @@ class NfeImportProducts(models.TransientModel):
 
     ipi_value = fields.Char(string="Valor IPI")
 
+    imported_partner_id = fields.Many2one(related="import_xml_id.partner_id")
+
     @api.onchange("product_id")
     def onchange_product_id(self):
         if self.product_id and not self.product_id.ncm_id:
             raise UserError(_("Product without NCM!"))
+
+    def _search_supplierinfo(self, partner_id):
+        return self.env["product.supplierinfo"].search(
+            [
+                ("name", "=", partner_id.id),
+                "|",
+                ("product_name", "=", self.product_name),
+                ("product_code", "=", self.product_code),
+            ],
+            limit=1,
+        )
+
+    def _set_product_supplierinfo_data(self):
+        for product in self:
+            product_supplierinfo = product._search_supplierinfo(
+                product.imported_partner_id
+            )
+            if product_supplierinfo:
+                product.product_id = product_supplierinfo.product_id
+                product.uom_internal = product_supplierinfo.partner_uom
+
+    def _create_or_update_product_supplierinfo(self, partner_id):
+        for product in self:
+            product_supplierinfo = product._search_supplierinfo(partner_id)
+            values = {
+                "product_id": product.product_id.id,
+                "product_name": product.product_name,
+                "product_code": product.product_code,
+                "price": self.uom_internal._compute_price(
+                    product.price_unit_com, product.product_id.uom_id
+                ),
+                "partner_uom": product.uom_internal.id,
+            }
+
+            if product_supplierinfo:
+                product_supplierinfo.update(values)
+            else:
+                values["name"] = partner_id.id
+                supplier_info = self.env["product.supplierinfo"].create(values)
+                supplier_info.product_id.write({"seller_ids": [(4, supplier_info.id)]})
