@@ -389,11 +389,6 @@ class TestCustomerInvoice(SavepointCase):
             init_number_of_fiscal_doc_lines, final_number_of_fiscal_doc_lines
         )
 
-        # Retrieve the dummy fiscal document line
-        dummy_fiscal_document_line = (
-            self.invoice_1.company_id.fiscal_dummy_id.fiscal_line_ids[0]
-        )
-
         # Check that all account move lines are associated with the fiscal dummy
         for line in invoice_copy.line_ids:
             self.assertEqual(line.fiscal_document_line_id.id, False)
@@ -401,8 +396,7 @@ class TestCustomerInvoice(SavepointCase):
         self.assertEqual(len(invoice_copy), 1)
 
     def test_has_fiscal_dummy(self):
-        fiscal_dummy = self.invoice_1.company_id.fiscal_dummy_id
-        self.assertIn(self.invoice_1.fiscal_document_id.id, (fiscal_dummy.id, False))
+        self.assertEqual(self.invoice_1.fiscal_document_id.id, False)
         self.assertTrue(self.invoice_1.has_fiscal_dummy)
 
     def test_set_document_type_with_dummy(self):
