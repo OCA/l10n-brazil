@@ -16,5 +16,6 @@
     "data": [
         "views/document_view.xml",
         "views/purchase_order_view.xml",
+        "wizards/import_document.xml",
     ],
 }
