@@ -14,8 +14,8 @@ odoo.define("l10n_br_pos_cfe.ReceiptScreen", function (require) {
     const {useListener} = require("web.custom_hooks");
     const {useExternalListener} = owl.hooks;
 
-    const L10nBrPosCfeReceiptScreen = (ReceiptScreen) =>
-        class extends ReceiptScreen {
+    const L10nBrPosCfeReceiptScreen = (ReceiptScreen_screen = ReceiptScreen) =>
+        class extends ReceiptScreen_screen {
             setup() {
                 super.setup();
 
