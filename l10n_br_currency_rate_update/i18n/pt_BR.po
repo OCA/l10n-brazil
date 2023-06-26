@@ -39,8 +39,11 @@ msgstr "Provedor de Taxas de Moeda"
 
 #. module: l10n_br_currency_rate_update
 #: model:ir.model.fields,field_description:l10n_br_currency_rate_update.field_res_currency_rate_provider__service
-msgid "Source Service"
-msgstr "Origem do Serviço"
+msgid "Provider"
+msgstr ""
+
+#~ msgid "Source Service"
+#~ msgstr "Origem do Serviço"
 
 #~ msgid "European Central Bank"
 #~ msgstr "Banco Central Europeu"
