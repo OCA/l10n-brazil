@@ -27,6 +27,8 @@ odoo.define("l10n_br_pos_cfe.ReceiptScreen", function (require) {
                 );
             }
 
+    const L10nBrPosCfeReceiptScreen = (ReceiptScreen) =>
+        class extends ReceiptScreen {
             // @override
             async handleAutoPrint() {
                 return;
