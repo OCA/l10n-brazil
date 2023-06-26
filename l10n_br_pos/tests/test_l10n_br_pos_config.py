@@ -1,9 +1,10 @@
 # Copyright 2022 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import TransactionCase
 
 
+# for some reason conversion to SavepointCase fails
 class TestL10nBrPosConfig(TransactionCase):
     def setUp(self):
         super().setUp()
