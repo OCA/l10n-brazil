@@ -34,5 +34,5 @@ msgstr ""
 
 #. module: l10n_br_currency_rate_update
 #: model:ir.model.fields,field_description:l10n_br_currency_rate_update.field_res_currency_rate_provider__service
-msgid "Source Service"
+msgid "Provider"
 msgstr ""
