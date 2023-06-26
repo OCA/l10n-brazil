@@ -162,6 +162,8 @@ class NfeImport(models.TransientModel):
         self._attach_original_nfe_xml_to_document(edoc)
         self.imported_products_ids._find_or_create_product_supplierinfo()
 
+        edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
+
         return edoc
 
     def set_fiscal_operation_type(self):
@@ -185,7 +187,6 @@ class NfeImport(models.TransientModel):
                 "imported": True,
             }
         )
-        document.linked_purchase_ids = [(4, purchase.id)]
 
         purchase_lines = []
         for line in document.fiscal_line_ids:
