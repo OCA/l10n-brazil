@@ -1,0 +1,72 @@
+interactions:
+  - request:
+      body:
+        - ""
+      headers:
+        Authorization:
+          - "Bearer 06aef429-a981-3ec5-a1f8-71d38d86481e"
+        Content-Type:
+          - "application/json"
+      method: GET
+      uri: https://gateway.apiserpro.serpro.gov.br/consulta-cnpj-df-trial/v2/empresa/34238864000168
+    response:
+      body:
+        string: '
+          { "ni":"34238864000168", "tipoEstabelecimento":"1", "nomeEmpresarial":"UHIEQKX
+          WHNHIWD NH FIXKHUUWPHMVX NH NWNXU (UHIFIX)", "nomeFantasia":"UHIFIX UHNH",
+          "situacaoCadastral":{ "codigo":"2", "data":"2019-06-19", "motivo":"" },
+          "naturezaJuridica":{ "codigo":"2011", "descricao":"Empresa Pública" },
+          "dataAbertura":"1967-06-30", "cnaePrincipal":{ "codigo":"6204000",
+          "descricao":"Consultoria em tecnologia da informação" }, "endereco":{
+          "tipoLogradouro":"SETOR", "logradouro":"NH BIWMNH WIHW MXIVH",
+          "numero":"Q.601", "complemento":"LOTE V", "cep":"70836900", "bairro":"ASA
+          NORTE", "municipio":{ "codigo":"9701", "descricao":"BRASILIA" }, "uf":"DF",
+          "pais":{ "codigo":"105", "descricao":"BRASIL" } }, "municipioJurisdicao":{
+          "codigo":"0110100", "descricao":"BRASÍLIA" }, "telefones":[ { "ddd":"61",
+          "numero":"22222222" }, { "ddd":"61", "numero":"22222222" } ],
+          "correioEletronico":"EMPRESA@XXXXXX.BR", "capitalSocial":0, "porte":"05",
+          "situacaoEspecial":"", "dataSituacaoEspecial":"", "informacoesAdicionais":{},
+          "socios":[ { "tipoSocio":"2", "cpf":"07119488449", "nome":"LUIZA ARAUJO DE
+          OLIVEIRA", "qualificacao":"49", "dataInclusao":"2014-01-01", "pais":{
+          "codigo":"105", "descricao":"BRASIL" }, "representanteLegal":{
+          "cpf":"00000000000", "nome":"", "qualificacao":"00" } }, { "tipoSocio":"2",
+          "cpf":"23982012600", "nome":"JOANA ALVES MUNDIM PENA", "qualificacao":"49",
+          "dataInclusao":"2014-01-01", "pais":{ "codigo":"105", "descricao":"BRASIL" },
+          "representanteLegal":{ "cpf":"00000000000", "nome":"", "qualificacao":"00" }
+          }, { "tipoSocio":"2", "cpf":"13946994415", "nome":"LUIZA BARBOSA BEZERRA",
+          "qualificacao":"49", "dataInclusao":"2014-01-01", "pais":{ "codigo":"105",
+          "descricao":"BRASIL" }, "representanteLegal":{ "cpf":"00000000000", "nome":"",
+          "qualificacao":"00" } }, { "tipoSocio":"2", "cpf":"00031298702",
+          "nome":"MARCELO ANTONIO BARROS DE CICCO", "qualificacao":"49",
+          "dataInclusao":"2014-01-01", "pais":{ "codigo":"105", "descricao":"BRASIL" },
+          "representanteLegal":{ "cpf":"00000000000", "nome":"", "qualificacao":"00" }
+          }, { "tipoSocio":"2", "cpf":"76822320300", "nome":"LUIZA ALDENORA",
+          "qualificacao":"49", "dataInclusao":"2014-01-01", "pais":{ "codigo":"105",
+          "descricao":"BRASIL" }, "representanteLegal":{ "cpf":"00000000000", "nome":"",
+          "qualificacao":"00" } } ] }'
+      headers:
+        access-control-allow-origin:
+          - "*"
+        activityid:
+          - "7c249f88-f8f8-4fb6-9e81-e0d8b3102e2a"
+        x-content-type-options:
+          - nosniff
+        Access-Control-Allow-Methods:
+          - GET
+        x-powered-by:
+          - Express
+        content-type:
+          - application/json; charset=utf-8
+        etag:
+          - W/"3a3-YEXGdCx92PmjvGvevnmM4uVPzsg"
+        Access-Control-Allow-Headers:
+          - authorization,Access-Control-Allow-Origin,Content-Type,SOAPAction,apikey,Internal-Key,x-cpf-usuario,signature,x-signature,x-credencial,X-Request-Trace-Id
+        strict-transport-security:
+          - max-age=15768000
+        Date:
+          - Tue, 27 Jun 2023 12:57:25 GMT
+        Transfer-Encoding:
+          - chunked
+      status:
+        code: 200
+        message: OK
