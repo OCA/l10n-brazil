@@ -201,6 +201,8 @@ class NfeImport(models.TransientModel):
         if not self.purchase_id and self.purchase_link_type == "create":
             self.purchase_id = self.create_purchase_order(edoc)
 
+        edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
+
         return edoc
 
     def set_fiscal_operation_type(self):
