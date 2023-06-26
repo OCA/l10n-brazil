@@ -25,13 +25,18 @@ class FiscalDocumentLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        """
+        It's not allowed to create a fiscal document line without a document_id anyway.
+        But instead of letting Odoo crash in this case we simply avoid creating the
+        record. This makes it possible to create an account.move.line without
+        a fiscal_document_line_id: Odoo will write NULL as the value in this case.
+        This is a requirement to allow account moves without fiscal documents despite
+        the _inherits system.
+        """
+        # TODO move this query to init/_auto_init; however it is not trivial
         self.env.cr.execute(
-            "alter table account_move_line alter column fiscal_document_Line_id drop not null;"
-        )  # FIXME move to _auto_init
-        records = []
-        for values in vals_list:
-            if values.get("document_id") and not isinstance(
-                values.get("document_id"), models.NewId
-            ):
-                records.append(super().create(values))  # TODO repair batch create
-        return records
+            "alter table account_move_line alter column fiscal_document_line_id drop not null;"
+        )
+        return super().create(
+            list(filter(lambda vals: vals.get("document_id"), vals_list))
+        )
