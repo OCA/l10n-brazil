@@ -106,24 +106,24 @@ class FiscalDocument(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        """
+        It's not allowed to create a fiscal document line without a document_type_id anyway.
+        But instead of letting Odoo crash in this case we simply avoid creating the
+        record. This makes it possible to create an account.move without
+        a fiscal_document_id despite the _inherits system:
+        Odoo will write NULL as the value in this case.
+        """
+        # TODO move this query to init/_auto_init; however it is not trivial
         self.env.cr.execute(
             "alter table account_move alter column fiscal_document_id drop not null;"
-        )  # FIXME move to _auto_init
-        # OVERRIDE
-        # force creation of fiscal_document_line only when creating an AML record
-        # In order not to affect the creation of the dummy document, a test was included
-        # that verifies that the ACTIVE field is not False. As the main characteristic
-        # of the dummy document is the ACTIVE field is False
-        records = []
+        )
+        filtered_vals_list = []
         for values in vals_list:
-            if not values.get("document_type_id") and not values.get(
-                "document_serie_id"
-            ):
-                # means we should skip the fiscal document creation
-                continue
-            if (
-                values.get("fiscal_line_ids") and values.get("active") is not False
-            ):  # TODO can we remove the active test?
-                values.update({"fiscal_line_ids": False})
-            records.append(super().create(values))  # TODO repair batch create
-        return records
+            if values.get("document_type_id") or values.get("document_serie_id"):
+                # we also disable the fiscal_line_ids creation here to
+                # let the ORM create them later from the account.move.line records
+                # TODO may be we might activa/deactivate this through a context key
+                # values.update({"fiscal_line_ids": False})
+                filtered_vals_list.append(values)
+
+        return super().create(filtered_vals_list)
