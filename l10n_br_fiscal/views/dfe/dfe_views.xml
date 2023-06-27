@@ -14,11 +14,7 @@
             <sheet>
                 <group>
                     <group col="4" colspan="4">
-                        <field
-                                name="company_id"
-                                required="1"
-                                domain="[('certificate_nfe_id', '!=', False)]"
-                            />
+                        <field name="company_id" required="1" />
                         <newline />
                         <field name="last_nsu" required="1" />
                         <newline />

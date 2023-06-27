@@ -146,16 +146,6 @@
                                 />
                             </group>
                         </page>
-                        <page name="certificate" string="Certificates">
-                            <group name="certificate" string="Certificate">
-                                <group>
-                                    <field name="certificate_ecnpj_id" />
-                                </group>
-                                <group>
-                                    <field name="certificate_nfe_id" />
-                                </group>
-                            </group>
-                        </page>
                         <page name="delivery_costs" string="Delivery Costs">
                             <group>
                                 <group>
