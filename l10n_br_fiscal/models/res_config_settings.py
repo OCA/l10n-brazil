@@ -26,13 +26,6 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
 
-    cert_expired_alert = fields.Integer(
-        string="Certificate Expired Alert",
-        config_parameter="l10n_br_fiscal_cert_expired_alert",
-        required=True,
-        default=30,
-    )
-
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
         related="company_id.document_type_id",
