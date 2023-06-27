@@ -579,15 +579,6 @@
         sequence="30"
     />
 
-    <!-- Fiscal Document Certificate -->
-    <menuitem
-        id="certificate_menu"
-        action="certificate_action"
-        groups="l10n_br_fiscal.group_manager"
-        parent="others_config_menu"
-        sequence="40"
-    />
-
     <!-- Comment -->
     <menuitem
         id="comment_menu"

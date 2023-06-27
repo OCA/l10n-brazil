@@ -245,18 +245,6 @@ class ResCompany(models.Model):
 
     ibpt_update_days = fields.Integer(string="IBPT Token Updates", default=15)
 
-    certificate_ecnpj_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.certificate",
-        string="E-CNPJ",
-        domain="[('type', '=', 'e-cnpj')]",
-    )
-
-    certificate_nfe_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.certificate",
-        string="NFe",
-        domain="[('type', '=', 'nf-e')]",
-    )
-
     accountant_id = fields.Many2one(comodel_name="res.partner", string="Accountant")
 
     accounting_office = fields.Many2one(
