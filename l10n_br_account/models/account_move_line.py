@@ -143,7 +143,7 @@ class AccountMoveLine(models.Model):
         for vals in vals_list:
             for field in self._shadowed_fields():
                 if field in vals:
-                    vals["fiscal_%s" % (field,)] = vals[field]
+                    vals[f"fiscal_{field}"] = vals[field]
 
     @api.model_create_multi
     def create(self, vals_list):

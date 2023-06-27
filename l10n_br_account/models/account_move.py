@@ -175,7 +175,7 @@ class AccountMove(models.Model):
             # In the invoice context, the 'partner_id' could represent a contact.
             # However, in the fiscal context, we want to ensure that 'partner_id' always
             # represents the commercial entity.
-            if vals.get(partner_field):
+            if partner_field in vals:
                 partner = self.env["res.partner"].browse(vals[partner_field])
                 vals[f"fiscal_{partner_field}"] = partner.commercial_partner_id.id
 
