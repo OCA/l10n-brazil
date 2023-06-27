@@ -7,13 +7,14 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    ie_search = fields.Boolean(
-        string="Use Sintegra IE search",
-        config_parameter="l10n_br_sintegraws.ie_search",
+    ie_search = fields.Selection(
+        [("sefaz", "SEFAZ"), ("sintegraws", "SINTEGRAWS")],
+        string="Select IE search provider",
+        config_parameter="l10n_br_ie_search.ie_search",
     )
 
     sintegra_token = fields.Char(
         string="SINTEGRA Token",
-        config_parameter="l10n_br_sintegraws.sintegra_token",
+        config_parameter="l10n_br_ie_search.sintegra_token",
         default=False,
     )

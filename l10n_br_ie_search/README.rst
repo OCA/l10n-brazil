@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 =================================
-L10n Br State Subscription Search
+L10n Br State IE Search
 =================================
 
 Integração com os Webservices do SINTEGRA

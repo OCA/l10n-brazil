@@ -1,1 +1,0 @@
-Esta busca de informações a partir do cnpj é realizada com base no provedor SINTEGRA com o token da conta do usuário no site da API configurado na aba de configurações, vale ressaltar que o provedor SINTEGRA é pago.

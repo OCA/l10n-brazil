@@ -2,7 +2,6 @@
 <!-- Copyright 2023 KMEE - Breno Oliveira Dias
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="l10n_br_sintegraws_res_config_settings_form" model="ir.ui.view">
         <field name="name">res.config.settings.form (in l10n_br_sintegraws)</field>
         <field name="model">res.config.settings</field>
@@ -13,23 +12,21 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='disable_ie_validation']" position="after">
                 <div class="col-12 col-lg-6 o_setting_box" name="ie_search">
-                    <div class="o_setting_left_pane">
-                        <field name="ie_search" />
-                    </div>
                     <div class="o_setting_right_pane">
                         <label
-                            string="Activate state subscription search"
+                            string="Choose the provider for state subscription search"
                             for="ie_search"
                         />
                         <div class="text-muted">
-                            Select to activate state subscription search when searching for cnpj
+                            Select to choose the provider for state subscription search when searching for cnpj
                         </div>
+                        <field name="ie_search" />
                     </div>
                 </div>
                 <div
                     class="col-12 col-lg-6 o_setting_box"
                     name="l10n_br_sintegraws_api"
-                    attrs="{'invisible': [('ie_search', '=', False)]}"
+                    attrs="{'invisible': [('ie_search', '!=', 'sintegraws')]}"
                 >
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">

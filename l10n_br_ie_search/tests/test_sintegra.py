@@ -4,21 +4,33 @@
 import logging
 import time  # You can't send multiple requests at the same time in trial version
 
-from odoo.tests import tagged
-
-from .common import TestCnpjCommon
+from odoo.tests import HttpCase, tagged
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestTestSintegra(TestCnpjCommon):
+class TestTestSintegra(HttpCase):
     def setUp(self):
         super(TestTestSintegra, self).setUp()
-
+        self.model = self.env["res.partner"]
         self.set_param_cnpj("cnpj_provider", "receitaws")
         self.set_param("sintegra_token", "C3144731-15F5-4F87-AC74-8887E4900A13")
-        self.set_param("ie_search", True)
+        self.set_param("ie_search", "sintegraws")
+
+    def set_param_cnpj(self, param_name, param_value):
+        (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .set_param("l10n_br_cnpj_search." + param_name, param_value)
+        )
+
+    def set_param(self, param_name, param_value):
+        (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .set_param("l10n_br_ie_search." + param_name, param_value)
+        )
 
     def test_sintegra(self):
         dummy = self.model.create({"name": "Dummy", "cnpj_cpf": "06990590000123"})

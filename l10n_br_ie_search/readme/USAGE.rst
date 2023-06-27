@@ -1,3 +1,4 @@
+#. Para usar o SINTEGRAws
 #. Acesse  Configurações
 #. Clique na caixa de seleção "Activate state subscription search"
 #. Insira o seu token da API no campo "SINTEGRA Token"
