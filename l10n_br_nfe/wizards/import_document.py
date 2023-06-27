@@ -57,16 +57,16 @@ class NfeImport(models.TransientModel):
             if self.partner_id:
                 self.imported_products_ids._set_product_supplierinfo_data()
 
-    @api.onchange("partner_cpf_cnpj")
+    @api.onchange("xml_partner_cpf_cnpj")
     def _onchange_partner_cpf_cnpj(self):
         domain = {}
-        if self.partner_cpf_cnpj:
-            supplyer_id = self.env["res.partner"].search(
-                [("cnpj_cpf", "=", self.partner_cpf_cnpj)]
+        if self.xml_partner_cpf_cnpj:
+            supplier_id = self.env["res.partner"].search(
+                [("cnpj_cpf", "=", self.xml_partner_cpf_cnpj)]
             )
             purchase_order_ids = self.env["purchase.order"].search(
                 [
-                    ("partner_id", "=", supplyer_id.id),
+                    ("partner_id", "=", supplier_id.id),
                     ("state", "not in", ["done", "cancel"]),
                 ]
             )
@@ -190,7 +190,8 @@ class NfeImport(models.TransientModel):
         if not self.purchase_id and self.purchase_link_type == "create":
             self.purchase_id = self.create_purchase_order(edoc)
 
-        edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
+        if self.purchase_id:
+            edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
 
         return edoc
 
