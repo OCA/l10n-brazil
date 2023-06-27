@@ -937,9 +937,7 @@ class NFe(spec_models.StackedModel):
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(
-                tracking_disable=True,
-                edoc_type=edoc_type,
-                lang="pt_BR",
+                tracking_disable=True, edoc_type=edoc_type, lang="pt_BR", dry_run=False
             )
             .build_from_binding(xml.infNFe)
         )
