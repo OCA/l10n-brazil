@@ -66,11 +66,6 @@ class AccountMove(models.Model):
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
     _order = "date DESC, name DESC"
 
-    # defined here to avoid reading the fiscal document active field
-    active = fields.Boolean(
-        default=True,
-    )
-
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
         string="Electronic?",
