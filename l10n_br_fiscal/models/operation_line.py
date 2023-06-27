@@ -109,6 +109,15 @@ class OperationLine(models.Model):
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)
 
+    # Algumas empresas de contabilidade ou consultorias de comércio exterior
+    # preferem adicionar o valor do PIS e COFINS no campo 'Outros Valores'.
+    # Para evitar duplicidade, não somamos os valores nesses casos.
+    exclude_pis_cofins_amount = fields.Boolean(
+        string="Exclude PIS/COFINS from Document Amount?",
+        help="Indicates if the taxes PIS and COFINS do not need to be incorporated "
+        "into the total value of the fiscal document during an import transaction.",
+    )
+
     icms_origin = fields.Selection(selection=ICMS_ORIGIN, string="Origin")
 
     tax_definition_ids = fields.One2many(

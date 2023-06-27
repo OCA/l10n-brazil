@@ -56,6 +56,7 @@
                             <group name="gereral_settings">
                                 <field name="document_type_id" />
                                 <field name="add_to_amount" />
+                                <field name="exclude_pis_cofins_amount" />
                             </group>
                             <group
                                 name="general_cfop"
