@@ -1,6 +1,6 @@
 # generated from manifests external_dependencies
 email-validator
-erpbrasil.assinatura
+erpbrasil.assinatura>=1.7.0
 erpbrasil.base>=2.3.0
 erpbrasil.edoc
 erpbrasil.edoc.pdf

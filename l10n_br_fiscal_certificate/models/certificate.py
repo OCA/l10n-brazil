@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.misc import format_date
 
-from ..constants.fiscal import (
+from ..constants import (
     CERTIFICATE_SUBTYPE,
     CERTIFICATE_SUBTYPE_DEFAULT,
     CERTIFICATE_TYPE,
