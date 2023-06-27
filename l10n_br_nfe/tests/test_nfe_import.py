@@ -79,6 +79,7 @@ class NFeImportTest(SavepointCase):
         self.assertEqual(nfe.partner_id.legal_name, "Alimentos Ltda.")
 
         # enderDest
+        nfe.partner_id._inverse_nfe40_CEP()
         self.assertEqual(nfe.partner_id.street_name, "Rua Fonseca")  # related xLgr
         self.assertEqual(nfe.partner_id.zip, "13877-123")
         self.assertEqual(nfe.partner_id.nfe40_CEP, "13877123")
