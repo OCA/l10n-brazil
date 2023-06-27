@@ -12,8 +12,8 @@ odoo.define("l10n_br_pos_cfe.ReceiptScreen", function (require) {
     const ReceiptScreen = require("point_of_sale.ReceiptScreen");
     const Registries = require("point_of_sale.Registries");
 
-    const L10nBrPosCfeReceiptScreen = (ReceiptScreen) =>
-        class extends ReceiptScreen {
+    const L10nBrPosCfeReceiptScreen = (ReceiptScreen_screen = ReceiptScreen) =>
+        class extends ReceiptScreen_screen {
             // @override
             async handleAutoPrint() {
                 if (this._shouldAutoPrint()) {

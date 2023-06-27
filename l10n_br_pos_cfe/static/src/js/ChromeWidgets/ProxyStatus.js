@@ -9,8 +9,8 @@ odoo.define("l10n_br_pos_cfe.ProxyStatus", function (require) {
     var Registries = require("point_of_sale.Registries");
     var ProxyStatus = require("point_of_sale.ProxyStatus");
 
-    const CFeProxyStatus = (ProxyStatus) =>
-        class CFeProxyStatus extends ProxyStatus {
+    const CFeProxyStatus = (ProxyStatus_status = ProxyStatus) =>
+        class CFeProxyStatus extends ProxyStatus_status {
             _setStatus(newStatus) {
                 super._setStatus(newStatus);
                 var warning = false;

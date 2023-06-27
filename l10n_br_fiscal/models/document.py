@@ -50,7 +50,7 @@ class Document(models.Model):
     _inherit = [
         "l10n_br_fiscal.document.mixin",
         "l10n_br_fiscal.document.electronic",
-        "l10n_br_fiscal.document.invoice.mixin",
+        "l10n_br_fiscal.document.move.mixin",
     ]
     _description = "Fiscal Document"
     _check_company_auto = True
