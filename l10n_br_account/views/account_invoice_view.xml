@@ -74,7 +74,6 @@
                     <field name="create_date" invisible="1" />
                     <field name="operation_name" invisible="1" />
                     <field name="comment_ids" invisible="1" />
-                    <field name="has_fiscal_dummy" invisible="1" />
                 </group>
             </xpath>
             <field name="ref" position="after">
@@ -91,7 +90,7 @@
                             ('create_date', '=', True),
                             ('document_type_id', '=', False),
                             ('currency_id', '!=',  %(base.BRL)d),
-                            ('has_fiscal_dummy', '=', True),
+                            ('fiscal_document_id', '=', False),
                         ],
                     'readonly': [('state', '!=', 'draft')]
                 }"
