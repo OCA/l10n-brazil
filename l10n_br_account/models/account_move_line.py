@@ -31,11 +31,6 @@ class AccountMoveLine(models.Model):
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin.methods"]
     _inherits = {"l10n_br_fiscal.document.line": "fiscal_document_line_id"}
 
-    # defined here to avoid reading the fiscal document line active field
-    active = fields.Boolean(
-        default=True,
-    )
-
     fiscal_document_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.line",
         string="Fiscal Document Line",
