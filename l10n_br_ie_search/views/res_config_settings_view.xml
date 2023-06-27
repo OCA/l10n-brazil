@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE - Breno Oliveira Dias
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="l10n_br_sintegraws_res_config_settings_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form (in l10n_br_sintegraws)</field>
+        <field name="model">res.config.settings</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_base.l10n_br_base_res_config_settings_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='disable_ie_validation']" position="after">
+                <div class="col-12 col-lg-6 o_setting_box" name="ie_search">
+                    <div class="o_setting_right_pane">
+                        <label
+                            string="Choose the provider for state subscription search"
+                            for="ie_search"
+                        />
+                        <div class="text-muted">
+                            Select to choose the provider for state subscription search when searching for cnpj
+                        </div>
+                        <field name="ie_search" />
+                    </div>
+                </div>
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    name="l10n_br_sintegraws_api"
+                    attrs="{'invisible': [('ie_search', '!=', 'sintegraws')]}"
+                >
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <span
+                            class="o_form_label"
+                        >Brazilian State Subscription service API</span>
+                        <div class="text-muted">
+                            Brazilian State Subscription service API to search partner state subscription using cnpj code.
+                        </div>
+                        <div class="content-group mt16">
+                            <label for="sintegra_token" class="o_light_label" />
+                            <field name="sintegra_token" />
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
