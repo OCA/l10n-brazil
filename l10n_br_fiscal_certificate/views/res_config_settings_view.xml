@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="l10n_br_fiscal_res_config_settings_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="40" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='settings_delivery_costs']" position="after">
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div
+                        class="o_setting_right_pane"
+                        id="max_qty_exceeded_perc_settings"
+                    >
+                                <label for="cert_expired_alert" />
+                                <div class="text-muted">
+                                    Alert certificate expiration.
+                                </div>
+                                <div>
+                                    <div class="content-group mt16">
+                                        <field name="cert_expired_alert" /> Days Before
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
