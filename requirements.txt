@@ -6,6 +6,7 @@ erpbrasil.edoc
 erpbrasil.edoc.pdf
 erpbrasil.transmissao
 nfelib
+nfselib.paulistana
 num2words
 phonenumbers
 pycep_correios

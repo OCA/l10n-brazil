@@ -59,18 +59,18 @@ odoo.define("l10n_br_pos_cfe.FiscalDocumentCFe", function (require) {
             let sendFiscalResultParsed = null;
 
             while (this.fiscal_queue.length > 0) {
-                var order = this.fiscal_queue.shift();
+                const order_to_send = this.fiscal_queue.shift();
                 if (
-                    order.document_session_number &&
+                    order_to_send.document_session_number &&
                     this.pos.last_document_session_number ===
-                        order.document_session_number
+                        order_to_send.document_session_number
                 ) {
                     //  TODO: Melhorar esse método, consultando os dados da sessão em questão.
                     return this.fiscalDocumentResultGenerator.IoTActionError(
                         _t("Documento já transmitido.")
                     );
                 }
-                var order_json = order.export_for_printing();
+                var order_json = order_to_send.export_for_printing();
 
                 try {
                     sendFiscalResult = await this.send_order_job(order_json);

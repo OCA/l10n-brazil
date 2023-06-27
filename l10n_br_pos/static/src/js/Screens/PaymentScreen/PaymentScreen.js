@@ -16,8 +16,8 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
     const {Gui} = require("point_of_sale.Gui");
     const _t = core._t;
 
-    const L10nBrPosPaymentScreen = (PaymentScreen) =>
-        class extends PaymentScreen {
+    const L10nBrPosPaymentScreen = (PaymentScreen_screen = PaymentScreen) =>
+        class extends PaymentScreen_screen {
             check_valid_cpf_cnpj(order) {
                 let result = true;
                 const client = order.get_client();
