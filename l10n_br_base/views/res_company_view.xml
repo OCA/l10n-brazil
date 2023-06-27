@@ -37,7 +37,7 @@
                 <field
                     name="suframa"
                     placeholder="Suframa"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': [('state_id', '!=', %(base.state_br_am)d)]}"
                 />
                 <field
                     name="state_tax_number_ids"
