@@ -62,7 +62,6 @@
         "views/document_type_view.xml",
         "views/document_serie_view.xml",
         "views/document_email_view.xml",
-        "views/certificate_view.xml",
         "views/simplified_tax_view.xml",
         "views/simplified_tax_range_view.xml",
         "views/operation_view.xml",
@@ -107,9 +106,4 @@
     "installable": True,
     "application": True,
     "auto_install": False,
-    "external_dependencies": {
-        "python": [
-            "erpbrasil.assinatura",
-        ]
-    },
 }
