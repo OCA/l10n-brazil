@@ -45,7 +45,6 @@ from . import icms_relief
 from . import document_type
 from . import document_serie
 from . import product_genre
-from . import certificate
 from . import product_mixin
 from . import product_template
 from . import product_product
