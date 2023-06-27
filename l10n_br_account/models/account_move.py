@@ -66,10 +66,7 @@ class AccountMove(models.Model):
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
     _order = "date DESC, name DESC"
 
-    # some account.move records _inherits from an fiscal.document that is
-    # disabled with active=False (dummy record) in the l10n_br_fiscal_document table.
-    # To make the invoices still visible, we set active=True
-    # in the account_move table.
+    # defined here to avoid reading the fiscal document active field
     active = fields.Boolean(
         default=True,
     )
@@ -92,20 +89,14 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
-    has_fiscal_dummy = fields.Boolean(
-        compute="_compute_has_fiscal_dummy",
-    )
-
-    def _compute_has_fiscal_dummy(self):
-        for rec in self:
-            rec.has_fiscal_dummy = not rec.fiscal_document_id
-
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
         for rec in self:
             if rec.document_type_id and not rec.fiscal_document_id:
                 raise UserError(
-                    _("You can't set a document type to a fiscal dummy document.")
+                    _(
+                        "You cannot set a document type when the move has no Fiscal Document!"
+                    )
                 )
 
     def _compute_fiscal_operation_type(self):
