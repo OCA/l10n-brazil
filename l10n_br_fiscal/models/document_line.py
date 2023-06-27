@@ -15,12 +15,6 @@ class DocumentLine(models.Model):
         ondelete="cascade",
     )
 
-    # used mostly to enable _inherits of account.invoice on fiscal_document
-    # when existing invoices have no fiscal document.
-    active = fields.Boolean(
-        default=True,
-    )
-
     name = fields.Text()
 
     company_id = fields.Many2one(
