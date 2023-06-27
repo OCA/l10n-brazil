@@ -225,8 +225,10 @@ class ResPartner(spec_models.SpecModel):
         if model is not None and model != self:
             return
 
-        if parent_dict.get("nfe40_CNPJ"):
+        if parent_dict.get("nfe40_CNPJ", False):
             rec_dict["cnpj_cpf"] = parent_dict["nfe40_CNPJ"]
+
+        if rec_dict.get("cnpj_cpf", False):
             domain_cnpj = [
                 "|",
                 ("cnpj_cpf", "=", rec_dict["cnpj_cpf"]),
@@ -239,7 +241,10 @@ class ResPartner(spec_models.SpecModel):
         vals = self._prepare_import_dict(
             rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
         )
-        if self._context.get("dry_run"):
+        if "name" not in vals:
+            return
+
+        if self._context.get("dry_run", False):
             rec_id = self.new(vals).id
         else:
             rec_id = self.with_context(parent_dict=parent_dict).create(vals).id
