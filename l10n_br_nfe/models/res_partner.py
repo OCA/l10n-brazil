@@ -273,5 +273,8 @@ class ResPartner(spec_models.SpecModel):
         match = self.search(domain_cnpj, limit=1)
         if match:
             return match.id
-
-        return self.with_context(parent_dict=parent_dict).create(rec_dict).id
+        if self._context.get("dry_run"):
+            rec_id = self.new(rec_dict).id
+        else:
+            rec_id = self.with_context(parent_dict=parent_dict).create(rec_dict).id
+        return rec_id
