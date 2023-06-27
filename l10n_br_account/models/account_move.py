@@ -438,32 +438,6 @@ class AccountMove(models.Model):
                 )
         return result
 
-    # @api.model
-    # def invoice_line_move_line_get(self):
-    #     # TODO FIXME migrate. No such method in Odoo 13+
-    #     move_lines_dict = super().invoice_line_move_line_get()
-    #     new_mv_lines_dict = []
-    #     for line in move_lines_dict:
-    #         invoice_line = self.line_ids.filtered(lambda l: l.id == line.get("invl_id"))
-    #
-    #         if invoice_line.fiscal_operation_id:
-    #             if invoice_line.fiscal_operation_id.deductible_taxes:
-    #                 line["price"] = invoice_line.price_total
-    #             else:
-    #                 line["price"] = invoice_line.price_total - (
-    #                     invoice_line.amount_tax_withholding
-    #                     + invoice_line.amount_tax_included
-    #                 )
-    #
-    #         if invoice_line.cfop_id:
-    #             if invoice_line.cfop_id.finance_move:
-    #                 new_mv_lines_dict.append(line)
-    #         else:
-    #             new_mv_lines_dict.append(line)
-    #
-    #     return new_mv_lines_dict
-    #
-
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         result = super()._onchange_fiscal_operation_id()
@@ -488,19 +462,6 @@ class AccountMove(models.Model):
             action["views"] = form_view
         action["res_id"] = self.id
         return action
-
-    def action_date_assign(self):
-        """Usamos esse método para definir a data de emissão do documento
-        fiscal e numeração do documento fiscal para ser usado nas linhas
-        dos lançamentos contábeis."""
-        # TODO FIXME migrate. No such method in Odoo 13+
-        result = super().action_date_assign()
-        for invoice in self:
-            if invoice.document_type_id:
-                if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
-                    invoice.fiscal_document_id._document_date()
-                    invoice.fiscal_document_id._document_number()
-        return result
 
     def button_draft(self):
         for i in self.filtered(lambda d: d.document_type_id):
