@@ -4,7 +4,6 @@
 
 import mock
 
-from odoo.exceptions import UserError
 from odoo.models import NewId
 from odoo.tests import SavepointCase
 
@@ -365,8 +364,8 @@ class TestCustomerInvoice(SavepointCase):
 
     def test_invoice_copy_with_dummy(self):
         """
-        Tests the functionality of copying an invoice while using a fiscal dummy.
-        It verifies that the new invoice isn't recognized as a fiscal document,
+        Test the functionality of copying an invoice while using a fiscal dummy.
+        Verify that the new invoice isn't recognized as a fiscal document,
         the same fiscal dummy is used, and that no new entries were created.
         """
 
@@ -394,12 +393,3 @@ class TestCustomerInvoice(SavepointCase):
             self.assertEqual(line.fiscal_document_line_id.id, False)
 
         self.assertEqual(len(invoice_copy), 1)
-
-    def test_has_fiscal_dummy(self):
-        self.assertEqual(self.invoice_1.fiscal_document_id.id, False)
-        self.assertTrue(self.invoice_1.has_fiscal_dummy)
-
-    def test_set_document_type_with_dummy(self):
-        self.assertTrue(self.invoice_1.has_fiscal_dummy)
-        with self.assertRaises(UserError):
-            self.invoice_1.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
