@@ -141,7 +141,7 @@ class AccountMove(models.Model):
     def _inject_shadowed_fields(self, vals_list):
         for vals in vals_list:
             for field in self._shadowed_fields():
-                if vals.get(field):
+                if field in vals:
                     vals["fiscal_%s" % (field,)] = vals[field]
 
     @api.model
