@@ -215,12 +215,10 @@ class NfeImport(models.TransientModel):
             self.fiscal_operation_type = "in"
 
     def create_purchase_order(self, document):
-        self.set_fields_by_xml_data()
-
         purchase = self.env["purchase.order"].create(
             {
-                "partner_id": self.partner_id.id,
-                "currency_id": self.env.user.company_id.currency_id.id,
+                "partner_id": document.partner_id.id,
+                "currency_id": self.company_id.currency_id.id,
                 "fiscal_operation_id": self.get_purchase_fiscal_operation_id(),
                 "date_order": datetime.now(),
                 "origin_document_id": document.id,
