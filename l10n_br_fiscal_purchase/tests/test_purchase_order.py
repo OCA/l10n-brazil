@@ -66,20 +66,20 @@ class TestPurchaseOorder(TransactionCase):
         purchase_order_2 = self.create_and_invoice_purchase_order()
 
         prepare_vals = purchase_order_1._prepare_invoice()
-        self.assertEquals(
+        self.assertEqual(
             prepare_vals["fiscal_document_id"], self.nfe_fiscal_document.id
         )
-        self.assertEquals(
+        self.assertEqual(
             prepare_vals["document_type_id"],
             self.nfe_fiscal_document.document_type_id.id,
         )
 
         self.nfe_fiscal_document.linked_purchase_ids = [(4, purchase_order_1.id)]
         action = self.nfe_fiscal_document.action_open_purchase()
-        self.assertEquals(action["res_id"], purchase_order_1.id)
+        self.assertEqual(action["res_id"], purchase_order_1.id)
 
         self.nfe_fiscal_document.linked_purchase_ids = [(4, purchase_order_2.id)]
         action = self.nfe_fiscal_document.action_open_purchase()
         self.assertIn("domain", action)
 
-        self.assertEquals(self.nfe_fiscal_document.linked_purchase_count, 2)
+        self.assertEqual(self.nfe_fiscal_document.linked_purchase_count, 2)
