@@ -936,9 +936,7 @@ class NFe(spec_models.StackedModel):
     def import_nfe_xml(self, xml, edoc_type="out"):
         document = (
             self.env["nfe.40.infnfe"]
-            .with_context(
-                tracking_disable=True, edoc_type=edoc_type, lang="pt_BR", dry_run=False
-            )
+            .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
             .build_from_binding(xml.infNFe)
         )
         document.imported_document = True
