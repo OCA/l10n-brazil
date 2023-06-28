@@ -1,101 +1,90 @@
 import base64
-import logging
 import os
 
 from odoo.tests import SavepointCase
 
-_logger = logging.getLogger(__name__)
+from odoo.addons import l10n_br_nfe
 
 
 class NFeImportWizardTest(SavepointCase):
     def setUp(self):
         super(NFeImportWizardTest, self).setUp()
+
+        def test_xml_path(path):
+            return os.path.join(
+                l10n_br_nfe.__path__[0],
+                "tests",
+                "nfe",
+                "v4_00",
+                "leiauteNFe",
+                path,
+            )
+
+        path_1 = test_xml_path("NFe35200159594315000157550010000000012062777161.xml")
+        with open(path_1, "rb") as f:
+            self.xml_1 = f.read()
+
+        path_2 = test_xml_path("NFe35200181583054000129550010000000052062777166.xml")
+        with open(path_2, "rb") as f:
+            self.xml_2 = f.read()
+
         self.wizard = self.env["l10n_br_nfe.import_xml"].create(
             {
                 "company_id": self.env.ref("base.main_company").id,
                 "importing_type": "xml_file",
             }
         )
-        path = os.path.dirname(os.path.abspath(__file__))
-        path_1 = path + (
-            "/nfe/v4_00/leiauteNFe/NFe35200159594315000157550010000000012062777161.xml"
-        )
-        with open(path_1, "rb") as f:
-            self.xml_1 = f.read()
-        path_2 = path + (
-            "/nfe/v4_00/leiauteNFe/NFe35200181583054000129550010000000052062777166.xml"
-        )
-        with open(path_2, "rb") as f:
-            self.xml_2 = f.read()
+
+    def _prepare_wizard(self, xml):
+        self.wizard.xml = base64.b64encode(xml)
+        self.wizard._onchange_xml()
 
     def test_onchange_nfe_xml(self):
-        xml = self.xml_1
-        wizard = self.wizard
-        wizard.xml = base64.b64encode(xml)
-        wizard._onchange_xml()
-        # Check wizard header info
+        self._prepare_wizard(self.xml_1)
+        self.wizard.import_xml()
+
+        first_imported_product = self.wizard.imported_products_ids[0]
+
         self.assertEqual(
-            wizard.document_key, "35200159594315000157550010000000012062777161"
+            self.wizard.document_key, "35200159594315000157550010000000012062777161"
         )
-        self.assertEqual(wizard.document_number, "1")
-        self.assertEqual(wizard.document_serie, "1")
-        self.assertEqual(wizard.xml_partner_cpf_cnpj, "59.594.315/0001-57")
-        self.assertEqual(wizard.xml_partner_name, "TESTE - Simples Nacional")
+        self.assertEqual(self.wizard.document_number, "1")
+        self.assertEqual(self.wizard.document_serie, "1")
+        self.assertEqual(self.wizard.xml_partner_cpf_cnpj, "59.594.315/0001-57")
+        self.assertEqual(self.wizard.xml_partner_name, "TESTE - Simples Nacional")
         self.assertEqual(
-            wizard.partner_id, self.env.ref("l10n_br_base.simples_nacional_partner")
+            self.wizard.partner_id,
+            self.env.ref("l10n_br_base.simples_nacional_partner"),
         )
-        # Check wizard product info
         self.assertEqual(
-            f"[{wizard.imported_products_ids[0].product_code}] "
-            f"{wizard.imported_products_ids[0].product_name}",
+            f"[{first_imported_product.product_code}] "
+            f"{first_imported_product.product_name}",
             "[E-COM11] Cabinet with Doors",
         )
-        self.assertEqual(wizard.imported_products_ids[0].uom_com, "UNID")
-        self.assertEqual(wizard.imported_products_ids[0].quantity_com, 1)
-        self.assertEqual(wizard.imported_products_ids[0].price_unit_com, 14)
-        self.assertEqual(wizard.imported_products_ids[0].uom_trib, "UNID")
-        self.assertEqual(wizard.imported_products_ids[0].quantity_trib, 1)
-        self.assertEqual(wizard.imported_products_ids[0].price_unit_trib, 14)
-        self.assertEqual(wizard.imported_products_ids[0].total, 14)
-
-    def test_match_country_state_city(self):
-        xml = self.xml_2
-        wizard = self.wizard
-        wizard.xml = base64.b64encode(xml)
-        wizard._onchange_xml()
-        action = wizard.import_xml()
-        edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
-        delivery_adress = edoc.partner_id
-        self.assertTrue(delivery_adress.country_id)
-        self.assertTrue(delivery_adress.state_id)
-        self.assertTrue(delivery_adress.city_id)
+        self.assertEqual(first_imported_product.uom_com, "UNID")
+        self.assertEqual(first_imported_product.quantity_com, 1)
+        self.assertEqual(first_imported_product.price_unit_com, 14)
+        self.assertEqual(first_imported_product.uom_trib, "UNID")
+        self.assertEqual(first_imported_product.quantity_trib, 1)
+        self.assertEqual(first_imported_product.price_unit_trib, 14)
+        self.assertEqual(first_imported_product.total, 14)
 
     def test_import_xml(self):
-        xml = self.xml_2
-        wizard = self.wizard
-        wizard.importing_type = "xml_file"
-        wizard.xml = base64.b64encode(xml)
-        wizard._onchange_xml()
-        wizard.imported_products_ids.product_id = self.env.ref(
+        self._prepare_wizard(self.xml_2)
+        self.wizard.imported_products_ids.product_id = self.env.ref(
             "product.product_product_5"
         )
-        action = wizard.import_xml()
-        edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
-        self.assertEqual(
-            wizard.imported_products_ids.product_id, edoc.fiscal_line_ids.product_id
-        )
+        self.wizard.import_xml()
 
-    def test_import_xml_internal_ncm(self):
-        xml = self.xml_2
-        wizard = self.wizard
-        wizard.importing_type = "xml_file"
-        wizard.xml = base64.b64encode(xml)
-        wizard._onchange_xml()
-        wizard.imported_products_ids.product_id = self.env.ref(
-            "product.product_product_5"
-        )
-        action = wizard.import_xml()
-        edoc = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
+        edoc = self.wizard.document_id
         self.assertEqual(
-            wizard.imported_products_ids.product_id.ncm_id, edoc.fiscal_line_ids.ncm_id
+            self.wizard.imported_products_ids.product_id,
+            edoc.fiscal_line_ids.product_id,
         )
+        self.assertEqual(
+            self.wizard.imported_products_ids.product_id.ncm_id,
+            edoc.fiscal_line_ids.ncm_id,
+        )
+        self.assertTrue(edoc.partner_id.country_id)
+        self.assertTrue(edoc.partner_id.state_id)
+        self.assertTrue(edoc.partner_id.city_id)
