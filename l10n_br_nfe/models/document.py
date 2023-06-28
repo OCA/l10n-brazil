@@ -552,15 +552,9 @@ class NFe(spec_models.StackedModel):
     ##########################
 
     nfe40_infRespTec = fields.Many2one(
-        comodel_name="res.partner", compute="_compute_resp_tec_data"
+        comodel_name="res.partner",
+        related="company_id.technical_support_id",
     )
-
-    def _compute_resp_tec_data(self):
-        for record in self:
-            if record.company_id.technical_support_id:
-                record.nfe40_infRespTec = record.company_id.technical_support_id
-            else:
-                record.nfe40_infRespTec = False
 
     ##########################
 

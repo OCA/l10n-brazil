@@ -35,9 +35,6 @@ class NFeImportWizardTest(SavepointCase):
         self.partner_1 = self.env["res.partner"].create({"name": "Partner Test 1"})
 
     def _prepare_wizard(self, xml):
-        if self.wizard:
-            self.wizard.unlink()
-
         self.wizard = self.env["l10n_br_nfe.import_xml"].create(
             {
                 "company_id": self.env.ref("base.main_company").id,
