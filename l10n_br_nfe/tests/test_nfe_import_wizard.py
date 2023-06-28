@@ -93,8 +93,11 @@ class NFeImportWizardTest(SavepointCase):
 
     def test_create_edoc_from_xml(self):
         self._prepare_wizard(self.xml_1)
+        self.wizard.purchase_link_type = "create"
 
-        self.check_edoc(self.wizard.create_edoc_from_xml())
+        edoc = self.wizard.create_edoc_from_xml()
+        self.check_edoc(edoc)
+        self.assertIn(self.wizard.purchase_id, edoc.linked_purchase_ids)
 
     def test_set_fiscal_operation_type(self):
         self._prepare_wizard(self.xml_1)
@@ -145,8 +148,19 @@ class NFeImportWizardTest(SavepointCase):
         self.assertEqual(wiz_supplier_id, self.supplier_info)
         self.assertEqual(first_product.product_id, self.supplier_info.product_id)
 
-        first_product._find_or_create_product_supplierinfo()
-        self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
-        self.assertEqual(wiz_supplier_id.partner_uom, first_product.uom_internal)
-        self.assertEqual(wiz_supplier_id.product_code, first_product.product_code)
-        self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)
+        first_product._create_or_update_product_supplierinfo(self.partner_1)
+        self.assertEqual(self.supplier_info.product_id, first_product.product_id)
+        self.assertEqual(self.supplier_info.partner_uom, first_product.uom_internal)
+        self.assertEqual(self.supplier_info.product_code, first_product.product_code)
+
+    def test_import_xml_purchase(self):
+        self._prepare_wizard(self.xml_1)
+        self.wizard.purchase_link_type = "create"
+        self.wizard.import_xml()
+
+        purchase_id = self.wizard.purchase_id
+        self.assertTrue(purchase_id)
+        self.assertEqual(
+            len(purchase_id.order_line), len(self.wizard.imported_products_ids)
+        )
+        self.assertEqual(purchase_id.partner_id, self.wizard.partner_id)
