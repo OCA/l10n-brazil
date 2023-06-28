@@ -443,19 +443,8 @@ class AccountMoveLine(models.Model):
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
-        """Ao alterar o campo fiscal_tax_ids que contém os impostos fiscais,
-        são atualizados os impostos contábeis relacionados"""
         result = super()._onchange_fiscal_tax_ids()
-
-        # Atualiza os impostos contábeis relacionados aos impostos fiscais
-        user_type = "sale"
-        if self.move_id.move_type in ("in_invoice", "in_refund"):
-            user_type = "purchase"
-
-        self.tax_ids = self.fiscal_tax_ids.account_taxes(
-            user_type=user_type, fiscal_operation=self.fiscal_operation_id
-        )
-
+        self._update_account_taxes_based_on_fiscal_taxes()
         return result
 
     @api.onchange(
@@ -477,6 +466,25 @@ class AccountMoveLine(models.Model):
         user must be able to set a custom value.
         """
         return super()._onchange_mark_recompute_taxes()
+
+    def _update_account_taxes_based_on_fiscal_taxes(self):
+        """
+        Updates the account taxes based on the fiscal taxes.
+        """
+        user_type_map = {
+            "in_invoice": "purchase",
+            "in_refund": "purchase",
+        }
+        user_type = user_type_map.get(self.move_id.move_type, "sale")
+
+        if self.fiscal_operation_line_id.disable_tax_entries:
+            # If the operation line is configured to not generate tax entries,
+            self.tax_ids = False
+        else:
+            # Otherwise, we update the account taxes based on the fiscal taxes.
+            self.tax_ids = self.fiscal_tax_ids.account_taxes(
+                user_type=user_type, fiscal_operation=self.fiscal_operation_id
+            )
 
     @api.model
     def _get_fields_onchange_subtotal_model(

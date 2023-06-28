@@ -13,3 +13,9 @@ class OperationLine(models.Model):
         string="Fiscal Position",
         company_dependent=True,
     )
+
+    disable_tax_entries = fields.Boolean(
+        string="Disable Tax Entries",
+        help="If checked, no accounting entries for taxes will be generated for "
+        "this operation line.",
+    )
