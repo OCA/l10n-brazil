@@ -38,6 +38,8 @@ class L10nBrZip(models.Model):
 
     street_name = fields.Char(string="Logradouro")
 
+    street_number = fields.Char()
+
     district = fields.Char()
 
     country_id = fields.Many2one(comodel_name="res.country", string="Country")
@@ -112,6 +114,7 @@ class L10nBrZip(models.Model):
             "city_id": self.city_id.id,
             "city": self.city_id.name,
             "district": self.district,
+            "street_number": self.street_number,
             "street_name": ((self.street_type or "") + " " + (self.street_name or ""))
             if self.street_type
             else (self.street_name or ""),
@@ -152,10 +155,19 @@ class L10nBrZip(models.Model):
                 [("name", "ilike", cep.get("city")), ("state_id.id", "=", state.id)],
                 limit=1,
             )
+            # Verifica os casos de vir Logradoro + Número
+            # ex.: Avenida Paulista, 509
+            # nesses casos os campos serão separados.
+            street_number = False
+            street_split = cep.get("street").split(", ")
+            street = street_split[0]
+            if len(street_split) > 1:
+                street_number = street_split[1]
 
             values = {
                 "zip_code": zip_str,
-                "street_name": cep.get("street"),
+                "street_number": street_number,
+                "street_name": street,
                 "zip_complement": cep.get("complement"),
                 "district": cep.get("district"),
                 "city_id": city.id or False,
