@@ -164,8 +164,8 @@ class L10nBRZipTest(SavepointCase):
             "It should return the correct street_name, failed method zip_select.",
         )
 
-    def test_pycep_correios(self):
-        """Test with PyCEP CORREIOS in partner."""
+    def test_brazilcep_library(self):
+        """Test with brazilcep library in partner."""
 
         self.res_partner.zip = "00000000"
         try:
@@ -174,8 +174,8 @@ class L10nBRZipTest(SavepointCase):
             result = False
         self.assertFalse(result, "Error to search by invalid ZIP on PyCEP-Correios.")
 
-    def test_return_pycep_correios(self):
-        """Test search with PyCEP CORREIOS in res_partner."""
+    def test_return_brazilcep_library(self):
+        """Test search with brazilcep library in res_partner."""
         mocked_response = {
             "zip_code": "01310930",
             "street_name": "Avenida Paulista, 2100",

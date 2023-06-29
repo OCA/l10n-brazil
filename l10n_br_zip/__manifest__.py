@@ -20,5 +20,5 @@
     ],
     "installable": True,
     "development_status": "Mature",
-    "external_dependencies": {"python": ["pycep_correios"]},
+    "external_dependencies": {"python": ["brazilcep"]},
 }
