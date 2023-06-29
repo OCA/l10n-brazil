@@ -86,14 +86,6 @@ def post_init_hook(cr, registry):
                 kind="demo",
             )
 
-        env = api.Environment(cr, SUPERUSER_ID, {})
-
-        companies = [
-            env.ref("base.main_company", raise_if_not_found=False),
-            env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False),
-            env.ref("l10n_br_base.empresa_simples_nacional", raise_if_not_found=False),
-        ]
-
     if not is_demo:
         prodfiles = []
         # Load full CSV files with few lines unless a flag
@@ -165,12 +157,3 @@ def post_init_hook(cr, registry):
                 noupdate=True,
                 kind="init",
             )
-
-    # Create a fiscal dummy for the company if you don't have one.
-    companies = env["res.company"].search([("fiscal_dummy_id", "=", False)])
-    for c in companies:
-        c.write(
-            {
-                "fiscal_dummy_id": c._default_fiscal_dummy_id().id,
-            }
-        )
