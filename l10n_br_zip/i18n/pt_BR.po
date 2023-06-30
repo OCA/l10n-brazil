@@ -104,8 +104,8 @@ msgstr "Bairro"
 #. odoo-python
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
-msgid "Error in PyCEP-Correios: "
-msgstr "Erro no PyCEP-Correios: "
+msgid "Error in BrazilCEP: "
+msgstr ""
 
 #. module: l10n_br_zip
 #. odoo-python
@@ -195,6 +195,11 @@ msgid "State"
 msgstr "Estado"
 
 #. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_number
+msgid "Street Number"
+msgstr ""
+
+#. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_type
 msgid "Street Type"
 msgstr "Tipo de Rua"
@@ -233,6 +238,10 @@ msgstr "init"
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__state
 msgid "state"
 msgstr "estado"
+
+#, python-format
+#~ msgid "Error in PyCEP-Correios: "
+#~ msgstr "Erro no PyCEP-Correios: "
 
 #, python-format
 #~ msgid "Erro a Carregar Atributo: "
