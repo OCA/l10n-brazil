@@ -101,7 +101,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
-msgid "Error in PyCEP-Correios: "
+msgid "Error in BrazilCEP: "
 msgstr ""
 
 #. module: l10n_br_zip
@@ -189,6 +189,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__state_id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__state_id
 msgid "State"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_number
+msgid "Street Number"
 msgstr ""
 
 #. module: l10n_br_zip
