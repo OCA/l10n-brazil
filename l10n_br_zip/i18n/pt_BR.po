@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-06-26 22:10+0000\n"
+"PO-Revision-Date: 2023-07-01 22:12+0000\n"
 "Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -105,7 +105,7 @@ msgstr "Bairro"
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "Error in BrazilCEP: "
-msgstr ""
+msgstr "Erro no BrazilCEP: "
 
 #. module: l10n_br_zip
 #. odoo-python
@@ -197,7 +197,7 @@ msgstr "Estado"
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_number
 msgid "Street Number"
-msgstr ""
+msgstr "Numero"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_type
