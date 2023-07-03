@@ -25,7 +25,7 @@
         <notebook>
           <page name="general" string="General">
             <group>
-              <group name="commercial_infors" string="Commercial">
+              <group name="commercial_info" string="Commercial">
                 <label for="quantity" />
                 <div class="o_row">
                   <field name="quantity" class="oe_inline" />
@@ -48,7 +48,7 @@
                                     attrs="{'readonly': ['|', ('delivery_costs', '=', 'total'), ('force_compute_delivery_costs_by_total', '=', True)]}"
                                 />
               </group>
-              <group name="fiscal_infors" string="Fiscal">
+              <group name="fiscal_info" string="Fiscal">
                 <label for="fiscal_quantity" />
                 <div class="o_row">
                   <field name="fiscal_quantity" class="oe_inline" />
