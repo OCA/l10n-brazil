@@ -5773,6 +5773,11 @@ msgid "Is Follower"
 msgstr "É um seguidor"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__is_import
+msgid "Is Import?"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__is_industry
 msgid "Is Industry"
 msgstr "É Indústria"
