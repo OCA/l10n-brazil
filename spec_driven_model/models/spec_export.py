@@ -15,7 +15,9 @@ class AbstractSpecMixin(models.AbstractModel):
     @api.model
     def _get_binding_class(self, class_obj):
         binding_module = sys.modules[self._binding_module]
-        return getattr(binding_module, class_obj._generateds_type)
+        for attr in class_obj._binding_type.split("."):
+            binding_module = getattr(binding_module, attr)
+        return binding_module
 
     @api.model
     def _get_model_classes(self):
@@ -53,7 +55,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         """
-        Iterates over the record fields and map them in an dict of values
+        Iterate over the record fields and map them in an dict of values
         that will later be injected as **kwargs in the proper XML Python
         binding constructors. Hence the value can either be simple values or
         sub binding instances already properly instanciated.
@@ -66,7 +68,7 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         self.ensure_one()
         binding_class = self._get_binding_class(class_obj)
-        binding_class_spec = {i.name: i for i in binding_class.member_data_items_}
+        binding_class_spec = binding_class.__dataclass_fields__
 
         class_name = class_obj._name.replace(".", "_")
         export_method_name = "_export_fields_%s" % class_name
@@ -83,12 +85,22 @@ class AbstractSpecMixin(models.AbstractModel):
             ) and xsd_field not in self._stacking_points.keys():
                 continue
             field_spec_name = xsd_field.replace(class_obj._field_prefix, "")
+            field_spec = False
+            for fname, fspec in binding_class_spec.items():
+                if fspec.metadata.get("name", {}) == field_spec_name:
+                    field_spec_name = fname
+                if field_spec_name == fname:
+                    field_spec = fspec
+            if field_spec and not field_spec.init:
+                # case of xsd fixed values, we should not try to write them
+                continue
+
             if not binding_class_spec.get(field_spec_name):
                 # this can happen with a o2m generated foreign key for instance
                 continue
-            member_spec = binding_class_spec[field_spec_name]
+            field_spec = binding_class_spec[field_spec_name]
             field_data = self._export_field(
-                xsd_field, class_obj, member_spec, export_dict.get(field_spec_name)
+                xsd_field, class_obj, field_spec, export_dict.get(field_spec_name)
             )
             if xsd_field in self._stacking_points.keys():
                 if not field_data:
@@ -99,16 +111,16 @@ class AbstractSpecMixin(models.AbstractModel):
 
             export_dict[field_spec_name] = field_data
 
-    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+    def _export_field(self, xsd_field, class_obj, field_spec, export_value=None):
         """
-        Maps a single Odoo field to a python binding value according to the
+        Map a single Odoo field to a python binding value according to the
         kind of field.
         """
         self.ensure_one()
         # TODO: Export number required fields with Zero.
         field = class_obj._fields.get(xsd_field, self._stacking_points.get(xsd_field))
         xsd_required = field.xsd_required if hasattr(field, "xsd_required") else None
-
+        xsd_type = field.xsd_type if hasattr(field, "xsd_type") else None
         if field.type == "many2one":
             if (not self._stacking_points.get(xsd_field)) and (
                 not self[xsd_field] and not xsd_required
@@ -135,7 +147,7 @@ class AbstractSpecMixin(models.AbstractModel):
             if hasattr(field, "xsd_choice_required"):
                 xsd_required = True  # NOTE compat, see previous NOTE
             return self._export_float_monetary(
-                xsd_field, member_spec, class_obj, xsd_required, export_value
+                xsd_field, xsd_type, class_obj, xsd_required, export_value
             )
         elif type(self[xsd_field]) == str:
             return self[xsd_field].strip()
@@ -164,19 +176,19 @@ class AbstractSpecMixin(models.AbstractModel):
         return relational_data
 
     def _export_float_monetary(
-        self, field_name, member_spec, class_obj, xsd_required, export_value=None
+        self, field_name, xsd_type, class_obj, xsd_required, export_value=None
     ):
         self.ensure_one()
         field_data = export_value or self[field_name]
         # TODO check xsd_required for all fields to export?
         if not field_data and not xsd_required:
             return False
-        if member_spec.data_type[0]:
-            TDec = "".join(filter(lambda x: x.isdigit(), member_spec.data_type[0]))[-2:]
-            my_format = "%.{}f".format(TDec)
-            return str(my_format % field_data)
+        if xsd_type and xsd_type.startswith("TDec"):
+            tdec = "".join(filter(lambda x: x.isdigit(), xsd_type))[-2:]
         else:
-            raise NotImplementedError
+            tdec = ""
+        my_format = "%.{}f".format(tdec)
+        return str(my_format % field_data)
 
     def _export_date(self, field_name):
         self.ensure_one()
@@ -192,7 +204,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
     def _build_generateds(self, class_name=False):
         """
-        Iterates over an Odoo record and its m2o and o2m sub-records
+        Iterate over an Odoo record and its m2o and o2m sub-records
         using a pre-order tree traversal and maps the Odoo record values
         to  a dict of Python binding values.
 
@@ -220,7 +232,12 @@ class AbstractSpecMixin(models.AbstractModel):
         binding_class = self._get_binding_class(class_obj)
         self._export_fields(xsd_fields, class_obj, export_dict=kwargs)
         if kwargs:
-            binding_instance = binding_class(**kwargs)
+            sliced_kwargs = {
+                key: kwargs.get(key)
+                for key in binding_class.__dataclass_fields__.keys()
+                if kwargs.get(key)
+            }
+            binding_instance = binding_class(**sliced_kwargs)
             return binding_instance
 
     def export_xml(self, print_xml=True):
