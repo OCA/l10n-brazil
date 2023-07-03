@@ -22,8 +22,9 @@ try:
 except ImportError:
     _logger.error(
         _(
-            "Python Library erpbrasil.assinatura not installed, "
-            "please install ex: pip install erpbrasil.assinatura."
+            "Python Library erpbrasil.assinatura not installed!"
+            "It doesn't matter much until you want to send NFe or NFSe documents."
+            "You can install it later with: pip install erpbrasil.assinatura."
         )
     )
 
