@@ -138,8 +138,6 @@ class Document(models.Model):
         return result
 
     def _prepare_dados_servico(self):
-        # TODO: Migration 14.0: Acredito que fiscal_line_ids
-        #  deveria ser igual invoice_line_ids
         lines = self.env["l10n_br_fiscal.document.line"]
         for line in self.fiscal_line_ids:
             if line.product_id:
@@ -183,9 +181,7 @@ class Document(models.Model):
             valor_iss += result_line.get("valor_iss")
             valor_iss_retido += result_line.get("valor_iss_retido")
             outras_retencoes += result_line.get("outras_retencoes")
-            base_calculo += (
-                result_line.get("issqn_base") or result_line.get("issqn_wh_base") or 0
-            )
+            base_calculo += result_line.get("base_calculo")
             valor_liquido_nfse += result_line.get("valor_liquido_nfse")
             valor_desconto_incondicionado += result_line.get(
                 "valor_desconto_incondicionado"
