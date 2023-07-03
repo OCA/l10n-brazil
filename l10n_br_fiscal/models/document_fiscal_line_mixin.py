@@ -67,7 +67,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             )
 
         if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-            stax_range_id = company.simplifed_tax_range_id
+            stax_range_id = company.simplified_tax_range_id
 
         return stax_range_id
 
