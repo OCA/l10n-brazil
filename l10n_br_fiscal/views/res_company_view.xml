@@ -37,11 +37,11 @@
                                     <field name="payroll_amount" />
                                 </group>
                                 <group>
-                                    <field name="simplifed_tax_id" />
-                                    <field name="simplifed_tax_range_id" />
+                                    <field name="simplified_tax_id" />
+                                    <field name="simplified_tax_range_id" />
                                     <field name="coefficient_r" />
                                     <field name="coefficient_r_percent" />
-                                    <field name="simplifed_tax_percent" />
+                                    <field name="simplified_tax_percent" />
                                 </group>
                             </group>
                             <group
