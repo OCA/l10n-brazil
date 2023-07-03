@@ -541,7 +541,7 @@ class Tax(models.Model):
         if partner.ind_ie_dest in (NFE_IND_IE_DEST_1, NFE_IND_IE_DEST_2):
             if cst.code in ICMS_SN_CST_WITH_CREDIT:
                 icms_sn_percent = currency.round(
-                    company.simplifed_tax_percent
+                    company.simplified_tax_percent
                     * (icmssn_range.tax_icms_percent / 100)
                 )
 
