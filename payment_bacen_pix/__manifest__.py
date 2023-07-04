@@ -10,8 +10,7 @@
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
-        "l10n_br_base",
-        "website_sale",
+        "account_payment",
     ],
     "data": [
         "views/payment_transfer_templates.xml",
