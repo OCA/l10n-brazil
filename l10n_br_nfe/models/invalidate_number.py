@@ -26,12 +26,12 @@ class InvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.invalidate.number"
 
     def _processador(self):
-        if not self.company_id.certificate_nfe_id:
+        if not self.company_id.sudo().certificate_nfe_id:
             raise UserError(_("Certificado não encontrado"))
 
         certificado = cert.Certificado(
-            arquivo=self.company_id.certificate_nfe_id.file,
-            senha=self.company_id.certificate_nfe_id.password,
+            arquivo=self.company_id.sudo().certificate_nfe_id.file,
+            senha=self.company_id.sudo().certificate_nfe_id.password,
         )
         session = Session()
         session.verify = False
