@@ -297,7 +297,7 @@ class NFeLine(spec_models.StackedModel):
         if not self.cofinsst_value:
             xsd_fields.remove("nfe40_COFINSST")
 
-        if not self.ii_value:
+        if not self.cfop_id.is_import and "nfe40_II" in xsd_fields:
             xsd_fields.remove("nfe40_II")
 
     ##################################################
