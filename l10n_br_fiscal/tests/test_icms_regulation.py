@@ -1,6 +1,6 @@
 from odoo.tests import SavepointCase, tagged
 
-from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES
+from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES, TAX_DOMAIN_ICMS
 
 
 @tagged("icms")
@@ -62,7 +62,7 @@ class TestICMSRegulation(SavepointCase):
         self.company.state_id = out_state_id
         self.product.ncm_id = ncm_id
 
-        tax_icms = self.icms_regulation.map_tax_icms(
+        tax_icms, _ = self.icms_regulation.map_tax(
             company=self.company,
             partner=self.partner,
             product=self.product,
@@ -70,4 +70,4 @@ class TestICMSRegulation(SavepointCase):
             operation_line=self.venda_operation_line_id,
             ind_final=ind_final,
         )
-        return tax_icms
+        return tax_icms.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS)
