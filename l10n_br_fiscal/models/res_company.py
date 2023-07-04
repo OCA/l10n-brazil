@@ -102,7 +102,7 @@ class ResCompany(models.Model):
         return dummy_doc
 
     @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
-    def _compute_simplifed_tax(self):
+    def _compute_simplified_tax(self):
         for record in self:
             record.coefficient_r = False
             if record.payroll_amount and record.annual_revenue:
@@ -117,7 +117,7 @@ class ResCompany(models.Model):
                     ("coefficient_r", "=", record.coefficient_r),
                 ]
             )
-            record.simplifed_tax_id = simplified_tax_id
+            record.simplified_tax_id = simplified_tax_id
 
             if simplified_tax_id:
                 tax_range = record.env["l10n_br_fiscal.simplified.tax.range"].search(
@@ -129,18 +129,18 @@ class ResCompany(models.Model):
                     ],
                     limit=1,
                 )
-                record.simplifed_tax_range_id = tax_range
+                record.simplified_tax_range_id = tax_range
 
-                if record.simplifed_tax_range_id and record.annual_revenue:
-                    record.simplifed_tax_percent = round(
+                if record.simplified_tax_range_id and record.annual_revenue:
+                    record.simplified_tax_percent = round(
                         (
                             (
                                 (
                                     record.annual_revenue
-                                    * record.simplifed_tax_range_id.total_tax_percent
+                                    * record.simplified_tax_range_id.total_tax_percent
                                     / 100
                                 )
-                                - record.simplifed_tax_range_id.amount_deduced
+                                - record.simplified_tax_range_id.amount_deduced
                             )
                             / record.annual_revenue
                         )
@@ -197,24 +197,23 @@ class ResCompany(models.Model):
         currency_field="currency_id",
     )
 
-    simplifed_tax_id = fields.Many2one(
+    simplified_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax",
-        compute="_compute_simplifed_tax",
+        compute="_compute_simplified_tax",
         string="Simplified Tax",
         readonly=True,
     )
 
-    simplifed_tax_range_id = fields.Many2one(
+    simplified_tax_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
-        compute="_compute_simplifed_tax",
+        compute="_compute_simplified_tax",
         store=True,
         readonly=True,
         string="Simplified Tax Range",
     )
 
-    simplifed_tax_percent = fields.Float(
-        string="Simplifed Tax Percent",
-        compute="_compute_simplifed_tax",
+    simplified_tax_percent = fields.Float(
+        compute="_compute_simplified_tax",
         store=True,
         digits=dp.get_precision("Fiscal Tax Percent"),
     )
@@ -225,14 +224,13 @@ class ResCompany(models.Model):
     )
 
     coefficient_r = fields.Boolean(
-        compute="_compute_simplifed_tax",
-        string="Coefficient R",
+        compute="_compute_simplified_tax",
         store=True,
         readonly=True,
     )
 
     coefficient_r_percent = fields.Float(
-        compute="_compute_simplifed_tax",
+        compute="_compute_simplified_tax",
         string="Coefficient R (%)",
         store=True,
         readonly=True,
