@@ -6,6 +6,7 @@ from lxml import etree
 from odoo import api, fields, models
 
 from ..constants.fiscal import (
+    FINAL_CUSTOMER_YES,
     FISCAL_OUT,
     NFE_IND_IE_DEST_9,
     TAX_DOMAIN_ICMS,
@@ -1744,18 +1745,23 @@ class ICMSRegulation(models.Model):
                 and not d.is_benefit
             )
 
-            tax_definitions_with_ind_final = icms_defs.filtered(lambda d: d.ind_final)
+            if icms_defs_benefit:
+                tax_definitions |= icms_defs_benefit
+            else:
+                if icms_defs_specific:
+                    tax_definitions |= icms_defs_specific
+                else:
+                    tax_definitions |= icms_defs_generic
+
+            tax_definitions_with_ind_final = tax_definitions.filtered(
+                lambda d: d.ind_final == FINAL_CUSTOMER_YES
+            )
 
             if tax_definitions_with_ind_final:
-                tax_definitions = icms_defs.filtered(lambda d: ind_final == d.ind_final)
-            else:
-                if icms_defs_benefit:
-                    tax_definitions |= icms_defs_benefit
-                else:
-                    if icms_defs_specific:
-                        tax_definitions |= icms_defs_specific
-                    else:
-                        tax_definitions |= icms_defs_generic
+                tax_definitions = tax_definitions.filtered(
+                    lambda d: ind_final == d.ind_final
+                )
+
         return tax_definitions
 
     def _map_tax_def_icms(
