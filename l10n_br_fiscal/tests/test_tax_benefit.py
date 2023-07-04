@@ -40,7 +40,7 @@ class TestTaxBenefit(SavepointCase):
         self.nfe_tax_benefit._onchange_document_serie_id()
         self.nfe_tax_benefit._onchange_fiscal_operation_id()
 
-        for line in self.nfe_tax_benefit.line_ids:
+        for line in self.nfe_tax_benefit.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
