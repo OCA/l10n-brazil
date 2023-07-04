@@ -8263,11 +8263,6 @@ msgid "Simples Nacional"
 msgstr "Simples Nacional"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_percent
-msgid "Simplifed Tax Percent"
-msgstr "Percentual de impostos simplified"
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
 msgid "Simplified Range"
 msgstr "Faixa Simplificada"
@@ -8286,6 +8281,11 @@ msgstr "Intervalo do Imposto Simplificado"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
 msgid "Simplified Tax"
 msgstr "Imposto Simplificado"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplified_tax_percent
+msgid "Simplified Tax Percent"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__simplified_tax_range_ids
@@ -9508,6 +9508,9 @@ msgstr "{} Falha na Estimativa de Imposto"
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#~ msgid "Simplifed Tax Percent"
+#~ msgstr "Percentual de impostos simplified"
 
 #~ msgid "Date Move"
 #~ msgstr "Movimento de data"
