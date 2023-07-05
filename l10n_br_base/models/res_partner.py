@@ -175,12 +175,6 @@ class Partner(models.Model):
         Overwrite this function if you want to add your own fields."""
         return super().get_street_fields() + ["street"]
 
-    def _set_street(self):
-        company_country = self.env.user.company_id.country_id
-        if company_country.code:
-            if company_country.code.upper() != "BR":
-                return super()._set_street()
-
     @api.onchange("city_id")
     def _onchange_city_id(self):
         self.city = self.city_id.name
