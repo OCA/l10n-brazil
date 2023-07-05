@@ -26,10 +26,6 @@ class NFeImportWizardTest(SavepointCase):
         with open(path_1, "rb") as f:
             self.xml_1 = f.read()
 
-        path_2 = test_xml_path("NFe35200181583054000129550010000000052062777166.xml")
-        with open(path_2, "rb") as f:
-            self.xml_2 = f.read()
-
         self.wizard = False
         self.product_1 = self.env["product.product"].create({"name": "Product Test 1"})
         self.partner_1 = self.env["res.partner"].create({"name": "Partner Test 1"})
@@ -90,7 +86,7 @@ class NFeImportWizardTest(SavepointCase):
         )
 
     def test_import_xml(self):
-        self._prepare_wizard(self.xml_2)
+        self._prepare_wizard(self.xml_1)
         self.wizard.import_xml()
 
         self.check_edoc(self.wizard.document_id)
@@ -120,7 +116,7 @@ class NFeImportWizardTest(SavepointCase):
         self.assertEqual(self.wizard.fiscal_operation_type, "in")
 
     def test_imported_products(self):
-        self._prepare_wizard(self.xml_2)
+        self._prepare_wizard(self.xml_1)
         self.wizard.import_xml()
         first_product = self.wizard.imported_products_ids[0]
         old_product_id = first_product.product_id

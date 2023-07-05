@@ -33,7 +33,7 @@ class NFeImportTest(SavepointCase):
 
         nfe = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_from_binding(binding.NFe.infNFe, dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
@@ -57,7 +57,7 @@ class NFeImportTest(SavepointCase):
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
         nfe = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_from_binding(binding.NFe.infNFe, dry_run=False)
         )
 
