@@ -70,7 +70,7 @@ class DocumentLine(models.Model):
 
     def prepare_line_servico(self):
         return {
-            "valor_servicos": round(self.fiscal_price * self.fiscal_quantity, 2),
+            "valor_servicos": round(self.amount_total, 2),
             "valor_deducoes": round(self.fiscal_deductions_value, 2),
             "valor_pis": round(self.pis_value, 2) or round(self.pis_wh_value, 2),
             "valor_pis_retido": round(self.pis_wh_value, 2),
