@@ -5,10 +5,8 @@ import logging
 from datetime import datetime
 
 from erpbrasil.assinatura import certificado as cert
-from erpbrasil.edoc.nfce import NFCe as edoc_nfce
-from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
+from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
 from requests import Session
 
 from odoo import _, fields, models
