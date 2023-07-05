@@ -11,13 +11,11 @@ from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.edoc.nfce import NFCe as edoc_nfce
-from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
+from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
 from requests import Session
 
 from odoo import _, api, fields
