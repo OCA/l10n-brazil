@@ -275,7 +275,7 @@ class Document(models.Model):
         assinatura += "N"  # Corrigir - Verificar status do RPS
         assinatura += "N"
         assinatura += (
-            ("%.2f" % dados_lote_rps["total_recebido"]).replace(".", "").zfill(15)
+            ("%.2f" % dados_servico["valor_servicos"]).replace(".", "").zfill(15)
         )
         assinatura += (
             ("%.2f" % dados_lote_rps["carga_tributaria"]).replace(".", "").zfill(15)
