@@ -48,7 +48,7 @@ class Document(models.Model):
 
     _name = "l10n_br_fiscal.document"
     _inherit = [
-        "l10n_br_fiscal.document.mixin",
+        "l10n_br_fiscal.document.mixin.fields",
         "l10n_br_fiscal.document.electronic",
         "l10n_br_fiscal.document.move.mixin",
     ]
