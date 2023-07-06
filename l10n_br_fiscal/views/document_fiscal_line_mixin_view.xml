@@ -34,6 +34,7 @@
           <field name="product_id" force_save="1" invisible="1" />
           <page name="fiscal_taxes" string="Taxes">
             <group>
+              <field name="tax_framework" invisible="1" />
               <field
                                 name="tax_icms_or_issqn"
                                 force_save="1"
@@ -115,8 +116,8 @@
                                         />
                   </group>
                 </group>
-                  <group string="Retenções">
-                    <field
+                <group string="Retenções">
+                   <field
                                         name="issqn_wh_tax_id"
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
