@@ -4,13 +4,13 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
+import io
 
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
+from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
-from odoo.addons.l10n_br_nfe.models.document import parse_xml_nfe
 
 
 class NfeImport(models.TransientModel):
@@ -41,6 +41,7 @@ class NfeImport(models.TransientModel):
 
     def set_fields_by_xml_data(self):
         parsed_xml = self.parse_xml()
+        infNFe = parsed_xml.NFe.infNFe
         document = self.get_document_by_xml(parsed_xml)
 
         self.check_xml_data(parsed_xml)
@@ -48,28 +49,34 @@ class NfeImport(models.TransientModel):
         self.document_number = int(document.numero_documento)
         self.document_serie = int(document.numero_serie)
         self.xml_partner_cpf_cnpj = document.cnpj_cpf_emitente
-        self.xml_partner_name = (
-            parsed_xml.infNFe.emit.xFant or parsed_xml.infNFe.emit.xNome
-        )
+        self.xml_partner_name = infNFe.emit.xFant or infNFe.emit.xNome
         self.partner_id = self.env["res.partner"].search(
             [
                 "|",
                 ("cnpj_cpf", "=", document.cnpj_cpf_emitente),
-                ("nfe40_xNome", "=", parsed_xml.infNFe.emit.xNome),
+                ("nfe40_xNome", "=", infNFe.emit.xNome),
             ],
             limit=1,
         )
-        self.nat_op = parsed_xml.infNFe.ide.natOp
+        self.nat_op = infNFe.ide.natOp
         self._create_imported_products_by_xml(parsed_xml)
 
     def parse_xml(self):
-        return self._edit_parsed_xml(parse_xml_nfe(base64.b64decode(self.xml)))
+        try:
+            stream = io.BytesIO()
+            stream.write(base64.b64decode(self.xml))
+            stream.seek(0)
+            binding = TnfeProc.from_xml(stream.read().decode())
+        except Exception as e:
+            raise UserError(_("Invalid file: %s" % e))
+        else:
+            if not hasattr(binding, "NFe"):
+                raise UserError(_("The XML to import is not a valid NFe XML."))
+
+            return self._edit_parsed_xml(binding)
 
     def get_document_by_xml(self, xml):
-        if not hasattr(xml, "infNFe"):
-            return
-
-        return detectar_chave_edoc(xml.infNFe.Id[3:])
+        return detectar_chave_edoc(xml.NFe.infNFe.Id[3:])
 
     def check_xml_data(self, xml):
         document = self.get_document_by_xml(xml)
@@ -85,7 +92,7 @@ class NfeImport(models.TransientModel):
 
     def _create_imported_products_by_xml(self, xml):
         product_ids = []
-        for product in xml.infNFe.det:
+        for product in xml.NFe.infNFe.det:
             product_ids.append(
                 self.env["l10n_br_nfe.import_xml.products"]
                 .create(self._prepare_imported_product_values(product))
@@ -147,10 +154,12 @@ class NfeImport(models.TransientModel):
             self.parse_xml(),
             edoc_type=self.fiscal_operation_type,
         )
+
+        if not self.partner_id:
+            self.partner_id = edoc.partner_id
+
         self._attach_original_nfe_xml_to_document(edoc)
-        self.imported_products_ids._create_or_update_product_supplierinfo(
-            partner_id=edoc.partner_id
-        )
+        self.imported_products_ids._find_or_create_product_supplierinfo()
 
         return edoc
 
@@ -176,7 +185,7 @@ class NfeImport(models.TransientModel):
     def _edit_parsed_xml(self, parsed_xml):
         for product_line in self.imported_products_ids.filtered("product_id"):
             internal_product = product_line.product_id
-            for xml_product in parsed_xml.infNFe.det:
+            for xml_product in parsed_xml.NFe.infNFe.det:
                 if xml_product.prod.cProd != product_line.product_code:
                     continue
 
@@ -218,34 +227,37 @@ class NfeImportProducts(models.TransientModel):
         string="Product Internal Reference",
     )
 
+    product_supplier_id = fields.Many2one(
+        comodel_name="product.supplierinfo",
+        string="Product Supplier",
+    )
+
     uom_internal = fields.Many2one(
-        "uom.uom",
-        "Internal UOM",
+        related="product_supplier_id.partner_uom",
         help="Internal UoM, equivalent to the comercial one in the document",
     )
 
-    ncm_xml = fields.Char(string="Código NCM no XML")
+    ncm_xml = fields.Char(string="XML NCM Code")
 
     ncm_internal = fields.Char(
-        string="Código NCM Interno", related="product_id.ncm_id.code"
+        related="product_id.ncm_id.code",
+        string="Internal NCM Code",
     )
 
-    cfop_xml = fields.Char(string="CFOP no XML")
+    cfop_xml = fields.Char(string="XML CFOP")
 
     new_cfop_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
-        string="Alterar CFOP",
-        default=False,
-        required=False,
+        string="Change CFOP",
     )
 
     icms_percent = fields.Char(string="Alíquota ICMS")
 
-    icms_value = fields.Char(string="Valor ICMS")
+    icms_value = fields.Char(string="ICMS Value")
 
     ipi_percent = fields.Char(string="Alíquota IPI")
 
-    ipi_value = fields.Char(string="Valor IPI")
+    ipi_value = fields.Char(string="IPI Value")
 
     imported_partner_id = fields.Many2one(related="import_xml_id.partner_id")
 
@@ -254,10 +266,10 @@ class NfeImportProducts(models.TransientModel):
         if self.product_id and not self.product_id.ncm_id:
             raise UserError(_("Product without NCM!"))
 
-    def _search_supplierinfo(self, partner_id):
+    def _search_product_supplier(self):
         return self.env["product.supplierinfo"].search(
             [
-                ("name", "=", partner_id.id),
+                ("name", "=", self.imported_partner_id.id),
                 "|",
                 ("product_name", "=", self.product_name),
                 ("product_code", "=", self.product_code),
@@ -267,29 +279,50 @@ class NfeImportProducts(models.TransientModel):
 
     def _set_product_supplierinfo_data(self):
         for product in self:
-            product_supplierinfo = product._search_supplierinfo(
-                product.imported_partner_id
-            )
-            if product_supplierinfo:
-                product.product_id = product_supplierinfo.product_id
-                product.uom_internal = product_supplierinfo.partner_uom
+            if not product.product_supplier_id:
+                product.product_supplier_id = product._search_product_supplier()
 
-    def _create_or_update_product_supplierinfo(self, partner_id):
+            if product.product_supplier_id:
+                product.product_id = product.product_supplier_id.product_id
+
+    def _find_or_create_product_supplierinfo(self):
         for product in self:
-            product_supplierinfo = product._search_supplierinfo(partner_id)
-            values = {
-                "product_id": product.product_id.id,
-                "product_name": product.product_name,
-                "product_code": product.product_code,
-                "price": product.uom_internal._compute_price(
-                    product.price_unit_com, product.product_id.uom_id
-                ),
-                "partner_uom": product.uom_internal.id,
-            }
+            if not product.product_id:
+                product.product_id = self.env["product.product"].search(
+                    [("default_code", "=", product.product_code)], limit=1
+                )
 
-            if product_supplierinfo:
-                product_supplierinfo.update(values)
+            if not product.product_id:
+                continue
+
+            if not product.product_supplier_id:
+                product.product_supplier_id = product._search_product_supplier()
+
+                if not product.product_supplier_id:
+                    product._create_product_supplier()
             else:
-                values["name"] = partner_id.id
-                supplier_info = self.env["product.supplierinfo"].create(values)
-                supplier_info.product_id.write({"seller_ids": [(4, supplier_info.id)]})
+                product._update_product_supplier()
+
+    def _create_product_supplier(self):
+        self.product_supplier_id = self.env["product.supplierinfo"].create(
+            {
+                "product_id": self.product_id.id,
+                "product_name": self.product_name,
+                "product_code": self.product_code,
+                "price": self.product_id.lst_price,
+                "name": self.imported_partner_id.id,
+            }
+        )
+        self.product_id.write({"seller_ids": [(4, self.product_supplier_id.id)]})
+
+    def _update_product_supplier(self):
+        self.product_supplier_id.write(
+            {
+                "product_id": self.product_id.id,
+                "product_name": self.product_name,
+                "product_code": self.product_code,
+                "price": self.uom_internal._compute_price(
+                    self.price_unit_com, self.product_id.uom_id
+                ),
+            }
+        )

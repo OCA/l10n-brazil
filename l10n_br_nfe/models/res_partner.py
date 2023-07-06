@@ -223,7 +223,7 @@ class ResPartner(spec_models.SpecModel):
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         if model is not None and model != self:
-            return
+            return False
 
         if parent_dict.get("nfe40_CNPJ", False):
             rec_dict["cnpj_cpf"] = parent_dict["nfe40_CNPJ"]

@@ -22,7 +22,7 @@ class NFeImportWizardTest(SavepointCase):
                 filename,
             )
 
-        path_1 = test_xml_path("NFe35200159594315000157550010000000012062777161.xml")
+        path_1 = test_xml_path("NFe35200181583054000129550010000000052062777166.xml")
         with open(path_1, "rb") as f:
             self.xml_1 = f.read()
 
@@ -47,15 +47,15 @@ class NFeImportWizardTest(SavepointCase):
         first_imported_product = self.wizard.imported_products_ids[0]
 
         self.assertEqual(
-            self.wizard.document_key, "35200159594315000157550010000000012062777161"
+            self.wizard.document_key, "35200181583054000129550010000000052062777166"
         )
-        self.assertEqual(self.wizard.document_number, "1")
+        self.assertEqual(self.wizard.document_number, "5")
         self.assertEqual(self.wizard.document_serie, "1")
-        self.assertEqual(self.wizard.xml_partner_cpf_cnpj, "59.594.315/0001-57")
-        self.assertEqual(self.wizard.xml_partner_name, "TESTE - Simples Nacional")
+        self.assertEqual(self.wizard.xml_partner_cpf_cnpj, "81.583.054/0001-29")
+        self.assertEqual(self.wizard.xml_partner_name, "Empresa Lucro Presumido")
         self.assertEqual(
             self.wizard.partner_id,
-            self.env.ref("l10n_br_base.simples_nacional_partner"),
+            self.env.ref("l10n_br_base.lucro_presumido_partner"),
         )
         self.assertEqual(
             f"[{first_imported_product.product_code}] "
@@ -98,8 +98,6 @@ class NFeImportWizardTest(SavepointCase):
 
     def test_set_fiscal_operation_type(self):
         self._prepare_wizard(self.xml_1)
-        doc = self.wizard.get_document_by_xml(False)
-        self.assertIsNone(doc)
 
         doc = self.wizard.get_document_by_xml(self.wizard.parse_xml())
         origin_company = self.wizard.company_id
@@ -140,12 +138,15 @@ class NFeImportWizardTest(SavepointCase):
         self.wizard.partner_id = self.partner_1
         first_product.product_code = False
         first_product.product_name = False
+        first_product.product_supplier_id = False
 
         first_product._set_product_supplierinfo_data()
+        wiz_supplier_id = first_product.product_supplier_id
+        self.assertEqual(wiz_supplier_id, self.supplier_info)
         self.assertEqual(first_product.product_id, self.supplier_info.product_id)
-        self.assertEqual(first_product.uom_internal, self.supplier_info.partner_uom)
 
-        first_product._create_or_update_product_supplierinfo(self.partner_1)
-        self.assertEqual(self.supplier_info.product_id, first_product.product_id)
-        self.assertEqual(self.supplier_info.partner_uom, first_product.uom_internal)
-        self.assertEqual(self.supplier_info.product_code, first_product.product_code)
+        first_product._find_or_create_product_supplierinfo()
+        self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
+        self.assertEqual(wiz_supplier_id.partner_uom, first_product.uom_internal)
+        self.assertEqual(wiz_supplier_id.product_code, first_product.product_code)
+        self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)

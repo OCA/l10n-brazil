@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
-import io
 import logging
 import re
 import string
@@ -68,14 +67,6 @@ def filter_processador_edoc_nfe(record):
     ]:
         return True
     return False
-
-
-def parse_xml_nfe(xml):
-    arq = io.BytesIO()
-    arq.write(xml)
-    arq.seek(0)
-    nfe_binding = ""  # nfe_sub.parse(arq, silence=True)
-    return nfe_binding
 
 
 class NFe(spec_models.StackedModel):
@@ -927,11 +918,11 @@ class NFe(spec_models.StackedModel):
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
-            .build_from_binding(xml.infNFe)
+            .build_from_binding(xml.NFe.infNFe)
         )
 
         if edoc_type == "in" and document.company_id.cnpj_cpf != format_cnpj_cpf(
-            xml.infNFe.emit.CNPJ
+            xml.NFe.infNFe.emit.CNPJ
         ):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
