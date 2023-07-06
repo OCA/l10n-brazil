@@ -8,6 +8,9 @@ from ..constants.fiscal import DOCUMENT_ISSUER_COMPANY
 
 class DocumentMoveMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.document.move.mixin"
+    _inherit = [
+        "l10n_br_fiscal.document.mixin.methods",
+    ]
     _description = "Move Document Fiscal Mixin"
 
     partner_id = fields.Many2one(
@@ -222,3 +225,31 @@ class DocumentMoveMixin(models.AbstractModel):
     def _onchange_document_serie_id(self):
         if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_serie = self.document_serie_id.code
+
+    @api.onchange("fiscal_operation_id")
+    def _onchange_fiscal_operation_id(self):
+        result = super()._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id:
+            self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
+            self.edoc_purpose = self.fiscal_operation_id.edoc_purpose
+
+        if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
+            self.document_type_id = self.company_id.document_type_id
+
+        subsequent_documents = [(6, 0, {})]
+        for subsequent_id in self.fiscal_operation_id.mapped(
+            "operation_subsequent_ids"
+        ):
+            subsequent_documents.append(
+                (
+                    0,
+                    0,
+                    {
+                        "source_document_id": self.id,
+                        "subsequent_operation_id": subsequent_id.id,
+                        "fiscal_operation_id": subsequent_id.subsequent_operation_id.id,
+                    },
+                )
+            )
+        self.document_subsequent_ids = subsequent_documents
+        return result
