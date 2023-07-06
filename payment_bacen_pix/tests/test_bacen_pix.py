@@ -72,3 +72,21 @@ class BacenTest(BacenCommon):
     def test_bacen_pix_fail_token(self):
         self.bacen.bacen_pix_get_token()
         self.assertEqual(self.bacen.bacenpix_api_key, "Error")
+
+
+class TestBacenWebhook(odoo.tests.HttpCase):
+    def test_bacenpix_webhook(self):
+        tx_reference = {"reference": 12345678909}
+
+        response = self.url_open(
+            "/webhook/%s" % tx_reference,
+            data=tx_reference,
+            headers={"Content-Type": "application/json"},
+        )
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_transfer_form_feedback(self):
+        tx_reference = {"reference": 12345678909}
+        response = self.url_open("/payment/bacenpix/feedback", data=tx_reference)
+        self.assertEqual(response.status_code, 200)
