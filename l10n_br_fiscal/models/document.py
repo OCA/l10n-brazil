@@ -494,18 +494,6 @@ class Document(models.Model):
         self.document_subsequent_ids = subsequent_documents
         return result
 
-    @api.onchange("document_type_id")
-    def _onchange_document_type_id(self):
-        if self.document_type_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self.document_serie_id = self.document_type_id.get_document_serie(
-                self.company_id, self.fiscal_operation_id
-            )
-
-    @api.onchange("document_serie_id")
-    def _onchange_document_serie_id(self):
-        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self.document_serie = self.document_serie_id.code
-
     def _prepare_referenced_subsequent(self, doc_referenced):
         self.ensure_one()
         return {
