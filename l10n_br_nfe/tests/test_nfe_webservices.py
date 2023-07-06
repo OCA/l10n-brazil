@@ -17,6 +17,8 @@ from nfelib.v4_00 import (
     retInutNFe,
 )
 
+from odoo.fields import Datetime
+
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
@@ -172,7 +174,16 @@ class TestNFeWebservices(TestNFeExport):
                 )
             )
             cancel_wizard.doit()
+
             self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
+            self.assertIsNotNone(nfe.cancel_event_id)
+            self.assertEqual(nfe.cancel_event_id.state, "done")
+            self.assertEqual(nfe.cancel_event_id.status_code, "101")
+            self.assertEqual(nfe.cancel_event_id.response, "Era apenas um teste.")
+            self.assertEqual(
+                Datetime.to_string(nfe.cancel_event_id.protocol_date),
+                "2023-07-05 16:52:52",
+            )
 
     @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_post)
     def test_inutilizar(self, mocked_post):
