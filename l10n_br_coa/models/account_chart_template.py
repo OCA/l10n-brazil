@@ -28,7 +28,9 @@ class AccountChartTemplate(models.Model):
             company, code_digits, account_ref, taxes_ref
         )
 
-        if self.parent_id:
+        if self.parent_id and self.parent_id == self.env.ref(
+            "l10n_br_coa.l10n_br_coa_template"
+        ):
 
             acc_names = {
                 "sale": {
