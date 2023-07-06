@@ -74,7 +74,6 @@ class AccountMove(models.Model):
     _name = "account.move"
     _inherit = [
         _name,
-        "l10n_br_fiscal.document.mixin.methods",
         "l10n_br_fiscal.document.move.mixin",
     ]
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
