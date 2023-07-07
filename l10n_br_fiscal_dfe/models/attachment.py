@@ -64,7 +64,7 @@ class Attachment(models.TransientModel):
 
         for attachment in active_attachments:
             full_path = attachment_obj._full_path(attachment.store_fname)
-            new_file = os.path.join(attachment_dir, attachment.datas_fname)
+            new_file = os.path.join(attachment_dir, attachment.store_fname)
 
             shutil.copy2(full_path, new_file)
             head, tail = ntpath.split(new_file)
@@ -82,7 +82,6 @@ class Attachment(models.TransientModel):
         return self.env["ir.attachment"].create(
             {
                 "name": file_name + ".tar.gz",
-                "datas_fname": file_name + ".tar.gz",
                 "res_model": "l10n_br_fiscal.attachment",
                 "res_id": self.id,
                 "type": "binary",

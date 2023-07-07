@@ -40,13 +40,6 @@
                         attrs="{'invisible':[['state','not in',['ciente']]]}"
                     />
                     <button
-                        name="action_import_xml"
-                        string="Import Document"
-                        type="object"
-                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
-                        attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"
-                    />
-                    <button
                         name="action_download_xml"
                         string="Download Document's XML"
                         type="object"
@@ -134,27 +127,6 @@
                 <field name="state" readonly="1" />
                 <field name="document_value" />
             </tree>
-        </field>
-    </record>
-
-    <record id="action_gerencia_selecionados_button" model="ir.actions.server">
-        <field name="name">Manage Selected</field>
-        <field name="model_id" ref="model_l10n_br_fiscal_mde" />
-        <field name="state">code</field>
-        <field name="code">
-
-manifestacao_ids = env[record._name].browse(env.context.get('active_ids',[]))
-wizard_id = manifestacao_ids.cria_wizard_gerenciamento()
-
-action= {
-    'name': 'Revise os documentos selecionados',
-    'type': 'ir.actions.act_window',
-    'res_model': 'wizard.confirma.acao',
-    'view_mode': 'form',
-    'view_type': 'form',
-    'target': 'new',
-    'res_id': wizard_id.id,
-}
         </field>
     </record>
 

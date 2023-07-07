@@ -1,14 +1,16 @@
 # Copyright (C) 2023 KMEE Informatica LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
-from __future__ import division, print_function, unicode_literals
-
 import base64
 import logging
+import re
 
-from lxml import objectify
+from erpbrasil.edoc.mde import MDe as edoc_mde
+from erpbrasil.transmissao import TransmissaoSOAP
+from requests import Session
 
 from odoo import _, fields, models
+from odoo.exceptions import ValidationError
 
 from ...constants.mde import (
     OPERATION_TYPE,
@@ -114,40 +116,44 @@ class MDe(models.Model):
             for rec in self
         ]
 
-    def cria_wizard_gerenciamento(self, state=""):
-        return self.env["wizard.confirma.acao"].create(
-            {
-                "manifestacao_ids": [(6, 0, self.ids)],
-                "state": state,
-            }
+    def _get_processor(self):
+        session = Session()
+        session.verify = False
+
+        return edoc_mde(
+            TransmissaoSOAP(self.dfe_id._get_certificate(), session),
+            self.company_id.state_id.ibge_code,
+            ambiente=self.dfe_id.environment,
         )
 
-    def action_import_document(self):
-        self.ensure_one()
+    def validate_event_response(self, result, valid_codes):
+        valid = False
+        if result.retorno.status_code != 200:
+            code = result.resposta.status
+            message = result.resposta.reason
+        elif result.resposta.cStat != "128":
+            code = result.resposta.cStat
+            message = result.resposta.xMotivo
+        else:
+            inf_evento = result.resposta.retEvento[0].infEvento
+            if inf_evento.cStat not in valid_codes:
+                code = inf_evento.cStat
+                message = inf_evento.xMotivo
+            else:
+                valid = True
 
-        return {
-            "name": "Download Documents",
-            "view_mode": "form",
-            "view_type": "tree",
-            "res_id": self.dfe_id.download_documents(mde_ids=self).id,
-            "res_model": "l10n_br_fiscal.document",
-            "type": "ir.actions.act_window",
-            "target": "current",
-        }
+        if not valid:
+            raise ValidationError(_("Invalid Status Code: %s - %s" % (code, message)))
 
-    def action_salva_xml(self):
-        return self.download_attachment(self.action_import_document())
+    def send_event(self, method, valid_codes):
+        self.dfe_id.validate_document_configuration()
 
-    def download_attachment(self, attachment_id=None):
-        return {
-            "name": _("Download Attachment"),
-            "view_mode": "form",
-            "res_model": "ir.attachment",
-            "type": "ir.actions.act_window",
-            "target": "new",
-            "flags": {"mode": "readonly"},
-            "res_id": attachment_id.id,
-        }
+        processor = self._get_processor()
+        cnpj_partner = re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
+
+        if hasattr(processor, method):
+            result = getattr(processor, method)(self.key, cnpj_partner)
+            self.validate_event_response(result, valid_codes)
 
     def action_send_event(self, operation, valid_codes, new_state):
         """
@@ -164,32 +170,27 @@ class MDe(models.Model):
         """
 
         for record in self:
-            nfe_result = record.dfe_id.send_event(record.key, operation)
-            if nfe_result["code"] not in valid_codes:
-                raise models.ValidationError(
-                    _("{} - {}").format(nfe_result["code"], nfe_result["message"])
-                )
-
+            record.send_event(operation, valid_codes)
             record.state = new_state
 
     def action_ciencia_emissao(self):
         return self.action_send_event(
-            "ciencia_operacao", ["135", "573"], SIT_MANIF_CIENTE[0]
+            "ciencia_da_operacao", ["135", "573"], SIT_MANIF_CIENTE[0]
         )
 
     def action_confirmar_operacacao(self):
         return self.action_send_event(
-            "confirma_operacao", ["135"], SIT_MANIF_CONFIRMADO[0]
+            "confirmacao_da_operacao", ["135"], SIT_MANIF_CONFIRMADO[0]
         )
 
     def action_operacao_desconhecida(self):
         return self.action_send_event(
-            "desconhece_operacao", ["135"], SIT_MANIF_DESCONHECIDO[0]
+            "desconhecimento_da_operacao", ["135"], SIT_MANIF_DESCONHECIDO[0]
         )
 
     def action_negar_operacao(self):
         return self.action_send_event(
-            "nao_realizar_operacao", ["135"], SIT_MANIF_NAO_REALIZADO[0]
+            "operacao_nao_realizada", ["135"], SIT_MANIF_NAO_REALIZADO[0]
         )
 
     def action_download_all_xmls(self):
@@ -197,15 +198,10 @@ class MDe(models.Model):
             if self.state == SIT_MANIF_PENDENTE[0]:
                 self.action_ciencia_emissao()
 
-            attachment_id = self.action_download_xml()
-            # TODO: Message post de Download concluído no formulário do MDF-e
-            # TODO: Exibir conversação na MDF-e
-            return self.download_attachment(attachment_id)
+            return self.download_attachment(self.action_download_xml())
 
         attachments = []
         for record in self:
-            # TODO: Message post de Download concluído no formulário do MDF-e
-            # TODO: Exibir conversação na MDF-e
             attachments.append(record.action_download_xml())
 
         built_attachment = self.env["l10n_br_fiscal.attachment"].create([])
@@ -215,38 +211,37 @@ class MDe(models.Model):
     def action_download_xml(self):
         self.ensure_one()
 
-        nfe_result = self.dfe_id.download_nfe(self.key)
-        if nfe_result["code"] != "138":
-            raise models.ValidationError(
-                _(nfe_result["code"] + " - " + nfe_result["message"])
-            )
-
+        xml_document = self.dfe_id.download_nfe(self.key)
         file_name = "NFe%s.xml" % self.key
         return self.env["ir.attachment"].create(
             {
                 "name": file_name,
-                "datas": base64.b64encode(nfe_result["nfe"]),
-                "datas_fname": file_name,
+                "datas": base64.b64encode(xml_document),
+                "store_fname": file_name,
                 "description": "XML NFe - Download manifesto do destinatário",
                 "res_model": "l10n_br_fiscal.mde",
                 "res_id": self.id,
             }
         )
 
-    def action_import_all_xmls(self):
-        for record in self:
-            record.dfe_id.download_documents(mde_ids=self)
+    def create_xml_attachment(self, xml):
+        file_name = "resumo_nfe-%s.xml" % self.dfe_id.last_nsu
+        self.env["ir.attachment"].create(
+            {
+                "name": file_name,
+                "datas": base64.b64encode(xml),
+                "store_fname": file_name,
+                "description": "NFe via Manifesto",
+                "res_model": self._name,
+                "res_id": self.id,
+            }
+        )
 
-    def action_import_xml(self):
-        for record in self:
-            nfe_result = record.dfe_id.download_nfe(record.key)
-
-            if nfe_result["code"] != "138":
-                raise models.ValidationError(
-                    _(nfe_result["code"] + " - " + nfe_result["message"])
-                )
-
-            nfe = objectify.fromstring(nfe_result["nfe"])
-            document_id = self.env["l10n_br_fiscal.document"].new()
-            document_id.modelo = nfe.NFe.infNFe.ide.mod.text
-            record.document_id = document_id.le_nfe(xml=nfe_result["nfe"])
+    def download_attachment(self, attachment_id=None):
+        return {
+            "type": "ir.actions.act_url",
+            "url": "/web/content/{id}/{nome}?download=true".format(
+                id=attachment_id.id, nome=attachment_id.name
+            ),
+            "target": "self",
+        }
