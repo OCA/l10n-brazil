@@ -10,15 +10,15 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["l10n_br_fiscal"],
     "data": [
+        "data/ir_cron.xml",
         "security/ir.model.access.csv",
         "views/mde/mde_views.xml",
         "views/dfe/dfe_views.xml",
         "views/l10n_br_fiscal_menu.xml",
+        "views/res_company_view.xml",
     ],
     "demo": [],
     "external_dependencies": {
-        "python": [
-            "erpbrasil.edoc>=2.4.0",
-        ],
+        "python": ["erpbrasil.edoc>=2.4.0", "nfelib>=2.0.0"],
     },
 }
