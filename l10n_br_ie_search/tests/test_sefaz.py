@@ -7,7 +7,8 @@ from datetime import timedelta
 from erpbrasil.assinatura import misc
 
 from odoo import fields
-from odoo.tests import HttpCase, tagged
+from odoo.tests import tagged
+from odoo.tests.common import SavepointCase
 from odoo.tools.misc import format_date
 
 
@@ -16,7 +17,7 @@ class FakeRetorno(object):
 
 
 @tagged("post_install", "-at_install")
-class TestTestSefaz(HttpCase):
+class TestSefaz(SavepointCase):
     def setUp(self):
         super().setUp()
         self.retorno = FakeRetorno()
@@ -28,16 +29,16 @@ class TestTestSefaz(HttpCase):
             <retConsCad versao="2.00" xmlns="http://www.portalfiscal.inf.br/nfe">
             <infCons><verAplic>SP_NFE_PL009_V4</verAplic><cStat>111</cStat>
             <xMotivo>Consulta cadastro com uma ocorrência</xMotivo><UF>SP</UF>
-            <CNPJ>11111111111111</CNPJ>
+            <CNPJ>88.570.377/0001-27</CNPJ>
             <dhCons>2023-07-06T10:11:50-03:00</dhCons><cUF>35</cUF><infCad>
-            <IE>222222222222</IE>
-            <CNPJ>28850249000105</CNPJ><UF>SP</UF><cSit>1</cSit>
+            <IE>528388258640</IE>
+            <CNPJ>88.570.377/0001-27</CNPJ><UF>SP</UF><cSit>1</cSit>
             <indCredNFe>1</indCredNFe>
             <indCredCTe>4</indCredCTe><xNome>Dummy Empresa</xNome>
             <xRegApur>NORMAL - REGIME PERIÓDICO DE APURAÇÃO</xRegApur>
             <CNAE>9430800</CNAE><dIniAtiv>2017-10-16</dIniAtiv>
             <dUltSit>2017-10-16</dUltSit><ender><xLgr>RUA DUMMY</xLgr>
-            <nro>249</nro>
+            <nro>250</nro>
             <xBairro>VILA FELIZ</xBairro><cMun>3550308</cMun>
             <xMun>SAO PAULO</xMun>
             <CEP>01222001</CEP>
@@ -106,7 +107,7 @@ class TestTestSefaz(HttpCase):
         dummy = self.model.create(
             {
                 "name": "Dummy",
-                "cnpj_cpf": "11.111.111/1111-11",
+                "cnpj_cpf": "88.570.377/0001-27",
                 "certificate_ecnpj_id": self.cert.id,
             }
         )
@@ -114,4 +115,4 @@ class TestTestSefaz(HttpCase):
         dummy._onchange_cnpj_cpf()
         dummy.ie_search(self.retorno)
 
-        self.assertEqual(dummy.inscr_est, "222222222222")
+        self.assertEqual(dummy.inscr_est, "528388258640")
