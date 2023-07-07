@@ -35,10 +35,16 @@ class PartyMixin(models.AbstractModel):
             values = webservice._sefaz_import_data(data)
             self.write(values)
         elif self._provider() == "sintegraws":
-            response = get(
-                SINTEGRA_URL,
-                data="",
-                params=webservice._get_query(self.cnpj_cpf, webservice._get_token()),
+            response = (
+                get(
+                    SINTEGRA_URL,
+                    data="",
+                    params=webservice._get_query(
+                        self.cnpj_cpf, webservice._get_token()
+                    ),
+                )
+                if not mockresponse
+                else mockresponse
             )
 
             data = webservice.sintegra_validate(response)

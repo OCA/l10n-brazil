@@ -15,7 +15,7 @@
         "python": [
             "erpbrasil.base>=2.3.0",
             "erpbrasil.transmissao",
-            "erpbrasil.assinatura",
+            "erpbrasil.assinatura>=1.7.0",
             "erpbrasil.edoc",
         ]
     },
