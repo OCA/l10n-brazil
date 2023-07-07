@@ -9,6 +9,25 @@
         <field name="document_number" />
         <field name="partner_id" />
         <field name="document_type_id" />
+        <filter
+                    name="draft"
+                    string="Draft"
+                    domain="[('state_edoc','=','em_digitacao')]"
+                />
+        <filter name="send" string="To Send" domain="[('state_edoc','=','a_enviar')]" />
+        <filter
+                    name="rejected"
+                    string="Rejected"
+                    domain="[('state_edoc','=','rejeitada')]"
+                />
+        <filter
+                    name="cancel"
+                    string="Cancelled"
+                    domain="[('state_edoc','=','cancelada')]"
+                />
+        <separator />
+        <filter name="document_date" string="Document Date" date="document_date" />
+        <filter name="date_in_out" string="Date In/Out" date="date_in_out" />
         <group expand='0' string='Group By...'>
           <filter
                         string="Month"
@@ -49,7 +68,16 @@
         <field name="amount_tax" />
         <field name="amount_total" />
         <field name="state" invisible="1" />
-        <field name="state_edoc" />
+        <field
+                    name="state_edoc"
+                    widget="badge"
+                    decoration-success="state_edoc == 'autorizada'"
+                    decoration-info="state == 'a_enviar'"
+                    decoration-warning="state_edoc == 'cancelada'"
+                    decoration-danger="state_edoc == 'rejeitada'"
+                    optional="show"
+                />
+
         <field name="state_fiscal" />
       </tree>
     </field>
