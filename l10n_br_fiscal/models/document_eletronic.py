@@ -51,12 +51,14 @@ class DocumentEletronic(models.AbstractModel):
     )
 
     authorization_date = fields.Datetime(
-        readonly=True,
         related="authorization_event_id.protocol_date",
+        string="Authorization Protocol Date",
+        readonly=True,
     )
 
     authorization_protocol = fields.Char(
         related="authorization_event_id.protocol_number",
+        string="Authorization Protocol Number",
         readonly=True,
     )
 
@@ -84,12 +86,14 @@ class DocumentEletronic(models.AbstractModel):
     )
 
     cancel_date = fields.Datetime(
-        readonly=True,
         related="cancel_event_id.protocol_date",
+        string="Cancel Protocol Date",
+        readonly=True,
     )
 
     cancel_protocol_number = fields.Char(
         related="cancel_event_id.protocol_number",
+        string="Cancel Protocol Protocol",
         readonly=True,
     )
 
@@ -109,12 +113,14 @@ class DocumentEletronic(models.AbstractModel):
     )
 
     invalidate_date = fields.Datetime(
-        readonly=True,
         related="invalidate_event_id.protocol_date",
+        string="Invalidate Protocol Date",
+        readonly=True,
     )
 
     invalidate_protocol_number = fields.Char(
         related="invalidate_event_id.protocol_number",
+        string="Invalidate Protocol Number",
         readonly=True,
     )
 
