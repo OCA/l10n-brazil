@@ -44,7 +44,9 @@ def post_init_hook(cr, registry):
             kind="init",
         )
 
-    if not tools.config["without_demo"]:
+    env.cr.execute("select demo from ir_module_module where name='l10n_br_fiscal';")
+    is_demo = env.cr.fetchone()[0]
+    if is_demo:
         demofiles = [
             "demo/l10n_br_fiscal.ncm-demo.csv",
             "demo/l10n_br_fiscal.nbm-demo.csv",
@@ -105,7 +107,7 @@ def post_init_hook(cr, registry):
                 misc.prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
             )
 
-    if tools.config["without_demo"]:
+    if not is_demo:
         prodfiles = []
         # Load full CSV files with few lines unless a flag
         # mention the contrary
@@ -157,7 +159,7 @@ def post_init_hook(cr, registry):
         )
 
     # Load post demo files
-    if not tools.config["without_demo"]:
+    if is_demo:
         posdemofiles = [
             "demo/fiscal_document_demo.xml",
         ]
