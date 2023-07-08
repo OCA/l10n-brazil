@@ -6,7 +6,8 @@ from odoo import SUPERUSER_ID, api, tools
 
 def post_init_hook(cr, registry):
 
-    if not tools.config["without_demo"]:
+    cr.execute("select demo from ir_module_module where name='l10n_br_purchase';")
+    if cr.fetchone()[0]:
         env = api.Environment(cr, SUPERUSER_ID, {})
         purchase_orders = env["purchase.order"].search(
             [("company_id", "!=", env.ref("base.main_company").id)]
