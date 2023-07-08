@@ -34,7 +34,8 @@ def post_init_hook(cr, registry):
             kind="init",
         )
 
-    if not tools.config["without_demo"]:
+    cr.execute("select demo from ir_module_module where name='l10n_br_cnab_structure';")
+    if cr.fetchone()[0]:
         demofiles = [
             "demo/account_account.xml",
             "demo/account_journal.xml",
