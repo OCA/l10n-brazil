@@ -18,19 +18,18 @@ def post_init_hook(cr, registry):
         # Relate fiscal taxes to account taxes.
         load_fiscal_taxes(env, coa_generic_tmpl)
 
-    # Load COA to Demo Company
-    if not tools.config.get("without_demo"):
-        company = env.ref(
-            "l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False
+    # Load COA for demo Company
+    company_lc = env.ref(
+        "l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False
+    )
+    if company_lc:
+        coa_generic_tmpl.try_loading(company=company_lc)
+        tools.convert_file(
+            cr,
+            "l10n_br_coa_generic",
+            "demo/account_journal.xml",
+            None,
+            mode="init",
+            noupdate=True,
+            kind="init",
         )
-        if company:
-            coa_generic_tmpl.try_loading(company=company)
-            tools.convert_file(
-                cr,
-                "l10n_br_coa_generic",
-                "demo/account_journal.xml",
-                None,
-                mode="init",
-                noupdate=True,
-                kind="init",
-            )
