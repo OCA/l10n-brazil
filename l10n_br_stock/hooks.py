@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import SUPERUSER_ID, _, api, tools
+from odoo import SUPERUSER_ID, _, api
 
 _logger = logging.getLogger(__name__)
 
@@ -84,10 +84,13 @@ def set_stock_warehouse_external_ids(env, company_external_id):
 def pre_init_hook(cr):
     """Import XML data to change core data"""
 
-    if not tools.config["without_demo"]:
-        _logger.info(_("Loading l10n_br_stock warehouse external ids..."))
-        with api.Environment.manage():
-            env = api.Environment(cr, SUPERUSER_ID, {})
+    with api.Environment.manage():
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        company_sn = env.ref(
+            "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False
+        )
+        if company_sn:
+            _logger.info(_("Loading l10n_br_stock warehouse external ids..."))
             set_stock_warehouse_external_ids(
                 env, "l10n_br_base.empresa_simples_nacional"
             )
