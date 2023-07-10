@@ -9,8 +9,7 @@ import os
 import shutil
 import tarfile
 
-from odoo import _, fields, models
-from odoo.exceptions import UserError
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -58,11 +57,8 @@ class Attachment(models.TransientModel):
         os.makedirs(attachment_dir)
 
         original_dir = os.getcwd()
-        active_attachments = self.attachment_ids.filtered("active")
-        if not active_attachments:
-            raise UserError(_("No attachment to download"))
 
-        for attachment in active_attachments:
+        for attachment in self.attachment_ids:
             full_path = attachment_obj._full_path(attachment.store_fname)
             new_file = os.path.join(attachment_dir, attachment.store_fname)
 
@@ -76,7 +72,8 @@ class Attachment(models.TransientModel):
             except Exception:
                 _logger.error("No such file was found : %s" % tail)
 
-        tFile.close()
+            tFile.close()
+
         os.chdir(original_dir)
 
         return self.env["ir.attachment"].create(
@@ -86,7 +83,6 @@ class Attachment(models.TransientModel):
                 "res_id": self.id,
                 "type": "binary",
                 "store_fname": "attachments/attachments",
-                "active": False,
             }
         )
 
