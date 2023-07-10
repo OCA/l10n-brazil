@@ -5,8 +5,8 @@ import base64
 import logging
 import re
 
-from erpbrasil.edoc.mde import MDe as edoc_mde
 from erpbrasil.transmissao import TransmissaoSOAP
+from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
 from requests import Session
 
 from odoo import _, fields, models
@@ -128,12 +128,9 @@ class MDe(models.Model):
 
     def validate_event_response(self, result, valid_codes):
         valid = False
-        if result.retorno.status_code != 200:
+        if result.retorno.status_code != "200":
             code = result.resposta.status
             message = result.resposta.reason
-        elif result.resposta.cStat != "128":
-            code = result.resposta.cStat
-            message = result.resposta.xMotivo
         else:
             inf_evento = result.resposta.retEvento[0].infEvento
             if inf_evento.cStat not in valid_codes:
@@ -156,26 +153,13 @@ class MDe(models.Model):
             self.validate_event_response(result, valid_codes)
 
     def action_send_event(self, operation, valid_codes, new_state):
-        """
-        Método para enviar o evento da operação escolhida.
-        :param operation:   "ciencia_operacao"
-                            "confirma_operacao"
-                            "desconhece_operacao"
-                            "nao_realizar_operacao"
-        :param valid_codes: Lista de códigos de retorno válidos para que a
-                            operação seja aceita
-        :param new_state: Novo estado tomado pela MDF-e caso um código válido
-                          seja retornado
-        :return: True caso a operação seja concluída com êxito
-        """
-
         for record in self:
             record.send_event(operation, valid_codes)
             record.state = new_state
 
     def action_ciencia_emissao(self):
         return self.action_send_event(
-            "ciencia_da_operacao", ["135", "573"], SIT_MANIF_CIENTE[0]
+            "ciencia_da_operacao", ["135"], SIT_MANIF_CIENTE[0]
         )
 
     def action_confirmar_operacacao(self):
@@ -211,7 +195,7 @@ class MDe(models.Model):
     def action_download_xml(self):
         self.ensure_one()
 
-        xml_document = self.dfe_id.download_nfe(self.key)
+        xml_document = self.dfe_id.download_document(self.key)
         file_name = "NFe%s.xml" % self.key
         return self.env["ir.attachment"].create(
             {
@@ -219,7 +203,7 @@ class MDe(models.Model):
                 "datas": base64.b64encode(xml_document),
                 "store_fname": file_name,
                 "description": "XML NFe - Download manifesto do destinatário",
-                "res_model": "l10n_br_fiscal.mde",
+                "res_model": self._name,
                 "res_id": self.id,
             }
         )
