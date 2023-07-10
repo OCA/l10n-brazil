@@ -113,12 +113,12 @@ class DFe(models.Model):
             valid = True
 
         if not valid:
-            if raise_error:
-                raise ValidationError(_("%s - %s") % (code, message))
             _logger.info(
                 "Error on validating document distribution"
                 " response: \n%s - %s" % (code, message)
             )
+            if raise_error:
+                raise ValidationError(_("%s - %s") % (code, message))
 
         return valid
 
@@ -139,7 +139,7 @@ class DFe(models.Model):
                 ultimo_nsu=self._format_nsu(self.last_nsu),
             )
         except Exception as e:
-            _logger.error("Error on searching documents.\n%s" % e, exc_info=True)
+            _logger.error("Error on searching documents.\n%s" % e)
             if raise_error:
                 raise UserError(_("Error on searching documents!\n '%s'") % e)
             return
@@ -221,7 +221,7 @@ class DFe(models.Model):
                     str(root.NFe.infNFe.ide.dhEmi)[:19],
                     "%Y-%m-%dT%H:%M:%S",
                 ),
-                "company_id": self.company.id,
+                "company_id": self.company_id.id,
                 "dfe_id": self.id,
                 "inclusion_mode": "Verificação agendada",
             }
@@ -268,14 +268,14 @@ class DFe(models.Model):
         return mde_id
 
     def parse_xml_document(self, doc_xml):
-        """
-        Converte um documento de XML para um objeto l10n_br_fiscal.document
+        if not doc_xml:
+            return
 
-        :param doc_xml: XML (str ou byte[]) do documento a ser convertido
-        :return: Um novo objeto do modelo l10n_br_fiscal.document
-        """
+        root = objectify.fromstring(doc_xml)
+        if not hasattr(root, "NFe"):
+            return
 
-        binding = TnfeProc.from_xml(doc_xml.read().decode())
+        binding = TnfeProc.from_xml(doc_xml.decode())
         document_id = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in")
@@ -285,7 +285,7 @@ class DFe(models.Model):
 
         return document_id
 
-    def download_nfe(self, nfe_key, raise_error=True):
+    def download_document(self, nfe_key, raise_error=True):
         self.validate_document_configuration()
 
         try:
@@ -293,7 +293,10 @@ class DFe(models.Model):
                 chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
             )
         except Exception as e:
-            raise UserError(_("Error on searching documents!\n '%s'") % e)
+            _logger.error("Error on searching documents.\n%s" % e)
+            if raise_error:
+                raise UserError(_("Error on searching documents!\n '%s'") % e)
+            return
 
         if not self.validate_distribution_response(result, raise_error):
             return
@@ -301,41 +304,20 @@ class DFe(models.Model):
         return self.read_gzip_xml(result.resposta.loteDistDFeInt.docZip[0].valueOf_)
 
     def download_documents(self):
-        """
-        - Declara Ciência da Emissão para todas as manifestações já recebidas,
-        - Realiza Download dos XMLs das NF-e
-        - Cria um documento para cada XML importado
-
-        :param mde_ids: Recordset de objetos l10n_br_fiscal.mde
-        :return: Um recordset de l10n_br_fiscal.document instanciados
-        """
-        errors = []
-
         document_ids = self.env["l10n_br_fiscal.document"]
         for mde_id in self.imported_mde_ids.filtered(
             lambda m: m.state in ["pendente", "ciente"]
         ):
             if mde_id.state == "pendente":
-                try:
-                    mde_id.action_ciencia_emissao()
-                except Exception as e:
-                    errors.append(
-                        "MDe %s: Não foi possível declarar ciencia. %s"
-                        % (mde_id.key, e)
-                    )
-                    continue
+                mde_id.action_ciencia_emissao()
 
-            xml_document = self.download_nfe(mde_id.key, raise_error=False)
-            if not xml_document:
-                errors.append("MDe %s: Não foi possível baixar documento." % mde_id.key)
+            xml_document = self.download_document(mde_id.key)
+            document_id = self.parse_xml_document(xml_document)
+            if not document_id:
                 continue
 
-            document_id = self.parse_xml_document(xml_document)
-            document_ids |= document_id
             mde_id.document_id = document_id
-
-        if errors:
-            raise ValidationError("\n".join(errors))
+            document_ids |= document_id
 
         return document_ids
 
