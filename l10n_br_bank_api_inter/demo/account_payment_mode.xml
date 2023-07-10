@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Modo de Pagamentos Cobrança Bradesco400 -->
+    <record id="payment_mode_cobranca_inter_api" model="account.payment.mode">
+        <field name="name">Cobrança Inter API</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="instructions">Pagavel em qualquer banco ate o vencimento</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="inter_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id" ref="payment.account_payment_method_electronic_in"/>
+        <field name="generate_move">False</field>
+        <field name="post_move">False</field>
+        <field name="group_lines">False</field>
+        <field name="own_number_sequence_id" ref="sequence_cobranca_inter_api"/>
+        <field name="auto_create_payment_order">True</field>
+    </record>
+
+</odoo>

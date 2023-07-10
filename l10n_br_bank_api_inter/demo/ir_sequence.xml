@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Sequencia das Cobranças Inter API -->
+    <record id="sequence_cobranca_inter_api" model="ir.sequence">
+        <field name="name">Sequencia Cobrança Inter API</field>
+        <field name="code">Sequencia Cobrança Inter API</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="False" name="company_id"/>
+    </record>
+
+</odoo>

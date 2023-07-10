@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record forcecreate="True" model="ir.cron" id="automatic_slip_query_bank_inter">
+        <field name="name">Automatic Consultation for Bank Payment Slip: Banco Inter</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_account_move_line"/>
+        <field name="state">code</field>
+        <field name="code">model.all_search_bank_slip()</field>
+    </record>
+</odoo>
