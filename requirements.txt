@@ -2,8 +2,8 @@
 email-validator
 erpbrasil.assinatura
 erpbrasil.base>=2.3.0
-erpbrasil.edoc
 erpbrasil.edoc.pdf
+erpbrasil.edoc>=2.4.0
 erpbrasil.transmissao
 nfelib>=2.0.0
 nfselib.paulistana
