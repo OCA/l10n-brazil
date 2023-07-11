@@ -38,6 +38,11 @@ msgid "Account"
 msgstr "Conta"
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_account_document_line_mixin
 msgid "Account Document Line Mixin"
 msgstr "Mixin de Linha de Documento da Conta"
@@ -299,6 +304,7 @@ msgid "Discount (%)"
 msgstr "Desconto (%)"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__display_name
@@ -481,6 +487,7 @@ msgid "ICMS CST Code"
 msgstr "Código CST do ICMS"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_chart_template__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__id
@@ -582,27 +589,6 @@ msgid "Invoices"
 msgstr "Faturas"
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/hooks.py:0
-#, python-format
-msgid ""
-"It looks like your database %s is running with demo\n"
-"                   data. But the l10n_br_account module will need you to "
-"install the\n"
-"                   l10n_br_coa_simple and l10n_br_coa_generic\n"
-"                   chart of accounts modules first to load l10n_br_account "
-"demo data\n"
-"                   or run its tests properly (for production, these "
-"dependencies are not\n"
-"                   required, that is why these are not usual explicit\n"
-"                   module dependencies).\n"
-"                   Please install the l10n_br_coa_simple and "
-"l10n_br_coa_generic modules\n"
-"                   first and try installing the l10n_br_account module "
-"again.\n"
-"                "
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_move
 msgid "Journal Entry"
 msgstr "Lançamento de Diário"
@@ -613,6 +599,7 @@ msgid "Journal Item"
 msgstr "Item de Diário"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_chart_template____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line____last_update
