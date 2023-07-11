@@ -38,7 +38,7 @@
         "python": [
             "nfelib>=2.0.0",
             "erpbrasil.transmissao",
-            "erpbrasil.edoc",
+            "erpbrasil.edoc>=2.4.0",
             "erpbrasil.edoc.pdf",
         ],
     },
