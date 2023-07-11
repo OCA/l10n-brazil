@@ -13,7 +13,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "external_dependencies": {
         "python": [
-            "erpbrasil.edoc",
+            "erpbrasil.edoc>=2.4.0",
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil.base>=2.3.0",
