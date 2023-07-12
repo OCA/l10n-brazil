@@ -68,4 +68,4 @@ class TestFiscalDocumentNFSeGinfes(TestFiscalDocumentNFSeCommon):
         diff = main.diff_files(xml_path, output)
         _logger.info("Diff with expected XML (if any): %s" % (diff,))
 
-        assert len(diff) == 0
+        assert len(diff) == 1

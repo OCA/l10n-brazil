@@ -246,13 +246,18 @@ class Document(models.Model):
             if not status:
                 raise UserError(_(message))
 
+            try:
+                xml_file = processo.envio_xml.decode("utf-8")
+            except Exception:
+                xml_file = processo.envio_xml
+
             record.cancel_event_id = record.event_ids.create_event_save_xml(
                 company_id=record.company_id,
                 environment=(
                     EVENT_ENV_PROD if self.nfe_environment == "1" else EVENT_ENV_HML
                 ),
                 event_type="2",
-                xml_file=processo.envio_xml.decode("utf-8"),
+                xml_file=xml_file.envio_xml,
                 document_id=record,
             )
 
