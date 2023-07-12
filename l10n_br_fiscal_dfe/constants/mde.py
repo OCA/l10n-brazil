@@ -7,6 +7,13 @@ SIT_MANIF_CONFIRMADO = ("confirmado", "Confirmada operação")
 SIT_MANIF_DESCONHECIDO = ("desconhecido", "Desconhecimento")
 SIT_MANIF_NAO_REALIZADO = ("nao_realizado", "Não realizado")
 
+SCHEMA_RESNFE = ("resNFe", "NFe Resumida")
+SCHEMA_RESEVENTO = ("resEvento", "Evento de NFe Resumido")
+SCHEMA_PROCNFE = ("procNFe", "NFe Completa")
+SCHEMA_PROCEVENTONFE = ("procEventoNFe", "Evento de NFe Completo")
+
+SCHEMAS = [SCHEMA_RESNFE, SCHEMA_RESEVENTO, SCHEMA_PROCNFE, SCHEMA_PROCEVENTONFE]
+
 SITUACAO_MANIFESTACAO = [
     SIT_MANIF_PENDENTE,
     SIT_MANIF_CIENTE,
