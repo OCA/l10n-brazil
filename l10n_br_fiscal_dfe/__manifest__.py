@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "depends": ["l10n_br_fiscal", "l10n_br_nfe"],
+    "depends": ["l10n_br_fiscal"],
     "data": [
         "data/ir_cron.xml",
         "security/ir.model.access.csv",
