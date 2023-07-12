@@ -543,8 +543,18 @@ class NFe(spec_models.StackedModel):
 
     nfe40_infRespTec = fields.Many2one(
         comodel_name="res.partner",
-        related="company_id.technical_support_id",
+        compute="_compute_resptec_data",
     )
+
+    ##########################
+    # NF-e tag: emit
+    # Compute Methods
+    ##########################
+
+    @api.depends("company_id")
+    def _compute_resptec_data(self):
+        for doc in self:
+            doc.nfe40_infRespTec = doc.company_id.technical_support_id
 
     ##########################
 
