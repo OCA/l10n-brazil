@@ -33,6 +33,7 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
         <field name="recurring_invoicing_type">pre-paid</field>
         <field name="recurring_rule_type">monthly</field>
+        <field name="is_contract">True</field>
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
