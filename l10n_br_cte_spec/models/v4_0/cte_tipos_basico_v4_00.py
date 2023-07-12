@@ -571,12 +571,12 @@ class Timp(models.AbstractModel):
     _binding_type = "Timp"
 
 
-class TimpOs(models.AbstractModel):
-    "Tipo Dados do Imposto para CT-e OS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.timpos"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "TimpOs"
+# class TimpOs(models.AbstractModel):
+#     "Tipo Dados do Imposto para CT-e OS"
+#     _description = textwrap.dedent("    %s" % (__doc__,))
+#     _name = "cte.40.timpos"
+#     _inherit = "spec.mixin.cte"
+#     _binding_type = "TimpOs"
 
 
 class Tlocal(models.AbstractModel):
@@ -1612,12 +1612,12 @@ class TcteOsImp(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TcteOs.InfCte.Imp"
 
-    cte40_ICMS = fields.Many2one(
-        comodel_name="cte.40.timpos",
-        string="Informações relativas ao ICMS",
-        xsd_required=True,
-        xsd_type="TImp",
-    )
+    # cte40_ICMS = fields.Many2one(
+    #     comodel_name="cte.40.timpos",
+    #     string="Informações relativas ao ICMS",
+    #     xsd_required=True,
+    #     xsd_type="TImp",
+    # )
 
     cte40_vTotTrib = fields.Monetary(
         string="Valor Total dos Tributos",
