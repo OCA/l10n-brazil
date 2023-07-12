@@ -9,7 +9,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 
 def filtered_processador_edoc_mdfe(record):
-    if record.processador_edoc == "oca" and record.document_type_id.code in ["57"]:
+    if record.processador_edoc == "oca" and record.document_type_id.code in ["58"]:
         return True
     return False
 
