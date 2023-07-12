@@ -2177,6 +2177,11 @@ msgid "Veículo"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cBenef
+msgid "cBenef"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_email
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_email
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_email
