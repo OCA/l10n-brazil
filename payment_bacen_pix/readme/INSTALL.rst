@@ -1,4 +1,3 @@
 This module depends on:
 
-* payment
-* web_tour
+* account_payment
