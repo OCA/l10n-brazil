@@ -41,7 +41,6 @@ class PaymentTransaction(models.Model):
     textoImagemQRcode = fields.Char()
 
     def _get_processing_info(self):
-        # Devolver Dados do QRCODE
         res = super()._get_processing_info()
         if self.acquirer_id.provider == "bacenpix":
             if self.state == "draft":
@@ -118,7 +117,7 @@ class PaymentTransaction(models.Model):
         ).hexdigest()
 
     def bacenpix_create(self, values):
-        """Compleate the values used to create the payment.transaction"""
+        """Complete the values used to create the payment.transaction"""
         partner_id = self.env["res.partner"].browse(values.get("partner_id", []))
         acquirer_id = self.env["payment.acquirer"].browse(values.get("acquirer_id", []))
         currency_id = acquirer_id.create_uid.currency_id
