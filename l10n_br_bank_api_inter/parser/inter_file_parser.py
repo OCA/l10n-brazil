@@ -31,7 +31,7 @@ class InterFileParser:
         self.cnab_return_events = []
 
     def parse(self, filebuffer):
-        self.result_row_list = self.process_return_file(data)
+        self.result_row_list = self.process_return_file(self.data)
         yield self.result_row_list
 
     def _code_log(self):
@@ -99,7 +99,7 @@ class InterFileParser:
         # e caso se queira saber os detalhes será preciso olhar a Entrada de
         # Diário referente.
 
-        if _code_log() == data["situacao"]:
+        if self._code_log() == data["situacao"]:
             return
 
         valor_titulo = data["valorNominal"]
@@ -188,7 +188,7 @@ class InterFileParser:
             row_list, log_event_payment = self._get_accounting_entries(
                 data, account_move_line, bank_line
             )
-            result_row_list.append(row_list)
+            self.result_row_list.append(row_list)
             cnab_return_log_event.update(log_event_payment)
         else:
             # No caso do Banco Inter, a única forma de saber se um boleto foi
@@ -200,7 +200,7 @@ class InterFileParser:
         # Inclui o LOG do Evento CNAB
         self.cnab_return_events.append(cnab_return_log_event)
 
-        return result_row_list
+        return self.result_row_list
 
     def _get_description_occurrence(self, payment_method_cnab, cod_ocorrencia):
         cnab_return_move_code = self.env["l10n_br_cnab.return.move.code"].search(
@@ -250,7 +250,7 @@ class InterFileParser:
         # Valor Desconto
         if (
             datetime.strptime(data["dataVencimento"], "%d/%m/%Y")
-            <= datatime.date.today()
+            <= datetime.date.today()
         ):
             taxa_desconto1 = data["desconto1"]["taxa"]
             valor_desconto = taxa_desconto1 * valor_nominal
@@ -289,7 +289,7 @@ class InterFileParser:
         #   VALORDIA, TAXAMENSAL e ISENTO.
         if (
             datetime.strptime(data["dataVencimento"], "%d/%m/%Y")
-            <= datatime.date.today()
+            <= datetime.date.today()
         ):
             taxa_juros_mora = data["mora"]["taxa"]
             valor_juros_mora = taxa_juros_mora * valor_nominal
@@ -332,7 +332,7 @@ class InterFileParser:
         #   NAOTEMMULTA, VALORFIXO e PERCENTUAL
         if (
             datetime.strptime(data["dataVencimento"], "%d/%m/%Y")
-            <= datatime.date.today()
+            <= datetime.date.today()
         ):
             taxa_multa = data["multa"]["taxa"]
             valor_multa = valor_nominal * taxa_multa
@@ -361,7 +361,7 @@ class InterFileParser:
                     {
                         "name": "Tarifas bancárias (boleto) "
                         + account_move_line.document_number,
-                        "debit": valor_tarifa,
+                        "debit": self.valor_tarifa,
                         "credit": 0.0,
                         "type": "tarifa",
                         "account_id": tariff_charge_account.id,
