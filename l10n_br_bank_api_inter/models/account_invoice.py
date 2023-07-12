@@ -3,6 +3,7 @@
 
 import tempfile
 from base64 import b64decode, b64encode
+
 from PyPDF2 import PdfFileMerger
 
 from odoo import _, fields, models
@@ -76,7 +77,6 @@ class AccountInvoice(models.Model):
         except Exception as error:
             raise UserError(error)
             # raise error
-
 
     def action_invoice_cancel(self):
         try:

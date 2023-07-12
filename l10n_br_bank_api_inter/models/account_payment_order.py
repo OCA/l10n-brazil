@@ -73,7 +73,7 @@ class AccountPaymentOrder(models.Model):
                     "TESTE 2",
                     "TESTE 3",
                     "TESTE 4",
-                ]
+                ],
             )
             dados.append(slip)
         return dados
