@@ -4,8 +4,8 @@
 
 from unittest import mock
 
-from odoo.tests import SavepointCase
 from odoo.exceptions import UserError
+from odoo.tests import SavepointCase
 
 mock_test_write_off = {
     "nossoNumero": "54687321546",
@@ -73,9 +73,7 @@ mock_test_splip_query = {
     "dataLimitePagamento": "28/02/2021",
     "valorAbatimento": 0.00,
     "situacao": "EMABERTO",
-    "mensagem": {
-        "linha1": "TEXTO 1"
-    },
+    "mensagem": {"linha1": "TEXTO 1"},
     "desconto1": {
         "codigo": "NAOTEMDESCONTO",
         "taxa": 0.00,
@@ -102,16 +100,14 @@ mock_test_splip_query = {
         "data": "2021-01-31",
         "taxa": 1.00,
         "valor": 0.00,
-    }
+    },
 }
 
 _module_ns = "odoo.addons.l10n_br_bank_api_inter"
 _provider_class_pay_order = (
     _module_ns + ".models.account_payment_order" + ".AccountPaymentOrder"
 )
-_provider_class_aml = (
-    _module_ns + ".models.account_move_line" + ".AccountMoveLine"
-)
+_provider_class_aml = _module_ns + ".models.account_move_line" + ".AccountMoveLine"
 
 
 class TestBankInter(SavepointCase):
@@ -146,7 +142,7 @@ class TestBankInter(SavepointCase):
 
         with mock.patch(
             _provider_class_pay_order + ".generate_payment_file",
-            return_value=(False, False)
+            return_value=(False, False),
         ):
             payment_order.open2generated()
 
@@ -194,16 +190,15 @@ class TestBankInter(SavepointCase):
         self.assertEqual(len(payment_order.bank_line_ids), 1)
 
         with mock.patch(
-                _provider_class_pay_order + ".generate_payment_file",
-                return_value=(False, False)
+            _provider_class_pay_order + ".generate_payment_file",
+            return_value=(False, False),
         ):
             payment_order.open2generated()
 
         payment_order.generated2uploaded()
 
         with mock.patch(
-            _provider_class_aml + ".drop_bank_slip",
-            return_value=mock_test_write_off
+            _provider_class_aml + ".drop_bank_slip", return_value=mock_test_write_off
         ):
             write_off = payment_order.move_ids.line_ids.drop_bank_slip()
             self.assertEqual(write_off["situacao"], "BAIXADO")
@@ -229,8 +224,8 @@ class TestBankInter(SavepointCase):
         self.assertEqual(len(payment_order.bank_line_ids), 1)
 
         with mock.patch(
-                _provider_class_pay_order + ".generate_payment_file",
-                return_value=(False, False)
+            _provider_class_pay_order + ".generate_payment_file",
+            return_value=(False, False),
         ):
             payment_order.open2generated()
 
@@ -268,15 +263,14 @@ class TestBankInter(SavepointCase):
 
         with mock.patch(
             _provider_class_pay_order + ".generate_payment_file",
-            return_value=(False, False)
+            return_value=(False, False),
         ):
             payment_order.open2generated()
 
         payment_order.generated2uploaded()
 
         with mock.patch(
-            _provider_class_aml + ".drop_bank_slip",
-            return_value=mock_test_write_off
+            _provider_class_aml + ".drop_bank_slip", return_value=mock_test_write_off
         ):
             writeoff = payment_order.move_ids.line_ids.drop_bank_slip()
             self.assertEqual(writeoff["situacao"], "BAIXADO")
@@ -299,16 +293,16 @@ class TestBankInter(SavepointCase):
         self.assertEqual(len(payment_order.bank_line_ids), 1)
 
         with mock.patch(
-                _provider_class_pay_order + ".generate_payment_file",
-                return_value=(False, False)
+            _provider_class_pay_order + ".generate_payment_file",
+            return_value=(False, False),
         ):
             payment_order.open2generated()
 
         payment_order.generated2uploaded()
 
         with mock.patch(
-                _provider_class_aml + ".search_bank_slip",
-                return_value=mock_test_splip_query
+            _provider_class_aml + ".search_bank_slip",
+            return_value=mock_test_splip_query,
         ):
             slip_query = payment_order.move_ids.line_ids.search_bank_slip()
             self.assertEqual(slip_query["situacao"], "EMABERTO")

@@ -5,18 +5,16 @@ import tempfile
 from base64 import b64decode, b64encode
 from PyPDF2 import PdfFileMerger
 
-from odoo import api, fields, models, _
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
 
-    _inherit = 'account.move'
+    _inherit = "account.move"
 
     pdf_boletos_id = fields.Many2one(
-        comodel_name='ir.attachment',
-        string='PDF Boletos',
-        ondelete='cascade'
+        comodel_name="ir.attachment", string="PDF Boletos", ondelete="cascade"
     )
 
     def _merge_pdf_boletos(self):
@@ -41,14 +39,12 @@ class AccountInvoice(models.Model):
         temp_merged.seek(0)
         datas = b64encode(temp_merged.read())
 
-        self.pdf_boletos_id = self.env['ir.attachment'].create(
+        self.pdf_boletos_id = self.env["ir.attachment"].create(
             {
-                'name': (
-                    "Boleto %s" % self.display_name.replace('/', '-')),
-                'datas': datas,
-                'datas_fname': ("boleto_%s.pdf" %
-                                self.display_name.replace('/', '-')),
-                'type': 'binary'
+                "name": ("Boleto %s" % self.display_name.replace("/", "-")),
+                "datas": datas,
+                "datas_fname": ("boleto_%s.pdf" % self.display_name.replace("/", "-")),
+                "type": "binary",
             }
         )
 
@@ -66,10 +62,11 @@ class AccountInvoice(models.Model):
                 self._merge_pdf_boletos()
 
             boleto_id = self.pdf_boletos_id
-            base_url = self.env['ir.config_parameter'].get_param(
-                'web.base.url')
-            download_url = '/web/content/%s/%s?download=True' % (
-                str(boleto_id.id), boleto_id.name)
+            base_url = self.env["ir.config_parameter"].get_param("web.base.url")
+            download_url = "/web/content/%s/%s?download=True" % (
+                str(boleto_id.id),
+                boleto_id.name,
+            )
 
             return {
                 "type": "ir.actions.act_url",
@@ -89,8 +86,10 @@ class AccountInvoice(models.Model):
                 return super().action_invoice_cancel()
             else:
                 raise UserError(
-                    _("All Account Move Line related to Invoice must haver their "
-                      "status set to 'write off' to be able to cancel.")
+                    _(
+                        "All Account Move Line related to Invoice must haver their "
+                        "status set to 'write off' to be able to cancel."
+                    )
                 )
         except Exception as error:
             raise UserError(_(error))

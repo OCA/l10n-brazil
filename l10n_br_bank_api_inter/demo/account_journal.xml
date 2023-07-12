@@ -1,11 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
     <!-- Diario INTER -->
     <record id="inter_journal" model="account.journal">
         <field name="name">Banco INTER</field>
         <field name="type">bank</field>
         <field name="code">BNC77</field>
-        <field name="inbound_payment_method_ids" eval="[(6,0,[ref('payment.account_payment_method_electronic_in')])]"/>
-        <field name="bank_account_id" ref="main_company_bank_inter"/>
+        <field
+            name="inbound_payment_method_ids"
+            eval="[(6,0,[ref('payment.account_payment_method_electronic_in')])]"
+        />
+        <field name="bank_account_id" ref="main_company_bank_inter" />
     </record>
 </odoo>

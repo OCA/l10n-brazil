@@ -1,19 +1,13 @@
 # @ 2021 KMEE - www.kmee.com.br -
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-import base64
 import datetime
-import json
 import logging
-
-import requests
-
-from odoo.exceptions import Warning as UserError
 
 logger = logging.getLogger(__name__)
 
 
-class InterFileParser():
+class InterFileParser:
     """
     # TODO
     """
@@ -105,17 +99,17 @@ class InterFileParser():
         # e caso se queira saber os detalhes será preciso olhar a Entrada de
         # Diário referente.
 
-        if _code_log() == data['situacao']:
+        if _code_log() == data["situacao"]:
             return
 
         valor_titulo = data["valorNominal"]
 
         data_ocorrencia = datetime.date.today()
-        cod_ocorrencia = data['situacao']
+        cod_ocorrencia = data["situacao"]
 
         # TODO: A mensagem de retorno é apenas o código da situação, seria interessante
         #   retornar uma mensagem menos técnica e mais 'acessível' ao usuário.
-        descricao_ocorrencia = data['situacao']
+        descricao_ocorrencia = data["situacao"]
 
         # TODO Revisar o preenchimento desses campos no momento da emissão
         nosso_numero_sem_dig = data["nossoNumero"][:-1]
@@ -157,7 +151,7 @@ class InterFileParser():
         # Codigos de Movimento de Retorno - Liquidação
         cnab_liq_move_code = []
         for (
-                move_code
+            move_code
         ) in account_move_line.payment_mode_id.cnab_liq_return_move_code_ids:
             cnab_liq_move_code.append(move_code.code)
 
@@ -177,7 +171,7 @@ class InterFileParser():
             ).date(),
             "move_line_id": account_move_line.id,
             "company_title_identification": data["seuNumero"]
-                                            or account_move_line.document_number,
+            or account_move_line.document_number,
             "favored_bank_account_id": favored_bank_account.id,
             # TODO: Campo Segmento é referente ao CNAB 240, o
             #  BRCobranca parece não informar esse campo no retorno,
@@ -189,7 +183,7 @@ class InterFileParser():
         }
 
         # Caso de Pagamento deve criar os Lançamentos de Diário
-        if cod_ocorrencia == 'PAGO':
+        if cod_ocorrencia == "PAGO":
 
             row_list, log_event_payment = self._get_accounting_entries(
                 data, account_move_line, bank_line
@@ -220,7 +214,7 @@ class InterFileParser():
             descricao_ocorrencia = cod_ocorrencia + "-" + cnab_return_move_code.name
         else:
             descricao_ocorrencia = (
-                    cod_ocorrencia + "-" + "CÓDIGO DA DESCRIÇÃO NÃO ENCONTRADO"
+                cod_ocorrencia + "-" + "CÓDIGO DA DESCRIÇÃO NÃO ENCONTRADO"
             )
 
         return descricao_ocorrencia
@@ -254,15 +248,17 @@ class InterFileParser():
         #   forma de desconto e o Banco Inter aceita até três, cada uma com uma data
         #   diferente de validade.
         # Valor Desconto
-        if datetime.strptime(data["dataVencimento"],
-                             "%d/%m/%Y") <= datatime.date.today():
+        if (
+            datetime.strptime(data["dataVencimento"], "%d/%m/%Y")
+            <= datatime.date.today()
+        ):
             taxa_desconto1 = data["desconto1"]["taxa"]
             valor_desconto = taxa_desconto1 * valor_nominal
             if valor_desconto > 0.0:
                 row_list.append(
                     {
                         "name": "Desconto (boleto) "
-                                + account_move_line.document_number,
+                        + account_move_line.document_number,
                         "debit": valor_desconto,
                         "credit": 0.0,
                         "account_id": (
@@ -277,7 +273,7 @@ class InterFileParser():
                 row_list.append(
                     {
                         "name": "Desconto (boleto) "
-                                + account_move_line.document_number,
+                        + account_move_line.document_number,
                         "debit": 0.0,
                         "credit": valor_desconto,
                         "type": "desconto",
@@ -291,8 +287,10 @@ class InterFileParser():
         # Valor Juros Mora - valor de mora e multa pagos pelo sacado
         # As formas de Juros Moras disponibilizadas pelo Banco Inter são:
         #   VALORDIA, TAXAMENSAL e ISENTO.
-        if datetime.strptime(data["dataVencimento"], "%d/%m/%Y") <= \
-                datatime.date.today():
+        if (
+            datetime.strptime(data["dataVencimento"], "%d/%m/%Y")
+            <= datatime.date.today()
+        ):
             taxa_juros_mora = data["mora"]["taxa"]
             valor_juros_mora = taxa_juros_mora * valor_nominal
 
@@ -300,7 +298,7 @@ class InterFileParser():
                 row_list.append(
                     {
                         "name": "Valor Juros Mora (boleto) "
-                                + account_move_line.document_number,
+                        + account_move_line.document_number,
                         "debit": 0.0,
                         "credit": valor_juros_mora,
                         "type": "juros_mora",
@@ -316,7 +314,7 @@ class InterFileParser():
                 row_list.append(
                     {
                         "name": "Valor Juros Mora (boleto) "
-                                + account_move_line.document_number,
+                        + account_move_line.document_number,
                         "debit": valor_juros_mora,
                         "credit": 0.0,
                         "account_id": self.journal.default_credit_account_id.id,
@@ -332,8 +330,10 @@ class InterFileParser():
         #   por isso o campo "Tarifa" foi alterado para multa.
         # O Banco Inter disponibiliza as seguintes opções para suas multas:
         #   NAOTEMMULTA, VALORFIXO e PERCENTUAL
-        if datetime.strptime(data["dataVencimento"], "%d/%m/%Y") <= \
-                datatime.date.today():
+        if (
+            datetime.strptime(data["dataVencimento"], "%d/%m/%Y")
+            <= datatime.date.today()
+        ):
             taxa_multa = data["multa"]["taxa"]
             valor_multa = valor_nominal * taxa_multa
 
@@ -342,7 +342,7 @@ class InterFileParser():
                 row_list.append(
                     {
                         "name": "Valor multa (boleto) "
-                                + account_move_line.document_number,
+                        + account_move_line.document_number,
                         "debit": 0.0,
                         "credit": valor_multa,
                         "account_id": self.journal.default_credit_account_id.id,
@@ -360,7 +360,7 @@ class InterFileParser():
                 row_list.append(
                     {
                         "name": "Tarifas bancárias (boleto) "
-                                + account_move_line.document_number,
+                        + account_move_line.document_number,
                         "debit": valor_tarifa,
                         "credit": 0.0,
                         "type": "tarifa",
@@ -378,7 +378,7 @@ class InterFileParser():
                 row_list.append(
                     {
                         "name": "Abatimento (boleto) "
-                                + account_move_line.document_number,
+                        + account_move_line.document_number,
                         "debit": valor_abatimento,
                         "credit": 0.0,
                         "account_id": (
@@ -393,7 +393,7 @@ class InterFileParser():
                 row_list.append(
                     {
                         "name": "Abatimento (boleto) "
-                                + account_move_line.document_number,
+                        + account_move_line.document_number,
                         "debit": 0.0,
                         "credit": valor_abatimento,
                         "type": "abatimento",
@@ -408,8 +408,8 @@ class InterFileParser():
         # necessário atualizar o Valor Recebido pois o Odoo não
         # aceita a conciliação nem com um Valor Menor ou Maior.
         valor_recebido_calculado = (
-                    valor_nominal + valor_desconto + valor_abatimento + valor_multa
-                ) - valor_juros_mora
+            valor_nominal + valor_desconto + valor_abatimento + valor_multa
+        ) - valor_juros_mora
 
         row_list.append(
             {
@@ -446,9 +446,9 @@ class InterFileParser():
         """
         return {
             "name": "Retorno CNAB - Banco "
-                    + self.bank.short_name
-                    + " - Conta "
-                    + self.journal.bank_account_id.acc_number,
+            + self.bank.short_name
+            + " - Conta "
+            + self.journal.bank_account_id.acc_number,
             "is_cnab": True,
         }
 
@@ -481,12 +481,17 @@ class InterFileParser():
             "already_completed": True,
         }
         if (
-                line["type"]
-                # TODO: Está considerando apenas o valor do desconto1, mas implementar
-                #   depois para os descontos: desconto2 e desconto3.
-                in ("valorTotalRecebimento", "multa", "mora", "desconto1",
-                    "valorAbatimento")
-                and line["credit"] > 0.0
+            line["type"]
+            # TODO: Está considerando apenas o valor do desconto1, mas implementar
+            #   depois para os descontos: desconto2 e desconto3.
+            in (
+                "valorTotalRecebimento",
+                "multa",
+                "mora",
+                "desconto1",
+                "valorAbatimento",
+            )
+            and line["credit"] > 0.0
         ):
             vals.update(
                 {

@@ -1,13 +1,13 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
 import os
 import tempfile
-import base64
 
 
 class ArquivoCertificado(object):
-    """ Classe para ser utilizada quando for necessário salvar o arquivo
+    """Classe para ser utilizada quando for necessário salvar o arquivo
     temporariamente, garantindo a segurança que o mesmo sera salvo e sempre apagado
 
     with ArquivoCertificado(journal_id, 'w') as (key, cert):
@@ -21,13 +21,13 @@ class ArquivoCertificado(object):
 
         if journal_id.bank_inter_cert:
             cert = base64.b64decode(journal_id.bank_inter_cert)
-            tmp = os.fdopen(self.cert_fd, 'w')
+            tmp = os.fdopen(self.cert_fd, "w")
             tmp.write(cert.decode())
             tmp.close()
 
         if journal_id.bank_inter_key:
             key = base64.b64decode(journal_id.bank_inter_key)
-            tmp = os.fdopen(self.key_fd, 'w')
+            tmp = os.fdopen(self.key_fd, "w")
             tmp.write(key.decode())
             tmp.close()
 
