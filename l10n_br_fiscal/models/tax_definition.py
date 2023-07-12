@@ -76,7 +76,7 @@ class TaxDefinition(models.Model):
         string="CST",
         readonly=True,
         domain="[('cst_type', 'in', (type_in_out, 'all')), "
-        "('tax_domain', '=', tax_domain)]",
+        "('tax_group_id', '=', tax_group_id)]",
     )
 
     cst_code = fields.Char(
@@ -235,8 +235,19 @@ class TaxDefinition(models.Model):
     ipi_guideline_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.ipi.guideline",
         string="IPI Guideline",
-        domain="['|', ('cst_in_id', '=', cst_id)," "('cst_out_id', '=', cst_id)]",
+        domain="['|', ('cst_in_id', '=', cst_id), ('cst_out_id', '=', cst_id)]",
     )
+
+    def _get_search_domain(self, tax_definition):
+        """Create domain to be used in contraints methods"""
+        domain = [
+            ("id", "!=", tax_definition.id),
+            ("state_from_id", "=", tax_definition.state_from_id.id),
+            ("state_to_ids", "in", tax_definition.state_to_ids.ids),
+            ("tax_group_id", "=", tax_definition.tax_group_id.id),
+            ("tax_id", "=", tax_definition.tax_id.id),
+        ]
+        return domain
 
     def action_review(self):
         self.write({"state": "review"})

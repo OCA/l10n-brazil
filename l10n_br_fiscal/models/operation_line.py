@@ -12,6 +12,7 @@ from ..constants.fiscal import (
     OPERATION_STATE_DEFAULT,
     PRODUCT_FISCAL_TYPE,
     TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_IPI,
     TAX_DOMAIN_ISSQN,
     TAX_FRAMEWORK,
     TAX_FRAMEWORK_NORMAL,
@@ -161,7 +162,7 @@ class OperationLine(models.Model):
         return document_type
 
     def _get_cfop(self, company, partner):
-        cfop = False
+        cfop = self.env["l10n_br_fiscal.cfop"]
         if partner.state_id == company.state_id:
             cfop = self.cfop_internal_id
         if partner.state_id != company.state_id:
@@ -171,15 +172,23 @@ class OperationLine(models.Model):
         return cfop
 
     def _build_mapping_result_ipi(self, mapping_result, tax_definition):
-        mapping_result[
-            "ipi_guideline"
-        ] = tax_definition.ipi_guideline_id or self.env.ref(
-            "l10n_br_fiscal.tax_guideline_999"
-        )
+        if tax_definition and tax_definition.ipi_guideline_id:
+            mapping_result["ipi_guideline"] = tax_definition.ipi_guideline_id
+
+    def _build_mapping_result_icms(self, mapping_result, tax_definition):
+        if tax_definition and tax_definition.is_benefit:
+            mapping_result["icms_tax_benefit_id"] = tax_definition.id
 
     def _build_mapping_result(self, mapping_result, tax_definition):
         mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
-        self._build_mapping_result_ipi(mapping_result, tax_definition)
+        self._build_mapping_result_icms(
+            mapping_result,
+            tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS),
+        )
+        self._build_mapping_result_ipi(
+            mapping_result,
+            tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_IPI),
+        )
 
     def map_fiscal_taxes(
         self,
@@ -199,14 +208,14 @@ class OperationLine(models.Model):
         mapping_result = {
             "taxes": {},
             "cfop": False,
-            "ipi_guideline": False,
+            "ipi_guideline": self.env.ref("l10n_br_fiscal.tax_guideline_999"),
+            "icms_tax_benefit_id": False,
         }
 
         self.ensure_one()
 
         # Define CFOP
-        cfop = self._get_cfop(company, partner)
-        mapping_result["cfop"] = cfop
+        mapping_result["cfop"] = self._get_cfop(company, partner)
 
         # 1 Get Tax Defs from Company
         for tax_definition in company.tax_definition_ids.map_tax_definition(
@@ -235,7 +244,7 @@ class OperationLine(models.Model):
 
             # 3 From ICMS Regulation
             if company.icms_regulation_id:
-                tax_icms_ids = company.icms_regulation_id.map_tax(
+                icms_taxes, icms_tax_defs = company.icms_regulation_id.map_tax(
                     company=company,
                     partner=partner,
                     product=product,
@@ -246,7 +255,10 @@ class OperationLine(models.Model):
                     ind_final=ind_final,
                 )
 
-                for tax in tax_icms_ids:
+                for tax_def in icms_tax_defs:
+                    self._build_mapping_result_icms(mapping_result, tax_def)
+
+                for tax in icms_taxes:
                     mapping_result["taxes"][tax.tax_domain] = tax
 
         # 4 From Operation Line
@@ -263,7 +275,9 @@ class OperationLine(models.Model):
             self._build_mapping_result(mapping_result, tax_definition)
 
         # 5 From CFOP
-        for tax_definition in cfop.tax_definition_ids.map_tax_definition(
+        for tax_definition in mapping_result[
+            "cfop"
+        ].tax_definition_ids.map_tax_definition(
             company,
             partner,
             product,
