@@ -1,9 +1,6 @@
 # Copyright (C) 2023 KMEE Informatica LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
-import base64
-import gzip
-import io
 import logging
 import re
 from datetime import datetime
@@ -11,12 +8,13 @@ from datetime import datetime
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import objectify
-from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError, ValidationError
+
+from ..tools import utils
 
 _logger = logging.getLogger(__name__)
 
@@ -39,12 +37,6 @@ class DFe(models.Model):
     last_nsu = fields.Char(string="Last NSU", size=25, default="0")
 
     last_query = fields.Datetime(string="Last query")
-
-    recipient_xml_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.dfe_xml",
-        inverse_name="dfe_id",
-        string="XML Documents",
-    )
 
     imported_document_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document",
@@ -122,82 +114,55 @@ class DFe(models.Model):
 
         return valid
 
-    def read_gzip_xml(self, xml):
-        arq = io.BytesIO()
-        arq.write(base64.b64decode(xml))
-        arq.seek(0)
-
-        gzip_file = gzip.GzipFile(mode="r", fileobj=arq)
-        return gzip_file.read()
-
     def document_distribution(self, raise_error):
         self.validate_document_configuration()
 
-        try:
-            result = self._get_processor().consultar_distribuicao(
-                cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf),
-                ultimo_nsu=self._format_nsu(self.last_nsu),
-            )
-        except Exception as e:
-            _logger.error("Error on searching documents.\n%s" % e)
-            if raise_error:
-                raise UserError(_("Error on searching documents!\n '%s'") % e)
-            return
-
-        self.last_query = fields.Datetime.now()
-
-        if not self.validate_distribution_response(result, raise_error):
-            return
-
-        self.env["l10n_br_fiscal.dfe_xml"].create(
-            [
-                {
-                    "dfe_id": self.id,
-                    "xml_type": "0",
-                    "xml": result.envio_xml,
-                },
-                {
-                    "dfe_id": self.id,
-                    "xml_type": "1",
-                    "xml": result.retorno.text,
-                },
-            ]
-        )
-
-        for doc in result.resposta.loteDistDFeInt.docZip:
-            xml = self.read_gzip_xml(doc.valueOf_)
-            root = objectify.fromstring(xml)
-            self.last_nsu = doc.NSU
-
-            mde_id = self.env["l10n_br_fiscal.mde"].search(
-                [
-                    ("nsu", "=", self._format_nsu(doc.NSU)),
-                    ("company_id", "=", self.company_id.id),
-                ],
-                limit=1,
-            )
-            if not mde_id:
-                mde_id = self.create_mde_from_schema(doc.schema, root)
-                mde_id.create_xml_attachment(xml)
-
-                self.env["l10n_br_fiscal.dfe_xml"].create(
-                    {
-                        "dfe_id": self.id,
-                        "xml_type": "2",
-                        "xml": xml,
-                    }
+        maxNSU = ""
+        while maxNSU != self.last_nsu:
+            try:
+                result = self._get_processor().consultar_distribuicao(
+                    cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf),
+                    ultimo_nsu=utils.format_nsu(self.last_nsu),
                 )
+            except Exception as e:
+                _logger.error("Error on searching documents.\n%s" % e)
+                if raise_error:
+                    raise UserError(_("Error on searching documents!\n '%s'") % e)
+                break
+
+            self.last_query = fields.Datetime.now()
+
+            if not self.validate_distribution_response(result, raise_error):
+                break
+
+            for doc in result.resposta.loteDistDFeInt.docZip:
+                xml = utils.parse_gzip_xml(doc.valueOf_).read()
+                root = objectify.fromstring(xml)
+                self.last_nsu = doc.NSU
+
+                mde_id = self.env["l10n_br_fiscal.mde"].search(
+                    [
+                        ("nsu", "=", utils.format_nsu(doc.NSU)),
+                        ("company_id", "=", self.company_id.id),
+                    ],
+                    limit=1,
+                )
+                if not mde_id:
+                    mde_id = self.create_mde_from_schema(doc.schema, root)
+                    mde_id.create_xml_attachment(xml)
+
+            maxNSU = result.resposta.maxNSU
 
     def create_mde_from_schema(self, schema, root):
         schema_type = schema.split("_")[0]
-        SCHEMA_TO_MDE_PARSER = {
-            "procNFe": self.create_mde_from_procNFe,
-            "resNFe": self.create_mde_from_resNFe,
-        }
-        return SCHEMA_TO_MDE_PARSER[schema_type](root)
+        method = "create_mde_from_%s" % schema_type
+        if not hasattr(self, method):
+            return
+
+        return getattr(self, method)(root)
 
     def create_mde_from_procNFe(self, root):
-        supplier_cnpj = self._mask_cnpj("%014d" % root.NFe.infNFe.emit.CNPJ)
+        supplier_cnpj = utils.mask_cnpj("%014d" % root.NFe.infNFe.emit.CNPJ)
         partner = self.env["res.partner"].search([("cnpj_cpf", "=", supplier_cnpj)])
 
         nfe_key = root.protNFe.infProt.chNFe
@@ -224,11 +189,12 @@ class DFe(models.Model):
                 "company_id": self.company_id.id,
                 "dfe_id": self.id,
                 "inclusion_mode": "Verificação agendada",
+                "schema": "procNFe",
             }
         )
 
     def create_mde_from_resNFe(self, root):
-        supplier_cnpj = self._mask_cnpj("%014d" % root.CNPJ)
+        supplier_cnpj = utils.mask_cnpj("%014d" % root.CNPJ)
         partner_id = self.env["res.partner"].search([("cnpj_cpf", "=", supplier_cnpj)])
 
         nfe_key = root.chNFe
@@ -255,6 +221,7 @@ class DFe(models.Model):
                 "company_id": self.company_id.id,
                 "dfe_id": self.id,
                 "inclusion_mode": "Verificação agendada - manifestada por outro app",
+                "schema": "resNFe",
             }
         )
 
@@ -267,23 +234,14 @@ class DFe(models.Model):
             mde_id.dfe_id = self.id
         return mde_id
 
-    def parse_xml_document(self, doc_xml):
-        if not doc_xml:
+    def parse_xml_document(self, document):
+        schema_type = document.schema.split("_")[0]
+        method = "parse_%s" % schema_type
+        if not hasattr(self, method):
             return
 
-        root = objectify.fromstring(doc_xml)
-        if not hasattr(root, "NFe"):
-            return
-
-        binding = TnfeProc.from_xml(doc_xml.decode())
-        document_id = (
-            self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in")
-            .build_from_binding(binding.NFe.infNFe)
-        )
-        document_id.dfe_id = self.id
-
-        return document_id
+        xml = utils.parse_gzip_xml(document.valueOf_)
+        return getattr(self, method)(xml)
 
     def download_document(self, nfe_key, raise_error=True):
         self.validate_document_configuration()
@@ -301,25 +259,22 @@ class DFe(models.Model):
         if not self.validate_distribution_response(result, raise_error):
             return
 
-        return self.read_gzip_xml(result.resposta.loteDistDFeInt.docZip[0].valueOf_)
+        return result.resposta.loteDistDFeInt.docZip[0]
 
     def download_documents(self):
-        document_ids = self.env["l10n_br_fiscal.document"]
         for mde_id in self.imported_mde_ids.filtered(
             lambda m: m.state in ["pendente", "ciente"]
         ):
             if mde_id.state == "pendente":
                 mde_id.action_ciencia_emissao()
 
-            xml_document = self.download_document(mde_id.key)
-            document_id = self.parse_xml_document(xml_document)
+            document = self.download_document(mde_id.key)
+            document_id = self.parse_xml_document(document)
             if not document_id:
                 continue
 
+            document_id.dfe_id = self.id
             mde_id.document_id = document_id
-            document_ids |= document_id
-
-        return document_ids
 
     def _cron_search_documents(self):
         self.search([("use_cron", "=", True)]).search_documents(raise_error=False)
@@ -340,45 +295,3 @@ class DFe(models.Model):
                 [("company_id", "=", self.company_id.id)]
             ),
         }
-
-    @staticmethod
-    def _mask_cnpj(cnpj):
-        if cnpj:
-            val = re.sub("[^0-9]", "", cnpj)
-            if len(val) == 14:
-                cnpj = "%s.%s.%s/%s-%s" % (
-                    val[0:2],
-                    val[2:5],
-                    val[5:8],
-                    val[8:12],
-                    val[12:14],
-                )
-        return cnpj
-
-    @staticmethod
-    def _format_nsu(nsu):
-        return str(nsu).zfill(15)
-
-
-class DFeXML(models.Model):
-    _name = "l10n_br_fiscal.dfe_xml"
-    _description = "DF-e XML Document"
-
-    dfe_id = fields.Many2one(
-        string="DF-e Consult",
-        comodel_name="l10n_br_fiscal.dfe",
-    )
-
-    xml_type = fields.Selection(
-        selection=[
-            ("0", "Envio"),
-            ("1", "Resposta"),
-            ("2", "Resposta-LoteDistDFeInt-DocZip(NFe)"),
-        ],
-        string="XML Type",
-    )
-
-    xml = fields.Char(
-        string="XML",
-        size=5000,
-    )
