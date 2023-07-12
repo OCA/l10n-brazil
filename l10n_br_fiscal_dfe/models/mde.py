@@ -12,8 +12,9 @@ from requests import Session
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
-from ...constants.mde import (
+from ..constants.mde import (
     OPERATION_TYPE,
+    SCHEMAS,
     SIT_MANIF_CIENTE,
     SIT_MANIF_CONFIRMADO,
     SIT_MANIF_DESCONHECIDO,
@@ -22,6 +23,7 @@ from ...constants.mde import (
     SITUACAO_MANIFESTACAO,
     SITUACAO_NFE,
 )
+from ..tools import utils
 
 _logger = logging.getLogger(__name__)
 
@@ -104,6 +106,8 @@ class MDe(models.Model):
     )
 
     dfe_id = fields.Many2one(string="DF-e", comodel_name="l10n_br_fiscal.dfe")
+
+    schema = fields.Selection(selection=SCHEMAS)
 
     def name_get(self):
         return [
@@ -195,7 +199,8 @@ class MDe(models.Model):
     def action_download_xml(self):
         self.ensure_one()
 
-        xml_document = self.dfe_id.download_document(self.key)
+        document = self.dfe_id.download_document(self.key)
+        xml_document = utils.parse_gzip_xml(document.valueOf_).read()
         file_name = "NFe%s.xml" % self.key
         return self.env["ir.attachment"].create(
             {
