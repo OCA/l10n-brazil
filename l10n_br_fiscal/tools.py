@@ -73,3 +73,7 @@ def build_edoc_path(
     except Exception as e:
         _logger.error("Falha de permissão ao acessar diretorio do e-doc {}".format(e))
     return caminho
+
+
+def format_cnpj_cpf(val):
+    return cnpj_cpf.formata(val)

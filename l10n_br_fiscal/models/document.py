@@ -186,11 +186,6 @@ class Document(models.Model):
         store=True,
     )
 
-    dfe_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.dfe",
-        string="DF-e Consult",
-    )
-
     xml_error_message = fields.Text(
         readonly=True,
         string="XML validation errors",
