@@ -4,7 +4,7 @@ import logging
 
 import nfelib
 import pkg_resources
-from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
+from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
 from odoo import SUPERUSER_ID, api
 from odoo.exceptions import ValidationError
@@ -30,30 +30,25 @@ def post_init_hook(cr, registry):
     is_demo = cr.fetchone()[0]
     if is_demo:
         res_items = (
-            "..",
-            "tests",
             "nfe",
-            "v4_00",
+            "samples",
+            "v4_0",
             "leiauteNFe",
             "35180834128745000152550010000474491454651420-nfe.xml",
         )
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-
-        # nfe_stream = pkg_resources.resource_stream('nfelib',
-        # '../tests/nfe/v4_00/leiauteNFe/35180803102452000172550010000474491454651420-nfe.xml')
-        nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
-        document_number = nfe_binding.infNFe.ide.nNF
+        binding = TnfeProc.from_xml(nfe_stream.read().decode())
+        document_number = binding.NFe.infNFe.ide.nNF
         existing_nfes = env["l10n_br_fiscal.document"].search(
             [("document_number", "=", document_number)]
         )
-
         try:
             existing_nfes.unlink()
             nfe = (
                 env["nfe.40.infnfe"]
                 .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
-                .build_from_binding(nfe_binding.infNFe)
+                .build_from_binding(binding.NFe.infNFe)
             )
             _logger.info(nfe.nfe40_emit.nfe40_CNPJ)
         except ValidationError:

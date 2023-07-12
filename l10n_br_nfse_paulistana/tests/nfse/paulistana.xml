@@ -1,0 +1,58 @@
+<PedidoEnvioLoteRPS
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://www.prefeitura.sp.gov.br/nfe"
+>
+    <Cabecalho xmlns="" Versao="1">
+        <CPFCNPJRemetente>
+            <CNPJ>59594315000157</CNPJ>
+        </CPFCNPJRemetente>
+        <transacao>false</transacao>
+        <dtInicio>2020-06-04</dtInicio>
+        <dtFim>2020-06-04</dtFim>
+        <QtdRPS>1</QtdRPS>
+        <ValorTotalServicos>100</ValorTotalServicos>
+        <ValorTotalDeducoes>0</ValorTotalDeducoes>
+    </Cabecalho>
+    <RPS xmlns="">
+        <Assinatura
+        >00035172001  00000000005020200604TNN0000000000100000000000000000006311900281493979000189</Assinatura>
+        <ChaveRPS>
+            <InscricaoPrestador>35172</InscricaoPrestador>
+            <SerieRPS>001</SerieRPS>
+            <NumeroRPS>50</NumeroRPS>
+        </ChaveRPS>
+        <TipoRPS>RPS</TipoRPS>
+        <DataEmissao>2020-06-04</DataEmissao>
+        <StatusRPS>N</StatusRPS>
+        <TributacaoRPS>T</TributacaoRPS>
+        <ValorServicos>100</ValorServicos>
+        <ValorDeducoes>0</ValorDeducoes>
+        <ValorPIS>0</ValorPIS>
+        <ValorCOFINS>0</ValorCOFINS>
+        <ValorINSS>0</ValorINSS>
+        <ValorIR>0</ValorIR>
+        <ValorCSLL>0</ValorCSLL>
+        <CodigoServico>6311900</CodigoServico>
+        <AliquotaServicos>0.05</AliquotaServicos>
+        <ISSRetido>false</ISSRetido>
+        <CPFCNPJTomador>
+            <CNPJ>81493979000189</CNPJ>
+        </CPFCNPJTomador>
+        <InscricaoEstadualTomador>460429771334</InscricaoEstadualTomador>
+        <RazaoSocialTomador>Cliente 1 SP</RazaoSocialTomador>
+        <EnderecoTomador>
+            <Logradouro>Rua Samuel Morse</Logradouro>
+            <NumeroEndereco>135</NumeroEndereco>
+            <Bairro>Brooklin</Bairro>
+            <Cidade>3550308</Cidade>
+            <UF>SP</UF>
+            <CEP>4576060</CEP>
+        </EnderecoTomador>
+        <EmailTomador>cliente1@cliente1.com.br</EmailTomador>
+        <Discriminacao
+        >[ODOO_DEV] Customized Odoo Development|Documento emitido por: Marc Demo|</Discriminacao>
+        <ValorCargaTributaria>0</ValorCargaTributaria>
+        <FonteCargaTributaria>100.0</FonteCargaTributaria>
+    </RPS>
+</PedidoEnvioLoteRPS>

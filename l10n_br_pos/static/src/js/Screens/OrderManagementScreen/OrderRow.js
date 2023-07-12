@@ -10,8 +10,8 @@ odoo.define("l10n_br_pos.OrderRow", function (require) {
     const OrderRow = require("point_of_sale.OrderRow");
     const Registries = require("point_of_sale.Registries");
 
-    const L10nBrPosOrderRow = (OrderRow) =>
-        class extends OrderRow {
+    const L10nBrPosOrderRow = (OrderRow_screen = OrderRow) =>
+        class extends OrderRow_screen {
             get document_serie_number() {
                 if (
                     this.props.order.document_serie &&

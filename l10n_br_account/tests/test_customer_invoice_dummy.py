@@ -4,6 +4,7 @@
 
 import mock
 
+from odoo.exceptions import UserError
 from odoo.models import NewId
 from odoo.tests import SavepointCase
 
@@ -361,3 +362,52 @@ class TestCustomerInvoice(SavepointCase):
                 self.invoice_3.fiscal_document_id.id,
                 "line.document_id should be equal invoice fiscal_document_id",
             )
+
+    def test_invoice_copy_with_dummy(self):
+        """
+        Tests the functionality of copying an invoice while using a fiscal dummy.
+        It verifies that the new invoice isn't recognized as a fiscal document,
+        the same fiscal dummy is used, and that no new entries were created.
+        """
+
+        # Retrieve initial count of fiscal document lines
+        init_number_of_fiscal_doc_lines = self.env[
+            "l10n_br_fiscal.document.line"
+        ].search_count([])
+
+        invoice_copy = self.invoice_1.copy()
+
+        # Confirm that the copied invoice uses the fiscal dummy
+        self.assertFalse(self.invoice_1.document_type_id.exists())
+        self.assertFalse(invoice_copy.document_type_id.exists())
+
+        # Check that no new fiscal document lines were created after copying the invoice
+        final_number_of_fiscal_doc_lines = self.env[
+            "l10n_br_fiscal.document.line"
+        ].search_count([])
+        self.assertEqual(
+            init_number_of_fiscal_doc_lines, final_number_of_fiscal_doc_lines
+        )
+
+        # Retrieve the dummy fiscal document line
+        dummy_fiscal_document_line = (
+            self.invoice_1.company_id.fiscal_dummy_id.fiscal_line_ids[0]
+        )
+
+        # Check that all account move lines are associated with the fiscal dummy
+        for line in invoice_copy.line_ids:
+            self.assertEqual(
+                line.fiscal_document_line_id.id, dummy_fiscal_document_line.id
+            )
+
+        self.assertEqual(len(invoice_copy), 1)
+
+    def test_has_fiscal_dummy(self):
+        fiscal_dummy = self.invoice_1.company_id.fiscal_dummy_id
+        self.assertEqual(fiscal_dummy.id, self.invoice_1.fiscal_document_id.id)
+        self.assertTrue(self.invoice_1.has_fiscal_dummy)
+
+    def test_set_document_type_with_dummy(self):
+        self.assertTrue(self.invoice_1.has_fiscal_dummy)
+        with self.assertRaises(UserError):
+            self.invoice_1.document_type_id = self.env.ref("l10n_br_fiscal.document_55")

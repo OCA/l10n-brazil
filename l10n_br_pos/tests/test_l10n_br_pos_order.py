@@ -4,16 +4,17 @@
 from datetime import datetime
 
 from odoo import fields
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestL10nBrPosOrder(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.env.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
-        self.pos_config = self.env.ref("l10n_br_pos.pos_config_presumido")
-        self.cash_payment_method = self.env.ref("l10n_br_pos.presumido_dinheiro")
-        self.led_lamp = self.env["product.product"].create(
+class TestL10nBrPosOrder(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        cls.pos_config = cls.env.ref("l10n_br_pos.pos_config_presumido")
+        cls.cash_payment_method = cls.env.ref("l10n_br_pos.presumido_dinheiro")
+        cls.led_lamp = cls.env["product.product"].create(
             {
                 "name": "LED Lamp",
                 "available_in_pos": True,
