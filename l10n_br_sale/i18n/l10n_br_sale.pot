@@ -1493,6 +1493,16 @@ msgid "Subtotal"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_tax_benefit_id
+msgid "Tax Benefit"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_tax_benefit_code
+msgid "Tax Benefit Code"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_tax_id
 msgid "Tax COFINS"
 msgstr ""
