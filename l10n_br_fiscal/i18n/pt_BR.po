@@ -43,6 +43,11 @@ msgid "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"
 msgstr "0 - Nacional, Exceto as indicadas nos códigos 3, 4, 5 e 8"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__0
+msgid "0 - imunidade ou não incidência"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__industry_type__00
 msgid "00 - Industrial - Transformação"
 msgstr "00 - Industrial - Transformação"
@@ -117,6 +122,11 @@ msgid "1 - Simples Nacional"
 msgstr "1 - Simples Nacional"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__1
+msgid "1 - isenção"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_UN1000
 msgid "1000UN"
 msgstr "1000UN"
@@ -138,6 +148,11 @@ msgid "2 - Simples Nacional – excesso de sublimite da receita bruta"
 msgstr "2 - Simples Nacional – excesso de sublimite da Receita Bruta"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__2
+msgid "2 - redução de base de cálculo"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_origin__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__icms_origin__2
@@ -157,6 +172,11 @@ msgid "3 - Regime Normal"
 msgstr "3 - Regime Normal"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__3
+msgid "3 - diferimento"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__3
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_origin__3
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__icms_origin__3
@@ -167,6 +187,11 @@ msgid ""
 msgstr ""
 "3 – Nacional – mercadoria ou bem com Conteúdo de Importação superior a 40% "
 "(quarenta por cento) e inferior ou igual a 70% (setenta por cento)"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__4
+msgid "4 - suspensão"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__4
@@ -181,6 +206,11 @@ msgstr ""
 "4 – Nacional – cuja produção foi feita em conformidade com os processos "
 "produtivos básicos de que tratam o Decreto-lei n° 288/67 e as Leis "
 "(federais) nos 8.428/91, 8.397/91, 10.176/2001 e 11.484/2007"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__5
+msgid "5 - Crédito Presumido"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__5
@@ -1316,6 +1346,16 @@ msgid "Bebidas alcoólicas, exceto cerveja e chope"
 msgstr "Bebidas alcoólicas, exceto cerveja e chope"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__benefit_type
+msgid "Benefit Type"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_benefit
+msgid "Benefit?"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #, python-format
 msgid "Bills to pay"
@@ -2081,6 +2121,7 @@ msgstr "Fechar"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_control_seal__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline_class__code
@@ -2834,6 +2875,11 @@ msgstr "Denegado"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_mdfe__state__desconhecido
 msgid "Desconhecimento"
 msgstr "Desconhecimento"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__description
+msgid "Description"
+msgstr "Descrição"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ii_customhouse_charges
@@ -6427,6 +6473,7 @@ msgstr "Nsu"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_control_seal__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__name
@@ -8382,6 +8429,154 @@ msgid "Tax Base Type"
 msgstr "Tipo de Base Tributária"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_tax_benefit_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_tax_benefit_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
+msgid "Tax Benefit"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ac_ids
+msgid "Tax Benefit AC"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_al_ids
+msgid "Tax Benefit AL"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_am_ids
+msgid "Tax Benefit AM"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ap_ids
+msgid "Tax Benefit AP"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ba_ids
+msgid "Tax Benefit BA"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ce_ids
+msgid "Tax Benefit CE"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_tax_benefit_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_tax_benefit_code
+msgid "Tax Benefit Code"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_df_ids
+msgid "Tax Benefit DF"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_es_ids
+msgid "Tax Benefit ES"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_go_ids
+msgid "Tax Benefit GO"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ma_ids
+msgid "Tax Benefit MA"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_mg_ids
+msgid "Tax Benefit MG"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ms_ids
+msgid "Tax Benefit MS"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_mt_ids
+msgid "Tax Benefit MT"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pa_ids
+msgid "Tax Benefit PA"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pb_ids
+msgid "Tax Benefit PB"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pe_ids
+msgid "Tax Benefit PE"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pi_ids
+msgid "Tax Benefit PI"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_pr_ids
+msgid "Tax Benefit PR"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_rj_ids
+msgid "Tax Benefit RJ"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_rn_ids
+msgid "Tax Benefit RN"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ro_ids
+msgid "Tax Benefit RO"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_rr_ids
+msgid "Tax Benefit RR"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_rs_ids
+msgid "Tax Benefit RS"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_sc_ids
+msgid "Tax Benefit SC"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_se_ids
+msgid "Tax Benefit SE"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_sp_ids
+msgid "Tax Benefit SP"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_to_ids
+msgid "Tax Benefit TO"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cofins_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins__tax_cofins_id
@@ -8745,6 +8940,18 @@ msgid "Tax already exists with this name !"
 msgstr "Imposto já existe com esse nome!"
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
+#, python-format
+msgid "Tax benefit code must be 8 characters!"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
+#, python-format
+msgid "Tax benefit code must be start with state code!"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_taxed
 msgid "Taxed?"
 msgstr "Tributados?"
@@ -8817,6 +9024,12 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__sequence
 msgid ""
 "The sequence field is used to define the order in which taxes are displayed."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
+#, python-format
+msgid "The tax benefit code must contain the type of benefit!"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9754,9 +9967,6 @@ msgstr "{} Estimativa de Imposto Atualizada"
 
 #~ msgid "Desconhecer Operação"
 #~ msgstr "Desconhecer Operação"
-
-#~ msgid "Description"
-#~ msgstr "Descrição"
 
 #~ msgid "Destined Documents"
 #~ msgstr "Documentos destinados"
