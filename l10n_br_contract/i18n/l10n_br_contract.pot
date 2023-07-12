@@ -1242,6 +1242,16 @@ msgid "State Tax Number/RG"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_tax_benefit_id
+msgid "Tax Benefit"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_tax_benefit_code
+msgid "Tax Benefit Code"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cofins_tax_id
 msgid "Tax COFINS"
 msgstr ""
