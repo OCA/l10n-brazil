@@ -73,7 +73,7 @@ class AccountMoveLine(models.Model):
 
         order_id = self.payment_line_ids[0].order_id
         with ArquivoCertificado(order_id.journal_id, "w") as (key, cert):
-            self.journal_id.bank_account_id
+            # self.journal_id.bank_account_id
             self.api = ApiInter(
                 cert=(cert, key),
                 conta_corrente=(
