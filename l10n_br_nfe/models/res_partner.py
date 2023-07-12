@@ -5,6 +5,7 @@ import logging
 
 from odoo import api, fields
 
+from odoo.addons.l10n_br_fiscal.tools.misc import format_cnpj_cpf
 from odoo.addons.spec_driven_model.models import spec_models
 
 _logger = logging.getLogger(__name__)
@@ -277,6 +278,36 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             if rec.nfe40_fone:
                 rec.phone = rec.nfe40_fone
+
+    @api.model
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        if model is not None and model != self:
+            return False
+
+        if parent_dict.get("nfe40_CNPJ", False):
+            rec_dict["cnpj_cpf"] = parent_dict["nfe40_CNPJ"]
+
+        if rec_dict.get("nfe40_CNPJ", False):
+            rec_dict["cnpj_cpf"] = rec_dict["nfe40_CNPJ"]
+
+        if rec_dict.get("cnpj_cpf", False):
+            domain_cnpj = [
+                "|",
+                ("cnpj_cpf", "=", rec_dict["cnpj_cpf"]),
+                ("cnpj_cpf", "=", format_cnpj_cpf(rec_dict["cnpj_cpf"])),
+            ]
+            match = self.search(domain_cnpj, limit=1)
+            if match:
+                return match.id
+
+        vals = self._prepare_import_dict(
+            rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
+        )
+        if self._context.get("dry_run", False):
+            rec_id = self.new(vals).id
+        else:
+            rec_id = self.with_context(parent_dict=parent_dict).create(vals).id
+        return rec_id
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         # Se a NF-e é emitida em homologação altera o nome do destinatário
