@@ -149,7 +149,8 @@ class DFe(models.Model):
                 )
                 if not mde_id:
                     mde_id = self.create_mde_from_schema(doc.schema, root)
-                    mde_id.create_xml_attachment(xml)
+                    if mde_id:
+                        mde_id.create_xml_attachment(xml)
 
             maxNSU = result.resposta.maxNSU
 
