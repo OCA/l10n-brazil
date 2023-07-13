@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="view_move_form">
+        <field name="name">account.move.form (in l10n_br_bank_api_inter)</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_payment_order.view_move_form" />
+        <field name="arch" type="xml">
+            <button name="preview_invoice" position="after">
+                <button
+                    name="action_pdf_boleto"
+                    type="object"
+                    string="Imprimir Boletos"
+                    attrs="{'invisible': [('state', '!=', 'posted')]}"
+                />
+            </button>
+        </field>
+    </record>
+
+
+</odoo>
