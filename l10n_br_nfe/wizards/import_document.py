@@ -4,7 +4,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
-import io
 
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
@@ -63,16 +62,10 @@ class NfeImport(models.TransientModel):
 
     def parse_xml(self):
         try:
-            stream = io.BytesIO()
-            stream.write(base64.b64decode(self.xml))
-            stream.seek(0)
-            binding = TnfeProc.from_xml(stream.read().decode())
+            binding = TnfeProc.from_xml(base64.b64decode(self.xml).decode())
         except Exception as e:
             raise UserError(_("Invalid file: %s" % e))
         else:
-            if not hasattr(binding, "NFe"):
-                raise UserError(_("The XML to import is not a valid NFe XML."))
-
             return self._edit_parsed_xml(binding)
 
     def get_document_by_xml(self, xml):
