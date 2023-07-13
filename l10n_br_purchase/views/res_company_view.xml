@@ -6,7 +6,7 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='certificate']" position="after">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
                 <page name="l10n_br_purchase" string="Purchases">
                     <group>
                         <group>
