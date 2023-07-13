@@ -635,7 +635,6 @@ class NFe(spec_models.StackedModel):
         return {
             **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
             "imported_document": True,
-            "active": False,
         }
 
     def _build_attr(self, node, fields, vals, path, attr):
