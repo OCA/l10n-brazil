@@ -160,17 +160,14 @@ class L10nBrCNABChangeMethods(models.Model):
         )
 
     def _cnab_already_start(self):
-
         result = False
         # Se existir uma Ordem já gerada, exportada ou concluída
         # significa que o processo desse CNAB já foi iniciado no Banco
         cnab_already_start = self.payment_line_ids.filtered(
             lambda t: t.order_id.state in ("generated", "uploaded", "done")
         )
-
         if cnab_already_start:
             result = True
-
         return result
 
     def update_cnab_for_cancel_invoice(self):
@@ -518,7 +515,6 @@ class L10nBrCNABChangeMethods(models.Model):
         )
 
     def create_payment_outside_cnab(self, amount_payment):
-
         if self.amount_residual == 0.0:
             reason_write_off = (
                 "Movement Instruction Code Updated for"

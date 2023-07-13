@@ -35,10 +35,8 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
-        /**
-         * TODO: Verificar o que não deve ser copiado através do clone
-         * TODO: Verificar o funcionamento do export_as_JSON
-         */
+        // TODO: Verificar o que não deve ser copiado através do clone
+        // TODO: Verificar o funcionamento do export_as_JSON
         _prepare_fiscal_json: function (json) {
             _super_order._prepare_fiscal_json.apply(this, arguments);
 

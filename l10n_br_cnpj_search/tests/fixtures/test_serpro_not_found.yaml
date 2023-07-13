@@ -1,0 +1,51 @@
+interactions:
+  - request:
+      body: null
+      headers:
+        Accept:
+          - "*/*"
+        Accept-Encoding:
+          - gzip, deflate
+        Authorization:
+          - Bearer 11111111-1111-1111-1111-111111111111
+        Connection:
+          - keep-alive
+        User-Agent:
+          - python-requests/2.25.1
+      method: GET
+      uri: https://gateway.apiserpro.serpro.gov.br/consulta-cnpj-df-trial/v2/basica/44356113000108
+    response:
+      body:
+        string:
+          '{"code":"900901","message":"Invalid Credentials","description":"Access
+          failure for API: /consulta-cnpj-df-trial/v2, version: v2 status: (900901) -
+          Invalid Credentials. Make sure you have provided the correct security
+          credentials"}'
+      headers:
+        Access-Control-Allow-Headers:
+          - authorization,Access-Control-Allow-Origin,Content-Type,SOAPAction,apikey,Internal-Key,x-cpf-usuario,signature,x-signature,x-credencial,X-Request-Trace-Id
+        Access-Control-Allow-Methods:
+          - GET
+        Access-Control-Allow-Origin:
+          - "*"
+        Access-Control-Expose-Headers:
+          - ""
+        Connection:
+          - keep-alive
+        Content-Type:
+          - application/json; charset=UTF-8
+        Date:
+          - Wed, 28 Jun 2023 13:47:28 GMT
+        Transfer-Encoding:
+          - chunked
+        WWW-Authenticate:
+          - null Bearer realm="WSO2 API Manager", error="invalid_token",
+            error_description="The provided token is invalid"
+        X-Forwarded-For:
+          - 179.108.22.53
+        activityid:
+          - 84e824ee-bb95-44c6-b29d-30fd5fef2f62
+      status:
+        code: 401
+        message: Unauthorized
+version: 1
