@@ -196,8 +196,6 @@ class NfeImport(models.TransientModel):
         self._attach_original_nfe_xml_to_document(edoc)
         self.imported_products_ids._find_or_create_product_supplierinfo()
 
-        edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
-
         if not self.purchase_id and self.purchase_link_type == "create":
             self.purchase_id = self.create_purchase_order(edoc)
 
