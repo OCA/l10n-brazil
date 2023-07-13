@@ -11,8 +11,8 @@
                     <field
                         name="fiscal_profile_id"
                         force_save="1"
-                        widget="radio"
                         required="1"
+                        groups="l10n_br_fiscal.group_user"
                     />
                     <field
                         name="ind_ie_dest"
