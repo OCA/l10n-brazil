@@ -5,7 +5,7 @@ import logging
 
 from odoo import api, fields
 
-from odoo.addons.l10n_br_fiscal.tools.misc import format_cnpj_cpf
+from odoo.addons.l10n_br_fiscal.tools.formatter import format_cnpj_cpf
 from odoo.addons.spec_driven_model.models import spec_models
 
 _logger = logging.getLogger(__name__)
