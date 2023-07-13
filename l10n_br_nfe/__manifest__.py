@@ -13,9 +13,10 @@
     "development_status": "Beta",
     "version": "14.0.9.0.1",
     "depends": [
-        "l10n_br_fiscal_purchase",
+        "l10n_br_fiscal",
         "l10n_br_nfe_spec",
         "spec_driven_model",
+        "l10n_br_fiscal_purchase",
     ],
     "data": [
         # Data
