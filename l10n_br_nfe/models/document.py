@@ -44,7 +44,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
-from odoo.addons.l10n_br_fiscal.tools.misc import format_cnpj_cpf
+from odoo.addons.l10n_br_fiscal.tools.formatter import format_cnpj_cpf
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (

@@ -6,7 +6,6 @@ import logging
 import os
 
 from erpbrasil.assinatura import misc
-from erpbrasil.base.fiscal.edoc import cnpj_cpf
 from erpbrasil.base.misc import punctuation_rm
 
 from odoo.tools import config
@@ -93,7 +92,3 @@ def build_edoc_path(
     except Exception as e:
         _logger.error("Falha de permissão ao acessar diretorio do e-doc {}".format(e))
     return caminho
-
-
-def format_cnpj_cpf(val):
-    return cnpj_cpf.formata(val)
