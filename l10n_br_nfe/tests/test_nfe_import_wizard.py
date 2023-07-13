@@ -41,6 +41,10 @@ class NFeImportWizardTest(SavepointCase):
         self.wizard._onchange_xml()
 
     def test_onchange_nfe_xml(self):
+        xml = "dummy"
+        with self.assertRaises(UserError):
+            self._prepare_wizard(xml.encode("utf-8"))
+
         self._prepare_wizard(self.xml_1)
         self.wizard.import_xml()
 
