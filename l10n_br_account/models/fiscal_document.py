@@ -132,6 +132,10 @@ class FiscalDocument(models.Model):
         # that verifies that the ACTIVE field is not False. As the main characteristic
         # of the dummy document is the ACTIVE field is False
         for values in vals_list:
-            if values.get("fiscal_line_ids") and values.get("active") is not False:
+            if (
+                values.get("fiscal_line_ids")
+                and values.get("active") is not False
+                and not values.get("imported_document", False)
+            ):
                 values.update({"fiscal_line_ids": False})
         return super().create(vals_list)
