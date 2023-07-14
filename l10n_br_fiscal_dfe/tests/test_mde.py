@@ -8,7 +8,7 @@ from erpbrasil.edoc.resposta import analisar_retorno_raw
 from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
 from nfelib.v4_00 import retEnvEvento
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 from ..models.mde import MDe
 from .test_dfe import mocked_post_success_multiple
@@ -73,12 +73,13 @@ def mocked_post_nao_realizada(*args, **kwargs):
     )
 
 
-class TestMDe(TransactionCase):
-    def setUp(self):
-        super().setUp()
+class TestMDe(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.dfe_id = self.env["l10n_br_fiscal.dfe"].create(
-            {"company_id": self.env.ref("l10n_br_base.empresa_lucro_presumido").id}
+        cls.dfe_id = cls.env["l10n_br_fiscal.dfe"].create(
+            {"company_id": cls.env.ref("l10n_br_base.empresa_lucro_presumido").id}
         )
 
         with mock.patch.object(
@@ -86,9 +87,9 @@ class TestMDe(TransactionCase):
             "_post",
             side_effect=mocked_post_success_multiple,
         ):
-            self.dfe_id.search_documents()
+            cls.dfe_id.search_documents()
 
-        self.mde_id = self.dfe_id.imported_mde_ids[0]
+        cls.mde_id = cls.dfe_id.imported_mde_ids[0]
 
     def test_events_success(self):
         with mock.patch.object(
