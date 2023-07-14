@@ -6,6 +6,8 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from .account_move import InheritsCheckMuteLogger
+
 # These fields have the same name in account.move.line
 # and l10n_br_fiscal.document.line. So they wouldn't get updated
 # by the _inherits system. An alternative would be changing their name
@@ -126,6 +128,17 @@ class AccountMoveLine(models.Model):
             )
 
     @api.model
+    def _inherits_check(self):
+        """
+        Overriden to avoid the super method to set the fiscal_document_line_id
+        field as required.
+        """
+        with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
+            super()._inherits_check()
+        field = self._fields.get("fiscal_document_line_id")
+        field.required = False  # unset the required = True assignement
+
+    @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synchronized
         from the parent."""
@@ -196,7 +209,9 @@ class AccountMoveLine(models.Model):
                     )
                 )
         self._inject_shadowed_fields(vals_list)
-        return super().create(vals_list)
+        return super(
+            AccountMoveLine, self.with_context(create_from_move_line=True)
+        ).create(vals_list)
 
     def write(self, values):
         non_dummy = self.filtered(lambda l: l.fiscal_document_line_id)
@@ -452,7 +467,6 @@ class AccountMoveLine(models.Model):
     def _get_fields_onchange_subtotal_model(
         self, price_subtotal, move_type, currency, company, date
     ):
-
         if company.country_id.code != "BR":
             return super()._get_fields_onchange_subtotal_model(
                 price_subtotal=price_subtotal,
@@ -549,7 +563,6 @@ class AccountMoveLine(models.Model):
         date,
         cfop_id,
     ):
-
         if exclude_from_invoice_tab:
             return {}
         if move_id.move_type in move_id.get_outbound_types():
