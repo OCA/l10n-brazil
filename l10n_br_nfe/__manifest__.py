@@ -16,6 +16,7 @@
         "l10n_br_fiscal_certificate",
         "l10n_br_nfe_spec",
         "spec_driven_model",
+        "l10n_br_fiscal_dfe",
     ],
     "data": [
         # Data
