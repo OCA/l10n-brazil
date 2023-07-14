@@ -45,10 +45,6 @@ class CTe(spec_models.StackedModel):
         - <infModal>"""
 
     ##########################
-    # CT-e document fields
-    ##########################
-
-    ##########################
     # CT-e spec related fields
     ##########################
 
