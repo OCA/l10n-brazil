@@ -33,10 +33,9 @@ class FiscalDocumentLine(models.Model):
         This is a requirement to allow account moves without fiscal documents despite
         the _inherits system.
         """
-        # TODO move this query to init/_auto_init; however it is not trivial
-        self.env.cr.execute(
-            "alter table account_move_line alter column fiscal_document_line_id drop not null;"
-        )
-        return super().create(
-            list(filter(lambda vals: vals.get("document_id"), vals_list))
-        )
+        if self._context.get("create_from_move_line"):
+            return super().create(
+                list(filter(lambda vals: vals.get("document_id"), vals_list))
+            )
+        else:
+            return super().create(vals_list)
