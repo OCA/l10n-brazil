@@ -9,7 +9,7 @@ from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
 from nfelib.v4_00 import retDistDFeInt
 
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 from ..models.mde import MDe
 from ..tools import utils
@@ -72,12 +72,13 @@ def mocked_post_error_status_code(*args, **kwargs):
     )
 
 
-class TestDFe(TransactionCase):
-    def setUp(self):
-        super().setUp()
+class TestDFe(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.dfe_id = self.env["l10n_br_fiscal.dfe"].create(
-            {"company_id": self.env.ref("l10n_br_base.empresa_lucro_presumido").id}
+        cls.dfe_id = cls.env["l10n_br_fiscal.dfe"].create(
+            {"company_id": cls.env.ref("l10n_br_base.empresa_lucro_presumido").id}
         )
 
     @mock.patch.object(
