@@ -30,3 +30,8 @@ class TestNFeDFe(TransactionCase):
         self.dfe_id.search_documents()
 
         self.dfe_id.download_documents()
+        self.assertEqual(len(self.dfe_id.imported_document_ids), 1)
+        self.assertEqual(
+            self.dfe_id.imported_document_ids[0].document_key,
+            "35200159594315000157550010000000012062777161",
+        )
