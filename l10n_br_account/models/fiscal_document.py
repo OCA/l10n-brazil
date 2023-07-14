@@ -113,17 +113,14 @@ class FiscalDocument(models.Model):
         a fiscal_document_id despite the _inherits system:
         Odoo will write NULL as the value in this case.
         """
-        # TODO move this query to init/_auto_init; however it is not trivial
-        self.env.cr.execute(
-            "alter table account_move alter column fiscal_document_id drop not null;"
-        )
-        filtered_vals_list = []
-        for values in vals_list:
-            if values.get("document_type_id") or values.get("document_serie_id"):
-                # we also disable the fiscal_line_ids creation here to
-                # let the ORM create them later from the account.move.line records
-                # TODO may be we might activa/deactivate this through a context key
-                # values.update({"fiscal_line_ids": False})
-                filtered_vals_list.append(values)
-
-        return super().create(filtered_vals_list)
+        if self._context.get("create_from_move"):
+            filtered_vals_list = []
+            for values in vals_list:
+                if values.get("document_type_id") or values.get("document_serie_id"):
+                    # we also disable the fiscal_line_ids creation here to
+                    # let the ORM create them later from the account.move.line records
+                    values.update({"fiscal_line_ids": False})
+                    filtered_vals_list.append(values)
+            return super().create(filtered_vals_list)
+        else:
+            return super().create(vals_list)

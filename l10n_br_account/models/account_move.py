@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import mute_logger
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -54,6 +55,19 @@ SHADOWED_FIELDS = [
     "partner_shipping_id",
     "user_id",
 ]
+
+
+class InheritsCheckMuteLogger(mute_logger):
+    """
+    Mute the Model#_inherits_check warning
+    because the _inherits field is not required.
+    """
+
+    def filter(self, record):
+        msg = record.getMessage()
+        if "Field definition for _inherits reference" in msg:
+            return 0
+        return super().filter(record)
 
 
 class AccountMove(models.Model):
@@ -110,6 +124,17 @@ class AccountMove(models.Model):
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("invoice_line_ids")
+
+    @api.model
+    def _inherits_check(self):
+        """
+        Overriden to avoid the super method to set the fiscal_document_id
+        field as required.
+        """
+        with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
+            super()._inherits_check()
+        field = self._fields.get("fiscal_document_id")
+        field.required = False  # unset the required = True assignement
 
     @api.model
     def _shadowed_fields(self):
@@ -280,7 +305,9 @@ class AccountMove(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         self._inject_shadowed_fields(vals_list)
-        invoice = super().create(vals_list)
+        invoice = super(AccountMove, self.with_context(create_from_move=True)).create(
+            vals_list
+        )
         return invoice
 
     def write(self, values):
@@ -309,7 +336,6 @@ class AccountMove(models.Model):
 
     @api.model
     def _compute_taxes_mapped(self, base_line):
-
         move = base_line.move_id
 
         if move.is_invoice(include_receipts=True):
