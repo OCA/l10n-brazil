@@ -48,29 +48,6 @@ class CTe(spec_models.StackedModel):
     # CT-e document fields
     ##########################
 
-    transport_modal = fields.Selection(
-        selection=[
-            ("1", "Rodoviário"),
-            ("2", "Aéreo"),
-            ("3", "Aquaviário"),
-            ("4", "Ferroviário"),
-            ("5", "Dutoviário"),
-            ("6", "Multimodal"),
-        ],
-        string="Modal de Transporte",
-    )
-
-    service_provider = fields.Selection(
-        selection=[
-            ("0", "Remetente"),
-            ("1", "Expedidor"),
-            ("2", "Recebedor"),
-            ("3", "Destinatário"),
-            ("4", "Outros"),
-        ],
-        string="Tomador do Serviço",
-    )
-
     ##########################
     # CT-e spec related fields
     ##########################
