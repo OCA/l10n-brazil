@@ -3,15 +3,22 @@
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
 
-    <record model="ir.ui.view" id="document_form_view">
-        <field name="name">document.form (in l10n_br_cte)</field>
-        <field name="model">document</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view" />
+    <record model="ir.ui.view" id="cte_document_form_inherit">
+        <field name="name">l10n_br_cte.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="priority">10</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
-            <!-- TODO -->
+            <xpath src="//group[@name='l10n_br_fiscal']" position="after">
+                <group
+                    name="cte_transport"
+                    attrs="{'invisible': [('document_type', '!=', '57')], 'required': [('document_type', '==', '57')]}"
+                >
+                    <field name="cte_modal" />
+                    <field name="service_provider" />
+                </group>
+            </xpath>
         </field>
     </record>
-
-
 
 </odoo>

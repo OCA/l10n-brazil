@@ -45,6 +45,33 @@ class CTe(spec_models.StackedModel):
         - <infModal>"""
 
     ##########################
+    # CT-e document fields
+    ##########################
+
+    transport_modal = fields.Selection(
+        selection=[
+            ("1", "Rodoviário"),
+            ("2", "Aéreo"),
+            ("3", "Aquaviário"),
+            ("4", "Ferroviário"),
+            ("5", "Dutoviário"),
+            ("6", "Multimodal"),
+        ],
+        string="Modal de Transporte",
+    )
+
+    service_provider = fields.Selection(
+        selection=[
+            ("0", "Remetente"),
+            ("1", "Expedidor"),
+            ("2", "Recebedor"),
+            ("3", "Destinatário"),
+            ("4", "Outros"),
+        ],
+        string="Tomador do Serviço",
+    )
+
+    ##########################
     # CT-e spec related fields
     ##########################
 
@@ -105,9 +132,7 @@ class CTe(spec_models.StackedModel):
 
     cte40_dhEmi = fields.Datetime(related="document_date")
 
-    cte40_tpImp = fields.Selection(
-        selection=[(1, "Retrato"), (2, "Paisagem")]
-    )  # TODO constantes
+    cte40_tpImp = fields.Selection(related="tpImp")
 
     cte40_tpEmis = fields.Selection(related="cte_transmission")
 
@@ -115,15 +140,7 @@ class CTe(spec_models.StackedModel):
 
     cte40_tpAmb = fields.Selection(related="cte_environment")
 
-    cte_environment = fields.Selection(
-        selection=[(1, "Produção"), (2, "Homologação")],
-        string="CTe Environment",
-        copy=False,
-    )
-
-    cte40_tpCTe = fields.selection(
-        selection=[(0, "CTe Normal"), (1, "CTe Complementar"), (3, "CTe Substituição")],
-    )
+    cte40_tpCTe = fields.Selection(related="tpCTe")
 
     cte40_procEmi = fields.Selection(default="0")
 
@@ -147,13 +164,7 @@ class CTe(spec_models.StackedModel):
         string="nfe40_UFEnv",
     )
 
-    cte40_tpServ = fields.Selection(
-        selection=[
-            (6, "Transporte de Pessoas"),
-            (7, "Transporte de Valores"),
-            (8, "Excesso de Bagagem"),
-        ],
-    )
+    cte40_tpServ = fields.Selection(related="tpServ")
 
     cte40_indIEToma = fields.Char()  # TODO IE tomador
 
@@ -169,15 +180,211 @@ class CTe(spec_models.StackedModel):
         related="company_id.partner_id.state_id.ibge_code", string="cte40_cUF"
     )
 
-    cMunFim = fields.Char(related="partner_id.city_id.code")
+    cte40_cMunFim = fields.Char(related="partner_id.city_id.ibge_code")
 
-    xMunFim = fields.Char(related="partner_id.city_id.name")
+    cte40_xMunFim = fields.Char(related="partner_id.city_id.name")
 
-    UFFim = fields.Char(related="partner_id.state_id.code", string="cte40_cUF")
+    cte40_UFFim = fields.Char(related="partner_id.state_id.code", string="cte40_cUF")
 
-    retira = fields.Selection(selection=[(0, "Sim"), (1, "Não")])  # TODO constantes
+    cte40_retira = fields.Selection(related="retira")
+
+    cte40_toma4 = fields.Many2one(
+        comodel_name="res.partner",
+        compute="_compute_toma",
+        readonly=True,
+        string="Tomador de Serviço",
+    )  # TODO
+
+    cte40_toma3 = fields.Many2one(
+        comodel_name="res.partner",
+        compute="_compute_toma",
+        readonly=True,
+        string="Tomador de Serviço",
+    )  # TODO
+
+    # View
+    retira = fields.Selection(selection=[("0", "Sim"), ("1", "Não")])  # TODO constantes
+
+    # toma = fields.Selection()   # TODO
+
+    tpServ = fields.Selection(
+        selection=[
+            ("6", "Transporte de Pessoas"),
+            ("7", "Transporte de Valores"),
+            ("8", "Excesso de Bagagem"),
+        ],
+    )
+
+    tpCTe = fields.Selection(
+        selection=[
+            ("0", "CTe Normal"),
+            ("1", "CTe Complementar"),
+            ("3", "CTe Substituição"),
+        ],
+    )
+
+    cte_environment = fields.Selection(
+        selection=[("1", "Produção"), ("2", "Homologação")],
+        string="CTe Environment",
+        copy=False,
+    )
+
+    cte_transmission = fields.Selection(
+        selection=[
+            ("1", "Normal"),
+            ("3", "Regime Especial NFF"),
+            ("4", "EPEC pela SVC"),
+        ]
+    )
+
+    tpImp = fields.Selection(
+        selection=[("1", "Retrato"), ("2", "Paisagem")]
+    )  # TODO constantes
 
     ##########################
     # CT-e tag: ide
     # Compute Methods
+    ##########################
+
+    def _compute_toma(self):
+        for doc in self:
+            doc.cte40_toma4 = doc.partner_id
+
+    @api.depends("partner_id", "company_id")
+    def _compute_cte40_exterior(self):
+        for doc in self:
+            if doc.company_id.partner_id.state_id == doc.partner_id.state_id:
+                doc.nfe40_idDest = "1"
+            elif doc.company_id.partner_id.country_id == doc.partner_id.country_id:
+                doc.nfe40_idDest = "2"
+            else:
+                doc.nfe40_idDest = "3"
+
+    ##########################
+    # CT-e tag: emit
+    ##########################
+
+    cte40_emit = fields.Many2one(
+        comodel_name="res.company",
+        compute="_compute_emit_data",
+        readonly=True,
+        string="Emit",
+    )
+
+    cte40_CRT = fields.Selection(
+        related="company_tax_framework",
+        string="Código de Regime Tributário (NFe)",
+    )
+
+    ##########################
+    # CT-e tag: emit
+    # Compute Methods
+    ##########################
+
+    def _compute_emit_data(self):
+        for doc in self:  # TODO if out
+            doc.cte40_emit = doc.company_id
+
+    ##########################
+    # CT-e tag: rem
+    ##########################
+
+    cte40_rem = fields.Many2one(
+        comodel_name="res.company",
+        compute="_compute_rem_data",
+        readonly=True,
+        string="Rem",
+    )
+
+    ##########################
+    # CT-e tag: rem
+    # Compute Methods
+    ##########################
+
+    def _compute_rem_data(self):
+        for doc in self:  # TODO if out
+            doc.cte40_rem = doc.company_id
+
+    ##########################
+    # CT-e tag: exped
+    ##########################
+
+    cte40_exped = fields.Many2one(
+        comodel_name="res.company",
+        compute="_compute_exped_data",
+        readonly=True,
+        string="Exped",
+    )
+
+    ##########################
+    # CT-e tag: exped
+    # Compute Methods
+    ##########################
+
+    def _compute_exped_data(self):
+        for doc in self:  # TODO if out
+            doc.cte40_exped = doc.company_id
+
+    ##########################
+    # CT-e tag: receb
+    ##########################
+
+    cte40_receb = fields.Many2one(
+        comodel_name="res.company",
+        compute="_compute_receb_data",
+        readonly=True,
+        string="Receb",
+    )
+
+    ##########################
+    # CT-e tag: receb
+    # Compute Methods
+    ##########################
+
+    def _compute_receb_data(self):
+        for doc in self:  # TODO if out
+            doc.cte40_receb = doc.company_id
+
+    ##########################
+    # CT-e tag: dest
+    ##########################
+
+    cte40_dest = fields.Many2one(
+        comodel_name="res.partner",
+        compute="_compute_dest_data",
+        readonly=True,
+        string="Dest",
+    )
+
+    ##########################
+    # CT-e tag: dest
+    # Compute Methods
+    ##########################
+
+    def _compute_dest_data(self):
+        for doc in self:  # TODO if out
+            doc.cte40_dest = doc.company_id
+
+    ##########################
+    # CT-e tag: vPrest
+    ##########################
+
+    cte40_vTPrest = fields.Float(
+        string="vTPrest",
+    )
+
+    cte40_vRec = fields.Float(
+        string="vRec",
+    )
+
+    ##########################
+    # CT-e tag: infCTeNorm
+    ##########################
+
+    cte40_prodPred = fields.Char(string="prodPred")
+
+    # TODO outros níveis infcteNorm
+
+    ##########################
+    # CT-e tag: infCteComp
     ##########################

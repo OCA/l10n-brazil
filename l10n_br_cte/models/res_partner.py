@@ -41,6 +41,22 @@ class ResPartner(spec_models.SpecModel):
         store=True,
     )
 
+    # enderToma/enderEmit/enderReme/enderEmit
+    cte40_xLgr = fields.Char(related="street_name", readonly=True)
+    cte40_nro = fields.Char(related="street_number", readonly=True)
+    cte40_xCpl = fields.Char(related="street2", readonly=True)
+    cte40_xBairro = fields.Char(related="district", readonly=True)
+    cte40_cMun = fields.Char(related="city_id.ibge_code", readonly=True)
+    cte40_xMun = fields.Char(related="city_id.name", readonly=True)
+    cte40_UF = fields.Char(related="state_id.code")
+    cte40_CEP = fields.Char(
+        compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP", compute_sudo=True
+    )
+    cte40_cPais = fields.Char(related="country_id.bc_code")
+    cte40_xPais = fields.Char(related="country_id.name")
+
+    nfe40_xNome = fields.Char(related="legal_name")
+
     @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
     def _compute_cte_data(self):
         for rec in self:

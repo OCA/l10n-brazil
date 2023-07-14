@@ -3,15 +3,31 @@
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
 
-    <record model="ir.ui.view" id="res_company_form_view">
-        <field name="name">res.company.form (in l10n_br_cte)</field>
+    <record model="ir.ui.view" id="cte_res_company_form">
+        <field name="name">cte.res.company.form</field>
         <field name="model">res.company</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view" />
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
         <field name="arch" type="xml">
-            <!-- TODO -->
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="cte" string="CT-e">
+                    <group string="CT-e Default Settings">
+                        <group>
+                            <fields name="cte_version" />
+                            <fields name="cte_environment" />
+                            <field name="cte_type" />
+                            <field name="cte_transmission" />
+                            <field name="cte_dacte_layout" />
+                            <field name="cte_default_serie_id" />
+                        </group>
+                    </group>
+                        <group string="CT-e Settings">
+                        <group>
+                            <fields name="rntrc_code" />
+                        </group>
+                        </group>
+                </page>
+            </xpath>
         </field>
     </record>
-
-
 
 </odoo>
