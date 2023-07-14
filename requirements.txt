@@ -6,6 +6,7 @@ erpbrasil.edoc
 erpbrasil.edoc.pdf
 erpbrasil.transmissao
 nfelib>=2.0.0
+nfselib.ginfes
 nfselib.paulistana
 num2words
 phonenumbers
