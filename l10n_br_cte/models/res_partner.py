@@ -31,7 +31,7 @@ class ResPartner(spec_models.SpecModel):
 
     cte40_CNPJ = fields.Char(
         compute="_compute_cte_data",
-        inverse="_inverse_cte40_CNPJ",
+        # inverse="_inverse_cte40_CNPJ",
         store=True,
     )
 
@@ -68,3 +68,32 @@ class ResPartner(spec_models.SpecModel):
                 else:
                     rec.cte40_CNPJ = None
                     rec.cte40_CPF = cnpj_cpf
+
+    def _inverse_cte40_CNPJ(self):
+        for rec in self:
+            if rec.cte40_CNPJ:
+                rec.is_company = True
+                rec.cte40_choice2 = "cte40_CPF"
+                rec.cte40_choice6 = "cte40_CPF"
+                if rec.country_id.code != "BR":
+                    rec.cte40_choice7 = "cte40_idEstrangeiro"
+                else:
+                    rec.cte40_choice7 = "cte40_CNPJ"
+                rec.cte40_choice7 = "cte40_CPF"
+                rec.cte40_choice8 = "cte40_CPF"
+                rec.cte40_choice19 = "cte40_CPF"
+                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.cte40_CNPJ))
+
+    def _inverse_cte40_CPF(self):
+        for rec in self:
+            if rec.cte40_CPF:
+                rec.is_company = False
+                rec.cte40_choice2 = "cte40_CNPJ"
+                rec.cte40_choice6 = "cte40_CNPJ"
+                if rec.country_id.code != "BR":
+                    rec.cte40_choice7 = "cte40_idEstrangeiro"
+                else:
+                    rec.cte40_choice7 = "cte40_CPF"
+                rec.cte40_choice8 = "cte40_CNPJ"
+                rec.cte40_choice19 = "cte40_CNPJ"
+                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.cte40_CPF))

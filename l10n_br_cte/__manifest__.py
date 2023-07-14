@@ -16,6 +16,7 @@
         "spec_driven_model",
     ],
     "data": [
+        # "views/document_line.xml",
         # 'views/document_related.xml',
         # 'views/res_partner.xml',
         "views/res_company.xml",
