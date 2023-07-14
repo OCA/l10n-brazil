@@ -19,9 +19,9 @@ Payment Bacen PIX
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
     :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-payment_bacen_pix
     :alt: Translate me on Weblate
-.. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/webui/builds.html?repo=OCA/l10n-brazil&target_branch=14.0
-    :alt: Try me on Runboat
+.. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
+    :target: https://runbot.odoo-community.org/runbot/124/14.0
+    :alt: Try me on Runbot
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
@@ -39,22 +39,7 @@ Installation
 
 This module depends on:
 
-* payment
-* web_tour
-
-Configuration
-=============
-
-[ This file is optional, it should explain how to configure
-  the module before using it; it is aimed at advanced users. ]
-
-To configure this module, you need to:
-
-#. Go to ...
-
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/14.0/payment_bacen_pix/static/description/image.png
-   :alt: alternative description
-   :width: 600 px
+* account_payment
 
 Bug Tracker
 ===========
@@ -80,17 +65,7 @@ Contributors
 * `KMEE <https://www.kmee.com.br>`_:
 
   * Luis Felipe Miléo <mileo@kmee.com.br>
-
-
-Other credits
-~~~~~~~~~~~~~
-
-[ This file is optional and contains additional credits, other than
-  authors, contributors, and maintainers. ]
-
-The development of this module has been financially supported by:
-
-* KMEE - www.kmee.com.br
+  * André Marcos Ferreira <andre.marcos@kmee.com.br>
 
 Maintainers
 ~~~~~~~~~~~
