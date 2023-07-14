@@ -86,3 +86,9 @@ class ResCompany(spec_models.SpecModel):
     processador_edoc = fields.Selection(
         selection_add=[("erpbrasil.edoc", "erpbrasil.edoc")],
     )
+
+    cte_authorize_accountant_download_xml = fields.Boolean(
+        string="Include Accountant Partner data in persons authorized to "
+        "download CTe XML",
+        default=False,
+    )

@@ -134,7 +134,7 @@ class CTe(spec_models.StackedModel):
 
     cte40_UFEnv = fields.Char(
         related="company_id.partner_id.state_id.code",
-        string="nfe40_UFEnv",
+        string="cte40_UFEnv",
     )
 
     cte40_tpServ = fields.Selection(related="tpServ")
@@ -175,45 +175,6 @@ class CTe(spec_models.StackedModel):
         string="Tomador de Serviço",
     )  # TODO
 
-    # View
-    retira = fields.Selection(selection=[("0", "Sim"), ("1", "Não")])  # TODO constantes
-
-    # toma = fields.Selection()   # TODO
-
-    tpServ = fields.Selection(
-        selection=[
-            ("6", "Transporte de Pessoas"),
-            ("7", "Transporte de Valores"),
-            ("8", "Excesso de Bagagem"),
-        ],
-    )
-
-    tpCTe = fields.Selection(
-        selection=[
-            ("0", "CTe Normal"),
-            ("1", "CTe Complementar"),
-            ("3", "CTe Substituição"),
-        ],
-    )
-
-    cte_environment = fields.Selection(
-        selection=[("1", "Produção"), ("2", "Homologação")],
-        string="CTe Environment",
-        copy=False,
-    )
-
-    cte_transmission = fields.Selection(
-        selection=[
-            ("1", "Normal"),
-            ("3", "Regime Especial NFF"),
-            ("4", "EPEC pela SVC"),
-        ]
-    )
-
-    tpImp = fields.Selection(
-        selection=[("1", "Retrato"), ("2", "Paisagem")]
-    )  # TODO constantes
-
     ##########################
     # CT-e tag: ide
     # Compute Methods
@@ -221,17 +182,25 @@ class CTe(spec_models.StackedModel):
 
     def _compute_toma(self):
         for doc in self:
-            doc.cte40_toma4 = doc.partner_id
+            if self.service_provider in ["0", "1"]:
+                doc.cte40_toma3 = doc.company_id
+                doc.cte40_toma4 = None
+            elif self.service_provider in ["2", "3"]:
+                doc.cte40_toma3 = doc.partner_id
+                doc.cte40_toma4 = None
+            else:
+                doc.cte40_toma3 = None
+                doc.cte40_toma4 = doc.partner_id
 
     @api.depends("partner_id", "company_id")
     def _compute_cte40_exterior(self):
         for doc in self:
             if doc.company_id.partner_id.state_id == doc.partner_id.state_id:
-                doc.nfe40_idDest = "1"
+                doc.cte40_idDest = "1"
             elif doc.company_id.partner_id.country_id == doc.partner_id.country_id:
-                doc.nfe40_idDest = "2"
+                doc.cte40_idDest = "2"
             else:
-                doc.nfe40_idDest = "3"
+                doc.cte40_idDest = "3"
 
     ##########################
     # CT-e tag: emit
@@ -246,7 +215,7 @@ class CTe(spec_models.StackedModel):
 
     cte40_CRT = fields.Selection(
         related="company_tax_framework",
-        string="Código de Regime Tributário (NFe)",
+        string="Código de Regime Tributário (CTe)",
     )
 
     ##########################
@@ -351,13 +320,84 @@ class CTe(spec_models.StackedModel):
     )
 
     ##########################
+    # CT-e tag: imp
+    ##########################
+
+    # cte40_imp = fields.One2many(related="l10n_br_fiscal.document.line")
+
+    ##########################
     # CT-e tag: infCTeNorm
     ##########################
 
-    cte40_prodPred = fields.Char(string="prodPred")
+    # cte40_infCteNorm = fields.One2many(related="l10n_br_fiscal.document.related")
 
-    # TODO outros níveis infcteNorm
+    # cte40_infQ = fields.One2many(
+    #    comodel_name="l10n_br_fiscal.document.related",
+    #    string="Informações de quantidades da Carga do CTe"
+    # ) TODO
 
     ##########################
     # CT-e tag: infCteComp
     ##########################
+
+    cte40_chCTe = fields.Char(string="chCte")
+
+    ##########################
+    # CT-e tag: autXML
+    # Compute Methods
+    ##########################
+
+    def _default_cte40_autxml(self):
+        company = self.env.company
+        authorized_partners = []
+        if company.accountant_id and company.cte_authorize_accountant_download_xml:
+            authorized_partners.append(company.accountant_id.id)
+        if (
+            company.technical_support_id
+            and company.cte_authorize_technical_download_xml
+        ):
+            authorized_partners.append(company.technical_support_id.id)
+        return authorized_partners
+
+    ##########################
+    # CT-e tag: autXML
+    ##########################
+
+    cte40_autXML = fields.One2many(default=_default_cte40_autxml)
+
+    # View
+    retira = fields.Selection(selection=[("0", "Sim"), ("1", "Não")])  # TODO constantes
+
+    tpServ = fields.Selection(
+        selection=[
+            ("6", "Transporte de Pessoas"),
+            ("7", "Transporte de Valores"),
+            ("8", "Excesso de Bagagem"),
+        ],
+    )
+
+    tpCTe = fields.Selection(
+        selection=[
+            ("0", "CTe Normal"),
+            ("1", "CTe Complementar"),
+            ("3", "CTe Substituição"),
+        ],
+    )
+
+    cte_environment = fields.Selection(
+        selection=[("1", "Produção"), ("2", "Homologação")],
+        string="CTe Environment",
+        copy=False,
+    )
+
+    cte_transmission = fields.Selection(
+        selection=[
+            ("1", "Normal"),
+            ("3", "Regime Especial NFF"),
+            ("4", "EPEC pela SVC"),
+        ]
+    )
+
+    tpImp = fields.Selection(
+        selection=[("1", "Retrato"), ("2", "Paisagem")]
+    )  # TODO constantes

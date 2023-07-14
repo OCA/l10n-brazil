@@ -9,15 +9,7 @@
         <field name="priority">10</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
-            <xpath src="//group[@name='l10n_br_fiscal']" position="after">
-                <group
-                    name="cte_transport"
-                    attrs="{'invisible': [('document_type', '!=', '57')], 'required': [('document_type', '==', '57')]}"
-                >
-                    <field name="cte_modal" />
-                    <field name="service_provider" />
-                </group>
-            </xpath>
+            <!-- TODO -->
         </field>
     </record>
 
