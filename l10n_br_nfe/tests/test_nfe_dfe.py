@@ -6,18 +6,19 @@ from unittest import mock
 
 from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 from odoo.addons.l10n_br_fiscal_dfe.tests.test_dfe import mocked_post_success_single
 from odoo.addons.l10n_br_fiscal_dfe.tests.test_mde import MDe
 
 
-class TestNFeDFe(TransactionCase):
-    def setUp(self):
-        super().setUp()
+class TestNFeDFe(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.dfe_id = self.env["l10n_br_fiscal.dfe"].create(
-            {"company_id": self.env.ref("l10n_br_base.empresa_lucro_presumido").id}
+        cls.dfe_id = cls.env["l10n_br_fiscal.dfe"].create(
+            {"company_id": cls.env.ref("l10n_br_base.empresa_lucro_presumido").id}
         )
 
     @mock.patch.object(
