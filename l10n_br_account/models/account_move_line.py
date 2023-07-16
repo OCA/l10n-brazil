@@ -17,8 +17,8 @@ from .account_move import InheritsCheckMuteLogger
 # Fields that are related in l10n_br_fiscal.document.line like partner_id or company_id
 # don't need to be written through the account.move.line write.
 SHADOWED_FIELDS = [
-    "name",
     "product_id",
+    "name",
     "quantity",
     "price_unit",
 ]
@@ -151,10 +151,26 @@ class AccountMoveLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
+            if values.get("fiscal_document_line_id"):
+                fiscal_line_data = (
+                    self.env["l10n_br_fiscal.document.line"]
+                    .browse(values["fiscal_document_line_id"])
+                    .read(self._shadowed_fields())[0]
+                )
+                for k, v in fiscal_line_data.items():
+                    if isinstance(v, tuple):  # m2o
+                        values[k] = v[0]
+                    else:
+                        values[k] = v
+                continue
+
+            if values.get("exclude_from_invoice_tab"):
+                continue
+
             move_id = self.env["account.move"].browse(values["move_id"])
             fiscal_doc_id = move_id.fiscal_document_id.id
 
-            if not fiscal_doc_id or values.get("exclude_from_invoice_tab"):
+            if not fiscal_doc_id:
                 continue
 
             values.update(
@@ -216,7 +232,7 @@ class AccountMoveLine(models.Model):
         # of the remaining fiscal document lines with their proper aml. That's why we
         # remove the useless fiscal document lines here.
         for line in results:
-            if not fiscal_doc_id or line.exclude_from_invoice_tab:
+            if not line.move_id.fiscal_document_id or line.exclude_from_invoice_tab:
                 fiscal_line_to_delete = line.fiscal_document_line_id
                 line.fiscal_document_line_id = False
                 fiscal_line_to_delete.sudo().unlink()
@@ -440,6 +456,18 @@ class AccountMoveLine(models.Model):
         )
 
         return result
+
+    @api.onchange("fiscal_document_line_id")
+    def _onchange_fiscal_document_line_id(self):
+        if self.fiscal_document_line_id:
+            for field in self._shadowed_fields():
+                value = getattr(self.fiscal_document_line_id, field)
+                if isinstance(value, tuple):  # m2o
+                    setattr(self, field, value[0])
+                else:
+                    setattr(self, field, value)
+            # override the default product uom (set by the onchange):
+            self.product_uom_id = self.fiscal_document_line_id.uom_id.id
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):

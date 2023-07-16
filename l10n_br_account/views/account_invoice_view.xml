@@ -145,6 +145,7 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                 />
+                <field name="fiscal_document_line_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="amount_tax_withholding" optional="hide" />
                 <field name="amount_tax_included" optional="hide" />
@@ -195,6 +196,7 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                 />
+                <field name="fiscal_document_line_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="amount_tax_withholding" invisible="1" />
                 <field name="amount_tax_included" invisible="1" />
@@ -286,7 +288,6 @@
                     name="fiscal_price"
                     attrs="{'invisible': [('document_type_id', '=', False)]}"
                 />
-
                 <field name="amount_currency" invisible="1" />
                 <field name="date" invisible="1" />
                 <field name="date_maturity" invisible="1" />
@@ -451,6 +452,13 @@
                             <field name="other_value" />
                             <field name="estimate_tax" invisible="1" />
                         </group>
+                        <group>
+                            <field
+                                name="fiscal_document_line_id"
+                                placeholder="Fiscal Document Line to import..."
+                                domain="[('partner_id', '=', parent.partner_id), ('company_id', '=', parent.company_id)]"
+                            />
+                        </group>
                     </page>
                     <page name="fiscal_line_extra_info" string="Extra Info" />
                     <page name="accounting" string="Accounting">
@@ -466,6 +474,22 @@
                     </page>
                 </notebook>
             </xpath>
+
+            <field name="fiscal_position_id" position="after">
+                    <field
+                    name="fiscal_document_id"
+                    placeholder="Fiscal Document to import..."
+                    domain="[('partner_id', '=', partner_id), ('company_id', '=', company_id)]"
+                    attrs="{'invisible': [('state', '!=', 'draft')]}"
+                />
+                <button
+                    name="button_import_fiscal_document"
+                    type="object"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('fiscal_document_id', '=', False), ('state', '!=', 'draft')]}"
+                    string="Import Fiscal Document"
+                />
+            </field>
 
             <xpath
                 expr="//page[@id='invoice_tab']//group[hasclass('oe_subtotal_footer')]"
