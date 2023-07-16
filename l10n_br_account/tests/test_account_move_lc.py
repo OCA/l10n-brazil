@@ -724,3 +724,75 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
 
     # TODO test effect of ind_final?
     # ver aqui https://github.com/OCA/l10n-brazil/pull/2347#issuecomment-1548345563
+
+    def test_composite_move(self):
+        # first we make a few assertions about an existing vendor bill:
+        self.assertEqual(len(self.move_in_compra_para_revenda.invoice_line_ids), 1)
+        self.assertEqual(len(self.move_in_compra_para_revenda.line_ids), 10)
+        self.assertEqual(self.move_in_compra_para_revenda.amount_total, 1050)
+
+        self.assertEqual(len(self.move_in_compra_para_revenda.fiscal_document_ids), 1)
+        self.assertEqual(
+            self.move_in_compra_para_revenda.open_fiscal_document()["res_id"],
+            self.move_in_compra_para_revenda.fiscal_document_id.id,
+        )
+
+        # now we create a dumb fiscal document we will import in our vendor bill:
+        fiscal_doc_to_import = self.env["l10n_br_fiscal.document"].create(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_compras").id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "document_serie": 1,
+                "document_number": 123,
+                "issuer": "partner",
+                "partner_id": self.partner_a.id,
+                "fiscal_operation_type": "in",
+            }
+        )
+
+        fiscal_doc_line_to_import = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": fiscal_doc_to_import.id,
+                "name": "Purchase Test",
+                "product_id": self.product_a.id,
+                "fiscal_operation_type": "in",
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_compras").id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_compras_compras"
+                ).id,
+            }
+        )
+        fiscal_doc_line_to_import._onchange_product_id_fiscal()
+
+        # let's import it:
+        self.move_in_compra_para_revenda.fiscal_document_id = fiscal_doc_to_import
+        self.move_in_compra_para_revenda.button_import_fiscal_document()
+
+        # now a few assertions to check if it has been properly imported:
+        self.assertEqual(len(self.move_in_compra_para_revenda.invoice_line_ids), 2)
+        self.assertEqual(
+            self.move_in_compra_para_revenda.invoice_line_ids[
+                1
+            ].fiscal_document_line_id.product_id,
+            self.product_a,
+        )
+
+        self.assertEqual(len(self.move_in_compra_para_revenda.fiscal_document_ids), 2)
+        self.assertIn(
+            str(fiscal_doc_to_import.id),
+            str(self.move_in_compra_para_revenda.open_fiscal_document()["domain"]),
+        )
+        self.assertIn(
+            str(self.move_in_compra_para_revenda.fiscal_document_id.id),
+            str(self.move_in_compra_para_revenda.open_fiscal_document()["domain"]),
+        )
+
+        invoice_lines = sorted(
+            self.move_in_compra_para_revenda.invoice_line_ids, key=lambda item: item.id
+        )
+        self.assertEqual(
+            fiscal_doc_to_import.id,
+            invoice_lines[1].fiscal_document_line_id.document_id.id,
+        )
+        self.assertEqual(len(self.move_in_compra_para_revenda.line_ids), 11)
+        self.assertEqual(self.move_in_compra_para_revenda.amount_total, 2100)
