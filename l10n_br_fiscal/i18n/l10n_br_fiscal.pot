@@ -557,9 +557,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_data_abstract__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_data_ncm_nbs_abstract__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_data_product_abstract__active
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_email__active
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__active
@@ -3445,11 +3443,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 msgid "Fiscal Documents"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__fiscal_dummy_id
-msgid "Fiscal Dummy Document"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9181,12 +9174,6 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/document_workflow.py:0
 #, python-format
 msgid "You cannot invalidate this document"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_line.py:0
-#, python-format
-msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
