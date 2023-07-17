@@ -72,14 +72,6 @@ msgid "Accounting"
 msgstr "Contabilidade"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__active
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__active
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__active
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__active
-msgid "Active"
-msgstr "Ativo"
-
-#. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__all
 msgid "All"
 msgstr "Todos"
@@ -145,11 +137,6 @@ msgstr "Código CST ST COFINS"
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_is_company
 msgid "Check if the contact is a company, otherwise it is a person"
 msgstr "Verifique se o conta é uma empresa, senão é uma pessoa"
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_res_company
-msgid "Companies"
-msgstr "Empresas"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_company_id
@@ -312,6 +299,7 @@ msgstr "Desconto (%)"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__display_name
@@ -323,7 +311,6 @@ msgstr "Desconto (%)"
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__display_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -347,15 +334,6 @@ msgstr "Linhas de documentos"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_type_id
 msgid "Document Type"
 msgstr "Tipo do Documento"
-
-#. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_move_line.py:0
-#, python-format
-msgid ""
-"Document line dummy not found. Please contact your system administrator."
-msgstr ""
-"Linha do documento fictício não encontrada. Entre em contato com o "
-"administrador do sistema."
 
 #. module: l10n_br_account
 #: code:addons/l10n_br_account/models/account_move.py:0
@@ -415,11 +393,6 @@ msgid "Fiscal Document Line"
 msgstr "Linha do Documento Fiscal"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__fiscal_dummy_id
-msgid "Fiscal Dummy Document"
-msgstr "Documento Fictício Fiscal"
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_operation
 msgid "Fiscal Operation"
 msgstr "Operação Fiscal"
@@ -475,13 +448,6 @@ msgid "Force Fiscal Operation"
 msgstr "Forçar Operação Fiscal"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__has_fiscal_dummy
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__has_fiscal_dummy
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__has_fiscal_dummy
-msgid "Has Fiscal Dummy"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_code
 msgid "ICMS CST Code"
 msgstr "Código CST do ICMS"
@@ -495,6 +461,7 @@ msgstr "Código CST do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__id
@@ -506,7 +473,6 @@ msgstr "Código CST do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__id
-#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__id
 msgid "ID"
 msgstr "ID"
 
@@ -607,6 +573,7 @@ msgstr "Item de Diário"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template____last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document____last_update
@@ -618,7 +585,6 @@ msgstr "Item de Diário"
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group____last_update
-#: model:ir.model.fields,field_description:l10n_br_account.field_res_company____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
 
@@ -647,6 +613,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
 msgid "Main CNAE"
 msgstr "CNAE Principal"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_ir_model_data
+msgid "Model Data"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_mun
@@ -885,12 +856,6 @@ msgstr "Linha de Movimento Contábil RET"
 #. module: l10n_br_account
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
-msgid "You can't set a document type to a fiscal dummy document."
-msgstr ""
-
-#. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_move.py:0
-#, python-format
 msgid ""
 "You can't set this document number: {} to draft because this document is "
 "cancelled in SEFAZ"
@@ -912,6 +877,28 @@ msgstr ""
 msgid "You cannot edit an invoice related to a withholding entry"
 msgstr ""
 "Você não pode editar um documento relacionado a um lançamento de retenção"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "You cannot set a document type when the move has no Fiscal Document!"
+msgstr ""
+
+#~ msgid "Active"
+#~ msgstr "Ativo"
+
+#~ msgid "Companies"
+#~ msgstr "Empresas"
+
+#, python-format
+#~ msgid ""
+#~ "Document line dummy not found. Please contact your system administrator."
+#~ msgstr ""
+#~ "Linha do documento fictício não encontrada. Entre em contato com o "
+#~ "administrador do sistema."
+
+#~ msgid "Fiscal Dummy Document"
+#~ msgstr "Documento Fictício Fiscal"
 
 #~ msgid "Adapted Legal Name"
 #~ msgstr "Razão Social"
