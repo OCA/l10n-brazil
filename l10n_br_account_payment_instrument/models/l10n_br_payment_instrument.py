@@ -6,7 +6,7 @@
 from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
 
 BOLETO_BARCODE_LENGTH = 44
 BOLETO_DIGITABLE_LINE_LENGTH = 47
@@ -213,7 +213,9 @@ class PaymentInstrument(models.Model):
             elif input_len == BOLETO_BARCODE_LENGTH:
                 rec.boleto_barcode = rec.boleto_barcode_input_normalized
             else:
-                raise UserError(_("The boleto barcode or digitable line is invalid."))
+                raise ValidationError(
+                    _("The boleto barcode or digitable line is invalid.")
+                )
             rec.boleto_raw_bank = rec.boleto_barcode[0:3]
             rec.boleto_raw_currency = rec.boleto_barcode[3]
             rec.boleto_raw_check_digit_barcode = rec.boleto_barcode[4]

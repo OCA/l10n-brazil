@@ -14,6 +14,7 @@
     "license": "AGPL-3",
     "depends": [
         "l10n_br_account_payment_order",
+        "l10n_br_account_due_list",
     ],
     "data": [
         "views/account_move_line.xml",
