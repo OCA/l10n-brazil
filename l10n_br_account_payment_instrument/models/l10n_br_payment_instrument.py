@@ -8,6 +8,9 @@ from datetime import datetime, timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+BOLETO_BARCODE_LENGTH = 44
+BOLETO_DIGITABLE_LINE_LENGTH = 47
+
 
 class PaymentInstrument(models.Model):
     """
@@ -42,6 +45,10 @@ class PaymentInstrument(models.Model):
     # BOLETO BUSINESS FIELDS
 
     boleto_barcode_input = fields.Char(help="Boleto barcode or digitable line")
+    boleto_barcode_input_normalized = fields.Char(
+        compute="_compute_boleto_data",
+        help="Boleto barcode or digitable line without non-digit characters",
+    )
     boleto_barcode = fields.Char(compute="_compute_boleto_data")
     boleto_digitable_line = fields.Char(
         compute="_compute_digitable_line",
@@ -119,10 +126,14 @@ class PaymentInstrument(models.Model):
                 rec.pix_qrcode_key = False
                 rec.pix_qrcode_txid = False
                 continue
-            emv_dict = emv_to_dict(rec.pix_qrcode_string)
-            for key in emv_dict:
-                if key in ["26", "62"]:
-                    emv_dict[key] = emv_to_dict(emv_dict[key])
+
+            try:
+                emv_dict = emv_to_dict(rec.pix_qrcode_string)
+                for key in emv_dict:
+                    if key in ["26", "62"]:
+                        emv_dict[key] = emv_to_dict(emv_dict[key])
+            except Exception:
+                raise ValidationError(_("The QR Code of the PIX is invalid."))
 
             # Get Payment Key (Key or URL)
             if "26" in emv_dict:
@@ -189,12 +200,18 @@ class PaymentInstrument(models.Model):
                 continue
 
             # Remove all non-digit characters
-            input_code = "".join(c for c in rec.boleto_barcode_input if c.isdigit())
+            rec.boleto_barcode_input_normalized = "".join(
+                c for c in rec.boleto_barcode_input if c.isdigit()
+            )
 
-            if len(input_code) == 47:
-                rec.boleto_barcode = self.get_barcode(input_code)
-            elif len(input_code) == 44:
-                rec.boleto_barcode = input_code
+            input_len = len(rec.boleto_barcode_input_normalized)
+
+            if input_len == BOLETO_DIGITABLE_LINE_LENGTH:
+                rec.boleto_barcode = self.get_barcode(
+                    rec.boleto_barcode_input_normalized
+                )
+            elif input_len == BOLETO_BARCODE_LENGTH:
+                rec.boleto_barcode = rec.boleto_barcode_input_normalized
             else:
                 raise UserError(_("The boleto barcode or digitable line is invalid."))
             rec.boleto_raw_bank = rec.boleto_barcode[0:3]
@@ -296,7 +313,10 @@ class PaymentInstrument(models.Model):
                 raise ValidationError(
                     _("The barcode/digitable line on the Boleto is required.")
                 )
-            if len(rec.boleto_barcode_input) not in (44, 47):
+            if len(rec.boleto_barcode_input_normalized) not in (
+                BOLETO_DIGITABLE_LINE_LENGTH,
+                BOLETO_BARCODE_LENGTH,
+            ):
                 raise ValidationError(
                     _("The barcode/digitable line on the Boleto is invalid.")
                 )
