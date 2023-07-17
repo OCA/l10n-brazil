@@ -1472,6 +1472,11 @@ msgid "NFe Version"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Nf-e Environment:"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_autXML_infNFe_id
 msgid "Nfe40 Autxml Infnfe"
 msgstr ""
