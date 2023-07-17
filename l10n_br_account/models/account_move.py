@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import mute_logger
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -56,6 +57,19 @@ SHADOWED_FIELDS = [
 ]
 
 
+class InheritsCheckMuteLogger(mute_logger):
+    """
+    Mute the Model#_inherits_check warning
+    because the _inherits field is not required.
+    """
+
+    def filter(self, record):
+        msg = record.getMessage()
+        if "Field definition for _inherits reference" in msg:
+            return 0
+        return super().filter(record)
+
+
 class AccountMove(models.Model):
     _name = "account.move"
     _inherit = [
@@ -66,14 +80,6 @@ class AccountMove(models.Model):
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
     _order = "date DESC, name DESC"
 
-    # some account.move records _inherits from an fiscal.document that is
-    # disabled with active=False (dummy record) in the l10n_br_fiscal_document table.
-    # To make the invoices still visible, we set active=True
-    # in the account_move table.
-    active = fields.Boolean(
-        default=True,
-    )
-
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
         string="Electronic?",
@@ -82,7 +88,6 @@ class AccountMove(models.Model):
     fiscal_document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Document",
-        required=True,
         copy=False,
         ondelete="cascade",
     )
@@ -93,25 +98,14 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
-    has_fiscal_dummy = fields.Boolean(
-        compute="_compute_has_fiscal_dummy",
-    )
-
-    def _compute_has_fiscal_dummy(self):
-        for rec in self:
-            rec.has_fiscal_dummy = (
-                rec.fiscal_document_id.id == rec.company_id.fiscal_dummy_id.id
-            )
-
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
         for rec in self:
-            has_fiscal_dummy = (
-                rec.fiscal_document_id.id == rec.company_id.fiscal_dummy_id.id
-            )
-            if has_fiscal_dummy and rec.document_type_id:
+            if rec.document_type_id and not rec.fiscal_document_id:
                 raise UserError(
-                    _("You can't set a document type to a fiscal dummy document.")
+                    _(
+                        "You cannot set a document type when the move has no Fiscal Document!"
+                    )
                 )
 
     def _compute_fiscal_operation_type(self):
@@ -130,6 +124,17 @@ class AccountMove(models.Model):
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("invoice_line_ids")
+
+    @api.model
+    def _inherits_check(self):
+        """
+        Overriden to avoid the super method to set the fiscal_document_id
+        field as required.
+        """
+        with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
+            super()._inherits_check()
+        field = self._fields.get("fiscal_document_id")
+        field.required = False  # unset the required = True assignement
 
     @api.model
     def _shadowed_fields(self):
@@ -286,7 +291,9 @@ class AccountMove(models.Model):
         )._move_autocomplete_invoice_lines_create(vals_list)
         for vals in new_vals_list:
             if not vals.get("document_type_id"):
-                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
+                vals[
+                    "fiscal_document_id"
+                ] = False  # self.env.company.fiscal_dummy_id.id
         return new_vals_list
 
     def _move_autocomplete_invoice_lines_values(self):
@@ -298,7 +305,9 @@ class AccountMove(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         self._inject_shadowed_fields(vals_list)
-        invoice = super().create(vals_list)
+        invoice = super(AccountMove, self.with_context(create_from_move=True)).create(
+            vals_list
+        )
         return invoice
 
     def write(self, values):
@@ -313,10 +322,7 @@ class AccountMove(models.Model):
         for move in self:
             if not move.exists():
                 continue
-            if (
-                move.fiscal_document_id
-                and move.fiscal_document_id.id != self.env.company.fiscal_dummy_id.id
-            ):
+            if move.fiscal_document_id and move.fiscal_document_id:
                 unlink_documents |= move.fiscal_document_id
             unlink_moves |= move
         result = super(AccountMove, unlink_moves).unlink()
@@ -330,7 +336,6 @@ class AccountMove(models.Model):
 
     @api.model
     def _compute_taxes_mapped(self, base_line):
-
         move = base_line.move_id
 
         if move.is_invoice(include_receipts=True):

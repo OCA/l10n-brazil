@@ -93,26 +93,6 @@ class FiscalDocument(models.Model):
                 if record.date_in_out:
                     move_id.date = record.date_in_out.date()
 
-    def modified(self, fnames, create=False, before=False):
-        """
-        Modifying a dummy fiscal document (no document_type_id) should not recompute
-        any account.move related to the same dummy fiscal document.
-        """
-        filtered = self.filtered(
-            lambda rec: isinstance(rec.id, models.NewId) or rec.document_type_id
-        )
-        return super(FiscalDocument, filtered).modified(fnames, create, before)
-
-    def _modified_triggers(self, tree, create=False):
-        """
-        Modifying a dummy fiscal document (no document_type_id) should not recompute
-        any account.move related to the same dummy fiscal document.
-        """
-        filtered = self.filtered(
-            lambda rec: isinstance(rec.id, models.NewId) or rec.document_type_id
-        )
-        return super(FiscalDocument, filtered)._modified_triggers(tree, create)
-
     def unlink(self):
         non_draft_documents = self.filtered(
             lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
@@ -126,12 +106,21 @@ class FiscalDocument(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        # OVERRIDE
-        # force creation of fiscal_document_line only when creating an AML record
-        # In order not to affect the creation of the dummy document, a test was included
-        # that verifies that the ACTIVE field is not False. As the main characteristic
-        # of the dummy document is the ACTIVE field is False
-        for values in vals_list:
-            if values.get("fiscal_line_ids") and values.get("active") is not False:
-                values.update({"fiscal_line_ids": False})
-        return super().create(vals_list)
+        """
+        It's not allowed to create a fiscal document line without a document_type_id anyway.
+        But instead of letting Odoo crash in this case we simply avoid creating the
+        record. This makes it possible to create an account.move without
+        a fiscal_document_id despite the _inherits system:
+        Odoo will write NULL as the value in this case.
+        """
+        if self._context.get("create_from_move"):
+            filtered_vals_list = []
+            for values in vals_list:
+                if values.get("document_type_id") or values.get("document_serie_id"):
+                    # we also disable the fiscal_line_ids creation here to
+                    # let the ORM create them later from the account.move.line records
+                    values.update({"fiscal_line_ids": False})
+                    filtered_vals_list.append(values)
+            return super().create(filtered_vals_list)
+        else:
+            return super().create(vals_list)
