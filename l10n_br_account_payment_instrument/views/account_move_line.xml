@@ -29,14 +29,17 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="account_move_line_tree_view">
+    <record model="ir.ui.view" id="account_move_form">
         <field
             name="name"
-        >account.move.line.tree (in l10n_br_account_payment_instrument)</field>
-        <field name="model">account.move.line</field>
-        <field name="inherit_id" ref="account.view_move_line_tree_grouped" />
+        >account.move.form (in l10n_br_account_payment_instrument)</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_br_account_due_list.invoice_form" />
         <field name="arch" type="xml">
-            <field name="date_maturity" position="after">
+            <xpath
+                expr="//field[@name='financial_move_line_ids']/tree"
+                position="inside"
+            >
                 <button
                     name="open_payment_instruments"
                     help="Payment Instrument"
@@ -44,7 +47,7 @@
                     icon="fa-barcode"
                     attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice', 'out_refund'))]}"
                 />
-            </field>
+            </xpath>
         </field>
     </record>
 </odoo>

@@ -78,11 +78,20 @@
                             name="accouny_move_line_ids"
                             string="Receivable/Payable Accounts"
                         >
-                            <field name="line_ids">
+                            <field
+                                name="line_ids"
+                                widget="many2many"
+                                options="{'no_create': True}"
+                            >
                                 <tree>
+                                    <field name="date" />
+                                    <field name="company_id" />
+                                    <field name="move_id" />
+                                    <field name="account_id" />
                                     <field name="partner_id" />
-                                    <field name="balance" />
-                                    <field name="amount_residual" />
+                                    <field name="name" />
+                                    <field name="debit" />
+                                    <field name="credit" />
                                     <field name="date_maturity" />
                                 </tree>
                             </field>
