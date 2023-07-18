@@ -186,6 +186,8 @@ class Document(models.Model):
         store=True,
     )
 
+    imported_document = fields.Boolean(string="Imported", default=False)
+
     xml_error_message = fields.Text(
         readonly=True,
         string="XML validation errors",
