@@ -33,7 +33,7 @@ class NFeImportTest(SavepointCase):
 
         nfe = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_from_binding(binding.NFe.infNFe, dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
@@ -57,7 +57,7 @@ class NFeImportTest(SavepointCase):
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
         nfe = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_from_binding(binding.NFe.infNFe, dry_run=False)
         )
 
@@ -78,6 +78,7 @@ class NFeImportTest(SavepointCase):
         self.assertEqual(nfe.partner_id.legal_name, "Alimentos Ltda.")
 
         # enderDest
+        nfe.partner_id._inverse_nfe40_CEP()
         self.assertEqual(nfe.partner_id.street_name, "Rua Fonseca")  # related xLgr
         self.assertEqual(nfe.partner_id.zip, "13877-123")
         self.assertEqual(nfe.partner_id.nfe40_CEP, "13877123")

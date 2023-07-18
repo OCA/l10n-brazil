@@ -47,7 +47,7 @@ def post_init_hook(cr, registry):
             existing_nfes.unlink()
             nfe = (
                 env["nfe.40.infnfe"]
-                .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+                .with_context(tracking_disable=True, edoc_type="in")
                 .build_from_binding(binding.NFe.infNFe)
             )
             _logger.info(nfe.nfe40_emit.nfe40_CNPJ)
