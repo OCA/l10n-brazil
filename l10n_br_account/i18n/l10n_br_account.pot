@@ -39,11 +39,6 @@ msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_account_document_line_mixin
-msgid "Account Document Line Mixin"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__journal_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_search
 msgid "Account Journal"
@@ -296,7 +291,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__display_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard__display_name
@@ -403,7 +397,6 @@ msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__fiscal_position_id
 msgid "Fiscal Position"
@@ -455,7 +448,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard__id
@@ -565,7 +557,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data____last_update
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard____last_update
