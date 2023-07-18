@@ -2,11 +2,40 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, models
+from odoo.osv import expression
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
     _nfe_search_keys = ["default_code", "barcode"]
+
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        domain_name, domain_barcode, domain_default_code = [], [], []
+        if parent_dict.get("nfe40_xProd"):
+            rec_dict["name"] = parent_dict["nfe40_xProd"]
+            domain_name = [("name", "=", rec_dict.get("name"))]
+
+        if (
+            parent_dict.get("nfe40_cEANTrib")
+            and parent_dict["nfe40_cEANTrib"] != "SEM GTIN"
+        ):
+            rec_dict["barcode"] = parent_dict["nfe40_cEANTrib"]
+            domain_barcode = [("barcode", "=", rec_dict.get("barcode"))]
+
+        if parent_dict.get("nfe40_cProd"):
+            rec_dict["default_code"] = parent_dict["nfe40_cProd"]
+            domain_default_code = [("default_code", "=", rec_dict.get("default_code"))]
+
+        domain = expression.OR([domain_name, domain_barcode, domain_default_code])
+        match = self.search(domain, limit=1)
+        if match:
+            return match.id
+
+        if self._context.get("dry_run"):
+            rec_id = self.new(rec_dict).id
+        else:
+            rec_id = self.with_context(parent_dict=parent_dict).create(rec_dict).id
+        return rec_id
 
     @api.model
     def default_get(self, default_fields):
@@ -31,8 +60,11 @@ class ProductProduct(models.Model):
             values["list_price"] = parent_dict.get("nfe40_vUnCom")
 
         # Barcode
-        if parent_dict.get("nfe40_cEAN") and parent_dict["nfe40_cEAN"] != "SEM GTIN":
-            values["barcode"] = parent_dict["nfe40_cEAN"]
+        if (
+            parent_dict.get("nfe40_cEANTrib")
+            and parent_dict["nfe40_cEANTrib"] != "SEM GTIN"
+        ):
+            values["barcode"] = parent_dict["nfe40_cEANTrib"]
 
         # NCM
         if parent_dict.get("nfe40_NCM"):
