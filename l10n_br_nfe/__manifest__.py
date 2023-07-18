@@ -1,6 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+
 {
     "name": "NF-e",
     "summary": "Brazilian Eletronic Invoice NF-e",
@@ -24,6 +25,7 @@
         # Security
         "security/ir_model_access.xml",
         "security/nfe_security.xml",
+        "security/ir.model.access.csv",
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
@@ -33,6 +35,12 @@
         # Report
         "report/reports.xml",
         "report/danfe_nfce.xml",
+        # Wizards
+        "wizards/import_document.xml",
+        # Actions,
+        "views/nfe_action.xml",
+        # Menus
+        "views/nfe_menu.xml",
     ],
     "demo": [
         "demo/res_users_demo.xml",
