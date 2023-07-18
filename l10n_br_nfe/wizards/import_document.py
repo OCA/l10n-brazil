@@ -1,6 +1,7 @@
 # Copyright (C) 2021  Gabriel Cardoso de Faria - Kmee
 # Copyright (C) 2022  Renan Hiroki Bastos - Kmee
 # Copyright (C) 2023  Luiz Felipe do Divino - Kmee
+# Copyright (C) 2023  Felipe Zago Rodrigues - Kmee
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
@@ -10,6 +11,7 @@ from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.osv import expression
 
 
 class NfeImport(models.TransientModel):
@@ -103,6 +105,7 @@ class NfeImport(models.TransientModel):
             "product_code": product.prod.cProd,
             "ncm_xml": product.prod.NCM,
             "cfop_xml": product.prod.CFOP,
+            "product_id": self._match_product(product.prod),
             "icms_percent": taxes["pICMS"],
             "icms_value": taxes["vICMS"],
             "ipi_percent": taxes["pIPI"],
@@ -117,6 +120,19 @@ class NfeImport(models.TransientModel):
             "total": product.prod.vProd,
             "import_xml_id": self.id,
         }
+
+    def _match_product(self, xml_product):
+        domain = []
+        if hasattr(xml_product, "cProd"):
+            domain = expression.OR([domain, [("default_code", "=", xml_product.cProd)]])
+
+        if hasattr(xml_product, "cEANTrib") and xml_product.cEANTrib != "SEM GTIN":
+            domain = expression.OR([domain, [("barcode", "=", xml_product.cEANTrib)]])
+
+        if not domain:
+            return False
+
+        return self.env["product.product"].search(domain, limit=1).id
 
     def _get_taxes_from_xml_product(self, product):
         vICMS = 0

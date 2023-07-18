@@ -8,6 +8,11 @@ from odoo.tests import SavepointCase
 from odoo.addons import l10n_br_nfe
 
 
+class FakeXML(object):
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+
 class NFeImportWizardTest(SavepointCase):
     def setUp(self):
         super(NFeImportWizardTest, self).setUp()
@@ -40,7 +45,22 @@ class NFeImportWizardTest(SavepointCase):
         )
         self.wizard._onchange_xml()
 
-    def test_onchange_nfe_xml(self):
+    def check_edoc(self, edoc):
+        self.assertEqual(
+            len(self.wizard.imported_products_ids),
+            len(edoc.fiscal_line_ids),
+        )
+        self.assertTrue(edoc.partner_id)
+        self.assertEqual(
+            self.wizard.xml_partner_cpf_cnpj,
+            edoc.partner_id.cnpj_cpf,
+        )
+        self.assertEqual(
+            self.wizard.xml_partner_name,
+            edoc.partner_id.name,
+        )
+
+    def test_import_nfe_xml(self):
         xml = "dummy"
         with self.assertRaises(UserError):
             self._prepare_wizard(xml.encode("utf-8"))
@@ -73,21 +93,6 @@ class NFeImportWizardTest(SavepointCase):
         self.assertEqual(first_imported_product.quantity_trib, 1)
         self.assertEqual(first_imported_product.price_unit_trib, 14)
         self.assertEqual(first_imported_product.total, 14)
-
-    def check_edoc(self, edoc):
-        self.assertEqual(
-            len(self.wizard.imported_products_ids),
-            len(edoc.fiscal_line_ids),
-        )
-        self.assertTrue(edoc.partner_id)
-        self.assertEqual(
-            self.wizard.xml_partner_cpf_cnpj,
-            edoc.partner_id.cnpj_cpf,
-        )
-        self.assertEqual(
-            self.wizard.xml_partner_name,
-            edoc.partner_id.name,
-        )
 
     def test_import_xml(self):
         self._prepare_wizard(self.xml_1)
@@ -154,3 +159,31 @@ class NFeImportWizardTest(SavepointCase):
         self.assertEqual(wiz_supplier_id.partner_uom, first_product.uom_internal)
         self.assertEqual(wiz_supplier_id.product_code, first_product.product_code)
         self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)
+
+    def test_match_xml_product(self):
+        self._prepare_wizard(self.xml_1)
+
+        xml = self.wizard.parse_xml()
+        xml_product_1 = xml.NFe.infNFe.det[0].prod
+        prod_id = self.wizard._match_product(xml_product_1)
+        self.assertEqual(prod_id, self.env.ref("product.product_product_10").id)
+
+        prod_code = self.env["product.product"].create(
+            {
+                "name": "TEST1",
+                "default_code": "TEST123",
+            }
+        )
+        prod_id = self.wizard._match_product(FakeXML(cProd="TEST123"))
+        self.assertEqual(prod_id, prod_code.id)
+
+        prod_code.unlink()
+        prod_barcode = self.env["product.product"].create(
+            {"name": "TEST1", "barcode": "123456789123"}
+        )
+        prod_id = self.wizard._match_product(FakeXML(cEANTrib="123456789123"))
+        self.assertEqual(prod_id, prod_barcode.id)
+
+        prod_barcode.unlink()
+        prod_id = self.wizard._match_product(FakeXML())
+        self.assertFalse(prod_id)
