@@ -209,6 +209,7 @@ class NfeImport(models.TransientModel):
             self.purchase_id = self.create_purchase_order(edoc)
 
         if self.purchase_id:
+            self.purchase_id.confirm_and_create_invoice()
             edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
 
         return edoc

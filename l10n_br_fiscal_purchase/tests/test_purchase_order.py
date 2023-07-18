@@ -4,7 +4,7 @@
 from odoo.tests import TransactionCase
 
 
-class TestPurchaseOorder(TransactionCase):
+class TestPurchaseOrder(TransactionCase):
     def setUp(self):
         super().setUp()
 
@@ -56,9 +56,7 @@ class TestPurchaseOorder(TransactionCase):
                 ].id,
             }
         )
-        purchase_order.button_confirm()
-        purchase_order.order_line.qty_received = 10
-        purchase_order.action_create_invoice()
+        purchase_order.confirm_and_create_invoice()
         return purchase_order
 
     def test_create_and_invoice_purchase(self):

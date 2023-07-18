@@ -11,7 +11,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
         "l10n_br_fiscal",
-        "l10n_br_purchase",
+        "l10n_br_purchase_stock",
     ],
     "data": [
         "views/document_view.xml",
