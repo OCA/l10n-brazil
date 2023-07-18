@@ -2,7 +2,7 @@
 # Copyright (C) 2023 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class FiscalDocumentLine(models.Model):
@@ -23,26 +23,19 @@ class FiscalDocumentLine(models.Model):
     fiscal_quantity = fields.Float(related="quantity", readonly=False)
     fiscal_price_unit = fields.Float(related="price_unit", readonly=False)
 
-    def modified(self, fnames, create=False, before=False):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
-        Modifying a dummy fiscal document (no document_type_id) line should not recompute
-        any account.move.line related to the same dummy fiscal document line.
+        It's not allowed to create a fiscal document line without a document_id anyway.
+        But instead of letting Odoo crash in this case we simply avoid creating the
+        record. This makes it possible to create an account.move.line without
+        a fiscal_document_line_id: Odoo will write NULL as the value in this case.
+        This is a requirement to allow account moves without fiscal documents despite
+        the _inherits system.
         """
-        filtered = self.filtered(
-            lambda rec: isinstance(rec.id, models.NewId)
-            or not rec.document_id  # document_id might exist and be computed later
-            or rec.document_id.document_type_id
-        )
-        return super(FiscalDocumentLine, filtered).modified(fnames, create, before)
-
-    def _modified_triggers(self, tree, create=False):
-        """
-        Modifying a dummy fiscal document (no document_type_id) line should not recompute
-        any account.move.line related to the same dummy fiscal document line.
-        """
-        filtered = self.filtered(
-            lambda rec: isinstance(rec.id, models.NewId)
-            or not rec.document_id  # document_id might exist and be computed later
-            or rec.document_id.document_type_id
-        )
-        return super(FiscalDocumentLine, filtered)._modified_triggers(tree, create)
+        if self._context.get("create_from_move_line"):
+            return super().create(
+                list(filter(lambda vals: vals.get("document_id"), vals_list))
+            )
+        else:
+            return super().create(vals_list)
