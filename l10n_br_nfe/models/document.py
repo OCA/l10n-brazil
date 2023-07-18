@@ -10,6 +10,7 @@ from datetime import datetime
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
+from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -683,6 +684,15 @@ class NFe(spec_models.StackedModel):
                 field_data.nItem = i
         return res
 
+    @api.model
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        return {
+            **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
+            "imported_document": True,
+        }
+
     def _build_attr(self, node, fields, vals, path, attr):
         key = "nfe40_%s" % (attr[0],)  # TODO schema wise
         value = getattr(node, attr[0])
@@ -1087,6 +1097,21 @@ class NFe(spec_models.StackedModel):
                 "type": "binary",
             }
         )
+
+    def import_nfe_xml(self, xml, edoc_type="out"):
+        document = (
+            self.env["nfe.40.infnfe"]
+            .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
+            .build_from_binding(xml.NFe.infNFe)
+        )
+
+        if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
+            xml.NFe.infNFe.emit.CNPJ
+        ):
+            document.fiscal_operation_type = "in"
+            document.issuer = "partner"
+
+        return document
 
     def temp_xml_autorizacao(self, xml_string):
         """TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
