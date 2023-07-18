@@ -18,6 +18,16 @@ class PurchaseOrder(models.Model):
             "document_type_id": self.origin_document_id.document_type_id.id,
         }
 
+    def confirm_and_create_invoice(self):
+        self.button_confirm()
+
+        self.env["stock.immediate.transfer"].with_context(
+            default_pick_ids=self.picking_ids,
+            button_validate_picking_ids=self.picking_ids.ids,
+        ).create({}).process()
+
+        self.action_create_invoice()
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
