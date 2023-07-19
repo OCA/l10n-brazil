@@ -85,6 +85,8 @@ class TestDFe(SavepointCase):
         DocumentoElectronicoAdapter, "_post", side_effect=mocked_post_success_multiple
     )
     def test_search_dfe_success(self, _mock_post):
+        self.assertEqual(self.dfe_id.display_name, f"Empresa Lucro Presumido - NSU: 0")
+
         self.dfe_id.search_documents()
         self.assertEqual(self.dfe_id.last_nsu, utils.format_nsu("201"))
 
@@ -111,6 +113,9 @@ class TestDFe(SavepointCase):
         attachment_2 = self.env["ir.attachment"].search([("res_id", "=", mde2.id)])
         self.assertTrue(attachment_2)
 
+        res = self.dfe_id.action_manage_manifestations()
+        self.assertEqual(res["name"], self.dfe_id.company_id.legal_name)
+
     def test_search_dfe_error(self):
         with mock.patch.object(
             DocumentoElectronicoAdapter,
@@ -134,6 +139,18 @@ class TestDFe(SavepointCase):
                 self.dfe_id.search_documents()
                 self.assertIn("589", ve.exception.args[0])
                 self.assertFalse(self.dfe_id.imported_mde_ids)
+
+        with mock.patch.object(
+            DocumentoElectronicoAdapter,
+            "_post",
+            side_effect=KeyError("foo"),
+        ):
+            self.dfe_id.search_documents(raise_error=False)
+
+            with self.assertRaises(UserError):
+                self.dfe_id.search_documents()
+
+            self.assertFalse(self.dfe_id.imported_mde_ids)
 
     @mock.patch.object(
         DocumentoElectronicoAdapter,
@@ -160,5 +177,59 @@ class TestDFe(SavepointCase):
             DocumentoElectronicoAdapter,
             "_post",
             side_effect=mocked_post_error_status_code,
-        ), self.assertRaises(ValidationError):
-            self.dfe_id.download_document("dummy")
+        ):
+            xml = self.dfe_id.download_document("dummy", raise_error=False)
+            self.assertIsNone(xml)
+
+            with self.assertRaises(ValidationError):
+                self.dfe_id.download_document("dummy")
+
+    def test_create_mde(self):
+        mde = self.dfe_id.create_mde_from_schema("dummy_v1.0", False)
+        self.assertIsNone(mde)
+
+        mde_id = self.env["l10n_br_fiscal.mde"].create({"key": "123456789"})
+
+        mock_resNFe = mock.MagicMock(spec=["chNFe"])
+        mock_resNFe.chNFe = "123456789"
+        resnfe_mde_id = self.dfe_id.create_mde_from_schema("resNFe_v1.0", mock_resNFe)
+        self.assertEqual(resnfe_mde_id, mde_id)
+
+        mock_procNFe = mock.MagicMock(spec=["protNFe"])
+        mock_procNFe.protNFe.infProt.chNFe = "123456789"
+        procnfe_mde_id = self.dfe_id.create_mde_from_schema(
+            "procNFe_v1.0", mock_procNFe
+        )
+        self.assertEqual(procnfe_mde_id, mde_id)
+
+    def test_cron_search_documents(self):
+        self.dfe_id.use_cron = True
+
+        with mock.patch.object(
+            DocumentoElectronicoAdapter,
+            "_post",
+            side_effect=mocked_post_error_status_code,
+        ):
+            self.dfe_id._cron_search_documents()
+            self.assertFalse(self.dfe_id.imported_mde_ids)
+
+        with mock.patch.object(
+            DocumentoElectronicoAdapter,
+            "_post",
+            side_effect=mocked_post_success_multiple,
+        ):
+            self.dfe_id._cron_search_documents()
+            self.assertEqual(len(self.dfe_id.imported_mde_ids), 2)
+
+    def test_utils(self):
+        nsu_formatted = utils.format_nsu("100")
+        self.assertEqual(nsu_formatted, "000000000000100")
+
+        cnpj_masked = utils.mask_cnpj(False)
+        self.assertFalse(cnpj_masked)
+
+        cnpj_masked = utils.mask_cnpj("1234")
+        self.assertEqual(cnpj_masked, "1234")
+
+        cnpj_masked = utils.mask_cnpj("31282204000196")
+        self.assertEqual(cnpj_masked, "31.282.204/0001-96")
