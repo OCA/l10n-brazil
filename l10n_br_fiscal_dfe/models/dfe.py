@@ -11,7 +11,7 @@ from lxml import objectify
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from ..tools import utils
@@ -57,9 +57,9 @@ class DFe(models.Model):
         "searched with a Cron",
     )
 
-    def _compute_display_name(self):
-        for record in self:
-            record.display_name = f"{record.company_id.name} - NSU: {record.last_nsu}"
+    @api.depends("company_id.name", "last_nsu")
+    def name_get(self):
+        return self.mapped(lambda d: (d.id, f"{d.company_id.name} - NSU: {d.last_nsu}"))
 
     def _get_certificate(self):
         certificate_id = self.company_id.certificate_nfe_id
@@ -78,21 +78,6 @@ class DFe(models.Model):
             versao=self.version,
             ambiente=self.environment,
         )
-
-    def validate_document_configuration(self):
-        missing_configs = []
-
-        if not self.company_id.certificate_nfe_id.file:
-            missing_configs.append(_("Company - NF-e A1 File"))
-        if not self.company_id.certificate_nfe_id.password:
-            missing_configs.append(_("Company - NF-e A1 Password"))
-
-        if missing_configs:
-            raise ValidationError(
-                "The following configurations are missing\n\n".join(
-                    [m for m in missing_configs]
-                )
-            )
 
     def validate_distribution_response(self, result, raise_error=True):
         valid = False
@@ -115,8 +100,6 @@ class DFe(models.Model):
         return valid
 
     def document_distribution(self, raise_error):
-        self.validate_document_configuration()
-
         maxNSU = ""
         while maxNSU != self.last_nsu:
             try:
@@ -163,13 +146,13 @@ class DFe(models.Model):
         return getattr(self, method)(root)
 
     def create_mde_from_procNFe(self, root):
-        supplier_cnpj = utils.mask_cnpj("%014d" % root.NFe.infNFe.emit.CNPJ)
-        partner = self.env["res.partner"].search([("cnpj_cpf", "=", supplier_cnpj)])
-
         nfe_key = root.protNFe.infProt.chNFe
         mde_id = self.find_mde_by_key(nfe_key)
         if mde_id:
             return mde_id
+
+        supplier_cnpj = utils.mask_cnpj("%014d" % root.NFe.infNFe.emit.CNPJ)
+        partner = self.env["res.partner"].search([("cnpj_cpf", "=", supplier_cnpj)])
 
         return self.env["l10n_br_fiscal.mde"].create(
             {
@@ -195,13 +178,13 @@ class DFe(models.Model):
         )
 
     def create_mde_from_resNFe(self, root):
-        supplier_cnpj = utils.mask_cnpj("%014d" % root.CNPJ)
-        partner_id = self.env["res.partner"].search([("cnpj_cpf", "=", supplier_cnpj)])
-
         nfe_key = root.chNFe
         mde_id = self.find_mde_by_key(nfe_key)
         if mde_id:
             return mde_id
+
+        supplier_cnpj = utils.mask_cnpj("%014d" % root.CNPJ)
+        partner_id = self.env["res.partner"].search([("cnpj_cpf", "=", supplier_cnpj)])
 
         return self.env["l10n_br_fiscal.mde"].create(
             {
@@ -245,8 +228,6 @@ class DFe(models.Model):
         return getattr(self, method)(xml)
 
     def download_document(self, nfe_key, raise_error=True):
-        self.validate_document_configuration()
-
         try:
             result = self._get_processor().consultar_distribuicao(
                 chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
