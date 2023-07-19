@@ -22,28 +22,38 @@
             </xpath>
 
             <xpath expr="//group[@id='document_info']" position="after">
-                <separator
-                    string="Purchase Order"
-                    attrs="{'invisible': [('xml', '=', False)]}"
-                />
-                <group attrs="{'invisible': [('xml', '=', False)]}">
-                    <group>
-                        <field name="purchase_link_type" />
-                        <field
-                            name="purchase_id"
-                            attrs="{'invisible': [('purchase_link_type', '!=', 'choose')]}"
-                        />
-                    </group>
+                <group attrs="{'invisible': [('document_id', '=', False)]}">
+                    <field name="document_id" readonly="1" string="Existing Document" />
                 </group>
-                <separator
-                    string="NFe XML Products"
-                    attrs="{'invisible': [('xml', '=', False)]}"
-                />
+
                 <group
-                    id="imported_products"
-                    attrs="{'invisible': [('xml', '=', False)]}"
+                    col="4"
+                    attrs="{
+                    'invisible': [
+                        '|',
+                        ('xml', '=', False),
+                        ('document_id', '!=', False),
+                    ]
+                }"
                 >
-                    <field name="imported_products_ids" nolabel="1" />
+                    <separator string="Purchase Order" colspan="4" />
+                    <group colspan="4">
+                        <group>
+                            <field name="purchase_link_type" />
+                            <field
+                                name="purchase_id"
+                                attrs="{'invisible': [('purchase_link_type', '!=', 'choose')]}"
+                            />
+                        </group>
+                    </group>
+                    <separator string="NFe XML Products" colspan="4" />
+                    <group
+                        colspan="4"
+                        id="imported_products"
+                        attrs="{'invisible': [('xml', '=', False)]}"
+                    >
+                        <field name="imported_products_ids" nolabel="1" />
+                    </group>
                 </group>
             </xpath>
 
