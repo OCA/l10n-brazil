@@ -28,6 +28,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_fiscal_certificate',
         'odoo14-addon-l10n_br_fiscal_closing',
         'odoo14-addon-l10n_br_hr',
+        'odoo14-addon-l10n_br_ie_search',
         'odoo14-addon-l10n_br_mis_report',
         'odoo14-addon-l10n_br_nfe',
         'odoo14-addon-l10n_br_nfe_spec',
