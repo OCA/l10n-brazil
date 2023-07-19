@@ -34,8 +34,8 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_account_document_line_mixin
-msgid "Account Document Line Mixin"
+#: model:ir.model,name:l10n_br_account.model_account_chart_template
+msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_br_account
@@ -63,28 +63,6 @@ msgid "Accounting"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__active
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__active
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__active
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__active
-msgid "Active"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__legal_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__legal_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__legal_name
-msgid "Adapted Legal Name"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__ie
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__ie
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__ie
-msgid "Adapted State Tax Number"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__all
 msgid "All"
 msgstr ""
@@ -92,6 +70,16 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_all_action
 msgid "All Documents"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_taxed
+msgid "Amount Taxed"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_untaxed
+msgid "Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_account
@@ -121,9 +109,6 @@ msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cnpj_cpf
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "CNPJ/CPF"
@@ -145,12 +130,11 @@ msgid "Check if the contact is a company, otherwise it is a person"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_res_company
-msgid "Companies"
-msgstr ""
-
-#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_company_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_company_id
 msgid "Company"
 msgstr ""
 
@@ -267,6 +251,22 @@ msgid "Create a new NFS-e"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__date_in_out
+msgid "Date IN/OUT"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__deductible_taxes
 msgid "Deductible Taxes"
 msgstr ""
@@ -282,6 +282,7 @@ msgid "Discount (%)"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__display_name
@@ -289,7 +290,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__display_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard__display_name
@@ -300,8 +301,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__display_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__document_date
+msgid "Document Date"
 msgstr ""
 
 #. module: l10n_br_account
@@ -318,14 +326,7 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice_line.py:0
-#, python-format
-msgid ""
-"Document line dummy not found. Please contact your system administrator."
-msgstr ""
-
-#. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "Document without Return Fiscal Operation! \n"
@@ -379,11 +380,6 @@ msgid "Fiscal Document Line"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__fiscal_dummy_id
-msgid "Fiscal Dummy Document"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_operation
 msgid "Fiscal Operation"
 msgstr ""
@@ -401,7 +397,6 @@ msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__fiscal_position_id
 msgid "Fiscal Position"
@@ -444,6 +439,7 @@ msgid "ICMS CST Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_chart_template__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__id
@@ -451,7 +447,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__id
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard__id
@@ -462,7 +458,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__id
-#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__id
 msgid "ID"
 msgstr ""
 
@@ -490,6 +485,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__incoterm_id
 msgid "Incoterm"
 msgstr ""
 
@@ -507,6 +503,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__incoterm_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__incoterm_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__incoterm_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__incoterm_id
 msgid ""
 "International Commercial Terms are a series of predefined commercial terms "
 "used in international transactions."
@@ -541,22 +538,6 @@ msgid "Invoices"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/hooks.py:0
-#, python-format
-msgid ""
-"It looks like your database %s is running with demo\n"
-"                   data. But the l10n_br_account module will need you to install the\n"
-"                   l10n_br_coa_simple and l10n_br_coa_generic\n"
-"                   chart of accounts modules first to load l10n_br_account demo data\n"
-"                   or run its tests properly (for production, these dependencies are not\n"
-"                   required, that is why these are not usual explicit\n"
-"                   module dependencies).\n"
-"                   Please install the l10n_br_coa_simple and l10n_br_coa_generic modules\n"
-"                   first and try installing the l10n_br_account module again.\n"
-"                "
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_move
 msgid "Journal Entry"
 msgstr ""
@@ -567,6 +548,7 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_chart_template____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_incoterms____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line____last_update
@@ -574,7 +556,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template____last_update
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin____last_update
+#: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard____last_update
@@ -585,7 +567,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group____last_update
-#: model:ir.model.fields,field_description:l10n_br_account.field_res_company____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -597,7 +578,7 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "Line without Return Fiscal Operation! \n"
@@ -609,6 +590,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
 msgid "Main CNAE"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_ir_model_data
+msgid "Model Data"
 msgstr ""
 
 #. module: l10n_br_account
@@ -624,6 +610,12 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_nfse_action
 msgid "NFS-e"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_name
+msgid "Name"
 msgstr ""
 
 #. module: l10n_br_account
@@ -668,7 +660,11 @@ msgid "PIS ST CST Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_partner_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_partner_id
 msgid "Partner"
 msgstr ""
 
@@ -728,8 +724,34 @@ msgid "Partner Zip"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_price_unit
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_price_unit
+msgid "Price Unit"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__processador_edoc
 msgid "Processador documentos eletrônicos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_product_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_quantity
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_partner_shipping_id
+msgid "Shipping Address"
 msgstr ""
 
 #. module: l10n_br_account
@@ -772,12 +794,23 @@ msgid "Templates for Taxes"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__legal_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_uom_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_uom_id
+msgid "UOM"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__company_legal_name
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_legal_name
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__legal_name
 msgid "Used in fiscal documents"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_user_id
+msgid "User"
 msgstr ""
 
 #. module: l10n_br_account
@@ -796,7 +829,7 @@ msgid "WH Account Move Line"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "You can't set this document number: {} to draft because this document is "
@@ -810,7 +843,13 @@ msgid "You cannot delete a fiscal document which is not draft state."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice_line.py:0
+#: code:addons/l10n_br_account/models/account_move_line.py:0
 #, python-format
 msgid "You cannot edit an invoice related to a withholding entry"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""

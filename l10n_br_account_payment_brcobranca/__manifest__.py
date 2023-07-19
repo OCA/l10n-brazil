@@ -4,9 +4,10 @@
 
 {
     "name": "L10n Br Account Payment BRCobranca",
-    "version": "14.0.3.1.3",
+    "version": "14.0.4.0.0",
     "license": "AGPL-3",
     "author": "Akretion, " "Odoo Community Association (OCA)",
+    "maintainers": ["rvalyi", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
         "l10n_br_account_payment_order",

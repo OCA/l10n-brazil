@@ -19,8 +19,8 @@ odoo.define("l10n_br_pos_cfe.devices", function (require) {
             var self = this;
 
             this.on("change:status", this, function (eh, status) {
-                status = status.newValue;
-                if (status.status === "connected" && self.fiscal_device) {
+                var new_status = status.newValue;
+                if (new_status.status === "connected" && self.fiscal_device) {
                     self.fiscal_device.send_order();
                     // TODO: Criar uma abstração na fila para processar todas as ações.
                 }

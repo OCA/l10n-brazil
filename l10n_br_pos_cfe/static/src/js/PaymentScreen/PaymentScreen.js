@@ -12,8 +12,8 @@ odoo.define("l10n_br_pos_cfe.PaymentScreen", function (require) {
     const PaymentScreen = require("point_of_sale.PaymentScreen");
     const Registries = require("point_of_sale.Registries");
 
-    const L10nBrPosCfePaymentScreen = (PaymentScreen) =>
-        class extends PaymentScreen {
+    const L10nBrPosCfePaymentScreen = (PaymentScreen_screen = PaymentScreen) =>
+        class extends PaymentScreen_screen {
             async validateOrder(isForceValidate) {
                 if (this.env.pos.config.iface_fiscal_via_proxy) {
                     super.validateOrder(isForceValidate);

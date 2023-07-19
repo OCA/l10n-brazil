@@ -10,9 +10,10 @@
     "maintainers": ["rvalyi", "renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "14.0.8.0.1",
+    "version": "14.0.10.1.0",
     "depends": [
         "l10n_br_fiscal",
+        "l10n_br_fiscal_certificate",
         "l10n_br_nfe_spec",
         "spec_driven_model",
     ],
@@ -36,13 +37,11 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib",
-            "erpbrasil.base",
-            "erpbrasil.assinatura",
+            "nfelib>=2.0.0",
+            "erpbrasil.assinatura>=1.7.0",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
             "erpbrasil.edoc.pdf",
-            "xmldiff",
         ],
     },
 }

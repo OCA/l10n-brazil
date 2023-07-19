@@ -20,12 +20,13 @@ class L10nBrSaleBaseTest(SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.main_company = cls.env.ref("base.main_company")
-        cls.company = cls.env.ref("base.main_company")
-        cls.so_products = cls.env.ref("l10n_br_sale.main_so_only_products")
-        cls.so_services = cls.env.ref("l10n_br_sale.main_so_only_services")
-        cls.so_product_service = cls.env.ref("l10n_br_sale.main_so_product_service")
-        cls.so_prod_srv = cls.env.ref("l10n_br_sale.main_so_product_service")
+        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        cls.so_products = cls.env.ref("l10n_br_sale.lc_so_only_products")
+        cls.so_services = cls.env.ref("l10n_br_sale.lc_so_only_services")
+        cls.so_product_service = cls.env.ref("l10n_br_sale.lc_so_product_service")
         cls.fsc_op_sale = cls.env.ref("l10n_br_fiscal.fo_venda")
+        # Testa os Impostos Dedutiveis
+        cls.fsc_op_sale.deductible_taxes = True
         cls.fsc_op_line_sale = cls.env.ref("l10n_br_fiscal.fo_venda_venda")
         cls.fsc_op_line_sale_non_contr = cls.env.ref(
             "l10n_br_fiscal.fo_venda_venda_nao_contribuinte"
@@ -157,6 +158,7 @@ class L10nBrSaleBaseTest(SavepointCase):
         sale_line._onchange_fiscal_operation_id()
         sale_line._onchange_fiscal_operation_line_id()
         sale_line._onchange_fiscal_taxes()
+        sale_line._onchange_fiscal_tax_ids()
 
     def _invoice_sale_order(self, sale_order):
         sale_order.action_confirm()
@@ -178,10 +180,71 @@ class L10nBrSaleBaseTest(SavepointCase):
                 " dictionary from Sale Order.",
             )
 
+            # Testa se os Valores Totais estão iguais entre o Pedido e Fatura
+            self.assertEqual(
+                sale_order.amount_total,
+                invoice.amount_total,
+                "Error field Amount Total in Invoice" " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_tax,
+                invoice.amount_tax,
+                "Error field Amount Tax in Invoice" " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_untaxed,
+                invoice.amount_untaxed,
+                "Error field Amount Untaxed in Invoice"
+                " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_price_gross,
+                invoice.amount_price_gross,
+                "Error field Amount Price Gross in Invoice"
+                " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_financial_total,
+                invoice.amount_financial_total,
+                "Error field Amount Financial Total in "
+                "Invoice are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_financial_total_gross,
+                invoice.amount_financial_total_gross,
+                "Error field Amount Financial Total Gross"
+                " in Invoice are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_freight_value,
+                invoice.amount_freight_value,
+                "Error field Amount Freight in Invoice"
+                " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_insurance_value,
+                invoice.amount_insurance_value,
+                "Error field Amount Insurance in Invoice"
+                " are different from Sale Order.",
+            )
+            self.assertEqual(
+                sale_order.amount_other_value,
+                invoice.amount_other_value,
+                "Error field Amount Other Values in Invoice"
+                " are different from Sale Order.",
+            )
+
             for line in invoice.invoice_line_ids:
+                line._onchange_price_subtotal()
                 self.assertTrue(
                     line.fiscal_operation_line_id,
                     "Error to included Operation Line from Sale Order Line.",
+                )
+                self.assertEqual(
+                    line.price_total,
+                    line.sale_line_ids[0].price_total,
+                    "Error field Price Total in Invoice Line"
+                    " are different from Sale Order Line.",
                 )
 
     def test_l10n_br_sale_products(self):
@@ -327,7 +390,6 @@ class L10nBrSaleBaseTest(SavepointCase):
             )
 
         self._invoice_sale_order(self.so_products)
-        self._change_user_company(self.main_company)
 
     def test_l10n_br_sale_services(self):
         """Test brazilian Sale Order with only Services."""
@@ -444,10 +506,10 @@ class L10nBrSaleBaseTest(SavepointCase):
             )
 
         self._invoice_sale_order(self.so_services)
-        self._change_user_company(self.main_company)
 
     def test_l10n_br_sale_product_service(self):
         """Test brazilian Sale Order with Product and Service."""
+        self._change_user_company(self.company)
         self._run_sale_order_onchanges(self.so_product_service)
         for line in self.so_product_service.order_line:
             self._run_sale_line_onchanges(line)
@@ -463,6 +525,7 @@ class L10nBrSaleBaseTest(SavepointCase):
         defined or By Line or By Total in Sale Order.
         """
 
+        self._change_user_company(self.company)
         # Por padrão a definição dos campos está por Linha
         self.so_products.company_id.delivery_costs = "line"
         # Teste definindo os valores Por Linha

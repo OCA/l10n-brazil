@@ -388,12 +388,10 @@ class Tax(models.Model):
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and tax_dict.get("tax_value")
         ):
-            tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
+            icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line
             )
-            tax_icmsfcp_difal = company.icms_regulation_id.map_tax_icmsfcp(
-                company, partner, product, ncm, nbm, cest, operation_line
-            )
+            icmsfcp_tax_difal = tax_dict_ipi = taxes_dict.get("icmsfcp", {})
 
             # Difal - Origin Percent
             icms_origin_perc = tax_dict.get("percent_amount")
@@ -403,13 +401,13 @@ class Tax(models.Model):
 
             # Difal - Destination Percent
             icms_dest_perc = 0.00
-            if tax_icms_difal:
-                icms_dest_perc = tax_icms_difal[0].percent_amount
+            if icms_tax_difal:
+                icms_dest_perc = icms_tax_difal[0].percent_amount
 
             # Difal - FCP Percent
             icmsfcp_perc = 0.00
-            if tax_icmsfcp_difal:
-                icmsfcp_perc = tax_icmsfcp_difal[0].percent_amount
+            if icmsfcp_tax_difal:
+                icmsfcp_perc = icmsfcp_tax_difal.get("percent_amount")
 
             # Difal - Base
             icms_base = tax_dict.get("base")
@@ -541,7 +539,7 @@ class Tax(models.Model):
         if partner.ind_ie_dest in (NFE_IND_IE_DEST_1, NFE_IND_IE_DEST_2):
             if cst.code in ICMS_SN_CST_WITH_CREDIT:
                 icms_sn_percent = currency.round(
-                    company.simplifed_tax_percent
+                    company.simplified_tax_percent
                     * (icmssn_range.tax_icms_percent / 100)
                 )
 

@@ -138,12 +138,6 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:0
-#, python-format
-msgid "Authorization Protocol Not Found!"
-msgstr "Protocolo de Autorização Não Encontrado!"
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vBC
 msgid "BC do ICMS"
 msgstr ""
@@ -290,7 +284,6 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:0
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:0
 #, python-format
 msgid "Certificado não encontrado"
@@ -1479,6 +1472,11 @@ msgid "NFe Version"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
+msgid "Nf-e Environment:"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_autXML_infNFe_id
 msgid "Nfe40 Autxml Infnfe"
 msgstr ""
@@ -2184,6 +2182,11 @@ msgid "Veículo"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cBenef
+msgid "cBenef"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_email
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_email
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_email
@@ -2424,6 +2427,10 @@ msgid ""
 "versão do aplicativo utilizado no processo de\n"
 "emissão"
 msgstr ""
+
+#, python-format
+#~ msgid "Authorization Protocol Not Found!"
+#~ msgstr "Protocolo de Autorização Não Encontrado!"
 
 #~ msgid "ICMS/II/IPI/ISSQN"
 #~ msgstr "ICMS/II/IPI/ISSQN"

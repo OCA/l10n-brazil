@@ -7,16 +7,15 @@ import logging
 import re
 import string
 from datetime import datetime
-from io import StringIO
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
-from nfelib.v4_00 import leiauteNFe_sub as nfe_sub, retEnviNFe as leiauteNFe
+from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
+from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 
 from odoo import _, api, fields
@@ -54,6 +53,8 @@ from ..constants.nfe import (
     NFE_TRANSMISSIONS,
     NFE_VERSIONS,
 )
+
+PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
 
 _logger = logging.getLogger(__name__)
 
@@ -613,8 +614,8 @@ class NFe(spec_models.StackedModel):
         return res
 
     def _build_attr(self, node, fields, vals, path, attr):
-        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
-        value = getattr(node, attr.get_name())
+        key = "nfe40_%s" % (attr[0],)  # TODO schema wise
+        value = getattr(node, attr[0])
 
         if key == "nfe40_mod":
             vals["document_type_id"] = (
@@ -682,6 +683,23 @@ class NFe(spec_models.StackedModel):
     # Business Model Methods
     ################################
 
+    @api.constrains("document_type", "state_edoc", "fiscal_line_ids")
+    def _check_product_default_code(self):
+        for rec in self:
+            if (
+                rec.document_type in PRODUCT_CODE_FISCAL_DOCUMENT_TYPES
+                and rec.state_edoc == "a_enviar"
+            ):
+                for line in rec.fiscal_line_ids:
+                    if not line.product_id.default_code and not line.nfe40_cProd:
+                        raise ValidationError(
+                            _(
+                                f"The product {line.product_id.display_name} "
+                                f"must have a default code or the product code"
+                                f"line field (nfe40_cProd) should be filled."
+                            )
+                        )
+
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
@@ -704,21 +722,18 @@ class NFe(spec_models.StackedModel):
             filter_processador_edoc_nfe
         ):
             inf_nfe = record.export_ds()[0]
-
-            tnfe = leiauteNFe.TNFe(infNFe=inf_nfe, infNFeSupl=None, Signature=None)
-            tnfe.original_tagname_ = "NFe"
-
-            edocs.append(tnfe)
-
+            nfe = Nfe(infNFe=inf_nfe, infNFeSupl=None, signature=None)
+            edocs.append(nfe)
         return edocs
 
     def _processador(self):
-        if not self.company_id.certificate_nfe_id:
+        if not self.company_id.sudo().certificate_nfe_id:
             raise UserError(_("Certificado não encontrado"))
+        self._check_nfe_environment()
 
         certificado = cert.Certificado(
-            arquivo=self.company_id.certificate_nfe_id.file,
-            senha=self.company_id.certificate_nfe_id.password,
+            arquivo=self.company_id.sudo().certificate_nfe_id.file,
+            senha=self.company_id.sudo().certificate_nfe_id.password,
         )
         session = Session()
         session.verify = False
@@ -730,14 +745,26 @@ class NFe(spec_models.StackedModel):
             ambiente=self.nfe_environment,
         )
 
+    def _check_nfe_environment(self):
+        self.ensure_one()
+        company_nfe_environment = self.company_id.nfe_environment
+        if self.nfe_environment != company_nfe_environment:
+            raise UserError(
+                _(
+                    f"Nf-e environment: {self.nfe_environment}"
+                    " cannot be different from what is configured "
+                    f"in the company: {company_nfe_environment}"
+                )
+            )
+
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
             processador = record._processador()
-            xml_file = processador._generateds_to_string_etree(
-                edoc, pretty_print=pretty_print
-            )[0]
+            xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
+                0
+            ]
             _logger.debug(xml_file)
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
@@ -791,7 +818,7 @@ class NFe(spec_models.StackedModel):
 
     def _valida_xml(self, xml_file):
         self.ensure_one()
-        erros = nfe_sub.schema_validation(StringIO(xml_file))
+        erros = Nfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 

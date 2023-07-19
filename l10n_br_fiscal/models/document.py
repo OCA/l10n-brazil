@@ -26,8 +26,6 @@ from ..constants.fiscal import (
     SITUACAO_EDOC_INUTILIZADA,
 )
 
-PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
-
 
 class Document(models.Model):
     """Implementação base dos documentos fiscais
@@ -52,16 +50,10 @@ class Document(models.Model):
     _inherit = [
         "l10n_br_fiscal.document.mixin",
         "l10n_br_fiscal.document.electronic",
-        "l10n_br_fiscal.document.invoice.mixin",
+        "l10n_br_fiscal.document.move.mixin",
     ]
     _description = "Fiscal Document"
     _check_company_auto = True
-
-    # used mostly to enable _inherits of account.invoice on
-    # fiscal_document when existing invoices have no fiscal document.
-    active = fields.Boolean(
-        default=True,
-    )
 
     name = fields.Char(
         compute="_compute_name",
@@ -220,22 +212,6 @@ class Document(models.Model):
         default=False,
     )
 
-    @api.constrains("document_type", "state_edoc", "fiscal_line_ids")
-    def _check_product_default_code(self):
-        for rec in self:
-            if (
-                rec.document_type in PRODUCT_CODE_FISCAL_DOCUMENT_TYPES
-                and rec.state_edoc == "a_enviar"
-            ):
-                for line in rec.fiscal_line_ids:
-                    if not line.product_id.default_code:
-                        raise ValidationError(
-                            _(
-                                f"The product {line.product_id.display_name} "
-                                f"must have a default code."
-                            )
-                        )
-
     @api.constrains("document_key")
     def _check_key(self):
         for record in self:
@@ -245,7 +221,6 @@ class Document(models.Model):
             documents = record.env["l10n_br_fiscal.document"].search_count(
                 [
                     ("id", "!=", record.id),
-                    ("active", "=", True),
                     ("company_id", "=", record.company_id.id),
                     ("issuer", "=", record.issuer),
                     ("document_key", "=", record.document_key),
@@ -279,7 +254,6 @@ class Document(models.Model):
                 return
             domain = [
                 ("id", "!=", record.id),
-                ("active", "=", True),
                 ("company_id", "=", record.company_id.id),
                 ("issuer", "=", record.issuer),
                 ("document_type_id", "=", record.document_type_id.id),
@@ -394,10 +368,7 @@ class Document(models.Model):
             SITUACAO_EDOC_INUTILIZADA,
         ]
 
-        for record in self.filtered(
-            lambda d: d != self.env.company.fiscal_dummy_id
-            and d.state_edoc in forbidden_states_unlink
-        ):
+        for record in self.filtered(lambda d: d.state_edoc in forbidden_states_unlink):
             raise ValidationError(
                 _(
                     "You cannot delete fiscal document number {} with "
@@ -511,18 +482,6 @@ class Document(models.Model):
             )
         self.document_subsequent_ids = subsequent_documents
         return result
-
-    @api.onchange("document_type_id")
-    def _onchange_document_type_id(self):
-        if self.document_type_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self.document_serie_id = self.document_type_id.get_document_serie(
-                self.company_id, self.fiscal_operation_id
-            )
-
-    @api.onchange("document_serie_id")
-    def _onchange_document_serie_id(self):
-        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self.document_serie = self.document_serie_id.code
 
     def _prepare_referenced_subsequent(self, doc_referenced):
         self.ensure_one()

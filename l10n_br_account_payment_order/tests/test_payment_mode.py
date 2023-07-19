@@ -50,8 +50,6 @@ class TestPaymentMode(SavepointCase):
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "group_lines": False,
-                "generate_move": False,
-                "post_move": False,
             }
         )
 
@@ -63,8 +61,6 @@ class TestPaymentMode(SavepointCase):
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "group_lines": False,
-                "generate_move": False,
-                "post_move": False,
             }
         )
 
@@ -76,27 +72,18 @@ class TestPaymentMode(SavepointCase):
                 "company_id": cls.company.id,
                 "fixed_journal_id": cls.journal_c1.id,
                 "group_lines": False,
-                "generate_move": False,
-                "post_move": False,
             }
         )
 
+    def test_onchange(self):
+        """Test account.payment.mode Onchange methods"""
+        self.payment_mode_test_240._onchange_payment_method_id()
+
     def test_constrains(self):
+        """Test account.payment.mode Constrains methods"""
         with self.assertRaises(ValidationError):
             self.payment_mode_test_240.write(
                 {
                     "group_lines": True,
-                }
-            )
-        with self.assertRaises(ValidationError):
-            self.payment_mode_test_240.write(
-                {
-                    "generate_move": True,
-                }
-            )
-        with self.assertRaises(ValidationError):
-            self.payment_mode_test_240.write(
-                {
-                    "post_move": True,
                 }
             )

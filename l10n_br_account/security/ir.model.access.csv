@@ -1,5 +1,4 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"l10n_br_account_certificate_user","Fiscal Certificate for Account User","l10n_br_fiscal.model_l10n_br_fiscal_certificate","account.group_account_invoice",1,0,0,0
 "l10n_br_account_document_serie_user","Fiscal Document Serie for Account User","l10n_br_fiscal.model_l10n_br_fiscal_document_serie","account.group_account_invoice",1,0,0,0
 "l10n_br_account_document_type_user","Fiscal Document Type for Account User","l10n_br_fiscal.model_l10n_br_fiscal_document_type","account.group_account_invoice",1,0,0,0
 "l10n_br_account_document_user","Fiscal Document for Account User","l10n_br_fiscal.model_l10n_br_fiscal_document","account.group_account_invoice",1,1,0,0
@@ -17,3 +16,4 @@
 "l10n_br_account_tax_user","Fiscal Tax for Account User","l10n_br_fiscal.model_l10n_br_fiscal_tax","account.group_account_invoice",1,0,0,0
 "l10n_br_account_operation_user","Fiscal Operation for Account User","l10n_br_fiscal.model_l10n_br_fiscal_operation","account.group_account_invoice",1,0,0,0
 "l10n_br_account_operation_line_user","Fiscal Operation Line for Account User","l10n_br_fiscal.model_l10n_br_fiscal_operation_line","account.group_account_invoice",1,0,0,0
+"l10n_br_account_partner_profile_user","Fiscal Partner Profile for Account User","l10n_br_fiscal.model_l10n_br_fiscal_partner_profile","account.group_account_invoice",1,0,0,0

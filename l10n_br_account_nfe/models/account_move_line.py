@@ -17,13 +17,12 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     def write(self, values):
-
         result = super().write(values)
         MOVE_LINE_FIELDS = ["date_maturity", "name", "amount_currency"]
         if any(field in values.keys() for field in MOVE_LINE_FIELDS):
             invoices = self.mapped("move_id")
             for invoice in invoices.filtered(
-                lambda i: i.fiscal_document_id.id != i.company_id.fiscal_dummy_id.id
+                lambda i: i.fiscal_document_id
                 and i.processador_edoc == PROCESSADOR_OCA
                 and i.document_type_id.code in [MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE]
                 and i.issuer == DOCUMENT_ISSUER_COMPANY

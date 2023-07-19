@@ -12,8 +12,10 @@ odoo.define("l10n_br_pos_cfe.ReprintReceiptScreen", function (require) {
     const ReprintReceiptScreen = require("point_of_sale.ReprintReceiptScreen");
     const Registries = require("point_of_sale.Registries");
 
-    const L10nBrPosCfeReprintReceiptScreen = (ReprintReceiptScreen) =>
-        class extends ReprintReceiptScreen {
+    const L10nBrPosCfeReprintReceiptScreen = (
+        ReprintReceiptScreen_screen = ReprintReceiptScreen
+    ) =>
+        class extends ReprintReceiptScreen_screen {
             async printReceipt() {
                 setTimeout(() => super.printReceipt(), 1000);
             }

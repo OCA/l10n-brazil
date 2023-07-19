@@ -58,58 +58,8 @@ class ResCompany(models.Model):
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
 
-    @api.model
-    def _fiscal_dummy_doc_domain(self):
-        return [
-            ("active", "=", False),
-            ("document_type_id", "=", False),
-            ("company_id", "=", self.id),
-        ]
-
-    @api.model
-    def _prepare_create_fiscal_dummy_doc(self):
-        return {
-            "document_number": False,
-            "active": False,
-            "document_type_id": False,
-            "fiscal_operation_type": "out",
-            "partner_id": self.partner_id.id,
-            "company_id": self.id,
-            "fiscal_line_ids": [(0, 0, {"name": "dummy", "company_id": self.id})],
-        }
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        """
-        to satisfy the not-null constraint of the fiscal_dummy_id field,
-        the fiscal dummy is passed without a company_id and updated
-        after it is created.
-        """
-        dummy_doc = (
-            self.env["l10n_br_fiscal.document"]
-            .sudo()
-            .create(self._prepare_create_fiscal_dummy_doc())
-        )
-        for vals in vals_list:
-            vals.update({"fiscal_dummy_id": dummy_doc.id})
-        company = super().create(vals_list)
-        dummy_doc.company_id = company
-        dummy_doc.fiscal_line_ids.company_id = company
-        return company
-
-    @api.model
-    def _default_fiscal_dummy_id(self):
-        dummy_doc = self.env["l10n_br_fiscal.document"].search(
-            self._fiscal_dummy_doc_domain(), limit=1
-        )
-        if not dummy_doc:
-            dummy_doc = self.env["l10n_br_fiscal.document"].create(
-                self._prepare_create_fiscal_dummy_doc()
-            )
-        return dummy_doc
-
     @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
-    def _compute_simplifed_tax(self):
+    def _compute_simplified_tax(self):
         for record in self:
             record.coefficient_r = False
             if record.payroll_amount and record.annual_revenue:
@@ -124,7 +74,7 @@ class ResCompany(models.Model):
                     ("coefficient_r", "=", record.coefficient_r),
                 ]
             )
-            record.simplifed_tax_id = simplified_tax_id
+            record.simplified_tax_id = simplified_tax_id
 
             if simplified_tax_id:
                 tax_range = record.env["l10n_br_fiscal.simplified.tax.range"].search(
@@ -136,18 +86,18 @@ class ResCompany(models.Model):
                     ],
                     limit=1,
                 )
-                record.simplifed_tax_range_id = tax_range
+                record.simplified_tax_range_id = tax_range
 
-                if record.simplifed_tax_range_id and record.annual_revenue:
-                    record.simplifed_tax_percent = round(
+                if record.simplified_tax_range_id and record.annual_revenue:
+                    record.simplified_tax_percent = round(
                         (
                             (
                                 (
                                     record.annual_revenue
-                                    * record.simplifed_tax_range_id.total_tax_percent
+                                    * record.simplified_tax_range_id.total_tax_percent
                                     / 100
                                 )
-                                - record.simplifed_tax_range_id.amount_deduced
+                                - record.simplified_tax_range_id.amount_deduced
                             )
                             / record.annual_revenue
                         )
@@ -199,24 +149,24 @@ class ResCompany(models.Model):
         currency_field="currency_id",
     )
 
-    simplifed_tax_id = fields.Many2one(
+    simplified_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax",
-        compute="_compute_simplifed_tax",
+        compute="_compute_simplified_tax",
         string="Simplified Tax",
         store=True,
         readonly=True,
     )
 
-    simplifed_tax_range_id = fields.Many2one(
+    simplified_tax_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
-        compute="_compute_simplifed_tax",
+        compute="_compute_simplified_tax",
         store=True,
         readonly=True,
         string="Simplified Tax Range",
     )
 
-    simplifed_tax_percent = fields.Float(
-        compute="_compute_simplifed_tax",
+    simplified_tax_percent = fields.Float(
+        compute="_compute_simplified_tax",
         store=True,
         digits="Fiscal Tax Percent",
     )
@@ -227,13 +177,13 @@ class ResCompany(models.Model):
     )
 
     coefficient_r = fields.Boolean(
-        compute="_compute_simplifed_tax",
+        compute="_compute_simplified_tax",
         store=True,
         readonly=True,
     )
 
     coefficient_r_percent = fields.Float(
-        compute="_compute_simplifed_tax",
+        compute="_compute_simplified_tax",
         string="Coefficient R (%)",
         store=True,
         readonly=True,
@@ -245,19 +195,11 @@ class ResCompany(models.Model):
 
     ibpt_update_days = fields.Integer(string="IBPT Token Updates", default=15)
 
-    certificate_ecnpj_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.certificate",
-        string="E-CNPJ",
-        domain="[('type', '=', 'e-cnpj')]",
-    )
-
-    certificate_nfe_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.certificate",
-        string="NFe",
-        domain="[('type', '=', 'nf-e')]",
-    )
-
     accountant_id = fields.Many2one(comodel_name="res.partner", string="Accountant")
+
+    accounting_office = fields.Many2one(
+        comodel_name="res.partner", string="Accounting Office"
+    )
 
     technical_support_id = fields.Many2one(
         comodel_name="res.partner", string="Technical Support"
@@ -372,12 +314,6 @@ class ResCompany(models.Model):
     document_save_disk = fields.Boolean(
         string="Save Documents to disk",
         default=True,
-    )
-
-    fiscal_dummy_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Dummy Document",
-        ondelete="restrict",
     )
 
     delivery_costs = fields.Selection(

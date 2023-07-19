@@ -67,7 +67,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             )
 
         if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-            stax_range_id = company.simplifed_tax_range_id
+            stax_range_id = company.simplified_tax_range_id
 
         return stax_range_id
 
@@ -331,6 +331,19 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     icms_cst_code = fields.Char(
         related="icms_cst_id.code", string="ICMS CST Code", store=True
+    )
+
+    icms_tax_benefit_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        string="Tax Benefit",
+        domain=[
+            ("is_benefit", "=", True),
+            ("tax_domain", "=", TAX_DOMAIN_ICMS),
+        ],
+    )
+
+    icms_tax_benefit_code = fields.Char(
+        string="Tax Benefit Code", related="icms_tax_benefit_id.code", store=True
     )
 
     icms_base_type = fields.Selection(

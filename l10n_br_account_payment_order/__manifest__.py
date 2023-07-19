@@ -4,7 +4,7 @@
 
 {
     "name": "Brazilian Payment Order",
-    "version": "14.0.2.5.0",
+    "version": "14.0.3.0.2",
     "license": "AGPL-3",
     "author": "KMEE, Akretion, Odoo Community Association (OCA)",
     "maintainers": ["mbcosta"],
@@ -40,7 +40,6 @@
         "views/account_payment_order.xml",
         "views/account_payment_line.xml",
         "views/account_payment_mode.xml",
-        "views/bank_payment_line.xml",
         "views/l10n_br_cnab_return_log_view.xml",
         "views/account_move_line.xml",
         "views/l10n_br_cnab_return_move_code_view.xml",
