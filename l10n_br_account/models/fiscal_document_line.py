@@ -33,9 +33,9 @@ class FiscalDocumentLine(models.Model):
         This is a requirement to allow account moves without fiscal documents despite
         the _inherits system.
         """
+
         if self._context.get("create_from_move_line"):
-            return super().create(
-                list(filter(lambda vals: vals.get("document_id"), vals_list))
-            )
-        else:
-            return super().create(vals_list)
+            if not any(vals.get("document_id") for vals in vals_list):
+                return []
+
+        return super().create(vals_list)

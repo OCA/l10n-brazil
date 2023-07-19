@@ -158,7 +158,6 @@ class AccountMoveLine(models.Model):
             fiscal_doc_id = move_id.fiscal_document_id.id
 
             if not fiscal_doc_id or values.get("exclude_from_invoice_tab"):
-                values["fiscal_document_line_id"] = False
                 continue
 
             values.update(
@@ -209,9 +208,21 @@ class AccountMoveLine(models.Model):
                     )
                 )
         self._inject_shadowed_fields(vals_list)
-        return super(
+        results = super(
             AccountMoveLine, self.with_context(create_from_move_line=True)
         ).create(vals_list)
+
+        # Unfortunately when creating several aml there is no way to selectively avoid
+        # the creation of l10n_br_fiscal.document.line as it would mess the association
+        # of the remaining fiscal document lines with their proper aml. That's why we
+        # remove the useless fiscal document lines here.
+        for line in results:
+            if not fiscal_doc_id or line.exclude_from_invoice_tab:
+                fiscal_line_to_delete = line.fiscal_document_line_id
+                line.fiscal_document_line_id = False
+                fiscal_line_to_delete.sudo().unlink()
+
+        return results
 
     def write(self, values):
         non_dummy = self.filtered(lambda l: l.fiscal_document_line_id)
