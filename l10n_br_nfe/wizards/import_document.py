@@ -52,30 +52,31 @@ class NfeImport(models.TransientModel):
         if self.xml:
             self.set_fields_by_xml_data()
 
-            if self.partner_id:
-                self.imported_products_ids._set_product_supplierinfo_data()
-
     @api.onchange("xml_partner_cpf_cnpj")
     def _onchange_partner_cpf_cnpj(self):
         if not self.xml_partner_cpf_cnpj:
             return
 
+        purchase_order_ids = self.get_purchase_orders_from_xml_supplier()
+        return {"domain": {"purchase_id": [("id", "in", purchase_order_ids.ids)]}}
+
+    def get_purchase_orders_from_xml_supplier(self):
         supplier_id = self.env["res.partner"].search(
             [("cnpj_cpf", "=", self.xml_partner_cpf_cnpj)]
         )
-        purchase_order_ids = self.env["purchase.order"].search(
+        return self.env["purchase.order"].search(
             [
                 ("partner_id", "=", supplier_id.id),
                 ("state", "not in", ["done", "cancel"]),
             ]
         )
-        return {"domain": {"purchase_id": [("id", "in", purchase_order_ids.ids)]}}
 
     def set_fields_by_xml_data(self):
         parsed_xml = self.parse_xml()
-        infNFe = parsed_xml.NFe.infNFe
         document = self.get_document_by_xml(parsed_xml)
+        infNFe = parsed_xml.NFe.infNFe
 
+        self.find_existing_document()
         self.check_xml_data(parsed_xml)
         self.document_key = document.chave
         self.document_number = int(document.numero_documento)
@@ -91,7 +92,7 @@ class NfeImport(models.TransientModel):
             limit=1,
         )
         self.nat_op = infNFe.ide.natOp
-        self._create_imported_products_by_xml(parsed_xml)
+        self.create_imported_products_by_xml()
 
     def parse_xml(self):
         try:
@@ -116,7 +117,8 @@ class NfeImport(models.TransientModel):
                 )
             )
 
-    def _create_imported_products_by_xml(self, xml):
+    def create_imported_products_by_xml(self):
+        xml = self.parse_xml()
         product_ids = []
         for product in xml.NFe.infNFe.det:
             product_ids.append(
@@ -126,6 +128,9 @@ class NfeImport(models.TransientModel):
             )
 
         self.imported_products_ids = [(6, 0, product_ids)]
+
+        if self.partner_id:
+            self.imported_products_ids._set_product_supplierinfo_data()
 
     def _prepare_imported_product_values(self, product):
         taxes = self._get_taxes_from_xml_product(product)
@@ -188,16 +193,21 @@ class NfeImport(models.TransientModel):
         return {"vICMS": vICMS, "pICMS": pICMS, "vIPI": vIPI, "pIPI": pIPI}
 
     def import_xml(self):
-        self.document_id = self.create_edoc_from_xml()
+        self.find_existing_document()
+        if not self.document_id:
+            self.document_id = self.create_edoc_from_xml()
 
-        return {
-            "name": _("Document Imported"),
-            "type": "ir.actions.act_window",
-            "target": "current",
-            "views": [[False, "form"]],
-            "res_id": self.document_id.id,
-            "res_model": "l10n_br_fiscal.document",
-        }
+        return self.action_open_document()
+
+    def find_existing_document(self):
+        document = self.get_document_by_xml(self.parse_xml())
+        self.document_id = self.env["l10n_br_fiscal.document"].search(
+            [
+                ("document_key", "=", document.chave),
+                ("company_id", "=", self.company_id.id),
+            ],
+            limit=1,
+        )
 
     def create_edoc_from_xml(self):
         self.set_fiscal_operation_type()
@@ -292,6 +302,16 @@ class NfeImport(models.TransientModel):
                 if product_line.new_cfop_id:
                     xml_product.prod.CFOP = product_line.new_cfop_id.code
         return parsed_xml
+
+    def action_open_document(self):
+        return {
+            "name": _("Document Imported"),
+            "type": "ir.actions.act_window",
+            "target": "current",
+            "views": [[False, "form"]],
+            "res_id": self.document_id.id,
+            "res_model": "l10n_br_fiscal.document",
+        }
 
 
 class NfeImportProducts(models.TransientModel):
