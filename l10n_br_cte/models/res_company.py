@@ -16,16 +16,35 @@ class ResCompany(spec_models.SpecModel):
     # CT-e spec fields
     ##########################
 
-    cte40_CNPJ = fields.Char(related="partner_id.cte40_CNPJ")
-    cte40_CPF = fields.Char(related="partner_id.cte40_CPF")
-    cte40_IE = fields.Char(related="partner_id.cte40_IE")
-    cte40_xNome = fields.Char(related="partner_id.legal_name")
-    cte40_xFant = fields.Char(related="partner_id.name")
-    cte40_CRT = fields.Selection(related="tax_framework")
+    cte40_CNPJ = fields.Char(
+        related="partner_id.cte40_CNPJ",
+        store=True,
+    )
+    cte40_CPF = fields.Char(
+        related="partner_id.cte40_CPF",
+        store=True,
+    )
+    cte40_IE = fields.Char(
+        related="partner_id.cte40_IE",
+        store=True,
+    )
+    cte40_xNome = fields.Char(
+        related="partner_id.legal_name",
+        store=True,
+    )
+    cte40_xFant = fields.Char(
+        related="partner_id.name",
+        store=True,
+    )
+    cte40_CRT = fields.Selection(
+        related="tax_framework",
+        store=True,
+    )
 
     cte40_enderEmit = fields.Many2one(
         comodel_name="res.partner",
         related="partner_id",
+        store=True,
     )
 
     ##########################
@@ -34,18 +53,21 @@ class ResCompany(spec_models.SpecModel):
 
     rntrc_code = fields.Char(
         string="RNTRC",
+        store=True,
         help="Registro Nacional de Transportadores Rodoviários de Carga",
     )
 
     cte_default_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
         string="CT-e Default Serie",
+        store=True,
     )
 
     cte_dacte_layout = fields.Selection(
         selection=[("1", "Paisagem"), ("2", "Retrato")],
         string="CT-e DACTE Layout",
         default="1",
+        store=True,
     )
 
     cte_transmission = fields.Selection(
@@ -59,6 +81,7 @@ class ResCompany(spec_models.SpecModel):
         ],
         string="CT-e Transmission Type",
         default="1",
+        store=True,
     )
 
     cte_type = fields.Selection(
@@ -69,12 +92,14 @@ class ResCompany(spec_models.SpecModel):
         ],
         string="CT-e Type",
         default="0",
+        store=True,
     )
 
     cte_environment = fields.Selection(
         selection=[("1", "Produção"), ("2", "Homologação")],
         string="CT-e Environment",
         default="2",
+        store=True,
     )
 
     cte_version = fields.Selection(
