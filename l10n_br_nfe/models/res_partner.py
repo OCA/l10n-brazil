@@ -5,7 +5,6 @@ import logging
 
 from odoo import api, fields
 
-from odoo.addons.l10n_br_fiscal.tools.formatter import format_cnpj_cpf
 from odoo.addons.spec_driven_model.models import spec_models
 
 _logger = logging.getLogger(__name__)
@@ -294,7 +293,7 @@ class ResPartner(spec_models.SpecModel):
             domain_cnpj = [
                 "|",
                 ("cnpj_cpf", "=", rec_dict["cnpj_cpf"]),
-                ("cnpj_cpf", "=", format_cnpj_cpf(rec_dict["cnpj_cpf"])),
+                ("cnpj_cpf", "=", cnpj_cpf.formata(rec_dict["cnpj_cpf"])),
             ]
             match = self.search(domain_cnpj, limit=1)
             if match:
