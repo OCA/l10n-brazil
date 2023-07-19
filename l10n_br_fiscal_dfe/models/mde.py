@@ -133,8 +133,8 @@ class MDe(models.Model):
     def validate_event_response(self, result, valid_codes):
         valid = False
         if result.retorno.status_code != "200":
-            code = result.resposta.status
-            message = result.resposta.reason
+            code = result.retorno.status_code
+            message = "Invalid Status Code"
         else:
             inf_evento = result.resposta.retEvento[0].infEvento
             if inf_evento.cStat not in valid_codes:
@@ -144,11 +144,11 @@ class MDe(models.Model):
                 valid = True
 
         if not valid:
-            raise ValidationError(_("Invalid Status Code: %s - %s" % (code, message)))
+            raise ValidationError(
+                _("Error on validating event: %s - %s" % (code, message))
+            )
 
     def send_event(self, method, valid_codes):
-        self.dfe_id.validate_document_configuration()
-
         processor = self._get_processor()
         cnpj_partner = re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
 
