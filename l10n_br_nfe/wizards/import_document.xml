@@ -23,6 +23,19 @@
 
             <xpath expr="//group[@id='document_info']" position="after">
                 <separator
+                    string="Purchase Order"
+                    attrs="{'invisible': [('xml', '=', False)]}"
+                />
+                <group attrs="{'invisible': [('xml', '=', False)]}">
+                    <group>
+                        <field name="purchase_link_type" />
+                        <field
+                            name="purchase_id"
+                            attrs="{'invisible': [('purchase_link_type', '!=', 'choose')]}"
+                        />
+                    </group>
+                </group>
+                <separator
                     string="NFe XML Products"
                     attrs="{'invisible': [('xml', '=', False)]}"
                 />
