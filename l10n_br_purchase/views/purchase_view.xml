@@ -157,6 +157,13 @@
                     options="{'currency_field': 'currency_id'}"
                 />
               </xpath>
+              <xpath expr="//group[@name='other_info']" position="inside">
+                  <field name="imported" readonly="1" />
+                  <field
+                    name="origin_document_id"
+                    attrs="{'invisible': [('imported', '=', False)]}"
+                />
+              </xpath>
           </field>
       </record>
 
@@ -172,5 +179,20 @@
             </xpath>
           </field>
       </record>
+
+    <record id="action_purchase_tree_all" model="ir.actions.act_window">
+        <field name="name">Purchases</field>
+        <field name="res_model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="purchase.purchase_order_tree" />
+    </record>
+
+    <record id="action_purchase_form_all" model="ir.actions.act_window">
+        <field name="name">Purchase</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="purchase.purchase_order_form" />
+    </record>
 
 </odoo>

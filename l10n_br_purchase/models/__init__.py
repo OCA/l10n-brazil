@@ -5,3 +5,5 @@ from . import res_company
 from . import purchase_order
 from . import purchase_order_line
 from . import account_move
+from . import document_fiscal_mixin_methods
+from . import document

@@ -79,6 +79,10 @@ class PurchaseOrderLine(models.Model):
         related="company_id.delivery_costs",
     )
 
+    origin_document_line_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.line"
+    )
+
     @api.depends(
         "product_uom_qty",
         "price_unit",

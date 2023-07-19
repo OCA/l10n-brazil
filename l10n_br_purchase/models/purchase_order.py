@@ -53,6 +53,10 @@ class PurchaseOrder(models.Model):
         string="Comments",
     )
 
+    imported = fields.Boolean(string="Imported")
+
+    origin_document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
+
     @api.model
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
@@ -99,12 +103,14 @@ class PurchaseOrder(models.Model):
 
     def _prepare_invoice(self):
         self.ensure_one()
-        invoice_vals = super()._prepare_invoice()
-        invoice_vals.update(
-            {
-                "ind_final": self.ind_final,
-                "fiscal_operation_id": self.fiscal_operation_id.id,
-                "document_type_id": self.company_id.document_type_id.id,
-            }
-        )
-        return invoice_vals
+
+        return {
+            **super()._prepare_invoice(),
+            "ind_final": self.ind_final,
+            "fiscal_operation_id": self.fiscal_operation_id.id,
+            "fiscal_document_id": self.origin_document_id.id,
+            "document_type_id": (
+                self.origin_document_id.document_type_id.id
+                or self.company_id.document_type_id.id
+            ),
+        }

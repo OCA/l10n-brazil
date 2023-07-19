@@ -149,6 +149,25 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             },
         }
 
+        cls.product_1 = cls.env["product.product"].create(
+            {
+                "name": "PRODUCT TEST 1",
+                "list_price": 10,
+                "uom_id": cls.env.ref("uom.product_uom_unit").id,
+            }
+        )
+        cls.nfe_fiscal_document = cls.env["l10n_br_fiscal.document"].create(
+            {
+                "document_type_id": cls.env.ref(
+                    "l10n_br_fiscal.document_55_serie_1"
+                ).id,
+                "fiscal_operation_type": "out",
+                "fiscal_line_ids": [
+                    (0, 0, {"name": "LINE TEST 1", "product_id": cls.product_1.id})
+                ],
+            }
+        )
+
     def _change_user_company(self, company):
         self.env.user.company_ids += company
         self.env.user.company_id = company
@@ -165,6 +184,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         purchase_line._onchange_fiscal_tax_ids()
 
     def _invoice_purchase_order(self, order):
+        order.origin_document_id = self.nfe_fiscal_document.id
         order.with_context(tracking_disable=True).button_confirm()
 
         invoice_values = {
@@ -174,6 +194,21 @@ class L10nBrPurchaseBaseTest(SavepointCase):
 
         invoice_values.update(order._prepare_br_fiscal_dict())
         document_type_id = order._context.get("document_type_id")
+
+        invoice_values.update(order._prepare_invoice())
+        self.assertEqual(
+            invoice_values["fiscal_document_id"], self.nfe_fiscal_document.id
+        )
+
+        self.nfe_fiscal_document.linked_purchase_ids = [(4, order.id)]
+        action = self.nfe_fiscal_document.action_open_purchase()
+        self.assertEqual(action["res_id"], order.id)
+
+        self.nfe_fiscal_document.linked_purchase_ids = [(4, order.copy().id)]
+        action = self.nfe_fiscal_document.action_open_purchase()
+        self.assertIn("domain", action)
+
+        self.assertEqual(self.nfe_fiscal_document.linked_purchase_count, 2)
 
         if document_type_id:
             document_type = self.env["l10n_br_fiscal.document.type"].browse(
