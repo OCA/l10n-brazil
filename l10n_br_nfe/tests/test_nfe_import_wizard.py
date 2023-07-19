@@ -73,6 +73,8 @@ class NFeImportWizardTest(SavepointCase):
         self._prepare_wizard(self.xml_1)
         self.wizard.import_xml()
 
+        self.check_edoc(self.wizard.document_id)
+
         first_imported_product = self.wizard.imported_products_ids[0]
 
         self.assertEqual(
@@ -99,20 +101,16 @@ class NFeImportWizardTest(SavepointCase):
         self.assertEqual(first_imported_product.price_unit_trib, 14)
         self.assertEqual(first_imported_product.total, 14)
 
-    def test_import_xml(self):
-        self._prepare_wizard(self.xml_1)
-        self.wizard.import_xml()
-
-        self.check_edoc(self.wizard.document_id)
-
     def test_create_edoc_from_xml(self):
         self._prepare_wizard(self.xml_1)
+        self.wizard.purchase_link_type = "create"
 
         self.wizard.partner_id = False
         edoc = self.wizard.create_edoc_from_xml()
         self.assertEqual(self.wizard.partner_id, edoc.partner_id)
 
         self.check_edoc(edoc)
+        self.assertIn(self.wizard.purchase_id, edoc.linked_purchase_ids)
 
     def test_set_fiscal_operation_type(self):
         self._prepare_wizard(self.xml_1)
@@ -232,3 +230,21 @@ class NFeImportWizardTest(SavepointCase):
         self.assertEqual(taxes["vICMS"], 100)
         self.assertEqual(taxes["pIPI"], 5)
         self.assertEqual(taxes["vIPI"], 100)
+
+    def test_onchange_cnpj(self):
+        self._prepare_wizard(self.xml_1)
+
+        self.env["purchase.order"].create(
+            {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
+        )
+        self.env["purchase.order"].create(
+            {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
+        )
+        domain = self.wizard._onchange_partner_cpf_cnpj()
+
+        self.assertTrue(domain["domain"])
+        self.assertTrue(domain["domain"]["purchase_id"])
+
+        self.wizard.xml_partner_cpf_cnpj = False
+        domain = self.wizard._onchange_partner_cpf_cnpj()
+        self.assertIsNone(domain)

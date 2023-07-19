@@ -5,6 +5,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
+from datetime import datetime
 
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
@@ -32,6 +33,20 @@ class NfeImport(models.TransientModel):
 
     nat_op = fields.Char(string="Natureza da Operação")
 
+    purchase_link_type = fields.Selection(
+        selection=[
+            ("choose", "Choose"),
+            ("create", "Create"),
+        ],
+        default="choose",
+        string="Purchase Link Type",
+    )
+
+    purchase_id = fields.Many2one(
+        comodel_name="purchase.order",
+        string="Purchase Order",
+    )
+
     @api.onchange("xml")
     def _onchange_xml(self):
         if self.xml:
@@ -39,6 +54,22 @@ class NfeImport(models.TransientModel):
 
             if self.partner_id:
                 self.imported_products_ids._set_product_supplierinfo_data()
+
+    @api.onchange("xml_partner_cpf_cnpj")
+    def _onchange_partner_cpf_cnpj(self):
+        if not self.xml_partner_cpf_cnpj:
+            return
+
+        supplier_id = self.env["res.partner"].search(
+            [("cnpj_cpf", "=", self.xml_partner_cpf_cnpj)]
+        )
+        purchase_order_ids = self.env["purchase.order"].search(
+            [
+                ("partner_id", "=", supplier_id.id),
+                ("state", "not in", ["done", "cancel"]),
+            ]
+        )
+        return {"domain": {"purchase_id": [("id", "in", purchase_order_ids.ids)]}}
 
     def set_fields_by_xml_data(self):
         parsed_xml = self.parse_xml()
@@ -182,6 +213,13 @@ class NfeImport(models.TransientModel):
         self._attach_original_nfe_xml_to_document(edoc)
         self.imported_products_ids._find_or_create_product_supplierinfo()
 
+        if not self.purchase_id and self.purchase_link_type == "create":
+            self.purchase_id = self.create_purchase_order(edoc)
+
+        if self.purchase_id:
+            self.purchase_id.button_confirm()
+            edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
+
         return edoc
 
     def set_fiscal_operation_type(self):
@@ -191,6 +229,45 @@ class NfeImport(models.TransientModel):
             self.fiscal_operation_type = "out"
         else:
             self.fiscal_operation_type = "in"
+
+    def create_purchase_order(self, document):
+        purchase = self.env["purchase.order"].create(
+            {
+                "partner_id": document.partner_id.id,
+                "currency_id": self.company_id.currency_id.id,
+                "fiscal_operation_id": self.get_purchase_fiscal_operation_id(),
+                "date_order": datetime.now(),
+                "origin_document_id": document.id,
+                "imported": True,
+            }
+        )
+
+        purchase_lines = []
+        for line in document.fiscal_line_ids:
+            product_uom = line.uom_id or line.product_id.uom_id
+            purchase_line = self.env["purchase.order.line"].create(
+                {
+                    "product_id": line.product_id.id,
+                    "origin_document_line_id": line.id,
+                    "name": line.product_id.display_name,
+                    "date_planned": datetime.now(),
+                    "product_qty": line.quantity,
+                    "product_uom": product_uom.id,
+                    "price_unit": line.price_unit,
+                    "price_subtotal": line.amount_total,
+                    "order_id": purchase.id,
+                }
+            )
+            purchase_lines.append(purchase_line.id)
+        purchase.write({"order_line": [(6, 0, purchase_lines)]})
+        return purchase
+
+    def get_purchase_fiscal_operation_id(self):
+        default_fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras").id
+        return (
+            self.env.user.company_id.purchase_fiscal_operation_id.id
+            or default_fiscal_operation_id
+        )
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         return self.env["ir.attachment"].create(
