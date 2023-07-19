@@ -85,7 +85,7 @@ class NFeImportTest(SavepointCase):
         self.assertEqual(nfe.partner_id.city_id.name, "São João da Boa Vista")
 
         # now we check that company_id is unchanged
-        self.assertEqual(nfe.company_id.name, "Sua Empresa")
+        self.assertEqual(nfe.company_id, self.env.ref("base.main_company"))
 
         # this tests that value is not overrident by stacked default vals
         self.assertEqual(nfe.nfe40_modFrete, "0")  # (default is 9)
