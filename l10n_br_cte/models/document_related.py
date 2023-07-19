@@ -1,7 +1,7 @@
 # Copyright 2023 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields
+from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -42,44 +42,88 @@ class CTeRelated(spec_models.StackedModel):
         ]
     )
 
-    # infCarga One2many pro document line ?
+    # infCarga
     cte40_prodPred = fields.Char(string="prodPred")
 
-    cte40_vCarga = fields.Monetary(related="price_gross")  # TODO compute
+    cte40_vCarga = fields.Monetary(
+        currency_field="currency_id", compute="_compute_vCarga", store=True
+    )
 
-    cte40_infDoc = fields.Selection(related="infDoc")
+    currency_id = fields.Many2one(
+        comodel_name="res.currency", related="company_id.currency_id", readonly=True
+    )
 
-    # infNF - infNFE
-    cte40_mod = fields.Char(related="document_type_id.code", string="cte40_mod")
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        default=lambda self: self.env.company,
+    )
 
-    cte40_serie = fields.Char(related="document_serie")
+    # InfNFe
+    cte40_chave = fields.Char(
+        compute="_compute_cte_data",
+        inverse="_inverse_cte40_chave",
+    )
 
-    cte40_nDoc = fields.Char(related="document_number")
+    cte40_tpDoc = fields.Char(
+        compute="_compute_cte_data",
+        inverse="_inverse_cte40_tpDoc",
+    )
 
-    cte40_dEmi = fields.Datetime(related="document_date")
+    cte40_infDoc = fields.Selection(related="cte40_choice254")
 
-    cte40_vBC = fields.Monetary(related="icms_base")
+    # infCteNorm
+    cte40_chCTe = fields.Char(compute="_compute_chCte", string="chCte")
 
-    cte40_vICMS = fields.Monetary(related="amount_icms_value")
+    ##########################
+    # CT-e tag: infCTeComp
+    # Compute Methods
+    ##########################
 
-    cte40_vBCST = fields.Monetary(related="amount_icmsst_base")
+    def _compute_chCTe(self):
+        records = ""
+        for rec in self:
+            if rec.cte40_Id:
+                records += rec.document_key
+        self.cte40_chCTe = records
 
-    cte40_vST = fields.Monetary(related="amount_icmsst_value")
-
-    cte40_vProd = fields.Monetary(related="amount_total")
-
-    cte40_vNF = fields.Monetary(related="amount_financial_total")
-
-    cte40_nCFOP = fields.Char(related="cfop_id.code")
-
-    infDoc = fields.Selection(
+    cte40_choice254 = fields.Selection(
         selection=[
-            ("cte40_infNF", "NF"),
-            ("cte40_infNFe", "NFe"),
+            ("cte40_infNF", "infNF"),
+            ("cte40_infNFe", "infNFe"),
             ("cte40_infOutros", "Outros"),
-        ]
+        ],
+        compute="_compute_cte_data",
+        inverse="_inverse_cte40_choice254",
     )
 
     def _compute_vCarga(self):
-        # TODO
-        pass
+        for rec in self:
+            if rec.document_related_id:
+                rec.cte40_vCarga += rec.document_related_id.amount_price_gross
+
+    @api.depends("document_type_id")
+    def _compute_cte_data(self):
+        """Set schema data which are not just related fields"""
+        for rec in self:
+            if rec.document_type_id:
+                if rec.document_type_id.code in ("55",):
+                    rec.cte40_choice254 = "cte40_infNFe"
+                    rec.cte40_chave = rec.document_key
+                elif rec.document_type_id.code in ("00", "10", "59", "65", "99"):
+                    rec.cte40_choice254 = "cte40_infOutros"
+                    rec.cte40_tpDoc = rec.document_type_id.code
+
+    def _inverse_cte40_chave(self):
+        for rec in self:
+            if rec.cte40_chave:
+                rec.document_key = rec.cte40_chave
+
+    def _inverse_cte40_tpDoc(self):
+        for rec in self:
+            if rec.cte40_tpDoc:
+                rec.document_type_id = rec.cte40_tpDoc
+
+    def _inverse_cte40_choice254(self):
+        for rec in self:
+            if rec.cte40_choice254 == "cte40_infNFe":
+                rec.document_type_id = self.env.ref("l10n_br_fiscal.document_55")

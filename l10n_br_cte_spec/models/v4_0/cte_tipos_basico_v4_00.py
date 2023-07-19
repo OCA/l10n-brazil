@@ -563,12 +563,12 @@ class Tendernac(models.AbstractModel):
     )
 
 
-class Timp(models.AbstractModel):
-    "Tipo Dados do Imposto CT-e"
-    _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.timp"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "Timp"
+# class Timp(models.AbstractModel):
+#     "Tipo Dados do Imposto CT-e"
+#     _description = textwrap.dedent("    %s" % (__doc__,))
+#     _name = "cte.40.timp"
+#     _inherit = "spec.mixin.cte"
+#     _binding_type = "Timp"
 
 
 # class TimpOs(models.AbstractModel):

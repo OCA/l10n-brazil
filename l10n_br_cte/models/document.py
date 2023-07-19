@@ -88,34 +88,43 @@ class CTe(spec_models.StackedModel):
     ##########################
 
     cte40_cUF = fields.Char(
-        related="company_id.partner_id.state_id.ibge_code", string="cte40_cUF"
+        related="company_id.partner_id.state_id.ibge_code",
+        string="cte40_cUF",
+        store=True,
     )
 
-    cte40_cCT = fields.Char()  # TODO
+    cte40_cCT = fields.Char(related="document_key", store=True)
 
-    cte40_CFOP = fields.Char(compute="_compute_cte40_CFOP")
+    cfop_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cfop",
+        string="CFOP",
+    )
 
-    cte40_natOp = fields.Char(related="operation_name")
+    cte40_CFOP = fields.Char(related="cfop_id.code", store=True)
 
-    cte40_mod = fields.Char(related="document_type_id.code", string="cte40_mod")
+    cte40_natOp = fields.Char(related="operation_name", store=True)
 
-    cte40_serie = fields.Char(related="document_serie")
+    cte40_mod = fields.Char(
+        related="document_type_id.code", string="cte40_mod", store=True
+    )
 
-    cte40_nCT = fields.Char(related="document_number")
+    cte40_serie = fields.Char(related="document_serie", store=True)
 
-    cte40_dhEmi = fields.Datetime(related="document_date")
+    cte40_nCT = fields.Char(related="document_number", store=True)
 
-    cte40_tpImp = fields.Selection(related="tpImp")
+    cte40_dhEmi = fields.Datetime(related="document_date", store=True)
 
-    cte40_tpEmis = fields.Selection(related="cte_transmission")
+    cte40_tpImp = fields.Selection(related="tpImp", store=True)
 
-    cte40_cDV = fields.Char()  # TODO
+    cte40_tpEmis = fields.Selection(related="cte_transmission", store=True)
 
-    cte40_tpAmb = fields.Selection(related="cte_environment")
+    cte40_cDV = fields.Char(compute="_compute_cDV", store=True)
 
-    cte40_tpCTe = fields.Selection(related="tpCTe")
+    cte40_tpAmb = fields.Selection(related="cte_environment", store=True)
 
-    cte40_procEmi = fields.Selection(default="0")
+    cte40_tpCTe = fields.Selection(related="tpCTe", store=True)
+
+    cte40_procEmi = fields.Selection(default="0", store=True)
 
     cte40_verProc = fields.Char(
         copy=False,
@@ -124,56 +133,53 @@ class CTe(spec_models.StackedModel):
         .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA v14"),
     )
 
-    cte40_cMunEnv = fields.Char(
-        related="company_id.partner_id.city_id.ibge_code"
-    )  # TODO compute pro exterior
+    cte40_cMunEnv = fields.Char(compute="_compute_cte40_data", store=True)
 
-    cte40_xMunEnv = fields.Char(
-        related="company_id.partner_id.city_id.name"
-    )  # TODO compute pro exterior
+    cte40_xMunEnv = fields.Char(compute="_compute_cte40_data", store=True)
 
     cte40_UFEnv = fields.Char(
-        related="company_id.partner_id.state_id.code",
-        string="cte40_UFEnv",
+        compute="_compute_cte40_data", string="cte40_UFEnv", store=True
     )
 
-    cte40_tpServ = fields.Selection(related="tpServ")
+    cte40_tpServ = fields.Selection(related="tpServ", store=True)
 
-    cte40_indIEToma = fields.Char()  # TODO IE tomador
+    cte40_indIEToma = fields.Char(compute="_compute_toma", store=True)
 
-    cte40_cMunIni = fields.Char(
-        related="company_id.partner_id.city_id.ibge_code"
-    )  # TODO compute pro exterior
+    cte40_cMunIni = fields.Char(compute="_compute_cte40_data", store=True)
 
-    cte40_xMunIni = fields.Char(
-        related="company_id.partner_id.city_id.name"
-    )  # TODO compute pro exterior
+    cte40_xMunIni = fields.Char(compute="_compute_cte40_data", store=True)
 
-    cte40_UFIni = fields.Char(
-        related="company_id.partner_id.state_id.ibge_code", string="cte40_cUF"
+    cte40_UFIni = fields.Char(compute="_compute_cte40_data", store=True)
+
+    cte40_cMunFim = fields.Char(
+        compute="_compute_cte40_data",
+        related="partner_id.city_id.ibge_code",
+        store=True,
     )
 
-    cte40_cMunFim = fields.Char(related="partner_id.city_id.ibge_code")
+    cte40_xMunFim = fields.Char(
+        compute="_compute_cte40_data", related="partner_id.city_id.name", store=True
+    )
 
-    cte40_xMunFim = fields.Char(related="partner_id.city_id.name")
+    cte40_UFFim = fields.Char(
+        compute="_compute_cte40_data", string="cte40_cUF", store=True
+    )
 
-    cte40_UFFim = fields.Char(related="partner_id.state_id.code", string="cte40_cUF")
-
-    cte40_retira = fields.Selection(related="retira")
+    cte40_retira = fields.Selection(related="retira", store=True)
 
     cte40_toma4 = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_toma",
         readonly=True,
         string="Tomador de Serviço",
-    )  # TODO
+    )
 
     cte40_toma3 = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_toma",
         readonly=True,
         string="Tomador de Serviço",
-    )  # TODO
+    )
 
     ##########################
     # CT-e tag: ide
@@ -182,25 +188,51 @@ class CTe(spec_models.StackedModel):
 
     def _compute_toma(self):
         for doc in self:
-            if self.service_provider in ["0", "1"]:
+            if doc.service_provider in ["0", "1"]:
                 doc.cte40_toma3 = doc.company_id
+                doc.cte40_indIEToma = doc.cte40_toma3.inscr_est
                 doc.cte40_toma4 = None
-            elif self.service_provider in ["2", "3"]:
+            elif doc.service_provider in ["2", "3"]:
                 doc.cte40_toma3 = doc.partner_id
+                doc.cte40_indIEToma = doc.cte40_toma3.inscr_est
                 doc.cte40_toma4 = None
             else:
                 doc.cte40_toma3 = None
                 doc.cte40_toma4 = doc.partner_id
+                doc.cte40_indIEToma = doc.cte40_toma4.inscr_est
+
+    def _compute_cDV(self):
+        for rec in self:
+            if rec.document_key:
+                rec.cte40_cDV = rec.document_key[:-1]
 
     @api.depends("partner_id", "company_id")
-    def _compute_cte40_exterior(self):
+    def _compute_cte40_data(self):
         for doc in self:
-            if doc.company_id.partner_id.state_id == doc.partner_id.state_id:
-                doc.cte40_idDest = "1"
-            elif doc.company_id.partner_id.country_id == doc.partner_id.country_id:
-                doc.cte40_idDest = "2"
+            if doc.company_id.partner_id.country_id == doc.partner_id.country_id:
+                doc.cte40_xMunIni = doc.company_id.partner_id.city_id.name
+                doc.cte40_cMunIni = doc.company_id.partner_id.city_id.ibge_code
+                doc.cte40_xMunEnv = doc.company_id.partner_id.city_id.name
+                doc.cte40_cMunEnv = doc.company_id.partner_id.city_id.ibge_code
+                doc.cte40_UFEnv = doc.company_id.partner_id.state_id.code
+                doc.cte40_UFIni = doc.company_id.partner_id.state_id.ibge_code
+                doc.cte40_cMunFim = doc.partner_id.city_id.ibge_code
+                doc.cte40_xMunFim = doc.partner_id.city_id.name
+                doc.cte40_UFFim = doc.partner_id.state_id.code
             else:
-                doc.cte40_idDest = "3"
+                doc.cte40_UFIni = "EX"
+                doc.cte40_UFEnv = "EX"
+                doc.cte40_xMunIni = "EXTERIOR"
+                doc.cte40_cMunIni = "9999999"
+                doc.cte40_xMunEnv = (
+                    doc.company_id.partner_id.country_id.name
+                    + "/"
+                    + doc.company_id.partner_id.city_id.name
+                )
+                doc.cte40_cMunEnv = "9999999"
+                doc.cte40_cMunFim = "9999999"
+                doc.cte40_xMunFim = "EXTERIOR"
+                doc.cte40_UFFim = "EX"
 
     ##########################
     # CT-e tag: emit
@@ -211,11 +243,13 @@ class CTe(spec_models.StackedModel):
         compute="_compute_emit_data",
         readonly=True,
         string="Emit",
+        store=True,
     )
 
     cte40_CRT = fields.Selection(
         related="company_tax_framework",
         string="Código de Regime Tributário (CTe)",
+        store=True,
     )
 
     ##########################
@@ -236,6 +270,7 @@ class CTe(spec_models.StackedModel):
         compute="_compute_rem_data",
         readonly=True,
         string="Rem",
+        store=True,
     )
 
     ##########################
@@ -256,6 +291,7 @@ class CTe(spec_models.StackedModel):
         compute="_compute_exped_data",
         readonly=True,
         string="Exped",
+        store=True,
     )
 
     ##########################
@@ -276,6 +312,7 @@ class CTe(spec_models.StackedModel):
         compute="_compute_receb_data",
         readonly=True,
         string="Receb",
+        store=True,
     )
 
     ##########################
@@ -296,6 +333,7 @@ class CTe(spec_models.StackedModel):
         compute="_compute_dest_data",
         readonly=True,
         string="Dest",
+        store=True,
     )
 
     ##########################
@@ -305,42 +343,63 @@ class CTe(spec_models.StackedModel):
 
     def _compute_dest_data(self):
         for doc in self:  # TODO if out
-            doc.cte40_dest = doc.company_id
-
-    ##########################
-    # CT-e tag: vPrest
-    ##########################
-
-    cte40_vTPrest = fields.Float(
-        string="vTPrest",
-    )
-
-    cte40_vRec = fields.Float(
-        string="vRec",
-    )
+            doc.cte40_dest = doc.partner_id
 
     ##########################
     # CT-e tag: imp
     ##########################
 
-    # cte40_imp = fields.One2many(related="l10n_br_fiscal.document.line")
+    cte40_imp = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.line", related="fiscal_line_ids"
+    )
 
-    ##########################
-    # CT-e tag: infCTeNorm
-    ##########################
+    #####################################
+    # CT-e tag: infCTeNorm and infCteComp
+    #####################################
 
-    # cte40_infCteNorm = fields.One2many(related="l10n_br_fiscal.document.related")
+    cte40_choice244 = fields.Selection(
+        selection=[
+            ("cte40_infCTeComp", "infCTeComp"),
+            ("cte40_infCTeNorm", "infCTeNorm"),
+        ],
+        default="cte40_infCTeNorm",
+    )
 
-    # cte40_infQ = fields.One2many(
-    #    comodel_name="l10n_br_fiscal.document.related",
-    #    string="Informações de quantidades da Carga do CTe"
-    # ) TODO
+    cte40_infCarga = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        string="Informações de quantidades da Carga do CTe",
+        inverse_name="document_id",
+        store=True,
+    )
 
-    ##########################
-    # CT-e tag: infCteComp
-    ##########################
+    cte40_infCTeNorm = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        inverse_name="document_id",
+        compute="_compute_cte_doc",
+        store=True,
+    )
 
-    cte40_chCTe = fields.Char(string="chCte")
+    cte40_infCTeComp = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        inverse_name="document_id",
+        compute="_compute_cte_doc",
+        store=True,
+    )
+
+    #####################################
+    # CT-e tag: infCTeNorm and infCteComp
+    # Compute Methods
+    #####################################
+
+    @api.depends("document_type_id")
+    def _compute_cte_doc(self):
+        """Set schema data which are not just related fields"""
+        for rec in self:
+            if rec.document_type_id:
+                if rec.cte40_choice244 == "cte40_infNorm":
+                    rec.cte40_infCTeNorm = rec
+                elif rec.cte40_choice244 == "cte40_infComp":
+                    rec.cte40_infCTeComp = rec
 
     ##########################
     # CT-e tag: autXML
@@ -363,10 +422,10 @@ class CTe(spec_models.StackedModel):
     # CT-e tag: autXML
     ##########################
 
-    cte40_autXML = fields.One2many(default=_default_cte40_autxml)
+    cte40_autXML = fields.One2many(default=_default_cte40_autxml, store=True)
 
     # View
-    retira = fields.Selection(selection=[("0", "Sim"), ("1", "Não")])  # TODO constantes
+    retira = fields.Selection(selection=[("0", "Sim"), ("1", "Não")], default="1")
 
     tpServ = fields.Selection(
         selection=[
@@ -374,6 +433,7 @@ class CTe(spec_models.StackedModel):
             ("7", "Transporte de Valores"),
             ("8", "Excesso de Bagagem"),
         ],
+        default="6",
     )
 
     tpCTe = fields.Selection(
@@ -382,12 +442,14 @@ class CTe(spec_models.StackedModel):
             ("1", "CTe Complementar"),
             ("3", "CTe Substituição"),
         ],
+        default="0",
     )
 
     cte_environment = fields.Selection(
         selection=[("1", "Produção"), ("2", "Homologação")],
         string="CTe Environment",
         copy=False,
+        default="2",
     )
 
     cte_transmission = fields.Selection(
@@ -395,9 +457,10 @@ class CTe(spec_models.StackedModel):
             ("1", "Normal"),
             ("3", "Regime Especial NFF"),
             ("4", "EPEC pela SVC"),
-        ]
+        ],
+        default="1",
     )
 
     tpImp = fields.Selection(
-        selection=[("1", "Retrato"), ("2", "Paisagem")]
-    )  # TODO constantes
+        selection=[("1", "Retrato"), ("2", "Paisagem")], default="1"
+    )

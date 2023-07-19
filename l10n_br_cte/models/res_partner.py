@@ -10,7 +10,8 @@ from odoo.addons.spec_driven_model.models import spec_models
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.base.misc import punctuation_rm
+    from erpbrasil.base.fiscal import cnpj_cpf
+    from erpbrasil.base.misc import format_zipcode, punctuation_rm
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
@@ -31,7 +32,6 @@ class ResPartner(spec_models.SpecModel):
 
     cte40_CNPJ = fields.Char(
         compute="_compute_cte_data",
-        # inverse="_inverse_cte40_CNPJ",
         store=True,
     )
 
@@ -42,20 +42,29 @@ class ResPartner(spec_models.SpecModel):
     )
 
     # enderToma/enderEmit/enderReme/enderEmit
-    cte40_xLgr = fields.Char(related="street_name", readonly=True)
-    cte40_nro = fields.Char(related="street_number", readonly=True)
-    cte40_xCpl = fields.Char(related="street2", readonly=True)
-    cte40_xBairro = fields.Char(related="district", readonly=True)
-    cte40_cMun = fields.Char(related="city_id.ibge_code", readonly=True)
-    cte40_xMun = fields.Char(related="city_id.name", readonly=True)
-    cte40_UF = fields.Char(related="state_id.code")
+    cte40_xLgr = fields.Char(related="street_name", readonly=True, store=True)
+    cte40_nro = fields.Char(related="street_number", readonly=True, store=True)
+    cte40_xCpl = fields.Char(related="street2", readonly=True, store=True)
+    cte40_xBairro = fields.Char(related="district", readonly=True, store=True)
+    cte40_cMun = fields.Char(related="city_id.ibge_code", readonly=True, store=True)
+    cte40_xMun = fields.Char(related="city_id.name", readonly=True, store=True)
+    cte40_UF = fields.Char(related="state_id.code", store=True)
     cte40_CEP = fields.Char(
-        compute="_compute_nfe_data", inverse="_inverse_nfe40_CEP", compute_sudo=True
+        compute="_compute_cep",
+        inverse="_inverse_cte40_CEP",
+        compute_sudo=True,
+        store=True,
     )
-    cte40_cPais = fields.Char(related="country_id.bc_code")
-    cte40_xPais = fields.Char(related="country_id.name")
+    cte40_cPais = fields.Char(
+        related="country_id.bc_code",
+        store=True,
+    )
+    cte40_xPais = fields.Char(
+        related="country_id.name",
+        store=True,
+    )
 
-    nfe40_xNome = fields.Char(related="legal_name")
+    cte40_xNome = fields.Char(related="legal_name", store=True)
 
     @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
     def _compute_cte_data(self):
@@ -97,3 +106,13 @@ class ResPartner(spec_models.SpecModel):
                 rec.cte40_choice8 = "cte40_CNPJ"
                 rec.cte40_choice19 = "cte40_CNPJ"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.cte40_CPF))
+
+    def _inverse_cte40_CEP(self):
+        for rec in self:
+            if rec.cte40_CEP:
+                country_code = rec.country_id.code if rec.country_id else "BR"
+                rec.zip = format_zipcode(rec.cte40_CEP, country_code)
+
+    def _compute_cep(self):
+        for rec in self:
+            rec.cte40_CEP = punctuation_rm(rec.zip)
