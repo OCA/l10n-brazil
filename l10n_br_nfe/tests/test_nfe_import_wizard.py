@@ -154,7 +154,7 @@ class NFeImportWizardTest(SavepointCase):
             {
                 "product_id": self.product_1.id,
                 "name": self.partner_1.id,
-                "partner_uom": self.env["uom.uom"].search([], limit=1).id,
+                "partner_uom_id": self.env["uom.uom"].search([], limit=1).id,
                 "price": 100,
             }
         )
@@ -168,7 +168,7 @@ class NFeImportWizardTest(SavepointCase):
 
         first_product._find_or_create_product_supplierinfo()
         self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
-        self.assertEqual(wiz_supplier_id.partner_uom, first_product.uom_internal)
+        self.assertEqual(wiz_supplier_id.partner_uom_id, first_product.uom_internal)
         self.assertEqual(wiz_supplier_id.product_code, first_product.product_code)
         self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)
 
@@ -178,7 +178,7 @@ class NFeImportWizardTest(SavepointCase):
         xml = self.wizard.parse_xml()
         xml_product_1 = xml.NFe.infNFe.det[0].prod
         prod_id = self.wizard._match_product(xml_product_1)
-        self.assertEqual(prod_id, self.env.ref("product.product_product_10").id)
+        self.assertEqual(prod_id, self.env.ref("product.product_product_10"))
 
         prod_code = self.env["product.product"].create(
             {
@@ -194,7 +194,7 @@ class NFeImportWizardTest(SavepointCase):
         mock_code = MagicMock(spec=["cProd"])
         mock_code.cProd = "TEST123"
         prod_id = self.wizard._match_product(mock_code)
-        self.assertEqual(prod_id, prod_code.id)
+        self.assertEqual(prod_id, prod_code)
 
         prod_code.unlink()
         prod_barcode = self.env["product.product"].create(
@@ -203,7 +203,7 @@ class NFeImportWizardTest(SavepointCase):
         mock_barcode = MagicMock(spec=["cEANTrib"])
         mock_barcode.cEANTrib = "123456789123"
         prod_id = self.wizard._match_product(mock_barcode)
-        self.assertEqual(prod_id, prod_barcode.id)
+        self.assertEqual(prod_id, prod_barcode)
 
         prod_barcode.unlink()
         prod_id = self.wizard._match_product(MagicMock())
