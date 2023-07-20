@@ -7,7 +7,7 @@ from odoo import fields, models
 class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
 
-    partner_uom = fields.Many2one(
+    partner_uom_id = fields.Many2one(
         "uom.uom",
         "Partner Unit of Measure",
         help="This comes from the last imported document.",
