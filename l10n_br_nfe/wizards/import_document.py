@@ -134,14 +134,20 @@ class NfeImport(models.TransientModel):
 
     def _prepare_imported_product_values(self, product):
         taxes = self._get_taxes_from_xml_product(product)
-        uom_id = self.env["uom.uom"].search([("code", "=", product.prod.uCom)], limit=1)
+        product_id = self._match_product(product.prod)
+        if product_id:
+            uom_id = product_id.uom_id
+        else:
+            uom_id = self.env["uom.uom"].search(
+                [("code", "=", product.prod.uCom)], limit=1
+            )
 
         return {
             "product_name": product.prod.xProd,
             "product_code": product.prod.cProd,
             "ncm_xml": product.prod.NCM,
             "cfop_xml": product.prod.CFOP,
-            "product_id": self._match_product(product.prod),
+            "product_id": product_id.id,
             "icms_percent": taxes["pICMS"],
             "icms_value": taxes["vICMS"],
             "ipi_percent": taxes["pIPI"],
@@ -167,7 +173,7 @@ class NfeImport(models.TransientModel):
 
         rec_id = False
         if domain:
-            rec_id = self.env["product.product"].search(domain, limit=1).id
+            rec_id = self.env["product.product"].search(domain, limit=1)
         return rec_id
 
     def _get_taxes_from_xml_product(self, product):
@@ -294,13 +300,14 @@ class NfeImport(models.TransientModel):
         for product_line in self.imported_products_ids.filtered("product_id"):
             internal_product = product_line.product_id
             for xml_product in parsed_xml.NFe.infNFe.det:
-                xml_product.prod.xProd = internal_product.name
-                xml_product.prod.cProd = internal_product.default_code
-                xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
-                xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
-                xml_product.prod.uCom = product_line.uom_internal.code
-                if product_line.new_cfop_id:
-                    xml_product.prod.CFOP = product_line.new_cfop_id.code
+                if xml_product.prod.cProd == product_line.product_code:
+                    xml_product.prod.xProd = internal_product.name
+                    xml_product.prod.cProd = internal_product.default_code
+                    xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
+                    xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
+                    xml_product.prod.uCom = product_line.uom_internal.code
+                    if product_line.new_cfop_id:
+                        xml_product.prod.CFOP = product_line.new_cfop_id.code
         return parsed_xml
 
     def action_open_document(self):
@@ -348,7 +355,7 @@ class NfeImportProducts(models.TransientModel):
     )
 
     uom_internal = fields.Many2one(
-        related="product_supplier_id.partner_uom",
+        comodel_name="uom.uom",
         help="Internal UoM, equivalent to the comercial one in the document",
     )
 
@@ -426,6 +433,7 @@ class NfeImportProducts(models.TransientModel):
                 "product_code": self.product_code,
                 "price": self.product_id.lst_price,
                 "name": self.imported_partner_id.id,
+                "partner_uom_id": self.uom_internal.id,
             }
         )
         self.product_id.write({"seller_ids": [(4, self.product_supplier_id.id)]})
@@ -439,5 +447,6 @@ class NfeImportProducts(models.TransientModel):
                 "price": self.uom_internal._compute_price(
                     self.price_unit_com, self.product_id.uom_id
                 ),
+                "partner_uom_id": self.uom_internal.id,
             }
         )
