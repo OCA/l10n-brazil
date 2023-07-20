@@ -14,13 +14,4 @@
         sequence="15"
     />
 
-    <menuitem
-        action="l10n_br_fiscal_mde_action"
-        id="mde_menu"
-        name="MD-e"
-        groups="l10n_br_fiscal.group_manager"
-        parent="l10n_br_fiscal.document_menu"
-        sequence="20"
-    />
-
 </odoo>
