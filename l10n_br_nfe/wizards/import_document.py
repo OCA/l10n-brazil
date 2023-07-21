@@ -147,7 +147,7 @@ class NfeImport(models.TransientModel):
             "product_code": product.prod.cProd,
             "ncm_xml": product.prod.NCM,
             "cfop_xml": product.prod.CFOP,
-            "product_id": product_id.id,
+            "product_id": product_id and product_id.id or False,
             "icms_percent": taxes["pICMS"],
             "icms_value": taxes["vICMS"],
             "ipi_percent": taxes["pIPI"],
