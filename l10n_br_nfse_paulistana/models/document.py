@@ -172,8 +172,13 @@ class Document(models.Model):
                 tpCPFCNPJ(CNPJ=dados_tomador["cnpj"], CPF=dados_tomador["cpf"]),
             ),
             InscricaoMunicipalTomador=self.convert_type_nfselib(
-                tpRPS, "InscricaoMunicipalTomador", dados_tomador["inscricao_municipal"]
-            ),
+                tpRPS,
+                "InscricaoMunicipalTomador",
+                dados_tomador["inscricao_municipal"],
+            )
+            if dados_tomador["codigo_municipio"]
+            == int("%s" % (self.company_id.partner_id.city_id.ibge_code))
+            else None,
             InscricaoEstadualTomador=self.convert_type_nfselib(
                 tpRPS, "InscricaoEstadualTomador", dados_tomador["inscricao_estadual"]
             ),
