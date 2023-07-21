@@ -278,7 +278,7 @@ class Document(models.Model):
         ).strftime("%Y%m%d")
         assinatura += self._map_taxation_rps(dados_lote_rps["natureza_operacao"])
         assinatura += "N"  # Corrigir - Verificar status do RPS
-        assinatura += "N"
+        assinatura += "S" if dados_servico["iss_retido"] == "1" else "N"
         assinatura += (
             ("%.2f" % dados_servico["valor_servicos"]).replace(".", "").zfill(15)
         )
