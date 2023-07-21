@@ -30,6 +30,38 @@
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
     </record>
 
+    <!-- Sale Account Journal for Simples Nacional -->
+    <record id="demo_simples_nacional_sale_journal" model="account.journal">
+        <field name="name">Diário de Vendas- Simples Nacional</field>
+        <field name="code">SSN</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <!-- Purchase Account Journal for Simples Nacional -->
+    <record id="purchase_simples_nacional_sale_journal" model="account.journal">
+        <field name="name">Diário de Compras - Simples Nacional</field>
+        <field name="code">PSN</field>
+        <field name="type">purchase</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <!-- General Account Journal for Simples Nacional -->
+    <record id="general_simples_nacional_sale_journal" model="account.journal">
+        <field name="name">Diário Geral - Simples Nacional</field>
+        <field name="code">GSN</field>
+        <field name="type">general</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="demo_simples_nacional_account_account" model="account.account">
+        <field name="name">Account TESTE - Simples Nacional</field>
+        <field name="code">1.1.1.1.1.1</field>
+        <field name="reconcile">1</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="user_type_id" ref="account.data_account_type_receivable" />
+    </record>
+
     <!-- Payment Mode -->
     <record id="demo_payment_mode_boleto" model="account.payment.mode">
         <field name="name">Boleto</field>
@@ -73,6 +105,7 @@
             'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_revenda_nao_contribuinte'),
             'cfop_id': ref('l10n_br_fiscal.cfop_5102'),
             'ncm_id': ref('l10n_br_fiscal.ncm_84714900'),
+            'account_id': ref('demo_simples_nacional_account_account')
         })]"
         />
     </record>
@@ -106,6 +139,7 @@
             'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_bonificacao_bonificacao'),
             'cfop_id': ref('l10n_br_fiscal.cfop_5910'),
             'ncm_id': ref('l10n_br_fiscal.ncm_84714900'),
+            'account_id': ref('demo_simples_nacional_account_account')
         })]"
         />
     </record>
