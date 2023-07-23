@@ -4,6 +4,7 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from .. import tools
 from ..constants.fiscal import (
     FINAL_CUSTOMER,
     FISCAL_IN_OUT,
@@ -11,7 +12,6 @@ from ..constants.fiscal import (
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
 )
-from ..tools import misc
 
 
 class TaxDefinition(models.Model):
@@ -272,15 +272,15 @@ class TaxDefinition(models.Model):
             domain = []
 
             if r.ncms:
-                domain += misc.domain_field_codes(r.ncms)
+                domain += tools.domain_field_codes(r.ncms)
 
             if r.not_in_ncms:
-                domain += misc.domain_field_codes(
+                domain += tools.domain_field_codes(
                     field_codes=r.not_in_ncms, operator1="!=", operator2="not ilike"
                 )
 
             if r.ncm_exception:
-                domain += misc.domain_field_codes(
+                domain += tools.domain_field_codes(
                     field_codes=r.ncm_exception, field_name="exception", code_size=2
                 )
 
@@ -295,7 +295,7 @@ class TaxDefinition(models.Model):
             domain = []
 
             if r.cests:
-                domain += misc.domain_field_codes(r.cests, code_size=7)
+                domain += tools.domain_field_codes(r.cests, code_size=7)
 
             if domain:
                 r.cest_ids = cest.search(domain)
@@ -308,10 +308,10 @@ class TaxDefinition(models.Model):
             domain = []
 
             if r.nbms:
-                domain += misc.domain_field_codes(r.nbms, code_size=10)
+                domain += tools.domain_field_codes(r.nbms, code_size=10)
 
             if r.not_in_nbms:
-                domain += misc.domain_field_codes(
+                domain += tools.domain_field_codes(
                     field_codes=r.not_in_nbms,
                     operator1="!=",
                     operator2="not ilike",
