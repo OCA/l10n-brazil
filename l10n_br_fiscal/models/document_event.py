@@ -10,7 +10,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import EVENT_ENVIRONMENT
-from ..tools.misc import build_edoc_path
+from ..tools import build_edoc_path
 
 _logger = logging.getLogger(__name__)
 

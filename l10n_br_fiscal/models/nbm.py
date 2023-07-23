@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models
 
-from ..tools import misc
+from .. import tools
 
 
 class Nbm(models.Model):
@@ -56,5 +56,5 @@ class Nbm(models.Model):
         ncm = self.env["l10n_br_fiscal.ncm"]
         for r in self:
             if r.ncms:
-                domain = misc.domain_field_codes(field_codes=r.ncms)
+                domain = tools.domain_field_codes(field_codes=r.ncms)
                 r.ncm_ids = ncm.search(domain)
