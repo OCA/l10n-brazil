@@ -9,7 +9,7 @@ from erpbrasil.base.misc import punctuation_rm
 
 from odoo.tools import config
 
-from ..constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
+from .constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 
 _logger = logging.getLogger(__name__)
 
