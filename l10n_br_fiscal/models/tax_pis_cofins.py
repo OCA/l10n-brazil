@@ -3,13 +3,13 @@
 
 from odoo import _, api, fields, models
 
+from .. import tools
 from ..constants.fiscal import (
     TAX_DOMAIN_COFINS,
     TAX_DOMAIN_COFINS_ST,
     TAX_DOMAIN_PIS,
     TAX_DOMAIN_PIS_ST,
 )
-from ..tools import misc
 
 
 class TaxPisCofins(models.Model):
@@ -82,15 +82,15 @@ class TaxPisCofins(models.Model):
             # Clear Field to recompute
             r.ncm_ids = False
             if r.ncms:
-                domain = misc.domain_field_codes(r.ncms)
+                domain = tools.domain_field_codes(r.ncms)
 
             if r.not_in_ncms:
-                domain += misc.domain_field_codes(
+                domain += tools.domain_field_codes(
                     field_codes=r.not_in_ncms, operator1="!=", operator2="not ilike"
                 )
 
             if r.ncm_exception:
-                domain += misc.domain_field_codes(
+                domain += tools.domain_field_codes(
                     field_codes=r.ncm_exception, field_name="exception", code_size=2
                 )
 
