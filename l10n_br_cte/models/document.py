@@ -349,15 +349,13 @@ class CTe(spec_models.StackedModel):
     # CT-e tag: imp
     ##########################
 
-    cte40_imp = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.line", related="fiscal_line_ids"
-    )
+    cte40_imp = fields.One2many(related="fiscal_line_ids")
 
     #####################################
     # CT-e tag: infCTeNorm and infCteComp
     #####################################
 
-    cte40_choice244 = fields.Selection(
+    cte40_choice_infcteNorm_infcteComp = fields.Selection(
         selection=[
             ("cte40_infCTeComp", "infCTeComp"),
             ("cte40_infCTeNorm", "infCTeNorm"),
@@ -375,31 +373,14 @@ class CTe(spec_models.StackedModel):
     cte40_infCTeNorm = fields.One2many(
         comodel_name="l10n_br_fiscal.document.related",
         inverse_name="document_id",
-        compute="_compute_cte_doc",
         store=True,
     )
 
     cte40_infCTeComp = fields.One2many(
         comodel_name="l10n_br_fiscal.document.related",
         inverse_name="document_id",
-        compute="_compute_cte_doc",
         store=True,
     )
-
-    #####################################
-    # CT-e tag: infCTeNorm and infCteComp
-    # Compute Methods
-    #####################################
-
-    @api.depends("document_type_id")
-    def _compute_cte_doc(self):
-        """Set schema data which are not just related fields"""
-        for rec in self:
-            if rec.document_type_id:
-                if rec.cte40_choice244 == "cte40_infNorm":
-                    rec.cte40_infCTeNorm = rec
-                elif rec.cte40_choice244 == "cte40_infComp":
-                    rec.cte40_infCTeComp = rec
 
     ##########################
     # CT-e tag: autXML
@@ -463,4 +444,51 @@ class CTe(spec_models.StackedModel):
 
     tpImp = fields.Selection(
         selection=[("1", "Retrato"), ("2", "Paisagem")], default="1"
+    )
+
+    ##########################
+    # CT-e tag: modal
+    ##########################
+
+    cte40_modal = fields.Selection(related="transport_modal")
+
+    cte40_infModal = fields.Many2one(compute="_compute_modal")
+
+    ##########################
+    # CT-e tag: modal
+    # Compute Methods
+    ##########################
+
+    def _compute_modal(self):
+        if self.cte40_modal == "1":
+            self.cte40_infModal = self.cte40_rodoviario
+        elif self.cte40_modal == "2":
+            self.cte40_infModal = self.cte40_aereo
+        elif self.cte40_modal == "3":
+            self.cte40_infModal = self.cte40_aquav
+        elif self.cte40_modal == "4":
+            self.cte40_infModal = self.cte40_ferroviario
+        elif self.cte40_modal == "5":
+            self.cte40_infModal = self.cte40_dutoviario
+        elif self.cte40_modal == "6":
+            pass  # TODO
+
+    cte40_aquav = fields.Many2one(
+        comodel_name="l10n_br_cte.aquaviario", inverse_name="document_id"
+    )
+
+    cte40_dutoviario = fields.Many2one(
+        comodel_name="l10n_br_cte.dutoviario", inverse_name="document_id"
+    )
+
+    cte40_rodoviario = fields.Many2one(
+        comodel_name="l10n_br_cte.rodoviario", inverse_name="document_id"
+    )
+
+    cte40_ferroviario = fields.Many2one(
+        comodel_name="l10n_br_cte.ferroviario", inverse_name="document_id"
+    )
+
+    cte40_aereo = fields.Many2one(
+        comodel_name="l10n_br_cte.aereo", inverse_name="document_id"
     )

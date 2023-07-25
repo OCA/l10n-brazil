@@ -40,7 +40,7 @@ class CTeLine(spec_models.StackedModel):
     # Grupo N06. Grupo Tributação do ICMS= 01 - ISSN
     #################################################
 
-    cte40_choice11 = fields.Selection(
+    cte40_choice_ICMS = fields.Selection(
         selection=[
             ("cte40_ICMS00", "ICMS00"),
             ("cte40_ICMS20", "ICMS20"),
@@ -51,7 +51,7 @@ class CTeLine(spec_models.StackedModel):
             ("cte40_ICMSSN", "ICMSSN"),
         ],
         string="Tipo de ICMS",
-        compute="_compute_choice11",
+        compute="_compute_choice_icms",
         store=True,
     )
 
@@ -89,7 +89,7 @@ class CTeLine(spec_models.StackedModel):
     ##########################
 
     @api.depends("icms_cst_id")
-    def _compute_choice11(self):
+    def _compute_choice_icms(self):
         for record in self:
             icms_choice = ""
             if record.icms_cst_id.code in ICMS_CST:
@@ -104,7 +104,7 @@ class CTeLine(spec_models.StackedModel):
                     icms_choice = "{}{}".format("cte40_ICMS", record.icms_cst_id.code)
             elif record.icms_cst_id.code in ICMS_SN_CST:
                 icms_choice = "cte40_ICMSSN"
-            record.cte40_choice11 = icms_choice
+            record.cte40_choice_ICMS = icms_choice
 
     indSN = fields.Selection(
         selection=[
@@ -138,3 +138,16 @@ class CTeLine(spec_models.StackedModel):
     cte40_vFCPUFfim = fields.Monetary(related="icmsfcp_value", store=True)
     cte40_vICMSUFFim = fields.Monetary(related="icms_destination_value", store=True)
     cte40_vICMSUFIni = fields.Monetary(related="icms_origin_value", store=True)
+
+    ##########################
+    # CT-e tag: natCarga
+    ##########################
+
+    cte40_xDime = fields.Char(compute="_compute_dime", store=True)
+
+    def _compute_dime(self):
+        for record in self:
+            for package in record.product_id.packaging_ids:
+                record.cte40_xDime = (
+                    package.width + "X" + package.packaging_length + "X" + package.width
+                )

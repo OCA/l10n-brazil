@@ -4,3 +4,9 @@ from . import res_partner
 from . import document_related
 from . import document_line
 from . import res_config_settings
+from . import ferroviario
+from . import rodoviario
+from . import aereo
+from . import dutoviario
+from . import aquaviario
+from . import rodo_occ
