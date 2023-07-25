@@ -44,7 +44,7 @@ class DFe(models.Model):
         string="Imported Documents",
     )
 
-    imported_mde_ids = fields.One2many(
+    mde_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.mde",
         inverse_name="dfe_id",
         string="Manifestações do Destinatário Importadas",
@@ -214,7 +214,7 @@ class DFe(models.Model):
         if not mde_id:
             return False
 
-        if mde_id not in self.imported_mde_ids:
+        if mde_id not in self.mde_ids:
             mde_id.dfe_id = self.id
         return mde_id
 
@@ -243,20 +243,29 @@ class DFe(models.Model):
 
         return result.resposta.loteDistDFeInt.docZip[0]
 
-    def download_documents(self):
-        for mde_id in self.imported_mde_ids.filtered(
+    def download_documents(self, raise_error=True):
+        errors = []
+        for mde_id in self.mde_ids.filtered(
             lambda m: m.state in ["pendente", "ciente"]
         ):
             if mde_id.state == "pendente":
                 mde_id.action_ciencia_emissao()
 
-            document = self.download_document(mde_id.key)
-            document_id = self.parse_xml_document(document)
-            if not document_id:
+            try:
+                document = self.download_document(mde_id.key)
+                document_id = self.parse_xml_document(document)
+            except Exception as e:
+                errors.append(f"{mde_id.key}: {e}")
                 continue
 
-            document_id.dfe_id = self.id
-            mde_id.document_id = document_id
+            if document_id:
+                document_id.dfe_id = self.id
+                mde_id.document_id = document_id
+
+        if errors and raise_error:
+            raise ValidationError(
+                _("Error importing documents: \n") + "\n".join(errors)
+            )
 
     def _cron_search_documents(self):
         self.search([("use_cron", "=", True)]).search_documents(raise_error=False)
