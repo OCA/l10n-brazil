@@ -90,9 +90,9 @@ class TestDFe(SavepointCase):
         self.dfe_id.search_documents()
         self.assertEqual(self.dfe_id.last_nsu, utils.format_nsu("201"))
 
-        self.assertEqual(self.dfe_id.imported_mde_ids[-1].nsu, self.dfe_id.last_nsu)
+        self.assertEqual(self.dfe_id.mde_ids[-1].nsu, self.dfe_id.last_nsu)
 
-        mde1, mde2 = self.dfe_id.imported_mde_ids
+        mde1, mde2 = self.dfe_id.mde_ids
         self.assertEqual(mde1.company_id, self.dfe_id.company_id)
         self.assertEqual(mde1.key, "31201010588201000105550010038421171838422178")
         self.assertEqual(mde1.emitter, "ZAP GRAFICA E EDITORA EIRELI")
@@ -125,10 +125,10 @@ class TestDFe(SavepointCase):
             with self.assertRaises(ValidationError) as ve:
                 self.dfe_id.search_documents()
                 self.assertIn("500", ve.exception.args[0])
-                self.assertFalse(self.dfe_id.imported_mde_ids)
+                self.assertFalse(self.dfe_id.mde_ids)
 
             self.dfe_id.search_documents(raise_error=False)
-            self.assertFalse(self.dfe_id.imported_mde_ids)
+            self.assertFalse(self.dfe_id.mde_ids)
 
         with mock.patch.object(
             DocumentoElectronicoAdapter,
@@ -138,7 +138,7 @@ class TestDFe(SavepointCase):
             with self.assertRaises(ValidationError) as ve:
                 self.dfe_id.search_documents()
                 self.assertIn("589", ve.exception.args[0])
-                self.assertFalse(self.dfe_id.imported_mde_ids)
+                self.assertFalse(self.dfe_id.mde_ids)
 
         with mock.patch.object(
             DocumentoElectronicoAdapter,
@@ -150,7 +150,7 @@ class TestDFe(SavepointCase):
             with self.assertRaises(UserError):
                 self.dfe_id.search_documents()
 
-            self.assertFalse(self.dfe_id.imported_mde_ids)
+            self.assertFalse(self.dfe_id.mde_ids)
 
     @mock.patch.object(
         DocumentoElectronicoAdapter,
@@ -167,6 +167,11 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=KeyError("foo"),
         ):
+            self.dfe_id.download_documents(raise_error=False)
+
+            with self.assertRaises(ValidationError):
+                self.dfe_id.download_documents()
+
             xml = self.dfe_id.download_document("dummy", raise_error=False)
             self.assertIsNone(xml)
 
@@ -211,7 +216,7 @@ class TestDFe(SavepointCase):
             side_effect=mocked_post_error_status_code,
         ):
             self.dfe_id._cron_search_documents()
-            self.assertFalse(self.dfe_id.imported_mde_ids)
+            self.assertFalse(self.dfe_id.mde_ids)
 
         with mock.patch.object(
             DocumentoElectronicoAdapter,
@@ -219,7 +224,7 @@ class TestDFe(SavepointCase):
             side_effect=mocked_post_success_multiple,
         ):
             self.dfe_id._cron_search_documents()
-            self.assertEqual(len(self.dfe_id.imported_mde_ids), 2)
+            self.assertEqual(len(self.dfe_id.mde_ids), 2)
 
     def test_utils(self):
         nsu_formatted = utils.format_nsu("100")
