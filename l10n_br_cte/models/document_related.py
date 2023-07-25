@@ -24,10 +24,11 @@ class CTeRelated(spec_models.StackedModel):
     _spec_tab_name = "CTe"
 
     # infQ TODO computes/relateds
+    cte40_cUnid = fields.Selection(related="cUnid")
 
-    cte40_tpMed = fields.Char(store=True)
+    cte40_tpMed = fields.Char()
 
-    cte40_qCarga = fields.Float(store=True)
+    cte40_qCarga = fields.Float()
 
     cte40_cUnid = fields.Selection(
         selection=[
@@ -38,7 +39,6 @@ class CTeRelated(spec_models.StackedModel):
             ("04", "LITROS"),
             ("05", "MMBTU"),
         ],
-        store=True,
     )
 
     # infCarga
