@@ -23,7 +23,7 @@ class CTeRelated(spec_models.StackedModel):
     _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     _spec_tab_name = "CTe"
 
-    # infQ
+    # infQ TODO computes/relateds
     cte40_cUnid = fields.Selection(related="cUnid")
 
     cte40_tpMed = fields.Char()
@@ -69,7 +69,7 @@ class CTeRelated(spec_models.StackedModel):
         inverse="_inverse_cte40_tpDoc",
     )
 
-    cte40_infDoc = fields.Selection(related="cte40_choice254")
+    cte40_infDoc = fields.Selection(related="cte40_choice_infNF_infNFE_infOutros")
 
     # infCteNorm
     cte40_chCTe = fields.Char(compute="_compute_chCte", string="chCte")
@@ -86,14 +86,14 @@ class CTeRelated(spec_models.StackedModel):
                 records += rec.document_key
         self.cte40_chCTe = records
 
-    cte40_choice254 = fields.Selection(
+    cte40_choice_infNF_infNFE_infOutros = fields.Selection(
         selection=[
-            ("cte40_infNF", "infNF"),
+            ("cte40_infNF", "infNF"),  # TODO
             ("cte40_infNFe", "infNFe"),
             ("cte40_infOutros", "Outros"),
         ],
         compute="_compute_cte_data",
-        inverse="_inverse_cte40_choice254",
+        inverse="_inverse_cte40_choice_infNF_infNFE_infOutros",
     )
 
     def _compute_vCarga(self):
@@ -107,10 +107,10 @@ class CTeRelated(spec_models.StackedModel):
         for rec in self:
             if rec.document_type_id:
                 if rec.document_type_id.code in ("55",):
-                    rec.cte40_choice254 = "cte40_infNFe"
+                    rec.cte40_choice_infNF_infNFE_infOutros = "cte40_infNFe"
                     rec.cte40_chave = rec.document_key
                 elif rec.document_type_id.code in ("00", "10", "59", "65", "99"):
-                    rec.cte40_choice254 = "cte40_infOutros"
+                    rec.cte40_choice_infNF_infNFE_infOutros = "cte40_infOutros"
                     rec.cte40_tpDoc = rec.document_type_id.code
 
     def _inverse_cte40_chave(self):
@@ -123,7 +123,7 @@ class CTeRelated(spec_models.StackedModel):
             if rec.cte40_tpDoc:
                 rec.document_type_id = rec.cte40_tpDoc
 
-    def _inverse_cte40_choice254(self):
+    def _inverse_cte40_choice_infNF_infNFE_infOutros(self):
         for rec in self:
-            if rec.cte40_choice254 == "cte40_infNFe":
+            if rec.cte40_choice_infNF_infNFE_infOutros == "cte40_infNFe":
                 rec.document_type_id = self.env.ref("l10n_br_fiscal.document_55")

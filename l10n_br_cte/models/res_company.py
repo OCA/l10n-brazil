@@ -51,12 +51,6 @@ class ResCompany(spec_models.SpecModel):
     # CT-e models fields
     ##########################
 
-    rntrc_code = fields.Char(
-        string="RNTRC",
-        store=True,
-        help="Registro Nacional de Transportadores Rodoviários de Carga",
-    )
-
     cte_default_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
         string="CT-e Default Serie",
