@@ -245,30 +245,33 @@ class DFe(models.Model):
 
     def download_documents(self, raise_error=True):
         errors = []
-        for mde_id in self.mde_ids.filtered(
-            lambda m: m.state in ["pendente", "ciente"]
-        ):
-            if mde_id.state == "pendente":
-                mde_id.action_ciencia_emissao()
+        for record in self:
+            for mde_id in record.mde_ids.filtered(
+                lambda m: m.state in ["pendente", "ciente"]
+            ):
+                if mde_id.state == "pendente":
+                    mde_id.action_ciencia_emissao()
 
-            try:
-                document = self.download_document(mde_id.key)
-                document_id = self.parse_xml_document(document)
-            except Exception as e:
-                errors.append(f"{mde_id.key}: {e}")
-                continue
+                try:
+                    document = record.download_document(mde_id.key)
+                    document_id = record.parse_xml_document(document)
+                except Exception as e:
+                    errors.append(f"{mde_id.key}: {e}")
+                    continue
 
-            if document_id:
-                document_id.dfe_id = self.id
-                mde_id.document_id = document_id
+                if document_id:
+                    document_id.dfe_id = record.id
+                    mde_id.document_id = document_id
 
         if errors and raise_error:
             raise ValidationError(
                 _("Error importing documents: \n") + "\n".join(errors)
             )
 
-    def _cron_search_documents(self):
-        self.search([("use_cron", "=", True)]).search_documents(raise_error=False)
+    def _cron_search_and_download_documents(self):
+        dfe_ids = self.search([("use_cron", "=", True)])
+        dfe_ids.search_documents(raise_error=False)
+        dfe_ids.download_documents()
 
     def search_documents(self, raise_error=True):
         for record in self:

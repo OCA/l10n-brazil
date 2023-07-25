@@ -8,7 +8,7 @@
         <field name="name">Search DFe Documents</field>
         <field name="model_id" ref="model_l10n_br_fiscal_dfe" />
         <field name="state">code</field>
-        <field name="code">model._cron_search_documents()</field>
+        <field name="code">model._cron_search_and_download_documents()</field>
         <field name="user_id" ref="base.user_root" />
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
