@@ -112,7 +112,7 @@ class TestMDe(SavepointCase):
         ):
             cls.dfe_id.search_documents()
 
-        cls.mde_id = cls.dfe_id.imported_mde_ids[0]
+        cls.mde_id = cls.dfe_id.mde_ids[0]
 
     def test_events_success(self):
         with mock.patch.object(
