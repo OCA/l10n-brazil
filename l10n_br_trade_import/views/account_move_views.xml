@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<record id="view_move_form_inherit" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_br_account.invoice_form" />
+        <field name="arch" type="xml">
+        <xpath
+                expr="//field[@name='invoice_line_ids']/form//page[@name='fiscal_line_extra_info']"
+                position="after"
+            >
+            <page name="additions" string="Additions">
+                <field
+                        name="import_addition_ids"
+                        widget="many2many_list"
+                    />
+            </page>
+        </xpath>
+        <!-- For ensuring the storage of these fields -->
+        <xpath expr="//field[@name='line_ids']/tree" position="inside">
+            <field name="import_addition_ids" invisible="1" />
+    </xpath>
+    </field>
+</record>
+</odoo>

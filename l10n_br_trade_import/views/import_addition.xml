@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="import_addition_search" model="ir.ui.view">
+        <field name="name">l10n_br_trade_import.addition.search</field>
+        <field name="model">l10n_br_trade_import.addition</field>
+        <field name="arch" type="xml">
+            <search string="Import Addition">
+                <field name="import_declaration_number" />
+                <field name="import_declaration_date" />
+                <field name="addition_number" />
+                <field name="addtion_sequence" />
+                <field name="manufacturer_id" />
+            </search>
+        </field>
+    </record>
+
+    <record id="import_addition_tree" model="ir.ui.view">
+        <field name="name">l10n_br_trade_import.addition.tree</field>
+        <field name="model">l10n_br_trade_import.addition</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="import_declaration_number" />
+                <field name="import_declaration_date" />
+                <field name="addition_number" />
+                <field name="addtion_sequence" />
+                <field name="manufacturer_id" />
+                <field name="discount_value" />
+                <field name="drawback" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="import_addition_form" model="ir.ui.view">
+        <field name="name">l10n_br_trade_import.addition.form</field>
+        <field name="model">l10n_br_trade_import.addition</field>
+        <field name="arch" type="xml">
+            <form string="Import Addition">
+                <sheet>
+                    <group name="main">
+                        <field name="import_declaration_id" />
+                        <field name="addition_number" />
+                        <field name="addtion_sequence" />
+                        <field name="manufacturer_id" />
+                        <field name="discount_value" />
+                        <field name="drawback" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<record id="l10n_br_nfe_adi_tree_view" model="ir.ui.view">
+    <field name="name">l10n.br.nfe.adi.tree</field>
+    <field name="model">nfe.40.adi</field>
+    <field name="arch" type="xml">
+        <tree string="Adi">
+            <field name="nfe40_nAdicao" string="Número" />
+            <field name="nfe40_nSeqAdic" string="Sequência" />
+            <field name="nfe40_cFabricante" string="Código do Fabricante" />
+            <field name="nfe40_vDescDI" string="Valor do Desconto" />
+            <field name="nfe40_nDraw" string="Drawback" />
+        </tree>
+    </field>
+</record>
+<record id="l10n_br_nfe_adi_form_view" model="ir.ui.view">
+    <field name="name">l10n.br.nfe.adi.form</field>
+    <field name="model">nfe.40.adi</field>
+    <field name="arch" type="xml">
+        <form string="Adição">
+            <sheet>
+                <!-- Invisible Fields-->
+                <field name="nfe40_adi_DI_id" invisible="1" />
+                <field name="brl_currency_id" invisible="1" />
+                <group col="4">
+                    <field name="nfe40_nAdicao" string="Número" />
+                    <field name="nfe40_nSeqAdic" string="Sequência" />
+                    <field name="nfe40_cFabricante" string="Código do Fabricante" />
+                    <field name="nfe40_vDescDI" string="Valor do Desconto" />
+                    <field name="nfe40_nDraw" string="Drawback" />
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+</odoo>

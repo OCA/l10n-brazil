@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="import_declaration_search" model="ir.ui.view">
+        <field name="name">l10n_br_trade_import.declaration.search</field>
+        <field name="model">l10n_br_trade_import.declaration</field>
+        <field name="arch" type="xml">
+            <search string="Import Declaration">
+                <field name="document_number" />
+                <field name="document_date" />
+            </search>
+        </field>
+    </record>
+
+    <record id="import_declaration_tree" model="ir.ui.view">
+        <field name="name">l10n_br_trade_import.declaration.tree</field>
+        <field name="model">l10n_br_trade_import.declaration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="document_number" />
+                <field name="document_date" />
+                <field name="customs_clearance_location" />
+                <field name="customs_clearance_state_id" />
+                <field name="customs_clearance_date" />
+                <field name="transportation_type" />
+                <field name="intermediary_type" />
+                <field name="third_party_partner_id" />
+                <field name="afrmm_value" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="import_declaration_form" model="ir.ui.view">
+        <field name="name">l10n_br_trade_import.declaration.form</field>
+        <field name="model">l10n_br_trade_import.declaration</field>
+        <field name="arch" type="xml">
+            <form string="Import Declaration">
+                <sheet>
+                    <group col="2">
+                        <group name="main">
+                            <field name="document_number" />
+                            <field name="document_date" />
+                            <field name="intermediary_type" />
+                            <field
+                                name="third_party_partner_id"
+                                attrs="{
+                                    'required': [('intermediary_type','in',('conta_ordem','encomenda'))],
+                                    'invisible': [('intermediary_type','not in',('conta_ordem','encomenda'))]}"
+                            />
+                            <field name="transportation_type" />
+                            <field
+                                name="afrmm_value"
+                                attrs="{
+                                    'required': [('transportation_type','=','maritime')],
+                                    'invisible': [('transportation_type','!=','maritime')]}"
+                                />
+                        </group>
+                        <group name="customs_clearance" string="Customs Clearance">
+                            <field name="customs_clearance_location" string="Location" />
+                            <field name="customs_clearance_state_id" string="State" />
+                            <field name="customs_clearance_date" string="Date" />
+                        </group>
+                    </group>
+                    <group name="additions" string="Additions">
+                        <field name="addition_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="addition_number" />
+                                <field name="addtion_sequence" />
+                                <field name="manufacturer_id" />
+                                <field name="discount_value" />
+                                <field name="drawback" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
