@@ -207,7 +207,8 @@ class TestDFe(SavepointCase):
         )
         self.assertEqual(procnfe_mde_id, mde_id)
 
-    def test_cron_search_documents(self):
+    @mock.patch.object(MDe, "action_ciencia_emissao", return_value=None)
+    def test_cron_search_and_download_documents(self, _mock):
         self.dfe_id.use_cron = True
 
         with mock.patch.object(
@@ -215,7 +216,7 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_error_status_code,
         ):
-            self.dfe_id._cron_search_documents()
+            self.dfe_id._cron_search_and_download_documents()
             self.assertFalse(self.dfe_id.mde_ids)
 
         with mock.patch.object(
@@ -223,7 +224,7 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_success_multiple,
         ):
-            self.dfe_id._cron_search_documents()
+            self.dfe_id._cron_search_and_download_documents()
             self.assertEqual(len(self.dfe_id.mde_ids), 2)
 
     def test_utils(self):
