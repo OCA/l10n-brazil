@@ -133,7 +133,7 @@ class MDe(models.Model):
     @api.model
     def validate_event_response(self, result, valid_codes):
         valid = False
-        if result.retorno.status_code != "200":
+        if result.retorno.status_code != 200:
             code = result.retorno.status_code
             message = "Invalid Status Code"
         else:
