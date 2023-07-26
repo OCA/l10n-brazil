@@ -3,12 +3,13 @@
 
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
-from odoo import models
+from odoo import api, models
 
 
 class DFe(models.Model):
     _inherit = "l10n_br_fiscal.dfe"
 
+    @api.model
     def parse_procNFe(self, xml):
         binding = TnfeProc.from_xml(xml.read().decode())
         return (
