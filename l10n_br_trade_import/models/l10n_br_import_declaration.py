@@ -53,7 +53,7 @@ class ImportDeclaration(models.Model):
             ("postal", "Postal"),
             ("rail", "Rail"),
             ("road", "Road"),
-            ("conduit", "conduit"),
+            ("conduit", "Conduct/Transmission Network"),
             ("own_means", "Own Means"),
             ("fict_in_out", "Fictitious In/Out"),
             ("courier", "Courier"),
