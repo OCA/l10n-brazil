@@ -79,6 +79,7 @@ class DFe(models.Model):
             ambiente=self.environment,
         )
 
+    @api.model
     def validate_distribution_response(self, result, raise_error=True):
         valid = False
         message = result.resposta.xMotivo
@@ -218,6 +219,7 @@ class DFe(models.Model):
             mde_id.dfe_id = self.id
         return mde_id
 
+    @api.model
     def parse_xml_document(self, document):
         schema_type = document.schema.split("_")[0]
         method = "parse_%s" % schema_type
@@ -268,6 +270,7 @@ class DFe(models.Model):
                 _("Error importing documents: \n") + "\n".join(errors)
             )
 
+    @api.model
     def _cron_search_and_download_documents(self):
         dfe_ids = self.search([("use_cron", "=", True)])
         dfe_ids.search_documents(raise_error=False)

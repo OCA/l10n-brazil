@@ -9,7 +9,7 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
 from requests import Session
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.mde import (
@@ -130,6 +130,7 @@ class MDe(models.Model):
             ambiente=self.dfe_id.environment,
         )
 
+    @api.model
     def validate_event_response(self, result, valid_codes):
         valid = False
         if result.retorno.status_code != "200":
