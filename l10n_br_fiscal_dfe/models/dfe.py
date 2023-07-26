@@ -83,7 +83,7 @@ class DFe(models.Model):
     def validate_distribution_response(self, result, raise_error=True):
         valid = False
         message = result.resposta.xMotivo
-        if result.retorno.status_code != "200":
+        if result.retorno.status_code != 200:
             code = result.retorno.status_code
         elif result.resposta.cStat not in ["137", "138"]:
             code = result.resposta.cStat
@@ -278,7 +278,11 @@ class DFe(models.Model):
 
     def search_documents(self, raise_error=True):
         for record in self:
-            record.document_distribution(raise_error)
+            try:
+                record.document_distribution(raise_error)
+            except Exception as e:
+                if raise_error:
+                    raise e
 
     def action_manage_manifestations(self):
         return {
