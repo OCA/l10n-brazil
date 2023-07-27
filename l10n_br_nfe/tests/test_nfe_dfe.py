@@ -30,7 +30,7 @@ class TestNFeDFe(SavepointCase):
     def test_download_document_proc_nfe(self, _mock_post, _mock_ciencia):
         self.dfe_id.search_documents()
 
-        self.dfe_id.download_documents()
+        self.dfe_id.import_documents()
         self.assertEqual(len(self.dfe_id.imported_document_ids), 1)
         self.assertEqual(
             self.dfe_id.imported_document_ids[0].document_key,
