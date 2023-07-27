@@ -114,6 +114,8 @@ class DFe(models.Model):
                     raise UserError(_("Error on searching documents!\n '%s'") % e)
                 break
 
+            maxNSU = result.resposta.maxNSU
+            self.last_nsu = result.resposta.ultNSU
             self.last_query = fields.Datetime.now()
 
             if not self.validate_distribution_response(result, raise_error):
@@ -122,7 +124,6 @@ class DFe(models.Model):
             for doc in result.resposta.loteDistDFeInt.docZip:
                 xml = utils.parse_gzip_xml(doc.valueOf_).read()
                 root = objectify.fromstring(xml)
-                self.last_nsu = doc.NSU
 
                 mde_id = self.env["l10n_br_fiscal.mde"].search(
                     [
@@ -134,9 +135,8 @@ class DFe(models.Model):
                 if not mde_id:
                     mde_id = self.create_mde_from_schema(doc.schema, root)
                     if mde_id:
+                        mde_id.nsu = doc.NSU
                         mde_id.create_xml_attachment(xml)
-
-            maxNSU = result.resposta.maxNSU
 
     def create_mde_from_schema(self, schema, root):
         schema_type = schema.split("_")[0]
@@ -159,7 +159,6 @@ class DFe(models.Model):
             {
                 "number": root.NFe.infNFe.ide.nNF,
                 "key": nfe_key,
-                "nsu": self.last_nsu,
                 "operation_type": str(root.NFe.infNFe.ide.tpNF),
                 "document_value": root.NFe.infNFe.total.ICMSTot.vNF,
                 "state": "pendente",
@@ -190,7 +189,6 @@ class DFe(models.Model):
         return self.env["l10n_br_fiscal.mde"].create(
             {
                 "key": nfe_key,
-                "nsu": self.last_nsu,
                 "emitter": root.xNome,
                 "operation_type": str(root.tpNF),
                 "document_value": root.vNF,
