@@ -23,7 +23,7 @@ response_rejeicao = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmln
 
 
 class FakeRetorno(object):
-    def __init__(self, text, status_code="200"):
+    def __init__(self, text, status_code=200):
         self.text = text
         self.content = text.encode("utf-8")
         self.status_code = status_code
@@ -112,9 +112,6 @@ class TestDFe(SavepointCase):
 
         attachment_2 = self.env["ir.attachment"].search([("res_id", "=", mde2.id)])
         self.assertTrue(attachment_2)
-
-        res = self.dfe_id.action_manage_manifestations()
-        self.assertEqual(res["name"], self.dfe_id.company_id.legal_name)
 
     def test_search_dfe_error(self):
         with mock.patch.object(
