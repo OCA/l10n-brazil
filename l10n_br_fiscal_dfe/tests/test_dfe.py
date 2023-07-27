@@ -155,19 +155,19 @@ class TestDFe(SavepointCase):
         side_effect=mocked_post_success_single,
     )
     @mock.patch.object(MDe, "action_ciencia_emissao", return_value=None)
-    def test_download_document(self, _mock_post, _mock_ciencia):
+    def test_import_documents(self, _mock_post, _mock_ciencia):
         self.dfe_id.search_documents()
-        self.dfe_id.download_documents()
+        self.dfe_id.import_documents()
 
         with mock.patch.object(
             DocumentoElectronicoAdapter,
             "_post",
             side_effect=KeyError("foo"),
         ):
-            self.dfe_id.download_documents(raise_error=False)
+            self.dfe_id.import_documents(raise_error=False)
 
             with self.assertRaises(ValidationError):
-                self.dfe_id.download_documents()
+                self.dfe_id.import_documents()
 
             xml = self.dfe_id.download_document("dummy", raise_error=False)
             self.assertIsNone(xml)
@@ -205,7 +205,7 @@ class TestDFe(SavepointCase):
         self.assertEqual(procnfe_mde_id, mde_id)
 
     @mock.patch.object(MDe, "action_ciencia_emissao", return_value=None)
-    def test_cron_search_and_download_documents(self, _mock):
+    def test_cron_search_and_import_documents(self, _mock):
         self.dfe_id.use_cron = True
 
         with mock.patch.object(
@@ -213,7 +213,7 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_error_status_code,
         ):
-            self.dfe_id._cron_search_and_download_documents()
+            self.dfe_id._cron_search_and_import_documents()
             self.assertFalse(self.dfe_id.mde_ids)
 
         with mock.patch.object(
@@ -221,7 +221,7 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_success_multiple,
         ):
-            self.dfe_id._cron_search_and_download_documents()
+            self.dfe_id._cron_search_and_import_documents()
             self.assertEqual(len(self.dfe_id.mde_ids), 2)
 
     def test_utils(self):
