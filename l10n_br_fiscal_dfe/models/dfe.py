@@ -283,16 +283,3 @@ class DFe(models.Model):
             except Exception as e:
                 if raise_error:
                     raise e
-
-    def action_manage_manifestations(self):
-        return {
-            "name": self.company_id.legal_name,
-            "view_mode": "tree,form",
-            "res_model": "l10n_br_fiscal.mde",
-            "type": "ir.actions.act_window",
-            "target": "current",
-            "domain": [("company_id", "=", self.company_id.id)],
-            "limit": self.env["l10n_br_fiscal.mde"].search_count(
-                [("company_id", "=", self.company_id.id)]
-            ),
-        }

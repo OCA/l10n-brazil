@@ -27,7 +27,7 @@ response_operacao_nao_realizada = """<?xml version="1.0" encoding="UTF-8"?><soap
 
 
 class FakeRetorno(object):
-    def __init__(self, text, status_code="200"):
+    def __init__(self, text, status_code=200):
         self.text = text
         self.content = text.encode("utf-8")
         self.status_code = status_code
