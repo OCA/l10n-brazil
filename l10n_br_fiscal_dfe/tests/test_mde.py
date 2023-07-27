@@ -171,14 +171,14 @@ class TestMDe(SavepointCase):
     def test_download_documents(self, _mock_post, _mock_ciencia):
         mde_ids = self.mde_id + self.mde_id.copy()
 
-        result_single = self.mde_id.action_download_all_xmls()
-        result_multiple = mde_ids.action_download_all_xmls()
+        result_single = self.mde_id.action_download_xml()
+        result_multiple = mde_ids.action_download_xml()
 
         attachment_single = self.get_attachment_from_result(result_single)
         attachment_multiple = self.get_attachment_from_result(result_multiple)
 
         self.assertTrue(attachment_single)
-        self.assertEqual(attachment_single.name, f"NFe{self.mde_id.key}.xml")
+        self.assertEqual(attachment_single, self.mde_id.attachment_id)
 
         self.assertTrue(attachment_multiple)
         self.assertEqual(attachment_multiple.name, f"attachments.tar.gz")
