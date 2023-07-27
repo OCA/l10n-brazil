@@ -23,7 +23,6 @@ from ..constants.mde import (
     SITUACAO_MANIFESTACAO,
     SITUACAO_NFE,
 )
-from ..tools import utils
 
 _logger = logging.getLogger(__name__)
 
@@ -109,6 +108,8 @@ class MDe(models.Model):
 
     schema = fields.Selection(selection=SCHEMAS)
 
+    attachment_id = fields.Many2one(comodel_name="ir.attachment")
+
     def name_get(self):
         return [
             (
@@ -159,8 +160,11 @@ class MDe(models.Model):
 
     def action_send_event(self, operation, valid_codes, new_state):
         for record in self:
-            record.send_event(operation, valid_codes)
-            record.state = new_state
+            try:
+                record.send_event(operation, valid_codes)
+                record.state = new_state
+            except Exception as e:
+                raise e
 
     def action_ciencia_emissao(self):
         return self.action_send_event(
@@ -182,41 +186,9 @@ class MDe(models.Model):
             "operacao_nao_realizada", ["135"], SIT_MANIF_NAO_REALIZADO[0]
         )
 
-    def action_download_all_xmls(self):
-        if len(self) == 1:
-            if self.state == SIT_MANIF_PENDENTE[0]:
-                self.action_ciencia_emissao()
-
-            return self.download_attachment(self.action_download_xml())
-
-        attachments = []
-        for record in self:
-            attachments.append(record.action_download_xml())
-
-        built_attachment = self.env["l10n_br_fiscal.attachment"].create([])
-        attachment_id = built_attachment.build_compressed_attachment(attachments)
-        return self.download_attachment(attachment_id)
-
-    def action_download_xml(self):
-        self.ensure_one()
-
-        document = self.dfe_id.download_document(self.key)
-        xml_document = utils.parse_gzip_xml(document.valueOf_).read()
-        file_name = "NFe%s.xml" % self.key
-        return self.env["ir.attachment"].create(
-            {
-                "name": file_name,
-                "datas": base64.b64encode(xml_document),
-                "store_fname": file_name,
-                "description": "XML NFe - Download manifesto do destinatário",
-                "res_model": self._name,
-                "res_id": self.id,
-            }
-        )
-
     def create_xml_attachment(self, xml):
-        file_name = "resumo_nfe-%s.xml" % self.dfe_id.last_nsu
-        self.env["ir.attachment"].create(
+        file_name = "NFe%s.xml" % self.dfe_id.last_nsu
+        self.attachment_id = self.env["ir.attachment"].create(
             {
                 "name": file_name,
                 "datas": base64.b64encode(xml),
@@ -227,7 +199,21 @@ class MDe(models.Model):
             }
         )
 
-    def download_attachment(self, attachment_id=None):
+    def action_download_xml(self):
+        for record in self.filtered(lambda m: m.state == SIT_MANIF_PENDENTE[0]):
+            record.action_ciencia_emissao()
+
+        if len(self) == 1:
+            return self.download_attachment(self.attachment_id)
+
+        compressed_attachment_id = (
+            self.env["l10n_br_fiscal.attachment"]
+            .create([])
+            .build_compressed_attachment(self.mapped("attachment_id"))
+        )
+        return self.download_attachment(compressed_attachment_id)
+
+    def download_attachment(self, attachment_id):
         return {
             "type": "ir.actions.act_url",
             "url": "/web/content/{id}/{nome}?download=true".format(

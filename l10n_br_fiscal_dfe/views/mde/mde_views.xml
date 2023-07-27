@@ -15,33 +15,29 @@
                         name="action_ciencia_emissao"
                         string="Ciência da Emissão"
                         type="object"
-                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
                         attrs="{'invisible':[['state','not in',['pendente']]]}"
                     />
                     <button
                         name="action_confirmar_operacacao"
                         string="Confirmar Operação"
                         type="object"
-                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
                         attrs="{'invisible':[['state','not in',['ciente']]]}"
                     />
                     <button
                         name="action_operacao_desconhecida"
                         string="Desconhecer Operação"
                         type="object"
-                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
                         attrs="{'invisible':[['state','not in',['ciente']]]}"
                     />
                     <button
                         name="action_negar_operacao"
                         string="Operação não Realizada"
                         type="object"
-                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
                         attrs="{'invisible':[['state','not in',['ciente']]]}"
                     />
                     <button
                         name="action_download_xml"
-                        string="Download Document's XML"
+                        string="Download XML"
                         type="object"
                         attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"
                     />
@@ -54,21 +50,25 @@
                         nolabel="1"
                     />
                 </header>
+
+                <separator string="Access Key" />
+                <field name="key" select="1" required="1" />
+
+                <separator string="Document Info" />
                 <group>
                     <group>
-                        <field name="key" select="1" required="1" />
-                        <field name="document_id" />
                         <field name="number" />
                         <field name="nsu" />
+                        <field name="cnpj_cpf" />
                         <field name="ie" />
-                        <field name="company_id" required="1" />
-                    </group>
-                    <group>
-                        <field name="operation_type" readonly="1" />
                         <field name="document_value" widget="monetary" />
                         <field name="document_state" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="company_id" required="1" />
+                        <field name="document_id" />
+                        <field name="operation_type" readonly="1" />
                         <field name="inclusion_mode" />
-                        <field name="cnpj_cpf" />
                         <field name="inclusion_datetime" />
                         <field name="emission_datetime" />
                     </group>

@@ -245,7 +245,7 @@ class DFe(models.Model):
 
         return result.resposta.loteDistDFeInt.docZip[0]
 
-    def download_documents(self, raise_error=True):
+    def import_documents(self, raise_error=True):
         errors = []
         for record in self:
             for mde_id in record.mde_ids.filtered(
@@ -271,10 +271,10 @@ class DFe(models.Model):
             )
 
     @api.model
-    def _cron_search_and_download_documents(self):
+    def _cron_search_and_import_documents(self):
         dfe_ids = self.search([("use_cron", "=", True)])
         dfe_ids.search_documents(raise_error=False)
-        dfe_ids.download_documents()
+        dfe_ids.import_documents()
 
     def search_documents(self, raise_error=True):
         for record in self:
