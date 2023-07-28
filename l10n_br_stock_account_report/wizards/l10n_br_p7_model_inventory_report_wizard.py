@@ -7,6 +7,7 @@ from datetime import datetime
 import pytz
 
 from odoo import api, fields, models
+from odoo.tools.float_utils import float_is_zero, float_round
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import PRODUCT_FISCAL_TYPE
 
@@ -151,10 +152,10 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         # maiores que zero devem ser considerados
         products = (
             self.env["product.product"]
+            .with_company(self.env.user.company_id.id)
             .with_context(
                 to_date=self.date,
                 default_compute_at_date=self.env.context["default_compute_at_date"],
-                force_company=self.env.user.company_id.id,
                 company_owned=True,
             )
             .search([("ncm_id", "!=", False), ("qty_available", ">", 0.0)])
@@ -172,10 +173,47 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
 
             tmp_ncm_controler_line = False
 
-            price_used = product.get_history_price(
-                self.env.user.company_id.id,
-                date=self.date,
+            # TODO ? product.price.history foi removido na v13,
+            #  https://github.com/odoo/odoo/commit/
+            #  0477bdb75afafa62b204f29e9dbfc3fc5fd012d4
+            #  validar em uma base real se o objeto stock.valuation.layers possui
+            #  todos os dados necessários, script de migração da OCA
+            #  https://github.com/OCA/OpenUpgrade/blob/13.0/addons/
+            #  stock_account/migrations/13.0.1.1/post-migration.py#L185
+            # price_used = product.get_history_price(
+            #    self.env.user.company_id.id,
+            #    date=self.date,
+            # )
+
+            # Caso o valor não seja encontrado no stock.valuation.layer
+            # usa o valor zero, por não ter um valor definido
+            price_used = 0.0
+
+            svl = (
+                self.env["stock.valuation.layer"]
+                .sudo()
+                .search(
+                    [
+                        ("company_id", "=", self.env.user.company_id.id),
+                        ("product_id", "=", product.id),
+                        ("create_date", "<=", self.date),
+                    ],
+                    limit=1,
+                )
             )
+            if svl:
+                if not float_is_zero(svl.unit_cost, precision_rounding=price_precision):
+                    price_used = float_round(
+                        svl.unit_cost, precision_rounding=price_precision
+                    )
+                elif not float_is_zero(svl.value, precision_rounding=price_precision):
+
+                    # Migração da OCA não preenche o unit_cost apenas o value
+                    # https://github.com/OCA/OpenUpgrade/blob/13.0/addons/
+                    # stock_account/migrations/13.0.1.1/post-migration.py#L80
+                    price_used = float_round(
+                        (svl.value / svl.quantity), precision_rounding=price_precision
+                    )
 
             # TODO: ainda é necessário fazer essa validação decimal
             decimal = product.qty_available - int(product.qty_available)
