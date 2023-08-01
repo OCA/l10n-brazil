@@ -136,7 +136,18 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-        if inv_type in ("out_invoice", "out_refund"):
+        # Porém caso o campo seja preenchido pelo usuário o valor informado
+        # deve ter prioridade.
+        if inv_type in ("in_invoice", "in_refund"):
+            # Valor Minimo no caso de Compras
+            result = min(self.mapped("price_unit"))
+        else:
+            # Valor Maximo no caso de Vendas
+            result = max(self.mapped("price_unit"))
+
+        if inv_type in ("out_invoice", "out_refund") and result == 0.0:
+            # Caso onde o usuario deixou o campo com o valor Zero, mas
+            # a Fatura precisa ter valor e não pode ser zero
             result = product.standard_price
 
         return result
@@ -148,7 +159,12 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-        if self.fiscal_operation_id.fiscal_operation_type == "out":
+        # Porém caso o campo seja preenchido pelo usuário o valor informado
+        # deve ter prioridade.
+        if (
+            self.fiscal_operation_id.fiscal_operation_type == "out"
+            and self.price_unit == 0.0
+        ):
             result = self.product_id.standard_price
 
         return result

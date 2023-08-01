@@ -31,6 +31,11 @@ class InvoicingPickingTest(SavepointCase):
         record._onchange_fiscal_operation_id()
 
     def _run_fiscal_line_onchanges(self, record):
+        # Mixin Fiscal
+        record._onchange_commercial_quantity()
+
+        # Stock Move
+        record._onchange_product_quantity()
         record._onchange_product_id_fiscal()
         record._onchange_fiscal_operation_id()
         record._onchange_fiscal_operation_line_id()
@@ -51,32 +56,20 @@ class InvoicingPickingTest(SavepointCase):
 
         for line in self.stock_picking_sp.move_lines:
             self._run_fiscal_line_onchanges(line)
-            line._onchange_product_quantity()
 
         self.stock_picking_sp.action_confirm()
         self.stock_picking_sp.action_assign()
 
         # Force product availability
         for move in self.stock_picking_sp.move_ids_without_package:
+            # Teste do caso onde o usuário informou Zero
+            move.price_unit = 0.0
             move.quantity_done = move.product_uom_qty
+
         self.stock_picking_sp.button_validate()
         self.assertEqual(self.stock_picking_sp.state, "done", "Change state fail.")
         # Verificar os Valores de Preço pois isso é usado na Valorização do
         # Estoque, o metodo do core é chamado pelo botão Validate
-
-        for line in self.stock_picking_sp.move_lines:
-            # No Brasil o caso de Ordens de Entrega que não tem ligação com
-            # Pedido de Venda precisam informar o Preço de Custo e não o de
-            # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-            # Teria algum caso que não deve usar ?
-
-            # Os metodos do stock/core alteram o valor p/
-            # negativo por isso o abs
-            self.assertEqual(abs(line.price_unit), line.product_id.standard_price)
-            # O Campo fiscal_price precisa ser um espelho do price_unit,
-            # apesar do onchange p/ preenche-lo sem incluir o compute no campo
-            # ele traz o valor do lst_price e falha no teste abaixo
-            # TODO - o fiscal_price aqui tbm deve ter um valor negativo ?
 
         wizard_obj = self.invoice_wizard.with_context(
             active_ids=self.stock_picking_sp.ids,
@@ -117,6 +110,14 @@ class InvoicingPickingTest(SavepointCase):
             # Pedido de Venda precisam informar o Preço de Custo e não o de
             # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
             # Aqui o campo não pode ser negativo
+            mov_line = self.stock_picking_sp.move_ids_without_package.filtered(
+                lambda m: m.product_id == line.product_id
+                and m.fiscal_operation_id == line.fiscal_operation_id
+            )
+            mv_price_unit = max(mov_line.mapped("price_unit"))
+            # Caso em que o Valor esta Zero na stock.move.line
+            # mas na Fatura usa o Preço Padrão
+            self.assertEqual(mv_price_unit, 0.0)
             self.assertEqual(line.price_unit, line.product_id.standard_price)
             # Valida presença dos campos principais para o mapeamento Fiscal
             self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
@@ -229,8 +230,13 @@ class InvoicingPickingTest(SavepointCase):
             # qty = 4 because 2 for each stock.move
             self.assertEqual(inv_line.quantity, 4)
             # Price Unit e Fiscal Price devem ser positivos
-            self.assertEqual(inv_line.price_unit, inv_line.product_id.standard_price)
-            self.assertEqual(inv_line.fiscal_price, inv_line.product_id.standard_price)
+            mov_line = picking2.move_ids_without_package.filtered(
+                lambda m: m.product_id == inv_line.product_id
+                and m.fiscal_operation_id == inv_line.fiscal_operation_id
+            )
+            mv_price_unit = max(mov_line.mapped("price_unit"))
+            self.assertEqual(inv_line.price_unit, mv_price_unit)
+            self.assertEqual(inv_line.fiscal_price, mv_price_unit)
 
             # TODO: No travis falha o browse aqui
             #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
@@ -351,7 +357,6 @@ class InvoicingPickingTest(SavepointCase):
 
         for line in picking2.move_lines:
             self._run_fiscal_line_onchanges(line)
-            line._onchange_product_quantity()
 
         picking2.action_confirm()
         picking2.action_assign()
@@ -394,7 +399,6 @@ class InvoicingPickingTest(SavepointCase):
 
         for line in self.stock_picking_sp_lp.move_lines:
             self._run_fiscal_line_onchanges(line)
-            line._onchange_product_quantity()
 
         self.stock_picking_sp_lp.action_confirm()
         self.stock_picking_sp_lp.action_assign()
@@ -412,11 +416,11 @@ class InvoicingPickingTest(SavepointCase):
             # No Brasil o caso de Ordens de Entrega que não tem ligação com
             # Pedido de Venda precisam informar o Preço de Custo e não o de
             # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-            # Teria algum caso que não deve usar ?
-
+            # Porém o valor informado pelo usuário tem prioridade.
             # Os metodos do stock/core alteram o valor p/
             # negativo por isso o abs
-            self.assertEqual(abs(line.price_unit), line.product_id.standard_price)
+            # self.assertEqual(abs(line.price_unit), line.product_id.standard_price)
+
             # O Campo fiscal_price precisa ser um espelho do price_unit,
             # apesar do onchange p/ preenche-lo sem incluir o compute no campo
             # ele traz o valor do lst_price e falha no teste abaixo
@@ -537,7 +541,6 @@ class InvoicingPickingTest(SavepointCase):
 
         for line in self.stock_picking_sp.move_lines:
             self._run_fiscal_line_onchanges(line)
-            line._onchange_product_quantity()
 
         self.stock_picking_sp.action_confirm()
 
