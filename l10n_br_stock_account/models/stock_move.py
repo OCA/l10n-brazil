@@ -79,7 +79,12 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-        if self.fiscal_operation_id.fiscal_operation_type == "out":
+        # Porém caso o campo seja preenchido pelo usuário o valor informado
+        # deve ter prioridade.
+        if (
+            self.fiscal_operation_id.fiscal_operation_type == "out"
+            and self.price_unit == 0.0
+        ):
             self.price_unit = self.product_id.standard_price
 
     def _get_new_picking_values(self):
