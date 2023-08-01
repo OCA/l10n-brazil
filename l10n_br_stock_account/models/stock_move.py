@@ -125,6 +125,10 @@ class StockMove(models.Model):
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
 
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
+        if not self.fiscal_operation_id:
+            # Caso não tenha a Operação Fiscal não é uma Fatura do Brasil
+            return result
+
         product = self.mapped("product_id")
         product.ensure_one()
 
@@ -139,6 +143,9 @@ class StockMove(models.Model):
     def _get_price_unit(self):
         """Returns the unit price to store on the quant"""
         result = super()._get_price_unit()
+        if not self.fiscal_operation_id:
+            # Caso não tenha a Operação Fiscal não é uma caso do Brasil
+            return result
 
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
