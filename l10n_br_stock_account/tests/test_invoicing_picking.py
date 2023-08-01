@@ -31,10 +31,15 @@ class InvoicingPickingTest(SavepointCase):
         record._onchange_fiscal_operation_id()
 
     def _run_fiscal_line_onchanges(self, record):
+        # Mixin Fiscal
+        record._onchange_commercial_quantity()
+
+        # Stock Move
         record._onchange_product_id_fiscal()
         record._onchange_fiscal_operation_id()
         record._onchange_fiscal_operation_line_id()
         record._onchange_fiscal_taxes()
+        record._onchange_product_quantity()
 
     def _change_user_company(self, company):
         self.env.user.company_ids += company
@@ -51,7 +56,6 @@ class InvoicingPickingTest(SavepointCase):
 
         for line in self.stock_picking_sp.move_lines:
             self._run_fiscal_line_onchanges(line)
-            line._onchange_product_quantity()
 
         self.stock_picking_sp.action_confirm()
         self.stock_picking_sp.action_assign()
@@ -351,7 +355,6 @@ class InvoicingPickingTest(SavepointCase):
 
         for line in picking2.move_lines:
             self._run_fiscal_line_onchanges(line)
-            line._onchange_product_quantity()
 
         picking2.action_confirm()
         picking2.action_assign()
@@ -394,7 +397,6 @@ class InvoicingPickingTest(SavepointCase):
 
         for line in self.stock_picking_sp_lp.move_lines:
             self._run_fiscal_line_onchanges(line)
-            line._onchange_product_quantity()
 
         self.stock_picking_sp_lp.action_confirm()
         self.stock_picking_sp_lp.action_assign()
@@ -537,7 +539,6 @@ class InvoicingPickingTest(SavepointCase):
 
         for line in self.stock_picking_sp.move_lines:
             self._run_fiscal_line_onchanges(line)
-            line._onchange_product_quantity()
 
         self.stock_picking_sp.action_confirm()
 
@@ -620,3 +621,39 @@ class InvoicingPickingTest(SavepointCase):
                 10.0,
                 "Unexpected value for the field Other Values in Move line.",
             )
+
+    def test_compatible_with_international_case(self):
+        """Test of compatible with international case, create Invoice but not for Brazil."""
+        picking = self.env.ref("stock_picking_invoicing.stock_picking_invoicing_2")
+        self._run_fiscal_onchanges(picking)
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            self._run_fiscal_line_onchanges(move)
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+        self.assertEqual(picking.state, "done")
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=picking.ids,
+            active_model=picking._name,
+            active_id=picking.id,
+            fiscal_operation_journal=False,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [("picking_ids", "=", picking.id)]
+        invoice = self.invoice_model.search(domain)
+        # Confirm Invoice
+        invoice.action_post()
+        self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
+        # Check Invoice Type
+        self.assertEqual(
+            invoice.move_type, "out_invoice", "Invoice Type should be Out Invoice"
+        )
+        # Caso Internacional não deve ter Documento Fiscal associado
+        self.assertFalse(
+            invoice.fiscal_document_id,
+            "International case should not has Fiscal Document.",
+        )
