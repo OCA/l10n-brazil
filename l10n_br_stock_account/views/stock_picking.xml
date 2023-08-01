@@ -10,7 +10,7 @@
             <field name="picking_type_id" position="after">
                 <field
                     name="fiscal_operation_id"
-                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
             </field>
             <field name="invoice_state" position="attributes">
@@ -42,11 +42,11 @@
             >
                 <field
                     name="fiscal_operation_id"
-                    attrs="{'column_invisible': [('parent.invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'column_invisible': ['|', ('parent.invoice_state', '=', 'none'), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
                 <field
                     name="fiscal_operation_line_id"
-                    attrs="{'column_invisible': [('parent.invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'column_invisible': ['|', ('parent.invoice_state', '=', 'none'), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
             </xpath>
             <xpath
@@ -56,7 +56,7 @@
                 <group
                     name="fiscal"
                     string="Fiscal"
-                    attrs="{'invisible': [('invoice_state', 'in', [False, 'none'])]}"
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
                     colspan="4"
                 >
                     <field name="invoice_state" readonly="1" force_save="1" />
@@ -80,22 +80,22 @@
                     <field name="fiscal_price" />
                     <field
                         name="fiscal_operation_id"
-                        attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                     />
                     <field
                         name="fiscal_operation_line_id"
-                        attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                     />
                     <field
                         name="cfop_id"
-                        attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                     />
                     <field name="partner_id" invisible="1" />
                     <field name="company_id" invisible="1" />
                 </group>
                 <group colspan="4">
                     <notebook
-                        attrs="{'invisible': [('invoice_state', '=', 'none')],'required': [('invoice_state', '=', '2binvoiced')],'readonly': [('invoice_state', '=', 'invoiced')]}"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                     >
                         <group name="fiscal_fields" invisible="1">
                             <field
