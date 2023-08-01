@@ -9,11 +9,11 @@
             <field name="invoice_state" position="after">
                 <field
                     name="fiscal_operation_id"
-                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
                 <field
                     name="fiscal_operation_line_id"
-                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
             </field>
         </field>
@@ -50,22 +50,22 @@
                 <field name="fiscal_price" />
                 <field
                     name="fiscal_operation_id"
-                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', 'in', [False, 'none'])], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
                 <field
                     name="fiscal_operation_line_id"
-                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
                 <field
                     name="cfop_id"
-                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
                 <field name="partner_id" invisible="1" />
                 <field name="company_id" invisible="1" />
             </field>
             <group name="invoice_lines" position="after">
                 <notebook
-                    attrs="{'invisible': [('invoice_state', '=', 'none')],'required': [('invoice_state', '=', '2binvoiced')],'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 >
                     <group name="fiscal_fields" invisible="1">
                         <field
