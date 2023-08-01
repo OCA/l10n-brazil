@@ -623,3 +623,32 @@ class InvoicingPickingTest(SavepointCase):
                 10.0,
                 "Unexpected value for the field Other Values in Move line.",
             )
+
+    def test_compatible_with_international_case(self):
+        """Test of compatible with international case, create Invoice but not for Brazil."""
+        picking = self.env.ref("stock_picking_invoicing.stock_picking_invoicing_2")
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+        self.assertEqual(picking.state, "done")
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=picking.ids,
+            active_model=picking._name,
+            active_id=picking.id,
+            fiscal_operation_journal=False,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [("picking_ids", "=", picking.id)]
+        invoice = self.invoice_model.search(domain)
+        # Confirm Invoice
+        invoice.action_post()
+        self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
+        # Check Invoice Type
+        self.assertEqual(
+            invoice.move_type, "out_invoice", "Invoice Type should be Out Invoice"
+        )
