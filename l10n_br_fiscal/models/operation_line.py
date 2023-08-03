@@ -68,11 +68,25 @@ class OperationLine(models.Model):
         readonly=True,
     )
 
+    return_fiscal_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        string="Return Operation",
+        related="fiscal_operation_id.return_fiscal_operation_id",
+    )
+
     fiscal_type = fields.Selection(
         related="fiscal_operation_id.fiscal_type",
         string="Fiscal Type",
         store=True,
         readonly=True,
+    )
+
+    return_fiscal_operation_line_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.line",
+        string="Return Operation Line",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        domain="[('fiscal_operation_id', '=', return_fiscal_operation_id)]",
     )
 
     tax_icms_or_issqn = fields.Selection(
