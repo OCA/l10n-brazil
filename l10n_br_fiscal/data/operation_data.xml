@@ -10,6 +10,8 @@
         <field name="active">True</field>
     </record>
 
+
+
     <!-- l10n_br_fiscal.operation -->
     <record id="fo_venda" model="l10n_br_fiscal.operation">
         <field name="code">Venda</field>
@@ -17,6 +19,29 @@
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">sale</field>
         <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_venda" model="l10n_br_fiscal.operation">
+        <field name="code">Devolução de Venda</field>
+        <field name="name">Devolução de Venda</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">sale_refund</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+        <field name="edoc_purpose">4</field>
+    </record>
+
+    <record
+        id="fo_devolucao_venda_devolucao_venda"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_venda" />
+        <field name="name">Devolução de Venda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1201" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2201" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3201" />
+        <field name="product_type">04</field>
         <field name="state">approved</field>
     </record>
 
@@ -29,6 +54,10 @@
         <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7101" />
         <field name="state">approved</field>
         <field name="product_type">04</field>
+        <field
+            name="return_fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_devolucao_venda_devolucao_venda"
+        />
     </record>
 
     <record id="fo_venda_revenda" model="l10n_br_fiscal.operation.line">
@@ -123,29 +152,6 @@
         <field name="name">Bonificação</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5910" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6910" />
-        <field name="state">approved</field>
-    </record>
-
-    <record id="fo_devolucao_venda" model="l10n_br_fiscal.operation">
-        <field name="code">Devolução de Venda</field>
-        <field name="name">Devolução de Venda</field>
-        <field name="fiscal_operation_type">in</field>
-        <field name="fiscal_type">sale_refund</field>
-        <field name="default_price_unit">cost_price</field>
-        <field name="state">approved</field>
-        <field name="edoc_purpose">4</field>
-    </record>
-
-    <record
-        id="fo_devolucao_venda_devolucao_venda"
-        model="l10n_br_fiscal.operation.line"
-    >
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_venda" />
-        <field name="name">Devolução de Venda</field>
-        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1201" />
-        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2201" />
-        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3201" />
-        <field name="product_type">04</field>
         <field name="state">approved</field>
     </record>
 
