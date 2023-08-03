@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields
-from odoo.exceptions import UserError
 from odoo.tests import SavepointCase
 
 
@@ -107,13 +106,7 @@ class TestInvoiceRefund(SavepointCase):
             .create(reverse_vals)
         )
 
-        with self.assertRaises(UserError):
-            move_reversal.reverse_moves()
-
         invoice["fiscal_operation_id"] = (self.env.ref("l10n_br_fiscal.fo_venda").id,)
-
-        with self.assertRaises(UserError):
-            move_reversal.reverse_moves()
 
         for line_id in invoice.invoice_line_ids:
             line_id["fiscal_operation_id"] = (

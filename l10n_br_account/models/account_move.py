@@ -564,55 +564,73 @@ class AccountMove(models.Model):
         if not self.document_type_id:
             self.document_number = ""
 
-    def _reverse_moves(self, default_values_list=None, cancel=False):
-        new_moves = super()._reverse_moves(
-            default_values_list=default_values_list, cancel=cancel
-        )
+    def _reverse_move_vals(self, default_values, cancel=True):
+
+        move_vals = super()._reverse_move_vals(default_values, cancel=cancel)
+
         force_fiscal_operation_id = False
         if self.env.context.get("force_fiscal_operation_id"):
             force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
                 self.env.context.get("force_fiscal_operation_id")
             )
+
+        # Skip the addional logic if the document type is not set.
+        if not self.document_type_id:
+            return move_vals
+
+        cfop_obj = self.env["l10n_br_fiscal.cfop"]
+        op_line_obj = self.env["l10n_br_fiscal.operation.line"]
+
+        # set the return fiscal operation
+
+        if force_fiscal_operation_id:
+            return_op_id = force_fiscal_operation_id
+        else:
+            op_id = self.fiscal_operation_id
+            return_op_id = op_id.return_fiscal_operation_id
+        move_vals["fiscal_operation_id"] = return_op_id.id
+        # para manter a imutabilidade o 'operation_name' não é um campo related.
+        move_vals["operation_name"] = return_op_id.name
+        # TODO pegar o edoc_purpose de dentro da operação.
+        move_vals["edoc_purpose"] = "4"
+
+        for vals in move_vals["line_ids"]:
+
+            line_vals = vals[2]
+
+            # Skip the addional logic if the line is excluded from the invoice tab.
+            if line_vals["exclude_from_invoice_tab"]:
+                continue
+
+            # set the return fiscal operation line
+            if force_fiscal_operation_id:
+                #
+                partner_obj = self.env["res.partner"]
+                product_obj = self.env["product.product"]
+                return_op_line_id = force_fiscal_operation_id.line_definition(
+                    company=self.company_id,
+                    partner=partner_obj.browse(move_vals["partner_id"]),
+                    product=product_obj.browse(line_vals["product_id"]),
+                )
+            else:
+                op_line_id = op_line_obj.browse(line_vals["fiscal_operation_line_id"])
+                return_op_line_id = op_line_id.return_fiscal_operation_line_id
+            line_vals["fiscal_operation_line_id"] = return_op_line_id.id
+
+            # set the return cfop
+            cfop_id = cfop_obj.browse(line_vals["cfop_id"])
+            line_vals["cfop_id"] = cfop_id.cfop_return_id.id
+
+        return move_vals
+
+    def _reverse_moves(self, default_values_list=None, cancel=False):
+        new_moves = super()._reverse_moves(
+            default_values_list=default_values_list, cancel=cancel
+        )
+
         for record in new_moves.filtered(lambda i: i.document_type_id):
-            if (
-                not force_fiscal_operation_id
-                and not record.fiscal_operation_id.return_fiscal_operation_id
-            ):
-                raise UserError(
-                    _("""Document without Return Fiscal Operation! \n Force one!""")
-                )
-
-            record.fiscal_operation_id = (
-                force_fiscal_operation_id
-                or record.fiscal_operation_id.return_fiscal_operation_id
-            )
-            record._onchange_fiscal_operation_id()
-
-            for line in record.invoice_line_ids:
-                if (
-                    not force_fiscal_operation_id
-                    and not line.fiscal_operation_id.return_fiscal_operation_id
-                ):
-                    raise UserError(
-                        _(
-                            """Line without Return Fiscal Operation! \n
-                            Please force one! \n{}""".format(
-                                line.name
-                            )
-                        )
-                    )
-
-                line.fiscal_operation_id = (
-                    force_fiscal_operation_id
-                    or line.fiscal_operation_id.return_fiscal_operation_id
-                )
-                line._onchange_fiscal_operation_id()
-
             # Adds the related document to the NF-e.
-            # this is required for correct xml validation
-            if record.document_type_id and record.document_type_id.code in (
-                MODELO_FISCAL_NFE
-            ):
+            if record.document_type_id.code == MODELO_FISCAL_NFE:
                 record.fiscal_document_id._document_reference(
                     record.reversed_entry_id.fiscal_document_id
                 )
