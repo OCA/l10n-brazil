@@ -78,6 +78,16 @@ ICMS_ST_BASE_TYPE = [
 ICMS_ST_BASE_TYPE_DEFAULT = "4"
 
 
+ICMS_TAX_BENEFIT_TYPE = [
+    ("0", "0 - imunidade ou não incidência"),
+    ("1", "1 - isenção"),
+    ("2", "2 - redução de base de cálculo"),
+    ("3", "3 - diferimento"),
+    ("4", "4 - suspensão"),
+    ("5", "5 - Crédito Presumido"),
+]
+
+
 ICMS_SN_CST = ["101", "102", "103", "201", "202", "203", "300", "400", "500", "900"]
 
 
@@ -96,37 +106,38 @@ ICMS_DIFAL_PARTITION = {
 
 
 ICMS_DIFAL_UNIQUE_BASE = [
-    "AC",
-    "AM",
-    "AP",
-    "CE",
     "DF",
     "ES",
     "MA",
-    "MT",
     "MS",
-    "PB",
+    "PE",
     "RJ",
     "RN",
     "RR",
-    "SC",
-    "SP",
 ]
 
 
 ICMS_DIFAL_DOUBLE_BASE = [
+    "AC",
     "AL",
+    "AP",
+    "AM",
     "BA",
+    "CE",
     "GO",
     "MG",
+    "MT",
     "PA",
+    "PB",
     "PI",
-    "PE",
     "PR",
     "RO",
     "RS",
+    "SC",
     "SE",
+    "SP",
     "TO",
 ]
+
 
 ICSM_CST_CSOSN_ST_BASE = ["10", "30", "70", "90", "201", "202", "203", "900"]

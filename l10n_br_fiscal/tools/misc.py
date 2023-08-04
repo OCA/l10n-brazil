@@ -5,12 +5,11 @@
 import logging
 import os
 
-from erpbrasil.assinatura import misc
 from erpbrasil.base.misc import punctuation_rm
 
 from odoo.tools import config
 
-from ..constants.fiscal import CERTIFICATE_TYPE_NFE, EVENT_ENV_HML, EVENT_ENV_PROD
+from ..constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 
 _logger = logging.getLogger(__name__)
 
@@ -43,24 +42,6 @@ def domain_field_codes(
             domain.append((field_name, operator2, n + "%"))
 
     return domain
-
-
-def prepare_fake_certificate_vals(
-    valid=True,
-    passwd="123456",
-    issuer="EMISSOR A TESTE",
-    country="BR",
-    subject="CERTIFICADO VALIDO TESTE",
-    cert_type=CERTIFICATE_TYPE_NFE,
-):
-    return {
-        "type": cert_type,
-        "subtype": "a1",
-        "password": passwd,
-        "file": misc.create_fake_certificate_file(
-            valid, passwd, issuer, country, subject
-        ),
-    }
 
 
 def path_edoc_company(company_id):

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="acquirer_form_bacenpix" model="ir.ui.view">
+            <field name="name">acquirer.form.bacenpix</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inherit_id" ref="payment.acquirer_form" />
+            <field name="arch" type="xml">
+                <xpath expr='//group[@name="acquirer"]' position='inside'>
+                    <group attrs="{'invisible': [('provider', '!=', 'bacenpix')]}">
+                        <field name="id" />
+                        <field
+                            name="bacenpix_email_account"
+                            attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        />
+                        <field name="bacen_pix_expiration" />
+                        <field name="bacen_pix_key" />
+                        <field
+                            name="bacenpix_client_id"
+                            attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        />
+                        <field
+                            name="bacenpix_client_secret"
+                            attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        />
+                        <field
+                            name="bacenpix_dev_app_key"
+                            attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled'),  ('state', '!=', 'enabled')]}"
+                        />
+                        <field
+                            name="bacen_pix_basic"
+                            attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        />
+                        <button
+                            name="bacen_pix_get_token"
+                            string="Get Token"
+                            type="object"
+                            class="oe_inline fa fa-arrow-right oe_link"
+                            attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        />
+                        <field name="bacenpix_api_key" />
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="transaction_form_bacenpix" model="ir.ui.view">
+            <field name="name">acquirer.transaction.form.bacenpix</field>
+            <field name="model">payment.transaction</field>
+            <field name="inherit_id" ref="payment.transaction_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='acquirer_reference']" position="after">
+                    <button
+                        name="action_bacenpix_check_transaction_status"
+                        string="Check Status"
+                        type="object"
+                    />
+                    <field name="bacenpix_date_due" readonly="1" />
+                    <field name="bacenpix_qrcode" readonly="1" />
+                    <field name="bacenpix_currency" readonly="1" />
+                    <field name="bacenpix_amount" readonly="1" />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

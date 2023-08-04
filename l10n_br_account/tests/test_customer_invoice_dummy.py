@@ -4,7 +4,6 @@
 
 import mock
 
-from odoo.exceptions import UserError
 from odoo.models import NewId
 from odoo.tests import SavepointCase
 
@@ -37,12 +36,12 @@ class TestCustomerInvoice(SavepointCase):
             )
         )
 
-        cls.init_number_of_fiscal_docs = cls.env[
-            "l10n_br_fiscal.document"
-        ].search_count([])
-        cls.init_number_of_fiscal_doc_lines = cls.env[
-            "l10n_br_fiscal.document.line"
-        ].search_count([])
+        cls.init_number_of_fiscal_docs = len(
+            cls.env["l10n_br_fiscal.document"].search([])
+        )  # NOTE search_count would increment with disabled dummy docs create
+        cls.init_number_of_fiscal_doc_lines = len(
+            cls.env["l10n_br_fiscal.document.line"].search([])
+        )
         cls.invoice_1 = cls.env["account.move"].create(
             dict(
                 name="Test Customer Invoice 1",
@@ -233,7 +232,7 @@ class TestCustomerInvoice(SavepointCase):
     def test_dummy_doc_usage(self):
         self.assertEqual(
             self.init_number_of_fiscal_docs,
-            self.env["l10n_br_fiscal.document"].search_count([]),
+            len(self.env["l10n_br_fiscal.document"].search([])),
             "Non fiscal invoices should not create fiscal documents"
             "They should use the company dummy document instead.",
         )
@@ -241,7 +240,7 @@ class TestCustomerInvoice(SavepointCase):
     def test_dummy_doc_line_usage(self):
         self.assertEqual(
             self.init_number_of_fiscal_doc_lines,
-            self.env["l10n_br_fiscal.document.line"].search_count([]),
+            len(self.env["l10n_br_fiscal.document.line"].search([])),
             "Non fiscal invoices should not create fiscal document lines"
             "They should use the company dummy document line instead.",
         )
@@ -357,16 +356,16 @@ class TestCustomerInvoice(SavepointCase):
     def test_line_ids_write(self):
         self.invoice_3.invoice_line_ids.write({"move_id": self.invoice_3.id})
         for line in self.invoice_3.invoice_line_ids:
-            self.assertEqual(
-                line.document_id.id,
+            self.assertIn(
                 self.invoice_3.fiscal_document_id.id,
+                (line.document_id.id, False),
                 "line.document_id should be equal invoice fiscal_document_id",
             )
 
     def test_invoice_copy_with_dummy(self):
         """
-        Tests the functionality of copying an invoice while using a fiscal dummy.
-        It verifies that the new invoice isn't recognized as a fiscal document,
+        Test the functionality of copying an invoice while using a fiscal dummy.
+        Verify that the new invoice isn't recognized as a fiscal document,
         the same fiscal dummy is used, and that no new entries were created.
         """
 
@@ -389,25 +388,8 @@ class TestCustomerInvoice(SavepointCase):
             init_number_of_fiscal_doc_lines, final_number_of_fiscal_doc_lines
         )
 
-        # Retrieve the dummy fiscal document line
-        dummy_fiscal_document_line = (
-            self.invoice_1.company_id.fiscal_dummy_id.fiscal_line_ids[0]
-        )
-
         # Check that all account move lines are associated with the fiscal dummy
         for line in invoice_copy.line_ids:
-            self.assertEqual(
-                line.fiscal_document_line_id.id, dummy_fiscal_document_line.id
-            )
+            self.assertEqual(line.fiscal_document_line_id.id, False)
 
         self.assertEqual(len(invoice_copy), 1)
-
-    def test_has_fiscal_dummy(self):
-        fiscal_dummy = self.invoice_1.company_id.fiscal_dummy_id
-        self.assertEqual(fiscal_dummy.id, self.invoice_1.fiscal_document_id.id)
-        self.assertTrue(self.invoice_1.has_fiscal_dummy)
-
-    def test_set_document_type_with_dummy(self):
-        self.assertTrue(self.invoice_1.has_fiscal_dummy)
-        with self.assertRaises(UserError):
-            self.invoice_1.document_type_id = self.env.ref("l10n_br_fiscal.document_55")

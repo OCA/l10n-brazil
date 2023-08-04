@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.misc import format_date
 
-from ..constants.fiscal import (
+from ..constants import (
     CERTIFICATE_SUBTYPE,
     CERTIFICATE_SUBTYPE_DEFAULT,
     CERTIFICATE_TYPE,
@@ -22,8 +22,9 @@ try:
 except ImportError:
     _logger.error(
         _(
-            "Python Library erpbrasil.assinatura not installed, "
-            "please install ex: pip install erpbrasil.assinatura."
+            "Python Library erpbrasil.assinatura not installed!"
+            "It doesn't matter much until you want to send NFe or NFSe documents."
+            "You can install it later with: pip install erpbrasil.assinatura."
         )
     )
 

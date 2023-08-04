@@ -1,13 +1,9 @@
 # Copyright (C) 2019 - Renato Lima Akretion
-# Copyright (C) 2021 - Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
 
 from odoo import SUPERUSER_ID, _, api, tools
-
-from .constants.fiscal import CERTIFICATE_TYPE_ECNPJ
-from .tools import misc
 
 _logger = logging.getLogger(__name__)
 
@@ -44,7 +40,9 @@ def post_init_hook(cr, registry):
             kind="init",
         )
 
-    if not tools.config["without_demo"]:
+    env.cr.execute("select demo from ir_module_module where name='l10n_br_fiscal';")
+    is_demo = env.cr.fetchone()[0]
+    if is_demo:
         demofiles = [
             "demo/l10n_br_fiscal.ncm-demo.csv",
             "demo/l10n_br_fiscal.nbm-demo.csv",
@@ -88,24 +86,7 @@ def post_init_hook(cr, registry):
                 kind="demo",
             )
 
-        env = api.Environment(cr, SUPERUSER_ID, {})
-
-        companies = [
-            env.ref("base.main_company", raise_if_not_found=False),
-            env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False),
-            env.ref("l10n_br_base.empresa_simples_nacional", raise_if_not_found=False),
-        ]
-
-        for company in companies:
-            l10n_br_fiscal_certificate_id = env["l10n_br_fiscal.certificate"]
-            company.certificate_nfe_id = l10n_br_fiscal_certificate_id.create(
-                misc.prepare_fake_certificate_vals()
-            )
-            company.certificate_ecnpj_id = l10n_br_fiscal_certificate_id.create(
-                misc.prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
-            )
-
-    if tools.config["without_demo"]:
+    if not is_demo:
         prodfiles = []
         # Load full CSV files with few lines unless a flag
         # mention the contrary
@@ -157,7 +138,7 @@ def post_init_hook(cr, registry):
         )
 
     # Load post demo files
-    if not tools.config["without_demo"]:
+    if is_demo:
         posdemofiles = [
             "demo/fiscal_document_demo.xml",
         ]
@@ -176,12 +157,3 @@ def post_init_hook(cr, registry):
                 noupdate=True,
                 kind="init",
             )
-
-    # Create a fiscal dummy for the company if you don't have one.
-    companies = env["res.company"].search([("fiscal_dummy_id", "=", False)])
-    for c in companies:
-        c.write(
-            {
-                "fiscal_dummy_id": c._default_fiscal_dummy_id().id,
-            }
-        )

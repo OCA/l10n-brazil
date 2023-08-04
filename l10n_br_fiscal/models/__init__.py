@@ -35,6 +35,7 @@ from . import tax_ipi_guideline
 from . import tax_ipi_guideline_class
 from . import tax_estimate
 from . import tax_definition
+from . import tax_definition_benefit
 from . import tax_definition_company
 from . import tax_definition_cfop
 from . import tax_definition_icms
@@ -45,7 +46,6 @@ from . import icms_relief
 from . import document_type
 from . import document_serie
 from . import product_genre
-from . import certificate
 from . import product_mixin
 from . import product_template
 from . import product_product

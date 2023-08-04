@@ -767,12 +767,13 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
-        if not self.company_id.certificate_nfe_id:
+        if not self.company_id.sudo().certificate_nfe_id:
             raise UserError(_("Certificado não encontrado"))
+        self._check_nfe_environment()
 
         certificado = cert.Certificado(
-            arquivo=self.company_id.certificate_nfe_id.file,
-            senha=self.company_id.certificate_nfe_id.password,
+            arquivo=self.company_id.sudo().certificate_nfe_id.file,
+            senha=self.company_id.sudo().certificate_nfe_id.password,
         )
         session = Session()
         session.verify = False
@@ -791,6 +792,18 @@ class NFe(spec_models.StackedModel):
             return edoc_nfce(**params)
 
         return edoc_nfe(**params)
+
+    def _check_nfe_environment(self):
+        self.ensure_one()
+        company_nfe_environment = self.company_id.nfe_environment
+        if self.nfe_environment != company_nfe_environment:
+            raise UserError(
+                _(
+                    f"Nf-e environment: {self.nfe_environment}"
+                    " cannot be different from what is configured "
+                    f"in the company: {company_nfe_environment}"
+                )
+            )
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()

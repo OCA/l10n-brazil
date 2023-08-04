@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "14.0.14.1.0",
+    "version": "14.0.16.1.0",
     "depends": [
         "product",
         "l10n_br_base",
@@ -62,7 +62,6 @@
         "views/document_type_view.xml",
         "views/document_serie_view.xml",
         "views/document_email_view.xml",
-        "views/certificate_view.xml",
         "views/simplified_tax_view.xml",
         "views/simplified_tax_range_view.xml",
         "views/operation_view.xml",
@@ -107,9 +106,4 @@
     "installable": True,
     "application": True,
     "auto_install": False,
-    "external_dependencies": {
-        "python": [
-            "erpbrasil.assinatura",
-        ]
-    },
 }

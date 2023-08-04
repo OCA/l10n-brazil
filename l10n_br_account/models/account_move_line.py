@@ -6,6 +6,8 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from .account_move import InheritsCheckMuteLogger
+
 # These fields have the same name in account.move.line
 # and l10n_br_fiscal.document.line. So they wouldn't get updated
 # by the _inherits system. An alternative would be changing their name
@@ -31,18 +33,9 @@ class AccountMoveLine(models.Model):
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin.methods"]
     _inherits = {"l10n_br_fiscal.document.line": "fiscal_document_line_id"}
 
-    # some account.move.line records _inherits from an fiscal.document.line that is
-    # disabled with active=False (dummy record) in the l10n_br_fiscal_document_line table.
-    # To make the invoice lines still visible, we set active=True
-    # in the account_move_line table.
-    active = fields.Boolean(
-        default=True,
-    )
-
     fiscal_document_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.line",
         string="Fiscal Document Line",
-        required=True,
         copy=False,
         ondelete="cascade",
     )
@@ -135,6 +128,17 @@ class AccountMoveLine(models.Model):
             )
 
     @api.model
+    def _inherits_check(self):
+        """
+        Overriden to avoid the super method to set the fiscal_document_line_id
+        field as required.
+        """
+        with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
+            super()._inherits_check()
+        field = self._fields.get("fiscal_document_line_id")
+        field.required = False  # unset the required = True assignement
+
+    @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synchronized
         from the parent."""
@@ -149,22 +153,13 @@ class AccountMoveLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         for values in vals_list:
             move_id = self.env["account.move"].browse(values["move_id"])
             fiscal_doc_id = move_id.fiscal_document_id.id
 
-            if fiscal_doc_id == dummy_doc.id or values.get("exclude_from_invoice_tab"):
-                if len(dummy_line) < 1:
-                    raise UserError(
-                        _(
-                            "Document line dummy not found. Please contact "
-                            "your system administrator."
-                        )
-                    )
-                values["fiscal_document_line_id"] = dummy_line.id
-                continue  # dummy doc line, we can skip all l10n-brazil logic
+            if not fiscal_doc_id or values.get("exclude_from_invoice_tab"):
+                values["fiscal_document_line_id"] = False
+                continue
 
             values.update(
                 self._update_fiscal_quantity(
@@ -214,12 +209,12 @@ class AccountMoveLine(models.Model):
                     )
                 )
         self._inject_shadowed_fields(vals_list)
-        return super().create(vals_list)
+        return super(
+            AccountMoveLine, self.with_context(create_from_move_line=True)
+        ).create(vals_list)
 
     def write(self, values):
-        dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
-        non_dummy = self.filtered(lambda l: l.fiscal_document_line_id != dummy_line)
+        non_dummy = self.filtered(lambda l: l.fiscal_document_line_id)
         self._inject_shadowed_fields([values])
         if values.get("move_id") and len(non_dummy) == len(self):
             # we can write the document_id in all lines
@@ -272,13 +267,11 @@ class AccountMoveLine(models.Model):
         return result
 
     def unlink(self):
-        dummy_doc = self.env.company.fiscal_dummy_id
-        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
         for inv_line in self:
             if not inv_line.exists():
                 continue
-            if inv_line.fiscal_document_line_id.id != dummy_line.id:
+            if inv_line.fiscal_document_line_id:
                 unlink_fiscal_lines |= inv_line.fiscal_document_line_id
         result = super().unlink()
         unlink_fiscal_lines.unlink()
@@ -474,7 +467,6 @@ class AccountMoveLine(models.Model):
     def _get_fields_onchange_subtotal_model(
         self, price_subtotal, move_type, currency, company, date
     ):
-
         if company.country_id.code != "BR":
             return super()._get_fields_onchange_subtotal_model(
                 price_subtotal=price_subtotal,
@@ -571,7 +563,6 @@ class AccountMoveLine(models.Model):
         date,
         cfop_id,
     ):
-
         if exclude_from_invoice_tab:
             return {}
         if move_id.move_type in move_id.get_outbound_types():
