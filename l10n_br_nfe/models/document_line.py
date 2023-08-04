@@ -986,11 +986,6 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_infAdProd = False
 
-    # Todo: Calcular
-    nfe40_vFCPUFDest = fields.Monetary(
-        string="Valor total do ICMS relativo ao Fundo de Combate à Pobreza",
-    )
-
     @api.model
     def _prepare_import_dict(
         self, values, model=None, parent_dict=None, defaults_model=None
