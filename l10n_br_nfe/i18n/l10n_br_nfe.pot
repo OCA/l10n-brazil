@@ -1995,6 +1995,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPUFDest
+msgid "Valor do ICMS relativo ao Fundo"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPUFDest
 msgid ""
 "Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP) da UF de destino."
@@ -2088,11 +2093,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFCPUFDest
 msgid "Valor total do ICMS relativo ao Fundo"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPUFDest
-msgid "Valor total do ICMS relativo ao Fundo de Combate à Pobreza"
 msgstr ""
 
 #. module: l10n_br_nfe
