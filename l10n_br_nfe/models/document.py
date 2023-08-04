@@ -834,10 +834,8 @@ class NFe(spec_models.StackedModel):
         xml_file = processo.envio_xml.decode("utf-8")
 
         if hasattr(processo, "protocolo"):
-            # Assincrono
             infProt = processo.protocolo.infProt
         else:
-            # Sincrono
             infProt = processo.resposta.protNFe.infProt
 
         # TODO: Verificar a consulta de notas
@@ -929,16 +927,10 @@ class NFe(spec_models.StackedModel):
                         # Não devemos interromper o fluxo
                         # E dar rollback em um documento
                         # autorizado, podendo perder dados.
-
-                        # Se der problema que apareça quando
-                        # o usuário clicar no gera PDF novamente.
                         _logger.error("DANFE Error \n {}".format(e))
 
             elif processo.resposta.cStat in DENEGADO:
-                state = SITUACAO_EDOC_DENEGADA
-
-                record._change_state(state)
-
+                record._change_state(SITUACAO_EDOC_DENEGADA)
                 record.write(
                     {
                         "status_code": processo.resposta.cStat,
@@ -950,17 +942,13 @@ class NFe(spec_models.StackedModel):
                 record._process_document_in_contingency()
 
             else:
-                state = SITUACAO_EDOC_REJEITADA
-
-                record._change_state(state)
-
+                record._change_state(SITUACAO_EDOC_REJEITADA)
                 record.write(
                     {
                         "status_code": processo.resposta.cStat,
                         "status_name": processo.resposta.xMotivo,
                     }
                 )
-        return
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
