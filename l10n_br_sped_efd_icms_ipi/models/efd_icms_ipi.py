@@ -1,0 +1,663 @@
+import base64
+
+# from odoo.addons.l10n_br_base.constante_tributaria import (REGIME_TRIBUTARIO_SIMPLES)
+from sped.efd.icms_ipi import arquivos, registros
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+
+arquivo = arquivos.ArquivoDigital()
+
+
+class EFDICMSIPI(models.Model):
+    _name = "sped.efd.icms.ipi"
+
+    name = fields.Char()
+
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        select=True,
+    )
+
+    fci_file_sent = fields.Many2one(
+        comodel_name="ir.attachment",
+        string="File",
+        ondelete="restrict",
+        copy=False,
+    )
+
+    date_start = fields.Date(
+        string="Start Date",
+        index=True,
+        default=fields.Datetime.now,
+        required=True,
+    )
+
+    date_end = fields.Date(
+        string="End Date",
+        index=True,
+        required=True,
+    )
+
+    @api.constrains("date_start", "date_end")
+    def _date_validate(self):
+        if self.date_start > self.date_end:
+            raise ValidationError("The start date must be less than the end date.")
+
+    @property
+    def version(self):
+        return "011"
+
+    def clean_formatting(self, data):
+        if data:
+            return (
+                data.replace("-", "")
+                .replace(" ", "")
+                .replace("(", "")
+                .replace(")", "")
+                .replace("/", "")
+                .replace(".", "")
+                .replace(":", "")
+            )
+
+        return data
+
+    def format_city_code(self, data):
+        return data[:7]
+
+    def _query_registro0000(self):
+        query = """
+            SELECT DISTINCT
+                p.id
+            FROM
+                l10n_br_fiscal_document AS d
+                join res_company AS c ON d.company_id = c.id
+                join res_partner AS p ON c.partner_id = p.id
+                join res_city AS m ON m.id = p.city_id
+            WHERE
+                c.id = '%s'
+        """ % (
+            self.company_id.id
+        )
+        self._cr.execute(query)
+        query_response = self._cr.fetchall()
+        partner = self.env["res.partner"].browse(query_response[0][0])
+        registro_0000 = registros.Registro0000()
+        registro_0000.COD_VER = str(self.version)
+        registro_0000.COD_FIN = "0"  # finalidade
+        # registro_0000.DT_INI =  \
+        #     parse_datetime(self.dt_ini).strftime('%d%m%Y')
+        # registro_0000.DT_FIN = \
+        #     parse_datetime(self.dt_fim).strftime('%d%m%Y')
+        # registro_0000.NOME = partner_response.nome
+
+        #
+        # CPNJ ou CPF
+        #
+
+        cpnj_cpf = self.clean_formatting(partner.cnpj_cpf)
+        if len(cpnj_cpf) == 11:
+            registro_0000.CPF = cpnj_cpf
+        else:
+            registro_0000.CNPJ = cpnj_cpf
+
+        registro_0000.UF = partner.city_id.state_id.ibge_code
+        registro_0000.IE = self.clean_formatting(partner.inscr_est)
+        registro_0000.COD_MUN = self.format_city_code(partner.city_id.ibge_code)
+        # registro_0000.IM = partner.im # TODO
+        # registro_0000.SUFRAMA = self.clean_formatting(partner.suframa) # TODO
+        registro_0000.IND_PERFIL = "A"  # perfil
+        registro_0000.IND_ATIV = "1"  # tipo_atividade
+
+        arquivo.read_registro(self.separador_pipe(registro_0000))
+
+    # def query_registro0005(self):
+    #     query = """
+    #          select
+    #              p.id
+    #          from
+    #              sped_empresa as e
+    #              join sped_participante as p on p.id=e.participante_id
+    #          where
+    #              e.company_id='%s'
+    #             """ % (self.company_id.id)
+    #     self._cr.execute(query)
+    #     query_resposta = self._cr.fetchall()
+
+    #     resposta = self.env['sped.participante'].browse(query_resposta[0][0])
+    #     registro_0005 = registros.Registro0005()
+    #     registro_0005.FANTASIA = resposta.fantasia
+    #     registro_0005.CEP = self.clean_formatting(resposta.cep)
+    #     registro_0005.END = resposta.endereco
+    #     registro_0005.NUM = resposta.numero
+    #     registro_0005.COMPL = resposta.complemento
+    #     registro_0005.BAIRRO = resposta.bairro
+    #     registro_0005.FONE = self.clean_formatting(resposta.fone)
+    #     registro_0005.EMAIL = resposta.email
+
+    #     arquivo.read_registro(self.arquivo(registro_0005))
+
+    # def query_registro0100(self):
+    #     query = """
+    #                 select
+    #                     p.id, m.id
+    #                 from
+    #                     sped_empresa as e
+    #                     join sped_participante as p on e.participante_id=p.id
+    #                     join sped_municipio as m on p.municipio_id=m.id
+    #                 where
+    #                     e.company_id='%s'
+    #             """ % (self.company_id.id)
+    #     self._cr.execute(query)
+    #     query_resposta = self._cr.fetchall()
+
+    #     resposta = self.env['sped.participante'].browse(query_resposta[0][0])
+    #     registro_0100 = registros.Registro0100()
+    #     registro_0100.NOME = resposta.nome
+    #     registro_0100.CPF = '11166072630' # TODO: campo obrigatorio
+    #     # cpnj_cpf = self.clean_formatting(resposta.cnpj_cpf)
+    #     #
+    #     # if cpnj_cpf and len(cpnj_cpf) == 11:
+    #     #     registro_0100.CPF = cpnj_cpf
+    #     # else:
+    #     #     registro_0100.CNPJ = cpnj_cpf
+
+    #     registro_0100.CRC = '111111111111111' # TODO: resposta.crc campo obrigatorio
+    #     registro_0100.CEP = self.clean_formatting(resposta.cep)
+    #     registro_0100.END = resposta.endereco
+    #     registro_0100.NUM = resposta.numero
+    #     registro_0100.COMPL = resposta.complemento
+    #     registro_0100.BAIRRO = resposta.bairro
+    #     registro_0100.FONE = self.clean_formatting(resposta.fone)
+    #     registro_0100.EMAIL = '1234@gmail.com' # TODO: resposta.email compo obrigatorio
+    #     registro_0100.COD_MUN = \
+    #         self.format_city_code(resposta.municipio_id.codigo_ibge)
+
+    #     arquivo.read_registro(self.arquivo(registro_0100))
+
+    # def query_registro0150(self):
+    #     query = """
+    #             select distinct
+    #                 par.id
+    #             from
+    #                 sped_documento as d
+    #                 join sped_documento_item as di on d.id=di.documento_id
+    #                 join sped_empresa as e on d.empresa_id=e.id
+    #                 join sped_participante as par on par.id=e.participante_id
+    #                 join sped_produto as p on di.produto_id=p.id
+    #             where
+    #                 d.data_entrada_saida>='%s' and
+    #                 d.data_entrada_saida<='%s' and
+    #                 d.modelo='55' and
+    #                 e.company_id='%s'
+    #             """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+    #                    parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+    #                    self.company_id.id)
+    #     self._cr.execute(query)
+    #     query_resposta = self._cr.fetchall()
+
+    #     for id in query_resposta:
+    #         resposta_participante = \
+    #             self.env['sped.participante'].browse(id[0])
+    #         registro_0150 = registros.Registro0150()
+    #         registro_0150.COD_PART = str(resposta_participante.id)
+    #         registro_0150.NOME = resposta_participante.nome
+    #         registro_0150.COD_PAIS = \
+    #             resposta_participante.municipio_id.pais_id.codigo_bacen
+    #         cpnj_cpf = self.clean_formatting(resposta_participante.cnpj_cpf)
+
+    #         #
+    #         # CPNJ ou CPF
+    #         #
+
+    #         if len(cpnj_cpf) == 11:
+    #             registro_0150.CPF = cpnj_cpf
+    #         else:
+    #             registro_0150.CNPJ = cpnj_cpf
+
+    #         registro_0150.IE = self.clean_formatting(resposta_participante.ie)
+    #         registro_0150.COD_MUN = \
+    #             self.format_city_code(
+    #                 resposta_participante.municipio_id.codigo_ibge)
+    #         registro_0150.SUFRAMA = \
+    #             self.clean_formatting(resposta_participante.suframa)
+    #         registro_0150.END = resposta_participante.endereco.rstrip()
+    #         registro_0150.NUM = resposta_participante.numero
+    #         registro_0150.COMPL = resposta_participante.complemento
+    #         registro_0150.BAIRRO = resposta_participante.bairro
+    #         arquivo.read_registro(self.arquivo(registro_0150))
+
+    # def query_registro0190(self):
+    #     query = """
+    #                 select distinct
+    #                    u.id
+    #                 from
+    #                     sped_documento as d
+    #                     join sped_empresa as e on d.empresa_id=e.id
+    #                     join sped_documento_item as di on d.id=di.documento_id
+    #                     join sped_unidade as u on di.unidade_id=u.id
+    #                 where
+    #                     d.data_entrada_saida>='%s' and
+    #                     data_entrada_saida<='%s' and
+    #                     e.company_id='%s'
+    #             """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+    #                    parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+    #                    self.company_id.id)
+    #     self._cr.execute(query)
+    #     query_resposta = self._cr.fetchall()
+
+    #     for id in query_resposta:
+    #         cont = 0
+    #         resposta = self.env['sped.unidade'].browse(id[0])
+    #         registro_0190 = registros.Registro0190()
+    #         registro_0190.UNID = resposta.codigo_unico
+    #         registro_0190.DESCR = resposta.nome_unico
+    #         arquivo.read_registro(self.arquivo(registro_0190))
+
+    # def query_registro0200(self):
+    #     query = """
+    #             select distinct
+    #                 p.id, u.id
+    #             from
+    #                 sped_documento as d
+    #                 join sped_documento_item as di on d.id=di.documento_id
+    #                 join sped_empresa as e on d.empresa_id=e.id
+    #                 join sped_participante as par on par.id=e.participante_id
+    #                 join sped_produto as p on di.produto_id=p.id
+    #                 join sped_unidade as u on p.unidade_id=u.id
+    #             where
+    #                 d.data_entrada_saida>='%s' and
+    #                 d.data_entrada_saida<='%s' and
+    #                 e.company_id='%s'
+    #                """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+    #                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+    #                       self.company_id.id)
+
+    #     self._cr.execute(query)
+    #     query_resposta = self._cr.fetchall()
+    #     hash = {}
+
+    #     cont = 1
+    #     for resposta in query_resposta:
+    #         resposta_produto = self.env['sped.produto'].browse(resposta[0])
+    #         resposta_unidade = self.env['sped.unidade'].browse(resposta[1])
+    #         if not (resposta_produto.codigo_unico in hash):
+    #             registro_0200 = registros.Registro0200()
+    #             registro_0200.COD_ITEM = resposta_produto.codigo_unico
+    #             registro_0200.DESCR_ITEM = resposta_produto.nome
+    #             registro_0200.COD_BARRA = resposta_produto.codigo_barras
+    #             registro_0200.UNID_INV = resposta_unidade.codigo_unico
+    #             registro_0200.TIPO_ITEM = resposta_produto.tipo
+    #             cont += 1
+    #             hash[resposta_produto.codigo_unico] = registro_0200
+    #     for key,value in hash.items():
+    #         arquivo.read_registro(self.arquivo(value))
+
+    # def formata_valor_sped(self, numero, decimais=2):
+    #     numero = D(numero)
+    #     if decimais:
+    #         numero = numero.quantize(D('0.' + ''.zfill(decimais - 1) + '1'))
+
+    #     return formata_valor(numero,
+    #                          casas_decimais=decimais,
+    #                          separador_milhar='')
+
+    # def query_registro1010(self):
+    #     # TODO: bloco precisa ser refeito
+    #     lista_registro_1600 = []
+    #     registro_1010 = registros.Registro1010()
+
+    #     registro_1010.IND_EXP = 'N' # TODO: informacoes sobre as exportacoes devem ser feitas
+    #     registro_1010.IND_CCRF = 'N'
+    #     registro_1010.IND_COMB = 'N'
+    #     registro_1010.IND_USINA = 'N'
+    #     registro_1010.IND_VA = 'N'
+    #     registro_1010.IND_EE = 'N'
+    #     lista_registro_1600 = self.query_registro1600()
+    #     if not lista_registro_1600:
+    #         registro_1010.IND_CART = 'N'
+    #     else:
+    #         registro_1010.IND_CART = 'S'
+    #     registro_1010.IND_FORM = 'N'
+    #     registro_1010.IND_AER = 'N'
+
+    #     arquivo.read_registro(self.arquivo(registro_1010))
+    #     for item_lista in lista_registro_1600:
+    #         arquivo.read_registro(self.arquivo(item_lista))
+
+    # def query_registro1600(self):
+    #     query = """
+    #             select
+    #                 d.id, p.id
+    #             from
+    #                 account_payment_term as pt
+    #                 join sped_documento as d on d.condicao_pagamento_id=pt.id
+    #                 join sped_empresa as e on e.id=d.empresa_id
+    #                 join sped_participante as p on p.id=e.participante_id
+    #             where
+    #                 d.data_entrada_saida>='%s' and
+    #                 d.data_entrada_saida<='%s' and
+    #                 e.company_id='%s'
+    #     """     % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+    #                parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+    #                self.company_id.id)
+    #     self._cr.execute(query)
+    #     query_resposta = self._cr.fetchall()
+    #     hash_participane = {}
+
+    #     for id in query_resposta:
+
+    #         resposta = self.env['sped.documento'].browse(id[0])
+    #         resposta_participante = self.env['sped.participante'].browse(id[1])
+
+    #         if not(resposta_participante.id in hash_participane):
+    #             hash_participane[resposta_participante.id] = {}
+    #             hash_participane[resposta_participante.id]['credito'] = 0
+    #             hash_participane[resposta_participante.id]['debito'] = 0
+
+    #         if resposta.condicao_pagamento_id.forma_pagamento == '03':
+    #             hash_participane[resposta_participante.id]['credito'] += float(resposta.vr_operacao)
+    #         else:
+    #             hash_participane[resposta_participante.id]['debito'] += float(resposta.vr_operacao)
+
+    #     lista_registro1610 = []
+    #     for key, value in hash_participane.items():
+    #         registro_1600 = registros.Registro1600()
+    #         registro_1600.COD_PART = str(key)
+    #         registro_1600.TOT_CREDITO = self.formata_valor_sped(value.get('credito'))
+    #         registro_1600.TOT_DEBITO = self.formata_valor_sped(value.get('debito'))
+    #         lista_registro1610.append(registro_1600)
+
+    #     return lista_registro1610
+
+    # def query_registro_C100(self):
+    #     query = """
+    #             select distinct
+    #                 d.id, par.id, di.id, p.id
+    #             from
+    #                 sped_documento as d
+    #                 join sped_documento_item as di on d.id=di.documento_id
+    #                 join sped_empresa as e on d.empresa_id=e.id
+    #                 join sped_participante as par on par.id=e.participante_id
+    #                 join sped_produto as p on di.produto_id=p.id
+    #             where
+    #                 d.data_entrada_saida>='%s' and
+    #                 d.data_entrada_saida<='%s' and
+    #                 d.modelo='55' and
+    #                 e.company_id='%s'
+    #             """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+    #                    parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+    #                    self.company_id.id)
+    #     self._cr.execute(query)
+    #     query_resposta = self._cr.fetchall()
+    #     hash = {}
+    #     hash_c190 = {}
+
+    #     for id in query_resposta:
+    #         resposta = self.env['sped.documento'].browse(id[0])
+    #         resposta_participante = \
+    #             self.env['sped.participante'].browse(id[1])
+    #         resposta_item = self.env['sped.documento.item'].browse(id[2])
+
+    #         if (resposta.emissao == '0' and resposta.chave != False ) and not\
+    #                 (resposta.chave in hash):
+    #             registro_c100 = registros.RegistroC100()
+    #             registro_c100.IND_OPER = resposta.entrada_saida
+    #             registro_c100.IND_EMIT = resposta.emissao
+    #             registro_c100.COD_PART = str(resposta_participante.id)
+    #             registro_c100.COD_MOD = resposta.modelo
+    #             registro_c100.COD_SIT = resposta.situacao_fiscal
+    #             registro_c100.SER = resposta.serie
+    #             registro_c100.CHV_NFE = resposta.chave
+    #             registro_c100.NUM_DOC = \
+    #                 self.clean_formatting(str(int(resposta.numero)))
+    #             registro_c100.DT_DOC = \
+    #                 parse_datetime(resposta.data_emissao).strftime('%d%m%Y')
+    #             registro_c100.DT_E_S = \
+    #                 parse_datetime(
+    #                     resposta.data_entrada_saida).strftime('%d%m%Y')
+    #             registro_c100.VL_DOC = \
+    #                 self.formata_valor_sped(
+    #                     resposta_item.al_icms_proprio)
+
+    #             if resposta.ind_forma_pagamento == '2':
+    #                 registro_c100.IND_PGTO = '9'
+    #             else:
+    #                 registro_c100.IND_PGTO = resposta.ind_forma_pagamento
+
+    #             registro_c100.VL_MERC = \
+    #                 self.formata_valor_sped(str(resposta.vr_nf))
+    #             registro_c100.IND_FRT = resposta.modalidade_frete
+
+    #             registro_c100.VL_ICMS = \
+    #                 self.formata_valor_sped(resposta_item.vr_icms_proprio)
+    #             registro_c100.VL_BC_ICMS = \
+    #                 self.formata_valor_sped(resposta_item.bc_icms_proprio)
+
+    #             hash[resposta.chave] = registro_c100
+    #             hash_c190[resposta.chave] = \
+    #                 self.query_registro_C190(resposta_item, resposta)
+
+    #     for key,value in hash.items():
+    #         arquivo.read_registro(self.arquivo(value))
+    #         arquivo.read_registro(self.arquivo(hash_c190[key]))
+
+    # def query_registro_C170(self, cont, resposta_documento, resposta_produto):
+    #     registro_c170 = registros.RegistroC170()
+    #     registro_c170.NUM_ITEM = str(cont)
+    #     registro_c170.COD_ITEM = resposta_produto.codigo_unico
+    #     registro_c170.QTD = str(int(resposta_documento.quantidade))
+    #     registro_c170.UNID = resposta_documento.unidade_id.codigo_unico
+    #     registro_c170.VL_ITEM = \
+    #         self.formata_valor_sped(str(resposta_documento.vr_nf))
+    #     if resposta_documento.movimentacao_fisica:
+    #         registro_c170.IND_MOV = '1'
+    #     else:
+    #         registro_c170.IND_MOV = '0'
+
+    #     if  resposta_documento.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+    #         registro_c170.CST_ICMS = resposta_documento.cst_icms_sn
+    #     else:
+    #         registro_c170.CST_ICMS = resposta_documento.cst_icms
+
+    #     if registro_c170.CST_ICMS in ('00','10','20','70'):
+    #         registro_c170.ALIQ_ICMS = '1' # TODO: analisar com sadamo
+    #     else:
+    #         registro_c170.ALIQ_ICMS = '0' # TODO: analisar com sadamo
+    #     registro_c170.CFOP = resposta_documento.cfop_id.codigo
+
+    #     return registro_c170
+
+    # def query_registro_C190(self,
+    #                         resposta_documento_item,
+    #                         resposta_documento):
+    #     registro_c190 = registros.RegistroC190()
+    #     if not resposta_documento_item.org_icms:
+    #         resposta_documento_item.org_icms = '0'
+    #     if not resposta_documento_item.cst_icms:
+    #         resposta_documento_item.cst_icms = '41'
+
+    #     if resposta_documento.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+    #         registro_c190.CST_ICMS = resposta_documento_item.cst_icms_sn
+    #     else:
+    #         registro_c190.CST_ICMS = resposta_documento_item.org_icms + \
+    #                              resposta_documento_item.cst_icms
+
+    #     registro_c190.CFOP = resposta_documento_item.cfop_id.codigo
+    #     registro_c190.VL_OPR =  \
+    #         self.formata_valor_sped(resposta_documento_item.al_icms_proprio)
+    #     registro_c190.VL_BC_ICMS = \
+    #         self.formata_valor_sped(resposta_documento_item.bc_icms_proprio)
+
+    #     #
+    #     # soma do valor deve ser usado no registro E110 VL_TOT_CREDITOS
+    #     #
+    #     if ((resposta_documento_item.cfop_id.codigo[0] == '1' and
+    #          resposta_documento_item.cfop_id.codigo != '1605') or
+    #         resposta_documento_item.cfop_id.codigo[0] == '2' or
+    #         resposta_documento_item.cfop_id.codigo[0] == '3' or
+    #         resposta_documento_item.cfop_id.codigo    == '5605'):
+    #             self.soma_vl_icms += resposta_documento_item.vr_icms_proprio
+
+    #     #
+    #     # soma do valor deve ser usado no registro E110 VL_TOT_DEBITOS
+    #     #
+    #     if  ((resposta_documento_item.cfop_id.codigo[0] == '5' and
+    #           resposta_documento_item.cfop_id.codigo != '5606')or
+    #          resposta_documento_item.cfop_id.codigo[0] == '6' or
+    #          resposta_documento_item.cfop_id.codigo[0] == '7' or
+    #          resposta_documento_item.cfop_id.codigo == '1605'):
+    #             self.soma_vl_tot_debitos += \
+    #                 resposta_documento_item.vr_icms_proprio
+
+    #     registro_c190.VL_ICMS = \
+    #         self.formata_valor_sped(resposta_documento_item.vr_icms_proprio)
+    #     registro_c190.VL_BC_ICMS_ST = \
+    #         self.formata_valor_sped(resposta_documento_item.bc_icms_st)
+    #     registro_c190.VL_ICMS_ST = \
+    #         self.formata_valor_sped(resposta_documento_item.vr_icms_st)
+    #     registro_c190.VL_RED_BC = \
+    #         self.formata_valor_sped(resposta_documento_item.vr_nf) # TODO: verificar se esta correto
+    #     registro_c190.VL_IPI = \
+    #         self.formata_valor_sped(resposta_documento_item.vr_ipi)
+
+    #     return registro_c190
+
+    # def query_registro_E100(self):
+    #     registro_E100 = registros.RegistroE100()
+    #     registro_E100.DT_INI = \
+    #         parse_datetime(self.dt_ini[:10]).strftime('%d%m%Y')
+    #     registro_E100.DT_FIN = \
+    #         parse_datetime(self.dt_fim[:10]).strftime('%d%m%Y')
+    #     arquivo.read_registro(self.arquivo(registro_E100))
+
+    # def query_registro_E110(self):
+    #     registro_E110 = registros.RegistroE110()
+    #     registro_E110.VL_TOT_DEBITOS = \
+    #         self.formata_valor_sped(self.soma_vl_tot_debitos)
+    #     registro_E110.VL_AJ_DEBITOS = '0'
+    #     registro_E110.VL_TOT_AJ_DEBITOS = '0'
+    #     registro_E110.VL_ESTORNOS_CRED = '0'
+    #     registro_E110.VL_TOT_CREDITOS = \
+    #         self.formata_valor_sped(self.soma_vl_icms)
+    #     registro_E110.VL_AJ_CREDITOS = '0'
+    #     registro_E110.VL_TOT_AJ_CREDITOS = '0'
+    #     registro_E110.VL_ESTORNOS_DEB = '0'
+    #     registro_E110.VL_SLD_CREDOR_ANT = '0'
+
+    #     vl_sld_apurado = (float(self.soma_vl_tot_debitos) +
+    #                       float(registro_E110.VL_AJ_DEBITOS) +
+    #                       float(registro_E110.VL_TOT_AJ_DEBITOS) +
+    #                       float(registro_E110.VL_ESTORNOS_CRED)
+    #                       ) - \
+    #                      (float(self.soma_vl_icms) +
+    #                       float(registro_E110.VL_AJ_CREDITOS) +
+    #                       float(registro_E110.VL_TOT_AJ_CREDITOS) +
+    #                       float(registro_E110.VL_ESTORNOS_DEB)
+    #                      )
+
+    #     registro_E110.VL_SLD_APURADO = \
+    #         self.formata_valor_sped(vl_sld_apurado) \
+    #         if vl_sld_apurado >= 0 else '0'
+    #     registro_E110.VL_TOT_DED = '0'
+
+    #     self.vl_icms_recolher = \
+    #         float(str(registro_E110.VL_SLD_APURADO).replace(',','.')) - \
+    #         float(str(registro_E110.VL_TOT_DED).replace(',','.'))
+    #     if self.vl_icms_recolher > 0:
+    #         registro_E110.VL_ICMS_RECOLHER = \
+    #             self.formata_valor_sped(self.vl_icms_recolher)
+    #     else:
+    #         registro_E110.VL_ICMS_RECOLHER = '0'
+
+    #     registro_E110.VL_SLD_CREDOR_TRANSPORTAR = \
+    #         self.formata_valor_sped(vl_sld_apurado*-1) \
+    #             if vl_sld_apurado < 0 else '0'
+
+    #     registro_E110.DEB_ESP = '0'
+
+    #     arquivo.read_registro(self.arquivo(registro_E110))
+    #     if self.vl_icms_recolher > 0:
+    #         arquivo.read_registro(
+    #             self.arquivo(self.query_registro_E116()))
+
+    # def query_registro_E116(self):
+    #     registro_e116 = registros.RegistroE116()
+    #     registro_e116.COD_OR = '000'
+    #     registro_e116.VL_OR = self.formata_valor_sped(self.vl_icms_recolher)
+    #     registro_e116.DT_VCTO = \
+    #         parse_datetime(self.dt_fim[:10]).strftime('%d%m%Y')
+    #     registro_e116.COD_REC = '100102' # TODO: CONTADOR, PREENCHA O CÓDIGO CORRETO by: ari
+    #     registro_e116.MES_REF =\
+    #         parse_datetime(self.dt_ini[:10]).strftime('%m%Y')
+
+    #     return registro_e116
+
+    def separador_pipe(self, registro):
+        junta = ""
+        for i in range(1, len(registro._valores)):
+            junta = junta + "|" + registro._valores[i]
+        return junta
+
+    # def bloco9(self):
+    #     hash = {}
+    #     hash['0000'] = 1
+    #     hash['9999'] = 1
+    #     for bloco in arquivo._blocos.items():
+    #         for registros_bloco in bloco[1].registros:
+    #             if registros_bloco._valores[1] in hash:
+    #                 hash[registros_bloco._valores[1]] = \
+    #                     int(hash[registros_bloco._valores[1]]) + 1
+    #             else:
+    #                 hash[registros_bloco._valores[1]] = 1
+
+    #     for key, value in hash.items():
+    #         registro_9900 = registros.Registro9900()
+    #         registro_9900.REG_BLC = key
+    #         registro_9900.QTD_REG_BLC = str(value)
+    #         arquivo.read_registro(self.separador_pipe(registro_9900))
+
+    #     registro_9900 = registros.Registro9900()
+    #     registro_9900.REG_BLC = '9900'
+    #     registro_9900.QTD_REG_BLC = str(len(hash) + 1)
+    #     arquivo.read_registro(self.separador_pipe(registro_9900))
+
+    def create_file(self):
+        self.fci_file_sent = self.env["ir.attachment"].create(
+            {
+                "name": "teste.txt",
+                "res_model": "sped.efd.icms.ipi",
+                "res_id": self.id,
+                "datas": base64.b64encode(arquivo.getstring().encode("utf-8")),
+                "mimetype": "application/txt",
+            }
+        )
+
+    def envia_efd(self):
+
+        # bloco 0
+        self._query_registro0000()
+        #     self.query_registro0005()
+        #     self.query_registro0100()
+        #     self.query_registro0150()
+        #     # TODO: campos de servicos e produtos analisar se sao necessarios,
+        #     # TODO: devem ser usados com o registro C170
+        #     # self.query_registro0190()
+        #     # self.query_registro0200()
+
+        #     # bloco C
+        #     self.query_registro_C100()
+
+        #     # bloco E
+        #     self.query_registro_E100()
+        #     self.query_registro_E110()
+
+        #     #bloco 1
+        #     self.query_registro1010()
+
+        #     # bloco 9
+        #     self.bloco9()
+
+        #     # cria arquivo de texto
+        self.create_file()

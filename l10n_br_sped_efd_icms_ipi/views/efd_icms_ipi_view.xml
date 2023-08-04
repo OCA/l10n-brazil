@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="sped_efd_icms_ipi_form">
+        <field name="name">sped.efd.icms.ipi.form</field>
+        <field name="model">sped.efd.icms.ipi</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Sped EFD">
+                <sheet>
+                    <button
+                        name="envia_efd"
+                        string="Enviar EFD"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <group>
+                        <field name='company_id' />
+                        <field name='date_start' />
+                        <field name='date_end' />
+                        <field name='fci_file_sent' />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_efd_tree">
+        <field name="name">sped.efd.icms.ipi.tree</field>
+        <field name="model">sped.efd.icms.ipi</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Sped EFD">
+                <field name='company_id' />
+                <field name='date_start' />
+                <field name='date_end' />
+            </tree>
+        </field>
+    </record>
+
+    <!-- <record model="ir.ui.view" id="sped_efd_icms_ipi_search">
+        <field name="name">sped.efd.icms.ipi.search</field>
+        <field name="model">sped.efd.icms.ipi</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Sped EFD - ICMS IPI"></search>
+        </field>
+    </record> -->
+
+    <record model="ir.actions.act_window" id="sped_efd_icms_ipi_action">
+        <field name="name">Sped EFD - ICMS IPI</field>
+        <field name="res_model">sped.efd.icms.ipi</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="sped_efd_icms_ipi_menu"
+        name="SPED EFD - ICMS IPI"
+        parent="l10n_br_fiscal.accountant_menu"
+        action="sped_efd_icms_ipi_action"
+        groups="l10n_br_fiscal.group_manager"
+        sequence="99"
+    />
+
+</odoo>
