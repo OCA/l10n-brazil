@@ -467,7 +467,6 @@ class Registro0110(models.Model):
         "reg_0111_ids_Registro0110_id",
         string="0111 Tabela de Receita Bruta Mensal para Fins",
         sped_card="1:1",
-        sped_required="S",
         help=(
             "0111 Tabela de Receita Bruta Mensal para Fins de Rateio de "
             "Créditos Comuns"
@@ -639,7 +638,6 @@ class Registro0140(models.Model):
         "reg_0145_ids_Registro0140_id",
         string="0145 Regime de Apuração",
         sped_card="1:1",
-        sped_required="S",
         help=(
             "0145 Regime de Apuração da Contribuição Previdenciária sobre a "
             "Receita Bruta"
@@ -651,7 +649,6 @@ class Registro0140(models.Model):
         "reg_0150_ids_Registro0140_id",
         string="0150 Tabela de Cadastro do Participante",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_0190_ids = fields.One2many(
@@ -659,7 +656,6 @@ class Registro0140(models.Model):
         "reg_0190_ids_Registro0140_id",
         string="0190 Identificação das Unidades de Medida",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_0200_ids = fields.One2many(
@@ -667,7 +663,6 @@ class Registro0140(models.Model):
         "reg_0200_ids_Registro0140_id",
         string="0200 Tabela de Identificação do Item",
         sped_card="1:N",
-        sped_required="S",
         help="0200 Tabela de Identificação do Item (Produtos e Serviços)",
     )
 
@@ -676,7 +671,6 @@ class Registro0140(models.Model):
         "reg_0400_ids_Registro0140_id",
         string="0400 Tabela de Natureza da Operação/ Prestação",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_0450_ids = fields.One2many(
@@ -684,7 +678,6 @@ class Registro0140(models.Model):
         "reg_0450_ids_Registro0140_id",
         string="0450 Tabela de Informação Complementar",
         sped_card="1:N",
-        sped_required="S",
         help="0450 Tabela de Informação Complementar do Documento Fiscal",
     )
 
@@ -916,7 +909,6 @@ class Registro0200(models.Model):
         "reg_0206_ids_Registro0200_id",
         string="0206 Código de Produto conforme Tabela ANP",
         sped_card="1:1",
-        sped_required="S",
         help="0206 Código de Produto conforme Tabela ANP (Combustíveis)",
     )
 
@@ -925,7 +917,6 @@ class Registro0200(models.Model):
         "reg_0208_ids_Registro0200_id",
         string="0208 Código de Grupos por Marca Comercial – REFRI",
         sped_card="1:1",
-        sped_required="S",
         help=("0208 Código de Grupos por Marca Comercial – REFRI (Bebidas Frias)"),
     )
 
@@ -934,7 +925,6 @@ class Registro0200(models.Model):
         "reg_0205_ids_Registro0200_id",
         string="0205 Alteração do Item",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -1116,7 +1106,7 @@ class Registro0500(models.Model):
         ),
     )
 
-    NÍVEL = fields.Integer(
+    NIVEL = fields.Integer(
         string="Nível da conta analítica/grupo de contas", required=True, sped_length=5
     )
 
@@ -1327,7 +1317,7 @@ class Registro0900(models.Model):
         help="Receita total (Soma dos Campos 02, 04, 06, 08, 10 e 12)",
     )
 
-    REC_TOTAL_NRB_PERÍODO = fields.Float(
+    REC_TOTAL_NRB_PERIODO = fields.Float(
         string="Parcela da receita total escriturada",
         xsd_type="TDec_1602",
         digits=(
@@ -1357,7 +1347,6 @@ class RegistroA010(models.Model):
         "reg_A100_ids_RegistroA010_id",
         string="A100 Documento – Nota Fiscal de Serviço",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -1504,7 +1493,6 @@ class RegistroA100(models.Model):
         "reg_A110_ids_RegistroA100_id",
         string="A110 Complemento",
         sped_card="1:N",
-        sped_required="S",
         help=("A110 Complemento de Documento – Informação Complementar da NF"),
     )
 
@@ -1513,7 +1501,6 @@ class RegistroA100(models.Model):
         "reg_A111_ids_RegistroA100_id",
         string="A111 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_A120_ids = fields.One2many(
@@ -1521,7 +1508,6 @@ class RegistroA100(models.Model):
         "reg_A120_ids_RegistroA100_id",
         string="A120 Informação Complementar – Operações",
         sped_card="1:N",
-        sped_required="S",
         help="A120 Informação Complementar – Operações de Importação",
     )
 
@@ -1530,7 +1516,6 @@ class RegistroA100(models.Model):
         "reg_A170_ids_RegistroA100_id",
         string="A170 Complemento de Documento – Itens do Documento",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -1816,7 +1801,6 @@ class RegistroC010(models.Model):
         "reg_C100_ids_RegistroC010_id",
         string="C100 Documento - Nota Fiscal",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C100 Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa "
             "(código 1B), Nota Fiscal de Produtor (código 04) e NF-e (código "
@@ -1829,7 +1813,6 @@ class RegistroC010(models.Model):
         "reg_C180_ids_RegistroC010_id",
         string="C180 Consolidação",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C180 Consolidação de Notas Fiscais Eletrônicas Emitidas pela "
             "Pessoa Jurídica (Código 55) – Operações de Vendas"
@@ -1841,7 +1824,6 @@ class RegistroC010(models.Model):
         "reg_C190_ids_RegistroC010_id",
         string="C190 Consolidação de Notas Fiscais Eletrônicas",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C190 Consolidação de Notas Fiscais Eletrônicas (Código 55) – "
             "Operações de Aquisição com Direito a Crédito, e Operações de "
@@ -1854,7 +1836,6 @@ class RegistroC010(models.Model):
         "reg_C380_ids_RegistroC010_id",
         string="C380 Nota Fiscal de Venda a Consumidor",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C380 Nota Fiscal de Venda a Consumidor (Código 02) - Consolidação"
             " de Documentos Emitidos"
@@ -1866,7 +1847,6 @@ class RegistroC010(models.Model):
         "reg_C395_ids_RegistroC010_id",
         string="C395 Notas Fiscais de Venda a Consumidor",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C395 Notas Fiscais de Venda a Consumidor (Códigos 02, 2D, 2E e "
             "59) – Aquisições/Entradas com Crédito"
@@ -1878,7 +1858,6 @@ class RegistroC010(models.Model):
         "reg_C400_ids_RegistroC010_id",
         string="C400 Equipamento ECF",
         sped_card="1:N",
-        sped_required="S",
         help="C400 Equipamento ECF (códigos 02 e 2D)",
     )
 
@@ -1887,7 +1866,6 @@ class RegistroC010(models.Model):
         "reg_C490_ids_RegistroC010_id",
         string="C490 Consolidação de Documentos Emitidos por ECF",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C490 Consolidação de Documentos Emitidos por ECF (Códigos 02, 2D,"
             " 59 e 60)"
@@ -1899,7 +1877,6 @@ class RegistroC010(models.Model):
         "reg_C500_ids_RegistroC010_id",
         string="C500 Nota Fiscal/Conta de Energia Elétrica",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C500 Nota Fiscal/Conta de Energia Elétrica (Código 06), Nota "
             "Fiscal de Energia Elétrica Eletrônica – NF3e (Código 66), Nota "
@@ -1914,7 +1891,6 @@ class RegistroC010(models.Model):
         "reg_C600_ids_RegistroC010_id",
         string="C600 Consolidação Diária de Notas Fiscais/Contas",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C600 Consolidação Diária de Notas Fiscais/Contas de Energia "
             "Elétrica (Código 06), Nota Fiscal/Conta de Fornecimento d´água "
@@ -1929,7 +1905,6 @@ class RegistroC010(models.Model):
         "reg_C800_ids_RegistroC010_id",
         string="C800 Cupom Fiscal Eletrônico – CF-e",
         sped_card="1:N",
-        sped_required="S",
         help="C800 Cupom Fiscal Eletrônico – CF-e (Código 59)",
     )
 
@@ -1938,7 +1913,6 @@ class RegistroC010(models.Model):
         "reg_C860_ids_RegistroC010_id",
         string="C860 Identificação do Equipamento SAT- CF-e",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C860 Identificação do Equipamento SAT- CF-e (Código 59) (*) A "
             "partir da versão 2.11 do PVA (Período de apuração a partir de "
@@ -2139,7 +2113,6 @@ class RegistroC100(models.Model):
         "reg_C110_ids_RegistroC100_id",
         string="C110 Complemento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C110 Complemento de Documento – Informação Complementar da Nota "
             "Fiscal (códigos 01, 1B, 04 e 55)"
@@ -2151,7 +2124,6 @@ class RegistroC100(models.Model):
         "reg_C111_ids_RegistroC100_id",
         string="C111 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_C120_ids = fields.One2many(
@@ -2159,7 +2131,6 @@ class RegistroC100(models.Model):
         "reg_C120_ids_RegistroC100_id",
         string="C120 Complemento de Documento – Operações",
         sped_card="1:N",
-        sped_required="S",
         help=("C120 Complemento de Documento – Operações de Importação (código " "01)"),
     )
 
@@ -2168,7 +2139,6 @@ class RegistroC100(models.Model):
         "reg_C170_ids_RegistroC100_id",
         string="C170 Complemento de Documento – Itens do Documento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C170 Complemento de Documento – Itens do Documento (códigos 01, "
             "1B, 04 e 55)"
@@ -2180,7 +2150,6 @@ class RegistroC100(models.Model):
         "reg_C175_ids_RegistroC100_id",
         string="C175 Registro Analítico do Documento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C175 Registro Analítico do Documento (código 65) (*) "
             "Disponíbilizado na versão 2.09 do PVA ."
@@ -2792,7 +2761,6 @@ class RegistroC180(models.Model):
         "reg_C181_ids_RegistroC180_id",
         string="C181 Detalhamento da Consolidação",
         sped_card="1:N",
-        sped_required="S",
         help=("C181 Detalhamento da Consolidação - Operações de Vendas - " "PIS/PASEP"),
     )
 
@@ -2801,7 +2769,6 @@ class RegistroC180(models.Model):
         "reg_C185_ids_RegistroC180_id",
         string="C185 Detalhamento da Consolidação",
         sped_card="1:N",
-        sped_required="S",
         help=("C185 Detalhamento da Consolidação - Operações de Vendas – COFINS"),
     )
 
@@ -2810,7 +2777,6 @@ class RegistroC180(models.Model):
         "reg_C188_ids_RegistroC180_id",
         string="C188 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -3081,7 +3047,6 @@ class RegistroC190(models.Model):
         "reg_C191_ids_RegistroC190_id",
         string="C191 Detalhamento da Consolidação – Operações",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C191 Detalhamento da Consolidação – Operações de Aquisição com "
             "Direito a Crédito, e Operações de Devolução de Compras e Vendas –"
@@ -3094,7 +3059,6 @@ class RegistroC190(models.Model):
         "reg_C195_ids_RegistroC190_id",
         string="C195 Detalhamento da Consolidação",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C195 Detalhamento da Consolidação - Operações de Aquisição com "
             "Direito a Crédito, e Operações de Devolução de Compras e Vendas –"
@@ -3107,7 +3071,6 @@ class RegistroC190(models.Model):
         "reg_C198_ids_RegistroC190_id",
         string="C198 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_C199_ids = fields.One2many(
@@ -3115,7 +3078,6 @@ class RegistroC190(models.Model):
         "reg_C199_ids_RegistroC190_id",
         string="C199 Complemento de Documento – Operações",
         sped_card="1:N",
-        sped_required="S",
         help=("C199 Complemento de Documento – Operações de Importação (código " "55)"),
     )
 
@@ -3462,7 +3424,6 @@ class RegistroC380(models.Model):
         "reg_C381_ids_RegistroC380_id",
         string="C381 Detalhamento da Consolidação – PIS/PASEP",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_C385_ids = fields.One2many(
@@ -3470,7 +3431,6 @@ class RegistroC380(models.Model):
         "reg_C385_ids_RegistroC380_id",
         string="C385 Detalhamento da Consolidação – COFINS",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -3698,7 +3658,6 @@ class RegistroC395(models.Model):
         "reg_C396_ids_RegistroC395_id",
         string="C396 Itens do Documento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C396 Itens do Documento (Códigos 02, 2D, 2E e 59) – "
             "Aquisições/Entradas com Crédito"
@@ -3853,7 +3812,6 @@ class RegistroC400(models.Model):
         "reg_C405_ids_RegistroC400_id",
         string="C405 Redução Z (códigos 02 e 2D)",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_C489_ids = fields.One2many(
@@ -3861,7 +3819,6 @@ class RegistroC400(models.Model):
         "reg_C489_ids_RegistroC400_id",
         string="C489 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -3925,7 +3882,6 @@ class RegistroC405(models.Model):
         "reg_C481_ids_RegistroC405_id",
         string="C481 Resumo Diário de Documentos Emitidos",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C481 Resumo Diário de Documentos Emitidos por ECF – PIS/PASEP "
             "(Códigos 02 e 2D)"
@@ -3937,7 +3893,6 @@ class RegistroC405(models.Model):
         "reg_C485_ids_RegistroC405_id",
         string="C485 Resumo Diário de Documentos Emitidos",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C485 Resumo Diário de Documentos Emitidos por ECF – COFINS "
             "(Códigos 02 e 2D)"
@@ -4170,7 +4125,6 @@ class RegistroC490(models.Model):
         "reg_C491_ids_RegistroC490_id",
         string="C491 Detalhamento da Consolidação",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C491 Detalhamento da Consolidação de Documentos Emitidos por ECF "
             "(Códigos 02, 2D, 59 e 60) – PIS/PASEP"
@@ -4182,7 +4136,6 @@ class RegistroC490(models.Model):
         "reg_C495_ids_RegistroC490_id",
         string="C495 Detalhamento da Consolidação",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C495 Detalhamento da Consolidação de Documentos Emitidos por ECF "
             "(Códigos 02, 2D, 59 e 60) – COFINS"
@@ -4194,7 +4147,6 @@ class RegistroC490(models.Model):
         "reg_C499_ids_RegistroC490_id",
         string="C499 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
         help="C499 Processo Referenciado - Documentos Emitidos Por ECF",
     )
 
@@ -4492,7 +4444,6 @@ class RegistroC500(models.Model):
         "reg_C501_ids_RegistroC500_id",
         string="C501 Complemento da operação",
         sped_card="1:N",
-        sped_required="S",
         help=("C501 Complemento da operação (Códigos 06, 28 e 29) – PIS/PASEP"),
     )
 
@@ -4501,7 +4452,6 @@ class RegistroC500(models.Model):
         "reg_C505_ids_RegistroC500_id",
         string="C505 Complemento da operação",
         sped_card="1:N",
-        sped_required="S",
         help="C505 Complemento da operação (Códigos 06, 28 e 29) – COFINS",
     )
 
@@ -4510,7 +4460,6 @@ class RegistroC500(models.Model):
         "reg_C509_ids_RegistroC500_id",
         string="C509 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -4839,7 +4788,6 @@ class RegistroC600(models.Model):
         "reg_C601_ids_RegistroC600_id",
         string="C601 Complemento da Consolidação Diária",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C601 Complemento da Consolidação Diária (Códigos 06, 29 e 28) – "
             "Documentos de Saidas - PIS/PASEP"
@@ -4851,7 +4799,6 @@ class RegistroC600(models.Model):
         "reg_C605_ids_RegistroC600_id",
         string="C605 Complemento da Consolidação Diária",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C605 Complemento da Consolidação Diária (Códigos 06, 29 e 28) – "
             "Documentos de Saidas – COFINS"
@@ -4863,7 +4810,6 @@ class RegistroC600(models.Model):
         "reg_C609_ids_RegistroC600_id",
         string="C609 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -5144,7 +5090,6 @@ class RegistroC800(models.Model):
         "reg_C810_ids_RegistroC800_id",
         string="C810 Detalhamento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C810 Detalhamento do Cupom Fiscal Eletrônico – CF-e (Código 59) –"
             " PIS/PASEP e COFINS"
@@ -5156,7 +5101,6 @@ class RegistroC800(models.Model):
         "reg_C820_ids_RegistroC800_id",
         string="C820 Detalhamento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C820 Detalhamento do Cupom Fiscal Eletrônico – CF-e (código 59) –"
             " PIS/PASEP e COFINS Apurado por Unidade de Medida de Produto"
@@ -5168,7 +5112,6 @@ class RegistroC800(models.Model):
         "reg_C830_ids_RegistroC800_id",
         string="C830 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -5431,7 +5374,6 @@ class RegistroC860(models.Model):
         "reg_C870_ids_RegistroC860_id",
         string="C870 Detalhamento do Cupom Fiscal Eletrônico",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C870 Detalhamento do Cupom Fiscal Eletrônico (Código 59) – "
             "PIS/PASEP e COFINS"
@@ -5443,7 +5385,6 @@ class RegistroC860(models.Model):
         "reg_C880_ids_RegistroC860_id",
         string="C880 Detalhamento do Cupom Fiscal Eletrônico",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "C880 Detalhamento do Cupom Fiscal Eletrônico (Código 59) – " "PIS/PASEP"
         ),
@@ -5454,7 +5395,6 @@ class RegistroC860(models.Model):
         "reg_C890_ids_RegistroC860_id",
         string="C890 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -5712,7 +5652,6 @@ class RegistroD010(models.Model):
         "reg_D100_ids_RegistroD010_id",
         string="D100 Aquisição de Serviços de Transportes",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "D100 Aquisição de Serviços de Transportes (Códigos 07, 08, 8B, "
             "09, 10, 11, 26, 27, 57, 63 e 67)."
@@ -5724,7 +5663,6 @@ class RegistroD010(models.Model):
         "reg_D200_ids_RegistroD010_id",
         string="D200 Resumo da Escrituração Diária – Prestação",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "D200 Resumo da Escrituração Diária – Prestação de Serviços de "
             "Transportes (Códigos 07, 08, 8B, 09, 10, 11, 26, 27, 57, 63 e "
@@ -5737,7 +5675,6 @@ class RegistroD010(models.Model):
         "reg_D300_ids_RegistroD010_id",
         string="D300 Resumo da Escrituração Diária",
         sped_card="1:N",
-        sped_required="S",
         help=("D300 Resumo da Escrituração Diária (Códigos 13, 14, 15, 16 e 18)."),
     )
 
@@ -5746,7 +5683,6 @@ class RegistroD010(models.Model):
         "reg_D350_ids_RegistroD010_id",
         string="D350 Resumo Diário de Cupom Fiscal Emitido por ECF",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "D350 Resumo Diário de Cupom Fiscal Emitido por ECF (Códigos 2E, "
             "13, 14, 15 e 16)"
@@ -5758,7 +5694,6 @@ class RegistroD010(models.Model):
         "reg_D500_ids_RegistroD010_id",
         string="D500 Nota Fiscal de Serviço de Comunicação",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "D500 Nota Fiscal de Serviço de Comunicação (Código 21) e Serviço "
             "de Telecomunicação (Código 22) - Operação de Aquisição com "
@@ -5771,7 +5706,6 @@ class RegistroD010(models.Model):
         "reg_D600_ids_RegistroD010_id",
         string="D600 Consolidação da Prestação de Serviços – Notas",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "D600 Consolidação da Prestação de Serviços – Notas de Serviço de "
             "Comunicação (Código 21) e de Serviço de Telecomunicação (Código "
@@ -5929,7 +5863,6 @@ class RegistroD100(models.Model):
         "reg_D101_ids_RegistroD100_id",
         string="D101 Complemento do Documento",
         sped_card="1:N",
-        sped_required="S",
         help="D101 Complemento do Documento de Transporte – PIS/PASEP",
     )
 
@@ -5938,7 +5871,6 @@ class RegistroD100(models.Model):
         "reg_D105_ids_RegistroD100_id",
         string="D105 Complemento do Documento",
         sped_card="1:N",
-        sped_required="S",
         help="D105 Complemento do Documento de Transporte – COFINS",
     )
 
@@ -5947,7 +5879,6 @@ class RegistroD100(models.Model):
         "reg_D111_ids_RegistroD100_id",
         string="D111 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -6235,7 +6166,6 @@ class RegistroD200(models.Model):
         "reg_D201_ids_RegistroD200_id",
         string="D201 Totalização do Resumo Diário – PIS/PASEP",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_D205_ids = fields.One2many(
@@ -6243,7 +6173,6 @@ class RegistroD200(models.Model):
         "reg_D205_ids_RegistroD200_id",
         string="D205 Totalização do Resumo Diário – COFINS",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_D209_ids = fields.One2many(
@@ -6251,7 +6180,6 @@ class RegistroD200(models.Model):
         "reg_D209_ids_RegistroD200_id",
         string="D209 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -6543,7 +6471,6 @@ class RegistroD300(models.Model):
         "reg_D309_ids_RegistroD300_id",
         string="D309 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -6747,7 +6674,6 @@ class RegistroD350(models.Model):
         "reg_D359_ids_RegistroD350_id",
         string="D359 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -6921,7 +6847,6 @@ class RegistroD500(models.Model):
         "reg_D501_ids_RegistroD500_id",
         string="D501 Complemento da Operação",
         sped_card="1:N",
-        sped_required="S",
         help="D501 Complemento da Operação (Código 21 e 22) – PIS/PASEP",
     )
 
@@ -6930,7 +6855,6 @@ class RegistroD500(models.Model):
         "reg_D505_ids_RegistroD500_id",
         string="D505 Complemento da Operação",
         sped_card="1:N",
-        sped_required="S",
         help="D505 Complemento da Operação (Código 21 e 22) – COFINS",
     )
 
@@ -6939,7 +6863,6 @@ class RegistroD500(models.Model):
         "reg_D509_ids_RegistroD500_id",
         string="D509 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -7237,7 +7160,6 @@ class RegistroD600(models.Model):
         "reg_D601_ids_RegistroD600_id",
         string="D601 Complemento da Consolidação da Prestação",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "D601 Complemento da Consolidação da Prestação de Serviços (Código"
             " 21 e 22) – PIS/PASEP"
@@ -7249,7 +7171,6 @@ class RegistroD600(models.Model):
         "reg_D605_ids_RegistroD600_id",
         string="D605 Complemento da Consolidação da Prestação",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "D605 Complemento da Consolidação da Prestação de Serviços (Código"
             " 21 e 22) – COFINS"
@@ -7261,7 +7182,6 @@ class RegistroD600(models.Model):
         "reg_D609_ids_RegistroD600_id",
         string="D609 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -7466,7 +7386,6 @@ class RegistroF010(models.Model):
         "reg_F100_ids_RegistroF010_id",
         string="F100 Demais Documentos e Operações Geradoras",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F100 Demais Documentos e Operações Geradoras de Contribuição e " "Créditos"
         ),
@@ -7477,7 +7396,6 @@ class RegistroF010(models.Model):
         "reg_F120_ids_RegistroF010_id",
         string="F120 Bens Incorporados",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F120 Bens Incorporados ao Ativo Imobilizado – Operações Geradoras"
             " de Créditos com base nos Encargos de Depreciação/Amortização"
@@ -7489,7 +7407,6 @@ class RegistroF010(models.Model):
         "reg_F130_ids_RegistroF010_id",
         string="F130 Bens Incorporados",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F130 Bens Incorporados ao Ativo Imobilizado – Operações Geradoras"
             " de Créditos com base no Valor de Aquisição"
@@ -7501,7 +7418,6 @@ class RegistroF010(models.Model):
         "reg_F150_ids_RegistroF010_id",
         string="F150 Crédito Presumido sobre Estoque de Abertura",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_F200_ids = fields.One2many(
@@ -7509,7 +7425,6 @@ class RegistroF010(models.Model):
         "reg_F200_ids_RegistroF010_id",
         string="F200 Operações",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F200 Operações da Atividade Imobiliária – Unidade Imobiliária " "Vendida"
         ),
@@ -7520,7 +7435,6 @@ class RegistroF010(models.Model):
         "reg_F500_ids_RegistroF010_id",
         string="F500 Consolidação das Operações",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F500 Consolidação das Operações da Pessoa Jurídica Submetida ao "
             "Regime de Tributação com Base no Lucro Presumido – Incidência do "
@@ -7533,7 +7447,6 @@ class RegistroF010(models.Model):
         "reg_F510_ids_RegistroF010_id",
         string="F510 Consolidação das Operações",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F510 Consolidação das Operações da Pessoa Jurídica Submetida ao "
             "Regime de Tributação com Base no Lucro Presumido – Incidência do "
@@ -7547,7 +7460,6 @@ class RegistroF010(models.Model):
         "reg_F525_ids_RegistroF010_id",
         string="F525 Composição da Receita Escriturada",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F525 Composição da Receita Escriturada no Período – Detalhamento "
             "da Receita Recebida pelo Regime de Caixa"
@@ -7559,7 +7471,6 @@ class RegistroF010(models.Model):
         "reg_F550_ids_RegistroF010_id",
         string="F550 Consolidação das Operações",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F550 Consolidação das Operações da Pessoa Jurídica Submetida ao "
             "Regime de Tributação com Base no Lucro Presumido – Incidência do "
@@ -7572,7 +7483,6 @@ class RegistroF010(models.Model):
         "reg_F560_ids_RegistroF010_id",
         string="F560 Consolidação das Operações",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F560 Consolidação das Operações da Pessoa Jurídica Submetida ao "
             "Regime de Tributação com Base no Lucro Presumido – Incidência do "
@@ -7586,7 +7496,6 @@ class RegistroF010(models.Model):
         "reg_F600_ids_RegistroF010_id",
         string="F600 Contribuição Retida na Fonte",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_F700_ids = fields.One2many(
@@ -7594,7 +7503,6 @@ class RegistroF010(models.Model):
         "reg_F700_ids_RegistroF010_id",
         string="F700 Deduções Diversas",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_F800_ids = fields.One2many(
@@ -7602,7 +7510,6 @@ class RegistroF010(models.Model):
         "reg_F800_ids_RegistroF010_id",
         string="F800 Créditos Decorrentes de Eventos",
         sped_card="1:N",
-        sped_required="S",
         help=("F800 Créditos Decorrentes de Eventos de Incorporação, Fusão e " "Cisão"),
     )
 
@@ -7749,7 +7656,6 @@ class RegistroF100(models.Model):
         "reg_F111_ids_RegistroF100_id",
         string="F111 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -7949,7 +7855,6 @@ class RegistroF120(models.Model):
         "reg_F129_ids_RegistroF120_id",
         string="F129 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -8187,7 +8092,6 @@ class RegistroF130(models.Model):
         "reg_F139_ids_RegistroF130_id",
         string="F139 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -8544,7 +8448,6 @@ class RegistroF200(models.Model):
         "reg_F205_ids_RegistroF200_id",
         string="F205 Operações",
         sped_card="1:1",
-        sped_required="S",
         help=(
             "F205 Operações da Atividade Imobiliária – Custo Incorrido da "
             "Unidade Imobiliária"
@@ -8556,7 +8459,6 @@ class RegistroF200(models.Model):
         "reg_F210_ids_RegistroF200_id",
         string="F210 Operações",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "F210 Operações da Atividade Imobiliária – Custo Orçado da Unidade"
             " Imobiliária Vendida"
@@ -8568,7 +8470,6 @@ class RegistroF200(models.Model):
         "reg_F211_ids_RegistroF200_id",
         string="F211 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -9037,7 +8938,6 @@ class RegistroF500(models.Model):
         "reg_F509_ids_RegistroF500_id",
         string="F509 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -9197,7 +9097,6 @@ class RegistroF510(models.Model):
         "reg_F519_ids_RegistroF510_id",
         string="F519 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -9442,7 +9341,6 @@ class RegistroF550(models.Model):
         "reg_F559_ids_RegistroF550_id",
         string="F559 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -9601,7 +9499,6 @@ class RegistroF560(models.Model):
         "reg_F569_ids_RegistroF560_id",
         string="F569 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -9910,7 +9807,6 @@ class RegistroI010(models.Model):
         "reg_I100_ids_RegistroI010_id",
         string="I100 Consolidação das Operações do Período",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
 
@@ -10010,7 +9906,6 @@ class RegistroI100(models.Model):
         "reg_I199_ids_RegistroI100_id",
         string="I199 Processo Referenciado",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
     reg_I200_ids = fields.One2many(
@@ -10018,7 +9913,6 @@ class RegistroI100(models.Model):
         "reg_I200_ids_RegistroI100_id",
         string="I200 Composição das Receitas",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("I200 Composição das Receitas, Deduções e/ou Exclusões do Período"),
     )
 
@@ -10106,7 +10000,6 @@ class RegistroI200(models.Model):
         "reg_I299_ids_RegistroI200_id",
         string="I299 Processo Referenciado",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
     reg_I300_ids = fields.One2many(
@@ -10114,7 +10007,6 @@ class RegistroI200(models.Model):
         "reg_I300_ids_RegistroI200_id",
         string="I300 Complemento das Operações – Detalhamento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "I300 Complemento das Operações – Detalhamento das Receitas, "
             "Deduções e/ou Exclusões do Período"
@@ -10208,7 +10100,6 @@ class RegistroI300(models.Model):
         "reg_I399_ids_RegistroI300_id",
         string="I399 Processo Referenciado",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
 
@@ -10381,7 +10272,6 @@ class RegistroM100(models.Model):
         "reg_M105_ids_RegistroM100_id",
         string="M105 Detalhamento da Base de Cálculo",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M105 Detalhamento da Base de Cálculo do Crédito Apurado no "
             "Período – PIS/PASEP"
@@ -10393,7 +10283,6 @@ class RegistroM100(models.Model):
         "reg_M110_ids_RegistroM100_id",
         string="M110 Ajustes do Crédito de PIS/PASEP Apurado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -10572,7 +10461,6 @@ class RegistroM110(models.Model):
         "reg_M115_ids_RegistroM110_id",
         string="M115 Detalhamento dos Ajustes do Crédito",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M115 Detalhamento dos Ajustes do Crédito de Pis/Pasep Apurado "
             "(Disponibilizado na versão 2.0.12 do PVA, para período de "
@@ -10782,7 +10670,6 @@ class RegistroM200(models.Model):
         "reg_M205_ids_RegistroM200_id",
         string="M205 Contribuição para o PIS/Pasep",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M205 Contribuição para o PIS/Pasep a Recolher – Detalhamento por "
             "Código de Receita (Visão Débito DCTF)"
@@ -10794,7 +10681,6 @@ class RegistroM200(models.Model):
         "reg_M210_ids_RegistroM200_id",
         string="M210 Detalhamento da Contribuição para o PIS/PASEP",
         sped_card="1:N",
-        sped_required="S",
         help=("M210 Detalhamento da Contribuição para o PIS/PASEP do Período"),
     )
 
@@ -10980,7 +10866,6 @@ class RegistroM210(models.Model):
         "reg_M211_ids_RegistroM210_id",
         string="M211 Sociedades Cooperativas – Composição da Base",
         sped_card="1:1",
-        sped_required="S",
         help=(
             "M211 Sociedades Cooperativas – Composição da Base de Cálculo – "
             "PIS/PASEP"
@@ -10992,7 +10877,6 @@ class RegistroM210(models.Model):
         "reg_M215_ids_RegistroM210_id",
         string="M215 Detalhamento dos Ajustes da Base",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M215 Detalhamento dos Ajustes da Base de Cálculo Mensal de "
             "PIS/Pasep Apurada"
@@ -11004,7 +10888,6 @@ class RegistroM210(models.Model):
         "reg_M220_ids_RegistroM210_id",
         string="M220 Ajustes da Contribuição",
         sped_card="1:N",
-        sped_required="S",
         help="M220 Ajustes da Contribuição para o PIS/PASEP Apurada",
     )
 
@@ -11013,7 +10896,6 @@ class RegistroM210(models.Model):
         "reg_M230_ids_RegistroM210_id",
         string="M230 Informações Adicionais de Diferimento",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -11213,7 +11095,6 @@ class RegistroM220(models.Model):
         "reg_M225_ids_RegistroM220_id",
         string="M225 Detalhamento dos Ajustes da Contribuição",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M225 Detalhamento dos Ajustes da Contribuição para o PIS/Pasep "
             "Apurada (Disponibilizado na versão 2.0.12 do PVA, para período de"
@@ -11520,7 +11401,6 @@ class RegistroM400(models.Model):
         "reg_M410_ids_RegistroM400_id",
         string="M410 Detalhamento das Receitas Isentas",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M410 Detalhamento das Receitas Isentas, Não Alcançadas pela "
             "Incidência da Contribuição, Sujeitas à Alíquota Zero ou de Vendas"
@@ -11719,7 +11599,6 @@ class RegistroM500(models.Model):
         "reg_M505_ids_RegistroM500_id",
         string="M505 Detalhamento da Base de Cálculo",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M505 Detalhamento da Base de Cálculo do Crédito Apurado no "
             "Período – COFINS"
@@ -11731,7 +11610,6 @@ class RegistroM500(models.Model):
         "reg_M510_ids_RegistroM500_id",
         string="M510 Ajustes do Crédito de COFINS Apurado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -11910,7 +11788,6 @@ class RegistroM510(models.Model):
         "reg_M515_ids_RegistroM510_id",
         string="M515 Detalhamento dos Ajustes do Crédito",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M515 Detalhamento dos Ajustes do Crédito de Cofins Apurado "
             "(Disponibilizado na versão 2.0.12 do PVA, para período de "
@@ -12122,7 +11999,6 @@ class RegistroM600(models.Model):
         "reg_M605_ids_RegistroM600_id",
         string="M605 Contribuição para a Seguridade Social",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M605 Contribuição para a Seguridade Social - COFINS a Recolher – "
             "Detalhamento por Código de Receita (Visão Débito DCTF)"
@@ -12134,7 +12010,6 @@ class RegistroM600(models.Model):
         "reg_M610_ids_RegistroM600_id",
         string="M610 Detalhamento da Contribuição",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M610 Detalhamento da Contribuição para a Seguridade Social - "
             "COFINS do Período"
@@ -12331,7 +12206,6 @@ class RegistroM610(models.Model):
         "reg_M611_ids_RegistroM610_id",
         string="M611 Sociedades Cooperativas – Composição da Base",
         sped_card="1:1",
-        sped_required="S",
         help=(
             "M611 Sociedades Cooperativas – Composição da Base de Cálculo – " "COFINS"
         ),
@@ -12342,7 +12216,6 @@ class RegistroM610(models.Model):
         "reg_M615_ids_RegistroM610_id",
         string="M615 Detalhamento dos Ajustes da Base",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M615 Detalhamento dos Ajustes da Base de Cálculo Mensal da COFINS"
             " Apurada"
@@ -12354,7 +12227,6 @@ class RegistroM610(models.Model):
         "reg_M620_ids_RegistroM610_id",
         string="M620 Ajustes da COFINS Apurada",
         sped_card="1:N",
-        sped_required="S",
     )
 
     reg_M630_ids = fields.One2many(
@@ -12362,7 +12234,6 @@ class RegistroM610(models.Model):
         "reg_M630_ids_RegistroM610_id",
         string="M630 Informações Adicionais de Diferimento",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -12570,7 +12441,6 @@ class RegistroM620(models.Model):
         "reg_M625_ids_RegistroM620_id",
         string="M625 Detalhamento dos Ajustes da Cofins Apurada",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M625 Detalhamento dos Ajustes da Cofins Apurada (Disponibilizado "
             "na versão 2.0.12 do PVA, para período de apuração a partir de "
@@ -12829,7 +12699,6 @@ class RegistroM800(models.Model):
         "reg_M810_ids_RegistroM800_id",
         string="M810 Detalhamento das Receitas Isentas",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "M810 Detalhamento das Receitas Isentas, Não Alcançadas pela "
             "Incidência da Contribuição,"
@@ -12914,7 +12783,6 @@ class RegistroP010(models.Model):
         "reg_P100_ids_RegistroP010_id",
         string="P100 Contribuição Previdenciária sobre",
         sped_card="1:N",
-        sped_required="S",
         help="P100 Contribuição Previdenciária sobre a Receita Bruta",
     )
 
@@ -13022,7 +12890,6 @@ class RegistroP100(models.Model):
         "reg_P110_ids_RegistroP100_id",
         string="P110 Complemento da Escrituração – Detalhamento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "P110 Complemento da Escrituração – Detalhamento da Apuração da "
             "Contribuição"
@@ -13034,7 +12901,6 @@ class RegistroP100(models.Model):
         "reg_P199_ids_RegistroP100_id",
         string="P199 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 
@@ -13182,7 +13048,6 @@ class RegistroP200(models.Model):
         "reg_P210_ids_RegistroP200_id",
         string="P210 Ajuste",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "P210 Ajuste da Contribuição Previdenciária Apurada sobre a "
             "Receita Bruta"
@@ -13294,7 +13159,6 @@ class Registro1010(models.Model):
         "reg_1011_ids_Registro1010_id",
         string="1011 Detalhamento das Contribuições",
         sped_card="1:N",
-        sped_required="S",
         help=("1011 Detalhamento das Contribuições com Exigibilidade Suspensa"),
     )
 
@@ -13873,7 +13737,6 @@ class Registro1100(models.Model):
         "reg_1101_ids_Registro1100_id",
         string="1101 Apuração de Crédito Extemporâneo",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "1101 Apuração de Crédito Extemporâneo - Documentos e Operações de"
             " Períodos Anteriores – PIS/PASEP (Para períodos de apuração até "
@@ -14024,7 +13887,6 @@ class Registro1101(models.Model):
         "reg_1102_ids_Registro1101_id",
         string="1102 Detalhamento do Crédito Extemporâneo",
         sped_card="1:1",
-        sped_required="S",
         help=(
             "1102 Detalhamento do Crédito Extemporâneo, Vinculado a mais de um"
             " Tipo de Receita –"
@@ -14157,7 +14019,6 @@ class Registro1200(models.Model):
         "reg_1210_ids_Registro1200_id",
         string="1210 Detalhamento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "1210 Detalhamento da Contribuição Social Extemporânea – PIS/PASEP"
             " (Para períodos de apuração até Julho de 2013)"
@@ -14169,7 +14030,6 @@ class Registro1200(models.Model):
         "reg_1220_ids_Registro1200_id",
         string="1220 Demonstração do Crédito a Descontar",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "1220 Demonstração do Crédito a Descontar da Contribuição "
             "Extemporânea – PIS/PASEP (Para períodos de apuração até Julho de "
@@ -14567,7 +14427,6 @@ class Registro1500(models.Model):
         "reg_1501_ids_Registro1500_id",
         string="1501 Apuração de Crédito Extemporâneo",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "1501 Apuração de Crédito Extemporâneo - Documentos e Operações de"
             " Períodos Anteriores – COFINS (Para períodos de apuração até "
@@ -14716,7 +14575,6 @@ class Registro1501(models.Model):
         "reg_1502_ids_Registro1501_id",
         string="1502 Detalhamento do Crédito Extemporâneo",
         sped_card="1:1",
-        sped_required="S",
         help=(
             "1502 Detalhamento do Crédito Extemporâneo, Vinculado a mais de um"
             " Tipo de Receita – COFINS (Para períodos de apuração até Julho de"
@@ -14850,7 +14708,6 @@ class Registro1600(models.Model):
         "reg_1610_ids_Registro1600_id",
         string="1610 Detalhamento",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "1610 Detalhamento da Contribuição Social Extemporânea – COFINS "
             "(Para períodos de apuração até Julho de 2013)"
@@ -14862,7 +14719,6 @@ class Registro1600(models.Model):
         "reg_1620_ids_Registro1600_id",
         string="1620 Demonstração do Crédito a Descontar",
         sped_card="1:N",
-        sped_required="S",
         help=(
             "1620 Demonstração do Crédito a Descontar da Contribuição "
             "Extemporânea – COFINS (Para períodos de apuração até Julho de "
@@ -15168,7 +15024,6 @@ class Registro1800(models.Model):
         "reg_1809_ids_Registro1800_id",
         string="1809 Processo Referenciado",
         sped_card="1:N",
-        sped_required="S",
     )
 
 

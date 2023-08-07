@@ -594,7 +594,6 @@ class Registro0150(models.Model):
         "reg_0175_ids_Registro0150_id",
         string="0175 Alteração da Tabela de Cadastro",
         sped_card="1:N",
-        sped_required="O",
         help="0175 Alteração da Tabela de Cadastro de Participante",
     )
 
@@ -722,7 +721,6 @@ class Registro0200(models.Model):
         "reg_0206_ids_Registro0200_id",
         string="0206 Código de produto conforme Tabela ANP",
         sped_card="1:1",
-        sped_required="O",
     )
 
     reg_0205_ids = fields.One2many(
@@ -730,7 +728,6 @@ class Registro0200(models.Model):
         "reg_0205_ids_Registro0200_id",
         string="0205 Alteração do Item",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_0210_ids = fields.One2many(
@@ -738,7 +735,6 @@ class Registro0200(models.Model):
         "reg_0210_ids_Registro0200_id",
         string="0210 Consumo Específico Padronizado",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_0220_ids = fields.One2many(
@@ -746,7 +742,6 @@ class Registro0200(models.Model):
         "reg_0220_ids_Registro0200_id",
         string="0220 Fatores de Conversão de Unidades",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -971,7 +966,6 @@ class Registro0300(models.Model):
         "reg_0305_ids_Registro0300_id",
         string="0305 Informação sobre a Utilização do Bem",
         sped_card="1:1",
-        sped_required="O",
     )
 
 
@@ -1101,7 +1095,7 @@ class Registro0500(models.Model):
         ),
     )
 
-    NÍVEL = fields.Integer(
+    NIVEL = fields.Integer(
         string="Nível da conta analítica/grupo de contas", required=True, sped_length=5
     )
 
@@ -1262,7 +1256,6 @@ class RegistroB020(models.Model):
         "reg_B025_ids_RegistroB020_id",
         string="B025 Detalhamento por combinação de alíquota",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "B025 Detalhamento por combinação de alíquota e item da lista de "
             "serviços da Lei Complementar nº 116/2003"
@@ -1805,7 +1798,6 @@ class RegistroB500(models.Model):
         "reg_B510_ids_RegistroB500_id",
         string="B510 Uniprofissional – empregados e sócios",
         sped_card="V",
-        sped_required="O",
     )
 
 
@@ -2026,7 +2018,6 @@ class RegistroC100(models.Model):
         "reg_C101_ids_RegistroC100_id",
         string="C101 Informação complementar",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C101 Informação complementar dos documentos fiscais quando das "
             "operações interestaduais destinadas a consumidor final não "
@@ -2039,7 +2030,6 @@ class RegistroC100(models.Model):
         "reg_C105_ids_RegistroC100_id",
         string="C105 Operações com ICMS ST recolhido",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C105 Operações com ICMS ST recolhido para UF diversa do "
             "destinatário do docu- mento fiscal (Código 55)"
@@ -2051,7 +2041,6 @@ class RegistroC100(models.Model):
         "reg_C130_ids_RegistroC100_id",
         string="C130 Complemento de Documento",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=("C130 Complemento de Documento - ISSQN, IRRF e Previdência Social"),
     )
 
@@ -2060,7 +2049,6 @@ class RegistroC100(models.Model):
         "reg_C140_ids_RegistroC100_id",
         string="C140 Complemento de Documento",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help="C140 Complemento de Documento - Fatura (código 01)",
     )
 
@@ -2069,7 +2057,6 @@ class RegistroC100(models.Model):
         "reg_C160_ids_RegistroC100_id",
         string="C160 Complemento de Documento",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C160 Complemento de Documento - Volumes Transportados (código 01 "
             "e 04) Exce- to Combustíveis"
@@ -2081,7 +2068,6 @@ class RegistroC100(models.Model):
         "reg_C110_ids_RegistroC100_id",
         string="C110 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C110 Complemento de Documento - Informação Complementar da Nota "
             "Fiscal (código 01, 1B, 55)"
@@ -2093,7 +2079,6 @@ class RegistroC100(models.Model):
         "reg_C120_ids_RegistroC100_id",
         string="C120 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C120 Complemento de Documento - Operações de Importação (código "
             "01 e 55)"
@@ -2105,7 +2090,6 @@ class RegistroC100(models.Model):
         "reg_C165_ids_RegistroC100_id",
         string="C165 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C165 Complemento de Documento - Operações com combustíveis " "(código 01)"
         ),
@@ -2116,7 +2100,6 @@ class RegistroC100(models.Model):
         "reg_C170_ids_RegistroC100_id",
         string="C170 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C170 Complemento de Documento - Itens do Documento (código 01, "
             "1B, 04 e 55)"
@@ -2128,7 +2111,6 @@ class RegistroC100(models.Model):
         "reg_C185_ids_RegistroC100_id",
         string="C185 Informações complementares das operações",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C185 Informações complementares das operações de sa- ída de "
             "mercadorias sujeitas à substituição tributária (código 01, 1B, 04"
@@ -2141,7 +2123,6 @@ class RegistroC100(models.Model):
         "reg_C186_ids_RegistroC100_id",
         string="C186 Informações complementares das operações",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C186 Informações complementares das operações de devolução de "
             "entradas de mercadorias sujeitas à substituição tributária "
@@ -2154,7 +2135,6 @@ class RegistroC100(models.Model):
         "reg_C190_ids_RegistroC100_id",
         string="C190 Registro Analítico do Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("C190 Registro Analítico do Documento (código 01, 1B, 04, 55 e 65)"),
     )
 
@@ -2163,7 +2143,6 @@ class RegistroC100(models.Model):
         "reg_C195_ids_RegistroC100_id",
         string="C195 Complemento do Registro Analítico",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C195 Complemento do Registro Analítico - Observações do "
             "Lançamento Fiscal (código 01, 1B, 04 e 55)"
@@ -2289,7 +2268,6 @@ class RegistroC110(models.Model):
         "reg_C111_ids_RegistroC110_id",
         string="C111 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="C111 Complemento de Documento - Processo referenciado",
     )
 
@@ -2298,7 +2276,6 @@ class RegistroC110(models.Model):
         "reg_C112_ids_RegistroC110_id",
         string="C112 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C112 Complemento de Documento - Documento de Arrecadação " "Referenciado"
         ),
@@ -2309,7 +2286,6 @@ class RegistroC110(models.Model):
         "reg_C113_ids_RegistroC110_id",
         string="C113 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("C113 Complemento de Documento - Documento Fiscal Referenciado"),
     )
 
@@ -2318,7 +2294,6 @@ class RegistroC110(models.Model):
         "reg_C114_ids_RegistroC110_id",
         string="C114 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="C114 Complemento de Documento - Cupom Fiscal Referenciado",
     )
 
@@ -2327,7 +2302,6 @@ class RegistroC110(models.Model):
         "reg_C115_ids_RegistroC110_id",
         string="C115 Local de coleta e/ou entrega",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="C115 Local de coleta e/ou entrega (CÓDIGOS 01, 1B e 04)",
     )
 
@@ -2336,7 +2310,6 @@ class RegistroC110(models.Model):
         "reg_C116_ids_RegistroC110_id",
         string="C116 Cupom Fiscal Eletrônico",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="C116 Cupom Fiscal Eletrônico - CF-e referenciado",
     )
 
@@ -2779,7 +2752,6 @@ class RegistroC140(models.Model):
         "reg_C141_ids_RegistroC140_id",
         string="C141 Complemento de Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("C141 Complemento de Documento - Vencimento da Fatura (código 01)"),
     )
 
@@ -3109,7 +3081,7 @@ class RegistroC170(models.Model):
 
     CST_PIS = fields.Integer(string="Código da Situação Tributária referente ao PIS")
 
-    VL_BC_PIS = fields.Integer(
+    VL_BC_PIS = fields.Monetary(
         string="Valor da base de cálculo do PIS", currency_field="brl_currency_id"
     )
 
@@ -3135,7 +3107,7 @@ class RegistroC170(models.Model):
         string="Código da Situação Tributária referente ao COFINS"
     )
 
-    VL_BC_COFINS = fields.Integer(
+    VL_BC_COFINS = fields.Monetary(
         string="Valor da base de cálculo da COFINS", currency_field="brl_currency_id"
     )
 
@@ -3185,7 +3157,6 @@ class RegistroC170(models.Model):
         "reg_C172_ids_RegistroC170_id",
         string="C172 Complemento de Item",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help="C172 Complemento de Item - Operações com ISSQN (código 01)",
     )
 
@@ -3194,7 +3165,6 @@ class RegistroC170(models.Model):
         "reg_C178_ids_RegistroC170_id",
         string="C178 Complemento de Item",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C178 Complemento de Item - Operações com Produtos Sujeitos a "
             "Tributação de IPI por Unidade ou Quantidade de produto"
@@ -3206,7 +3176,6 @@ class RegistroC170(models.Model):
         "reg_C179_ids_RegistroC170_id",
         string="C179 Complemento de Item",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C179 Complemento de Item - Informações Complementares ST (código " "01)"
         ),
@@ -3217,7 +3186,6 @@ class RegistroC170(models.Model):
         "reg_C180_ids_RegistroC170_id",
         string="C180 Informações complementares das operações",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C180 Informações complementares das operações de en- trada de "
             "mercadorias sujeitas à substituição tribu- tária (código 01, 1B, "
@@ -3230,7 +3198,6 @@ class RegistroC170(models.Model):
         "reg_C171_ids_RegistroC170_id",
         string="C171 Complemento de Item",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C171 Complemento de Item - Armazenamento de Combustíveis (código " "01,55)"
         ),
@@ -3241,7 +3208,6 @@ class RegistroC170(models.Model):
         "reg_C173_ids_RegistroC170_id",
         string="C173 Complemento de Item",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C173 Complemento de Item - Operações com Medicamentos (código " "01,55)"
         ),
@@ -3252,7 +3218,6 @@ class RegistroC170(models.Model):
         "reg_C174_ids_RegistroC170_id",
         string="C174 Complemento de Item",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("C174 Complemento de Item - Operações com Armas de Fogo (código " "01)"),
     )
 
@@ -3261,7 +3226,6 @@ class RegistroC170(models.Model):
         "reg_C175_ids_RegistroC170_id",
         string="C175 Complemento de Item",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C175 Complemento de Item - Operações com Veículos Novos (código " "01,55)"
         ),
@@ -3272,7 +3236,6 @@ class RegistroC170(models.Model):
         "reg_C176_ids_RegistroC170_id",
         string="C176 Complemento de Item -Ressarcimento de ICMS",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C176 Complemento de Item -Ressarcimento de ICMS em operações com "
             "Substitui- ção Tributária (código 01,55)"
@@ -3284,7 +3247,6 @@ class RegistroC170(models.Model):
         "reg_C177_ids_RegistroC170_id",
         string="C177 Complemento de Item – Outras informações",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C177 Complemento de Item – Outras informações (Cód. 01, 55) – "
             "(Válido a partir de 01/01/2019)"
@@ -3296,7 +3258,6 @@ class RegistroC170(models.Model):
         "reg_C181_ids_RegistroC170_id",
         string="C181 Informações complementares das operações",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C181 Informações complementares das operações de devolução de "
             "saídas de mercadorias sujeitas à substituição tributária (código "
@@ -4492,7 +4453,6 @@ class RegistroC190(models.Model):
         "reg_C191_ids_RegistroC190_id",
         string="C191 Informações do Fundo de Combate",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C191 Informações do Fundo de Combate à Pobreza – FCP – na NF-e "
             "(código 55)"
@@ -4586,7 +4546,6 @@ class RegistroC195(models.Model):
         "reg_C197_ids_RegistroC195_id",
         string="C197 Outras Obrigações Tributárias",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C197 Outras Obrigações Tributárias, Ajustes e Informações "
             "provenientes de Docu- mento Fiscal"
@@ -4715,7 +4674,6 @@ class RegistroC300(models.Model):
         "reg_C310_ids_RegistroC300_id",
         string="C310 Documentos Cancelados de Nota Fiscal de Venda",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C310 Documentos Cancelados de Nota Fiscal de Venda a Consumidor "
             "(código 02)"
@@ -4727,7 +4685,6 @@ class RegistroC300(models.Model):
         "reg_C320_ids_RegistroC300_id",
         string="C320 Registro Analítico das Notas Fiscais de Venda",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C320 Registro Analítico das Notas Fiscais de Venda a Consumidor "
             "(código 02)"
@@ -4852,7 +4809,6 @@ class RegistroC320(models.Model):
         "reg_C321_ids_RegistroC320_id",
         string="C321 Itens dos Resumos Diários dos Documentos",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="C321 Itens dos Resumos Diários dos Documentos (código 02)",
     )
 
@@ -4936,7 +4892,6 @@ class RegistroC321(models.Model):
         "reg_C330_ids_RegistroC321_id",
         string="C330 Informações complementares das operações",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help="C330 Informações complementares das operações de sa-",
     )
 
@@ -5109,7 +5064,6 @@ class RegistroC350(models.Model):
         "reg_C370_ids_RegistroC350_id",
         string="C370 Itens do documento (código 02)",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
     reg_C390_ids = fields.One2many(
@@ -5117,7 +5071,6 @@ class RegistroC350(models.Model):
         "reg_C390_ids_RegistroC350_id",
         string="C390 Registro Analítico das Notas Fiscais de Venda",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C390 Registro Analítico das Notas Fiscais de Venda a Consumidor "
             "(código 02)"
@@ -5182,7 +5135,6 @@ class RegistroC370(models.Model):
         "reg_C380_ids_RegistroC370_id",
         string="C380 Informações complementares das operações",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C380 Informações complementares das operações de sa- ída de "
             "mercadorias sujeitas à substituição tributária (código 02)"
@@ -5412,7 +5364,6 @@ class RegistroC400(models.Model):
         "reg_C405_ids_RegistroC400_id",
         string="C405 Redução Z (código 02, 2D e 60)",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
 
@@ -5467,7 +5418,6 @@ class RegistroC405(models.Model):
         "reg_C410_ids_RegistroC405_id",
         string="C410 PIS e COFINS Totalizados no Dia",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help="C410 PIS e COFINS Totalizados no Dia (código 02 e 2D)",
     )
 
@@ -5476,7 +5426,6 @@ class RegistroC405(models.Model):
         "reg_C420_ids_RegistroC405_id",
         string="C420 Registro dos Totalizadores Parciais",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C420 Registro dos Totalizadores Parciais da Redução Z (código 02,"
             " 2D e 60)"
@@ -5488,7 +5437,6 @@ class RegistroC405(models.Model):
         "reg_C460_ids_RegistroC405_id",
         string="C460 Documento Fiscal Emitido por ECF",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="C460 Documento Fiscal Emitido por ECF (código 02, 2D e 60)",
     )
 
@@ -5497,7 +5445,6 @@ class RegistroC405(models.Model):
         "reg_C490_ids_RegistroC405_id",
         string="C490 Registro Analítico do movimento diário",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("C490 Registro Analítico do movimento diário (código 02, 2D e 60)"),
     )
 
@@ -5582,7 +5529,6 @@ class RegistroC420(models.Model):
         "reg_C425_ids_RegistroC420_id",
         string="C425 Resumo de itens do movimento diário",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="C425 Resumo de itens do movimento diário (código 02 e 2D)",
     )
 
@@ -5644,7 +5590,6 @@ class RegistroC425(models.Model):
         "reg_C430_ids_RegistroC425_id",
         string="C430 Informações complementares das operações",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C430 Informações complementares das operações de sa- ída de "
             "mercadorias sujeitas à substituição tributária (código 02, 2D e "
@@ -5817,7 +5762,6 @@ class RegistroC460(models.Model):
         "reg_C465_ids_RegistroC460_id",
         string="C465 Complemento",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C465 Complemento do Cupom Fiscal Eletrônico Emitido por ECF - CF-"
             "e-ECF (código 60)"
@@ -5829,7 +5773,6 @@ class RegistroC460(models.Model):
         "reg_C470_ids_RegistroC460_id",
         string="C470 Itens do Documento Fiscal Emitido por ECF",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("C470 Itens do Documento Fiscal Emitido por ECF (código 02 e 2D)"),
     )
 
@@ -5942,7 +5885,6 @@ class RegistroC470(models.Model):
         "reg_C480_ids_RegistroC470_id",
         string="C480 Informações complementares das operações",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C480 Informações complementares das operações de sa- ída de "
             "mercadorias sujeitas à substituição tributária (código 02, 2D e "
@@ -6489,7 +6431,6 @@ class RegistroC500(models.Model):
         "reg_C510_ids_RegistroC500_id",
         string="C510 Itens do Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C510 Itens do Documento - Nota Fiscal/Conta de Energia Elétrica "
             "(código 06), Nota Fiscal/Conta de fornecimento d'água canalizada "
@@ -6502,7 +6443,6 @@ class RegistroC500(models.Model):
         "reg_C590_ids_RegistroC500_id",
         string="C590 Registro Analítico do Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C590 Registro Analítico do Documento - Nota Fiscal/Conta de "
             "Energia Elétrica (código 06), Nota Fiscal de Energia Elétrica "
@@ -6517,7 +6457,6 @@ class RegistroC500(models.Model):
         "reg_C595_ids_RegistroC500_id",
         string="C595 Observações do Lançamento Fiscal",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("C595 Observações do Lançamento Fiscal (códigos 06, 28, 29 e 66)"),
     )
 
@@ -6799,7 +6738,6 @@ class RegistroC590(models.Model):
         "reg_C591_ids_RegistroC590_id",
         string="C591 Informações do Fundo de Combate",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C591 Informações do Fundo de Combate à Pobreza – FCP na NF3e "
             "(código 66)"
@@ -6885,7 +6823,6 @@ class RegistroC595(models.Model):
         "reg_C597_ids_RegistroC595_id",
         string="C597 Outras obrigações tributárias",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C597 Outras obrigações tributárias, ajustes e informações de "
             "valores provenientes de documento fiscal."
@@ -7085,7 +7022,6 @@ class RegistroC600(models.Model):
         "reg_C601_ids_RegistroC600_id",
         string="C601 Documentos cancelados",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C601 Documentos cancelados - Consolidação diária de notas "
             "fiscais/conta de energia elétrica (Código 06), nota fiscal/conta "
@@ -7099,7 +7035,6 @@ class RegistroC600(models.Model):
         "reg_C610_ids_RegistroC600_id",
         string="C610 Itens do Documento Consolidado",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C610 Itens do Documento Consolidado - Notas Fiscais/Contas de "
             "Energia Elétrica (Código 06), Nota Fiscal/Conta de Fornecimento "
@@ -7113,7 +7048,6 @@ class RegistroC600(models.Model):
         "reg_C690_ids_RegistroC600_id",
         string="C690 Registro Analítico dos Documentos",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C690 Registro Analítico dos Documentos - Notas Fiscais/Contas de "
             "Energia Elétrica (Código 06), Nota Fiscal/Conta de Fornecimento "
@@ -7439,7 +7373,6 @@ class RegistroC700(models.Model):
         "reg_C790_ids_RegistroC700_id",
         string="C790 Registro Analítico dos Documentos",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C790 Registro Analítico dos Documentos - Nota Fiscal/Conta "
             "Energia Elétrica (códi- go 06) emitidas em via única"
@@ -7561,7 +7494,6 @@ class RegistroC790(models.Model):
         "reg_C791_ids_RegistroC790_id",
         string="C791 Registro de Informações de ICMS ST por UF",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
 
@@ -7693,7 +7625,6 @@ class RegistroC800(models.Model):
         "reg_C810_ids_RegistroC800_id",
         string="C810 Itens do documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C810 Itens do documento do cupom fiscal eletrônico – SAT (CF-E-"
             "SAT) (código 59)"
@@ -7705,7 +7636,6 @@ class RegistroC800(models.Model):
         "reg_C850_ids_RegistroC800_id",
         string="C850 Registro Analítico do CF-e",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="C850 Registro Analítico do CF-e (Código 59)",
     )
 
@@ -7768,7 +7698,6 @@ class RegistroC810(models.Model):
         "reg_C815_ids_RegistroC810_id",
         string="C815 Informações complementares das operações",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C815 Informações complementares das operações de sa- ída de "
             "mercadorias sujeitas à substituição tributária (CF-E-SAT) (código"
@@ -7997,7 +7926,6 @@ class RegistroC860(models.Model):
         "reg_C870_ids_RegistroC860_id",
         string="C870 Itens do documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C870 Itens do documento do cupom fiscal eletrônico – SAT (CF-E-"
             "SAT) (código 59)"
@@ -8009,7 +7937,6 @@ class RegistroC860(models.Model):
         "reg_C890_ids_RegistroC860_id",
         string="C890 Resumo diário de CF-e",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=("C890 Resumo diário de CF-e (Código 59) por equipamento SAT-CF-e"),
     )
 
@@ -8061,7 +7988,6 @@ class RegistroC870(models.Model):
         "reg_C880_ids_RegistroC870_id",
         string="C880 Informações complementares das operações",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "C880 Informações complementares das operações de sa- ída de "
             "mercadorias sujeitas à substituição tributária (CF-E-SAT) (código"
@@ -8416,7 +8342,6 @@ class RegistroD100(models.Model):
         "reg_D101_ids_RegistroD100_id",
         string="D101 Informação complementar",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D101 Informação complementar dos documentos fiscais quando das "
             "prestações interestaduais destinadas a consumidor final não "
@@ -8429,7 +8354,6 @@ class RegistroD100(models.Model):
         "reg_D140_ids_RegistroD100_id",
         string="D140 Complemento do Conhecimento Aquaviário",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=("D140 Complemento do Conhecimento Aquaviário de Cargas (código 09)"),
     )
 
@@ -8438,7 +8362,6 @@ class RegistroD100(models.Model):
         "reg_D150_ids_RegistroD100_id",
         string="D150 Complemento do Conhecimento Aéreo de Cargas",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help="D150 Complemento do Conhecimento Aéreo de Cargas (código 10)",
     )
 
@@ -8447,7 +8370,6 @@ class RegistroD100(models.Model):
         "reg_D170_ids_RegistroD100_id",
         string="D170 Complemento do Conhecimento Multimodal",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=("D170 Complemento do Conhecimento Multimodal de Cargas (código 26)"),
     )
 
@@ -8456,7 +8378,6 @@ class RegistroD100(models.Model):
         "reg_D110_ids_RegistroD100_id",
         string="D110 Itens do documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D110 Itens do documento - Nota Fiscal de Serviços de Transporte "
             "(código 07)"
@@ -8468,7 +8389,6 @@ class RegistroD100(models.Model):
         "reg_D130_ids_RegistroD100_id",
         string="D130 Complemento do Conhecimento Rodoviário",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D130 Complemento do Conhecimento Rodoviário de Cargas (código 08)"
             " e Conheci- mento de Transporte de Cargas Avulso (Código 8B)"
@@ -8480,7 +8400,6 @@ class RegistroD100(models.Model):
         "reg_D160_ids_RegistroD100_id",
         string="D160 Carga Transportada",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="D160 Carga Transportada (CÓDIGO 08, 8B, 09, 10, 11, 26 E 27)",
     )
 
@@ -8489,7 +8408,6 @@ class RegistroD100(models.Model):
         "reg_D180_ids_RegistroD100_id",
         string="D180 Modais (código 26)",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
     reg_D190_ids = fields.One2many(
@@ -8497,7 +8415,6 @@ class RegistroD100(models.Model):
         "reg_D190_ids_RegistroD100_id",
         string="D190 Registro Analítico dos Documentos",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D190 Registro Analítico dos Documentos (CÓDIGO 07, 08, 8B, 09, "
             "10, 11, 26, 27, 57 e 67)"
@@ -8509,7 +8426,6 @@ class RegistroD100(models.Model):
         "reg_D195_ids_RegistroD100_id",
         string="D195 Observações do lançamento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D195 Observações do lançamento (CÓDIGO 07, 08, 8B, 09, 10, 11, "
             "26, 27, 57 e 67)"
@@ -8622,7 +8538,6 @@ class RegistroD110(models.Model):
         "reg_D120_ids_RegistroD110_id",
         string="D120 Complemento da Nota Fiscal de Serviços",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D120 Complemento da Nota Fiscal de Serviços de Transporte (código" " 07)"
         ),
@@ -9042,7 +8957,6 @@ class RegistroD160(models.Model):
         "reg_D161_ids_RegistroD160_id",
         string="D161 Local de Coleta e Entrega",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=("D161 Local de Coleta e Entrega (códigos 08, 8B, 09, 10, 11 e 26)"),
     )
 
@@ -9051,7 +8965,6 @@ class RegistroD160(models.Model):
         "reg_D162_ids_RegistroD160_id",
         string="D162 Identificação dos documentos fiscais",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D162 Identificação dos documentos fiscais (código 08,8B, "
             "09,10,11,26 e 27)"
@@ -9528,7 +9441,6 @@ class RegistroD195(models.Model):
         "reg_D197_ids_RegistroD195_id",
         string="D197 Outras obrigações tributárias",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D197 Outras obrigações tributárias, ajustes e informações de "
             "valores provenientes do documento fiscal."
@@ -9738,7 +9650,6 @@ class RegistroD300(models.Model):
         "reg_D301_ids_RegistroD300_id",
         string="D301 Documentos cancelados dos Bilhetes",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D301 Documentos cancelados dos Bilhetes de Passagem Rodoviário "
             "(código 13), de Passagem Aquaviário (código 14), de Passagem e "
@@ -9751,7 +9662,6 @@ class RegistroD300(models.Model):
         "reg_D310_ids_RegistroD300_id",
         string="D310 Complemento dos Bilhetes",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D310 Complemento dos Bilhetes (código 13, código 14, código 15 e "
             "código 16)"
@@ -9854,7 +9764,6 @@ class RegistroD350(models.Model):
         "reg_D355_ids_RegistroD350_id",
         string="D355 Redução Z",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="D355 Redução Z (Códigos 2E, 13, 14, 15 e 16)",
     )
 
@@ -9911,7 +9820,6 @@ class RegistroD355(models.Model):
         "reg_D360_ids_RegistroD355_id",
         string="D360 PIS E COFINS totalizados no dia",
         sped_card="1:1",
-        sped_required="UNDEF_REQUIRED",
         help=("D360 PIS E COFINS totalizados no dia (Códigos 2E, 13, 14, 15 e " "16)"),
     )
 
@@ -9920,7 +9828,6 @@ class RegistroD355(models.Model):
         "reg_D365_ids_RegistroD355_id",
         string="D365 Registro dos Totalizadores Parciais",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D365 Registro dos Totalizadores Parciais da Redução Z (Códigos "
             "2E, 13, 14, 15 e 16)"
@@ -9932,7 +9839,6 @@ class RegistroD355(models.Model):
         "reg_D390_ids_RegistroD355_id",
         string="D390 Registro analítico do movimento diário",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D390 Registro analítico do movimento diário (Códigos 13, 14, 15, "
             "16 E 2E)"
@@ -10023,7 +9929,6 @@ class RegistroD365(models.Model):
         "reg_D370_ids_RegistroD365_id",
         string="D370 Complemento dos documentos informados",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D370 Complemento dos documentos informados (Códigos 13, 14, 15, "
             "16 E 2E)"
@@ -10245,7 +10150,6 @@ class RegistroD400(models.Model):
         "reg_D410_ids_RegistroD400_id",
         string="D410 Documentos Informados",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="D410 Documentos Informados (Códigos 13, 14, 15 e 16)",
     )
 
@@ -10254,7 +10158,6 @@ class RegistroD400(models.Model):
         "reg_D420_ids_RegistroD400_id",
         string="D420 Complemento dos Documentos Informados",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D420 Complemento dos Documentos Informados (Códigos 13, 14, 15 e " "16)"
         ),
@@ -10357,7 +10260,6 @@ class RegistroD410(models.Model):
         "reg_D411_ids_RegistroD410_id",
         string="D411 Documentos Cancelados",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D411 Documentos Cancelados dos Documentos Informados (Códigos 13,"
             " 14, 15 e 16)"
@@ -10552,7 +10454,6 @@ class RegistroD500(models.Model):
         "reg_D510_ids_RegistroD500_id",
         string="D510 Itens do Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D510 Itens do Documento - Nota Fiscal de Serviço de Comunicação "
             "(código 21) e Serviço de Telecomunicação (código 22)"
@@ -10564,7 +10465,6 @@ class RegistroD500(models.Model):
         "reg_D530_ids_RegistroD500_id",
         string="D530 Terminal Faturado",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
     )
 
     reg_D590_ids = fields.One2many(
@@ -10572,7 +10472,6 @@ class RegistroD500(models.Model):
         "reg_D590_ids_RegistroD500_id",
         string="D590 Registro Analítico do Documento",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="D590 Registro Analítico do Documento (códigos 21 e 22)",
     )
 
@@ -10967,7 +10866,6 @@ class RegistroD600(models.Model):
         "reg_D610_ids_RegistroD600_id",
         string="D610 Itens do Documento Consolidado",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="D610 Itens do Documento Consolidado (códigos 21 e 22)",
     )
 
@@ -10976,7 +10874,6 @@ class RegistroD600(models.Model):
         "reg_D690_ids_RegistroD600_id",
         string="D690 Registro Analítico dos Documentos",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="D690 Registro Analítico dos Documentos (códigos 21 e 22)",
     )
 
@@ -11275,7 +11172,6 @@ class RegistroD695(models.Model):
         "reg_D696_ids_RegistroD695_id",
         string="D696 Registro Analítico dos Documentos",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help="D696 Registro Analítico dos Documentos (códigos 21 e 22)",
     )
 
@@ -11399,7 +11295,6 @@ class RegistroD696(models.Model):
         "reg_D697_ids_RegistroD696_id",
         string="D697 Registro de informações de outras UFs",
         sped_card="1:N",
-        sped_required="UNDEF_REQUIRED",
         help=(
             "D697 Registro de informações de outras UFs, relativamente aos "
             "serviços “não-medi- dos” de televisão por assinatura via satélite"
@@ -11455,7 +11350,6 @@ class RegistroE100(models.Model):
         "reg_E110_ids_RegistroE100_id",
         string="E110 Apuração do ICMS",
         sped_card="1:1",
-        sped_required="O",
         help="E110 Apuração do ICMS - Operações Próprias",
     )
 
@@ -11589,7 +11483,6 @@ class RegistroE110(models.Model):
         "reg_E111_ids_RegistroE110_id",
         string="E111 Ajuste/Benefício/Incentivo da Apuração",
         sped_card="1:N",
-        sped_required="O",
         help="E111 Ajuste/Benefício/Incentivo da Apuração do ICMS",
     )
 
@@ -11598,7 +11491,6 @@ class RegistroE110(models.Model):
         "reg_E115_ids_RegistroE110_id",
         string="E115 Informações Adicionais da Apuração do ICMS",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E115 Informações Adicionais da Apuração do ICMS - Valores " "Declaratórios"
         ),
@@ -11609,7 +11501,6 @@ class RegistroE110(models.Model):
         "reg_E116_ids_RegistroE110_id",
         string="E116 Obrigações do ICMS Recolhido ou a Recolher",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E116 Obrigações do ICMS Recolhido ou a Recolher - Obrigações " "Próprias"
         ),
@@ -11654,7 +11545,6 @@ class RegistroE111(models.Model):
         "reg_E112_ids_RegistroE111_id",
         string="E112 Informações Adicionais dos Ajustes",
         sped_card="1:N",
-        sped_required="O",
         help="E112 Informações Adicionais dos Ajustes da Apuração do ICMS",
     )
 
@@ -11663,7 +11553,6 @@ class RegistroE111(models.Model):
         "reg_E113_ids_RegistroE111_id",
         string="E113 Informações Adicionais dos Ajustes",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E113 Informações Adicionais dos Ajustes da Apuração do ICMS - "
             "Identificação dos documentos fiscais"
@@ -11894,7 +11783,6 @@ class RegistroE200(models.Model):
         "reg_E210_ids_RegistroE200_id",
         string="E210 Apuração do ICMS",
         sped_card="1:1",
-        sped_required="O",
         help="E210 Apuração do ICMS - Substituição Tributária",
     )
 
@@ -11961,7 +11849,7 @@ class RegistroE210(models.Model):
         ),
     )
 
-    VL_RETENÇAO_ST = fields.Monetary(
+    VL_RETENCAO_ST = fields.Monetary(
         string="Valor Total do ICMS retido",
         required=True,
         xsd_type="TDec_1602",
@@ -11998,7 +11886,7 @@ class RegistroE210(models.Model):
         currency_field="brl_currency_id",
     )
 
-    VL_DEDUÇÕES_ST = fields.Monetary(
+    VL_DEDUCOES_ST = fields.Monetary(
         string="Valor total dos ajustes 'Deduções ST'",
         required=True,
         xsd_type="TDec_1602",
@@ -12047,7 +11935,6 @@ class RegistroE210(models.Model):
         "reg_E220_ids_RegistroE210_id",
         string="E220 Ajuste/Benefício/Incentivo da Apuração",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E220 Ajuste/Benefício/Incentivo da Apuração do ICMS - "
             "Substituição Tributária"
@@ -12059,7 +11946,6 @@ class RegistroE210(models.Model):
         "reg_E250_ids_RegistroE210_id",
         string="E250 Obrigações do ICMS a Recolher",
         sped_card="1:N",
-        sped_required="O",
         help="E250 Obrigações do ICMS a Recolher - Substituição Tributária",
     )
 
@@ -12104,7 +11990,6 @@ class RegistroE220(models.Model):
         "reg_E230_ids_RegistroE220_id",
         string="E230 Informações Adicionais dos Ajustes",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E230 Informações Adicionais dos Ajustes da Apuração do ICMS "
             "Substituição Tributá- ria"
@@ -12116,7 +12001,6 @@ class RegistroE220(models.Model):
         "reg_E240_ids_RegistroE220_id",
         string="E240 Informações Adicionais dos Ajustes",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E240 Informações Adicionais dos Ajustes da Apuração do ICMS "
             "Substituição Tributá- ria - Identificação dos documentos fiscais"
@@ -12332,7 +12216,6 @@ class RegistroE300(models.Model):
         "reg_E310_ids_RegistroE300_id",
         string="E310 Apuração do ICMS Diferencial",
         sped_card="1:1",
-        sped_required="O",
         help=(
             "E310 Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino"
             " EC 87/15"
@@ -12442,7 +12325,7 @@ class RegistroE310(models.Model):
         ),
     )
 
-    VL_DEDUÇÕES_DIFAL = fields.Monetary(
+    VL_DEDUCOES_DIFAL = fields.Monetary(
         string="Valor total dos ajustes 'Deduções ICMS Diferencial",
         required=True,
         xsd_type="TDec_1602",
@@ -12518,7 +12401,7 @@ class RegistroE310(models.Model):
         help="Valor total de Saldo devedor FCP antes das deduções",
     )
 
-    VL_DEDUÇÕES_FCP = fields.Monetary(
+    VL_DEDUCOES_FCP = fields.Monetary(
         string="Valor total das deduções 'FCP'",
         required=True,
         xsd_type="TDec_1602",
@@ -12568,7 +12451,6 @@ class RegistroE310(models.Model):
         "reg_E311_ids_RegistroE310_id",
         string="E311 Ajuste/Benefício/Incentivo da Apuração",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E311 Ajuste/Benefício/Incentivo da Apuração do ICMS Diferencial "
             "de Alíquota – UF Origem/Destino EC 87/15"
@@ -12580,7 +12462,6 @@ class RegistroE310(models.Model):
         "reg_E316_ids_RegistroE310_id",
         string="E316 Obrigações do ICMS recolhido",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E316 Obrigações do ICMS recolhido ou a recolher – Diferencial de "
             "Alíquota – UF Origem/Destino EC 87/15"
@@ -12630,7 +12511,6 @@ class RegistroE311(models.Model):
         "reg_E312_ids_RegistroE311_id",
         string="E312 Informações Adicionais dos Ajustes",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E312 Informações Adicionais dos Ajustes da Apuração do ICMS "
             "Diferencial de Alíquota – UF Origem/Destino EC 87/15"
@@ -12642,7 +12522,6 @@ class RegistroE311(models.Model):
         "reg_E313_ids_RegistroE311_id",
         string="E313 Informações Adicionais da Apuração",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E313 Informações Adicionais da Apuração do ICMS Diferencial de "
             "Alíquota – UF Origem/Destino EC 87/15 Identificação dos "
@@ -12855,7 +12734,6 @@ class RegistroE500(models.Model):
         "reg_E520_ids_RegistroE500_id",
         string="E520 Apuração do IPI",
         sped_card="1:1",
-        sped_required="O",
     )
 
     reg_E510_ids = fields.One2many(
@@ -12863,7 +12741,6 @@ class RegistroE500(models.Model):
         "reg_E510_ids_RegistroE500_id",
         string="E510 Consolidação dos Valores de IPI",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -13008,7 +12885,6 @@ class RegistroE520(models.Model):
         "reg_E530_ids_RegistroE520_id",
         string="E530 Ajustes da Apuração do IPI",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -13078,7 +12954,6 @@ class RegistroE530(models.Model):
         "reg_E531_ids_RegistroE530_id",
         string="E531 Informações adicionais dos ajustes",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "E531 Informações adicionais dos ajustes da apuração do IPI – "
             "Identificação dos documentos fiscais (01 e 55)"
@@ -13250,7 +13125,6 @@ class RegistroG110(models.Model):
         "reg_G125_ids_RegistroG110_id",
         string="G125 Movimentação de bem ou componente",
         sped_card="1:N",
-        sped_required="O",
         help="G125 Movimentação de bem ou componente do",
     )
 
@@ -13353,7 +13227,6 @@ class RegistroG125(models.Model):
         "reg_G126_ids_RegistroG125_id",
         string="G126 Outros créditos CIAP",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_G130_ids = fields.One2many(
@@ -13361,7 +13234,6 @@ class RegistroG125(models.Model):
         "reg_G130_ids_RegistroG125_id",
         string="G130 Identificação do documento fiscal",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -13507,7 +13379,6 @@ class RegistroG130(models.Model):
         "reg_G140_ids_RegistroG130_id",
         string="G140 Identificação do item do documento fiscal",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -13644,7 +13515,6 @@ class RegistroH005(models.Model):
         "reg_H010_ids_RegistroH005_id",
         string="H010 Inventário",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -13735,7 +13605,6 @@ class RegistroH010(models.Model):
         "reg_H030_ids_RegistroH010_id",
         string="H030 Informações complementares do inventário",
         sped_card="1:1",
-        sped_required="O",
         help=(
             "H030 Informações complementares do inventário das mercadorias "
             "sujeitas ao regime de substituição tri- butária"
@@ -13747,7 +13616,6 @@ class RegistroH010(models.Model):
         "reg_H020_ids_RegistroH010_id",
         string="H020 Informação complementar do Inventário",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -13870,7 +13738,6 @@ class RegistroK100(models.Model):
         "reg_K200_ids_RegistroK100_id",
         string="K200 Estoque Escriturado",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_K210_ids = fields.One2many(
@@ -13878,7 +13745,6 @@ class RegistroK100(models.Model):
         "reg_K210_ids_RegistroK100_id",
         string="K210 Desmontagem de mercadorias – Item de Origem",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_K220_ids = fields.One2many(
@@ -13886,7 +13752,6 @@ class RegistroK100(models.Model):
         "reg_K220_ids_RegistroK100_id",
         string="K220 Outras Movimentações Internas",
         sped_card="1:N",
-        sped_required="O",
         help="K220 Outras Movimentações Internas entre Mercadorias",
     )
 
@@ -13895,7 +13760,6 @@ class RegistroK100(models.Model):
         "reg_K230_ids_RegistroK100_id",
         string="K230 Itens Produzidos",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_K250_ids = fields.One2many(
@@ -13903,7 +13767,6 @@ class RegistroK100(models.Model):
         "reg_K250_ids_RegistroK100_id",
         string="K250 Industrialização Efetuada",
         sped_card="1:N",
-        sped_required="O",
         help=("K250 Industrialização Efetuada por Terceiros – Itens Produzidos"),
     )
 
@@ -13912,7 +13775,6 @@ class RegistroK100(models.Model):
         "reg_K260_ids_RegistroK100_id",
         string="K260 Reprocessamento/Reparo de Produto/Insumo",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_K270_ids = fields.One2many(
@@ -13920,7 +13782,6 @@ class RegistroK100(models.Model):
         "reg_K270_ids_RegistroK100_id",
         string="K270 Correção de Apontamento dos Registros K210",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_K280_ids = fields.One2many(
@@ -13928,7 +13789,6 @@ class RegistroK100(models.Model):
         "reg_K280_ids_RegistroK100_id",
         string="K280 Correção de Apontamento – Estoque Escriturado",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_K290_ids = fields.One2many(
@@ -13936,7 +13796,6 @@ class RegistroK100(models.Model):
         "reg_K290_ids_RegistroK100_id",
         string="K290 Produção Conjunta – Ordem de Produção",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_K300_ids = fields.One2many(
@@ -13944,7 +13803,6 @@ class RegistroK100(models.Model):
         "reg_K300_ids_RegistroK100_id",
         string="K300 Produção Conjunta – Industrialização efetuada",
         sped_card="1:N",
-        sped_required="O",
         help=("K300 Produção Conjunta – Industrialização efetuada por terceiros"),
     )
 
@@ -14048,7 +13906,6 @@ class RegistroK210(models.Model):
         "reg_K215_ids_RegistroK210_id",
         string="K215 Desmontagem de mercadorias – Item de Destino",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -14183,7 +14040,6 @@ class RegistroK230(models.Model):
         "reg_K235_ids_RegistroK230_id",
         string="K235 Insumos Consumidos",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -14194,7 +14050,7 @@ class RegistroK235(models.Model):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    DT_SAÍDA = fields.Date(
+    DT_SAIDA = fields.Date(
         string="Data de saída do estoque para alocação ao produto",
         required=True,
         sped_length=8,
@@ -14277,7 +14133,6 @@ class RegistroK250(models.Model):
         "reg_K255_ids_RegistroK250_id",
         string="K255 Industrialização",
         sped_card="1:N",
-        sped_required="O",
         help="K255 Industrialização em Terceiros – Insumos Consumidos",
     )
 
@@ -14360,9 +14215,9 @@ class RegistroK260(models.Model):
         ),
     )
 
-    DT_SAÍDA = fields.Date(string="Data de saída do estoque", required=True)
+    DT_SAIDA = fields.Date(string="Data de saída do estoque", required=True)
 
-    QTD_SAÍDA = fields.Float(
+    QTD_SAIDA = fields.Float(
         string="Quantidade de saída do estoque",
         required=True,
         xsd_type="TDec_1606",
@@ -14396,7 +14251,6 @@ class RegistroK260(models.Model):
         "reg_K265_ids_RegistroK260_id",
         string="reg_K265_ids",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "K265 Reprocessamento/Reparo – Mercadorias Consumidas e/ou " "Retornadas"
         ),
@@ -14543,7 +14397,6 @@ class RegistroK270(models.Model):
         "reg_K275_ids_RegistroK270_id",
         string="K275 Correção de Apontamento e Retorno de Insumos",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "K275 Correção de Apontamento e Retorno de Insumos dos Registros "
             "K215, K220, K235, K255 e K265"
@@ -14714,7 +14567,6 @@ class RegistroK290(models.Model):
         "reg_K291_ids_RegistroK290_id",
         string="K291 Produção Conjunta – Itens Produzidos",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_K292_ids = fields.One2many(
@@ -14722,7 +14574,6 @@ class RegistroK290(models.Model):
         "reg_K292_ids_RegistroK290_id",
         string="K292 Produção Conjunta – insumos Consumidos",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -14816,7 +14667,6 @@ class RegistroK300(models.Model):
         "reg_K301_ids_RegistroK300_id",
         string="K301 Produção Conjunta – Industrialização efetuada",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "K301 Produção Conjunta – Industrialização efetuada por terceiros "
             "– Itens Produzidos"
@@ -14828,7 +14678,6 @@ class RegistroK300(models.Model):
         "reg_K302_ids_RegistroK300_id",
         string="K302 Produção Conjunta – Industrialização efetuada",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "K302 Produção Conjunta – Industrialização efetuada por terceiros "
             "– Insumos Consumidos"
@@ -15098,7 +14947,6 @@ class Registro1100(models.Model):
         "reg_1105_ids_Registro1100_id",
         string="1105 Documentos Fiscais de Exportação",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -15147,7 +14995,6 @@ class Registro1105(models.Model):
         "reg_1110_ids_Registro1105_id",
         string="1110 Operações de Exportação Indireta",
         sped_card="1:N",
-        sped_required="O",
         help=("1110 Operações de Exportação Indireta - Mercadorias de terceiros"),
     )
 
@@ -15303,7 +15150,6 @@ class Registro1200(models.Model):
         "reg_1210_ids_Registro1200_id",
         string="1210 Utilização de Créditos Fiscais",
         sped_card="1:N",
-        sped_required="O",
         help="1210 Utilização de Créditos Fiscais - ICMS",
     )
 
@@ -15413,7 +15259,6 @@ class Registro1250(models.Model):
         "reg_1255_ids_Registro1250_id",
         string="1255 Informações consolidadas de saldos",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "1255 Informações consolidadas de saldos de restituição, "
             "ressarcimento e complementação do ICMS por motivo"
@@ -15611,7 +15456,6 @@ class Registro1300(models.Model):
         "reg_1310_ids_Registro1300_id",
         string="1310 Movimentação diária de combustíveis",
         sped_card="1:N",
-        sped_required="O",
         help="1310 Movimentação diária de combustíveis por tanque",
     )
 
@@ -15724,7 +15568,6 @@ class Registro1310(models.Model):
         "reg_1320_ids_Registro1310_id",
         string="1320 Volume de vendas",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -15824,7 +15667,6 @@ class Registro1350(models.Model):
         "reg_1360_ids_Registro1350_id",
         string="1360 Lacres das bombas",
         sped_card="1:N",
-        sped_required="O",
     )
 
     reg_1370_ids = fields.One2many(
@@ -15832,7 +15674,6 @@ class Registro1350(models.Model):
         "reg_1370_ids_Registro1350_id",
         string="1370 Bicos da bomba",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -15905,7 +15746,6 @@ class Registro1390(models.Model):
         "reg_1391_ids_Registro1390_id",
         string="1391 Produção diária da usina",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -15998,7 +15838,7 @@ class Registro1391(models.Model):
         ),
     )
 
-    SAÍDAS = fields.Float(
+    SAIDAS = fields.Float(
         string="Saídas (litros / kg)",
         xsd_type="TDec_1602",
         digits=(
@@ -16292,7 +16132,6 @@ class Registro1500(models.Model):
         "reg_1510_ids_Registro1500_id",
         string="1510 Itens do documento Nota fiscal/Conta",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "1510 Itens do documento Nota fiscal/Conta de energia elétrica "
             "(código 06)"
@@ -16620,7 +16459,6 @@ class Registro1700(models.Model):
         "reg_1710_ids_Registro1700_id",
         string="1710 Documentos fiscais cancelados/inutilizados",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -16759,7 +16597,6 @@ class Registro1900(models.Model):
         "reg_1910_ids_Registro1900_id",
         string="1910 Período da Sub-apuração do ICMS",
         sped_card="1:N",
-        sped_required="O",
     )
 
 
@@ -16786,7 +16623,6 @@ class Registro1910(models.Model):
         "reg_1920_ids_Registro1910_id",
         string="1920 Sub-apuração do ICMS",
         sped_card="1:1",
-        sped_required="O",
     )
 
 
@@ -16906,7 +16742,6 @@ class Registro1920(models.Model):
         "reg_1921_ids_Registro1920_id",
         string="1921 Ajuste/Benefício/Incentivo da Sub- apuração",
         sped_card="1:N",
-        sped_required="O",
         help="1921 Ajuste/Benefício/Incentivo da Sub- apuração do ICMS",
     )
 
@@ -16915,7 +16750,6 @@ class Registro1920(models.Model):
         "reg_1925_ids_Registro1920_id",
         string="1925 Informações Adicionais",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "1925 Informações Adicionais da Sub- apuração – Valores " "Declaratórios"
         ),
@@ -16926,7 +16760,6 @@ class Registro1920(models.Model):
         "reg_1926_ids_Registro1920_id",
         string="1926 Obrigações",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "1926 Obrigações do ICMS A Recolher – Operações referentes à Sub-"
             "apuração"
@@ -16971,7 +16804,6 @@ class Registro1921(models.Model):
         "reg_1922_ids_Registro1921_id",
         string="1922 Informações Adicionais dos Ajustes",
         sped_card="1:N",
-        sped_required="O",
         help=("1922 Informações Adicionais dos Ajustes da Sub-apuração do ICMS"),
     )
 
@@ -16980,7 +16812,6 @@ class Registro1921(models.Model):
         "reg_1923_ids_Registro1921_id",
         string="1923 Informações Adicionais dos Ajustes",
         sped_card="1:N",
-        sped_required="O",
         help=(
             "1923 Informações Adicionais dos Ajustes da Sub-apuração do ICMS –"
             " Identificação dos Documentos Fiscais"
@@ -17455,7 +17286,6 @@ class Registro1970(models.Model):
         "reg_1975_ids_Registro1970_id",
         string="1975 GIAF 3",
         sped_card="1:4",
-        sped_required="O",
         help=(
             "1975 GIAF 3 - Guia de informação e apuração de incentivos fiscais"
             " e financeiros: importação (saídas internas por faixa de "

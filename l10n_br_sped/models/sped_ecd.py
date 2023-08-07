@@ -450,7 +450,7 @@ class Registro0150(models.Model):
         "reg_0180_ids_Registro0150_id",
         string="reg_0180_ids",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help="0180 IDENTIFICAÇÃO DO RELACIONAMENTO COM O PARTICIPANTE",
     )
 
@@ -513,7 +513,7 @@ class RegistroI010(models.Model):
         "reg_I012_ids_RegistroI010_id",
         string="I012 LIVROS AUXILIARES AO DIÁRIO",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I020_ids = fields.One2many(
@@ -521,7 +521,7 @@ class RegistroI010(models.Model):
         "reg_I020_ids_RegistroI010_id",
         string="I020 CAMPOS ADICIONAIS",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I030_ids = fields.One2many(
@@ -529,7 +529,7 @@ class RegistroI010(models.Model):
         "reg_I030_ids_RegistroI010_id",
         string="I030 TERMO DE ABERTURA",
         sped_card="1",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I050_ids = fields.One2many(
@@ -537,7 +537,7 @@ class RegistroI010(models.Model):
         "reg_I050_ids_RegistroI010_id",
         string="I050 PLANO DE CONTAS",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I075_ids = fields.One2many(
@@ -545,7 +545,7 @@ class RegistroI010(models.Model):
         "reg_I075_ids_RegistroI010_id",
         string="I075 TABELA DE HISTÓRICO PADRONIZADO",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I100_ids = fields.One2many(
@@ -553,7 +553,7 @@ class RegistroI010(models.Model):
         "reg_I100_ids_RegistroI010_id",
         string="I100 CENTRO DE CUSTOS",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I150_ids = fields.One2many(
@@ -561,7 +561,7 @@ class RegistroI010(models.Model):
         "reg_I150_ids_RegistroI010_id",
         string="I150 SALDOS PERIÓDICOS – IDENTIFICAÇÃO DO PERÍODO",
         sped_card="1:12",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I200_ids = fields.One2many(
@@ -569,7 +569,7 @@ class RegistroI010(models.Model):
         "reg_I200_ids_RegistroI010_id",
         string="I200 LANÇAMENTO CONTÁBIL",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I300_ids = fields.One2many(
@@ -577,7 +577,7 @@ class RegistroI010(models.Model):
         "reg_I300_ids_RegistroI010_id",
         string="I300 BALANCETES DIÁRIOS – IDENTIFICAÇÃO DA DATA",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I350_ids = fields.One2many(
@@ -585,7 +585,7 @@ class RegistroI010(models.Model):
         "reg_I350_ids_RegistroI010_id",
         string="reg_I350_ids",
         sped_card="1:12",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "I350 SALDOS DAS CONTAS DE RESULTADO ANTES DO ENCERRAMENTO – "
             "IDENTIFICAÇÃO DA DATA"
@@ -597,7 +597,7 @@ class RegistroI010(models.Model):
         "reg_I500_ids_RegistroI010_id",
         string="reg_I500_ids",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "I500 PARÂMETROS DE IMPRESSÃO/VISUALIZAÇÃO DO LIVRO RAZÃO AUXILIAR"
             " COM LEIAUTE PARAMETRIZÁVEL"
@@ -609,7 +609,7 @@ class RegistroI010(models.Model):
         "reg_I510_ids_RegistroI010_id",
         string="reg_I510_ids",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "I510 DEFINIÇÃO DOS CAMPOS DO LIVRO RAZÃO AUXILIAR COM LEIAUTE "
             "PARAMETRIZÁVEL"
@@ -621,7 +621,7 @@ class RegistroI010(models.Model):
         "reg_I550_ids_RegistroI010_id",
         string="reg_I550_ids",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
         help=("I550 DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"),
     )
 
@@ -677,7 +677,7 @@ class RegistroI012(models.Model):
         "reg_I015_ids_RegistroI012_id",
         string="reg_I015_ids",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "I015 IDENTIFICAÇÃO DAS CONTAS DA ESCRITURAÇÃO RESUMIDA A QUE SE "
             "REFERE A ESCRITURAÇÃO AUXILIAR"
@@ -732,7 +732,7 @@ class RegistroI020(models.Model):
 
     CAMPO = fields.Char(string="Nome do campo adicional", required=True)
 
-    DESCRIÇÃO = fields.Char(string="Descrição do campo adicional")
+    DESCRICAO = fields.Char(string="Descrição do campo adicional")
 
     TIPO = fields.Char(
         string="C Indicação do tipo de dado",
@@ -889,7 +889,7 @@ class RegistroI050(models.Model):
         "reg_I051_ids_RegistroI050_id",
         string="I051 PLANO DE CONTAS REFERENCIAL",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I052_ids = fields.One2many(
@@ -897,7 +897,7 @@ class RegistroI050(models.Model):
         "reg_I052_ids_RegistroI050_id",
         string="I052 INDICAÇÃO DOS CÓDIGOS DE AGLUTINAÇÃO",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_I053_ids = fields.One2many(
@@ -905,7 +905,7 @@ class RegistroI050(models.Model):
         "reg_I053_ids_RegistroI050_id",
         string="I053 SUBCONTAS CORRELATAS",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -1070,7 +1070,7 @@ class RegistroI150(models.Model):
         "reg_I155_ids_RegistroI150_id",
         string="I155 DETALHES DOS SALDOS PERIÓDICOS",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -1203,7 +1203,7 @@ class RegistroI155(models.Model):
         "reg_I157_ids_RegistroI155_id",
         string="reg_I157_ids",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help="I157 TRANSFERÊNCIA DE SALDOS DO PLANO DE CONTAS ANTERIOR",
     )
 
@@ -1334,7 +1334,7 @@ class RegistroI200(models.Model):
         "reg_I250_ids_RegistroI200_id",
         string="I250 PARTIDAS DO LANÇAMENTO CONTÁBIL",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -1444,7 +1444,7 @@ class RegistroI300(models.Model):
         "reg_I310_ids_RegistroI300_id",
         string="I310 DETALHES DO BALANCETE DIÁRIO",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -1528,7 +1528,7 @@ class RegistroI350(models.Model):
         "reg_I355_ids_RegistroI350_id",
         string="reg_I355_ids",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "I355 DOS SALDOS DAS CONTAS DE RESULTADO ANTES DO DETALHES " "ENCERRAMENTO"
         ),
@@ -1685,7 +1685,7 @@ class RegistroI550(models.Model):
         "reg_I555_ids_RegistroI550_id",
         string="reg_I555_ids",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
         help=("I555 TOTAIS NO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"),
     )
 
@@ -1750,7 +1750,7 @@ class RegistroJ005(models.Model):
         "reg_J100_ids_RegistroJ005_id",
         string="J100 BALANÇO PATRIMONIAL",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_J150_ids = fields.One2many(
@@ -1758,7 +1758,7 @@ class RegistroJ005(models.Model):
         "reg_J150_ids_RegistroJ005_id",
         string="J150 DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help="J150 DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO (DRE)",
     )
 
@@ -1767,7 +1767,7 @@ class RegistroJ005(models.Model):
         "reg_J210_ids_RegistroJ005_id",
         string="reg_J210_ids",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "J210 DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO "
             "(DLPA)/DEMONSTRAÇÃO DE MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"
@@ -1779,7 +1779,7 @@ class RegistroJ005(models.Model):
         "reg_J800_ids_RegistroJ005_id",
         string="J800 OUTRAS INFORMAÇÕES",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_J801_ids = fields.One2many(
@@ -1787,7 +1787,7 @@ class RegistroJ005(models.Model):
         "reg_J801_ids_RegistroJ005_id",
         string="reg_J801_ids",
         sped_card="0:1",
-        sped_required="Sim",
+        sped_required=True,
         help="J801 TERMO DE VERIFICAÇÃO PARA FINS DE SUBSTITUIÇÃO DA ECD",
     )
 
@@ -2142,7 +2142,7 @@ class RegistroJ210(models.Model):
         "reg_J215_ids_RegistroJ210_id",
         string="reg_J215_ids",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "J215 FATO CONTÁBIL QUE ALTERA A CONTA LUCROS ACUMULADOS OU A "
             "CONTA PREJUÍZOS ACUMULADOS OU O PATRIMÔNIO LÍQUIDO"
@@ -2362,7 +2362,7 @@ class RegistroJ900(models.Model):
         "reg_J930_ids_RegistroJ900_id",
         string="J930 SIGNATÁRIOS DA ESCRITURAÇÃO",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_J932_ids = fields.One2many(
@@ -2370,7 +2370,7 @@ class RegistroJ900(models.Model):
         "reg_J932_ids_RegistroJ900_id",
         string="reg_J932_ids",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "J932 SIGNATÁRIOS DO TERMO DE VERIFICAÇÃO PARA FINS DE "
             "SUBSTITUIÇÃO DA ECD"
@@ -2382,7 +2382,7 @@ class RegistroJ900(models.Model):
         "reg_J935_ids_RegistroJ900_id",
         string="J935 IDENTIFICAÇÃO DOS AUDITORES INDEPENDENTES",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -2586,7 +2586,7 @@ class RegistroK030(models.Model):
         "reg_K100_ids_RegistroK030_id",
         string="K100 RELAÇÃO DAS EMPRESAS CONSOLIDADAS",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -2690,7 +2690,7 @@ class RegistroK100(models.Model):
         "reg_K110_ids_RegistroK100_id",
         string="K110 RELAÇÃO DOS EVENTOS SOCIETÁRIOS",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -2728,7 +2728,7 @@ class RegistroK110(models.Model):
         "reg_K115_ids_RegistroK110_id",
         string="K115 EMPRESAS PARTICIPANTES DO EVENTO SOCIETÁRIO",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -2813,7 +2813,7 @@ class RegistroK200(models.Model):
         "reg_K210_ids_RegistroK200_id",
         string="reg_K210_ids",
         sped_card="1:N",
-        sped_required="Sim",
+        sped_required=True,
         help=("K210 MAPEAMENTO PARA O PLANO DE CONTAS DAS EMPRESAS CONSOLIDADAS"),
     )
 
@@ -2822,7 +2822,7 @@ class RegistroK200(models.Model):
         "reg_K300_ids_RegistroK200_id",
         string="K300 SALDOS DAS CONTAS CONSOLIDADAS",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -2918,7 +2918,7 @@ class RegistroK300(models.Model):
         "reg_K310_ids_RegistroK300_id",
         string="reg_K310_ids",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
         help=("K310 EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL"),
     )
 
@@ -2964,7 +2964,7 @@ class RegistroK310(models.Model):
         "reg_K315_ids_RegistroK310_id",
         string="reg_K315_ids",
         sped_card="0:N",
-        sped_required="Sim",
+        sped_required=True,
         help=("K315 EMPRESAS CONTRAPARTES DAS PARCELAS DO VALOR ELIMINADO TOTAL"),
     )
 

@@ -1419,7 +1419,7 @@ class RegistroE010(models.Model):
         "reg_E015_ids_RegistroE010_id",
         string="E015 Contas Contábeis Mapeadas",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -1590,7 +1590,7 @@ class RegistroE030(models.Model):
         "reg_E155_ids_RegistroE030_id",
         string="E155 Detalhes dos Saldos Contábeis Calculados",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=("E155 Detalhes dos Saldos Contábeis Calculados com Base nas ECD"),
     )
 
@@ -1599,7 +1599,7 @@ class RegistroE030(models.Model):
         "reg_E355_ids_RegistroE030_id",
         string="E355 Detalhes dos Saldos das Contas",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "E355 Detalhes dos Saldos das Contas de Resultado Antes do " "Encerramento"
         ),
@@ -1743,7 +1743,7 @@ class RegistroJ050(models.Model):
         ),
     )
 
-    NÍVEL = fields.Integer(
+    NIVEL = fields.Integer(
         string="Nível da Conta Analítica/Sintética",
         required=True,
         help=(
@@ -1769,7 +1769,7 @@ class RegistroJ050(models.Model):
         "reg_J051_ids_RegistroJ050_id",
         string="J051 Plano de Contas Referencial",
         sped_card="Se J050.IND_CTA = “A” [1:N] Senão [0]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_J053_ids = fields.One2many(
@@ -1777,7 +1777,7 @@ class RegistroJ050(models.Model):
         "reg_J053_ids_RegistroJ050_id",
         string="J053 Subcontas Correlatas",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -1918,7 +1918,7 @@ class RegistroK030(models.Model):
         "reg_K155_ids_RegistroK030_id",
         string="K155 Detalhes dos Saldos Contábeis",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "K155 Detalhes dos Saldos Contábeis (Depois do Encerramento do "
             "Resultado do Período)"
@@ -1930,7 +1930,7 @@ class RegistroK030(models.Model):
         "reg_K355_ids_RegistroK030_id",
         string="K355 Saldos Finais das Contas Contábeis",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "K355 Saldos Finais das Contas Contábeis de Resultado Antes do "
             "Encerramento"
@@ -2013,7 +2013,7 @@ class RegistroK155(models.Model):
         "reg_K156_ids_RegistroK155_id",
         string="K156 Mapeamento Referencial do Saldo",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -2139,7 +2139,7 @@ class RegistroK355(models.Model):
         "reg_K356_ids_RegistroK355_id",
         string="K356 Mapeamento Referencial dos Saldos Finais",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "K356 Mapeamento Referencial dos Saldos Finais das Contas de "
             "Resultado Antes do Encerramento"
@@ -2526,7 +2526,7 @@ class RegistroL030(models.Model):
         "reg_L100_ids_RegistroL030_id",
         string="L100 Balanço Patrimonial",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_L200_ids = fields.One2many(
@@ -2534,7 +2534,7 @@ class RegistroL030(models.Model):
         "reg_L200_ids_RegistroL030_id",
         string="L200 Método de Avaliação do Estoque Final",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_L210_ids = fields.One2many(
@@ -2542,7 +2542,7 @@ class RegistroL030(models.Model):
         "reg_L210_ids_RegistroL030_id",
         string="L210 Informativo da Composição de Custos",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_L300_ids = fields.One2many(
@@ -2550,7 +2550,7 @@ class RegistroL030(models.Model):
         "reg_L300_ids_RegistroL030_id",
         string="L300 Demonstração do Resultado Líquido",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="L300 Demonstração do Resultado Líquido no Período Fiscal",
     )
 
@@ -2947,7 +2947,7 @@ class RegistroM030(models.Model):
         "reg_M300_ids_RegistroM030_id",
         string="M300 Demonstração do Lucro Real",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_M350_ids = fields.One2many(
@@ -2955,7 +2955,7 @@ class RegistroM030(models.Model):
         "reg_M350_ids_RegistroM030_id",
         string="M350 Demonstração da Base de Cálculo da CSLL",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_M410_ids = fields.One2many(
@@ -2963,7 +2963,7 @@ class RegistroM030(models.Model):
         "reg_M410_ids_RegistroM030_id",
         string="M410 Lançamentos na Conta da Parte B do e-Lalur",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M410 Lançamentos na Conta da Parte B do e-Lalur e do e- Lacs Sem "
             "Reflexo na Parte A"
@@ -2975,7 +2975,7 @@ class RegistroM030(models.Model):
         "reg_M500_ids_RegistroM030_id",
         string="M500 Controle de Saldos das Contas da Parte B",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M500 Controle de Saldos das Contas da Parte B do e-Lalur e do " "e-Lacs"
         ),
@@ -2986,7 +2986,7 @@ class RegistroM030(models.Model):
         "reg_M510_ids_RegistroM030_id",
         string="M510 Controle de Saldos das Contas Padrão",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M510 Controle de Saldos das Contas Padrão da Parte B do e- Lalur "
             "e do e-Lacs"
@@ -3069,7 +3069,7 @@ class RegistroM300(models.Model):
         "reg_M305_ids_RegistroM300_id",
         string="M305 Contas da Parte B Relacionadas ao Lançamento",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M305 Contas da Parte B Relacionadas ao Lançamento da Parte A do " "e-Lalur"
         ),
@@ -3080,7 +3080,7 @@ class RegistroM300(models.Model):
         "reg_M310_ids_RegistroM300_id",
         string="M310 Contas Contábeis Relacionadas ao Lançamento",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M310 Contas Contábeis Relacionadas ao Lançamento da Parte A do " "e-Lalur"
         ),
@@ -3091,7 +3091,7 @@ class RegistroM300(models.Model):
         "reg_M315_ids_RegistroM300_id",
         string="M315 Identificação de Processos Judiciais",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M315 Identificação de Processos Judiciais e Administrativos "
             "Referentes ao Lançamento"
@@ -3198,7 +3198,7 @@ class RegistroM310(models.Model):
         "reg_M312_ids_RegistroM310_id",
         string="M312 Números dos Lançamentos Relacionados",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="M312 Números dos Lançamentos Relacionados à Conta Contábil",
     )
 
@@ -3331,7 +3331,7 @@ class RegistroM350(models.Model):
         "reg_M355_ids_RegistroM350_id",
         string="M355 Contas da Parte B Relacionadas ao Lançamento",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M355 Contas da Parte B Relacionadas ao Lançamento da Parte A do " "e-Lacs"
         ),
@@ -3342,7 +3342,7 @@ class RegistroM350(models.Model):
         "reg_M360_ids_RegistroM350_id",
         string="M360 Contas Contábeis Relacionadas ao Lançamento",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M360 Contas Contábeis Relacionadas ao Lançamento da Parte A do " "e-Lacs"
         ),
@@ -3353,7 +3353,7 @@ class RegistroM350(models.Model):
         "reg_M365_ids_RegistroM350_id",
         string="M365 Identificação de Processos Judiciais",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M365 Identificação de Processos Judiciais e Administrativos "
             "Referentes ao Lançamento"
@@ -3460,7 +3460,7 @@ class RegistroM360(models.Model):
         "reg_M362_ids_RegistroM360_id",
         string="M362 Números dos Lançamentos Relacionados",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="M362 Números dos Lançamentos Relacionados à Conta Contábil",
     )
 
@@ -3603,7 +3603,7 @@ class RegistroM410(models.Model):
         "reg_M415_ids_RegistroM410_id",
         string="M415 Identificação de Processos Judiciais",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "M415 Identificação de Processos Judiciais e Administrativos "
             "Referentes ao Lançamento"
@@ -3969,7 +3969,7 @@ class RegistroN030(models.Model):
         "reg_N500_ids_RegistroN030_id",
         string="N500 Base de Cálculo do IRPJ Sobre",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "N500 Base de Cálculo do IRPJ Sobre o Lucro Real Após as "
             "Compensações de Prejuízos"
@@ -3981,7 +3981,7 @@ class RegistroN030(models.Model):
         "reg_N600_ids_RegistroN030_id",
         string="N600 Demonstração do Lucro da Exploração",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_N610_ids = fields.One2many(
@@ -3989,7 +3989,7 @@ class RegistroN030(models.Model):
         "reg_N610_ids_RegistroN030_id",
         string="N610 Cálculo da Isenção e Redução",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=("N610 Cálculo da Isenção e Redução do Imposto sobre Lucro Real"),
     )
 
@@ -3998,7 +3998,7 @@ class RegistroN030(models.Model):
         "reg_N615_ids_RegistroN030_id",
         string="N615 Informações da Base de Cálculo",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="N615 Informações da Base de Cálculo de Incentivos Fiscais",
     )
 
@@ -4007,7 +4007,7 @@ class RegistroN030(models.Model):
         "reg_N620_ids_RegistroN030_id",
         string="N620 Apuração do IRPJ Mensal por Estimativa",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_N630_ids = fields.One2many(
@@ -4015,7 +4015,7 @@ class RegistroN030(models.Model):
         "reg_N630_ids_RegistroN030_id",
         string="N630 Apuração do IRPJ Com Base no Lucro Real",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_N650_ids = fields.One2many(
@@ -4023,7 +4023,7 @@ class RegistroN030(models.Model):
         "reg_N650_ids_RegistroN030_id",
         string="N650 Base de Cálculo da CSLL Após Compensações",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "N650 Base de Cálculo da CSLL Após Compensações das Bases de "
             "Cálculo Negativa"
@@ -4035,7 +4035,7 @@ class RegistroN030(models.Model):
         "reg_N660_ids_RegistroN030_id",
         string="N660 Apuração da CSLL Mensal por Estimativa",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_N670_ids = fields.One2many(
@@ -4043,7 +4043,7 @@ class RegistroN030(models.Model):
         "reg_N670_ids_RegistroN030_id",
         string="N670 Apuração da CSLL Com Base no Lucro Real",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -4511,7 +4511,7 @@ class RegistroP030(models.Model):
         "reg_P100_ids_RegistroP030_id",
         string="P100 Balanço Patrimonial",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_P130_ids = fields.One2many(
@@ -4519,7 +4519,7 @@ class RegistroP030(models.Model):
         "reg_P130_ids_RegistroP030_id",
         string="P130 Demonstração das Receitas Incentivadas",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=("P130 Demonstração das Receitas Incentivadas do Lucro Presumido"),
     )
 
@@ -4528,7 +4528,7 @@ class RegistroP030(models.Model):
         "reg_P150_ids_RegistroP030_id",
         string="P150 Demonstração do Resultado",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_P200_ids = fields.One2many(
@@ -4536,7 +4536,7 @@ class RegistroP030(models.Model):
         "reg_P200_ids_RegistroP030_id",
         string="P200 Apuração da Base de Cálculo",
         sped_card="[1;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="P200 Apuração da Base de Cálculo do Lucro Presumido",
     )
 
@@ -4545,7 +4545,7 @@ class RegistroP030(models.Model):
         "reg_P230_ids_RegistroP030_id",
         string="P230 Cálculo da Isenção e Redução",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="P230 Cálculo da Isenção e Redução do Lucro Presumido",
     )
 
@@ -4554,7 +4554,7 @@ class RegistroP030(models.Model):
         "reg_P300_ids_RegistroP030_id",
         string="P300 Cálculo do IRPJ com Base no Lucro Presumido",
         sped_card="[1;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_P400_ids = fields.One2many(
@@ -4562,7 +4562,7 @@ class RegistroP030(models.Model):
         "reg_P400_ids_RegistroP030_id",
         string="P400 Apuração da Base de Cálculo da CSLL com Base",
         sped_card="[1;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "P400 Apuração da Base de Cálculo da CSLL com Base no Lucro " "Presumido"
         ),
@@ -4573,7 +4573,7 @@ class RegistroP030(models.Model):
         "reg_P500_ids_RegistroP030_id",
         string="P500 Cálculo da CSLL com Base no Lucro Líquido",
         sped_card="[1;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -5057,7 +5057,7 @@ class RegistroT030(models.Model):
         "reg_T120_ids_RegistroT030_id",
         string="T120 Apuração da Base de Cálculo do IRPJ com Base",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "T120 Apuração da Base de Cálculo do IRPJ com Base no Lucro " "Arbitrado"
         ),
@@ -5068,7 +5068,7 @@ class RegistroT030(models.Model):
         "reg_T150_ids_RegistroT030_id",
         string="T150 Cálculo do Imposto de Renda com Base",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="T150 Cálculo do Imposto de Renda com Base no Lucro Arbitrado",
     )
 
@@ -5077,7 +5077,7 @@ class RegistroT030(models.Model):
         "reg_T170_ids_RegistroT030_id",
         string="T170 Apuração da Base de Cálculo da CSLL com Base",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "T170 Apuração da Base de Cálculo da CSLL com Base no Lucro " "Arbitrado"
         ),
@@ -5088,7 +5088,7 @@ class RegistroT030(models.Model):
         "reg_T181_ids_RegistroT030_id",
         string="T181 Cálculo da CSLL com Base no Lucro Arbitrado",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -5300,7 +5300,7 @@ class RegistroU030(models.Model):
         "reg_U100_ids_RegistroU030_id",
         string="U100 Balanço Patrimonial",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_U150_ids = fields.One2many(
@@ -5308,7 +5308,7 @@ class RegistroU030(models.Model):
         "reg_U150_ids_RegistroU030_id",
         string="U150 Demonstração do Resultado",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_U180_ids = fields.One2many(
@@ -5316,7 +5316,7 @@ class RegistroU030(models.Model):
         "reg_U180_ids_RegistroU030_id",
         string="U180 Cálculo do IRPJ das Empresas Imunes",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="U180 Cálculo do IRPJ das Empresas Imunes ou Isentas",
     )
 
@@ -5325,7 +5325,7 @@ class RegistroU030(models.Model):
         "reg_U182_ids_RegistroU030_id",
         string="U182 Cálculo da CSLL das Empresas Imunes",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="U182 Cálculo da CSLL das Empresas Imunes ou Isentas",
     )
 
@@ -5606,7 +5606,7 @@ class RegistroV010(models.Model):
         "reg_V020_ids_RegistroV010_id",
         string="V020 DEREX",
         sped_card="[1;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="V020 DEREX - Responsável pela Movimentação",
     )
 
@@ -5615,7 +5615,7 @@ class RegistroV010(models.Model):
         "reg_V030_ids_RegistroV010_id",
         string="V030 DEREX - Período – Mês",
         sped_card="[1;12]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -5665,7 +5665,7 @@ class RegistroV030(models.Model):
         "reg_V100_ids_RegistroV030_id",
         string="V100 Demonstrativo dos recursos",
         sped_card="[1;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "V100 Demonstrativo dos recursos em moeda estrangeira decorrentes "
             "do recebimento de exportações"
@@ -5928,7 +5928,7 @@ class RegistroW100(models.Model):
             "[0;N] Observação: Quando for obrigatório, deverá aparecer, no "
             "mínimo, duas vezes."
         ),
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -6321,7 +6321,7 @@ class RegistroW200(models.Model):
         "reg_W250_ids_RegistroW200_id",
         string="W250 Declaração País a País",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="W250 Declaração País a País - Entidades Integrantes",
     )
 
@@ -6435,7 +6435,7 @@ class RegistroW250(models.Model):
         ),
     )
 
-    ENDEREÇO = fields.Char(
+    ENDERECO = fields.Char(
         string="Deve ser fornecido, em texto livre",
         required=True,
         sped_length=150,
@@ -6555,7 +6555,7 @@ class RegistroW250(models.Model):
         ),
     )
 
-    OBSERVAÇÃO = fields.Char(
+    OBSERVACAO = fields.Char(
         string="C Outras Informações",
         sped_length=1000,
         help=(
@@ -6687,7 +6687,7 @@ class RegistroW300(models.Model):
         ),
     )
 
-    OBSERVAÇÃO = fields.Char(string="Observações", required=True, sped_length=4000)
+    OBSERVACAO = fields.Char(string="Observações", required=True, sped_length=4000)
 
     FIM_OBSERVACAO = fields.Char(
         string="Indicador de fim das observações",
@@ -7372,7 +7372,7 @@ class RegistroX300(models.Model):
         "reg_X305_ids_RegistroX300_id",
         string="X305 Tipos de Ajustes do Preço Parâmetro",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="X305 Tipos de Ajustes do Preço Parâmetro da Exportação",
     )
 
@@ -7381,7 +7381,7 @@ class RegistroX300(models.Model):
         "reg_X310_ids_RegistroX300_id",
         string="X310 Operações com o Exterior",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="X310 Operações com o Exterior - Contratantes das Exportações",
     )
 
@@ -7989,7 +7989,7 @@ class RegistroX320(models.Model):
         "reg_X325_ids_RegistroX320_id",
         string="X325 Tipos de Ajustes do Preço Parâmetro",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="X325 Tipos de Ajustes do Preço Parâmetro da Importação",
     )
 
@@ -7998,7 +7998,7 @@ class RegistroX320(models.Model):
         "reg_X330_ids_RegistroX320_id",
         string="X330 Operações com o Exterior",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help="X330 Operações com o Exterior - Contratantes das Importações",
     )
 
@@ -8252,7 +8252,7 @@ class RegistroX340(models.Model):
         "reg_X350_ids_RegistroX340_id",
         string="X350 Participações no Exterior",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=("X350 Participações no Exterior - Resultado do Período de Apuração"),
     )
 
@@ -8261,7 +8261,7 @@ class RegistroX340(models.Model):
         "reg_X351_ids_RegistroX340_id",
         string="X351 Demonstrativo de Resultados e de Imposto",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=("X351 Demonstrativo de Resultados e de Imposto a Pagar no Exterior"),
     )
 
@@ -8270,7 +8270,7 @@ class RegistroX340(models.Model):
         "reg_X352_ids_RegistroX340_id",
         string="X352 Demonstrativo de Resultados",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "X352 Demonstrativo de Resultados no Exterior Auferidos por "
             "Intermédio de Coligadas em Regime de Caixa"
@@ -8282,7 +8282,7 @@ class RegistroX340(models.Model):
         "reg_X353_ids_RegistroX340_id",
         string="X353 Demonstrativo de Consolidação",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_X354_ids = fields.One2many(
@@ -8290,7 +8290,7 @@ class RegistroX340(models.Model):
         "reg_X354_ids_RegistroX340_id",
         string="X354 Demonstrativo de Prejuízos Acumulados",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_X355_ids = fields.One2many(
@@ -8298,7 +8298,7 @@ class RegistroX340(models.Model):
         "reg_X355_ids_RegistroX340_id",
         string="X355 Demonstrativo de Rendas Ativas e Passivas",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_X356_ids = fields.One2many(
@@ -8306,7 +8306,7 @@ class RegistroX340(models.Model):
         "reg_X356_ids_RegistroX340_id",
         string="X356 Demonstrativo de Estrutura Societária",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
     reg_X357_ids = fields.One2many(
@@ -8314,7 +8314,7 @@ class RegistroX340(models.Model):
         "reg_X357_ids_RegistroX340_id",
         string="X357 Investidoras Diretas",
         sped_card="[0;N]",
-        sped_required="Sim",
+        sped_required=True,
     )
 
 
@@ -11284,7 +11284,7 @@ class RegistroY680(models.Model):
         "reg_Y681_ids_RegistroY680_id",
         string="Y681 Informações de Optantes pelo Refis",
         sped_card="[0;12]",
-        sped_required="Sim",
+        sped_required=True,
         help=(
             "Y681 Informações de Optantes pelo Refis (Lucro Real, Presumido e "
             "Arbitrado)"
@@ -11512,7 +11512,7 @@ class Registro9100(models.Model):
         string="Campo", help="Campo: Nome do campo no registro onde ocorreu."
     )
 
-    CONTEÚDO = fields.Char(
+    CONTEUDO = fields.Char(
         string="Conteúdo",
         sped_length=19,
         help="Conteúdo: Conteúdo do campo – Valor preenchido pelo usuário.",
