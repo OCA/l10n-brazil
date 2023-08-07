@@ -4,7 +4,7 @@
 from os import path
 
 from odoo.tests import common
-from odoo.addons import l10n_br_sped_spec
+from odoo.addons import l10n_br_sped
 
 
 class SpedTest(common.TransactionCase):
@@ -12,7 +12,7 @@ class SpedTest(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.demo_path = path.join(l10n_br_sped_spec.__path__[0], "demo")
+        cls.demo_path = path.join(l10n_br_sped.__path__[0], "demo")
 
     # TODO test list of level2 registers for each kind
 
@@ -32,7 +32,7 @@ class SpedTest(common.TransactionCase):
 
     def test_import_efd_icms_ipi(self):
         self.env["l10n_br_sped.mixin"].flush_registers("efd_icms_ipi")
-        file_path = path.join(self.demo_path, "demo_efd_pis_cofins_multi.txt")
+        file_path = path.join(self.demo_path, "demo_efd_icms_ipi.txt")
         self.env["l10n_br_sped.mixin"].import_file(file_path, "efd_icms_ipi")
         sped = self.env["l10n_br_sped.mixin"].generate_sped_text("efd_icms_ipi")
         with open(file_path) as f:
