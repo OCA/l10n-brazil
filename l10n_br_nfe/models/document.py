@@ -544,6 +544,10 @@ class NFe(spec_models.StackedModel):
         compute="_compute_nfe40_additional_data",
     )
 
+    nfe40_infNFeSupl = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.supplement",
+    )
+
     @api.depends("fiscal_additional_data", "fiscal_additional_data")
     def _compute_nfe40_additional_data(self):
         for record in self:
@@ -762,7 +766,12 @@ class NFe(spec_models.StackedModel):
             filter_processador_edoc_nfe
         ):
             inf_nfe = record.export_ds()[0]
-            nfe = Nfe(infNFe=inf_nfe, infNFeSupl=None, signature=None)
+
+            inf_nfe_supl = None
+            if record.nfe40_infNFeSupl:
+                inf_nfe_supl = record.nfe40_infNFeSupl.export_ds()[0]
+
+            nfe = Nfe(infNFe=inf_nfe, infNFeSupl=inf_nfe_supl, signature=None)
             edocs.append(nfe)
         return edocs
 
@@ -831,8 +840,6 @@ class NFe(spec_models.StackedModel):
     def atualiza_status_nfe(self, processo):
         self.ensure_one()
 
-        xml_file = processo.envio_xml.decode("utf-8")
-
         if hasattr(processo, "protocolo"):
             infProt = processo.protocolo.infProt
         else:
@@ -862,7 +869,7 @@ class NFe(spec_models.StackedModel):
                 response=infProt.xMotivo,
                 protocol_date=protocol_date,
                 protocol_number=infProt.nProt,
-                file_response_xml=xml_file,
+                file_response_xml=processo.retorno.text,
             )
         self.write(
             {
@@ -898,12 +905,21 @@ class NFe(spec_models.StackedModel):
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
-            if self.xml_error_message:
+            if record.xml_error_message:
                 return
+
             processador = record._processador()
+            if record.document_type == "65":
+                record.nfe40_infNFeSupl = self.env[
+                    "l10n_br_fiscal.document.supplement"
+                ].create(
+                    {
+                        "nfe40_qrCode": processador.monta_qrcode(record.document_key),
+                        "nfe40_urlChave": processador.consulta_qrcode_url,
+                    }
+                )
+
             for edoc in record.serialize():
-                if self.document_type == "65":
-                    processador.monta_qrcode(edoc)
                 processo = None
                 for p in processador.processar_documento(edoc):
                     processo = p
