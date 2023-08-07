@@ -9,7 +9,26 @@
         <field name="priority">10</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
-            <!-- TODO -->
+            <xpath expr="//group[@name='l10n_br_fiscal']" position="attributes">
+                <attribute
+                    name="invisible"
+                >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
+            </xpath>
+            <xpath expr="//group[@name='CT-e Info']" position="attributes">
+                <attribute
+                    name="invisible"
+                >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
+            </xpath>
+            <xpath expr="//page[@name='products']" position="attributes">
+                <attribute
+                    name="invisible"
+                >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
+            </xpath>
+            <xpath expr="//page[@name='finance']" position="attributes">
+                <attribute
+                    name="invisible"
+                >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
+            </xpath>
         </field>
     </record>
 

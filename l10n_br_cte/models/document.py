@@ -3,8 +3,15 @@
 
 import re
 
-from odoo import api, fields
+from erpbrasil.assinatura import certificado as cert
+from erpbrasil.transmissao import TransmissaoSOAP
+from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
+from requests import Session
 
+from odoo import _, api, fields
+from odoo.exceptions import UserError
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -492,3 +499,61 @@ class CTe(spec_models.StackedModel):
     cte40_aereo = fields.Many2one(
         comodel_name="l10n_br_cte.aereo", inverse_name="document_id"
     )
+
+    ################################
+    # Business Model Methods
+    ################################
+
+    def _serialize(self, edocs):
+        edocs = super()._serialize(edocs)
+        for record in self.with_context(lang="pt_BR").filtered(
+            filter_processador_edoc_cte
+        ):
+            inf_cte = record.export_ds()[0]
+            cte = Cte(InfCte=inf_cte, infCTeSupl=None, signature=None)
+            edocs.append(cte)
+        return edocs
+
+    def _processador(self):
+        if not self.company_id.certificate_nfe_id:
+            raise UserError(_("Certificado não encontrado"))
+
+        certificado = cert.Certificado(
+            arquivo=self.company_id.certificate_nfe_id.file,
+            senha=self.company_id.certificate_nfe_id.password,
+        )
+        session = Session()
+        session.verify = False
+        transmissao = TransmissaoSOAP(certificado, session)
+        return Cte(
+            transmissao,
+            self.company_id.state_id.ibge_code,
+            versao=self.cte40_versao,
+            ambiente=self.cte_environment,
+        )
+
+    def _document_export(self, pretty_print=True):
+        result = super()._document_export()
+        for record in self.filtered(filter_processador_edoc_cte):
+            edoc = record.serialize()[0]
+            processador = record._processador()
+            xml_file = processador.to_xml()[0]
+            event_id = self.event_ids.create_event_save_xml(
+                company_id=self.company_id,
+                environment=(
+                    EVENT_ENV_PROD if self.cte_environment == "1" else EVENT_ENV_HML
+                ),
+                event_type="0",
+                xml_file=xml_file,
+                document_id=self,
+            )
+            record.authorization_event_id = event_id
+            xml_assinado = processador.assinar_edoc(edoc, edoc.infCte.Id)
+            self._valida_xml(xml_assinado)
+        return result
+
+    def _valida_xml(self, xml_file):
+        self.ensure_one()
+        erros = Cte.schema_validation(xml_file)
+        erros = "\n".join(erros)
+        self.write({"xml_error_message": erros or False})
