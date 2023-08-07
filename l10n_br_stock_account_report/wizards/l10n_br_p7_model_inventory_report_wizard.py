@@ -75,7 +75,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
 
     def header_footer(self, to_date_with_tz, time_zone):
 
-        company = self.env.user.company_id
+        company = self.env.company
         header = {
             "company_name": company.name,
             "cnpj": company.cnpj_cpf,
@@ -152,7 +152,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         # maiores que zero devem ser considerados
         products = (
             self.env["product.product"]
-            .with_company(self.env.user.company_id.id)
+            .with_company(self.env.company.id)
             .with_context(
                 to_date=self.date,
                 default_compute_at_date=self.env.context["default_compute_at_date"],
@@ -194,7 +194,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
                 .sudo()
                 .search(
                     [
-                        ("company_id", "=", self.env.user.company_id.id),
+                        ("company_id", "=", self.env.company.id),
                         ("product_id", "=", product.id),
                         ("create_date", "<=", self.date),
                     ],
