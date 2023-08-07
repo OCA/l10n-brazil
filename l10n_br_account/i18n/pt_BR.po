@@ -77,9 +77,9 @@ msgid "All Documents"
 msgstr "Todos os Documentos"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_taxed
-msgid "Amount Taxed"
-msgstr "Montante Tributado"
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_total
+msgid "Amount Total"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_untaxed
@@ -874,6 +874,9 @@ msgstr ""
 #, python-format
 msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
+
+#~ msgid "Amount Taxed"
+#~ msgstr "Montante Tributado"
 
 #~ msgid "Account Document Line Mixin"
 #~ msgstr "Mixin de Linha de Documento da Conta"
