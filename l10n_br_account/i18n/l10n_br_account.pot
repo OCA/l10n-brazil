@@ -73,8 +73,8 @@ msgid "All Documents"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_taxed
-msgid "Amount Taxed"
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_total
+msgid "Amount Total"
 msgstr ""
 
 #. module: l10n_br_account
