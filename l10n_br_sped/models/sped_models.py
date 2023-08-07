@@ -3,8 +3,9 @@ import datetime
 
 import logging
 from io import StringIO
-from odoo import models, fields, api, _
+from odoo import _, api, models, fields
 from odoo.exceptions import UserError
+from odoo.tools import float_is_zero
 from lxml.builder import E
 
 
@@ -24,8 +25,57 @@ class IrModel(models.Model):
 
     # NOTE as we cannot let anyone edit Odoo models
     # these fields should be edited with a Wizard.
-    sped_model_id = fields.Many2one("ir.model")
+    # sped_model_id = fields.Many2one("ir.model") -> use model name
     sped_domain = fields.Char()
+
+    sped_kind = fields.Selection(
+        selection=[
+            ("ecd", "ECD"),
+            ("efd_icms_ipi", "EFD ICMS IPI"),
+            ("efd_pis_cofins", "EFD PIS COFINS"),
+            ("ecf", "ECF"),
+        ],
+        string="Sped Kind",
+        compute="_compute_sped_kind",
+        store=True,
+    )
+
+    sped_alphanum_sequence = fields.Char(
+        compute="_compute_sped_alphanum_sequence",
+        store=True,
+    )
+
+    sped_ecd_mapping = fields.Text()
+    sped_efd_icms_ipi_mapping = fields.Text()
+    sped_efd_pis_cofins_mapping = fields.Text()
+    sped_ecf_mapping = fields.Text()
+
+    @api.depends("model")
+    def _compute_sped_kind(self):
+        for model in self:
+            if model.model.startswith("l10n_br_sped."):
+                sub_split = model.model.split("l10n_br_sped.")[1].split(".")
+                if len(sub_split) == 3:
+                    model.sped_kind = sub_split[0]
+                else:
+                    model.sped_kind = None
+            else:
+                model.sped_kind = None
+
+    @api.depends("model", "sped_kind")
+    def _compute_sped_alphanum_sequence(self):
+        """
+        Used to order the SPED register in the same order
+        as in the SPED layout (so the register name alone won't cut it)
+        """
+        for model in self:
+            if not model.sped_kind:
+                self.sped_alphanum_sequence = None
+                continue
+            key = model.model[-4:][0]
+            model.sped_alphanum_sequence = env[
+                "l10n_br_sped.mixin"
+            ]._get_alphanum_sequence(model.model)
 
 
 class IrModelFields(models.Model):
@@ -96,6 +146,22 @@ class SpedMixin(models.AbstractModel):
             return True
         else:
             return super()._valid_field_parameter(field, name)
+
+    @api.model
+    def _get_alphanum_sequence(self, model_name):
+        """
+        Used to order the SPED register in the same order
+        as in the SPED layout (so the register name alone won't cut it)
+        """
+        key = model_name[-4:][0]
+        if key == "0":
+            return "a" + model_name[-4:]
+        elif model_name[-4:][0] == "9":
+            return "d" + model_name[-4:]
+        elif model_name[-4:][0] == "1":
+            return "c" + model_name[-4:]
+        else:
+            return "b" + model_name[-4:]
 
     # _sql_constraints = [
     #    should probably use a plpgsql FUNCTION see _auto_init
@@ -206,10 +272,10 @@ class SpedMixin(models.AbstractModel):
     @api.model
     def import_file(cls, filename, kind="ecd", version=None):
         """
-        ex:
-        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_ecd.txt", "ecd")
-        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_efd_icms_ipi.txt", "efd_icms_ipi")
-        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped_spec/demo/demo_efd_pis_cofins_multi.txt", "efd_pis_cofins")
+        examples:
+        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_ecd.txt", "ecd")
+        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_ecd.txt", "ecd")
+        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_efd_pis_cofins_multi.txt", "efd_pis_cofins")
         """
         if version is None:
             version = LAYOUT_VERSIONS[kind]
@@ -271,9 +337,6 @@ class SpedMixin(models.AbstractModel):
     @api.model
     def import_register(cls, line):
         values = line.split("|")[2:][:-1]
-        # TODO add specific method for ECD I550, I550 and I555 with LEIAUTE PARAMETRIZÁVEL
-        # as seen with demo, it seem we should take the rest of the line and put it in the
-        # RZ_CONT* text field!
         vals = {}
         for fname, field in cls._fields.items():
             if field.automatic or fname.endswith("currency_id"):
@@ -341,7 +404,9 @@ class SpedMixin(models.AbstractModel):
                     )
                     line_total += line_count[0] + 1
                     line_count = [0]
-                sped.write("\n|%s001|%s|" % (bloco, 0 if count_by_bloco[bloco] > 0 else 1))
+                sped.write(
+                    "\n|%s001|%s|" % (bloco, 0 if count_by_bloco[bloco] > 0 else 1)
+                )
                 line_count[0] += 1
 
             registers.generate_register_text(sped, line_count)  # TODO use yield!
@@ -359,7 +424,11 @@ class SpedMixin(models.AbstractModel):
         )  # FIXME incorrect? error in test files?
         return sped.getvalue()
 
+    @api.model
     def _get_level2_registers(cls, kind="ecd", version=None):
+        """
+        Get the "blocos" registers
+        """
         if version is None:
             version = LAYOUT_VERSIONS[kind]
         register_model_names = list(
@@ -372,14 +441,7 @@ class SpedMixin(models.AbstractModel):
         ]
         return sorted(
             register_level2_models,
-            key=lambda x: x._name[-4:][0]
-            == "0"  # hacky bloco ordering that just does the job
-            and "a" + x._name[-4:]
-            or x._name[-4:][0] == "9"
-            and "d" + x._name[-4:]
-            or x._name[-4:][0] == "1"
-            and "c" + x._name[-4:]
-            or "b" + x._name[-4:],
+            key=lambda r: cls._get_alphanum_sequence(r._name)
         )
 
     def generate_register_text(self, sped, line_count={}):
@@ -438,9 +500,9 @@ class SpedMixin(models.AbstractModel):
                         else:
                             val = str(v).replace(".", ",")
                     elif self._fields[k].type == "monetary":
-                        if v < 0.00001:
+                        if float_is_zero(v, precision_digits=8):
                             val = ""
-                        elif v % 1 < 0.00001:
+                        elif float_is_zero(v % 1, precision_digits=8):
                             val = str(int(v))
                         else:
                             val = str(v)
