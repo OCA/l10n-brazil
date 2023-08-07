@@ -475,6 +475,7 @@ class Tendereco(models.AbstractModel):
     _name = "cte.40.tendereco"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tendereco"
+    _generateds_type = "TEndereco"
 
     cte40_xLgr = fields.Char(string="Logradouro", xsd_required=True)
 
@@ -1353,7 +1354,7 @@ class InfPercurso(models.AbstractModel):
         xsd_required=True,
         xsd_type="TUf",
         help=(
-            "Sigla das Unidades da Federação do percurso do veículo.\nNão é "
+            "Sigla das Unidades da Federação do percurso do veículo.\nNo é "
             "necessário repetir as UF de Início e Fim"
         ),
     )
