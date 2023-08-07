@@ -387,7 +387,7 @@ class SpedMixin(models.AbstractModel):
         keys = [i[0] for i in self._fields.items()]
         if (
             not keys
-        ):  # happend with ECD I550, I555 and I555 with "LEIAUTE PARAMETRIZÁVEL"
+        ):  # happens with ECD I550, I555 and I555 with "LEIAUTE PARAMETRIZÁVEL"
             keys = ["id"]  # BUT should not happen!
         vals_list = self.read(keys)
         for vals in vals_list:
