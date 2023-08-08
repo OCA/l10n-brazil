@@ -24,14 +24,12 @@ class CTeRelated(spec_models.StackedModel):
     _spec_tab_name = "CTe"
 
     # infQ TODO computes/relateds
-    cte40_cUnid = fields.Selection(related="cUnid")
 
-    cte40_tpMed = fields.Char()
+    cte40_tpMed = fields.Char(store=True)
 
-    cte40_qCarga = fields.Float()
+    cte40_qCarga = fields.Float(store=True)
 
-    # View - infQ
-    cUnid = fields.Selection(
+    cte40_cUnid = fields.Selection(
         selection=[
             ("00", "M3"),
             ("01", "KG"),
@@ -39,11 +37,12 @@ class CTeRelated(spec_models.StackedModel):
             ("03", "UNIDADE"),
             ("04", "LITROS"),
             ("05", "MMBTU"),
-        ]
+        ],
+        store=True,
     )
 
     # infCarga
-    cte40_prodPred = fields.Char(string="prodPred")
+    cte40_prodPred = fields.Char(string="prodPred", store=True)
 
     cte40_vCarga = fields.Monetary(
         currency_field="currency_id", compute="_compute_vCarga", store=True

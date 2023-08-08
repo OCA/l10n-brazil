@@ -14,11 +14,7 @@ class Ferroviario(spec_models.SpecModel):
         comodel_name="l10n_br_fiscal.document", inverse_name="cte40_ferroviario"
     )
 
-    cte40_tpTraf = fields.Selection(related="tpTraf", store=True)
-
-    cte40_fluxo = fields.Char(related="fluxo", store=True)
-
-    tpTraf = fields.Selection(
+    cte40_tpTraf = fields.Selection(
         selection=[
             ("0", "Próprio"),
             ("1", "Mútuo"),
@@ -28,7 +24,7 @@ class Ferroviario(spec_models.SpecModel):
         default="0",
     )
 
-    fluxo = fields.Char(
+    cte40_fluxo = fields.Char(
         string="Fluxo Ferroviário",
         help=(
             "Fluxo Ferroviário\nTrata-se de um número identificador do "
@@ -48,9 +44,7 @@ class Ferroviario(spec_models.SpecModel):
         currency_field="brl_currency_id",
     )
 
-    cte40_respFat = fields.Selection(related="respFat")
-
-    respFat = fields.Selection(
+    cte40_respFat = fields.Selection(
         selection=[
             ("1", "Ferrovia de origem"),
             ("2", "Ferrovia de destino"),
@@ -58,21 +52,16 @@ class Ferroviario(spec_models.SpecModel):
     )
 
     cte40_ferrEmi = fields.Selection(
-        related="ferrEmi",
+        selection=[
+            ("1", "Ferrovia de origem"),
+            ("2", "Ferrovia de destino"),
+        ],
         string="Ferrovia Emitente do CTe",
-        xsd_required=True,
         help=(
             "Ferrovia Emitente do CTe\nPreencher com: "
             "\n\t\t\t\t\t\t\t\t\t1-Ferrovia de origem; "
             "\n\t\t\t\t\t\t\t\t\t2-Ferrovia de destino"
         ),
-    )
-
-    ferrEmi = fields.Selection(
-        selection=[
-            ("1", "Ferrovia de origem"),
-            ("2", "Ferrovia de destino"),
-        ]
     )
 
     cte40_ferroEnv = fields.One2many(
