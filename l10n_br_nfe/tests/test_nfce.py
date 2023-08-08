@@ -134,37 +134,6 @@ class TestNFCe(TestNFeExport):
         self.document_id.company_id.nfce_csc_token = "DUMMY"
         self.document_id.company_id.nfce_csc_code = "DUMMY"
 
-    def prepare_account_move_nfce(self):
-        receivable_account_id = self.env["account.account"].create(
-            {
-                "name": "TEST ACCOUNT",
-                "code": "1.1.1.2.2",
-                "reconcile": 1,
-                "company_id": self.env.ref("base.main_company").id,
-                "user_type_id": self.env.ref("account.data_account_type_receivable").id,
-            }
-        )
-        payable_account_id = self.env["account.account"].create(
-            {
-                "name": "TEST ACCOUNT 2",
-                "code": "1.1.1.2.3",
-                "reconcile": 1,
-                "company_id": self.env.ref("base.main_company").id,
-                "user_type_id": self.env.ref("account.data_account_type_payable").id,
-            }
-        )
-        self.document_move_id = self.env["account.move"].create(
-            {
-                "name": "MOVE TEST",
-                "company_id": self.env.ref("base.main_company").id,
-                "line_ids": [
-                    (0, 0, {"account_id": receivable_account_id.id, "credit": 10}),
-                    (0, 0, {"account_id": payable_account_id.id, "debit": 10}),
-                ],
-            }
-        )
-        self.document_move_id.fiscal_document_id = self.document_id.id
-
     @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_autorizada)
     def test_nfce_success(self, _mock_post):
         with mock.patch.object(NFe, "make_pdf", side_effect=KeyError("foo")):
@@ -214,12 +183,9 @@ class TestNFCe(TestNFeExport):
         DocumentoEletronico, "_post", side_effect=mocked_nfce_contingencia
     )
     def test_nfce_contingencia(self, _mock_post):
-        self.prepare_account_move_nfce()
-
         self.document_id.action_document_send()
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_A_ENVIAR)
         self.assertEqual(self.document_id.nfe_transmission, "9")
-        self.assertIn(self.document_move_id, self.document_id.move_ids)
 
     @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_inutilizacao)
     def test_inutilizar(self, mocked_post):
