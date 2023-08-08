@@ -5,6 +5,7 @@ Mais especificamente ele:
   * usa a logica do módulo ``spec_driven_model`` para realizar esse mapeamento de forma dinâmica, em especial ele usa o sistema de modelos com várias camadas, ou ``StackedModel``, com os modelos ``l10n_br_fiscal.document``, ``l10n_br_fiscal.document.line`` e ``l10n_br_fiscal.document.related`` que tem varios niveis hierarquicos de elementos XML que estão sendo denormalizados dentro desses modelos Odoo 
   * permite a exportação e importação de XML de NF-e
   * tem wizards para implementar a comunicação SOAP de NF-e com a SEFAZ (Autorização, Cancelamento, Inutilização...)
+  * implementa a autorização, inutilização e contingência de documentos NFC-e
 
 
 Módulos relacionados:
