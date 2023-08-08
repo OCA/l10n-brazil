@@ -61,19 +61,20 @@ class PartyMixin(models.AbstractModel):
 
     @api.model
     def _processador(self):
-        if not self.certificate_ecnpj_id:
+        company = self.env.company
+        if not company.certificate_ecnpj_id:
             raise UserError(_("Certificate not found"))
 
         certificado = cert.Certificado(
-            arquivo=self.certificate_ecnpj_id.file,
-            senha=self.certificate_ecnpj_id.password,
+            arquivo=company.certificate_ecnpj_id.file,
+            senha=company.certificate_ecnpj_id.password,
         )
         session = Session()
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
         return edoc_nfe(
             transmissao,
-            self.state_id.ibge_code,
-            versao=self.nfe_version,
-            ambiente=self.nfe_environment,
+            company.state_id.ibge_code,
+            versao=company.nfe_version,
+            ambiente=company.nfe_environment,
         )
