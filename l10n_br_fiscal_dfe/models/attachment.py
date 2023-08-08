@@ -9,7 +9,7 @@ import os
 import shutil
 import tarfile
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -26,6 +26,7 @@ class Attachment(models.TransientModel):
         string="Attachments",
     )
 
+    @api.model
     def build_compressed_attachment(self, record_ids=None):
         """
         Compacta os anexos recebidos e os retorno como um novo único anexo
@@ -86,6 +87,7 @@ class Attachment(models.TransientModel):
             }
         )
 
+    @api.model
     def _records_to_attachments(self, record_ids):
         attachment_obj = self.env["ir.attachment"]
         attachment_ids = record_ids
