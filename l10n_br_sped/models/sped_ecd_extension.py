@@ -6,7 +6,7 @@ class RegistroI550(models.Model):
     Detalhes do Livro Razão Auxiliar com Leiaute Parametrizável
     """
 
-    _inherit = "l10n_br_sped.ecd.9.i550"
+    _inherit = "l10n_br_sped.ecd.i550"
 
     RZ_CONT = fields.Char()  # according to pdf specification
 
@@ -23,7 +23,7 @@ class RegistroI550(models.Model):
             sped.write(vals["RZ_CONT"])
             sped.write("|")
             line_count[0] += 1
-            children = self.env["l10n_br_sped.ecd.9.i555"].search([("id", "in", vals["reg_I555_ids"])])
+            children = self.env["l10n_br_sped.ecd.i555"].search([("id", "in", vals["reg_I555_ids"])])
             for child in children:
                 child.generate_register_text(sped, line_count)  # NOTE use yield?
         return sped 
@@ -33,7 +33,7 @@ class RegistroI555(models.Model):
     Totais no Livro Razão Auxiliar com Leiaute Parametrizável
     """
 
-    _inherit = "l10n_br_sped.ecd.9.i555"
+    _inherit = "l10n_br_sped.ecd.i555"
 
     RZ_CONT_TOT = fields.Char()  # according to pdf specification
 

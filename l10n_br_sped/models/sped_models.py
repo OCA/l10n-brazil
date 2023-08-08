@@ -19,13 +19,15 @@ LAYOUT_VERSIONS = {
     "efd_pis_cofins": "6",
 }
 
+MAX_REGISTER_NAME = 40
+
 
 class IrModel(models.Model):
     _inherit = "ir.model"
 
     # NOTE as we cannot let anyone edit Odoo models
     # these fields should be edited with a Wizard.
-    # sped_model_id = fields.Many2one("ir.model") -> use model name
+    sped_model = fields.Char()
     sped_domain = fields.Char()
 
     sped_kind = fields.Selection(
@@ -72,18 +74,9 @@ class IrModel(models.Model):
             if not model.sped_kind:
                 self.sped_alphanum_sequence = None
                 continue
-            key = model.model[-4:][0]
-            model.sped_alphanum_sequence = env[
+            model.sped_alphanum_sequence = self.env[
                 "l10n_br_sped.mixin"
             ]._get_alphanum_sequence(model.model)
-
-
-class IrModelFields(models.Model):
-    _inherit = "ir.model.fields"
-
-    sped_mapping = fields.Char(
-        help="Inform the field with the origin of the content, expressed with dot notation.",
-    )
 
 
 class SpedMixin(models.AbstractModel):
@@ -203,7 +196,7 @@ class SpedMixin(models.AbstractModel):
             elif native_field.type == "many2one":
                 continue
             field = fields[fname]
-            if ": " in field["string"] and len(field["string"]) > 40:
+            if ": " in field["string"] and len(field["string"]) > MAX_REGISTER_NAME:
                 string = field["string"].split(": ")[0]
             else:
                 string = field["string"]
@@ -224,7 +217,7 @@ class SpedMixin(models.AbstractModel):
                 break
 
             field = fields[fname]
-            if ": " in field["string"] and len(field["string"]) > 40:
+            if ": " in field["string"] and len(field["string"]) > MAX_REGISTER_NAME:
                 string = field["string"].split(": ")[0]
             else:
                 string = field["string"]
@@ -261,35 +254,31 @@ class SpedMixin(models.AbstractModel):
         return E.form(E.sheet(group, string=self._description))
 
     @api.model
-    def flush_registers(cls, kind="ecd", version=None):
-        if version is None:
-            version = LAYOUT_VERSIONS[kind]
-        register_classes = cls._get_level2_registers(kind, version)
+    def flush_registers(cls, kind):
+        register_classes = cls._get_level2_registers(kind)
         for register_class in register_classes:
             registers = register_class.search([])  # TODO company_id filter?
             registers.unlink()
 
     @api.model
-    def import_file(cls, filename, kind="ecd", version=None):
+    def import_file(cls, filename, kind):
         """
         examples:
         env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_ecd.txt", "ecd")
         env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_ecd.txt", "ecd")
         env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_efd_pis_cofins_multi.txt", "efd_pis_cofins")
         """
-        if version is None:
-            version = LAYOUT_VERSIONS[kind]
         with open(filename) as spedfile:
             last_level = 0
             previous_register = None
+            parent = None
+            parents = []
             for line in [line.rstrip("\r\n") for line in spedfile]:
                 reg_code = line.split("|")[1]
-                version = LAYOUT_VERSIONS[kind]
                 register_class = cls.env.get(
-                    "l10n_br_sped.%s.%s.%s"
+                    "l10n_br_sped.%s.%s"
                     % (
                         kind,
-                        version,
                         reg_code.lower(),
                     ),
                     None,
@@ -301,15 +290,15 @@ class SpedMixin(models.AbstractModel):
                         continue
                     raise UserError(
                         _(
-                            "Register %s doesn't match Odoo %s SPED structure version %s!"
+                            "Register %s doesn't match Odoo %s SPED structure!"
                         )
-                        % (reg_code, kind, version)
+                        % (reg_code, kind)
                     )
 
                 if register_class._sped_level < 3:  # TODO if more than +1 -> error!
-                    parents = []
-                    parent = None
                     last_level = register_class._sped_level
+                    parent = None
+                    parents = []
                 elif (
                     register_class._sped_level > last_level
                 ):  # TODO if more than +1 -> error!
@@ -371,10 +360,8 @@ class SpedMixin(models.AbstractModel):
         return vals
 
     @api.model
-    def generate_sped_text(cls, kind="ecd", version=None):
-        if version is None:
-            version = LAYOUT_VERSIONS[kind]
-        register_level2_classes = cls._get_level2_registers(kind, version)
+    def generate_sped_text(cls, kind):
+        register_level2_classes = cls._get_level2_registers(kind)
         sped = StringIO()
         last_bloco = None
         bloco = None
@@ -382,8 +369,10 @@ class SpedMixin(models.AbstractModel):
         line_count = [
             0
         ]  # mutable register line_count https://stackoverflow.com/a/15148557
-        register0 = cls.env["l10n_br_sped.%s.%s.0000" % (kind, version)]
-        register0.search([]).generate_register_text(sped, line_count)
+        # domain = [("company_id", "=", company_id)]
+        domain = []  # TODO put company_id and also date_field from register_class
+        register0 = cls.env["l10n_br_sped.%s.0000" % (kind)]
+        register0.search(domain).generate_register_text(sped, line_count)
 
         count_by_bloco = defaultdict(int)
         for register_class in register_level2_classes:
@@ -392,7 +381,7 @@ class SpedMixin(models.AbstractModel):
 
         for register_class in register_level2_classes:
             bloco = register_class._name[-4:][0].upper()
-            registers = register_class.search([])  # TODO filter with company_id?
+            registers = register_class.search(domain)  # TODO filter with company_id?
             if bloco != last_bloco:
                 if last_bloco:
                     sped.write(
@@ -408,7 +397,9 @@ class SpedMixin(models.AbstractModel):
                     "\n|%s001|%s|" % (bloco, 0 if count_by_bloco[bloco] > 0 else 1)
                 )
                 line_count[0] += 1
-
+                #            if registers:
+                # print("RRRRRRRRRR", registers)
+                #registers.visit_tree()
             registers.generate_register_text(sped, line_count)  # TODO use yield!
             last_bloco = bloco
 
@@ -422,27 +413,58 @@ class SpedMixin(models.AbstractModel):
         sped.write(
             "\n|9999|%s|" % (line_total,)
         )  # FIXME incorrect? error in test files?
+        #        x = a / 0
         return sped.getvalue()
 
     @api.model
-    def _get_level2_registers(cls, kind="ecd", version=None):
+    def _get_level2_registers(cls, kind):
         """
         Get the "blocos" registers
         """
-        if version is None:
-            version = LAYOUT_VERSIONS[kind]
         register_model_names = list(
             filter(
-                lambda x: "l10n_br_sped.%s.%s" % (kind, version) in x, cls.env.keys()
+                lambda x: "l10n_br_sped.%s" % (kind,) in x, cls.env.keys()
             )
         )
         register_level2_models = [
-            cls.env[m] for m in register_model_names if cls.env[m]._sped_level == 2
+            cls.env[m] for m in register_model_names if cls.env[m]._sped_level == 2 and not cls.env[m]._abstract
         ]
         return sorted(
-            register_level2_models,
-            key=lambda r: cls._get_alphanum_sequence(r._name)
+            register_level2_models, key=lambda r: cls._get_alphanum_sequence(r._name)
         )
+
+    @api.model
+    def populate_sped_from_odoo(cls, kind):
+        register0 = cls.env["l10n_br_sped.%s.0000" % (kind,)]
+        register0.pull_records_from_odoo(level=1)
+
+        for register in cls._get_level2_registers(kind,):
+            register.pull_records_from_odoo(level=2)
+
+    @api.model
+    def pull_records_from_odoo(cls, level, parent_record=None):
+        model = cls.env["ir.model"].search([("model", "=", cls._name)], limit=1)
+        # TODO see how it fits with ATSTI stuff
+        if not model.sped_model:
+            return
+        children = [
+            v["relation"]
+            for k, v in cls.fields_get().items()
+            if v["type"] == "one2many"
+        ]
+        records = cls.env[model.sped_model].search(model.sped_domain or [])
+        _logger.debug("pulling register %s%s" % ("  " * level, self._name[-4:].upper()))
+        for record in records:
+            cls.import_from_odoo(record, parent_record)
+            for child in children:
+                print("ccc", child)
+                cls.env[child].pull_records_from_odoo(level + 1, parent_record=record)
+
+    @api.model
+    def import_from_odoo(cls, record, parent_record):
+        pass
+        # TODO apply server action mapping
+        # TODO check if not already imported
 
     def generate_register_text(self, sped, line_count={}):
         code = self._name[-4:].upper()
@@ -457,6 +479,7 @@ class SpedMixin(models.AbstractModel):
             line_count[0] += 1
             children = []
             should_break_next = False
+            #    yield code#, vals
             for k, v in vals.items():
                 if k == "id":
                     continue
@@ -512,6 +535,7 @@ class SpedMixin(models.AbstractModel):
 
             children = sorted(children, key=lambda reg: reg._name)
             for child in children:
+                #    yield from child.generate_register_text(sped, line_count)  # NOTE use yield?
                 child.generate_register_text(sped, line_count)  # NOTE use yield?
         return sped
 
