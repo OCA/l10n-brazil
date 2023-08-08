@@ -14,17 +14,11 @@ class Occ(spec_models.SpecModel):
         comodel_name="l10n_br_fiscal.rodo", ondelete="cascade"
     )
 
-    cte40_serie = fields.Char(related="serie")
+    cte40_serie = fields.Char(string="Série da OCC")
 
-    serie = fields.Char(string="Série da OCC")
+    cte40_nOcc = fields.Char(string="Número da Ordem de coleta")
 
-    cte40_nOcc = fields.Char(related="nOcc")
-
-    nOcc = fields.Char(string="Número da Ordem de coleta")
-
-    cte40_dEmi = fields.Date(related="dEmi")
-
-    dEmi = fields.Date(
+    cte40_dEmi = fields.Date(
         string="Data de emissão da ordem de coleta",
         help="Data de emissão da ordem de coleta\nFormato AAAA-MM-DD",
     )

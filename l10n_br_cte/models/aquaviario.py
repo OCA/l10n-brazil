@@ -16,26 +16,18 @@ class Aquaviario(spec_models.SpecModel):
 
     cte40_vPrest = fields.Monetary(compute="_compute_vPrest", store=True)
 
-    cte40_vAFRMM = fields.Monetary(related="vAFRMM", store=True)
-
-    vAFRMM = fields.Monetary(
+    cte40_vAFRMM = fields.Monetary(
         string="AFRMM",
         currency_field="brl_currency_id",
         help=("AFRMM (Adicional de Frete para Renovação da Marinha Mercante)"),
         store=True,
     )
 
-    cte40_xNavio = fields.Char(related="xNavio", store=True)
+    cte40_xNavio = fields.Char(string="Identificação do Navio", store=True)
 
-    xNavio = fields.Char(string="Identificação do Navio", store=True)
+    cte40_nViag = fields.Char(string="Número da Viagem", store=True)
 
-    cte40_nViag = fields.Char(related="nViag", store=True)
-
-    nViag = fields.Char(string="Número da Viagem", store=True)
-
-    cte40_direc = fields.Selection(related="direc", store=True)
-
-    direc = fields.Selection(
+    cte40_direc = fields.Selection(
         selection=[
             ("N", "Norte, L-Leste, S-Sul, O-Oeste"),
             ("S", "Sul, O-Oeste"),
@@ -47,17 +39,13 @@ class Aquaviario(spec_models.SpecModel):
         help="Direção\nPreencher com: N-Norte, L-Leste, S-Sul, O-Oeste",
     )
 
-    cte40_irin = fields.Char(related="irin", store=True)
-
-    irin = fields.Char(
+    cte40_irin = fields.Char(
         string="Irin do navio sempre deverá",
         help="Irin do navio sempre deverá ser informado",
         store=True,
     )
 
-    cte40_tpNav = fields.Selection(related="tpNav", store=True)
-
-    tpNav = fields.Selection(
+    cte40_tpNav = fields.Selection(
         selection=[
             ("0", "Interior"),
             ("1", "Cabotagem"),

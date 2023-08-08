@@ -29,6 +29,11 @@ class ResPartner(spec_models.SpecModel):
     ]
     _cte_search_keys = ["cte40_CNPJ", "cte40_CPF", "cte40_xNome"]
 
+    cte40_choice_cnpj_cpf = fields.Selection(
+        selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
+        string="CNPJ/CPF do Parceiro",
+    )
+
     cte40_CNPJ = fields.Char(
         compute="_compute_cte_data",
         store=True,
@@ -60,14 +65,17 @@ class ResPartner(spec_models.SpecModel):
         comodel_name="res.partner", compute="_compute_cte40_ender"
     )
 
-    # enderToma/enderEmit/enderReme/enderEmit
-    cte40_xLgr = fields.Char(related="street_name", readonly=True, store=True)
-    cte40_nro = fields.Char(related="street_number", readonly=True, store=True)
-    cte40_xCpl = fields.Char(related="street2", readonly=True, store=True)
-    cte40_xBairro = fields.Char(related="district", readonly=True, store=True)
-    cte40_cMun = fields.Char(related="city_id.ibge_code", readonly=True, store=True)
-    cte40_xMun = fields.Char(related="city_id.name", readonly=True, store=True)
-    cte40_UF = fields.Char(related="state_id.code", store=True)
+    # enderToma/enderEmit/enderReme
+    cte40_enderEmit = fields.Many2one(
+        comodel_name="res.partner", compute="_compute_cte40_ender"
+    )
+    cte40_xLgr = fields.Char(related="street_name", readonly=True)
+    cte40_nro = fields.Char(related="street_number", readonly=True)
+    cte40_xCpl = fields.Char(related="street2", readonly=True)
+    cte40_xBairro = fields.Char(related="district", readonly=True)
+    cte40_cMun = fields.Char(related="city_id.ibge_code", readonly=True)
+    cte40_xMun = fields.Char(related="city_id.name", readonly=True)
+    cte40_UF = fields.Char(related="state_id.code")
     cte40_CEP = fields.Char(
         compute="_compute_cep",
         inverse="_inverse_cte40_CEP",
@@ -76,16 +84,14 @@ class ResPartner(spec_models.SpecModel):
     )
     cte40_cPais = fields.Char(
         related="country_id.bc_code",
-        store=True,
     )
     cte40_xPais = fields.Char(
         related="country_id.name",
-        store=True,
     )
 
     cte40_IE = fields.Char(related="inscr_est")
 
-    cte40_xNome = fields.Char(related="legal_name", store=True)
+    cte40_xNome = fields.Char(related="legal_name")
 
     def _compute_cte40_ender(self):
         for rec in self:
@@ -94,6 +100,7 @@ class ResPartner(spec_models.SpecModel):
             rec.cte40_enderDest = rec.id
             rec.cte40_enderExped = rec.id
             rec.cte40_enderReceb = rec.id
+            rec.cte40_enderEmit = rec.id
 
     @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
     def _compute_cte_data(self):
@@ -116,3 +123,26 @@ class ResPartner(spec_models.SpecModel):
     def _compute_cep(self):
         for rec in self:
             rec.cte40_CEP = punctuation_rm(rec.zip)
+
+    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+        if not self.cnpj_cpf and self.parent_id:
+            cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
+        else:
+            cnpj_cpf = punctuation_rm(self.cnpj_cpf)
+
+        if xsd_field == self.cte40_choice_cnpj_cpf:
+            return cnpj_cpf
+
+        if self.country_id.code != "BR":
+            if xsd_field == "cte40_xBairro":
+                return "EX"
+
+            if xsd_field == "cte40_xMun":
+                return "EXTERIOR"
+
+            if xsd_field == "cte40_cMun":
+                return "9999999"
+
+            if xsd_field == "cte40_UF":
+                return "EX"
+        return super()._export_field(xsd_field, class_obj, member_spec, export_value)

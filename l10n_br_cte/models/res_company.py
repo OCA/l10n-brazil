@@ -9,7 +9,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 class ResCompany(spec_models.SpecModel):
 
     _name = "res.company"
-    _inherit = ["res.company", "cte.40.tcte_emit"]
+    _inherit = ["res.company", "cte.40.tcte_emit", "cte.40.tendeemi"]
     _cte_search_keys = ["cte40_CNPJ", "cte40_xNome", "cte40_xFant"]
 
     ##########################
@@ -18,33 +18,26 @@ class ResCompany(spec_models.SpecModel):
 
     cte40_CNPJ = fields.Char(
         related="partner_id.cte40_CNPJ",
-        store=True,
     )
     cte40_CPF = fields.Char(
         related="partner_id.cte40_CPF",
-        store=True,
     )
     cte40_IE = fields.Char(
         related="partner_id.cte40_IE",
-        store=True,
     )
     cte40_xNome = fields.Char(
         related="partner_id.legal_name",
-        store=True,
     )
     cte40_xFant = fields.Char(
         related="partner_id.name",
-        store=True,
     )
     cte40_CRT = fields.Selection(
         related="tax_framework",
-        store=True,
     )
 
     cte40_enderEmit = fields.Many2one(
         comodel_name="res.partner",
         related="partner_id",
-        store=True,
     )
 
     ##########################
@@ -54,14 +47,12 @@ class ResCompany(spec_models.SpecModel):
     cte_default_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
         string="CT-e Default Serie",
-        store=True,
     )
 
     cte_dacte_layout = fields.Selection(
         selection=[("1", "Paisagem"), ("2", "Retrato")],
         string="CT-e DACTE Layout",
         default="1",
-        store=True,
     )
 
     cte_transmission = fields.Selection(
@@ -75,7 +66,6 @@ class ResCompany(spec_models.SpecModel):
         ],
         string="CT-e Transmission Type",
         default="1",
-        store=True,
     )
 
     cte_type = fields.Selection(
@@ -86,14 +76,12 @@ class ResCompany(spec_models.SpecModel):
         ],
         string="CT-e Type",
         default="0",
-        store=True,
     )
 
     cte_environment = fields.Selection(
         selection=[("1", "Produção"), ("2", "Homologação")],
         string="CT-e Environment",
         default="2",
-        store=True,
     )
 
     cte_version = fields.Selection(

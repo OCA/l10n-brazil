@@ -17,6 +17,7 @@ class CTeLine(spec_models.StackedModel):
     _odoo_module = "l10n_br_cte"
     _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     _spec_tab_name = "CTe"
+    _stacking_points = {}
 
     ##########################
     # CT-e tag: vPrest

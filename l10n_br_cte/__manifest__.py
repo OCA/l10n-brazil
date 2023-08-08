@@ -30,6 +30,7 @@
             "nfelib>=2.0.0",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
+            "erpbrasil.assinatura",
         ]
     },
 }

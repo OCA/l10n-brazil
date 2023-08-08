@@ -14,9 +14,7 @@ class Aereo(spec_models.SpecModel):
         comodel_name="l10n_br_fiscal.document", inverse_name="cte40_aereo"
     )
 
-    cte40_dPrevAereo = fields.Date(related="dPrevAereo", store=True)
-
-    dPrevAereo = fields.Date(
+    cte40_dPrevAereo = fields.Date(
         string="Data prevista da entrega",
         help="Data prevista da entrega\nFormato AAAA-MM-DD",
         store="True",
@@ -43,9 +41,7 @@ class Tarifa(spec_models.SpecModel):
     _name = "l10n_br_cte.tarifa"
     _inherit = "cte.40.tarifa"
 
-    cte40_CL = fields.Selection(related="CL", store=True)
-
-    CL = fields.Selection(
+    cte40_CL = fields.Selection(
         string="Classe",
         selection=[
             ("M", "Tarifa Mínima"),
@@ -56,6 +52,4 @@ class Tarifa(spec_models.SpecModel):
         default="G",
     )
 
-    cte40_vTar = fields.Monetary(related="vTar")
-
-    vTar = fields.Monetary(currency_field="brl_currency_id")
+    cte40_vTar = fields.Monetary(currency_field="brl_currency_id")

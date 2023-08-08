@@ -442,6 +442,7 @@ class TendeEmi(models.AbstractModel):
     _name = "cte.40.tendeemi"
     _inherit = "spec.mixin.cte"
     _binding_type = "TendeEmi"
+    _generateds_type = "TEndeEmi"
 
     cte40_xLgr = fields.Char(string="Logradouro", xsd_required=True)
 
@@ -453,8 +454,8 @@ class TendeEmi(models.AbstractModel):
 
     cte40_cMun = fields.Char(
         string="Código do município",
-        xsd_required=True,
         xsd_type="TCodMunIBGE",
+        xsd_required=True,
         help="Código do município (utilizar a tabela do IBGE)",
     )
 
@@ -467,57 +468,6 @@ class TendeEmi(models.AbstractModel):
     )
 
     cte40_fone = fields.Char(string="Telefone", xsd_type="TFone")
-
-
-class Tendereco(models.AbstractModel):
-    "Tipo Dados do Endereço"
-    _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tendereco"
-    _inherit = "spec.mixin.cte"
-    _binding_type = "Tendereco"
-    _generateds_type = "TEndereco"
-
-    cte40_xLgr = fields.Char(string="Logradouro", xsd_required=True)
-
-    cte40_nro = fields.Char(string="Número", xsd_required=True)
-
-    cte40_xCpl = fields.Char(string="Complemento")
-
-    cte40_xBairro = fields.Char(string="Bairro", xsd_required=True)
-
-    cte40_cMun = fields.Char(
-        string="Código do município",
-        xsd_required=True,
-        xsd_type="TCodMunIBGE",
-        help=(
-            "Código do município (utilizar a tabela do IBGE)\nInformar 9999999"
-            " para operações com o exterior."
-        ),
-    )
-
-    cte40_xMun = fields.Char(
-        string="Nome do município",
-        xsd_required=True,
-        help=("Nome do município\nInformar EXTERIOR para operações com o " "exterior."),
-    )
-
-    cte40_CEP = fields.Char(
-        string="CEP", help="CEP\nInformar os zeros não significativos"
-    )
-
-    cte40_UF = fields.Selection(
-        TUF,
-        string="Sigla da UF",
-        xsd_required=True,
-        xsd_type="TUf",
-        help="Sigla da UF\nInformar EX para operações com o exterior.",
-    )
-
-    cte40_cPais = fields.Char(
-        string="Código do país", help="Código do país\nUtilizar a tabela do BACEN"
-    )
-
-    cte40_xPais = fields.Char(string="Nome do país")
 
 
 class Tendernac(models.AbstractModel):
@@ -564,20 +514,34 @@ class Tendernac(models.AbstractModel):
     )
 
 
-# class Timp(models.AbstractModel):
-#     "Tipo Dados do Imposto CT-e"
-#     _description = textwrap.dedent("    %s" % (__doc__,))
-#     _name = "cte.40.timp"
-#     _inherit = "spec.mixin.cte"
-#     _binding_type = "Timp"
+class Timp(models.AbstractModel):
+    "Tipo Dados do Imposto CT-e"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timp"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Timp"
+
+    cte40_vBC = fields.Monetary(
+        string="Valor da Base de Cálculo do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
 
 
-# class TimpOs(models.AbstractModel):
-#     "Tipo Dados do Imposto para CT-e OS"
-#     _description = textwrap.dedent("    %s" % (__doc__,))
-#     _name = "cte.40.timpos"
-#     _inherit = "spec.mixin.cte"
-#     _binding_type = "TimpOs"
+class TimpOs(models.AbstractModel):
+    "Tipo Dados do Imposto para CT-e OS"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timpos"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TimpOs"
+
+    cte40_vBC = fields.Monetary(
+        string="Valor da Base de Cálculo do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
 
 
 class Tlocal(models.AbstractModel):
@@ -1472,7 +1436,6 @@ class TcteOsEmit(models.AbstractModel):
     cte40_enderEmit = fields.Many2one(
         comodel_name="cte.40.tendeemi",
         string="Endereço do emitente",
-        xsd_required=True,
         xsd_type="TEndeEmi",
     )
 
@@ -1613,12 +1576,11 @@ class TcteOsImp(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TcteOs.InfCte.Imp"
 
-    # cte40_ICMS = fields.Many2one(
-    #     comodel_name="cte.40.timpos",
-    #     string="Informações relativas ao ICMS",
-    #     xsd_required=True,
-    #     xsd_type="TImp",
-    # )
+    cte40_ICMS = fields.Many2one(
+        comodel_name="cte.40.timpos",
+        string="Informações relativas ao ICMS",
+        xsd_type="TImp",
+    )
 
     cte40_vTotTrib = fields.Monetary(
         string="Valor Total dos Tributos",
@@ -2473,7 +2435,6 @@ class TomaTerceiro(models.AbstractModel):
     cte40_enderToma = fields.Many2one(
         comodel_name="cte.40.tendereco",
         string="Dados do endereço",
-        xsd_required=True,
         xsd_type="TEndereco",
     )
 
@@ -2592,7 +2553,6 @@ class TgtveEmit(models.AbstractModel):
     cte40_enderEmit = fields.Many2one(
         comodel_name="cte.40.tendeemi",
         string="Endereço do emitente",
-        xsd_required=True,
         xsd_type="TEndeEmi",
     )
 
@@ -2649,7 +2609,6 @@ class TgtveRem(models.AbstractModel):
     cte40_enderReme = fields.Many2one(
         comodel_name="cte.40.tendereco",
         string="Dados do endereço",
-        xsd_required=True,
         xsd_type="TEndereco",
     )
 
@@ -2714,7 +2673,6 @@ class TgtveDest(models.AbstractModel):
     cte40_enderDest = fields.Many2one(
         comodel_name="cte.40.tendereco",
         string="Dados do endereço",
-        xsd_required=True,
         xsd_type="TEndereco",
     )
 
@@ -4010,6 +3968,7 @@ class TcteEmit(models.AbstractModel):
     _name = "cte.40.tcte_emit"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Emit"
+    _generateds_type = "emitType"
 
     cte40_CNPJ = fields.Char(
         string="CNPJ do emitente",
@@ -4120,7 +4079,6 @@ class TcteRem(models.AbstractModel):
     cte40_enderReme = fields.Many2one(
         comodel_name="cte.40.tendereco",
         string="Dados do endereço",
-        xsd_required=True,
         xsd_type="TEndereco",
     )
 
@@ -4172,7 +4130,6 @@ class Exped(models.AbstractModel):
     cte40_enderExped = fields.Many2one(
         comodel_name="cte.40.tendereco",
         string="Dados do endereço",
-        xsd_required=True,
         xsd_type="TEndereco",
     )
 
@@ -4224,7 +4181,6 @@ class Receb(models.AbstractModel):
     cte40_enderReceb = fields.Many2one(
         comodel_name="cte.40.tendereco",
         string="Dados do endereço",
-        xsd_required=True,
         xsd_type="TEndereco",
     )
 
@@ -4289,7 +4245,6 @@ class TcteDest(models.AbstractModel):
     cte40_enderDest = fields.Many2one(
         comodel_name="cte.40.tendereco",
         string="Dados do endereço",
-        xsd_required=True,
         xsd_type="TEndereco",
     )
 
@@ -4365,7 +4320,6 @@ class TcteImp(models.AbstractModel):
     cte40_ICMS = fields.Many2one(
         comodel_name="cte.40.timp",
         string="Informações relativas ao ICMS",
-        xsd_required=True,
         xsd_type="TImp",
     )
 
@@ -4964,6 +4918,57 @@ class InfOutros(models.AbstractModel):
             "das unidades de transporte utilizadas."
         ),
     )
+
+
+class TEndereco(models.AbstractModel):
+    "Tipo Dados do Endereço"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tendereco"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Tendereco"
+    _generateds_type = "TEndereco"
+
+    cte40_xLgr = fields.Char(string="Logradouro", xsd_required=True)
+
+    cte40_nro = fields.Char(string="Número", xsd_required=True)
+
+    cte40_xCpl = fields.Char(string="Complemento")
+
+    cte40_xBairro = fields.Char(string="Bairro", xsd_required=True)
+
+    cte40_cMun = fields.Char(
+        string="Código do município",
+        xsd_required=True,
+        xsd_type="TCodMunIBGE",
+        help=(
+            "Código do município (utilizar a tabela do IBGE)\nInformar 9999999"
+            " para operações com o exterior."
+        ),
+    )
+
+    cte40_xMun = fields.Char(
+        string="Nome do município",
+        xsd_required=True,
+        help=("Nome do município\nInformar EXTERIOR para operações com o " "exterior."),
+    )
+
+    cte40_CEP = fields.Char(
+        string="CEP", help="CEP\nInformar os zeros não significativos"
+    )
+
+    cte40_UF = fields.Selection(
+        TUF,
+        string="Sigla da UF",
+        xsd_required=True,
+        xsd_type="TUf",
+        help="Sigla da UF\nInformar EX para operações com o exterior.",
+    )
+
+    cte40_cPais = fields.Char(
+        string="Código do país", help="Código do país\nUtilizar a tabela do BACEN"
+    )
+
+    cte40_xPais = fields.Char(string="Nome do país")
 
 
 class DocAnt(models.AbstractModel):

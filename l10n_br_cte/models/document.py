@@ -1,7 +1,9 @@
 # Copyright 2023 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import logging
 import re
+from datetime import datetime
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -11,8 +13,23 @@ from requests import Session
 from odoo import _, api, fields
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    AUTORIZADO,
+    DENEGADO,
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
+    LOTE_PROCESSADO,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_REJEITADA,
+)
 from odoo.addons.spec_driven_model.models import spec_models
+
+_logger = logging.getLogger(__name__)
+try:
+    pass
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 def filter_processador_edoc_cte(record):
@@ -34,7 +51,7 @@ class CTe(spec_models.StackedModel):
     _schema_version = "4.0.0"
     _odoo_module = "l10n_br_cte"
     _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_v4_00"
+    _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
     _cte_search_keys = ["cte40_Id"]
 
     INFCTE_TREE = """
@@ -76,11 +93,11 @@ class CTe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_cte):
             if (
                 record.document_type_id
-                and record.document_type.prefix
+                and record.document_type_id.prefix
                 and record.document_key
             ):
                 record.cte40_Id = "{}{}".format(
-                    record.document_type.prefix, record.document_key
+                    record.document_type_id.prefix, record.document_key
                 )
             else:
                 record.cte40_Id = False
@@ -97,41 +114,30 @@ class CTe(spec_models.StackedModel):
     cte40_cUF = fields.Char(
         related="company_id.partner_id.state_id.ibge_code",
         string="cte40_cUF",
-        store=True,
     )
 
-    cte40_cCT = fields.Char(related="document_key", store=True)
+    cte40_cCT = fields.Char(related="document_key")
 
     cfop_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP",
     )
 
-    cte40_CFOP = fields.Char(related="cfop_id.code", store=True)
+    cte40_CFOP = fields.Char(related="cfop_id.code")
 
-    cte40_natOp = fields.Char(related="operation_name", store=True)
+    cte40_natOp = fields.Char(related="operation_name")
 
-    cte40_mod = fields.Char(
-        related="document_type_id.code", string="cte40_mod", store=True
-    )
+    cte40_mod = fields.Char(related="document_type_id.code", string="cte40_mod")
 
-    cte40_serie = fields.Char(related="document_serie", store=True)
+    cte40_serie = fields.Char(related="document_serie")
 
-    cte40_nCT = fields.Char(related="document_number", store=True)
+    cte40_nCT = fields.Char(related="document_number")
 
-    cte40_dhEmi = fields.Datetime(related="document_date", store=True)
-
-    cte40_tpImp = fields.Selection(related="tpImp", store=True)
-
-    cte40_tpEmis = fields.Selection(related="cte_transmission", store=True)
+    cte40_dhEmi = fields.Datetime(related="document_date")
 
     cte40_cDV = fields.Char(compute="_compute_cDV", store=True)
 
-    cte40_tpAmb = fields.Selection(related="cte_environment", store=True)
-
-    cte40_tpCTe = fields.Selection(related="tpCTe", store=True)
-
-    cte40_procEmi = fields.Selection(default="0", store=True)
+    cte40_procEmi = fields.Selection(default="0")
 
     cte40_verProc = fields.Char(
         copy=False,
@@ -147,8 +153,6 @@ class CTe(spec_models.StackedModel):
     cte40_UFEnv = fields.Char(
         compute="_compute_cte40_data", string="cte40_UFEnv", store=True
     )
-
-    cte40_tpServ = fields.Selection(related="tpServ", store=True)
 
     cte40_indIEToma = fields.Char(compute="_compute_toma", store=True)
 
@@ -172,7 +176,45 @@ class CTe(spec_models.StackedModel):
         compute="_compute_cte40_data", string="cte40_cUF", store=True
     )
 
-    cte40_retira = fields.Selection(related="retira", store=True)
+    cte40_retira = fields.Selection(selection=[("0", "Sim"), ("1", "Não")], default="1")
+
+    cte40_tpServ = fields.Selection(
+        selection=[
+            ("6", "Transporte de Pessoas"),
+            ("7", "Transporte de Valores"),
+            ("8", "Excesso de Bagagem"),
+        ],
+        default="6",
+    )
+
+    cte40_tpCTe = fields.Selection(
+        selection=[
+            ("0", "CTe Normal"),
+            ("1", "CTe Complementar"),
+            ("3", "CTe Substituição"),
+        ],
+        default="0",
+    )
+
+    cte40_tpAmb = fields.Selection(
+        selection=[("1", "Produção"), ("2", "Homologação")],
+        string="CTe Environment",
+        copy=False,
+        default="2",
+    )
+
+    cte40_tpEmis = fields.Selection(
+        selection=[
+            ("1", "Normal"),
+            ("3", "Regime Especial NFF"),
+            ("4", "EPEC pela SVC"),
+        ],
+        default="1",
+    )
+
+    cte40_tpImp = fields.Selection(
+        selection=[("1", "Retrato"), ("2", "Paisagem")], default="1"
+    )
 
     cte40_toma4 = fields.Many2one(
         comodel_name="res.partner",
@@ -250,13 +292,11 @@ class CTe(spec_models.StackedModel):
         compute="_compute_emit_data",
         readonly=True,
         string="Emit",
-        store=True,
     )
 
     cte40_CRT = fields.Selection(
         related="company_tax_framework",
-        string="Código de Regime Tributário (CTe)",
-        store=True,
+        string="Código de Regime Tributário (NFe)",
     )
 
     ##########################
@@ -374,19 +414,16 @@ class CTe(spec_models.StackedModel):
         comodel_name="l10n_br_fiscal.document.related",
         string="Informações de quantidades da Carga do CTe",
         inverse_name="document_id",
-        store=True,
     )
 
     cte40_infCTeNorm = fields.One2many(
         comodel_name="l10n_br_fiscal.document.related",
         inverse_name="document_id",
-        store=True,
     )
 
     cte40_infCTeComp = fields.One2many(
         comodel_name="l10n_br_fiscal.document.related",
         inverse_name="document_id",
-        store=True,
     )
 
     ##########################
@@ -410,48 +447,7 @@ class CTe(spec_models.StackedModel):
     # CT-e tag: autXML
     ##########################
 
-    cte40_autXML = fields.One2many(default=_default_cte40_autxml, store=True)
-
-    # View
-    retira = fields.Selection(selection=[("0", "Sim"), ("1", "Não")], default="1")
-
-    tpServ = fields.Selection(
-        selection=[
-            ("6", "Transporte de Pessoas"),
-            ("7", "Transporte de Valores"),
-            ("8", "Excesso de Bagagem"),
-        ],
-        default="6",
-    )
-
-    tpCTe = fields.Selection(
-        selection=[
-            ("0", "CTe Normal"),
-            ("1", "CTe Complementar"),
-            ("3", "CTe Substituição"),
-        ],
-        default="0",
-    )
-
-    cte_environment = fields.Selection(
-        selection=[("1", "Produção"), ("2", "Homologação")],
-        string="CTe Environment",
-        copy=False,
-        default="2",
-    )
-
-    cte_transmission = fields.Selection(
-        selection=[
-            ("1", "Normal"),
-            ("3", "Regime Especial NFF"),
-            ("4", "EPEC pela SVC"),
-        ],
-        default="1",
-    )
-
-    tpImp = fields.Selection(
-        selection=[("1", "Retrato"), ("2", "Paisagem")], default="1"
-    )
+    cte40_autXML = fields.One2many(default=_default_cte40_autxml)
 
     ##########################
     # CT-e tag: modal
@@ -510,7 +506,7 @@ class CTe(spec_models.StackedModel):
             filter_processador_edoc_cte
         ):
             inf_cte = record.export_ds()[0]
-            cte = Cte(InfCte=inf_cte, infCTeSupl=None, signature=None)
+            cte = Cte(infCte=inf_cte, infCTeSupl=None, signature=None)
             edocs.append(cte)
         return edocs
 
@@ -528,32 +524,98 @@ class CTe(spec_models.StackedModel):
         return Cte(
             transmissao,
             self.company_id.state_id.ibge_code,
-            versao=self.cte40_versao,
-            ambiente=self.cte_environment,
         )
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
             edoc = record.serialize()[0]
-            processador = record._processador()
-            xml_file = processador.to_xml()[0]
+            record._processador()
+            xml_file = edoc.to_xml()
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
-                    EVENT_ENV_PROD if self.cte_environment == "1" else EVENT_ENV_HML
+                    EVENT_ENV_PROD if self.cte40_tpAmb == "1" else EVENT_ENV_HML
                 ),
                 event_type="0",
                 xml_file=xml_file,
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            xml_assinado = processador.assinar_edoc(edoc, edoc.infCte.Id)
-            self._valida_xml(xml_assinado)
+            # xml_assinado = processador.assinar_edoc(edoc, edoc.infCte.Id)
+            # self._valida_xml(xml_assinado)
         return result
 
-    def _valida_xml(self, xml_file):
+    # def _valida_xml(self, xml_file):
+    #     self.ensure_one()
+    #     erros = Cte.schema_validation(xml_file)
+    #     erros = "\n".join(erros)
+    #     self.write({"xml_error_message": erros or False})
+
+    def atualiza_status_cte(self, infProt, xml_file):
         self.ensure_one()
-        erros = Cte.schema_validation(xml_file)
-        erros = "\n".join(erros)
-        self.write({"xml_error_message": erros or False})
+        # TODO: Verificar a consulta de notas
+        # if not infProt.chNFe == self.key:
+        #     self = self.search([
+        #         ('key', '=', infProt.chNFe)
+        #     ])
+        if infProt.cStat in AUTORIZADO:
+            state = SITUACAO_EDOC_AUTORIZADA
+        elif infProt.cStat in DENEGADO:
+            state = SITUACAO_EDOC_DENEGADA
+        else:
+            state = SITUACAO_EDOC_REJEITADA
+        if self.authorization_event_id and infProt.nProt:
+            if type(infProt.dhRecbto) == datetime:
+                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
+            else:
+                protocol_date = fields.Datetime.to_string(
+                    datetime.fromisoformat(infProt.dhRecbto)
+                )
+
+            self.authorization_event_id.set_done(
+                status_code=infProt.cStat,
+                response=infProt.xMotivo,
+                protocol_date=protocol_date,
+                protocol_number=infProt.nProt,
+                file_response_xml=xml_file,
+            )
+        self.write(
+            {
+                "status_code": infProt.cStat,
+                "status_name": infProt.xMotivo,
+            }
+        )
+        self._change_state(state)
+
+    def _eletronic_document_send(self):
+        super(Cte, self)._eletronic_document_send()
+        for record in self.filtered(filter_processador_edoc_cte):
+            if self.xml_error_message:
+                return
+            processador = record._processador()
+            for edoc in record.serialize():
+                processo = None
+                for p in processador.processar_documento(edoc):
+                    processo = p
+                    if processo.webservice == "cteAutorizacaoLote":
+                        record.authorization_event_id._save_event_file(
+                            processo.envio_xml.decode("utf-8"), "xml"
+                        )
+
+            if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
+                record.atualiza_status_cte(
+                    processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
+                )
+            elif processo.resposta.cStat == "225":
+                state = SITUACAO_EDOC_REJEITADA
+
+                record._change_state(state)
+
+                record.write(
+                    {
+                        "status_code": processo.resposta.cStat,
+                        "status_name": processo.resposta.xMotivo,
+                    }
+                )
+        return

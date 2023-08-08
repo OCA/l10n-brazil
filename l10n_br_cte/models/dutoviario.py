@@ -14,17 +14,11 @@ class Dutoviario(spec_models.SpecModel):
         comodel_name="l10n_br_fiscal.document", inverse_name="cte40_dutoviario"
     )
 
-    cte40_dIni = fields.Date(related="dIni")
+    cte40_dIni = fields.Date(string="Data de Início da prestação do serviço")
 
-    dIni = fields.Date(string="Data de Início da prestação do serviço")
+    cte40_dFim = fields.Date(string="Data de Fim da prestação do serviço")
 
-    cte40_dFim = fields.Date(related="dFim")
-
-    dFim = fields.Date(string="Data de Fim da prestação do serviço")
-
-    cte40_vTar = fields.Float(related="vTar")
-
-    vTar = fields.Float(string="Valor da tarifa")
+    cte40_vTar = fields.Float(string="Valor da tarifa")
 
     def export_data(self):
         return {
