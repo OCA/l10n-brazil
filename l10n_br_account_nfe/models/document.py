@@ -159,3 +159,10 @@ class DocumentNfe(models.Model):
                         "has Fiscal Payment Mode filled to be used in Fiscal Document!"
                     )
                 )
+
+    def _process_document_in_contingency(self):
+        super()._process_document_in_contingency()
+
+        if self.move_ids:
+            copy_invoice = self.move_ids[0].copy()
+            copy_invoice.action_post()
