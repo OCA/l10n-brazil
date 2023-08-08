@@ -1162,10 +1162,3 @@ class NFe(spec_models.StackedModel):
                 "nfe40_xJust": "Sem comunicacao com o servidor da Sefaz.",
             }
         )
-
-        invoice_id = self.env["account.move"].search(
-            [("fiscal_document_id", "=", self.id)], limit=1
-        )
-        if invoice_id:
-            copy_invoice = invoice_id.copy()
-            copy_invoice.action_post()
