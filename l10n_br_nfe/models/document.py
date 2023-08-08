@@ -27,6 +27,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO,
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
+    CONTINGENCIA,
     DENEGADO,
     DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
@@ -932,11 +933,11 @@ class NFe(spec_models.StackedModel):
                 record.atualiza_status_nfe(processo)
 
                 if hasattr(processo, "protocolo"):
-                    status = processo.protocolo.infProt.cStat
+                    infProt = processo.protocolo.infProt
                 else:
-                    status = processo.resposta.cStat
+                    infProt = processo.resposta.protNFe.infProt
 
-                if status in AUTORIZADO:
+                if infProt.cStat in AUTORIZADO:
                     try:
                         record.make_pdf()
                     except Exception as e:
@@ -954,7 +955,7 @@ class NFe(spec_models.StackedModel):
                     }
                 )
 
-            elif processo.resposta.cStat in ["108", "109"]:
+            elif processo.resposta.cStat in CONTINGENCIA:
                 record._process_document_in_contingency()
 
             else:
@@ -1152,17 +1153,19 @@ class NFe(spec_models.StackedModel):
             )
 
     def _process_document_in_contingency(self):
-        copy_invoice = (
-            self.env["account.move"]
-            .search([("fiscal_document_id", "=", self.id)], limit=1)
-            .copy()
+        self.write(
+            {
+                "nfe_transmission": "9",
+                "nfe40_dhCont": fields.Datetime.now().strftime(
+                    DEFAULT_SERVER_DATETIME_FORMAT
+                ),
+                "nfe40_xJust": "Sem comunicacao com o servidor da Sefaz.",
+            }
         )
-        vals = {
-            "nfe_transmission": "9",
-            "nfe40_dhCont": fields.Datetime.now().strftime(
-                DEFAULT_SERVER_DATETIME_FORMAT
-            ),
-            "nfe40_xJust": "Sem comunicacao com o servidor da Sefaz.",
-        }
-        copy_invoice.fiscal_document_id.write(vals)
-        copy_invoice.action_post()
+
+        invoice_id = self.env["account.move"].search(
+            [("fiscal_document_id", "=", self.id)], limit=1
+        )
+        if invoice_id:
+            copy_invoice = invoice_id.copy()
+            copy_invoice.action_post()
