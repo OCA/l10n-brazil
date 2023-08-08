@@ -526,26 +526,6 @@ class CTe(spec_models.StackedModel):
             self.company_id.state_id.ibge_code,
         )
 
-    # def _document_export(self, pretty_print=True):
-    #     result = super()._document_export()
-    #     for record in self.filtered(filter_processador_edoc_cte):
-    #         edoc = record.serialize()[0]
-    #         processador = record._processador()
-    #         xml_file = processador.to_xml()[0]
-    #         event_id = self.event_ids.create_event_save_xml(
-    #             company_id=self.company_id,
-    #             environment=(
-    #                 EVENT_ENV_PROD if self.cte40_tpAmb == "1" else EVENT_ENV_HML
-    #             ),
-    #             event_type="0",
-    #             xml_file=xml_file,
-    #             document_id=self,
-    #         )
-    #         record.authorization_event_id = event_id
-    #         xml_assinado = processador.assinar_edoc(edoc, edoc.infCte.Id)
-    #         self._valida_xml(xml_assinado)
-    #     return result
-
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
