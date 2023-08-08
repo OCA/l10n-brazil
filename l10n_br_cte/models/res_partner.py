@@ -30,7 +30,7 @@ class ResPartner(spec_models.SpecModel):
     _cte_search_keys = ["cte40_CNPJ", "cte40_CPF", "cte40_xNome"]
 
     cte40_choice_cnpj_cpf = fields.Selection(
-        selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
+        selection=[("cte40_CNPJ", "CNPJ"), ("cte40_CPF", "CPF")],
         string="CNPJ/CPF do Parceiro",
     )
 
