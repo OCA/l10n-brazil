@@ -534,6 +534,20 @@ class NFe(spec_models.StackedModel):
     # TODO
 
     ##########################
+    # NF-e tag: retTrib
+    ##########################
+
+    nfe40_vRetPIS = fields.Monetary(related="amount_pis_wh_value")
+
+    nfe40_vRetCOFINS = fields.Monetary(related="amount_cofins_wh_value")
+
+    nfe40_vRetCSLL = fields.Monetary(related="amount_csll_wh_value")
+
+    nfe40_vBCIRRF = fields.Monetary(related="amount_irpj_wh_base")
+
+    nfe40_vIRRF = fields.Monetary(related="amount_irpj_wh_value")
+
+    ##########################
     # NF-e tag: transp
     ##########################
 
