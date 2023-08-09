@@ -96,8 +96,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_DOMAIN_ICMS,
     )
 
+    partner_is_public_entity = fields.Boolean(related="partner_id.is_public_entity")
+
+    allow_csll_irpj = fields.Boolean(
+        compute="_compute_allow_csll_irpj",
+        help="Indicates potential 'CSLL' and 'IRPJ' tax charges.",
+    )
+
     price_unit = fields.Float(
-        string="Price Unit", digits=dp.get_precision("Product Price")
+        string="Price Unit", digits=dp.get_precision("Product Price"),
     )
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
