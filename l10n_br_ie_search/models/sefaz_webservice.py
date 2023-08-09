@@ -24,6 +24,7 @@ class SefazWebservice(models.AbstractModel):
     @api.model
     def _sefaz_import_data(self, data):
         tree = ET.ElementTree(ET.fromstring(data.text))
+        IE = ""
         for el in tree.findall(".//"):
             if "IE" in el.tag:
                 IE = el.text
