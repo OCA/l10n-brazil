@@ -3,8 +3,6 @@
 
 from odoo import api, fields, models
 
-import odoo.addons.decimal_precision as dp
-
 
 class FiscalLineMixin(models.AbstractModel):
     _name = "l10n_br_repair.fiscal.line.mixin"
@@ -35,8 +33,10 @@ class FiscalLineMixin(models.AbstractModel):
     price_subtotal = fields.Float(
         "Subtotal",
         compute="_compute_price_subtotal",
-        digits=dp.get_precision("Account"),
+        digits="Product Price",
     )
+
+    fiscal_operation_type = fields.Selection(string="Fiscal Operation Type")
 
     @api.model
     def _fiscal_operation_domain(self):
