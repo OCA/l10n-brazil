@@ -56,6 +56,15 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
+    is_public_entity = fields.Boolean(
+        string="Public Entity",
+        help="Indicates whether the entity in question is a "
+        "public organization or government-related entity. It encompasses a "
+        "range of entities such as municipal governments, state-owned "
+        "enterprises (where the government is the largest shareholder), and "
+        "other government-controlled organizations.",
+    )
+
     ind_final = fields.Selection(
         selection=FINAL_CUSTOMER,
         string="Final Consumption Operation",
@@ -102,6 +111,7 @@ class ResPartner(models.Model):
             if p.fiscal_profile_id:
                 p.tax_framework = p.fiscal_profile_id.tax_framework
                 p.ind_ie_dest = p.fiscal_profile_id.ind_ie_dest
+                p.is_public_entity = p.fiscal_profile_id.is_public_entity
 
     @api.onchange("ind_ie_dest")
     def _onchange_ind_ie_dest(self):
