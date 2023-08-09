@@ -24,6 +24,11 @@
                         attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"
                     />
                     <field
+                        name="is_public_entity"
+                        force_save="1"
+                        attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"
+                    />
+                    <field
                         name="cnae_main_id"
                         options="{'no_create': True, 'no_create_edit': True}"
                     />

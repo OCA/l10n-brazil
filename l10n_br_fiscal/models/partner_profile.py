@@ -23,6 +23,15 @@ class PartnerProfile(models.Model):
 
     is_company = fields.Boolean(string="Is Company?")
 
+    is_public_entity = fields.Boolean(
+        string="Public Entity",
+        help="Indicates whether the entity in question is a "
+        "public organization or government-related entity. It encompasses a "
+        "range of entities such as municipal governments, state-owned "
+        "enterprises (where the government is the largest shareholder), and "
+        "other government-controlled organizations.",
+    )
+
     default = fields.Boolean(string="Default Profile", default=True)
 
     ind_ie_dest = fields.Selection(

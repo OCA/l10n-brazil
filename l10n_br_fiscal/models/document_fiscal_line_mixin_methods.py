@@ -214,6 +214,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             ind_final=self.ind_final,
         )
 
+    @api.depends("tax_icms_or_issqn", "partner_is_public_entity")
+    def _compute_allow_csll_irpj(self):
+        """Calculates the possibility of 'CSLL' and 'IRPJ' tax charges."""
+        for line in self:
+            # Determine if 'CSLL' and 'IRPJ' taxes may apply:
+            # 1. When providing services (tax_icms_or_issqn == "issqn")
+            # 2. When supplying products to public entities (partner_is_public_entity is True)
+            if line.tax_icms_or_issqn == "issqn" or line.partner_is_public_entity:
+                line.allow_csll_irpj = True  # Tax charges may apply
+            else:
+                line.allow_csll_irpj = False  # No tax charges expected
+
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
         fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields.keys()
