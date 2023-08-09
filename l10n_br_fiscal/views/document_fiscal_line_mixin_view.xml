@@ -29,6 +29,7 @@
           <field name="fiscal_price" force_save="1" invisible="1" />
           <field name="fiscal_quantity" force_save="1" invisible="1" />
           <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1" />
+          <field name="allow_csll_irpj" force_save="1" invisible="1" />
         </group>
         <notebook>
           <field name="product_id" force_save="1" invisible="1" />
@@ -768,7 +769,7 @@
                 <page
                                 name="csll"
                                 string="CSLL"
-                                attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                                attrs="{'invisible': [('allow_csll_irpj', '=', False)]}"
                             >
                     <group>
                         <field name="csll_tax_id" />
@@ -835,7 +836,7 @@
                 <page
                                 name="irpj"
                                 string="IRPJ"
-                                attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"
+                                attrs="{'invisible': [('allow_csll_irpj', '=', False)]}"
                             >
                     <group>
                         <field
