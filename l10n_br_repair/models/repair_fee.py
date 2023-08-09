@@ -3,8 +3,6 @@
 
 from odoo import api, fields, models
 
-from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
-
 
 class RepairFee(models.Model):
     _name = "repair.fee"
@@ -20,7 +18,6 @@ class RepairFee(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         related="repair_id.company_id.tax_framework",
         string="Tax Framework",
     )
@@ -56,6 +53,10 @@ class RepairFee(models.Model):
         related="repair_id.company_id",
         store=True,
     )
+
+    # Fields compute need parameter compute_sudo
+    price_subtotal = fields.Monetary(compute_sudo=True)
+    price_gross = fields.Monetary(compute_sudo=True)
 
     @api.depends(
         "price_unit",
