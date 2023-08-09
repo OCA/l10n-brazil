@@ -28,6 +28,7 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="is_company" />
+                <field name="is_public_entity" />
                 <field name="default" />
                 <field name="ind_ie_dest" />
                 <field name="tax_framework" />
@@ -62,6 +63,7 @@
                         <field name="code" />
                         <field name="name" />
                         <field name="is_company" />
+                        <field name="is_public_entity" />
                         <field name="default" />
                         <field name="ind_ie_dest" />
                         <field

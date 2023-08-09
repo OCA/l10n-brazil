@@ -83,4 +83,14 @@
         <field name="tax_framework" eval="False" />
     </record>
 
+    <record id="partner_fiscal_profile_estatal" model="l10n_br_fiscal.partner.profile">
+        <field name="code">ESTCONT</field>
+        <field name="name">Empresa Estatal Contribuinte</field>
+        <field name="is_company" eval="True" />
+        <field name="is_public_entity" eval="True" />
+        <field name="default" eval="False" />
+        <field name="ind_ie_dest">1</field>
+        <field name="tax_framework">3</field>
+    </record>
+
 </odoo>
