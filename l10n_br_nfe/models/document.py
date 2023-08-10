@@ -312,7 +312,7 @@ class NFe(spec_models.StackedModel):
     @api.depends("date_in_out")
     def _compute_nfe40_dhSaiEnt(self):
         for doc in self:
-            if doc.document_type == "65":
+            if doc.document_type == MODELO_FISCAL_NFCE:
                 doc.nfe40_dhSaiEnt = None
             else:
                 doc.nfe40_dhSaiEnt = doc.date_in_out
@@ -343,7 +343,7 @@ class NFe(spec_models.StackedModel):
 
     def _inverse_nfe40_dhSaiEnt(self):
         for doc in self:
-            if doc.document_type == "65":
+            if doc.document_type == MODELO_FISCAL_NFCE:
                 doc.nfe40_dhSaiEnt = None
             else:
                 doc.date_in_out = doc.nfe40_dhSaiEnt
@@ -794,7 +794,7 @@ class NFe(spec_models.StackedModel):
             "ambiente": self.nfe_environment,
         }
 
-        if self.document_type == "65":
+        if self.document_type == MODELO_FISCAL_NFCE:
             params.update(
                 csc_token=self.company_id.nfce_csc_token,
                 csc_code=self.company_id.nfce_csc_code,
@@ -909,17 +909,17 @@ class NFe(spec_models.StackedModel):
             if record.xml_error_message:
                 return
 
-            processador = record._processador()
-            if record.document_type == "65":
+            if record.document_type == MODELO_FISCAL_NFCE:
                 record.nfe40_infNFeSupl = self.env[
                     "l10n_br_fiscal.document.supplement"
                 ].create(
                     {
-                        "nfe40_qrCode": processador.monta_qrcode(record.document_key),
-                        "nfe40_urlChave": processador.consulta_qrcode_url,
+                        "nfe40_qrCode": self.get_nfce_qrcode(),
+                        "nfe40_urlChave": self.get_nfce_qrcode_url(),
                     }
                 )
 
+            processador = record._processador()
             for edoc in record.serialize():
                 processo = None
                 for p in processador.processar_documento(edoc):
@@ -931,20 +931,6 @@ class NFe(spec_models.StackedModel):
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
                 record.atualiza_status_nfe(processo)
-
-                if hasattr(processo, "protocolo"):
-                    infProt = processo.protocolo.infProt
-                else:
-                    infProt = processo.resposta.protNFe.infProt
-
-                if infProt.cStat in AUTORIZADO:
-                    try:
-                        record.make_pdf()
-                    except Exception as e:
-                        # Não devemos interromper o fluxo
-                        # E dar rollback em um documento
-                        # autorizado, podendo perder dados.
-                        _logger.error("DANFE Error \n {}".format(e))
 
             elif processo.resposta.cStat in DENEGADO:
                 record._change_state(SITUACAO_EDOC_DENEGADA)
@@ -1162,3 +1148,21 @@ class NFe(spec_models.StackedModel):
                 "nfe40_xJust": "Sem comunicacao com o servidor da Sefaz.",
             }
         )
+
+    def get_nfce_qrcode(self):
+        if self.document_type != MODELO_FISCAL_NFCE:
+            return
+
+        processador = self._processador()
+        if self.nfe_transmission == "1":
+            return processador.monta_qrcode(self.document_key)
+
+        serialized_doc = self.serialize()
+        xml = self.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
+        return processador._generate_qrcode_contingency(serialized_doc, xml)
+
+    def get_nfce_qrcode_url(self):
+        if self.document_type != MODELO_FISCAL_NFCE:
+            return
+
+        return self._processador().consulta_qrcode_url
