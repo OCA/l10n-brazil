@@ -144,19 +144,6 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
         },
     };
 
-    const CODIGO_BANDEIRA_CARTAO = {
-        "01": "Visa",
-        "02": "Mastercard",
-        "03": "American Express",
-        "04": "Sorocred",
-        "05": "Diners Club",
-        "06": "Elo",
-        "07": "Hipercard",
-        "08": "Aura",
-        "09": "Cabal",
-        99: "Outros",
-    };
-
     const removePontuaction = (text) => {
         return text.replace(/([^\w ]|_)/g, "");
     };
@@ -608,14 +595,6 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
             };
         }
 
-        mountPaymentLineTag() {
-            const paymentLines = [];
-            for (const line of this.order.paymentlines.models) {
-                paymentLines.push(this.mountPaymentTag(line));
-            }
-            return paymentLines;
-        }
-
         mountPaymentTag(paymentline) {
             const paymentModes = this.pos.paymentModes;
             const paymentMethod = paymentline.payment_method;
@@ -646,10 +625,7 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
                         /([^\w ]|_)/g,
                         ""
                     ),
-                    tBand:
-                        CODIGO_BANDEIRA_CARTAO[
-                            paymentline.terminal_transaction_administrator
-                        ],
+                    tBand: paymentline.terminal_transaction_administrator,
                     cAut: paymentline.transaction_id,
                 },
             };
