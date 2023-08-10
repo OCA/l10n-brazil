@@ -677,6 +677,9 @@ msgid "Fiscal Line Mixin"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
@@ -1687,6 +1690,12 @@ msgid "Please define an accounting sales journal for the company {} ({})."
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_subtotal
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_subtotal
+msgid "Price Subtotal"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_total
 msgid "Price Total"
 msgstr "Preço Total"
@@ -1749,8 +1758,6 @@ msgstr "Número da Inscrição Estadual/RG"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_subtotal
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_subtotal
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_subtotal
 msgid "Subtotal"
 msgstr "Subtotal"
 
@@ -1936,13 +1943,6 @@ msgid "Total"
 msgstr "Total"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_type
-msgid "Type"
-msgstr "Tipo"
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__uom_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__uom_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__uom_id
@@ -1977,6 +1977,9 @@ msgstr ""
 #, python-format
 msgid "You have to select an invoice address in the repair form."
 msgstr "Você tem que selecionar um endereço de fatura no formulário de reparo."
+
+#~ msgid "Type"
+#~ msgstr "Tipo"
 
 #~ msgid "Allow Amount Discount on Repair Orders"
 #~ msgstr "Permitir desconto de valor em ordens de reparo"
