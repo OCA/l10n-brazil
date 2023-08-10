@@ -184,6 +184,8 @@ class TestNFCe(TestNFeExport):
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_A_ENVIAR)
         self.assertEqual(self.document_id.nfe_transmission, "9")
 
+        self.assertIsNotNone(self.document_id.get_nfce_qrcode())
+
     @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_inutilizacao)
     def test_inutilizar(self, mocked_post):
         inutilizar_wizard = (
@@ -222,3 +224,18 @@ class TestNFCe(TestNFeExport):
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
         self.assertEqual(self.document_id.status_code, AUTORIZADO[0])
         self.assertEqual(self.document_id.status_name, "TESTE AUTORIZADO")
+
+    def test_qrcode(self):
+        old_document_type = self.document_id.document_type_id
+        self.document_id.document_type_id = False
+
+        qr_code = self.document_id.get_nfce_qrcode()
+        qr_code_url = self.document_id.get_nfce_qrcode_url()
+        self.assertIsNone(qr_code)
+        self.assertIsNone(qr_code_url)
+
+        self.document_id.document_type_id = old_document_type
+        qr_code = self.document_id.get_nfce_qrcode()
+        qr_code_url = self.document_id.get_nfce_qrcode_url()
+        self.assertIsNotNone(qr_code)
+        self.assertIsNotNone(qr_code_url)
