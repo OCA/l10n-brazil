@@ -669,6 +669,9 @@ msgid "Fiscal Line Mixin"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr ""
@@ -1679,6 +1682,12 @@ msgid "Please define an accounting sales journal for the company {} ({})."
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_subtotal
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_subtotal
+msgid "Price Subtotal"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_total
 msgid "Price Total"
 msgstr ""
@@ -1741,8 +1750,6 @@ msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_subtotal
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_subtotal
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_subtotal
 msgid "Subtotal"
 msgstr ""
 
@@ -1925,13 +1932,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_total
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_total
 msgid "Total"
-msgstr ""
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_type
-msgid "Type"
 msgstr ""
 
 #. module: l10n_br_repair
