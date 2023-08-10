@@ -17,6 +17,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_stock_account_report
+#: model:ir.actions.report,print_report_name:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report
+msgid "'Report Brazilian P7-%s' % (object.date)"
+msgstr ""
+
+#. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<b>Description</b>"
 msgstr "<b>Descrição</b>"
@@ -87,9 +92,7 @@ msgid "<strong>State Registration: </strong>"
 msgstr "<strong>Inscrição Estadual: </strong>"
 
 #. module: l10n_br_stock_account_report
-#: code:addons/l10n_br_stock_account_report/wizards/l10n_br_p7_model_inventory_report_wizard.py:19
-#: selection:l10n_br.p7.model.inventory.report.wizard,compute_at_date:0
-#, python-format
+#: model:ir.model.fields.selection,name:l10n_br_stock_account_report.selection__l10n_br_p7_model_inventory_report_wizard__compute_at_date__1
 msgid "At a Specific Date"
 msgstr "Em uma Data Específica"
 
@@ -153,9 +156,7 @@ msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_stock_account_report
-#: code:addons/l10n_br_stock_account_report/wizards/l10n_br_p7_model_inventory_report_wizard.py:19
-#: selection:l10n_br.p7.model.inventory.report.wizard,compute_at_date:0
-#, python-format
+#: model:ir.model.fields.selection,name:l10n_br_stock_account_report.selection__l10n_br_p7_model_inventory_report_wizard__compute_at_date__0
 msgid "Current Inventory"
 msgstr "Inventário Atual"
 
