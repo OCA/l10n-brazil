@@ -81,11 +81,6 @@ msgid "Ano do Modelo"
 msgstr "Ano do Modelo"
 
 #. module: l10n_br_delivery
-#: model:res.partner,nfe40_xPais:l10n_br_delivery.test_carrier
-msgid "Brazil"
-msgstr "Brasil"
-
-#. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__l10n_br_delivery_carrier_vehicle__type__bau
 #, fuzzy
 msgid "Caminhão Baú"
@@ -178,12 +173,6 @@ msgstr ""
 #, fuzzy
 msgid "Frete por Conta"
 msgstr "Frete por Conta"
-
-#. module: l10n_br_delivery
-#: model:res.partner,nfe40_xMun:l10n_br_delivery.test_carrier
-#, fuzzy
-msgid "Guarulhos"
-msgstr "Guarulhos"
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__id
@@ -361,6 +350,13 @@ msgstr "Veículos"
 #, fuzzy
 msgid "[('supplier', '=', True)]"
 msgstr "[('supplier', '=', True)]"
+
+#~ msgid "Brazil"
+#~ msgstr "Brasil"
+
+#, fuzzy
+#~ msgid "Guarulhos"
+#~ msgstr "Guarulhos"
 
 #~ msgid "Fiscal Document"
 #~ msgstr "Documento Fiscal"
