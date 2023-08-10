@@ -1,3 +1,4 @@
+from . import test_nfce
 from . import test_nfe_structure
 from . import test_nfe_import
 from . import test_nfe_serialize

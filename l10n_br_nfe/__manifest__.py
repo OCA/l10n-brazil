@@ -21,6 +21,7 @@
         # Data
         "data/ir_config_parameter.xml",
         # Security
+        "security/ir_model_access.xml",
         "security/nfe_security.xml",
         # Views
         "views/res_company_view.xml",
@@ -40,7 +41,7 @@
             "nfelib>=2.0.0",
             "erpbrasil.assinatura>=1.7.0",
             "erpbrasil.transmissao",
-            "erpbrasil.edoc",
+            "erpbrasil.edoc>=2.5.1",
             "erpbrasil.edoc.pdf",
         ],
     },

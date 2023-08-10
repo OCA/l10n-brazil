@@ -8,6 +8,7 @@
   * Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
   * Luis Felipe Mileo <mileo@kmee.com.br>
   * Renan Hiroki Bastos <hirokibastos@gmail.com>
+  * Felipe Zago Rodrigues <felipe.zago@kmee.com.br>
 
 * `ESCODOO <https://escodoo.com.br>`_:
 
