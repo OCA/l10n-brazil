@@ -74,11 +74,6 @@ msgid "Ano do Modelo"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: model:res.partner,nfe40_xPais:l10n_br_delivery.test_carrier
-msgid "Brazil"
-msgstr ""
-
-#. module: l10n_br_delivery
 #: model:ir.model.fields.selection,name:l10n_br_delivery.selection__l10n_br_delivery_carrier_vehicle__type__bau
 msgid "Caminhão Baú"
 msgstr ""
@@ -167,11 +162,6 @@ msgstr ""
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__freight_responsibility
 msgid "Frete por Conta"
-msgstr ""
-
-#. module: l10n_br_delivery
-#: model:res.partner,nfe40_xMun:l10n_br_delivery.test_carrier
-msgid "Guarulhos"
 msgstr ""
 
 #. module: l10n_br_delivery
