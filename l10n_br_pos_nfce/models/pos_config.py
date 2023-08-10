@@ -1,4 +1,4 @@
-# Copyright (C) 2023  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# Copyright (C) 2023 KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields, models
@@ -36,15 +36,13 @@ class PosConfig(models.Model):
     )
 
     def _default_next_number(self):
-        if self.nfce_document_serie_id:
-            return (
-                self.company_id.nfe_default_serie_id.internal_sequence_id.number_next_actual
-            )
-        else:
+        if not self.nfce_document_serie_id:
             return 1
 
-    def update_nfce_serie_number(self, pos_config_id, serie_number):
-        pos_config = self.env["pos.config"].search([("id", "=", pos_config_id)])
-        if pos_config.nfce_document_serie_sequence_number_next < serie_number:
-            pos_config.nfce_document_serie_sequence_number_next = serie_number
-        return pos_config.nfce_document_serie_sequence_number_next
+        return self.nfce_document_serie_id.internal_sequence_id.number_next_actual
+
+    def update_nfce_serie_number(self, serie_number):
+        if self.nfce_document_serie_sequence_number_next < serie_number:
+            self.nfce_document_serie_sequence_number_next = serie_number
+
+        return self.nfce_document_serie_sequence_number_next
