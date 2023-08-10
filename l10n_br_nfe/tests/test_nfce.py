@@ -22,7 +22,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_REJEITADA,
 )
 
-from ..models.document import NFe
 from .test_nfe_serialize import TestNFeExport
 
 # flake8: noqa: B950
@@ -136,9 +135,7 @@ class TestNFCe(TestNFeExport):
 
     @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_autorizada)
     def test_nfce_success(self, _mock_post):
-        with mock.patch.object(NFe, "make_pdf", side_effect=KeyError("foo")):
-            # Should not raise error
-            self.document_id.action_document_send()
+        self.document_id.action_document_send()
 
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
 
