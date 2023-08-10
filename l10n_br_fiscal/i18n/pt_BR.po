@@ -1360,14 +1360,6 @@ msgid "Bills to pay"
 msgstr "Contas a pagar"
 
 #. module: l10n_br_fiscal
-#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_anonimo
-#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_ministerio_fazenda
-#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_prefeitura_municipal
-#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_previdencia_social
-msgid "Brazil"
-msgstr "Brasil"
-
-#. module: l10n_br_fiscal
 #: model:ir.module.category,name:l10n_br_fiscal.module_category_l10n_br_fiscal_management
 msgid "Brazilian Fiscal"
 msgstr "Fiscal Brasileiro"
@@ -9546,6 +9538,9 @@ msgstr "{} Falha na Estimativa de Imposto"
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#~ msgid "Brazil"
+#~ msgstr "Brasil"
 
 #~ msgid "Fiscal Dummy Document"
 #~ msgstr "Documento Fictício Fiscal"
