@@ -13,8 +13,8 @@ odoo.define("l10n_br_pos_nfce.ReceiptScreen", function (require) {
     const Registries = require("point_of_sale.Registries");
     const {useRef} = owl.hooks;
 
-    const L10nBrPosNfceReceiptScreen = (ReceiptScreen) =>
-        class extends ReceiptScreen {
+    const L10nBrPosNfceReceiptScreen = (_ReceiptScreen) =>
+        class extends _ReceiptScreen {
             constructor() {
                 super(...arguments);
                 if (this.currentOrder.document_type === "65") {
@@ -23,19 +23,6 @@ odoo.define("l10n_br_pos_nfce.ReceiptScreen", function (require) {
                     this.orderReceipt = useRef("order-receipt");
                 }
             }
-
-            // // @override
-            // async handleAutoPrint() {
-            //     if (this._shouldAutoPrint()) {
-            //         setTimeout(() => this.cfePrinting(), 1000);
-            //     }
-            // }
-            // async cfePrinting() {
-            //     await this.printReceipt();
-            //     if (this.currentOrder._printed && this._shouldCloseImmediately()) {
-            //         this.whenClosing();
-            //     }
-            // }
         };
 
     Registries.Component.extend(ReceiptScreen, L10nBrPosNfceReceiptScreen);

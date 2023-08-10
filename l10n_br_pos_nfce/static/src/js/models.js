@@ -45,21 +45,22 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
-            // CORE METHODS
             _super_order.initialize.apply(this, arguments, options);
             if (this.document_type === "65") {
                 this.to_invoice = true;
             }
         },
+
         async document_send(component) {
             if (this.document_type !== "65") {
                 return _super_order.document_send.apply(this, arguments);
             }
+
             if (!this.get_client()) {
-                const anonimous_partner = this.pos.db.get_partner_by_id(
+                const anonymous_partner = this.pos.db.get_partner_by_id(
                     this.pos.config.partner_id[0]
                 );
-                this.set_client(anonimous_partner);
+                this.set_client(anonymous_partner);
                 component.trigger("close-popup");
             }
 
@@ -67,11 +68,10 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
         },
 
         export_for_printing: function (json) {
-            json = _super_order.export_for_printing.call(this, json);
+            var result = _super_order.export_for_printing.call(this, json);
 
-            if (this.pos.config.simplified_document_type !== "65") return json;
+            if (this.pos.config.simplified_document_type !== "65") return result;
 
-            const company = this.pos.company;
             const {
                 cnpj_cpf,
                 inscr_est,
@@ -82,7 +82,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 city_id,
                 zip,
                 state_id,
-            } = company;
+            } = this.pos.company;
             const {nfce_environment} = this.pos.config;
 
             const companyInfo = {
@@ -99,12 +99,12 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 },
             };
 
-            json.company = Object.assign({}, this.company, companyInfo);
-            json.nfce_environment = nfce_environment;
+            result.company = Object.assign({}, this.company, companyInfo);
+            result.nfce_environment = nfce_environment;
 
             const additionalInfo = this._buildNFCeAdditionalInfo();
 
-            return {...json, ...additionalInfo};
+            return {...result, ...additionalInfo};
         },
 
         _buildNFCeAdditionalInfo: function () {
@@ -130,10 +130,8 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 const product_fiscal_map = this.pos.fiscal_map_by_template_id[
                     line.product.product_tmpl_id
                 ];
-                if (product_fiscal_map) {
-                    if (product_fiscal_map.icms_cst_code === "00") {
-                        totalICMS += product_fiscal_map.icms_value;
-                    }
+                if (product_fiscal_map && product_fiscal_map.icms_cst_code === "00") {
+                    totalICMS += product_fiscal_map.icms_value;
                 }
             }
 
@@ -195,10 +193,8 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 const product_fiscal_map = this.pos.fiscal_map_by_template_id[
                     line.product.product_tmpl_id
                 ];
-                if (product_fiscal_map) {
-                    if (product_fiscal_map.icms_cst_code === "00") {
-                        totalICMSBase += product_fiscal_map.icms_base;
-                    }
+                if (product_fiscal_map && product_fiscal_map.icms_cst_code === "00") {
+                    totalICMSBase += product_fiscal_map.icms_base;
                 }
             }
 
@@ -209,9 +205,10 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
     var _super_posmodel = models.PosModel.prototype;
     models.PosModel = models.PosModel.extend({
         push_and_invoice_order(order) {
-            if (!this.document_type === "65") {
+            if (this.env.pos.config.simplified_document_type !== "65") {
                 return _super_posmodel.push_and_invoice_order.call(this);
             }
+
             var self = this;
             var invoiced = new Promise(function (resolveInvoiced, rejectInvoiced) {
                 // eslint-disable-next-line
@@ -226,13 +223,6 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
                     self.flush_mutex.exec(function () {
                         var done = new Promise(function (resolveDone, rejectDone) {
-                            // Send the order to the server
-                            // we have a 30 seconds timeout on this push.
-                            // FIXME: if the server takes more than 30 seconds to accept the order,
-                            // the client will believe it wasn't successfully sent, and very bad
-                            // things will happen as a duplicate will be sent next time
-                            // so we must make sure the server detects and ignores duplicated orders
-
                             var transfer = self._flush_orders(
                                 [self.db.get_order(order_id)],
                                 {timeout: 30000, to_invoice: true}
@@ -248,9 +238,6 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                                     resolveInvoiced(order_server_id);
                                     resolveDone();
                                 } else {
-                                    // The order has been pushed separately in batch when
-                                    // the connection came back.
-                                    // The user has to go to the backend to print the invoice
                                     rejectInvoiced({
                                         code: 401,
                                         message: "Backend Invoice",
@@ -418,8 +405,7 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
                 model: "pos.config",
                 method: "update_nfce_serie_number",
                 args: [
-                    [],
-                    this.env.pos.config.id,
+                    [this.env.pos.config.id],
                     this.env.pos.config.nfce_document_serie_sequence_number_next,
                 ],
             }).then((result) => {
