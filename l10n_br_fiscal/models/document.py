@@ -181,6 +181,7 @@ class Document(models.Model):
     )
 
     document_type = fields.Char(
+        string="Document Type Code",
         related="document_type_id.code",
         store=True,
     )
