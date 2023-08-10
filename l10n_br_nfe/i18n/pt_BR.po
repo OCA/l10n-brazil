@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_qrcode_version__1
+msgid "1.00"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__1_10
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__1_10
 msgid "1.10"
@@ -44,6 +49,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__2_00
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_qrcode_version__2
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__2_00
 msgid "2.00"
 msgstr ""
@@ -284,6 +290,16 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_csc_code
+msgid "CSC Code"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_csc_token
+msgid "CSC Token"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:0
 #, python-format
 msgid "Certificado não encontrado"
@@ -408,6 +424,23 @@ msgstr ""
 #: model:ir.model,name:l10n_br_nfe.model_res_country_state
 msgid "Country state"
 msgstr "País Estado"
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfce_csc_code
+msgid ""
+"Código CSC (Código de Segurança do Contribuinte) fornecido pela SEFAZ para a "
+"NFC-e"
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_EXTIPI
@@ -631,6 +664,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_nbm__display_name
@@ -677,6 +711,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_enderEmit
 msgid "Endereço do emitente"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_entrega
+msgid "Entrega"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -974,6 +1013,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_type__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_nbm__id
@@ -1057,11 +1097,6 @@ msgid ""
 "Identificação do Ambiente:\n"
 "1 - Produção\n"
 "2 - Homologação"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_entrega
-msgid "Identificação do Local de Entrega"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1302,6 +1337,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_nbm____last_update
@@ -1316,6 +1352,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_uom_uom____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__write_date
+msgid "Last Updated on"
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xLgr
@@ -1383,6 +1429,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__brl_currency_id
 msgid "Moeda"
@@ -1423,6 +1470,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_version
 msgid "NF-e Version"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "NFC-e Default Settings"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1477,6 +1529,16 @@ msgid "Nf-e Environment:"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_dhCont
+msgid "Nfe Dhcont"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_xJust
+msgid "Nfe Xjust"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_autXML_infNFe_id
 msgid "Nfe40 Autxml Infnfe"
 msgstr ""
@@ -1489,6 +1551,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_det_infNFe_id
 msgid "Nfe40 Det Infnfe"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infNFeSupl
+msgid "Nfe40 Infnfesupl"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1509,6 +1576,13 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pICMSUFDest
 msgid "Nfe40 Picmsufdest"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_UF
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_UF
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_UF
+msgid "Nfe40 Uf"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1700,6 +1774,11 @@ msgid "Produção"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_qrcode_version
+msgid "QRCode Version"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_qCom
 msgid ""
 "Quantidade Comercial  do produto, alterado para aceitar de 0 a 4 casas "
@@ -1754,13 +1833,6 @@ msgid "Set nf-e default version used to create new NF-e documents"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_UF
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_UF
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_UF
-msgid "State Code"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_serie
 msgid "Série do Documento Fiscal"
 msgstr ""
@@ -1794,23 +1866,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_xPais
-#: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_xPais
-#: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_xPais
-msgid "The full name of the country."
-msgstr "Nome completo do país."
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__nfe40_qrCode
+msgid "Texto com o QR-Code impresso"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__nfe40_qrCode
+msgid "Texto com o QR-Code impresso no DANFE NFC-e"
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_transporta
 msgid "The partner that is doing the delivery service."
 msgstr "O parceiro que está executando o serviço de entrega."
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_UF
-#: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_UF
-#: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_UF
-msgid "The state code."
-msgstr "O código de estado."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice11
@@ -1843,9 +1911,28 @@ msgid "Tipo do Documento Fiscal (0 - entrada; 1 - saída)"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfce_csc_token
+msgid ""
+"Token CSC (Código de Segurança do Contribuinte) fornecido pela SEFAZ para a "
+"NFC-e"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_transmission
 msgid "Transmission Type"
 msgstr "Tipo de Transmissão"
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__nfe40_urlChave
+msgid "URL da 'Consulta por chave de acesso"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__nfe40_urlChave
+msgid ""
+"URL da 'Consulta por chave de acesso da NFC-e'. A mesma URL que deve estar "
+"informada no DANFE NFC-e para consulta por chave de acesso."
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_uTrib
@@ -2223,6 +2310,11 @@ msgid "impostoDevol"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_supplement
+msgid "l10n_br_fiscal.document.supplement"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_modBCST
 msgid "modBCST"
 msgstr ""
@@ -2427,6 +2519,12 @@ msgid ""
 "versão do aplicativo utilizado no processo de\n"
 "emissão"
 msgstr ""
+
+#~ msgid "The full name of the country."
+#~ msgstr "Nome completo do país."
+
+#~ msgid "The state code."
+#~ msgstr "O código de estado."
 
 #, python-format
 #~ msgid "Authorization Protocol Not Found!"
