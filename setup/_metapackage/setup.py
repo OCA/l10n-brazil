@@ -49,6 +49,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_sale_stock',
         'odoo14-addon-l10n_br_stock',
         'odoo14-addon-l10n_br_stock_account',
+        'odoo14-addon-l10n_br_stock_account_report',
         'odoo14-addon-l10n_br_website_sale',
         'odoo14-addon-l10n_br_website_sale_delivery',
         'odoo14-addon-l10n_br_zip',
