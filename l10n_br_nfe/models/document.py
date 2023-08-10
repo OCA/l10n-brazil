@@ -1157,8 +1157,8 @@ class NFe(spec_models.StackedModel):
         if self.nfe_transmission == "1":
             return processador.monta_qrcode(self.document_key)
 
-        serialized_doc = self.serialize()
-        xml = self.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
+        serialized_doc = self.serialize()[0]
+        xml = processador.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
         return processador._generate_qrcode_contingency(serialized_doc, xml)
 
     def get_nfce_qrcode_url(self):
