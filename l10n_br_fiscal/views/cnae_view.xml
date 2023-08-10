@@ -6,8 +6,8 @@
         <field name="model">l10n_br_fiscal.cnae</field>
         <field name="arch" type="xml">
             <search string="CNAE">
-                <field name="code" />
                 <field name="name" />
+                <field name="code" />
                 <group expand='0' string='Group By...'>
                     <filter
                         string='Parent'
