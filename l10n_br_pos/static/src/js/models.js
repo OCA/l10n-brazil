@@ -394,7 +394,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 var processor = await this._document_get_processor();
                 if (processor) {
                     this._document_status_popup();
-                    // Efetivamente envia o documento fiscal
+                    // Send fiscal document
                     processor_result = await processor.send_order(this);
                     // Validate if it was issued correctly and saves the result data
                     result = await this._document_check_result(processor_result);
