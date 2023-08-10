@@ -26,13 +26,31 @@ class FiscalDocument(models.Model):
     # proxy fields to enable writing the related (shadowed) fields
     # to the fiscal document from the account.move through the _inherits system
     # despite they have the same names.
-    fiscal_partner_id = fields.Many2one(related="partner_id", readonly=False)
-    fiscal_company_id = fields.Many2one(related="company_id", readonly=False)
-    fiscal_currency_id = fields.Many2one(related="currency_id", readonly=False)
-    fiscal_partner_shipping_id = fields.Many2one(
-        related="partner_shipping_id", readonly=False
+    fiscal_partner_id = fields.Many2one(
+        string="Fiscal Partner",
+        related="partner_id",
+        readonly=False,
     )
-    fiscal_user_id = fields.Many2one(related="user_id", readonly=False)
+    fiscal_company_id = fields.Many2one(
+        string="Fiscal Company",
+        related="company_id",
+        readonly=False,
+    )
+    fiscal_currency_id = fields.Many2one(
+        string="Fiscal Currency",
+        related="currency_id",
+        readonly=False,
+    )
+    fiscal_partner_shipping_id = fields.Many2one(
+        string="Fiscal Partner Shipping",
+        related="partner_shipping_id",
+        readonly=False,
+    )
+    fiscal_user_id = fields.Many2one(
+        string="Fiscal User",
+        related="user_id",
+        readonly=False,
+    )
 
     # commented out because of badly written TestInvoiceDiscount.test_date_in_out
     #    def write(self, vals):
@@ -45,7 +63,10 @@ class FiscalDocument(models.Model):
 
     # For some reason, perhaps limitation of _inhertis,
     # the related directly in the account.move does not work correctly.
-    incoterm_id = fields.Many2one(related="move_ids.invoice_incoterm_id")
+    incoterm_id = fields.Many2one(
+        string="Fiscal Inconterm",
+        related="move_ids.invoice_incoterm_id",
+    )
 
     document_date = fields.Datetime(
         compute="_compute_document_date", inverse="_inverse_document_date", store=True
