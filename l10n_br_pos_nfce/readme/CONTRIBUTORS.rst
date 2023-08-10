@@ -6,3 +6,4 @@
   * Luiz Felipe do Divino <luiz.divino@kmee.com.br>
   * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
   * Ygor Carvalho <ygor.carvalho@kmee.com.br>
+  * Felipe Zago Rodrigues <felipe.zago@kmee.com.br>

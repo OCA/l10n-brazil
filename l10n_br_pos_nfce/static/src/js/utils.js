@@ -43,7 +43,7 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
         const acumulado = base
             .split("")
             .reverse()
-            .map((a, i) => parseInt(a) * parseInt(pesos[i]))
+            .map((a, i) => parseInt(a, 10) * parseInt(pesos[i], 10))
             .reduce((acc, val) => acc + val, 0);
         const digito = 11 - (acumulado % 11);
         return digito >= 10 ? 0 : digito;
@@ -96,7 +96,10 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
                 campos += codigoAleatorio.toString().padStart(8, "0");
                 campos += modulo11(campos).toString();
 
-                this.modeloDocumento = parseInt(campos.substring(...ChaveEdoc.MODELO));
+                this.modeloDocumento = parseInt(
+                    campos.substring(...ChaveEdoc.MODELO),
+                    10
+                );
                 this.prefixo = EDOC_PREFIXO[this.modeloDocumento] || "";
                 this.chaveGerada = campos;
 
@@ -115,7 +118,7 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
         calculoCodigoAleatorio(campos) {
             let soma = 0;
             for (let i = 0; i < campos.length; i++) {
-                soma += parseInt(campos[i]) ** (3 ** 2);
+                soma += parseInt(campos[i], 10) ** (3 ** 2);
             }
 
             const TAMANHO_CODIGO =
@@ -160,5 +163,8 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
     ChaveEdoc.CODIGO = [35, 43];
     ChaveEdoc.DV = [43];
 
-    return {ChaveEdoc, ESTADOS_IBGE};
+    return {
+        ChaveEdoc: ChaveEdoc,
+        ESTADOS_IBGE: ESTADOS_IBGE,
+    };
 });
