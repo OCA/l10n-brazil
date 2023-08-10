@@ -10,7 +10,7 @@
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
-    "maintainers": ["mileo", "lfdivino", "luismalta", "ygcarvalh"],
+    "maintainers": ["mileo", "lfdivino", "luismalta", "ygcarvalh", "felipezago"],
     "depends": [
         "l10n_br_pos",
         "l10n_br_account_nfe",
