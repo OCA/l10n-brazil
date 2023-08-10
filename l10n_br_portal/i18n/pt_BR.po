@@ -32,11 +32,6 @@ msgid "Bairro"
 msgstr "Bairro"
 
 #. module: l10n_br_portal
-#: model:res.users,nfe40_xPais:l10n_br_portal.demo_user_kmee
-msgid "Brazil"
-msgstr "Brasil"
-
-#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
@@ -87,11 +82,6 @@ msgid "Inscrição Municipal"
 msgstr "Inscrição Municipal"
 
 #. module: l10n_br_portal
-#: model:res.users,nfe40_xMun:l10n_br_portal.demo_user_kmee
-msgid "Itajubá"
-msgstr "Itajubá"
-
-#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Mobile"
 msgstr "Celular"
@@ -130,6 +120,12 @@ msgstr "Seu Nome"
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Zip / Postal Code"
 msgstr "CEP"
+
+#~ msgid "Brazil"
+#~ msgstr "Brasil"
+
+#~ msgid "Itajubá"
+#~ msgstr "Itajubá"
 
 #~ msgid "Country..."
 #~ msgstr "País…"
