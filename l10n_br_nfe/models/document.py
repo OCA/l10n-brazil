@@ -870,7 +870,7 @@ class NFe(spec_models.StackedModel):
                 response=infProt.xMotivo,
                 protocol_date=protocol_date,
                 protocol_number=infProt.nProt,
-                file_response_xml=processo.retorno.text,
+                file_response_xml=processo.envio_xml.decode("utf-8"),
             )
         self.write(
             {
