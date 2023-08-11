@@ -389,9 +389,9 @@ class Tax(models.Model):
             and tax_dict.get("tax_value")
         ):
             icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
-                company, partner, product, ncm, nbm, cest, operation_line
+                company, partner, product, ncm, nbm, cest, operation_line, ind_final
             )
-            icmsfcp_tax_difal = tax_dict_ipi = taxes_dict.get("icmsfcp", {})
+            icmsfcp_tax_difal = taxes_dict.get("icmsfcp", {})
 
             # Difal - Origin Percent
             icms_origin_perc = tax_dict.get("percent_amount")

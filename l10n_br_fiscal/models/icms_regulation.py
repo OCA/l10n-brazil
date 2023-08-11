@@ -1828,6 +1828,7 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         operation_line=None,
+        ind_final=None,
     ):
         self.ensure_one()
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
@@ -1843,7 +1844,7 @@ class ICMSRegulation(models.Model):
             )
 
             tax_definitions = self._tax_definition_search(
-                domain, ncm, nbm, cest, product
+                domain, ncm, nbm, cest, product, ind_final
             )
         return tax_definitions.mapped("tax_id"), tax_definitions
 
