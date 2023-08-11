@@ -48,63 +48,75 @@ class FakeRetorno(object):
 
 
 def mocked_nfce_autorizada(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeAutorizacaoLote",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_autorizada),
         retEnviNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mocked_nfce_denegada(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeAutorizacaoLote",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_denegada),
         retEnviNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mocked_nfce_rejeitada(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeAutorizacaoLote",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_rejeitada),
         retEnviNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mocked_nfce_contingencia(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeAutorizacaoLote",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_contingency),
         retEnviNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mocked_inutilizacao(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeInutilizacaoNF",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_inutilizacao),
         retInutNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mock_cancela(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeRecepcaoEvento",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_cancelamento),
         retEnvEvento,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 class TestNFCe(TestNFeExport):
