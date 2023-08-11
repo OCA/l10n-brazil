@@ -218,7 +218,7 @@ class TestNFCe(TestNFeExport):
         mock_autorizada.protocolo.infProt.cStat = AUTORIZADO[0]
         mock_autorizada.protocolo.infProt.xMotivo = "TESTE AUTORIZADO"
         mock_autorizada.protocolo.infProt.dhRecbto = datetime.now()
-        mock_autorizada.retorno = FakeRetorno("dummy")
+        mock_autorizada.envio_xml = b"dummy"
         self.document_id.atualiza_status_nfe(mock_autorizada)
 
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
