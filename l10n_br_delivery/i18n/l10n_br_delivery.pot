@@ -160,6 +160,18 @@ msgid "Fill this field if you plan to invoice the shipping based on picking."
 msgstr ""
 
 #. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
+msgid "Fiscal Inconterm"
+msgstr ""
+
+#. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_incoterms__freight_responsibility
 msgid "Frete por Conta"
 msgstr ""
@@ -176,16 +188,8 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__fiscal_incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__fiscal_incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__fiscal_incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__fiscal_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__fiscal_incoterm_id
