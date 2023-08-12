@@ -48,63 +48,75 @@ class FakeRetorno(object):
 
 
 def mocked_nfce_autorizada(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeAutorizacaoLote",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_autorizada),
         retEnviNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mocked_nfce_denegada(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeAutorizacaoLote",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_denegada),
         retEnviNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mocked_nfce_rejeitada(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeAutorizacaoLote",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_rejeitada),
         retEnviNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mocked_nfce_contingencia(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeAutorizacaoLote",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_contingency),
         retEnviNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mocked_inutilizacao(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeInutilizacaoNF",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_inutilizacao),
         retInutNFe,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 def mock_cancela(*args, **kwargs):
-    return analisar_retorno_raw(
+    result = analisar_retorno_raw(
         "nfeRecepcaoEvento",
         object(),
         b"<fake_post/>",
         FakeRetorno(response_cancelamento),
         retEnvEvento,
     )
+    result.processo_xml = b"dummy"
+    return result
 
 
 class TestNFCe(TestNFeExport):
@@ -218,7 +230,7 @@ class TestNFCe(TestNFeExport):
         mock_autorizada.protocolo.infProt.cStat = AUTORIZADO[0]
         mock_autorizada.protocolo.infProt.xMotivo = "TESTE AUTORIZADO"
         mock_autorizada.protocolo.infProt.dhRecbto = datetime.now()
-        mock_autorizada.retorno = FakeRetorno("dummy")
+        mock_autorizada.processo_xml = b"dummy"
         self.document_id.atualiza_status_nfe(mock_autorizada)
 
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
