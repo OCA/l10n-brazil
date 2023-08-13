@@ -78,7 +78,6 @@ STRUCTURE SPED ECD
 
 import textwrap
 from odoo import fields, models
-from . import sped_models
 
 
 class Registro0000(models.AbstractModel):

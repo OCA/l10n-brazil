@@ -1,4 +1,4 @@
-from odoo import models
+from odoo import api, fields, models
 
 
 class Registro0000(models.Model):
@@ -146,10 +146,51 @@ class RegistroI550(models.Model):
     _name = 'l10n_br_sped.ecd.i550'
     _inherit = 'l10n_br_sped.ecd.9.i550'
 
+    RZ_CONT = fields.Char()  # according to pdf specification
+
+    @api.model
+    def read_register(cls, line, version):
+        vals = {"RZ_CONT": "|".join(line.split("|")[2:][:-1])}
+        return vals
+
+    def generate_register_text(self, sped, version, line_count={}):
+        code = self._name[-4:].upper()
+        vals_list = self.read(["RZ_CONT", "reg_I555_ids"])
+        for vals in vals_list:
+            sped.write("\n|%s|" % (code,))
+            sped.write(vals["RZ_CONT"])
+            sped.write("|")
+            line_count[0] += 1
+            children = self.env["l10n_br_sped.ecd.i555"].search(
+                [("id", "in", vals["reg_I555_ids"])]
+            )
+            for child in children:
+                child.generate_register_text(
+                    sped, version, line_count
+                )
+        return sped
+
 class RegistroI555(models.Model):
     _description = 'Concrete model for ecd I555'
     _name = 'l10n_br_sped.ecd.i555'
     _inherit = 'l10n_br_sped.ecd.9.i555'
+
+    RZ_CONT_TOT = fields.Char()  # according to pdf specification
+
+    @api.model
+    def read_register(cls, line, version):
+        vals = {"RZ_CONT_TOT": "|".join(line.split("|")[2:][:-1])}
+        return vals
+
+    def generate_register_text(self, sped, version, line_count={}):
+        code = self._name[-4:].upper()
+        keys = [i[0] for i in self._fields.items()]
+        vals_list = self.read(keys)
+        for vals in vals_list:
+            sped.write("\n|%s|" % (code,))
+            sped.write(vals.get("RZ_CONT_TOT", ""))
+            sped.write("|")
+            line_count[0] += 1
 
 class RegistroJ005(models.Model):
     _description = 'Concrete model for ecd J005'
