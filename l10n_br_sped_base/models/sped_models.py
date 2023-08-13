@@ -1,13 +1,16 @@
-from collections import defaultdict
-import datetime
+# Copyright 2023 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import datetime
 import logging
+from collections import defaultdict
 from io import StringIO
-from odoo import _, api, models, fields
-from odoo.exceptions import UserError
-from odoo.tools import float_is_zero
+
 from lxml.builder import E
 
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -289,9 +292,7 @@ class SpedMixin(models.AbstractModel):
                     if reg_code in ("0000", "0007"):  # FIXME
                         continue
                     raise UserError(
-                        _(
-                            "Register %s doesn't match Odoo %s SPED structure!"
-                        )
+                        _("Register %s doesn't match Odoo %s SPED structure!")
                         % (reg_code, kind)
                     )
 
@@ -399,7 +400,7 @@ class SpedMixin(models.AbstractModel):
                 line_count[0] += 1
                 #            if registers:
                 # print("RRRRRRRRRR", registers)
-                #registers.visit_tree()
+                # registers.visit_tree()
             registers.generate_register_text(sped, line_count)  # TODO use yield!
             last_bloco = bloco
 
@@ -422,12 +423,12 @@ class SpedMixin(models.AbstractModel):
         Get the "blocos" registers
         """
         register_model_names = list(
-            filter(
-                lambda x: "l10n_br_sped.%s" % (kind,) in x, cls.env.keys()
-            )
+            filter(lambda x: "l10n_br_sped.%s" % (kind,) in x, cls.env.keys())
         )
         register_level2_models = [
-            cls.env[m] for m in register_model_names if cls.env[m]._sped_level == 2 and not cls.env[m]._abstract
+            cls.env[m]
+            for m in register_model_names
+            if cls.env[m]._sped_level == 2 and not cls.env[m]._abstract
         ]
         return sorted(
             register_level2_models, key=lambda r: cls._get_alphanum_sequence(r._name)
@@ -438,7 +439,9 @@ class SpedMixin(models.AbstractModel):
         register0 = cls.env["l10n_br_sped.%s.0000" % (kind,)]
         register0.pull_records_from_odoo(level=1)
 
-        for register in cls._get_level2_registers(kind,):
+        for register in cls._get_level2_registers(
+            kind,
+        ):
             register.pull_records_from_odoo(level=2)
 
     @api.model
