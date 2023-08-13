@@ -245,7 +245,6 @@ STRUCTURE SPED EFD_PIS_COFINS
 
 import textwrap
 from odoo import fields, models
-from . import sped_models
 
 
 class Registro0000(models.AbstractModel):
@@ -255,19 +254,19 @@ class Registro0000(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 0
 
-    COD_VER = fields.Integer(
+    COD_VER = fields.Char(
         string="Código da versão do leiaute conforme a tabela 3",
         required=True,
         help="Código da versão do leiaute conforme a tabela 3.1.1.",
     )
 
-    TIPO_ESCRIT = fields.Integer(
+    TIPO_ESCRIT = fields.Char(
         string="Tipo de escrituração: 0",
         required=True,
         help="Tipo de escrituração: 0 - Original; 1 – Retificadora.",
     )
 
-    IND_SIT_ESP = fields.Integer(
+    IND_SIT_ESP = fields.Char(
         string="Indicador de situação especial: 0",
         help=(
             "Indicador de situação especial: 0 - Abertura 1 - Cisão 2 - Fusão "
@@ -308,7 +307,7 @@ class Registro0000(models.AbstractModel):
         string="Sigla da Unidade da Federação da pessoa jurídica", required=True
     )
 
-    COD_MUN = fields.Integer(
+    COD_MUN = fields.Char(
         string="Código do município do domicílio fiscal",
         required=True,
         help=(
@@ -319,7 +318,7 @@ class Registro0000(models.AbstractModel):
 
     SUFRAMA = fields.Char(string="Inscrição da pessoa jurídica na Suframa")
 
-    IND_NAT_PJ = fields.Integer(
+    IND_NAT_PJ = fields.Char(
         string="Indicador da natureza da pessoa jurídica",
         help=(
             "Indicador da natureza da pessoa jurídica: 00 – Pessoa jurídica em"
@@ -349,7 +348,7 @@ class Registro0035(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    COD_SCP = fields.Integer(string="Identificação da SCP")
+    COD_SCP = fields.Char(string="Identificação da SCP")
 
     DESC_SCP = fields.Char(string="Descrição da SCP")
 
@@ -386,7 +385,7 @@ class Registro0100(models.AbstractModel):
         ),
     )
 
-    CEP = fields.Integer(string="Código de Endereçamento Postal")
+    CEP = fields.Char(string="Código de Endereçamento Postal")
 
     END = fields.Char(string="Logradouro e endereço do imóvel", sped_length=60)
 
@@ -402,7 +401,7 @@ class Registro0100(models.AbstractModel):
 
     EMAIL = fields.Char(string="Endereço do correio eletrônico")
 
-    COD_MUN = fields.Integer(
+    COD_MUN = fields.Char(
         string="Código do município", help="Código do município, conforme tabela IBGE."
     )
 
@@ -416,7 +415,7 @@ class Registro0110(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    COD_INC_TRIB = fields.Integer(
+    COD_INC_TRIB = fields.Char(
         string="Código indicador da incidência tributária",
         required=True,
         help=(
@@ -428,7 +427,7 @@ class Registro0110(models.AbstractModel):
         ),
     )
 
-    IND_APRO_CRED = fields.Integer(
+    IND_APRO_CRED = fields.Char(
         string="Código indicador de método de apropriação",
         help=(
             "Código indicador de método de apropriação de créditos comuns, no "
@@ -438,7 +437,7 @@ class Registro0110(models.AbstractModel):
         ),
     )
 
-    COD_TIPO_CONT = fields.Integer(
+    COD_TIPO_CONT = fields.Char(
         string="Código indicador do Tipo de Contribuição Apurada",
         help=(
             "Código indicador do Tipo de Contribuição Apurada no Período 1 – "
@@ -448,7 +447,7 @@ class Registro0110(models.AbstractModel):
         ),
     )
 
-    IND_REG_CUM = fields.Integer(
+    IND_REG_CUM = fields.Char(
         string="Código indicador do critério de escrituração",
         help=(
             "Código indicador do critério de escrituração e apuração adotado, "
@@ -617,7 +616,7 @@ class Registro0140(models.AbstractModel):
         help=("Inscrição Estadual do estabelecimento, se contribuinte de ICMS."),
     )
 
-    COD_MUN = fields.Integer(
+    COD_MUN = fields.Char(
         string="Código do município do domicílio fiscal",
         required=True,
         help=(
@@ -691,7 +690,7 @@ class Registro0145(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    COD_INC_TRIB = fields.Integer(
+    COD_INC_TRIB = fields.Char(
         string="Código indicador da incidência tributária",
         required=True,
         help=(
@@ -778,7 +777,7 @@ class Registro0150(models.AbstractModel):
 
     IE = fields.Char(string="Inscrição Estadual do participante", sped_length=14)
 
-    COD_MUN = fields.Integer(
+    COD_MUN = fields.Char(
         string="Código do município", help="Código do município, conforme a tabela IBGE"
     )
 
@@ -853,7 +852,7 @@ class Registro0200(models.AbstractModel):
         help="Unidade de medida utilizada na quantificação de estoques.",
     )
 
-    TIPO_ITEM = fields.Integer(
+    TIPO_ITEM = fields.Char(
         string="Tipo do item – Atividades Industriais",
         required=True,
         help=(
@@ -872,7 +871,7 @@ class Registro0200(models.AbstractModel):
 
     EX_IPI = fields.Char(string="Código EX, conforme a TIPI", sped_length=3)
 
-    COD_GEN = fields.Integer(
+    COD_GEN = fields.Char(
         string="Código do gênero do item",
         help="Código do gênero do item, conforme a Tabela 4.2.1.",
     )
@@ -1385,7 +1384,7 @@ class RegistroA100(models.AbstractModel):
         ),
     )
 
-    COD_SIT = fields.Integer(
+    COD_SIT = fields.Char(
         string="Código da situação do documento fiscal",
         required=True,
         help=(
@@ -1702,7 +1701,7 @@ class RegistroA170(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -1732,7 +1731,7 @@ class RegistroA170(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="CST_COFINS",
         required=True,
         help=("Código da Situação Tributária referente ao COFINS – Tabela 4.3.4."),
@@ -1962,7 +1961,7 @@ class RegistroC100(models.AbstractModel):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = fields.Integer(
+    COD_SIT = fields.Char(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -1974,7 +1973,7 @@ class RegistroC100(models.AbstractModel):
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
-    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica ou da NFC-e")
+    CHV_NFE = fields.Char(string="Chave da Nota Fiscal Eletrônica ou da NFC-e")
 
     DT_DOC = fields.Date(string="Data da emissão do documento fiscal", required=True)
 
@@ -2341,7 +2340,7 @@ class RegistroC170(models.AbstractModel):
         help="Movimentação física do ITEM/PRODUTO: 0. SIM 1. NÃO",
     )
 
-    CST_ICMS = fields.Integer(
+    CST_ICMS = fields.Char(
         string="Código da Situação Tributária referente ao ICMS",
         help=(
             "Código da Situação Tributária referente ao ICMS, conforme a "
@@ -2349,7 +2348,7 @@ class RegistroC170(models.AbstractModel):
         ),
     )
 
-    CFOP = fields.Integer(string="Código Fiscal de Operação e Prestação", required=True)
+    CFOP = fields.Char(string="Código Fiscal de Operação e Prestação", required=True)
 
     COD_NAT = fields.Char(
         string="Código da natureza da operação",
@@ -2449,7 +2448,7 @@ class RegistroC170(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente ao PIS", required=True
     )
 
@@ -2493,7 +2492,7 @@ class RegistroC170(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente ao COFINS", required=True
     )
 
@@ -2562,7 +2561,7 @@ class RegistroC175(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
+    CFOP = fields.Char(string="Código fiscal de operação e prestação", required=True)
 
     VL_OPR = fields.Monetary(
         string="Valor da operação na combinação de CFOP",
@@ -2586,7 +2585,7 @@ class RegistroC175(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         help=(
             "Código da Situação Tributária referente ao PIS/PASEP, conforme a "
@@ -2637,7 +2636,7 @@ class RegistroC175(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a Cofins",
         required=True,
         help=(
@@ -2787,7 +2786,7 @@ class RegistroC181(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -2796,7 +2795,7 @@ class RegistroC181(models.AbstractModel):
         ),
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
+    CFOP = fields.Char(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor do item",
@@ -2878,7 +2877,7 @@ class RegistroC185(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -2887,7 +2886,7 @@ class RegistroC185(models.AbstractModel):
         ),
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
+    CFOP = fields.Char(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor do item",
@@ -3101,13 +3100,13 @@ class RegistroC191(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
+    CFOP = fields.Char(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor do item",
@@ -3201,11 +3200,11 @@ class RegistroC195(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
+    CFOP = fields.Char(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor do item",
@@ -3441,7 +3440,7 @@ class RegistroC381(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -3528,7 +3527,7 @@ class RegistroC385(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -3704,7 +3703,7 @@ class RegistroC396(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -3733,7 +3732,7 @@ class RegistroC396(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -3909,7 +3908,7 @@ class RegistroC481(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -3992,7 +3991,7 @@ class RegistroC485(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 5
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -4166,13 +4165,13 @@ class RegistroC491(models.AbstractModel):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -4254,11 +4253,11 @@ class RegistroC495(models.AbstractModel):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -4380,7 +4379,7 @@ class RegistroC500(models.AbstractModel):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = fields.Integer(
+    COD_SIT = fields.Char(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -4430,7 +4429,7 @@ class RegistroC500(models.AbstractModel):
         string="Valor da COFINS", xsd_type="TDec_1602", currency_field="brl_currency_id"
     )
 
-    CHV_DOCe = fields.Integer(string="Chave do Documento Fiscal Eletrônico")
+    CHV_DOCe = fields.Char(string="Chave do Documento Fiscal Eletrônico")
 
     reg_C500_ids_RegistroC010_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.c010",
@@ -4470,7 +4469,7 @@ class RegistroC501(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -4545,7 +4544,7 @@ class RegistroC505(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -4664,7 +4663,7 @@ class RegistroC600(models.AbstractModel):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_MUN = fields.Integer(
+    COD_MUN = fields.Char(
         string="Código do município dos pontos de consumo",
         help=("Código do município dos pontos de consumo, conforme a tabela IBGE"),
     )
@@ -4673,7 +4672,7 @@ class RegistroC600(models.AbstractModel):
 
     SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    COD_CONS = fields.Integer(
+    COD_CONS = fields.Char(
         string="Código de classe de consumo de energia elétrica",
         help=(
             "Código de classe de consumo de energia elétrica, conforme a "
@@ -4822,7 +4821,7 @@ class RegistroC601(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -4891,7 +4890,7 @@ class RegistroC605(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5141,7 +5140,7 @@ class RegistroC810(models.AbstractModel):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5170,7 +5169,7 @@ class RegistroC810(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5218,7 +5217,7 @@ class RegistroC820(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
+    CFOP = fields.Char(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -5233,7 +5232,7 @@ class RegistroC820(models.AbstractModel):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5264,7 +5263,7 @@ class RegistroC820(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5413,7 +5412,7 @@ class RegistroC870(models.AbstractModel):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
+    CFOP = fields.Char(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -5428,7 +5427,7 @@ class RegistroC870(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5457,7 +5456,7 @@ class RegistroC870(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5512,7 +5511,7 @@ class RegistroC880(models.AbstractModel):
         help="Código do item (campo 02 do Registro 0200)",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação", required=True)
+    CFOP = fields.Char(string="Código fiscal de operação e prestação", required=True)
 
     VL_ITEM = fields.Monetary(
         string="Valor total dos itens",
@@ -5527,7 +5526,7 @@ class RegistroC880(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5558,7 +5557,7 @@ class RegistroC880(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -5751,7 +5750,7 @@ class RegistroD100(models.AbstractModel):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = fields.Integer(
+    COD_SIT = fields.Char(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -5765,7 +5764,7 @@ class RegistroD100(models.AbstractModel):
         string="Número do documento fiscal", required=True, sped_length=9
     )
 
-    CHV_CTE = fields.Integer(string="Chave do Conhecimento de Transporte Eletrônico")
+    CHV_CTE = fields.Char(string="Chave do Conhecimento de Transporte Eletrônico")
 
     DT_DOC = fields.Date(
         string="Data de referência/emissão dos documentos fiscais", required=True
@@ -5773,7 +5772,7 @@ class RegistroD100(models.AbstractModel):
 
     DT_A_P = fields.Date(string="Data da aquisição ou da prestação do serviço")
 
-    TP_CT_e = fields.Integer(
+    TP_CT_e = fields.Char(
         string="Tipo de Conhecimento",
         help=(
             "Tipo de Conhecimento de Transporte Eletrônico conforme definido "
@@ -5781,7 +5780,7 @@ class RegistroD100(models.AbstractModel):
         ),
     )
 
-    CHV_CTE_REF = fields.Integer(
+    CHV_CTE_REF = fields.Char(
         string="Chave do CT-e de referência cujos valores",
         help=(
             "Chave do CT-e de referência cujos valores foram complementados "
@@ -5913,7 +5912,7 @@ class RegistroD101(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -5999,7 +5998,7 @@ class RegistroD105(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -6098,7 +6097,7 @@ class RegistroD200(models.AbstractModel):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1"),
     )
 
-    COD_SIT = fields.Integer(
+    COD_SIT = fields.Char(
         string="Código da situação do documento fiscal",
         required=True,
         help=("Código da situação do documento fiscal, conforme a Tabela 4.1.2"),
@@ -6128,7 +6127,7 @@ class RegistroD200(models.AbstractModel):
         ),
     )
 
-    CFOP = fields.Integer(
+    CFOP = fields.Char(
         string="Código Fiscal de Operação",
         required=True,
         help=(
@@ -6190,7 +6189,7 @@ class RegistroD201(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -6374,7 +6373,7 @@ class RegistroD300(models.AbstractModel):
         ),
     )
 
-    CFOP = fields.Integer(
+    CFOP = fields.Char(
         string="Código Fiscal de Operação",
         required=True,
         help=(
@@ -6400,7 +6399,7 @@ class RegistroD300(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -6429,7 +6428,7 @@ class RegistroD300(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -6567,7 +6566,7 @@ class RegistroD350(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -6614,7 +6613,7 @@ class RegistroD350(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -6752,7 +6751,7 @@ class RegistroD500(models.AbstractModel):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1."),
     )
 
-    COD_SIT = fields.Integer(
+    COD_SIT = fields.Char(
         string="Çódigo da situação do documento fiscal",
         required=True,
         help=("Çódigo da situação do documento fiscal, conforme a Tabela 4.1.2."),
@@ -6873,7 +6872,7 @@ class RegistroD501(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -6943,7 +6942,7 @@ class RegistroD505(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -7045,7 +7044,7 @@ class RegistroD600(models.AbstractModel):
         help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.1."),
     )
 
-    COD_MUN = fields.Integer(
+    COD_MUN = fields.Char(
         string="Código do município dos terminais faturados",
         help=("Código do município dos terminais faturados, conforme a tabela " "IBGE"),
     )
@@ -7054,7 +7053,7 @@ class RegistroD600(models.AbstractModel):
 
     SUB = fields.Integer(string="Subsérie do documento fiscal", sped_length=3)
 
-    IND_REC = fields.Integer(
+    IND_REC = fields.Char(
         string="Indicador do tipo de receita",
         required=True,
         help=(
@@ -7194,7 +7193,7 @@ class RegistroD601(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    COD_CLASS = fields.Integer(
+    COD_CLASS = fields.Char(
         string="Código de classificação do item do serviço",
         required=True,
         help=(
@@ -7217,7 +7216,7 @@ class RegistroD601(models.AbstractModel):
         help="Valor acumulado dos descontos/exclusões da base de cálculo",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -7272,7 +7271,7 @@ class RegistroD605(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    COD_CLASS = fields.Integer(
+    COD_CLASS = fields.Char(
         string="Código de classificação do item do serviço",
         required=True,
         help=(
@@ -7295,7 +7294,7 @@ class RegistroD605(models.AbstractModel):
         help="Valor acumulado dos descontos/exclusões da base de cálculo",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -7557,7 +7556,7 @@ class RegistroF100(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -7591,7 +7590,7 @@ class RegistroF100(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -7710,7 +7709,7 @@ class RegistroF120(models.AbstractModel):
         ),
     )
 
-    IDENT_BEM_IMOB = fields.Integer(
+    IDENT_BEM_IMOB = fields.Char(
         string="Identificação dos Bens/Grupo de Bens Incorporados",
         required=True,
         help=(
@@ -7731,7 +7730,7 @@ class RegistroF120(models.AbstractModel):
         ),
     )
 
-    IND_UTIL_BEM_IMOB = fields.Integer(
+    IND_UTIL_BEM_IMOB = fields.Char(
         string="Indicador da Utilização dos Bens Incorporados",
         required=True,
         help=(
@@ -7762,7 +7761,7 @@ class RegistroF120(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -7795,7 +7794,7 @@ class RegistroF120(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -7911,7 +7910,7 @@ class RegistroF130(models.AbstractModel):
         ),
     )
 
-    IDENT_BEM_IMOB = fields.Integer(
+    IDENT_BEM_IMOB = fields.Char(
         string="Identificação dos bens ou grupo",
         required=True,
         help=(
@@ -7931,7 +7930,7 @@ class RegistroF130(models.AbstractModel):
         ),
     )
 
-    IND_UTIL_BEM_IMOB = fields.Integer(
+    IND_UTIL_BEM_IMOB = fields.Char(
         string="Indicador da Utilização dos Bens Incorporados",
         required=True,
         help=(
@@ -7941,7 +7940,7 @@ class RegistroF130(models.AbstractModel):
         ),
     )
 
-    MES_OPER_AQUIS = fields.Integer(
+    MES_OPER_AQUIS = fields.Char(
         string="Mês/Ano de Aquisição dos Bens Incorporados",
         help=(
             "Mês/Ano de Aquisição dos Bens Incorporados ao Ativo Imobilizado, "
@@ -7983,7 +7982,7 @@ class RegistroF130(models.AbstractModel):
         ),
     )
 
-    IND_NR_PARC = fields.Integer(
+    IND_NR_PARC = fields.Char(
         string="Indicador do Número de Parcelas",
         required=True,
         help=(
@@ -7994,7 +7993,7 @@ class RegistroF130(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -8029,7 +8028,7 @@ class RegistroF130(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -8189,7 +8188,7 @@ class RegistroF150(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -8221,7 +8220,7 @@ class RegistroF150(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente ao COFINS",
         required=True,
         help=(
@@ -8275,7 +8274,7 @@ class RegistroF200(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    IND_OPER = fields.Integer(
+    IND_OPER = fields.Char(
         string="Indicador do Tipo da Operação",
         required=True,
         help=(
@@ -8286,7 +8285,7 @@ class RegistroF200(models.AbstractModel):
         ),
     )
 
-    UNID_IMOB = fields.Integer(
+    UNID_IMOB = fields.Char(
         string="Indicador do tipo de unidade imobiliária Vendida",
         required=True,
         help=(
@@ -8354,7 +8353,7 @@ class RegistroF200(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -8386,7 +8385,7 @@ class RegistroF200(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -8429,7 +8428,7 @@ class RegistroF200(models.AbstractModel):
         ),
     )
 
-    IND_NAT_EMP = fields.Integer(
+    IND_NAT_EMP = fields.Char(
         string="Indicador da Natureza Específica",
         help="Indicador da Natureza Específica do Empreendimento:",
     )
@@ -8537,7 +8536,7 @@ class RegistroF205(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -8603,7 +8602,7 @@ class RegistroF205(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente ao COFINS",
         required=True,
         help=(
@@ -8728,7 +8727,7 @@ class RegistroF210(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -8758,7 +8757,7 @@ class RegistroF210(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -8848,7 +8847,7 @@ class RegistroF500(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -8883,7 +8882,7 @@ class RegistroF500(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -8916,7 +8915,7 @@ class RegistroF500(models.AbstractModel):
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
         string="Código",
@@ -8998,7 +8997,7 @@ class RegistroF510(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -9036,7 +9035,7 @@ class RegistroF510(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -9075,7 +9074,7 @@ class RegistroF510(models.AbstractModel):
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
         string="Código",
@@ -9208,9 +9207,9 @@ class RegistroF525(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(string="Código da Situação Tributária do PIS/Pasep")
+    CST_PIS = fields.Char(string="Código da Situação Tributária do PIS/Pasep")
 
-    CST_COFINS = fields.Integer(string="Código da Situação Tributária da Cofins")
+    CST_COFINS = fields.Char(string="Código da Situação Tributária da Cofins")
 
     INFO_COMPL = fields.Char(string="Informação complementar")
 
@@ -9251,7 +9250,7 @@ class RegistroF550(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -9286,7 +9285,7 @@ class RegistroF550(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -9319,7 +9318,7 @@ class RegistroF550(models.AbstractModel):
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
         string="Código",
@@ -9401,7 +9400,7 @@ class RegistroF560(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help="Código da Situação Tributária referente ao PIS/PASEP",
@@ -9439,7 +9438,7 @@ class RegistroF560(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS", required=True
     )
 
@@ -9477,7 +9476,7 @@ class RegistroF560(models.AbstractModel):
         help="Código do modelo do documento fiscal conforme a Tabela 4.1.1",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     COD_CTA = fields.Char(
         string="Código",
@@ -9545,7 +9544,7 @@ class RegistroF600(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    IND_NAT_RET = fields.Integer(
+    IND_NAT_RET = fields.Char(
         string="Indicador de Natureza da Retenção na Fonte",
         required=True,
         help=(
@@ -9583,7 +9582,7 @@ class RegistroF600(models.AbstractModel):
 
     COD_REC = fields.Char(string="Código da Receita", sped_length=4)
 
-    IND_NAT_REC = fields.Integer(
+    IND_NAT_REC = fields.Char(
         string="Indicador da Natureza da Receita",
         help=(
             "Indicador da Natureza da Receita: 0 – Receita de Natureza Não "
@@ -9616,7 +9615,7 @@ class RegistroF600(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    IND_DEC = fields.Integer(
+    IND_DEC = fields.Char(
         string="Indicador da condição",
         required=True,
         help=(
@@ -9641,7 +9640,7 @@ class RegistroF700(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    IND_ORI_DED = fields.Integer(
+    IND_ORI_DED = fields.Char(
         string="Indicador de Origem de Deduções Diversas",
         required=True,
         help=(
@@ -9653,7 +9652,7 @@ class RegistroF700(models.AbstractModel):
         ),
     )
 
-    IND_NAT_DED = fields.Integer(
+    IND_NAT_DED = fields.Char(
         string="Indicador da Natureza da Dedução",
         required=True,
         help=(
@@ -9718,7 +9717,7 @@ class RegistroF800(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 3
 
-    IND_NAT_EVEN = fields.Integer(
+    IND_NAT_EVEN = fields.Char(
         string="Indicador da Natureza do Evento de Sucessão",
         required=True,
         help=(
@@ -9731,13 +9730,13 @@ class RegistroF800(models.AbstractModel):
 
     CNPJ_SUCED = fields.Char(string="CNPJ da Pessoa Jurídica Sucedida", required=True)
 
-    PA_CONT_CRED = fields.Integer(
+    PA_CONT_CRED = fields.Char(
         string="Período de Apuração do Crédito – Mês/Ano",
         required=True,
         help="Período de Apuração do Crédito – Mês/Ano (MM/AAAA)",
     )
 
-    COD_CRED = fields.Integer(
+    COD_CRED = fields.Char(
         string="Código do crédito transferido",
         required=True,
         help="Código do crédito transferido, conforme Tabela 4.3.6",
@@ -9787,7 +9786,7 @@ class RegistroI010(models.AbstractModel):
 
     CNPJ = fields.Char(string="Número de inscrição da pessoa jurídica no CNPJ")
 
-    IND_ATIV = fields.Integer(
+    IND_ATIV = fields.Char(
         string="Indicador de operações realizadas no período",
         help=(
             "Indicador de operações realizadas no período: 01 – Exclusivamente"
@@ -9824,7 +9823,7 @@ class RegistroI100(models.AbstractModel):
         help="Valor Total do Faturamento/Receita Bruta no Período",
     )
 
-    CST_PIS_COFINS = fields.Integer(
+    CST_PIS_COFINS = fields.Char(
         string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à Receita informada no "
@@ -10149,7 +10148,7 @@ class RegistroM100(models.AbstractModel):
         ),
     )
 
-    IND_CRED_ORI = fields.Integer(
+    IND_CRED_ORI = fields.Char(
         string="Indicador de Crédito Oriundo",
         required=True,
         help=(
@@ -10304,7 +10303,7 @@ class RegistroM105(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente ao crédito",
         required=True,
         help=(
@@ -10493,7 +10492,7 @@ class RegistroM115(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
@@ -10906,7 +10905,7 @@ class RegistroM211(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    IND_TIP_COOP = fields.Integer(
+    IND_TIP_COOP = fields.Char(
         string="Indicador do Tipo de Sociedade Cooperativa",
         required=True,
         help=(
@@ -11127,7 +11126,7 @@ class RegistroM225(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
@@ -11299,7 +11298,7 @@ class RegistroM300(models.AbstractModel):
         ),
     )
 
-    PER_APUR = fields.Integer(
+    PER_APUR = fields.Char(
         string="Período de apuração da contribuição social",
         required=True,
         help=(
@@ -11477,7 +11476,7 @@ class RegistroM500(models.AbstractModel):
         ),
     )
 
-    IND_CRED_ORI = fields.Integer(
+    IND_CRED_ORI = fields.Char(
         string="Indicador de Crédito Oriundo",
         required=True,
         help=(
@@ -11631,7 +11630,7 @@ class RegistroM505(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente ao crédito",
         required=True,
         help=(
@@ -11820,7 +11819,7 @@ class RegistroM515(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
@@ -12244,7 +12243,7 @@ class RegistroM611(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 4
 
-    IND_TIP_COOP = fields.Integer(
+    IND_TIP_COOP = fields.Char(
         string="Indicador do Tipo de Sociedade Cooperativa",
         required=True,
         help=(
@@ -12472,7 +12471,7 @@ class RegistroM625(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código de Situação Tributária referente",
         help=(
             "Código de Situação Tributária referente à operação detalhada "
@@ -12645,7 +12644,7 @@ class RegistroM700(models.AbstractModel):
         ),
     )
 
-    PER_APUR = fields.Integer(
+    PER_APUR = fields.Char(
         string="Período de apuração da contribuição social",
         required=True,
         help=(
@@ -12985,7 +12984,7 @@ class RegistroP200(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    PER_REF = fields.Integer(
+    PER_REF = fields.Char(
         string="Período de referencia da escrituração",
         required=True,
         help="Período de referencia da escrituração (MMAAAA)",
@@ -13202,7 +13201,7 @@ class Registro1011(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código",
         required=True,
         help=(
@@ -13239,7 +13238,7 @@ class Registro1011(models.AbstractModel):
         help="Valor do PIS/PASEP, conforme escrituração",
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código (CST_COFINS)",
         required=True,
         help=(
@@ -13276,7 +13275,7 @@ class Registro1011(models.AbstractModel):
         help="Valor da COFINS, conforme escrituração",
     )
 
-    CST_PIS_SUSP = fields.Integer(
+    CST_PIS_SUSP = fields.Char(
         string="Código (CST_PIS_SUSP)",
         required=True,
         help=(
@@ -13313,7 +13312,7 @@ class Registro1011(models.AbstractModel):
         help="Valor do PIS/PASEP, conforme decisão judicial",
     )
 
-    CST_COFINS_SUSP = fields.Integer(
+    CST_COFINS_SUSP = fields.Char(
         string="Código (CST_COFINS_SUSP)",
         required=True,
         help=(
@@ -13580,7 +13579,7 @@ class Registro1100(models.AbstractModel):
         help="Período de Apuração do Crédito (MM/AAAA)",
     )
 
-    ORIG_CRED = fields.Integer(
+    ORIG_CRED = fields.Char(
         string="Indicador da origem do crédito",
         required=True,
         help=(
@@ -13595,7 +13594,7 @@ class Registro1100(models.AbstractModel):
         help=("CNPJ da pessoa jurídica cedente do crédito (se ORIG_CRED = 02)."),
     )
 
-    COD_CRED = fields.Integer(
+    COD_CRED = fields.Char(
         string="Código do Tipo do Crédito",
         required=True,
         help="Código do Tipo do Crédito, conforme Tabela 4.3.6.",
@@ -13779,7 +13778,7 @@ class Registro1101(models.AbstractModel):
 
     DT_OPER = fields.Date(string="Data da Operação (ddmmaaaa)", required=True)
 
-    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica")
+    CHV_NFE = fields.Char(string="Chave da Nota Fiscal Eletrônica")
 
     VL_OPER = fields.Monetary(
         string="Valor da Operação",
@@ -13788,7 +13787,7 @@ class Registro1101(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     NAT_BC_CRED = fields.Char(
         string="Código da Base de Cálculo do Crédito",
@@ -13808,7 +13807,7 @@ class Registro1101(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -13858,7 +13857,7 @@ class Registro1101(models.AbstractModel):
 
     DESC_COMPL = fields.Char(string="Descrição complementar do Documento/Operação")
 
-    PER_ESCRIT = fields.Integer(
+    PER_ESCRIT = fields.Char(
         string="Mês/Ano da Escrituração em que foi registrado",
         help=(
             "Mês/Ano da Escrituração em que foi registrado o "
@@ -13952,7 +13951,7 @@ class Registro1200(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    PER_APUR_ANT = fields.Integer(
+    PER_APUR_ANT = fields.Char(
         string="Período de Apuração",
         required=True,
         help=("Período de Apuração da Contribuição Social Extemporânea (MMAAAA)."),
@@ -14056,7 +14055,7 @@ class Registro1210(models.AbstractModel):
         ),
     )
 
-    CST_PIS = fields.Integer(
+    CST_PIS = fields.Char(
         string="Código da Situação Tributária referente",
         required=True,
         help=(
@@ -14145,7 +14144,7 @@ class Registro1220(models.AbstractModel):
         help="Período de Apuração do Crédito (MM/AAAA)",
     )
 
-    ORIG_CRED = fields.Integer(
+    ORIG_CRED = fields.Char(
         string="Indicador da origem do crédito",
         required=True,
         help=(
@@ -14155,7 +14154,7 @@ class Registro1220(models.AbstractModel):
         ),
     )
 
-    COD_CRED = fields.Integer(
+    COD_CRED = fields.Char(
         string="Código do Tipo do Crédito",
         required=True,
         help="Código do Tipo do Crédito, conforme Tabela 4.3.6.",
@@ -14187,7 +14186,7 @@ class Registro1300(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    IND_NAT_RET = fields.Integer(
+    IND_NAT_RET = fields.Char(
         string="Indicador de Natureza da Retenção na Fonte",
         required=True,
         help=(
@@ -14270,7 +14269,7 @@ class Registro1500(models.AbstractModel):
         help="Período de Apuração do Crédito (MM/AAAA)",
     )
 
-    ORIG_CRED = fields.Integer(
+    ORIG_CRED = fields.Char(
         string="Indicador da origem do crédito",
         required=True,
         help=(
@@ -14285,7 +14284,7 @@ class Registro1500(models.AbstractModel):
         help=("CNPJ da pessoa jurídica cedente do crédito (se ORIG_CRED = 02)."),
     )
 
-    COD_CRED = fields.Integer(
+    COD_CRED = fields.Char(
         string="Código do Tipo do Crédito",
         required=True,
         help="Código do Tipo do Crédito, conforme Tabela 4.3.6.",
@@ -14469,7 +14468,7 @@ class Registro1501(models.AbstractModel):
 
     DT_OPER = fields.Date(string="Data da Operação (ddmmaaaa)", required=True)
 
-    CHV_NFE = fields.Integer(string="Chave da Nota Fiscal Eletrônica")
+    CHV_NFE = fields.Char(string="Chave da Nota Fiscal Eletrônica")
 
     VL_OPER = fields.Monetary(
         string="Valor da Operação",
@@ -14478,7 +14477,7 @@ class Registro1501(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     NAT_BC_CRED = fields.Char(
         string="Código da Base de Cálculo do Crédito",
@@ -14498,7 +14497,7 @@ class Registro1501(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente ao COFINS",
         required=True,
         help=(
@@ -14546,7 +14545,7 @@ class Registro1501(models.AbstractModel):
 
     DESC_COMPL = fields.Char(string="Descrição complementar do Documento/Operação")
 
-    PER_ESCRIT = fields.Integer(
+    PER_ESCRIT = fields.Char(
         string="Mês/Ano da Escrituração em que foi registrado",
         help=(
             "Mês/Ano da Escrituração em que foi registrado o "
@@ -14641,7 +14640,7 @@ class Registro1600(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    PER_APUR_ANT = fields.Integer(
+    PER_APUR_ANT = fields.Char(
         string="Período de Apuração",
         required=True,
         help=("Período de Apuração da Contribuição Social Extemporânea (MMAAAA)"),
@@ -14745,7 +14744,7 @@ class Registro1610(models.AbstractModel):
         ),
     )
 
-    CST_COFINS = fields.Integer(
+    CST_COFINS = fields.Char(
         string="Código da Situação Tributária referente a COFINS",
         required=True,
         help=(
@@ -14834,7 +14833,7 @@ class Registro1620(models.AbstractModel):
         help="Período de Apuração do Crédito (MM/AAAA)",
     )
 
-    ORIG_CRED = fields.Integer(
+    ORIG_CRED = fields.Char(
         string="Indicador da origem do crédito",
         required=True,
         help=(
@@ -14844,7 +14843,7 @@ class Registro1620(models.AbstractModel):
         ),
     )
 
-    COD_CRED = fields.Integer(
+    COD_CRED = fields.Char(
         string="Código do Tipo do Crédito",
         required=True,
         help="Código do Tipo do Crédito, conforme Tabela 4.3.6.",
@@ -14876,7 +14875,7 @@ class Registro1700(models.AbstractModel):
     _inherit = "l10n_br_sped.mixin"
     _sped_level = 2
 
-    IND_NAT_RET = fields.Integer(
+    IND_NAT_RET = fields.Char(
         string="Indicador de Natureza da Retenção na Fonte",
         required=True,
         help=(
@@ -14889,7 +14888,7 @@ class Registro1700(models.AbstractModel):
         ),
     )
 
-    PR_REC_RET = fields.Integer(
+    PR_REC_RET = fields.Char(
         string="Período do Recebimento e da Retenção",
         required=True,
         help="Período do Recebimento e da Retenção (MM/AAAA)",
@@ -15090,7 +15089,7 @@ class Registro1900(models.AbstractModel):
 
     SUB_SER = fields.Integer(string="Subserie do documento fiscal", sped_length=20)
 
-    COD_SIT = fields.Integer(
+    COD_SIT = fields.Char(
         string="Código da situação do documento fiscal",
         help=(
             "Código da situação do documento fiscal: 00 – Documento regular 02"
@@ -15113,11 +15112,11 @@ class Registro1900(models.AbstractModel):
         string="Quantidade total de documentos emitidos no período"
     )
 
-    CST_PIS = fields.Integer(string="Código da Situação Tributária do PIS/Pasep")
+    CST_PIS = fields.Char(string="Código da Situação Tributária do PIS/Pasep")
 
-    CST_COFINS = fields.Integer(string="Código da Situação Tributária da Cofins")
+    CST_COFINS = fields.Char(string="Código da Situação Tributária da Cofins")
 
-    CFOP = fields.Integer(string="Código fiscal de operação e prestação")
+    CFOP = fields.Char(string="Código fiscal de operação e prestação")
 
     INF_COMPL = fields.Char(string="Informações complementares")
 
