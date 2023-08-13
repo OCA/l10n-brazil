@@ -324,7 +324,6 @@ STRUCTURE SPED EFD_ICMS_IPI
 
 import textwrap
 from odoo import fields, models
-from . import sped_models
 
 
 class Registro0000(models.AbstractModel):
