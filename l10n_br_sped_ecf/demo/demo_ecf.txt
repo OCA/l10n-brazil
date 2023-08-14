@@ -1,0 +1,72 @@
+|0000|00000000000000|12345678901234|2023-01-01|2023-12-31|
+|J001|008|1|
+|J005|0001|1|
+|J800|0001|Plano de Contas Referencial|
+|J801|1000|1000|
+|J930|12345678901|João Silva|
+|J930|5|
+|L100|2023-07-01|2023-07-31|VENDA|123456789|1200.00|100.00|1100.00|54321|12.00|987654321
+|L100|2023-07-01|2023-07-31|SERVICO|987654321|500.00|50.00|450.00|12345|5.00|123456789
+|L200|2023-07-01|2023-07-31|123456789|VENDA|54321|1200.00|100.00|1100.00|12345|12.00|987654321
+|L210|1234|PRODUTO01|UN|50.00|10.00|500.00|10.00|10.00|1.00|50.00|500.00|12.00|VENDA
+|L210|1235|PRODUTO02|UN|100.00|20.00|1000.00|20.00|20.00|2.00|100.00|1000.00|12.00|VENDA
+|L220|9876|SERVICO01|SERV|300.00|30.00|270.00|10.00|0.00|3.00|30.00|270.00|12.00|SERVICO
+|L300|2023-07-01|2023-07-31|123456789|54321|1200.00|100.00|1100.00|12.00|987654321
+|L310|1234|ICMS|500.00|50.00|450.00|10.00|0.00|50.00|5.00|12.00|VENDA|12345
+|L310|1235|IPI|200.00|20.00|180.00|0.00|20.00|40.00|5.00|12.00|VENDA|12345
+|L310|1236|ICMS|300.00|30.00|270.00|15.00|0.00|45.00|5.00|12.00|VENDA|12345
+|L400|2023-07-01|2023-07-31|123456789|1200.00|100.00|1100.00|987654321
+|L410|1234|PIS|50.00|5.00|5.00|123.45|VENDA
+|L410|1235|COFINS|30.00|3.00|3.00|67.89|VENDA
+|L420|SERVICO|100.00|10.00|10.00|987.65|SERVICO
+|L510|VENDA|123.45|12.00|987654321
+|L510|SERVICO|67.89|12.00|123456789
+|M001|008|
+|M100|2023-01-01|-1000.00|
+|M200|123456789|2023-07-01|2023-07-31|São Paulo|SP|12345678|Av. Exemplo, 123|Centro|12345-678|contato@exemplo.com
+|M210|12345|Vendas de Produtos|1200.00|100.00|1100.00
+|M210|12346|Prestação de Serviços|500.00|50.00|450.00
+|M220|98765|Compras de Mercadorias|800.00|80.00|720.00
+|M225|Transportadoras|1234|Fretes de Saída|200.00|20.00|180.00
+|M230|0001|Custo de Mercadorias Vendidas|600.00
+|M230|0002|Custo de Serviços Prestados|250.00
+|M250|123|Impostos sobre Vendas|150.00
+|M250|124|Contribuições Sociais|30.00
+|M260|Impostos Indiretos|50.00
+|M265|IRPJ|20.00
+|M265|CSLL|10.00
+|M290|Despesas Diversas|50.00
+|M299|Outras Receitas Operacionais|40.00
+|M300|123456|Lucro Operacional|150.00
+|M350|Lucro Antes do IRPJ e CSLL|150.00
+|M399|Outras Informações Relevantes|Informações adicionais sobre o período.
+|M500|123456789|2023-07-01|2023-07-31|1200.00|100.00|1100.00
+|M500|123456789|2023-07-01|2023-07-31|12345.67|9876.54|5678.90
+|M510|123|Venda de Produtos|543.21|123.45|789.01|12.34|56.78|987.65|1234.56|234.56|567.89
+|M510|124|Serviços Prestados|123.45|67.89|543.21|9.87|654.32|12.34|567.89|123.45|234.56
+|M510|125|Devoluções de Vendas|54.32|21.43|65.43|8.76|43.21|12.34|23.45|54.32|12.34
+|M500|987654321|2023-07-01|2023-07-31|54321.09|1234.56|9876.54
+
+
+A empresa deve comunicar ao escritório de contabilidade os registros que compõem a ECF, que são:
+
+Registro 0000: Abertura do arquivo digital e identificação da pessoa jurídica.
+Registro J001: Identificação da versão do leiaute.
+Registro J005: Identificação das contas referenciais.
+Registro J800: Plano de contas referencial.
+Registro J801: Plano de contas referencial - mapeamento das contas contábeis.
+Registro J930: Identificação dos signatários da ECF.
+Registro J990: Encerramento do bloco J.
+Registro L100: Livro LALUR - Identificação da pessoa jurídica.
+Registro L200: Livro LALUR - Apuração do lucro líquido do período fiscal e da base de cálculo da CSLL.
+Registro L300: Livro LALUR - Lucro líquido do período fiscal e a base de cálculo da CSLL, antes das compensações.
+Registro L400: Livro LALUR - Lucro líquido do período fiscal e a base de cálculo da CSLL, depois das compensações.
+Registro L500: Livro LALUR - Informações complementares.
+Registro M001: Identificação da versão do leiaute.
+Registro M100: Balanço patrimonial.
+Registro M200: Demonstração do resultado.
+Registro M300: Demonstração das mutações do patrimônio líquido.
+Registro M350: Notas explicativas à demonstração das mutações do patrimônio líquido.
+Registro M410: Demonstração do fluxo de caixa.
+Registro M500: Tabela de ajustes da apuração do lucro líquido no período fiscal.
+
