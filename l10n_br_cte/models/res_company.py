@@ -40,6 +40,8 @@ class ResCompany(spec_models.SpecModel):
         related="partner_id",
     )
 
+    cte40_enderToma = fields.Many2one(comodel_name="res.partner", related="partner_id")
+
     ##########################
     # CT-e models fields
     ##########################

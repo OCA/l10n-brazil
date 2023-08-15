@@ -515,26 +515,149 @@ class Tendernac(models.AbstractModel):
 
 
 class Timp(models.AbstractModel):
-    "Tipo Dados do Imposto CT-e"
+    "Tipo Dados do Imposto para CT-e OS"
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.timp"
     _inherit = "spec.mixin.cte"
     _binding_type = "Timp"
 
+    cte40_ICMSOutraUF = fields.Many2one(
+        comodel_name="cte.40.icmsoutrauf",
+        string="ICMS de empresa com UF diferente da emissora",
+        choice="icms",
+        xsd_choice_required=True,
+    )
+
+
+class IcmsOutraUF(models.AbstractModel):
+    """Partilha do ICMS entre a UF de origem e UF de destino ou a UF definida
+    na legislação
+    Operação interestadual para consumidor final com partilha do ICMS devido na
+    operação entre a UF de origem e a UF do destinatário ou ou a UF definida na
+    legislação. (Ex. UF da concessionária de entrega do veículos)"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.icmspart"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Timp.IcmsoutraUf"
+    _generateds_type = "ICMSOutraUFType"
+
+    cte40_CST = fields.Selection(
+        ICMSOUTRAUF_CST,
+        string="Tributação pelo ICMS",
+        xsd_required=True,
+        help=(
+            "Tributação pelo ICMS \n10 - Tributada e com cobrança do ICMS por "
+            "substituição tributária;\n90 – Outros."
+        ),
+    )
+
     cte40_vBC = fields.Monetary(
-        string="Valor da Base de Cálculo do ICMS",
+        string="Valor da BC do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_pRedBC = fields.Float(
+        string="Percentual de redução da BC",
+        xsd_type="TDec_0302a04Opc",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_pICMS = fields.Float(
+        string="Alíquota do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_0302a04",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vICMS = fields.Monetary(
+        string="Valor do ICMS",
         xsd_required=True,
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
     )
 
 
+    cte40_pMVAST = fields.Float(
+        string="Percentual da Margem",
+        xsd_type="TDec_0302a04Opc",
+        digits=(
+            3,
+            2,
+        ),
+        help="Percentual da Margem de Valor Adicionado ICMS ST",
+    )
+
+    cte40_pRedBCST = fields.Float(
+        string="Percentual de redução da BC ICMS ST",
+        xsd_type="TDec_0302a04Opc",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vBCST = fields.Monetary(
+        string="Valor da BC do ICMS ST",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_pICMSST = fields.Float(
+        string="Alíquota do ICMS ST",
+        xsd_required=True,
+        xsd_type="TDec_0302a04",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vICMSST = fields.Monetary(
+        string="Valor do ICMS ST",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_pBCOp = fields.Float(
+        string="Percentual para determinação do valor",
+        xsd_required=True,
+        xsd_type="TDec_0302a04Opc",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Percentual para determinação do valor  da Base de Cálculo da "
+            "operação própria."
+        ),
+    )
+
+    cte40_UFST = fields.Selection(
+        TUF,
+        string="Sigla da UF para qual é devido o ICMS ST",
+        xsd_required=True,
+        xsd_type="TUf",
+        help="Sigla da UF para qual é devido o ICMS ST da operação.",
+    )
+
+
 class TimpOs(models.AbstractModel):
     "Tipo Dados do Imposto para CT-e OS"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.timpos"
+    _name = "cte.40.icmsos"
     _inherit = "spec.mixin.cte"
-    _binding_type = "TimpOs"
+    _binding_type = "IcmsOs"
 
     cte40_vBC = fields.Monetary(
         string="Valor da Base de Cálculo do ICMS",
@@ -1577,9 +1700,9 @@ class TcteOsImp(models.AbstractModel):
     _binding_type = "TcteOs.InfCte.Imp"
 
     cte40_ICMS = fields.Many2one(
-        comodel_name="cte.40.timpos",
+        comodel_name="cte.40.icmsos",
         string="Informações relativas ao ICMS",
-        xsd_type="TImp",
+        xsd_type="Icms",
     )
 
     cte40_vTotTrib = fields.Monetary(
@@ -4320,7 +4443,6 @@ class TcteImp(models.AbstractModel):
     cte40_ICMS = fields.Many2one(
         comodel_name="cte.40.timp",
         string="Informações relativas ao ICMS",
-        xsd_type="TImp",
     )
 
     cte40_vTotTrib = fields.Monetary(

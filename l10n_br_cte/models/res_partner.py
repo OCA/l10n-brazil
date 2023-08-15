@@ -61,14 +61,7 @@ class ResPartner(spec_models.SpecModel):
         comodel_name="res.partner", compute="_compute_cte40_ender"
     )
 
-    cte40_enderReceb = fields.Many2one(
-        comodel_name="res.partner", compute="_compute_cte40_ender"
-    )
-
     # enderToma/enderEmit/enderReme
-    cte40_enderEmit = fields.Many2one(
-        comodel_name="res.partner", compute="_compute_cte40_ender"
-    )
     cte40_xLgr = fields.Char(related="street_name", readonly=True)
     cte40_nro = fields.Char(related="street_number", readonly=True)
     cte40_xCpl = fields.Char(related="street2", readonly=True)
@@ -99,8 +92,6 @@ class ResPartner(spec_models.SpecModel):
             rec.cte40_enderReme = rec.id
             rec.cte40_enderDest = rec.id
             rec.cte40_enderExped = rec.id
-            rec.cte40_enderReceb = rec.id
-            rec.cte40_enderEmit = rec.id
 
 
     @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
