@@ -15,13 +15,19 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
+    CANCELADO,
+    CANCELADO_DENTRO_PRAZO,
+    CANCELADO_FORA_PRAZO,
     DENEGADO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     LOTE_PROCESSADO,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_REJEITADA,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -154,7 +160,7 @@ class CTe(spec_models.StackedModel):
         compute="_compute_cte40_data", string="cte40_UFEnv", store=True
     )
 
-    cte40_indIEToma = fields.Char(compute="_compute_toma", store=True)
+    # cte40_indIEToma = fields.Char(related="partner_id.incr_est", store=True)
 
     cte40_cMunIni = fields.Char(compute="_compute_cte40_data", store=True)
 
@@ -216,39 +222,62 @@ class CTe(spec_models.StackedModel):
         selection=[("1", "Retrato"), ("2", "Paisagem")], default="1"
     )
 
-    cte40_toma4 = fields.Many2one(
-        comodel_name="res.partner",
+    def _export_fields_cte_40_toma3(self, xsd_fields, class_obj, export_dict):
+        if self.cte40_choice_toma == "cte40_toma4":
+            xsd_fields.remove("cte40_toma")
+
+    def _export_fields_cte_40_tcte_toma4(self, xsd_fields, class_obj, export_dict):
+        if self.cte40_choice_toma == "cte40_toma3":
+            xsd_fields.remove("cte40_toma")
+            xsd_fields.remove("cte40_CNPJ")
+            xsd_fields.remove("cte40_CPF")
+            xsd_fields.remove("cte40_IE")
+            xsd_fields.remove("cte40_xNome")
+            xsd_fields.remove("cte40_xFant")
+            xsd_fields.remove("cte40_enderToma")
+
+    # toma
+    cte40_choice_toma = fields.Selection(
+        selection=[
+            ("cte40_toma3", "toma3"),
+            ("cte40_toma4", "toma4"),
+        ],
         compute="_compute_toma",
-        readonly=True,
-        string="Tomador de Serviço",
+        store=True,
     )
 
-    cte40_toma3 = fields.Many2one(
-        comodel_name="res.partner",
-        compute="_compute_toma",
-        readonly=True,
-        string="Tomador de Serviço",
+    cte40_toma = fields.Selection(related="service_provider")
+
+    cte40_CNPJ = fields.Char(
+        related="partner_id.cte40_CNPJ",
     )
+    cte40_CPF = fields.Char(
+        related="partner_id.cte40_CPF",
+    )
+    cte40_IE = fields.Char(
+        related="partner_id.cte40_IE",
+    )
+    cte40_xNome = fields.Char(
+        related="partner_id.legal_name",
+    )
+    cte40_xFant = fields.Char(
+        related="partner_id.name",
+    )
+
+    cte40_enderToma = fields.Many2one(comodel_name="res.partner", related="partner_id")
 
     ##########################
     # CT-e tag: ide
     # Compute Methods
     ##########################
 
+    @api.depends("service_provider")
     def _compute_toma(self):
         for doc in self:
-            if doc.service_provider in ["0", "1"]:
-                doc.cte40_toma3 = doc.company_id
-                doc.cte40_indIEToma = doc.cte40_toma3.inscr_est
-                doc.cte40_toma4 = None
-            elif doc.service_provider in ["2", "3"]:
-                doc.cte40_toma3 = doc.partner_id
-                doc.cte40_indIEToma = doc.cte40_toma3.inscr_est
-                doc.cte40_toma4 = None
+            if doc.service_provider in ["0", "1", "2", "3"]:
+                doc.cte40_choice_toma = "cte40_toma3"
             else:
-                doc.cte40_toma3 = None
-                doc.cte40_toma4 = doc.partner_id
-                doc.cte40_indIEToma = doc.cte40_toma4.inscr_est
+                doc.cte40_choice_toma = "cte40_toma4"
 
     def _compute_cDV(self):
         for rec in self:
@@ -313,11 +342,10 @@ class CTe(spec_models.StackedModel):
     ##########################
 
     cte40_rem = fields.Many2one(
-        comodel_name="res.company",
+        comodel_name="res.partner",
         compute="_compute_rem_data",
         readonly=True,
         string="Rem",
-        store=True,
     )
 
     ##########################
@@ -327,7 +355,7 @@ class CTe(spec_models.StackedModel):
 
     def _compute_rem_data(self):
         for doc in self:  # TODO if out
-            doc.cte40_rem = doc.company_id
+            doc.cte40_rem = doc.partner_id
 
     ##########################
     # CT-e tag: exped
@@ -338,7 +366,6 @@ class CTe(spec_models.StackedModel):
         compute="_compute_exped_data",
         readonly=True,
         string="Exped",
-        store=True,
     )
 
     ##########################
@@ -351,27 +378,6 @@ class CTe(spec_models.StackedModel):
             doc.cte40_exped = doc.company_id
 
     ##########################
-    # CT-e tag: receb
-    ##########################
-
-    cte40_receb = fields.Many2one(
-        comodel_name="res.company",
-        compute="_compute_receb_data",
-        readonly=True,
-        string="Receb",
-        store=True,
-    )
-
-    ##########################
-    # CT-e tag: receb
-    # Compute Methods
-    ##########################
-
-    def _compute_receb_data(self):
-        for doc in self:  # TODO if out
-            doc.cte40_receb = doc.company_id
-
-    ##########################
     # CT-e tag: dest
     ##########################
 
@@ -380,7 +386,6 @@ class CTe(spec_models.StackedModel):
         compute="_compute_dest_data",
         readonly=True,
         string="Dest",
-        store=True,
     )
 
     ##########################
@@ -390,13 +395,26 @@ class CTe(spec_models.StackedModel):
 
     def _compute_dest_data(self):
         for doc in self:  # TODO if out
-            doc.cte40_dest = doc.partner_id
+            doc.cte40_dest = doc.partner_shipping_id
+
+    ##########################
+    # CT-e tag: imp TODO
+    ##########################
+
+    cte40_imp = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.line",
+        inverse_name="document_id",
+        related="fiscal_line_ids",
+    )
 
     ##########################
     # CT-e tag: imp
+    # Compute Methods
     ##########################
 
-    cte40_imp = fields.One2many(related="fiscal_line_ids")
+    def _compute_imp(self):
+        for doc in self:
+            doc.cte40_ICMS = doc.fiscal_line_ids
 
     #####################################
     # CT-e tag: infCTeNorm and infCteComp
@@ -554,11 +572,6 @@ class CTe(spec_models.StackedModel):
 
     def atualiza_status_cte(self, infProt, xml_file):
         self.ensure_one()
-        # TODO: Verificar a consulta de notas
-        # if not infProt.chNFe == self.key:
-        #     self = self.search([
-        #         ('key', '=', infProt.chNFe)
-        #     ])
         if infProt.cStat in AUTORIZADO:
             state = SITUACAO_EDOC_AUTORIZADA
         elif infProt.cStat in DENEGADO:
@@ -589,19 +602,19 @@ class CTe(spec_models.StackedModel):
         self._change_state(state)
 
     def _eletronic_document_send(self):
-        super(Cte, self)._eletronic_document_send()
+        super(CTe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_cte):
             if self.xml_error_message:
                 return
-            processador = record._processador()
-            for edoc in record.serialize():
+            record._processador()
+            for _edoc in record.serialize():
                 processo = None
-                for p in processador.processar_documento(edoc):
-                    processo = p
-                    if processo.webservice == "cteAutorizacaoLote":
-                        record.authorization_event_id._save_event_file(
-                            processo.envio_xml.decode("utf-8"), "xml"
-                        )
+                # for p in processador.processar_documento(edoc):
+                #     processo = p
+                if processo.webservice == "cteAutorizacaoLote":
+                    record.authorization_event_id._save_event_file(
+                        processo.envio_xml.decode("utf-8"), "xml"
+                    )
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
                 record.atualiza_status_cte(
@@ -619,3 +632,60 @@ class CTe(spec_models.StackedModel):
                     }
                 )
         return
+
+    def _document_cancel(self, justificative):
+        result = super(CTe, self)._document_cancel(justificative)
+        online_event = self.filtered(filter_processador_edoc_cte)
+        if online_event:
+            online_event._cte_cancel()
+        return result
+
+    def _cte_cancel(self):
+        self.ensure_one()
+        processador = self._processador()
+
+        if not self.authorization_protocol:
+            raise UserError(_("Authorization Protocol Not Found!"))
+
+        evento = processador.cancela_documento(
+            chave=self.document_key,
+            protocolo_autorizacao=self.authorization_protocol,
+            justificativa=self.cancel_reason.replace("\n", "\\n"),
+        )
+        processo = processador.enviar_lote_evento(lista_eventos=[evento])
+
+        self.cancel_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.cte_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="2",
+            xml_file=processo.envio_xml.decode("utf-8"),
+            document_id=self,
+        )
+
+        for retevento in processo.resposta.retEvento:
+            if not retevento.infEvento.chCte == self.document_key:
+                continue
+
+            if retevento.infEvento.cStat not in CANCELADO:
+                mensagem = "Erro no cancelamento"
+                mensagem += "\nCódigo: " + retevento.infEvento.cStat
+                mensagem += "\nMotivo: " + retevento.infEvento.xMotivo
+                raise UserError(mensagem)
+
+            if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+            elif retevento.infEvento.cStat == CANCELADO_DENTRO_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO
+
+            self.state_edoc = SITUACAO_EDOC_CANCELADA
+            self.cancel_event_id.set_done(
+                status_code=retevento.infEvento.cStat,
+                response=retevento.infEvento.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                ),
+                protocol_number=retevento.infEvento.nProt,
+                file_response_xml=processo.retorno.content.decode("utf-8"),
+            )

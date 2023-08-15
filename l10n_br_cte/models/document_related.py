@@ -25,9 +25,9 @@ class CTeRelated(spec_models.StackedModel):
 
     # infQ TODO computes/relateds
 
-    cte40_tpMed = fields.Char(store=True)
+    cte40_tpMed = fields.Char()
 
-    cte40_qCarga = fields.Float(store=True)
+    cte40_qCarga = fields.Float()
 
     cte40_cUnid = fields.Selection(
         selection=[
