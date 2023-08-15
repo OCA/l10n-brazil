@@ -18,7 +18,7 @@ class NFCe(models.Model):
 
             if (
                 doc.document_type == MODELO_FISCAL_NFCE
-                and doc.partner_id.is_anonymous_consumer
+                and doc.partner_shipping_id.is_anonymous_consumer
             ):
                 doc.nfe40_entrega = None
 
