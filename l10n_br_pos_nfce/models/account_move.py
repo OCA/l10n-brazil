@@ -1,8 +1,6 @@
 # Copyright (C) 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import locale
-
 from odoo import models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -30,7 +28,6 @@ class AccountMove(models.Model):
         )
 
     def _prepare_nfce_danfe_values(self):
-        locale.setlocale(locale.LC_MONETARY, "pt_BR.utf8")
         return {
             "company_ie": self.company_inscr_est,
             "company_cnpj": self.company_cnpj_cpf,
@@ -44,11 +41,11 @@ class AccountMove(models.Model):
             "total_product_quantity": len(
                 self.line_ids.filtered(lambda line: line.product_id)
             ),
-            "amount_total": locale.currency(self.amount_total),
-            "amount_discount_value": locale.currency(self.amount_discount_value),
-            "amount_freight_value": locale.currency(self.amount_freight_value),
+            "amount_total": self.amount_total,
+            "amount_discount_value": self.amount_discount_value,
+            "amount_freight_value": self.amount_freight_value,
             "payments": self._prepare_nfce_danfe_payment_values(),
-            "amount_change": locale.currency(self.nfe40_vTroco),
+            "amount_change": self.nfe40_vTroco,
             "nfce_url": self.fiscal_document_id.get_nfce_qrcode_url(),
             "document_key": self.document_key,
             "document_number": self.document_number,
@@ -61,8 +58,8 @@ class AccountMove(models.Model):
             "system_env": self.nfe40_tpAmb,
             "unformatted_amount_freight_value": self.amount_freight_value,
             "unformatted_amount_discount_value": self.amount_discount_value,
-            "contingency": True if not self.nfe_transmission == "1" else False,
-            "homologation_environment": True if self.nfe_environment == "2" else False,
+            "contingency": self.nfe_transmission != "1",
+            "homologation_environment": self.nfe_environment == "2",
         }
 
     def _prepare_nfce_danfe_line_values(self):
@@ -77,10 +74,8 @@ class AccountMove(models.Model):
                     "product_name": product_id.name,
                     "product_quantity": line.quantity,
                     "product_uom": product_id.uom_name,
-                    "product_unit_value": locale.currency(product_id.lst_price),
-                    "product_unit_total": locale.currency(
-                        line.quantity * product_id.lst_price
-                    ),
+                    "product_unit_value": product_id.lst_price,
+                    "product_unit_total": line.quantity * product_id.lst_price,
                 }
             )
         return lines_list
@@ -91,7 +86,7 @@ class AccountMove(models.Model):
             payments_list.append(
                 {
                     "method": dict(FISCAL_PAYMENT_MODE)[payment.nfe40_tPag],
-                    "value": locale.currency(payment.nfe40_vPag),
+                    "value": payment.nfe40_vPag,
                 }
             )
         return payments_list
