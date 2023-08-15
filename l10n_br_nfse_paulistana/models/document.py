@@ -144,19 +144,19 @@ class Document(models.Model):
                 tpRPS, "ValorDeducoes", dados_servico["valor_deducoes"]
             ),
             ValorPIS=self.convert_type_nfselib(
-                tpRPS, "ValorPIS", dados_servico["valor_pis"]
+                tpRPS, "ValorPIS", dados_servico["valor_pis_retido"]
             ),
             ValorCOFINS=self.convert_type_nfselib(
-                tpRPS, "ValorCOFINS", dados_servico["valor_cofins"]
+                tpRPS, "ValorCOFINS", dados_servico["valor_cofins_retido"]
             ),
             ValorINSS=self.convert_type_nfselib(
-                tpRPS, "ValorINSS", dados_servico["valor_inss"]
+                tpRPS, "ValorINSS", dados_servico["valor_inss_retido"]
             ),
             ValorIR=self.convert_type_nfselib(
-                tpRPS, "ValorIR", dados_servico["valor_ir"]
+                tpRPS, "ValorIR", dados_servico["valor_ir_retido"]
             ),
             ValorCSLL=self.convert_type_nfselib(
-                tpRPS, "ValorCSLL", dados_servico["valor_csll"]
+                tpRPS, "ValorCSLL", dados_servico["valor_csll_retido"]
             ),
             CodigoServico=self.convert_type_nfselib(
                 tpRPS, "CodigoServico", dados_servico["codigo_tributacao_municipio"]
