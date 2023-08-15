@@ -211,6 +211,14 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice19 = "nfe40_CPF"
                     rec.nfe40_CPF = cnpj_cpf
                     rec.nfe40_CNPJ = None
+            else:
+                rec.nfe40_choice2 = False
+                rec.nfe40_choice6 = False
+                rec.nfe40_choice7 = False
+                rec.nfe40_choice8 = False
+                rec.nfe40_choice19 = False
+                rec.nfe40_CNPJ = ""
+                rec.nfe40_CPF = ""
 
             if rec.inscr_est:
                 rec.nfe40_IE = punctuation_rm(rec.inscr_est)
