@@ -28,7 +28,7 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "l10n_br_base/static/src/less/form_view.less",
+            "l10n_br_base/static/src/scss/form.scss",
         ],
     },
     "demo": [
