@@ -1,15 +1,13 @@
 # Copyright (C) 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_NFCE
 
 
 class NFCe(models.Model):
     _inherit = "l10n_br_fiscal.document"
-
-    pos_order_id = fields.Many2one(comodel_name="pos.order")
 
     @api.depends("partner_shipping_id")
     def _compute_entrega_data(self):
