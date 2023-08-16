@@ -9,7 +9,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_NFCE
 class NFCe(models.Model):
     _inherit = "l10n_br_fiscal.document"
 
-    order_id = fields.Many2one(comodel_name="pos.order")
+    pos_order_id = fields.Many2one(comodel_name="pos.order")
 
     @api.depends("partner_shipping_id")
     def _compute_entrega_data(self):
