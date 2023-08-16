@@ -396,6 +396,7 @@ class AccountMoveLine(models.Model):
         insurance_value = self.env.context.get("insurance_value", 0)
         other_value = self.env.context.get("other_value", 0)
         freight_value = self.env.context.get("other_value", 0)
+        ii_customhouse_charges = self.env.context.get("ii_customhouse_charges", 0)
 
         # Compute 'price_total'.
         if taxes:
@@ -412,6 +413,7 @@ class AccountMoveLine(models.Model):
                 handle_price_include=True,  # FIXME
                 fiscal_taxes=self.env.context.get("fiscal_tax_ids"),
                 operation_line=self.env.context.get("fiscal_operation_line_id"),
+                cfop=self.cfop_id or None,
                 ncm=self.env.context.get("ncm_id"),
                 nbs=self.env.context.get("nbs_id"),
                 nbm=self.env.context.get("nbm_id"),
@@ -419,6 +421,7 @@ class AccountMoveLine(models.Model):
                 discount_value=self.env.context.get("discount_value"),
                 insurance_value=insurance_value,
                 other_value=other_value,
+                ii_customhouse_charges=ii_customhouse_charges,
                 freight_value=freight_value,
                 fiscal_price=self.env.context.get("fiscal_price"),
                 fiscal_quantity=self.env.context.get("fiscal_quantity"),
