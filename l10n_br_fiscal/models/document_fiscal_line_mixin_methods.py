@@ -805,6 +805,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
         )
 
+    @api.onchange("ii_customhouse_charges")
+    def _onchange_ii_customhouse_charges(self):
+        if self.ii_customhouse_charges:
+            self._update_taxes()
+
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
         self._onchange_fiscal_operation_id()
@@ -829,6 +834,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             fields_to_amount.append("pis_value")
             fields_to_amount.append("cofins_value")
             fields_to_amount.append("icms_value")
+            fields_to_amount.append("ii_value")
+            fields_to_amount.append("ii_customhouse_charges")
         return fields_to_amount
 
     @api.model
