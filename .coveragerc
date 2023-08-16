@@ -1,0 +1,3 @@
+[run]
+omit =
+    l10n_br_currency_rate_update/tests/test_currency_rate_update_bcb.py
