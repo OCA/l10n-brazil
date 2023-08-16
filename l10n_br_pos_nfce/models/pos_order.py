@@ -57,7 +57,6 @@ class PosOrder(models.Model):
             "partner_id": self.partner_id.id,
             "payment_mode_id": payment_mode_id.id,
             "nfe40_vTroco": self.amount_return,
-            "pos_order_id": self.id,
         }
 
     @api.model
