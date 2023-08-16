@@ -18,6 +18,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
+    CFOP_DESTINATION_EXPORT,
+    FISCAL_IN
 )
 
 MOVE_TO_OPERATION = {
@@ -374,6 +376,8 @@ class AccountMove(models.Model):
             discount_value=base_line.discount_value,
             insurance_value=base_line.insurance_value,
             other_value=base_line.other_value,
+            ii_customhouse_charges=base_line.ii_customhouse_charges,
+            cfop=base_line.cfop_id,
             freight_value=base_line.freight_value,
             fiscal_price=base_line.fiscal_price,
             fiscal_quantity=base_line.fiscal_quantity,
