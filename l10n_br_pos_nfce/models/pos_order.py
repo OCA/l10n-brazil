@@ -165,10 +165,8 @@ class PosOrder(models.Model):
             order.write(
                 {
                     "state_edoc": order.account_move.fiscal_document_id.state_edoc,
-                    "state": "cancel",
                 }
             )
-            order.account_move.write({"state": "cancel"})
             order.with_context(
                 mail_create_nolog=True,
                 tracking_disable=True,

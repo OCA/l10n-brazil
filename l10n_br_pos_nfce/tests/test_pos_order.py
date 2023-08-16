@@ -94,7 +94,14 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         self.env["pos.order"].cancel_nfce_from_ui(order_id.pos_reference, "Teste")
 
-        self.assertEqual(order_id.state, "cancel", "Order not cancelled")
+        refund_order = self.env["pos.order"].search(
+            [
+                ("pos_reference", "=", order_id.pos_reference),
+                ("amount_total", ">", 0),
+            ],
+            limit=1,
+        )
+        self.assertIn("cancelled", refund_order.pos_reference)
 
     def test_pos_config_next_nfce_number(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))
