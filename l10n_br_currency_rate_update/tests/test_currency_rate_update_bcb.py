@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from decorator import decorate
 
 from odoo import fields
-from odoo.tests import SavepointCase
+from odoo.tests.common import TransactionCase
 
 _logger = logging.getLogger(__name__)
 
@@ -90,7 +90,7 @@ def mocked_requests_get(*args, **kwargs):
     )
 
 
-class TestCurrencyRateUpdateBCB(SavepointCase):
+class TestCurrencyRateUpdateBCB(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
