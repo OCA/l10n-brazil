@@ -18,6 +18,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
+    CFOP_DESTINATION_EXPORT,
+    FISCAL_IN
 )
 
 MOVE_TO_OPERATION = {
