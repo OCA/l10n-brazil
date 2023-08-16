@@ -49,11 +49,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                             values[
                                 "amount_financial_discount_value"
                             ] += 0  # line.financial_discount_value
-                        elif field == "amount_ii_customhouse_charges":
-                            # TODO ver se e necessario esta alteracao
-                            values[
-                                "amount_ii_customhouse_charges"
-                            ] += 0  # line.ii_customhouse_charges
                         else:
                             values[field] += line[field.replace("amount_", "")]
 
