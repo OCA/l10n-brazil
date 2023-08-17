@@ -124,7 +124,6 @@ class TestNFCe(TestNFeExport):
         super().setUp(nfe_list=[])
 
         self.document_id = self.env.ref("l10n_br_nfe.demo_nfce_same_state")
-        self.prepare_test_nfe(self.document_id)
 
         certificate_valid = misc.create_fake_certificate_file(
             valid=True,
@@ -144,6 +143,8 @@ class TestNFCe(TestNFeExport):
         self.document_id.company_id.certificate_nfe_id = certificate_id
         self.document_id.company_id.nfce_csc_token = "DUMMY"
         self.document_id.company_id.nfce_csc_code = "DUMMY"
+
+        self.prepare_test_nfe(self.document_id)
 
     @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_autorizada)
     def test_nfce_success(self, _mock_post):
@@ -251,3 +252,82 @@ class TestNFCe(TestNFeExport):
         qr_code_url = self.document_id.get_nfce_qrcode_url()
         self.assertIsNotNone(qr_code)
         self.assertIsNotNone(qr_code_url)
+
+    @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_autorizada)
+    def test_prepare_nfce_payment(self, _mock):
+        amount = self.document_id.amount_financial_total / 2
+        self.document_id.nfe40_detPag = [
+            (5, 0, 0),
+            (
+                0,
+                0,
+                {
+                    "nfe40_indPag": "0",
+                    "nfe40_tPag": "99",
+                    "nfe40_vPag": amount,
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "nfe40_indPag": "0",
+                    "nfe40_tPag": "99",
+                    "nfe40_vPag": amount,
+                },
+            ),
+        ]
+
+        self.document_id._eletronic_document_send()
+
+        others_pag = self.document_id.nfe40_detPag.filtered(
+            lambda p: p.nfe40_tPag == "99"
+        )
+        self.assertTrue(all(pag.nfe40_xPag == "Outros" for pag in others_pag))
+
+    def test_view_nfce_pdf(self):
+        action_pdf = self.document_id.view_pdf()
+        report_action = action_pdf["context"]["report_action"]
+
+        self.assertEqual(report_action["report_file"], "l10n_br_nfe.danfe_nfce")
+        self.assertEqual(report_action["report_name"], "l10n_br_nfe.report_danfe_nfce")
+        self.assertEqual(report_action["report_type"], "qweb-html")
+
+    def test_prepare_nfce_values_for_pdf(self):
+        line_values = self.document_id._prepare_nfce_danfe_line_values()
+
+        line1 = line_values[0]
+        self.assertEqual(line1["product_quantity"], 1)
+        self.assertEqual(line1["product_unit_value"], 320)
+        self.assertEqual(line1["product_unit_total"], 320)
+
+        self.document_id.nfe40_detPag = [
+            (5, 0, 0),
+            (
+                0,
+                0,
+                {
+                    "nfe40_indPag": "1",
+                    "nfe40_tPag": "01",
+                    "nfe40_vPag": 320,
+                },
+            ),
+        ]
+
+        payment_values = self.document_id._prepare_nfce_danfe_payment_values()
+        payment = payment_values[0]
+
+        self.assertEqual(payment["method"], "01 - Dinheiro")
+        self.assertEqual(payment["value"], 320)
+
+    def test_compute_fiscal_document_fields(self):
+        self.document_id.partner_id.is_anonymous_consumer = True
+        self.document_id.partner_id.cnpj_cpf = False
+        self.document_id.partner_shipping_id = self.document_id.partner_id
+
+        self.document_id._compute_entrega_data()
+        self.assertFalse(self.document_id.nfe40_entrega)
+
+        self.document_id.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        self.document_id._compute_dest_data()
+        self.assertFalse(self.document_id.nfe40_dest)
