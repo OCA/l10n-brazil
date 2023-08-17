@@ -20,8 +20,6 @@
         "views/pos_payment_method.xml",
         "views/pos_template.xml",
         "views/pos_config_view.xml",
-        "report/reports.xml",
-        "report/danfe_nfce.xml",
     ],
     "demo": [
         "demo/l10n_br_pos_nfce.xml",

@@ -6,3 +6,4 @@ from . import test_nfe_serialize_lc
 from . import test_nfe_serialize_sn
 from . import test_nfe_webservices
 from . import test_nfe_xml_validation
+from . import test_res_partner
