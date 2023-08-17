@@ -175,6 +175,11 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_nfe_data",
     )
 
+    is_anonymous_consumer = fields.Boolean(
+        string="Is Anonymous Consumer",
+        help="Indicates that the partner is an anonymous consumer",
+    )
+
     def _compute_nfe40_xEnder(self):
         for rec in self:
             rec.nfe40_xEnder = ", ".join(
@@ -328,15 +333,26 @@ class ResPartner(spec_models.SpecModel):
     )
     def _compute_nfe40_ender(self):
         for rec in self:
-            rec.nfe40_xLgr = rec.street_name
-            rec.nfe40_nro = rec.street_number
-            rec.nfe40_xCpl = rec.street2
-            rec.nfe40_xBairro = rec.district
-            rec.nfe40_cMun = rec.city_id.ibge_code
-            rec.nfe40_xMun = rec.city_id.name
-            rec.nfe40_UF = rec.state_id.code
-            rec.nfe40_cPais = rec.country_id.bc_code
-            rec.nfe40_xPais = rec.country_id.name
+            if not rec.is_anonymous_consumer:
+                rec.nfe40_xLgr = rec.street_name
+                rec.nfe40_nro = rec.street_number
+                rec.nfe40_xCpl = rec.street2
+                rec.nfe40_xBairro = rec.district
+                rec.nfe40_cMun = rec.city_id.ibge_code
+                rec.nfe40_xMun = rec.city_id.name
+                rec.nfe40_UF = rec.state_id.code
+                rec.nfe40_cPais = rec.country_id.bc_code
+                rec.nfe40_xPais = rec.country_id.name
+            else:
+                rec.nfe40_xLgr = None
+                rec.nfe40_nro = None
+                rec.nfe40_xCpl = None
+                rec.nfe40_xBairro = None
+                rec.nfe40_cMun = None
+                rec.nfe40_xMun = None
+                rec.nfe40_UF = None
+                rec.nfe40_cPais = None
+                rec.nfe40_xPais = None
 
     def _inverse_nfe40_ender(self):
         for rec in self:
