@@ -44,7 +44,7 @@ Esse módulo depende:
 
 * l10n_br_pos
 
-Alem disso você vi precisar configurar o Backend para emitir NFC-e.
+Alem disso você vai precisar configurar o Backend para emitir NFC-e.
 
 Changelog
 =========
@@ -83,6 +83,7 @@ Contributors
   * Luiz Felipe do Divino <luiz.divino@kmee.com.br>
   * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
   * Ygor Carvalho <ygor.carvalho@kmee.com.br>
+  * Felipe Zago Rodrigues <felipe.zago@kmee.com.br>
 
 Other credits
 ~~~~~~~~~~~~~
@@ -116,10 +117,13 @@ promote its widespread use.
 .. |maintainer-ygcarvalh| image:: https://github.com/ygcarvalh.png?size=40px
     :target: https://github.com/ygcarvalh
     :alt: ygcarvalh
+.. |maintainer-felipezago| image:: https://github.com/felipezago.png?size=40px
+    :target: https://github.com/felipezago
+    :alt: felipezago
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-mileo| |maintainer-lfdivino| |maintainer-luismalta| |maintainer-ygcarvalh| 
+|maintainer-mileo| |maintainer-lfdivino| |maintainer-luismalta| |maintainer-ygcarvalh| |maintainer-felipezago| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_pos_nfce>`_ project on GitHub.
 
