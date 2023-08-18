@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "# | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_qrcode_version__1
 msgid "1.00"
 msgstr ""
@@ -110,6 +115,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_arma
 msgid "Arma"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Autorizacao:"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -213,6 +223,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice7
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice7
 msgid "CNPJ/CPF/idEstrangeiro"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "CNPJ:"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -335,6 +350,16 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_config_settings
 msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Consulte pela chave de acesso em:"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Consumidor Nao Identificado"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -509,6 +534,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.actions.report,name:l10n_br_nfe.action_print_danfe_nfce
+msgid "DANFE NFC-e"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__5
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_danfe_layout__5
 msgid "DANFE NFC-e por email"
@@ -620,6 +650,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Desconto"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_natOp
 msgid "Descrição da Natureza da Operação"
 msgstr ""
@@ -652,6 +687,21 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Documento Auxiliar da Nota Fiscal do Consumidor Eletrônica"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Emissao:"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__1
 msgid "Emissão Normal"
@@ -670,6 +720,16 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_emit
 msgid "Emit"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Emitida em Contingencia"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Emitida em Contingência"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -999,6 +1059,11 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "IE:"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_tax_ipi_guideline
 msgid "IPI Guidelines"
 msgstr ""
@@ -1153,6 +1218,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__is_anonymous_consumer
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__is_anonymous_consumer
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_users__is_anonymous_consumer
+msgid "Indicates that the partner is an anonymous consumer"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infAdic
 msgid "Informações adicionais da NF-e"
 msgstr ""
@@ -1290,6 +1362,13 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_invalidate_number
 msgid "Invalidate Number"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__is_anonymous_consumer
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__is_anonymous_consumer
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__is_anonymous_consumer
+msgid "Is Anonymous Consumer"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1580,6 +1659,11 @@ msgid "Nome fantasia"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Numero:"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_nro
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_nro
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_nro
@@ -1677,6 +1761,16 @@ msgid "Parcelas"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Pendente de Autorizacao"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Pendente de Autorização"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pMVAST
 msgid "Percentual da Margem de Valor Adicionado ICMS ST"
 msgstr ""
@@ -1734,8 +1828,18 @@ msgid "Produção"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Protocolo:"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_qrcode_version
 msgid "QRCode Version"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Qtd total itens"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1778,6 +1882,11 @@ msgid "Sem geração de DANFE;"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Serie:"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "Set default print DANFE for print new NF-e and NFC-e documents"
 msgstr ""
@@ -1804,6 +1913,11 @@ msgid ""
 "série normal 0-889\n"
 "Avulsa Fisco 890-899\n"
 "SCAN 900-999"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "TROCO"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2160,6 +2274,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vOutro
 msgid "Valor outras retenções"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "Valor total"
 msgstr ""
 
 #. module: l10n_br_nfe
