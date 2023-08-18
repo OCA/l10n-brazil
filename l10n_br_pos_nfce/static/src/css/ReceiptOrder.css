@@ -1,0 +1,111 @@
+:root {
+    --fontSizeTitle: 26px;
+    --fontSizeBody: 20px;
+}
+
+.pos-receipt-container-nfce {
+    flex: 0 1 500px !important ;
+    overflow: auto;
+    background-color: white;
+}
+
+.nfceSeparator {
+    border-style: dotted;
+}
+
+.nfcePTag {
+    font-size: var(--fontSizeBody) !important;
+    margin: 5px auto;
+}
+
+.nfceEnvironment {
+    text-align: center;
+}
+
+.headerNfce {
+    font-size: var(--fontSizeTitle);
+    text-align: center;
+    margin: 0 auto !important;
+}
+
+.companyLegalName {
+    text-transform: uppercase;
+    font-size: var(--fontSizeBody) !important;
+}
+
+.companyAddress {
+    font-size: var(--fontSizeBody) !important;
+    max-width: 20.5em;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.companyInfo {
+    display: flex;
+    justify-content: space-between;
+    max-width: 20em;
+    margin: 0 auto;
+}
+
+.companyInfoLine {
+    margin: 0.5em 0;
+    padding: 0;
+    height: 1em;
+    font-size: var(--fontSizeBody) !important;
+}
+
+.documentInfo {
+    text-transform: uppercase;
+    font-size: 20px !important;
+    margin: 0 auto;
+}
+
+.nfceTotalItems,
+.nfceTotalDiscount,
+.nfceTotalAmount,
+.nfcePaymentLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nfceTotalPayement {
+    margin: 0;
+}
+
+.nfceTotal {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.nfceFiscalInfo {
+    text-align: center;
+}
+
+.nfceDocumentKey {
+    font-size: 18px !important;
+}
+
+.nfceFooter {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.consumerNotIdentified {
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 20px !important;
+    margin: 2px auto;
+}
+
+.inContingency {
+    text-transform: uppercase;
+    font-size: 22px !important;
+}
+
+.itemsTitle {
+    font-size: 16px !important;
+}

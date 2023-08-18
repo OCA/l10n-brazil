@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_pos_config_form" model="ir.ui.view">
+        <field name="name">pos.config.form (in l10n_br_pos_nfce)</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="l10n_br_pos.view_pos_config_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='l10n_br_nfce']/group" postition="inside">
+                <field name="nfce_document_serie_id" />
+                <field name="nfce_environment" />
+                <field name="nfce_document_serie_sequence_number_next" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
