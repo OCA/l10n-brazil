@@ -6,8 +6,5 @@ from . import test_nfe_serialize_lc
 from . import test_nfe_serialize_sn
 from . import test_nfe_webservices
 from . import test_nfe_xml_validation
-<<<<<<< HEAD
 from . import test_res_partner
-=======
 from . import test_nfe_dfe
->>>>>>> 19e7fb3463 ([FIX] reorder files)
