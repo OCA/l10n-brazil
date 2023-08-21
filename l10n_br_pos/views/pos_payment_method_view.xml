@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="/form/sheet/group[1]" position="after">
                 <group string="Fiscal Data" name="l10n_br_pos">
-                    <field name="sat_card_accrediting" />
+                    <field name="sat_card_acquirer" />
                 </group>
             </xpath>
         </field>
