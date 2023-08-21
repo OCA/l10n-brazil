@@ -19,21 +19,20 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
     const L10nBrPosPaymentScreen = (PaymentScreen_screen = PaymentScreen) =>
         class extends PaymentScreen_screen {
             checkValidCpfCnpj(currentOrder) {
-                if (!currentOrder.customer_tax_id && !currentOrder.get_client()) {
-                    return true;
+                const client = currentOrder.get_client();
+                if (client && client.cnpj_cpf) {
+                    const result = util.validate_cnpj_cpf(client.cnpj_cpf);
+                    if (!result) {
+                        currentOrder.set_client(null);
+                    }
+                    return result;
                 }
 
-                const client = currentOrder.get_client();
-                if (!client) {
+                if (currentOrder.customer_tax_id) {
                     return util.validate_cnpj_cpf(currentOrder.customer_tax_id);
                 }
 
-                const cnpj_cpf = client.cnpj_cpf || client.name;
-                const result = util.validate_cnpj_cpf(cnpj_cpf);
-                if (!result) {
-                    currentOrder.set_client(null);
-                }
-                return result;
+                return true;
             }
 
             async _isOrderValid(isForceValidate) {
@@ -49,7 +48,6 @@ odoo.define("l10n_br_pos.PaymentScreen", function (require) {
                         });
                     }
                 }
-
                 return result;
             }
         };
