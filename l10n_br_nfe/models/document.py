@@ -414,7 +414,7 @@ class NFe(spec_models.StackedModel):
             if (
                 doc.partner_id.is_anonymous_consumer
                 and not doc.partner_id.cnpj_cpf
-                and doc.document_type != MODELO_FISCAL_NFCE
+                and doc.document_type == MODELO_FISCAL_NFCE
             ):
                 doc.nfe40_dest = None
             else:
