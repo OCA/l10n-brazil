@@ -328,6 +328,5 @@ class TestNFCe(TestNFeExport):
         self.document_id._compute_entrega_data()
         self.assertFalse(self.document_id.nfe40_entrega)
 
-        self.document_id.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
         self.document_id._compute_dest_data()
         self.assertFalse(self.document_id.nfe40_dest)
