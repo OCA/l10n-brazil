@@ -49,6 +49,9 @@ class ResourceCalendar(models.Model):
     @api.constrains("parent_id")
     def _check_hierarchy(self):
         if not self._check_recursion():
+            # TODO: O metodo _check_recursion ja retorna erro
+            #  sendo desnecessário retornar o raise abaixo,
+            #  confirmar com os mantedores do modulo
             raise models.ValidationError(
                 _("Error! You cannot create recursive calendars.")
             )
