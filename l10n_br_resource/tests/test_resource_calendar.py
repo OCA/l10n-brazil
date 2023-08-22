@@ -3,6 +3,7 @@
 
 import odoo.tests.common as test_common
 from odoo import fields
+from odoo.exceptions import UserError
 
 
 class TestResourceCalendar(test_common.SingleTransactionCase):
@@ -19,6 +20,22 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "country_id": self.env.ref("base.br").id,
             }
         )
+
+        self.resource_1 = self.env["resource.resource"].create(
+            {
+                "name": "Teste Resource 1",
+                "resource_type": "user",
+                "calendar_id": self.nacional_calendar_id.id,
+            }
+        )
+        self.resource_2 = self.env["resource.resource"].create(
+            {
+                "name": "Teste Resource 2",
+                "resource_type": "user",
+                "calendar_id": self.nacional_calendar_id.id,
+            }
+        )
+
         self.leave_nacional_01 = self.resource_leaves.create(
             {
                 "name": "Tiradentes",
@@ -27,6 +44,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "calendar_id": self.nacional_calendar_id.id,
                 "leave_type": "F",
                 "abrangencia": "N",
+                "resource_id": self.resource_1.id,
             }
         )
         self.estadual_calendar_id = self.resource_calendar.create(
@@ -135,6 +153,21 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         )
         self.assertEqual(1, len(self.holidays))
 
+        self.estadual_calendar_id.get_leave_intervals(
+            start_datetime=fields.Datetime.to_datetime("2016-01-01 00:00:00"),
+            end_datetime=fields.Datetime.to_datetime("2016-01-20 00:00:00"),
+        )
+        self.nacional_calendar_id.get_leave_intervals(
+            resource_id=self.resource_1.id,
+            start_datetime=fields.Datetime.to_datetime("2016-03-01 00:00:00"),
+            end_datetime=fields.Datetime.to_datetime("2016-03-31 00:00:00"),
+        )
+        self.nacional_calendar_id.get_leave_intervals(
+            resource_id=self.resource_2.id,
+            start_datetime=fields.Datetime.to_datetime("2016-03-01 00:00:00"),
+            end_datetime=fields.Datetime.to_datetime("2016-03-31 00:00:00"),
+        )
+
     def test_05_data_eh_feriado_emendado(self):
         data = fields.Datetime.to_datetime("2016-08-25 00:00:01")
         data_eh_feriado_emendado = self.municipal_calendar_id.data_eh_feriado_emendado(
@@ -167,6 +200,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             fields.Datetime.to_datetime("2016-12-19 00:00:01"),
             "Partindo de um fds, proximo dia util invalido",
         )
+        # Sem Data
+        self.municipal_calendar_id.proximo_dia_util(False)
 
     def test_07_get_dias_base(self):
         """Dado um intervalo de tempo, fornecer a quantidade de dias base
@@ -182,6 +217,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
         total = self.resource_calendar.get_dias_base(data_inicio, data_final)
         self.assertEqual(total, 30, "Calculo de Dias Base de Fev incorreto")
+        # Sem Data
+        self.resource_calendar.get_dias_base(False, False)
 
     def test_08_data_eh_dia_util(self):
         """Verificar se datas sao dias uteis"""
@@ -229,6 +266,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             not self.municipal_calendar_id.data_eh_dia_util(feriado2),
             "ERRO: Feriado2 nao eh dia util!",
         )
+        # Sem Data
+        self.municipal_calendar_id.data_eh_dia_util(False)
 
     def test_09_quantidade_dia_util(self):
         """Calcular a qunatidade de dias uteis."""
@@ -251,6 +290,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(
             total_dias_uteis, 23, "ERRO: Total dias uteis mes Jan/2018 invalido"
         )
+        # Sem Data
+        self.resource_calendar.quantidade_dias_uteis(False, False)
 
     def test_10_data_eh_feriado_bancario(self):
         """
@@ -294,6 +335,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(
             prox_dia_ultil, fields.Datetime.to_datetime("2017-01-16 00:00:00")
         )
+        # Sem Data
+        self.nacional_calendar_id.proximo_dia_util_bancario(False)
 
     def test_17_holiday_import(self):
         holiday = self.holiday_import.create(
@@ -316,3 +359,12 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         data = fields.Datetime.to_datetime("2017-01-13 00:00:00")
         feriado = self.nacional_calendar_id.data_eh_dia_util_bancario(data)
         self.assertFalse(feriado)
+        # Sem Data
+        self.nacional_calendar_id.data_eh_dia_util_bancario(False)
+
+    def test_19_check_constraint_recursive(self):
+        """Test resource.calendar Constrains methods"""
+        with self.assertRaises(UserError):
+            self.nacional_calendar_id.write(
+                {"parent_id": self.municipal_calendar_id.id}
+            )
