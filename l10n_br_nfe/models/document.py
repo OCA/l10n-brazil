@@ -283,7 +283,7 @@ class NFe(spec_models.StackedModel):
     @api.depends("fiscal_operation_type", "nfe_transmission")
     def _compute_ide_data(self):
         """Set schema data which are not just related fields"""
-        for record in self.filtered(lambda x: x._need_compute_nfe_tags()):
+        for record in self:
             # tpNF
             if record.fiscal_operation_type:
                 operation_2_tpNF = {
