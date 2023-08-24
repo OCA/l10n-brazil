@@ -35,6 +35,9 @@ class TestResourceCalendar(common.TransactionCase):
         expected_result = False
         self.assertEqual(result, expected_result)
 
+        # Sem Data
+        self.calendar.data_eh_feriado(False)
+
     def test_data_eh_feriado_bancario(self):
         reference_data = datetime.now()
         leaves_count = self.env["resource.calendar.leaves"].search_count(
@@ -71,6 +74,8 @@ class TestResourceCalendar(common.TransactionCase):
         self.assertEqual(
             leaves_count, self.calendar.data_eh_feriado_bancario(reference_data)
         )
+        # Sem Data
+        self.calendar.data_eh_feriado_bancario(False)
 
     def test_data_eh_feriado_emendado(self):
 
@@ -80,6 +85,8 @@ class TestResourceCalendar(common.TransactionCase):
         result = self.calendar.data_eh_feriado_emendado(reference_data)
 
         self.assertEqual(result, expected_result)
+        # Sem Data
+        self.calendar.data_eh_feriado_emendado(False)
 
     def test_data_eh_dia_util_bancario(self):
         data_util = datetime(2023, 4, 17)
