@@ -85,7 +85,7 @@ class DFe(models.Model):
         message = result.resposta.xMotivo
         if result.retorno.status_code != 200:
             code = result.retorno.status_code
-        elif result.resposta.cStat not in ["137", "138"]:
+        elif result.resposta.cStat != "138":
             code = result.resposta.cStat
         else:
             valid = True
