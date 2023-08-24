@@ -64,13 +64,6 @@ msgid "End Date"
 msgstr ""
 
 #. module: l10n_br_resource
-#. odoo-python
-#: code:addons/l10n_br_resource/models/resource_calendar.py:0
-#, python-format
-msgid "Error! You cannot create recursive calendars."
-msgstr ""
-
-#. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__state_id
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__state_id
 msgid "Estado"
