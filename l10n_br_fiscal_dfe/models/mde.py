@@ -157,10 +157,10 @@ class MDe(models.Model):
             self.action_ciencia_emissao()
 
         try:
-            document = self.dfe_id.download_document(self.key)
-            document_id = self.dfe_id.parse_xml_document(document)
+            document = self.dfe_id._download_document(self.key)
+            document_id = self.dfe_id._parse_xml_document(document)
         except Exception as e:
-            self.dfe_id.message_post(body=_("Error importing document: \n\n") + e)
+            self.dfe_id.message_post(body=_("Error importing document: \n\n %s") % e)
             return
 
         if document_id:
@@ -168,10 +168,12 @@ class MDe(models.Model):
             self.document_id = document_id
 
     def import_document_multi(self):
-        for rec in self.filtered(lambda m: m.state in ("pendente", "ciente")):
+        for rec in self.filtered(
+            lambda m: m.state in (SIT_MANIF_PENDENTE[0], SIT_MANIF_CIENTE[0])
+        ):
             rec.import_document()
 
-    def send_event(self, method, valid_codes):
+    def _send_event(self, method, valid_codes):
         processor = self._get_processor()
         cnpj_partner = re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
 
@@ -182,7 +184,7 @@ class MDe(models.Model):
     def action_send_event(self, operation, valid_codes, new_state):
         for record in self:
             try:
-                record.send_event(operation, valid_codes)
+                record._send_event(operation, valid_codes)
                 record.state = new_state
             except Exception as e:
                 raise e

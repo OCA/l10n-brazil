@@ -60,6 +60,7 @@ class DFe(models.Model):
     def name_get(self):
         return self.mapped(lambda d: (d.id, f"{d.company_id.name} - NSU: {d.last_nsu}"))
 
+    @api.model
     def _get_certificate(self):
         certificate_id = self.company_id.certificate_nfe_id
         return cert.Certificado(
@@ -67,6 +68,7 @@ class DFe(models.Model):
             senha=certificate_id.password,
         )
 
+    @api.model
     def _get_processor(self):
         session = Session()
         session.verify = False
@@ -99,7 +101,8 @@ class DFe(models.Model):
 
         return valid
 
-    def document_distribution(self):
+    @api.model
+    def _document_distribution(self):
         maxNSU = ""
         while maxNSU != self.last_nsu:
             try:
@@ -134,20 +137,22 @@ class DFe(models.Model):
                     limit=1,
                 )
                 if not mde_id:
-                    mde_id = self.create_mde_from_schema(doc.schema, root)
+                    mde_id = self._create_mde_from_schema(doc.schema, root)
                     if mde_id:
                         mde_id.nsu = doc.NSU
                         mde_id.create_xml_attachment(xml)
 
-    def create_mde_from_schema(self, schema, root):
+    @api.model
+    def _create_mde_from_schema(self, schema, root):
         schema_type = schema.split("_")[0]
-        method = "create_mde_from_%s" % schema_type
+        method = "_create_mde_from_%s" % schema_type
         if not hasattr(self, method):
             return
 
         return getattr(self, method)(root)
 
-    def create_mde_from_procNFe(self, root):
+    @api.model
+    def _create_mde_from_procNFe(self, root):
         nfe_key = root.protNFe.infProt.chNFe
         mde_id = self.find_mde_by_key(nfe_key)
         if mde_id:
@@ -178,7 +183,8 @@ class DFe(models.Model):
             }
         )
 
-    def create_mde_from_resNFe(self, root):
+    @api.model
+    def _create_mde_from_resNFe(self, root):
         nfe_key = root.chNFe
         mde_id = self.find_mde_by_key(nfe_key)
         if mde_id:
@@ -209,6 +215,7 @@ class DFe(models.Model):
             }
         )
 
+    @api.model
     def find_mde_by_key(self, key):
         mde_id = self.env["l10n_br_fiscal.mde"].search([("key", "=", key)])
         if not mde_id:
@@ -219,7 +226,7 @@ class DFe(models.Model):
         return mde_id
 
     @api.model
-    def parse_xml_document(self, document):
+    def _parse_xml_document(self, document):
         schema_type = document.schema.split("_")[0]
         method = "parse_%s" % schema_type
         if not hasattr(self, method):
@@ -228,7 +235,8 @@ class DFe(models.Model):
         xml = utils.parse_gzip_xml(document.valueOf_)
         return getattr(self, method)(xml)
 
-    def download_document(self, nfe_key):
+    @api.model
+    def _download_document(self, nfe_key):
         try:
             result = self._get_processor().consultar_distribuicao(
                 chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
@@ -252,4 +260,4 @@ class DFe(models.Model):
 
     def search_documents(self):
         for record in self:
-            record.document_distribution()
+            record._document_distribution()
