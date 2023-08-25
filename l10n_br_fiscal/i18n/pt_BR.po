@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-14 19:07+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2023-09-02 13:37+0000\n"
+"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -9199,7 +9199,7 @@ msgstr "Atualizar os impostos de estimativa do NCM"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.nbs_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
 msgid "Update Tax Estimate"
-msgstr "Estimativa de imposto de atualização"
+msgstr "Atualizar Impostos Estimados"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__ibpt_api
