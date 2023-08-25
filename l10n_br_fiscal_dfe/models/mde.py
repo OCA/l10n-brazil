@@ -150,6 +150,27 @@ class MDe(models.Model):
                 _("Error on validating event: %s - %s" % (code, message))
             )
 
+    def import_document(self):
+        self.ensure_one()
+
+        if self.state == "pendente":
+            self.action_ciencia_emissao()
+
+        try:
+            document = self.dfe_id.download_document(self.key)
+            document_id = self.dfe_id.parse_xml_document(document)
+        except Exception as e:
+            self.dfe_id.message_post(body=_("Error importing document: \n\n") + e)
+            return
+
+        if document_id:
+            document_id.dfe_id = self.dfe_id.id
+            self.document_id = document_id
+
+    def import_document_multi(self):
+        for rec in self.filtered(lambda m: m.state in ("pendente", "ciente")):
+            rec.import_document()
+
     def send_event(self, method, valid_codes):
         processor = self._get_processor()
         cnpj_partner = re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
