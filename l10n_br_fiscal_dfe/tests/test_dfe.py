@@ -154,23 +154,23 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_error_status_code,
         ):
-            xml = self.dfe_id.download_document("dummy")
+            xml = self.dfe_id._download_document("dummy")
             self.assertIsNone(xml)
 
     def test_create_mde(self):
-        mde = self.dfe_id.create_mde_from_schema("dummy_v1.0", False)
+        mde = self.dfe_id._create_mde_from_schema("dummy_v1.0", False)
         self.assertIsNone(mde)
 
         mde_id = self.env["l10n_br_fiscal.mde"].create({"key": "123456789"})
 
         mock_resNFe = mock.MagicMock(spec=["chNFe"])
         mock_resNFe.chNFe = "123456789"
-        resnfe_mde_id = self.dfe_id.create_mde_from_schema("resNFe_v1.0", mock_resNFe)
+        resnfe_mde_id = self.dfe_id._create_mde_from_schema("resNFe_v1.0", mock_resNFe)
         self.assertEqual(resnfe_mde_id, mde_id)
 
         mock_procNFe = mock.MagicMock(spec=["protNFe"])
         mock_procNFe.protNFe.infProt.chNFe = "123456789"
-        procnfe_mde_id = self.dfe_id.create_mde_from_schema(
+        procnfe_mde_id = self.dfe_id._create_mde_from_schema(
             "procNFe_v1.0", mock_procNFe
         )
         self.assertEqual(procnfe_mde_id, mde_id)
