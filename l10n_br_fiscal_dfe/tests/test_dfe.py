@@ -8,7 +8,6 @@ from erpbrasil.edoc.resposta import analisar_retorno_raw
 from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
 from nfelib.v4_00 import retDistDFeInt
 
-from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import SavepointCase
 
 from ..models.mde import MDe
@@ -119,12 +118,8 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_error_status_code,
         ):
-            with self.assertRaises(ValidationError) as ve:
-                self.dfe_id.search_documents()
-                self.assertIn("500", ve.exception.args[0])
-                self.assertFalse(self.dfe_id.mde_ids)
-
-            self.dfe_id.search_documents(raise_error=False)
+            self.dfe_id.search_documents()
+            self.assertEqual(self.dfe_id.last_nsu, "000000000000000")
             self.assertFalse(self.dfe_id.mde_ids)
 
         with mock.patch.object(
@@ -132,21 +127,16 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_error_rejection,
         ):
-            with self.assertRaises(ValidationError) as ve:
-                self.dfe_id.search_documents()
-                self.assertIn("589", ve.exception.args[0])
-                self.assertFalse(self.dfe_id.mde_ids)
+            self.dfe_id.search_documents()
+            self.assertEqual(self.dfe_id.last_nsu, "000000000000000")
+            self.assertFalse(self.dfe_id.mde_ids)
 
         with mock.patch.object(
             DocumentoElectronicoAdapter,
             "_post",
             side_effect=KeyError("foo"),
         ):
-            self.dfe_id.search_documents(raise_error=False)
-
-            with self.assertRaises(UserError):
-                self.dfe_id.search_documents()
-
+            self.dfe_id.search_documents()
             self.assertFalse(self.dfe_id.mde_ids)
 
     @mock.patch.object(
@@ -162,29 +152,10 @@ class TestDFe(SavepointCase):
         with mock.patch.object(
             DocumentoElectronicoAdapter,
             "_post",
-            side_effect=KeyError("foo"),
-        ):
-            self.dfe_id.import_documents(raise_error=False)
-
-            with self.assertRaises(ValidationError):
-                self.dfe_id.import_documents()
-
-            xml = self.dfe_id.download_document("dummy", raise_error=False)
-            self.assertIsNone(xml)
-
-            with self.assertRaises(UserError):
-                self.dfe_id.download_document("dummy")
-
-        with mock.patch.object(
-            DocumentoElectronicoAdapter,
-            "_post",
             side_effect=mocked_post_error_status_code,
         ):
-            xml = self.dfe_id.download_document("dummy", raise_error=False)
+            xml = self.dfe_id.download_document("dummy")
             self.assertIsNone(xml)
-
-            with self.assertRaises(ValidationError):
-                self.dfe_id.download_document("dummy")
 
     def test_create_mde(self):
         mde = self.dfe_id.create_mde_from_schema("dummy_v1.0", False)
@@ -205,7 +176,7 @@ class TestDFe(SavepointCase):
         self.assertEqual(procnfe_mde_id, mde_id)
 
     @mock.patch.object(MDe, "action_ciencia_emissao", return_value=None)
-    def test_cron_search_and_import_documents(self, _mock):
+    def test_cron_search_documents(self, _mock):
         self.dfe_id.use_cron = True
 
         with mock.patch.object(
@@ -213,7 +184,7 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_error_status_code,
         ):
-            self.dfe_id._cron_search_and_import_documents()
+            self.dfe_id._cron_search_documents()
             self.assertFalse(self.dfe_id.mde_ids)
 
         with mock.patch.object(
@@ -221,7 +192,7 @@ class TestDFe(SavepointCase):
             "_post",
             side_effect=mocked_post_success_multiple,
         ):
-            self.dfe_id._cron_search_and_import_documents()
+            self.dfe_id._cron_search_documents()
             self.assertEqual(len(self.dfe_id.mde_ids), 2)
 
     def test_utils(self):
