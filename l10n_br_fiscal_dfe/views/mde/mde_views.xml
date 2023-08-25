@@ -39,7 +39,13 @@
                         name="action_download_xml"
                         string="Download XML"
                         type="object"
-                        attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"
+                        attrs="{'invisible':[['state','not in',['ciente','confirmado','desconhecido','nao_realizado']]]}"
+                    />
+                    <button
+                        name="import_document"
+                        string="Importar Documento"
+                        type="object"
+                        attrs="{'invisible':[['state','not in',['ciente','pendente']]]}"
                     />
                     <field
                         name="state"
@@ -126,6 +132,12 @@
                 <field name="emission_datetime" />
                 <field name="state" readonly="1" />
                 <field name="document_value" />
+                <button
+                    name="import_document"
+                    string="Importar Documento"
+                    type="object"
+                    attrs="{'invisible':[['state','not in',['ciente','pendente']]]}"
+                />
             </tree>
         </field>
     </record>
