@@ -12,7 +12,6 @@ from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
 
 from ..tools import utils
 
@@ -80,7 +79,7 @@ class DFe(models.Model):
         )
 
     @api.model
-    def validate_distribution_response(self, result, raise_error=True):
+    def validate_distribution_response(self, result):
         valid = False
         message = result.resposta.xMotivo
         if result.retorno.status_code != 200:
@@ -91,16 +90,16 @@ class DFe(models.Model):
             valid = True
 
         if not valid:
-            _logger.info(
-                "Error on validating document distribution"
-                " response: \n%s - %s" % (code, message)
+            self.message_post(
+                body=_(
+                    "Error validating document distribution: \n\n"
+                    "%s - %s" % (code, message)
+                )
             )
-            if raise_error:
-                raise ValidationError(_("%s - %s") % (code, message))
 
         return valid
 
-    def document_distribution(self, raise_error):
+    def document_distribution(self):
         maxNSU = ""
         while maxNSU != self.last_nsu:
             try:
@@ -109,18 +108,20 @@ class DFe(models.Model):
                     ultimo_nsu=utils.format_nsu(self.last_nsu),
                 )
             except Exception as e:
-                _logger.error("Error on searching documents.\n%s" % e)
-                if raise_error:
-                    raise UserError(_("Error on searching documents!\n '%s'") % e)
+                self.message_post(body=_("Error on searching documents.\n%s" % e))
+                break
+
+            self.write(
+                {
+                    "last_nsu": result.resposta.ultNSU,
+                    "last_query": fields.Datetime.now(),
+                }
+            )
+
+            if not self.validate_distribution_response(result):
                 break
 
             maxNSU = result.resposta.maxNSU
-            self.last_nsu = result.resposta.ultNSU
-            self.last_query = fields.Datetime.now()
-
-            if not self.validate_distribution_response(result, raise_error):
-                break
-
             for doc in result.resposta.loteDistDFeInt.docZip:
                 xml = utils.parse_gzip_xml(doc.valueOf_).read()
                 root = objectify.fromstring(xml)
@@ -227,57 +228,28 @@ class DFe(models.Model):
         xml = utils.parse_gzip_xml(document.valueOf_)
         return getattr(self, method)(xml)
 
-    def download_document(self, nfe_key, raise_error=True):
+    def download_document(self, nfe_key):
         try:
             result = self._get_processor().consultar_distribuicao(
                 chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
             )
         except Exception as e:
-            _logger.error("Error on searching documents.\n%s" % e)
-            if raise_error:
-                raise UserError(_("Error on searching documents!\n '%s'") % e)
+            self.message_post(body=_("Error on searching documents.\n%s" % e))
             return
 
-        if not self.validate_distribution_response(result, raise_error):
+        if not self.validate_distribution_response(result):
             return
 
         return result.resposta.loteDistDFeInt.docZip[0]
 
-    def import_documents(self, raise_error=True):
-        errors = []
+    def import_documents(self):
         for record in self:
-            for mde_id in record.mde_ids.filtered(
-                lambda m: m.state in ["pendente", "ciente"]
-            ):
-                if mde_id.state == "pendente":
-                    mde_id.action_ciencia_emissao()
-
-                try:
-                    document = record.download_document(mde_id.key)
-                    document_id = record.parse_xml_document(document)
-                except Exception as e:
-                    errors.append(f"{mde_id.key}: {e}")
-                    continue
-
-                if document_id:
-                    document_id.dfe_id = record.id
-                    mde_id.document_id = document_id
-
-        if errors and raise_error:
-            raise ValidationError(
-                _("Error importing documents: \n") + "\n".join(errors)
-            )
+            record.mde_ids.import_document_multi()
 
     @api.model
-    def _cron_search_and_import_documents(self):
-        dfe_ids = self.search([("use_cron", "=", True)])
-        dfe_ids.search_documents(raise_error=False)
-        dfe_ids.import_documents()
+    def _cron_search_documents(self):
+        self.search([("use_cron", "=", True)]).search_documents()
 
-    def search_documents(self, raise_error=True):
+    def search_documents(self):
         for record in self:
-            try:
-                record.document_distribution(raise_error)
-            except Exception as e:
-                if raise_error:
-                    raise e
+            record.document_distribution()
