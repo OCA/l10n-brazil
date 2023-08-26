@@ -8,7 +8,7 @@
     "depends": ["base"],
     "installable": True,
     "application": False,
-    "development_status": "Production/Stable",
+    "development_status": "Mature",
     "maintainers": ["rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
 }
