@@ -313,11 +313,6 @@ msgid "City"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cListServ
-msgid "Code"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_CEST
 msgid "Codigo especificador"
 msgstr ""
@@ -916,6 +911,16 @@ msgid "Grupo de infromações da NF referenciada"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_obsItem
+msgid "Grupo de observações de uso livre"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_obsItem
+msgid "Grupo de observações de uso livre (para o item da NF-e)"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refECF
 msgid "Grupo do Cupom Fiscal vinculado à NF-e"
 msgstr ""
@@ -1369,6 +1374,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__is_anonymous_consumer
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__is_anonymous_consumer
 msgid "Is Anonymous Consumer"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cListServ
+msgid "Item da lista de serviços da LC 116/03"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cListServ
+msgid "Item da lista de serviços da LC 116/03 em que se classifica o serviço."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1873,6 +1888,19 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_xNome
 msgid "Razão Social ou Nome do emitente"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refNFeSig
+msgid "Referencia uma NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refNFeSig
+msgid ""
+"Referencia uma NF-e (modelo 55) emitida anteriormente pela sua Chave de "
+"Acesso com código numérico zerado, permitindo manter o sigilo da NF-e "
+"referenciada."
 msgstr ""
 
 #. module: l10n_br_nfe
