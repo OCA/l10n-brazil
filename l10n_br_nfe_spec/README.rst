@@ -7,9 +7,9 @@ nfe spec
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Production/Stable
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -45,7 +45,7 @@ o codigo dentro da pasta:
     git clone https://github.com/akretion/nfelib
     cd nfelib
     export XSDATA_SCHEMA=nfe; export XSDATA_VERSION=40; export XSDATA_SKIP="^ICMS.ICMS\d+|^ICMS.ICMSSN\d+"
-    xsdata generate /tmp/nfelib/nfelib/schemas/nfe/v4_0 --package nfelib.odoo.nfe.v4_0 --output=odoo
+    xsdata generate nfelib/nfe/schemas/v4_0  --package nfelib.odoo.nfe.v4_0 --output=odoo
     mv nfelib/odoo/nfe/v4_0 <caminho_do_odoo>/l10n_br_nfe_spec/models/v4_0
 
 
