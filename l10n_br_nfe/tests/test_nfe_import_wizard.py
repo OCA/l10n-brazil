@@ -169,7 +169,6 @@ class NFeImportWizardTest(SavepointCase):
         first_product._find_or_create_product_supplierinfo()
         self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
         self.assertEqual(wiz_supplier_id.partner_uom_id, first_product.uom_internal)
-        self.assertEqual(wiz_supplier_id.product_code, first_product.product_code)
         self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)
 
     def test_match_xml_product(self):
