@@ -19,4 +19,24 @@
         <field name="perm_write" eval="1" />
         <field name="perm_unlink" eval="1" />
     </record>
+
+    <record model="ir.model.access" id="l10n_br_fiscal_mde_user">
+        <field name="name">MDe for User</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_mde" />
+        <field name="group_id" ref="l10n_br_fiscal.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+
+    <record model="ir.model.access" id="l10n_br_fiscal_mde_manager">
+        <field name="name">MDe for Manager</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_mde" />
+        <field name="group_id" ref="l10n_br_fiscal.group_manager" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
 </odoo>
