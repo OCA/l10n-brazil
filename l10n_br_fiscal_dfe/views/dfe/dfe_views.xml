@@ -18,12 +18,6 @@
                         type="object"
                         class="btn-primary"
                     />
-                    <button
-                        name="import_documents"
-                        string="Import Documents"
-                        type="object"
-                        class="btn-primary"
-                    />
                 </header>
 
                 <sheet>
@@ -43,20 +37,11 @@
                     </group>
 
                     <notebook>
-                        <page string="Documents">
+                        <page id="documents" string="Documents">
                             <field
                                 name="imported_document_ids"
                                 nolabel="1"
                                 context="{'tree_view_ref': 'l10n_br_fiscal.dfe_documents_tree'}"
-                            />
-                        </page>
-
-                        <page string="Manifestations">
-                            <field
-                                name="mde_ids"
-                                nolabel="1"
-                                readonly="1"
-                                context="{'tree_view_ref': 'l10n_br_fiscal.dfe_manifestacao_tree'}"
                             />
                         </page>
                     </notebook>
@@ -101,26 +86,6 @@
         <field name="view_mode">tree</field>
         <field name="view_id" ref="dfe_tree" />
         <field name="act_window_id" ref="dfe_action" />
-    </record>
-
-    <record model="ir.ui.view" id="dfe_manifestacao_tree">
-        <field name="name">l10n_br_fiscal.dfe.manifestacao.tree</field>
-        <field name="model">l10n_br_fiscal.mde</field>
-        <field
-            name="inherit_id"
-            ref="l10n_br_fiscal_dfe.view_l10n_br_fiscal_mde_tree"
-        />
-        <field name="mode">primary</field>
-        <field name="arch" type="xml">
-            <field name="document_value" position="after">
-                <button
-                    string="Download XML"
-                    name="action_download_xml"
-                    type="object"
-                />
-                <field name="document_id" invisible="1" />
-            </field>
-        </field>
     </record>
 
     <record model="ir.ui.view" id="dfe_search">

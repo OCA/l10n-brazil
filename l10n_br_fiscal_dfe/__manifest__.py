@@ -12,7 +12,6 @@
     "data": [
         "data/ir_cron.xml",
         "security/ir.model.access.csv",
-        "views/mde/mde_views.xml",
         "views/dfe/dfe_views.xml",
         "views/l10n_br_fiscal_menu.xml",
         "views/res_company_view.xml",
