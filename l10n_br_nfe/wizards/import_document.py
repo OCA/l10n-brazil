@@ -302,10 +302,10 @@ class NfeImport(models.TransientModel):
             for xml_product in parsed_xml.NFe.infNFe.det:
                 if xml_product.prod.cProd == product_line.product_code:
                     xml_product.prod.xProd = internal_product.name
-                    xml_product.prod.cProd = internal_product.default_code
                     xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
                     xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
                     xml_product.prod.uCom = product_line.uom_internal.code
+                    xml_product.prod.uTrib = product_line.uom_internal.code
                     if product_line.new_cfop_id:
                         xml_product.prod.CFOP = product_line.new_cfop_id.code
         return parsed_xml
@@ -342,7 +342,7 @@ class NfeImportProducts(models.TransientModel):
 
     import_xml_id = fields.Many2one(comodel_name="l10n_br_nfe.import_xml")
 
-    product_code = fields.Char(string="Partner Product Code")
+    product_code = fields.Char(string="XML Product Code")
 
     product_id = fields.Many2one(
         comodel_name="product.product",
@@ -392,8 +392,6 @@ class NfeImportProducts(models.TransientModel):
         return self.env["product.supplierinfo"].search(
             [
                 ("name", "=", self.imported_partner_id.id),
-                "|",
-                ("product_name", "=", self.product_name),
                 ("product_code", "=", self.product_code),
             ],
             limit=1,
@@ -426,12 +424,19 @@ class NfeImportProducts(models.TransientModel):
                 product._update_product_supplier()
 
     def _create_product_supplier(self):
+        if self.uom_internal:
+            price = self.uom_internal._compute_price(
+                self.price_unit_com, self.product_id.uom_id
+            )
+        else:
+            price = self.product_id.lst_price
+
         self.product_supplier_id = self.env["product.supplierinfo"].create(
             {
                 "product_id": self.product_id.id,
                 "product_name": self.product_name,
                 "product_code": self.product_code,
-                "price": self.product_id.lst_price,
+                "price": price,
                 "name": self.imported_partner_id.id,
                 "partner_uom_id": self.uom_internal.id,
             }
