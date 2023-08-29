@@ -791,13 +791,19 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
-        if not self.company_id.sudo().certificate_nfe_id:
+        certificate = False
+        if self.company_id.sudo().certificate_nfe_id:
+            certificate = self.company_id.sudo().certificate_nfe_id
+        elif self.company_id.sudo().certificate_ecnpj_id:
+            certificate = self.company_id.sudo().certificate_ecnpj_id
+
+        if not certificate:
             raise UserError(_("Certificado não encontrado"))
         self._check_nfe_environment()
 
         certificado = cert.Certificado(
-            arquivo=self.company_id.sudo().certificate_nfe_id.file,
-            senha=self.company_id.sudo().certificate_nfe_id.password,
+            arquivo=certificate.file,
+            senha=certificate.password,
         )
         session = Session()
         session.verify = False
