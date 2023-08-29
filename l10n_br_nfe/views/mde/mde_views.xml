@@ -133,11 +133,17 @@
                 <field name="state" readonly="1" />
                 <field name="document_value" />
                 <button
+                    string="Download XML"
+                    name="action_download_xml"
+                    type="object"
+                />
+                <button
                     name="import_document"
                     string="Importar Documento"
                     type="object"
                     attrs="{'invisible':[['state','not in',['ciente','pendente']]]}"
                 />
+                <field name="document_id" invisible="1" />
             </tree>
         </field>
     </record>
