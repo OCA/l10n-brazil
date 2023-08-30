@@ -18,6 +18,9 @@
     ],
     "demo": [],
     "external_dependencies": {
-        "python": ["erpbrasil.edoc>=2.5.2"],
+        "python": [
+            "erpbrasil.edoc>=2.5.2",
+            "erpbrasil.transmissao>=1.1.0",
+        ],
     },
 }
