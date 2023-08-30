@@ -90,6 +90,18 @@
         <field name="name">IMPOSTOS A RECUPERAR</field>
         <field name="parent_id" ref="coa_generic_114" />
     </record>
+    <record id="coa_generic_1142" model="account.group.template">
+        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
+        <field name="code_prefix_start">1.1.4.2</field>
+        <field name="name">ADIANTAMENTOS A EMPREGADOS</field>
+        <field name="parent_id" ref="coa_generic_114" />
+    </record>
+    <record id="coa_generic_1143" model="account.group.template">
+        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
+        <field name="code_prefix_start">1.1.4.3</field>
+        <field name="name">ADIANTAMENTOS CONCEDIDOS</field>
+        <field name="parent_id" ref="coa_generic_114" />
+    </record>
     <record id="coa_generic_115" model="account.group.template">
         <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
         <field name="code_prefix_start">1.1.5</field>

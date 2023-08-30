@@ -22,6 +22,15 @@ coa_generic_114106,1.1.4.1.06,IRPJ a Compensar,,asset_current,0,l10n_br_coa_gene
 coa_generic_114107,1.1.4.1.07,CSLL a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114108,1.1.4.1.08,IRRF a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114109,1.1.4.1.09,ISSF a Compensar,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_114301,1.1.4.2.01,Adto Quinzenal,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114302,1.1.4.2.02,Adto Salarial,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114303,1.1.4.2.03,Adto de Férias,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114304,1.1.4.2.04,Adto de Rescisão,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114401,1.1.4.3.01,Adto à Fornecedores de Mercadorias,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114402,1.1.4.3.02,Adto à Fornecedores de Matéria Prima,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114403,1.1.4.3.03,Adto à Fornecedores de Uso e Consumo,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114404,1.1.4.3.04,Adto à Fornecedores de Despesas,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114405,1.1.4.3.05,Adto à Fornecedores de Outros,,asset_current,1,l10n_br_coa_generic_template
 coa_generic_115101,1.1.5.1.01,Seguros a Apropriar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_115102,1.1.5.1.02,Encargos a Apropriar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_115103,1.1.5.1.03,IPTU a Apropriar,,asset_current,0,l10n_br_coa_generic_template
