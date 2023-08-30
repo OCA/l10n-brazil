@@ -4,9 +4,9 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-    <record model="ir.ui.view" id="view_l10n_br_fiscal_mde_form">
-        <field name="name">l10n_br_fiscal_mde.form</field>
-        <field name="model">l10n_br_fiscal.mde</field>
+    <record model="ir.ui.view" id="view_l10n_br_nfe_mde_form">
+        <field name="name">l10n_br_nfe_mde.form</field>
+        <field name="model">l10n_br_nfe.mde</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Manifestation">
@@ -83,9 +83,9 @@
         </field>
     </record>
 
-    <record id="view_l10n_br_fiscal_mde_filter" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal_mde.select</field>
-        <field name="model">l10n_br_fiscal.mde</field>
+    <record id="view_l10n_br_nfe_mde_filter" model="ir.ui.view">
+        <field name="name">l10n_br_nfe_mde.select</field>
+        <field name="model">l10n_br_nfe.mde</field>
         <field name="arch" type="xml">
             <search string="Filter">
                 <field name="company_id" string="Razão Social" />
@@ -120,9 +120,9 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_l10n_br_fiscal_mde_tree">
-        <field name="name">l10n_br_fiscal_mde.tree</field>
-        <field name="model">l10n_br_fiscal.mde</field>
+    <record model="ir.ui.view" id="view_l10n_br_nfe_mde_tree">
+        <field name="name">l10n_br_nfe_mde.tree</field>
+        <field name="model">l10n_br_nfe.mde</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree create="false" limit="5">
@@ -148,9 +148,9 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="l10n_br_fiscal_mde_action">
+    <record model="ir.actions.act_window" id="l10n_br_nfe_mde_action">
         <field name="name">Manifestation</field>
-        <field name="res_model">l10n_br_fiscal.mde</field>
+        <field name="res_model">l10n_br_nfe.mde</field>
         <field name="view_mode">tree,form</field>
     </record>
 

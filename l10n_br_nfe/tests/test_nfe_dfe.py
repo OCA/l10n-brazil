@@ -96,7 +96,7 @@ class TestNFeDFe(SavepointCase):
         mde = self.dfe_id._create_mde_from_schema("dummy_v1.0", False)
         self.assertIsNone(mde)
 
-        mde_id = self.env["l10n_br_fiscal.mde"].create({"key": "123456789"})
+        mde_id = self.env["l10n_br_nfe.mde"].create({"key": "123456789"})
 
         mock_resNFe = mock.MagicMock(spec=["chNFe"])
         mock_resNFe.chNFe = "123456789"
