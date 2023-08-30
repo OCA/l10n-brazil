@@ -63,19 +63,37 @@
     <record id="coa_generic_113" model="account.group.template">
         <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
         <field name="code_prefix_start">1.1.3</field>
-        <field name="name">OUTRAS CONTAS A RECEBER</field>
+        <field name="name">ESTOQUES</field>
         <field name="parent_id" ref="coa_generic_11" />
     </record>
     <record id="coa_generic_1131" model="account.group.template">
         <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
         <field name="code_prefix_start">1.1.3.1</field>
-        <field name="name">ADIANTAMENTO À FORNECEDORES</field>
+        <field name="name">MERCADORIAS PARA REVENDA</field>
         <field name="parent_id" ref="coa_generic_113" />
     </record>
     <record id="coa_generic_1132" model="account.group.template">
         <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
         <field name="code_prefix_start">1.1.3.2</field>
-        <field name="name">ADIANTAMENTO À EMPREGADOS</field>
+        <field name="name">PRODUTOS ACABADOS</field>
+        <field name="parent_id" ref="coa_generic_113" />
+    </record>
+    <record id="coa_generic_1133" model="account.group.template">
+        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
+        <field name="code_prefix_start">1.1.3.3</field>
+        <field name="name">MATÉRIAS-PRIMAS</field>
+        <field name="parent_id" ref="coa_generic_113" />
+    </record>
+    <record id="coa_generic_1134" model="account.group.template">
+        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
+        <field name="code_prefix_start">1.1.3.4</field>
+        <field name="name">MATERIAIS DE EMBALAGEM</field>
+        <field name="parent_id" ref="coa_generic_113" />
+    </record>
+    <record id="coa_generic_1139" model="account.group.template">
+        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
+        <field name="code_prefix_start">1.1.3.9</field>
+        <field name="name">MATERIAIS DE CONSUMO</field>
         <field name="parent_id" ref="coa_generic_113" />
     </record>
     <record id="coa_generic_114" model="account.group.template">
@@ -113,42 +131,6 @@
         <field name="code_prefix_start">1.1.5.1</field>
         <field name="name">DESPESAS ANTECIPADAS</field>
         <field name="parent_id" ref="coa_generic_115" />
-    </record>
-    <record id="coa_generic_119" model="account.group.template">
-        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
-        <field name="code_prefix_start">1.1.9</field>
-        <field name="name">ESTOQUES</field>
-        <field name="parent_id" ref="coa_generic_11" />
-    </record>
-    <record id="coa_generic_1191" model="account.group.template">
-        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
-        <field name="code_prefix_start">1.1.9.1</field>
-        <field name="name">MERCADORIAS PARA REVENDA</field>
-        <field name="parent_id" ref="coa_generic_119" />
-    </record>
-    <record id="coa_generic_1192" model="account.group.template">
-        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
-        <field name="code_prefix_start">1.1.9.2</field>
-        <field name="name">PRODUTOS ACABADOS</field>
-        <field name="parent_id" ref="coa_generic_119" />
-    </record>
-    <record id="coa_generic_1193" model="account.group.template">
-        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
-        <field name="code_prefix_start">1.1.9.3</field>
-        <field name="name">MATÉRIAS-PRIMAS</field>
-        <field name="parent_id" ref="coa_generic_119" />
-    </record>
-    <record id="coa_generic_1194" model="account.group.template">
-        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
-        <field name="code_prefix_start">1.1.9.4</field>
-        <field name="name">MATERIAIS DE EMBALAGEM</field>
-        <field name="parent_id" ref="coa_generic_119" />
-    </record>
-    <record id="coa_generic_1199" model="account.group.template">
-        <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
-        <field name="code_prefix_start">1.1.9.9</field>
-        <field name="name">MATERIAIS DE CONSUMO</field>
-        <field name="parent_id" ref="coa_generic_119" />
     </record>
     <record id="coa_generic_12" model="account.group.template">
         <field name="chart_template_id" ref="l10n_br_coa_generic_template" />
