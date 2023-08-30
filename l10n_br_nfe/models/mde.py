@@ -28,7 +28,7 @@ _logger = logging.getLogger(__name__)
 
 
 class MDe(models.Model):
-    _name = "l10n_br_fiscal.mde"
+    _name = "l10n_br_nfe.mde"
     _description = "Recipient Manifestation"
 
     company_id = fields.Many2one(comodel_name="res.company", string="Company")

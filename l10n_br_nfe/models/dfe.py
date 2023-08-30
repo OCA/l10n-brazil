@@ -15,7 +15,7 @@ class DFe(models.Model):
     _inherit = "l10n_br_fiscal.dfe"
 
     mde_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.mde",
+        comodel_name="l10n_br_nfe.mde",
         inverse_name="dfe_id",
         string="Manifestações do Destinatário Importadas",
     )
@@ -25,7 +25,7 @@ class DFe(models.Model):
             xml = utils.parse_gzip_xml(doc.valueOf_).read()
             root = objectify.fromstring(xml)
 
-            mde_id = self.env["l10n_br_fiscal.mde"].search(
+            mde_id = self.env["l10n_br_nfe.mde"].search(
                 [
                     ("nsu", "=", utils.format_nsu(doc.NSU)),
                     ("company_id", "=", self.company_id.id),
@@ -57,7 +57,7 @@ class DFe(models.Model):
         supplier_cnpj = utils.mask_cnpj("%014d" % root.NFe.infNFe.emit.CNPJ)
         partner = self.env["res.partner"].search([("cnpj_cpf", "=", supplier_cnpj)])
 
-        return self.env["l10n_br_fiscal.mde"].create(
+        return self.env["l10n_br_nfe.mde"].create(
             {
                 "number": root.NFe.infNFe.ide.nNF,
                 "key": nfe_key,
@@ -89,7 +89,7 @@ class DFe(models.Model):
         supplier_cnpj = utils.mask_cnpj("%014d" % root.CNPJ)
         partner_id = self.env["res.partner"].search([("cnpj_cpf", "=", supplier_cnpj)])
 
-        return self.env["l10n_br_fiscal.mde"].create(
+        return self.env["l10n_br_nfe.mde"].create(
             {
                 "key": nfe_key,
                 "emitter": root.xNome,
@@ -113,7 +113,7 @@ class DFe(models.Model):
 
     @api.model
     def find_mde_by_key(self, key):
-        mde_id = self.env["l10n_br_fiscal.mde"].search([("key", "=", key)])
+        mde_id = self.env["l10n_br_nfe.mde"].search([("key", "=", key)])
         if not mde_id:
             return False
 
