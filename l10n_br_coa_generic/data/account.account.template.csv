@@ -22,6 +22,15 @@ coa_generic_114106,1.1.4.1.06,IRPJ a Compensar,,l10n_br_coa.data_account_type_cu
 coa_generic_114107,1.1.4.1.07,CSLL a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
 coa_generic_114108,1.1.4.1.08,IRRF a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
 coa_generic_114109,1.1.4.1.09,ISSF a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114301,1.1.4.2.01,Adto Quinzenal,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114302,1.1.4.2.02,Adto Salarial,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114303,1.1.4.2.03,Adto de Férias,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114304,1.1.4.2.04,Adto de Rescisão,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114401,1.1.4.3.01,Adto à Fornecedores de Mercadorias,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114402,1.1.4.3.02,Adto à Fornecedores de Matéria Prima,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114403,1.1.4.3.03,Adto à Fornecedores de Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114404,1.1.4.3.04,Adto à Fornecedores de Despesas,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114405,1.1.4.3.05,Adto à Fornecedores de Outros,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
 coa_generic_115101,1.1.5.1.01,Seguros a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
 coa_generic_115102,1.1.5.1.02,Encargos a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
 coa_generic_115103,1.1.5.1.03,IPTU a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
