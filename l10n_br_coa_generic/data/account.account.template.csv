@@ -25,8 +25,6 @@ coa_generic_114109,1.1.4.1.09,ISSF a Compensar,,l10n_br_coa.data_account_type_cu
 coa_generic_115101,1.1.5.1.01,Seguros a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
 coa_generic_115102,1.1.5.1.02,Encargos a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
 coa_generic_115103,1.1.5.1.03,IPTU a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
-coa_generic_119001,1.1.9.0.01,Estoque Intermediário (Recebido),,account.data_account_type_non_current_assets,1,l10n_br_coa_generic_template
-coa_generic_119002,1.1.9.0.02,Estoque Intermediário (Enviado),,account.data_account_type_non_current_assets,1,l10n_br_coa_generic_template
 coa_generic_119101,1.1.9.1.01,Estoque Inicial Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,1,l10n_br_coa_generic_template
 coa_generic_119102,1.1.9.1.02,Compras Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
 coa_generic_119103,1.1.9.1.03,Fretes e Carretos Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
