@@ -4,6 +4,8 @@ coa_generic_112101,1.1.2.1.01,Clientes,,asset_receivable,1,l10n_br_coa_generic_t
 coa_generic_112102,1.1.2.1.02,Controle de Débitos (POS),,asset_receivable,1,l10n_br_coa_generic_template
 coa_generic_112201,1.1.2.2.01,(-) Duplicatas Descontadas,,asset_receivable,1,l10n_br_coa_generic_template
 coa_generic_112901,1.1.2.9.01,Outros Valores a Receber,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_119001,1.1.9.0.01,Estoque Intermediário (Recebido),,asset_non_current,1,l10n_br_coa_generic_template
+coa_generic_119002,1.1.9.0.02,Estoque Intermediário (Enviado),,asset_non_current,1,l10n_br_coa_generic_template
 coa_generic_113101,1.1.3.1.01,Estoque Inicial Mercadorias,,asset_current,1,l10n_br_coa_generic_template
 coa_generic_113102,1.1.3.1.02,Compras Mercadorias,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_113103,1.1.3.1.03,Fretes e Carretos Mercadorias,,asset_current,0,l10n_br_coa_generic_template
@@ -379,4 +381,3 @@ coa_generic_711101,7.1.1.1.01,Ativo,,liability_non_current,0,l10n_br_coa_generic
 coa_generic_711102,7.1.1.1.02,(-) Passivo,,liability_non_current,0,l10n_br_coa_generic_template
 coa_generic_711201,7.1.1.2.01,Ativo,,liability_non_current,0,l10n_br_coa_generic_template
 coa_generic_711202,7.1.1.2.02,(-) Passivo,,liability_non_current,0,l10n_br_coa_generic_template
-coa_generic_712101,7.1.2.1.01,Resultado Final de Exercício,,equity_unaffected,0,l10n_br_coa_generic_template
