@@ -4,6 +4,8 @@ coa_generic_112101,1.1.2.1.01,Clientes,,account.data_account_type_receivable,1,l
 coa_generic_112102,1.1.2.1.02,Controle de Débitos (POS),,account.data_account_type_receivable,1,l10n_br_coa_generic_template
 coa_generic_112201,1.1.2.2.01,(-) Duplicatas Descontadas,,account.data_account_type_receivable,1,l10n_br_coa_generic_template
 coa_generic_112901,1.1.2.9.01,Outros Valores a Receber,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_119001,1.1.9.0.01,Estoque Intermediário (Recebido),,account.data_account_type_non_current_assets,1,l10n_br_coa_generic_template
+coa_generic_119002,1.1.9.0.02,Estoque Intermediário (Enviado),,account.data_account_type_non_current_assets,1,l10n_br_coa_generic_template
 coa_generic_113101,1.1.3.1.01,Estoque Inicial Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,1,l10n_br_coa_generic_template
 coa_generic_113102,1.1.3.1.02,Compras Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
 coa_generic_113103,1.1.3.1.03,Fretes e Carretos Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
