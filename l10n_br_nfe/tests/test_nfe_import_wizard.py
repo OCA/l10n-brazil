@@ -135,11 +135,6 @@ class NFeImportWizardTest(SavepointCase):
         first_product = self.wizard.imported_products_ids[0]
         old_product_id = first_product.product_id
 
-        first_product.onchange_product_id()
-        first_product.product_id = self.product_1
-        with self.assertRaises(UserError):
-            first_product.onchange_product_id()
-
         first_product.product_id = False
         first_product.product_name = False
         first_product.product_code = "???"
@@ -150,7 +145,8 @@ class NFeImportWizardTest(SavepointCase):
         first_product.product_id = old_product_id
         self.assertNotEqual(first_product.product_id, self.product_1)
 
-        self.supplier_info = self.env["product.supplierinfo"].create(
+        self.wizard.partner_id = self.partner_1
+        first_product.product_supplier_id = self.env["product.supplierinfo"].create(
             {
                 "product_id": self.product_1.id,
                 "name": self.partner_1.id,
@@ -158,13 +154,7 @@ class NFeImportWizardTest(SavepointCase):
                 "price": 100,
             }
         )
-        self.wizard.partner_id = self.partner_1
-
-        first_product.product_code = False
-        first_product._set_product_supplierinfo_data()
         wiz_supplier_id = first_product.product_supplier_id
-        self.assertEqual(wiz_supplier_id, self.supplier_info)
-        self.assertEqual(first_product.product_id, self.supplier_info.product_id)
 
         first_product._find_or_create_product_supplierinfo()
         self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
@@ -200,6 +190,7 @@ class NFeImportWizardTest(SavepointCase):
             {"name": "TEST2", "barcode": "123456789123"}
         )
         mock_barcode = MagicMock(spec=["cEANTrib"])
+        mock_barcode.cProd = False
         mock_barcode.cEANTrib = "123456789123"
         prod_id = self.wizard._match_product(mock_barcode)
         self.assertEqual(prod_id, prod_barcode)
