@@ -194,7 +194,7 @@ class NfeImport(models.TransientModel):
             return product_id
 
         domain = []
-        if hasattr(xml_product, "cProd"):
+        if hasattr(xml_product, "cProd") and xml_product.cProd:
             domain = expression.OR([domain, [("default_code", "=", xml_product.cProd)]])
 
         if hasattr(xml_product, "cEANTrib") and xml_product.cEANTrib != "SEM GTIN":
