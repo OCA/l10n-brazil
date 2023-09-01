@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_nfe_product_supplierinfo_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.product.supplierinfo.tree.view</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_tree_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom']" position="before">
+                <field name="product_code" />
+                <field name="partner_uom_factor" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="l10n_br_nfe_product_supplierinfo_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.product.supplierinfo.form.view</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <separator string="Import" />
+                <group id="import">
+                    <field name="partner_uom_id" />
+                    <field
+                        name="partner_uom_factor"
+                        attrs="{'required': [('partner_uom_id', '!=', False)]}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
