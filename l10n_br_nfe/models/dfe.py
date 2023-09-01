@@ -128,8 +128,4 @@ class DFe(models.Model):
     @api.model
     def parse_procNFe(self, xml):
         binding = TnfeProc.from_xml(xml.read().decode())
-        return (
-            self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", dry_run=False)
-            .build_from_binding(binding.NFe.infNFe)
-        )
+        return self.env["l10n_br_fiscal.document"].import_nfe_xml(binding)
