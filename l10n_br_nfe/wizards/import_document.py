@@ -421,17 +421,9 @@ class NfeImportProducts(models.TransientModel):
                 continue
 
             if not product.product_supplier_id:
-                product.product_supplier_id = product._search_product_supplier()
-
-                if not product.product_supplier_id:
-                    product._create_product_supplier()
+                product._create_product_supplier()
             else:
                 product._update_product_supplier()
-
-    def _search_product_supplier(self):
-        return self.import_xml_id._search_product_supplier_by_product_code(
-            self.product_code
-        )
 
     def _create_product_supplier(self):
         if self.uom_internal:
