@@ -38,7 +38,7 @@ class NfeImport(models.TransientModel):
             ("choose", "Choose"),
             ("create", "Create"),
         ],
-        default="choose",
+        default="create",
         string="Purchase Link Type",
     )
 
@@ -129,17 +129,20 @@ class NfeImport(models.TransientModel):
 
         self.imported_products_ids = [(6, 0, product_ids)]
 
-        if self.partner_id:
-            self.imported_products_ids._set_product_supplierinfo_data()
-
     def _prepare_imported_product_values(self, product):
         taxes = self._get_taxes_from_xml_product(product)
+        supplier_id = self._search_product_supplier_by_product_code(product.prod.cProd)
         product_id = self._match_product(product.prod)
         if product_id:
-            uom_id = product_id.uom_id
+            uom_id = product_id.uom_po_id
         else:
             uom_id = self.env["uom.uom"].search(
-                [("code", "=", product.prod.uCom)], limit=1
+                [
+                    "|",
+                    ("code", "=", product.prod.uCom),
+                    ("code", "=", product.prod.uTrib),
+                ],
+                limit=1,
             )
 
         return {
@@ -161,9 +164,35 @@ class NfeImport(models.TransientModel):
             "price_unit_trib": product.prod.vUnTrib,
             "total": product.prod.vProd,
             "import_xml_id": self.id,
+            "product_supplier_id": supplier_id.id,
+            "uom_conversion_factor": supplier_id.partner_uom_factor or 1,
         }
 
+    def _search_product_supplier_by_product_code(self, code):
+        return self.env["product.supplierinfo"].search(
+            [
+                ("name", "=", self.partner_id.id),
+                ("product_code", "=", code),
+            ],
+            limit=1,
+        )
+
+    def _get_product_by_supplier(self, code):
+        supplier_id = self._search_product_supplier_by_product_code(code)
+        if not supplier_id:
+            return False
+
+        if supplier_id.product_id:
+            return supplier_id.product_id
+
+        variant_ids = supplier_id.product_tmpl_id.product_variant_ids
+        return variant_ids[0]
+
     def _match_product(self, xml_product):
+        product_id = self._get_product_by_supplier(xml_product.cProd)
+        if product_id:
+            return product_id
+
         domain = []
         if hasattr(xml_product, "cProd"):
             domain = expression.OR([domain, [("default_code", "=", xml_product.cProd)]])
@@ -208,10 +237,7 @@ class NfeImport(models.TransientModel):
     def find_existing_document(self):
         document = self.get_document_by_xml(self.parse_xml())
         self.document_id = self.env["l10n_br_fiscal.document"].search(
-            [
-                ("document_key", "=", document.chave),
-                ("company_id", "=", self.company_id.id),
-            ],
+            [("document_key", "=", document.chave)],
             limit=1,
         )
 
@@ -260,15 +286,18 @@ class NfeImport(models.TransientModel):
 
         purchase_lines = []
         for line in document.fiscal_line_ids:
-            product_uom = line.uom_id or line.product_id.uom_id
+            imported_product_id = self.imported_products_ids.filtered(
+                lambda p: p.product_id == line.product_id
+            )
+
             purchase_line = self.env["purchase.order.line"].create(
                 {
                     "product_id": line.product_id.id,
-                    "origin_document_line_id": line.id,
                     "name": line.product_id.display_name,
                     "date_planned": datetime.now(),
                     "product_qty": line.quantity,
-                    "product_uom": product_uom.id,
+                    "product_uom": line.uom_id.id or line.product_id.uom_id.id,
+                    "partner_uom_factor": imported_product_id.uom_conversion_factor,
                     "price_unit": line.price_unit,
                     "price_subtotal": line.amount_total,
                     "order_id": purchase.id,
@@ -301,6 +330,7 @@ class NfeImport(models.TransientModel):
             internal_product = product_line.product_id
             for xml_product in parsed_xml.NFe.infNFe.det:
                 if xml_product.prod.cProd == product_line.product_code:
+                    xml_product.prod.cProd = internal_product.default_code
                     xml_product.prod.xProd = internal_product.name
                     xml_product.prod.cEAN = internal_product.barcode or "SEM GTIN"
                     xml_product.prod.cEANTrib = internal_product.barcode or "SEM GTIN"
@@ -383,35 +413,10 @@ class NfeImportProducts(models.TransientModel):
 
     imported_partner_id = fields.Many2one(related="import_xml_id.partner_id")
 
-    @api.onchange("product_id")
-    def onchange_product_id(self):
-        if self.product_id and not self.product_id.ncm_id:
-            raise UserError(_("Product without NCM!"))
-
-    def _search_product_supplier(self):
-        return self.env["product.supplierinfo"].search(
-            [
-                ("name", "=", self.imported_partner_id.id),
-                ("product_code", "=", self.product_code),
-            ],
-            limit=1,
-        )
-
-    def _set_product_supplierinfo_data(self):
-        for product in self:
-            if not product.product_supplier_id:
-                product.product_supplier_id = product._search_product_supplier()
-
-            if product.product_supplier_id:
-                product.product_id = product.product_supplier_id.product_id
+    uom_conversion_factor = fields.Float(string="UOM Conversion Factor", default=1)
 
     def _find_or_create_product_supplierinfo(self):
         for product in self:
-            if not product.product_id:
-                product.product_id = self.env["product.product"].search(
-                    [("default_code", "=", product.product_code)], limit=1
-                )
-
             if not product.product_id:
                 continue
 
@@ -422,6 +427,11 @@ class NfeImportProducts(models.TransientModel):
                     product._create_product_supplier()
             else:
                 product._update_product_supplier()
+
+    def _search_product_supplier(self):
+        return self.import_xml_id._search_product_supplier_by_product_code(
+            self.product_code
+        )
 
     def _create_product_supplier(self):
         if self.uom_internal:
@@ -439,6 +449,7 @@ class NfeImportProducts(models.TransientModel):
                 "price": price,
                 "name": self.imported_partner_id.id,
                 "partner_uom_id": self.uom_internal.id,
+                "partner_uom_factor": self.uom_conversion_factor,
             }
         )
         self.product_id.write({"seller_ids": [(4, self.product_supplier_id.id)]})
@@ -453,5 +464,6 @@ class NfeImportProducts(models.TransientModel):
                     self.price_unit_com, self.product_id.uom_id
                 ),
                 "partner_uom_id": self.uom_internal.id,
+                "partner_uom_factor": self.uom_conversion_factor,
             }
         )

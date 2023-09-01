@@ -33,6 +33,7 @@
         "views/res_config_settings_view.xml",
         "views/mde/mde_views.xml",
         "views/dfe/dfe_views.xml",
+        "views/supplier_info_view.xml",
         # Report
         "report/reports.xml",
         "report/danfe_nfce.xml",
