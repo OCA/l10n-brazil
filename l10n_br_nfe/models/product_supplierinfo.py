@@ -8,7 +8,8 @@ class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
 
     partner_uom_id = fields.Many2one(
-        "uom.uom",
-        "Partner Unit of Measure",
-        help="This comes from the last imported document.",
+        comodel_name="uom.uom",
+        string="Partner Unit of Measure",
     )
+
+    partner_uom_factor = fields.Float(string="Partner UOM Factor", default=1)

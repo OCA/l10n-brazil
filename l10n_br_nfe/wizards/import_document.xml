@@ -82,9 +82,10 @@
                 />
                 <field name="product_name" readonly="1" />
                 <field name="product_code" readonly="1" />
+                <field name="uom_internal" />
+                <field name="uom_conversion_factor" />
                 <field name="ncm_xml" readonly="1" />
                 <field name="ncm_internal" readonly="1" />
-                <field name="uom_internal" />
                 <field name="cfop_xml" readonly="1" />
                 <field name="new_cfop_id" />
                 <field name="icms_percent" readonly="1" />
