@@ -14,11 +14,14 @@ class DocumentImportWizardMixin(models.TransientModel):
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
-        default=lambda self: self.env.user.company_id,
+        default=lambda self: self.env.company.id,
     )
 
     importing_type = fields.Selection(
-        selection=[("xml_file", "XML File")], string="Importing Type", required=True
+        selection=[("xml_file", "XML File")],
+        string="Importing Type",
+        required=True,
+        default="xml_file",
     )
 
     xml = fields.Binary(string="XML to Import")
