@@ -9,7 +9,6 @@
         <field name="arch" type="xml">
             <form string="Import Document">
                 <group>
-                    <field name="company_id" />
                     <field name="importing_type" />
                     <field
                         name="xml"
