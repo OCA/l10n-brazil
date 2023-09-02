@@ -67,13 +67,6 @@ msgid "End Date"
 msgstr "Fecha finalización"
 
 #. module: l10n_br_resource
-#. odoo-python
-#: code:addons/l10n_br_resource/models/resource_calendar.py:0
-#, python-format
-msgid "Error! You cannot create recursive calendars."
-msgstr "Error. No puede crear calendarios recursivos."
-
-#. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__state_id
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__state_id
 msgid "Estado"
@@ -232,3 +225,7 @@ msgstr "o"
 #: model_terms:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "until"
 msgstr "hasta"
+
+#, python-format
+#~ msgid "Error! You cannot create recursive calendars."
+#~ msgstr "Error. No puede crear calendarios recursivos."
