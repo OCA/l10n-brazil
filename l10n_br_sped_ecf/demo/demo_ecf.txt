@@ -69,4 +69,3 @@ Registro M300: Demonstração das mutações do patrimônio líquido.
 Registro M350: Notas explicativas à demonstração das mutações do patrimônio líquido.
 Registro M410: Demonstração do fluxo de caixa.
 Registro M500: Tabela de ajustes da apuração do lucro líquido no período fiscal.
-
