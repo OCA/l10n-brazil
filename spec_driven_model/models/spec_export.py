@@ -6,6 +6,8 @@ from io import StringIO
 
 from odoo import api, fields, models
 
+from ..tools import remove_non_ascii_characters
+
 _logger = logging.getLogger(__name__)
 
 
@@ -150,7 +152,8 @@ class AbstractSpecMixin(models.AbstractModel):
                 xsd_field, xsd_type, class_obj, xsd_required, export_value
             )
         elif type(self[xsd_field]) == str:
-            return self[xsd_field].strip()
+            xsd_field_non_ascii = remove_non_ascii_characters(self[xsd_field])
+            return xsd_field_non_ascii
         else:
             return self[xsd_field]
 
