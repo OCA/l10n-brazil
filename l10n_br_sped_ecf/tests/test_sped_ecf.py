@@ -1,14 +1,14 @@
-# Copyright 2022 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
+# Copyright 2023 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 from os import path
 
 from odoo.tests import common
+
 from odoo.addons import l10n_br_sped_ecf
 
 
 class SpedTest(common.TransactionCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
