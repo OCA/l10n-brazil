@@ -182,11 +182,19 @@ class ResPartner(spec_models.SpecModel):
 
     def _compute_nfe40_xEnder(self):
         for rec in self:
-            rec.nfe40_xEnder = ", ".join(
-                [i for i in [rec.street, rec.street_number] if i]
-            )
+            # Campos do endereço são separados no Emitente e Destinatario
+            # porém no caso da Transportadadora o campo do endereço é maior
+            # porém sem os detalhes como complemento e bairro, mas
+            # operacionalmente são importantes, por isso caso existam o
+            # Complemento e o Bairro é melhor agrega-los.
+            # campo street retorna "street_name, street_number"
+            endereco = rec.street
             if rec.street2:
-                rec.nfe40_xEnder = " - ".join((rec.nfe40_xEnder, rec.street2))
+                endereco += " - " + rec.street2
+            if rec.district:
+                endereco += " - " + rec.district
+
+            rec.nfe40_xEnder = endereco
 
     def _compute_nfe40_enderDest(self):
         for rec in self:
