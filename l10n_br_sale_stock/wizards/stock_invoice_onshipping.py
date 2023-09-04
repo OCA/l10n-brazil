@@ -28,6 +28,18 @@ class StockInvoiceOnshipping(models.TransientModel):
                 values.update(
                     {"invoice_payment_term_id": pick.sale_id.payment_term_id.id}
                 )
+
+            # O campo payment_mode_id é implementado com a instalação do
+            # l10n_br_account_nfe mas o l10n_br_sale_stock não tem
+            # dependencia direta desse modulo, para evitar a necessidade
+            # de um 'glue' modulo para resolver isso é feita a verificação
+            # se o campo existe antes de preenche-lo
+            if hasattr(pick.sale_id, "payment_mode_id"):
+                if pick.sale_id.payment_mode_id.id != values.get("payment_mode_id"):
+                    values.update({"payment_mode_id": pick.sale_id.payment_mode_id.id})
+            if pick.sale_id.incoterm.id != values.get("invoice_incoterm_id"):
+                values.update({"invoice_incoterm_id": pick.sale_id.incoterm.id})
+
             if pick.sale_id.copy_note and pick.sale_id.note:
                 # Evita enviar False quando não tem nada
                 additional_data = ""
