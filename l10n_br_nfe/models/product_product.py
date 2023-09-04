@@ -24,6 +24,13 @@ class ProductProduct(models.Model):
 
         if parent_dict.get("nfe40_cProd"):
             rec_dict["default_code"] = parent_dict["nfe40_cProd"]
+
+            supplier_id = self.env["product.supplierinfo"].search(
+                [("product_code", "=", parent_dict["nfe40_cProd"])], limit=1
+            )
+            if supplier_id and supplier_id.product_id:
+                return supplier_id.product_id.id
+
             domain_default_code = [("default_code", "=", rec_dict.get("default_code"))]
 
         domain = expression.OR([domain_name, domain_barcode, domain_default_code])
