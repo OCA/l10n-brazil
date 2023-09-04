@@ -5,41 +5,104 @@
 
 import textwrap
 
-from odoo import models
+from erpbrasil.base import misc
+from lxml.builder import E
+
+from odoo import api, fields, models
+
+from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
 
 
 class Registro0000(models.Model):
     "ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DO EMPRESÁRIO OU DA SOCIEDADE EMPRESÁRIA"
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.ecd.0000"
-    _inherit = "l10n_br_sped.ecd.9.0000"
+    _inherit = ["l10n_br_sped.ecd.9.0000"]
+    _odoo_model = "res.company"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "LECD": 0,  # Texto fixo contendo “LECD”.
-    #         "DT_INI": 0,  # Data inicial das informações contidas no arquivo.
-    #         "DT_FIN": 0,  # Data final das informações contidas no arquivo.
-    #         "NOME": 0,  # Nome empresarial da pessoa jurídica.
-    #         "CNPJ": 0,  # Número de inscrição da pessoa jurídica no CNPJ. Observa...
-    #         "UF": 0,  # Sigla da unidade da federação da pessoa jurídica.
-    #         "IE": 0,  # Inscrição Estadual da pessoa jurídica.
-    #         "COD_MUN": 0,  # Código do município do domicílio fiscal da pessoa ju...
-    #         "IM": 0,  # Inscrição Municipal da pessoa jurídica.
-    #         "IND_SIT_ESP": 0,  # Indicador de situação especial (conforme tabela ...
-    #         "IND_SIT_INI_PER": 0,  # Indicador de situação no início do período (...
-    #         "IND_NIRE": 0,  # Indicador de existência de NIRE: 0 – Empresa não po...
-    #         "IND_FIN_ESC": 0,  # Indicador de finalidade da escrituração: 0 - Ori...
-    #         "COD_HASH_SUB": 0,  # Hash da escrituração substituída.
-    #         "IND_GRANDE_PORTE": 0,  # Indicador de entidade sujeita a auditoria i...
-    #         "TIP_ECD": 0,  # Indicador do tipo de ECD: 0 – ECD de empresa não par...
-    #         "COD_SCP": 0,  # CNPJ da SCP (Art. 4º, XVII, da IN RFB nº 1.863, de 2...
-    #         "IDENT_MF": 0,  # Identificação de moeda funcional: Indica que a escr...
-    #         "IND_ESC_CONS": 0,  # Escriturações Contábeis Consolidadas: (Deve ser...
-    #         "IND_CENTRALIZADA": 0,  # Indicador da modalidade de escrituração cen...
-    #         "IND_MUDANC_PC": 0,  # Indicador de mudança de plano de contas: 0 – N...
-    #         "COD_PLAN_REF": 0,  # O Código do Plano de Contas Referencial que ser...
-    #     }
+    IND_SIT_ESP = fields.Selection(
+        selection=[
+            ("0", "0 - Abertura"),
+            ("1", "1 - Cisão"),
+            ("2", "2 - Fusão"),
+            ("3", "3 - Incorporação"),
+            ("4", "4 - Extinção"),
+            ("5", "5 - Transformação"),
+            ("6", "6 - Transferência de Sede"),
+        ],
+        string="Indicador de situação especial",
+    )
+
+    IND_SIT_INI_PER = fields.Selection(
+        default="0",
+        selection=[
+            ("0", "0 - Normal"),
+            ("1", "1 - Abertura"),
+            ("2", "2 - Cisão/Fusão"),
+            ("3", "3 - Obrigatoriedade no curso do ano"),
+        ],
+        string="Indicador de situação do inicio do período",
+    )
+
+    IND_FIN_ESC = fields.Selection(
+        default="0",
+        selection=[
+            ("0", "0 - Original"),
+            ("1", "1 - Substituta da escrituração com NIRE"),
+            ("2", "2 - Substituta da escrituração sem NIRE"),
+            ("3", "3 - Substituta da escrituração com troca de NIRE"),
+        ],
+        string="Indicador de finalidade da escrituração",
+    )
+
+    # not a register 0000 field, but used for i010 register
+    ind_esc = fields.Selection(
+        selection=[
+            ("G", "G - Diário completo"),
+            ("R", "R - Escrituração Resumida"),
+            ("A", "A - Auxiliar"),
+            ("B", "B - Diários e Balanços"),
+            ("Z", "Z - Razão Auxiliar"),
+        ],
+        default="G",
+        string="Forma de escritura contábil",
+    )
+
+    @api.model
+    def _append_top_view_elements(self, group):
+        super()._append_top_view_elements(group)
+        group.append(E.field(name="ind_esc", required="1"))
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("id", "=", declaration.company_id.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "LECD": "LECD",
+            # "DT_INI": (will use the declaration field directly),
+            # "DT_FIN": (will use the declaration field directly),
+            "NOME": record.legal_name,
+            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
+            "UF": record.state_id.code,
+            "IE": misc.punctuation_rm(record.inscr_est),
+            "COD_MUN": record.city_id.ibge_code,
+            "IM": misc.punctuation_rm(record.inscr_mun or ""),
+            # "IND_SIT_ESP": (will use the declaration field directly),
+            # "IND_SIT_INI_PER": (will use the declaration field directly),
+            "IND_NIRE": 0,  # TODO
+            # "IND_FIN_ESC"
+            "COD_HASH_SUB": 0,  # TODO
+            "IND_GRANDE_PORTE": 0,  # TODO
+            "TIP_ECD": 0,  # TODO
+            "COD_SCP": 0,  # TODO
+            "IDENT_MF": 0,  # TODO
+            "IND_ESC_CONS": 0,  # TODO
+            "IND_CENTRALIZADA": 0,  # TODO
+            "IND_MUDANC_PC": 0,  # TODO
+            "COD_PLAN_REF": 0,  # TODO
+        }
 
 
 class Registro0007(models.Model):
@@ -95,22 +158,44 @@ class Registro0150(models.Model):
     _name = "l10n_br_sped.ecd.0150"
     _inherit = "l10n_br_sped.ecd.9.0150"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_PART": 0,  # Código de identificação do participante no arquivo ...
-    #         "NOME": 0,  # Nome pessoal ou empresarial do participante.
-    #         "COD_PAIS": 0,  # Código do país do participante, conforme a tabela d...
-    #         "CNPJ": 0,  # CNPJ do participante.
-    #         "CPF": 0,  # CPF do participante.
-    #         "NIT": 0,  # Número de Identificação do Trabalhador, Pis, Pasep, SUS.
-    #         "UF": 0,  # Sigla da unidade da federação do participante.
-    #         "IE": 0,  # Inscrição Estadual do participante.
-    #         "IE_ST": 0,  # Inscrição Estadual do participante na unidade da feder...
-    #         "COD_MUN": 0,  # Código do município, conforme a tabela do IBGE.
-    #         "IM": 0,  # Inscrição Municipal do participante.
-    #         "SUFRAMA": 0,  # Número de inscrição do participante na Suframa.
-    #     }
+    @api.model
+    def _odoo_query(self, parent_record, declaration):
+        return """
+                   select distinct
+                        mv.partner_id
+                    from
+                        account_move as mv
+                    where
+                        partner_id is not NULL
+                        and mv.state = 'posted'
+                        and mv.date > %s
+                        and mv.date < %s
+                        and mv.company_id = %s
+        """, (
+            declaration.DT_INI,
+            declaration.DT_FIN,
+            declaration.company_id.id,
+        )
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        record = self.env["res.partner"].browse(record["partner_id"])
+        return {
+            "res_model": "res.partner",
+            "res_id": record.id,
+            "COD_PART": record.id,
+            "NOME": record.name,  # Nome pessoal ou empresarial do participante.
+            "COD_PAIS": record.country_id.ibge_code or "BR",
+            "CNPJ": record.is_company and misc.punctuation_rm(record.cnpj_cpf) or "",
+            "CPF": not record.is_company and misc.punctuation_rm(record.cnpj_cpf) or "",
+            "NIT": 0,  # Número de Identificação do Trabalhador, Pis, Pasep, SUS.
+            "UF": record.state_id.code,
+            "IE": misc.punctuation_rm(record.inscr_est),
+            "IE_ST": 0,  # Inscrição Estadual do participante na unidade da feder...
+            "COD_MUN": misc.punctuation_rm(record.city_id.ibge_code),
+            "IM": misc.punctuation_rm(record.inscr_mun or ""),
+            "SUFRAMA": record.suframa or "",  # Inscrição da entidade na SUFRAMA
+        }
 
 
 class Registro0180(models.Model):
@@ -134,12 +219,13 @@ class RegistroI010(models.Model):
     _name = "l10n_br_sped.ecd.i010"
     _inherit = "l10n_br_sped.ecd.9.i010"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_ESC": 0,  # G R A B Z Indicador da forma de escrituração contábi...
-    #         "COD_VER_LC": 0,  # Código da Versão do Leiaute Contábil.
-    #     }
+    IND_ESC = fields.Selection(related="declaration_id.ind_esc", readonly=False)
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_VER_LC": LAYOUT_VERSIONS["ecd"],
+        }
 
 
 class RegistroI012(models.Model):
@@ -366,17 +452,24 @@ class RegistroI200(models.Model):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.ecd.i200"
     _inherit = "l10n_br_sped.ecd.9.i200"
+    _odoo_model = "account.move"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "NUM_LCTO": 0,  # Número ou Código de identificação único do lançamen...
-    #         "DT_LCTO": 0,  # Data do lançamento.
-    #         "VL_LCTO": 0,  # Valor do lançamento.
-    #         "IND_LCTO": 0,  # Indicador do tipo de lançamento: N - Lançamento nor...
-    #         "DT_LCTO_EXT": 0,  # O Data de ocorrência dos fatos objeto do lançame...
-    #         "VL_LCTO_MF": 0,  # Valor do lançamento em moeda funcional, convertid...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return (
+            []
+        )  # ("company_id", "=", declaration.company_id.id), ("state", "=", "open")]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "NUM_LCTO": record.name,  # Número ou Código de identificação único do lançamen...
+            "DT_LCTO": record.create_date,  # Data do lançamento.
+            "VL_LCTO": record.amount_total,  # Valor do lançamento.
+            "IND_LCTO": "N",
+            "DT_LCTO_EXT": record.date,  # O Data de ocorrência dos fatos objeto do lançame...
+            "VL_LCTO_MF": record.amount_total,  # Valor do lançamento em moeda funcional, convertid...
+        }
 
 
 class RegistroI250(models.Model):
@@ -384,21 +477,35 @@ class RegistroI250(models.Model):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.ecd.i250"
     _inherit = "l10n_br_sped.ecd.9.i250"
+    _odoo_model = "account.move.line"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_CTA": 0,  # Código da conta analítica debitada/creditada.
-    #         "COD_CCUS": 0,  # Código do centro de custos.
-    #         "VL_DC": 0,  # Valor da partida.
-    #         "IND_DC": 0,  # Indicador da natureza da partida: D - Débito; C - Cré...
-    #         "NUM_ARQ": 0,  # Número, Código ou caminho de localização dos documen...
-    #         "COD_HIST_PAD": 0,  # Código do histórico padronizado, conforme tabel...
-    #         "HIST": 0,  # O Histórico completo da partida ou histórico complement...
-    #         "COD_PART": 0,  # Código de identificação do participante na partida ...
-    #         "VL_DC_MF": 0,  # Valor da partida em moeda funcional, convertido par...
-    #         "IND_DC_MF": 0,  # Indicador da natureza da partida em moeda funciona...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("company_id", "=", declaration.company_id.id),
+            ("parent_state", "=", "posted"),
+            ("move_id", "=", parent_record.id),
+            ("display_type", "=", False),
+            # ("date", ">", date_start),
+            # ("date", "<", date_end),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_CTA": record.account_id.code,  # Código da conta analítica debitada/creditada.
+            # "COD_CCUS": 0,  # Código do centro de custos.
+            "VL_DC": record.amount_currency,  # Valor da partida.
+            "IND_DC": record.debit > 0
+            and "D"
+            or "C",  # Indicador da natureza da partida: D - Débito; C - Cré...
+            # "NUM_ARQ": 0,  # Número, Código ou caminho de localização dos documen...
+            # "COD_HIST_PAD": 0,  # Código do histórico padronizado, conforme tabel...
+            # "HIST": 0,  # O Histórico completo da partida ou histórico complement...
+            "COD_PART": record.partner_id.id,  # ?,  # Código de identificação do participante na partida ...
+            "VL_DC_MF": record.amount_currency,  # Valor da partida em moeda funcional, convertido par...
+            # "IND_DC_MF": 0,  # Indicador da natureza da partida em moeda funciona...
+        }
 
 
 class RegistroI300(models.Model):
@@ -500,10 +607,27 @@ class RegistroI550(models.Model):
     _name = "l10n_br_sped.ecd.i550"
     _inherit = "l10n_br_sped.ecd.9.i550"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #     }
+    RZ_CONT = fields.Char()  # according to pdf specification
+
+    @api.model
+    def read_register_line(self, line, version):
+        vals = {"RZ_CONT": "|".join(line.split("|")[2:][:-1])}
+        return vals
+
+    def generate_register_text(self, sped, version, line_count={}):
+        code = self._name[-4:].upper()
+        vals_list = self.read(["RZ_CONT", "reg_I555_ids"])
+        for vals in vals_list:
+            sped.write("\n|%s|" % (code,))
+            sped.write(vals["RZ_CONT"])
+            sped.write("|")
+            line_count[0] += 1
+            children = self.env["l10n_br_sped.ecd.i555"].search(
+                [("id", "in", vals["reg_I555_ids"])]
+            )
+            for child in children:
+                child.generate_register_text(sped, version, line_count)
+        return sped
 
 
 class RegistroI555(models.Model):
@@ -512,10 +636,22 @@ class RegistroI555(models.Model):
     _name = "l10n_br_sped.ecd.i555"
     _inherit = "l10n_br_sped.ecd.9.i555"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #     }
+    RZ_CONT_TOT = fields.Char()  # according to pdf specification
+
+    @api.model
+    def read_register_line(self, line, version):
+        vals = {"RZ_CONT_TOT": "|".join(line.split("|")[2:][:-1])}
+        return vals
+
+    def generate_register_text(self, sped, version, line_count={}):
+        code = self._name[-4:].upper()
+        keys = [i[0] for i in self._fields.items()]
+        vals_list = self.read(keys)
+        for vals in vals_list:
+            sped.write("\n|%s|" % (code,))
+            sped.write(vals.get("RZ_CONT_TOT", ""))
+            sped.write("|")
+            line_count[0] += 1
 
 
 class RegistroJ005(models.Model):
