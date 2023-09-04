@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem
+        name="EFD ICMS IPI"
+        parent="l10n_br_sped_base.menu_root"
+        id="efd_icms_ipi"
+        sequence="2"
+    />
+
+    <record id="declaration_efd_icms_ipi_action" model="ir.actions.act_window">
+    <field name="name">EFD_ICMS_IPI Declaration</field>
+    <field name="res_model">l10n_br_sped.efd_icms_ipi.0000</field>
+    <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="declaration_efd_icms_ipi_action"
+        parent="efd_icms_ipi"
+        id="declaration_efd_icms_ipi"
+    />
+
+
+    <menuitem name="BLOCO 0" parent="efd_icms_ipi" id="efd_icms_ipi_0" />
+
+    <record id="efd_icms_ipi_0002_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >0002 Classificação do Estabelecimento Industrial ou Equiparado a Industrial</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0002</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0002_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0002"
+    />
+
+    <record id="efd_icms_ipi_0005_action" model="ir.actions.act_window">
+        <field name="name">0005 Dados Complementares da entidade</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0005</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0005_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0005"
+    />
+
+    <record id="efd_icms_ipi_0015_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >0015 Dados do Contribuinte Substituto ou Responsável pelo ICMS Destino</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0015</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0015_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0015"
+    />
+
+    <record id="efd_icms_ipi_0100_action" model="ir.actions.act_window">
+        <field name="name">0100 Dados do Contabilista</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0100</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0100_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0100"
+    />
+
+    <record id="efd_icms_ipi_0150_action" model="ir.actions.act_window">
+        <field name="name">0150 Tabela de Cadastro do Participante</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0150</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0150_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0150"
+    />
+
+    <record id="efd_icms_ipi_0190_action" model="ir.actions.act_window">
+        <field name="name">0190 Identificação das unidades de medida</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0190</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0190_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0190"
+    />
+
+    <record id="efd_icms_ipi_0200_action" model="ir.actions.act_window">
+        <field name="name">0200 Tabela de Identificação do Item</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0200</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0200_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0200"
+    />
+
+    <record id="efd_icms_ipi_0300_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >0300 Cadastro de bens ou componentes do Ativo Imobilizado</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0300</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0300_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0300"
+    />
+
+    <record id="efd_icms_ipi_0400_action" model="ir.actions.act_window">
+        <field name="name">0400 Tabela de Natureza da Operação/ Prestação</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0400</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0400_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0400"
+    />
+
+    <record id="efd_icms_ipi_0450_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >0450 Tabela de Informação Complementar do documento fiscal</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0450</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0450_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0450"
+    />
+
+    <record id="efd_icms_ipi_0460_action" model="ir.actions.act_window">
+        <field name="name">0460 Tabela de Observações do Lançamento Fiscal</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0460</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0460_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0460"
+    />
+
+    <record id="efd_icms_ipi_0500_action" model="ir.actions.act_window">
+        <field name="name">0500 Plano de contas contábeis</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0500</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0500_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0500"
+    />
+
+    <record id="efd_icms_ipi_0600_action" model="ir.actions.act_window">
+        <field name="name">0600 Centro de custos</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.0600</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_0600_action"
+        parent="efd_icms_ipi_0"
+        id="efd_icms_ipi_0600"
+    />
+
+
+    <menuitem name="BLOCO B" parent="efd_icms_ipi" id="efd_icms_ipi_b" />
+
+    <record id="efd_icms_ipi_b020_action" model="ir.actions.act_window">
+        <field name="name">B020 Nota Fiscal (código 01)</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.b020</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_b020_action"
+        parent="efd_icms_ipi_b"
+        id="efd_icms_ipi_b020"
+    />
+
+    <record id="efd_icms_ipi_b030_action" model="ir.actions.act_window">
+        <field name="name">B030 Nota fiscal de Serviços Simplificada</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.b030</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_b030_action"
+        parent="efd_icms_ipi_b"
+        id="efd_icms_ipi_b030"
+    />
+
+    <record id="efd_icms_ipi_b350_action" model="ir.actions.act_window">
+        <field name="name">B350 Serviços prestados por insituições financeiras</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.b350</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_b350_action"
+        parent="efd_icms_ipi_b"
+        id="efd_icms_ipi_b350"
+    />
+
+    <record id="efd_icms_ipi_b420_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >B420 Totalização dos valores de serviços prestados por combinação de alíquota e item da lista de serviços</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.b420</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_b420_action"
+        parent="efd_icms_ipi_b"
+        id="efd_icms_ipi_b420"
+    />
+
+    <record id="efd_icms_ipi_b440_action" model="ir.actions.act_window">
+        <field name="name">B440 Totalização dos valores retidos</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.b440</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_b440_action"
+        parent="efd_icms_ipi_b"
+        id="efd_icms_ipi_b440"
+    />
+
+    <record id="efd_icms_ipi_b460_action" model="ir.actions.act_window">
+        <field name="name">B460 Deduções do ISS</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.b460</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_b460_action"
+        parent="efd_icms_ipi_b"
+        id="efd_icms_ipi_b460"
+    />
+
+    <record id="efd_icms_ipi_b470_action" model="ir.actions.act_window">
+        <field name="name">B470 Apuração do ISS</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.b470</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_b470_action"
+        parent="efd_icms_ipi_b"
+        id="efd_icms_ipi_b470"
+    />
+
+    <record id="efd_icms_ipi_b500_action" model="ir.actions.act_window">
+        <field name="name">B500 Apuração do ISS sociedade uniprofissional</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.b500</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_b500_action"
+        parent="efd_icms_ipi_b"
+        id="efd_icms_ipi_b500"
+    />
+
+
+    <menuitem name="BLOCO C" parent="efd_icms_ipi" id="efd_icms_ipi_c" />
+
+    <record id="efd_icms_ipi_c100_action" model="ir.actions.act_window">
+        <field name="name">C100 Documento - Nota Fiscal (código 01)</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c100</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c100_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c100"
+    />
+
+    <record id="efd_icms_ipi_c300_action" model="ir.actions.act_window">
+        <field name="name">C300 Documento</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c300</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c300_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c300"
+    />
+
+    <record id="efd_icms_ipi_c350_action" model="ir.actions.act_window">
+        <field name="name">C350 Nota Fiscal de venda a consumidor</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c350</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c350_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c350"
+    />
+
+    <record id="efd_icms_ipi_c400_action" model="ir.actions.act_window">
+        <field name="name">C400 Equipamento ECF (código 02, 2D e 60)</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c400</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c400_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c400"
+    />
+
+    <record id="efd_icms_ipi_c495_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >C495 Resumo Mensal de Itens do ECF por Estabelecimento</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c495</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c495_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c495"
+    />
+
+    <record id="efd_icms_ipi_c500_action" model="ir.actions.act_window">
+        <field name="name">C500 Nota Fiscal/Conta de Energia Elétrica</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c500</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c500_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c500"
+    />
+
+    <record id="efd_icms_ipi_c600_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >C600 Consolidação Diária de Notas Fiscais/Contas de Energia Elétrica</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c600</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c600_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c600"
+    />
+
+    <record id="efd_icms_ipi_c700_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >C700 Consolidação dos Documentos Nota Fiscal/Conta Energia Elétrica</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c700</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c700_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c700"
+    />
+
+    <record id="efd_icms_ipi_c800_action" model="ir.actions.act_window">
+        <field name="name">C800 Registro Cupom Fiscal Eletrônico</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c800</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c800_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c800"
+    />
+
+    <record id="efd_icms_ipi_c860_action" model="ir.actions.act_window">
+        <field name="name">C860 Identificação do equipamento SAT-CF-e</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.c860</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_c860_action"
+        parent="efd_icms_ipi_c"
+        id="efd_icms_ipi_c860"
+    />
+
+
+    <menuitem name="BLOCO D" parent="efd_icms_ipi" id="efd_icms_ipi_d" />
+
+    <record id="efd_icms_ipi_d100_action" model="ir.actions.act_window">
+        <field name="name">D100 Nota Fiscal de Serviço de Transporte</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.d100</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_d100_action"
+        parent="efd_icms_ipi_d"
+        id="efd_icms_ipi_d100"
+    />
+
+    <record id="efd_icms_ipi_d300_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >D300 Registro Analítico dos bilhetes consolidados de Passagem Rodoviário</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.d300</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_d300_action"
+        parent="efd_icms_ipi_d"
+        id="efd_icms_ipi_d300"
+    />
+
+    <record id="efd_icms_ipi_d350_action" model="ir.actions.act_window">
+        <field name="name">D350 Equipamento ECF</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.d350</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_d350_action"
+        parent="efd_icms_ipi_d"
+        id="efd_icms_ipi_d350"
+    />
+
+    <record id="efd_icms_ipi_d400_action" model="ir.actions.act_window">
+        <field name="name">D400 Resumo do Movimento Diário</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.d400</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_d400_action"
+        parent="efd_icms_ipi_d"
+        id="efd_icms_ipi_d400"
+    />
+
+    <record id="efd_icms_ipi_d500_action" model="ir.actions.act_window">
+        <field name="name">D500 Nota Fiscal de Serviço de Comunicação</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.d500</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_d500_action"
+        parent="efd_icms_ipi_d"
+        id="efd_icms_ipi_d500"
+    />
+
+    <record id="efd_icms_ipi_d600_action" model="ir.actions.act_window">
+        <field name="name">D600 Consolidação da Prestação de Serviços</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.d600</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_d600_action"
+        parent="efd_icms_ipi_d"
+        id="efd_icms_ipi_d600"
+    />
+
+    <record id="efd_icms_ipi_d695_action" model="ir.actions.act_window">
+        <field name="name">D695 Consolidação da Prestação de Serviços</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.d695</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_d695_action"
+        parent="efd_icms_ipi_d"
+        id="efd_icms_ipi_d695"
+    />
+
+
+    <menuitem name="BLOCO E" parent="efd_icms_ipi" id="efd_icms_ipi_e" />
+
+    <record id="efd_icms_ipi_e100_action" model="ir.actions.act_window">
+        <field name="name">E100 Período de Apuração do ICMS</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.e100</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_e100_action"
+        parent="efd_icms_ipi_e"
+        id="efd_icms_ipi_e100"
+    />
+
+    <record id="efd_icms_ipi_e200_action" model="ir.actions.act_window">
+        <field name="name">E200 Período de Apuração do ICMS</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.e200</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_e200_action"
+        parent="efd_icms_ipi_e"
+        id="efd_icms_ipi_e200"
+    />
+
+    <record id="efd_icms_ipi_e300_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >E300 Período de Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.e300</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_e300_action"
+        parent="efd_icms_ipi_e"
+        id="efd_icms_ipi_e300"
+    />
+
+    <record id="efd_icms_ipi_e500_action" model="ir.actions.act_window">
+        <field name="name">E500 Período de Apuração do IPI</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.e500</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_e500_action"
+        parent="efd_icms_ipi_e"
+        id="efd_icms_ipi_e500"
+    />
+
+
+    <menuitem name="BLOCO G" parent="efd_icms_ipi" id="efd_icms_ipi_g" />
+
+    <record id="efd_icms_ipi_g110_action" model="ir.actions.act_window">
+        <field name="name">G110 ICMS – Ativo Permanente – CIAP</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.g110</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_g110_action"
+        parent="efd_icms_ipi_g"
+        id="efd_icms_ipi_g110"
+    />
+
+
+    <menuitem name="BLOCO H" parent="efd_icms_ipi" id="efd_icms_ipi_h" />
+
+    <record id="efd_icms_ipi_h005_action" model="ir.actions.act_window">
+        <field name="name">H005 Totais do Inventário</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.h005</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_h005_action"
+        parent="efd_icms_ipi_h"
+        id="efd_icms_ipi_h005"
+    />
+
+
+    <menuitem name="BLOCO K" parent="efd_icms_ipi" id="efd_icms_ipi_k" />
+
+    <record id="efd_icms_ipi_k100_action" model="ir.actions.act_window">
+        <field name="name">K100 Período de Apuração do ICMS/IPI</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.k100</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_k100_action"
+        parent="efd_icms_ipi_k"
+        id="efd_icms_ipi_k100"
+    />
+
+
+    <menuitem name="BLOCO 1" parent="efd_icms_ipi" id="efd_icms_ipi_1" />
+
+    <record id="efd_icms_ipi_1010_action" model="ir.actions.act_window">
+        <field name="name">1010 Obrigatoriedade de registros do Bloco 1</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1010</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1010_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1010"
+    />
+
+    <record id="efd_icms_ipi_1100_action" model="ir.actions.act_window">
+        <field name="name">1100 Registro de Informações sobre Exportação</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1100</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1100_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1100"
+    />
+
+    <record id="efd_icms_ipi_1200_action" model="ir.actions.act_window">
+        <field name="name">1200 Controle de Créditos Fiscais - ICMS</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1200</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1200_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1200"
+    />
+
+    <record id="efd_icms_ipi_1250_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >1250 Informações consolidadas de saldos de restituição</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1250</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1250_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1250"
+    />
+
+    <record id="efd_icms_ipi_1300_action" model="ir.actions.act_window">
+        <field name="name">1300 Movimentação diária de combustíveis</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1300</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1300_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1300"
+    />
+
+    <record id="efd_icms_ipi_1350_action" model="ir.actions.act_window">
+        <field name="name">1350 Bombas</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1350</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1350_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1350"
+    />
+
+    <record id="efd_icms_ipi_1390_action" model="ir.actions.act_window">
+        <field name="name">1390 Controle de produção de Usina</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1390</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1390_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1390"
+    />
+
+    <record id="efd_icms_ipi_1400_action" model="ir.actions.act_window">
+        <field name="name">1400 Informação sobre Valor Agregado</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1400</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1400_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1400"
+    />
+
+    <record id="efd_icms_ipi_1500_action" model="ir.actions.act_window">
+        <field name="name">1500 Nota fiscal/Conta de energia elétrica</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1500</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1500_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1500"
+    />
+
+    <record id="efd_icms_ipi_1600_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >1600 Total das operações com cartão de crédito e/ou débito</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1600</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1600_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1600"
+    />
+
+    <record id="efd_icms_ipi_1601_action" model="ir.actions.act_window">
+        <field
+            name="name"
+        >1601 Operações com instrumentos de pagamentos eletrônicos</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1601</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1601_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1601"
+    />
+
+    <record id="efd_icms_ipi_1700_action" model="ir.actions.act_window">
+        <field name="name">1700 Documentos fiscais utilizados</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1700</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1700_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1700"
+    />
+
+    <record id="efd_icms_ipi_1800_action" model="ir.actions.act_window">
+        <field name="name">1800 DCTA</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1800</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1800_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1800"
+    />
+
+    <record id="efd_icms_ipi_1900_action" model="ir.actions.act_window">
+        <field name="name">1900 Indicador de Sub-apuração do ICMS</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1900</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1900_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1900"
+    />
+
+    <record id="efd_icms_ipi_1960_action" model="ir.actions.act_window">
+        <field name="name">1960 GIAF 1</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1960</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1960_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1960"
+    />
+
+    <record id="efd_icms_ipi_1970_action" model="ir.actions.act_window">
+        <field name="name">1970 GIAF 3</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1970</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1970_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1970"
+    />
+
+    <record id="efd_icms_ipi_1980_action" model="ir.actions.act_window">
+        <field name="name">1980 GIAF 4</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.1980</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_1980_action"
+        parent="efd_icms_ipi_1"
+        id="efd_icms_ipi_1980"
+    />
+
+
+    <menuitem name="BLOCO 9" parent="efd_icms_ipi" id="efd_icms_ipi_9" />
+
+    <record id="efd_icms_ipi_9900_action" model="ir.actions.act_window">
+        <field name="name">9900 Registros do Arquivo</field>
+        <field name="res_model">l10n_br_sped.efd_icms_ipi.9900</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="efd_icms_ipi_9900_action"
+        parent="efd_icms_ipi_9"
+        id="efd_icms_ipi_9900"
+    />
+</odoo>
