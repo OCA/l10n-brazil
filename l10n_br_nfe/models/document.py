@@ -7,7 +7,6 @@ import logging
 import re
 import string
 from datetime import datetime
-from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
@@ -563,27 +562,15 @@ class NFe(spec_models.StackedModel):
         comodel_name="l10n_br_fiscal.document.supplement",
     )
 
-    @api.depends("fiscal_additional_data", "fiscal_additional_data")
+    @api.depends("fiscal_additional_data", "customer_additional_data")
     def _compute_nfe40_additional_data(self):
         for record in self:
             record.nfe40_infCpl = False
             record.nfe40_infAdFisco = False
             if record.fiscal_additional_data:
-                record.nfe40_infAdFisco = (
-                    normalize("NFKD", record.fiscal_additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
-                )
+                record.nfe40_infAdFisco = record.fiscal_additional_data
             if record.customer_additional_data:
-                record.nfe40_infCpl = (
-                    normalize("NFKD", record.customer_additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
-                )
+                record.nfe40_infCpl = record.customer_additional_data
 
     ##########################
     # NF-e tag: fat
