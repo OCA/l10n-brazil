@@ -233,23 +233,23 @@ class DocumentMoveMixin(models.AbstractModel):
             self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
             self.edoc_purpose = self.fiscal_operation_id.edoc_purpose
 
-        if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
-            self.document_type_id = self.company_id.document_type_id
+            if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
+                self.document_type_id = self.company_id.document_type_id
 
-        subsequent_documents = [(6, 0, {})]
-        for subsequent_id in self.fiscal_operation_id.mapped(
-            "operation_subsequent_ids"
-        ):
-            subsequent_documents.append(
-                (
-                    0,
-                    0,
-                    {
-                        "source_document_id": self.id,
-                        "subsequent_operation_id": subsequent_id.id,
-                        "fiscal_operation_id": subsequent_id.subsequent_operation_id.id,
-                    },
+            subsequent_documents = [(6, 0, {})]
+            for subsequent_id in self.fiscal_operation_id.mapped(
+                "operation_subsequent_ids"
+            ):
+                subsequent_documents.append(
+                    (
+                        0,
+                        0,
+                        {
+                            "source_document_id": self.id,
+                            "subsequent_operation_id": subsequent_id.id,
+                            "fiscal_operation_id": subsequent_id.subsequent_operation_id.id,
+                        },
+                    )
                 )
-            )
-        self.document_subsequent_ids = subsequent_documents
+            self.document_subsequent_ids = subsequent_documents
         return result
