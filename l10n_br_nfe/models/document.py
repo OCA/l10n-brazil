@@ -926,6 +926,24 @@ class NFe(spec_models.StackedModel):
     def _generate_key(self):
         for record in self.filtered(filter_processador_edoc_nfe):
             date = fields.Datetime.context_timestamp(record, record.document_date)
+
+            required_fields_gen_edoc = []
+            if not record.company_cnpj_cpf:
+                required_fields_gen_edoc.append("CNPJ/CPF")
+            elif not record.company_state_id:
+                required_fields_gen_edoc.append("State Company")
+            elif not record.document_type_id:
+                required_fields_gen_edoc.append("Document Type")
+            elif not record.document_number:
+                required_fields_gen_edoc.append("Document Number")
+            elif not record.document_serie:
+                required_fields_gen_edoc.append("Document Serie")
+
+            for field in required_fields_gen_edoc:
+                raise ValidationError(
+                    _("To Generate EDoc Key, you need to fill the %s field.") % field
+                )
+
             chave_edoc = ChaveEdoc(
                 ano_mes=date.strftime("%y%m").zfill(4),
                 cnpj_cpf_emitente=record.company_cnpj_cpf,
