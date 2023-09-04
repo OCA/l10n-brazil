@@ -7,6 +7,7 @@ from odoo import fields, models
 
 class SpecMixinECD(models.AbstractModel):
     _name = "l10n_br_sped.mixin.ecd"
+    _description = "l10n_br_sped.mixin.ecd"
     _inherit = "l10n_br_sped.mixin"
 
     declaration_id = fields.Many2one(

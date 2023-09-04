@@ -3,7 +3,7 @@
 
 from os import path
 
-from odoo import api, SUPERUSER_ID
+from odoo import SUPERUSER_ID, api
 
 from odoo.addons import l10n_br_sped_ecd
 
