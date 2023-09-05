@@ -139,8 +139,9 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
 
         # Precision
         obj_precision = self.env["decimal.precision"]
-        account_precision = obj_precision.precision_get("Account")
         price_precision = obj_precision.precision_get("Product Price")
+        # Relatorio usado apenas no Brasil
+        account_precision = self.env.ref("base.BRL").decimal_places
 
         # TODO: Teria outra forma de fazer isso na v12 ?
         # Format Lang
