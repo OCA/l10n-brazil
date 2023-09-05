@@ -39,8 +39,6 @@ class AccountMoveLine(models.Model):
             bank_name_brcobranca = get_brcobranca_bank(
                 bank_account_id, move_line.payment_mode_id.payment_method_code
             )
-            precision = self.env["decimal.precision"]
-            precision_account = precision.precision_get("Account")
 
             boleto_cnab_api_data = {
                 "bank": bank_name_brcobranca[0],
@@ -92,10 +90,9 @@ class AccountMoveLine(models.Model):
 
             # Instrução de Juros
             if move_line.payment_mode_id.boleto_interest_perc > 0.0:
-                valor_juros = round(
+                valor_juros = move_line.currency_id.round(
                     move_line.debit
                     * ((move_line.payment_mode_id.boleto_interest_perc / 100) / 30),
-                    precision_account,
                 )
                 instrucao_juros = (
                     "APÓS VENCIMENTO COBRAR PERCENTUAL"
@@ -115,9 +112,8 @@ class AccountMoveLine(models.Model):
 
             # Instrução Multa
             if move_line.payment_mode_id.boleto_fee_perc > 0.0:
-                valor_multa = round(
+                valor_multa = move_line.currency_id.round(
                     move_line.debit * (move_line.payment_mode_id.boleto_fee_perc / 100),
-                    precision_account,
                 )
                 instrucao_multa = (
                     "APÓS VENCIMENTO COBRAR MULTA"
@@ -137,9 +133,8 @@ class AccountMoveLine(models.Model):
 
             # Instrução Desconto
             if move_line.boleto_discount_perc > 0.0:
-                valor_desconto = round(
+                valor_desconto = move_line.currency_id.round(
                     move_line.debit * (move_line.boleto_discount_perc / 100),
-                    precision_account,
                 )
                 instrucao_desconto_vencimento = (
                     "CONCEDER DESCONTO DE" + " %s %% "
