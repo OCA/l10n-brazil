@@ -95,8 +95,6 @@ class AccountPaymentLine(models.Model):
                 linhas_pagamentos["codigo_multa"] = payment_mode_id.boleto_fee_code
                 linhas_pagamentos["percentual_multa"] = payment_mode_id.boleto_fee_perc
 
-            precision = self.env["decimal.precision"]
-            precision_account = precision.precision_get("Account")
             if payment_mode_id.boleto_interest_perc:
                 linhas_pagamentos["tipo_mora"] = payment_mode_id.boleto_interest_code
                 # TODO - É padrão em todos os bancos ?
@@ -114,10 +112,9 @@ class AccountPaymentLine(models.Model):
                 # para Correspondentes que ainda utilizam.
                 # Isento de Mora caso não exista percentual
                 if payment_mode_id.boleto_interest_code == "1":
-                    linhas_pagamentos["valor_mora"] = round(
+                    linhas_pagamentos["valor_mora"] = self.company_currency_id.round(
                         self.amount_currency
                         * ((payment_mode_id.boleto_interest_perc / 100) / 30),
-                        precision_account,
                     )
                 if payment_mode_id.boleto_interest_code == "2":
                     linhas_pagamentos[
