@@ -54,5 +54,5 @@ class ResConfigSettings(models.TransientModel):
                     "domain": {"commission_product_id": [("fiscal_type", "=", "09")]}
                 }
             else:
-                record.fiscal_operation_id = False
+                record.commission_fiscal_operation_id = False
                 return {"domain": {"commission_product_id": False}}

@@ -17,7 +17,7 @@ class Settlement(models.Model):
                     "issuer": "partner" if journal.type == "purchase" else "company",
                 }
             )
-            invoice = self.env["account.invoice"].new(invoice_dict)
+            invoice = self.env["account.move"].new(invoice_dict)
 
             invoice_dict = invoice._convert_to_write(invoice._cache)
         return invoice_dict
@@ -30,7 +30,7 @@ class Settlement(models.Model):
                     "fiscal_operation_id": self.env.context.get("fiscal_operation_id"),
                 }
             )
-            invoice_line = self.env["account.invoice.line"].new(invoice_line_dict)
+            invoice_line = self.env["account.move.line"].new(invoice_line_dict)
             invoice_line._onchange_product_id_fiscal()
             # Put commission fee after product onchange
             if invoice_line.invoice_id.type == "in_refund":
