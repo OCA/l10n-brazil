@@ -7,13 +7,9 @@ from odoo.addons.spec_driven_model.models import spec_models
 class MDFeRelated(spec_models.StackedModel):
 
     _name = "l10n_br_fiscal.document.related"
-    _inherit = [
-        "l10n_br_fiscal.document.related",
-        "mdfe.30.tmdfe_infnfe",
-        "mdfe.30.infcte",
-    ]
+    _inherit = ["l10n_br_fiscal.document.related", "mdfe.30.tmdfe_infnfe"]
     _stacked = "mdfe.30.tmdfe_infnfe"
-    _field_prefix = "cte30_"
+    _field_prefix = "mdfe30_"
     _schema_name = "mdfe"
     _schema_version = "3.0.0"
     _odoo_module = "l10n_br_mdfe"
