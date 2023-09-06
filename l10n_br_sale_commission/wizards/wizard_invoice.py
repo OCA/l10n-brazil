@@ -12,6 +12,7 @@ class SaleCommissionMakeInvoice(models.TransientModel):
         document_type_id = get_param(
             "l10n_br_sale_commission.commission_document_type_id"
         )
+        document_type_search = False
         if document_type_id:
             # TODO - Diferenças entre usar o search e o browse
             #  l10n_br_fiscal.document.type(39,)
@@ -31,7 +32,6 @@ class SaleCommissionMakeInvoice(models.TransientModel):
                 .sudo()
                 .search([("id", "=", document_type_id)])
             )
-
         return document_type_search
 
     def _default_fiscal_operation_id(self):

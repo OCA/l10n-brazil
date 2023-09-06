@@ -10,13 +10,12 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "12.0.1.0.0",
+    "version": "14.0.1.0.0",
     "depends": [
         "sale_commission",
         "l10n_br_account",
     ],
     "data": [
-        "views/sale_order.xml",
         "views/res_config_settings_views.xml",
         "wizards/wizard_invoice.xml",
     ],
