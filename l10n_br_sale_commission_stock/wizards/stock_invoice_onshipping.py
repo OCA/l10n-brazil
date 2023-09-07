@@ -7,22 +7,17 @@ from odoo import models
 class StockInvoiceOnshipping(models.TransientModel):
     _inherit = "stock.invoice.onshipping"
 
+
     def _get_invoice_line_values(self, moves, invoice_values, invoice):
-        """
-        Copies sale commission agents data in sale order line to invoice line
-        :param moves: stock.move
-        :param invoice_values: new invoice line values dict
-        :param invoice: account.invoice
-        :return: dict
-        """
-
         values = super()._get_invoice_line_values(moves, invoice_values, invoice)
-
-        if len(moves) == 1:
-            if moves.sale_line_id:
-                values["agents"] = [
-                    (0, 0, {"agent": x.agent.id, "commission": x.commission.id})
-                    for x in moves.sale_line_id.agents
-                ]
-
+        for move in moves:
+            sale_line = move.sale_line_id
+            if sale_line:
+                agents_data = []
+                for agent in sale_line.agent_ids:
+                    agents_data.append((0, 0, {
+                        "agent_id": agent.agent_id.id,
+                        "commission_id": agent.commission_id.id
+                    }))
+                values["agent_ids"] = agents_data
         return values
