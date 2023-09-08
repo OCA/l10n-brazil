@@ -208,6 +208,7 @@ class ResPartner(spec_models.SpecModel):
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice7 = "nfe40_idEstrangeiro"
+                    rec.nfe40_choice2 = False
                 elif rec.is_company:
                     rec.nfe40_choice2 = "nfe40_CNPJ"
                     rec.nfe40_choice6 = "nfe40_CNPJ"
@@ -333,8 +334,8 @@ class ResPartner(spec_models.SpecModel):
                 cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
             else:
                 cnpj_cpf = punctuation_rm(self.cnpj_cpf)
-
-            if xsd_field == self.nfe40_choice2:
+            # import pudb;pu.db
+            if self.nfe40_choice2 and xsd_field == self.nfe40_choice2:
                 return cnpj_cpf
 
         if self.country_id.code != "BR":
