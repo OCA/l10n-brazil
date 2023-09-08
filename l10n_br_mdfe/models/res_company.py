@@ -59,4 +59,32 @@ class ResCompany(spec_models.SpecModel):
         default=MDFE_TRANSMISSION_DEFAULT,
     )
 
-    # TODO
+    mdfe30_enderEmit = fields.Many2one(
+        comodel_name="res.partner",
+        related="partner_id",
+    )
+
+    mdfe30_CNPJ = fields.Char(related="partner_id.mdfe30_CNPJ")
+
+    mdfe30_CPF = fields.Char(related="partner_id.mdfe30_CPF")
+
+    mdfe30_xNome = fields.Char(related="partner_id.legal_name")
+
+    mdfe30_xFant = fields.Char(related="partner_id.name")
+
+    mdfe30_IE = fields.Char(related="partner_id.mdfe30_IE")
+
+    mdfe30_fone = fields.Char(related="partner_id.mdfe30_fone")
+
+    mdfe30_choice6 = fields.Selection(
+        [("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
+        string="CNPJ ou CPF?",
+        compute="_compute_mdfe_data",
+    )
+
+    def _compute_mdfe_data(self):
+        for rec in self:
+            if rec.partner_id.is_company:
+                rec.mdfe30_choice6 = "mdfe30_CNPJ"
+            else:
+                rec.mdfe30_choice6 = "mdfe30_CPF"

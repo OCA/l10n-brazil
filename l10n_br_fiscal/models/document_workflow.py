@@ -262,6 +262,9 @@ class DocumentWorkflow(models.AbstractModel):
                     numero_serie=record.document_serie or "",
                     validar=False,
                 )
+                record.key_random_code = chave_edoc.codigo_aleatorio
+                record.key_check_digit = chave_edoc.digito_verificador
+
                 # TODO: Implementar campos no Odoo
                 # record.key_number = chave_edoc.campos
                 # record.key_formated = ' '.joint(chave_edoc.partes())
