@@ -3,15 +3,55 @@
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
 
-    <record model="ir.ui.view" id="document_form_view">
-        <field name="name">document.form (in l10n_br_mdfe)</field>
-        <field name="model">document</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view" />
+    <record model="ir.ui.view" id="mdfe_document_form_view">
+        <field name="name">mdfe.document.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <!-- TODO -->
+            <xpath expr="//page[@name='products']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='finance']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='amounts']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='edoc_purpose']" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='ind_final']" position="attributes">
+                <attribute name="invisible">1</attribute>
+             </xpath>
+
+             <xpath expr="//field[@name='ind_pres']" position="attributes">
+                <attribute name="invisible">1</attribute>
+             </xpath>
+
+             <xpath expr="//field[@name='fiscal_operation_id']" position="after">
+                <field name="mdfe_emit_type" />
+                <field name="mdfe_transp_type" />
+                <field name="mdfe_modal" />
+             </xpath>
+
+            <xpath expr="//page[@name='delivery']" position="inside">
+                <group>
+                    <field name="mdfe_initial_state_id" />
+                    <field name="mdfe_final_state_id" />
+                </group>
+
+                <separator colspan="4" string="Loading Cities" />
+                <field name="mdfe_loading_city_ids" />
+
+                <separator colspan="4" string="Route States" />
+                <field name="mdfe_route_state_ids" />
+            </xpath>
         </field>
     </record>
-
-
 
 </odoo>

@@ -18,6 +18,7 @@
     ],
     "data": [
         "data/ir_config_parameter.xml",
+        "views/document.xml",
         "views/mdfe_action.xml",
         "views/mdfe_menu.xml",
         "views/res_company.xml",

@@ -12,8 +12,8 @@
                 <page name="mdfe" string="MDF-e">
                     <group name="mdfe_settings" string="MDF-e Default Settings">
                         <group>
-                            <field name="nfe_version" required="1" />
-                            <field name="nfe_environment" required="1" />
+                            <field name="mdfe_version" required="1" />
+                            <field name="mdfe_environment" required="1" />
                         </group>
                     </group>
                 </page>

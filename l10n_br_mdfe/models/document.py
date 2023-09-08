@@ -18,11 +18,11 @@ from ..constants.mdfe import (
     MDFE_EMISSION_PROCESS_DEFAULT,
     MDFE_EMISSION_PROCESSES,
     MDFE_EMIT_TYPES,
+    MDFE_ENVIRONMENTS,
     MDFE_MODAL_DEFAULT,
     MDFE_MODALS,
     MDFE_TRANSMISSIONS,
     MDFE_TRANSP_TYPE,
-    MDFE_VERSIONS,
 )
 
 
@@ -100,15 +100,13 @@ class MDFe(spec_models.StackedModel):
     # MDF-e tag: ide
     ##########################
 
-    mdfe30_cUF = fields.Char(
-        related="company_id.partner_id.state_id.ibge_code",
-    )
+    mdfe30_cUF = fields.Selection(compute="_compute_uf")
 
     mdfe30_tpAmb = fields.Selection(related="mdfe_environment")
 
     mdfe_environment = fields.Selection(
-        selection=MDFE_VERSIONS,
-        string="MDFe Environment",
+        selection=MDFE_ENVIRONMENTS,
+        string="Environment",
         copy=False,
         default=lambda self: self.env.company.mdfe_environment,
     )
@@ -117,7 +115,7 @@ class MDFe(spec_models.StackedModel):
 
     mdfe_emit_type = fields.Selection(
         selection=MDFE_EMIT_TYPES,
-        string="MDFe Emit Type",
+        string="Emit Type",
         copy=False,
         default=lambda self: self.env.company.mdfe_emit_type,
     )
@@ -126,7 +124,7 @@ class MDFe(spec_models.StackedModel):
 
     mdfe_transp_type = fields.Selection(
         selection=MDFE_TRANSP_TYPE,
-        string="MDFe Transp Type",
+        string="Transp Type",
         copy=False,
         default=lambda self: self.env.company.mdfe_transp_type,
     )
@@ -139,22 +137,24 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_dhEmi = fields.Datetime(related="document_date")
 
-    mdfe30_modal = fields.Selection(
+    mdfe30_modal = fields.Selection(related="mdfe_modal")
+
+    mdfe_modal = fields.Selection(
         selection=MDFE_MODALS, string="Transport Modal", default=MDFE_MODAL_DEFAULT
     )
 
-    mdfe30_tpEmis = fields.Selection(related="nfe_transmission")
+    mdfe30_tpEmis = fields.Selection(related="mdfe_transmission")
 
     mdfe_transmission = fields.Selection(
         selection=MDFE_TRANSMISSIONS,
-        string="MDFe Transmission",
+        string="Transmission",
         copy=False,
         default=lambda self: self.env.company.mdfe_transmission,
     )
 
     mdfe30_procEmi = fields.Selection(
         selection=MDFE_EMISSION_PROCESSES,
-        string="MDFe Emission Process",
+        string="Emission Process",
         default=MDFE_EMISSION_PROCESS_DEFAULT,
     )
 
@@ -165,51 +165,110 @@ class MDFe(spec_models.StackedModel):
         .get_param("l10n_br_mdfe.version.name", default="Odoo Brasil OCA v14"),
     )
 
-    mdfe30_UFIni = fields.Selection(related="mdfe_initial_state_id.ibge_code")
+    mdfe30_UFIni = fields.Selection(compute="_compute_initial_final_state")
 
-    mdfe30_UFFim = fields.Selection(related="mdfe_final_state_id.ibge_code")
+    mdfe30_UFFim = fields.Selection(compute="_compute_initial_final_state")
 
     mdfe_initial_state_id = fields.Many2one(
         comodel_name="res.country.state",
-        string="MDFe Initial State",
+        string="Initial State",
         domain=[("country_id.code", "=", "BR")],
     )
 
     mdfe_final_state_id = fields.Many2one(
         comodel_name="res.country.state",
-        string="MDFe Final State",
+        string="Final State",
         domain=[("country_id.code", "=", "BR")],
     )
+
+    mdfe30_cMDF = fields.Char(related="key_random_code")
+
+    mdfe30_cDV = fields.Char(related="key_check_digit")
+
+    ##########################
+    # MDF-e tag: ide
+    # Methods
+    ##########################
+
+    @api.depends("company_id")
+    def _compute_uf(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_cUF = record.company_id.partner_id.state_id.ibge_code
+
+    @api.depends("mdfe_initial_state_id", "mdfe_final_state_id")
+    def _compute_initial_final_state(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_UFIni = record.mdfe_initial_state_id.ibge_code
+            record.mdfe30_UFFim = record.mdfe_final_state_id.ibge_code
 
     ##########################
     # MDF-e tag: infMunCarrega
     ##########################
 
-    # TODO: compute?
-    mdfe30_infMunCarrega = fields.One2many(related="mdfe_loading_city_ids")
+    # TODO: is this right?
+    mdfe30_infMunCarrega = fields.One2many(compute="_compute_inf_carrega")
 
-    mdfe_loading_city_ids = fields.One2many(
-        comodel_name="res.city", string="MDFe Loading Cities"
+    mdfe_loading_city_ids = fields.Many2many(
+        comodel_name="res.city", string="Loading Cities"
     )
+
+    ##########################
+    # MDF-e tag: infMunCarrega
+    # Methods
+    ##########################
+
+    @api.depends("mdfe_loading_city_ids")
+    def _compute_inf_carrega(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_infMunCarrega = [
+                (
+                    0,
+                    0,
+                    {
+                        "mdfe30_cMunCarrega": city.ibge_code,
+                        "mdfe30_xMunCarrega": city.name,
+                    },
+                )
+                for city in record.mdfe_loading_city_ids
+            ]
 
     ##########################
     # MDF-e tag: infPercurso
     ##########################
 
-    # TODO: compute?
-    mdfe30_infPercurso = fields.One2many(related="mdfe_route_state_ids")
+    # TODO: is this right?
+    mdfe30_infPercurso = fields.One2many(compute="_compute_inf_percurso")
 
-    mdfe_route_state_ids = fields.One2many(
+    mdfe_route_state_ids = fields.Many2many(
         comodel_name="res.country.state",
-        string="MDFe Route States",
+        string="Route States",
         domain=[("country_id.code", "=", "BR")],
     )
+
+    ##########################
+    # MDF-e tag: infPercurso
+    # Methods
+    ##########################
+
+    @api.depends("mdfe_route_state_ids")
+    def _compute_inf_percurso(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_infPercurso = [
+                (
+                    0,
+                    0,
+                    {
+                        "mdfe30_UFPer": city.ibge_code,
+                    },
+                )
+                for city in record.mdfe_route_state_ids
+            ]
 
     ##########################
     # MDF-e tag: emit
     ##########################
 
-    nfe40_emit = fields.Many2one(comodel_name="res.company", related="company_id")
+    mdfe30_emit = fields.Many2one(comodel_name="res.company", related="company_id")
 
     ##########################
     # MDF-e tag: infRespTec
@@ -219,6 +278,19 @@ class MDFe(spec_models.StackedModel):
         comodel_name="res.partner",
         related="company_id.technical_support_id",
     )
+
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = "mdfe30_%s" % (attr[0],)  # TODO schema wise
+        value = getattr(node, attr[0])
+
+        if key == "mdfe30_mod":
+            vals["document_type_id"] = (
+                self.env["l10n_br_fiscal.document.type"]
+                .search([("code", "=", value)], limit=1)
+                .id
+            )
+
+        return super()._build_attr(node, fields, vals, path, attr)
 
     def _processador(self):
         certificate = False

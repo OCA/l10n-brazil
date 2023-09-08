@@ -436,3 +436,7 @@ class FiscalDocumentMixinFields(models.AbstractModel):
     )
 
     force_compute_delivery_costs_by_total = fields.Boolean(default=False)
+
+    key_random_code = fields.Char(string="Document Key Random Code")
+
+    key_check_digit = fields.Char(string="Document Key Check Digit")
