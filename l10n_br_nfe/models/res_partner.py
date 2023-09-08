@@ -334,8 +334,8 @@ class ResPartner(spec_models.SpecModel):
                 cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
             else:
                 cnpj_cpf = punctuation_rm(self.cnpj_cpf)
-            # import pudb;pu.db
-            if self.nfe40_choice2 and xsd_field == self.nfe40_choice2:
+
+            if xsd_field == self.nfe40_choice2:
                 return cnpj_cpf
 
         if self.country_id.code != "BR":
