@@ -8,7 +8,7 @@
           etc, por isso o valor incluído abaixo para validar.
           Teria algum caso que não deve usar ?
      -->
-    <record id="product.product_product_27" model="product.product">
+    <record id="product.product_product_16" model="product.product">
         <field name="invoice_policy">order</field>
         <field name="standard_price">100</field>
     </record>
@@ -22,7 +22,7 @@
     TODO: Como configurar o Preço de Custo no caso de outra empresa?
     <record
         forcecreate="True"
-        id="standard_price_product_product_27_lp"
+        id="standard_price_product_product_16_lp"
         model="ir.property"
     >
         <field name="name">standard_price</field>
@@ -33,7 +33,7 @@
         <field name="value">100</field>
         <field name="type">float</field>
         <field
-            eval="'product.template,'+str(obj().env.ref('product.product_product_27').product_tmpl_id.id)"
+            eval="'product.template,'+str(obj().env.ref('product.product_product_16').product_tmpl_id.id)"
             model="product.template"
             name="res_id"
         />
@@ -76,7 +76,7 @@
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-1" />
@@ -145,7 +145,7 @@
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-1" />
@@ -191,7 +191,7 @@
         <field name="name">Test - l10n_br_stock_account - 2</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-2" />
@@ -260,7 +260,7 @@
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-2" />
@@ -314,7 +314,7 @@
         >Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-3" />
@@ -387,7 +387,7 @@
         >Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-3" />
@@ -437,7 +437,7 @@
         >Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-4" />
@@ -510,7 +510,7 @@
         >Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-4" />
@@ -565,7 +565,7 @@
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <!-- Campo preenchido apenas para teste porque ao Validar o Picking
              o metodo atualiza o campo com o standard_price ou o lst_price do
@@ -662,7 +662,7 @@
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <!-- Campo preenchido apenas para teste porque ao Validar o Picking
              o metodo atualiza o campo com o standard_price ou o lst_price do
