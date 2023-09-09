@@ -46,8 +46,8 @@
 
     <record id="main_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products" />
-        <field name="name">Drawer</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
@@ -115,8 +115,8 @@
 
     <record id="lp_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="lp_po_only_products" />
-        <field name="name">Drawer</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
@@ -184,8 +184,8 @@
 
     <record id="sn_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="sn_po_only_products" />
-        <field name="name">Drawer</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">50.00</field>
