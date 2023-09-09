@@ -81,8 +81,8 @@
 
     <record id="main_pl_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products_1" />
-        <field name="name">Laptop Customized</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
@@ -169,8 +169,8 @@
 
     <record id="main_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products_2" />
-        <field name="name">Laptop Customized</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
@@ -254,8 +254,8 @@
 
     <record id="lucro_presumido_pol_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="lucro_presumido_po_only_products_1" />
-        <field name="name">Laptop Customized</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
