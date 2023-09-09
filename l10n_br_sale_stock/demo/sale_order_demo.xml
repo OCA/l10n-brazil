@@ -58,8 +58,8 @@
 
     <record id="main_sl_l10n_br_sale_stock_1_1" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
-        <field name="name">[FURN_8855] Gaveta</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
@@ -82,7 +82,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_1_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
-        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="name">Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -106,7 +106,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_1_3" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
-        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="name">Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -156,8 +156,8 @@
 
     <record id="main_sl_l10n_br_sale_stock_2_1" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_2" />
-        <field name="name">[FURN_8855] Gaveta</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
@@ -230,8 +230,8 @@
 
     <record id="main_sl_l10n_br_sale_stock_3_1" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
-        <field name="name">[FURN_8855] Gaveta</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">[FURN_8900] Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
@@ -254,7 +254,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_3_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
-        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="name">Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -278,7 +278,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_3_3" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
-        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="name">Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -328,8 +328,8 @@
 
     <record id="main_sl_l10n_br_sale_stock_4_1" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
-        <field name="name">[FURN_8855] Gaveta</field>
-        <field name="product_id" ref="product.product_product_27" />
+        <field name="name">Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
@@ -352,7 +352,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_4_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
-        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="name">Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -376,7 +376,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_4_3" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
-        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="name">Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -419,7 +419,7 @@
 
     <record id="l10n_br_sale_stock_lucro_presumido_1_2" model="sale.order.line">
         <field name="order_id" ref="l10n_br_sale_stock_lucro_presumido" />
-        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="name">Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -443,7 +443,7 @@
 
     <record id="l10n_br_sale_stock_lucro_presumido_2_2" model="sale.order.line">
         <field name="order_id" ref="l10n_br_sale_stock_lucro_presumido" />
-        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="name">Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
