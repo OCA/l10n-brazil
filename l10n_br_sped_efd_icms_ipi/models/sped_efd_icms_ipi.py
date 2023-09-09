@@ -5,7 +5,13 @@
 
 import textwrap
 
-from odoo import models
+from erpbrasil.base.misc import punctuation_rm
+from lxml.builder import E
+
+from odoo import api, fields, models
+from odoo.exceptions import UserError
+
+from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
 
 
 class Registro0000(models.Model):
@@ -15,24 +21,133 @@ class Registro0000(models.Model):
     _inherit = ["l10n_br_sped.efd_icms_ipi.17.0000"]
     _odoo_model = "res.company"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_VER": 0,  # Código da versão do leiaute conforme a tabela indica...
-    #         "COD_FIN": 0,  # Código da finalidade do arquivo: 0 - Remessa do arqu...
-    #         "DT_INI": 0,  # Data inicial das informações contidas no arquivo.
-    #         "DT_FIN": 0,  # Data final das informações contidas no arquivo.
-    #         "NOME": 0,  # Nome empresarial da entidade.
-    #         "CNPJ": 0,  # Número de inscrição da entidade no CNPJ.
-    #         "CPF": 0,  # Número de inscrição da entidade no CPF.
-    #         "UF": 0,  # Sigla da unidade da federação da entidade.
-    #         "IE": 0,  # Inscrição Estadual da entidade.
-    #         "COD_MUN": 0,  # Código do município do domicílio fiscal da entidade,...
-    #         "IM": 0,  # Inscrição Municipal da entidade.
-    #         "SUFRAMA": 0,  # Inscrição da entidade na SUFRAMA
-    #         "IND_PERFIL": 0,  # Perfil de apresentação do arquivo fiscal; A – Per...
-    #         "IND_ATIV": 0,  # Indicador de tipo de atividade: 0 – Industrial ou e...
-    #     }
+    COD_FIN = fields.Selection(
+        [
+            ("0", "Remessa do arquivo original"),
+            ("1", "Remessa do arquivo substituto"),
+        ],
+        string="Finalidade do Arquivo",
+        default="0",
+    )
+
+    cod_obrigacao = fields.Selection(
+        [
+            ("000", "ICMS a recolher"),
+            ("003", "Antecipação do diferencial de alíquotas do ICMS"),
+            ("004", "Antecipação do ICMS da importação"),
+            ("005", "Antecipação tributária"),
+            (
+                "006",
+                "ICMS resultante da alíquota adicional dos itens incluídos no Fundo de Combate à Pobreza",
+            ),
+            ("090", "Outras obrigações do ICMS"),
+        ],
+        string="Código Obrigação",
+        default="000",
+    )
+
+    cod_receita = fields.Selection(
+        [
+            ("046-2", "Regime Periódico de Apuração"),
+            ("060-7", "Regime de Estimativa"),
+            ("063-2", "Outros recolhimentos especiais"),
+            ("075-9", "Dívida ativa – cobrança amigável"),
+            ("077-2", "Dívida ativa ajuizada - parcelamento"),
+            ("078-4", "Dívida ativa ajuizada"),
+            ("081-4", "Parcelamento de débito fiscal não inscrito"),
+            ("087-5", "ICM/ICMS - Programa de Parcelamento Incentivado - PPI"),
+            ("089-9", "ICM/ICMS - Programa Especial de Parcelamento - PEP"),
+            ("091-7", "ICM/ICMS - Programa Especial de Parcelamento PEP 2017"),
+            ("100-4", "ICMS recolhimento antecipado (outra UF)"),
+            ("101-6", "Consumidor final não contribuinte por operação (outra UF)"),
+            ("102-8", "Consumidor final não contribuinte por apuração (outra UF)"),
+            (
+                "103-0",
+                "Fundo estadual de combate e erradicação da pobreza (FECOEP) - por operação",
+            ),
+            (
+                "104-1",
+                "Fundo estadual de combate e erradicação da pobreza (FECOEP) - por apuração",
+            ),
+            ("106-5", "Exigido em Auto de Infração e Imposição de Multa - AIIM"),
+            (
+                "107-7",
+                "Exigido em Auto de Infração e Imposição de Multa - AIIM (outra UF)",
+            ),
+            ("110-7", "Transporte (Transportador autônomo do Estado de São Paulo)"),
+            ("111-9", "Transporte (outra UF)"),
+            ("112-0", "Comunicação (no Estado de São Paulo)"),
+            ("113-2", "Comunicação (outra UF)"),
+            ("114-4", "Mercadorias destina a consumo ou a ativo imobilizado"),
+            ("115-6", "Energia elétrica (no Estado de São Paulo)"),
+            ("116-8", "Energia elétrica (outra UF)"),
+            ("117-0", "Combustível (no Estado de São Paulo)"),
+            ("118-1", "Combustível (outra UF)"),
+            ("119-3", "Recolhimentos especiais (outra UF)"),
+            ("120-0", "Mercadoria importada (desembaraçada no Estado de São Paulo)"),
+            ("123-5", "Exportação de café cru"),
+            ("128-4", "Operações internas e interestaduais com café cru"),
+            ("137-5", "Abate de gado"),
+            ("141-7", "Operações com feijão"),
+            ("146-6", "Substituição tributária (contribuinte do Estado de São Paulo)"),
+            ("154-5", "Diferença de estimativa"),
+            ("214-8", "Mercadoria importada (desembaraçada em outra UF)"),
+            (
+                "246-0",
+                "Substituição tributária por apuração (contribuinte de outra UF )",
+            ),
+            ("247-1", "Substituição tributária por operação (outra UF)"),
+        ],
+        string="Código Receita",
+    )
+
+    ind_apur = fields.Selection(
+        [
+            ("0", "Mensal"),
+            ("1", "Decendial"),
+        ],
+        string="Período apuração IPI",
+        default="0",
+    )
+
+    IND_ATIV = fields.Selection(
+        [
+            ("0", "Industrial ou equiparado a industrial"),
+            ("1", "Outros"),
+        ],
+        string="Indicador tipo atividade",
+        default="0",
+    )
+
+    @api.model
+    def _append_top_view_elements(self, group):
+        super()._append_top_view_elements(group)
+        group.append(E.field(name="cod_obrigacao", required="1"))
+        group.append(E.field(name="cod_receita", required="1"))
+        group.append(E.field(name="ind_apur", required="1"))
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("id", "=", declaration.company_id.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_VER": LAYOUT_VERSIONS["efd_icms_ipi"],
+            # "COD_FIN": (will use declaration field directly),
+            # "DT_INI": (will use declaration field directly),
+            # "DT_FIN": (will use declaration field directly),
+            "NOME": record.legal_name,
+            "CNPJ": punctuation_rm(record.cnpj_cpf),
+            # "CPF": punctuation_rm(record.cnpj_cpf),  # TODO if produtor rural?
+            "UF": record.state_id.code,
+            "IE": punctuation_rm(record.inscr_est),
+            "COD_MUN": punctuation_rm(record.city_id.ibge_code),
+            "IM": punctuation_rm(record.inscr_mun or ""),
+            "SUFRAMA": record.suframa or "",  # Inscrição da entidade na SUFRAMA
+            "IND_PERFIL": "A",  # Perfil de apresentação do arquivo fiscal; A – Per...
+            # "IND_ATIV": (will use declaration field directly),
+        }
 
 
 class Registro0002(models.Model):
@@ -41,11 +156,12 @@ class Registro0002(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.0002"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0002"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CLAS_ESTAB_IND": 0,  # Informar a classificação do estabelecimento c...
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        if declaration.IND_ATIV == "0":
+            return {
+                "CLAS_ESTAB_IND": declaration.IND_ATIV,
+            }
 
 
 class Registro0005(models.Model):
@@ -53,20 +169,25 @@ class Registro0005(models.Model):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.efd_icms_ipi.0005"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0005"
+    _odoo_model = "res.company"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "FANTASIA": 0,  # Nome de fantasia associado ao nome empresarial.
-    #         "CEP": 0,  # Código de Endereçamento Postal.
-    #         "END": 0,  # Logradouro e endereço do imóvel.
-    #         "NUM": 0,  # Número do imóvel.
-    #         "COMPL": 0,  # Dados complementares do endereço.
-    #         "BAIRRO": 0,  # Bairro em que o imóvel está situado.
-    #         "FONE": 0,  # Número do telefone (DDD+FONE).
-    #         "FAX": 0,  # Número do fax.
-    #         "EMAIL": 0,  # Endereço do correio eletrônico.
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("id", "=", declaration.company_id.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "FANTASIA": record.name,
+            "CEP": punctuation_rm(record.zip),
+            "END": record.street,
+            "NUM": punctuation_rm(record.street_number),
+            "COMPL": record.street2,
+            "BAIRRO": record.district,
+            "FONE": punctuation_rm(record.phone),
+            # "FAX": 0,  # Número do fax.
+            "EMAIL": record.email,
+        }
 
 
 class Registro0015(models.Model):
@@ -88,24 +209,37 @@ class Registro0100(models.Model):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.efd_icms_ipi.0100"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0100"
+    _odoo_model = "res.partner"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "NOME": 0,  # Nome do contabilista.
-    #         "CPF": 0,  # Número de inscrição do contabilista no CPF.
-    #         "CRC": 0,  # Número de inscrição do contabilista no Conselho Regional...
-    #         "CNPJ": 0,  # Número de inscrição do escritório de contabilidade no C...
-    #         "CEP": 0,  # Código de Endereçamento Postal.
-    #         "END": 0,  # Logradouro e endereço do imóvel.
-    #         "NUM": 0,  # Número do imóvel.
-    #         "COMPL": 0,  # Dados complementares do endereço.
-    #         "BAIRRO": 0,  # Bairro em que o imóvel está situado.
-    #         "FONE": 0,  # Número do telefone (DDD+FONE).
-    #         "FAX": 0,  # Número do fax.
-    #         "EMAIL": 0,  # Endereço do correio eletrônico.
-    #         "COD_MUN": 0,  # Código do município, conforme tabela IBGE.
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("id", "=", declaration.company_id.accountant_id.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        if record.child_ids:
+            accountant = record.child_ids[0]
+        else:
+            msg_err = (
+                "Cadastre o contador Pessoa Fisica dentro do Contato da Contabilidade"
+            )
+            raise UserError(msg_err)
+
+        return {
+            "NOME": accountant.name,
+            "CPF": punctuation_rm(accountant.cnpj_cpf),
+            "CRC": punctuation_rm(accountant.crc_code),
+            "CNPJ": punctuation_rm(record.cnpj_cpf),
+            "CEP": punctuation_rm(record.zip),
+            "END": record.street,
+            "NUM": punctuation_rm(record.street_number),
+            "COMPL": record.street2,
+            "BAIRRO": record.district,
+            "FONE": punctuation_rm(record.phone),
+            # "FAX": 0,  # Número do fax.
+            "EMAIL": record.email,
+            "COD_MUN": record.city_id.ibge_code,
+        }
 
 
 class Registro0150(models.Model):
