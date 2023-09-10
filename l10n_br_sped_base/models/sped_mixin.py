@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import datetime
-from io import StringIO
 
 from lxml.builder import E
 
@@ -422,8 +421,12 @@ class SpedMixin(models.AbstractModel):
             keys = ["id"]  # BUT should not happen!
         if len(self):
             count_by_register[code] += len(self)
+        if code == "0000":
+            line_start = ""
+        else:
+            line_start = "\n"
         for vals in self.read(keys):
-            sped.write("\n|%s|" % (code,))
+            sped.write("%s|%s|" % (line_start, code))
             line_count[0] += 1
             children = []
             should_break_next = False
