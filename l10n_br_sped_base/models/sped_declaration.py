@@ -69,11 +69,21 @@ class SpedDeclaration(models.AbstractModel):
         return self._name.replace(".0000", "").split(".")[-1]
 
     def button_populate_sped_from_odoo(self):
-        self.env["l10n_br_sped.mixin"].with_context(
-            company_id=self.company_id.id,
-            declaration=self,
-            default_declaration_id=self.id,
-        ).populate_sped_from_odoo(self._get_kind())
+        log_msg = StringIO()
+        kind = self._get_kind()
+        top_registers = (
+            self.env["l10n_br_sped.mixin"]
+            .with_context(
+                company_id=self.company_id.id,
+                declaration=self,
+                default_declaration_id=self.id,
+            )
+            ._get_top_registers(kind)
+        )
+        for register in top_registers:
+            register.pull_records_from_odoo(kind, level=2, log_msg=log_msg)
+
+        self.message_post(body=log_msg.getvalue())
 
     def button_flush_registers(self):
         self.ensure_one()
@@ -157,9 +167,11 @@ class SpedDeclaration(models.AbstractModel):
         line_total = 0
         # mutable register line_count https://stackoverflow.com/a/15148557
         line_count = [0]
-        self.generate_register_text(sped, version, line_count)
-
+        count_by_register = defaultdict(int)
         count_by_bloco = defaultdict(int)
+        self.generate_register_text(sped, version, line_count, count_by_register)
+        count_by_register["0990"] = 1  # for some reason it is needed
+
         for register_class in top_register_classes:
             bloco = register_class._name[-4:][0].upper()
             count_by_bloco[bloco] += register_class.search_count([])
@@ -177,23 +189,42 @@ class SpedDeclaration(models.AbstractModel):
                             line_count[0] + 1,
                         )
                     )
+                    count_by_register["%s990" % (bloco,)] = 1
                     line_total += line_count[0] + 1
                     line_count = [0]
                 sped.write(
                     "\n|%s001|%s|" % (bloco, 0 if count_by_bloco[bloco] > 0 else 1)
                 )
+                count_by_register["%s001" % (bloco,)] = 1
                 line_count[0] += 1
-            registers.generate_register_text(sped, version, line_count)
+            registers.generate_register_text(
+                sped, version, line_count, count_by_register
+            )
             last_bloco = bloco
 
+        # close the last register:
         if (
             kind == "ecf"
         ):  # WTF why is it different for ecf?? You kidding me? or is it an error?
-            sped.write("\n|" + bloco + "099|%s|" % (line_count[0] + 2,))
+            sped.write("\n|" + bloco + "099|%s|" % (line_count[0] + 1,))
         else:
-            sped.write("\n|" + bloco + "990|%s|" % (line_count[0] + 2,))
-        line_total += line_count[0] + 2
-        sped.write(
-            "\n|9999|%s|" % (line_total,)
-        )  # FIXME incorrect? error in test files?
+            sped.write("\n|" + bloco + "990|%s|" % (line_count[0] + 1,))
+
+        # totals:
+        sped.write("\n|9001|0|")
+        count_by_register["9001"] = 1
+        count_by_register["9990"] = 1
+        count_by_register["9999"] = 1
+        count_by_register["9900"] = len(count_by_register.keys()) + 1
+
+        for item in sorted(
+            count_by_register.items(), key=lambda r: self._get_alphanum_sequence(r[0])
+        ):
+            code = item[0]
+            num = item[1]
+            sped.write("\n|9900|%s|%s|" % (code, num))
+        sped.write("\n|9990|%s|" % (len(count_by_register.keys()) + 3,))
+
+        line_total += line_count[0] + len(count_by_register.keys()) + 4
+        sped.write("\n|9999|%s|" % (line_total,))
         return sped.getvalue()

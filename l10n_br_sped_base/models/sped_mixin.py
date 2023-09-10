@@ -404,7 +404,11 @@ class SpedMixin(models.AbstractModel):
                 register_vals[fname] = val
         return register_vals
 
-    def generate_register_text(self, sped, version, line_count={}):
+    # flake8: noqa: C901
+    def generate_register_text(self, sped, version, line_count, count_by_register):
+        """
+        Recursively generate the SPED text of the registers.
+        """
         code = self._name[-4:]
         register_spec_model = self._name.replace(
             ".%s" % (code), ".%s.%s" % (version, code)
@@ -416,6 +420,8 @@ class SpedMixin(models.AbstractModel):
             not keys
         ):  # happens with ECD I550, I555 and I555 with "LEIAUTE PARAMETRIZÁVEL"
             keys = ["id"]  # BUT should not happen!
+        if len(self):
+            count_by_register[code] += len(self)
         for vals in self.read(keys):
             sped.write("\n|%s|" % (code,))
             line_count[0] += 1
@@ -468,19 +474,10 @@ class SpedMixin(models.AbstractModel):
 
             children = sorted(children, key=lambda reg: reg._name)
             for child in children:
-                child.generate_register_text(sped, version, line_count)
+                child.generate_register_text(
+                    sped, version, line_count, count_by_register
+                )
         return sped
-
-    @api.model
-    def populate_sped_from_odoo(self, kind):
-        log_msg = StringIO()
-        for register in self._get_top_registers(
-            kind,
-        ):
-            register.pull_records_from_odoo(kind, level=2, log_msg=log_msg)
-
-        declaration = self._context["declaration"]
-        declaration.message_post(body=log_msg.getvalue())
 
     @api.model
     def pull_records_from_odoo(
