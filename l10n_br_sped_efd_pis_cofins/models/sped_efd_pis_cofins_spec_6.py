@@ -6153,7 +6153,7 @@ class RegistroD100(models.AbstractModel):
         string="Data da aquisição ou da prestação do serviço", sped_length="8*"
     )
 
-    TP_CT_e = fields.Char(
+    TP_CT_E = fields.Char(
         string="Tipo de Conhecimento",
         xsd_type="numeric_code",
         sped_length="1*",
@@ -15994,24 +15994,4 @@ class Registro1900(models.AbstractModel):
         string="Código da conta analítica contábil representativa",
         sped_length="255",
         help="Código da conta analítica contábil representativa da receita",
-    )
-
-
-class Registro9900(models.AbstractModel):
-    "Registros do Arquivo"
-    _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.6.9900"
-    _inherit = "l10n_br_sped.mixin.efd_pis_cofins"
-    _sped_level = 2
-
-    REG_BLC = fields.Char(
-        string="Registro que será totalizado no próximo campo",
-        required=True,
-        sped_length="4",
-    )
-
-    QTD_REG_BLC = fields.Integer(
-        string="Total de registros do tipo informado",
-        required=True,
-        help="Total de registros do tipo informado no campo anterior.",
     )
