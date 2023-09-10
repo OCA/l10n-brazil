@@ -3081,23 +3081,3 @@ class RegistroK315(models.AbstractModel):
         ondelete="cascade",
         help="EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL",
     )
-
-
-class Registro9900(models.AbstractModel):
-    "REGISTROS DO ARQUIVO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.9.9900"
-    _inherit = "l10n_br_sped.mixin.ecd"
-    _sped_level = 2
-
-    REG_BLC = fields.Char(
-        string="Registro que será totalizado no próximo campo",
-        required=True,
-        sped_length="4",
-    )
-
-    QTD_REG_BLC = fields.Integer(
-        string="Total de registros do tipo informado",
-        required=True,
-        help="Total de registros do tipo informado no campo anterior.",
-    )

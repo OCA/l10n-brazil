@@ -99,5 +99,3 @@ access_user_ecd_k310,ecd.k310,model_l10n_br_sped_ecd_k310,l10n_br_fiscal.group_u
 access_manager_ecd_k310,ecd.k310,model_l10n_br_sped_ecd_k310,l10n_br_fiscal.group_manager,1,1,1,1
 access_user_ecd_k315,ecd.k315,model_l10n_br_sped_ecd_k315,l10n_br_fiscal.group_user,1,0,0,0
 access_manager_ecd_k315,ecd.k315,model_l10n_br_sped_ecd_k315,l10n_br_fiscal.group_manager,1,1,1,1
-access_user_ecd_9900,ecd.9900,model_l10n_br_sped_ecd_9900,l10n_br_fiscal.group_user,1,0,0,0
-access_manager_ecd_9900,ecd.9900,model_l10n_br_sped_ecd_9900,l10n_br_fiscal.group_manager,1,1,1,1
