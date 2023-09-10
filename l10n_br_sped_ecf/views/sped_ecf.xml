@@ -501,21 +501,4 @@
         <field name="view_mode">tree,form</field>
     </record>
     <menuitem action="ecf_y800_action" parent="ecf_y" id="ecf_y800" />
-
-
-    <menuitem name="BLOCO 9" parent="ecf" id="ecf_9" />
-
-    <record id="ecf_9100_action" model="ir.actions.act_window">
-        <field name="name">9100 Avisos da Escrituração</field>
-        <field name="res_model">l10n_br_sped.ecf.9100</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <menuitem action="ecf_9100_action" parent="ecf_9" id="ecf_9100" />
-
-    <record id="ecf_9900_action" model="ir.actions.act_window">
-        <field name="name">9900 Registros do Arquivo</field>
-        <field name="res_model">l10n_br_sped.ecf.9900</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <menuitem action="ecf_9900_action" parent="ecf_9" id="ecf_9900" />
 </odoo>
