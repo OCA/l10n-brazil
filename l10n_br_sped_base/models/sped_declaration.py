@@ -1,9 +1,14 @@
 # Copyright 2023 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+from collections import defaultdict
+from io import StringIO
+
 from lxml.builder import E
 
 from odoo import api, fields, models
+
+from .sped_mixin import LAYOUT_VERSIONS
 
 
 class SpedDeclaration(models.AbstractModel):
@@ -130,3 +135,65 @@ class SpedDeclaration(models.AbstractModel):
     def _append_top_view_elements(self, group):
         group.append(E.field(name="company_id"))
         group.append(E.separator(colspan="4"))
+
+    @api.model
+    def generate_sped_text(self, version=None):
+        """
+        Generate SPED text from Odoo declaration records.
+
+        :param declaration: Odoo declaration record.
+        :param version: SPED layout version (optional).
+        :return: SPED text as a string.
+        """
+
+        self.ensure_one()
+        kind = self._get_kind()
+        if version is None:
+            version = LAYOUT_VERSIONS[kind]
+        top_register_classes = self._get_top_registers(kind)
+        sped = StringIO()
+        last_bloco = None
+        bloco = None
+        line_total = 0
+        # mutable register line_count https://stackoverflow.com/a/15148557
+        line_count = [0]
+        self.generate_register_text(sped, version, line_count)
+
+        count_by_bloco = defaultdict(int)
+        for register_class in top_register_classes:
+            bloco = register_class._name[-4:][0].upper()
+            count_by_bloco[bloco] += register_class.search_count([])
+
+        domain = [("declaration_id", "=", self.id)]
+        for register_class in top_register_classes:
+            bloco = register_class._name[-4:][0].upper()
+            registers = register_class.search(domain)
+            if bloco != last_bloco:
+                if last_bloco:
+                    sped.write(
+                        "\n|%s990|%s|"
+                        % (
+                            last_bloco,
+                            line_count[0] + 1,
+                        )
+                    )
+                    line_total += line_count[0] + 1
+                    line_count = [0]
+                sped.write(
+                    "\n|%s001|%s|" % (bloco, 0 if count_by_bloco[bloco] > 0 else 1)
+                )
+                line_count[0] += 1
+            registers.generate_register_text(sped, version, line_count)
+            last_bloco = bloco
+
+        if (
+            kind == "ecf"
+        ):  # WTF why is it different for ecf?? You kidding me? or is it an error?
+            sped.write("\n|" + bloco + "099|%s|" % (line_count[0] + 2,))
+        else:
+            sped.write("\n|" + bloco + "990|%s|" % (line_count[0] + 2,))
+        line_total += line_count[0] + 2
+        sped.write(
+            "\n|9999|%s|" % (line_total,)
+        )  # FIXME incorrect? error in test files?
+        return sped.getvalue()
