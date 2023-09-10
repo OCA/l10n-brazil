@@ -19,7 +19,7 @@ class SpedTest(common.TransactionCase):
         file_path = path.join(self.demo_path, "demo_ecd.txt")
         sped_mixin = self.env["l10n_br_sped.mixin"]
         declaration = sped_mixin.import_file(file_path, "ecd")
-        sped = sped_mixin.generate_sped_text(declaration)
+        sped = declaration.generate_sped_text()
         with open(file_path) as f:
             target_content = f.read()
             # print(sped)

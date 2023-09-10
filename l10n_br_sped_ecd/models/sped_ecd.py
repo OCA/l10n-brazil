@@ -614,9 +614,11 @@ class RegistroI550(models.Model):
         vals = {"RZ_CONT": "|".join(line.split("|")[2:][:-1])}
         return vals
 
-    def generate_register_text(self, sped, version, line_count={}):
+    def generate_register_text(self, sped, version, line_count, count_by_register):
         code = self._name[-4:].upper()
         vals_list = self.read(["RZ_CONT", "reg_I555_ids"])
+        if len(self):
+            count_by_register[code] += len(self)
         for vals in vals_list:
             sped.write("\n|%s|" % (code,))
             sped.write(vals["RZ_CONT"])
@@ -626,7 +628,9 @@ class RegistroI550(models.Model):
                 [("id", "in", vals["reg_I555_ids"])]
             )
             for child in children:
-                child.generate_register_text(sped, version, line_count)
+                child.generate_register_text(
+                    sped, version, line_count, count_by_register
+                )
         return sped
 
 
@@ -643,10 +647,12 @@ class RegistroI555(models.Model):
         vals = {"RZ_CONT_TOT": "|".join(line.split("|")[2:][:-1])}
         return vals
 
-    def generate_register_text(self, sped, version, line_count={}):
+    def generate_register_text(self, sped, version, line_count, count_by_register):
         code = self._name[-4:].upper()
         keys = [i[0] for i in self._fields.items()]
         vals_list = self.read(keys)
+        if len(self):
+            count_by_register[code] += len(self)
         for vals in vals_list:
             sped.write("\n|%s|" % (code,))
             sped.write(vals.get("RZ_CONT_TOT", ""))
@@ -1010,18 +1016,4 @@ class RegistroK315(models.Model):
     #         "COD_CONTRA": 0,  # Código da conta consolidada da contrapartida
     #         "VALOR": 0,  # Parcela da contrapartida do valor eliminado total
     #         "IND_VALOR": 0,  # Indicador da situação do valor eliminado: D – Deve...
-    #     }
-
-
-class Registro9900(models.Model):
-    "REGISTROS DO ARQUIVO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.ecd.9900"
-    _inherit = "l10n_br_sped.ecd.9.9900"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "REG_BLC": 0,  # Registro que será totalizado no próximo campo.
-    #         "QTD_REG_BLC": 0,  # Total de registros do tipo informado no campo an...
     #     }

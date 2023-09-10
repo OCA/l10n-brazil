@@ -83,14 +83,4 @@
         <field name="view_mode">tree,form</field>
     </record>
     <menuitem action="ecd_k200_action" parent="ecd_k" id="ecd_k200" />
-
-
-    <menuitem name="BLOCO 9" parent="ecd" id="ecd_9" />
-
-    <record id="ecd_9900_action" model="ir.actions.act_window">
-        <field name="name">9900 REGISTROS DO ARQUIVO</field>
-        <field name="res_model">l10n_br_sped.ecd.9900</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <menuitem action="ecd_9900_action" parent="ecd_9" id="ecd_9900" />
 </odoo>
