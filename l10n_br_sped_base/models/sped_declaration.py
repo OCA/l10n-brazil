@@ -1,6 +1,7 @@
 # Copyright 2023 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import base64
 from collections import defaultdict
 from io import StringIO
 
@@ -26,7 +27,18 @@ class SpedDeclaration(models.AbstractModel):
         dt = fields.Date.context_today(self)
         return dt.replace(year=dt.year + 1)
 
-    # TODO display_name
+    def name_get(self):
+        res = []
+        for declaration in self:
+            name = "%s-%s-%s" % (
+                declaration.DT_FIN.month
+                if declaration.DT_FIN.month > 9
+                else "0" + str(declaration.DT_FIN.month),
+                declaration.DT_FIN.year,
+                declaration.company_id.name.replace(" ", "_"),
+            )
+            res.append((declaration.id, name))
+        return res
 
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -57,12 +69,6 @@ class SpedDeclaration(models.AbstractModel):
     )
 
     sped_attachment_id = fields.Many2one("ir.attachment", string="Sped Attachment")
-    sped_attachment_datas = fields.Binary(
-        related="sped_attachment_id.datas", string="Sped Export"
-    )
-    sped_attachment_name = fields.Char(
-        related="sped_attachment_id.name", string="Sped Filename"
-    )
 
     @api.model
     def _get_kind(self):
@@ -90,7 +96,20 @@ class SpedDeclaration(models.AbstractModel):
         self.env["l10n_br_sped.mixin"].flush_registers(self._get_kind(), self.id)
 
     def button_create_sped_file(self):
-        pass
+        self.ensure_one()
+        sped_txt = self.generate_sped_text()
+        kind = self._get_kind()
+        file_name = kind + "-" + self.name_get()[0][1] + ".txt"
+        self.sped_attachment_id = self.env["ir.attachment"].create(
+            {
+                "name": file_name,
+                "res_model": self._name,
+                "res_id": self.id,
+                "datas": base64.b64encode(sped_txt.encode()),
+                "mimetype": "application/txt",
+                "type": "binary",
+            }
+        )
 
     @api.onchange("company_id")
     def onchange_company_id(self):
@@ -127,6 +146,16 @@ class SpedDeclaration(models.AbstractModel):
                 groups="l10n_br_fiscal.group_manager",
             )
         )
+        header.append(
+            E.button(
+                name="button_create_sped_file",
+                type="object",
+                states="draft",
+                string="Generate SPED File",
+                #            class="oe_highlight",
+                groups="l10n_br_fiscal.group_manager",
+            )
+        )
 
         header.append(E.field(name="state", widget="statusbar"))
         form.append(header)
@@ -146,7 +175,6 @@ class SpedDeclaration(models.AbstractModel):
         group.append(E.field(name="company_id"))
         group.append(E.separator(colspan="4"))
 
-    @api.model
     def generate_sped_text(self, version=None):
         """
         Generate SPED text from Odoo declaration records.
@@ -192,6 +220,7 @@ class SpedDeclaration(models.AbstractModel):
                     count_by_register["%s990" % (bloco,)] = 1
                     line_total += line_count[0] + 1
                     line_count = [0]
+
                 sped.write(
                     "\n|%s001|%s|" % (bloco, 0 if count_by_bloco[bloco] > 0 else 1)
                 )
