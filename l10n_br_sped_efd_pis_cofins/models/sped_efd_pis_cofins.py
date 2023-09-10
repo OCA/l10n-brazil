@@ -3664,17 +3664,3 @@ class Registro1900(models.Model):
     #         "INF_COMPL": 0,  # Informações complementares
     #         "COD_CTA": 0,  # Código da conta analítica contábil representativa da...
     #     }
-
-
-class Registro9900(models.Model):
-    "Registros do Arquivo"
-    _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_pis_cofins.9900"
-    _inherit = "l10n_br_sped.efd_pis_cofins.6.9900"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "REG_BLC": 0,  # Registro que será totalizado no próximo campo.
-    #         "QTD_REG_BLC": 0,  # Total de registros do tipo informado no campo an...
-    #     }
