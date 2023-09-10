@@ -4691,17 +4691,3 @@ class Registro1980(models.Model):
     #         "G4_11": 0,  # Saldo devedor do ICMS após deduções do incentivo
     #         "G4_12": 0,  # Índice de recolhimento da central de distribuição
     #     }
-
-
-class Registro9900(models.Model):
-    "Registros do Arquivo"
-    _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "l10n_br_sped.efd_icms_ipi.9900"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.9900"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "REG_BLC": 0,  # Registro que será totalizado no próximo campo.
-    #         "QTD_REG_BLC": 0,  # Total de registros do tipo informado no campo an...
-    #     }
