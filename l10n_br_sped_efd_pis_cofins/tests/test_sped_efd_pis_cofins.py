@@ -19,10 +19,8 @@ class SpedTest(common.TransactionCase):
         file_path = path.join(self.demo_path, "demo_efd_pis_cofins_multi.txt")
         sped_mixin = self.env["l10n_br_sped.mixin"]
         declaration = sped_mixin.import_file(file_path, "efd_pis_cofins")
-        sped = sped_mixin.generate_sped_text(declaration)
+        sped = declaration.generate_sped_text()
         with open(file_path) as f:
-            f.read()
-            # FIXME there is still an error with the D100 register and
-            # COD_CTA coming either False either empty, appending an extra | or not.
-            print(sped)
-            # self.assertEqual(sped.strip(), target_content.strip())
+            target_content = f.read()
+            # print(sped)
+            self.assertEqual(sped.strip(), target_content.strip())
