@@ -752,18 +752,4 @@
         parent="efd_icms_ipi_1"
         id="efd_icms_ipi_1980"
     />
-
-
-    <menuitem name="BLOCO 9" parent="efd_icms_ipi" id="efd_icms_ipi_9" />
-
-    <record id="efd_icms_ipi_9900_action" model="ir.actions.act_window">
-        <field name="name">9900 Registros do Arquivo</field>
-        <field name="res_model">l10n_br_sped.efd_icms_ipi.9900</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <menuitem
-        action="efd_icms_ipi_9900_action"
-        parent="efd_icms_ipi_9"
-        id="efd_icms_ipi_9900"
-    />
 </odoo>
