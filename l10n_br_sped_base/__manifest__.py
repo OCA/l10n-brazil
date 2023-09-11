@@ -3,13 +3,15 @@
 
 {
     "name": "SPED Base",
-    "description": """
+    "summary": """
         Framework abstrato pro SPED""",
     "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["l10n_br_fiscal"],
+    "maintainers": ["rvalyi"],
+    "development_status": "Alpha",
     "data": [
         "views/sped_base.xml",
     ],
