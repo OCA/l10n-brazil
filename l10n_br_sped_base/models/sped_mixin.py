@@ -11,7 +11,7 @@ from odoo.tools import float_is_zero
 
 LAYOUT_VERSIONS = {
     "ecd": "9",
-    "ecf": "8",  # TODO 9 ?
+    "ecf": "9",
     "efd_icms_ipi": "17",
     "efd_pis_cofins": "6",
 }
