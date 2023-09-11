@@ -9,10 +9,8 @@ import string
 from datetime import datetime
 from unicodedata import normalize
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.pdf import base
-from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
@@ -805,28 +803,7 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
-        certificate = False
-        if self.company_id.sudo().certificate_nfe_id:
-            certificate = self.company_id.sudo().certificate_nfe_id
-        elif self.company_id.sudo().certificate_ecnpj_id:
-            certificate = self.company_id.sudo().certificate_ecnpj_id
-
-        if not certificate:
-            raise UserError(_("Certificado não encontrado"))
-        self._check_nfe_environment()
-
-        certificado = cert.Certificado(
-            arquivo=certificate.file,
-            senha=certificate.password,
-        )
-        session = Session()
-        session.verify = False
-        params = {
-            "transmissao": TransmissaoSOAP(certificado, session),
-            "uf": self.company_id.state_id.ibge_code,
-            "versao": self.nfe_version,
-            "ambiente": self.nfe_environment,
-        }
+        params = self._prepare_processor_params()
 
         if self.document_type == MODELO_FISCAL_NFCE:
             params.update(
