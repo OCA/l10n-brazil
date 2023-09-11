@@ -15,10 +15,18 @@
                 0,
                 0,
                 {
+                    'view_mode': 'tree',
+                    'view_id': ref('l10n_br_fiscal.document_tree')
+                }
+            ),
+            (
+                0,
+                0,
+                {
                     'view_mode': 'form',
                     'view_id': ref('l10n_br_mdfe.mdfe_document_form_view')
                 }
-            )
+            ),
         ]"
         />
         <field

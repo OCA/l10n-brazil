@@ -15,7 +15,6 @@ from erpbrasil.edoc.pdf import base
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
-from requests import Session
 from xsdata.models.datatype import XmlDateTime
 
 from odoo import _, api, fields
