@@ -4,10 +4,13 @@
 
 from ast import literal_eval
 
+from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.transmissao import TransmissaoSOAP
+from requests import Session
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -552,4 +555,28 @@ class Document(models.Model):
             "view_id": compose_form.id,
             "target": "new",
             "context": ctx,
+        }
+
+    def _prepare_processor_params(self):
+        certificate = False
+        if self.company_id.sudo().certificate_nfe_id:
+            certificate = self.company_id.sudo().certificate_nfe_id
+        elif self.company_id.sudo().certificate_ecnpj_id:
+            certificate = self.company_id.sudo().certificate_ecnpj_id
+
+        if not certificate:
+            raise UserError(_("Certificado não encontrado"))
+
+        certificado = cert.Certificado(
+            arquivo=certificate.file,
+            senha=certificate.password,
+        )
+        session = Session()
+        session.verify = False
+
+        return {
+            "transmissao": TransmissaoSOAP(certificado, session),
+            "uf": self.company_id.state_id.ibge_code,
+            "versao": self.nfe_version,
+            "ambiente": self.nfe_environment,
         }
