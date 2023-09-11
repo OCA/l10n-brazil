@@ -5,7 +5,11 @@
 
 import textwrap
 
-from odoo import models
+from erpbrasil.base import misc
+
+from odoo import api, fields, models
+
+from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
 
 
 class Registro0000(models.Model):
@@ -15,23 +19,36 @@ class Registro0000(models.Model):
     _inherit = ["l10n_br_sped.efd_pis_cofins.6.0000"]
     _odoo_model = "res.company"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_VER": 0,  # Código da versão do leiaute conforme a tabela 3.1.1.
-    #         "TIPO_ESCRIT": 0,  # Tipo de escrituração: 0 - Original; 1 – Retifica...
-    #         "IND_SIT_ESP": 0,  # Indicador de situação especial: 0 - Abertura 1 -...
-    #         "NUM_REC_ANTERIOR": 0,  # Número do Recibo da Escrituração anterior a...
-    #         "DT_INI": 0,  # Data inicial das informações contidas no arquivo.
-    #         "DT_FIN": 0,  # Data final das informações contidas no arquivo.
-    #         "NOME": 0,  # Nome empresarial da pessoa jurídica
-    #         "CNPJ": 0,  # Número de inscrição do estabelecimento matriz da pessoa...
-    #         "UF": 0,  # Sigla da Unidade da Federação da pessoa jurídica.
-    #         "COD_MUN": 0,  # Código do município do domicílio fiscal da pessoa ju...
-    #         "SUFRAMA": 0,  # Inscrição da pessoa jurídica na Suframa
-    #         "IND_NAT_PJ": 0,  # Indicador da natureza da pessoa jurídica: 00 – Pe...
-    #         "IND_ATIV": 0,  # Indicador de tipo de atividade preponderante: 0 – I...
-    #     }
+    IND_ATIV = fields.Selection(
+        [
+            ("0", "Industrial ou equiparado a industrial"),
+            ("1", "Outros"),
+        ],
+        string="Indicador tipo atividade",
+        default="0",
+    )
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("id", "=", declaration.company_id.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_VER": LAYOUT_VERSIONS["efd_pis_cofins"],
+            "TIPO_ESCRIT": 0,  # Tipo de escrituração: 0 - Original; 1 – Retifica...
+            "IND_SIT_ESP": 0,  # Indicador de situação especial: 0 - Abertura 1 -...
+            "NUM_REC_ANTERIOR": 0,  # Número do Recibo da Escrituração anterior a...
+            # "DT_INI": (will use the declaration field directly),
+            # "DT_FIN": (will use the declaration field directly),
+            "NOME": record.legal_name,
+            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
+            "UF": record.state_id.code,
+            "COD_MUN": misc.punctuation_rm(record.city_id.ibge_code),
+            "SUFRAMA": record.suframa or "",  # Inscrição da entidade na SUFRAMA
+            "IND_NAT_PJ": 0,  # Indicador da natureza da pessoa jurídica: 00 – Pe...
+            # "IND_ATIV": (will use the declaration field directly),
+        }
 
 
 class Registro0035(models.Model):
