@@ -5,7 +5,7 @@
 
 import textwrap
 
-from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base import misc
 from lxml.builder import E
 
 from odoo import api, fields, models
@@ -138,12 +138,12 @@ class Registro0000(models.Model):
             # "DT_INI": (will use declaration field directly),
             # "DT_FIN": (will use declaration field directly),
             "NOME": record.legal_name,
-            "CNPJ": punctuation_rm(record.cnpj_cpf),
-            # "CPF": punctuation_rm(record.cnpj_cpf),  # TODO if produtor rural?
+            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
+            # "CPF": misc.punctuation_rm(record.cnpj_cpf),  # TODO if produtor rural?
             "UF": record.state_id.code,
-            "IE": punctuation_rm(record.inscr_est),
-            "COD_MUN": punctuation_rm(record.city_id.ibge_code),
-            "IM": punctuation_rm(record.inscr_mun or ""),
+            "IE": misc.punctuation_rm(record.inscr_est),
+            "COD_MUN": misc.punctuation_rm(record.city_id.ibge_code),
+            "IM": misc.punctuation_rm(record.inscr_mun or ""),
             "SUFRAMA": record.suframa or "",  # Inscrição da entidade na SUFRAMA
             "IND_PERFIL": "A",  # Perfil de apresentação do arquivo fiscal; A – Per...
             # "IND_ATIV": (will use declaration field directly),
@@ -179,12 +179,12 @@ class Registro0005(models.Model):
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
             "FANTASIA": record.name,
-            "CEP": punctuation_rm(record.zip),
+            "CEP": misc.punctuation_rm(record.zip),
             "END": record.street,
-            "NUM": punctuation_rm(record.street_number),
+            "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
-            "FONE": punctuation_rm(record.phone),
+            "FONE": misc.punctuation_rm(record.phone),
             # "FAX": 0,  # Número do fax.
             "EMAIL": record.email,
         }
@@ -227,15 +227,15 @@ class Registro0100(models.Model):
 
         return {
             "NOME": accountant.name,
-            "CPF": punctuation_rm(accountant.cnpj_cpf),
-            "CRC": punctuation_rm(accountant.crc_code),
-            "CNPJ": punctuation_rm(record.cnpj_cpf),
-            "CEP": punctuation_rm(record.zip),
+            "CPF": misc.punctuation_rm(accountant.cnpj_cpf),
+            "CRC": misc.punctuation_rm(accountant.crc_code),
+            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
+            "CEP": misc.punctuation_rm(record.zip),
             "END": record.street,
-            "NUM": punctuation_rm(record.street_number),
+            "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
-            "FONE": punctuation_rm(record.phone),
+            "FONE": misc.punctuation_rm(record.phone),
             # "FAX": 0,  # Número do fax.
             "EMAIL": record.email,
             "COD_MUN": record.city_id.ibge_code,
