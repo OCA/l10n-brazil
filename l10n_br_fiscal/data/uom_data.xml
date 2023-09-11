@@ -54,7 +54,7 @@
      -->
 
     <record id="uom.product_uom_unit" model="uom.uom">
-        <field name="code">UNID</field>
+        <field name="code">UN</field>
     </record>
 
     <record id="uom.product_uom_dozen" model="uom.uom">
@@ -409,7 +409,7 @@
     </record>
 
     <record id="UOM_PC" model="uom.uom">
-        <field name="code">PC</field>
+        <field name="code">PÇ</field>
         <field name="name">PEÇA</field>
         <field name="category_id" ref="uom.product_uom_categ_unit" />
         <field name="factor" eval="1.0" />
