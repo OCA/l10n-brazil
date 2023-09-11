@@ -9,9 +9,9 @@ import string
 from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
+from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.pdf import base
-from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
