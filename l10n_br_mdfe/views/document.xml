@@ -9,6 +9,10 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
+            <xpath expr="//page[@name='document_related']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
             <xpath expr="//page[@name='products']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
@@ -36,7 +40,6 @@
              <xpath expr="//field[@name='fiscal_operation_id']" position="after">
                 <field name="mdfe_emit_type" />
                 <field name="mdfe_transp_type" />
-                <field name="mdfe_modal" />
              </xpath>
 
             <xpath expr="//page[@name='delivery']" position="inside">
@@ -50,6 +53,223 @@
 
                 <separator colspan="4" string="Route States" />
                 <field name="mdfe_route_state_ids" />
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Modal">
+                    <group>
+                        <field name="mdfe_modal" />
+                    </group>
+
+                    <group
+                        attrs="{'invisible': [('mdfe_modal', '!=', '1')]}"
+                        colspan="4"
+                    >
+                        <group>
+                            <field name="rodo_scheduling_code" />
+                            <field name="rodo_RNTRC" />
+                        </group>
+
+                        <notebook colspan="4">
+                            <page string="Vehicle">
+                                <group>
+                                    <group>
+                                        <field name="rodo_vehicle_code" />
+                                        <field name="rodo_vehicle_plate" />
+                                        <field name="rodo_vehicle_RENAVAM" />
+                                        <field name="rodo_vehicle_type" />
+                                        <field name="rodo_vehicle_tire_type" />
+                                        <field name="rodo_vehicle_state_id" />
+                                        <field name="rodo_vehicle_proprietary_id" />
+                                    </group>
+                                    <group>
+                                        <field name="rodo_vehicle_tare_weight" />
+                                        <field name="rodo_vehicle_kg_capacity" />
+                                        <field name="rodo_vehicle_m3_capacity" />
+                                    </group>
+                                </group>
+
+                                <separator string="Conductors" />
+                                <field name="rodo_vehicle_conductor_ids" nolabel="1" />
+                            </page>
+                            <page string="CIOT">
+                                <field name="rodo_ciot_ids" nolabel="1" />
+                            </page>
+                            <page string="Tow">
+                                <field name="rodo_tow_ids" nolabel="1" />
+                            </page>
+                            <page string="Seals">
+                                <field name="rodo_seal_ids" nolabel="1" />
+                            </page>
+                            <page string="Toll">
+                                <field
+                                    name="rodo_toll_device_ids"
+                                    nolabel="1"
+                                    options="{'no_open': True}"
+                                />
+                            </page>
+                        </notebook>
+                    </group>
+
+                    <group
+                        attrs="{'invisible': [('mdfe_modal', '!=', '2')]}"
+                        colspan="4"
+                    >
+                        <group>
+                            <field
+                                name="airplane_nationality"
+                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                            />
+                            <field
+                                name="airplane_registration"
+                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                            />
+                            <field
+                                name="flight_number"
+                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                            />
+                            <field name="flight_date" />
+                        </group>
+                        <group>
+                            <field
+                                name="boarding_airfield"
+                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                            />
+                            <field
+                                name="landing_airfield"
+                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                            />
+                        </group>
+                    </group>
+
+                    <group
+                        attrs="{'invisible': [('mdfe_modal', '!=', '3')]}"
+                        colspan="4"
+                    >
+                        <group>
+                            <field name="ship_irin" />
+                            <field name="ship_travel_number" />
+                        </group>
+
+                        <notebook colspan="4">
+                            <page string="Embarcação">
+                                <group>
+                                    <group>
+                                        <field name="ship_type" />
+                                        <field name="ship_code" />
+                                        <field name="ship_name" />
+                                        <field name="ship_navigation_type" />
+                                    </group>
+
+                                    <group>
+                                        <field name="ship_boarding_point" />
+                                        <field name="ship_landing_point" />
+                                        <field name="transshipment_port" />
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Carregamento">
+                                <field
+                                    name="ship_loading_ids"
+                                    nolabel="1"
+                                    options="{'no_open': True}"
+                                />
+                            </page>
+
+                            <page string="Descarregamento">
+                                <field
+                                    name="ship_unloading_ids"
+                                    nolabel="1"
+                                    options="{'no_open': True}"
+                                />
+                            </page>
+
+                            <page string="Comboio">
+                                <field
+                                    name="ship_convoy_ids"
+                                    nolabel="1"
+                                    options="{'no_open': True}"
+                                />
+                            </page>
+
+                            <page string="Carga Vazia">
+                                <field
+                                    name="ship_empty_load_ids"
+                                    nolabel="1"
+                                    options="{'no_open': True}"
+                                />
+                            </page>
+
+                            <page string="Transporte Vazio">
+                                <field
+                                    name="ship_empty_transport_ids"
+                                    nolabel="1"
+                                    options="{'no_open': True}"
+                                />
+                            </page>
+                        </notebook>
+                    </group>
+
+                    <group
+                        attrs="{'invisible': [('mdfe_modal', '!=', '4')]}"
+                        colspan="4"
+                    >
+                        <group>
+                            <field name="train_prefix" />
+                            <field name="train_release_time" />
+                            <field name="train_wagon_quantity" />
+                        </group>
+
+                        <group>
+                            <field name="train_origin" />
+                            <field name="train_destiny" />
+                        </group>
+
+                        <notebook colspan="4">
+                            <page string="Vagões">
+                                <field name="train_wagon_ids" nolabel="1" />
+                            </page>
+                        </notebook>
+                    </group>
+                </page>
+
+                <page string="Document Info">
+                    <field name="unloading_city_ids" nolabel="1">
+                        <tree>
+                            <field name="state_id" />
+                            <field name="city_id" />
+                            <field name="document_type" />
+                        </tree>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="country_id" invisible="1" />
+                                    <field name="state_id" />
+                                    <field name="city_id" />
+                                    <field name="document_type" />
+                                </group>
+
+                                <notebook>
+                                    <page string="Documents">
+                                        <field
+                                            name="nfe_ids"
+                                            nolabel="1"
+                                            attrs="{'invisible': [('document_type', '!=', 'nfe')]}"
+                                            domain="[('document_type_code', '=', '55')]"
+                                        />
+                                        <field
+                                            name="cte_ids"
+                                            nolabel="1"
+                                            attrs="{'invisible': [('document_type', '!=', 'cte')]}"
+                                            domain="[('document_type_code', '=', '59')]"
+                                        />
+                                    </page>
+                                </notebook>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>

@@ -1,0 +1,94 @@
+# Copyright 2023 KMEE
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+from odoo import api, fields
+
+from odoo.addons.spec_driven_model.models import spec_models
+
+
+class MDFeDocumentInfo(spec_models.SpecModel):
+    _name = "l10n_br_mdfe.document.info"
+    _inherit = "mdfe.30.tmdfe_infdoc"
+
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
+
+    mdfe30_infMunDescarga = fields.One2many(
+        comodel_name="l10n_br_mdfe.municipio.descarga"
+    )
+
+
+class MDFeMunicipioDescarga(spec_models.SpecModel):
+    _name = "l10n_br_mdfe.municipio.descarga"
+    _inherit = "mdfe.30.infmundescarga"
+
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
+
+    mdfe30_cMunDescarga = fields.Char(compute="_compute_city_data")
+
+    mdfe30_xMunDescarga = fields.Char(compute="_compute_city_data")
+
+    mdfe30_infCTe = fields.One2many(compute="_compute_document_data")
+
+    mdfe30_infNFe = fields.One2many(compute="_compute_document_data")
+
+    country_id = fields.Many2one(
+        comodel_name="res.country.state",
+        default=lambda self: self.env.ref("base.br"),
+    )
+
+    state_id = fields.Many2one(
+        comodel_name="res.country.state",
+        string="State",
+        domain="[('country_id', '=', country_id)]",
+        required=True,
+    )
+
+    city_id = fields.Many2one(
+        string="City",
+        comodel_name="res.city",
+        domain="[('state_id', '=', state_id)]",
+        required=True,
+    )
+
+    document_type = fields.Selection(
+        selection=[
+            ("nfe", "NF-e"),
+            ("cte", "CT-e"),
+        ],
+        string="Document Type",
+        default="nfe",
+    )
+
+    nfe_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        relation="mdfe_related_nfe_carregamento_rel",
+    )
+
+    cte_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        relation="mdfe_related_cte_carregamento_rel",
+    )
+
+    @api.depends("city_id")
+    def _compute_city_data(self):
+        for record in self:
+            record.mdfe30_cMunDescarga = record.city_id.ibge_code
+            record.mdfe30_xMunDescarga = record.city_id.name
+
+    @api.depends("document_type", "nfe_ids", "cte_ids")
+    def _compute_document_data(self):
+        for record in self:
+            record.mdfe30_infCTe = [(5, 0, 0)]
+            record.mdfe30_infNFe = [(5, 0, 0)]
+
+            if not record.document_type:
+                continue
+
+            if record.document_type == "nfe":
+                record.mdfe30_infNFe = [
+                    (0, 0, {"mdfe30_chNFe": nfe.mdfe30_chNFe}) for nfe in record.nfe_ids
+                ]
+            else:
+                record.mdfe30_infCTe = [
+                    (0, 0, {"mdfe30_chCTe": cte.mdfe30_chCTe}) for cte in record.cte_ids
+                ]

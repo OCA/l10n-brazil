@@ -18,21 +18,12 @@ MDFE_EMIT_TYPES = [
 MDFE_EMIT_TYPE_DEFAULT = "1"
 
 MDFE_TRANSP_TYPE = [
-    ("1", "1 - Empresa de Transporte de Cargas – ETC"),
-    ("2", "2 - Transportador Autônomo de Cargas – TAC"),
-    ("3", "3 - Cooperativa de Transporte de Cargas – CTC"),
+    ("1", "Empresa de Transporte de Cargas – ETC"),
+    ("2", "Transportador Autônomo de Cargas – TAC"),
+    ("3", "Cooperativa de Transporte de Cargas – CTC"),
 ]
 
 MDFE_TRANSP_TYPE_DEFAULT = "1"
-
-MDFE_MODALS = [
-    ("1", "1 - Rodoviário"),
-    ("2", "2 - Aéreo"),
-    ("3", "3 - Aquaviário"),
-    ("4", "4 - Ferroviário"),
-]
-
-MDFE_MODAL_DEFAULT = "1"
 
 MDFE_TRANSMISSIONS = [
     ("1", "Emissão Normal"),

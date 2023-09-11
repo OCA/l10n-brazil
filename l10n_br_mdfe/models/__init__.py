@@ -3,3 +3,8 @@ from . import document
 from . import document_related
 from . import res_partner
 from . import res_config_settings
+from . import modal
+from . import modal_aquaviario
+from . import modal_ferroviario
+from . import modal_rodoviario
+from . import document_info
