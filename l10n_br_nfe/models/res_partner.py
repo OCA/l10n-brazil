@@ -208,6 +208,7 @@ class ResPartner(spec_models.SpecModel):
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice7 = "nfe40_idEstrangeiro"
+                    rec.nfe40_choice2 = False
                 elif rec.is_company:
                     rec.nfe40_choice2 = "nfe40_CNPJ"
                     rec.nfe40_choice6 = "nfe40_CNPJ"
