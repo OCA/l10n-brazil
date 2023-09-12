@@ -31,7 +31,7 @@
 
     <record id="commission_br_1_1" model="sale.order.line.agent">
         <field name="object_id" ref="so_commission_br_1_1" />
-        <field name="agent" ref="sale_commission.res_partner_tiny_sale_agent" />
+        <field name="agent_id" ref="sale_commission.res_partner_tiny_sale_agent" />
         <field name="commission" ref="sale_commission.demo_commission" />
     </record>
 
@@ -60,7 +60,7 @@
 
     <record id="commission_br_1_2" model="sale.order.line.agent">
         <field name="object_id" ref="so_commission_br_1_2" />
-        <field name="agent" ref="sale_commission.res_partner_tiny_sale_agent" />
+        <field name="agent_id" ref="sale_commission.res_partner_tiny_sale_agent" />
         <field name="commission" ref="sale_commission.demo_commission" />
     </record>
 
