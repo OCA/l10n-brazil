@@ -67,12 +67,12 @@
                 <xProd>Flipover</xProd>
                 <NCM>96100000</NCM>
                 <CFOP>5102</CFOP>
-                <uCom>UNID</uCom>
+                <uCom>UN</uCom>
                 <qCom>1.0000</qCom>
                 <vUnCom>1950.0000000000</vUnCom>
                 <vProd>1950.00</vProd>
                 <cEANTrib>SEM GTIN</cEANTrib>
-                <uTrib>UNID</uTrib>
+                <uTrib>UN</uTrib>
                 <qTrib>1.0000</qTrib>
                 <vUnTrib>1950.0000000000</vUnTrib>
                 <indTot>1</indTot>
