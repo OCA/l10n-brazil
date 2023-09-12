@@ -68,12 +68,12 @@
         <xProd>[E-COM07] Large Cabinet</xProd>
         <NCM>94033000</NCM>
         <CFOP>5102</CFOP>
-        <uCom>UNID</uCom>
+        <uCom>UN</uCom>
         <qCom>1.0000</qCom>
         <vUnCom>320.0000000000</vUnCom>
         <vProd>320.00</vProd>
         <cEANTrib>SEM GTIN</cEANTrib>
-        <uTrib>UNID</uTrib>
+        <uTrib>UN</uTrib>
         <qTrib>1.0000</qTrib>
         <vUnTrib>320.0000000000</vUnTrib>
         <indTot>1</indTot>
@@ -121,12 +121,12 @@
         <xProd>[FURN_8855] Drawer</xProd>
         <NCM>94033000</NCM>
         <CFOP>5101</CFOP>
-        <uCom>UNID</uCom>
+        <uCom>UN</uCom>
         <qCom>1.0000</qCom>
         <vUnCom>3645.0000000000</vUnCom>
         <vProd>3645.00</vProd>
         <cEANTrib>SEM GTIN</cEANTrib>
-        <uTrib>UNID</uTrib>
+        <uTrib>UN</uTrib>
         <qTrib>1.0000</qTrib>
         <vUnTrib>3645.0000000000</vUnTrib>
         <indTot>1</indTot>
