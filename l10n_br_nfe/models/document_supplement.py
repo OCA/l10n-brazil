@@ -7,6 +7,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 class NFeSupplement(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.supplement"
+    _description = "NFe Supplement Document"
     _inherit = "nfe.40.infnfesupl"
     _stacked = "nfe.40.infnfesupl"
     _field_prefix = "nfe40_"
