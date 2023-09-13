@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestSupplierNFe(TransactionCase):
     def setUp(self):
-        super(TestSupplierNFe, self).setUp()
+        super().setUp()
         self.invoice_same_state = self.env.ref(
             "l10n_br_account_product.demo_nfe_supplier_same_state"
         )
