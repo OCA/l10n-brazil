@@ -46,6 +46,15 @@
                             />
                         </group>
                     </group>
+                    <group colspan="4" col="1">
+                        <field name="has_purchase_error" invisible="1" />
+                        <field
+                            name="purchase_error_message"
+                            nolabel="1"
+                            readonly="1"
+                            attrs="{'invisible': [('has_purchase_error', '=', False)]}"
+                        />
+                    </group>
                     <separator string="NFe XML Products" colspan="4" />
                     <group
                         colspan="4"
