@@ -16,7 +16,7 @@ from ..models.document_related import NFeRelated
 class NFeStructure(SavepointCase):
     @classmethod
     def setUpClass(cls):
-        super(NFeStructure, cls).setUpClass()
+        super().setUpClass()
         hooks.register_hook(
             cls.env,
             "l10n_br_nfe",
