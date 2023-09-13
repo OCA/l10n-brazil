@@ -47,6 +47,10 @@ class NfeImport(models.TransientModel):
         string="Purchase Order",
     )
 
+    has_purchase_error = fields.Boolean()
+
+    purchase_error_message = fields.Text()
+
     @api.onchange("xml")
     def _onchange_xml(self):
         if self.xml:
@@ -59,6 +63,50 @@ class NfeImport(models.TransientModel):
 
         purchase_order_ids = self.get_purchase_orders_from_xml_supplier()
         return {"domain": {"purchase_id": [("id", "in", purchase_order_ids.ids)]}}
+
+    @api.depends("purchase_link_type")
+    def _onchange_link_type(self):
+        self.has_purchase_error = False
+        self.purchase_error_message = ""
+
+    @api.onchange("purchase_id")
+    def _onchange_purchase_id(self):
+        self.has_purchase_error = False
+        self.purchase_error_message = ""
+
+        if not self.purchase_id:
+            return
+
+        purchase_products = self.purchase_id.order_line.mapped("product_id")
+        document_products = self.imported_products_ids.mapped("product_id")
+        if purchase_products != document_products:
+            self.has_purchase_error = True
+            self.purchase_error_message += _(
+                "The purchase items dont match the imported items."
+            )
+            return
+
+        for line in self.purchase_id.order_line:
+            imported_product_id = self.imported_products_ids.filtered(
+                lambda s: s.product_id == line.product_id
+            )
+            if imported_product_id.quantity_com != line.product_qty:
+                self.has_purchase_error = True
+                if self.purchase_error_message:
+                    self.purchase_error_message += "\n\n"
+                self.purchase_error_message += _(
+                    "%s: Purchase order quantity dont match the imported quantity. "
+                    "The quantity will be overwriten." % line.product_id.name
+                )
+
+            if imported_product_id.price_unit_com != line.price_unit:
+                self.has_purchase_error = True
+                if self.purchase_error_message:
+                    self.purchase_error_message += "\n\n"
+                self.purchase_error_message += _(
+                    "%s: Purchase order price dont match the imported price. "
+                    "The price will be overwriten." % line.product_id.name
+                )
 
     def get_purchase_orders_from_xml_supplier(self):
         supplier_id = self.env["res.partner"].search(
@@ -257,6 +305,8 @@ class NfeImport(models.TransientModel):
 
         if not self.purchase_id and self.purchase_link_type == "create":
             self.purchase_id = self.create_purchase_order(edoc)
+        elif self.purchase_id and self.purchase_link_type == "choose":
+            self.update_purchase_order()
 
         if self.purchase_id:
             self.purchase_id.button_confirm()
@@ -306,6 +356,17 @@ class NfeImport(models.TransientModel):
             purchase_lines.append(purchase_line.id)
         purchase.write({"order_line": [(6, 0, purchase_lines)]})
         return purchase
+
+    def update_purchase_order(self):
+        for line in self.purchase_id.order_line:
+            imported_product_id = self.imported_products_ids.filtered(
+                lambda s: s.product_id == line.product_id
+            )
+            if not imported_product_id:
+                continue
+
+            line.price_unit = imported_product_id.price_unit_com
+            line.product_qty = imported_product_id.quantity_com
 
     def get_purchase_fiscal_operation_id(self):
         default_fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras").id
