@@ -155,11 +155,11 @@ class SaleOrder(models.Model):
             for line in sale.order_line
         }
 
-        moves = []
+        moves = self.env["account.move"]
         for document_type in document_types:
             self = self.with_context(document_type_id=document_type.id)
             try:
-                moves += super()._create_invoices(
+                moves |= super()._create_invoices(
                     grouped=grouped, final=final, date=date
                 )
             except UserError:
