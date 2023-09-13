@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="sale_blanket_order_form_view">
+        <field
+            name="name"
+        >sale.blanket.order.form (in l10n_br_sale_blanket_order)</field>
+        <field name="model">sale.blanket.order</field>
+        <field name="inherit_id" ref="sale_blanket_order.view_blanket_order_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="amount_untaxed" position="before">
+                <field
+                    name="amount_price_gross"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+            </field>
+            <field name="amount_total" position="after">
+                <field
+                    name="amount_financial_total"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+            </field>
+            <field name="validity_date" position="after">
+                <field name="fiscal_operation_id" required="True" />
+                <field name="ind_final" required="True" />
+                <field name="ind_pres" required="True" />
+            </field>
+            <field name="note" position="replace">
+                <group>
+                    <field name="copy_note" />
+                    <field
+                        name="note"
+                        placeholder="Terms and conditions... (note: you can setup default ones in the Configuration menu)"
+                        style="min-width: 590px;"
+                    />
+                    <field
+                        name="manual_customer_additional_data"
+                        style="min-width: 590px;"
+                    />
+                    <field
+                        name="manual_fiscal_additional_data"
+                        style="min-width: 590px;"
+                    />
+                </group>
+            </field>
+            <xpath expr="//field[@name='line_ids']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree" position="attributes">
+                <attribute name="editable" />
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='analytic_tag_ids']"
+                position="replace"
+            />
+            <xpath
+                expr="//field[@name='line_ids']//form//field[@name='product_id']"
+                position="attributes"
+            >
+                <attribute name="widget">product_configurator</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="style">width:80%;</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='taxes_id']"
+                position="replace"
+            />
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='price_unit']"
+                position="after"
+            >
+                <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='price_subtotal']"
+                position="after"
+            >
+                <field name="price_total" invisible="1" />
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/form" position="inside">
+                <group name="fiscal_fields" invisible="1">
+                    <field name="fiscal_operation_type" invisible="1" readonly="1" />
+                    <field name="fiscal_genre_code" invisible="1" />
+                    <field name="tax_framework" invisible="1" />
+                    <field name="tax_icms_or_issqn" invisible="1" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/form/group/group" position="inside">
+                <field
+                    name="fiscal_operation_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="cfop_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d)]}"
+                />
+                <field name="price_total" invisible="1" />
+                <field name="price_subtotal" invisible="1" />
+                <field
+                    name="service_type_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="city_taxation_code_id"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    options="{'no_create': True}"
+                />
+                <field
+                    name="cnae_id"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    options="{'no_create': True}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']/form//field[@name='taxes_id']"
+                position="replace"
+            />
+            <xpath
+                expr="//field[@name='line_ids']/form//field[@name='price_unit']"
+                position="after"
+            >
+                <label
+                    for="fiscal_quantity"
+                    string="Fiscal Quantity"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <div attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}">
+                    <field
+                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                        name="fiscal_quantity"
+                        class="oe_inline"
+                    />
+                    <field
+                        name="uot_id"
+                        force_save="1"
+                        groups="uom.group_uom"
+                        class="oe_inline oe_no_button"
+                    />
+                </div>
+                <field
+                    name="fiscal_price"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']//form//page[@name='sale_order_lines']"
+                position="before"
+            >
+                <field name="country_id" invisible="1" />
+
+                    <page
+                    name="fiscal_taxes"
+                    string="Taxes"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                    <page name="amounts" string="Amounts">
+                        <group>
+                            <group>
+                                <field name="amount_untaxed" />
+                                <field name="amount_fiscal" />
+                                <field name="amount_tax" />
+                                <field name="estimate_tax" readonly="1" />
+                            </group>
+                            <group>
+                                <field name="amount_total" />
+                                <field name="amount_tax_withholding" readonly="1" />
+                                <field name="amount_taxed" />
+                            </group>
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info" />
+                    <page name="accounting" string="Accounting">
+                        <group>
+                            <field name="invoiced_uom_qty" invisible="1" />
+                            <field
+                            name="taxes_id"
+                            widget="many2many_tags"
+                            options="{'no_create': True}"
+                            context="{'search_view_ref': 'account.account_tax_view_search'}"
+                            domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                            attrs="{'readonly': [('invoiced_uom_qty', '&gt;', 0)]}"
+                        />
+                        </group>
+                    </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
