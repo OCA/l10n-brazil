@@ -23,9 +23,60 @@ class Lead(models.Model):
 
     cnpj = fields.Char(string="CNPJ")
 
-    street_name = fields.Char()
+    street_name = fields.Char(
+        compute="_compute_street_name",
+        inverse="_inverse_street_name",
+        readonly=False,
+        store=True,
+    )
 
-    street_number = fields.Char()
+    street_number = fields.Char(
+        compute="_compute_street_number",
+        inverse="_inverse_street_number",
+        readonly=False,
+        store=True,
+    )
+
+    street2 = fields.Char(
+        compute="_compute_street2",
+        inverse="_inverse_street2",
+        readonly=False,
+        store=True,
+    )
+
+    district = fields.Char(
+        compute="_compute_district",
+        inverse="_inverse_district",
+        readonly=False,
+        store=True,
+    )
+
+    city_id = fields.Many2one(
+        comodel_name="res.city",
+        domain="[('state_id', '=', state_id)]",
+        compute="_compute_city_id",
+        inverse="_inverse_city_id",
+        readonly=False,
+        store=True,
+    )
+
+    state_id = fields.Many2one(
+        comodel_name="res.country.state",
+        domain="[('country_id', '=', country_id)]",
+        compute="_compute_state_id",
+        inverse="_inverse_state_id",
+        readonly=False,
+        store=True,
+    )
+
+    country_id = fields.Many2one(
+        comodel_name="res.country",
+        default=lambda self: self.env.ref("base.br"),
+        compute="_compute_country_id",
+        inverse="_inverse_country_id",
+        readonly=False,
+        store=True,
+    )
 
     name_surname = fields.Char(
         string="Name and Surname", help="Name used in fiscal documents"
@@ -168,3 +219,80 @@ class Lead(models.Model):
                 }
             )
         return values
+
+    @api.depends("partner_id.street_name")
+    def _compute_street_name(self):
+        for lead in self:
+            if lead.partner_id.street_name:
+                lead.street_name = lead.partner_id.street_name
+
+    def _inverse_street_name(self):
+        for lead in self:
+            if lead.street_name:
+                lead.partner_id.street_name = lead.street_name
+
+    @api.depends("partner_id.street_number")
+    def _compute_street_number(self):
+        for lead in self:
+            if lead.partner_id.street_number:
+                lead.street_number = lead.partner_id.street_number
+
+    def _inverse_street_number(self):
+        for lead in self:
+            if lead.street_number:
+                lead.partner_id.street_number = lead.street_number
+
+    @api.depends("partner_id.district")
+    def _compute_district(self):
+        for lead in self:
+            if lead.partner_id.district:
+                lead.district = lead.partner_id.district
+
+    def _inverse_district(self):
+        for lead in self:
+            if lead.district:
+                lead.partner_id.district = lead.district
+
+    @api.depends("partner_id.city_id")
+    def _compute_city_id(self):
+        for lead in self:
+            if lead.partner_id.city_id:
+                lead.city_id = lead.partner_id.city_id
+
+    def _inverse_city_id(self):
+        for lead in self:
+            if lead.city_id:
+                lead.partner_id.city_id = lead.city_id
+
+    @api.depends("partner_id.state_id")
+    def _compute_state_id(self):
+        for lead in self:
+            if lead.partner_id.state_id:
+                lead.state_id = lead.partner_id.state_id
+
+    def _inverse_state_id(self):
+        for lead in self:
+            if lead.state_id:
+                lead.partner_id.state_id = lead.state_id
+
+    @api.depends("partner_id.country_id")
+    def _compute_country_id(self):
+        for lead in self:
+            if lead.partner_id.country_id:
+                lead.country_id = lead.partner_id.country_id
+
+    def _inverse_country_id(self):
+        for lead in self:
+            if lead.country_id:
+                lead.partner_id.country_id = lead.country_id
+
+    @api.depends("partner_id.street2")
+    def _compute_street2(self):
+        for lead in self:
+            if lead.partner_id.street2:
+                lead.street2 = lead.partner_id.street2
+
+    def _inverse_street2(self):
+        for lead in self:
+            if lead.street2:
+                lead.partner_id.street2 = lead.street2

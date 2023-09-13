@@ -67,6 +67,30 @@ class CrmLeadTest(SavepointCase):
             }
         )
 
+        # Create a Partner with any address.
+        cls.partner_id_02 = cls.env["res.partner"].create(
+            {
+                "name": "Test Lead Partner 2",
+                "legal_name": "Test Lead Partner 2",
+                "cnpj_cpf": "29.186.652/0001-44",
+                "zip": "37.500-903",
+                "street_name": "Avenida Bps",
+                "street_number": "1303",
+                "street2": "predio j3",
+                "district": "Pinheirinho",
+                "city_id": cls.env.ref("l10n_br_base.city_3132404").id,
+                "state_id": cls.env.ref("base.state_br_mg").id,
+                "country_id": cls.env.ref("base.br").id,
+                "is_company": True,
+            }
+        )
+        cls.crm_lead_company_2 = cls.env["crm.lead"].create(
+            {
+                "name": "Test Company Lead IE",
+                "stage_id": cls.env.ref("crm.stage_lead1").id,
+            }
+        )
+
     # Tests on crm_lead_company :
 
     def test_conversion(self):
@@ -265,4 +289,123 @@ class CrmLeadTest(SavepointCase):
             self.env.ref("l10n_br_base.city_4205407").id,
             "In the change of the partner the field \
                          city_id was not automatically filled.",
+        )
+
+    def test_update_adress_lead(self):
+        """
+        Test if the partner's lead infos change
+        after changing the partner
+        """
+        self.crm_lead_company_2.partner_id = self.partner_id_02
+
+        # street_name
+        self.assertEqual(
+            self.crm_lead_company_2.street_name,
+            "Avenida Bps",
+            "In the change of the partner \
+                         the field street_name was not automatically filled.",
+        )
+
+        self.crm_lead_company_2.street_name = "Chocolate"
+
+        self.assertEqual(
+            self.crm_lead_company_2.partner_id.street_name,
+            "Chocolate",
+            "In the change of street_name \
+                         the field partner_id.street_name was not automatically filled.",
+        )
+
+        # street_number
+        self.assertEqual(
+            self.crm_lead_company_2.street_number,
+            "1303",
+            "In the change of the partner \
+                         the field street_number was not automatically filled.",
+        )
+
+        self.crm_lead_company_2.street_number = "1304"
+
+        self.assertEqual(
+            self.crm_lead_company_2.partner_id.street_number,
+            "1304",
+            "In the change of street_number \
+                         the field partner_id.street_number was not automatically filled.",
+        )
+
+        # district
+        self.assertEqual(
+            self.crm_lead_company_2.district,
+            "Pinheirinho",
+            "In the change of the partner \
+                         the field district was not automatically filled.",
+        )
+
+        self.crm_lead_company_2.district = "Santa Rosa"
+
+        self.assertEqual(
+            self.crm_lead_company_2.partner_id.district,
+            "Santa Rosa",
+            "In the change of district \
+                         the field partner_id.district was not automatically filled.",
+        )
+
+        # city_id
+        self.assertEqual(
+            self.crm_lead_company_2.city_id.id,
+            self.env.ref("l10n_br_base.city_3132404").id,
+            "In the change of the partner \
+                         the field city_id was not automatically filled.",
+        )
+
+        self.crm_lead_company_2.city_id = (
+            self.env.ref("l10n_br_base.city_3302403").id,
+        )
+
+        self.assertEqual(
+            self.crm_lead_company_2.partner_id.city_id.id,
+            self.env.ref("l10n_br_base.city_3302403").id,
+            "In the change of city_id \
+                         the field partner_id.city_id was not automatically filled.",
+        )
+
+        # state_id
+        self.assertEqual(
+            self.crm_lead_company_2.state_id.id,
+            self.env.ref("base.state_br_mg").id,
+            "In the change of the partner \
+                         the field state_id was not automatically filled.",
+        )
+
+        self.crm_lead_company_2.state_id = (self.env.ref("base.state_br_sp").id,)
+
+        self.assertEqual(
+            self.crm_lead_company_2.partner_id.state_id.id,
+            self.env.ref("base.state_br_sp").id,
+            "In the change of state_id \
+                         the field partner_id.state_id was not automatically filled.",
+        )
+
+        # country_id
+        self.assertEqual(
+            self.crm_lead_company_2.country_id.id,
+            self.env.ref("base.br").id,
+            "In the change of the partner \
+                         the field country_id was not automatically filled.",
+        )
+
+        self.crm_lead_company_2.country_id = (self.env.ref("base.us").id,)
+
+        self.assertEqual(
+            self.crm_lead_company_2.partner_id.country_id.id,
+            self.env.ref("base.us").id,
+            "In the change of country_id \
+                         the field partner_id.country_id was not automatically filled.",
+        )
+
+        # street2
+        self.assertEqual(
+            self.crm_lead_company_2.street2,
+            "predio j3",
+            "In the change of the partner \
+                         the field street2 was not automatically filled.",
         )
