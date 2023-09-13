@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestCustomerInvoice(TransactionCase):
     def setUp(self):
-        super(TestCustomerInvoice, self).setUp()
+        super().setUp()
         # Não foi possível usar um arquivo de demo criado pelo YAML
         # todas as vezes que rodava os testes o valor total da invoice
         # era alterado gerando falha no teste de 'status' em 'paid'
