@@ -961,7 +961,7 @@ class NFe(spec_models.StackedModel):
     def _eletronic_document_send(self):
         self._prepare_payments_for_nfce()
 
-        super(NFe, self)._eletronic_document_send()
+        super()._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.xml_error_message:
                 return
@@ -1076,7 +1076,7 @@ class NFe(spec_models.StackedModel):
         return etree.tostring(new_root)
 
     def _document_cancel(self, justificative):
-        result = super(NFe, self)._document_cancel(justificative)
+        result = super()._document_cancel(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_cancel()
@@ -1145,7 +1145,7 @@ class NFe(spec_models.StackedModel):
             )
 
     def _document_correction(self, justificative):
-        result = super(NFe, self)._document_correction(justificative)
+        result = super()._document_correction(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_correction(justificative)
