@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestCustomerNFeRefund(TransactionCase):
     def setUp(self):
-        super(TestCustomerNFeRefund, self).setUp()
+        super().setUp()
         self.wizard_export = self.env["l10n_br_account_product.nfe_export_invoice"]
         self.wizard_refund = self.env["account.invoice.refund"]
         self.invoice_same_state = self.env.ref(
