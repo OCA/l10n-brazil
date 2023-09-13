@@ -694,43 +694,104 @@ class RegistroB510(models.Model):
 
 
 class RegistroC100(models.Model):
-    "Documento - Nota Fiscal (código 01)"
+    "Documento - Nota Fiscal (código 01, 1B, 04, 55, 65)"
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.efd_icms_ipi.c100"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.c100"
+    _odoo_model = "l10n_br_fiscal.document"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Entrada; 1 - Saí...
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
-    #         "SER": 0,  # Série do documento fiscal
-    #         "NUM_DOC": 0,  # Número do documento fiscal
-    #         "CHV_NFE": 0,  # Chave da Nota Fiscal Eletrônica
-    #         "DT_DOC": 0,  # Data da emissão do documento fiscal
-    #         "DT_E_S": 0,  # Data da entrada ou da saída
-    #         "VL_DOC": 0,  # Valor total do documento fiscal
-    #         "IND_PGTO": 0,  # Indicador do tipo de pagamento: 0 - À vista; 1 - A ...
-    #         "VL_DESC": 0,  # Valor total do desconto
-    #         "VL_ABAT_NT": 0,  # Abatimento não tributado e não comercial Por exem...
-    #         "VL_MERC": 0,  # Valor total das mercadorias e serviços
-    #         "IND_FRT": 0,  # Indicador do tipo do frete: 0 - Por conta de terceir...
-    #         "VL_FRT": 0,  # Valor do frete indicado no documento fiscal
-    #         "VL_SEG": 0,  # Valor do seguro indicado no documento fiscal
-    #         "VL_OUT_DA": 0,  # Valor de outras despesas acessórias
-    #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
-    #         "VL_ICMS": 0,  # Valor do ICMS
-    #         "VL_BC_ICMS_ST": 0,  # Valor da base de cálculo do ICMS substituição ...
-    #         "VL_ICMS_ST": 0,  # Valor do ICMS retido por substituição tributária
-    #         "VL_IPI": 0,  # Valor total do IPI
-    #         "VL_PIS": 0,  # Valor total do PIS
-    #         "VL_COFINS": 0,  # Valor total da COFINS
-    #         "VL_PIS_ST": 0,  # Valor total do PIS retido por substituição
-    #         "VL_COFINS_ST": 0,  # Valor total da COFINS retido por substituição t...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("company_id", "=", declaration.company_id.id),
+            ("document_type", "in", ("01", "1B", "04", "55", "65")),
+            (
+                "state_edoc",
+                "in",
+                ("autorizada", "cancelada", "denegada", "inutilizada"),
+            ),
+            ("document_date", ">", declaration.DT_INI),
+            ("document_date", "<", declaration.DT_FIN),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        if record.fiscal_operation_type == "in":
+            ind_oper = "0"
+        else:
+            ind_oper = "1"
+        if record.issuer == "company":
+            ind_emit = "0"
+        else:
+            ind_emit = "1"
+
+        if record.state_edoc == "cancelada":
+            cod_sit = "02"
+        elif record.state_edoc == "autorizada" and record.edoc_purpose in ("1", "4"):
+            # Documento normal ou devolucao
+            cod_sit = "00"
+        elif record.state_edoc == "autorizada" and record.edoc_purpose in ("2", "3"):
+            # Documento complementar/ajuste
+            cod_sit = "06"
+        else:
+            cod_sit = "TODO"
+        # A partir de janeiro de 2023, os códigos de situação de documento 04 (NF-e ou CT-e denegado) e
+        # 05 (NF-e ou CT-e Numeração inutilizada) da tabela 4.1.2 - Tabela Situação do Documento serão descontinuados.
+        # elif nfe.state_edoc == "denegada" and nfe.edoc_purpose == "1":
+        #     cod_sit = "04"
+        # elif nfe.state_edoc == "inutilizada":
+        #     cod_sit = "05"
+        #     registro_c100.SER = ""
+        #     registro_c100.CHV_NFE = ""
+        # if nfe.emissao_doc == '1' and not nfe.state == 'cancel' \
+        #     and nfe.chave_nfe[6:20] != \
+        #     self.limpa_formatacao(nfe.partner_id.company_id.cnpj_cpf):
+        #     cod_sit = '08'
+
+        ind_pgto = "1"  # TODO ATS-TI code is commented as follow:
+        # if nfe.nfe40_pag:
+        #     if len(nfe.duplicata_ids) == 1:
+        #         if nfe.duplicata_ids.data_vencimento == nfe.data_agendada:
+        #             ind_pgto = '0'
+        #         else:
+        #             ind_pgto = '1'
+        #     else:
+        #         ind_pgto = '1'
+        # else:
+        #     ind_pgto = '2'
+
+        return {
+            "IND_OPER": ind_oper,
+            "IND_EMIT": ind_emit,
+            "COD_PART": str(record.partner_id.id),
+            "COD_MOD": record.document_type_id.code,
+            "COD_SIT": cod_sit,
+            "SER": record.document_serie,
+            "NUM_DOC": misc.punctuation_rm(str(record.document_number)),
+            "CHV_NFE": record.document_key,
+            "DT_DOC": record.document_date,
+            "DT_E_S": record.date_in_out,
+            "VL_DOC": record.amount_total,
+            "IND_PGTO": ind_pgto,
+            "VL_DESC": record.amount_discount_value,
+            "VL_ABAT_NT": record.amount_financial_discount_value,
+            "VL_MERC": record.amount_price_gross,
+            "IND_FRT": str(record.nfe40_modFrete)
+            if hasattr(record, "nfe40_modFrete")
+            else "",
+            "VL_FRT": record.amount_freight_value,
+            "VL_SEG": record.amount_insurance_value,
+            "VL_OUT_DA": record.amount_other_value,
+            "VL_BC_ICMS": record.amount_icms_base,
+            "VL_ICMS": record.amount_icms_value,
+            "VL_BC_ICMS_ST": record.amount_icmsst_base,
+            "VL_ICMS_ST": record.amount_icmsst_value,
+            "VL_IPI": record.amount_ipi_value,
+            "VL_PIS": record.amount_pis_value,
+            "VL_COFINS": record.amount_cofins_value,
+            # "VL_PIS_ST": record.amount_pisst_value,  # don't we have a field?
+            # "VL_COFINS_ST": record.amount_cofinsst_value,  # idem
+        }
 
 
 class RegistroC101(models.Model):
@@ -1000,48 +1061,59 @@ class RegistroC170(models.Model):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.efd_icms_ipi.c170"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.c170"
+    _odoo_model = "l10n_br_fiscal.document.line"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "NUM_ITEM": 0,  # Número sequencial do item no documento fiscal
-    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
-    #         "DESCR_COMPL": 0,  # Descrição complementar do item como adotado no d...
-    #         "QTD": 0,  # Quantidade do item
-    #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
-    #         "VL_ITEM": 0,  # Valor total do item (mercadorias ou serviços)
-    #         "VL_DESC": 0,  # Valor do desconto comercial
-    #         "IND_MOV": 0,  # Movimentação física do ITEM/PRODUTO:
-    #         "CST_ICMS": 0,  # Código da Situação Tributária referente ao ICMS, co...
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
-    #         "COD_NAT": 0,  # Código da natureza da operação (campo 02 do Registro...
-    #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_ICMS": 0,  # Valor do ICMS creditado/debitado
-    #         "VL_BC_ICMS_ST": 0,  # Valor da base de cálculo referente à substitui...
-    #         "ALIQ_ST": 0,  # Alíquota do ICMS da substituição tributária na unida...
-    #         "VL_ICMS_ST": 0,  # Valor do ICMS referente à substituição tributária
-    #         "IND_APUR": 0,  # Indicador de período de apuração do IPI: 0 - Mensal...
-    #         "CST_IPI": 0,  # Código da Situação Tributária referente ao IPI, conf...
-    #         "COD_ENQ": 0,  # Código de enquadramento legal do IPI, conforme tabel...
-    #         "VL_BC_IPI": 0,  # Valor da base de cálculo do IPI
-    #         "ALIQ_IPI": 0,  # Alíquota do IPI
-    #         "VL_IPI": 0,  # Valor do IPI creditado/debitado
-    #         "CST_PIS": 0,  # Código da Situação Tributária referente ao PIS.
-    #         "VL_BC_PIS": 0,  # Valor da base de cálculo do PIS
-    #         "ALIQ_PIS": 0,  # Alíquota do PIS (em percentual)
-    #         "QUANT_BC_PIS": 0,  # Quantidade – Base de cálculo PIS
-    #         "ALIQ_PIS_INDEX_29": 0,  # Alíquota do PIS (em reais)
-    #         "VL_PIS": 0,  # Valor do PIS
-    #         "CST_COFINS": 0,  # Código da Situação Tributária referente ao COFINS...
-    #         "VL_BC_COFINS": 0,  # Valor da base de cálculo da COFINS
-    #         "ALIQ_COFINS": 0,  # Alíquota do COFINS (em percentual)
-    #         "QUANT_BC_COFINS": 0,  # Quantidade – Base de cálculo COFINS
-    #         "ALIQ_COFINS_INDEX_35": 0,  # Alíquota da COFINS (em reais)
-    #         "VL_COFINS": 0,  # Valor da COFINS
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
-    #         "VL_ABAT_NT": 0,  # Valor do abatimento não tributado e não comercial
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("document_id", "=", parent_record.id),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "NUM_ITEM": index + 1,
+            "COD_ITEM": record.nfe40_cProd if hasattr(record, "nfe40_pag") else "",
+            "DESCR_COMPL": record.name,
+            "QTD": record.fiscal_quantity,
+            "UNID": record.nfe40_uCom if hasattr(record, "nfe40_uCom") else "",
+            "VL_ITEM": record.fiscal_price * record.fiscal_quantity,
+            "VL_DESC": record.discount_value,
+            "IND_MOV": "0" if record.cfop_id.stock_move else "1",
+            "CST_ICMS": record.icms_origin + record.icms_cst_code,
+            "CFOP": str(record.cfop_id.code),
+            "COD_NAT": str(record.fiscal_operation_id.code),
+            "VL_BC_ICMS": record.icms_base,
+            "ALIQ_ICMS": record.icms_percent,
+            "VL_ICMS": record.icms_value,
+            "VL_BC_ICMS_ST": record.icmsst_base,
+            "ALIQ_ST": record.icmsst_percent,
+            "VL_ICMS_ST": record.icmsst_value,
+            "IND_APUR": declaration.ind_apur,
+            "CST_IPI": record.ipi_cst_code,
+            "COD_ENQ": record.ipi_guideline_id.code,
+            "VL_BC_IPI": record.ipi_base,
+            "ALIQ_IPI": record.ipi_percent,
+            "VL_IPI": record.ipi_value,
+            "CST_PIS": record.pis_cst_code,
+            "VL_BC_PIS": record.pis_base,
+            "ALIQ_PIS": record.pis_percent,
+            "QUANT_BC_PIS": record.qBCProd
+            if hasattr(record, "qBCProd")
+            else record.fiscal_quantity,  # TODO sure?
+            # "ALIQ_PIS_INDEX_29": 0,  # Alíquota do PIS (em reais)
+            "VL_PIS": record.pis_value,
+            "CST_COFINS": record.cofins_cst_code,
+            "VL_BC_COFINS": record.cofins_base,
+            "ALIQ_COFINS": record.cofins_percent,
+            "QUANT_BC_COFINS": record.qBCProd
+            if hasattr(record, "qBCProd")
+            else record.fiscal_quantity,  # TODO sure?
+            # "ALIQ_COFINS_INDEX_35": 0,  # Alíquota da COFINS (em reais)
+            "VL_COFINS": record.cofins_value,
+            "COD_CTA": "",  # TODO Código da conta analítica contábil debitada/creditad...
+            "VL_ABAT_NT": record.financial_discount_value,
+        }
 
 
 class RegistroC171(models.Model):
