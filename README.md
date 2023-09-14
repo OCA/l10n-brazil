@@ -63,7 +63,7 @@ addon | version | maintainers | summary
 [l10n_br_sale_blanket_order](l10n_br_sale_blanket_order/) | 14.0.1.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Sale Blanket Order
 [l10n_br_sale_invoice_plan](l10n_br_sale_invoice_plan/) | 14.0.1.0.2 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Sale Invoice Plan
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 14.0.1.1.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
-[l10n_br_setup_tests](l10n_br_setup_tests/) | 14.0.1.0.0 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) | Modules for Odoo's Brazil-focused usability with integration tests.
+[l10n_br_setup_tests](l10n_br_setup_tests/) | 14.0.1.0.1 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) | Modules for Odoo's Brazil-focused usability with integration tests.
 [l10n_br_stock](l10n_br_stock/) | 14.0.2.0.3 |  | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 14.0.3.2.1 |  | Brazilian Localization WMS Accounting
 [l10n_br_stock_account_report](l10n_br_stock_account_report/) | 14.0.1.1.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | P7 Stock Valuation Report
