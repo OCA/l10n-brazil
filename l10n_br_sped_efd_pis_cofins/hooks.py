@@ -17,5 +17,5 @@ def post_init_hook(cr, registry):
     if env.cr.fetchone()[0]:
         demo_path = path.join(l10n_br_sped_efd_pis_cofins.__path__[0], "demo")
         file_path = path.join(demo_path, "demo_efd_pis_cofins_multi.txt")
-        env["l10n_br_sped.mixin"].flush_registers("efd_pis_cofins")
-        env["l10n_br_sped.mixin"].import_file(file_path, "efd_pis_cofins")
+        env["l10n_br_sped.mixin"]._flush_registers("efd_pis_cofins")
+        env["l10n_br_sped.mixin"]._import_file(file_path, "efd_pis_cofins")
