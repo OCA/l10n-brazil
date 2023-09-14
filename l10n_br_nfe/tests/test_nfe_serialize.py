@@ -19,7 +19,7 @@ _logger = logging.getLogger(__name__)
 
 class TestNFeExport(TransactionCase):
     def setUp(self, nfe_list):
-        super(TestNFeExport, self).setUp()
+        super().setUp()
         hooks.register_hook(
             self.env,
             "l10n_br_nfe",
