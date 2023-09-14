@@ -1817,6 +1817,11 @@ msgid "NFe Resumida"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_supplement
+msgid "NFe Supplement Document"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_transmission
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_transmission
 msgid "NFe Transmission"
@@ -2744,11 +2749,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_impostoDevol
 msgid "impostoDevol"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_supplement
-msgid "l10n_br_fiscal.document.supplement"
 msgstr ""
 
 #. module: l10n_br_nfe
