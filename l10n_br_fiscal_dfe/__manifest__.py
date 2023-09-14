@@ -4,7 +4,7 @@
     "name": "L10n BR Fiscal Dfe",
     "summary": """
         Distribuição de documentos fiscais""",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.1.0",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
