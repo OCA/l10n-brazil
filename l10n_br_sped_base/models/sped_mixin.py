@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import datetime
+from collections import defaultdict
+from io import StringIO
 
 from lxml.builder import E
 
@@ -273,12 +275,12 @@ class SpedMixin(models.AbstractModel):
 
     @api.model
     def _append_top_view_elements(self, group):
-        group.append(E.field(name="declaration_id", required="True"))
+        group.append(E.field(name="declaration_id"))
         group.append(E.field(name="reference", widget="reference"))
         group.append(E.separator(colspan="4"))
 
     @api.model
-    def flush_registers(self, kind, declaration_id=None):
+    def _flush_registers(self, kind, declaration_id=None):
         if declaration_id:
             domain = [("declaration_id", "=", declaration_id)]
         else:
@@ -290,7 +292,7 @@ class SpedMixin(models.AbstractModel):
             registers.unlink()
 
     @api.model
-    def import_file(self, filename, kind, version=None):
+    def _import_file(self, filename, kind, version=None, declaration=None):
         """
         Import SPED files into Odoo.
 
@@ -300,9 +302,9 @@ class SpedMixin(models.AbstractModel):
         :return: Declaration record created in Odoo.
 
         examples:
-        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_ecd.txt", "ecd")
-        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_ecd.txt", "ecd")
-        env["l10n_br_sped.mixin"].import_file("/odoo/links/l10n_br_sped/demo/demo_efd_pis_cofins_multi.txt", "efd_pis_cofins")
+        env["l10n_br_sped.mixin"]._import_file("/odoo/links/l10n_br_sped/demo/demo_ecd.txt", "ecd")
+        env["l10n_br_sped.mixin"]._import_file("/odoo/links/l10n_br_sped/demo/demo_ecd.txt", "ecd")
+        env["l10n_br_sped.mixin"]._import_file("/odoo/links/l10n_br_sped/demo/demo_efd_pis_cofins_multi.txt", "efd_pis_cofins")
         """
         if version is None:
             version = LAYOUT_VERSIONS[kind]
@@ -311,9 +313,11 @@ class SpedMixin(models.AbstractModel):
             previous_register = None
             parent = None
             parents = []
-            declaration = None
+            level_2_registers = defaultdict(list)
             for line in [line.rstrip("\r\n") for line in spedfile]:
                 reg_code = line.split("|")[1]
+                if declaration is not None and reg_code == "0000":
+                    continue
                 register_class = self.env.get(
                     "l10n_br_sped.%s.%s"
                     % (
@@ -343,7 +347,7 @@ class SpedMixin(models.AbstractModel):
                     parent = parents[-1]
                     last_level = register_class._sped_level
 
-                vals = register_class.read_register_line(line, version)
+                vals = register_class._read_register_line(line, version)
                 if declaration is not None:
                     vals["declaration_id"] = declaration.id
 
@@ -358,12 +362,21 @@ class SpedMixin(models.AbstractModel):
                 register = register_class.create(vals)
                 if reg_code == "0000":
                     declaration = register
+                if register_class._sped_level == 2:
+                    level_2_registers[reg_code].append(register)
+
                 previous_register = register
+
+        log_msg = StringIO()
+        log_msg.write("<h3>%s</h3>" % (_("Imported from file:"),))
+        for code, registers in level_2_registers.items():
+            registers[0]._log_chatter_sped_item(log_msg, 2, registers)
+        declaration.message_post(body=log_msg.getvalue())
 
         return declaration
 
     @api.model
-    def read_register_line(self, line, version):
+    def _read_register_line(self, line, version):
         """
         Read a single SPED register line and convert it into Odoo record values.
 
@@ -404,7 +417,7 @@ class SpedMixin(models.AbstractModel):
         return register_vals
 
     # flake8: noqa: C901
-    def generate_register_text(self, sped, version, line_count, count_by_register):
+    def _generate_register_text(self, sped, version, line_count, count_by_register):
         """
         Recursively generate the SPED text of the registers.
         """
@@ -477,13 +490,13 @@ class SpedMixin(models.AbstractModel):
 
             children = sorted(children, key=lambda reg: reg._name)
             for child in children:
-                child.generate_register_text(
+                child._generate_register_text(
                     sped, version, line_count, count_by_register
                 )
         return sped
 
     @api.model
-    def pull_records_from_odoo(
+    def _pull_records_from_odoo(
         self, kind, level, parent_register=None, parent_record=None, log_msg=None
     ):
         declaration = self._context["declaration"]
@@ -519,20 +532,20 @@ class SpedMixin(models.AbstractModel):
                 register_vals[parent_field] = parent_register.id
             register = self.create(register_vals)
             for child in children:
-                self.env[child].pull_records_from_odoo(
+                self.env[child]._pull_records_from_odoo(
                     kind,
                     level + 1,
                     parent_register=register,
                     parent_record=None,
                     log_msg=log_msg,
                 )
-            self.log_chatter_sped_item(log_msg, level, [register])
+            self._log_chatter_sped_item(log_msg, level, [register])
             return
         else:
-            self.log_chatter_sped_item(log_msg, level)
+            self._log_chatter_sped_item(log_msg, level)
             return
 
-        self.log_chatter_sped_item(log_msg, level, records)
+        self._log_chatter_sped_item(log_msg, level, records)
 
         for index, record in enumerate(records):
             register_vals = self._map_from_odoo(
@@ -546,7 +559,7 @@ class SpedMixin(models.AbstractModel):
             register = self.create(register_vals)
 
             for child in children:
-                self.env[child].pull_records_from_odoo(
+                self.env[child]._pull_records_from_odoo(
                     kind,
                     level + 1,
                     parent_register=register,
@@ -555,7 +568,7 @@ class SpedMixin(models.AbstractModel):
                 )
 
     @api.model
-    def log_chatter_sped_item(self, log_msg, level, records=None):
+    def _log_chatter_sped_item(self, log_msg, level, records=None):
         actions = self.env["ir.actions.act_window"].search(
             [("res_model", "=", self._name)]
         )
