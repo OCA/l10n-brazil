@@ -7,7 +7,7 @@ from io import StringIO
 
 from lxml.builder import E
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 from .sped_mixin import LAYOUT_VERSIONS
 
@@ -76,6 +76,7 @@ class SpedDeclaration(models.AbstractModel):
 
     def button_populate_sped_from_odoo(self):
         log_msg = StringIO()
+        log_msg.write("<h3>%s</h3>" % (_("Pulled from Odoo:"),))
         kind = self._get_kind()
         top_registers = (
             self.env["l10n_br_sped.mixin"]
@@ -93,11 +94,11 @@ class SpedDeclaration(models.AbstractModel):
 
     def button_flush_registers(self):
         self.ensure_one()
-        self.env["l10n_br_sped.mixin"].flush_registers(self._get_kind(), self.id)
+        self.env["l10n_br_sped.mixin"]._flush_registers(self._get_kind(), self.id)
 
     def button_create_sped_file(self):
         self.ensure_one()
-        sped_txt = self.generate_sped_text()
+        sped_txt = self._generate_sped_text()
         kind = self._get_kind()
         file_name = kind + "-" + self.name_get()[0][1] + ".txt"
         self.sped_attachment_id = self.env["ir.attachment"].create(
@@ -175,7 +176,7 @@ class SpedDeclaration(models.AbstractModel):
         group.append(E.field(name="company_id"))
         group.append(E.separator(colspan="4"))
 
-    def generate_sped_text(self, version=None):
+    def _generate_sped_text(self, version=None):
         """
         Generate SPED text from Odoo declaration records.
 
@@ -197,7 +198,7 @@ class SpedDeclaration(models.AbstractModel):
         line_count = [0]
         count_by_register = defaultdict(int)
         count_by_bloco = defaultdict(int)
-        self.generate_register_text(sped, version, line_count, count_by_register)
+        self._generate_register_text(sped, version, line_count, count_by_register)
         count_by_register["0990"] = 1  # for some reason it is needed
 
         for register_class in top_register_classes:
@@ -226,7 +227,7 @@ class SpedDeclaration(models.AbstractModel):
                 )
                 count_by_register["%s001" % (bloco,)] = 1
                 line_count[0] += 1
-            registers.generate_register_text(
+            registers._generate_register_text(
                 sped, version, line_count, count_by_register
             )
             last_bloco = bloco
