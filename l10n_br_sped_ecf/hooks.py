@@ -17,4 +17,4 @@ def post_init_hook(cr, registry):
         demo_path = path.join(l10n_br_sped_ecf.__path__[0], "demo")
         path.join(demo_path, "demo_ecf.txt")
         # FIXME the current demo ECF file is bugguy
-        # env["l10n_br_sped.mixin"].import_file(file_path, "ecf")
+        # env["l10n_br_sped.mixin"]._import_file(file_path, "ecf")
