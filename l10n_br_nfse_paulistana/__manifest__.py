@@ -15,7 +15,7 @@
         "python": [
             "erpbrasil.edoc>=2.5.2",
             "erpbrasil.assinatura>=1.7.0",
-            "erpbrasil.transmissao",
+            "erpbrasil.transmissao>=1.1.0",
             "erpbrasil.base>=2.3.0",
             "nfselib.paulistana",
             "unidecode",
