@@ -610,11 +610,11 @@ class RegistroI550(models.Model):
     RZ_CONT = fields.Char()  # according to pdf specification
 
     @api.model
-    def read_register_line(self, line, version):
+    def _read_register_line(self, line, version):
         vals = {"RZ_CONT": "|".join(line.split("|")[2:][:-1])}
         return vals
 
-    def generate_register_text(self, sped, version, line_count, count_by_register):
+    def _generate_register_text(self, sped, version, line_count, count_by_register):
         code = self._name[-4:].upper()
         vals_list = self.read(["RZ_CONT", "reg_I555_ids"])
         if len(self):
@@ -628,7 +628,7 @@ class RegistroI550(models.Model):
                 [("id", "in", vals["reg_I555_ids"])]
             )
             for child in children:
-                child.generate_register_text(
+                child._generate_register_text(
                     sped, version, line_count, count_by_register
                 )
         return sped
@@ -643,11 +643,11 @@ class RegistroI555(models.Model):
     RZ_CONT_TOT = fields.Char()  # according to pdf specification
 
     @api.model
-    def read_register_line(self, line, version):
+    def _read_register_line(self, line, version):
         vals = {"RZ_CONT_TOT": "|".join(line.split("|")[2:][:-1])}
         return vals
 
-    def generate_register_text(self, sped, version, line_count, count_by_register):
+    def _generate_register_text(self, sped, version, line_count, count_by_register):
         code = self._name[-4:].upper()
         keys = [i[0] for i in self._fields.items()]
         vals_list = self.read(keys)
