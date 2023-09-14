@@ -68,12 +68,12 @@
                 <xProd>Cabinet with Doors</xProd>
                 <NCM>94033000</NCM>
                 <CFOP>5102</CFOP>
-                <uCom>UNID</uCom>
+                <uCom>UN</uCom>
                 <qCom>1.0000</qCom>
                 <vUnCom>14.0000000000</vUnCom>
                 <vProd>14.00</vProd>
                 <cEANTrib>SEM GTIN</cEANTrib>
-                <uTrib>UNID</uTrib>
+                <uTrib>UN</uTrib>
                 <qTrib>1.0000</qTrib>
                 <vUnTrib>14.0000000000</vUnTrib>
                 <indTot>1</indTot>
