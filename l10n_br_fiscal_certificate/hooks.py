@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import SUPERUSER_ID, _, api, tools
+from odoo import SUPERUSER_ID, _, api
 
 from .constants import CERTIFICATE_TYPE_ECNPJ, CERTIFICATE_TYPE_NFE
 
@@ -41,7 +41,10 @@ def post_init_hook(cr, registry):
             ),
         }
 
-    if not tools.config["without_demo"]:
+    env.cr.execute(
+        "select demo from ir_module_module where name='l10n_br_fiscal_certificate';"
+    )
+    if env.cr.fetchone()[0]:
         companies = [
             env.ref("base.main_company", raise_if_not_found=False),
             env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False),
