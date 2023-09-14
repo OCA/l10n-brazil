@@ -170,6 +170,11 @@ msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_attachment
+msgid "Fiscal Document Attachment"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_follower_ids
 msgid "Followers"
 msgstr ""
@@ -383,9 +388,4 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__website_message_ids
 msgid "Website communication history"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
-#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_attachment
-msgid "l10n_br_fiscal.attachment"
 msgstr ""
