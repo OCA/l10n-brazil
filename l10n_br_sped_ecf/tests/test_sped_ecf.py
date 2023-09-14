@@ -16,10 +16,10 @@ class SpedTest(common.TransactionCase):
 
     # FIXME: the demo file is broken
     # def test_import_ecf(self):
-    #     self.env["l10n_br_sped.mixin"].flush_registers("ecf")
+    #     self.env["l10n_br_sped.mixin"]._flush_registers("ecf")
     #     file_path = path.join(self.demo_path, "demo_ecf.txt")
-    #     self.env["l10n_br_sped.mixin"].import_file(file_path, "ecf")
-    #     sped = self.env["l10n_br_sped.mixin"].generate_sped_text("ecf")
+    #     self.env["l10n_br_sped.mixin"]._import_file(file_path, "ecf")
+    #     sped = self.env["l10n_br_sped.mixin"]._generate_sped_text("ecf")
     #     with open(file_path) as f:
     #         target_content = f.read()
     #         self.assertEqual(sped.strip(), target_content.strip())
