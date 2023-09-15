@@ -98,6 +98,18 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
+    amount_freight_value = fields.Monetary(
+        inverse="_inverse_amount_freight",
+    )
+
+    amount_insurance_value = fields.Monetary(
+        inverse="_inverse_amount_insurance",
+    )
+
+    amount_other_value = fields.Monetary(
+        inverse="_inverse_amount_other",
+    )
+
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
         for rec in self:
@@ -721,3 +733,18 @@ class AccountMove(models.Model):
             f"line_ids.{subfield}"
             for subfield in self.env["account.move.line"]._get_integrity_hash_fields()
         ]
+
+    def _inverse_amount_freight(self):
+        super()._inverse_amount_freight()
+        for record in self:
+            record._move_autocomplete_invoice_lines_values()
+
+    def _inverse_amount_insurance(self):
+        super()._inverse_amount_insurance()
+        for record in self:
+            record._move_autocomplete_invoice_lines_values()
+
+    def _inverse_amount_other(self):
+        super()._inverse_amount_other()
+        for record in self:
+            record._move_autocomplete_invoice_lines_values()
