@@ -813,6 +813,7 @@ class NFe(spec_models.StackedModel):
 
         if not certificate:
             raise UserError(_("Certificado não encontrado"))
+        self._check_nfe_environment()
 
         certificado = cert.Certificado(
             arquivo=certificate.file,
@@ -820,7 +821,6 @@ class NFe(spec_models.StackedModel):
         )
         session = Session()
         session.verify = False
-
         params = {
             "transmissao": TransmissaoSOAP(certificado, session),
             "uf": self.company_id.state_id.ibge_code,
