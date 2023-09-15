@@ -4,14 +4,18 @@
 import re
 from unicodedata import normalize
 
+from erpbrasil.assinatura import certificado as cert
+from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.mdfe.bindings.v3_0.mdfe_modal_aereo_v3_00 import Aereo
 from nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00 import Aquav
 from nfelib.mdfe.bindings.v3_0.mdfe_modal_ferroviario_v3_00 import Ferrov
 from nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00 import Rodo
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
+from requests import Session
 
-from odoo import api, fields
+from odoo import _, api, fields
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -67,7 +71,7 @@ class MDFe(spec_models.StackedModel):
     _mdfe_search_keys = ["mdfe30_Id"]
 
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = "infmdfe.infAdic"
+    _force_stack_paths = ["infmdfe.infAdic", "infmdfe.tot", "infmdfe.infsolicnff"]
 
     INFMDFE_TREE = """
     > <infMDFe>
@@ -78,6 +82,18 @@ class MDFe(spec_models.StackedModel):
         > <tot>
     """
 
+    mdfe_version = fields.Selection(
+        string="MDF-e Version",
+        related="company_id.mdfe_version",
+        readonly=False,
+    )
+
+    mdfe_environment = fields.Selection(
+        string="MDF-e Environment",
+        related="company_id.mdfe_environment",
+        readonly=False,
+    )
+
     ##########################
     # MDF-e spec related fields
     ##########################
@@ -86,7 +102,7 @@ class MDFe(spec_models.StackedModel):
     # MDF-e tag: infMDFe
     ##########################
 
-    mdfe30_versao = fields.Char(related="document_version")
+    mdfe30_versao = fields.Char(compute="_compute_mdfe_version")
 
     mdfe30_Id = fields.Char(
         compute="_compute_mdfe30_id_tag",
@@ -98,6 +114,11 @@ class MDFe(spec_models.StackedModel):
     # Methods
     ##########################
 
+    @api.depends("mdfe_version")
+    def _compute_mdfe_version(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_versao = record.mdfe_version
+
     @api.depends("document_type_id", "document_key")
     def _compute_mdfe30_id_tag(self):
         """Set schema data which are not just related fields"""
@@ -105,11 +126,11 @@ class MDFe(spec_models.StackedModel):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             if (
                 record.document_type_id
-                and record.document_type.prefix
+                and record.document_type_id.prefix
                 and record.document_key
             ):
                 record.mdfe30_Id = "{}{}".format(
-                    record.document_type.prefix, record.document_key
+                    record.document_type_id.prefix, record.document_key
                 )
             else:
                 record.mdfe30_Id = False
@@ -413,7 +434,7 @@ class MDFe(spec_models.StackedModel):
     )
 
     rodo_seal_ids = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.lacre", inverse_name="document_id"
+        comodel_name="l10n_br_mdfe.transporte.lacre", inverse_name="document_id"
     )
 
     ##########################
@@ -439,16 +460,48 @@ class MDFe(spec_models.StackedModel):
             export_dict["any_element"] = self._export_modal_ferroviario_fields()
 
     def _export_modal_aereo_fields(self):
+        optional_data = {}
+        if self.flight_date:
+            optional_data["dVoo"] = fields.Date.to_string(self.flight_date)
+
         return Aereo(
             nac=self.airplane_nationality,
             matr=self.airplane_registration,
             nVoo=self.flight_number,
-            dVoo=fields.Date.to_string(self.flight_date),
             cAerEmb=self.boarding_airfield,
             cAerDes=self.landing_airfield,
+            **optional_data,
         )
 
     def _export_modal_aquaviario_fields(self):
+        optional_data = {}
+        if self.ship_loading_ids:
+            optional_data["infTermCarreg"] = self.ship_loading_ids.export_fields_multi()
+
+        if self.ship_unloading_ids:
+            optional_data[
+                "infTermDescarreg"
+            ] = self.ship_unloading_ids.export_fields_multi()
+
+        if self.ship_convoy_ids:
+            optional_data["infEmbComb"] = self.ship_convoy_ids.export_fields_multi()
+
+        if self.ship_empty_load_ids:
+            optional_data[
+                "infUnidCargaVazia"
+            ] = self.ship_empty_load_ids.export_fields_multi()
+
+        if self.ship_empty_transport_ids:
+            optional_data[
+                "infUnidTranspVazia"
+            ] = self.ship_empty_transport_ids.export_fields_multi()
+
+        if self.transshipment_port:
+            optional_data["prtTrans"] = self.transshipment_port
+
+        if self.ship_navigation_type:
+            optional_data["tpNav"] = self.ship_navigation_type
+
         return Aquav(
             irin=self.ship_irin,
             tpEmb=self.ship_type,
@@ -456,91 +509,152 @@ class MDFe(spec_models.StackedModel):
             xEmbar=self.ship_name,
             cPrtEmb=self.ship_boarding_point,
             cPrtDest=self.ship_landing_point,
-            prtTrans=self.transshipment_port,
-            tpNav=self.ship_navigation_type,
-            infTermCarreg=[
-                Aquav.InfTermCarreg(**loading.export_fields())
-                for loading in self.ship_loading_ids
-            ],
-            infTermDescarreg=[
-                Aquav.InfTermDescarreg(**unloading.export_fields())
-                for unloading in self.ship_unloading_ids
-            ],
-            infEmbComb=[
-                Aquav.InfEmbComb(**convoy.export_fields())
-                for convoy in self.ship_convoy_ids
-            ],
-            infUnidCargaVazia=[
-                Aquav.infUnidCargaVazia(**load.export_fields())
-                for load in self.ship_empty_load_ids
-            ],
-            infUnidTranspVazia=[
-                Aquav.infUnidTranspVazia(**transp.export_fields())
-                for transp in self.ship_empty_transport_ids
-            ],
+            **optional_data,
         )
 
     def _export_modal_ferroviario_fields(self):
+        train_optional_data = {}
+        if self.train_release_time:
+            train_optional_data["dhTrem"] = fields.Datetime.to_string(
+                self.train_release_time
+            )
+
         return Ferrov(
             trem=Ferrov.Trem(
                 xPref=self.train_prefix,
-                dhTrem=fields.Datetime.to_string(self.train_release_time),
                 xOri=self.train_origin,
                 xDest=self.train_destiny,
                 qVag=self.train_wagon_quantity,
+                **train_optional_data,
             ),
-            vag=[Ferrov.Vag(**vag.export_fields()) for vag in self.train_wagon_ids],
+            vag=self.train_wagon_ids.export_fields_multi(),
         )
 
     def _export_modal_rodoviario_fields(self):
+        optional_data = {}
+        if self.rodo_scheduling_code:
+            optional_data["codAgPorto"] = self.rodo_scheduling_code
+
+        if self.rodo_seal_ids:
+            optional_data["lacRodo"] = self.rodo_seal_ids.export_fields_multi(
+                Rodo.LacRodo
+            )
+
+        if self.rodo_tow_ids:
+            optional_data["veicReboque"] = self.rodo_tow_ids.export_fields_multi()
+
+        has_antt_data = any(
+            [
+                self.rodo_RNTRC,
+                self.rodo_ciot_ids,
+                self.rodo_toll_device_ids,
+                self.rod_toll_vehicle_categ,
+                self.rodo_contractor_ids,
+                self.rodo_payment_ids,
+            ]
+        )
+        if has_antt_data:
+            optional_data["infANTT"] = self._export_modal_rodoviario_antt_fields()
+
+        veic_optional_data = {}
+        if self.rodo_vehicle_code:
+            veic_optional_data["cInt"] = self.rodo_vehicle_code
+
+        if self.rodo_vehicle_RENAVAM:
+            veic_optional_data["RENAVAM"] = self.rodo_vehicle_RENAVAM
+
+        if self.rodo_vehicle_kg_capacity:
+            veic_optional_data["capKG"] = self.rodo_vehicle_kg_capacity
+
+        if self.rodo_vehicle_m3_capacity:
+            veic_optional_data["capM3"] = self.rodo_vehicle_m3_capacity
+
+        if self.rodo_vehicle_proprietary_id:
+            veic_optional_data[
+                "prop"
+            ] = self.rodo_vehicle_proprietary_id.export_proprietary_fields(
+                Rodo.VeicTracao.Prop
+            )
+
+        if self.rodo_vehicle_m3_capacity:
+            veic_optional_data["capM3"] = self.rodo_vehicle_m3_capacity
+
+        if self.rodo_vehicle_state_id:
+            veic_optional_data["UF"] = self.rodo_vehicle_state_id.code
+
+        if self.rodo_vehicle_conductor_ids:
+            veic_optional_data[
+                "condutor"
+            ] = self.rodo_vehicle_conductor_ids.export_fields_multi()
+
         return Rodo(
-            codAgPorto=self.rodo_scheduling_code,
-            infANTT=Rodo.infANTT(
-                RNTRC=self.rodo_RNTRC,
-                infCIOT=self.rodo_ciot_ids.export_fields(),
-                valePed=Rodo.InfAntt.ValePed(
-                    disp=[
-                        Rodo.InfAntt.ValePed.Disp(**dev.export_fields())
-                        for dev in self.rodo_toll_device_ids
-                    ],
-                    categCombVeic=self.rod_toll_vehicle_categ,
-                ),
-                infContratante=[
-                    Rodo.InfAntt.infContratante(**contr.export_contractor_fields())
-                    for contr in self.rodo_contractor_ids
-                ],
-                infPag=[
-                    Rodo.InfAntt.infPag(**pay.export_contractor_fields())
-                    for pay in self.rodo_payment_ids
-                ],
-            ),
-            lacRodo=[
-                Rodo.infANTT.lacRodo(**seal.export_fields())
-                for seal in self.rodo_seal_ids
-            ],
-            veicReboque=[
-                Rodo.veicReboque(**tow.export_fields()) for tow in self.rodo_tow_ids
-            ],
-            veicTracao=Rodo.veicTracao(
-                cInt=self.rodo_vehicle_code,
+            veicTracao=Rodo.VeicTracao(
                 placa=self.rodo_vehicle_plate,
-                RENAVAM=self.rodo_vehicle_RENAVAM,
                 tara=self.rodo_vehicle_tare_weight,
-                capKG=self.rodo_vehicle_kg_capacity,
-                capM3=self.rodo_vehicle_m3_capacity,
                 tpRod=self.rodo_vehicle_tire_type,
                 tpCar=self.rodo_vehicle_type,
-                UF=self.rodo_vehicle_state_id.code,
-                condutor=[
-                    Rodo.veicTracao.condutor(**cond.export_fields())
-                    for cond in self.rodo_vehicle_conductor_ids
-                ],
-                prop=[
-                    Rodo.veicTracao.prop(**prop.export_proprietary_fields())
-                    for prop in self.rodo_vehicle_proprietary_id
-                ],
+                **veic_optional_data,
             ),
+            **optional_data,
         )
+
+    def _export_modal_rodoviario_antt_fields(self):
+        antt_data = {}
+        if self.rodo_RNTRC:
+            antt_data["RNTRC"] = self.rodo_RNTRC
+
+        if self.rodo_ciot_ids:
+            antt_data["infCIOT"] = self.rodo_ciot_ids.export_fields_multi()
+
+        if self.rodo_contractor_ids:
+            antt_data[
+                "infContratante"
+            ] = self.rodo_contractor_ids.export_contractor_fields()
+
+        if self.rodo_payment_ids:
+            antt_data["infPag"] = self.rodo_payment_ids.export_fields_multi()
+
+        has_vale_ped_data = self.rodo_toll_device_ids or self.rod_toll_vehicle_categ
+        if has_vale_ped_data:
+            antt_data["valePed"] = self._export_modal_rodoviario_vale_ped_fields()
+
+        return Rodo.InfAntt(**antt_data)
+
+    def _export_modal_rodoviario_vale_ped_fields(self):
+        vale_ped_data = {}
+        if self.rodo_toll_device_ids:
+            vale_ped_data["disp"] = self.rodo_toll_device_ids.export_fields_multi()
+
+        if self.rod_toll_vehicle_categ:
+            vale_ped_data["categCombVeic"] = self.rod_toll_vehicle_categ
+
+        return Rodo.InfAntt.ValePed(**vale_ped_data)
+
+    ##########################
+    # MDF-e tag: seg
+    ##########################
+
+    mdfe30_seg = fields.One2many(
+        comodel_name="l10n_br_mdfe.seguro.carga",
+        inverse_name="document_id",
+        string="Seguros da Carga",
+    )
+
+    ##########################
+    # MDF-e tag: prodPred
+    ##########################
+
+    mdfe30_prodPred = fields.Many2one(comodel_name="product.product")
+
+    ##########################
+    # MDF-e tag: lacres
+    ##########################
+
+    mdfe30_lacres = fields.One2many(
+        comodel_name="l10n_br_mdfe.transporte.lacre",
+        inverse_name="document_id",
+        related="rodo_seal_ids",
+    )
 
     ##########################
     # MDF-e tag: infDoc
@@ -595,7 +709,7 @@ class MDFe(spec_models.StackedModel):
 
     @api.depends("fiscal_additional_data")
     def _compute_mdfe30_additional_data(self):
-        for record in self:
+        for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_infCpl = False
             record.mdfe30_infAdFisco = False
 
@@ -630,6 +744,41 @@ class MDFe(spec_models.StackedModel):
         return authorized_partners
 
     mdfe30_autXML = fields.One2many(default=_default_mdfe30_autxml)
+
+    ##########################
+    # NF-e tag: tot
+    ##########################
+
+    mdfe30_qCTe = fields.Char(compute="_compute_tot")
+
+    mdfe30_qNFe = fields.Char(compute="_compute_tot")
+
+    mdfe30_qMDFe = fields.Char(compute="_compute_tot")
+
+    mdfe30_cUnid = fields.Selection(default="01")
+
+    mdfe30_vCarga = fields.Monetary(compute="_compute_tot_carga")
+
+    mdfe30_qCarga = fields.Float(compute="_compute_tot_carga")
+
+    ##########################
+    # MDF-e tag: tot
+    # Methods
+    ##########################
+
+    @api.depends("unloading_city_ids")
+    def _compute_tot(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_qCTe = len(record.unloading_city_ids.mapped("cte_ids"))
+            record.mdfe30_qNFe = len(record.unloading_city_ids.mapped("nfe_ids"))
+            record.mdfe30_qMDFe = len(record.unloading_city_ids.mapped("mdfe_ids"))
+
+    @api.depends("mdfe30_cUnid")
+    def _compute_tot_carga(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            # TODO: calcular valores
+            record.mdfe30_vCarga = 0
+            record.mdfe30_qCarga = 0
 
     ################################
     # Framework Spec model's methods
@@ -675,7 +824,25 @@ class MDFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
-        params = self._prepare_processor_params()
+        certificate = False
+        if self.company_id.sudo().certificate_nfe_id:
+            certificate = self.company_id.sudo().certificate_nfe_id
+        elif self.company_id.sudo().certificate_ecnpj_id:
+            certificate = self.company_id.sudo().certificate_ecnpj_id
+
+        if not certificate:
+            raise UserError(_("Certificado não encontrado"))
+
+        certificado = cert.Certificado(
+            arquivo=certificate.file,
+            senha=certificate.password,
+        )
+        session = Session()
+        session.verify = False
+
+        params = {
+            "transmissao": TransmissaoSOAP(certificado, session),
+        }
         return edoc_mdfe(**params)
 
     def _document_export(self, pretty_print=True):
@@ -689,14 +856,14 @@ class MDFe(spec_models.StackedModel):
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
-                    EVENT_ENV_PROD if self.nfe_environment == "1" else EVENT_ENV_HML
+                    EVENT_ENV_PROD if self.mdfe_environment == "1" else EVENT_ENV_HML
                 ),
                 event_type="0",
                 xml_file=xml_file,
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
+            xml_assinado = processador.assina_raiz(edoc, edoc.infMDFe.Id)
             self._valida_xml(xml_assinado)
         return result
 

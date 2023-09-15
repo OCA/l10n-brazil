@@ -3,6 +3,7 @@
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode, punctuation_rm
+from nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00 import Rodo
 
 from odoo import api, fields
 
@@ -23,6 +24,8 @@ class ResPartner(spec_models.SpecModel):
         "mdfe.30.veicreboque_prop",
         "mdfe.30.veictracao_prop",
         "mdfe.30.infcontratante",
+        "mdfe.30.infresp",
+        "mdfe.30.infseg",
     ]
     _mdfe_search_keys = ["mdfe30_CNPJ", "mdfe30_CPF", "mdfe_xNome"]
 
@@ -132,6 +135,12 @@ class ResPartner(spec_models.SpecModel):
 
     mdfe30_xContato = fields.Char(related="legal_name")
 
+    mdfe30_xSeg = fields.Char(related="legal_name")
+
+    mdfe30_respSeg = fields.Selection(default="1")
+
+    mdfe30_tpProp = fields.Selection(default="0")
+
     mdfe30_choice8 = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="CNPJ/CPF do Parceiro Autorizado",
@@ -156,13 +165,15 @@ class ResPartner(spec_models.SpecModel):
 
     mdfe30_choice11 = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
-        string="CNPJ/CPF/Id Estrangeiro do Contratante",
+        string="CNPJ/CPF do Contratante",
         compute="_compute_mdfe_data",
     )
 
-    mdfe30_tpProp = fields.Selection(required=True)
-
-    mdfe30_RNTRC = fields.Char(required=True)
+    mdfe30_choice12 = fields.Selection(
+        selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
+        string="CNPJ/CPF do Responsável pelo Seguro da Carga",
+        compute="_compute_mdfe_data",
+    )
 
     @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
     def _compute_mdfe_data(self):
@@ -179,6 +190,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.mdfe30_choice9 = "mdfe30_CNPJ"
                     rec.mdfe30_choice10 = "mdfe30_CNPJ"
                     rec.mdfe30_choice11 = "mdfe30_CNPJ"
+                    rec.mdfe30_choice12 = "mdfe30_CNPJ"
                     rec.mdfe30_CNPJ = cnpj_cpf
                     rec.mdfe30_CPF = None
                 else:
@@ -187,6 +199,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.mdfe30_choice9 = "mdfe30_CPF"
                     rec.mdfe30_choice10 = "mdfe30_CPF"
                     rec.mdfe30_choice11 = "mdfe30_CPF"
+                    rec.mdfe30_choice12 = "mdfe30_CPF"
                     rec.mdfe30_CPF = cnpj_cpf
                     rec.mdfe30_CNPJ = None
             else:
@@ -195,6 +208,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_choice9 = False
                 rec.mdfe30_choice10 = False
                 rec.mdfe30_choice11 = False
+                rec.mdfe30_choice12 = False
                 rec.mdfe30_CNPJ = ""
                 rec.mdfe30_CPF = ""
 
@@ -215,6 +229,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_choice9 = "mdfe30_CPF"
                 rec.mdfe30_choice10 = "mdfe30_CPF"
                 rec.mdfe30_choice11 = "mdfe30_CPF"
+                rec.mdfe30_choice12 = "mdfe30_CPF"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.mdfe30_CNPJ))
 
     def _inverse_mdfe30_CPF(self):
@@ -226,6 +241,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_choice9 = "mdfe30_CNPJ"
                 rec.mdfe30_choice10 = "mdfe30_CNPJ"
                 rec.mdfe30_choice11 = "mdfe30_CNPJ"
+                rec.mdfe30_choice12 = "mdfe30_CNPJ"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.mdfe30_CPF))
 
     def _inverse_mdfe30_IE(self):
@@ -288,29 +304,47 @@ class ResPartner(spec_models.SpecModel):
 
     @api.model
     def export_contractor_fields(self):
-        cnpj_cpf_data = {}
-        if self.choice10 == "mdfe30_idEstrangeiro":
-            cnpj_cpf_data["idEstrangeiro"] = self.mdfe30_idEstrangeiro
-        elif self.choice10 == "mdfe30_CNPJ":
-            cnpj_cpf_data["CNPJ"]: self.mdfe30_CNPJ
-        else:
-            cnpj_cpf_data["CPF"]: self.mdfe30_CPF
+        if len(self) > 1:
+            return self.export_contractor_fields_multi()
 
-        return {"xNome": self.name, **cnpj_cpf_data}
+        cnpj_cpf_data = {}
+        if self.mdfe30_choice10 == "mdfe30_idEstrangeiro":
+            cnpj_cpf_data["idEstrangeiro"] = self.mdfe30_idEstrangeiro
+        elif self.mdfe30_choice10 == "mdfe30_CNPJ":
+            cnpj_cpf_data["CNPJ"] = self.mdfe30_CNPJ
+        else:
+            cnpj_cpf_data["CPF"] = self.mdfe30_CPF
+
+        return Rodo.InfAntt.InfContratante(xNome=self.name, **cnpj_cpf_data)
 
     @api.model
-    def export_proprietary_fields(self):
-        cnpj_cpf_data = {}
-        if self.choice10 == "mdfe30_CNPJ":
-            cnpj_cpf_data["CNPJ"]: self.mdfe30_CNPJ
-        else:
-            cnpj_cpf_data["CPF"]: self.mdfe30_CPF
+    def export_contractor_fields_multi(self):
+        return [record.export_contractor_fields() for record in self]
 
-        return {
-            "xNome": self.mdfe30_xNome,
-            "tpProp": self.mdfe30_tpProp,
-            "RNTRC": self.mdfe30_RNTRC,
-            "IE": self.mdfe30_IE,
-            "UF": self.mdfe30_UF,
+    @api.model
+    def export_proprietary_fields(self, binding):
+        if len(self) > 1:
+            return self.export_proprietary_fields_multi()
+
+        cnpj_cpf_data = {}
+        if self.mdfe30_choice10 == "mdfe30_CNPJ":
+            cnpj_cpf_data["CNPJ"] = self.mdfe30_CNPJ
+        else:
+            cnpj_cpf_data["CPF"] = self.mdfe30_CPF
+
+        optional_data = {}
+        if self.mdfe30_tpProp:
+            optional_data["tpProp"] = self.mdfe30_tpProp
+
+        return binding(
+            xNome=self.mdfe30_xNome,
+            RNTRC=self.mdfe30_RNTRC,
+            IE=self.mdfe30_IE,
+            UF=self.mdfe30_UF,
             **cnpj_cpf_data,
-        }
+            **optional_data
+        )
+
+    @api.model
+    def export_proprietary_fields_multi(self, binding):
+        return [record.export_proprietary_fields(binding) for record in self]

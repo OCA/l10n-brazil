@@ -11,6 +11,7 @@ class MDFeRelated(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.related"
     _inherit = [
         "l10n_br_fiscal.document.related",
+        "mdfe.30.infmdfetransp",
         "mdfe.30.tmdfe_infnfe",
         "mdfe.30.infcte",
     ]
@@ -21,8 +22,16 @@ class MDFeRelated(spec_models.StackedModel):
     _odoo_module = "l10n_br_mdfe"
     _spec_module = "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
     _spec_tab_name = "MDFe"
-    _stack_skip = ("mdfe30_infNFe_infMunDescarga_id", "mdfe30_infCTe_infMunDescarga_id")
+    _stack_skip = (
+        "mdfe30_infNFe_infMunDescarga_id",
+        "mdfe30_infCTe_infMunDescarga_id",
+        "mdfe30_infMDFeTransp_infMunDescarga_id",
+    )
 
-    mdfe30_chNFe = fields.Char(related="document_id.document_key")
+    mdfe30_chNFe = fields.Char(related="document_key")
 
-    mdfe30_chCTe = fields.Char(related="document_id.document_key")
+    mdfe30_chCTe = fields.Char(related="document_key")
+
+    mdfe30_chMDFe = fields.Char(related="document_key")
+
+    mdfe30_peri = fields.One2many(comodel_name="l10n_br_mdfe.transporte.perigoso")

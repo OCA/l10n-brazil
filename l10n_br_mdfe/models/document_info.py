@@ -31,6 +31,8 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
 
     mdfe30_infNFe = fields.One2many(compute="_compute_document_data")
 
+    mdfe30_infMDFeTransp = fields.One2many(compute="_compute_document_data")
+
     country_id = fields.Many2one(
         comodel_name="res.country.state",
         default=lambda self: self.env.ref("base.br"),
@@ -54,6 +56,7 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
         selection=[
             ("nfe", "NF-e"),
             ("cte", "CT-e"),
+            ("mdfe", "MDF-e"),
         ],
         string="Document Type",
         default="nfe",
@@ -69,6 +72,11 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
         relation="mdfe_related_cte_carregamento_rel",
     )
 
+    mdfe_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        relation="mdfe_related_mdfe_carregamento_rel",
+    )
+
     @api.depends("city_id")
     def _compute_city_data(self):
         for record in self:
@@ -80,6 +88,7 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
         for record in self:
             record.mdfe30_infCTe = [(5, 0, 0)]
             record.mdfe30_infNFe = [(5, 0, 0)]
+            record.mdfe30_infMDFeTransp = [(5, 0, 0)]
 
             if not record.document_type:
                 continue
@@ -88,7 +97,12 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
                 record.mdfe30_infNFe = [
                     (0, 0, {"mdfe30_chNFe": nfe.mdfe30_chNFe}) for nfe in record.nfe_ids
                 ]
-            else:
+            elif record.document_type == "cte":
                 record.mdfe30_infCTe = [
                     (0, 0, {"mdfe30_chCTe": cte.mdfe30_chCTe}) for cte in record.cte_ids
+                ]
+            else:
+                record.mdfe30_infMDFeTransp = [
+                    (0, 0, {"mdfe30_chMDFe": mdfe.mdfe30_chMDFe})
+                    for mdfe in record.mdfe_ids
                 ]

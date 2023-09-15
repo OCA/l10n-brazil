@@ -124,16 +124,6 @@
         </field>
     </record>
 
-    <record id="modal_rodoviario_lacre_tree_view" model="ir.ui.view">
-        <field name="name">modal.rodoviario.lacre.tree.view (in l10n_br_mdfe)</field>
-        <field name="model">l10n_br_mdfe.modal.rodoviario.lacre</field>
-        <field name="arch" type="xml">
-            <tree editable="bottom">
-                <field name="mdfe30_nLacre" />
-            </tree>
-        </field>
-    </record>
-
     <record id="modal_rodoviario_antt_form_view" model="ir.ui.view">
         <field name="name">modal.rodoviario.ANTT.form.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.antt</field>

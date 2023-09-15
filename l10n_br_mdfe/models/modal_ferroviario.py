@@ -1,6 +1,8 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from nfelib.mdfe.bindings.v3_0.mdfe_modal_ferroviario_v3_00 import Ferrov
+
 from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
@@ -48,12 +50,25 @@ class MDFeModalFerroviarioVagao(spec_models.SpecModel):
 
     @api.model
     def export_fields(self):
-        return {
-            "pesoBC": self.mdfe30_pesoBC,
-            "pesoR": self.mdfe30_pesoR,
-            "tpVag": self.mdfe30_tpVag,
-            "serie": self.mdfe30_serie,
-            "nVag": self.mdfe30_nVag,
-            "nSeq": self.mdfe30_nSeq,
-            "TU": self.mdfe30_TU,
-        }
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        optional_data = {}
+        if self.mdfe30_tpVag:
+            optional_data["tpVag"] = self.mdfe30_tpVag
+
+        if self.mdfe30_tpVag:
+            optional_data["nSeq"] = self.mdfe30_nSeq
+
+        return Ferrov.Vag(
+            pesoBC=self.mdfe30_pesoBC,
+            pesoR=self.mdfe30_pesoR,
+            serie=self.mdfe30_serie,
+            nVag=self.mdfe30_nVag,
+            TU=self.mdfe30_TU,
+            **optional_data
+        )
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]
