@@ -24,6 +24,9 @@
         "views/mdfe_action.xml",
         "views/mdfe_menu.xml",
         "views/res_company.xml",
+        "views/transporte.xml",
+        "views/res_partner.xml",
+        "views/product_product.xml",
         "views/modal/modal_aquaviario.xml",
         "views/modal/modal_rodoviario.xml",
         "views/modal/modal_ferroviario.xml",
@@ -34,8 +37,8 @@
     "external_dependencies": {
         "python": [
             "nfelib>=2.0.0",
-            "erpbrasil.transmissao",
-            "erpbrasil.edoc",
+            "erpbrasil.transmissao>=1.1.0",
+            "erpbrasil.edoc>=2.5.2",
         ]
     },
 }

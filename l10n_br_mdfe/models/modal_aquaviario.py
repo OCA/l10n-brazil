@@ -1,6 +1,8 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00 import Aquav
+
 from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
@@ -58,10 +60,17 @@ class MDFeModalAquaviarioCarregamento(spec_models.SpecModel):
 
     @api.model
     def export_fields(self):
-        return {
-            "cTermCarreg": self.mdfe30_cTermCarreg,
-            "xTermCarreg": self.mdfe30_xTermCarreg,
-        }
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        return Aquav.InfTermCarreg(
+            cTermCarreg=self.mdfe30_cTermCarreg,
+            xTermCarreg=self.mdfe30_xTermCarreg,
+        )
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]
 
 
 class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
@@ -88,10 +97,17 @@ class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
 
     @api.model
     def export_fields(self):
-        return {
-            "cTermDescarreg": self.mdfe30_cTermDescarreg,
-            "xTermDescarreg": self.mdfe30_xTermDescarreg,
-        }
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        return Aquav.InfTermDescarreg(
+            cTermDescarreg=self.mdfe30_cTermDescarreg,
+            xTermDescarreg=self.mdfe30_xTermDescarreg,
+        )
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]
 
 
 class MDFeModalAquaviarioComboio(spec_models.SpecModel):
@@ -106,10 +122,17 @@ class MDFeModalAquaviarioComboio(spec_models.SpecModel):
 
     @api.model
     def export_fields(self):
-        return {
-            "cEmbComb": self.mdfe30_cEmbComb,
-            "xBalsa": self.mdfe30_xBalsa,
-        }
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        return Aquav.InfEmbComb(
+            cEmbComb=self.mdfe30_cEmbComb,
+            xBalsa=self.mdfe30_xBalsa,
+        )
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]
 
 
 class MDFeModalAquaviarioCargaVazia(spec_models.SpecModel):
@@ -124,10 +147,17 @@ class MDFeModalAquaviarioCargaVazia(spec_models.SpecModel):
 
     @api.model
     def export_fields(self):
-        return {
-            "idUnidCargaVazia": self.mdfe30_idUnidCargaVazia,
-            "tpUnidCargaVazia": self.mdfe30_tpUnidCargaVazia,
-        }
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        return Aquav.InfUnidCargaVazia(
+            idUnidCargaVazia=self.mdfe30_idUnidCargaVazia,
+            tpUnidCargaVazia=self.mdfe30_tpUnidCargaVazia,
+        )
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]
 
 
 class MDFeModalAquaviarioTranporteVazio(spec_models.SpecModel):
@@ -142,7 +172,14 @@ class MDFeModalAquaviarioTranporteVazio(spec_models.SpecModel):
 
     @api.model
     def export_fields(self):
-        return {
-            "idUnidTranspVazia": self.mdfe30_idUnidTranspVazia,
-            "tpUnidTranspVazia": self.mdfe30_tpUnidTranspVazia,
-        }
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        return Aquav.InfUnidTranspVazia(
+            idUnidTranspVazia=self.mdfe30_idUnidTranspVazia,
+            tpUnidTranspVazia=self.mdfe30_tpUnidTranspVazia,
+        )
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]
