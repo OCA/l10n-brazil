@@ -9,6 +9,7 @@ from odoo.exceptions import UserError
 from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     MODELO_FISCAL_CTE,
+    MODELO_FISCAL_MDFE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
@@ -246,6 +247,7 @@ class DocumentWorkflow(models.AbstractModel):
                 MODELO_FISCAL_NFE,
                 MODELO_FISCAL_NFCE,
                 MODELO_FISCAL_CTE,
+                MODELO_FISCAL_MDFE,
             ):
                 date = fields.Datetime.context_timestamp(record, record.document_date)
                 chave_edoc = ChaveEdoc(
