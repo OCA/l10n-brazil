@@ -48,10 +48,10 @@ class NFeImportWizardTest(SavepointCase):
         self.assertEqual(
             wizard.imported_products_ids[0].product_name, "Cabinet with Doors"
         )
-        self.assertEqual(wizard.imported_products_ids[0].uom_com, "UNID")
+        self.assertEqual(wizard.imported_products_ids[0].uom_com, "UN")
         self.assertEqual(wizard.imported_products_ids[0].quantity_com, 1)
         self.assertEqual(wizard.imported_products_ids[0].price_unit_com, 14)
-        self.assertEqual(wizard.imported_products_ids[0].uom_trib, "UNID")
+        self.assertEqual(wizard.imported_products_ids[0].uom_trib, "UN")
         self.assertEqual(wizard.imported_products_ids[0].quantity_trib, 1)
         self.assertEqual(wizard.imported_products_ids[0].price_unit_trib, 14)
         self.assertEqual(wizard.imported_products_ids[0].total, 14)
