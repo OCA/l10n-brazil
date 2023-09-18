@@ -67,7 +67,12 @@ class TestL10nBrSalesCommission(SavepointCase):
         )
         wizard.action_settle()
 
-        settlements = self.settle_model.search([("state", "=", "settled")])
+        settlements = self.settle_model.search(
+            [
+                ("state", "=", "settled"),
+                ("company_id", "=", self.sale_order.company_id.id),
+            ]
+        )
         self.assertEqual(len(settlements), 1, "Settlements not was created.")
 
         # Invoice Wizard
