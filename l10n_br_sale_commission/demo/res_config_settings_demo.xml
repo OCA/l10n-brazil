@@ -2,7 +2,7 @@
 <odoo noupdate="1">
 
     <!-- Generate BR Fiscal Doc -->
-    <record
+    <!-- <record
         id="commission_gen_br_fiscal_doc_config_settings"
         model="res.config.settings"
     >
@@ -14,10 +14,10 @@
             model="res.config.settings"
             search="[('id', '=', ref('commission_gen_br_fiscal_doc_config_settings'))]"
         />
-    </function>
+    </function> -->
 
     <!-- Fiscal Document Type -->
-    <record
+    <!-- <record
         id="commission_document_type_id_config_settings"
         model="res.config.settings"
     >
@@ -29,10 +29,10 @@
             model="res.config.settings"
             search="[('id', '=', ref('commission_document_type_id_config_settings'))]"
         />
-    </function>
+    </function> -->
 
     <!-- Fiscal Operation -->
-    <record
+    <!-- <record
         id="commission_fiscal_operation_id_config_settings"
         model="res.config.settings"
     >
@@ -44,7 +44,7 @@
             model="res.config.settings"
             search="[('id', '=', ref('commission_fiscal_operation_id_config_settings'))]"
         />
-    </function>
+    </function> -->
 
     <!-- Produto -->
     <record id="service_commission" model="product.product">
@@ -58,7 +58,7 @@
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_1009" />
     </record>
 
-    <record id="commission_product_id_config_settings" model="res.config.settings">
+    <!-- <record id="commission_product_id_config_settings" model="res.config.settings">
         <field name="commission_product_id" ref="service_commission" />
     </record>
 
@@ -67,7 +67,7 @@
             model="res.config.settings"
             search="[('id', '=', ref('commission_product_id_config_settings'))]"
         />
-    </function>
+    </function> -->
 
 
 </odoo>
