@@ -105,6 +105,12 @@ class AccountMoveLine(models.Model):
         string="PIS ST CST Code",
     )
 
+    partner_is_public_entity = fields.Boolean(related="partner_id.is_public_entity")
+
+    allow_csll_irpj = fields.Boolean(
+        compute="_compute_allow_csll_irpj",
+    )
+
     wh_move_line_id = fields.Many2one(
         comodel_name="account.move.line",
         string="WH Account Move Line",
