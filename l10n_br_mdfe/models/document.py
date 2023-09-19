@@ -2,9 +2,11 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import re
+from datetime import datetime, timedelta, timezone
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.mdfe.bindings.v3_0.mdfe_modal_aereo_v3_00 import Aereo
 from nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00 import Aquav
@@ -18,10 +20,22 @@ from odoo import _, api, fields
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    AUTORIZADO,
+    CANCELADO,
+    CANCELADO_DENTRO_PRAZO,
+    CANCELADO_FORA_PRAZO,
+    DENEGADO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
+    LOTE_PROCESSADO,
     MODELO_FISCAL_MDFE,
     PROCESSADOR_OCA,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_REJEITADA,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aquaviario_v3_00 import (
     AQUAV_TPNAV,
@@ -307,26 +321,26 @@ class MDFe(spec_models.StackedModel):
     mdfe30_versaoModal = fields.Char(related="mdfe30_infModal.mdfe30_versaoModal")
 
     # Campos do Modal Aéreo
-    airplane_nationality = fields.Char()
+    airplane_nationality = fields.Char(size=4)
 
-    airplane_registration = fields.Char()
+    airplane_registration = fields.Char(size=6)
 
-    flight_number = fields.Char()
+    flight_number = fields.Char(size=9)
 
     flight_date = fields.Date()
 
-    boarding_airfield = fields.Char(default=MDFE_MODAL_DEFAULT_AIRCRAFT)
+    boarding_airfield = fields.Char(default=MDFE_MODAL_DEFAULT_AIRCRAFT, size=4)
 
-    landing_airfield = fields.Char(default=MDFE_MODAL_DEFAULT_AIRCRAFT)
+    landing_airfield = fields.Char(default=MDFE_MODAL_DEFAULT_AIRCRAFT, size=4)
 
     # Campos do Modal Aquaviário
-    ship_irin = fields.Char()
+    ship_irin = fields.Char(size=10)
 
     ship_type = fields.Selection(selection=MDFE_MODAL_SHIP_TYPES)
 
-    ship_code = fields.Char()
+    ship_code = fields.Char(size=10)
 
-    ship_name = fields.Char()
+    ship_name = fields.Char(size=60)
 
     ship_travel_number = fields.Char()
 
@@ -334,22 +348,26 @@ class MDFe(spec_models.StackedModel):
 
     ship_landing_point = fields.Selection(selection=MDFE_MODAL_HARBORS)
 
-    transshipment_port = fields.Char()
+    transshipment_port = fields.Char(size=60)
 
     ship_navigation_type = fields.Selection(selection=AQUAV_TPNAV)
 
     ship_loading_ids = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.carregamento",
         inverse_name="document_id",
+        size=5,
     )
 
     ship_unloading_ids = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.descarregamento",
         inverse_name="document_id",
+        size=5,
     )
 
     ship_convoy_ids = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.aquaviario.comboio", inverse_name="document_id"
+        comodel_name="l10n_br_mdfe.modal.aquaviario.comboio",
+        inverse_name="document_id",
+        size=30,
     )
 
     ship_empty_load_ids = fields.One2many(
@@ -363,13 +381,13 @@ class MDFe(spec_models.StackedModel):
     )
 
     # Campos do Modal Ferroviário
-    train_prefix = fields.Char(string="Train Prefix")
+    train_prefix = fields.Char(string="Train Prefix", size=10)
 
     train_release_time = fields.Datetime(string="Train Release Time")
 
-    train_origin = fields.Char(string="Train Origin")
+    train_origin = fields.Char(string="Train Origin", size=3)
 
-    train_destiny = fields.Char(string="Train Destiny")
+    train_destiny = fields.Char(string="Train Destiny", size=3)
 
     train_wagon_quantity = fields.Char(string="Train Wagon Quantity")
 
@@ -378,7 +396,7 @@ class MDFe(spec_models.StackedModel):
     )
 
     # Campos do Modal Rodoviário
-    rodo_scheduling_code = fields.Char(string="Scheduling Code")
+    rodo_scheduling_code = fields.Char(string="Scheduling Code", size=16)
 
     rodo_ciot_ids = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.ciot", inverse_name="document_id"
@@ -393,7 +411,7 @@ class MDFe(spec_models.StackedModel):
 
     rodo_contractor_ids = fields.Many2many(comodel_name="res.partner")
 
-    rodo_RNTRC = fields.Char()
+    rodo_RNTRC = fields.Char(size=8)
 
     rodo_payment_ids = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento",
@@ -405,11 +423,12 @@ class MDFe(spec_models.StackedModel):
     rodo_vehicle_conductor_ids = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.veiculo.condutor",
         inverse_name="document_id",
+        size=10,
     )
 
-    rodo_vehicle_code = fields.Char()
+    rodo_vehicle_code = fields.Char(size=10)
 
-    rodo_vehicle_RENAVAM = fields.Char()
+    rodo_vehicle_RENAVAM = fields.Char(size=11)
 
     rodo_vehicle_plate = fields.Char()
 
@@ -430,7 +449,9 @@ class MDFe(spec_models.StackedModel):
     )
 
     rodo_tow_ids = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.reboque", inverse_name="document_id"
+        comodel_name="l10n_br_mdfe.modal.rodoviario.reboque",
+        inverse_name="document_id",
+        size=3,
     )
 
     rodo_seal_ids = fields.One2many(
@@ -460,17 +481,13 @@ class MDFe(spec_models.StackedModel):
             export_dict["any_element"] = self._export_modal_ferroviario_fields()
 
     def _export_modal_aereo_fields(self):
-        optional_data = {}
-        if self.flight_date:
-            optional_data["dVoo"] = fields.Date.to_string(self.flight_date)
-
         return Aereo(
             nac=self.airplane_nationality,
             matr=self.airplane_registration,
             nVoo=self.flight_number,
             cAerEmb=self.boarding_airfield,
             cAerDes=self.landing_airfield,
-            **optional_data,
+            dVoo=fields.Date.to_string(self.flight_date),
         )
 
     def _export_modal_aquaviario_fields(self):
@@ -509,14 +526,16 @@ class MDFe(spec_models.StackedModel):
             xEmbar=self.ship_name,
             cPrtEmb=self.ship_boarding_point,
             cPrtDest=self.ship_landing_point,
+            nViag=self.ship_travel_number,
             **optional_data,
         )
 
     def _export_modal_ferroviario_fields(self):
         train_optional_data = {}
         if self.train_release_time:
-            train_optional_data["dhTrem"] = fields.Datetime.to_string(
-                self.train_release_time
+            train_optional_data["dhTrem"] = (
+                datetime.strftime(self.train_release_time, "%Y-%m-%dT%H:%M:%S")
+                + str(timezone(timedelta(hours=-3)))[3:]
             )
 
         return Ferrov(
@@ -769,9 +788,21 @@ class MDFe(spec_models.StackedModel):
     @api.depends("unloading_city_ids")
     def _compute_tot(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
-            record.mdfe30_qCTe = len(record.unloading_city_ids.mapped("cte_ids"))
-            record.mdfe30_qNFe = len(record.unloading_city_ids.mapped("nfe_ids"))
-            record.mdfe30_qMDFe = len(record.unloading_city_ids.mapped("mdfe_ids"))
+            cte_qty = len(record.unloading_city_ids.mapped("cte_ids"))
+            nfe_qty = len(record.unloading_city_ids.mapped("nfe_ids"))
+            mdfe_qty = len(record.unloading_city_ids.mapped("mdfe_ids"))
+
+            record.mdfe30_qCTe = cte_qty and cte_qty or False
+            record.mdfe30_qNFe = nfe_qty and nfe_qty or False
+            record.mdfe30_qMDFe = mdfe_qty and mdfe_qty or False
+
+    ##########################
+    # NF-e tag: infMDFeSupl
+    ##########################
+
+    mdfe30_infMDFeSupl = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.supplement",
+    )
 
     @api.depends("mdfe30_cUnid")
     def _compute_tot_carga(self):
@@ -819,7 +850,12 @@ class MDFe(spec_models.StackedModel):
             filtered_processador_edoc_mdfe
         ):
             inf_mdfe = record.export_ds()[0]
-            mdfe = Mdfe(infMDFe=inf_mdfe, infMDFeSupl=None, signature=None)
+
+            inf_mdfe_supl = None
+            if record.mdfe30_infMDFeSupl:
+                inf_mdfe_supl = record.mdfe30_infMDFeSupl.export_ds()[0]
+
+            mdfe = Mdfe(infMDFe=inf_mdfe, infMDFeSupl=inf_mdfe_supl, signature=None)
             edocs.append(mdfe)
         return edocs
 
@@ -842,8 +878,43 @@ class MDFe(spec_models.StackedModel):
 
         params = {
             "transmissao": TransmissaoSOAP(certificado, session),
+            "versao": self.mdfe_version,
+            "ambiente": self.mdfe_environment,
+            "uf": self.company_id.state_id.ibge_code,
         }
         return edoc_mdfe(**params)
+
+    def _generate_key(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            date = fields.Datetime.context_timestamp(record, record.document_date)
+            chave_edoc = ChaveEdoc(
+                ano_mes=date.strftime("%y%m").zfill(4),
+                cnpj_cpf_emitente=record.company_cnpj_cpf,
+                codigo_uf=(
+                    record.company_state_id and record.company_state_id.ibge_code or ""
+                ),
+                forma_emissao=int(self.mdfe_transmission),
+                modelo_documento=record.document_type_id.code or "",
+                numero_documento=record.document_number or "",
+                numero_serie=record.document_serie or "",
+                validar=False,
+            )
+            record.key_random_code = chave_edoc.codigo_aleatorio
+            record.key_check_digit = chave_edoc.digito_verificador
+            record.document_key = chave_edoc.chave
+
+    def _document_qrcode(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_infMDFeSupl = self.env[
+                "l10n_br_fiscal.document.supplement"
+            ].create({"mdfe30_qrCodMDFe": record.get_mdfe_qrcode()})
+
+    def _document_cancel(self, justificative):
+        result = super(MDFe, self)._document_cancel(justificative)
+        online_event = self.filtered(filtered_processador_edoc_mdfe)
+        if online_event:
+            online_event.cancel_mdfe()
+        return result
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
@@ -872,3 +943,133 @@ class MDFe(spec_models.StackedModel):
         erros = Mdfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
+
+    def atualiza_status_mdfe(self, processo):
+        self.ensure_one()
+
+        infProt = processo.resposta.protMDFe.infProt
+
+        if infProt.cStat in AUTORIZADO:
+            state = SITUACAO_EDOC_AUTORIZADA
+        elif infProt.cStat in DENEGADO:
+            state = SITUACAO_EDOC_DENEGADA
+        else:
+            state = SITUACAO_EDOC_REJEITADA
+
+        if self.authorization_event_id and infProt.nProt:
+            if type(infProt.dhRecbto) == datetime:
+                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
+            else:
+                protocol_date = fields.Datetime.to_string(
+                    datetime.fromisoformat(infProt.dhRecbto)
+                )
+
+            self.authorization_event_id.set_done(
+                status_code=infProt.cStat,
+                response=infProt.xMotivo,
+                protocol_date=protocol_date,
+                protocol_number=infProt.nProt,
+                file_response_xml=processo.processo_xml.decode("utf-8"),
+            )
+        self.write(
+            {
+                "status_code": infProt.cStat,
+                "status_name": infProt.xMotivo,
+            }
+        )
+        self._change_state(state)
+
+    def _eletronic_document_send(self):
+        super(MDFe, self)._eletronic_document_send()
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            if record.xml_error_message:
+                return
+
+            processador = record._processador()
+            for edoc in record.serialize():
+                processo = None
+                for p in processador.processar_documento(edoc):
+                    processo = p
+                    if processo.webservice == "mdfeRecepcaoLote":
+                        record.authorization_event_id._save_event_file(
+                            processo.envio_xml.decode("utf-8"), "xml"
+                        )
+
+            if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
+                record.atualiza_status_mdfe(processo)
+
+            elif processo.resposta.cStat in DENEGADO:
+                record._change_state(SITUACAO_EDOC_DENEGADA)
+                record.write(
+                    {
+                        "status_code": processo.resposta.cStat,
+                        "status_name": processo.resposta.xMotivo,
+                    }
+                )
+
+            else:
+                record._change_state(SITUACAO_EDOC_REJEITADA)
+                record.write(
+                    {
+                        "status_code": processo.resposta.cStat,
+                        "status_name": processo.resposta.xMotivo,
+                    }
+                )
+
+    def cancel_mdfe(self):
+        self.ensure_one()
+        processador = self._processador()
+
+        if not self.authorization_protocol:
+            raise UserError(_("Authorization Protocol Not Found!"))
+
+        processo = processador.cancela_documento(
+            chave=self.document_key,
+            protocolo_autorizacao=self.authorization_protocol,
+            justificativa=self.cancel_reason.replace("\n", "\\n"),
+        )
+
+        self.cancel_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.mdfe_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="2",
+            xml_file=processo.envio_xml.decode("utf-8"),
+            document_id=self,
+        )
+
+        infEvento = processo.resposta.infEvento
+        if infEvento.cStat not in CANCELADO:
+            mensagem = "Erro no cancelamento"
+            mensagem += "\nCódigo: " + infEvento.cStat
+            mensagem += "\nMotivo: " + infEvento.xMotivo
+            raise UserError(mensagem)
+
+        if infEvento.cStat == CANCELADO_FORA_PRAZO:
+            self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+        elif infEvento.cStat == CANCELADO_DENTRO_PRAZO:
+            self.state_fiscal = SITUACAO_FISCAL_CANCELADO
+
+            self.state_edoc = SITUACAO_EDOC_CANCELADA
+            self.cancel_event_id.set_done(
+                status_code=infEvento.cStat,
+                response=infEvento.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(infEvento.dhRegEvento)
+                ),
+                protocol_number=infEvento.nProt,
+                file_response_xml=processo.retorno.content.decode("utf-8"),
+            )
+
+    def get_mdfe_qrcode(self):
+        if self.document_type != MODELO_FISCAL_MDFE:
+            return
+
+        processador = self._processador()
+        if self.mdfe_transmission == "1":
+            return processador.monta_qrcode(self.document_key)
+
+        serialized_doc = self.serialize()[0]
+        xml = processador.assina_raiz(serialized_doc, serialized_doc.infMDFe.Id)
+        return processador.monta_qrcode_contingencia(serialized_doc, xml)

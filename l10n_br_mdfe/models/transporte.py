@@ -62,7 +62,7 @@ class MDFeLacre(spec_models.SpecModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_nLacre = fields.Char(required=True)
+    mdfe30_nLacre = fields.Char(required=True, size=20)
 
     @api.model
     def export_fields(self, binding):

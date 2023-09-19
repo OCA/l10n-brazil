@@ -3,7 +3,8 @@
 
 from nfelib.mdfe.bindings.v3_0.mdfe_modal_ferroviario_v3_00 import Ferrov
 
-from odoo import api, fields
+from odoo import _, api, fields
+from odoo.exceptions import UserError
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -48,6 +49,16 @@ class MDFeModalFerroviarioVagao(spec_models.SpecModel):
 
     mdfe30_TU = fields.Char(required=True)
 
+    @api.constrains("mdfe30_serie")
+    def check_serie(self):
+        for _record in self.filtered(lambda v: len(v.mdfe30_serie) != 3):
+            raise UserError(_("Wagon serie must have exactly 3 digits."))
+
+    @api.constrains("mdfe30_tpVag")
+    def check_tp_vag(self):
+        for _record in self.filtered(lambda v: len(v.mdfe30_tpVag) != 3):
+            raise UserError(_("Wagon type must have exactly 3 digits."))
+
     @api.model
     def export_fields(self):
         if len(self) > 1:
@@ -61,11 +72,11 @@ class MDFeModalFerroviarioVagao(spec_models.SpecModel):
             optional_data["nSeq"] = self.mdfe30_nSeq
 
         return Ferrov.Vag(
-            pesoBC=self.mdfe30_pesoBC,
-            pesoR=self.mdfe30_pesoR,
+            pesoBC="{:.3f}".format(self.mdfe30_pesoBC),
+            pesoR="{:.3f}".format(self.mdfe30_pesoR),
+            TU="{:.3f}".format(float(self.mdfe30_TU)),
             serie=self.mdfe30_serie,
             nVag=self.mdfe30_nVag,
-            TU=self.mdfe30_TU,
             **optional_data
         )
 

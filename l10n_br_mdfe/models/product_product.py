@@ -1,7 +1,7 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields
+from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -20,3 +20,47 @@ class ProductProduct(spec_models.SpecModel):
     mdfe30_NCM = fields.Char(string="ncm_id.code")
 
     mdfe30_tpCarga = fields.Selection(default="05")
+
+    mdfe30_infLotacao = fields.Many2one(comodel_name="l10n_br_mdfe.product.lotacao")
+
+
+class MDFeProductLotacao(spec_models.SpecModel):
+    _name = "l10n_br_mdfe.product.lotacao"
+    _inherit = "mdfe.30.inflotacao"
+
+    mdfe30_infLocalCarrega = fields.Many2one(
+        comodel_name="l10n_br_mdfe.product.lotacao.local",
+        required=True,
+    )
+
+    mdfe30_infLocalDescarrega = fields.Many2one(
+        comodel_name="l10n_br_mdfe.product.lotacao.local",
+        required=True,
+    )
+
+
+class MDFeProductLotacaoLocal(spec_models.SpecModel):
+    _name = "l10n_br_mdfe.product.lotacao.local"
+    _inherit = ["mdfe.30.inflocalcarrega", "mdfe.30.inflocaldescarrega"]
+
+    local_type = fields.Selection(
+        selection=[
+            ("CEP", "CEP"),
+            ("coord", "Coordenadas"),
+        ],
+        default="CEP",
+    )
+
+    mdfe30_choice12 = fields.Selection(
+        selection=[("mdfe30_CEP", "CEP"), ("mdfe30_latitude", "Latitude/Longitude")],
+        string="Tipo de Local",
+        compute="_compute_choice",
+    )
+
+    @api.depends("local_type")
+    def _compute_choice(self):
+        for record in self:
+            if record.local_type == "CEP":
+                pass
+            else:
+                pass

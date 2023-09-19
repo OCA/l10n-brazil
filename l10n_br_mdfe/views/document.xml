@@ -201,7 +201,10 @@
                                 name="flight_number"
                                 attrs="{'required': [('mdfe_modal', '=', '2')]}"
                             />
-                            <field name="flight_date" />
+                            <field
+                                name="flight_date"
+                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                            />
                         </group>
                         <group>
                             <field

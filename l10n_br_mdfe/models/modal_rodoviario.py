@@ -44,6 +44,8 @@ class MDFeModalRodoviarioANTT(spec_models.SpecModel):
         comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento"
     )
 
+    mdfe30_RNTRC = fields.Char(size=8)
+
 
 class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.ciot"
@@ -52,7 +54,7 @@ class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_CIOT = fields.Char(required=True)
+    mdfe30_CIOT = fields.Char(required=True, size=12)
 
     is_company = fields.Boolean(string="É empresa?", required=True)
 
@@ -128,7 +130,7 @@ class MDFeModalRodoviarioValePedagioDispositivo(spec_models.SpecModel):
 
         return Rodo.InfAntt.ValePed.Disp(
             CNPJForn=self.mdfe30_CNPJForn,
-            vValePed=self.mdfe30_vValePed,
+            vValePed="{:.2f}".format(self.mdfe30_vValePed),
             **optional_data,
         )
 
@@ -222,7 +224,7 @@ class MDFeModalRodoviarioPagamento(spec_models.SpecModel):
             additional_data["xNome"] = self.mdfe30_xNome
 
         return Rodo.InfAntt.InfPag(
-            vContrato=self.mdfe30_vContrato,
+            vContrato="{:.2f}".format(self.mdfe30_vContrato),
             indPag=self.mdfe30_indPag,
             infBanc=self.mdfe30_infBanc.export_fields(),
             **additional_data,
@@ -300,11 +302,13 @@ class MDFeModalRodoviarioPagamentoFrete(spec_models.SpecModel):
             return self.export_fields_multi()
 
         optional_data = {}
-        if self.mdfe30_vComp:
-            optional_data["xComp"] = self.mdfe30_vComp
+        if self.mdfe30_xComp:
+            optional_data["xComp"] = self.mdfe30_xComp
 
         return Rodo.InfAntt.InfPag.Comp(
-            tpComp=self.mdfe30_tpComp, vComp=self.mdfe30_vComp, **optional_data
+            tpComp=self.mdfe30_tpComp,
+            vComp="{:.2f}".format(self.mdfe30_vComp),
+            **optional_data,
         )
 
     @api.model
@@ -398,6 +402,10 @@ class MDFeModalRodoviarioReboque(spec_models.SpecModel):
     mdfe30_capKG = fields.Char(required=True)
 
     mdfe30_tpCar = fields.Selection(required=True)
+
+    mdfe30_cInt = fields.Char(size=10)
+
+    mdfe30_RENAVAM = fields.Char(size=11)
 
     @api.model
     def export_fields(self):
