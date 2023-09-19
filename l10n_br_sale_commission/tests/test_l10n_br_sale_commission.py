@@ -28,11 +28,46 @@ class TestL10nBrSalesCommission(SavepointCase):
             limit=1,
         )
 
+    def test_commission_config(self):
+        config = self.env["res.config.settings"].create(
+            {
+                "commission_document_type_id": self.env.ref(
+                    "l10n_br_fiscal.document_55"
+                ).id,
+                "commission_gen_br_fiscal_doc": False,
+            }
+        )
+        config.execute()
+        config._onchange_commission_document_type_id()
+        config._onchange_commission_gen_br_fiscal_doc()
+
+    def test_commission_config_wo_doc_type(self):
+        config = self.env["res.config.settings"].create(
+            {
+                "commission_document_type_id": False,
+                "commission_gen_br_fiscal_doc": False,
+            }
+        )
+        config.execute()
+        config._onchange_commission_document_type_id()
+        config._onchange_commission_gen_br_fiscal_doc()
+
     def test_sale_order_commission_br(self):
         """
         Test Brazilian Commission
         """
         sale_order = self.sale_order
+        agent_id = self.env.ref("sale_commission.res_partner_tiny_sale_agent")
+        commission_id = self.env.ref("sale_commission.demo_commission")
+
+        self.env["sale.order.line.agent"].create(
+            {
+                "agent_id": agent_id.id,
+                "commission_id": commission_id.id,
+                "object_id": sale_order.order_line[0].id,
+            }
+        )
+
         sale_order.action_confirm()
         self.assertEqual(len(sale_order.invoice_ids), 0)
 
@@ -65,14 +100,21 @@ class TestL10nBrSalesCommission(SavepointCase):
                 )
             }
         )
+
+        settlements = self.settle_model.search(
+            [
+                ("state", "=", "settled"),
+            ]
+        )
+
         wizard.action_settle()
 
         settlements = self.settle_model.search(
             [
                 ("state", "=", "settled"),
-                ("company_id", "=", self.sale_order.company_id.id),
             ]
         )
+
         self.assertEqual(len(settlements), 1, "Settlements not was created.")
 
         # Invoice Wizard
@@ -94,6 +136,10 @@ class TestL10nBrSalesCommission(SavepointCase):
             }
         )
         wizard = wizard_obj.create(wizard_values)
+
+        # Quick test onchange doc type
+        wizard._onchange_commission_document_type_id()
+
         wizard.button_create()
 
         settlements = self.settle_model.search([("state", "=", "invoiced")])
