@@ -1,3 +1,6 @@
+# Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
 from odoo.tests import SavepointCase, tagged
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES, TAX_DOMAIN_ICMS
@@ -59,6 +62,8 @@ class TestICMSRegulation(SavepointCase):
     def find_icms_tax(self, in_state_id, out_state_id, ncm_id, ind_final):
 
         self.partner.state_id = in_state_id
+        self.company.partner_id.inscr_est = False
+        self.company.inscr_est = False
         self.company.state_id = out_state_id
         self.product.ncm_id = ncm_id
 
