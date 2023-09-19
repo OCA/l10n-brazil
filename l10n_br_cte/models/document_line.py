@@ -217,12 +217,11 @@ class CTeLine(spec_models.StackedModel):
             xsd_fields.remove("cte40_ICMSOutraUF")
 
         xsd_fields = [self.cte40_choice_icms]
-        icms_tag = self.cte40_choice_icms.replace("cte40_", "")
+        icms_tag = self.cte40_choice_icms.replace("cte40_", "").replace(
+            "ICMSSN", "Icmssn"
+        )
         binding_module = sys.modules[self._binding_module]
-        tcte = getattr(binding_module, "Tcte")
-        infcte = getattr(tcte, "InfCte")
-        imposto = getattr(infcte, "Imp")
-        icms = getattr(imposto, "ICMS")
+        icms = binding_module.Timp
         icms_binding = getattr(icms, icms_tag)
         icms_dict = self._export_fields_icms()
         sliced_icms_dict = {
