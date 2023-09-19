@@ -148,7 +148,7 @@
                         type="object"
                         string="Invalidar Numeração"
                         groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'autorizada', 'cancelada', 'denegada'))]}"
+                        attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'autorizada', 'cancelada', 'denegada', 'encerrada'))]}"
                     />
             <button
                         name="action_document_correction"
@@ -203,10 +203,10 @@
         <div
                     class="alert alert-success"
                     role="alert"
-                    attrs="{'invisible': [('state_edoc','!=','autorizada')]}"
+                    attrs="{'invisible': [('state_edoc','not in',('autorizada', 'encerrada'))]}"
                 >
             Fiscal Document: <field name="document_type_id" readonly="1" /> is <strong
-                    >Authorized</strong>
+                    ><field name="state_edoc" readonly="1" /></strong>
         </div>
         <div
                     class="alert alert-warning"
