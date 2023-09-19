@@ -602,6 +602,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _set_fields_icmsfcp(self, tax_dict):
         self.ensure_one()
+        if not self.icms_tax_id or self.icms_cst_id.code in [
+            "40",
+            "41",
+            "50",
+            "101",
+            "102",
+            "103",
+            "300",
+            "400",
+        ]:
+            tax_dict = TAX_DICT_VALUES
+            self.icmsfcp_tax_id = False
         self.icmsfcp_base = tax_dict.get("base", 0.0)
         self.icmsfcp_percent = tax_dict.get("percent_amount", 0.0)
         self.icmsfcp_value = tax_dict.get("tax_value", 0.0)
