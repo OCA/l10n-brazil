@@ -116,9 +116,9 @@ class MDFeModalAquaviarioComboio(spec_models.SpecModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_cEmbComb = fields.Char(required=True)
+    mdfe30_cEmbComb = fields.Char(required=True, size=10)
 
-    mdfe30_xBalsa = fields.Char(required=True)
+    mdfe30_xBalsa = fields.Char(required=True, size=60)
 
     @api.model
     def export_fields(self):

@@ -15,7 +15,7 @@ MDFE_EMIT_TYPES = [
     ("3", "3 - Prestador de serviço de transporte que emitirá CT-e Globalizado"),
 ]
 
-MDFE_EMIT_TYPE_DEFAULT = "1"
+MDFE_EMIT_TYPE_DEFAULT = "2"
 
 MDFE_TRANSP_TYPE = [
     ("1", "Empresa de Transporte de Cargas – ETC"),
