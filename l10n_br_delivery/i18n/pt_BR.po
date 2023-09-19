@@ -97,6 +97,7 @@ msgstr "Caminhão Baú"
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__carrier_id
 msgid "Carrier"
 msgstr "Transportadora"
@@ -209,6 +210,8 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__fiscal_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__fiscal_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__fiscal_incoterm_id
@@ -248,6 +251,8 @@ msgstr "Informação usada na emissão de Documentos Fiscais"
 #: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_repair_order__fiscal_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_repair_order__incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_blanket_order__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_blanket_order__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__fiscal_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_stock_picking__fiscal_incoterm_id
