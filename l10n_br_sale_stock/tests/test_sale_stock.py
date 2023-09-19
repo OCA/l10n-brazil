@@ -253,6 +253,7 @@ class TestSaleStock(SavepointCase):
         acl_fields = [key for key in self.env["account.move.line"]._fields.keys()]
 
         skipped_fields = [
+            "agent_ids",
             "id",
             "display_name",
             "state",
