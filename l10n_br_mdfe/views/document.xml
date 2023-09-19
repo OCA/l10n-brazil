@@ -9,6 +9,13 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
+            <xpath
+                expr="//button[@name='action_document_correction']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
             <xpath expr="//page[@name='document_related']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
@@ -381,6 +388,16 @@
 
             <xpath expr="//field[@name='date_in_out']" position="after">
                 <field name="mdfe30_prodPred" />
+            </xpath>
+
+            <xpath expr="//button[@name='action_document_cancel']" position="after">
+                <button
+                    name="action_document_closure"
+                    type="object"
+                    string="Encerrar"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
+                />
             </xpath>
         </field>
     </record>
