@@ -219,6 +219,8 @@ class CTeLine(spec_models.StackedModel):
         xsd_fields = [self.cte40_choice_icms]
         icms_tag = self.cte40_choice_icms.replace("cte40_", "").replace(
             "ICMSSN", "Icmssn"
+        ).replace(
+            "ICMS", "Icms"
         )
         binding_module = sys.modules[self._binding_module]
         icms = binding_module.Timp
