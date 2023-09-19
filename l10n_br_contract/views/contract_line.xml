@@ -91,9 +91,12 @@
                     />
                 </notebook>
             </xpath>
+            <xpath expr="//group[@name='recurrence_info']" position="inside">
+                <field name="line_recurrence" invisible="1" />
+            </xpath>
             <xpath expr="//group[@name='recurrence_info']" position="attributes">
                 <attribute name="attrs">
-                    {'invisible': ['|','|', ('display_type', '=', 'line_section'), ('parent.line_recurrence', '!=', True), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', 'custom')]}
+                    {'invisible': ['|','|', ('display_type', '=', 'line_section'), ('line_recurrence', '!=', True), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', 'custom')]}
                 </attribute>
             </xpath>
         </field>
