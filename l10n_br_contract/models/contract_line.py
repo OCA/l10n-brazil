@@ -42,6 +42,8 @@ class ContractLine(models.Model):
         string="Comments",
     )
 
+    line_recurrence = fields.Boolean(related="contract_id.line_recurrence")
+
     def _prepare_invoice_line(self, move_form):
         self.ensure_one()
 
