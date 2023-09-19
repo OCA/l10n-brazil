@@ -43,8 +43,8 @@
         model="sale.order.line.agent"
     >
         <field name="object_id" ref="main_sl_l10n_br_sale_commission_stock_1_1" />
-        <field name="agent" ref="sale_commission.res_partner_pritesh_sale_agent" />
-        <field name="commission" ref="sale_commission.demo_commission" />
+        <field name="agent_id" ref="sale_commission.res_partner_pritesh_sale_agent" />
+        <field name="commission_id" ref="sale_commission.demo_commission" />
     </record>
 
     <record id="main_sl_l10n_br_sale_commission_stock_1_2" model="sale.order.line">
@@ -72,8 +72,8 @@
         model="sale.order.line.agent"
     >
         <field name="object_id" ref="main_sl_l10n_br_sale_commission_stock_1_2" />
-        <field name="agent" ref="sale_commission.res_partner_pritesh_sale_agent" />
-        <field name="commission" ref="sale_commission.demo_commission" />
+        <field name="agent_id" ref="sale_commission.res_partner_pritesh_sale_agent" />
+        <field name="commission_id" ref="sale_commission.demo_commission" />
     </record>
 
 </odoo>
