@@ -86,6 +86,7 @@ class DocumentWorkflow(models.AbstractModel):
         self._document_number()
         self._document_comment()
         self._document_check()
+        self._document_qrcode()
         self._document_export()
         return True
 
@@ -403,3 +404,6 @@ class DocumentWorkflow(models.AbstractModel):
                     "this fical document you are not the document issuer"
                 )
             )
+
+    def _document_qrcode(self):
+        pass
