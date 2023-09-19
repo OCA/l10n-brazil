@@ -30,6 +30,7 @@
         "views/modal/modal_aquaviario.xml",
         "views/modal/modal_rodoviario.xml",
         "views/modal/modal_ferroviario.xml",
+        "wizards/document_closure_wizard.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,

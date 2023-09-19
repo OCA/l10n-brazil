@@ -25,6 +25,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
     DENEGADO,
+    ENCERRADO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     LOTE_PROCESSADO,
@@ -33,6 +34,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_ENCERRADA,
     SITUACAO_EDOC_REJEITADA,
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
@@ -804,6 +806,20 @@ class MDFe(spec_models.StackedModel):
         comodel_name="l10n_br_fiscal.document.supplement",
     )
 
+    ##########################
+    # Other fields
+    ##########################
+
+    closure_event_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.event",
+        string="Closure Event",
+        copy=False,
+    )
+
+    closure_state_id = fields.Many2one(comodel_name="res.country.state")
+
+    closure_city_id = fields.Many2one(comodel_name="res.city")
+
     @api.depends("mdfe30_cUnid")
     def _compute_tot_carga(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
@@ -1046,9 +1062,9 @@ class MDFe(spec_models.StackedModel):
             mensagem += "\nMotivo: " + infEvento.xMotivo
             raise UserError(mensagem)
 
-        if infEvento.cStat == CANCELADO_FORA_PRAZO:
+        if infEvento.cStat in CANCELADO_FORA_PRAZO:
             self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-        elif infEvento.cStat == CANCELADO_DENTRO_PRAZO:
+        elif infEvento.cStat in CANCELADO_DENTRO_PRAZO:
             self.state_fiscal = SITUACAO_FISCAL_CANCELADO
 
             self.state_edoc = SITUACAO_EDOC_CANCELADA
@@ -1061,6 +1077,57 @@ class MDFe(spec_models.StackedModel):
                 protocol_number=infEvento.nProt,
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
+
+    def _document_closure(self):
+        self.ensure_one()
+        processador = self._processador()
+
+        if not self.authorization_protocol:
+            raise UserError(_("Authorization Protocol Not Found!"))
+
+        processo = processador.encerra_documento(
+            chave=self.document_key,
+            protocolo_autorizacao=self.authorization_protocol,
+            estado=self.closure_state_id.ibge_code,
+            municipio=self.closure_city_id.ibge_code,
+        )
+
+        self.closure_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.mdfe_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="15",
+            xml_file=processo.envio_xml.decode("utf-8"),
+            document_id=self,
+        )
+
+        infEvento = processo.resposta.infEvento
+        if infEvento.cStat not in ENCERRADO:
+            mensagem = "Erro no encerramento"
+            mensagem += "\nCódigo: " + infEvento.cStat
+            mensagem += "\nMotivo: " + infEvento.xMotivo
+            raise UserError(mensagem)
+
+        self.state_edoc = SITUACAO_EDOC_ENCERRADA
+        self.closure_event_id.set_done(
+            status_code=infEvento.cStat,
+            response=infEvento.xMotivo,
+            protocol_date=fields.Datetime.to_string(
+                datetime.fromisoformat(infEvento.dhRegEvento)
+            ),
+            protocol_number=infEvento.nProt,
+            file_response_xml=processo.retorno.content.decode("utf-8"),
+        )
+
+    def action_document_closure(self):
+        self.ensure_one()
+        if self.state_edoc != SITUACAO_EDOC_AUTORIZADA:
+            raise UserError(_("You cannot close the document if it's not authorized."))
+
+        return self.env["ir.actions.act_window"]._for_xml_id(
+            "l10n_br_mdfe.document_closure_wizard_action"
+        )
 
     def get_mdfe_qrcode(self):
         if self.document_type != MODELO_FISCAL_MDFE:
