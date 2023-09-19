@@ -390,7 +390,7 @@
                 <field name="mdfe30_prodPred" />
             </xpath>
 
-            <xpath expr="//button[@name='action_document_cancel']" position="after">
+            <xpath expr="//button[@name='action_document_cancel']" position="before">
                 <button
                     name="action_document_closure"
                     type="object"
