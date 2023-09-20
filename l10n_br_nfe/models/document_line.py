@@ -77,6 +77,7 @@ class NFeLine(spec_models.StackedModel):
     # all m2o below this level will be stacked even if not required:
     _force_stack_paths = ("det.imposto.",)
     _stack_skip = ("nfe40_det_infNFe_id",)
+    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
 
     # When dynamic stacking is applied, the NFe line has the following structure:
     DET_TREE = """

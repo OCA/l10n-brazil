@@ -83,6 +83,7 @@ class NFe(spec_models.StackedModel):
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
     _spec_tab_name = "NFe"
     _nfe_search_keys = ["nfe40_Id"]
+    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
 
     # all m2o at this level will be stacked even if not required:
     _force_stack_paths = (
@@ -733,16 +734,20 @@ class NFe(spec_models.StackedModel):
             company_cnpj = self.env.company.cnpj_cpf.translate(
                 str.maketrans("", "", string.punctuation)
             )
-            emit_cnpj = new_value.get("nfe40_CNPJ").translate(
-                str.maketrans("", "", string.punctuation)
-            )
-            if company_cnpj != emit_cnpj:
-                vals["issuer"] = "partner"
-            new_value["is_company"] = True
-            new_value["cnpj_cpf"] = emit_cnpj
-            super()._build_many2one(
-                self.env["res.partner"], vals, new_value, "partner_id", value, path
-            )
+            if new_value.get("nfe40_CNPJ"):
+                emit_cnpj = new_value.get("nfe40_CNPJ").translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+                if company_cnpj != emit_cnpj:
+                    vals["issuer"] = "partner"
+                new_value["is_company"] = True
+                new_value["cnpj_cpf"] = emit_cnpj
+                super()._build_many2one(
+                    self.env["res.partner"], vals, new_value, "partner_id", value, path
+                )
+            else:
+                new_value["name"] = value.xFant
+                super()._build_many2one(comodel, vals, new_value, key, value, path)
         elif key == "nfe40_dest" and self.env.context.get("edoc_type") == "out":
             enderDest_value = self.env["res.partner"].build_attrs(
                 value.enderDest, path=path
