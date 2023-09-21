@@ -332,6 +332,7 @@ class CNABFileParser(FileParser):
                 account_move_line.payment_mode_id.fixed_journal_id.bank_account_id
             )
 
+            due_date = False
             # as vezes o vencimento pode ser branco
             if (
                 linha_cnab.get("data_vencimento")
