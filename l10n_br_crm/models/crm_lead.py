@@ -19,7 +19,7 @@ class Lead(models.Model):
     """CRM Lead Case"""
 
     _name = "crm.lead"
-    _inherit = [_name, "l10n_br_base.party.mixin", "format.address.mixin"]
+    _inherit = [_name, "l10n_br_base.party.mixin"]
 
     cnpj = fields.Char(string="CNPJ")
 
@@ -141,7 +141,7 @@ class Lead(models.Model):
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
-        result = super(Lead, self)._prepare_values_from_partner(self.partner_id)
+        result = super()._prepare_values_from_partner(self.partner_id)
 
         if self.partner_id:
             result["street_name"] = self.partner_id.street_name
