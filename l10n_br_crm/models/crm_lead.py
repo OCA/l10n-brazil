@@ -54,6 +54,22 @@ class Lead(models.Model):
 
             record.show_l10n_br = show_l10n_br
 
+            # Apesar do metodo create ter os campos informados
+            # o metodo _prepare_address_values_from_partner esta sendo
+            # chamado com o partner vazio e os campos abaixo com False
+            # o que acaba apagando os campos, por enquanto essa é a forma
+            # encontrada para contornar o problema.
+            # TODO: revalidar nas migrações
+            partner = record.partner_id
+            if partner:
+                result = {
+                    "street_name": partner.street_name,
+                    "street_number": partner.street_number,
+                    "district": partner.district,
+                    "city_id": partner.city_id.id,
+                }
+                record.update(result)
+
     @api.onchange("contact_name")
     def _onchange_contact_name(self):
         if not self.name_surname:
