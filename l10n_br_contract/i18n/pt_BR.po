@@ -1046,6 +1046,13 @@ msgid "Manual Fiscal Additional Data"
 msgstr "Dado Adicional Fiscal Manual"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__line_recurrence
+msgid ""
+"Mark this check if you want to control recurrrence at line level instead of "
+"all together for the whole contract."
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__nbm_id
 msgid "NBM"
 msgstr "NBM"
@@ -1232,6 +1239,11 @@ msgstr "Quantidade"
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
 msgid "Recalculate taxes before invoicing"
 msgstr "Recalcular impostos antes do faturamento"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__line_recurrence
+msgid "Recurrence at line level?"
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__service_type_id
