@@ -265,3 +265,33 @@ class CrmLeadTest(TransactionCase):
             "In the change of the partner the field \
                          city_id was not automatically filled.",
         )
+
+    def test_brazilian_fields_in_lead_view(self):
+        """
+        Test when show Brazilian Fields in the Lead View.
+        """
+        # Brazilian Lead with Partner informed
+        self.assertTrue(
+            self.crm_lead_company_1.show_l10n_br,
+            "Field show_l10n_br should be True for Brazilian case.",
+        )
+
+        # Brazilian Lead without Partner
+        lead_without_partner = self.env["crm.lead"].create(
+            {
+                "name": "Test BR without Partner",
+                "stage_id": self.env.ref("crm.stage_lead1").id,
+                "country_id": self.env.ref("base.br").id,
+            }
+        )
+        self.assertTrue(
+            lead_without_partner.show_l10n_br,
+            "Field show_l10n_br should be True for Brazilian case.",
+        )
+
+        # International Lead
+        inter_lead = self.env.ref("crm.crm_case_31")
+        self.assertFalse(
+            inter_lead.show_l10n_br,
+            "Field show_l10n_br should be False in International case.",
+        )
