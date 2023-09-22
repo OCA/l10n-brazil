@@ -51,57 +51,6 @@ class CTeLine(spec_models.StackedModel):
         for doc in self:
             doc.cte40_ICMS = doc
 
-    # def _export_fields_cte_40_tcte_imp(self, xsd_fields, class_obj, export_dict):
-    #     if self.cte40_choice_icms == "cte40_ICMS00":
-    #         xsd_fields.remove("cte40_ICMS20")
-    #         xsd_fields.remove("cte40_ICMS45")
-    #         xsd_fields.remove("cte40_ICMS60")
-    #         xsd_fields.remove("cte40_ICMS90")
-    #         xsd_fields.remove("cte40_ICMSOutraUF")
-    #         xsd_fields.remove("cte40_ICMSSN")
-    #     elif self.cte40_choice_icms == "cte40_ICMS20":
-    #         xsd_fields.remove("cte40_ICMS00")
-    #         xsd_fields.remove("cte40_ICMS45")
-    #         xsd_fields.remove("cte40_ICMS60")
-    #         xsd_fields.remove("cte40_ICMS90")
-    #         xsd_fields.remove("cte40_ICMSOutraUF")
-    #         xsd_fields.remove("cte40_ICMSSN")
-    #     elif self.cte40_choice_icms == "cte40_ICMS45":
-    #         xsd_fields.remove("cte40_ICMS00")
-    #         xsd_fields.remove("cte40_ICMS20")
-    #         xsd_fields.remove("cte40_ICMS60")
-    #         xsd_fields.remove("cte40_ICMS90")
-    #         xsd_fields.remove("cte40_ICMSOutraUF")
-    #         xsd_fields.remove("cte40_ICMSSN")
-    #     elif self.cte40_choice_icms == "cte40_ICMS60":
-    #         xsd_fields.remove("cte40_ICMS00")
-    #         xsd_fields.remove("cte40_ICMS20")
-    #         xsd_fields.remove("cte40_ICMS45")
-    #         xsd_fields.remove("cte40_ICMS90")
-    #         xsd_fields.remove("cte40_ICMSOutraUF")
-    #         xsd_fields.remove("cte40_ICMSSN")
-    #     elif self.cte40_choice_icms == "cte40_ICMS90":
-    #         xsd_fields.remove("cte40_ICMS00")
-    #         xsd_fields.remove("cte40_ICMS20")
-    #         xsd_fields.remove("cte40_ICMS45")
-    #         xsd_fields.remove("cte40_ICMS60")
-    #         xsd_fields.remove("cte40_ICMSOutraUF")
-    #         xsd_fields.remove("cte40_ICMSSN")
-    #     elif self.cte40_choice_icms == "cte40_ICMSOutraUF":
-    #         xsd_fields.remove("cte40_ICMS00")
-    #         xsd_fields.remove("cte40_ICMS20")
-    #         xsd_fields.remove("cte40_ICMS45")
-    #         xsd_fields.remove("cte40_ICMS60")
-    #         xsd_fields.remove("cte40_ICM90")
-    #         xsd_fields.remove("cte40_ICMSSN")
-    #     elif self.cte40_choice_icms == "cte40_ICMSSN":
-    #         xsd_fields.remove("cte40_ICMS00")
-    #         xsd_fields.remove("cte40_ICMS20")
-    #         xsd_fields.remove("cte40_ICMS45")
-    #         xsd_fields.remove("cte40_ICMS60")
-    #         xsd_fields.remove("cte40_ICMS90")
-    #         xsd_fields.remove("cte40_ICMSOutraUF")
-
     cte40_choice_icms = fields.Selection(
         selection=[
             ("cte40_ICMS00", "ICMS00"),
@@ -153,7 +102,7 @@ class CTeLine(spec_models.StackedModel):
     # TODO cte40_pICMSTRet = fields.Monetary(related="")
 
     # ICMSSN
-    cte40_indSN = fields.Selection(related="indSN")
+    cte40_indSN = fields.Float(default=1)
 
     # ICMS NF
     cte40_vBCST = fields.Monetary(related="icmsst_base")
@@ -174,6 +123,7 @@ class CTeLine(spec_models.StackedModel):
             if record.icms_cst_id.code in ICMS_CST:
                 if record.icms_cst_id.code in ["40", "41", "50"]:
                     record.cte40_choice_icms = "cte40_ICMS45"
+                    record.cte40_CST = "45"
                 elif (
                     record.icms_cst_id.code == "90"
                     and self.partner_id.state_id != self.company_id.state_id
@@ -183,19 +133,10 @@ class CTeLine(spec_models.StackedModel):
                     record.cte40_choice_icms = "{}{}".format(
                         "cte40_ICMS", record.icms_cst_id.code
                     )
+                    record.cte40_CST = record.icms_cst_id.code
             elif record.icms_cst_id.code in ICMS_SN_CST:
                 record.cte40_choice_icms = "cte40_ICMSSN"
                 record.cte40_CST = "01"
-            if record.cte40_CST != "01":
-                record.cte40_CST = record.icms_cst_id.code
-
-    indSN = fields.Selection(
-        selection=[
-            ("0", "Não é simples nacional"),
-            ("1", "É simples nacional"),
-        ],
-        default="0",
-    )
 
     def _export_fields_icms(self):
         icms = {
@@ -208,6 +149,7 @@ class CTeLine(spec_models.StackedModel):
             "indSN": self.cte40_indSN,
             "vBCSTRet": str("%.02f" % self.icmsst_wh_base),
             "vICMSSTRet": str("%.02f" % self.icmsst_wh_value),
+            "pICMSSTRet": str("%.02f" % self.icmsst_wh_percent),
         }
         return icms
 
@@ -217,10 +159,10 @@ class CTeLine(spec_models.StackedModel):
             xsd_fields.remove("cte40_ICMSOutraUF")
 
         xsd_fields = [self.cte40_choice_icms]
-        icms_tag = self.cte40_choice_icms.replace("cte40_", "").replace(
-            "ICMSSN", "Icmssn"
-        ).replace(
-            "ICMS", "Icms"
+        icms_tag = (
+            self.cte40_choice_icms.replace("cte40_", "")
+            .replace("ICMSSN", "Icmssn")
+            .replace("ICMS", "Icms")
         )
         binding_module = sys.modules[self._binding_module]
         icms = binding_module.Timp
@@ -240,6 +182,7 @@ class CTeLine(spec_models.StackedModel):
     cte40_vBCUFFim = fields.Monetary(related="icms_destination_base")
     cte40_pFCPUFFim = fields.Monetary(compute="_compute_cte40_ICMSUFFim", store=True)
     cte40_pICMSUFFim = fields.Monetary(compute="_compute_cte40_ICMSUFFim", store=True)
+    # TODO
     # cte40_pICMSInter = fields.Selection(
     #    selection=[("0", "Teste")],
     #    compute="_compute_cte40_ICMSUFFim")
