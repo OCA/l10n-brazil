@@ -33,6 +33,27 @@ class Lead(models.Model):
 
     cpf = fields.Char(string="CPF")
 
+    show_l10n_br = fields.Boolean(
+        compute="_compute_show_l10n_br",
+        help="Indicates if Brazilian localization fields should be displayed.",
+    )
+
+    @api.depends("country_id")
+    def _compute_show_l10n_br(self):
+        """
+        Defines when Brazilian localization fields should be displayed.
+        """
+        for record in self:
+            show_l10n_br = False
+            if record.partner_id and record.partner_id.country_id == self.env.ref(
+                "base.br"
+            ):
+                show_l10n_br = True
+            elif record.country_id == self.env.ref("base.br"):
+                show_l10n_br = True
+
+            record.show_l10n_br = show_l10n_br
+
     @api.onchange("contact_name")
     def _onchange_contact_name(self):
         if not self.name_surname:
