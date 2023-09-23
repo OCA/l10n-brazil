@@ -77,6 +77,7 @@
                         placeholder="Terms and conditions... (note: you can setup default ones in the Configuration menu)"
                         style="min-width: 590px;"
                     />
+                    <field name="comment_ids" widget="many2many_tags" />
                     <field
                         name="manual_customer_additional_data"
                         style="min-width: 590px;"
@@ -85,6 +86,7 @@
                         name="manual_fiscal_additional_data"
                         style="min-width: 590px;"
                     />
+
                 </group>
             </field>
             <xpath expr="//field[@name='order_line']" position="attributes">
