@@ -11,7 +11,11 @@
             <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('nfe_environment','!=','2')]}"
+                    attrs="{'invisible': [
+                        '|',
+                        ('nfe_environment','!=','2'),
+                        ('document_type', 'not in', ['55', '65'])
+                    ]}"
                 >
             Nf-e Environment: <strong><field name="nfe_environment" /></strong>
             </div>
@@ -25,7 +29,9 @@
                   <field name="nfe40_modFrete" />
                   <field name="nfe40_transporta" />
               </group>
-              <group attrs="{'invisible': [('nfe40_idDest', '!=', '3')]}">
+              <group
+                    attrs="{'invisible': ['|', ('nfe40_idDest', '!=', '3'), ('document_type', 'not in', ['55', '65'])]}"
+                >
                   <field name="nfe40_idDest" invisible="1" />
                   <field name="nfe40_UFSaidaPais" />
                   <field name="nfe40_xLocExporta" />
