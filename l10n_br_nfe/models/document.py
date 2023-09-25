@@ -734,13 +734,15 @@ class NFe(spec_models.StackedModel):
             company_cnpj = self.env.company.cnpj_cpf.translate(
                 str.maketrans("", "", string.punctuation)
             )
-            emit_cnpj = new_value.get("nfe40_CNPJ").translate(
-                str.maketrans("", "", string.punctuation)
-            )
-            if company_cnpj != emit_cnpj:
-                vals["issuer"] = "partner"
-            new_value["is_company"] = True
-            new_value["cnpj_cpf"] = emit_cnpj
+            emit_cnpj = new_value.get("nfe40_CNPJ", False)
+            if emit_cnpj:
+                emit_cnpj = new_value.get("nfe40_CNPJ").translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+                if company_cnpj != emit_cnpj:
+                    vals["issuer"] = "partner"
+                new_value["is_company"] = True
+                new_value["cnpj_cpf"] = emit_cnpj
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
