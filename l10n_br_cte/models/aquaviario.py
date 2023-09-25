@@ -7,7 +7,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 
 class Aquaviario(spec_models.SpecModel):
-    _name = "l10n_br_cte.aquaviario"
+    _name = "l10n_br_cte.modal.aquaviario"
     _inherit = "cte.40.aquav"
 
     document_id = fields.One2many(
@@ -61,14 +61,3 @@ class Aquaviario(spec_models.SpecModel):
     def _compute_vPrest(self):
         for record in self.document_id.fiscal_line_ids:
             record.cte40_vPrest += record.cte40_vTPrest
-
-    def export_data(self):
-        return {
-            "cte40_vPrest": self.cte40_vPrest,
-            "cte40_vAFRMM": self.cte40_vAFRMM,
-            "cte40_xNavio": self.cte40_xNavio,
-            "cte40_nViag": self.cte40_nViag,
-            "cte40_direc": self.cte40_direc,
-            "cte40_irin": self.cte40_irin,
-            "cte40_tpNav": self.cte40_tpNav,
-        }
