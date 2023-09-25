@@ -8,14 +8,14 @@ interactions:
         Connection: [keep-alive]
         User-Agent: [python-requests/2.21.0]
       method: GET
-      uri: https://gateway.apiserpro.serpro.gov.br/consulta-cnpj-df-trial/v2/empresa/34238864000168
+      uri: https://gateway.apiserpro.serpro.gov.br/consulta-cnpj-df-trial/v2/basica/34238864000168
     response:
       body:
         {
           string:
             "{\"ni\":\"34238864000168\",\"tipoEstabelecimento\":\"1\",\"nomeEmpresarial\"\
-            :\"UHIEQKX WHNHIWD NH  FIXKHUUWPHMVX NH NWNXU (UHIFIX)\",\"nomeFantasia\"\
-            :\"UHIFIX
+            :\"UHIEQKX WHNHIWD NH FIXKHUUWPHMVX NH NWNXU (UHIFIX)\",\"nomeFantasia\":\"\
+            UHIFIX
             UHNH\",\"situacaoCadastral\":{\"codigo\":\"2\",\"data\":\"2019-06-19\"\
             ,\"motivo\":\"\"},\"naturezaJuridica\":{\"codigo\":\"2011\",\"descricao\"\
             :\"Empresa P\xFAblica\"},\"dataAbertura\":\"1967-06-30\",\"cnaePrincipal\"\
@@ -28,30 +28,9 @@ interactions:
             descricao\":\"BRASILIA\"},\"uf\":\"DF\",\"pais\":{\"codigo\":\"105\",\"descricao\"\
             :\"BRASIL\"}},\"municipioJurisdicao\":{\"codigo\":\"0110100\",\"descricao\"\
             :\"BRAS\xCDLIA\"},\"telefones\":[{\"ddd\":\"61\",\"numero\":\"22222222\"},{\"\
-            ddd\":\"61\",\"numero\":\"33333333\"}],\"correioEletronico\":\"EMPRESA@EMPRESA.BR\"\
+            ddd\":\"61\",\"numero\":\"22222222\"}],\"correioEletronico\":\"EMPRESA@XXXXXX.BR\"\
             ,\"capitalSocial\":0,\"porte\":\"05\",\"situacaoEspecial\":\"\",\"dataSituacaoEspecial\"\
-            :\"\",\"informacoesAdicionais\":{},\"socios\":[{\"tipoSocio\":\"2\",\"cpf\"\
-            :\"07119488449\",\"nome\":\"LUIZA ARAUJO DE OLIVEIRA\",\"qualificacao\":\"\
-            49\",\"dataInclusao\":\"2014-01-01\",\"pais\":{\"codigo\":\"105\",\"descricao\"\
-            :\"BRASIL\"},\"representanteLegal\":{\"cpf\":\"00000000000\",\"nome\":\"\"\
-            ,\"qualificacao\":\"00\"}},{\"tipoSocio\":\"2\",\"cpf\":\"23982012600\",\"\
-            nome\":\"JOANA ALVES MUNDIM PENA\",\"qualificacao\":\"49\",\"dataInclusao\"\
-            :\"2014-01-01\",\"pais\":{\"codigo\":\"105\",\"descricao\":\"BRASIL\"},\"\
-            representanteLegal\":{\"cpf\":\"00000000000\",\"nome\":\"\",\"qualificacao\"\
-            :\"00\"}},{\"tipoSocio\":\"2\",\"cpf\":\"13946994415\",\"nome\":\"LUIZA
-            BARBOSA\
-            \
-            BEZERRA\",\"qualificacao\":\"49\",\"dataInclusao\":\"2014-01-01\",\"pais\"\
-            :{\"codigo\":\"105\",\"descricao\":\"BRASIL\"},\"representanteLegal\":{\"\
-            cpf\":\"00000000000\",\"nome\":\"\",\"qualificacao\":\"00\"}},{\"tipoSocio\"\
-            :\"2\",\"cpf\":\"00031298702\",\"nome\":\"MARCELO ANTONIO BARROS DE CICCO\"\
-            ,\"qualificacao\":\"49\",\"dataInclusao\":\"2014-01-01\",\"pais\":{\"codigo\"\
-            :\"105\",\"descricao\":\"BRASIL\"},\"representanteLegal\":{\"cpf\":\"00000000000\"\
-            ,\"nome\":\"\",\"qualificacao\":\"00\"}},{\"tipoSocio\":\"2\",\"cpf\":\"76822320300\"\
-            ,\"nome\":\"LUIZA
-            ALDENORA\",\"qualificacao\":\"49\",\"dataInclusao\":\"2014-01-01\"\
-            ,\"pais\":{\"codigo\":\"105\",\"descricao\":\"BRASIL\"},\"representanteLegal\"\
-            :{\"cpf\":\"00000000000\",\"nome\":\"\",\"qualificacao\":\"00\"}}]}",
+            :\"\"}",
         }
       headers:
         Access-Control-Allow-Headers:
@@ -61,12 +40,12 @@ interactions:
         Access-Control-Allow-Methods: [GET]
         Access-Control-Expose-Headers: [""]
         Connection: [keep-alive]
-        Date: ["Tue, 19 Sep 2023 19:09:26 GMT"]
+        Date: ["Thu, 21 Sep 2023 21:39:25 GMT"]
         Transfer-Encoding: [chunked]
         access-control-allow-origin: ["*"]
-        activityid: [6efc348c-7eb9-4b9a-8064-48b7f9a992f8]
+        activityid: [8f35fec8-f1c9-4348-81dc-827e905247fe]
         content-type: [application/json; charset=utf-8]
-        etag: [W/"86a-p2CeQnt0OF5zs4vPG4Lpgnsxv8k"]
+        etag: [W/"3a3-YEXGdCx92PmjvGvevnmM4uVPzsg"]
         strict-transport-security: [max-age=15768000]
         x-content-type-options: [nosniff]
         x-powered-by: [Express]
@@ -2646,12 +2625,12 @@ interactions:
       headers:
         Connection: [keep-alive]
         Content-Type: [text/xml;charset=UTF-8]
-        Date: ["Tue, 19 Sep 2023 19:09:29 GMT"]
+        Date: ["Thu, 21 Sep 2023 21:39:27 GMT"]
         Set-Cookie:
           [
-            INGRESSCOOKIE=1695150570.171.32566.240414|835444ff6d2fd54741dcab3b865d31d6;
+            INGRESSCOOKIE=1695332368.98.21246.479173|835444ff6d2fd54741dcab3b865d31d6;
             Max-Age=3600; Path=/SigepMasterJPA; Secure; HttpOnly,
-            LBprdint3=1497038858.47873.0000; path=/; Httponly; Secure,
+            LBprdint3=1614413834.47873.0000; path=/; Httponly; Secure,
             LBprdExt1=566886410.47873.0000; path=/; Httponly; Secure,
           ]
         Strict-Transport-Security: [max-age=15724800; includeSubDomains]
@@ -2672,8 +2651,8 @@ interactions:
         Content-Type: [text/xml; charset=utf-8]
         Cookie:
           [
-            INGRESSCOOKIE=1695150570.171.32566.240414|835444ff6d2fd54741dcab3b865d31d6;
-            LBprdExt1=566886410.47873.0000; LBprdint3=1497038858.47873.0000,
+            INGRESSCOOKIE=1695332368.98.21246.479173|835444ff6d2fd54741dcab3b865d31d6;
+            LBprdExt1=566886410.47873.0000; LBprdint3=1614413834.47873.0000,
           ]
         SOAPAction: ['""']
         User-Agent: [Zeep/3.2.0 (www.python-zeep.org)]
@@ -2692,7 +2671,7 @@ interactions:
         Connection: [keep-alive]
         Content-Length: ["388"]
         Content-Type: [text/xml;charset=UTF-8]
-        Date: ["Tue, 19 Sep 2023 19:09:29 GMT"]
+        Date: ["Thu, 21 Sep 2023 21:39:28 GMT"]
         Strict-Transport-Security: [max-age=15724800; includeSubDomains]
         X-Powered-By: [Undertow/1]
       status: {code: 200, message: OK}

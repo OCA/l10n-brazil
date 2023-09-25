@@ -49,8 +49,6 @@ class ReceitawsWebservice(models.AbstractModel):
             "state_id": state_id,
             "city_id": city_id,
             "equity_capital": self.get_data(data, "capital_social"),
-            "cnae_main_id": self._receitaws_get_cnae(data),
-            "cnae_secondary_ids": self._receitaws_get_secondary_cnae(data),
         }
 
         return res
@@ -95,25 +93,3 @@ class ReceitawsWebservice(models.AbstractModel):
                     city_id = city.id
 
         return [state_id, city_id]
-
-    @api.model
-    def _receitaws_get_cnae(self, data):
-        cnae_main = data.get("atividade_principal")[0]
-        cnae_code = self.get_data(cnae_main, "code")
-
-        return self._get_cnae(cnae_code)
-
-    @api.model
-    def _receitaws_get_secondary_cnae(self, data):
-        cnae_secondary = []
-        for atividade in data.get("atividades_secundarias"):
-            unformated = self.get_data(atividade, "code").split(".")
-            formatted = ""
-            for nums in unformated:
-                for num in nums.split("-"):
-                    formatted += num
-
-            if self._get_cnae(formatted) is not False:
-                cnae_secondary.append(self._get_cnae(formatted))
-
-        return cnae_secondary

@@ -10,7 +10,7 @@ import vcr
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.l10n_br_cnpj_search.tests.common import TestCnpjCommon
+from .common import TestCnpjCommon
 
 
 @tagged("post_install", "-at_install")
@@ -52,7 +52,6 @@ class TestReceitaWS(TestCnpjCommon):
         self.assertEqual(kilian.state_id.code, "PB")
         self.assertEqual(kilian.city_id.name, "Campina Grande")
         self.assertEqual(kilian.equity_capital, 3000)
-        self.assertEqual(kilian.cnae_main_id.code, "4751-2/01")
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_receitaws_not_found.yaml",

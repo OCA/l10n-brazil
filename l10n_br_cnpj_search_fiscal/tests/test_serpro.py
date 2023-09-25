@@ -1,10 +1,9 @@
 # Copyright 2022 KMEE
-# Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
-# @author Cristiano Mafra Junior
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
 import os
+import time  # You can't send multiple requests at the same time in trial version
 
 import vcr
 
@@ -19,7 +18,7 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestTestSerPro(TestCnpjCommon):
     def setUp(self):
-        super().setUp()
+        super(TestTestSerPro, self).setUp()
 
         self.set_param("cnpj_provider", "serpro")
         self.set_param("serpro_token", "06aef429-a981-3ec5-a1f8-71d38d86481e")
@@ -35,19 +34,15 @@ class TestTestSerPro(TestCnpjCommon):
         dummy_basica = self.model.create(
             {"name": "Dummy Basica", "cnpj_cpf": "34.238.864/0001-68"}
         )
+        time.sleep(3)
         dummy_basica._onchange_cnpj_cpf()
+        dummy_basica.search_cnpj()
 
-        action_wizard = dummy_basica.action_open_cnpj_search_wizard()
-        wizard_context = action_wizard.get("context")
-        wizard = (
-            self.env["partner.search.wizard"].with_context(wizard_context).create({})
-        )
-        wizard.action_update_partner()
+        self.assertEqual(dummy_basica.company_type, "company")
         self.assertEqual(
             dummy_basica.legal_name,
             "Uhieqkx Whnhiwd Nh Fixkhuuwphmvx Nh Nwnxu (Uhifix)",
         )
-        self.assertEqual(dummy_basica.company_type, "company")
         self.assertEqual(dummy_basica.name, "Uhifix Uhnh")
         self.assertEqual(dummy_basica.email, "EMPRESA@XXXXXX.BR")
         self.assertEqual(dummy_basica.street_name, "Nh Biwmnh Wihw Mxivh")
@@ -59,6 +54,7 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(dummy_basica.mobile, "(61) 22222222")
         self.assertEqual(dummy_basica.state_id.code, "DF")
         self.assertEqual(dummy_basica.equity_capital, 0)
+        self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_serpro_not_found.yaml",
@@ -66,16 +62,15 @@ class TestTestSerPro(TestCnpjCommon):
         ignore_localhost=True,
     )
     def test_serpro_not_found(self):
-        # In the Trial version there are only a few registered CNPJ records
+        # Na versão Trial só há alguns registros de CNPJ cadastrados
         invalid = self.model.create(
             {"name": "invalid", "cnpj_cpf": "44.356.113/0001-08"}
         )
         invalid._onchange_cnpj_cpf()
 
+        time.sleep(3)  # Pause
         with self.assertRaises(ValidationError):
-            action_wizard = invalid.action_open_cnpj_search_wizard()
-            wizard_context = action_wizard.get("context")
-            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+            invalid.search_cnpj()
 
     def assert_socios(self, partner, expected_cnpjs):
         socios = self.model.search_read(
@@ -131,13 +126,9 @@ class TestTestSerPro(TestCnpjCommon):
             {"name": "Dummy Empresa", "cnpj_cpf": "34.238.864/0001-68"}
         )
 
+        time.sleep(3)  # Pause
         dummy_empresa._onchange_cnpj_cpf()
-        action_wizard = dummy_empresa.action_open_cnpj_search_wizard()
-        wizard_context = action_wizard.get("context")
-        wizard = (
-            self.env["partner.search.wizard"].with_context(wizard_context).create({})
-        )
-        wizard.action_update_partner()
+        dummy_empresa.search_cnpj()
 
         expected_cnpjs = {
             "Joana": "23982012600",
@@ -164,13 +155,9 @@ class TestTestSerPro(TestCnpjCommon):
             {"name": "Dummy QSA", "cnpj_cpf": "34.238.864/0001-68"}
         )
 
+        time.sleep(3)  # Pause
         dummy_qsa._onchange_cnpj_cpf()
-        action_wizard = dummy_qsa.action_open_cnpj_search_wizard()
-        wizard_context = action_wizard.get("context")
-        wizard = (
-            self.env["partner.search.wizard"].with_context(wizard_context).create({})
-        )
-        wizard.action_update_partner()
+        dummy_qsa.search_cnpj()
 
         expected_cnpjs = {
             "Joana": False,
