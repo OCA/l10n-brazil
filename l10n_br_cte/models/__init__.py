@@ -9,4 +9,3 @@ from . import rodoviario
 from . import aereo
 from . import dutoviario
 from . import aquaviario
-from . import rodo_occ

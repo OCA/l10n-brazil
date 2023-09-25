@@ -1,18 +1,16 @@
 # Copyright 2023 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields
+from nfelib.cte.bindings.v4_0.cte_modal_ferroviario_v4_00 import Ferrov, TenderFer
+
+from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
 
 class Ferroviario(spec_models.SpecModel):
-    _name = "l10n_br_cte.ferroviario"
+    _name = "l10n_br_cte.modal.ferroviario"
     _inherit = "cte.40.ferrov"
-
-    document_id = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", inverse_name="cte40_ferroviario"
-    )
 
     cte40_tpTraf = fields.Selection(
         selection=[
@@ -32,12 +30,15 @@ class Ferroviario(spec_models.SpecModel):
         ),
     )
 
-    # TRAFMUT
     cte40_trafMut = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
+        comodel_name="cte.40.modal.trafmut",
         string="Detalhamento de informações",
         help="Detalhamento de informações para o tráfego mútuo",
     )
+
+
+class TrafMut(spec_models.SpecModel):
+    _name = "l10n_br_cte.modal.ferroviario.trafmut"
 
     cte40_vFrete = fields.Monetary(
         related="cte40_trafMut.amount_freight_value",
@@ -65,25 +66,17 @@ class Ferroviario(spec_models.SpecModel):
     )
 
     cte40_ferroEnv = fields.One2many(
-        comodel_name="l10n_br_cte.ferroenv",
-        inverse_name="cte40_cInt",
+        comodel_name="l10n_br_cte.modal.ferroviario.trafmut.ferroenv",
+        inverse_name="document_id",
         string="Informações das Ferrovias Envolvidas",
     )
 
-    def export_data(self):
-        return {
-            "cte40_tpTraf": self.cte40_tpTraf,
-            "cte40_fluxo": self.cte40_fluxo,
-            "cte40_vFrete": self.cte40_vFrete,
-            "cte40_respFat": self.cte40_respFat,
-            "cte40_ferrEmi": self.cte40_ferrEmi,
-            "cte40_ferroEnv": self.cte40_ferroEnv,
-        }
-
 
 class FerroEnv(spec_models.SpecModel):
-    _name = "l10n_br_cte.ferroenv"
+    _name = "l10n_br_cte.modal.ferroviario.trafmut.ferroenv"
     _inherit = "cte.40.ferroenv"
+
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
@@ -91,25 +84,81 @@ class FerroEnv(spec_models.SpecModel):
     )
 
     cte40_cInt = fields.Char(
-        related="cInt",
         string="Código interno da Ferrovia envolvida",
         help="Código interno da Ferrovia envolvida\nUso da transportadora",
     )
 
-    cInt = fields.Char()
+    cte40_enderFerro = fields.Many2one(
+        comodel_name="cte.40.modal.tenderfer",
+        string="Detalhamento de informações",
+        help="Detalhamento de informações para o tráfego mútuo",
+    )
 
-    def export_data(self):
-        return {
-            "cte40_cInt": self.cte40_cInt,
-            "cte40_CNPJ": self.partner_id.cte40_CNPJ,
-            "cte40_IE": self.partner_id.cte40_IE,
-            "cte40_xNome": self.partner_id.cte40_xNome,
-            "cte40_nro": self.partner_id.cte40_nro,
-            "cte40_xLgr": self.partner_id.cte40_xLgr,
-            "cte40_xCPL": self.partner_id.cte40_xCPL,
-            "cte40_xBairro": self.partner_id.cte40_xBairro,
-            "cte40_cMun": self.partner_id.cte40_cMun,
-            "cte40_xMun": self.partner_id.cte40_xMun,
-            "cte40_CEP": self.partner_id.cte40_CEP,
-            "cte40_UF": self.partner_id.cte40_UF,
-        }
+    @api.model
+    def export_fields(self):
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        return Ferrov.TrafMut.FerroEnv(
+            CNPJ=self.partner_id.cte40_CNPJ,
+            IE=self.partner_id.cte40_IE,
+            xNome=self.partner_id.cte40_xNome,
+            cInt=self.cte40_cInt,
+        )
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]
+
+
+class TenderFerrov(spec_models.SpecModel):
+    _name = "l10n_br_cte.modal.tenderfer"
+    _inherit = "spec.mixin.cte"
+
+    cte40_xLgr = fields.Char(string="Logradouro")
+
+    cte40_nro = fields.Char(string="Número")
+
+    cte40_xCpl = fields.Char(string="Complemento")
+
+    cte40_xBairro = fields.Char(string="Bairro")
+
+    cte40_cMun = fields.Char(
+        string="Código do município",
+        help=(
+            "Código do município\nUtilizar a tabela do "
+            "IBGE\n\t\t\t\t\tInformar 9999999 para operações com o exterior."
+        ),
+    )
+
+    cte40_xMun = fields.Char(
+        string="Nome do município",
+        help=("Nome do município\nInformar EXTERIOR para operações com o " "exterior."),
+    )
+
+    cte40_CEP = fields.Char(string="CEP")
+
+    cte40_UF = fields.Char(
+        string="Sigla da UF",
+        help="Sigla da UF\nInformar EX para operações com o exterior.",
+    )
+
+    @api.model
+    def export_fields(self):
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        return TenderFer(
+            xLgr=self.cte40_xLgr,
+            xBairro=self.cte40_xBairro,
+            xMun=self.cte40_xMun,
+            cMun=self.cte40_cMun,
+            CEP=self.cte40_CEP,
+            UF=self.cte40_UF,
+            nro=self.cte40_nro,
+            xCpl=self.cte40_xCpl,
+        )
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]

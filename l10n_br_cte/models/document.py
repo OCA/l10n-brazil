@@ -468,12 +468,152 @@ class CTe(spec_models.StackedModel):
     cte40_autXML = fields.One2many(default=_default_cte40_autxml)
 
     ##########################
-    # CT-e tag: modal
+    # CT-e tag: infmodal
     ##########################
 
     cte40_modal = fields.Selection(related="transport_modal")
 
     cte40_infModal = fields.Many2one(compute="_compute_modal")
+
+    # Campos do Modal Aereo
+    cte40_dPrevAereo = fields.Date(
+        string="Data prevista da entrega",
+        help="Data prevista da entrega\nFormato AAAA-MM-DD",
+        store="True",
+    )
+
+    cte40_natCarga = fields.One2many(
+        related="document_id.fiscal_line_ids",
+    )
+
+    cte40_tarifa = fields.Many2one(comodel_name="l10n_br_cte.tarifa")
+
+    # Campos do Modal Aquaviario
+    cte40_vPrest = fields.Monetary(compute="_compute_vPrest", store=True)
+
+    cte40_vAFRMM = fields.Monetary(
+        string="AFRMM",
+        currency_field="brl_currency_id",
+        help=("AFRMM (Adicional de Frete para Renovação da Marinha Mercante)"),
+        store=True,
+    )
+
+    cte40_xNavio = fields.Char(string="Identificação do Navio", store=True)
+
+    cte40_nViag = fields.Char(string="Número da Viagem", store=True)
+
+    cte40_direc = fields.Selection(
+        selection=[
+            ("N", "Norte, L-Leste, S-Sul, O-Oeste"),
+            ("S", "Sul, O-Oeste"),
+            ("L", "Leste, S-Sul, O-Oeste"),
+            ("O", "Oeste"),
+        ],
+        string="Direção",
+        store=True,
+        help="Direção\nPreencher com: N-Norte, L-Leste, S-Sul, O-Oeste",
+    )
+
+    cte40_irin = fields.Char(
+        string="Irin do navio sempre deverá",
+        help="Irin do navio sempre deverá ser informado",
+        store=True,
+    )
+
+    cte40_tpNav = fields.Selection(
+        selection=[
+            ("0", "Interior"),
+            ("1", "Cabotagem"),
+        ],
+        string="Tipo de Navegação",
+        help=(
+            "Tipo de Navegação\nPreencher com: \n\t\t\t\t\t\t0 - "
+            "Interior;\n\t\t\t\t\t\t1 - Cabotagem"
+        ),
+        store=True,
+    )
+
+    def _compute_vPrest(self):
+        for record in self.document_id.fiscal_line_ids:
+            record.cte40_vPrest += record.cte40_vTPrest
+
+    # Campos do Modal Dutoviario
+    cte40_dIni = fields.Date(string="Data de Início da prestação do serviço")
+
+    cte40_dFim = fields.Date(string="Data de Fim da prestação do serviço")
+
+    cte40_vTar = fields.Float(string="Valor da tarifa")
+
+    # Campos do Modal Ferroviario
+    cte40_tpTraf = fields.Selection(
+        selection=[
+            ("0", "Próprio"),
+            ("1", "Mútuo"),
+            ("2", "Rodoferroviário"),
+            ("3", "Rodoviário."),
+        ],
+        default="0",
+    )
+
+    cte40_fluxo = fields.Char(
+        string="Fluxo Ferroviário",
+        help=(
+            "Fluxo Ferroviário\nTrata-se de um número identificador do "
+            "contrato firmado com o cliente"
+        ),
+    )
+
+    # TRAFMUT
+    cte40_trafMut = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Detalhamento de informações",
+        help="Detalhamento de informações para o tráfego mútuo",
+    )
+
+    cte40_vFrete = fields.Monetary(
+        related="cte40_trafMut.amount_freight_value",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_respFat = fields.Selection(
+        selection=[
+            ("1", "Ferrovia de origem"),
+            ("2", "Ferrovia de destino"),
+        ]
+    )
+
+    cte40_ferrEmi = fields.Selection(
+        selection=[
+            ("1", "Ferrovia de origem"),
+            ("2", "Ferrovia de destino"),
+        ],
+        string="Ferrovia Emitente do CTe",
+        help=(
+            "Ferrovia Emitente do CTe\nPreencher com: "
+            "\n\t\t\t\t\t\t\t\t\t1-Ferrovia de origem; "
+            "\n\t\t\t\t\t\t\t\t\t2-Ferrovia de destino"
+        ),
+    )
+
+    cte40_ferroEnv = fields.One2many(
+        comodel_name="l10n_br_cte.ferroenv",
+        inverse_name="cte40_cInt",
+        string="Informações das Ferrovias Envolvidas",
+    )
+
+    # Campos do Modal rodoviario
+    cte40_RNTRC = fields.Char(
+        string="RNTRC",
+        store=True,
+        related="document_id.cte40_emit.partner_id.rntrc_code",
+        help="Registro Nacional de Transportadores Rodoviários de Carga",
+    )
+
+    cte40_occ = fields.One2many(
+        comodel_name="l10n_br_cte.occ",
+        inverse_name="cte40_occ_rodo_id",
+        string="Ordens de Coleta associados",
+    )
 
     ##########################
     # CT-e tag: modal
