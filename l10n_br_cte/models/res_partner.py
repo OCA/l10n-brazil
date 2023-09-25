@@ -28,6 +28,8 @@ class ResPartner(spec_models.SpecModel):
         "cte.40.tcte_autxml",
     ]
     _cte_search_keys = ["cte40_CNPJ", "cte40_CPF", "cte40_xNome"]
+    _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
+    _field_prefix = "cte40_"
 
     cte40_choice_cnpj_cpf = fields.Selection(
         selection=[("cte40_CNPJ", "CNPJ"), ("cte40_CPF", "CPF")],
