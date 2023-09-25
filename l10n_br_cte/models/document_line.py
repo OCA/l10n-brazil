@@ -20,6 +20,7 @@ class CTeLine(spec_models.StackedModel):
     _spec_tab_name = "CTe"
     _stacking_points = {}
     _force_stack_paths = "tcte_imp.timp"
+    _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
 
     ##########################
     # CT-e tag: vPrest

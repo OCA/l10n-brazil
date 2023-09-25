@@ -11,6 +11,8 @@ class ResCompany(spec_models.SpecModel):
     _name = "res.company"
     _inherit = ["res.company", "cte.40.tcte_emit", "cte.40.tendeemi"]
     _cte_search_keys = ["cte40_CNPJ", "cte40_xNome", "cte40_xFant"]
+    _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
+    _field_prefix = "cte40_"
 
     ##########################
     # CT-e spec fields
