@@ -18,7 +18,7 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestTestSerPro(TestCnpjCommon):
     def setUp(self):
-        super().setUp()
+        super(TestTestSerPro, self).setUp()
 
         self.set_param("cnpj_provider", "serpro")
         self.set_param("serpro_token", "06aef429-a981-3ec5-a1f8-71d38d86481e")
@@ -54,6 +54,7 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(dummy_basica.mobile, "(61) 22222222")
         self.assertEqual(dummy_basica.state_id.code, "DF")
         self.assertEqual(dummy_basica.equity_capital, 0)
+        self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_serpro_not_found.yaml",

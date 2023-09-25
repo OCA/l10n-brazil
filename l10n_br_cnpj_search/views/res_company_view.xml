@@ -1,13 +1,12 @@
 <odoo>
 
-    <record id="l10n_br_cnpj_search_fiscal_company_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.company.form (in l10n_br_cnpj_search)</field>
+    <record id="l10n_br_cnpj_search_company_form" model="ir.ui.view">
+        <field name="name">l10n_br.company.form (in l10n_br_cnpj_search)</field>
         <field name="model">res.company</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="inherit_id" ref="base.view_company_form" />
         <field name="priority">99</field>
         <field name="arch" type="xml">
-            <field name="cnae_main_id" position="after">
-                <field name="cnae_secondary_ids" widget="many2many_tags" />
+            <field name="cnpj_cpf" position="after">
                 <field name="equity_capital" widget="monetary" />
                 <field name="legal_nature" />
             </field>

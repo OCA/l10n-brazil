@@ -12,7 +12,7 @@ from .common import TestCnpjCommon
 @tagged("post_install", "-at_install")
 class TestReceitaWS(TestCnpjCommon):
     def setUp(self):
-        super().setUp()
+        super(TestReceitaWS, self).setUp()
 
         self.set_param("cnpj_provider", "receitaws")
 
@@ -35,6 +35,7 @@ class TestReceitaWS(TestCnpjCommon):
         self.assertEqual(kilian.state_id.code, "PB")
         self.assertEqual(kilian.city_id.name, "Campina Grande")
         self.assertEqual(kilian.equity_capital, 3000)
+        self.assertEqual(kilian.cnae_main_id.code, "4751-2/01")
 
     def test_receita_ws_fail(self):
         invalido = self.model.create({"name": "invalido", "cnpj_cpf": "00000000000000"})
@@ -51,6 +52,6 @@ class TestReceitaWS(TestCnpjCommon):
         time.sleep(2)  # Pause
         isla.search_cnpj()
 
-        self.assertEqual(isla.name.strip(), "Isla Sementes Ltda.")
-        self.assertEqual(isla.phone.strip(), "(51) 9852-9561")
-        self.assertEqual(isla.mobile.strip(), "(51) 2136-6600")
+        self.assertEqual(isla.name, "Isla Sementes Ltda.")
+        self.assertEqual(isla.phone, "(51) 9852-9561")
+        self.assertEqual(isla.mobile, "(51) 2136-6600")
