@@ -23,7 +23,7 @@ class Registro0000(models.Model):
 
     @api.depends("company_id", "DT_INI", "DT_FIN")
     def _compute_fiscal_documents(self):
-        """ Este não parece ser o método mais rápido computaciinalmente,
+        """Este não parece ser o método mais rápido computaciinalmente,
         mas é o mais prático para gerar um arquivo válido nesse momento,
         posteriormente este método deve ser melhorado."""
 
@@ -55,10 +55,10 @@ class Registro0000(models.Model):
             record.fiscal_operation_ids = record.fiscal_document_ids.mapped(
                 "fiscal_operation_id"
             )
-            record.fiscal_comment_ids = (
-                record.fiscal_document_ids.mapped('comment_ids') | record.fiscal_document_line_ids.mapped('comment_ids')
-            )
-            record.fiscal_uom_ids = record.fiscal_document_line_ids.mapped('uom_id')
+            record.fiscal_comment_ids = record.fiscal_document_ids.mapped(
+                "comment_ids"
+            ) | record.fiscal_document_line_ids.mapped("comment_ids")
+            record.fiscal_uom_ids = record.fiscal_document_line_ids.mapped("uom_id")
 
     fiscal_document_partner_ids = fields.One2many(
         comodel_name="res.partner", compute="_compute_fiscal_documents"
