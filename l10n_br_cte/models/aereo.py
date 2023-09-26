@@ -18,9 +18,7 @@ class Aereo(spec_models.SpecModel):
         store="True",
     )
 
-    cte40_natCarga = fields.One2many(
-        related="document_id.fiscal_line_ids",
-    )
+    cte40_natCarga = fields.Many2one(comodel_name="l10n_br_cte.modal.aereo.natcarga")
 
     cte40_tarifa = fields.Many2one(comodel_name="l10n_br_cte.modal.aereo.tarifa")
 
@@ -50,6 +48,35 @@ class Tarifa(spec_models.SpecModel):
             return self.export_fields_multi()
 
         return Aquav.Tarifa(CL=self.cte40_CL, vTar=self.cte40_vTar)
+
+    @api.model
+    def export_fields_multi(self):
+        return [record.export_fields() for record in self]
+
+
+class NatCarga(spec_models.SpecModel):
+    _name = "l10n_br_cte.modal.aereo.natcarga"
+    _inherit = "cte.40.tarifa"
+
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
+
+    cte40_xDime = fields.Char(
+        string="Dimensão",
+        help=(
+            "Dimensão\nFormato:1234X1234X1234 (cm). Esse campo deve sempre que"
+            " possível ser preenchido. Entretanto, quando for impossível o "
+            "preenchimento das dimensões, fica obrigatório o preenchimento da "
+            "cubagem em metro cúbico do leiaute do CT-e da estrutura genérica "
+            "(infQ)."
+        ),
+    )
+
+    @api.model
+    def export_fields(self):
+        if len(self) > 1:
+            return self.export_fields_multi()
+
+        return Aquav.Tarifa(xDime=self.cte40_xDime)
 
     @api.model
     def export_fields_multi(self):

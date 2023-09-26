@@ -483,7 +483,7 @@ class CTe(spec_models.StackedModel):
     )
 
     cte40_natCarga = fields.One2many(
-        related="document_id.fiscal_line_ids",
+        related="fiscal_line_ids",
     )
 
     cte40_tarifa = fields.Many2one(comodel_name="l10n_br_cte.tarifa")
@@ -534,8 +534,10 @@ class CTe(spec_models.StackedModel):
     )
 
     def _compute_vPrest(self):
-        for record in self.document_id.fiscal_line_ids:
-            record.cte40_vPrest += record.cte40_vTPrest
+        vPrest = 0
+        for record in self.fiscal_line_ids:
+            vPrest += record.cte40_vTPrest
+        self.cte40_vPrest = vPrest
 
     # Campos do Modal Dutoviario
     cte40_dIni = fields.Date(string="Data de Início da prestação do serviço")
@@ -565,13 +567,13 @@ class CTe(spec_models.StackedModel):
 
     # TRAFMUT
     cte40_trafMut = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
+        comodel_name="l10n_br_fiscal.document.line",
         string="Detalhamento de informações",
         help="Detalhamento de informações para o tráfego mútuo",
     )
 
     cte40_vFrete = fields.Monetary(
-        related="cte40_trafMut.amount_freight_value",
+        related="amount_freight_value",
         currency_field="brl_currency_id",
     )
 
@@ -596,8 +598,8 @@ class CTe(spec_models.StackedModel):
     )
 
     cte40_ferroEnv = fields.One2many(
-        comodel_name="l10n_br_cte.ferroenv",
-        inverse_name="cte40_cInt",
+        comodel_name="l10n_br_cte.modal.ferroviario.trafmut.ferroenv",
+        inverse_name="document_id",
         string="Informações das Ferrovias Envolvidas",
     )
 
@@ -605,13 +607,13 @@ class CTe(spec_models.StackedModel):
     cte40_RNTRC = fields.Char(
         string="RNTRC",
         store=True,
-        related="document_id.cte40_emit.partner_id.rntrc_code",
+        related="partner_id.rntrc_code",
         help="Registro Nacional de Transportadores Rodoviários de Carga",
     )
 
     cte40_occ = fields.One2many(
-        comodel_name="l10n_br_cte.occ",
-        inverse_name="cte40_occ_rodo_id",
+        comodel_name="l10n_br_cte.modal.rodoviario.occ",
+        inverse_name="document_id",
         string="Ordens de Coleta associados",
     )
 
@@ -619,40 +621,6 @@ class CTe(spec_models.StackedModel):
     # CT-e tag: modal
     # Compute Methods
     ##########################
-
-    def _compute_modal(self):
-        if self.cte40_modal == "1":
-            self.cte40_infModal = self.cte40_rodoviario
-        elif self.cte40_modal == "2":
-            self.cte40_infModal = self.cte40_aereo
-        elif self.cte40_modal == "3":
-            self.cte40_infModal = self.cte40_aquav
-        elif self.cte40_modal == "4":
-            self.cte40_infModal = self.cte40_ferroviario
-        elif self.cte40_modal == "5":
-            self.cte40_infModal = self.cte40_dutoviario
-        elif self.cte40_modal == "6":
-            pass  # TODO
-
-    cte40_aquav = fields.Many2one(
-        comodel_name="l10n_br_cte.aquaviario", inverse_name="document_id"
-    )
-
-    cte40_dutoviario = fields.Many2one(
-        comodel_name="l10n_br_cte.dutoviario", inverse_name="document_id"
-    )
-
-    cte40_rodoviario = fields.Many2one(
-        comodel_name="l10n_br_cte.rodoviario", inverse_name="document_id"
-    )
-
-    cte40_ferroviario = fields.Many2one(
-        comodel_name="l10n_br_cte.ferroviario", inverse_name="document_id"
-    )
-
-    cte40_aereo = fields.Many2one(
-        comodel_name="l10n_br_cte.aereo", inverse_name="document_id"
-    )
 
     ################################
     # Business Model Methods
