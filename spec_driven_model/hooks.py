@@ -110,6 +110,8 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
         # 2nd StackedModel classes, that we will visit
         if hasattr(base_class, "_stacked"):
             node = SpecModel._odoo_name_to_class(base_class._stacked, spec_module)
+            if not node:
+                continue
 
             env = api.Environment(cr, SUPERUSER_ID, {})
             for (
