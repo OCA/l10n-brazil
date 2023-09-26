@@ -3169,12 +3169,12 @@ class RegistroE100(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.e100"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.e100"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_INI": 0,  # Data inicial a que a apuração se refere
-    #         "DT_FIN": 0,  # Data final a que a apuração se refere
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "DT_INI": declaration.DT_INI,
+            "DT_FIN": declaration.DT_FIN,
+        }
 
 
 class RegistroE110(models.Model):
