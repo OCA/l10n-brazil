@@ -27,6 +27,8 @@ class ResPartner(spec_models.SpecModel):
         "mdfe.30.infresp",
         "mdfe.30.infseg",
     ]
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
+    _field_prefix = "mdfe30_"
     _mdfe_search_keys = ["mdfe30_CNPJ", "mdfe30_CPF", "mdfe_xNome"]
 
     @api.model

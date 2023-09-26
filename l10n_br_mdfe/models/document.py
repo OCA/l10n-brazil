@@ -78,8 +78,9 @@ class MDFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "mdfe.30.tmdfe_infmdfe"]
     _stacked = "mdfe.30.tmdfe_infmdfe"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
     _field_prefix = "mdfe30_"
-    _schame_name = "mdfe"
+    _schema_name = "mdfe"
     _schema_version = "3.0.0"
     _odoo_module = "l10n_br_mdfe"
     _spec_module = "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
@@ -278,6 +279,7 @@ class MDFe(spec_models.StackedModel):
     @api.depends("mdfe_loading_city_ids")
     def _compute_inf_carrega(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_infMunCarrega = [(5, 0, 0)]
             record.mdfe30_infMunCarrega = [
                 (
                     0,
@@ -293,6 +295,7 @@ class MDFe(spec_models.StackedModel):
     @api.depends("mdfe_route_state_ids")
     def _compute_inf_percurso(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_infPercurso = [(5, 0, 0)]
             record.mdfe30_infPercurso = [
                 (
                     0,
@@ -876,6 +879,9 @@ class MDFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
+        if self.document_type != MODELO_FISCAL_MDFE:
+            return super()._processador()
+
         certificate = False
         if self.company_id.sudo().certificate_nfe_id:
             certificate = self.company_id.sudo().certificate_nfe_id
@@ -923,7 +929,7 @@ class MDFe(spec_models.StackedModel):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_infMDFeSupl = self.env[
                 "l10n_br_fiscal.document.supplement"
-            ].create({"mdfe30_qrCodMDFe": record.get_mdfe_qrcode()})
+            ].create({"qrcode": record.get_mdfe_qrcode()})
 
     def _document_cancel(self, justificative):
         result = super(MDFe, self)._document_cancel(justificative)
@@ -956,6 +962,10 @@ class MDFe(spec_models.StackedModel):
 
     def _valida_xml(self, xml_file):
         self.ensure_one()
+
+        if self.document_type != MODELO_FISCAL_MDFE:
+            return super()._valida_xml(xml_file)
+
         erros = Mdfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
