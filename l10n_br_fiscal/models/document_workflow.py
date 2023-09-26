@@ -398,3 +398,12 @@ class DocumentWorkflow(models.AbstractModel):
                     "this fical document you are not the document issuer"
                 )
             )
+
+    def _document_qrcode(self):
+        pass
+
+    def _processador(self):
+        pass
+
+    def _valida_xml(self, xml_file):
+        pass

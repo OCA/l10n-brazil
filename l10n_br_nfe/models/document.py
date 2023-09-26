@@ -76,6 +76,7 @@ class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe", "nfe.40.fat"]
     _stacked = "nfe.40.infnfe"
+    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
     _field_prefix = "nfe40_"
     _schema_name = "nfe"
     _schema_version = "4.0.0"
@@ -864,6 +865,14 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
+        if self.document_type not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return super()._processador()
+
+        certificate = False
+        if self.company_id.sudo().certificate_nfe_id:
+            certificate = self.company_id.sudo().certificate_nfe_id
+        elif self.company_id.sudo().certificate_ecnpj_id:
+            certificate = self.company_id.sudo().certificate_ecnpj_id
         self._check_nfe_environment()
         certificado = self.env.company._get_br_ecertificate()
         session = Session()
@@ -967,6 +976,10 @@ class NFe(spec_models.StackedModel):
 
     def _valida_xml(self, xml_file):
         self.ensure_one()
+
+        if self.document_type not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return super()._valida_xml(xml_file)
+
         erros = Nfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
@@ -989,7 +1002,11 @@ class NFe(spec_models.StackedModel):
         super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
-        for record in self.filtered(filter_processador_edoc_nfe):
+        records = self.filtered(filter_processador_edoc_nfe)
+        if not records:
+            return super()._generate_key()
+
+        for record in records:
             date = fields.Datetime.context_timestamp(record, record.document_date)
 
             required_fields_gen_edoc = []
@@ -1036,8 +1053,8 @@ class NFe(spec_models.StackedModel):
                     "l10n_br_fiscal.document.supplement"
                 ].create(
                     {
-                        "nfe40_qrCode": self.get_nfce_qrcode(),
-                        "nfe40_urlChave": self.get_nfce_qrcode_url(),
+                        "qrcode": self.get_nfce_qrcode(),
+                        "url_key": self.get_nfce_qrcode_url(),
                     }
                 )
 
