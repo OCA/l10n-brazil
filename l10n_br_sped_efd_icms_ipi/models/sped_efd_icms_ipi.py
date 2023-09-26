@@ -21,6 +21,73 @@ class Registro0000(models.Model):
     _inherit = ["l10n_br_sped.efd_icms_ipi.17.0000"]
     _odoo_model = "res.company"
 
+    @api.depends("company_id", "DT_INI", "DT_FIN")
+    def _compute_fiscal_documents(self):
+        """ Este não parece ser o método mais rápido computaciinalmente,
+        mas é o mais prático para gerar um arquivo válido nesse momento,
+        posteriormente este método deve ser melhorado."""
+
+        for record in self:
+            fiscal_document_ids = self.fiscal_document_ids.search(
+                [
+                    # ("company_id", "=", record.company_id.id),
+                    # (
+                    #     "state_edoc",
+                    #     "in",
+                    #     ("autorizada", "cancelada", "denegada", "inutilizada"),
+                    # ),
+                    ("document_type", "in", ("01", "1B", "04", "55", "65")),
+                    ("document_date", ">=", record.DT_INI),
+                    ("document_date", "<=", record.DT_FIN),
+                ]
+            )
+
+            record.fiscal_document_partner_ids = fiscal_document_ids.mapped(
+                "partner_id"
+            )
+            record.fiscal_document_line_ids = fiscal_document_ids.mapped(
+                "fiscal_line_ids"
+            )
+            record.fiscal_product_ids = record.fiscal_document_line_ids.mapped(
+                "product_id"
+            )
+            record.fiscal_document_ids = fiscal_document_ids
+            record.fiscal_operation_ids = record.fiscal_document_ids.mapped(
+                "fiscal_operation_id"
+            )
+            record.fiscal_comment_ids = (
+                record.fiscal_document_ids.mapped('comment_ids') | record.fiscal_document_line_ids.mapped('comment_ids')
+            )
+            record.fiscal_uom_ids = record.fiscal_document_line_ids.mapped('uom_id')
+
+    fiscal_document_partner_ids = fields.One2many(
+        comodel_name="res.partner", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_document_line_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.line", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_product_ids = fields.One2many(
+        comodel_name="product.product", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_operation_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.operation", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_comment_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.comment", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_uom_ids = fields.One2many(
+        comodel_name="uom.uom", compute="_compute_fiscal_documents"
+    )
+
     COD_FIN = fields.Selection(
         [
             ("0", "Remessa do arquivo original"),
@@ -258,9 +325,8 @@ class Registro0150(models.Model):
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [
-            ("is_company", "=", True),
-            ("id", "in", [49, 61, 64, 51, 53, 55, 60]),
-        ]  # FIXME: buscar registros dentro dos documentos fiscais do periodo de apuração.
+            ("id", "in", declaration.fiscal_document_partner_ids.ids),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -306,9 +372,9 @@ class Registro0190(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return (
-            []
-        )  # FIXME: buscar registros dentro dos documentos fiscais do periodo de apuração e tb do inventário.
+        return [
+            ("id", "in", declaration.fiscal_uom_ids.ids),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -327,9 +393,9 @@ class Registro0200(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return (
-            []
-        )  # FIXME: buscar registros dentro dos documentos fiscais do periodo de apuração e tb do inventário.
+        return [
+            ("id", "in", declaration.fiscal_product_ids.ids),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -459,9 +525,9 @@ class Registro0400(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return (
-            []
-        )  # FIXME: buscar registros dentro dos documentos fiscais do periodo de apuração e tb do inventário.
+        return [
+            ("id", "in", declaration.fiscal_operation_ids.ids),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -476,13 +542,20 @@ class Registro0450(models.Model):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.efd_icms_ipi.0450"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0450"
+    _odoo_model = "l10n_br_fiscal.comment"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
-    #         "TXT": 0,  # Texto livre da informação complementar existente no docu...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("id", "in", declaration.fiscal_comment_ids.ids),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_INF": record.id,
+            "TXT": record.comment,
+        }
 
 
 class Registro0460(models.Model):
@@ -749,15 +822,7 @@ class RegistroC100(models.Model):
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [
-            ("company_id", "=", declaration.company_id.id),
-            ("document_type", "in", ("01", "1B", "04", "55", "65")),
-            (
-                "state_edoc",
-                "in",
-                ("autorizada", "cancelada", "denegada", "inutilizada"),
-            ),
-            ("document_date", ">", declaration.DT_INI),
-            ("document_date", "<", declaration.DT_FIN),
+            ("id", "in", declaration.fiscal_document_ids.ids),
         ]
 
     @api.model
