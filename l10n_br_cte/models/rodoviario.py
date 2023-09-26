@@ -12,20 +12,14 @@ class Rodoviario(spec_models.SpecModel):
     _name = "l10n_br_cte.modal.rodoviario"
     _inherit = "cte.40.rodo"
 
-    document_id = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", inverse_name="cte40_rodoviario"
-    )
-
     cte40_RNTRC = fields.Char(
         string="RNTRC",
         store=True,
-        related="document_id.cte40_emit.partner_id.rntrc_code",
         help="Registro Nacional de Transportadores Rodoviários de Carga",
     )
 
     cte40_occ = fields.One2many(
         comodel_name="l10n_br_cte.modal.rodoviario.occ",
-        inverse_name="document_id",
         string="Ordens de Coleta associados",
     )
 

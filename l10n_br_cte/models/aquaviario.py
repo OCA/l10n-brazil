@@ -10,10 +10,6 @@ class Aquaviario(spec_models.SpecModel):
     _name = "l10n_br_cte.modal.aquaviario"
     _inherit = "cte.40.aquav"
 
-    document_id = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", inverse_name="cte40_aquav"
-    )
-
     cte40_vPrest = fields.Monetary(compute="_compute_vPrest", store=True)
 
     cte40_vAFRMM = fields.Monetary(

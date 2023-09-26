@@ -39,9 +39,9 @@ class Ferroviario(spec_models.SpecModel):
 
 class TrafMut(spec_models.SpecModel):
     _name = "l10n_br_cte.modal.ferroviario.trafmut"
+    _inherit = "cte.40.trafmut"
 
     cte40_vFrete = fields.Monetary(
-        related="cte40_trafMut.amount_freight_value",
         currency_field="brl_currency_id",
     )
 
@@ -67,7 +67,6 @@ class TrafMut(spec_models.SpecModel):
 
     cte40_ferroEnv = fields.One2many(
         comodel_name="l10n_br_cte.modal.ferroviario.trafmut.ferroenv",
-        inverse_name="document_id",
         string="Informações das Ferrovias Envolvidas",
     )
 
@@ -113,7 +112,7 @@ class FerroEnv(spec_models.SpecModel):
 
 class TenderFerrov(spec_models.SpecModel):
     _name = "l10n_br_cte.modal.tenderfer"
-    _inherit = "spec.mixin.cte"
+    _inherit = "cte.40.tenderfer"
 
     cte40_xLgr = fields.Char(string="Logradouro")
 
