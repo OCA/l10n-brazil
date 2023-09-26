@@ -8,9 +8,13 @@ import textwrap
 from erpbrasil.base import misc
 from lxml.builder import E
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
+    FISCAL_IN,
+)
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
     EDITABLE_ON_DRAFT,
     LAYOUT_VERSIONS,
@@ -123,6 +127,24 @@ class Registro0000(models.Model):
         default="0",
     )
 
+    CLAS_ESTAB_IND = fields.Selection(
+        [
+            ("00", "Industrial - Transformação"),
+            ("01", "Industrial - Beneficiamento"),
+            ("02", "Industrial - Montagem"),
+            ("03", "Industrial - Acondicionamento ou Reacondicionamento"),
+            ("04", "Industrial - Renovação ou Recondicionamento"),
+            ("05", "Equiparado a industrial - Por opção"),
+            ("06", "Equiparado a industrial - Importação Direta"),
+            ("07", "Equiparado a industrial - Por lei específica"),
+            ("08", "Equiparado a industrial - Não enquadrado nos códigos 05, 06 ou 07"),
+            ("09", "Outros"),
+        ],
+        string="classificação do estabelecimento conforme tabela 4",
+        help="classificação do estabelecimento conforme tabela 4.5.5",
+        # required=True,
+    )
+
     @api.model
     def _append_top_view_elements(self, group, inline=False):
         res = super()._append_top_view_elements(group)
@@ -131,6 +153,9 @@ class Registro0000(models.Model):
         )
         group.append(E.field(name="cod_receita", required="1", attrs=EDITABLE_ON_DRAFT))
         group.append(E.field(name="ind_apur", required="1", attrs=EDITABLE_ON_DRAFT))
+        group.append(
+            E.field(name="CLAS_ESTAB_IND", required="1", attrs=EDITABLE_ON_DRAFT)
+        )
         return res
 
     @api.model
@@ -166,10 +191,9 @@ class Registro0002(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        if declaration.IND_ATIV == "0":
-            return {
-                "CLAS_ESTAB_IND": declaration.IND_ATIV,
-            }
+        return {
+            "CLAS_ESTAB_IND": declaration.CLAS_ESTAB_IND,
+        }
 
 
 class Registro0005(models.Model):
@@ -189,7 +213,7 @@ class Registro0005(models.Model):
         return {
             "FANTASIA": record.name,
             "CEP": misc.punctuation_rm(record.zip),
-            "END": record.street,
+            "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
@@ -210,13 +234,13 @@ class Registro0015(models.Model):
     def _odoo_domain(self, parent_record, declaration):
         return [("partner_id", "=", declaration.company_id.partner_id.id)]
 
+    # TODO: Deve ser gerado um registro para cada inscrição estadual dos
+    # contribuintes pelos quais a empresa é substituta tributária.
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "UF_ST": misc.punctuation_rm(
-                record.inscr_est
-            ),  # Sigla da unidade da federação do contribuinte substitu...
-            "IE_ST": record.state_id.code,  # Inscrição Estadual do contribuinte substituto na unida...
+            "UF_ST": misc.punctuation_rm(record.inscr_est),
+            "IE_ST": record.state_id.code,
         }
 
 
@@ -234,21 +258,19 @@ class Registro0100(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        if record.child_ids:
-            accountant = record.child_ids[0]
-        else:
+        if not record:
             msg_err = (
-                "Cadastre o contador Pessoa Fisica dentro do Contato da Contabilidade"
+                "Cadastre o contador responsável dentro das configurações da Empresa."
             )
             raise UserError(msg_err)
 
         return {
-            "NOME": accountant.name,
-            "CPF": misc.punctuation_rm(accountant.cnpj_cpf),
-            "CRC": misc.punctuation_rm(accountant.crc_code),
-            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
+            "NOME": record.name,
+            "CPF": misc.punctuation_rm(record.cnpj_cpf),
+            "CRC": misc.punctuation_rm(record.crc_code),
+            "CNPJ": misc.punctuation_rm(record.parent_id.cnpj_cpf),
             "CEP": misc.punctuation_rm(record.zip),
-            "END": record.street,
+            "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
@@ -270,26 +292,31 @@ class Registro0150(models.Model):
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [
-            ("is_company", "=", True),
-            ("id", "in", [49, 61, 64, 51, 53, 55, 60]),
-        ]  # FIXME: buscar registros dentro dos documentos fiscais do periodo de apuração.
+            ("id", "in", declaration.fiscal_document_partner_ids.ids),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
+        vals = {
             "COD_PART": misc.punctuation_rm(record.cnpj_cpf),
             "NOME": record.legal_name or record.name,
-            "COD_PAIS": record.country_id.ibge_code or "BR",
-            "CPF": misc.punctuation_rm(record.cnpj_cpf),
-            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
+            "COD_PAIS": record.country_id.bc_code,
             "IE": misc.punctuation_rm(record.inscr_est),
-            "COD_MUN": misc.punctuation_rm(record.city_id.ibge_code),
             "SUFRAMA": record.suframa or "",
-            "END": record.street,
+            "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
         }
+        if record.country_id.bc_code == "1056":
+            if record.company_type == "person":
+                vals["CPF"] = misc.punctuation_rm(record.cnpj_cpf)
+            else:
+                vals["CNPJ"] = misc.punctuation_rm(record.cnpj_cpf)
+            vals["COD_MUN"] = misc.punctuation_rm(record.city_id.ibge_code)
+        else:
+            vals["COD_MUN"] = "9999999"
+        return vals
 
 
 class Registro0175(models.Model):
@@ -320,12 +347,15 @@ class Registro0190(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return (
-            []
-        )  # FIXME: buscar registros dentro dos documentos fiscais do periodo de apuração e tb do inventário.
+        return [
+            ("id", "in", declaration.fiscal_uom_ids.ids),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        if not record.code:
+            msg_err = _(f"UOM without code: {record.name}")
+            raise UserError(msg_err)
         return {
             "UNID": record.code,  # Código da unidade de medida
             "DESCR": record.name,  # Descrição da unidade de medida
@@ -342,26 +372,29 @@ class Registro0200(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return (
-            []
-        )  # FIXME: buscar registros dentro dos documentos fiscais do periodo de apuração e tb do inventário.
+        return [
+            ("id", "in", declaration.fiscal_product_ids.ids),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # TODO: Buscar tax definition do Produto e preencher o campo ALIQ_ICMS
+        fiscal_document_line = declaration.fiscal_document_line_ids.filtered(
+            lambda x: x.product_id.id == record.id
+        )
         return {
-            "COD_ITEM": record.default_code or record.id,  # Código do item
-            "DESCR_ITEM": record.name,  # Descrição do item
-            "COD_BARRA": record.barcode,  # Representação alfanumérico do código de barra do p...
-            "COD_ANT_ITEM": record.default_code
-            or record.id,  # FIXME: Código anterior do item com relação à última in...
-            "UNID_INV": record.uom_id.code,  # Unidade de medida utilizada na quantificação de est...
-            "TIPO_ITEM": record.fiscal_type,  # Tipo do item – Atividades Industriais, Comerciais ...
-            "COD_NCM": record.ncm_id.code,  # Código da Nomenclatura Comum do Mercosul
-            "EX_IPI": record.ncm_id.exception,  # Código EX, conforme a TIPI
-            "COD_GEN": record.fiscal_genre_id.code,  # Código do gênero do item, conforme a Tabela 4.2.1
-            "COD_LST": record.service_type_id.code,  # Código do serviço conforme lista do Anexo I da Lei C...
-            # "ALIQ_ICMS": 0,  # Alíquota de ICMS aplicável ao item nas operações i...
-            "CEST": record.cest_id.code,  # Código Especificador da Substituição Tributária
+            "COD_ITEM": record.default_code or record.id,
+            "DESCR_ITEM": record.name,
+            "COD_BARRA": record.barcode,
+            # "COD_ANT_ITEM": "", # Não preencher. Ele deve ser especificado no Registro 0205
+            "UNID_INV": record.uom_id.code,
+            "TIPO_ITEM": record.fiscal_type,
+            "COD_NCM": record.ncm_id.code,
+            "EX_IPI": record.ncm_id.exception,
+            "COD_GEN": record.fiscal_genre_id.code,
+            "COD_LST": record.service_type_id.code,
+            "ALIQ_ICMS": fiscal_document_line.icms_percent,  # Alíquota de ICMS aplicável ao item nas operações i...
+            "CEST": record.cest_id.code,
         }
 
 
@@ -371,6 +404,9 @@ class Registro0205(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0205"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0205"
+
+    # TODO: Essa informação do código não é salva atualmente, talvez seja preciso
+    # atualizar o modelo product.product para ter um histórico disso.
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -388,6 +424,8 @@ class Registro0206(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0206"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0206"
+
+    # TODO: Não temos esse código da ANP no modelo.
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -480,9 +518,9 @@ class Registro0400(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return (
-            []
-        )  # FIXME: buscar registros dentro dos documentos fiscais do periodo de apuração e tb do inventário.
+        return [
+            ("id", "in", declaration.fiscal_operation_ids.ids),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -498,13 +536,20 @@ class Registro0450(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0450"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0450"
+    _odoo_model = "l10n_br_fiscal.comment"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
-    #         "TXT": 0,  # Texto livre da informação complementar existente no docu...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("id", "in", declaration.fiscal_comment_ids.ids),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_INF": record.id,
+            "TXT": record.comment,
+        }
 
 
 class Registro0460(models.Model):
@@ -528,6 +573,8 @@ class Registro0500(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0500"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0500"
+
+    # TODO: Usado em H010?
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -782,41 +829,23 @@ class RegistroC100(models.Model):
     _inherit = "l10n_br_sped.efd_icms_ipi.17.c100"
     _odoo_model = "l10n_br_fiscal.document"
 
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        return [
-            ("company_id", "=", declaration.company_id.id),
-            ("document_type", "in", ("01", "1B", "04", "55", "65")),
-            (
-                "state_edoc",
-                "in",
-                ("autorizada", "cancelada", "denegada", "inutilizada"),
-            ),
-            ("document_date", ">", declaration.DT_INI),
-            ("document_date", "<", declaration.DT_FIN),
-        ]
+    # @api.model
+    # def _odoo_domain(self, parent_record, declaration):
+    #     return [
+    #         ("id", "in", declaration.c100_fiscal_document_ids.ids),
+    #     ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        if record.fiscal_operation_type == "in":
+        if record.fiscal_operation_type == FISCAL_IN:
             ind_oper = "0"
         else:
             ind_oper = "1"
-        if record.issuer == "company":
+        if record.issuer == DOCUMENT_ISSUER_COMPANY:
             ind_emit = "0"
         else:
             ind_emit = "1"
 
-        if record.state_edoc == "cancelada":
-            cod_sit = "02"
-        elif record.state_edoc == "autorizada" and record.edoc_purpose in ("1", "4"):
-            # Documento normal ou devolucao
-            cod_sit = "00"
-        elif record.state_edoc == "autorizada" and record.edoc_purpose in ("2", "3"):
-            # Documento complementar/ajuste
-            cod_sit = "06"
-        else:
-            cod_sit = "TODO"
         # A partir de janeiro de 2023, os códigos de situação de documento 04 (NF-e ou CT-e denegado) e
         # 05 (NF-e ou CT-e Numeração inutilizada) da tabela 4.1.2 - Tabela Situação do Documento serão descontinuados.
         # elif nfe.state_edoc == "denegada" and nfe.edoc_purpose == "1":
@@ -847,7 +876,7 @@ class RegistroC100(models.Model):
             "IND_EMIT": ind_emit,
             "COD_PART": str(record.partner_id.id),
             "COD_MOD": record.document_type_id.code,
-            "COD_SIT": cod_sit,
+            "COD_SIT": record.state_fiscal,
             "SER": record.document_serie,
             "NUM_DOC": misc.punctuation_rm(str(record.document_number)),
             "CHV_NFE": record.document_key,
@@ -1178,7 +1207,7 @@ class RegistroC170(models.Model):
             "VL_ITEM": record.fiscal_price * record.fiscal_quantity,
             "VL_DESC": record.discount_value,
             "IND_MOV": "0" if record.cfop_id.stock_move else "1",
-            "CST_ICMS": record.icms_origin + record.icms_cst_code,
+            "CST_ICMS": "",
             "CFOP": str(record.cfop_id.code),
             "COD_NAT": str(record.fiscal_operation_id.code),
             "VL_BC_ICMS": record.icms_base,
