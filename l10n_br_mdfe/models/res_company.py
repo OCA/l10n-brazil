@@ -26,6 +26,8 @@ class ResCompany(spec_models.SpecModel):
         "res.company",
         "mdfe.30.emit",
     ]
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
+    _field_prefix = "mdfe30_"
     _mdfe_search_keys = ["mdfe30_CNPJ", "mdfe30_xNome", "mdfe_xFant"]
 
     mdfe_version = fields.Selection(
