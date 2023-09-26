@@ -63,7 +63,7 @@ class TestNFeExport(TransactionCase):
         )
         nfe.date_in_out = datetime.strptime("2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S")
         nfe.nfe40_cNF = "06277716"
-        nfe.with_context(lang="pt_BR")._document_export()
+        nfe._document_export()
 
     def serialize_xml(self, nfe_data):
         for nfe in self.nfe_list:
