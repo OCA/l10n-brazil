@@ -271,8 +271,10 @@ class AbstractSpecMixin(models.AbstractModel):
         module_name = inspect.currentframe().f_back.f_locals["__class__"]._module
 
         for klass in self.__class__.__bases__:
-            module = klass.__module__.split(".")
-            if module_name == module[2]:
+            if not hasattr(klass, "_odoo_module"):
+                continue
+
+            if module_name == klass._odoo_module:
                 origin_class = klass
                 break
 
