@@ -279,5 +279,5 @@ class AbstractSpecMixin(models.AbstractModel):
 
         for klass in self.__class__.__bases__:
             module = klass.__module__.split(".")
-            if module_name == module[2]:
+            if len(module) > 2 and module_name == module[2]:
                 return klass
