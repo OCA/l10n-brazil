@@ -2,55 +2,95 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from erpbrasil.base.misc import punctuation_rm
-from nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00 import Rodo
 
 from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class MDFeModalRodoviario(spec_models.SpecModel):
+class MDFeModalRodoviario(spec_models.StackedModel):
     _name = "l10n_br_mdfe.modal.rodoviario"
     _inherit = "mdfe.30.rodo"
-    _mdfe_search_keys = ["mdfe30_codAgPorto"]
+    _stacked = "mdfe.30.rodo"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _field_prefix = "mdfe30_"
+    _schema_name = "mdfe"
+    _schema_version = "3.0.0"
+    _odoo_module = "l10n_br_mdfe"
+    _spec_module = (
+        "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_rodoviario_v3_00"
+    )
+    _spec_tab_name = "MDFe"
+    _description = "Modal Rodoviário MDFe"
 
-    mdfe30_infANTT = fields.Many2one(comodel_name="l10n_br_mdfe.modal.rodoviario.antt")
+    # all m2o at this level will be stacked even if not required:
+    _force_stack_paths = [
+        "rodo.infantt.valeped",
+    ]
 
-    mdfe30_veicTracao = fields.Many2one(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.veiculo.tracao", required=True
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
+
+    mdfe30_codAgPorto = fields.Char(related="document_id.rodo_scheduling_code")
+
+    mdfe30_infCIOT = fields.One2many(related="document_id.rodo_ciot_ids")
+
+    mdfe30_disp = fields.One2many(related="document_id.rodo_toll_device_ids")
+
+    mdfe30_categCombVeic = fields.Selection(
+        related="document_id.rod_toll_vehicle_categ"
     )
 
-    mdfe30_veicReboque = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.reboque"
-    )
+    mdfe30_infContratante = fields.One2many(compute="_compute_contractor")
 
-    mdfe30_lacRodo = fields.One2many(comodel_name="l10n_br_mdfe.transporte.lacre")
+    mdfe30_RNTRC = fields.Char(related="document_id.rodo_RNTRC")
 
+    mdfe30_infPag = fields.One2many(related="document_id.rodo_payment_ids")
 
-class MDFeModalRodoviarioANTT(spec_models.SpecModel):
-    _name = "l10n_br_mdfe.modal.rodoviario.antt"
-    _inherit = "mdfe.30.infantt"
-    _mdfe_search_keys = ["mdfe30_RNTRC"]
+    mdfe30_prop = fields.Many2one(related="document_id.rodo_vehicle_proprietary_id")
 
-    mdfe30_infCIOT = fields.One2many(comodel_name="l10n_br_mdfe.modal.rodoviario.ciot")
+    mdfe30_condutor = fields.One2many(related="document_id.rodo_vehicle_conductor_ids")
 
-    mdfe30_valePed = fields.Many2one(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.vale_pedagio"
-    )
+    mdfe30_cInt = fields.Char(related="document_id.rodo_vehicle_code")
 
-    mdfe30_infContratante = fields.One2many(comodel_name="res.partner")
+    mdfe30_RENAVAM = fields.Char(related="document_id.rodo_vehicle_RENAVAM")
 
-    mdfe30_infPag = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento"
-    )
+    mdfe30_placa = fields.Char(related="document_id.rodo_vehicle_plate")
 
-    mdfe30_RNTRC = fields.Char(size=8)
+    mdfe30_tara = fields.Char(related="document_id.rodo_vehicle_tare_weight")
+
+    mdfe30_capKG = fields.Char(related="document_id.rodo_vehicle_kg_capacity")
+
+    mdfe30_capM3 = fields.Char(related="document_id.rodo_vehicle_m3_capacity")
+
+    mdfe30_tpRod = fields.Selection(related="document_id.rodo_vehicle_tire_type")
+
+    mdfe30_tpCar = fields.Selection(related="document_id.rodo_vehicle_type")
+
+    mdfe30_UF = fields.Selection(compute="_compute_uf")
+
+    mdfe30_veicReboque = fields.One2many(related="document_id.rodo_tow_ids")
+
+    mdfe30_lacRodo = fields.One2many(related="document_id.rodo_seal_ids")
+
+    @api.depends("document_id.rodo_vehicle_state_id")
+    def _compute_uf(self):
+        for record in self:
+            record.mdfe30_UF = record.document_id.rodo_vehicle_state_id.code
+
+    @api.depends("document_id.rodo_contractor_ids")
+    def _compute_contractor(self):
+        for record in self:
+            record.mdfe30_infContratante = [
+                (6, 0, record.document_id.rodo_contractor_ids.ids)
+            ]
 
 
 class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.ciot"
     _inherit = "mdfe.30.infciot"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _mdfe_search_keys = ["mdfe30_CIOT"]
+    _description = "Informações do CIOT no Modal Rodoviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -73,36 +113,12 @@ class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
         for record in self:
             record.mdfe30_choice1 = "mdfe30_CNPJ" if record.is_company else "mdfe30_CPF"
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        cnpj_cpf_data = {}
-        if self.is_company:
-            cnpj_cpf_data["CNPJ"] = self.mdfe30_CNPJ
-        else:
-            cnpj_cpf_data["CPF"] = self.mdfe30_CPF
-
-        return Rodo.InfAntt.InfCiot(CIOT=self.mdfe30_CIOT, **cnpj_cpf_data)
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
-
-class MDFeModalRodoviarioValePedagio(spec_models.SpecModel):
-    _name = "l10n_br_mdfe.modal.rodoviario.vale_pedagio"
-    _inherit = "mdfe.30.valeped"
-
-    mdfe30_disp = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.vale_pedagio.dispositivo"
-    )
-
 
 class MDFeModalRodoviarioValePedagioDispositivo(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.vale_pedagio.dispositivo"
     _inherit = "mdfe.30.disp"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Informações de Dispositivos do Pedágio no Modal Rodoviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -110,38 +126,12 @@ class MDFeModalRodoviarioValePedagioDispositivo(spec_models.SpecModel):
 
     mdfe30_vValePed = fields.Monetary(required=True)
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        optional_data = {}
-        if self.mdfe30_CNPJPg:
-            optional_data["CNPJPg"] = self.mdfe30_CNPJPg
-
-        if self.mdfe30_CPFPg:
-            optional_data["CPFPg"] = self.mdfe30_CPFPg
-
-        if self.mdfe30_nCompra:
-            optional_data["nCompra"] = self.mdfe30_nCompra
-
-        if self.mdfe30_tpValePed:
-            optional_data["tpValePed"] = self.mdfe30_tpValePed
-
-        return Rodo.InfAntt.ValePed.Disp(
-            CNPJForn=self.mdfe30_CNPJForn,
-            vValePed="{:.2f}".format(self.mdfe30_vValePed),
-            **optional_data,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalRodoviarioPagamento(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.pagamento"
     _inherit = "mdfe.30.rodo_infpag"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Informações do Pagamento do Modal Rodoviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -195,49 +185,12 @@ class MDFeModalRodoviarioPagamento(spec_models.SpecModel):
             else:
                 rec.mdfe30_choice1 = False
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        additional_data = {}
-        if self.mdfe30_choice1 == "mdfe30_idEstrangeiro":
-            additional_data["idEstrangeiro"] = self.mdfe30_idEstrangeiro
-        elif self.mdfe30_choice1 == "mdfe30_CNPJ":
-            additional_data["CNPJ"] = self.mdfe30_CNPJ
-        else:
-            additional_data["CPF"] = self.mdfe30_CPF
-
-        if self.mdfe30_infPrazo:
-            additional_data["infPrazo"] = self.mdfe30_infPrazo.export_fields()
-
-        if self.mdfe30_comp:
-            additional_data["comp"] = self.mdfe30_comp.export_fields()
-
-        if self.mdfe30_indAltoDesemp:
-            additional_data["indAltoDesemp"] = self.mdfe30_indAltoDesemp
-
-        if self.mdfe30_vAdiant:
-            additional_data["vAdiant"] = self.mdfe30_vAdiant
-
-        if self.mdfe30_xNome:
-            additional_data["xNome"] = self.mdfe30_xNome
-
-        return Rodo.InfAntt.InfPag(
-            vContrato="{:.2f}".format(self.mdfe30_vContrato),
-            indPag=self.mdfe30_indPag,
-            infBanc=self.mdfe30_infBanc.export_fields(),
-            **additional_data,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalRodoviarioPagamentoBanco(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.pagamento.banco"
     _inherit = "mdfe.30.rodo_infbanc"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Informações de Pagamento Bancário no Modal Rodoviário MDFe"
 
     payment_type = fields.Selection(
         selection=[
@@ -269,56 +222,23 @@ class MDFeModalRodoviarioPagamentoBanco(spec_models.SpecModel):
             else:
                 record.mdfe30_choice1 = False
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        bank_data = {}
-        if self.mdfe30_choice1 == "mdfe30_codBanco":
-            bank_data["codBanco"] = self.mdfe30_codBanco
-            bank_data["codAgencia"] = self.mdfe30_codAgencia
-        elif self.mdfe30_choice1 == "mdfe30_PIX":
-            bank_data["PIX"] = self.mdfe30_PIX
-
-        return Rodo.InfAntt.InfPag.InfBanc(**bank_data)
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalRodoviarioPagamentoFrete(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.pagamento.frete"
     _inherit = "mdfe.30.rodo_comp"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Informações do Frete no Pagamento do Modal Rodoviário MDFe"
 
     mdfe30_tpComp = fields.Selection(required=True)
 
     mdfe30_vComp = fields.Monetary(required=True)
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        optional_data = {}
-        if self.mdfe30_xComp:
-            optional_data["xComp"] = self.mdfe30_xComp
-
-        return Rodo.InfAntt.InfPag.Comp(
-            tpComp=self.mdfe30_tpComp,
-            vComp="{:.2f}".format(self.mdfe30_vComp),
-            **optional_data,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalRodoviarioPagamentoPrazo(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.pagamento.prazo"
     _inherit = "mdfe.30.rodo_infprazo"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Informações de Prazo de Pagamento do Modal Rodoviário MDFe"
 
     mdfe30_nParcela = fields.Char(required=True)
 
@@ -326,48 +246,12 @@ class MDFeModalRodoviarioPagamentoPrazo(spec_models.SpecModel):
 
     mdfe30_vParcela = fields.Monetary(required=True)
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Rodo.InfAntt.InfPag.InfPrazo(
-            nParcela=self.mdfe30_nParcela,
-            dVenc=self.mdfe30_dVenc,
-            vParcela=self.mdfe30_vParcela,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
-
-class MDFeModalRodoviarioVeiculoTracao(spec_models.SpecModel):
-    _name = "l10n_br_mdfe.modal.rodoviario.veiculo.tracao"
-    _inherit = "mdfe.30.veictracao"
-
-    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
-
-    mdfe30_prop = fields.Many2one(comodel_name="res.partner")
-
-    mdfe30_condutor = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.veiculo.condutor"
-    )
-
-    mdfe30_placa = fields.Char(required=True)
-
-    mdfe30_tara = fields.Char(required=True)
-
-    mdfe30_capKG = fields.Char(required=True)
-
-    mdfe30_tpRod = fields.Selection(required=True)
-
-    mdfe30_tpCar = fields.Selection(required=True)
-
 
 class MDFeModalRodoviarioVeiculoCondutor(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.veiculo.condutor"
     _inherit = "mdfe.30.rodo_condutor"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Informações do Condutor no Modal Rodoviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -375,21 +259,12 @@ class MDFeModalRodoviarioVeiculoCondutor(spec_models.SpecModel):
 
     mdfe30_CPF = fields.Char(required=True)
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Rodo.VeicTracao.Condutor(xNome=self.mdfe30_xNome, CPF=self.mdfe30_CPF)
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalRodoviarioReboque(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.reboque"
     _inherit = "mdfe.30.veicreboque"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Informações de Reboque no Modal Rodoviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -406,40 +281,3 @@ class MDFeModalRodoviarioReboque(spec_models.SpecModel):
     mdfe30_cInt = fields.Char(size=10)
 
     mdfe30_RENAVAM = fields.Char(size=11)
-
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        optional_data = {}
-        if self.mdfe30_cInt:
-            optional_data["cInt"] = self.mdfe30_cInt
-
-        if self.mdfe30_RENAVAM:
-            optional_data["RENAVAM"] = self.mdfe30_RENAVAM
-
-        if self.mdfe30_capKG:
-            optional_data["capKG"] = self.mdfe30_capKG
-
-        if self.mdfe30_capM3:
-            optional_data["capM3"] = self.mdfe30_capM3
-
-        if self.mdfe30_prop:
-            optional_data["prop"] = self.mdfe30_prop.export_proprietary_fields(
-                Rodo.VeicReboque.Prop
-            )
-
-        if self.mdfe30_UF:
-            optional_data["UF"] = self.mdfe30_UF
-
-        return Rodo.VeicReboque(
-            placa=self.mdfe30_placa,
-            tara=self.mdfe30_tara,
-            tpCar=self.mdfe30_tpCar,
-            **optional_data,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]

@@ -64,6 +64,7 @@ class ResCompany(spec_models.SpecModel):
     mdfe30_enderEmit = fields.Many2one(
         comodel_name="res.partner",
         related="partner_id",
+        string="Endereço Emitente - MDFe",
     )
 
     mdfe30_CNPJ = fields.Char(related="partner_id.mdfe30_CNPJ")
@@ -80,7 +81,7 @@ class ResCompany(spec_models.SpecModel):
 
     mdfe30_choice6 = fields.Selection(
         [("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
-        string="CNPJ ou CPF?",
+        string="MDFe emit CNPJ/CPF",
         compute="_compute_mdfe_data",
     )
 

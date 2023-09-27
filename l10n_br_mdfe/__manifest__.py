@@ -19,7 +19,6 @@
     "data": [
         "security/ir.model.access.csv",
         "data/ir_config_parameter.xml",
-        "data/l10n_br_mdfe.modal.csv",
         "views/document.xml",
         "views/mdfe_action.xml",
         "views/mdfe_menu.xml",

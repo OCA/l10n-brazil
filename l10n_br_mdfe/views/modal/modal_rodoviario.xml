@@ -2,36 +2,6 @@
 <!-- Copyright 2023 KMEE
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record id="modal_rodoviario_form_view" model="ir.ui.view">
-        <field name="name">modal.rodoviario.form.view (in l10n_br_mdfe)</field>
-        <field name="model">l10n_br_mdfe.modal.rodoviario</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="mdfe30_codAgPorto" />
-                        <field name="mdfe30_infANTT" />
-                        <field name="mdfe30_veicTracao" />
-                    </group>
-
-                    <notebook>
-                        <page string="Reboque">
-                            <field name="mdfe30_veicReboque" nolabel="1" />
-                        </page>
-
-                        <page string="Lacres">
-                            <field
-                                name="mdfe30_lacRodo"
-                                nolabel="1"
-                                options="{'no_open': True}"
-                            />
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
     <record id="modal_rodoviario_reboque_form_view" model="ir.ui.view">
         <field name="name">modal.rodoviario.reboque.form.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.reboque</field>
@@ -124,43 +94,6 @@
         </field>
     </record>
 
-    <record id="modal_rodoviario_antt_form_view" model="ir.ui.view">
-        <field name="name">modal.rodoviario.ANTT.form.view (in l10n_br_mdfe)</field>
-        <field name="model">l10n_br_mdfe.modal.rodoviario.antt</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="mdfe30_RNTRC" />
-                        <field name="mdfe30_valePed" />
-                    </group>
-
-                    <notebook>
-                        <page string="CIOT">
-                            <field name="mdfe30_infCIOT" nolabel="1" />
-                        </page>
-
-                        <page string="Contratante">
-                            <field
-                                name="mdfe30_infContratante"
-                                nolabel="1"
-                                context="{
-                                    'form_view_ref': 'l10n_br_mdfe.res_partner_contratante_form_view',
-                                    'tree_view_ref': 'l10n_br_mdfe.res_partner_contratante_tree_view'
-                                }"
-                                domain="[('cnpj_cpf', '!=', False)]"
-                            />
-                        </page>
-
-                        <page string="Pagamento">
-                            <field name="mdfe30_infPag" nolabel="1" />
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
     <record id="modal_rodoviario_ciot_form_view" model="ir.ui.view">
         <field name="name">modal.rodoviario.ciot.form.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.ciot</field>
@@ -197,28 +130,6 @@
             <tree>
                 <field name="mdfe30_CIOT" />
             </tree>
-        </field>
-    </record>
-
-    <record id="modal_rodoviario_vale_pedagio_form_view" model="ir.ui.view">
-        <field
-            name="name"
-        >modal.rodoviario.vale_pedagio.form.view (in l10n_br_mdfe)</field>
-        <field name="model">l10n_br_mdfe.modal.rodoviario.vale_pedagio</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="mdfe30_categCombVeic" />
-                    </group>
-
-                    <notebook>
-                        <page string="Dispositivos">
-                            <field name="mdfe30_disp" nolabel="1" />
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
         </field>
     </record>
 
@@ -442,46 +353,6 @@
                 <field name="mdfe30_vComp" />
                 <field name="mdfe30_xComp" />
             </tree>
-        </field>
-    </record>
-
-    <record id="modal_rodoviario_veiculo_tracao_form_view" model="ir.ui.view">
-        <field
-            name="name"
-        >modal.rodoviario.veiculo.tracao.form.view (in l10n_br_mdfe)</field>
-        <field name="model">l10n_br_mdfe.modal.rodoviario.veiculo.tracao</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <group>
-                            <field name="mdfe30_cInt" />
-                            <field name="mdfe30_placa" />
-                            <field name="mdfe30_RENAVAM" />
-                            <field name="mdfe30_tpCar" />
-                            <field name="mdfe30_tpRod" />
-                            <field
-                                name="mdfe30_prop"
-                                context="{
-                                    'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view',
-                                    'tree_view_ref': 'l10n_br_mdfe.res_partner_contratante_tree_view',
-                                }"
-                                domain="[
-                                    ('cnpj_cpf', '!=', False),
-                                    ('mdfe30_RNTRC', '!=', False),
-                                ]"
-                            />
-                            <field name="mdfe30_UF" />
-                        </group>
-
-                        <group>
-                            <field name="mdfe30_tara" />
-                            <field name="mdfe30_capKG" />
-                            <field name="mdfe30_capM3" />
-                        </group>
-                    </group>
-                </sheet>
-            </form>
         </field>
     </record>
 

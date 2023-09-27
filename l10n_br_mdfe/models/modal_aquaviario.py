@@ -1,8 +1,6 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00 import Aquav
-
 from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
@@ -10,35 +8,73 @@ from odoo.addons.spec_driven_model.models import spec_models
 from ..constants.modal import MDFE_MODAL_HARBORS
 
 
-class MDFeModalAquaviario(spec_models.SpecModel):
+class MDFeModalAquaviario(spec_models.StackedModel):
     _name = "l10n_br_mdfe.modal.aquaviario"
     _inherit = "mdfe.30.aquav"
+    _stacked = "mdfe.30.aquav"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
+    _field_prefix = "mdfe30_"
+    _schema_name = "mdfe"
+    _schema_version = "3.0.0"
+    _odoo_module = "l10n_br_mdfe"
+    _spec_module = (
+        "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aquaviario_v3_00"
+    )
+    _spec_tab_name = "MDFe"
     _mdfe_search_keys = ["mdfe30_irin", "mdfe30_cEmbar", "mdfe30_nViag"]
+    _description = "Modal Aquaviário MDFe"
 
-    mdfe30_infTermCarreg = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.aquaviario.carregamento"
-    )
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_infTermDescarreg = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.aquaviario.descarregamento"
-    )
+    mdfe30_irin = fields.Char(related="document_id.ship_irin")
 
-    mdfe30_infEmbComb = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.aquaviario.comboio"
-    )
+    mdfe30_cEmbar = fields.Char(related="document_id.ship_code")
+
+    mdfe30_xEmbar = fields.Char(related="document_id.ship_name")
+
+    mdfe30_nViag = fields.Char(related="document_id.ship_travel_number")
+
+    mdfe30_prtTrans = fields.Char(related="document_id.transshipment_port")
+
+    mdfe30_tpNav = fields.Selection(related="document_id.ship_navigation_type")
+
+    mdfe30_infTermCarreg = fields.One2many(related="document_id.ship_loading_ids")
+
+    mdfe30_infTermDescarreg = fields.One2many(related="document_id.ship_unloading_ids")
+
+    mdfe30_infEmbComb = fields.One2many(related="document_id.ship_convoy_ids")
 
     mdfe30_infUnidCargaVazia = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.aquaviario.carga.vazia"
+        related="document_id.ship_empty_load_ids"
     )
 
     mdfe30_infUnidTranspVazia = fields.One2many(
-        comodel_name="l10n_br_mdfe.modal.aquaviario.transporte.vazio"
+        related="document_id.ship_empty_transport_ids"
     )
+
+    mdfe30_tpEmb = fields.Char(compute="_compute_ship_type")
+
+    mdfe30_cPrtEmb = fields.Char(compute="_compute_boarding_landing_point")
+
+    mdfe30_cPrtDest = fields.Char(compute="_compute_boarding_landing_point")
+
+    @api.depends("document_id.ship_type")
+    def _compute_ship_type(self):
+        for record in self:
+            record.mdfe30_tpEmb = record.document_id.ship_type
+
+    @api.depends("document_id.ship_boarding_point", "document_id.ship_landing_point")
+    def _compute_boarding_landing_point(self):
+        for record in self:
+            record.mdfe30_cPrtEmb = record.document_id.ship_boarding_point
+            record.mdfe30_cPrtDest = record.document_id.ship_landing_point
 
 
 class MDFeModalAquaviarioCarregamento(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.carregamento"
     _inherit = "mdfe.30.inftermcarreg"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
+    _description = "Carregamento no Modal Aquaviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -58,24 +94,12 @@ class MDFeModalAquaviarioCarregamento(spec_models.SpecModel):
                 self._fields["loading_harbor"].selection
             ).get(record.loading_harbor)
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Aquav.InfTermCarreg(
-            cTermCarreg=self.mdfe30_cTermCarreg,
-            xTermCarreg=self.mdfe30_xTermCarreg,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.descarregamento"
     _inherit = "mdfe.30.inftermdescarreg"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
+    _description = "Descarregamento no Modal Aquaviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -95,24 +119,12 @@ class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
                 self._fields["unloading_harbor"].selection
             ).get(record.unloading_harbor)
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Aquav.InfTermDescarreg(
-            cTermDescarreg=self.mdfe30_cTermDescarreg,
-            xTermDescarreg=self.mdfe30_xTermDescarreg,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalAquaviarioComboio(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.comboio"
     _inherit = "mdfe.30.infembcomb"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
+    _description = "Informações de Comboio no Modal Aquaviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -120,24 +132,12 @@ class MDFeModalAquaviarioComboio(spec_models.SpecModel):
 
     mdfe30_xBalsa = fields.Char(required=True, size=60)
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Aquav.InfEmbComb(
-            cEmbComb=self.mdfe30_cEmbComb,
-            xBalsa=self.mdfe30_xBalsa,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalAquaviarioCargaVazia(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.carga.vazia"
     _inherit = "mdfe.30.infunidcargavazia"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
+    _description = "Informações de Carga Vazia no Modal Aquaviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -145,41 +145,15 @@ class MDFeModalAquaviarioCargaVazia(spec_models.SpecModel):
 
     mdfe30_tpUnidCargaVazia = fields.Selection(required=True)
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Aquav.InfUnidCargaVazia(
-            idUnidCargaVazia=self.mdfe30_idUnidCargaVazia,
-            tpUnidCargaVazia=self.mdfe30_tpUnidCargaVazia,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class MDFeModalAquaviarioTranporteVazio(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.transporte.vazio"
     _inherit = "mdfe.30.infunidtranspvazia"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
+    _description = "Informações de Transporte Vazio no Modal Aquaviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
     mdfe30_idUnidTranspVazia = fields.Char(required=True)
 
     mdfe30_tpUnidTranspVazia = fields.Selection(required=True)
-
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Aquav.InfUnidTranspVazia(
-            idUnidTranspVazia=self.mdfe30_idUnidTranspVazia,
-            tpUnidTranspVazia=self.mdfe30_tpUnidTranspVazia,
-        )
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]

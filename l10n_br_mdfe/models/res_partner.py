@@ -55,6 +55,7 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_mdfe30_ender",
         inverse="_inverse_mdfe30_ender",
         compute_sudo=True,
+        string="Logradouro - MDFe",
     )
 
     mdfe30_nro = fields.Char(
@@ -62,6 +63,7 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_mdfe30_ender",
         inverse="_inverse_mdfe30_ender",
         compute_sudo=True,
+        string="Número - MDFe",
     )
 
     mdfe30_xCpl = fields.Char(
@@ -69,6 +71,7 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_mdfe30_ender",
         inverse="_inverse_mdfe30_ender",
         compute_sudo=True,
+        string="Complemento - MDFe",
     )
 
     mdfe30_xBairro = fields.Char(
@@ -76,6 +79,7 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_mdfe30_ender",
         inverse="_inverse_mdfe30_ender",
         compute_sudo=True,
+        string="Bairro - MDFe",
     )
 
     mdfe30_cMun = fields.Char(
@@ -83,6 +87,7 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_mdfe30_ender",
         inverse="_inverse_mdfe30_ender",
         compute_sudo=True,
+        string="Código do Município - MDFe",
     )
 
     mdfe30_xMun = fields.Char(
@@ -90,6 +95,7 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_mdfe30_ender",
         inverse="_inverse_mdfe30_ender",
         compute_sudo=True,
+        string="Nome do Município - MDFe",
     )
 
     mdfe30_UF = fields.Char(
@@ -100,33 +106,37 @@ class ResPartner(spec_models.SpecModel):
 
     mdfe30_choice6 = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
-        string="CNPJ/CPF do Emitente",
+        string="CNPJ/CPF do Emitente - MDFe",
         compute="_compute_mdfe_data",
     )
 
     mdfe30_CEP = fields.Char(
-        compute="_compute_mdfe_data", inverse="_inverse_mdfe30_CEP"
+        compute="_compute_mdfe_data", inverse="_inverse_mdfe30_CEP", string="CEP - MDFe"
     )
 
     mdfe30_cPais = fields.Char(
         compute="_compute_mdfe30_ender",
         inverse="_inverse_mdfe30_ender",
         compute_sudo=True,
+        string="Código do País - MDFe",
     )
 
     mdfe30_xPais = fields.Char(
         compute="_compute_mdfe30_ender",
         inverse="_inverse_mdfe30_ender",
         compute_sudo=True,
+        string="Nome do País - MDFe",
     )
 
     mdfe30_fone = fields.Char(
-        compute="_compute_mdfe_data", inverse="_inverse_mdfe30_fone"
+        compute="_compute_mdfe_data",
+        inverse="_inverse_mdfe30_fone",
+        string="Telefone MDFe",
     )
 
-    mdfe30_xNome = fields.Char(related="legal_name")
+    mdfe30_xNome = fields.Char(related="legal_name", string="Nome - MDFe")
 
-    mdfe30_xFant = fields.Char(related="name", string="Nome Fantasia")
+    mdfe30_xFant = fields.Char(related="name", string="Nome Fantasia - MDFe")
 
     mdfe30_IE = fields.Char(
         compute="_compute_mdfe_data",
@@ -145,7 +155,7 @@ class ResPartner(spec_models.SpecModel):
 
     mdfe30_choice8 = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
-        string="CNPJ/CPF do Parceiro Autorizado",
+        string="CNPJ/CPF do Parceiro Autorizado - MDFe",
         compute="_compute_mdfe_data",
     )
 
