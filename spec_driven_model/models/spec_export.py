@@ -1,6 +1,5 @@
 # Copyright 2019 KMEE
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-import inspect
 import logging
 import sys
 from io import StringIO
@@ -15,7 +14,11 @@ class AbstractSpecMixin(models.AbstractModel):
 
     @api.model
     def _get_binding_class(self, class_obj):
-        binding_module = sys.modules[class_obj._binding_module]
+        origin_class = self._get_origin_class()
+        module_name = (
+            origin_class and origin_class._binding_module or class_obj._binding_module
+        )
+        binding_module = sys.modules[module_name]
         for attr in class_obj._binding_type.split("."):
             binding_module = getattr(binding_module, attr)
         return binding_module
@@ -203,7 +206,7 @@ class AbstractSpecMixin(models.AbstractModel):
             ).isoformat("T")
         )
 
-    def _build_generateds(self, class_name=False, origin_class=False):
+    def _build_generateds(self, class_name=False):
         """
         Iterate over an Odoo record and its m2o and o2m sub-records
         using a pre-order tree traversal and maps the Odoo record values
@@ -214,17 +217,16 @@ class AbstractSpecMixin(models.AbstractModel):
         sub binding instances already properly instanciated.
         """
         self.ensure_one()
-        if origin_class:
+
+        if not class_name:
+            origin_class = self._get_origin_class()
+            if not origin_class:
+                origin_class = self
+
             if hasattr(origin_class, "_stacked"):
                 class_name = origin_class._stacked
             else:
                 class_name = origin_class._name
-
-        if not class_name:
-            if hasattr(self, "_stacked"):
-                class_name = self._stacked
-            else:
-                class_name = self._name
 
         class_obj = self.env[class_name]
 
@@ -247,12 +249,12 @@ class AbstractSpecMixin(models.AbstractModel):
             binding_instance = binding_class(**sliced_kwargs)
             return binding_instance
 
-    def export_xml(self, origin_class, print_xml=True):
+    def export_xml(self, print_xml=True):
         self.ensure_one()
         result = []
 
-        if hasattr(origin_class, "_stacked"):
-            binding_instance = self._build_generateds(origin_class=origin_class)
+        if hasattr(self, "_stacked"):
+            binding_instance = self._build_generateds()
             if print_xml:
                 self._print_xml(binding_instance)
             result.append(binding_instance)
@@ -268,17 +270,14 @@ class AbstractSpecMixin(models.AbstractModel):
 
     def export_ds(self):
         self.ensure_one()
-        module_name = inspect.currentframe().f_back.f_locals["__class__"]._module
+        return self.export_xml(print_xml=False)
+
+    def _get_origin_class(self):
+        module_name = self._context.get("module", False)
+        if not module_name:
+            return False
 
         for klass in self.__class__.__bases__:
-            if not hasattr(klass, "_odoo_module"):
-                continue
-
-            if module_name == klass._odoo_module:
-                origin_class = klass
-                break
-
-        if not origin_class:
-            origin_class = self
-
-        return self.export_xml(print_xml=False, origin_class=origin_class)
+            module = klass.__module__.split(".")
+            if module_name == module[2]:
+                return klass
