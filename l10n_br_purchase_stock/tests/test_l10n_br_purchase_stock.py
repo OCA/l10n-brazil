@@ -246,3 +246,45 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         # Confirmando a Fatura
         invoice.action_post()
         self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
+
+    def test_button_create_bill_in_view(self):
+        """
+        Test Field to make Button Create Bill invisible.
+        """
+        purchase_products = self.env.ref(
+            "l10n_br_purchase_stock.main_po_only_products_2"
+        )
+        # Caso do Pedido de Compra em Rascunho
+        self.assertTrue(
+            purchase_products.button_create_invoice_invisible,
+            "Field to make invisible the Button Create Bill should be"
+            " invisible when Purchase Order is not in state Purchase or Done.",
+        )
+        # Caso somente com Produtos
+        purchase_products.button_confirm()
+        self.assertTrue(
+            purchase_products.button_create_invoice_invisible,
+            "Field to make invisible the button Create Bill should be"
+            " invisible when Purchase Order has only products.",
+        )
+
+        # Caso Somente Serviços
+        purchase_only_service = self.env.ref(
+            "l10n_br_purchase_stock.main_po_only_service_stock"
+        )
+        purchase_only_service.button_confirm()
+        self.assertFalse(
+            purchase_only_service.button_create_invoice_invisible,
+            "Field to make invisible the Button Create Bill should be"
+            " False when the Purchase Order has only Services.",
+        )
+        # Caso Serviço e Produto
+        purchase_service_product = self.env.ref(
+            "l10n_br_purchase_stock.main_po_service_product_stock"
+        )
+        purchase_service_product.button_confirm()
+        self.assertFalse(
+            purchase_only_service.button_create_invoice_invisible,
+            "Field to make invisible the Button Create Bill should be"
+            " False when the Purchase Order has Service and Product.",
+        )
