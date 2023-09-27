@@ -17,5 +17,6 @@ class MDFeSupplement(spec_models.StackedModel):
     _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
     _field_prefix = "mdfe30_"
     _spec_tab_name = "MDFe"
+    _description = "Informações Complementares do Documento Fiscal"
 
     mdfe30_qrCodMDFe = fields.Char(related="qrcode")

@@ -27,6 +27,7 @@ class ProductProduct(spec_models.SpecModel):
 class MDFeProductLotacao(spec_models.SpecModel):
     _name = "l10n_br_mdfe.product.lotacao"
     _inherit = "mdfe.30.inflotacao"
+    _description = "Informações De Lotação MDFe"
 
     mdfe30_infLocalCarrega = fields.Many2one(
         comodel_name="l10n_br_mdfe.product.lotacao.local",
@@ -42,6 +43,7 @@ class MDFeProductLotacao(spec_models.SpecModel):
 class MDFeProductLotacaoLocal(spec_models.SpecModel):
     _name = "l10n_br_mdfe.product.lotacao.local"
     _inherit = ["mdfe.30.inflocalcarrega", "mdfe.30.inflocaldescarrega"]
+    _description = "Informações De Localização da Lotação MDFe"
 
     local_type = fields.Selection(
         selection=[

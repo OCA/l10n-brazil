@@ -6,9 +6,18 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class MDFeDocumentInfo(spec_models.SpecModel):
+class MDFeDocumentInfo(spec_models.StackedModel):
     _name = "l10n_br_mdfe.document.info"
     _inherit = "mdfe.30.tmdfe_infdoc"
+    _stacked = "mdfe.30.tmdfe_infdoc"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
+    _field_prefix = "mdfe30_"
+    _schema_name = "mdfe"
+    _schema_version = "3.0.0"
+    _odoo_module = "l10n_br_mdfe"
+    _spec_module = "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
+    _spec_tab_name = "MDFe"
+    _description = "Informações do Documento MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -20,6 +29,8 @@ class MDFeDocumentInfo(spec_models.SpecModel):
 class MDFeMunicipioDescarga(spec_models.SpecModel):
     _name = "l10n_br_mdfe.municipio.descarga"
     _inherit = "mdfe.30.infmundescarga"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
+    _description = "Informações de Descarga do Documento MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -60,6 +71,7 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
         ],
         string="Document Type",
         default="nfe",
+        required=True,
     )
 
     nfe_ids = fields.Many2many(
@@ -89,9 +101,6 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
             record.mdfe30_infCTe = [(5, 0, 0)]
             record.mdfe30_infNFe = [(5, 0, 0)]
             record.mdfe30_infMDFeTransp = [(5, 0, 0)]
-
-            if not record.document_type:
-                continue
 
             if record.document_type == "nfe":
                 record.mdfe30_infNFe = [

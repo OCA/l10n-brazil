@@ -2,16 +2,12 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import re
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.mdfe.bindings.v3_0.mdfe_modal_aereo_v3_00 import Aereo
-from nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00 import Aquav
-from nfelib.mdfe.bindings.v3_0.mdfe_modal_ferroviario_v3_00 import Ferrov
-from nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00 import Rodo
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
 from requests import Session
@@ -62,6 +58,7 @@ from ..constants.modal import (
     MDFE_MODAL_DEFAULT_AIRCRAFT,
     MDFE_MODAL_HARBORS,
     MDFE_MODAL_SHIP_TYPES,
+    MDFE_MODAL_VERSION_DEFAULT,
     MDFE_MODALS,
 )
 
@@ -88,7 +85,12 @@ class MDFe(spec_models.StackedModel):
     _mdfe_search_keys = ["mdfe30_Id"]
 
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = ["infmdfe.infAdic", "infmdfe.tot", "infmdfe.infsolicnff"]
+    _force_stack_paths = [
+        "infmdfe.infAdic",
+        "infmdfe.tot",
+        "infmdfe.infsolicnff",
+        "infmdfe.infAdic",
+    ]
 
     INFMDFE_TREE = """
     > <infMDFe>
@@ -242,11 +244,14 @@ class MDFe(spec_models.StackedModel):
         domain=[("country_id.code", "=", "BR")],
     )
 
-    mdfe30_cMDF = fields.Char(related="key_random_code")
+    mdfe30_cMDF = fields.Char(related="key_random_code", string="Código Numérico MDFe")
 
     mdfe30_cDV = fields.Char(related="key_check_digit")
 
-    mdfe30_infMunCarrega = fields.One2many(compute="_compute_inf_carrega")
+    mdfe30_infMunCarrega = fields.One2many(
+        compute="_compute_inf_carrega",
+        string="Informações dos Municipios de Carregamento",
+    )
 
     mdfe_loading_city_ids = fields.Many2many(
         comodel_name="res.city", string="Loading Cities"
@@ -317,15 +322,11 @@ class MDFe(spec_models.StackedModel):
     # MDF-e tag: infModal
     ##########################
 
-    mdfe30_infModal = fields.Many2one(
-        comodel_name="l10n_br_mdfe.modal",
-        string="Modal Info",
-        compute="_compute_modal_inf",
-    )
-
-    mdfe30_versaoModal = fields.Char(related="mdfe30_infModal.mdfe30_versaoModal")
+    mdfe30_versaoModal = fields.Char(default=MDFE_MODAL_VERSION_DEFAULT)
 
     # Campos do Modal Aéreo
+    modal_aereo_id = fields.Many2one(comodel_name="l10n_br_mdfe.modal.aereo")
+
     airplane_nationality = fields.Char(size=4)
 
     airplane_registration = fields.Char(size=6)
@@ -339,6 +340,8 @@ class MDFe(spec_models.StackedModel):
     landing_airfield = fields.Char(default=MDFE_MODAL_DEFAULT_AIRCRAFT, size=4)
 
     # Campos do Modal Aquaviário
+    modal_aquaviario_id = fields.Many2one(comodel_name="l10n_br_mdfe.modal.aquaviario")
+
     ship_irin = fields.Char(size=10)
 
     ship_type = fields.Selection(selection=MDFE_MODAL_SHIP_TYPES)
@@ -386,6 +389,10 @@ class MDFe(spec_models.StackedModel):
     )
 
     # Campos do Modal Ferroviário
+    modal_ferroviario_id = fields.Many2one(
+        comodel_name="l10n_br_mdfe.modal.ferroviario"
+    )
+
     train_prefix = fields.Char(string="Train Prefix", size=10)
 
     train_release_time = fields.Datetime(string="Train Release Time")
@@ -401,6 +408,8 @@ class MDFe(spec_models.StackedModel):
     )
 
     # Campos do Modal Rodoviário
+    modal_rodoviario_id = fields.Many2one(comodel_name="l10n_br_mdfe.modal.rodoviario")
+
     rodo_scheduling_code = fields.Char(string="Scheduling Code", size=16)
 
     rodo_ciot_ids = fields.One2many(
@@ -468,191 +477,47 @@ class MDFe(spec_models.StackedModel):
     # Methods
     ##########################
 
-    @api.depends("mdfe_modal")
-    def _compute_modal_inf(self):
-        for record in self.filtered(filtered_processador_edoc_mdfe):
-            record.mdfe30_infModal = self.env.ref(
-                "l10n_br_mdfe.modal_%s" % record.mdfe_modal
-            )
-
     def _export_fields_mdfe_30_infmodal(self, xsd_fields, class_obj, export_dict):
+        self = self.with_context(module="l10n_br_mdfe")
+
         if self.mdfe_modal == "1":
-            export_dict["any_element"] = self._export_modal_rodoviario_fields()
+            export_dict["any_element"] = self._export_modal_rodoviario()
         elif self.mdfe_modal == "2":
-            export_dict["any_element"] = self._export_modal_aereo_fields()
+            export_dict["any_element"] = self._export_modal_aereo()
         elif self.mdfe_modal == "3":
-            export_dict["any_element"] = self._export_modal_aquaviario_fields()
+            export_dict["any_element"] = self._export_modal_aquaviario()
         elif self.mdfe_modal == "4":
-            export_dict["any_element"] = self._export_modal_ferroviario_fields()
+            export_dict["any_element"] = self._export_modal_ferroviario()
 
-    def _export_modal_aereo_fields(self):
-        return Aereo(
-            nac=self.airplane_nationality,
-            matr=self.airplane_registration,
-            nVoo=self.flight_number,
-            cAerEmb=self.boarding_airfield,
-            cAerDes=self.landing_airfield,
-            dVoo=fields.Date.to_string(self.flight_date),
-        )
+    def _export_modal_aereo(self):
+        if not self.modal_aereo_id:
+            self.modal_aereo_id = self.modal_aereo_id.create({"document_id": self.id})
 
-    def _export_modal_aquaviario_fields(self):
-        optional_data = {}
-        if self.ship_loading_ids:
-            optional_data["infTermCarreg"] = self.ship_loading_ids.export_fields_multi()
+        return self.modal_aereo_id.export_ds()[0]
 
-        if self.ship_unloading_ids:
-            optional_data[
-                "infTermDescarreg"
-            ] = self.ship_unloading_ids.export_fields_multi()
-
-        if self.ship_convoy_ids:
-            optional_data["infEmbComb"] = self.ship_convoy_ids.export_fields_multi()
-
-        if self.ship_empty_load_ids:
-            optional_data[
-                "infUnidCargaVazia"
-            ] = self.ship_empty_load_ids.export_fields_multi()
-
-        if self.ship_empty_transport_ids:
-            optional_data[
-                "infUnidTranspVazia"
-            ] = self.ship_empty_transport_ids.export_fields_multi()
-
-        if self.transshipment_port:
-            optional_data["prtTrans"] = self.transshipment_port
-
-        if self.ship_navigation_type:
-            optional_data["tpNav"] = self.ship_navigation_type
-
-        return Aquav(
-            irin=self.ship_irin,
-            tpEmb=self.ship_type,
-            cEmbar=self.ship_code,
-            xEmbar=self.ship_name,
-            cPrtEmb=self.ship_boarding_point,
-            cPrtDest=self.ship_landing_point,
-            nViag=self.ship_travel_number,
-            **optional_data,
-        )
-
-    def _export_modal_ferroviario_fields(self):
-        train_optional_data = {}
-        if self.train_release_time:
-            train_optional_data["dhTrem"] = (
-                datetime.strftime(self.train_release_time, "%Y-%m-%dT%H:%M:%S")
-                + str(timezone(timedelta(hours=-3)))[3:]
+    def _export_modal_ferroviario(self):
+        if not self.modal_ferroviario_id:
+            self.modal_ferroviario_id = self.modal_ferroviario_id.create(
+                {"document_id": self.id}
             )
 
-        return Ferrov(
-            trem=Ferrov.Trem(
-                xPref=self.train_prefix,
-                xOri=self.train_origin,
-                xDest=self.train_destiny,
-                qVag=self.train_wagon_quantity,
-                **train_optional_data,
-            ),
-            vag=self.train_wagon_ids.export_fields_multi(),
-        )
+        return self.modal_ferroviario_id.export_ds()[0]
 
-    def _export_modal_rodoviario_fields(self):
-        optional_data = {}
-        if self.rodo_scheduling_code:
-            optional_data["codAgPorto"] = self.rodo_scheduling_code
-
-        if self.rodo_seal_ids:
-            optional_data["lacRodo"] = self.rodo_seal_ids.export_fields_multi(
-                Rodo.LacRodo
+    def _export_modal_aquaviario(self):
+        if not self.modal_aquaviario_id:
+            self.modal_aquaviario_id = self.modal_aquaviario_id.create(
+                {"document_id": self.id}
             )
 
-        if self.rodo_tow_ids:
-            optional_data["veicReboque"] = self.rodo_tow_ids.export_fields_multi()
+        return self.modal_aquaviario_id.export_ds()[0]
 
-        has_antt_data = any(
-            [
-                self.rodo_RNTRC,
-                self.rodo_ciot_ids,
-                self.rodo_toll_device_ids,
-                self.rod_toll_vehicle_categ,
-                self.rodo_contractor_ids,
-                self.rodo_payment_ids,
-            ]
-        )
-        if has_antt_data:
-            optional_data["infANTT"] = self._export_modal_rodoviario_antt_fields()
-
-        veic_optional_data = {}
-        if self.rodo_vehicle_code:
-            veic_optional_data["cInt"] = self.rodo_vehicle_code
-
-        if self.rodo_vehicle_RENAVAM:
-            veic_optional_data["RENAVAM"] = self.rodo_vehicle_RENAVAM
-
-        if self.rodo_vehicle_kg_capacity:
-            veic_optional_data["capKG"] = self.rodo_vehicle_kg_capacity
-
-        if self.rodo_vehicle_m3_capacity:
-            veic_optional_data["capM3"] = self.rodo_vehicle_m3_capacity
-
-        if self.rodo_vehicle_proprietary_id:
-            veic_optional_data[
-                "prop"
-            ] = self.rodo_vehicle_proprietary_id.export_proprietary_fields(
-                Rodo.VeicTracao.Prop
+    def _export_modal_rodoviario(self):
+        if not self.modal_rodoviario_id:
+            self.modal_rodoviario_id = self.modal_rodoviario_id.create(
+                {"document_id": self.id}
             )
 
-        if self.rodo_vehicle_m3_capacity:
-            veic_optional_data["capM3"] = self.rodo_vehicle_m3_capacity
-
-        if self.rodo_vehicle_state_id:
-            veic_optional_data["UF"] = self.rodo_vehicle_state_id.code
-
-        if self.rodo_vehicle_conductor_ids:
-            veic_optional_data[
-                "condutor"
-            ] = self.rodo_vehicle_conductor_ids.export_fields_multi()
-
-        return Rodo(
-            veicTracao=Rodo.VeicTracao(
-                placa=self.rodo_vehicle_plate,
-                tara=self.rodo_vehicle_tare_weight,
-                tpRod=self.rodo_vehicle_tire_type,
-                tpCar=self.rodo_vehicle_type,
-                **veic_optional_data,
-            ),
-            **optional_data,
-        )
-
-    def _export_modal_rodoviario_antt_fields(self):
-        antt_data = {}
-        if self.rodo_RNTRC:
-            antt_data["RNTRC"] = self.rodo_RNTRC
-
-        if self.rodo_ciot_ids:
-            antt_data["infCIOT"] = self.rodo_ciot_ids.export_fields_multi()
-
-        if self.rodo_contractor_ids:
-            antt_data[
-                "infContratante"
-            ] = self.rodo_contractor_ids.export_contractor_fields()
-
-        if self.rodo_payment_ids:
-            antt_data["infPag"] = self.rodo_payment_ids.export_fields_multi()
-
-        has_vale_ped_data = self.rodo_toll_device_ids or self.rod_toll_vehicle_categ
-        if has_vale_ped_data:
-            antt_data["valePed"] = self._export_modal_rodoviario_vale_ped_fields()
-
-        return Rodo.InfAntt(**antt_data)
-
-    def _export_modal_rodoviario_vale_ped_fields(self):
-        vale_ped_data = {}
-        if self.rodo_toll_device_ids:
-            vale_ped_data["disp"] = self.rodo_toll_device_ids.export_fields_multi()
-
-        if self.rod_toll_vehicle_categ:
-            vale_ped_data["categCombVeic"] = self.rod_toll_vehicle_categ
-
-        return Rodo.InfAntt.ValePed(**vale_ped_data)
+        return self.modal_rodoviario_id.export_ds()[0]
 
     ##########################
     # MDF-e tag: seg
@@ -716,15 +581,22 @@ class MDFe(spec_models.StackedModel):
     mdfe30_infRespTec = fields.Many2one(
         comodel_name="res.partner",
         related="company_id.technical_support_id",
+        string="Responsável Técnico MDFe",
     )
 
     ##########################
     # NF-e tag: infAdic
     ##########################
 
-    mdfe30_infAdFisco = fields.Char(compute="_compute_mdfe30_additional_data")
+    mdfe30_infAdFisco = fields.Char(
+        compute="_compute_mdfe30_additional_data",
+        string="Informações Adicionais Fiscais MDFe",
+    )
 
-    mdfe30_infCpl = fields.Char(compute="_compute_mdfe30_additional_data")
+    mdfe30_infCpl = fields.Char(
+        compute="_compute_mdfe30_additional_data",
+        string="Informações Complementares MDFE",
+    )
 
     ##########################
     # MDF-e tag: infAdic
@@ -781,10 +653,6 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_cUnid = fields.Selection(default="01")
 
-    mdfe30_vCarga = fields.Monetary(compute="_compute_tot_carga")
-
-    mdfe30_qCarga = fields.Float(compute="_compute_tot_carga")
-
     ##########################
     # MDF-e tag: tot
     # Methods
@@ -822,13 +690,6 @@ class MDFe(spec_models.StackedModel):
     closure_state_id = fields.Many2one(comodel_name="res.country.state")
 
     closure_city_id = fields.Many2one(comodel_name="res.city")
-
-    @api.depends("mdfe30_cUnid")
-    def _compute_tot_carga(self):
-        for record in self.filtered(filtered_processador_edoc_mdfe):
-            # TODO: calcular valores
-            record.mdfe30_vCarga = 0
-            record.mdfe30_qCarga = 0
 
     ################################
     # Framework Spec model's methods
@@ -868,6 +729,7 @@ class MDFe(spec_models.StackedModel):
         for record in self.with_context(lang="pt_BR").filtered(
             filtered_processador_edoc_mdfe
         ):
+            record = record.with_context(module="l10n_br_mdfe")
             inf_mdfe = record.export_ds()[0]
 
             inf_mdfe_supl = None
