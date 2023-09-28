@@ -128,7 +128,7 @@ class Company(models.Model):
     state_tax_number_ids = fields.One2many(
         string="State Tax Numbers",
         comodel_name="state.tax.numbers",
-        inverse_name="partner_id",  # FIXME
+        inverse_name="company_id",
         compute="_compute_address",
         inverse="_inverse_state_tax_number_ids",
     )
