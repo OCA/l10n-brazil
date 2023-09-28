@@ -832,8 +832,13 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             and self.fiscal_operation_id.fiscal_operation_type == FISCAL_IN
         ):
             fields_to_amount.append("icms_value")
-            fields_to_amount.append("ii_value")
-            fields_to_amount.append("ii_customhouse_charges")
+
+            # TODO
+            # para o caso de uso da Engenere não deve ser somado o II no valor total.
+            # entender melhor e por uma logica para verificar quando deve ser aplicado.
+
+            # fields_to_amount.append("ii_value")
+            # fields_to_amount.append("ii_customhouse_charges")
             if not self.fiscal_operation_line_id.exclude_pis_cofins_amount:
                 fields_to_amount.append("pis_value")
                 fields_to_amount.append("cofins_value")
