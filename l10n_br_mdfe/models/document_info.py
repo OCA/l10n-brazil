@@ -115,3 +115,28 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
                     (0, 0, {"mdfe30_chMDFe": mdfe.mdfe30_chMDFe})
                     for mdfe in record.mdfe_ids
                 ]
+
+    def _prepare_damdfe_values(self):
+        if not self:
+            return {}
+
+        documents = []
+        for record in self:
+            if record.document_type == "nfe":
+                documents += [
+                    {
+                        "key": "NFe - "
+                        + self.document_id._format_document_key(nfe.mdfe30_chNFe)
+                    }
+                    for nfe in self.nfe_ids
+                ]
+            elif record.document_type == "cte":
+                documents += [
+                    {
+                        "key": "CTe - "
+                        + cte.self.document_id._format_document_key(cte.mdfe30_chCTe)
+                    }
+                    for cte in self.cte_ids
+                ]
+
+        return {"documents": documents}

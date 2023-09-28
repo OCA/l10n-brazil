@@ -7,6 +7,7 @@ from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.edoc.mdfe import QR_CODE_URL
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
@@ -95,10 +96,15 @@ class MDFe(spec_models.StackedModel):
     INFMDFE_TREE = """
     > <infMDFe>
         > <ide>
-        - <emit> res.company
-        - <infModal>
-        - <infDoc> l10n_br_fiscal.document.related
+        - infMunCarrega
+        - infPercurso
+        > <emit> res.company
+        - <enderEmit> res.partner
+        > <infModal>
+        > <infDoc> l10n_br_mdfe.document.info
+        - <infMunDescarga> l10n_br_mdfe.municipio.descarga
         > <tot>
+    > <infMDFeSupl>
     """
 
     mdfe_version = fields.Selection(
@@ -832,6 +838,12 @@ class MDFe(spec_models.StackedModel):
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 
+    def view_pdf(self):
+        if not self.filtered(filtered_processador_edoc_mdfe):
+            return super().view_pdf()
+
+        return self.action_damdfe_report()
+
     def atualiza_status_mdfe(self, processo):
         self.ensure_one()
 
@@ -1012,3 +1024,76 @@ class MDFe(spec_models.StackedModel):
         serialized_doc = self.serialize()[0]
         xml = processador.assina_raiz(serialized_doc, serialized_doc.infMDFe.Id)
         return processador.monta_qrcode_contingencia(serialized_doc, xml)
+
+    def action_damdfe_report(self):
+        return (
+            self.env["ir.actions.report"]
+            .search(
+                [("report_name", "=", "l10n_br_mdfe.report_damdfe")],
+                limit=1,
+            )
+            .report_action(self.id, data=self._prepare_damdfe_values())
+        )
+
+    def _prepare_damdfe_values(self):
+        return {
+            "company_id": self.company_id.id,
+            "company_has_logo": bool(self.company_id.logo),
+            "company_ie": self.company_id.inscr_est,
+            "company_logo": self.company_id.inscr_est,
+            "company_cnpj": self.company_id.cnpj_cpf,
+            "company_legal_name": self.company_id.legal_name,
+            "company_street": self.company_id.street,
+            "company_number": self.company_id.street_number,
+            "company_district": self.company_id.district,
+            "company_city": self.company_id.city_id.display_name,
+            "company_state": self.company_id.state_id.code,
+            "company_zip": self.company_id.zip,
+            "uf_carreg": self.mdfe_initial_state_id.code,
+            "uf_descarreg": self.mdfe_final_state_id.code,
+            "qt_cte": self.mdfe30_qCTe,
+            "qt_nfe": self.mdfe30_qNFe,
+            "qt_mdfe": self.mdfe30_qMDFe,
+            "total_weight": self.mdfe30_qCarga,
+            "weight_measure": "KG" if self.mdfe30_cUnid == "01" else "TON",
+            "qr_code_url": QR_CODE_URL,
+            "document_key": self._format_document_key(self.document_key),
+            "document_number": self.document_number,
+            "document_model": self.document_type,
+            "document_serie": self.document_serie_id.code,
+            "document_date": self.document_date.astimezone().strftime(
+                "%d/%m/%y %H:%M:%S"
+            ),
+            "fiscal_additional_data": self.fiscal_additional_data,
+            "customer_additional_data": self.customer_additional_data,
+            "authorization_protocol": self.authorization_protocol,
+            "contingency": self.mdfe_transmission != "1",
+            "environment": self.mdfe_environment,
+            "qr_code": self.get_mdfe_qrcode(),
+            "document_info": self.unloading_city_ids._prepare_damdfe_values(),
+            "modal": self.mdfe_modal,
+            "modal_str": self._get_modal_str(),
+            "modal_aereo_data": self.modal_aereo_id._prepare_damdfe_values(),
+            "modal_rodoviario_data": self.modal_rodoviario_id._prepare_damdfe_values(),
+            "modal_aquaviario_data": self.modal_aquaviario_id._prepare_damdfe_values(),
+            "modal_ferroviario_data": self.modal_ferroviario_id._prepare_damdfe_values(),
+        }
+
+    @api.model
+    def _get_modal_str(self):
+        MODAL_TO_STR = {
+            "1": "Rodoviário",
+            "2": "Aéreo",
+            "3": "Aquaviário",
+            "4": "Ferroviário",
+        }
+        return MODAL_TO_STR[self.mdfe_modal]
+
+    @api.model
+    def _format_document_key(self, key):
+        pace = 4
+        formatted_key = ""
+        for i in range(0, len(key), pace):
+            formatted_key += key[i : i + pace] + " "
+
+        return formatted_key

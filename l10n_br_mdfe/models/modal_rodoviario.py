@@ -84,6 +84,50 @@ class MDFeModalRodoviario(spec_models.StackedModel):
                 (6, 0, record.document_id.rodo_contractor_ids.ids)
             ]
 
+    def _prepare_damdfe_values(self):
+        if not self:
+            return {}
+
+        vehicles = [
+            {
+                "RNTRC": self.mdfe30_RNTRC,
+                "plate": self.mdfe30_placa,
+            }
+        ]
+
+        for reboque in self.mdfe30_veicReboque:
+            vehicles.append(
+                {
+                    "RNTRC": reboque.mdfe30_prop.mdfe30_RNTRC,
+                    "plate": reboque.mdfe30_placa,
+                }
+            )
+
+        return {
+            "vehicles": vehicles,
+            "conductors": [
+                {
+                    "name": cond.mdfe30_xNome,
+                    "cpf": cond.mdfe30_CPF,
+                }
+                for cond in self.mdfe30_condutor
+            ],
+            "toll": [
+                {
+                    "resp_cnpj": disp.mdfe30_CNPJPg,
+                    "forn_cnpj": disp.mdfe30_CNPJForn,
+                    "purchase_number": disp.mdfe30_nCompra,
+                }
+                for disp in self.mdfe30_disp
+            ],
+            "ciot": [
+                {
+                    "code": disp.mdfe30_CIOT,
+                }
+                for disp in self.mdfe30_infCIOT
+            ],
+        }
+
 
 class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.ciot"
