@@ -1,4 +1,5 @@
 # generated from manifests external_dependencies
+brazilcep
 email-validator
 erpbrasil.assinatura>=1.7.0
 erpbrasil.base>=2.3.0
@@ -10,7 +11,6 @@ nfselib.ginfes
 nfselib.paulistana
 num2words
 phonenumbers
-pycep_correios
 pyyaml
 satcomum
 unidecode
