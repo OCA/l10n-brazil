@@ -36,3 +36,5 @@ class MDFeRelated(spec_models.StackedModel):
     mdfe30_chMDFe = fields.Char(related="document_key")
 
     mdfe30_peri = fields.One2many(comodel_name="l10n_br_mdfe.transporte.perigoso")
+
+    mdfe30_infUnidTransp = fields.One2many(comodel_name="l10n_br_mdfe.transporte.inf")

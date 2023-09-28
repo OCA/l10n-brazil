@@ -32,3 +32,16 @@ class MDFeModalAereo(spec_models.StackedModel):
     mdfe30_cAerEmb = fields.Char(related="document_id.boarding_airfield")
 
     mdfe30_cAerDes = fields.Char(related="document_id.landing_airfield")
+
+    def _prepare_damdfe_values(self):
+        if not self:
+            return {}
+
+        return {
+            "airplane_nationality": self.mdfe30_nac,
+            "airplane_registration": self.mdfe30_matr,
+            "flight_number": self.mdfe30_nVoo,
+            "flight_date": self.mdfe30_dVoo.strftime("%d/%m/%y"),
+            "boarding_airfield": self.mdfe30_cAerEmb,
+            "landing_airfield": self.mdfe30_cAerDes,
+        }

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_damdfe_modal_rodoviario">
+        <t t-call="web.html_container">
+            <div class="row">
+                <div class="col-6">
+                    <span class="damdfe-modal-title">
+                        Veículo
+                    </span>
+                    <hr class="damdfe-separator" />
+                    <div class="row">
+                        <div class="col-6 damdfe-modal-header">
+                            Placa
+                        </div>
+                        <div class="col-6 damdfe-modal-header">
+                            RNTRC
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <t t-foreach="modal_rodoviario_data['vehicles']" t-as="veic">
+                            <div class="col-6 damdfe-modal-field">
+                                <span t-esc="veic['plate']" />
+                            </div>
+                            <div class="col-6 damdfe-modal-field">
+                                <span t-esc="veic['RNTRC']" />
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <span class="damdfe-modal-title">
+                        Condutor
+                    </span>
+                    <hr class="damdfe-separator" />
+                    <div class="row">
+                        <div class="col-6 damdfe-modal-header">
+                            CPF
+                        </div>
+                        <div class="col-6 damdfe-modal-header">
+                            Nome
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <t t-foreach="modal_rodoviario_data['conductors']" t-as="cond">
+                            <div class="col-6 damdfe-modal-field">
+                                <span t-esc="cond['cpf']" />
+                            </div>
+                            <div class="col-6 damdfe-modal-field">
+                                <span t-esc="cond['name']" />
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <div
+                    class="col-6"
+                    style="margin-top: 20px"
+                    t-if="modal_rodoviario_data['toll']"
+                >
+                    <span class="damdfe-modal-title">
+                        Vale Pedágio
+                    </span>
+                    <hr class="damdfe-separator" />
+
+                    <div class="row">
+                        <div class="col-4 damdfe-modal-header">
+                            Responsável CNPJ
+                        </div>
+                        <div class="col-4 damdfe-modal-header">
+                            Fornecedor CNPJ
+                        </div>
+                        <div class="col-4 damdfe-modal-header">
+                            Nro Comprovante
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <t t-foreach="modal_rodoviario_data['toll']" t-as="toll">
+                            <div class="col-4 damdfe-modal-field">
+                                <span t-esc="toll['resp_cnpj']" />
+                            </div>
+                            <div class="col-4 damdfe-modal-field">
+                                <span t-esc="toll['forn_cnpj']" />
+                            </div>
+                            <div class="col-4 damdfe-modal-field">
+                                <span t-esc="toll['purchase_number']" />
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <div
+                    class="col-6"
+                    style="margin-top: 20px"
+                    t-if="modal_rodoviario_data['ciot']"
+                >
+                    <span class="damdfe-modal-title">
+                        CIOT
+                    </span>
+                    <hr class="damdfe-separator" />
+
+                    <div class="row">
+                        <div class="col-12 damdfe-modal-header">
+                            Código
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <t t-foreach="modal_rodoviario_data['ciot']" t-as="ciot">
+                            <div class="col-12 damdfe-modal-field">
+                                <span t-esc="ciot['code']" />
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row damdfe-load-info" t-if="contingency">
+                <div class="col-12">
+                    <span>
+                        <strong>Informações da Composição da Carga</strong>
+                    </span>
+                    <hr class="damdfe-separator" />
+                </div>
+
+                <table
+                    class="table table-hover damdfe-table"
+                    style="margin-left: 15px !important;"
+                >
+                    <thead class="damdfe-table-header">
+                        <tr>
+                            <th
+                                scope="col"
+                            >Informações dos documentos discais vinculados ao manifesto</th>
+                            <th scope="col">Informações da unidade de tranporte</th>
+                            <th scope="col">Informações da unidade de carga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="document_info['documents']" t-as="document">
+                            <tr class="damdfe-table-item">
+                                <td><t t-esc="document['key']" /></td>
+                                <td>Rodoviário</td>
+                                <td>Outros</td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>
