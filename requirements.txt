@@ -1,10 +1,13 @@
 # generated from manifests external_dependencies
 brazilcep
 email-validator
+erpbrasil.assinatura
 erpbrasil.assinatura>=1.7.0
 erpbrasil.base>=2.3.0
+erpbrasil.edoc
 erpbrasil.edoc.pdf
 erpbrasil.edoc>=2.5.2
+erpbrasil.transmissao
 erpbrasil.transmissao>=1.1.0
 nfelib>=2.0.0
 nfselib.barueri
