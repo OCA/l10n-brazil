@@ -1,7 +1,8 @@
-# Copyright (C) 2009 Gabriel C. Stabel
-# Copyright (C) 2009 Renato Lima (Akretion)
-# Copyright (C) 2012 Raphaël Valyi (Akretion)
-# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+# Copyright (C) 2018-Today - Akretion (<http://www.akretion.com>).
+# @author Renato Lima - Akretion <renato.lima@akretion.com.br>
+# @author Raphael Valyi - Akretion <raphael.valyi@akretion.com>
+# @author Magno Costa - Akretion <magno.costa@akretion.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
 
