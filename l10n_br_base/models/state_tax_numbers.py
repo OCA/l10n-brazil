@@ -16,6 +16,12 @@ class StateTaxNumbers(models.Model):
         ondelete="cascade",
     )
 
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        ondelete="cascade",
+    )
+
     inscr_est = fields.Char(string="State Tax Number", size=16, required=True)
 
     state_id = fields.Many2one(
