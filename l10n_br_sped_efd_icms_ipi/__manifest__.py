@@ -11,7 +11,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
     "maintainers": ["rvalyi", "renatonlima"],
-    "depends": ["l10n_br_sped_base", "l10n_br_account"],
+    "depends": ["l10n_br_sped_base", "l10n_br_stock_account"],
     "external_dependencies": {
         "python": [
             "erpbrasil.base>=2.3.0",
