@@ -6358,6 +6358,11 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__company_country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__company_country_id
 msgid "Company Country"
