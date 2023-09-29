@@ -9,7 +9,7 @@ import tempfile
 
 import requests
 
-from odoo import _, fields, models
+from odoo import _, models
 from odoo.exceptions import UserError
 
 from ..constants.br_cobranca import get_brcobranca_api_url
@@ -20,18 +20,10 @@ logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    file_boleto_pdf_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        string="Boleto PDF",
-        ondelete="restrict",
-        copy=False,
-    )
+    def generate_boleto_pdf(self):
+        if self.payment_mode_id.cnab_processor != "brcobranca":
+            return super().generate_boleto_pdf()
 
-    # Usado para deixar invisivel o botão
-    # Imprimir Boleto, quando não for o caso
-    payment_method_code = fields.Char(related="payment_mode_id.payment_method_id.code")
-
-    def gera_boleto_pdf(self):
         file_pdf = self.file_boleto_pdf_id
         self.file_boleto_pdf_id = False
         file_pdf.unlink()
@@ -88,21 +80,6 @@ class AccountMove(models.Model):
             raise UserError(res.text.encode("utf-8"))
 
         return pdf_string
-
-    def _target_new_tab(self, attachment_id):
-        if attachment_id:
-            return {
-                "type": "ir.actions.act_url",
-                "url": "/web/content/{id}/{nome}".format(
-                    id=attachment_id.id, nome=attachment_id.name
-                ),
-                "target": "new",
-            }
-
-    def view_boleto_pdf(self):
-        if not self.file_boleto_pdf_id:
-            self.gera_boleto_pdf()
-        return self._target_new_tab(self.file_boleto_pdf_id)
 
     def _post(self, soft=True):
         result = super()._post(soft)
