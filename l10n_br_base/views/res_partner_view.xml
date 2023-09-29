@@ -35,7 +35,18 @@
         <field name="priority">99</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <field name="vat" position="replace" />
+            <field name="vat" position="attributes">
+                <attribute name="attrs">
+                    {
+                        'readonly':
+                            [
+                                '|', ('cnpj_cpf', 'not in', [False, ""]),
+                                     ('parent_id', '!=', False),
+
+                            ]
+                    }
+                </attribute>
+            </field>
             <xpath expr="//h1" position="after">
                 <group>
                     <field name="city_id" invisible="1" />
