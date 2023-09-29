@@ -32,6 +32,41 @@ class AccountMove(models.Model):
         string="Instruções de cobrança", help="Instruções Extras da Ordem de Pagamento"
     )
 
+    file_boleto_pdf_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        string="Boleto PDF",
+        ondelete="restrict",
+        copy=False,
+    )
+
+    # Usado para deixar invisivel o botão
+    # Imprimir Boleto, quando não for o caso
+    payment_method_code = fields.Char(related="payment_mode_id.payment_method_id.code")
+
+    def generate_boleto_pdf(self):
+        """
+        Classe a ser herdada pelo modulo que implementa a biblioteca
+        ou API, deve anexar o PDF com boletos
+        """
+        # Veja exemplo em:
+        # l10n_br_account_payment_brcobranca/models/account_move.py
+        return None
+
+    def _target_new_tab(self, attachment_id):
+        if attachment_id:
+            return {
+                "type": "ir.actions.act_url",
+                "url": "/web/content/{id}/{nome}".format(
+                    id=attachment_id.id, nome=attachment_id.name
+                ),
+                "target": "new",
+            }
+
+    def view_boleto_pdf(self):
+        if not self.file_boleto_pdf_id:
+            self.generate_boleto_pdf()
+        return self._target_new_tab(self.file_boleto_pdf_id)
+
     def button_cancel(self):
         for record in self:
             if record.payment_mode_id.payment_method_code in BR_CODES_PAYMENT_ORDER:
