@@ -108,6 +108,23 @@ class ValidCreateIdTest(SavepointCase):
             "website": "www.partnertest.com.br",
         }
 
+        cls.partner_outside_br = {
+            "name": "Partner Test 3",
+            "legal_name": "Partner Tesc 3 Ltda",
+            "vat": "123456789",
+            "street": "Street Company",
+            "street_number": "955",
+            "street2": "Street2 Company",
+            "district": "Company District",
+            "state_id": cls.env.ref("base.state_us_2").id,
+            "country_id": cls.env.ref("base.us").id,
+            "city": "Nome",
+            "zip": "99762",
+            "phone": "+1 (907) 443-5796",
+            "email": "contact@companytest.com.br",
+            "website": "www.companytest.com.br",
+        }
+
     # Tests on companies
 
     def test_comp_valid(self):
@@ -163,6 +180,81 @@ class ValidCreateIdTest(SavepointCase):
             self.env["res.partner"].with_context(tracking_disable=True).create(
                 self.partner_invalid_cpf
             )
+
+    def test_vat_computation_with_cnpj(self):
+        """Test VAT computation for a br partner with CNPJ"""
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(self.partner_valid)
+        )
+        partner._compute_vat_from_cnpj_cpf()
+        self.assertEqual(
+            partner.vat,
+            self.partner_valid["cnpj_cpf"],
+            "VAT should be equal to CNPJ for a br partner",
+        )
+
+    def test_vat_computation_without_cnpj(self):
+        """Test VAT computation for a br partner without CNPJ"""
+        partner_data = self.partner_valid.copy()
+        partner_data.pop("cnpj_cpf")
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(partner_data)
+        )
+        partner._compute_vat_from_cnpj_cpf()
+        self.assertFalse(
+            partner.vat, "VAT should be False for a br partner without CNPJ"
+        )
+
+    def test_vat_computation_outside_company_with_vat(self):
+        """Test VAT computation for a outside br partner with VAT"""
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(self.partner_outside_br)
+        )
+        partner._compute_vat_from_cnpj_cpf()
+        self.assertEqual(
+            partner.vat,
+            "123456789",
+            "The VAT must be the same as what was registered",
+        )
+
+    def test_vat_computation_outside_company_without_vat(self):
+        """Test VAT computation for a outside br partner without VAT"""
+        partner_data = self.partner_outside_br.copy()
+        partner_data.pop("vat")
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(partner_data)
+        )
+        partner._compute_vat_from_cnpj_cpf()
+        self.assertFalse(partner.vat, "VAT should be False as registered")
+
+    def test_vat_computation_with_company_name_and_vat(self):
+        """Test VAT computation for a br partner with company_name and vat"""
+        partner_data = self.partner_valid.copy()
+        partner_data.update(
+            {
+                "company_name": "Company Partner",
+                "vat": "123456789",
+            }
+        )
+        partner = (
+            self.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(partner_data)
+        )
+        partner._compute_vat_from_cnpj_cpf()
+        self.assertEqual(
+            partner.vat,
+            "123456789",
+            "The VAT must be the same as what was registered",
+        )
 
 
 # No test on Inscricao Estadual for partners with CPF
