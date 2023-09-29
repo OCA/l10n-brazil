@@ -497,11 +497,19 @@
                     <field name="amount_pis_wh_base" />
                     <field name="amount_pis_wh_value" />
                   </group>
+                  <group string="PIS ST">
+                    <field name="amount_pisst_base" />
+                    <field name="amount_pisst_value" />
+                  </group>
                   <group string="COFINS">
                     <field name="amount_cofins_base" />
                     <field name="amount_cofins_value" />
                     <field name="amount_cofins_wh_base" />
                     <field name="amount_cofins_wh_value" />
+                  </group>
+                  <group string="COFINS ST">
+                    <field name="amount_cofinsst_base" />
+                    <field name="amount_cofinsst_value" />
                   </group>
                   <group string="CSLL">
                     <field name="amount_csll_base" />

@@ -209,6 +209,18 @@ class FiscalDocumentMixin(models.AbstractModel):
         store=True,
     )
 
+    amount_pisst_base = fields.Monetary(
+        string="PIS ST Base",
+        compute="_compute_amount",
+        store=True,
+    )
+
+    amount_pisst_value = fields.Monetary(
+        string="PIS ST Value",
+        compute="_compute_amount",
+        store=True,
+    )
+
     amount_pis_wh_base = fields.Monetary(
         string="PIS Ret Base",
         compute="_compute_amount",
@@ -229,6 +241,18 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     amount_cofins_value = fields.Monetary(
         string="COFINS Value",
+        compute="_compute_amount",
+        store=True,
+    )
+
+    amount_cofinsst_base = fields.Monetary(
+        string="COFINS ST Base",
+        compute="_compute_amount",
+        store=True,
+    )
+
+    amount_cofinsst_value = fields.Monetary(
+        string="COFINS ST Value",
         compute="_compute_amount",
         store=True,
     )
