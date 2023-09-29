@@ -51,6 +51,9 @@ TAX_DICT_VALUES = {
     "remove_from_base": 0.00,
     "compute_reduction": True,
     "compute_with_tax_value": False,
+    "icms_dest_base": 0.00,
+    "icms_origin_value": 0.00,
+    "icms_dest_value": 0.00,
 }
 
 
