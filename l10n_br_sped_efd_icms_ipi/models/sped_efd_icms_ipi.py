@@ -8,9 +8,13 @@ import textwrap
 from erpbrasil.base import misc
 from lxml.builder import E
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
+    FISCAL_IN,
+)
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
 
 
@@ -28,18 +32,78 @@ class Registro0000(models.Model):
         posteriormente este método deve ser melhorado."""
 
         for record in self:
+
+            fiscal_document_domain = [
+                # ("company_id", "=", record.company_id.id),
+                # (
+                #     "state_edoc",
+                #     "in",
+                #     ("autorizada", "cancelada", "denegada", "inutilizada"),
+                # ),
+                ("document_date", ">=", record.DT_INI),
+                ("document_date", "<=", record.DT_FIN),
+            ]
+
             fiscal_document_ids = self.fiscal_document_ids.search(
-                [
-                    # ("company_id", "=", record.company_id.id),
-                    # (
-                    #     "state_edoc",
-                    #     "in",
-                    #     ("autorizada", "cancelada", "denegada", "inutilizada"),
-                    # ),
-                    ("document_type", "in", ("01", "1B", "04", "55", "65")),
-                    ("document_date", ">=", record.DT_INI),
-                    ("document_date", "<=", record.DT_FIN),
+                fiscal_document_domain
+            )
+
+            c100_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain
+                + [("document_type", "in", ("01", "1B", "04", "55", "65"))]
+            )
+
+            c300_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain + [("document_type", "in", ("02"))]
+            )
+
+            c400_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain + [("document_type", "in", ("02", "2D", "60"))]
+            )
+
+            c500_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain
+                + [("document_type", "in", ("06", "66", "29", "28"))]
+            )
+
+            c800_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain + [("document_type", "in", ("59"))]
+            )
+
+            d_100_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain
+                + [
+                    (
+                        "document_type",
+                        "in",
+                        (
+                            "07",
+                            "08",
+                            "8b",
+                            "09",
+                            "10",
+                            "11",
+                            "26",
+                            "27",
+                            "57",
+                            "63",
+                            "67",
+                        ),
+                    )
                 ]
+            )
+
+            d_350_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain
+                + [("document_type", "in", ("2E", "13", "14", "15", "16"))]
+            )
+
+            d_500_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain + [("document_type", "in", ("21", "22"))]
+            )
+
+            d_700_fiscal_document_ids = self.fiscal_document_ids.search(
+                fiscal_document_domain + [("document_type", "in", ("62"))]
             )
 
             record.fiscal_document_partner_ids = fiscal_document_ids.mapped(
@@ -48,9 +112,11 @@ class Registro0000(models.Model):
             record.fiscal_document_line_ids = fiscal_document_ids.mapped(
                 "fiscal_line_ids"
             )
+            # TODO: Complementar com produtos dos outros blocos!!!!
             record.fiscal_product_ids = record.fiscal_document_line_ids.mapped(
                 "product_id"
             )
+
             record.fiscal_document_ids = fiscal_document_ids
             record.fiscal_operation_ids = record.fiscal_document_ids.mapped(
                 "fiscal_operation_id"
@@ -58,13 +124,47 @@ class Registro0000(models.Model):
             record.fiscal_comment_ids = record.fiscal_document_ids.mapped(
                 "comment_ids"
             ) | record.fiscal_document_line_ids.mapped("comment_ids")
+
+            # TODO: Complementar com unidades de medidas de outros blocos!!!
             record.fiscal_uom_ids = record.fiscal_document_line_ids.mapped("uom_id")
 
     fiscal_document_partner_ids = fields.One2many(
         comodel_name="res.partner", compute="_compute_fiscal_documents"
     )
 
-    fiscal_document_ids = fields.One2many(
+    c100_fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    c300_fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    c400_fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    c500_fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    c800_fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    d100_fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    d350_fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    d500_fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    )
+
+    d700_fiscal_document_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
     )
 
@@ -186,6 +286,23 @@ class Registro0000(models.Model):
         default="0",
     )
 
+    CLAS_ESTAB_IND = fields.Selection(
+        [
+            ("00", "Industrial - Transformação"),
+            ("01", "Industrial - Beneficiamento"),
+            ("02", "Industrial - Montagem"),
+            ("03", "Industrial - Acondicionamento ou Reacondicionamento"),
+            ("04", "Industrial - Renovação ou Recondicionamento"),
+            ("05", "Equiparado a industrial - Por opção"),
+            ("06", "Equiparado a industrial - Importação Direta"),
+            ("07", "Equiparado a industrial - Por lei específica"),
+            ("08", "Equiparado a industrial - Não enquadrado nos códigos 05, 06 ou 07"),
+            ("09", "Outros"),
+        ],
+        string="classificação do estabelecimento conforme tabela 4",
+        help="classificação do estabelecimento conforme tabela 4.5.5",
+    )
+
     @api.model
     def _append_top_view_elements(self, group):
         super()._append_top_view_elements(group)
@@ -225,10 +342,9 @@ class Registro0002(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        if declaration.IND_ATIV == "0":
-            return {
-                "CLAS_ESTAB_IND": declaration.IND_ATIV,
-            }
+        return {
+            "CLAS_ESTAB_IND": declaration.CLAS_ESTAB_IND,
+        }
 
 
 class Registro0005(models.Model):
@@ -284,6 +400,8 @@ class Registro0100(models.Model):
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0100"
     _odoo_model = "res.partner"
 
+    # TODO: Verificar se o contador pode ser do tipo pessoa físca e não ter uma empresa.
+
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [("id", "=", declaration.company_id.accountant_id.id)]
@@ -330,20 +448,26 @@ class Registro0150(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
+        vals = {
             "COD_PART": misc.punctuation_rm(record.cnpj_cpf),
             "NOME": record.legal_name or record.name,
-            "COD_PAIS": record.country_id.ibge_code or "BR",
-            "CPF": misc.punctuation_rm(record.cnpj_cpf),
-            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
+            "COD_PAIS": record.country_id.ibge_code,
             "IE": misc.punctuation_rm(record.inscr_est),
-            "COD_MUN": misc.punctuation_rm(record.city_id.ibge_code),
             "SUFRAMA": record.suframa or "",
             "END": record.street,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
         }
+        if record.country_id.bc_code == "1056":
+            if record.company_type == "person":
+                vals["CPF"] = misc.punctuation_rm(record.cnpj_cpf)
+            else:
+                vals["CNPJ"] = misc.punctuation_rm(record.cnpj_cpf)
+            vals["COD_NUM"] = misc.punctuation_rm(record.city_id.ibge_code)
+        else:
+            vals["COD_NUM"] = "9999999"
+        return vals
 
 
 class Registro0175(models.Model):
@@ -378,6 +502,9 @@ class Registro0190(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        if record.code:
+            msg_err = _("UOM without code: {}".format(record.name))
+            raise UserError(msg_err)
         return {
             "UNID": record.code,  # Código da unidade de medida
             "DESCR": record.name,  # Descrição da unidade de medida
@@ -399,6 +526,7 @@ class Registro0200(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # TODO: Buscar tax definition do Produto e preencher o campo ALIQ_ICMS
         return {
             "COD_ITEM": record.default_code or record.id,  # Código do item
             "DESCR_ITEM": record.name,  # Descrição do item
@@ -577,6 +705,8 @@ class Registro0500(models.Model):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.efd_icms_ipi.0500"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0500"
+
+    # TODO: Usado em H010?
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -822,30 +952,21 @@ class RegistroC100(models.Model):
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [
-            ("id", "in", declaration.fiscal_document_ids.ids),
+            ("id", "in", declaration.c100_fiscal_document_ids.ids),
         ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        if record.fiscal_operation_type == "in":
+
+        if record.fiscal_operation_type == FISCAL_IN:
             ind_oper = "0"
         else:
             ind_oper = "1"
-        if record.issuer == "company":
+        if record.issuer == DOCUMENT_ISSUER_COMPANY:
             ind_emit = "0"
         else:
             ind_emit = "1"
 
-        if record.state_edoc == "cancelada":
-            cod_sit = "02"
-        elif record.state_edoc == "autorizada" and record.edoc_purpose in ("1", "4"):
-            # Documento normal ou devolucao
-            cod_sit = "00"
-        elif record.state_edoc == "autorizada" and record.edoc_purpose in ("2", "3"):
-            # Documento complementar/ajuste
-            cod_sit = "06"
-        else:
-            cod_sit = "TODO"
         # A partir de janeiro de 2023, os códigos de situação de documento 04 (NF-e ou CT-e denegado) e
         # 05 (NF-e ou CT-e Numeração inutilizada) da tabela 4.1.2 - Tabela Situação do Documento serão descontinuados.
         # elif nfe.state_edoc == "denegada" and nfe.edoc_purpose == "1":
@@ -876,7 +997,7 @@ class RegistroC100(models.Model):
             "IND_EMIT": ind_emit,
             "COD_PART": str(record.partner_id.id),
             "COD_MOD": record.document_type_id.code,
-            "COD_SIT": cod_sit,
+            "COD_SIT": record.state_fiscal,
             "SER": record.document_serie,
             "NUM_DOC": misc.punctuation_rm(str(record.document_number)),
             "CHV_NFE": record.document_key,
