@@ -7,54 +7,100 @@
         <field name="inherit_id" ref="crm.crm_lead_view_form" />
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
-                <field name="street" invisible="1" />
+                <field name="show_l10n_br" invisible="1" />
+                <field
+                    name="street"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
             </field>
 
             <xpath expr="//group[@name='lead_info']/div" position="after">
                 <field name="name_surname" />
-                <field name="cpf" />
-                <field name="rg" />
+                <field
+                    name="cpf"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
+                <field
+                    name="rg"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
             </xpath>
 
             <xpath
                 expr="//group[@name='lead_partner']/field[@name='partner_name']"
                 position="after"
             >
-                <field name="legal_name" />
-                <field name="cnpj" />
-                <field name="inscr_est" />
+                <field
+                    name="legal_name"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
+                <field
+                    name="cnpj"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
+                <field
+                    name="inscr_est"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
             </xpath>
 
             <xpath
                 expr="//group[@name='lead_partner']/field[@name='website']"
                 position="before"
             >
-                <field name="inscr_mun" />
-                <field name="suframa" />
+                <field
+                    name="inscr_mun"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
+                <field
+                    name="suframa"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
             </xpath>
 
             <xpath
                 expr="//page[@name='lead']//group/field[@name='partner_name']"
                 position='after'
             >
-                <field name="legal_name" />
-                <field name="cnpj" />
-                <field name="inscr_est" />
+                <field
+                    name="legal_name"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
+                <field
+                    name="cnpj"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
+                <field
+                    name="inscr_est"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
             </xpath>
             <xpath
                 expr="//page[@name='lead']//group/field[@name='website']"
                 position='before'
             >
-                <field name="inscr_mun" />
-                <field name="suframa" />
+                <field
+                    name="inscr_mun"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
+                <field
+                    name="suframa"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
             </xpath>
             <xpath
                 expr="//page[@name='lead']//group/field[@name='function']"
                 position='before'
             >
                 <field name="name_surname" />
-                <field name="cpf" />
-                <field name="rg" />
+                <field
+                    name="cpf"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
+                <field
+                    name="rg"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                />
             </xpath>
         </field>
     </record>

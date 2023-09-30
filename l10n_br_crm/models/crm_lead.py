@@ -19,7 +19,7 @@ class Lead(models.Model):
     """CRM Lead Case"""
 
     _name = "crm.lead"
-    _inherit = [_name, "l10n_br_base.party.mixin", "format.address.mixin"]
+    _inherit = [_name, "l10n_br_base.party.mixin"]
 
     cnpj = fields.Char(string="CNPJ")
 
@@ -32,6 +32,43 @@ class Lead(models.Model):
     )
 
     cpf = fields.Char(string="CPF")
+
+    show_l10n_br = fields.Boolean(
+        compute="_compute_show_l10n_br",
+        help="Indicates if Brazilian localization fields should be displayed.",
+    )
+
+    @api.depends("country_id")
+    def _compute_show_l10n_br(self):
+        """
+        Defines when Brazilian localization fields should be displayed.
+        """
+        for record in self:
+            show_l10n_br = False
+            if record.partner_id and record.partner_id.country_id == self.env.ref(
+                "base.br"
+            ):
+                show_l10n_br = True
+            elif record.country_id == self.env.ref("base.br"):
+                show_l10n_br = True
+
+            record.show_l10n_br = show_l10n_br
+
+            # Apesar do metodo create ter os campos informados
+            # o metodo _prepare_address_values_from_partner esta sendo
+            # chamado com o partner vazio e os campos abaixo com False
+            # o que acaba apagando os campos, por enquanto essa é a forma
+            # encontrada para contornar o problema.
+            # TODO: revalidar nas migrações
+            partner = record.partner_id
+            if partner:
+                result = {
+                    "street_name": partner.street_name,
+                    "street_number": partner.street_number,
+                    "district": partner.district,
+                    "city_id": partner.city_id.id,
+                }
+                record.update(result)
 
     @api.onchange("contact_name")
     def _onchange_contact_name(self):
@@ -104,7 +141,7 @@ class Lead(models.Model):
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
-        result = super(Lead, self)._prepare_values_from_partner(self.partner_id)
+        result = super()._prepare_values_from_partner(self.partner_id)
 
         if self.partner_id:
             result["street_name"] = self.partner_id.street_name
