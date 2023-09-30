@@ -17,7 +17,6 @@
         # Security
         "security/ir.model.access.csv",
         # Views
-        "views/account_move_view.xml",
         "views/account_journal_view.xml",
         # Wizard
         "wizard/import_statement_view.xml",
