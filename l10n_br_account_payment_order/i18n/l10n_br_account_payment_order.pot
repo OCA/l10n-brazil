@@ -806,6 +806,13 @@ msgid "Boleto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__file_boleto_pdf_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__file_boleto_pdf_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__file_boleto_pdf_id
+msgid "Boleto PDF"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_journal__bank_code_bc
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__bank_code_bc
 msgid "Brazilian Bank Code"
@@ -1302,6 +1309,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__code
 msgid "Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__payment_method_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__payment_method_code
+msgid "Code (Do Not Modify)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2595,6 +2608,11 @@ msgid "Prepaid Payment Account (Conta Pagamento)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.view_move_cnab_form
+msgid "Print Boleto"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_protest_title_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_protest_title_id
 msgid "Protest Tittle Instruction Code"
@@ -2814,6 +2832,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_bank_statement_line__payment_method_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move__payment_method_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move_line__payment_method_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__payment_method_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_order__payment_method_code
