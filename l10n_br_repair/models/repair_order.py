@@ -96,6 +96,11 @@ class RepairOrder(models.Model):
         lines += [lin for lin in self.mapped("fees_lines")]
         return lines
 
+    def _get_product_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+
+        return self._get_amount_lines()
+
     @api.depends("operations", "fees_lines")
     def _compute_amount(self):
         return super()._compute_amount()
