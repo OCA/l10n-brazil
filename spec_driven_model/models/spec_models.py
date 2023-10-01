@@ -1,13 +1,15 @@
 # Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
-import collections
 import logging
 import sys
+from collections import OrderedDict
 from inspect import getmembers, isclass
 
 from odoo import SUPERUSER_ID, _, api, models
 from odoo.tools import mute_logger
+
+from .spec_mixin import SPEC_MIXIN_MAPPINGS
 
 _logger = logging.getLogger(__name__)
 
@@ -76,7 +78,7 @@ class SpecModel(models.Model):
             item[0] if isinstance(item, list) else item for item in list(cls._inherit)
         ]
         for parent in parents:
-            cls._map_concrete(parent, cls._name)
+            cls._map_concrete(cr.dbname, parent, cls._name)
             super_parents = list(pool[parent]._inherit)
             for super_parent in super_parents:
                 if (
@@ -88,14 +90,14 @@ class SpecModel(models.Model):
 
                 cr.execute(
                     "SELECT name FROM ir_module_module "
-                    "WHERE name=%(name)s "
+                    "WHERE name=%s "
                     "AND state in ('to install', 'to upgrade', 'to remove')",
-                    {"name": pool[super_parent]._odoo_module},
+                    (pool[super_parent]._odoo_module,),
                 )
                 if cr.fetchall():
                     setattr(
                         pool,
-                        f"_{pool[super_parent]._odoo_module}_need_hook",
+                        "_%s_need_hook" % (pool[super_parent]._odoo_module,),
                         True,
                     )
 
@@ -135,7 +137,7 @@ class SpecModel(models.Model):
             ):
                 continue
             if klass._name != cls._name:
-                cls._map_concrete(klass._name, cls._name)
+                cls._map_concrete(self.env.cr.dbname, klass._name, cls._name)
                 klass._table = cls._table
 
         stacked_parents = [getattr(x, "_name", None) for x in cls.mro()]
@@ -143,7 +145,9 @@ class SpecModel(models.Model):
             if hasattr(field, "comodel_name") and field.comodel_name:
                 comodel_name = field.comodel_name
                 comodel = self.env[comodel_name]
-                concrete_class = cls._get_concrete(comodel._name)
+                concrete_class = SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(
+                    comodel._name
+                )
 
                 if (
                     field.type == "many2one"
@@ -187,19 +191,12 @@ class SpecModel(models.Model):
         return super()._setup_fields()
 
     @classmethod
-    def _map_concrete(cls, key, target, quiet=False):
+    def _map_concrete(cls, dbname, key, target, quiet=False):
         # TODO bookkeep according to a key to allow multiple injection contexts
-        if not hasattr(models.MetaModel, "mixin_mappings"):
-            models.MetaModel.mixin_mappings = {}
         if not quiet:
-            _logger.debug(f"{key} ---> {target}")
-        models.MetaModel.mixin_mappings[key] = target
-
-    @classmethod
-    def _get_concrete(cls, key):
-        if not hasattr(models.MetaModel, "mixin_mappings"):
-            models.MetaModel.mixin_mappings = {}
-        return models.MetaModel.mixin_mappings.get(key)
+            _logger.debug("%s ---> %s" % (key, target))
+        global SPEC_MIXIN_MAPPINGS
+        SPEC_MIXIN_MAPPINGS[dbname][key] = target
 
     @classmethod
     def spec_module_classes(cls, spec_module):
@@ -207,8 +204,7 @@ class SpecModel(models.Model):
         Cache the list of spec_module classes to save calls to
         slow reflection API.
         """
-
-        spec_module_attr = f"_spec_cache_{spec_module.replace('.', '_')}"
+        spec_module_attr = "_spec_cache_%s" % (spec_module.replace(".", "_"),)
         if not hasattr(cls, spec_module_attr):
             setattr(
                 cls, spec_module_attr, getmembers(sys.modules[spec_module], isclass)
@@ -266,7 +262,7 @@ class StackedModel(SpecModel):
     def _build_model(cls, pool, cr):
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            _logger.info(f"building StackedModel {cls._name} {cls}")
+            _logger.info("building StackedModel %s %s" % (cls._name, cls))
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             env = api.Environment(cr, SUPERUSER_ID, {})
             for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
@@ -298,7 +294,7 @@ class StackedModel(SpecModel):
         node._description = None
         if path is None:
             path = cls._stacked.split(".")[-1]
-        SpecModel._map_concrete(node._name, cls._name, quiet=True)
+        SpecModel._map_concrete(env.cr.dbname, node._name, cls._name, quiet=True)
         yield "stacked", node, path, None, None
 
         fields = collections.OrderedDict()
@@ -327,7 +323,7 @@ class StackedModel(SpecModel):
             child = cls._odoo_name_to_class(f["comodel_name"], cls._spec_module)
             if child is None:  # Not a spec field
                 continue
-            child_concrete = SpecModel._get_concrete(child._name)
+            child_concrete = SPEC_MIXIN_MAPPINGS[env.cr.dbname].get(child._name)
             field_path = name.replace(env[node._name]._field_prefix, "")
 
             if f["type"] == "one2many":
@@ -345,7 +341,7 @@ class StackedModel(SpecModel):
             ):
                 # then we will STACK the child in the current class
                 child._stack_path = path
-                child_path = f"{path}.{field_path}"
+                child_path = "%s.%s" % (path, field_path)
                 cls._stacking_points[name] = env[node._name]._fields.get(name)
                 yield from cls._visit_stack(env, child, child_path)
             else:
