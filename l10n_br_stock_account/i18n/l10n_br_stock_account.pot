@@ -219,6 +219,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cofinsst_base
 msgid "COFINS ST Base"
 msgstr ""
 
@@ -234,6 +235,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cofinsst_value
 msgid "COFINS ST Value"
 msgstr ""
 
@@ -1242,6 +1244,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_pisst_base
 msgid "PIS ST Base"
 msgstr ""
 
@@ -1257,6 +1260,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pisst_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_pisst_value
 msgid "PIS ST Value"
 msgstr ""
 
