@@ -1,13 +1,15 @@
 # Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
-import collections
 import logging
 import sys
+from collections import OrderedDict
 from inspect import getmembers, isclass
 
 from odoo import SUPERUSER_ID, _, api, models
 from odoo.tools import mute_logger
+
+from .spec_mixin import MIXIN_MAPPINGS
 
 _logger = logging.getLogger(__name__)
 
@@ -95,7 +97,7 @@ class SpecModel(models.AbstractModel):
                             True,
                         )
 
-                    cls._map_concrete(parent, cls._name)
+                    cls._map_concrete(cr.dbname, parent, cls._name)
                     if not hasattr(pool[parent], "build_from_binding"):
                         pool[parent]._inherit = super_parents + ["spec.mixin"]
                         pool[parent].__bases__ = (pool["spec.mixin"],) + pool[
@@ -127,7 +129,7 @@ class SpecModel(models.AbstractModel):
             ):
                 continue
             if klass._name != cls._name:
-                cls._map_concrete(klass._name, cls._name)
+                cls._map_concrete(self.env.cr.dbname, klass._name, cls._name)
                 klass._table = cls._table
 
         stacked_parents = [getattr(x, "_name", None) for x in cls.mro()]
@@ -135,7 +137,7 @@ class SpecModel(models.AbstractModel):
             if hasattr(field, "comodel_name") and field.comodel_name:
                 comodel_name = field.comodel_name
                 comodel = self.env[comodel_name]
-                concrete_class = cls._get_concrete(comodel._name)
+                concrete_class = MIXIN_MAPPINGS[self.env.cr.dbname].get(comodel._name)
 
                 if (
                     field.type == "many2one"
@@ -179,19 +181,12 @@ class SpecModel(models.AbstractModel):
         return super()._setup_fields()
 
     @classmethod
-    def _map_concrete(cls, key, target, quiet=False):
+    def _map_concrete(cls, dbname, key, target, quiet=False):
         # TODO bookkeep according to a key to allow multiple injection contexts
-        if not hasattr(models.MetaModel, "mixin_mappings"):
-            models.MetaModel.mixin_mappings = {}
         if not quiet:
             _logger.debug("%s ---> %s" % (key, target))
-        models.MetaModel.mixin_mappings[key] = target
-
-    @classmethod
-    def _get_concrete(cls, key):
-        if not hasattr(models.MetaModel, "mixin_mappings"):
-            models.MetaModel.mixin_mappings = {}
-        return models.MetaModel.mixin_mappings.get(key)
+        global MIXIN_MAPPINGS
+        MIXIN_MAPPINGS[dbname][key] = target
 
     @classmethod
     def spec_module_classes(cls, spec_module):
@@ -289,10 +284,10 @@ class StackedModel(SpecModel):
         node._description = None
         if path is None:
             path = cls._stacked.split(".")[-1]
-        SpecModel._map_concrete(node._name, cls._name, quiet=True)
+        SpecModel._map_concrete(env.cr.dbname, node._name, cls._name, quiet=True)
         yield "stacked", node, path, None, None
 
-        fields = collections.OrderedDict()
+        fields = OrderedDict()
         # this is required when you don't start odoo with -i (update)
         # otherwise the model spec will not have its fields loaded yet.
         # TODO we may pass this env further instead of re-creating it.
@@ -318,7 +313,7 @@ class StackedModel(SpecModel):
             child = cls._odoo_name_to_class(f["comodel_name"], cls._spec_module)
             if child is None:  # Not a spec field
                 continue
-            child_concrete = SpecModel._get_concrete(child._name)
+            child_concrete = MIXIN_MAPPINGS[env.cr.dbname].get(child._name)
             field_path = name.replace(env[node._name]._field_prefix, "")
 
             if f["type"] == "one2many":
