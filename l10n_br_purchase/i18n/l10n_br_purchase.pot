@@ -224,6 +224,7 @@ msgid "COFINS ST % Reduction"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofinsst_base
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_base
 msgid "COFINS ST Base"
 msgstr ""
@@ -239,6 +240,7 @@ msgid "COFINS ST CST Code"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofinsst_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_value
 msgid "COFINS ST Value"
 msgstr ""
@@ -1243,6 +1245,7 @@ msgid "PIS ST % Reduction"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pisst_base
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_base
 msgid "PIS ST Base"
 msgstr ""
@@ -1258,6 +1261,7 @@ msgid "PIS ST CST Code"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pisst_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_value
 msgid "PIS ST Value"
 msgstr ""
