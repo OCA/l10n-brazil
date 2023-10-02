@@ -21,7 +21,6 @@ class NFeRelated(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.related"
     _inherit = ["l10n_br_fiscal.document.related", "nfe.40.nfref"]
     _stacked = "nfe.40.nfref"
-    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
     _field_prefix = "nfe40_"
     _schema_name = "nfe"
     _schema_version = "4.0.0"
