@@ -331,7 +331,9 @@ class MDFe(spec_models.StackedModel):
     mdfe30_versaoModal = fields.Char(default=MDFE_MODAL_VERSION_DEFAULT)
 
     # Campos do Modal Aéreo
-    modal_aereo_id = fields.Many2one(comodel_name="l10n_br_mdfe.modal.aereo")
+    modal_aereo_id = fields.Many2one(
+        comodel_name="l10n_br_mdfe.modal.aereo", copy=False
+    )
 
     airplane_nationality = fields.Char(size=4)
 
@@ -346,7 +348,9 @@ class MDFe(spec_models.StackedModel):
     landing_airfield = fields.Char(default=MDFE_MODAL_DEFAULT_AIRCRAFT, size=4)
 
     # Campos do Modal Aquaviário
-    modal_aquaviario_id = fields.Many2one(comodel_name="l10n_br_mdfe.modal.aquaviario")
+    modal_aquaviario_id = fields.Many2one(
+        comodel_name="l10n_br_mdfe.modal.aquaviario", copy=False
+    )
 
     ship_irin = fields.Char(size=10)
 
@@ -396,7 +400,7 @@ class MDFe(spec_models.StackedModel):
 
     # Campos do Modal Ferroviário
     modal_ferroviario_id = fields.Many2one(
-        comodel_name="l10n_br_mdfe.modal.ferroviario"
+        comodel_name="l10n_br_mdfe.modal.ferroviario", copy=False
     )
 
     train_prefix = fields.Char(string="Train Prefix", size=10)
@@ -414,7 +418,9 @@ class MDFe(spec_models.StackedModel):
     )
 
     # Campos do Modal Rodoviário
-    modal_rodoviario_id = fields.Many2one(comodel_name="l10n_br_mdfe.modal.rodoviario")
+    modal_rodoviario_id = fields.Many2one(
+        comodel_name="l10n_br_mdfe.modal.rodoviario", copy=False
+    )
 
     rodo_scheduling_code = fields.Char(string="Scheduling Code", size=16)
 
