@@ -884,7 +884,7 @@ class MDFe(spec_models.StackedModel):
                 response=infProt.xMotivo,
                 protocol_date=protocol_date,
                 protocol_number=infProt.nProt,
-                file_response_xml=processo.processo_xml.decode("utf-8"),
+                file_response_xml=processo.processo_xml,
             )
         self.write(
             {
@@ -907,7 +907,7 @@ class MDFe(spec_models.StackedModel):
                     processo = p
                     if processo.webservice == "mdfeRecepcaoLote":
                         record.authorization_event_id._save_event_file(
-                            processo.envio_xml.decode("utf-8"), "xml"
+                            processo.envio_xml, "xml"
                         )
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
