@@ -657,6 +657,10 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_qMDFe = fields.Char(compute="_compute_tot")
 
+    mdfe30_qCarga = fields.Float(compute="_compute_tot")
+
+    mdfe30_vCarga = fields.Float(compute="_compute_tot")
+
     mdfe30_cUnid = fields.Selection(default="01")
 
     ##########################
@@ -664,16 +668,27 @@ class MDFe(spec_models.StackedModel):
     # Methods
     ##########################
 
-    @api.depends("unloading_city_ids")
+    @api.depends(
+        "unloading_city_ids.cte_ids",
+        "unloading_city_ids.nfe_ids",
+        "unloading_city_ids.mdfe_ids",
+    )
     def _compute_tot(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
-            cte_qty = len(record.unloading_city_ids.mapped("cte_ids"))
-            nfe_qty = len(record.unloading_city_ids.mapped("nfe_ids"))
-            mdfe_qty = len(record.unloading_city_ids.mapped("mdfe_ids"))
+            record.mdfe30_qCarga = 0
+            record.mdfe30_vCarga = 0
 
-            record.mdfe30_qCTe = cte_qty and cte_qty or False
-            record.mdfe30_qNFe = nfe_qty and nfe_qty or False
-            record.mdfe30_qMDFe = mdfe_qty and mdfe_qty or False
+            cte_ids = record.unloading_city_ids.mapped("cte_ids")
+            nfe_ids = record.unloading_city_ids.mapped("nfe_ids")
+            mdfe_ids = record.unloading_city_ids.mapped("mdfe_ids")
+
+            record.mdfe30_qCTe = cte_ids and len(cte_ids) or False
+            record.mdfe30_qNFe = nfe_ids and len(nfe_ids) or False
+            record.mdfe30_qMDFe = mdfe_ids and len(mdfe_ids) or False
+
+            all_documents = cte_ids + nfe_ids + mdfe_ids
+            record.mdfe30_qCarga = sum(all_documents.mapped("document_total_weight"))
+            record.mdfe30_vCarga = sum(all_documents.mapped("document_total_amount"))
 
     ##########################
     # NF-e tag: infMDFeSupl
