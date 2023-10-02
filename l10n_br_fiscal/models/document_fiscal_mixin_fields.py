@@ -440,3 +440,5 @@ class FiscalDocumentMixinFields(models.AbstractModel):
     key_random_code = fields.Char(string="Document Key Random Code")
 
     key_check_digit = fields.Char(string="Document Key Check Digit")
+
+    total_weight = fields.Float(string="Total Weight")
