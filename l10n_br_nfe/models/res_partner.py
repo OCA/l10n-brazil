@@ -26,8 +26,6 @@ class ResPartner(spec_models.SpecModel):
         "nfe.40.transporta",
         "nfe.40.autxml",
     ]
-    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
-    _field_prefix = "nfe40_"
     _nfe_search_keys = ["nfe40_CNPJ", "nfe40_CPF", "nfe40_xNome"]
     _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
     _field_prefix = "nfe40_"
