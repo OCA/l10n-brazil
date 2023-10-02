@@ -1003,6 +1003,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__industry_id
 msgid "Industry"
 msgstr ""
@@ -1455,6 +1464,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_product_pricelist
 msgid "Pricelist"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_public_entity
+msgid "Public Entity"
 msgstr ""
 
 #. module: l10n_br_hr
