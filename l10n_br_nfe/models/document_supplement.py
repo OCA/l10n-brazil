@@ -11,7 +11,6 @@ class NFeSupplement(spec_models.StackedModel):
     _inherit = ["l10n_br_fiscal.document.supplement", "nfe.40.infnfesupl"]
     _description = "NFe Supplement Document"
     _stacked = "nfe.40.infnfesupl"
-    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
     _field_prefix = "nfe40_"
     _schema_name = "nfe"
     _schema_version = "4.0.0"

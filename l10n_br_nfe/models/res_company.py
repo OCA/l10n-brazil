@@ -26,8 +26,6 @@ PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, "erpbrasil.edoc")]
 class ResCompany(spec_models.SpecModel):
     _name = "res.company"
     _inherit = ["res.company", "nfe.40.emit"]
-    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
-    _field_prefix = "nfe40_"
     _nfe_search_keys = ["nfe40_CNPJ", "nfe40_xNome", "nfe40_xFant"]
 
     nfe40_CNPJ = fields.Char(related="partner_id.nfe40_CNPJ")
