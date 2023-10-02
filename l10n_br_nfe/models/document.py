@@ -1039,6 +1039,19 @@ class NFe(spec_models.StackedModel):
             )
             record.document_key = chave_edoc.chave
 
+    def _document_qrcode(self):
+        super()._document_qrcode()
+
+        for record in self.filtered(filter_processador_edoc_nfe):
+            record.nfe40_infNFeSupl = self.env[
+                "l10n_br_fiscal.document.supplement"
+            ].create(
+                {
+                    "qrcode": record.get_nfce_qrcode(),
+                    "url_key": record.get_nfce_qrcode_url(),
+                }
+            )
+
     def _eletronic_document_send(self):
         self._prepare_payments_for_nfce()
 
@@ -1046,16 +1059,6 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.xml_error_message:
                 return
-
-            if record.document_type == MODELO_FISCAL_NFCE:
-                record.nfe40_infNFeSupl = self.env[
-                    "l10n_br_fiscal.document.supplement"
-                ].create(
-                    {
-                        "qrcode": self.get_nfce_qrcode(),
-                        "url_key": self.get_nfce_qrcode_url(),
-                    }
-                )
 
             processador = record._processador()
             for edoc in record.serialize():
