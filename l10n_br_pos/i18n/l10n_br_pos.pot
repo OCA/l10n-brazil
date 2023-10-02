@@ -138,6 +138,12 @@ msgid "Aguardando processamento"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__allow_csll_irpj
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__allow_csll_irpj
+msgid "Allow Csll Irpj"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cfop_ids
 msgid "Allowed CFOPs"
 msgstr ""
@@ -1744,6 +1750,22 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__allow_csll_irpj
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__allow_csll_irpj
+msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_is_public_entity
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__partner_is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__insurance_value
@@ -2286,6 +2308,12 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__res_company__environment_sat__production
 msgid "Production"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_is_public_entity
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__partner_is_public_entity
+msgid "Public Entity"
 msgstr ""
 
 #. module: l10n_br_pos
