@@ -809,6 +809,8 @@ class MDFe(spec_models.StackedModel):
             record.document_key = chave_edoc.chave
 
     def _document_qrcode(self):
+        super()._document_qrcode()
+
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_infMDFeSupl = self.env[
                 "l10n_br_fiscal.document.supplement"
