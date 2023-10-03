@@ -12,7 +12,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
     "depends": [
-        "l10n_br_fiscal",
+        "l10n_br_fiscal_certificate",
         "l10n_br_mdfe_spec",
         "spec_driven_model",
     ],
