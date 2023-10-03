@@ -17,6 +17,7 @@
         "spec_driven_model",
     ],
     "data": [
+        "security/ir.model.access.csv",
         # "views/document_line.xml",
         # 'views/document_related.xml',
         # 'views/res_partner.xml',
