@@ -31,6 +31,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.spec_driven_model.models import spec_models
 
+from ..constants.modal import CTE_MODAL_VERSION_DEFAULT, FERROV_TPTRAF
+
 _logger = logging.getLogger(__name__)
 try:
     pass
@@ -473,36 +475,34 @@ class CTe(spec_models.StackedModel):
 
     cte40_modal = fields.Selection(related="transport_modal")
 
-    cte40_infModal = fields.Many2one(compute="_compute_modal")
+    cte40_versaoModal = fields.Char(CTE_MODAL_VERSION_DEFAULT)
 
     # Campos do Modal Aereo
-    cte40_dPrevAereo = fields.Date(
+    modal_aereo_id = fields.Many2one(comodel_name="l10n_br_cte.modal.aereo")
+
+    flight_delivery_forecast = fields.Date(
         string="Data prevista da entrega",
         help="Data prevista da entrega\nFormato AAAA-MM-DD",
-        store="True",
     )
-
-    cte40_natCarga = fields.One2many(
-        related="fiscal_line_ids",
-    )
-
-    cte40_tarifa = fields.Many2one(comodel_name="l10n_br_cte.tarifa")
 
     # Campos do Modal Aquaviario
-    cte40_vPrest = fields.Monetary(compute="_compute_vPrest", store=True)
+    modal_aquaviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.aquaviario")
 
-    cte40_vAFRMM = fields.Monetary(
+    ship_installment_value = fields.Monetary(
+        compute="_compute_installment_value", store=True
+    )
+
+    ship_vAFRMM = fields.Monetary(
         string="AFRMM",
         currency_field="brl_currency_id",
         help=("AFRMM (Adicional de Frete para Renovação da Marinha Mercante)"),
-        store=True,
     )
 
-    cte40_xNavio = fields.Char(string="Identificação do Navio", store=True)
+    ship_name = fields.Char(string="Identificação do Navio")
 
-    cte40_nViag = fields.Char(string="Número da Viagem", store=True)
+    ship_travel_number = fields.Char(string="Número da Viagem")
 
-    cte40_direc = fields.Selection(
+    ship_direction = fields.Selection(
         selection=[
             ("N", "Norte, L-Leste, S-Sul, O-Oeste"),
             ("S", "Sul, O-Oeste"),
@@ -510,17 +510,15 @@ class CTe(spec_models.StackedModel):
             ("O", "Oeste"),
         ],
         string="Direção",
-        store=True,
         help="Direção\nPreencher com: N-Norte, L-Leste, S-Sul, O-Oeste",
     )
 
-    cte40_irin = fields.Char(
+    ship_irin = fields.Char(
         string="Irin do navio sempre deverá",
         help="Irin do navio sempre deverá ser informado",
-        store=True,
     )
 
-    cte40_tpNav = fields.Selection(
+    ship_type = fields.Selection(
         selection=[
             ("0", "Interior"),
             ("1", "Cabotagem"),
@@ -530,46 +528,31 @@ class CTe(spec_models.StackedModel):
             "Tipo de Navegação\nPreencher com: \n\t\t\t\t\t\t0 - "
             "Interior;\n\t\t\t\t\t\t1 - Cabotagem"
         ),
-        store=True,
     )
 
-    def _compute_vPrest(self):
-        vPrest = 0
-        for record in self.fiscal_line_ids:
-            vPrest += record.cte40_vTPrest
-        self.cte40_vPrest = vPrest
-
     # Campos do Modal Dutoviario
-    cte40_dIni = fields.Date(string="Data de Início da prestação do serviço")
+    modal_dutoviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.dutoviario")
 
-    cte40_dFim = fields.Date(string="Data de Fim da prestação do serviço")
+    pipeline_initial_date = fields.Date(string="Data de Início da prestação do serviço")
 
-    cte40_vTar = fields.Float(string="Valor da tarifa")
+    pipeline_final_date = fields.Date(string="Data de Fim da prestação do serviço")
 
-    # Campos do Modal Ferroviario
-    cte40_tpTraf = fields.Selection(
-        selection=[
-            ("0", "Próprio"),
-            ("1", "Mútuo"),
-            ("2", "Rodoferroviário"),
-            ("3", "Rodoviário."),
-        ],
+    pipeline_fare_value = fields.Float(string="Valor da tarifa")
+
+    # Campos do Modal Ferroviario TODO
+    modal_ferroviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.ferroviario")
+
+    railroad_traffic_type = fields.Selection(
+        selection=FERROV_TPTRAF,
         default="0",
     )
 
-    cte40_fluxo = fields.Char(
+    railroad_flow = fields.Char(
         string="Fluxo Ferroviário",
         help=(
             "Fluxo Ferroviário\nTrata-se de um número identificador do "
             "contrato firmado com o cliente"
         ),
-    )
-
-    # TRAFMUT
-    cte40_trafMut = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.line",
-        string="Detalhamento de informações",
-        help="Detalhamento de informações para o tráfego mútuo",
     )
 
     cte40_vFrete = fields.Monetary(
@@ -603,7 +586,9 @@ class CTe(spec_models.StackedModel):
         string="Informações das Ferrovias Envolvidas",
     )
 
-    # Campos do Modal rodoviario
+    # Campos do Modal rodoviario TODO
+    modal_rodoviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.rodoviario")
+
     cte40_RNTRC = fields.Char(
         string="RNTRC",
         store=True,
@@ -611,16 +596,64 @@ class CTe(spec_models.StackedModel):
         help="Registro Nacional de Transportadores Rodoviários de Carga",
     )
 
-    cte40_occ = fields.One2many(
+    occ = fields.One2many(
         comodel_name="l10n_br_cte.modal.rodoviario.occ",
         inverse_name="document_id",
         string="Ordens de Coleta associados",
     )
 
     ##########################
-    # CT-e tag: modal
+    # CT-e tag: infmodal
     # Compute Methods
     ##########################
+
+    def _compute_installment_value(self):
+        vPrest = 0
+        for record in self.fiscal_line_ids:
+            vPrest += record.cte40_vTPrest
+        self.ship_installment_value = vPrest
+
+    def _export_fields_cte_40_infmodal(self, xsd_fields, class_obj, export_dict):
+        self = self.with_context(module="l10n_br_cte")
+
+        if self.cte_modal == "1":
+            export_dict["any_element"] = self._export_modal_rodoviario()
+        elif self.cte_modal == "2":
+            export_dict["any_element"] = self._export_modal_aereo()
+        elif self.cte_modal == "3":
+            export_dict["any_element"] = self._export_modal_aquaviario()
+        elif self.cte_modal == "4":
+            export_dict["any_element"] = self._export_modal_ferroviario()
+
+    def _export_modal_aereo(self):
+        if not self.modal_aereo_id:
+            self.modal_aereo_id = self.modal_aereo_id.create({"document_id": self.id})
+
+        return self.modal_aereo_id.export_ds()[0]
+
+    def _export_modal_ferroviario(self):
+        if not self.modal_ferroviario_id:
+            self.modal_ferroviario_id = self.modal_ferroviario_id.create(
+                {"document_id": self.id}
+            )
+
+        return self.modal_ferroviario_id.export_ds()[0]
+
+    def _export_modal_aquaviario(self):
+        if not self.modal_aquaviario_id:
+            self.modal_aquaviario_id = self.modal_aquaviario_id.create(
+                {"document_id": self.id}
+            )
+
+        return self.modal_aquaviario_id.export_ds()[0]
+
+    def _export_modal_rodoviario(self):
+        if not self.modal_rodoviario_id:
+            self.modal_rodoviario_id = self.modal_rodoviario_id.create(
+                {"document_id": self.id}
+            )
+
+        return self.modal_rodoviario_id.export_ds()[0]
 
     ################################
     # Business Model Methods

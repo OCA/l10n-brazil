@@ -6,54 +6,35 @@ from odoo import fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class Aquaviario(spec_models.SpecModel):
+class Aquaviario(spec_models.StackedModel):
     _name = "l10n_br_cte.modal.aquaviario"
     _inherit = "cte.40.aquav"
+    _stacked = "cte.40.aquav"
+    _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aquaviario_v4_00"
+    _field_prefix = "cte40_"
+    _schema_name = "cte"
+    _schema_version = "4.0.0"
+    _odoo_module = "l10n_br_cte"
+    _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_aquaviario_v4_00"
+    _spec_tab_name = "CTe"
+    _description = "Modal Aquaviário CTe"
 
-    cte40_vPrest = fields.Monetary(compute="_compute_vPrest", store=True)
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    cte40_vAFRMM = fields.Monetary(
-        string="AFRMM",
-        currency_field="brl_currency_id",
-        help=("AFRMM (Adicional de Frete para Renovação da Marinha Mercante)"),
-        store=True,
-    )
+    cte40_vPrest = fields.Monetary(related="document_id.ship_installment_value")
 
-    cte40_xNavio = fields.Char(string="Identificação do Navio", store=True)
+    cte40_vAFRMM = fields.Monetary(related="document_id.ship_vAFRMM")
 
-    cte40_nViag = fields.Char(string="Número da Viagem", store=True)
+    cte40_xNavio = fields.Char(related="document_id.ship_name")
 
-    cte40_direc = fields.Selection(
-        selection=[
-            ("N", "Norte, L-Leste, S-Sul, O-Oeste"),
-            ("S", "Sul, O-Oeste"),
-            ("L", "Leste, S-Sul, O-Oeste"),
-            ("O", "Oeste"),
-        ],
-        string="Direção",
-        store=True,
-        help="Direção\nPreencher com: N-Norte, L-Leste, S-Sul, O-Oeste",
-    )
+    cte40_nViag = fields.Char(related="document_id.ship_travel_number")
 
-    cte40_irin = fields.Char(
-        string="Irin do navio sempre deverá",
-        help="Irin do navio sempre deverá ser informado",
-        store=True,
-    )
+    cte40_direc = fields.Selection(related="document_id.ship_direction")
 
-    cte40_tpNav = fields.Selection(
-        selection=[
-            ("0", "Interior"),
-            ("1", "Cabotagem"),
-        ],
-        string="Tipo de Navegação",
-        help=(
-            "Tipo de Navegação\nPreencher com: \n\t\t\t\t\t\t0 - "
-            "Interior;\n\t\t\t\t\t\t1 - Cabotagem"
-        ),
-        store=True,
-    )
+    cte40_irin = fields.Char(related="document_id.ship_irin")
 
-    def _compute_vPrest(self):
-        for record in self.document_id.fiscal_line_ids:
-            record.cte40_vPrest += record.cte40_vTPrest
+    cte40_tpNav = fields.Selection(related="document_id.ship_type")
+
+    def _prepare_dacte_values(self):
+        if not self:
+            return {}

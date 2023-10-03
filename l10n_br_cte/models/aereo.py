@@ -1,31 +1,39 @@
 # Copyright 2023 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from nfelib.cte.bindings.v4_0.cte_modal_aquaviario_v4_00 import Aquav
 
-from odoo import api, fields
+from odoo import fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class Aereo(spec_models.SpecModel):
+class Aereo(spec_models.StackedModel):
     _name = "l10n_br_cte.modal.aereo"
     _inherit = "cte.40.aereo"
+    _stacked = "cte.40.aereo"
+    _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aereo_v4_00"
+    _field_prefix = "cte40_"
+    _schema_name = "cte"
+    _schema_version = "4.0.0"
+    _odoo_module = "l10n_br_cte"
+    _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_aereo_v4_00"
+    _spec_tab_name = "CTe"
+    _description = "Modal Aereo CTe"
 
-    cte40_dPrevAereo = fields.Date(
-        string="Data prevista da entrega",
-        help="Data prevista da entrega\nFormato AAAA-MM-DD",
-        store="True",
-    )
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    cte40_natCarga = fields.Many2one(comodel_name="l10n_br_cte.modal.aereo.natcarga")
+    cte40_dPrevAereo = fields.Date(related="document_id.flight_delivery_forecast")
 
-    cte40_tarifa = fields.Many2one(comodel_name="l10n_br_cte.modal.aereo.tarifa")
+    def _prepare_dacte_values(self):
+        if not self:
+            return {}
 
 
 class Tarifa(spec_models.SpecModel):
     _name = "l10n_br_cte.modal.aereo.tarifa"
     _inherit = "cte.40.tarifa"
+    _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aereo_v4_00"
+    _description = "Informações de tarifa"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -42,21 +50,12 @@ class Tarifa(spec_models.SpecModel):
 
     cte40_vTar = fields.Monetary(currency_field="brl_currency_id")
 
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Aquav.Tarifa(CL=self.cte40_CL, vTar=self.cte40_vTar)
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
-
 
 class NatCarga(spec_models.SpecModel):
     _name = "l10n_br_cte.modal.aereo.natcarga"
-    _inherit = "cte.40.tarifa"
+    _inherit = "cte.40.natcarga"
+    _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aereo_v4_00"
+    _description = "Natureza da carga"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -70,14 +69,3 @@ class NatCarga(spec_models.SpecModel):
             "(infQ)."
         ),
     )
-
-    @api.model
-    def export_fields(self):
-        if len(self) > 1:
-            return self.export_fields_multi()
-
-        return Aquav.Tarifa(xDime=self.cte40_xDime)
-
-    @api.model
-    def export_fields_multi(self):
-        return [record.export_fields() for record in self]
