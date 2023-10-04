@@ -107,11 +107,15 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
 
     for model in module_models:
         base_class = registry[model]
+
+        if hasattr(base_class, "_find_origin_class_by_module"):
+            base_class = base_class._find_origin_class_by_module(
+                spec_module, spec_module=True
+            )
+
         # 2nd StackedModel classes, that we will visit
         if hasattr(base_class, "_stacked"):
             node = SpecModel._odoo_name_to_class(base_class._stacked, spec_module)
-            if not node:
-                continue
 
             env = api.Environment(cr, SUPERUSER_ID, {})
             for (

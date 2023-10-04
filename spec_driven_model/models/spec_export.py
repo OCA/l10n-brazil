@@ -14,10 +14,10 @@ class AbstractSpecMixin(models.AbstractModel):
 
     @api.model
     def _get_binding_class(self, class_obj):
+        module_name = class_obj._binding_module
         origin_class = self._get_origin_class()
-        module_name = (
-            origin_class and origin_class._binding_module or class_obj._binding_module
-        )
+        if origin_class:
+            module_name = origin_class._binding_module
         binding_module = sys.modules[module_name]
         for attr in class_obj._binding_type.split("."):
             binding_module = getattr(binding_module, attr)
@@ -277,7 +277,4 @@ class AbstractSpecMixin(models.AbstractModel):
         if not module_name:
             return False
 
-        for klass in self.__class__.__bases__:
-            module = klass.__module__.split(".")
-            if len(module) > 2 and module_name == module[2]:
-                return klass
+        return self._find_origin_class_by_module(module_name)
