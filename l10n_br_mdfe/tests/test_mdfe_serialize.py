@@ -60,25 +60,77 @@ class TestMDFeSerialize(TransactionCase):
         mdfe._document_export()
 
     def prepare_modal_rodoviario_data(self, mdfe):
-        mdfe.rodo_scheduling_code = "12345678"
+        mdfe.mdfe30_codAgPorto = "12345678"
+
+        # infANTT
+        mdfe.mdfe30_RNTRC = "12345678"
+        mdfe.mdfe30_categCombVeic = "02"
+        mdfe.mdfe30_infCIOT = [
+            (
+                0,
+                0,
+                {
+                    "is_company": False,
+                    "mdfe30_CIOT": "123456789101",
+                    "mdfe30_CPF": "99999999999",
+                },
+            ),
+        ]
+        mdfe.mdfe30_disp = [
+            (
+                0,
+                0,
+                {
+                    "mdfe30_CNPJForn": "99999999999999",
+                    "mdfe30_CNPJPg": "99999999999999",
+                    "mdfe30_nCompra": "1234",
+                    "mdfe30_vValePed": 5,
+                    "mdfe30_tpValePed": "01",
+                },
+            ),
+        ]
+        mdfe.mdfe30_infPag = [
+            (
+                0,
+                0,
+                {
+                    "partner_id": self.env.ref("l10n_br_base.res_partner_intel").id,
+                    "mdfe30_vContrato": 5,
+                    "mdfe30_indPag": "0",
+                    "payment_type": "pix",
+                    "mdfe30_PIX": "99999999999999",
+                    "mdfe30_comp": [
+                        (
+                            0,
+                            0,
+                            {
+                                "mdfe30_tpComp": "01",
+                                "mdfe30_vComp": 5,
+                            },
+                        )
+                    ],
+                },
+            ),
+        ]
 
         # veicTracao
-        mdfe.rodo_vehicle_code = "1"
-        mdfe.rodo_vehicle_RENAVAM = "42423325472"
-        mdfe.rodo_vehicle_plate = "AAA1233"
-        mdfe.rodo_vehicle_tare_weight = 7500
-        mdfe.rodo_vehicle_kg_capacity = 42500
-        mdfe.rodo_vehicle_m3_capacity = 300
-        mdfe.rodo_vehicle_tire_type = "03"
-        mdfe.rodo_vehicle_type = "00"
+        mdfe.mdfe30_cInt = "1"
+        mdfe.mdfe30_RENAVAM = "42423325472"
+        mdfe.mdfe30_placa = "AAA1233"
+        mdfe.mdfe30_tpTransp = False
+        mdfe.mdfe30_tara = 7500
+        mdfe.mdfe30_capKG = 42500
+        mdfe.mdfe30_capM3 = 300
+        mdfe.mdfe30_tpRod = "03"
+        mdfe.mdfe30_tpCar = "00"
         mdfe.rodo_vehicle_state_id = self.env.ref("base.state_br_ac").id
-        mdfe.rodo_vehicle_conductor_ids = [
+        mdfe.mdfe30_condutor = [
             (
                 0,
                 0,
                 {
                     "mdfe30_xNome": "Teste",
-                    "mdfe30_CPF": "78981282064",
+                    "mdfe30_CPF": "99999999999",
                 },
             ),
             (
@@ -86,13 +138,13 @@ class TestMDFeSerialize(TransactionCase):
                 0,
                 {
                     "mdfe30_xNome": "Teste2",
-                    "mdfe30_CPF": "76706683000",
+                    "mdfe30_CPF": "99999999999",
                 },
             ),
         ]
 
         # veicReboque
-        mdfe.rodo_tow_ids = [
+        mdfe.mdfe30_veicReboque = [
             (
                 0,
                 0,
@@ -110,39 +162,39 @@ class TestMDFeSerialize(TransactionCase):
         ]
 
     def prepare_modal_aereo_data(self, mdfe):
-        mdfe.airplane_nationality = "TEST"
-        mdfe.airplane_registration = "TEST"
-        mdfe.flight_number = "123456789"
-        mdfe.boarding_airfield = "OACI"
-        mdfe.landing_airfield = "OACI"
-        mdfe.flight_date = datetime.strptime("2020-01-01", "%Y-%m-%d")
+        mdfe.mdfe30_nac = "TEST"
+        mdfe.mdfe30_matr = "TEST"
+        mdfe.mdfe30_nVoo = "123456789"
+        mdfe.mdfe30_cAerEmb = "OACI"
+        mdfe.mdfe30_cAerDes = "OACI"
+        mdfe.mdfe30_dVoo = datetime.strptime("2020-01-01", "%Y-%m-%d")
 
     def prepare_modal_aquaviario_data(self, mdfe):
-        mdfe.ship_irin = "1234567899"
-        mdfe.ship_type = "01"
-        mdfe.ship_code = "123456"
-        mdfe.ship_name = "teste"
-        mdfe.ship_travel_number = "123456"
-        mdfe.ship_boarding_point = "BRADR"
-        mdfe.ship_landing_point = "BRAFU"
-        mdfe.ship_loading_ids = [
+        mdfe.mdfe30_irin = "1234567899"
+        mdfe.mdfe30_tpEmb = "01"
+        mdfe.mdfe30_cEmbar = "123456"
+        mdfe.mdfe30_xEmbar = "teste"
+        mdfe.mdfe30_nViag = "123456"
+        mdfe.mdfe30_cPrtEmb = "BRADR"
+        mdfe.mdfe30_cPrtDest = "BRAFU"
+        mdfe.mdfe30_infTermCarreg = [
             (0, 0, {"loading_harbor": "BRADR"}),
             (0, 0, {"loading_harbor": "BRANT"}),
         ]
-        mdfe.ship_unloading_ids = [
+        mdfe.mdfe30_infTermDescarreg = [
             (0, 0, {"unloading_harbor": "BRAFU"}),
             (0, 0, {"unloading_harbor": "BRBZC"}),
         ]
 
     def prepare_modal_ferroviario_data(self, mdfe):
-        mdfe.train_release_time = datetime.strptime(
+        mdfe.mdfe30_dhTrem = datetime.strptime(
             "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
         )
-        mdfe.train_prefix = "TES"
-        mdfe.train_origin = "TES"
-        mdfe.train_destiny = "TES"
-        mdfe.train_wagon_quantity = 2
-        mdfe.train_wagon_ids = [
+        mdfe.mdfe30_xPref = "TES"
+        mdfe.mdfe30_xOri = "TES"
+        mdfe.mdfe30_xDest = "TES"
+        mdfe.mdfe30_qVag = 2
+        mdfe.mdfe30_vag = [
             (
                 0,
                 0,

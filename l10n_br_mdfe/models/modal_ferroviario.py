@@ -24,17 +24,17 @@ class MDFeModalFerroviario(spec_models.StackedModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_xPref = fields.Char(related="document_id.train_prefix")
+    mdfe30_xPref = fields.Char(related="document_id.mdfe30_xPref")
 
-    mdfe30_dhTrem = fields.Datetime(related="document_id.train_release_time")
+    mdfe30_dhTrem = fields.Datetime(related="document_id.mdfe30_dhTrem")
 
-    mdfe30_xOri = fields.Char(related="document_id.train_origin")
+    mdfe30_xOri = fields.Char(related="document_id.mdfe30_xOri")
 
-    mdfe30_xDest = fields.Char(related="document_id.train_destiny")
+    mdfe30_xDest = fields.Char(related="document_id.mdfe30_xDest")
 
-    mdfe30_qVag = fields.Char(related="document_id.train_wagon_quantity")
+    mdfe30_qVag = fields.Char(related="document_id.mdfe30_qVag")
 
-    mdfe30_vag = fields.One2many(related="document_id.train_wagon_ids")
+    mdfe30_vag = fields.One2many(related="document_id.mdfe30_vag")
 
     def _prepare_damdfe_values(self):
         if not self:

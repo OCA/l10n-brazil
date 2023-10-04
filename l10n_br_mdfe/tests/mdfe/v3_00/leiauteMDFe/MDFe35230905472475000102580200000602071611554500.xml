@@ -5,7 +5,6 @@
             <cUF>35</cUF>
             <tpAmb>2</tpAmb>
             <tpEmit>2</tpEmit>
-            <tpTransp>1</tpTransp>
             <mod>58</mod>
             <serie>1</serie>
             <nMDF>3</nMDF>
@@ -44,6 +43,36 @@
         </emit>
         <infModal versaoModal="3.00">
             <rodo>
+                <infANTT>
+                    <RNTRC>12345678</RNTRC>
+                    <infCIOT>
+                        <CIOT>123456789101</CIOT>
+                        <CPF>99999999999</CPF>
+                    </infCIOT>
+                    <valePed>
+                        <disp>
+                            <CNPJForn>99999999999999</CNPJForn>
+                            <CNPJPg>99999999999999</CNPJPg>
+                            <nCompra>1234</nCompra>
+                            <vValePed>5.00</vValePed>
+                            <tpValePed>01</tpValePed>
+                        </disp>
+                        <categCombVeic>02</categCombVeic>
+                    </valePed>
+                    <infPag>
+                        <xNome>Intel do Brasil</xNome>
+                        <CNPJ>86144802000190</CNPJ>
+                        <Comp>
+                            <tpComp>01</tpComp>
+                            <vComp>5.00</vComp>
+                        </Comp>
+                        <vContrato>5.00</vContrato>
+                        <indPag>0</indPag>
+                        <infBanc>
+                            <PIX>99999999999999</PIX>
+                        </infBanc>
+                    </infPag>
+                </infANTT>
                 <veicTracao>
                     <cInt>1</cInt>
                     <placa>AAA1233</placa>
@@ -53,11 +82,11 @@
                     <capM3>300</capM3>
                     <condutor>
                         <xNome>Teste</xNome>
-                        <CPF>78981282064</CPF>
+                        <CPF>99999999999</CPF>
                     </condutor>
                     <condutor>
                         <xNome>Teste2</xNome>
-                        <CPF>76706683000</CPF>
+                        <CPF>99999999999</CPF>
                     </condutor>
                     <tpRod>03</tpRod>
                     <tpCar>00</tpCar>

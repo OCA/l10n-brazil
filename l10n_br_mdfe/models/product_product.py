@@ -63,6 +63,6 @@ class MDFeProductLotacaoLocal(spec_models.SpecModel):
     def _compute_choice(self):
         for record in self:
             if record.local_type == "CEP":
-                pass
+                record.mdfe30_choice12 = "mdfe30_CEP"
             else:
-                pass
+                record.mdfe30_choice12 = "mdfe30_latitude"

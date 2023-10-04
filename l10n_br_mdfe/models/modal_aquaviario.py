@@ -26,48 +26,50 @@ class MDFeModalAquaviario(spec_models.StackedModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_irin = fields.Char(related="document_id.ship_irin")
+    mdfe30_irin = fields.Char(related="document_id.mdfe30_irin")
 
-    mdfe30_cEmbar = fields.Char(related="document_id.ship_code")
+    mdfe30_cEmbar = fields.Char(related="document_id.mdfe30_cEmbar")
 
-    mdfe30_xEmbar = fields.Char(related="document_id.ship_name")
+    mdfe30_xEmbar = fields.Char(related="document_id.mdfe30_xEmbar")
 
-    mdfe30_nViag = fields.Char(related="document_id.ship_travel_number")
+    mdfe30_nViag = fields.Char(related="document_id.mdfe30_nViag")
 
-    mdfe30_prtTrans = fields.Char(related="document_id.transshipment_port")
+    mdfe30_prtTrans = fields.Char(related="document_id.mdfe30_prtTrans")
 
-    mdfe30_tpNav = fields.Selection(related="document_id.ship_navigation_type")
+    mdfe30_tpNav = fields.Selection(related="document_id.mdfe30_tpNav")
 
-    mdfe30_infTermCarreg = fields.One2many(related="document_id.ship_loading_ids")
+    mdfe30_infTermCarreg = fields.One2many(related="document_id.mdfe30_infTermCarreg")
 
-    mdfe30_infTermDescarreg = fields.One2many(related="document_id.ship_unloading_ids")
+    mdfe30_infTermDescarreg = fields.One2many(
+        related="document_id.mdfe30_infTermDescarreg"
+    )
 
-    mdfe30_infEmbComb = fields.One2many(related="document_id.ship_convoy_ids")
+    mdfe30_infEmbComb = fields.One2many(related="document_id.mdfe30_infEmbComb")
 
     mdfe30_infUnidCargaVazia = fields.One2many(
-        related="document_id.ship_empty_load_ids"
+        related="document_id.mdfe30_infUnidCargaVazia"
     )
 
     mdfe30_infUnidTranspVazia = fields.One2many(
-        related="document_id.ship_empty_transport_ids"
+        related="document_id.mdfe30_infUnidTranspVazia"
     )
 
-    mdfe30_tpEmb = fields.Char(compute="_compute_ship_type")
+    mdfe30_tpEmb = fields.Char(compute="_compute_mdfe30_tpEmb")
 
     mdfe30_cPrtEmb = fields.Char(compute="_compute_boarding_landing_point")
 
     mdfe30_cPrtDest = fields.Char(compute="_compute_boarding_landing_point")
 
-    @api.depends("document_id.ship_type")
-    def _compute_ship_type(self):
+    @api.depends("document_id.mdfe30_tpEmb")
+    def _compute_mdfe30_tpEmb(self):
         for record in self:
-            record.mdfe30_tpEmb = record.document_id.ship_type
+            record.mdfe30_tpEmb = record.document_id.mdfe30_tpEmb
 
-    @api.depends("document_id.ship_boarding_point", "document_id.ship_landing_point")
+    @api.depends("document_id.mdfe30_cPrtEmb", "document_id.mdfe30_cPrtDest")
     def _compute_boarding_landing_point(self):
         for record in self:
-            record.mdfe30_cPrtEmb = record.document_id.ship_boarding_point
-            record.mdfe30_cPrtDest = record.document_id.ship_landing_point
+            record.mdfe30_cPrtEmb = record.document_id.mdfe30_cPrtEmb
+            record.mdfe30_cPrtDest = record.document_id.mdfe30_cPrtDest
 
     def _prepare_damdfe_values(self):
         if not self:

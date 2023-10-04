@@ -24,64 +24,55 @@ class MDFeModalRodoviario(spec_models.StackedModel):
     _description = "Modal Rodoviário MDFe"
 
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = [
-        "rodo.infantt.valeped",
-    ]
+    _force_stack_paths = ["rodo.infANTT", "rodo.infANTT.ValePed"]
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_codAgPorto = fields.Char(related="document_id.rodo_scheduling_code")
+    mdfe30_codAgPorto = fields.Char(related="document_id.mdfe30_codAgPorto")
 
-    mdfe30_infCIOT = fields.One2many(related="document_id.rodo_ciot_ids")
+    mdfe30_infCIOT = fields.One2many(related="document_id.mdfe30_infCIOT")
 
-    mdfe30_disp = fields.One2many(related="document_id.rodo_toll_device_ids")
+    mdfe30_disp = fields.One2many(related="document_id.mdfe30_disp")
 
-    mdfe30_categCombVeic = fields.Selection(
-        related="document_id.rod_toll_vehicle_categ"
-    )
+    mdfe30_categCombVeic = fields.Selection(related="document_id.mdfe30_categCombVeic")
 
     mdfe30_infContratante = fields.One2many(compute="_compute_contractor")
 
-    mdfe30_RNTRC = fields.Char(related="document_id.rodo_RNTRC")
+    mdfe30_RNTRC = fields.Char(related="document_id.mdfe30_RNTRC")
 
-    mdfe30_infPag = fields.One2many(related="document_id.rodo_payment_ids")
+    mdfe30_infPag = fields.One2many(related="document_id.mdfe30_infPag")
 
-    mdfe30_prop = fields.Many2one(related="document_id.rodo_vehicle_proprietary_id")
+    mdfe30_prop = fields.Many2one(related="document_id.mdfe30_prop")
 
-    mdfe30_condutor = fields.One2many(related="document_id.rodo_vehicle_conductor_ids")
+    mdfe30_condutor = fields.One2many(related="document_id.mdfe30_condutor")
 
-    mdfe30_cInt = fields.Char(related="document_id.rodo_vehicle_code")
+    mdfe30_cInt = fields.Char(related="document_id.mdfe30_cInt")
 
-    mdfe30_RENAVAM = fields.Char(related="document_id.rodo_vehicle_RENAVAM")
+    mdfe30_RENAVAM = fields.Char(related="document_id.mdfe30_RENAVAM")
 
-    mdfe30_placa = fields.Char(related="document_id.rodo_vehicle_plate")
+    mdfe30_placa = fields.Char(related="document_id.mdfe30_placa")
 
-    mdfe30_tara = fields.Char(related="document_id.rodo_vehicle_tare_weight")
+    mdfe30_tara = fields.Char(related="document_id.mdfe30_tara")
 
-    mdfe30_capKG = fields.Char(related="document_id.rodo_vehicle_kg_capacity")
+    mdfe30_capKG = fields.Char(related="document_id.mdfe30_capKG")
 
-    mdfe30_capM3 = fields.Char(related="document_id.rodo_vehicle_m3_capacity")
+    mdfe30_capM3 = fields.Char(related="document_id.mdfe30_capM3")
 
-    mdfe30_tpRod = fields.Selection(related="document_id.rodo_vehicle_tire_type")
+    mdfe30_tpRod = fields.Selection(related="document_id.mdfe30_tpRod")
 
-    mdfe30_tpCar = fields.Selection(related="document_id.rodo_vehicle_type")
+    mdfe30_tpCar = fields.Selection(related="document_id.mdfe30_tpCar")
 
-    mdfe30_UF = fields.Selection(compute="_compute_uf")
+    mdfe30_UF = fields.Selection(related="document_id.mdfe30_UF")
 
-    mdfe30_veicReboque = fields.One2many(related="document_id.rodo_tow_ids")
+    mdfe30_veicReboque = fields.One2many(related="document_id.mdfe30_veicReboque")
 
-    mdfe30_lacRodo = fields.One2many(related="document_id.rodo_seal_ids")
+    mdfe30_lacRodo = fields.One2many(related="document_id.mdfe30_lacRodo")
 
-    @api.depends("document_id.rodo_vehicle_state_id")
-    def _compute_uf(self):
-        for record in self:
-            record.mdfe30_UF = record.document_id.rodo_vehicle_state_id.code
-
-    @api.depends("document_id.rodo_contractor_ids")
+    @api.depends("document_id.mdfe30_infContratante")
     def _compute_contractor(self):
         for record in self:
             record.mdfe30_infContratante = [
-                (6, 0, record.document_id.rodo_contractor_ids.ids)
+                (6, 0, record.document_id.mdfe30_infContratante.ids)
             ]
 
     def _prepare_damdfe_values(self):
@@ -171,10 +162,19 @@ class MDFeModalRodoviarioValePedagioDispositivo(spec_models.SpecModel):
     mdfe30_vValePed = fields.Monetary(required=True)
 
 
-class MDFeModalRodoviarioPagamento(spec_models.SpecModel):
+class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
     _name = "l10n_br_mdfe.modal.rodoviario.pagamento"
     _inherit = "mdfe.30.rodo_infpag"
+    _stacked = "mdfe.30.rodo_infpag"
+    _field_prefix = "mdfe30_"
+    _schema_name = "mdfe"
+    _schema_version = "3.0.0"
+    _odoo_module = "l10n_br_mdfe"
     _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _spec_module = (
+        "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_rodoviario_v3_00"
+    )
+    _spec_tab_name = "MDFe"
     _description = "Informações do Pagamento do Modal Rodoviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
@@ -211,31 +211,6 @@ class MDFeModalRodoviarioPagamento(spec_models.SpecModel):
 
     mdfe30_indPag = fields.Selection(required=True)
 
-    mdfe30_infBanc = fields.Many2one(
-        comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento.banco", required=True
-    )
-
-    @api.depends("partner_id")
-    def _compute_mdfe_data(self):
-        for rec in self:
-            cnpj_cpf = punctuation_rm(rec.partner_id.cnpj_cpf)
-            if cnpj_cpf:
-                if rec.partner_id.country_id.code != "BR":
-                    rec.mdfe30_choice1 = "mdfe40_idEstrangeiro"
-                elif rec.partner_id.is_company:
-                    rec.mdfe30_choice1 = "mdfe30_CNPJ"
-                else:
-                    rec.mdfe30_choice1 = "mdfe30_CPF"
-            else:
-                rec.mdfe30_choice1 = False
-
-
-class MDFeModalRodoviarioPagamentoBanco(spec_models.SpecModel):
-    _name = "l10n_br_mdfe.modal.rodoviario.pagamento.banco"
-    _inherit = "mdfe.30.rodo_infbanc"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
-    _description = "Informações de Pagamento Bancário no Modal Rodoviário MDFe"
-
     payment_type = fields.Selection(
         selection=[
             ("bank", "Banco"),
@@ -265,6 +240,20 @@ class MDFeModalRodoviarioPagamentoBanco(spec_models.SpecModel):
                 record.mdfe30_choice1 = "mdfe30_PIX"
             else:
                 record.mdfe30_choice1 = False
+
+    @api.depends("partner_id")
+    def _compute_mdfe_data(self):
+        for rec in self:
+            cnpj_cpf = punctuation_rm(rec.partner_id.cnpj_cpf)
+            if cnpj_cpf:
+                if rec.partner_id.country_id.code != "BR":
+                    rec.mdfe30_choice1 = "mdfe40_idEstrangeiro"
+                elif rec.partner_id.is_company:
+                    rec.mdfe30_choice1 = "mdfe30_CNPJ"
+                else:
+                    rec.mdfe30_choice1 = "mdfe30_CPF"
+            else:
+                rec.mdfe30_choice1 = False
 
 
 class MDFeModalRodoviarioPagamentoFrete(spec_models.SpecModel):
