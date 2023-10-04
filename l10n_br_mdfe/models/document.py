@@ -93,6 +93,7 @@ class MDFe(spec_models.StackedModel):
         "infmdfe.infAdic",
         "infmdfe.tot",
         "infmdfe.infsolicnff",
+        "infmdfe.InfDoc",
     ]
 
     INFMDFE_TREE = """
@@ -103,7 +104,7 @@ class MDFe(spec_models.StackedModel):
         > <emit> res.company
         - <enderEmit> res.partner
         > <infModal>
-        > <infDoc> l10n_br_mdfe.document.info
+        > <infDoc>
         - <infMunDescarga> l10n_br_mdfe.municipio.descarga
         > <tot>
     > <infMDFeSupl>
@@ -171,7 +172,7 @@ class MDFe(spec_models.StackedModel):
     # MDF-e tag: ide
     ##########################
 
-    mdfe30_cUF = fields.Selection(compute="_compute_uf")
+    mdfe30_cUF = fields.Selection(compute="_compute_uf", inverse="_inverse_uf")
 
     mdfe30_tpAmb = fields.Selection(related="mdfe_environment")
 
@@ -236,9 +237,13 @@ class MDFe(spec_models.StackedModel):
         .get_param("l10n_br_mdfe.version.name", default="Odoo Brasil OCA v14"),
     )
 
-    mdfe30_UFIni = fields.Selection(compute="_compute_initial_final_state")
+    mdfe30_UFIni = fields.Selection(
+        compute="_compute_initial_final_state", inverse="_inverse_initial_final_state"
+    )
 
-    mdfe30_UFFim = fields.Selection(compute="_compute_initial_final_state")
+    mdfe30_UFFim = fields.Selection(
+        compute="_compute_initial_final_state", inverse="_inverse_initial_final_state"
+    )
 
     mdfe_initial_state_id = fields.Many2one(
         comodel_name="res.country.state",
@@ -258,6 +263,7 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_infMunCarrega = fields.One2many(
         compute="_compute_inf_carrega",
+        inverse="_inverse_inf_carrega",
         string="Informações dos Municipios de Carregamento",
     )
 
@@ -304,6 +310,31 @@ class MDFe(spec_models.StackedModel):
                 )
                 for city in record.mdfe_loading_city_ids
             ]
+
+    def _inverse_inf_carrega(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            city_id = self.env["res.city"].search(
+                [("ibge_code", "=", record.mdfe30_infMunCarrega.mdfe30_cMunCarrega)]
+            )
+            record.mdfe_loading_city_ids = [(4, 0, city_id)]
+
+    def _inverse_initial_final_state(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            initial_state_id = self.env["res.country.state"].search(
+                [("code", "=", record.mdfe30_UFIni)]
+            )
+            final_state_id = self.env["res.country.state"].search(
+                [("code", "=", record.mdfe30_UFFim)]
+            )
+            record.mdfe_initial_state_id = initial_state_id
+            record.mdfe_final_state_id = final_state_id
+
+    def _inverse_uf(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            state_id = self.env["res.country.state"].search(
+                [("code", "=", record.mdfe30_cUF)]
+            )
+            record.company_id.partner_id.state_id = state_id
 
     @api.depends("mdfe_route_state_ids")
     def _compute_inf_percurso(self):
@@ -586,30 +617,9 @@ class MDFe(spec_models.StackedModel):
     # MDF-e tag: infDoc
     ##########################
 
-    mdfe30_infDoc = fields.One2many(
-        comodel_name="l10n_br_mdfe.document.info", compute="_compute_doc_inf"
-    )
-
-    unloading_city_ids = fields.One2many(
+    mdfe30_infMunDescarga = fields.One2many(
         comodel_name="l10n_br_mdfe.municipio.descarga", inverse_name="document_id"
     )
-
-    ##########################
-    # MDF-e tag: infDoc
-    # Methods
-    ##########################
-
-    @api.depends("unloading_city_ids")
-    def _compute_doc_inf(self):
-        for record in self.filtered(filtered_processador_edoc_mdfe):
-            record.mdfe30_infDoc = [(5, 0, 0)]
-            record.mdfe30_infDoc = [
-                (
-                    0,
-                    0,
-                    {"mdfe30_infMunDescarga": [(6, 0, record.unloading_city_ids.ids)]},
-                )
-            ]
 
     ##########################
     # MDF-e tag: infRespTec
@@ -617,19 +627,9 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_infRespTec = fields.Many2one(
         comodel_name="res.partner",
-        compute="_compute_infresptec",
+        related="company_id.technical_support_id",
         string="Responsável Técnico MDFe",
     )
-
-    ##########################
-    # MDF-e tag: infRespTec
-    # Methods
-    ##########################
-
-    @api.depends("company_id.technical_support_id")
-    def _compute_infresptec(self):
-        for record in self.filtered(filtered_processador_edoc_mdfe):
-            record.mdfe30_infRespTec = record.company_id.technical_support_id
 
     ##########################
     # NF-e tag: infAdic
@@ -710,18 +710,18 @@ class MDFe(spec_models.StackedModel):
     ##########################
 
     @api.depends(
-        "unloading_city_ids.cte_ids",
-        "unloading_city_ids.nfe_ids",
-        "unloading_city_ids.mdfe_ids",
+        "mdfe30_infMunDescarga.cte_ids",
+        "mdfe30_infMunDescarga.nfe_ids",
+        "mdfe30_infMunDescarga.mdfe_ids",
     )
     def _compute_tot(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_qCarga = 0
             record.mdfe30_vCarga = 0
 
-            cte_ids = record.unloading_city_ids.mapped("cte_ids")
-            nfe_ids = record.unloading_city_ids.mapped("nfe_ids")
-            mdfe_ids = record.unloading_city_ids.mapped("mdfe_ids")
+            cte_ids = record.mdfe30_infMunDescarga.mapped("cte_ids")
+            nfe_ids = record.mdfe30_infMunDescarga.mapped("nfe_ids")
+            mdfe_ids = record.mdfe30_infMunDescarga.mapped("mdfe_ids")
 
             record.mdfe30_qCTe = cte_ids and len(cte_ids) or False
             record.mdfe30_qNFe = nfe_ids and len(nfe_ids) or False
@@ -768,10 +768,10 @@ class MDFe(spec_models.StackedModel):
         value = getattr(node, attr[0])
 
         if attr[0] == "any_element":
-            modal_attrs = self.build_attrs(value, path=path)
+            modal_id = self._get_modal_to_build(node.any_element.__module__)
+            modal_attrs = modal_id.build_attrs(value, path=path)
             for chave, valor in modal_attrs.items():
                 vals[chave] = valor
-
             return
 
         if key == "mdfe30_mod":
@@ -785,6 +785,15 @@ class MDFe(spec_models.StackedModel):
             )
 
         return super()._build_attr(node, fields, vals, path, attr)
+
+    def _get_modal_to_build(self, module):
+        modal_by_binding_module = {
+            self.modal_rodoviario_id._binding_module: self.modal_rodoviario_id,
+            self.modal_aereo_id._binding_module: self.modal_aereo_id,
+            self.modal_aquaviario_id._binding_module: self.modal_aquaviario_id,
+            self.modal_ferroviario_id._binding_module: self.modal_ferroviario_id,
+        }
+        return modal_by_binding_module[module]
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "mdfe30_emit" and self.env.context.get("edoc_type") == "in":
@@ -810,6 +819,15 @@ class MDFe(spec_models.StackedModel):
 
         else:
             super()._build_many2one(comodel, vals, new_value, key, value, path)
+
+    @api.model
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        if rec_dict.get("mdfe30_Id"):
+            domain = [("mdfe30_Id", "=", rec_dict.get("mdfe30_Id"))]
+            match = self.search(domain, limit=1)
+            if match:
+                return match.id
+        return False
 
     ################################
     # Business Model Methods
@@ -1159,7 +1177,7 @@ class MDFe(spec_models.StackedModel):
             "contingency": self.mdfe_transmission != "1",
             "environment": self.mdfe_environment,
             "qr_code": self.get_mdfe_qrcode(),
-            "document_info": self.unloading_city_ids._prepare_damdfe_values(),
+            "document_info": self.mdfe30_infMunDescarga._prepare_damdfe_values(),
             "modal": self.mdfe_modal,
             "modal_str": self._get_modal_str(),
             "modal_aereo_data": self.modal_aereo_id._prepare_damdfe_values(),

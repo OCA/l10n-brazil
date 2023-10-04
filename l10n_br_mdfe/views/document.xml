@@ -68,7 +68,7 @@
 
             <xpath expr="//page[@name='others']" position="before">
                 <page string="Related Documents">
-                    <field name="unloading_city_ids" nolabel="1">
+                    <field name="mdfe30_infMunDescarga" nolabel="1">
                         <tree>
                             <field name="state_id" />
                             <field name="city_id" />

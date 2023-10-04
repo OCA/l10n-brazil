@@ -6,26 +6,6 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class MDFeDocumentInfo(spec_models.StackedModel):
-    _name = "l10n_br_mdfe.document.info"
-    _inherit = "mdfe.30.tmdfe_infdoc"
-    _stacked = "mdfe.30.tmdfe_infdoc"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
-    _field_prefix = "mdfe30_"
-    _schema_name = "mdfe"
-    _schema_version = "3.0.0"
-    _odoo_module = "l10n_br_mdfe"
-    _spec_module = "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
-    _spec_tab_name = "MDFe"
-    _description = "Informações do Documento MDFe"
-
-    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
-
-    mdfe30_infMunDescarga = fields.One2many(
-        comodel_name="l10n_br_mdfe.municipio.descarga"
-    )
-
-
 class MDFeMunicipioDescarga(spec_models.SpecModel):
     _name = "l10n_br_mdfe.municipio.descarga"
     _inherit = "mdfe.30.infmundescarga"
