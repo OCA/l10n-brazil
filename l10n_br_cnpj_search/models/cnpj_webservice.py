@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
+from erpbrasil.base.misc import punctuation_rm
+
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
 
@@ -103,3 +105,27 @@ class CNPJWebservice(models.AbstractModel):
     def _validate(self, response):
         if response.status_code != 200:
             raise ValidationError(_("%s" % response.reason))
+
+    def _check_l10n_br_fiscal_module_installed(self):
+        module_env = self.env["ir.module.module"]
+        module = module_env.search([("name", "=", "l10n_br_fiscal")])
+
+        if module and module.state == "installed":
+            return True
+        return False
+
+    @api.model
+    def _get_cnae(self, raw_code):
+        code = punctuation_rm(raw_code)
+        cnae_id = False
+        if self._check_l10n_br_fiscal_module_installed():
+            if code:
+                formatted_code = code[0:4] + "-" + code[4] + "/" + code[5:]
+
+                cnae_id = (
+                    self.env["l10n_br_fiscal.cnae"]
+                    .search([("code", "=", formatted_code)])
+                    .id
+                )
+
+        return cnae_id

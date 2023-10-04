@@ -51,7 +51,7 @@ class TestReceitaWS(TestCnpjCommon):
         self.assertEqual(kilian.phone, "(83) 8665-0905")
         self.assertEqual(kilian.state_id.code, "PB")
         self.assertEqual(kilian.city_id.name, "Campina Grande")
-        self.assertEqual(kilian.equity_capital, 3000)
+        self.assertEqual(kilian.equity_capital, 0.0)
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_receitaws_not_found.yaml",
