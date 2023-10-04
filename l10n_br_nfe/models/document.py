@@ -542,6 +542,8 @@ class NFe(spec_models.StackedModel):
 
     # TODO
 
+    nfe40_dCompet = fields.Date(default=lambda self: fields.Date.context_today(self))
+
     ##########################
     # NF-e tag: retTrib
     ##########################

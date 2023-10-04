@@ -134,10 +134,20 @@
                 <vOutro>0.00</vOutro>
                 <vNF>14.00</vNF>
             </ICMSTot>
+            <ISSQNtot>
+                <dCompet>2020-01-01</dCompet>
+            </ISSQNtot>
         </total>
         <transp>
             <modFrete>9</modFrete>
         </transp>
+        <cobr>
+            <fat>
+                <nFat>1</nFat>
+                <vOrig>14.00</vOrig>
+                <vLiq>14.00</vLiq>
+            </fat>
+        </cobr>
         <pag>
             <detPag>
                 <indPag>0</indPag>
