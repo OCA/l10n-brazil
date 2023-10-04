@@ -32,7 +32,11 @@ class TestTestSerPro(TestCnpjCommon):
     )
     def test_serpro_basica(self):
         dummy_basica = self.model.create(
-            {"name": "Dummy Basica", "cnpj_cpf": "34.238.864/0001-68"}
+            {
+                "name": "Dummy Basica",
+                "cnpj_cpf": "34.238.864/0001-68",
+                "company_type": "company",
+            }
         )
         time.sleep(3)
         dummy_basica._onchange_cnpj_cpf()

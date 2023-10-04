@@ -69,10 +69,14 @@ class SerproWebservice(models.AbstractModel):
             "state_id": self._get_state_id(address),
             "city_id": self._get_city_id(cep),
             "equity_capital": self.get_data(data, "capitalSocial"),
+            "cnae_main_id": self._serpro_get_cnae(data),
         }
+        if not self._check_l10n_br_fiscal_module_installed():
+            remove_keys = ["cnae_main_id"]
+            for key in remove_keys:
+                res.pop(key, None)
 
         res.update(self._import_additional_info(data, schema))
-
         return res
 
     @api.model
@@ -156,3 +160,10 @@ class SerproWebservice(models.AbstractModel):
             return False
 
         return cep_values.get("city_id")
+
+    @api.model
+    def _serpro_get_cnae(self, data):
+        cnae_main = data.get("cnaePrincipal")
+        cnae_code = self.get_data(cnae_main, "codigo")
+
+        return self._get_cnae(cnae_code)

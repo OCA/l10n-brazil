@@ -32,7 +32,6 @@ class PartyMixin(models.AbstractModel):
 
         data = webservice.validate(response)
         values = webservice.import_data(data)
-        values["company_type"] = "company"
         self.write(values)
 
     @api.model

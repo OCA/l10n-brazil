@@ -54,10 +54,10 @@ interactions:
         Access-Control-Allow-Methods: [GET]
         Access-Control-Expose-Headers: [""]
         Connection: [keep-alive]
-        Date: ["Tue, 19 Sep 2023 19:09:33 GMT"]
+        Date: ["Wed, 04 Oct 2023 13:41:34 GMT"]
         Transfer-Encoding: [chunked]
         access-control-allow-origin: ["*"]
-        activityid: [ec12dcef-3fad-4830-a517-531dbe5b0914]
+        activityid: [95ddba68-b3cf-4a20-8c9f-fbafa023ee1d]
         content-type: [application/json; charset=utf-8]
         etag: [W/"715-ilaBip1HJAjlsSrk9iRnGBs7krs"]
         strict-transport-security: [max-age=15768000]
@@ -2639,11 +2639,12 @@ interactions:
       headers:
         Connection: [keep-alive]
         Content-Type: [text/xml;charset=UTF-8]
-        Date: ["Tue, 19 Sep 2023 19:09:36 GMT"]
+        Date: ["Wed, 04 Oct 2023 13:41:35 GMT"]
         Set-Cookie:
           [
-            INGRESSCOOKIE=1695150577.364.3692.922903|835444ff6d2fd54741dcab3b865d31d6;
+            INGRESSCOOKIE=1696426896.58.17860.874373|835444ff6d2fd54741dcab3b865d31d6;
             Max-Age=3600; Path=/SigepMasterJPA; Secure; HttpOnly,
+            LBprdint3=1933180938.47873.0000; path=/; Httponly; Secure,
             LBprdExt1=566886410.47873.0000; path=/; Httponly; Secure,
           ]
         Strict-Transport-Security: [max-age=15724800; includeSubDomains]
@@ -2664,8 +2665,8 @@ interactions:
         Content-Type: [text/xml; charset=utf-8]
         Cookie:
           [
-            INGRESSCOOKIE=1695150577.364.3692.922903|835444ff6d2fd54741dcab3b865d31d6;
-            LBprdExt1=566886410.47873.0000,
+            INGRESSCOOKIE=1696426896.58.17860.874373|835444ff6d2fd54741dcab3b865d31d6;
+            LBprdExt1=566886410.47873.0000; LBprdint3=1933180938.47873.0000,
           ]
         SOAPAction: ['""']
         User-Agent: [Zeep/3.2.0 (www.python-zeep.org)]
@@ -2684,8 +2685,7 @@ interactions:
         Connection: [keep-alive]
         Content-Length: ["388"]
         Content-Type: [text/xml;charset=UTF-8]
-        Date: ["Tue, 19 Sep 2023 19:09:36 GMT"]
-        Set-Cookie: [LBprdint3=1346043914.47873.0000; path=/; Httponly; Secure]
+        Date: ["Wed, 04 Oct 2023 13:41:35 GMT"]
         Strict-Transport-Security: [max-age=15724800; includeSubDomains]
         X-Powered-By: [Undertow/1]
       status: {code: 200, message: OK}
