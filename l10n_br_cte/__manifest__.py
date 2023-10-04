@@ -22,7 +22,7 @@
         # 'views/document_related.xml',
         # 'views/res_partner.xml',
         "views/res_company.xml",
-        # "views/cte_document.xml",
+        "views/cte_document.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,

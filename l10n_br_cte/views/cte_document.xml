@@ -19,16 +19,55 @@
                     name="invisible"
                 >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
             </xpath>
-            <xpath expr="//page[@name='products']" position="attributes">
-                <attribute
-                    name="invisible"
-                >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
-            </xpath>
-            <xpath expr="//page[@name='finance']" position="attributes">
-                <attribute
-                    name="invisible"
-                >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
-            </xpath>
+            <page name="delivery" position="inside">
+                <separator name="cargo_infos_sep" string="Cargo Infos" />
+                <group name="cargo_infos">
+                    <field name="cte40_vCarga" />
+                    <field name="cte40_proPred" />
+                    <field name="cte40_xOutCat" />
+                    <field name="cte40_vCargaAverb" />
+                    <field name="cte40_infQ">
+                        <tree>
+                            <field name="cte40_cUnid" />
+                            <field name="cte40_tpMed" />
+                            <field name="cte40_qCarga" />
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="cte40_cUnid" />
+                                <field name="cte40_tpMed" />
+                                <field name="cte40_qCarga" />
+                            </group>
+                        </form>
+                    </field>
+                </group>
+                <separator
+                    name="transported_vehicles_infos_sep"
+                    string="Transported Vehicles"
+                />
+                <group name="transported_vehicles_infos">
+                    <field name="cte40_veicNovos">
+                        <tree>
+                            <field name="cte40_chassi" />
+                            <field name="cte40_cCor" />
+                            <field name="cte40_xCor" />
+                            <field name="cte40_cMod" />
+                            <field name="cte40_vUnit" />
+                            <field name="cte40_vFrete" />
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="cte40_chassi" />
+                                <field name="cte40_cCor" />
+                                <field name="cte40_xCor" />
+                                <field name="cte40_cMod" />
+                                <field name="cte40_vUnit" />
+                                <field name="cte40_vFrete" />
+                            </group>
+                        </form>
+                    </field>
+                </group>
+            </page>
         </field>
     </record>
 
