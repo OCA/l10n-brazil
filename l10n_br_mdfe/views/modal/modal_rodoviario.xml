@@ -220,7 +220,21 @@
                         <group>
                             <field name="mdfe30_vContrato" />
                             <field name="mdfe30_vAdiant" />
-                            <field name="mdfe30_infBanc" />
+                        </group>
+                        <group>
+                            <field name="payment_type" />
+                            <field
+                                name="mdfe30_codBanco"
+                                attrs="{'invisible': [('payment_type', '!=', 'bank')]}"
+                            />
+                            <field
+                                name="mdfe30_codAgencia"
+                                attrs="{'invisible': [('payment_type', '!=', 'bank')]}"
+                            />
+                            <field
+                                name="mdfe30_PIX"
+                                attrs="{'invisible': [('payment_type', '!=', 'pix')]}"
+                            />
                         </group>
                     </group>
 
@@ -248,46 +262,6 @@
                 <field name="partner_id" />
                 <field name="mdfe30_vContrato" />
                 <field name="mdfe30_vAdiant" />
-            </tree>
-        </field>
-    </record>
-
-    <record id="modal_rodoviario_pagamento_banco_form_view" model="ir.ui.view">
-        <field
-            name="name"
-        >modal.rodoviario.pagamento.banco.form.view (in l10n_br_mdfe)</field>
-        <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento.banco</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="payment_type" />
-                        <field
-                            name="mdfe30_codBanco"
-                            attrs="{'invisible': [('payment_type', '!=', 'bank')]}"
-                        />
-                        <field
-                            name="mdfe30_codAgencia"
-                            attrs="{'invisible': [('payment_type', '!=', 'bank')]}"
-                        />
-                        <field
-                            name="mdfe30_PIX"
-                            attrs="{'invisible': [('payment_type', '!=', 'pix')]}"
-                        />
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="modal_rodoviario_pagamento_banco_tree_view" model="ir.ui.view">
-        <field
-            name="name"
-        >modal.rodoviario.pagamento.banco.tree.view (in l10n_br_mdfe)</field>
-        <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento.banco</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="payment_type" />
             </tree>
         </field>
     </record>

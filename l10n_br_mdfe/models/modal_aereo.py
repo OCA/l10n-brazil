@@ -21,27 +21,27 @@ class MDFeModalAereo(spec_models.StackedModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_nac = fields.Char(related="document_id.airplane_nationality")
+    mdfe30_nac = fields.Char(related="document_id.mdfe30_nac")
 
-    mdfe30_matr = fields.Char(related="document_id.airplane_registration")
+    mdfe30_matr = fields.Char(related="document_id.mdfe30_matr")
 
-    mdfe30_nVoo = fields.Char(related="document_id.flight_number")
+    mdfe30_nVoo = fields.Char(related="document_id.mdfe30_nVoo")
 
-    mdfe30_dVoo = fields.Date(related="document_id.flight_date")
+    mdfe30_dVoo = fields.Date(related="document_id.mdfe30_dVoo")
 
-    mdfe30_cAerEmb = fields.Char(related="document_id.boarding_airfield")
+    mdfe30_cAerEmb = fields.Char(related="document_id.mdfe30_cAerEmb")
 
-    mdfe30_cAerDes = fields.Char(related="document_id.landing_airfield")
+    mdfe30_cAerDes = fields.Char(related="document_id.mdfe30_cAerDes")
 
     def _prepare_damdfe_values(self):
         if not self:
             return {}
 
         return {
-            "airplane_nationality": self.mdfe30_nac,
-            "airplane_registration": self.mdfe30_matr,
-            "flight_number": self.mdfe30_nVoo,
-            "flight_date": self.mdfe30_dVoo.strftime("%d/%m/%y"),
-            "boarding_airfield": self.mdfe30_cAerEmb,
-            "landing_airfield": self.mdfe30_cAerDes,
+            "mdfe30_nac": self.mdfe30_nac,
+            "mdfe30_matr": self.mdfe30_matr,
+            "mdfe30_nVoo": self.mdfe30_nVoo,
+            "mdfe30_dVoo": self.mdfe30_dVoo.strftime("%d/%m/%y"),
+            "mdfe30_cAerEmb": self.mdfe30_cAerEmb,
+            "mdfe30_cAerDes": self.mdfe30_cAerDes,
         }

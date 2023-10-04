@@ -2,7 +2,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import re
+import string
 from datetime import datetime
+from enum import Enum
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
@@ -40,6 +42,7 @@ from odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aquaviario_v3_00 impor
     AQUAV_TPNAV,
 )
 from odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_rodoviario_v3_00 import (
+    TUF,
     VALEPED_CATEGCOMBVEIC,
     VEICTRACAO_TPCAR,
     VEICTRACAO_TPROD,
@@ -90,7 +93,6 @@ class MDFe(spec_models.StackedModel):
         "infmdfe.infAdic",
         "infmdfe.tot",
         "infmdfe.infsolicnff",
-        "infmdfe.infAdic",
     ]
 
     INFMDFE_TREE = """
@@ -149,6 +151,8 @@ class MDFe(spec_models.StackedModel):
         """Set schema data which are not just related fields"""
 
         for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_Id = False
+
             if (
                 record.document_type_id
                 and record.document_type_id.prefix
@@ -157,8 +161,6 @@ class MDFe(spec_models.StackedModel):
                 record.mdfe30_Id = "{}{}".format(
                     record.document_type_id.prefix, record.document_key
                 )
-            else:
-                record.mdfe30_Id = False
 
     def _inverse_mdfe30_id_tag(self):
         for record in self:
@@ -335,65 +337,75 @@ class MDFe(spec_models.StackedModel):
         comodel_name="l10n_br_mdfe.modal.aereo", copy=False
     )
 
-    airplane_nationality = fields.Char(size=4)
+    mdfe30_nac = fields.Char(size=4, string="Nacionalidade da Aeronave")
 
-    airplane_registration = fields.Char(size=6)
+    mdfe30_matr = fields.Char(size=6, string="Matrícula da Aeronave")
 
-    flight_number = fields.Char(size=9)
+    mdfe30_nVoo = fields.Char(size=9, string="Número do Voo")
 
-    flight_date = fields.Date()
+    mdfe30_dVoo = fields.Date(string="Data do Voo")
 
-    boarding_airfield = fields.Char(default=MDFE_MODAL_DEFAULT_AIRCRAFT, size=4)
+    mdfe30_cAerEmb = fields.Char(
+        default=MDFE_MODAL_DEFAULT_AIRCRAFT, size=4, string="Aeródromo de Embarque"
+    )
 
-    landing_airfield = fields.Char(default=MDFE_MODAL_DEFAULT_AIRCRAFT, size=4)
+    mdfe30_cAerDes = fields.Char(
+        default=MDFE_MODAL_DEFAULT_AIRCRAFT, size=4, string="Aeródromo de Destino"
+    )
 
     # Campos do Modal Aquaviário
     modal_aquaviario_id = fields.Many2one(
         comodel_name="l10n_br_mdfe.modal.aquaviario", copy=False
     )
 
-    ship_irin = fields.Char(size=10)
+    mdfe30_irin = fields.Char(size=10, string="IRIN da Embarcação")
 
-    ship_type = fields.Selection(selection=MDFE_MODAL_SHIP_TYPES)
+    mdfe30_tpEmb = fields.Selection(
+        selection=MDFE_MODAL_SHIP_TYPES, string="Tipo da Embarcação"
+    )
 
-    ship_code = fields.Char(size=10)
+    mdfe30_cEmbar = fields.Char(size=10, string="Código da Embarcação")
 
-    ship_name = fields.Char(size=60)
+    mdfe30_xEmbar = fields.Char(size=60, string="Nome da Embarcação")
 
-    ship_travel_number = fields.Char()
+    mdfe30_nViag = fields.Char(string="Número da Viagem")
 
-    ship_boarding_point = fields.Selection(selection=MDFE_MODAL_HARBORS)
+    mdfe30_cPrtEmb = fields.Selection(
+        selection=MDFE_MODAL_HARBORS, string="Porto de Embarque"
+    )
 
-    ship_landing_point = fields.Selection(selection=MDFE_MODAL_HARBORS)
+    mdfe30_cPrtDest = fields.Selection(
+        selection=MDFE_MODAL_HARBORS, string="Porto de Destino"
+    )
 
-    transshipment_port = fields.Char(size=60)
+    mdfe30_prtTrans = fields.Char(size=60, string="Porto de Transbordo")
 
-    ship_navigation_type = fields.Selection(selection=AQUAV_TPNAV)
+    mdfe30_tpNav = fields.Selection(selection=AQUAV_TPNAV, string="Tipo de Navegação")
 
-    ship_loading_ids = fields.One2many(
+    mdfe30_infTermCarreg = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.carregamento",
         inverse_name="document_id",
         size=5,
     )
 
-    ship_unloading_ids = fields.One2many(
+    mdfe30_infTermDescarreg = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.descarregamento",
         inverse_name="document_id",
         size=5,
     )
 
-    ship_convoy_ids = fields.One2many(
+    mdfe30_infEmbComb = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.comboio",
         inverse_name="document_id",
         size=30,
     )
 
-    ship_empty_load_ids = fields.One2many(
+    mdfe30_infUnidCargaVazia = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.carga.vazia",
         inverse_name="document_id",
     )
 
-    ship_empty_transport_ids = fields.One2many(
+    mdfe30_infUnidTranspVazia = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.transporte.vazio",
         inverse_name="document_id",
     )
@@ -403,17 +415,17 @@ class MDFe(spec_models.StackedModel):
         comodel_name="l10n_br_mdfe.modal.ferroviario", copy=False
     )
 
-    train_prefix = fields.Char(string="Train Prefix", size=10)
+    mdfe30_xPref = fields.Char(string="Prefixo do Trem", size=10)
 
-    train_release_time = fields.Datetime(string="Train Release Time")
+    mdfe30_dhTrem = fields.Datetime(string="Data/hora de Liberação do Trem")
 
-    train_origin = fields.Char(string="Train Origin", size=3)
+    mdfe30_xOri = fields.Char(string="Origem do Trem", size=3)
 
-    train_destiny = fields.Char(string="Train Destiny", size=3)
+    mdfe30_xDest = fields.Char(string="Destino do Trem", size=3)
 
-    train_wagon_quantity = fields.Char(string="Train Wagon Quantity")
+    mdfe30_qVag = fields.Char(string="Quantidade de Vagões")
 
-    train_wagon_ids = fields.One2many(
+    mdfe30_vag = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.ferroviario.vagao", inverse_name="document_id"
     )
 
@@ -422,72 +434,85 @@ class MDFe(spec_models.StackedModel):
         comodel_name="l10n_br_mdfe.modal.rodoviario", copy=False
     )
 
-    rodo_scheduling_code = fields.Char(string="Scheduling Code", size=16)
+    mdfe30_codAgPorto = fields.Char(string="Código de Agendamento", size=16)
 
-    rodo_ciot_ids = fields.One2many(
+    mdfe30_infCIOT = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.ciot", inverse_name="document_id"
     )
 
-    rodo_toll_device_ids = fields.One2many(
+    mdfe30_disp = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.vale_pedagio.dispositivo",
         inverse_name="document_id",
     )
 
-    rod_toll_vehicle_categ = fields.Selection(selection=VALEPED_CATEGCOMBVEIC)
+    mdfe30_categCombVeic = fields.Selection(
+        selection=VALEPED_CATEGCOMBVEIC, string="Categoria de Combinação Veicular"
+    )
 
-    rodo_contractor_ids = fields.Many2many(comodel_name="res.partner")
+    mdfe30_infContratante = fields.Many2many(comodel_name="res.partner")
 
-    rodo_RNTRC = fields.Char(size=8)
+    mdfe30_RNTRC = fields.Char(size=8, string="RNTRC")
 
-    rodo_payment_ids = fields.One2many(
+    mdfe30_infPag = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento",
         inverse_name="document_id",
     )
 
-    rodo_vehicle_proprietary_id = fields.Many2one(comodel_name="res.partner")
+    mdfe30_prop = fields.Many2one(
+        comodel_name="res.partner", string="Proprietário do Veículo"
+    )
 
-    rodo_vehicle_conductor_ids = fields.One2many(
+    mdfe30_condutor = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.veiculo.condutor",
         inverse_name="document_id",
         size=10,
     )
 
-    rodo_vehicle_code = fields.Char(size=10)
+    mdfe30_cInt = fields.Char(size=10, string="Código do Veículo")
 
-    rodo_vehicle_RENAVAM = fields.Char(size=11)
+    mdfe30_RENAVAM = fields.Char(size=11, string="RENAVAM")
 
-    rodo_vehicle_plate = fields.Char()
+    mdfe30_placa = fields.Char(string="Placa do Veículo")
 
-    rodo_vehicle_tare_weight = fields.Char()
+    mdfe30_tara = fields.Char(string="Tara em KG")
 
-    rodo_vehicle_kg_capacity = fields.Char()
+    mdfe30_capKG = fields.Char(string="Capacidade em KG")
 
-    rodo_vehicle_m3_capacity = fields.Char()
+    mdfe30_capM3 = fields.Char(string="Capacidade em M3")
 
-    rodo_vehicle_tire_type = fields.Selection(selection=VEICTRACAO_TPROD)
+    mdfe30_tpRod = fields.Selection(selection=VEICTRACAO_TPROD, string="Tipo do Rodado")
 
-    rodo_vehicle_type = fields.Selection(selection=VEICTRACAO_TPCAR)
-
-    rodo_vehicle_state_id = fields.Many2one(
-        comodel_name="res.country.state",
-        string="Vehicle State",
-        domain=[("country_id.code", "=", "BR")],
+    mdfe30_tpCar = fields.Selection(
+        selection=VEICTRACAO_TPCAR, string="Tipo de Carroceria"
     )
 
-    rodo_tow_ids = fields.One2many(
+    mdfe30_veicReboque = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.reboque",
         inverse_name="document_id",
         size=3,
     )
 
-    rodo_seal_ids = fields.One2many(
+    mdfe30_lacRodo = fields.One2many(
         comodel_name="l10n_br_mdfe.transporte.lacre", inverse_name="document_id"
+    )
+
+    mdfe30_UF = fields.Selection(selection=TUF, compute="_compute_rodo_uf")
+
+    rodo_vehicle_state_id = fields.Many2one(
+        comodel_name="res.country.state",
+        string="UF do Veículo",
+        domain=[("country_id.code", "=", "BR")],
     )
 
     ##########################
     # MDF-e tag: infModal
     # Methods
     ##########################
+
+    @api.depends("rodo_vehicle_state_id")
+    def _compute_rodo_uf(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_UF = record.rodo_vehicle_state_id.code
 
     def _export_fields_mdfe_30_infmodal(self, xsd_fields, class_obj, export_dict):
         self = self.with_context(module="l10n_br_mdfe")
@@ -554,7 +579,7 @@ class MDFe(spec_models.StackedModel):
     mdfe30_lacres = fields.One2many(
         comodel_name="l10n_br_mdfe.transporte.lacre",
         inverse_name="document_id",
-        related="rodo_seal_ids",
+        related="mdfe30_lacRodo",
     )
 
     ##########################
@@ -592,9 +617,19 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_infRespTec = fields.Many2one(
         comodel_name="res.partner",
-        related="company_id.technical_support_id",
+        compute="_compute_infresptec",
         string="Responsável Técnico MDFe",
     )
+
+    ##########################
+    # MDF-e tag: infRespTec
+    # Methods
+    ##########################
+
+    @api.depends("company_id.technical_support_id")
+    def _compute_infresptec(self):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_infRespTec = record.company_id.technical_support_id
 
     ##########################
     # NF-e tag: infAdic
@@ -722,12 +757,6 @@ class MDFe(spec_models.StackedModel):
     # Framework Spec model's methods
     ################################
 
-    def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
-        if xsd_field == "mdfe30_tpAmb":
-            self.env.context = dict(self.env.context)
-            self.env.context.update({"tpAmb": self[xsd_field]})
-        return super()._export_field(xsd_field, class_obj, member_spec, export_value)
-
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name == "mdfe30_infModal":
             return self._build_generateds(class_obj._fields[field_name].comodel_name)
@@ -738,7 +767,17 @@ class MDFe(spec_models.StackedModel):
         key = "mdfe30_%s" % (attr[0],)  # TODO schema wise
         value = getattr(node, attr[0])
 
+        if attr[0] == "any_element":
+            modal_attrs = self.build_attrs(value, path=path)
+            for chave, valor in modal_attrs.items():
+                vals[chave] = valor
+
+            return
+
         if key == "mdfe30_mod":
+            if isinstance(value, Enum):
+                value = value.value
+
             vals["document_type_id"] = (
                 self.env["l10n_br_fiscal.document.type"]
                 .search([("code", "=", value)], limit=1)
@@ -746,6 +785,31 @@ class MDFe(spec_models.StackedModel):
             )
 
         return super()._build_attr(node, fields, vals, path, attr)
+
+    def _build_many2one(self, comodel, vals, new_value, key, value, path):
+        if key == "mdfe30_emit" and self.env.context.get("edoc_type") == "in":
+            enderEmit_value = self.env["res.partner"].build_attrs(
+                value.enderEmit, path=path
+            )
+            new_value.update(enderEmit_value)
+            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            emit_cnpj = new_value.get("mdfe30_CNPJ", False)
+            if emit_cnpj:
+                emit_cnpj = new_value.get("mdfe30_CNPJ").translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+                if company_cnpj != emit_cnpj:
+                    vals["issuer"] = "partner"
+                new_value["is_company"] = True
+                new_value["cnpj_cpf"] = emit_cnpj
+            super()._build_many2one(
+                self.env["res.partner"], vals, new_value, "partner_id", value, path
+            )
+
+        else:
+            super()._build_many2one(comodel, vals, new_value, key, value, path)
 
     ################################
     # Business Model Methods
@@ -796,6 +860,8 @@ class MDFe(spec_models.StackedModel):
         return edoc_mdfe(**params)
 
     def _generate_key(self):
+        super()._generate_key()
+
         for record in self.filtered(filtered_processador_edoc_mdfe):
             date = fields.Datetime.context_timestamp(record, record.document_date)
             chave_edoc = ChaveEdoc(

@@ -120,31 +120,31 @@
                         colspan="4"
                     >
                         <group>
-                            <field name="rodo_scheduling_code" />
-                            <field name="rodo_RNTRC" />
+                            <field name="mdfe30_codAgPorto" />
+                            <field name="mdfe30_RNTRC" />
                         </group>
 
                         <notebook colspan="4">
                             <page string="Vehicle">
                                 <group>
                                     <group>
-                                        <field name="rodo_vehicle_code" />
+                                        <field name="mdfe30_cInt" />
                                         <field
-                                            name="rodo_vehicle_plate"
+                                            name="mdfe30_placa"
                                             attrs="{'required': [('mdfe_modal', '=', '1')]}"
                                         />
-                                        <field name="rodo_vehicle_RENAVAM" />
+                                        <field name="mdfe30_RENAVAM" />
                                         <field
-                                            name="rodo_vehicle_type"
+                                            name="mdfe30_tpCar"
                                             attrs="{'required': [('mdfe_modal', '=', '1')]}"
                                         />
                                         <field
-                                            name="rodo_vehicle_tire_type"
+                                            name="mdfe30_tpRod"
                                             attrs="{'required': [('mdfe_modal', '=', '1')]}"
                                         />
                                         <field name="rodo_vehicle_state_id" />
                                         <field
-                                            name="rodo_vehicle_proprietary_id"
+                                            name="mdfe30_prop"
                                             context="{
                                                 'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view',
                                             }"
@@ -156,37 +156,37 @@
                                     </group>
                                     <group>
                                         <field
-                                            name="rodo_vehicle_tare_weight"
+                                            name="mdfe30_tara"
                                             attrs="{'required': [('mdfe_modal', '=', '1')]}"
                                         />
-                                        <field name="rodo_vehicle_kg_capacity" />
-                                        <field name="rodo_vehicle_m3_capacity" />
+                                        <field name="mdfe30_capKG" />
+                                        <field name="mdfe30_capM3" />
                                     </group>
                                 </group>
 
                                 <separator string="Conductors" />
-                                <field name="rodo_vehicle_conductor_ids" nolabel="1" />
+                                <field name="mdfe30_condutor" nolabel="1" />
                             </page>
                             <page string="CIOT">
-                                <field name="rodo_ciot_ids" nolabel="1" />
+                                <field name="mdfe30_infCIOT" nolabel="1" />
                             </page>
                             <page string="Tow">
-                                <field name="rodo_tow_ids" nolabel="1" />
+                                <field name="mdfe30_veicReboque" nolabel="1" />
                             </page>
                             <page string="Seals">
-                                <field name="rodo_seal_ids" nolabel="1" />
+                                <field name="mdfe30_lacRodo" nolabel="1" />
                             </page>
                             <page string="Toll">
                                 <group>
-                                    <field name="rod_toll_vehicle_categ" />
+                                    <field name="mdfe30_categCombVeic" />
                                 </group>
-                                <field name="rodo_toll_device_ids" nolabel="1" />
+                                <field name="mdfe30_disp" nolabel="1" />
                             </page>
                             <page string="Contractors">
-                                <field name="rodo_contractor_ids" nolabel="1" />
+                                <field name="mdfe30_infContratante" nolabel="1" />
                             </page>
                             <page string="Payment">
-                                <field name="rodo_payment_ids" nolabel="1" />
+                                <field name="mdfe30_infPag" nolabel="1" />
                             </page>
                         </notebook>
                     </group>
@@ -197,29 +197,29 @@
                     >
                         <group>
                             <field
-                                name="airplane_nationality"
+                                name="mdfe30_nac"
                                 attrs="{'required': [('mdfe_modal', '=', '2')]}"
                             />
                             <field
-                                name="airplane_registration"
+                                name="mdfe30_matr"
                                 attrs="{'required': [('mdfe_modal', '=', '2')]}"
                             />
                             <field
-                                name="flight_number"
+                                name="mdfe30_nVoo"
                                 attrs="{'required': [('mdfe_modal', '=', '2')]}"
                             />
                             <field
-                                name="flight_date"
+                                name="mdfe30_dVoo"
                                 attrs="{'required': [('mdfe_modal', '=', '2')]}"
                             />
                         </group>
                         <group>
                             <field
-                                name="boarding_airfield"
+                                name="mdfe30_cAerEmb"
                                 attrs="{'required': [('mdfe_modal', '=', '2')]}"
                             />
                             <field
-                                name="landing_airfield"
+                                name="mdfe30_cAerDes"
                                 attrs="{'required': [('mdfe_modal', '=', '2')]}"
                             />
                         </group>
@@ -231,10 +231,10 @@
                     >
                         <group>
                             <field
-                                name="ship_irin"
+                                name="mdfe30_irin"
                                 attrs="{'required': [('mdfe_modal', '=', '3')]}"
                             />
-                            <field name="ship_travel_number" />
+                            <field name="mdfe30_nViag" />
                         </group>
 
                         <notebook colspan="4">
@@ -242,37 +242,37 @@
                                 <group>
                                     <group>
                                         <field
-                                            name="ship_type"
+                                            name="mdfe30_tpEmb"
                                             attrs="{'required': [('mdfe_modal', '=', '3')]}"
                                         />
                                         <field
-                                            name="ship_code"
+                                            name="mdfe30_cEmbar"
                                             attrs="{'required': [('mdfe_modal', '=', '3')]}"
                                         />
                                         <field
-                                            name="ship_name"
+                                            name="mdfe30_xEmbar"
                                             attrs="{'required': [('mdfe_modal', '=', '3')]}"
                                         />
-                                        <field name="ship_navigation_type" />
+                                        <field name="mdfe30_tpNav" />
                                     </group>
 
                                     <group>
                                         <field
-                                            name="ship_boarding_point"
+                                            name="mdfe30_cPrtEmb"
                                             attrs="{'required': [('mdfe_modal', '=', '3')]}"
                                         />
                                         <field
-                                            name="ship_landing_point"
+                                            name="mdfe30_cPrtDest"
                                             attrs="{'required': [('mdfe_modal', '=', '3')]}"
                                         />
-                                        <field name="transshipment_port" />
+                                        <field name="mdfe30_prtTrans" />
                                     </group>
                                 </group>
                             </page>
 
                             <page string="Carregamento">
                                 <field
-                                    name="ship_loading_ids"
+                                    name="mdfe30_infTermCarreg"
                                     nolabel="1"
                                     options="{'no_open': True}"
                                 />
@@ -280,7 +280,7 @@
 
                             <page string="Descarregamento">
                                 <field
-                                    name="ship_unloading_ids"
+                                    name="mdfe30_infTermDescarreg"
                                     nolabel="1"
                                     options="{'no_open': True}"
                                 />
@@ -288,7 +288,7 @@
 
                             <page string="Comboio">
                                 <field
-                                    name="ship_convoy_ids"
+                                    name="mdfe30_infEmbComb"
                                     nolabel="1"
                                     options="{'no_open': True}"
                                 />
@@ -296,7 +296,7 @@
 
                             <page string="Carga Vazia">
                                 <field
-                                    name="ship_empty_load_ids"
+                                    name="mdfe30_infUnidCargaVazia"
                                     nolabel="1"
                                     options="{'no_open': True}"
                                 />
@@ -304,7 +304,7 @@
 
                             <page string="Transporte Vazio">
                                 <field
-                                    name="ship_empty_transport_ids"
+                                    name="mdfe30_infUnidTranspVazia"
                                     nolabel="1"
                                     options="{'no_open': True}"
                                 />
@@ -318,23 +318,23 @@
                     >
                         <group>
                             <field
-                                name="train_prefix"
+                                name="mdfe30_xPref"
                                 attrs="{'required': [('mdfe_modal', '=', '4')]}"
                             />
-                            <field name="train_release_time" />
+                            <field name="mdfe30_dhTrem" />
                             <field
-                                name="train_wagon_quantity"
+                                name="mdfe30_qVag"
                                 attrs="{'required': [('mdfe_modal', '=', '4')]}"
                             />
                         </group>
 
                         <group>
                             <field
-                                name="train_origin"
+                                name="mdfe30_xOri"
                                 attrs="{'required': [('mdfe_modal', '=', '4')]}"
                             />
                             <field
-                                name="train_destiny"
+                                name="mdfe30_xDest"
                                 attrs="{'required': [('mdfe_modal', '=', '4')]}"
                             />
                         </group>
@@ -342,7 +342,7 @@
                         <notebook colspan="4">
                             <page string="Vagões">
                                 <field
-                                    name="train_wagon_ids"
+                                    name="mdfe30_vag"
                                     nolabel="1"
                                     attrs="{'required': [('mdfe_modal', '=', '4')]}"
                                 />

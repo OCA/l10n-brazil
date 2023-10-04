@@ -3,7 +3,6 @@
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode, punctuation_rm
-from nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00 import Rodo
 
 from odoo import api, fields
 
@@ -313,50 +312,3 @@ class ResPartner(spec_models.SpecModel):
                 rec.city_id = city_id
                 rec.country_id = country_id
                 rec.state_id = state_id
-
-    @api.model
-    def export_contractor_fields(self):
-        if len(self) > 1:
-            return self.export_contractor_fields_multi()
-
-        cnpj_cpf_data = {}
-        if self.mdfe30_choice10 == "mdfe30_idEstrangeiro":
-            cnpj_cpf_data["idEstrangeiro"] = self.mdfe30_idEstrangeiro
-        elif self.mdfe30_choice10 == "mdfe30_CNPJ":
-            cnpj_cpf_data["CNPJ"] = self.mdfe30_CNPJ
-        else:
-            cnpj_cpf_data["CPF"] = self.mdfe30_CPF
-
-        return Rodo.InfAntt.InfContratante(xNome=self.name, **cnpj_cpf_data)
-
-    @api.model
-    def export_contractor_fields_multi(self):
-        return [record.export_contractor_fields() for record in self]
-
-    @api.model
-    def export_proprietary_fields(self, binding):
-        if len(self) > 1:
-            return self.export_proprietary_fields_multi()
-
-        cnpj_cpf_data = {}
-        if self.mdfe30_choice10 == "mdfe30_CNPJ":
-            cnpj_cpf_data["CNPJ"] = self.mdfe30_CNPJ
-        else:
-            cnpj_cpf_data["CPF"] = self.mdfe30_CPF
-
-        optional_data = {}
-        if self.mdfe30_tpProp:
-            optional_data["tpProp"] = self.mdfe30_tpProp
-
-        return binding(
-            xNome=self.mdfe30_xNome,
-            RNTRC=self.mdfe30_RNTRC,
-            IE=self.mdfe30_IE,
-            UF=self.mdfe30_UF,
-            **cnpj_cpf_data,
-            **optional_data
-        )
-
-    @api.model
-    def export_proprietary_fields_multi(self, binding):
-        return [record.export_proprietary_fields(binding) for record in self]
