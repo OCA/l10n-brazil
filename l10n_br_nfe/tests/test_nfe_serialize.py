@@ -61,6 +61,7 @@ class TestNFeExport(TransactionCase):
         nfe.document_date = datetime.strptime(
             "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
         )
+        nfe.nfe40_dCompet = datetime.strptime("2020-01-01", "%Y-%m-%d")
         nfe.date_in_out = datetime.strptime("2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S")
         nfe.nfe40_cNF = "06277716"
         nfe._document_export()
