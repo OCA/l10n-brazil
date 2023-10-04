@@ -430,19 +430,48 @@ class CTe(spec_models.StackedModel):
         default="cte40_infCTeNorm",
     )
 
-    cte40_infCarga = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.related",
-        string="Informações de quantidades da Carga do CTe",
-        inverse_name="document_id",
-    )
-
     cte40_infCTeNorm = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.related",
+        comodel_name="l10n_br_cte.normal.infos",
         inverse_name="document_id",
     )
 
-    cte40_infCTeComp = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.related",
+    # cte40_infCTeComp = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document.related",
+    #     inverse_name="document_id",
+    # )
+
+    ##########################
+    # CT-e tag: infCarga
+    ##########################
+
+    cte40_vCarga = fields.Monetary(
+        string="Valor total da carga",
+    )
+
+    cte40_proPred = fields.Char(
+        string="Produto predominante",
+        required=True,
+    )
+
+    cte40_xOutCat = fields.Char(
+        string="Outras características da carga",
+    )
+
+    cte40_infQ = fields.One2many(
+        comodel_name="l10n_br_cte.cargo.quantity.infos",
+        inverse_name="document_id",
+    )
+
+    cte40_vCargaAverb = fields.Monetary(
+        string="Valor da Carga para efeito de averbação",
+    )
+
+    ##########################
+    # CT-e tag: veicNovos
+    ##########################
+
+    cte40_veicNovos = fields.One2many(
+        comodel_name="l10n_br_cte.transported.vehicles",
         inverse_name="document_id",
     )
 
@@ -454,12 +483,9 @@ class CTe(spec_models.StackedModel):
     def _default_cte40_autxml(self):
         company = self.env.company
         authorized_partners = []
-        if company.accountant_id and company.cte_authorize_accountant_download_xml:
+        if company.accountant_id:
             authorized_partners.append(company.accountant_id.id)
-        if (
-            company.technical_support_id
-            and company.cte_authorize_technical_download_xml
-        ):
+        if company.technical_support_id:
             authorized_partners.append(company.technical_support_id.id)
         return authorized_partners
 
@@ -468,6 +494,34 @@ class CTe(spec_models.StackedModel):
     ##########################
 
     cte40_autXML = fields.One2many(default=_default_cte40_autxml)
+
+    ##########################
+    # NF-e tag: infCTeSupl
+    ##########################
+
+    cte40_infCTeSupl = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.supplement",
+    )
+
+    ##########################
+    # MDF-e tag: infRespTec
+    ##########################
+
+    cte40_infRespTec = fields.Many2one(
+        comodel_name="res.partner",
+        compute="_compute_infresptec",
+        string="Responsável Técnico MDFe",
+    )
+
+    ##########################
+    # MDF-e tag: infRespTec
+    # Methods
+    ##########################
+
+    @api.depends("company_id.technical_support_id")
+    def _compute_infresptec(self):
+        for record in self.filtered(filter_processador_edoc_cte):
+            record.cte40_infRespTec = record.company_id.technical_support_id
 
     ##########################
     # CT-e tag: infmodal
