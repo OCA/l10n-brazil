@@ -97,18 +97,22 @@ class MDFe(spec_models.StackedModel):
     ]
 
     INFMDFE_TREE = """
-    > <infMDFe>
-        > <ide>
-        - infMunCarrega
-        - infPercurso
-        > <emit> res.company
-        - <enderEmit> res.partner
-        > <infModal>
-        > <infDoc>
-        - <infMunDescarga> l10n_br_mdfe.municipio.descarga
-        > <tot>
-    > <infMDFeSupl>
-    """
+> <tmdfe_infmdfe>
+    > <ide>
+        ≡ <infMunCarrega>
+        ≡ <infPercurso>
+    - <emit> res.company
+    > <infModal>
+    > <infDoc>
+        ≡ <infMunDescarga> l10n_br_mdfe.municipio.descarga
+    ≡ <seg> l10n_br_mdfe.seguro.carga
+    - <prodPred> product.product
+    > <tot>
+    ≡ <lacres>
+    ≡ <autXML> res.partner
+    > <infAdic>
+    - <infRespTec> res.partner
+    - <infSolicNFF>"""
 
     mdfe_version = fields.Selection(
         string="MDF-e Version",
