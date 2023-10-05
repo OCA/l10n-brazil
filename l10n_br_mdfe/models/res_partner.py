@@ -45,6 +45,12 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_mdfe_data", inverse="_inverse_mdfe30_CNPJ", store=True
     )
 
+    mdfe30_idEstrangeiro = fields.Char(
+        compute="_compute_mdfe_data",
+        inverse="_inverse_mdfe30_idEstrangeiro",
+        store=True,
+    )
+
     mdfe30_CPF = fields.Char(
         compute="_compute_mdfe_data", inverse="_inverse_mdfe30_CPF", store=True
     )
@@ -194,7 +200,7 @@ class ResPartner(spec_models.SpecModel):
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.mdfe30_choice10 = "mdfe30_idEstrangeiro"
-                    rec.mdfe30_CNPJ = cnpj_cpf
+                    rec.mdfe30_idEstrangeiro = rec.vat
                 elif rec.is_company:
                     rec.mdfe30_choice6 = "mdfe30_CNPJ"
                     rec.mdfe30_choice8 = "mdfe30_CNPJ"
@@ -254,6 +260,12 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_choice11 = "mdfe30_CNPJ"
                 rec.mdfe30_choice12 = "mdfe30_CNPJ"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.mdfe30_CPF))
+
+    def _inverse_mdfe30_idEstrangeiro(self):
+        for rec in self:
+            if rec.mdfe30_idEstrangeiro:
+                rec.mdfe30_choice10 = "mdfe30_CPF"
+                rec.vat = rec.mdfe30_idEstrangeiro
 
     def _inverse_mdfe30_IE(self):
         for rec in self:
