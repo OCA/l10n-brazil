@@ -36,29 +36,6 @@ class MDFeModalFerroviario(spec_models.StackedModel):
 
     mdfe30_vag = fields.One2many(related="document_id.mdfe30_vag")
 
-    def _prepare_damdfe_values(self):
-        if not self:
-            return {}
-
-        return {
-            "prefix": self.mdfe30_xPref,
-            "release_time": self.mdfe30_dhTrem
-            and self.mdfe30_dhTrem.astimezone().strftime("%d/%m/%y %H:%M:%S")
-            or False,
-            "origin": self.mdfe30_xOri,
-            "destiny": self.mdfe30_xDest,
-            "wagon_qty": self.mdfe30_qVag,
-            "wagons": [
-                {
-                    "serie": wagon.mdfe30_serie,
-                    "number": wagon.mdfe30_nVag,
-                    "seq": wagon.mdfe30_nSeq,
-                    "ton": wagon.mdfe30_TU,
-                }
-                for wagon in self.mdfe30_vag
-            ],
-        }
-
 
 class MDFeModalFerroviarioVagao(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.ferroviario.vagao"

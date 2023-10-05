@@ -71,41 +71,6 @@ class MDFeModalAquaviario(spec_models.StackedModel):
             record.mdfe30_cPrtEmb = record.document_id.mdfe30_cPrtEmb
             record.mdfe30_cPrtDest = record.document_id.mdfe30_cPrtDest
 
-    def _prepare_damdfe_values(self):
-        if not self:
-            return {}
-
-        return {
-            "loading": [
-                {
-                    "city_code": carreg.mdfe30_cTermCarreg,
-                    "city_name": carreg.mdfe30_xTermCarreg,
-                }
-                for carreg in self.mdfe30_infTermCarreg
-            ],
-            "unloading": [
-                {
-                    "city_code": descarreg.mdfe30_cTermDescarreg,
-                    "city_name": descarreg.mdfe30_xTermDescarreg,
-                }
-                for descarreg in self.mdfe30_infTermDescarreg
-            ],
-            "transport": [
-                {
-                    "id": transp.mdfe30_idUnidTranspVazia,
-                    "type": transp.mdfe30_tpUnidTranspVazia,
-                }
-                for transp in self.mdfe30_infUnidTranspVazia
-            ],
-            "load": [
-                {
-                    "id": load.mdfe30_idUnidCargaVazia,
-                    "type": load.mdfe30_tpUnidCargaVazia,
-                }
-                for load in self.mdfe30_infUnidCargaVazia
-            ],
-        }
-
 
 class MDFeModalAquaviarioCarregamento(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.carregamento"

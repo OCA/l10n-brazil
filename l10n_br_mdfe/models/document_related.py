@@ -23,11 +23,6 @@ class MDFeRelated(spec_models.StackedModel):
     _odoo_module = "l10n_br_mdfe"
     _spec_module = "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
     _spec_tab_name = "MDFe"
-    _stack_skip = (
-        "mdfe30_infNFe_infMunDescarga_id",
-        "mdfe30_infCTe_infMunDescarga_id",
-        "mdfe30_infMDFeTransp_infMunDescarga_id",
-    )
 
     mdfe30_chNFe = fields.Char(related="document_key")
 
