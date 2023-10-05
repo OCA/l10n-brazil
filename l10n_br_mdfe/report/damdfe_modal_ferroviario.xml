@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_damdfe_modal_ferroviario">
+        <t t-call="web.html_container">
+            <div class="row">
+                <div class="col-12">
+                    <span class="damdfe-modal-title">
+                        Informações dos Vagões
+                    </span>
+                    <hr class="damdfe-separator" />
+
+                    <table class="table table-hover damdfe-table">
+                        <thead class="damdfe-table-header">
+                            <tr>
+                                <th scope="col">Série</th>
+                                <th scope="col">Número</th>
+                                <th scope="col">Seq</th>
+                                <th scope="col">Ton. Útil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="modal_ferroviario_data['wagons']" t-as="wag">
+                                <tr class="damdfe-table-item">
+                                    <td><t t-esc="wag['serie']" /></td>
+                                    <td><t t-esc="wag['number']" /></td>
+                                    <td><t t-esc="wag['seq']" /></td>
+                                    <td><t t-esc="wag['ton']" /></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row damdfe-load-info" t-if="contingency">
+                <div class="col-12">
+                    <span>
+                        <strong>Informações da Composição da Carga</strong>
+                    </span>
+                    <hr class="damdfe-separator" />
+                </div>
+
+                <table
+                    class="table table-hover damdfe-table"
+                    style="margin-left: 15px !important;"
+                >
+                    <thead class="damdfe-table-header">
+                        <tr>
+                            <th
+                                scope="col"
+                            >Informações dos documentos discais vinculados ao manifesto</th>
+                            <th scope="col">Informações da unidade de tranporte</th>
+                            <th scope="col">Informações da unidade de carga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="document_info['documents']" t-as="document">
+                            <tr class="damdfe-table-item">
+                                <td><t t-esc="document['key']" /></td>
+                                <td>Locomotiva</td>
+                                <td>Outros</td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>
