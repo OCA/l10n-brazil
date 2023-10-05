@@ -3,13 +3,11 @@
 
 import re
 import string
-from datetime import datetime
 from enum import Enum
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.edoc.mdfe import QR_CODE_URL
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
@@ -19,24 +17,10 @@ from odoo import _, api, fields
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    AUTORIZADO,
-    CANCELADO,
-    CANCELADO_DENTRO_PRAZO,
-    CANCELADO_FORA_PRAZO,
-    DENEGADO,
-    ENCERRADO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
-    LOTE_PROCESSADO,
     MODELO_FISCAL_MDFE,
     PROCESSADOR_OCA,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_ENCERRADA,
-    SITUACAO_EDOC_REJEITADA,
-    SITUACAO_FISCAL_CANCELADO,
-    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aquaviario_v3_00 import (
     AQUAV_TPNAV,
@@ -743,20 +727,6 @@ class MDFe(spec_models.StackedModel):
         comodel_name="l10n_br_fiscal.document.supplement",
     )
 
-    ##########################
-    # Other fields
-    ##########################
-
-    closure_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.event",
-        string="Closure Event",
-        copy=False,
-    )
-
-    closure_state_id = fields.Many2one(comodel_name="res.country.state")
-
-    closure_city_id = fields.Many2one(comodel_name="res.city")
-
     ################################
     # Framework Spec model's methods
     ################################
@@ -771,8 +741,11 @@ class MDFe(spec_models.StackedModel):
         key = "mdfe30_%s" % (attr[0],)  # TODO schema wise
         value = getattr(node, attr[0])
 
-        if attr[0] == "any_element":
+        if attr[0] == "any_element":  # build modal
             modal_id = self._get_modal_to_build(node.any_element.__module__)
+            if modal_id is False:
+                return
+
             modal_attrs = modal_id.build_attrs(value, path=path)
             for chave, valor in modal_attrs.items():
                 vals[chave] = valor
@@ -797,6 +770,9 @@ class MDFe(spec_models.StackedModel):
             self.modal_aquaviario_id._binding_module: self.modal_aquaviario_id,
             self.modal_ferroviario_id._binding_module: self.modal_ferroviario_id,
         }
+        if module not in modal_by_binding_module:
+            return False
+
         return modal_by_binding_module[module]
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
@@ -902,21 +878,6 @@ class MDFe(spec_models.StackedModel):
             record.key_check_digit = chave_edoc.digito_verificador
             record.document_key = chave_edoc.chave
 
-    def _document_qrcode(self):
-        super()._document_qrcode()
-
-        for record in self.filtered(filtered_processador_edoc_mdfe):
-            record.mdfe30_infMDFeSupl = self.env[
-                "l10n_br_fiscal.document.supplement"
-            ].create({"qrcode": record.get_mdfe_qrcode()})
-
-    def _document_cancel(self, justificative):
-        result = super(MDFe, self)._document_cancel(justificative)
-        online_event = self.filtered(filtered_processador_edoc_mdfe)
-        if online_event:
-            online_event.cancel_mdfe()
-        return result
-
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filtered_processador_edoc_mdfe):
@@ -949,180 +910,13 @@ class MDFe(spec_models.StackedModel):
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 
-    def view_pdf(self):
-        if not self.filtered(filtered_processador_edoc_mdfe):
-            return super().view_pdf()
+    def _document_qrcode(self):
+        super()._document_qrcode()
 
-        return self.action_damdfe_report()
-
-    def atualiza_status_mdfe(self, processo):
-        self.ensure_one()
-
-        infProt = processo.resposta.protMDFe.infProt
-
-        if infProt.cStat in AUTORIZADO:
-            state = SITUACAO_EDOC_AUTORIZADA
-        elif infProt.cStat in DENEGADO:
-            state = SITUACAO_EDOC_DENEGADA
-        else:
-            state = SITUACAO_EDOC_REJEITADA
-
-        if self.authorization_event_id and infProt.nProt:
-            if type(infProt.dhRecbto) == datetime:
-                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
-            else:
-                protocol_date = fields.Datetime.to_string(
-                    datetime.fromisoformat(infProt.dhRecbto)
-                )
-
-            self.authorization_event_id.set_done(
-                status_code=infProt.cStat,
-                response=infProt.xMotivo,
-                protocol_date=protocol_date,
-                protocol_number=infProt.nProt,
-                file_response_xml=processo.processo_xml,
-            )
-        self.write(
-            {
-                "status_code": infProt.cStat,
-                "status_name": infProt.xMotivo,
-            }
-        )
-        self._change_state(state)
-
-    def _eletronic_document_send(self):
-        super(MDFe, self)._eletronic_document_send()
         for record in self.filtered(filtered_processador_edoc_mdfe):
-            if record.xml_error_message:
-                return
-
-            processador = record._processador()
-            for edoc in record.serialize():
-                processo = None
-                for p in processador.processar_documento(edoc):
-                    processo = p
-                    if processo.webservice == "mdfeRecepcaoLote":
-                        record.authorization_event_id._save_event_file(
-                            processo.envio_xml, "xml"
-                        )
-
-            if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
-                record.atualiza_status_mdfe(processo)
-
-            elif processo.resposta.cStat in DENEGADO:
-                record._change_state(SITUACAO_EDOC_DENEGADA)
-                record.write(
-                    {
-                        "status_code": processo.resposta.cStat,
-                        "status_name": processo.resposta.xMotivo,
-                    }
-                )
-
-            else:
-                record._change_state(SITUACAO_EDOC_REJEITADA)
-                record.write(
-                    {
-                        "status_code": processo.resposta.cStat,
-                        "status_name": processo.resposta.xMotivo,
-                    }
-                )
-
-    def cancel_mdfe(self):
-        self.ensure_one()
-        processador = self._processador()
-
-        if not self.authorization_protocol:
-            raise UserError(_("Authorization Protocol Not Found!"))
-
-        processo = processador.cancela_documento(
-            chave=self.document_key,
-            protocolo_autorizacao=self.authorization_protocol,
-            justificativa=self.cancel_reason.replace("\n", "\\n"),
-        )
-
-        self.cancel_event_id = self.event_ids.create_event_save_xml(
-            company_id=self.company_id,
-            environment=(
-                EVENT_ENV_PROD if self.mdfe_environment == "1" else EVENT_ENV_HML
-            ),
-            event_type="2",
-            xml_file=processo.envio_xml.decode("utf-8"),
-            document_id=self,
-        )
-
-        infEvento = processo.resposta.infEvento
-        if infEvento.cStat not in CANCELADO:
-            mensagem = "Erro no cancelamento"
-            mensagem += "\nCódigo: " + infEvento.cStat
-            mensagem += "\nMotivo: " + infEvento.xMotivo
-            raise UserError(mensagem)
-
-        if infEvento.cStat in CANCELADO_FORA_PRAZO:
-            self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-        elif infEvento.cStat in CANCELADO_DENTRO_PRAZO:
-            self.state_fiscal = SITUACAO_FISCAL_CANCELADO
-
-            self.state_edoc = SITUACAO_EDOC_CANCELADA
-            self.cancel_event_id.set_done(
-                status_code=infEvento.cStat,
-                response=infEvento.xMotivo,
-                protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(infEvento.dhRegEvento)
-                ),
-                protocol_number=infEvento.nProt,
-                file_response_xml=processo.retorno.content.decode("utf-8"),
-            )
-
-    def _document_closure(self):
-        self.ensure_one()
-        processador = self._processador()
-
-        if not self.authorization_protocol:
-            raise UserError(_("Authorization Protocol Not Found!"))
-
-        processo = processador.encerra_documento(
-            chave=self.document_key,
-            protocolo_autorizacao=self.authorization_protocol,
-            estado=self.closure_state_id.ibge_code,
-            municipio=self.closure_city_id.ibge_code,
-        )
-
-        self.closure_event_id = self.event_ids.create_event_save_xml(
-            company_id=self.company_id,
-            environment=(
-                EVENT_ENV_PROD if self.mdfe_environment == "1" else EVENT_ENV_HML
-            ),
-            event_type="15",
-            xml_file=processo.envio_xml.decode("utf-8"),
-            document_id=self,
-        )
-
-        infEvento = processo.resposta.infEvento
-        if infEvento.cStat not in ENCERRADO:
-            mensagem = "Erro no encerramento"
-            mensagem += "\nCódigo: " + infEvento.cStat
-            mensagem += "\nMotivo: " + infEvento.xMotivo
-            raise UserError(mensagem)
-
-        self.state_edoc = SITUACAO_EDOC_ENCERRADA
-        self.closure_event_id.set_done(
-            status_code=infEvento.cStat,
-            response=infEvento.xMotivo,
-            protocol_date=fields.Datetime.to_string(
-                datetime.fromisoformat(infEvento.dhRegEvento)
-            ),
-            protocol_number=infEvento.nProt,
-            file_response_xml=processo.retorno.content.decode("utf-8"),
-        )
-
-    def action_document_closure(self):
-        self.ensure_one()
-        if self.state_edoc != SITUACAO_EDOC_AUTORIZADA:
-            raise UserError(_("You cannot close the document if it's not authorized."))
-
-        return self.env["ir.actions.act_window"]._for_xml_id(
-            "l10n_br_mdfe.document_closure_wizard_action"
-        )
+            record.mdfe30_infMDFeSupl = self.env[
+                "l10n_br_fiscal.document.supplement"
+            ].create({"qrcode": record.get_mdfe_qrcode()})
 
     def get_mdfe_qrcode(self):
         if self.document_type != MODELO_FISCAL_MDFE:
@@ -1135,76 +929,3 @@ class MDFe(spec_models.StackedModel):
         serialized_doc = self.serialize()[0]
         xml = processador.assina_raiz(serialized_doc, serialized_doc.infMDFe.Id)
         return processador.monta_qrcode_contingencia(serialized_doc, xml)
-
-    def action_damdfe_report(self):
-        return (
-            self.env["ir.actions.report"]
-            .search(
-                [("report_name", "=", "l10n_br_mdfe.report_damdfe")],
-                limit=1,
-            )
-            .report_action(self.id, data=self._prepare_damdfe_values())
-        )
-
-    def _prepare_damdfe_values(self):
-        return {
-            "company_id": self.company_id.id,
-            "company_has_logo": bool(self.company_id.logo),
-            "company_ie": self.company_id.inscr_est,
-            "company_logo": self.company_id.inscr_est,
-            "company_cnpj": self.company_id.cnpj_cpf,
-            "company_legal_name": self.company_id.legal_name,
-            "company_street": self.company_id.street,
-            "company_number": self.company_id.street_number,
-            "company_district": self.company_id.district,
-            "company_city": self.company_id.city_id.display_name,
-            "company_state": self.company_id.state_id.code,
-            "company_zip": self.company_id.zip,
-            "uf_carreg": self.mdfe_initial_state_id.code,
-            "uf_descarreg": self.mdfe_final_state_id.code,
-            "qt_cte": self.mdfe30_qCTe,
-            "qt_nfe": self.mdfe30_qNFe,
-            "qt_mdfe": self.mdfe30_qMDFe,
-            "total_weight": self.mdfe30_qCarga,
-            "weight_measure": "KG" if self.mdfe30_cUnid == "01" else "TON",
-            "qr_code_url": QR_CODE_URL,
-            "document_key": self._format_document_key(self.document_key),
-            "document_number": self.document_number,
-            "document_model": self.document_type,
-            "document_serie": self.document_serie_id.code,
-            "document_date": self.document_date.astimezone().strftime(
-                "%d/%m/%y %H:%M:%S"
-            ),
-            "fiscal_additional_data": self.fiscal_additional_data,
-            "customer_additional_data": self.customer_additional_data,
-            "authorization_protocol": self.authorization_protocol,
-            "contingency": self.mdfe_transmission != "1",
-            "environment": self.mdfe_environment,
-            "qr_code": self.get_mdfe_qrcode(),
-            "document_info": self.mdfe30_infMunDescarga._prepare_damdfe_values(),
-            "modal": self.mdfe_modal,
-            "modal_str": self._get_modal_str(),
-            "modal_aereo_data": self.modal_aereo_id._prepare_damdfe_values(),
-            "modal_rodoviario_data": self.modal_rodoviario_id._prepare_damdfe_values(),
-            "modal_aquaviario_data": self.modal_aquaviario_id._prepare_damdfe_values(),
-            "modal_ferroviario_data": self.modal_ferroviario_id._prepare_damdfe_values(),
-        }
-
-    @api.model
-    def _get_modal_str(self):
-        MODAL_TO_STR = {
-            "1": "Rodoviário",
-            "2": "Aéreo",
-            "3": "Aquaviário",
-            "4": "Ferroviário",
-        }
-        return MODAL_TO_STR[self.mdfe_modal]
-
-    @api.model
-    def _format_document_key(self, key):
-        pace = 4
-        formatted_key = ""
-        for i in range(0, len(key), pace):
-            formatted_key += key[i : i + pace] + " "
-
-        return formatted_key

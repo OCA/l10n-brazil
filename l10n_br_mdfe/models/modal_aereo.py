@@ -32,16 +32,3 @@ class MDFeModalAereo(spec_models.StackedModel):
     mdfe30_cAerEmb = fields.Char(related="document_id.mdfe30_cAerEmb")
 
     mdfe30_cAerDes = fields.Char(related="document_id.mdfe30_cAerDes")
-
-    def _prepare_damdfe_values(self):
-        if not self:
-            return {}
-
-        return {
-            "mdfe30_nac": self.mdfe30_nac,
-            "mdfe30_matr": self.mdfe30_matr,
-            "mdfe30_nVoo": self.mdfe30_nVoo,
-            "mdfe30_dVoo": self.mdfe30_dVoo.strftime("%d/%m/%y"),
-            "mdfe30_cAerEmb": self.mdfe30_cAerEmb,
-            "mdfe30_cAerDes": self.mdfe30_cAerDes,
-        }
