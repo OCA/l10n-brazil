@@ -300,33 +300,39 @@ class MDFe(spec_models.StackedModel):
             ]
 
     def _inverse_inf_carrega(self):
-        for record in self.filtered(filtered_processador_edoc_mdfe):
-            city_id = self.env["res.city"].search(
+        for record in self:
+            city_ids = self.env["res.city"].search(
                 [("ibge_code", "=", record.mdfe30_infMunCarrega.mdfe30_cMunCarrega)]
             )
-            record.mdfe_loading_city_ids = [(4, 0, city_id)]
+            if city_ids:
+                record.mdfe_loading_city_ids = [(6, 0, city_ids.ids)]
 
     def _inverse_initial_final_state(self):
-        for record in self.filtered(filtered_processador_edoc_mdfe):
+        for record in self:
             initial_state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_UFIni)]
+                [("code", "=", record.mdfe30_UFIni)], limit=1
             )
             final_state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_UFFim)]
+                [("code", "=", record.mdfe30_UFFim)], limit=1
             )
-            record.mdfe_initial_state_id = initial_state_id
-            record.mdfe_final_state_id = final_state_id
+
+            if initial_state_id:
+                record.mdfe_initial_state_id = initial_state_id
+
+            if final_state_id:
+                record.mdfe_final_state_id = final_state_id
 
     def _inverse_uf(self):
-        for record in self.filtered(filtered_processador_edoc_mdfe):
+        for record in self:
             state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_cUF)]
+                [("code", "=", record.mdfe30_cUF)], limit=1
             )
-            record.company_id.partner_id.state_id = state_id
+            if state_id:
+                record.company_id.partner_id.state_id = state_id
 
     @api.depends("mdfe_route_state_ids")
     def _compute_inf_percurso(self):
-        for record in self.filtered(filtered_processador_edoc_mdfe):
+        for record in self:
             record.mdfe30_infPercurso = [(5, 0, 0)]
             record.mdfe30_infPercurso = [
                 (
@@ -909,23 +915,3 @@ class MDFe(spec_models.StackedModel):
         erros = Mdfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
-
-    def _document_qrcode(self):
-        super()._document_qrcode()
-
-        for record in self.filtered(filtered_processador_edoc_mdfe):
-            record.mdfe30_infMDFeSupl = self.env[
-                "l10n_br_fiscal.document.supplement"
-            ].create({"qrcode": record.get_mdfe_qrcode()})
-
-    def get_mdfe_qrcode(self):
-        if self.document_type != MODELO_FISCAL_MDFE:
-            return
-
-        processador = self._processador()
-        if self.mdfe_transmission == "1":
-            return processador.monta_qrcode(self.document_key)
-
-        serialized_doc = self.serialize()[0]
-        xml = processador.assina_raiz(serialized_doc, serialized_doc.infMDFe.Id)
-        return processador.monta_qrcode_contingencia(serialized_doc, xml)
