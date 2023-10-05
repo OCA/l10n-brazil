@@ -124,8 +124,4 @@
             <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
         </infAdic>
     </infMDFe>
-    <infMDFeSupl>
-        <qrCodMDFe
-        >https://dfe-portal.svrs.rs.gov.br/mdfe/qrCode?chMDFe=35230905472475000102580200000602071611554500&amp;tpAmb=2</qrCodMDFe>
-    </infMDFeSupl>
 </MDFe>
