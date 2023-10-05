@@ -1003,11 +1003,9 @@ class NFe(spec_models.StackedModel):
         super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
-        records = self.filtered(filter_processador_edoc_nfe)
-        if not records:
-            return super()._generate_key()
+        super()._generate_key()
 
-        for record in records:
+        for record in self.filtered(filter_processador_edoc_nfe):
             date = fields.Datetime.context_timestamp(record, record.document_date)
 
             required_fields_gen_edoc = []
