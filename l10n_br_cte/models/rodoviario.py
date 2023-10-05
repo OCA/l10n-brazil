@@ -22,13 +22,9 @@ class Rodoviario(spec_models.StackedModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    cte40_RNTRC = fields.Char(
-        string="RNTRC",
-        store=True,
-        help="Registro Nacional de Transportadores Rodoviários de Carga",
-    )
+    cte40_RNTRC = fields.Char(related="document_id.cte40_RNTRC")
 
-    cte40_occ = fields.One2many(related="document_id.occ")
+    cte40_occ = fields.One2many(related="document_id.cte40_occ")
 
 
 class Occ(spec_models.SpecModel):
@@ -49,20 +45,3 @@ class Occ(spec_models.SpecModel):
     )
 
     cte40_emiOcc = fields.Many2one(comodel_name="res.partner", string="emiOcc")
-
-
-class EmiOcc(spec_models.SpecModel):
-    _name = "l10n_br_cte.modal.rodoviario.occ.emiocc"
-    _inherit = "cte.40.emiocc"
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_rodoviario_v4_00"
-    _description = "emiOcc"
-
-    partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Ferrovias Envolvidas",
-    )
-
-    cte40_cInt = fields.Char(
-        string="Código interno da Ferrovia envolvida",
-        help="Código interno da Ferrovia envolvida\nUso da transportadora",
-    )

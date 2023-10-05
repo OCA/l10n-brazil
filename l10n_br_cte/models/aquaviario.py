@@ -21,20 +21,32 @@ class Aquaviario(spec_models.StackedModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    cte40_vPrest = fields.Monetary(related="document_id.ship_installment_value")
+    cte40_vPrest = fields.Monetary(related="document_id.cte40_vPrest")
 
-    cte40_vAFRMM = fields.Monetary(related="document_id.ship_vAFRMM")
+    cte40_vAFRMM = fields.Monetary(related="document_id.cte40_vAFRMM")
 
-    cte40_xNavio = fields.Char(related="document_id.ship_name")
+    cte40_xNavio = fields.Char(related="document_id.cte40_xNavio")
 
-    cte40_nViag = fields.Char(related="document_id.ship_travel_number")
+    cte40_nViag = fields.Char(related="document_id.cte40_nViag")
 
-    cte40_direc = fields.Selection(related="document_id.ship_direction")
+    cte40_direc = fields.Selection(related="document_id.cte40_direc")
 
-    cte40_irin = fields.Char(related="document_id.ship_irin")
+    cte40_irin = fields.Char(related="document_id.cte40_irin")
 
-    cte40_tpNav = fields.Selection(related="document_id.ship_type")
+    cte40_tpNav = fields.Selection(related="document_id.cte40_tpNav")
+
+    cte40_balsa = fields.One2many(related="document_id.cte40_balsa")
 
     def _prepare_dacte_values(self):
         if not self:
             return {}
+
+
+class Balsa(spec_models.SpecModel):
+    _name = "l10n_br_cte.modal.aquaviario.balsa"
+    _inherit = "cte.40.balsa"
+    _description = "Grupo de informações das balsas"
+
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
+
+    cte40_xBalsa = fields.Char(string="Identificador da Balsa")

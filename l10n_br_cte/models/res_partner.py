@@ -26,6 +26,7 @@ class ResPartner(spec_models.SpecModel):
         "cte.40.tcte_dest",
         "cte.40.tresptec",
         "cte.40.tcte_autxml",
+        "cte.40.tenderfer",
     ]
     _cte_search_keys = ["cte40_CNPJ", "cte40_CPF", "cte40_xNome"]
     _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
@@ -39,6 +40,11 @@ class ResPartner(spec_models.SpecModel):
     cte40_CNPJ = fields.Char(
         compute="_compute_cte_data",
         store=True,
+    )
+
+    cte40_cInt = fields.Char(
+        string="Código interno da Ferrovia envolvida",
+        help="Código interno da Ferrovia envolvida\nUso da transportadora",
     )
 
     cte40_CPF = fields.Char(
@@ -60,6 +66,10 @@ class ResPartner(spec_models.SpecModel):
     )
 
     cte40_enderExped = fields.Many2one(
+        comodel_name="res.partner", compute="_compute_cte40_ender"
+    )
+
+    cte40_enderFerro = fields.Many2one(
         comodel_name="res.partner", compute="_compute_cte40_ender"
     )
 
@@ -94,6 +104,7 @@ class ResPartner(spec_models.SpecModel):
             rec.cte40_enderReme = rec.id
             rec.cte40_enderDest = rec.id
             rec.cte40_enderExped = rec.id
+            rec.cte40_enderFerro = rec.id
 
     @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
     def _compute_cte_data(self):
