@@ -253,6 +253,12 @@ class TestNFCe(TestNFeExport):
         self.assertIsNotNone(qr_code)
         self.assertIsNotNone(qr_code_url)
 
+    def test_processor(self):
+        self.document_id.document_type_id = False
+
+        processador = self.document_id._processador()
+        self.assertIsNone(processador)
+
     @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_autorizada)
     def test_prepare_nfce_payment(self, _mock):
         amount = self.document_id.amount_financial_total / 2
