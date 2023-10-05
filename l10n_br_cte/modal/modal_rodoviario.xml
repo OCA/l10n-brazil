@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="modal_rodoviario_occ_form_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.occ.form.view (in l10n_br_cte)</field>
+        <field name="model">l10n_br_cte.modal.rodoviario.occ</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="cte40_serie" />
+                        <field name="cte40_nOcc" />
+                        <field
+                            name="cte40_emiOcc"
+                            context="{
+                                'form_view_ref': 'l10n_br_cte.res_partner_emiocc_form_view'
+                            }"
+                            domain="[
+                                ('cnpj_cpf', '!=', False),
+                            ]"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_partner_emiocc_form_view" model="ir.ui.view">
+        <field name="name">res.partner.emi.occ.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="cte40_CNPJ" />
+                        <field name="cte40_cInt" />
+                        <field name="cte40_IE" />
+                        <field name="cte40_UF" />
+                        <field name="cte40_fone" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
