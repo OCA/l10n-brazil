@@ -2,10 +2,11 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from erpbrasil.base import misc
-from erpbrasil.base.fiscal import cnpj_cpf, ie
+from erpbrasil.base.fiscal import cnpj_cpf
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
+
+from odoo.addons.l10n_br_base.tools import check_cnpj_cpf, check_ie
 
 
 class Lead(models.Model):
@@ -71,22 +72,12 @@ class Lead(models.Model):
     @api.constrains("cnpj")
     def _check_cnpj(self):
         for record in self:
-            country_code = record.country_id.code or ""
-            if record.cnpj and country_code.upper() == "BR":
-                cnpj = misc.punctuation_rm(record.cnpj)
-                if not cnpj_cpf.validar(cnpj):
-                    raise ValidationError(_("Invalid CNPJ!"))
-            return True
+            check_cnpj_cpf(record.env, record.cnpj, record.country_id)
 
     @api.constrains("cpf")
     def _check_cpf(self):
         for record in self:
-            country_code = record.country_id.code or ""
-            if record.cpf and country_code.upper() == "BR":
-                cpf = misc.punctuation_rm(record.cpf)
-                if not cnpj_cpf.validar(cpf):
-                    raise ValidationError(_("Invalid CPF!"))
-            return True
+            check_cnpj_cpf(record.env, record.cpf, record.country_id)
 
     @api.constrains("inscr_est")
     def _check_ie(self):
@@ -96,13 +87,7 @@ class Lead(models.Model):
         :Return: True or False.
         """
         for record in self:
-            result = True
-            if record.inscr_est and record.cnpj and record.state_id:
-                state_code = record.state_id.code or ""
-                uf = state_code.lower()
-                result = ie.validar(uf, record.inscr_est)
-            if not result:
-                raise ValidationError(_("Invalid State Tax Number!"))
+            check_ie(record.env, record.inscr_est, record.state_id, record.country_id)
 
     @api.onchange("cnpj", "country_id")
     def _onchange_cnpj(self):
@@ -161,7 +146,6 @@ class Lead(models.Model):
                 result["rg"] = self.partner_id.rg
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
-        return result
 
     def _prepare_customer_values(self, name, is_company, parent_id=False):
         """Extract data from lead to create a partner.
