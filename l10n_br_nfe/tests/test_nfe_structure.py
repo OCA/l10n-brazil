@@ -124,7 +124,7 @@ class NFeStructure(SavepointCase):
             "nfe40_cobr",
             "nfe40_fat",
         ]
-        keys = [k for k in self.env["l10n_br_fiscal.document"]._stacking_points.keys()]
+        keys = [k for k in NFe._stacking_points.keys() if k.startswith("nfe40_")]
         self.assertEqual(sorted(keys), sorted(doc_keys))
 
     def test_doc_tree(self):
@@ -159,9 +159,7 @@ class NFeStructure(SavepointCase):
             "nfe40_imposto",
             "nfe40_prod",
         ]
-        keys = [
-            k for k in self.env["l10n_br_fiscal.document.line"]._stacking_points.keys()
-        ]
+        keys = [k for k in NFeLine._stacking_points.keys() if k.startswith("nfe40_")]
         self.assertEqual(sorted(keys), line_keys)
 
     def test_doc_line_tree(self):

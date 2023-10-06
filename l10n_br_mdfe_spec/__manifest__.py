@@ -4,7 +4,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "category": "Accounting",
-    "summary": "CT-e spec",
+    "summary": "MDF-e spec",
     "depends": ["base"],
     "installable": True,
     "application": False,

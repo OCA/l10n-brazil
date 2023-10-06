@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_damdfe">
+        <t t-call="web.html_container">
+            <t t-call-assets="l10n_br_mdfe.assets_common" t-js="False" />
+            <div class="damdfe">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" t-if="company_has_logo">
+                                <img
+                                    src="/logo.png?company=${company_id}"
+                                    style="max-width: 150px; max-height: 100px"
+                                />
+                            </div>
+                            <div class="col-8 damdfe-company-data">
+                                <div class="row damdfe-company-name">
+                                    <t t-esc="company_legal_name" />
+                                </div>
+
+                                <div class="row">
+                                    <t t-esc="company_street" />,
+                                     Nro <t t-esc="company_number" />,
+                                     <t t-esc="company_district" />
+                                </div>
+
+                                <div class="row">
+                                    <span>
+                                        <t t-esc="company_city" /> - <t
+                                            t-esc="company_state"
+                                        />
+                                    </span>
+
+                                    <span style="margin-left: 10px">
+                                        CEP <t t-esc="company_zip" />
+                                    </span>
+                                </div>
+
+                                <div class="row">
+                                    <strong>CNPJ: </strong> <t t-esc="company_cnpj" />
+
+                                    <span t-if="company_ie" style="margin-left: 10px">
+                                        <strong>IE: </strong> <t t-esc="company_ie" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="damdfe-document-info">
+                            <span class="row">
+                                <strong
+                                >DAMDFE</strong> - Documento Auxiliar de Manifesto Eletrônico de Documentos Fiscais
+                            </span>
+                            <span class="row" t-if="environment == '2'">
+                                <strong
+                                >EMITIDO EM AMBIENTE DE HOMOLOGAÇÃO – SEM VALOR FISCAL</strong>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <img
+                            class="float-right"
+                            alt="QR Code"
+                            t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', qr_code, 100, 100)"
+                        />
+                    </div>
+                </div>
+
+                <div class="row document-info-cards">
+                    <div class="col-3 document-info-card">
+                        <div class="row document-info-card-header">
+                            <span class="col-4">
+                                Modelo
+                            </span>
+                            <span class="col-4">
+                                Serie
+                            </span>
+                            <span class="col-4">
+                                Nro
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-4 damdfe-info-field">
+                                <t t-esc="document_model" />
+                            </span>
+                            <span class="col-4 damdfe-info-field">
+                                <t t-esc="document_serie" />
+                            </span>
+                            <span class="col-4 damdfe-info-field">
+                                <t t-esc="document_number" />
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-1 document-info-card">
+                        <div class="document-info-card-header">
+                            Folha
+                        </div>
+
+                        <div class="row damdfe-info-field">
+                            <!-- TODO: Calcular o número de páginas -->
+                            <span class="col-12">1/1</span>
+                        </div>
+                    </div>
+
+                    <div class="col-2 document-info-card">
+                        <div class="document-info-card-header">
+                            Data/hora Emissão
+                        </div>
+
+                        <div class="row damdfe-info-field">
+                            <span class="col-12" t-esc="document_date" />
+                        </div>
+                    </div>
+
+                    <div class="col-2 document-info-card document-uf-card">
+                        <div class="document-info-card-header">
+                            UF Carreg.
+                        </div>
+
+                        <div class="row damdfe-info-field">
+                            <span class="col-12" t-esc="uf_carreg" />
+                        </div>
+                    </div>
+
+                    <div class="col-2 document-info-card document-uf-card">
+                        <div class="document-info-card-header">
+                            UF Descarreg.
+                        </div>
+
+                        <div class="row damdfe-info-field">
+                            <span class="col-12" t-esc="uf_descarreg" />
+                        </div>
+                    </div>
+                </div>
+
+                <div t-if="modal == '4'" style="margin-top: 20px">
+                    <span class="damdfe-title">
+                        Informações das Composições do Trem
+                    </span>
+
+                    <div class="row" style="margin-left: 5px">
+                        <div class="col-5 fisco-card">
+                            <div class="row">
+                                <span class="col-6 document-fisco-card-header">
+                                    Prefixo do trem
+                                </span>
+                                <span class="col-6 document-fisco-card-header">
+                                    Data e Hora
+                                </span>
+                            </div>
+
+                            <div class="row">
+                                <span class="col-6 damdfe-fisco-field">
+                                    <t t-esc="modal_ferroviario_data['prefix']" />
+                                </span>
+                                <span class="col-6 damdfe-fisco-field">
+                                    <t t-esc="modal_ferroviario_data['release_time']" />
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-3 fisco-card">
+                            <div class="row">
+                                <span class="col-6 document-fisco-card-header">
+                                    Origem
+                                </span>
+                                <span class="col-6 document-fisco-card-header">
+                                    Destino
+                                </span>
+                            </div>
+
+                            <div class="row">
+                                <span class="col-6 damdfe-fisco-field">
+                                    <t t-esc="modal_ferroviario_data['origin']" />
+                                </span>
+                                <span class="col-6 damdfe-fisco-field">
+                                    <t t-esc="modal_ferroviario_data['destiny']" />
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-2 fisco-card">
+                            <div class="document-fisco-card-header">
+                                Qtd. Vag
+                            </div>
+
+                            <div class="damdfe-fisco-field">
+                                <t t-esc="modal_ferroviario_data['wagon_qty']" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row damdfe-fisco">
+                    <div class="col-6 damdfe-total">
+                        <span class="damdfe-title">
+                            Modelo <t t-esc="modal_str" /> de Carga
+                        </span>
+
+                        <div class="row" style="margin-left: 5px">
+                            <div class="col-3 fisco-card">
+                                <div class="document-fisco-card-header">
+                                    Qtd. CTE
+                                </div>
+
+                                <div class="row damdfe-fisco-field">
+                                    <span class="col-12" t-esc="qt_cte or 0" />
+                                </div>
+                            </div>
+                            <div class="col-3 fisco-card">
+                                <div class="document-fisco-card-header">
+                                    Qtd. NFE
+                                </div>
+
+                                <div class="row damdfe-fisco-field">
+                                    <span class="col-12" t-esc="qt_nfe" />
+                                </div>
+                            </div>
+
+                            <t
+                                t-set="modal_aquaviario_and_regular_emission"
+                                t-value="modal == '3' and not contingency"
+                            />
+                            <div
+                                class="col-3 fisco-card"
+                                t-if="modal_aquaviario_and_regular_emission"
+                            >
+                                <div class="document-fisco-card-header">
+                                    Qtd. MDFe
+                                </div>
+
+                                <div class="row damdfe-fisco-field">
+                                    <span class="col-12" t-esc="qt_mdfe or 0" />
+                                </div>
+                            </div>
+
+                            <div
+                                t-attf-class="col-{{'9' if modal_aquaviario_and_regular_emission else '4'}} fisco-card"
+                            >
+                                <div class="document-fisco-card-header">
+                                    Peso Total (<t t-esc="weight_measure" />)
+                                </div>
+
+                                <div class="row damdfe-fisco-field">
+                                    <span class="col-12" t-esc="total_weight" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row damdfe-protocolo">
+                            <div class="col-12">
+                                <strong>Protocolo de Autorização</strong>
+                            </div>
+                            <div class="col-12">
+                                <div
+                                    t-if="contingency"
+                                    class="damdfe-contingency-protocol"
+                                >
+                                    <strong>EMISSÃO EM CONTINGÊNCIA.</strong>
+                                    Obrigatória a autorização em 68 horas após esta emissão (<t
+                                        t-esc="document_date"
+                                    />)
+                                </div>
+
+                                <span t-else="" t-esc="authorization_protocol" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 damdfe-key">
+                        CONTROLE DO FISCO
+                        <div class="row damdfe-barcode">
+                            <img
+                                alt="Chave de Acesso"
+                                t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', document_key, 400, 60)"
+                            />
+                        </div>
+
+                        <div class="row damdfe-key-info">
+                            <div class="col-12">
+                                <strong>Chave de Acesso</strong>
+                            </div>
+                            <div class="col-12">
+                                <t t-esc="document_key" />
+                            </div>
+                            <div class="col-12">
+                                Consulte em <strong><t t-esc="qr_code_url" /></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="damdfe-modal">
+                    <t
+                        t-call="l10n_br_mdfe.report_damdfe_modal_rodoviario"
+                        t-if="modal == '1'"
+                    />
+                    <t
+                        t-call="l10n_br_mdfe.report_damdfe_modal_aereo"
+                        t-elif="modal == '2'"
+                    />
+                    <t
+                        t-call="l10n_br_mdfe.report_damdfe_modal_aquaviario"
+                        t-elif="modal == '3'"
+                    />
+                    <t
+                        t-call="l10n_br_mdfe.report_damdfe_modal_ferroviario"
+                        t-elif="modal == '4'"
+                    />
+                </div>
+                <div class="damdfe-notes">
+                    <div class="row">
+                        <div class="col-12">
+                            <span>
+                                <strong>Observações</strong>
+                            </span>
+                            <hr class="damdfe-separator" />
+                        </div>
+
+                        <div class="col-12">
+                            <div class="damdfe-notes-textarea">
+                                <t t-esc="fiscal_additional_data" />
+                                <br /><br />
+                                <t t-esc="customer_additional_data" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_damdfe_modal_aquaviario">
+        <t t-call="web.html_container">
+            <div class="row">
+                <div class="col-12">
+                    <span class="damdfe-modal-title">
+                        Dados do Terminal
+                    </span>
+                    <hr class="damdfe-separator" />
+
+                    <div class="row">
+                        <div class="col-6 damdfe-modal-header">
+                            Carregamento
+                        </div>
+                        <div class="col-6 damdfe-modal-header">
+                            Descarregamento
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <t t-foreach="modal_aquaviario_data['loading']" t-as="loading">
+                            <div class="col-2 damdfe-modal-field">
+                                <span t-esc="loading['city_code']" />
+                            </div>
+                            <div class="col-4 damdfe-modal-field">
+                                <span t-esc="loading['city_name']" />
+                            </div>
+                        </t>
+
+                        <t
+                            t-foreach="modal_aquaviario_data['unloading']"
+                            t-as="unloading"
+                        >
+                            <div class="col-2 damdfe-modal-field">
+                                <span t-esc="unloading['city_code']" />
+                            </div>
+                            <div class="col-4 damdfe-modal-field">
+                                <span t-esc="unloading['city_name']" />
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row damdfe-load-info" t-if="contingency">
+                <div class="col-12">
+                    <span>
+                        <strong>Informações da Composição da Carga</strong>
+                    </span>
+                    <hr class="damdfe-separator" />
+                </div>
+
+                <table
+                    class="table table-hover damdfe-table"
+                    style="margin-left: 15px !important;"
+                >
+                    <thead class="damdfe-table-header">
+                        <tr>
+                            <th
+                                scope="col"
+                            >Informações dos documentos discais vinculados ao manifesto</th>
+                            <th scope="col">Informações da unidade de tranporte</th>
+                            <th scope="col">Informações da unidade de carga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="document_info['documents']" t-as="document">
+                            <tr class="damdfe-table-item">
+                                <td><t t-esc="document['key']" /></td>
+                                <td>Navio</td>
+                                <td>Outros</td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                class="row damdfe-load-info"
+                t-elif="modal_aquaviario_data['transport'] or modal_aquaviario_data['load']"
+            >
+                <div class="col-12">
+                    <span>
+                        <strong>Informações da Composição da Carga</strong>
+                    </span>
+                    <hr class="damdfe-separator" />
+                </div>
+
+                <div class="col-6" t-if="modal_aquaviario_data['transport']">
+                    <span>
+                        <strong>Transporte</strong>
+                    </span>
+                    <hr class="damdfe-line-separator" />
+
+                    <table class="table table-hover damdfe-table">
+                        <thead class="damdfe-table-header">
+                            <tr>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t
+                                t-foreach="modal_aquaviario_data['transport']"
+                                t-as="transp"
+                            >
+                                <tr class="damdfe-table-item">
+                                    <td><t t-esc="transp['id']" /></td>
+                                    <td><t t-esc="transp['type']" /></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-6" t-if="modal_aquaviario_data['load']">
+                    <span>
+                        <strong>Carga</strong>
+                    </span>
+                    <hr class="damdfe-line-separator" />
+
+                    <table class="table table-hover damdfe-table">
+                        <thead class="damdfe-table-header">
+                            <tr>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="modal_aquaviario_data['load']" t-as="load">
+                                <tr class="damdfe-table-item">
+                                    <td><t t-esc="load['id']" /></td>
+                                    <td><t t-esc="load['type']" /></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

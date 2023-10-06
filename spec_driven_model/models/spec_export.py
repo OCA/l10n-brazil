@@ -14,7 +14,11 @@ class AbstractSpecMixin(models.AbstractModel):
 
     @api.model
     def _get_binding_class(self, class_obj):
-        binding_module = sys.modules[self._binding_module]
+        module_name = class_obj._binding_module
+        origin_class = self._get_origin_class()
+        if origin_class:
+            module_name = origin_class._binding_module
+        binding_module = sys.modules[module_name]
         for attr in class_obj._binding_type.split("."):
             binding_module = getattr(binding_module, attr)
         return binding_module
@@ -213,11 +217,16 @@ class AbstractSpecMixin(models.AbstractModel):
         sub binding instances already properly instanciated.
         """
         self.ensure_one()
+
         if not class_name:
-            if hasattr(self, "_stacked"):
-                class_name = self._stacked
+            origin_class = self._get_origin_class()
+            if not origin_class:
+                origin_class = self
+
+            if hasattr(origin_class, "_stacked"):
+                class_name = origin_class._stacked
             else:
-                class_name = self._name
+                class_name = origin_class._name
 
         class_obj = self.env[class_name]
 
@@ -262,3 +271,10 @@ class AbstractSpecMixin(models.AbstractModel):
     def export_ds(self):
         self.ensure_one()
         return self.export_xml(print_xml=False)
+
+    def _get_origin_class(self):
+        module_name = self._context.get("module", False)
+        if not module_name:
+            return False
+
+        return self._find_origin_class_by_module(module_name)

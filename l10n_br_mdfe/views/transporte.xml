@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="transporte_lacre_tree_view" model="ir.ui.view">
+        <field name="name">transporte.lacre.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.transporte.lacre</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="mdfe30_nLacre" />
+            </tree>
+        </field>
+    </record>
+</odoo>

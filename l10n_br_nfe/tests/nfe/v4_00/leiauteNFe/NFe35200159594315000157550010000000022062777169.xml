@@ -135,10 +135,23 @@
                 <vOutro>0.00</vOutro>
                 <vNF>1950.00</vNF>
             </ICMSTot>
+            <ISSQNtot>
+                <vBC>953.36</vBC>
+                <vPIS>12.68</vPIS>
+                <vCOFINS>58.50</vCOFINS>
+                <dCompet>2020-01-01</dCompet>
+            </ISSQNtot>
         </total>
         <transp>
             <modFrete>9</modFrete>
         </transp>
+        <cobr>
+            <fat>
+                <nFat>2</nFat>
+                <vOrig>1950.00</vOrig>
+                <vLiq>1950.00</vLiq>
+            </fat>
+        </cobr>
         <pag>
             <detPag>
                 <indPag>0</indPag>
