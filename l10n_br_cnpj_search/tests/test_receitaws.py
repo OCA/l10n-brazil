@@ -52,6 +52,6 @@ class TestReceitaWS(TestCnpjCommon):
         time.sleep(2)  # Pause
         isla.search_cnpj()
 
-        self.assertEqual(isla.name, "Isla Sementes Ltda.")
-        self.assertEqual(isla.phone, "(51) 9852-9561")
-        self.assertEqual(isla.mobile, "(51) 2136-6600")
+        self.assertEqual(isla.name.strip(), "Isla Sementes Ltda.")
+        self.assertEqual(isla.phone.strip(), "(51) 9852-9561")
+        self.assertEqual(isla.mobile.strip(), "(51) 2136-6600")
