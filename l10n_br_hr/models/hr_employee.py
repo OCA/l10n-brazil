@@ -8,6 +8,8 @@ from erpbrasil.base.fiscal import cnpj_cpf, pis
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+from odoo.addons.l10n_br_base.tools import check_cnpj_cpf
+
 
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
@@ -233,8 +235,7 @@ class HrEmployee(models.Model):
     @api.constrains("cpf")
     def _check_cpf(self):
         for record in self:
-            if record.cpf and not cnpj_cpf.validar(record.cpf):
-                raise ValidationError(_("CPF Invalido!"))
+            check_cnpj_cpf(record.env, record.cpf, record.country_id)
 
     @api.onchange("cpf")
     def onchange_cpf(self):
