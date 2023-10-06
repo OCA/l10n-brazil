@@ -4,10 +4,12 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
-from erpbrasil.base.fiscal import cnpj_cpf, ie
+from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+from ..tools import check_cnpj_cpf, check_ie
 
 
 class Partner(models.Model):
@@ -106,29 +108,12 @@ class Partner(models.Model):
 
     @api.constrains("cnpj_cpf", "country_id")
     def _check_cnpj_cpf(self):
-        result = True
         for record in self:
-            disable_cnpj_ie_validation = record.env[
-                "ir.config_parameter"
-            ].sudo().get_param(
-                "l10n_br_base.disable_cpf_cnpj_validation", default=False
-            ) or self.env.context.get(
-                "disable_cpf_cnpj_validation"
+            check_cnpj_cpf(
+                record.env,
+                record.cnpj_cpf,
+                record.country_id,
             )
-            if not disable_cnpj_ie_validation:
-                if record.country_id:
-                    country_code = record.country_id.code
-                    if country_code:
-                        if record.cnpj_cpf and country_code.upper() == "BR":
-                            if record.is_company:
-                                if not cnpj_cpf.validar(record.cnpj_cpf):
-                                    result = False
-                                    document = "CNPJ"
-                            elif not cnpj_cpf.validar(record.cnpj_cpf):
-                                result = False
-                                document = "CPF"
-                if not result:
-                    raise ValidationError(_("{} Invalid!").format(document))
 
     @api.constrains("inscr_est", "state_id")
     def _check_ie(self):
@@ -136,24 +121,9 @@ class Partner(models.Model):
         this method call others methods because this validation is State wise
 
         :Return: True or False.
-
-        :Parameters:
         """
         for record in self:
-            result = True
-
-            disable_ie_validation = record.env["ir.config_parameter"].sudo().get_param(
-                "l10n_br_base.disable_ie_validation", default=False
-            ) or self.env.context.get("disable_ie_validation")
-            if not disable_ie_validation:
-                if record.inscr_est == "ISENTO":
-                    return
-                if record.inscr_est and record.is_company and record.state_id:
-                    state_code = record.state_id.code or ""
-                    uf = state_code.lower()
-                    result = ie.validar(uf, record.inscr_est)
-                if not result:
-                    raise ValidationError(_("Estadual Inscription Invalid !"))
+            check_ie(record.env, record.inscr_est, record.state_id, record.country_id)
 
     @api.constrains("state_tax_number_ids")
     def _check_state_tax_number_ids(self):
@@ -163,11 +133,13 @@ class Partner(models.Model):
         """
         for record in self:
             for inscr_est_line in record.state_tax_number_ids:
-                state_code = inscr_est_line.state_id.code or ""
-                uf = state_code.lower()
-                valid_ie = ie.validar(uf, inscr_est_line.inscr_est)
-                if not valid_ie:
-                    raise ValidationError(_("Invalid State Tax Number!"))
+                check_ie(
+                    record.env,
+                    inscr_est_line.inscr_est,
+                    inscr_est_line.state_id,
+                    record.country_id,
+                )
+
                 if inscr_est_line.state_id.id == record.state_id.id:
                     raise ValidationError(
                         _(
