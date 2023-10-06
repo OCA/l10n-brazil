@@ -94,7 +94,7 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field
             name="document_serie_id"
-            ref="l10n_br_fiscal.empresa_lc_document_58_serie_1"
+            ref="l10n_br_fiscal.empresa_sn_document_58_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="document_number">4</field>
@@ -131,7 +131,7 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
         <field
             name="document_serie_id"
-            ref="l10n_br_fiscal.empresa_lc_document_58_serie_1"
+            ref="l10n_br_fiscal.empresa_sn_document_58_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="document_number">5</field>
