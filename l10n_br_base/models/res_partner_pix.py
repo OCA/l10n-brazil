@@ -4,10 +4,11 @@
 
 import phonenumbers
 from email_validator import EmailSyntaxError, validate_email
-from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+from ..tools import check_cnpj_cpf
 
 
 class PartnerPix(models.Model):
@@ -54,6 +55,7 @@ class PartnerPix(models.Model):
         domain="[('partner_id', '=', partner_id)]",
     )
 
+    @api.model
     def _normalize_email(self, email):
         try:
             result = validate_email(
@@ -72,6 +74,7 @@ class PartnerPix(models.Model):
             ) from None
         return normalized_email
 
+    @api.model
     def _normalize_phone(self, phone):
         try:
             phonenumber = phonenumbers.parse(phone, "BR")
@@ -90,20 +93,15 @@ class PartnerPix(models.Model):
         )
         return phone
 
-    def _normalize_cnpj_cpf(self, doc_number):
+    @api.model
+    def _normalize_cnpj_cpf(self, doc_number, partner_id):
         doc_number = "".join(char for char in doc_number if char.isdigit())
-        if not 11 <= len(doc_number) <= 14:
-            raise ValidationError(
-                _(
-                    f"Invalid Document Number {doc_number}: "
-                    f"\nThe CPF must have 11 digits and the CNPJ 14 digits."
-                )
-            )
-        is_valid = cnpj_cpf.validar(doc_number)
-        if not is_valid:
-            raise ValidationError(_(f"Invalid Document Number: {doc_number}"))
+        partner = self.env["res.partner"].browse(partner_id)
+        check_cnpj_cpf(self.env, doc_number, partner.country_id)
+
         return doc_number
 
+    @api.model
     def _normalize_evp(self, key):
         # EVP: Endereço Virtual de Pagamento (chave aleatória)
         # ex: 123e4567-e12b-12d1-a456-426655440000
@@ -139,6 +137,7 @@ class PartnerPix(models.Model):
         self.check_vals(vals)
         return super().write(vals)
 
+    @api.model
     def check_vals(self, vals):
         key_type = vals.get("key_type") or self.key_type
         key = vals.get("key") or self.key
@@ -149,7 +148,8 @@ class PartnerPix(models.Model):
         elif key_type == "phone":
             key = self._normalize_phone(key)
         elif key_type == "cnpj_cpf":
-            key = self._normalize_cnpj_cpf(key)
+            partner_id = vals.get("partner_id") or self.partner_id.id
+            key = self._normalize_cnpj_cpf(key, partner_id)
         elif key_type == "evp":
             key = self._normalize_evp(key)
         vals["key"] = key
