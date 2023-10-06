@@ -26,7 +26,7 @@ class MDFeDocumentTest(SavepointCase):
                 "company_id": cls.sn_company_id.id,
                 "document_number": "70000",
                 "document_serie": "30",
-                "document_data": datetime.now(),
+                "document_date": datetime.now(),
             }
         )
 

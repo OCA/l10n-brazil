@@ -954,7 +954,9 @@ class MDFe(spec_models.StackedModel):
         self.write({"xml_error_message": erros or False})
 
     def view_pdf(self):
-        if not self.filtered(filtered_processador_edoc_mdfe):
+        self.ensure_one()
+
+        if self.document_type != MODELO_FISCAL_MDFE:
             return super().view_pdf()
 
         return self.action_damdfe_report()
@@ -1163,7 +1165,6 @@ class MDFe(spec_models.StackedModel):
             "company_id": self.company_id.id,
             "company_has_logo": bool(self.company_id.logo),
             "company_ie": self.company_id.inscr_est,
-            "company_logo": self.company_id.inscr_est,
             "company_cnpj": self.company_id.cnpj_cpf,
             "company_legal_name": self.company_id.legal_name,
             "company_street": self.company_id.street,
@@ -1219,4 +1220,4 @@ class MDFe(spec_models.StackedModel):
         for i in range(0, len(key), pace):
             formatted_key += key[i : i + pace] + " "
 
-        return formatted_key
+        return formatted_key.strip()
