@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import re
-from datetime import datetime
 
 from odoo.exceptions import UserError
 
@@ -13,46 +12,7 @@ class MDFeDAMDFeTest(TestMDFeSerialize):
     def setUp(self):
         super().setUp(mdfe_list=[])
 
-        FiscalDocument = self.env["l10n_br_fiscal.document"]
-
-        self.acre_state = self.env.ref("base.state_br_ac")
-        self.acre_city = self.env.ref("l10n_br_base.city_1200013")
-        self.mdfe_document_type_id = self.env.ref("l10n_br_fiscal.document_58")
-        self.sn_company_id = self.env.ref("l10n_br_base.empresa_simples_nacional")
-        self.serie_id = self.env.ref("l10n_br_fiscal.empresa_sn_document_58_serie_1")
-        self.related_nfe_id = self.env.ref("l10n_br_mdfe.demo_mdfe_related_nfe")
-        self.formatted_related_nfe_key = FiscalDocument._format_document_key(
-            self.related_nfe_id.mdfe30_chNFe
-        )
-
         self._create_documents()
-
-    def _get_default_document_data(self):
-        info_descarregamento = [
-            (
-                0,
-                0,
-                {
-                    "state_id": self.acre_state.id,
-                    "city_id": self.acre_city.id,
-                    "document_type": "nfe",
-                    "nfe_ids": [(6, 0, [self.related_nfe_id.id])],
-                },
-            )
-        ]
-
-        return {
-            "document_type_id": self.mdfe_document_type_id.id,
-            "company_id": self.sn_company_id.id,
-            "document_serie_id": self.serie_id.id,
-            "document_date": datetime.now(),
-            "mdfe_initial_state_id": self.acre_state.id,
-            "mdfe_final_state_id": self.acre_state.id,
-            "mdfe_loading_city_ids": [(4, self.acre_city.id)],
-            "mdfe30_infMunDescarga": info_descarregamento,
-            "manual_fiscal_additional_data": "FISCAL ADDITIONAL DATA",
-            "manual_customer_additional_data": "CUSTOMER ADDITIONAL DATA",
-        }
 
     def _create_documents(self):
         FiscalDocument = self.env["l10n_br_fiscal.document"]
