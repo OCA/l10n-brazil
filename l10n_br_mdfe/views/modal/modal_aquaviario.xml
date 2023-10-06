@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="modal_aquaviario_carregamento_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.aquaviario.carregamento.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.aquaviario.carregamento</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="loading_harbor" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_aquaviario_descarregamento_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.aquaviario.descarregamento.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.aquaviario.descarregamento</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="unloading_harbor" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_aquaviario_comboio_tree_view" model="ir.ui.view">
+        <field name="name">modal.aquaviario.comboio.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.aquaviario.comboio</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="mdfe30_cEmbComb" />
+                <field name="mdfe30_xBalsa" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_aquaviario_carga_vazia_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.aquaviario.carga.vazia.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.aquaviario.carga.vazia</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="mdfe30_idUnidCargaVazia" />
+                <field name="mdfe30_tpUnidCargaVazia" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_aquaviario_transporte_vazio_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.aquaviario.transporte.vazio.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.aquaviario.transporte.vazio</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="mdfe30_idUnidTranspVazia" />
+                <field name="mdfe30_tpUnidTranspVazia" />
+            </tree>
+        </field>
+    </record>
+</odoo>
