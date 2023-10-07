@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-09-02 13:37+0000\n"
+"PO-Revision-Date: 2023-10-09 09:11+0000\n"
 "Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -1596,7 +1596,7 @@ msgstr "CFOP Destino"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__cfop_export_id
 msgid "CFOP Export"
-msgstr "Exportar CFOP"
+msgstr "CFOP Exterior"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__cfop_external_id
