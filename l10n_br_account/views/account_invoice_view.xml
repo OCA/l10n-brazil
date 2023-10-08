@@ -161,7 +161,7 @@
                 <field name="nbs_id" optional="hide" />
                 <field name="nbm_id" optional="hide" />
                 <field name="cest_id" optional="hide" />
-                <field name="uom_id" optional="hide" />
+                <field name="product_uom_id" optional="hide" />
                 <field name="fiscal_genre_id" optional="hide" />
                 <field
                     name="fiscal_tax_ids"
