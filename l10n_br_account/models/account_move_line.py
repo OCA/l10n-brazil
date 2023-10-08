@@ -175,7 +175,8 @@ class AccountMoveLine(models.Model):
                     values.get("uot_id"),
                 )
             )
-            values["uom_id"] = values.get("product_uom_id")
+            if values.get("product_uom_id"):
+                values["uom_id"] = values["product_uom_id"]
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
             if (
@@ -232,7 +233,8 @@ class AccountMoveLine(models.Model):
         return results
 
     def write(self, values):
-        values["uom_id"] = values.get("product_uom_id")
+        if values.get("product_uom_id"):
+            values["uom_id"] = values["product_uom_id"]
         non_dummy = self.filtered(lambda line: line.fiscal_document_line_id)
         self._inject_shadowed_fields([values])
         if values.get("move_id") and len(non_dummy) == len(self):
