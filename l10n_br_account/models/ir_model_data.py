@@ -15,18 +15,12 @@ class IrModelData(models.Model):
         and a fiscal_document_line_id. But in l10n_br_account we allow account moves
         without fiscal documents. This override avoids crashing Odoo here.
         """
-        to_remove = []
-        for index, data in enumerate(data_list or []):
-            if (
-                data["record"]._name == "l10n_br_fiscal.document"
-                and not data["record"].id
-            ):
-                to_remove.append(index)
-            elif (
-                data["record"]._name == "l10n_br_fiscal.document.line"
-                and not data["record"].id
-            ):
-                to_remove.append(index)
-        for i in to_remove:
-            data_list.pop(i)
-        return super()._update_xmlids(data_list, update)
+        filtered_data_list = filter(
+            lambda data: (
+                data["record"]._name
+                not in ("l10n_br_fiscal.document", "l10n_br_fiscal.document.line")
+                or data["record"].id
+            ),
+            data_list,
+        )
+        return super()._update_xmlids(filtered_data_list, update)
