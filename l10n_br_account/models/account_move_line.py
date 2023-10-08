@@ -19,7 +19,6 @@ from .account_move import InheritsCheckMuteLogger
 SHADOWED_FIELDS = [
     "name",
     "product_id",
-    "uom_id",
     "quantity",
     "price_unit",
 ]
@@ -171,10 +170,11 @@ class AccountMoveLine(models.Model):
                     values.get("product_id"),
                     values.get("price_unit"),
                     values.get("quantity"),
-                    values.get("uom_id"),
+                    values.get("product_uom_id"),
                     values.get("uot_id"),
                 )
             )
+            values["uom_id"] = values.get("product_uom_id")
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
             if (
@@ -231,6 +231,7 @@ class AccountMoveLine(models.Model):
         return results
 
     def write(self, values):
+        values["uom_id"] = values.get("product_uom_id")
         non_dummy = self.filtered(lambda line: line.fiscal_document_line_id)
         self._inject_shadowed_fields([values])
         if values.get("move_id") and len(non_dummy) == len(self):
