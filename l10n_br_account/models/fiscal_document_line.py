@@ -27,11 +27,6 @@ class FiscalDocumentLine(models.Model):
         related="product_id",
         readonly=False,
     )
-    fiscal_uom_id = fields.Many2one(
-        string="Fiscal UOM",
-        related="uom_id",
-        readonly=False,
-    )
     fiscal_quantity = fields.Float(
         string="Fiscal Quantity",
         related="quantity",
