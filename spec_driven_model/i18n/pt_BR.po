@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* spec_driven_model
+# 	* spec_driven_model
 #
 msgid ""
 msgstr ""
@@ -17,7 +17,7 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: spec_driven_model
-#: code:addons/spec_driven_model/models/spec_models.py:44
+#: code:addons/spec_driven_model/models/spec_models.py:46
 #, python-format
 msgid "Abrir..."
 msgstr "Abrir..."
