@@ -41,6 +41,28 @@ msgid "Default Fiscal Operation for Purchase"
 msgstr "Operação Fiscal Padrão para Compra"
 
 #. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
 msgid ""
 "If enabled, activates 3-way matching on vendor bills : the items must be "
@@ -50,6 +72,17 @@ msgstr ""
 "itens devem ser recebidos para pagar a fatura."
 
 #. module: l10n_br_purchase_stock
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__purchase_create_invoice_policy
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__purchase_create_invoice_policy
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__purchase_create_invoice_policy
@@ -57,12 +90,9 @@ msgid "Purchase Create Invoice Policy"
 msgstr "Política de Criação de Faturas de Compra"
 
 #. module: l10n_br_purchase_stock
-#: code:addons/l10n_br_purchase_stock/models/purchase_order.py:13
-#: code:addons/l10n_br_purchase_stock/models/res_company.py:20
-#: code:addons/l10n_br_purchase_stock/models/res_config_settings.py:12
+#: code:addons/l10n_br_purchase_stock/models/res_company.py:0
 #: model:ir.model,name:l10n_br_purchase_stock.model_purchase_order
-#: selection:purchase.order,purchase_create_invoice_policy:0
-#: selection:res.company,purchase_create_invoice_policy:0
+#: model:ir.model.fields.selection,name:l10n_br_purchase_stock.selection__res_company__purchase_create_invoice_policy__purchase_order
 #, python-format
 msgid "Purchase Order"
 msgstr "Pedido de Compra"
@@ -78,11 +108,18 @@ msgid "Select invoiced based on order or picking"
 msgstr "Selecione faturas com base no pedido ou na separação de mercadorias"
 
 #. module: l10n_br_purchase_stock
-#: code:addons/l10n_br_purchase_stock/models/purchase_order.py:14
-#: code:addons/l10n_br_purchase_stock/models/res_company.py:21
-#: code:addons/l10n_br_purchase_stock/models/res_config_settings.py:13
-#: selection:purchase.order,purchase_create_invoice_policy:0
-#: selection:res.company,purchase_create_invoice_policy:0
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_move
+msgid "Stock Move"
+msgstr "Movimentação de Estoque"
+
+#. module: l10n_br_purchase_stock
+#: code:addons/l10n_br_purchase_stock/models/res_company.py:0
+#: model:ir.model.fields.selection,name:l10n_br_purchase_stock.selection__res_company__purchase_create_invoice_policy__stock_picking
 #, python-format
 msgid "Stock Picking"
 msgstr "Separação de Estoque"
@@ -238,9 +275,6 @@ msgstr "Regra de Estoque"
 
 #~ msgid "Schedule receivings earlier to avoid delays"
 #~ msgstr "Agende recebimentos com antecedência para evitar atrasos"
-
-#~ msgid "Stock Move"
-#~ msgstr "Movimentação de Estoque"
 
 #~ msgid "Stock Moves"
 #~ msgstr "Movimentos de Estoque"
