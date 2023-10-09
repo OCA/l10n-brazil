@@ -110,9 +110,7 @@ class CNPJWebservice(models.AbstractModel):
         module_env = self.env["ir.module.module"]
         module = module_env.search([("name", "=", "l10n_br_fiscal")])
 
-        if module and module.state == "installed":
-            return True
-        return False
+        return module and module.state == "installed"
 
     @api.model
     def _get_cnae(self, raw_code):

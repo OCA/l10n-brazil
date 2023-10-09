@@ -10,7 +10,7 @@ class ReceitawsWebserviceCRM(models.AbstractModel):
     @api.model
     def _receitaws_import_data(self, data):
         res = super()._receitaws_import_data(data)
-        keys_to_remove = ["email", "legal_nature", "equity_capital"]
+        keys_to_remove = ["email", "legal_nature", "equity_capital", "cnae_main_id"]
         for key in keys_to_remove:
             res.pop(key, None)
         return res

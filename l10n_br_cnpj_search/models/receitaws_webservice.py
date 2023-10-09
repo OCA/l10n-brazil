@@ -50,11 +50,10 @@ class ReceitawsWebservice(models.AbstractModel):
             "city_id": city_id,
             "equity_capital": self.get_data(data, "capital_social"),
             "cnae_main_id": self._receitaws_get_cnae(data),
-            "cnae_secondary_ids": self._receitaws_get_secondary_cnae(data),
         }
 
         if not self._check_l10n_br_fiscal_module_installed():
-            remove_keys = ["cnae_main_id", "cnae_secondary_ids"]
+            remove_keys = ["cnae_main_id"]
             for key in remove_keys:
                 res.pop(key, None)
 
