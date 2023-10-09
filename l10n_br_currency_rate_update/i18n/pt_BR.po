@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_currency_rate_update
+# 	* l10n_br_currency_rate_update
 #
 msgid ""
 msgstr ""
@@ -22,9 +22,11 @@ msgid "Brazilian Central Bank"
 msgstr "Banco Central do Brasil"
 
 #. module: l10n_br_currency_rate_update
-#: code:addons/l10n_br_currency_rate_update/models/res_currency_rate_provider_bcb.py:43
+#: code:addons/l10n_br_currency_rate_update/models/res_currency_rate_provider_bcb.py:44
 #, python-format
-msgid "Brazilian Central Bank is suitable only for companies with BRL as base currency!"
+msgid ""
+"Brazilian Central Bank is suitable only for companies with BRL as base "
+"currency!"
 msgstr ""
 "O Banco Central do Brasil é adequado apenas para empresas com BRL como moeda "
 "base!"
