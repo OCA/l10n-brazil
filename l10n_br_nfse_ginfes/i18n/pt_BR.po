@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_nfse_ginfes
+# 	* l10n_br_nfse_ginfes
 #
 msgid ""
 msgstr ""
@@ -15,6 +15,12 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.3.2\n"
+
+#. module: l10n_br_nfse_ginfes
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:300
+#, python-format
+msgid "Batch not yet processed"
+msgstr ""
 
 #. module: l10n_br_nfse_ginfes
 #: model:ir.model,name:l10n_br_nfse_ginfes.model_res_company
@@ -32,10 +38,9 @@ msgid "Ginfes"
 msgstr "Ginfes"
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:307
-#, python-format
-msgid "Lote ainda não processado"
-msgstr "Lote ainda não processado"
+#: selection:res.company,provedor_nfse:0
+msgid "ISSNet / Nota Control"
+msgstr ""
 
 #. module: l10n_br_nfse_ginfes
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_res_company__provedor_nfse
@@ -43,19 +48,40 @@ msgid "NFSe Provider"
 msgstr "Provedor NFSe"
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:304
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:297
 #, python-format
-msgid "Não Recebido"
-msgstr "Não Recebido"
+msgid "Not received"
+msgstr ""
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:310
-#, python-format
-msgid "Procesado com Erro"
-msgstr "Procesado com Erro"
+#: selection:res.company,provedor_nfse:0
+msgid "Paulistana"
+msgstr ""
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:313
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:303
 #, python-format
-msgid "Procesado com Sucesso"
-msgstr "Procesado com Sucesso"
+msgid "Processed with Error"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:306
+#, python-format
+msgid "Successfully Processed"
+msgstr ""
+
+#, python-format
+#~ msgid "Lote ainda não processado"
+#~ msgstr "Lote ainda não processado"
+
+#, python-format
+#~ msgid "Não Recebido"
+#~ msgstr "Não Recebido"
+
+#, python-format
+#~ msgid "Procesado com Erro"
+#~ msgstr "Procesado com Erro"
+
+#, python-format
+#~ msgid "Procesado com Sucesso"
+#~ msgstr "Procesado com Sucesso"
