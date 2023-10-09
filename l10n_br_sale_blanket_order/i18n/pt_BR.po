@@ -37,6 +37,11 @@ msgid "Additional data manually entered by user"
 msgstr "Dados adicionais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__allow_csll_irpj
+msgid "Allow Csll Irpj"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_discount_value
 msgid "Amount Discount"
 msgstr "Valor do Desconto"
@@ -236,6 +241,7 @@ msgid "COFINS ST % Reduction"
 msgstr "Redução ST COFINS %"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_cofinsst_base
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofinsst_base
 msgid "COFINS ST Base"
 msgstr "Base ST COFINS"
@@ -251,6 +257,7 @@ msgid "COFINS ST CST Code"
 msgstr "Código CST de ST de COFINS"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_cofinsst_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofinsst_value
 msgid "COFINS ST Value"
 msgstr "Valor ST COFINS"
@@ -1015,6 +1022,20 @@ msgid "Identifies the operation destination."
 msgstr "Identifica o destino da operação."
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__allow_csll_irpj
+msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__partner_is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__insurance_value
 msgid "Insurance Value"
@@ -1175,6 +1196,7 @@ msgid "PIS ST % Reduction"
 msgstr "Redução de PIS ST %"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_pisst_base
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__pisst_base
 msgid "PIS ST Base"
 msgstr "Base de PIS ST"
@@ -1190,6 +1212,7 @@ msgid "PIS ST CST Code"
 msgstr "Código CST de PIS ST"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_pisst_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__pisst_value
 msgid "PIS ST Value"
 msgstr "Valor de PIS ST"
@@ -1240,6 +1263,11 @@ msgstr "Produto"
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__quantity
 msgid "Product Uom Quantity"
 msgstr "Quantidade do Produto (Udm)"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__partner_is_public_entity
+msgid "Public Entity"
+msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__service_type_id
