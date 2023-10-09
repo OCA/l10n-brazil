@@ -54,10 +54,10 @@ interactions:
         Access-Control-Allow-Methods: [GET]
         Access-Control-Expose-Headers: [""]
         Connection: [keep-alive]
-        Date: ["Wed, 04 Oct 2023 13:41:34 GMT"]
+        Date: ["Mon, 09 Oct 2023 13:59:56 GMT"]
         Transfer-Encoding: [chunked]
         access-control-allow-origin: ["*"]
-        activityid: [95ddba68-b3cf-4a20-8c9f-fbafa023ee1d]
+        activityid: [40c5ea80-4b9f-45cd-aeca-7c0f84e53051]
         content-type: [application/json; charset=utf-8]
         etag: [W/"715-ilaBip1HJAjlsSrk9iRnGBs7krs"]
         strict-transport-security: [max-age=15768000]
@@ -2639,12 +2639,11 @@ interactions:
       headers:
         Connection: [keep-alive]
         Content-Type: [text/xml;charset=UTF-8]
-        Date: ["Wed, 04 Oct 2023 13:41:35 GMT"]
+        Date: ["Mon, 09 Oct 2023 13:59:58 GMT"]
         Set-Cookie:
           [
-            INGRESSCOOKIE=1696426896.58.17860.874373|835444ff6d2fd54741dcab3b865d31d6;
+            INGRESSCOOKIE=1696859999.921.14899.759634|835444ff6d2fd54741dcab3b865d31d6;
             Max-Age=3600; Path=/SigepMasterJPA; Secure; HttpOnly,
-            LBprdint3=1933180938.47873.0000; path=/; Httponly; Secure,
             LBprdExt1=566886410.47873.0000; path=/; Httponly; Secure,
           ]
         Strict-Transport-Security: [max-age=15724800; includeSubDomains]
@@ -2665,8 +2664,8 @@ interactions:
         Content-Type: [text/xml; charset=utf-8]
         Cookie:
           [
-            INGRESSCOOKIE=1696426896.58.17860.874373|835444ff6d2fd54741dcab3b865d31d6;
-            LBprdExt1=566886410.47873.0000; LBprdint3=1933180938.47873.0000,
+            INGRESSCOOKIE=1696859999.921.14899.759634|835444ff6d2fd54741dcab3b865d31d6;
+            LBprdExt1=566886410.47873.0000,
           ]
         SOAPAction: ['""']
         User-Agent: [Zeep/3.2.0 (www.python-zeep.org)]
@@ -2685,7 +2684,7 @@ interactions:
         Connection: [keep-alive]
         Content-Length: ["388"]
         Content-Type: [text/xml;charset=UTF-8]
-        Date: ["Wed, 04 Oct 2023 13:41:35 GMT"]
+        Date: ["Mon, 09 Oct 2023 13:59:59 GMT"]
         Strict-Transport-Security: [max-age=15724800; includeSubDomains]
         X-Powered-By: [Undertow/1]
       status: {code: 200, message: OK}

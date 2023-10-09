@@ -1,6 +1,8 @@
 <odoo>
+    <!-- Copyright 2022 KMEE - Luis Felipe Mileo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
     <record id="l10n_br_crm_leads_form_inherit" model="ir.ui.view">
-          <field name="name">l10n_br.leads.form</field>
+          <field name="name">l10n_br_crm.leads.form (in l10n_br_cnpj_search_crm)</field>
           <field name="model">crm.lead</field>
           <field name="inherit_id" ref="l10n_br_crm.l10n_br_crm_leads_form" />
           <field name="priority" eval="99" />
