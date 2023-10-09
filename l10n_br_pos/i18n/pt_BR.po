@@ -144,6 +144,12 @@ msgid "Aguardando processamento"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__allow_csll_irpj
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__allow_csll_irpj
+msgid "Allow Csll Irpj"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cfop_ids
 msgid "Allowed CFOPs"
 msgstr ""
@@ -453,6 +459,7 @@ msgstr "% Redução ST COFINS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_base
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_cofinsst_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_base
 msgid "COFINS ST Base"
 msgstr "Base ST COFINS"
@@ -471,6 +478,7 @@ msgstr "Código CST ST COFINS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_value
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_cofinsst_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_value
 msgid "COFINS ST Value"
 msgstr "Valor de ST do Cofins"
@@ -1779,6 +1787,22 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens tem erro de entrega."
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__allow_csll_irpj
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__allow_csll_irpj
+msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_is_public_entity
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__partner_is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__insurance_value
@@ -2160,6 +2184,7 @@ msgstr "PIS ST % Redução"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_base
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_pisst_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pisst_base
 msgid "PIS ST Base"
 msgstr ""
@@ -2178,6 +2203,7 @@ msgstr "Código PIS ST CST"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_value
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_pisst_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pisst_value
 msgid "PIS ST Value"
 msgstr "Valor do PIS ST"
@@ -2330,6 +2356,12 @@ msgstr "Modelo de Produto"
 #, fuzzy
 msgid "Production"
 msgstr "Produto"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_is_public_entity
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__partner_is_public_entity
+msgid "Public Entity"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_qrcode_signature
