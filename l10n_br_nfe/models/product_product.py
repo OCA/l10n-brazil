@@ -11,6 +11,17 @@ class ProductProduct(models.Model):
 
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         domain_name, domain_barcode, domain_default_code = [], [], []
+
+        if parent_dict.get("nfe40_xProd") and parent_dict.get("nfe40_cProd"):
+            supplier_id = self.env["product.supplierinfo"].search(
+                [
+                    ("product_code", "=", parent_dict["nfe40_cProd"]),
+                    ("product_name", "=", parent_dict["nfe40_xProd"]),
+                ],
+                limit=1,
+            )
+            if supplier_id and supplier_id.product_id:
+                return supplier_id.product_id.id
         if parent_dict.get("nfe40_xProd"):
             rec_dict["name"] = parent_dict["nfe40_xProd"]
             domain_name = [("name", "=", rec_dict.get("name"))]
@@ -24,13 +35,6 @@ class ProductProduct(models.Model):
 
         if parent_dict.get("nfe40_cProd"):
             rec_dict["default_code"] = parent_dict["nfe40_cProd"]
-
-            supplier_id = self.env["product.supplierinfo"].search(
-                [("product_code", "=", parent_dict["nfe40_cProd"])], limit=1
-            )
-            if supplier_id and supplier_id.product_id:
-                return supplier_id.product_id.id
-
             domain_default_code = [("default_code", "=", rec_dict.get("default_code"))]
 
         domain = expression.OR([domain_name, domain_barcode, domain_default_code])
