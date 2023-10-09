@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_stock
+# 	* l10n_br_stock
 #
 msgid ""
 msgstr ""
@@ -45,7 +45,7 @@ msgid "Internal Transfers"
 msgstr "Transferências Internas"
 
 #. module: l10n_br_stock
-#: code:addons/l10n_br_stock/hooks.py:74
+#: code:addons/l10n_br_stock/hooks.py:88
 #, python-format
 msgid "Loading l10n_br_stock warehouse external ids..."
 msgstr "Carregando l10n_br_stock ids externos do armazém..."
