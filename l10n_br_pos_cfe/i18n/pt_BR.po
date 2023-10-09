@@ -42,8 +42,7 @@ msgstr ""
 #. module: l10n_br_pos_cfe
 #: model:ir.model.fields.selection,name:l10n_br_pos_cfe.selection__pos_payment_method__sat_card_acquirer__021
 msgid ""
-"00.163.051/0001-34 Novo Pag Adm. e Proc. de Meios Eletrônicos de Pagto. "
-"Ltda."
+"00.163.051/0001-34 Novo Pag Adm. e Proc. de Meios Eletrônicos de Pagto. Ltda."
 msgstr ""
 
 #. module: l10n_br_pos_cfe
@@ -368,7 +367,6 @@ msgstr ""
 #. module: l10n_br_pos_cfe
 #. openerp-web
 #: code:addons/l10n_br_pos_cfe/static/src/js/ChromeWidgets/ProxyStatus.js:0
-#: code:addons/l10n_br_pos_cfe/static/src/js/ChromeWidgets/ProxyStatus.js:0
 #, python-format
 msgid "Fiscal"
 msgstr ""
@@ -432,7 +430,6 @@ msgstr ""
 #. module: l10n_br_pos_cfe
 #. openerp-web
 #: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
-#: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
 #, python-format
 msgid "Please check if the Fiscal Interface is still connected."
 msgstr ""
@@ -454,7 +451,6 @@ msgstr ""
 
 #. module: l10n_br_pos_cfe
 #. openerp-web
-#: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderFooterReceipt.xml:0
 #: code:addons/l10n_br_pos_cfe/static/src/xml/Screens/ReceiptScreen/OrderFooterReceipt.xml:0
 #, python-format
 msgid "SAT No."
