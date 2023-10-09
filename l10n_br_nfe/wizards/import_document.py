@@ -5,7 +5,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
-from datetime import datetime
 
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
@@ -13,6 +12,8 @@ from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.osv import expression
+
+# from datetime import datetime
 
 
 class NfeImport(models.TransientModel):
@@ -33,91 +34,10 @@ class NfeImport(models.TransientModel):
 
     nat_op = fields.Char(string="Natureza da Operação")
 
-    purchase_link_type = fields.Selection(
-        selection=[
-            ("choose", "Choose"),
-            ("create", "Create"),
-        ],
-        default="create",
-        string="Purchase Link Type",
-    )
-
-    purchase_id = fields.Many2one(
-        comodel_name="purchase.order",
-        string="Purchase Order",
-    )
-
-    has_purchase_error = fields.Boolean()
-
-    purchase_error_message = fields.Text()
-
     @api.onchange("xml")
     def _onchange_xml(self):
         if self.xml:
             self.set_fields_by_xml_data()
-
-    @api.onchange("xml_partner_cpf_cnpj")
-    def _onchange_partner_cpf_cnpj(self):
-        if not self.xml_partner_cpf_cnpj:
-            return
-
-        purchase_order_ids = self.get_purchase_orders_from_xml_supplier()
-        return {"domain": {"purchase_id": [("id", "in", purchase_order_ids.ids)]}}
-
-    @api.depends("purchase_link_type")
-    def _onchange_link_type(self):
-        self.has_purchase_error = False
-        self.purchase_error_message = ""
-
-    @api.onchange("purchase_id")
-    def _onchange_purchase_id(self):
-        self.has_purchase_error = False
-        self.purchase_error_message = ""
-
-        if not self.purchase_id:
-            return
-
-        purchase_products = self.purchase_id.order_line.mapped("product_id")
-        document_products = self.imported_products_ids.mapped("product_id")
-        if purchase_products != document_products:
-            self.has_purchase_error = True
-            self.purchase_error_message += _(
-                "The purchase items dont match the imported items."
-            )
-            return
-
-        for line in self.purchase_id.order_line:
-            imported_product_id = self.imported_products_ids.filtered(
-                lambda s: s.product_id == line.product_id
-            )
-            if imported_product_id.quantity_com != line.product_qty:
-                self.has_purchase_error = True
-                if self.purchase_error_message:
-                    self.purchase_error_message += "\n\n"
-                self.purchase_error_message += _(
-                    "%s: Purchase order quantity dont match the imported quantity. "
-                    "The quantity will be overwriten." % line.product_id.name
-                )
-
-            if imported_product_id.price_unit_com != line.price_unit:
-                self.has_purchase_error = True
-                if self.purchase_error_message:
-                    self.purchase_error_message += "\n\n"
-                self.purchase_error_message += _(
-                    "%s: Purchase order price dont match the imported price. "
-                    "The price will be overwriten." % line.product_id.name
-                )
-
-    def get_purchase_orders_from_xml_supplier(self):
-        supplier_id = self.env["res.partner"].search(
-            [("cnpj_cpf", "=", self.xml_partner_cpf_cnpj)]
-        )
-        return self.env["purchase.order"].search(
-            [
-                ("partner_id", "=", supplier_id.id),
-                ("state", "not in", ["done", "cancel"]),
-            ]
-        )
 
     def set_fields_by_xml_data(self):
         parsed_xml = self.parse_xml()
@@ -303,15 +223,6 @@ class NfeImport(models.TransientModel):
         self._attach_original_nfe_xml_to_document(edoc)
         self.imported_products_ids._find_or_create_product_supplierinfo()
 
-        if not self.purchase_id and self.purchase_link_type == "create":
-            self.purchase_id = self.create_purchase_order(edoc)
-        elif self.purchase_id and self.purchase_link_type == "choose":
-            self.update_purchase_order()
-
-        if self.purchase_id:
-            self.purchase_id.button_confirm()
-            edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
-
         return edoc
 
     def set_fiscal_operation_type(self):
@@ -321,59 +232,6 @@ class NfeImport(models.TransientModel):
             self.fiscal_operation_type = "out"
         else:
             self.fiscal_operation_type = "in"
-
-    def create_purchase_order(self, document):
-        purchase = self.env["purchase.order"].create(
-            {
-                "partner_id": document.partner_id.id,
-                "currency_id": self.company_id.currency_id.id,
-                "fiscal_operation_id": self.get_purchase_fiscal_operation_id(),
-                "date_order": datetime.now(),
-                "origin_document_id": document.id,
-                "imported": True,
-            }
-        )
-
-        purchase_lines = []
-        for line in document.fiscal_line_ids:
-            imported_product_id = self.imported_products_ids.filtered(
-                lambda p: p.product_id == line.product_id
-            )
-
-            purchase_line = self.env["purchase.order.line"].create(
-                {
-                    "product_id": line.product_id.id,
-                    "name": line.product_id.display_name,
-                    "date_planned": datetime.now(),
-                    "product_qty": line.quantity,
-                    "product_uom": line.uom_id.id or line.product_id.uom_id.id,
-                    "partner_uom_factor": imported_product_id.uom_conversion_factor,
-                    "price_unit": line.price_unit,
-                    "price_subtotal": line.amount_total,
-                    "order_id": purchase.id,
-                }
-            )
-            purchase_lines.append(purchase_line.id)
-        purchase.write({"order_line": [(6, 0, purchase_lines)]})
-        return purchase
-
-    def update_purchase_order(self):
-        for line in self.purchase_id.order_line:
-            imported_product_id = self.imported_products_ids.filtered(
-                lambda s: s.product_id == line.product_id
-            )
-            if not imported_product_id:
-                continue
-
-            line.price_unit = imported_product_id.price_unit_com
-            line.product_qty = imported_product_id.quantity_com
-
-    def get_purchase_fiscal_operation_id(self):
-        default_fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras").id
-        return (
-            self.env.user.company_id.purchase_fiscal_operation_id.id
-            or default_fiscal_operation_id
-        )
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         return self.env["ir.attachment"].create(
