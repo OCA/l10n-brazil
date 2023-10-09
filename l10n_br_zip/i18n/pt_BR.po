@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_zip
+# 	* l10n_br_zip
 #
 msgid ""
 msgstr ""
@@ -15,6 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.3.2\n"
+
+#. module: l10n_br_zip
+#: selection:res.config.settings,cep_ws_provider:0
+msgid "API CEP"
+msgstr ""
 
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip
@@ -52,6 +57,11 @@ msgid "Config Settings"
 msgstr "Ajuste de Configurações"
 
 #. module: l10n_br_zip
+#: selection:res.config.settings,cep_ws_provider:0
+msgid "Correios"
+msgstr ""
+
+#. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__country_id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__country_id
 msgid "Country"
@@ -87,13 +97,13 @@ msgid "District"
 msgstr "Bairro"
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:166
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:178
 #, python-format
 msgid "Erro a Carregar Atributo: "
 msgstr "Erro a Carga a Atributo: "
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:124
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:136
 #, python-format
 msgid "Erro no PyCEP-Correios : "
 msgstr "Erro no PyCEP-Correios : "
@@ -186,6 +196,16 @@ msgstr "Estado"
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_type
 msgid "Street Type"
 msgstr "Tipo de Rua"
+
+#. module: l10n_br_zip
+#: selection:res.config.settings,cep_ws_provider:0
+msgid "VIA CEP"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__cep_ws_provider
+msgid "ZIP Search Provider"
+msgstr ""
 
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip_search
