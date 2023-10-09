@@ -22,11 +22,15 @@
             </xpath>
 
             <xpath expr="//group[@id='document_info']" position="after">
-                <group attrs="{'invisible': [('document_id', '=', False)]}">
+                <group
+                    id="existing_document"
+                    attrs="{'invisible': [('document_id', '=', False)]}"
+                >
                     <field name="document_id" readonly="1" string="Existing Document" />
                 </group>
 
                 <group
+                    id='xml_product_lines'
                     col="4"
                     attrs="{
                     'invisible': [
@@ -36,25 +40,6 @@
                     ]
                 }"
                 >
-                    <separator string="Purchase Order" colspan="4" />
-                    <group colspan="4">
-                        <group>
-                            <field name="purchase_link_type" />
-                            <field
-                                name="purchase_id"
-                                attrs="{'invisible': [('purchase_link_type', '!=', 'choose')]}"
-                            />
-                        </group>
-                    </group>
-                    <group colspan="4" col="1">
-                        <field name="has_purchase_error" invisible="1" />
-                        <field
-                            name="purchase_error_message"
-                            nolabel="1"
-                            readonly="1"
-                            attrs="{'invisible': [('has_purchase_error', '=', False)]}"
-                        />
-                    </group>
                     <separator string="NFe XML Products" colspan="4" />
                     <group
                         colspan="4"
