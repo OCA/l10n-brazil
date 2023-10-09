@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_crm
+# 	* l10n_br_crm
 #
 msgid ""
 msgstr ""
@@ -24,8 +24,8 @@ msgstr "CNPJ"
 #. module: l10n_br_crm
 #: code:addons/l10n_br_crm/models/crm_lead.py:63
 #, python-format
-msgid "CNPJ inválido!"
-msgstr "CNPJ inválido!"
+msgid "CNPJ: {} Invalid!"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cpf
@@ -33,10 +33,10 @@ msgid "CPF"
 msgstr "CPF"
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:74
+#: code:addons/l10n_br_crm/models/crm_lead.py:73
 #, python-format
-msgid "CPF inválido!"
-msgstr "CPF inválido!"
+msgid "CPF: {} Invalid!"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__city_id
@@ -64,10 +64,10 @@ msgid "Inscr. Municipal"
 msgstr "Inscr. Municipal"
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:92
+#: code:addons/l10n_br_crm/models/crm_lead.py:86
 #, python-format
-msgid "Inscrição Estadual Invalida!"
-msgstr "Inscrição Estadual Invalida!"
+msgid "Inscrição Estadual: {} Invalida!"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
@@ -108,3 +108,15 @@ msgstr "Suframa"
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_name
 msgid "nome utilizado em documentos fiscais"
 msgstr "nome utilizado em documentos fiscais"
+
+#, python-format
+#~ msgid "CNPJ inválido!"
+#~ msgstr "CNPJ inválido!"
+
+#, python-format
+#~ msgid "CPF inválido!"
+#~ msgstr "CPF inválido!"
+
+#, python-format
+#~ msgid "Inscrição Estadual Invalida!"
+#~ msgstr "Inscrição Estadual Invalida!"
