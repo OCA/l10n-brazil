@@ -18,7 +18,6 @@
         # View
         "views/purchase_view.xml",
         "views/res_company_view.xml",
-        "views/document_view.xml",
         # Reports
         "reports/purchase_report_views.xml",
         "reports/purchase_order_templates.xml",
