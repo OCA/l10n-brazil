@@ -55,10 +55,8 @@ msgstr ""
 
 #. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/purchase_order.py:13
-#: code:addons/l10n_br_purchase_stock/models/res_company.py:20
-#: code:addons/l10n_br_purchase_stock/models/res_config_settings.py:12
+#: code:addons/l10n_br_purchase_stock/models/res_company.py:18
 #: model:ir.model,name:l10n_br_purchase_stock.model_purchase_order
-#: selection:purchase.order,purchase_create_invoice_policy:0
 #: selection:res.company,purchase_create_invoice_policy:0
 #, python-format
 msgid "Purchase Order"
@@ -75,10 +73,18 @@ msgid "Select invoiced based on order or picking"
 msgstr ""
 
 #. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_move
+msgid "Stock Move"
+msgstr "Movimentação de Estoque"
+
+#. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/purchase_order.py:14
-#: code:addons/l10n_br_purchase_stock/models/res_company.py:21
-#: code:addons/l10n_br_purchase_stock/models/res_config_settings.py:13
-#: selection:purchase.order,purchase_create_invoice_policy:0
+#: code:addons/l10n_br_purchase_stock/models/res_company.py:19
 #: selection:res.company,purchase_create_invoice_policy:0
 #, fuzzy, python-format
 msgid "Stock Picking"
@@ -235,9 +241,6 @@ msgstr "Regra de estoque"
 
 #~ msgid "Schedule receivings earlier to avoid delays"
 #~ msgstr "Agende recebimentos com antecedência para evitar atrasos"
-
-#~ msgid "Stock Move"
-#~ msgstr "Movimentação de Estoque"
 
 #~ msgid "Stock Moves"
 #~ msgstr "Movimentos de Estoque"
