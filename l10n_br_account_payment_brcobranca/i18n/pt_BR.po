@@ -22,13 +22,6 @@ msgid "Automatic Reconcile payment returns"
 msgstr "Reconciliar automaticamente as devoluções de pagamento"
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_bank_statement_line__file_boleto_pdf_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__file_boleto_pdf_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment__file_boleto_pdf_id
-msgid "Boleto PDF"
-msgstr "Boleto PDF"
-
-#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_journal__import_type__cnab240
 msgid "CNAB 240"
 msgstr "CNAB 240"
@@ -51,12 +44,6 @@ msgid ""
 msgstr ""
 "Escolha aqui o método pelo qual você deseja importar lançamentos de diário "
 "para este diário."
-
-#. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_bank_statement_line__payment_method_code
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__payment_method_code
-msgid "Code (Do Not Modify)"
-msgstr "Código (não modificar)"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__display_name
@@ -94,11 +81,6 @@ msgstr "Importar Arquivo de Lote"
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_credit_statement_import
 msgid "Import Batch File wizard"
 msgstr "Importar Arquivo de Lote wizard"
-
-#. module: l10n_br_account_payment_brcobranca
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_brcobranca.l10n_br_account_payment_brcobranca_form
-msgid "Imprimir Boleto"
-msgstr "Imprimir Boleto"
 
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
@@ -199,21 +181,27 @@ msgid "The CNAB {} for Bank {} are not implemented in BRCobranca."
 msgstr "O CNAB {} para o banco {} não está implementado no BRCobranca."
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_bank_statement_line__payment_method_code
-#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_move__payment_method_code
-msgid ""
-"This code is used in the code of the Odoo module that handles this payment "
-"method. Therefore, if you change it, the generation of the payment file may "
-"fail."
-msgstr ""
-"Este código é usado no código do módulo Odoo que lida com este método de "
-"pagamento. Portanto, se você alterá-lo, a geração do arquivo de pagamento "
-"pode falhar."
-
-#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr "Tipo de importação"
+
+#~ msgid "Boleto PDF"
+#~ msgstr "Boleto PDF"
+
+#~ msgid "Code (Do Not Modify)"
+#~ msgstr "Código (não modificar)"
+
+#~ msgid "Imprimir Boleto"
+#~ msgstr "Imprimir Boleto"
+
+#~ msgid ""
+#~ "This code is used in the code of the Odoo module that handles this "
+#~ "payment method. Therefore, if you change it, the generation of the "
+#~ "payment file may fail."
+#~ msgstr ""
+#~ "Este código é usado no código do módulo Odoo que lida com este método de "
+#~ "pagamento. Portanto, se você alterá-lo, a geração do arquivo de pagamento "
+#~ "pode falhar."
 
 #~ msgid "Bank Payment Lines"
 #~ msgstr "Linhas de Pagamento Bancário"
