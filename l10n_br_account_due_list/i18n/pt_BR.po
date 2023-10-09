@@ -17,11 +17,6 @@ msgstr ""
 "X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_br_account_due_list
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_account_due_list
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_bank_statement_line__financial_move_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__financial_move_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_payment__financial_move_line_ids
@@ -29,19 +24,9 @@ msgid "Financial Move Lines"
 msgstr "Linhas de Movimentação Financeira"
 
 #. module: l10n_br_account_due_list
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__id
-msgid "ID"
-msgstr "ID"
-
-#. module: l10n_br_account_due_list
 #: model:ir.model,name:l10n_br_account_due_list.model_account_move
 msgid "Journal Entry"
 msgstr "Lançamento de Diário"
-
-#. module: l10n_br_account_due_list
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: l10n_br_account_due_list
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_due_list.invoice_form
@@ -64,3 +49,12 @@ msgstr "Pagamentos"
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_due_list.invoice_form
 msgid "Receivables"
 msgstr "Contas a Receber"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
