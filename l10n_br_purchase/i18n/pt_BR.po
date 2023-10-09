@@ -38,6 +38,11 @@ msgid "Additional data manually entered by user"
 msgstr "Dados adicionais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__allow_csll_irpj
+msgid "Allow Csll Irpj"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_discount_value
 msgid "Amount Discount"
 msgstr "Total do Desconto"
@@ -228,6 +233,7 @@ msgid "COFINS ST % Reduction"
 msgstr "% Redução ST COFINS"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofinsst_base
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_base
 msgid "COFINS ST Base"
 msgstr "Base para ST COFINS"
@@ -243,6 +249,7 @@ msgid "COFINS ST CST Code"
 msgstr "Código CST ST COFINS"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofinsst_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_value
 msgid "COFINS ST Value"
 msgstr "Valor de ST do COFINS"
@@ -1030,6 +1037,20 @@ msgid "Identifies the operation destination."
 msgstr "Identifica o destino da operação."
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__allow_csll_irpj
+msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__partner_is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
 msgid "Inscr. Estadual"
 msgstr ""
@@ -1250,6 +1271,7 @@ msgid "PIS ST % Reduction"
 msgstr "% de Redução do PIS ST"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pisst_base
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_base
 msgid "PIS ST Base"
 msgstr "Base do PIS ST"
@@ -1265,6 +1287,7 @@ msgid "PIS ST CST Code"
 msgstr "Código CST do PIS ST"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pisst_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_value
 msgid "PIS ST Value"
 msgstr "Valor do PIS ST"
@@ -1319,6 +1342,11 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__03
 msgid "Produto em Processo"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_is_public_entity
+msgid "Public Entity"
 msgstr ""
 
 #. module: l10n_br_purchase
