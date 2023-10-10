@@ -28,10 +28,21 @@ class L10nBrNfeStockPurchase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
                 ],
             }
         )
+        cls.picking_no_product = cls.env["stock.picking"].create(
+            {
+                "partner_id": cls.env.ref("l10n_br_base.lucro_presumido_partner").id,
+                "picking_type_id": cls.env.ref("stock.picking_type_in").id,
+                "location_dest_id": cls.env.ref(
+                    "stock.picking_type_in"
+                ).default_location_dest_id.id,
+                "location_id": cls.env.ref("stock.stock_location_suppliers").id,
+            }
+        )
 
     def test_l10n_br_nfe_stock_prepare_invoice(self):
         self._change_user_company(self.company)
         self._run_purchase_order_onchanges(self.po_products)
+        self.po_products.origin_document_id = self.nfe_fiscal_document.id
 
         self.po_products.with_context(tracking_disable=True).button_confirm()
 
@@ -44,9 +55,12 @@ class L10nBrNfeStockPurchase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
 
         invoice_values.update(self.po_products._prepare_invoice())
         self.assertEqual(
-            invoice_values["fiscal_document_id"], self.nfe_fiscal_document.id
+            invoice_values["document_type_id"],
+            self.nfe_fiscal_document.document_type_id.id,
         )
 
+    def test_l10n_br_nfe_stock_actions(self):
+        # Test open purchase actions
         self.nfe_fiscal_document.linked_purchase_ids = [(4, self.po_products.id)]
         action = self.nfe_fiscal_document.action_open_purchase()
         self.assertEqual(action["res_id"], self.po_products.id)
@@ -56,3 +70,37 @@ class L10nBrNfeStockPurchase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         self.assertIn("domain", action)
 
         self.assertEqual(self.nfe_fiscal_document.linked_purchase_count, 2)
+
+        # Test open picking actions
+        self.nfe_fiscal_document.linked_picking_ids = [(4, self.picking_no_product.id)]
+        action = self.nfe_fiscal_document.action_open_picking()
+        self.assertEqual(action["res_id"], self.picking_no_product.id)
+
+        self.nfe_fiscal_document.linked_picking_ids = [
+            (4, self.picking_no_product.copy().id)
+        ]
+        action = self.nfe_fiscal_document.action_open_picking()
+        self.assertIn("domain", action)
+
+        self.assertEqual(self.nfe_fiscal_document.linked_picking_count, 2)
+
+        # Test open document actions
+        action = self.po_products.action_open_document()
+        self.assertEqual(action["res_id"], self.nfe_fiscal_document.id)
+
+        self.po_products.linked_document_ids = [(4, self.nfe_fiscal_document.copy().id)]
+        action = self.po_products.action_open_document()
+        self.assertIn("domain", action)
+
+        self.assertEqual(self.po_products.linked_document_count, 2)
+
+        action = self.picking_no_product.action_open_document()
+        self.assertEqual(action["res_id"], self.nfe_fiscal_document.id)
+
+        self.picking_no_product.linked_document_ids = [
+            (4, self.nfe_fiscal_document.copy().id)
+        ]
+        action = self.picking_no_product.action_open_document()
+        self.assertIn("domain", action)
+
+        self.assertEqual(self.picking_no_product.linked_document_count, 2)

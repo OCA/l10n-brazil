@@ -24,7 +24,7 @@ class L10nBrNfeStockPurchase(test_nfe_import_wizard.NFeImportWizardTest):
     def test_create_purchase_from_xml(self):
         self._prepare_wizard(self.xml_1)
         self.wizard.model_to_link = "purchase"
-        self.wizard.purchase_link_type = "create"
+        self.wizard.link_type = "create"
 
         edoc = self.wizard._create_edoc_from_xml()
 
@@ -33,7 +33,7 @@ class L10nBrNfeStockPurchase(test_nfe_import_wizard.NFeImportWizardTest):
     def test_create_picking_from_xml(self):
         self._prepare_wizard(self.xml_1)
         self.wizard.model_to_link = "picking"
-        self.wizard.purchase_link_type = "create"
+        self.wizard.link_type = "create"
 
         edoc = self.wizard._create_edoc_from_xml()
 
@@ -42,11 +42,11 @@ class L10nBrNfeStockPurchase(test_nfe_import_wizard.NFeImportWizardTest):
     def test_empty_purchase_and_picking(self):
         self._prepare_wizard(self.xml_1)
         self.wizard.model_to_link = "picking"
-        self.wizard.purchase_link_type = "choose"
+        self.wizard.link_type = "choose"
         with self.assertRaises(UserError):
             self.wizard._create_edoc_from_xml()
         self.wizard.model_to_link = "purchase"
-        self.wizard.purchase_link_type = "choose"
+        self.wizard.link_type = "choose"
         with self.assertRaises(UserError):
             self.wizard._create_edoc_from_xml()
 
@@ -60,10 +60,24 @@ class L10nBrNfeStockPurchase(test_nfe_import_wizard.NFeImportWizardTest):
             {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
         )
         self.env["stock.picking"].create(
-            {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
+            {
+                "partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id,
+                "picking_type_id": self.env.ref("stock.picking_type_in").id,
+                "location_dest_id": self.env.ref(
+                    "stock.picking_type_in"
+                ).default_location_dest_id.id,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+            }
         )
         self.env["stock.picking"].create(
-            {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
+            {
+                "partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id,
+                "picking_type_id": self.env.ref("stock.picking_type_in").id,
+                "location_dest_id": self.env.ref(
+                    "stock.picking_type_in"
+                ).default_location_dest_id.id,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+            }
         )
         domain = self.wizard._onchange_partner_cpf_cnpj()
 
@@ -82,15 +96,22 @@ class L10nBrNfeStockPurchase(test_nfe_import_wizard.NFeImportWizardTest):
             {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
         )
         self.wizard.picking_id = self.env["stock.picking"].create(
-            {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
+            {
+                "partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id,
+                "picking_type_id": self.env.ref("stock.picking_type_in").id,
+                "location_dest_id": self.env.ref(
+                    "stock.picking_type_in"
+                ).default_location_dest_id.id,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+            }
         )
         self.wizard._onchange_link_type()
         self.assertTrue(self.wizard.purchase_id)
         self.assertTrue(self.wizard.picking_id)
         self.wizard.link_type = "create"
         self.wizard._onchange_link_type()
-        self.assertFalse()(self.wizard.purchase_id)
-        self.assertFalse()(self.wizard.picking_id)
+        self.assertFalse(self.wizard.purchase_id)
+        self.assertFalse(self.wizard.picking_id)
 
     def test_onchange_model_to_link(self):
         self._prepare_wizard(self.xml_1)
@@ -98,8 +119,15 @@ class L10nBrNfeStockPurchase(test_nfe_import_wizard.NFeImportWizardTest):
             {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
         )
         self.wizard.picking_id = self.env["stock.picking"].create(
-            {"partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id}
+            {
+                "partner_id": self.env.ref("l10n_br_base.lucro_presumido_partner").id,
+                "picking_type_id": self.env.ref("stock.picking_type_in").id,
+                "location_dest_id": self.env.ref(
+                    "stock.picking_type_in"
+                ).default_location_dest_id.id,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+            }
         )
         self.wizard._onchange_model_to_link()
-        self.assertFalse()(self.wizard.purchase_id)
-        self.assertFalse()(self.wizard.picking_id)
+        self.assertFalse(self.wizard.purchase_id)
+        self.assertFalse(self.wizard.picking_id)
