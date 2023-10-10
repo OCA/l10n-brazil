@@ -1,5 +1,5 @@
-# Copyright 2023 KMEE
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Copyright 2023 KMEE INFORMATICA LTDA
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import werkzeug
 

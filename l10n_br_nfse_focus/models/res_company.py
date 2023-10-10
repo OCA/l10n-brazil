@@ -1,6 +1,5 @@
-# Copyright 2019 KMEE INFORMATICA LTDA
+# Copyright 2023 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
 
 from odoo import fields, models
 
@@ -13,11 +12,7 @@ class ResCompany(models.Model):
             ("focusnfe", "FocusNFe"),
         ]
     )
-    
-    token_focus_homologacao = fields.Char(
+
+    token_focusnfe = fields.Char(
         string="FocusNFe Homologação Token",
-    )
-    
-    token_focus_producao = fields.Char(
-        string="FocusNFe Produção Token",
     )
