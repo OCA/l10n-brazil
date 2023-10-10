@@ -66,9 +66,9 @@ class NFeImportWizardTest(SavepointCase):
         mock_document = MagicMock(spec=["modelo_documento"])
         mock_document.modelo_documento = "65"
         with patch.object(
-            NfeImport, "get_document_by_xml", return_value=mock_document
+            NfeImport, "_get_document_by_xml", return_value=mock_document
         ), self.assertRaises(UserError):
-            self.wizard.check_xml_data(self.wizard.parse_xml())
+            self.wizard._check_xml_data(self.wizard._parse_xml())
 
         self._prepare_wizard(self.xml_1)
         self.wizard.import_xml()
@@ -105,7 +105,7 @@ class NFeImportWizardTest(SavepointCase):
         self._prepare_wizard(self.xml_1)
 
         self.wizard.partner_id = False
-        edoc = self.wizard.create_edoc_from_xml()
+        edoc = self.wizard._create_edoc_from_xml()
         self.assertEqual(self.wizard.partner_id, edoc.partner_id)
 
         self.check_edoc(edoc)
@@ -113,18 +113,18 @@ class NFeImportWizardTest(SavepointCase):
     def test_set_fiscal_operation_type(self):
         self._prepare_wizard(self.xml_1)
 
-        doc = self.wizard.get_document_by_xml(self.wizard.parse_xml())
+        doc = self.wizard._get_document_by_xml(self.wizard._parse_xml())
         origin_company = self.wizard.company_id
 
         doc_company_id = self.env["res.company"].search(
             [("nfe40_CNPJ", "=", re.sub("[^0-9]", "", doc.cnpj_cpf_emitente))], limit=1
         )
         self.wizard.company_id = doc_company_id
-        self.wizard.set_fiscal_operation_type()
+        self.wizard._set_fiscal_operation_type()
         self.assertEqual(self.wizard.fiscal_operation_type, "out")
 
         self.wizard.company_id = origin_company
-        self.wizard.set_fiscal_operation_type()
+        self.wizard._set_fiscal_operation_type()
         self.assertEqual(self.wizard.fiscal_operation_type, "in")
 
     def test_imported_products(self):
@@ -162,7 +162,7 @@ class NFeImportWizardTest(SavepointCase):
     def test_match_xml_product(self):
         self._prepare_wizard(self.xml_1)
 
-        xml = self.wizard.parse_xml()
+        xml = self.wizard._parse_xml()
         xml_product_1 = xml.NFe.infNFe.det[0].prod
         prod_id = self.wizard._match_product(xml_product_1)
         self.assertEqual(prod_id, self.env.ref("product.product_product_10"))
@@ -197,13 +197,13 @@ class NFeImportWizardTest(SavepointCase):
         prod_id = self.wizard._match_product(MagicMock())
         self.assertFalse(prod_id)
 
-    def test_parse_xml(self):
+    def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)
 
         first_product = self.wizard.imported_products_ids[0]
         first_product.new_cfop_id = self.env.ref("l10n_br_fiscal.cfop_5111").id
 
-        xml = self.wizard.parse_xml()
+        xml = self.wizard._parse_xml()
         first_xml_product = xml.NFe.infNFe.det[0].prod
         self.assertEqual(first_xml_product.CFOP, "5111")
 
