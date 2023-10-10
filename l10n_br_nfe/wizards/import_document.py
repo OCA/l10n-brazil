@@ -37,15 +37,15 @@ class NfeImport(models.TransientModel):
     @api.onchange("xml")
     def _onchange_xml(self):
         if self.xml:
-            self.set_fields_by_xml_data()
+            self._set_fields_by_xml_data()
 
-    def set_fields_by_xml_data(self):
-        parsed_xml = self.parse_xml()
-        document = self.get_document_by_xml(parsed_xml)
+    def _set_fields_by_xml_data(self):
+        parsed_xml = self._parse_xml()
+        document = self._get_document_by_xml(parsed_xml)
         infNFe = parsed_xml.NFe.infNFe
 
-        self.find_existing_document()
-        self.check_xml_data(parsed_xml)
+        self._find_existing_document()
+        self._check_xml_data(parsed_xml)
         self.document_key = document.chave
         self.document_number = int(document.numero_documento)
         self.document_serie = int(document.numero_serie)
@@ -60,9 +60,9 @@ class NfeImport(models.TransientModel):
             limit=1,
         )
         self.nat_op = infNFe.ide.natOp
-        self.create_imported_products_by_xml()
+        self._create_imported_products_by_xml()
 
-    def parse_xml(self):
+    def _parse_xml(self):
         try:
             binding = TnfeProc.from_xml(base64.b64decode(self.xml).decode())
         except Exception as e:
@@ -70,11 +70,11 @@ class NfeImport(models.TransientModel):
         else:
             return self._edit_parsed_xml(binding)
 
-    def get_document_by_xml(self, xml):
+    def _get_document_by_xml(self, xml):
         return detectar_chave_edoc(xml.NFe.infNFe.Id[3:])
 
-    def check_xml_data(self, xml):
-        document = self.get_document_by_xml(xml)
+    def _check_xml_data(self, xml):
+        document = self._get_document_by_xml(xml)
         nfe_model_code = self.env.ref("l10n_br_fiscal.document_55").code
 
         if document.modelo_documento != nfe_model_code:
@@ -85,8 +85,8 @@ class NfeImport(models.TransientModel):
                 )
             )
 
-    def create_imported_products_by_xml(self):
-        xml = self.parse_xml()
+    def _create_imported_products_by_xml(self):
+        xml = self._parse_xml()
         product_ids = []
         for product in xml.NFe.infNFe.det:
             product_ids.append(
@@ -196,24 +196,24 @@ class NfeImport(models.TransientModel):
         return {"vICMS": vICMS, "pICMS": pICMS, "vIPI": vIPI, "pIPI": pIPI}
 
     def import_xml(self):
-        self.find_existing_document()
+        self._find_existing_document()
         if not self.document_id:
-            self.document_id = self.create_edoc_from_xml()
+            self.document_id = self._create_edoc_from_xml()
 
         return self.action_open_document()
 
-    def find_existing_document(self):
-        document = self.get_document_by_xml(self.parse_xml())
+    def _find_existing_document(self):
+        document = self._get_document_by_xml(self._parse_xml())
         self.document_id = self.env["l10n_br_fiscal.document"].search(
             [("document_key", "=", document.chave)],
             limit=1,
         )
 
-    def create_edoc_from_xml(self):
-        self.set_fiscal_operation_type()
+    def _create_edoc_from_xml(self):
+        self._set_fiscal_operation_type()
 
         edoc = self.env["l10n_br_fiscal.document"].import_nfe_xml(
-            self.parse_xml(),
+            self._parse_xml(),
             edoc_type=self.fiscal_operation_type,
         )
 
@@ -225,8 +225,8 @@ class NfeImport(models.TransientModel):
 
         return edoc
 
-    def set_fiscal_operation_type(self):
-        document = self.get_document_by_xml(self.parse_xml())
+    def _set_fiscal_operation_type(self):
+        document = self._get_document_by_xml(self._parse_xml())
 
         if document.cnpj_cpf_emitente == self.company_id.cnpj_cpf:
             self.fiscal_operation_type = "out"
