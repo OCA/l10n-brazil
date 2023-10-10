@@ -62,7 +62,6 @@ msgstr "Processado com Erro"
 
 #. module: l10n_br_nfse_paulistana
 #: code:addons/l10n_br_nfse_paulistana/models/document.py:0
-#: code:addons/l10n_br_nfse_paulistana/models/document.py:0
 #, python-format
 msgid "Procesado com Sucesso"
 msgstr "Processado com Sucesso"
