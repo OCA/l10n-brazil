@@ -44,7 +44,7 @@ class PurchaseOrder(models.Model):
         return result
 
     def _prepare_invoice(self):
-        invoice_vals = super()._prepare_invoice
+        invoice_vals = super()._prepare_invoice()
         if self.origin_document_id:
             invoice_vals.update(
                 {
