@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-10-09 09:11+0000\n"
+"PO-Revision-Date: 2023-10-10 18:42+0000\n"
 "Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -5336,7 +5336,7 @@ msgstr "Vedação de controle do IPI"
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_ipi_guideline_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_ipi_guideline_search
 msgid "IPI Guideline"
-msgstr "Diretriz do IPI"
+msgstr "Enquadramento do IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__ipi_guideline_class_id
@@ -5348,7 +5348,7 @@ msgstr "Aula de Diretrizes do IPI"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_ipi_guideline
 msgid "IPI Guidelines"
-msgstr "Diretrizes do IPI"
+msgstr "Enquadramentos do IPI"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_ipi_guideline_class
