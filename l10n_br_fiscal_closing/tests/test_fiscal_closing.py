@@ -20,7 +20,6 @@ class TestFiscalClosing(TransactionCase):
         super(TestFiscalClosing, self).setUp()
 
         self.nfe_export = self.env.ref("l10n_br_fiscal.demo_nfe_export")
-        self.nfe_export.document_date = fields.Datetime.now()
         self.nfe_export.date_in_out = fields.Datetime.now()
         self.closing_all = self.env["l10n_br_fiscal.closing"].create(
             {
@@ -31,8 +30,8 @@ class TestFiscalClosing(TransactionCase):
         self.closing_period = self.env["l10n_br_fiscal.closing"].create(
             {
                 "export_type": "period",
-                "year": str(self.nfe_export.document_date.year),
-                "month": str(self.nfe_export.document_date.month),
+                "year": str(self.nfe_export.date_in_out.year),
+                "month": str(self.nfe_export.date_in_out.month),
             }
         )
 
