@@ -207,6 +207,7 @@
         <field name="document_serie">1</field>
         <field name="user_id" ref="base.user_demo" />
         <field name="document_key">26180812984794000154550010000016871192213339</field>
+        <field name="document_date">2018-08-18 00:00:00</field>
         <field name="document_number">19221333</field>
         <field name="partner_id" ref="base.res_partner_2" />
         <field name="fiscal_operation_type">out</field>
@@ -842,6 +843,7 @@
         />
         <field name="document_serie">1</field>
         <field name="document_key">35200497231608000169550010000000371161029083</field>
+        <field name="document_date">2020-04-18 00:00:00</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
