@@ -2,7 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
+from odoo import exceptions
 from odoo.tests import SavepointCase
 
 
@@ -285,3 +285,12 @@ class TestCustomerNFe(SavepointCase):
             self.assertEqual(line.cofins_base, 1000.0, "COFINS BASE is not 1000.0")
             self.assertEqual(line.cofins_value, 30.0, "COFINS Value is not 30.0 ")
             self.assertEqual(line.cofins_percent, 3.0, "ICMS Percent is not 3.0 .")
+
+    def test_document_date_key_check(self):
+        document = self.env.ref("l10n_br_fiscal.demo_nfe_so_simples_faturamento")
+        with self.assertRaises(exceptions.ValidationError):
+            document.write(
+                {
+                    "document_date": "2023-05-18 00:00:00",
+                }
+            )
