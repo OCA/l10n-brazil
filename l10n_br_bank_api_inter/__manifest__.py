@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "maintainers": ["mileo"],
+    "maintainers": ["mileo", "ygcarvalh"],
     "development_status": "Alpha",
     "depends": [
         "l10n_br_account_payment_order",
@@ -18,7 +18,6 @@
         "views/account_move.xml",
         "views/account_move_line.xml",
         "views/account_journal.xml",
-        "data/cron.xml",
     ],
     "demo": [
         "demo/res_partner_bank.xml",
