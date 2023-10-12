@@ -107,13 +107,14 @@ class AbstractSpecMixin(models.AbstractModel):
 
             # ComplexType
             if fields.get(key) and fields[key].related:
+                if fields[key].readonly and fields[key].type == "many2one":
+                    return False  # ex: don't import NFe infRespTec
                 # example: company.nfe40_enderEmit related on partner_id
                 # then we need to set partner_id, not nfe40_enderEmit
                 key = fields[key].related[-1]  # -1 works with _inherits
                 comodel_name = fields[key].comodel_name
             else:
-                # clean_type = attr.get_child_attrs()["type"].replace("Type", "").lower()
-                clean_type = binding_type.lower()  # TODO double check
+                clean_type = binding_type.lower()
                 comodel_name = "%s.%s.%s" % (
                     self._schema_name,
                     self._schema_version.replace(".", "")[0:2],
