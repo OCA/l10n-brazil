@@ -39,6 +39,7 @@ class ResCompany(spec_models.SpecModel):
     nfe40_enderEmit = fields.Many2one(
         comodel_name="res.partner",
         related="partner_id",
+        readonly=False,
     )
 
     nfe40_choice6 = fields.Selection(
