@@ -40,71 +40,71 @@ class Registro0000(models.Model):
                 #     "in",
                 #     ("autorizada", "cancelada", "denegada", "inutilizada"),
                 # ),
-                ("document_date", ">=", record.DT_INI),
-                ("document_date", "<=", record.DT_FIN),
+                # ("document_date", ">=", record.DT_INI),
+                # ("document_date", "<=", record.DT_FIN),
             ]
 
-            fiscal_document_ids = self.fiscal_document_ids.search(
+            fiscal_document_ids = self.env["l10n_br_fiscal.document"].search(
                 fiscal_document_domain
             )
 
-            c100_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain
-                + [("document_type", "in", ("01", "1B", "04", "55", "65"))]
-            )
+            # c100_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain
+            #     + [("document_type", "in", ("01", "1B", "04", "55", "65"))]
+            # )
 
-            c300_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain + [("document_type", "in", ("02"))]
-            )
+            # c300_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain + [("document_type", "in", ("02"))]
+            # )
 
-            c400_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain + [("document_type", "in", ("02", "2D", "60"))]
-            )
+            # c400_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain + [("document_type", "in", ("02", "2D", "60"))]
+            # )
 
-            c500_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain
-                + [("document_type", "in", ("06", "66", "29", "28"))]
-            )
+            # c500_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain
+            #     + [("document_type", "in", ("06", "66", "29", "28"))]
+            # )
 
-            c800_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain + [("document_type", "in", ("59"))]
-            )
+            # c800_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain + [("document_type", "in", ("59"))]
+            # )
 
-            d_100_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain
-                + [
-                    (
-                        "document_type",
-                        "in",
-                        (
-                            "07",
-                            "08",
-                            "8b",
-                            "09",
-                            "10",
-                            "11",
-                            "26",
-                            "27",
-                            "57",
-                            "63",
-                            "67",
-                        ),
-                    )
-                ]
-            )
+            # d_100_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain
+            #     + [
+            #         (
+            #             "document_type",
+            #             "in",
+            #             (
+            #                 "07",
+            #                 "08",
+            #                 "8b",
+            #                 "09",
+            #                 "10",
+            #                 "11",
+            #                 "26",
+            #                 "27",
+            #                 "57",
+            #                 "63",
+            #                 "67",
+            #             ),
+            #         )
+            #     ]
+            # )
 
-            d_350_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain
-                + [("document_type", "in", ("2E", "13", "14", "15", "16"))]
-            )
+            # d_350_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain
+            #     + [("document_type", "in", ("2E", "13", "14", "15", "16"))]
+            # )
 
-            d_500_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain + [("document_type", "in", ("21", "22"))]
-            )
+            # d_500_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain + [("document_type", "in", ("21", "22"))]
+            # )
 
-            d_700_fiscal_document_ids = self.fiscal_document_ids.search(
-                fiscal_document_domain + [("document_type", "in", ("62"))]
-            )
+            # d_700_fiscal_document_ids = self.fiscal_document_ids.search(
+            #     fiscal_document_domain + [("document_type", "in", ("62"))]
+            # )
 
             record.fiscal_document_partner_ids = fiscal_document_ids.mapped(
                 "partner_id"
@@ -128,45 +128,49 @@ class Registro0000(models.Model):
             # TODO: Complementar com unidades de medidas de outros blocos!!!
             record.fiscal_uom_ids = record.fiscal_document_line_ids.mapped("uom_id")
 
+    fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents",
+    )
+    
     fiscal_document_partner_ids = fields.One2many(
         comodel_name="res.partner", compute="_compute_fiscal_documents"
     )
 
-    c100_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # c100_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
-    c300_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # c300_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
-    c400_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # c400_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
-    c500_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # c500_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
-    c800_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # c800_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
-    d100_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # d100_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
-    d350_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # d350_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
-    d500_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # d500_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
-    d700_fiscal_document_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
-    )
+    # d700_fiscal_document_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.document", compute="_compute_fiscal_documents"
+    # )
 
     fiscal_document_line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line", compute="_compute_fiscal_documents"
@@ -363,7 +367,7 @@ class Registro0005(models.Model):
         return {
             "FANTASIA": record.name,
             "CEP": misc.punctuation_rm(record.zip),
-            "END": record.street,
+            "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
@@ -382,14 +386,14 @@ class Registro0015(models.Model):
 
     def _odoo_domain(self, parent_record, declaration):
         return [("partner_id", "=", declaration.company_id.partner_id.id)]
-
+    
+    # TODO: Deve ser gerado um registro para cada inscrição estadual dos
+    # contribuintes pelos quais a empresa é substituta tributária.
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "UF_ST": misc.punctuation_rm(
-                record.inscr_est
-            ),  # Sigla da unidade da federação do contribuinte substitu...
-            "IE_ST": record.state_id.code,  # Inscrição Estadual do contribuinte substituto na unida...
+            "UF_ST": misc.punctuation_rm(record.inscr_est),
+            "IE_ST": record.state_id.code,
         }
 
 
@@ -400,29 +404,23 @@ class Registro0100(models.Model):
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0100"
     _odoo_model = "res.partner"
 
-    # TODO: Verificar se o contador pode ser do tipo pessoa físca e não ter uma empresa.
-
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [("id", "=", declaration.company_id.accountant_id.id)]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        if record.child_ids:
-            accountant = record.child_ids[0]
-        else:
-            msg_err = (
-                "Cadastre o contador Pessoa Fisica dentro do Contato da Contabilidade"
-            )
+        if not record:
+            msg_err = ("Cadastre o contador responsável dentro das configurações da Empresa.")
             raise UserError(msg_err)
-
+        
         return {
-            "NOME": accountant.name,
-            "CPF": misc.punctuation_rm(accountant.cnpj_cpf),
-            "CRC": misc.punctuation_rm(accountant.crc_code),
-            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
+            "NOME": record.name,
+            "CPF": misc.punctuation_rm(record.cnpj_cpf),
+            "CRC": misc.punctuation_rm(record.crc_code),
+            "CNPJ": misc.punctuation_rm(record.parent_id.cnpj_cpf),
             "CEP": misc.punctuation_rm(record.zip),
-            "END": record.street,
+            "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
@@ -451,10 +449,10 @@ class Registro0150(models.Model):
         vals = {
             "COD_PART": misc.punctuation_rm(record.cnpj_cpf),
             "NOME": record.legal_name or record.name,
-            "COD_PAIS": record.country_id.ibge_code,
+            "COD_PAIS": record.country_id.bc_code,
             "IE": misc.punctuation_rm(record.inscr_est),
             "SUFRAMA": record.suframa or "",
-            "END": record.street,
+            "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
@@ -464,9 +462,9 @@ class Registro0150(models.Model):
                 vals["CPF"] = misc.punctuation_rm(record.cnpj_cpf)
             else:
                 vals["CNPJ"] = misc.punctuation_rm(record.cnpj_cpf)
-            vals["COD_NUM"] = misc.punctuation_rm(record.city_id.ibge_code)
+            vals["COD_MUN"] = misc.punctuation_rm(record.city_id.ibge_code)
         else:
-            vals["COD_NUM"] = "9999999"
+            vals["COD_MUN"] = "9999999"
         return vals
 
 
@@ -502,7 +500,7 @@ class Registro0190(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        if record.code:
+        if not record.code:
             msg_err = _("UOM without code: {}".format(record.name))
             raise UserError(msg_err)
         return {
@@ -527,20 +525,20 @@ class Registro0200(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         # TODO: Buscar tax definition do Produto e preencher o campo ALIQ_ICMS
+        fiscal_document_line = declaration.fiscal_document_line_ids.filtered(lambda x: x.product_id.id == record.id)
         return {
-            "COD_ITEM": record.default_code or record.id,  # Código do item
-            "DESCR_ITEM": record.name,  # Descrição do item
-            "COD_BARRA": record.barcode,  # Representação alfanumérico do código de barra do p...
-            "COD_ANT_ITEM": record.default_code
-            or record.id,  # FIXME: Código anterior do item com relação à última in...
-            "UNID_INV": record.uom_id.code,  # Unidade de medida utilizada na quantificação de est...
-            "TIPO_ITEM": record.fiscal_type,  # Tipo do item – Atividades Industriais, Comerciais ...
-            "COD_NCM": record.ncm_id.code,  # Código da Nomenclatura Comum do Mercosul
-            "EX_IPI": record.ncm_id.exception,  # Código EX, conforme a TIPI
-            "COD_GEN": record.fiscal_genre_id.code,  # Código do gênero do item, conforme a Tabela 4.2.1
-            "COD_LST": record.service_type_id.code,  # Código do serviço conforme lista do Anexo I da Lei C...
-            # "ALIQ_ICMS": 0,  # Alíquota de ICMS aplicável ao item nas operações i...
-            "CEST": record.cest_id.code,  # Código Especificador da Substituição Tributária
+            "COD_ITEM": record.default_code or record.id,
+            "DESCR_ITEM": record.name,
+            "COD_BARRA": record.barcode,
+            # "COD_ANT_ITEM": "", # Não preencher. Ele deve ser especificado no Registro 0205
+            "UNID_INV": record.uom_id.code,
+            "TIPO_ITEM": record.fiscal_type,
+            "COD_NCM": record.ncm_id.code,
+            "EX_IPI": record.ncm_id.exception,
+            "COD_GEN": record.fiscal_genre_id.code,
+            "COD_LST": record.service_type_id.code,
+            "ALIQ_ICMS": fiscal_document_line.icms_percent,  # Alíquota de ICMS aplicável ao item nas operações i...
+            "CEST": record.cest_id.code,
         }
 
 
@@ -549,6 +547,9 @@ class Registro0205(models.Model):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.efd_icms_ipi.0205"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0205"
+
+    # TODO: Essa informação do código não é salva atualmente, talvez seja preciso
+    # atualizar o modelo product.product para ter um histórico disso.
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -566,6 +567,8 @@ class Registro0206(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.0206"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0206"
 
+    # TODO: Não temos esse código da ANP no modelo.
+    
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
@@ -949,11 +952,11 @@ class RegistroC100(models.Model):
     _inherit = "l10n_br_sped.efd_icms_ipi.17.c100"
     _odoo_model = "l10n_br_fiscal.document"
 
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        return [
-            ("id", "in", declaration.c100_fiscal_document_ids.ids),
-        ]
+    # @api.model
+    # def _odoo_domain(self, parent_record, declaration):
+    #     return [
+    #         ("id", "in", declaration.c100_fiscal_document_ids.ids),
+    #     ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1312,7 +1315,7 @@ class RegistroC170(models.Model):
             "VL_ITEM": record.fiscal_price * record.fiscal_quantity,
             "VL_DESC": record.discount_value,
             "IND_MOV": "0" if record.cfop_id.stock_move else "1",
-            "CST_ICMS": record.icms_origin + record.icms_cst_code,
+            "CST_ICMS": "",
             "CFOP": str(record.cfop_id.code),
             "COD_NAT": str(record.fiscal_operation_id.code),
             "VL_BC_ICMS": record.icms_base,
