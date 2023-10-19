@@ -198,6 +198,7 @@ class TestSaleStock(SavepointCase):
             # Usado para validar a transferencia dos campos da linha
             # do Pedido de Venda para a linha da Fatura/Invoice
             sale_order_line = move.sale_line_id
+            self.assertEqual(sale_order_line.product_uom, move.product_uom)
 
         picking.button_validate()
         self.assertEqual(picking.state, "done")
@@ -256,6 +257,11 @@ class TestSaleStock(SavepointCase):
             "display_name",
             "state",
             "create_date",
+            # O campo da Unidade de Medida possui um nome diferente na
+            # account.move.line product_uom_id, por isso é removido porém
+            # a copia entre os objetos é testada tanto no stock.move acima
+            # quanto na account.move.line abaixo
+            "uom_id",
         ]
 
         common_fields = list(set(acl_fields) & set(sol_fields) - set(skipped_fields))
@@ -268,6 +274,10 @@ class TestSaleStock(SavepointCase):
                 "Field %s failed to transfer from "
                 "sale.order.line to account.move.line" % field,
             )
+
+        for inv_line in invoice_lines:
+            if inv_line.product_id == sale_order_line.product_id:
+                self.assertEqual(sale_order_line.product_uom, inv_line.product_uom_id)
 
         # Teste de Retorno
         return_wizard_form = Form(
