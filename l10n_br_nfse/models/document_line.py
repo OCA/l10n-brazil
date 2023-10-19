@@ -83,7 +83,7 @@ class DocumentLine(models.Model):
             "valor_ir_retido": round(self.irpj_wh_value, 2),
             "valor_csll": round(self.csll_value, 2) or round(self.csll_wh_value, 2),
             "valor_csll_retido": round(self.csll_wh_value, 2),
-            "iss_retido": "1" if self.issqn_wh_value else "2",
+            "iss_retido": "1" if self.issqn_wh_percent else "2",
             "valor_iss": round(self.issqn_value, 2),
             "valor_iss_retido": round(self.issqn_wh_value, 2),
             "outras_retencoes": round(self.other_retentions_value, 2),
