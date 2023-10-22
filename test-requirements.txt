@@ -2,3 +2,4 @@ vcrpy  # Needed by payment_pagseguro
 odoo-test-helper  # Needed by spec_driven_model
 signxml<3.1.0
 xmldiff
+-e git+https://github.com/akretion/nfelib@master#egg=nfelib
