@@ -37,6 +37,8 @@ class Ferroviario(spec_models.StackedModel):
         default=lambda self: self.env.company.currency_id,
     )
 
+    cte40_chCTeFerroOrigem = fields.Char(related="document_id.cte40_chCTeFerroOrigem")
+
     cte40_respFat = fields.Selection(related="document_id.cte40_respFat")
 
     cte40_ferrEmi = fields.Selection(related="document_id.cte40_ferrEmi")
