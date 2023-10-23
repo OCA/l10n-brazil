@@ -707,6 +707,11 @@ class CTe(spec_models.StackedModel):
         ),
     )
 
+    cte40_chCTeFerroOrigem = fields.Char(
+        string="Chave de acesso do CT-e emitido",
+        help="Chave de acesso do CT-e emitido pelo ferrovia de origem",
+    )
+
     cte40_ferroEnv = fields.Many2many(
         comodel_name="res.partner",
         string="Informações das Ferrovias Envolvidas",
@@ -737,7 +742,7 @@ class CTe(spec_models.StackedModel):
             vPrest += record.cte40_vTPrest
         self.cte40_vPrest = vPrest
 
-    def _export_fields_cte_40_infmodal(self, xsd_fields, class_obj, export_dict):
+    def _export_fields_cte_40_tcte_infmodal(self, xsd_fields, class_obj, export_dict):
         self = self.with_context(module="l10n_br_cte")
 
         if self.cte40_modal == "1":

@@ -109,6 +109,7 @@
                                 <field name="cte40_tpTraf" />
                                 <field name="cte40_fluxo" />
                                 <field name="cte40_vFrete" />
+                                <field name="cte40_chCTeFerroOrigem" />
                                 <field name="cte40_respFat" />
                                 <field name="cte40_ferrEmi" />
                                 <field
