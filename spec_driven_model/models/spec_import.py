@@ -1,11 +1,13 @@
 # Copyright 2019-2020 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import dataclasses
 import inspect
 import logging
 import re
 from datetime import datetime
 from enum import Enum
+from typing import ForwardRef
 
 from odoo import api, models
 
@@ -76,13 +78,15 @@ class AbstractSpecMixin(models.AbstractModel):
             attr[1].metadata.get("name", attr[0]),
         )
         child_path = "%s.%s" % (path, key)
-        if (
-            (
-                attr[1].type == str
-                or not any(["odoo.addons." in str(i) for i in attr[1].type.__args__])
-            )
-            and not str(attr[1].type).startswith("typing.List")
-            and "ForwardRef" not in str(attr[1].type)
+
+        # Is attr a xsd SimpleType or a ComplexType?
+        # with xsdata a ComplexType can have a type like:
+        # typing.Union[nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00.TinfRespTec, NoneType]
+        # or typing.Union[ForwardRef('Tnfe.InfNfe.Det.Imposto'), NoneType]
+        # that's why we test if the 1st Union type is a dataclass or a ForwardRef
+        if attr[1].type == str or (
+            not isinstance(attr[1].type.__args__[0], ForwardRef)
+            and not dataclasses.is_dataclass(attr[1].type.__args__[0])
         ):
             # SimpleType
             if isinstance(value, Enum):
@@ -107,13 +111,14 @@ class AbstractSpecMixin(models.AbstractModel):
 
             # ComplexType
             if fields.get(key) and fields[key].related:
+                if fields[key].readonly and fields[key].type == "many2one":
+                    return False  # ex: don't import NFe infRespTec
                 # example: company.nfe40_enderEmit related on partner_id
                 # then we need to set partner_id, not nfe40_enderEmit
                 key = fields[key].related[-1]  # -1 works with _inherits
                 comodel_name = fields[key].comodel_name
             else:
-                # clean_type = attr.get_child_attrs()["type"].replace("Type", "").lower()
-                clean_type = binding_type.lower()  # TODO double check
+                clean_type = binding_type.lower()
                 comodel_name = "%s.%s.%s" % (
                     self._schema_name,
                     self._schema_version.replace(".", "")[0:2],

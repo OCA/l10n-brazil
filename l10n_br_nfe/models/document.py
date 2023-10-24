@@ -369,7 +369,6 @@ class NFe(spec_models.StackedModel):
     nfe40_emit = fields.Many2one(
         comodel_name="res.company",
         compute="_compute_emit_data",
-        readonly=True,
         string="Emit",
     )
 
@@ -427,7 +426,6 @@ class NFe(spec_models.StackedModel):
     nfe40_entrega = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_entrega_data",
-        readonly=True,
         string="Entrega",
     )
 
@@ -457,7 +455,6 @@ class NFe(spec_models.StackedModel):
     # NF-e tag: det
     ##########################
 
-    # TODO should be done by framework?
     nfe40_det = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
