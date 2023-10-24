@@ -112,6 +112,19 @@ class AccountMoveLine(models.Model):
                 "target": "new",
             }
 
+    def drop_bank_slip_wizard(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Motivo da Baixa",
+            "res_model": "bank.api.inter.baixa",
+            "src_model": "saas.template",
+            "view_type": "form",
+            "view_mode": "form",
+            "view_id": self.env.ref("l10n_br_bank_api_inter.bank_api_inter_baixa").id,
+            "target": "new",
+        }
+
     def drop_bank_slip(self):
         try:
             if self.write_off_choice:

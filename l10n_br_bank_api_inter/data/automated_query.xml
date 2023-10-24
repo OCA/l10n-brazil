@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="automatic_action_bank_inter" model="base.automation">
+        <field name="name">Banco Inter Consulta Boleto</field>
+        <field name="model_id" ref="model_account_move_line" />
+        <field name="state">code</field>
+        <field name="code">record.search_bank_slip()</field>
+        <field name="trigger">on_create_or_write</field>
+        <field name="active" eval="True" />
+    </record>
+</odoo>

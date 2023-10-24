@@ -19,7 +19,7 @@
                     class="oe_highlight"
                 />
                 <button
-                    name="drop_bank_slip"
+                    name="drop_bank_slip_wizard"
                     type="object"
                     string="Dar Baixa"
                     class="btn btn-danger"
