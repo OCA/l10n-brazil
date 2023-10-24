@@ -33,7 +33,7 @@ class NFeImportTest(SavepointCase):
 
         nfe = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_from_binding(binding.NFe.infNFe, dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
@@ -57,7 +57,7 @@ class NFeImportTest(SavepointCase):
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
         nfe = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_from_binding(binding.NFe.infNFe, dry_run=False)
         )
 
@@ -78,13 +78,14 @@ class NFeImportTest(SavepointCase):
         self.assertEqual(nfe.partner_id.legal_name, "Alimentos Ltda.")
 
         # enderDest
+        nfe.partner_id._inverse_nfe40_CEP()
         self.assertEqual(nfe.partner_id.street_name, "Rua Fonseca")  # related xLgr
         self.assertEqual(nfe.partner_id.zip, "13877-123")
         self.assertEqual(nfe.partner_id.nfe40_CEP, "13877123")
         self.assertEqual(nfe.partner_id.city_id.name, "São João da Boa Vista")
 
         # now we check that company_id is unchanged
-        self.assertEqual(nfe.company_id.name, "Sua Empresa")
+        self.assertEqual(nfe.company_id, self.env.ref("base.main_company"))
 
         # this tests that value is not overrident by stacked default vals
         self.assertEqual(nfe.nfe40_modFrete, "0")  # (default is 9)
