@@ -7,7 +7,7 @@ from odoo.tests.common import Form, SavepointCase
 class TestL10nBrContract(SavepointCase):
     @classmethod
     def setUpClass(cls):
-        super(TestL10nBrContract, cls).setUpClass()
+        super().setUpClass()
 
         # Create contract with 3 lines, two resale products and one service
         contract_form = Form(cls.env["contract.contract"])
