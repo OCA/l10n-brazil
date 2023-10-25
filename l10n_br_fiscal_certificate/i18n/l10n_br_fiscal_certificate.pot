@@ -367,16 +367,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_certificate
 #: code:addons/l10n_br_fiscal_certificate/hooks.py:0
-#: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
-#, python-format
-msgid ""
-"Python Library erpbrasil.assinatura not installed!It doesn't matter much "
-"until you want to send NFe or NFSe documents.You can install it later with: "
-"pip install erpbrasil.assinatura."
-msgstr ""
-
-#. module: l10n_br_fiscal_certificate
-#: code:addons/l10n_br_fiscal_certificate/hooks.py:0
 #, python-format
 msgid ""
 "Python Library erpbrasil.assinatura not installed!You can install it later "
