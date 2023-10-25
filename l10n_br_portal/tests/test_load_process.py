@@ -12,7 +12,6 @@ _provider_class = _module_ns + ".models.l10n_br_zip" + ".L10nBrZip"
 @tagged("post_install", "-at_install")
 class TestUi(HttpCase):
     def test_01_l10n_br_portal_load_tour(self):
-
         mocked_response = {
             "zip_code": "37500015",
             "street_name": " Rua Coronel Renno",
