@@ -21,7 +21,7 @@ _logger = logging.getLogger(__name__)
 
 class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
     def setUp(self):
-        super(TestFiscalDocumentNFSePaulistana, self).setUp()
+        super().setUp()
         self.company.provedor_nfse = "paulistana"
 
     def test_nfse_paulistana(self):
