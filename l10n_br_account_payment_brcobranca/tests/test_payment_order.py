@@ -85,7 +85,6 @@ class TestPaymentOrder(SavepointCase):
         }
 
     def _run_boleto_remessa(self, invoice, boleto_file, remessa_file):
-
         # I validate invoice
         invoice.action_post()
 

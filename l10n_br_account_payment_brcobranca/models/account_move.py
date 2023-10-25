@@ -58,7 +58,6 @@ class AccountMove(models.Model):
         )
 
     def _get_brcobranca_boleto(self, boletos):
-
         content = json.dumps(boletos)
         f = open(tempfile.mktemp(), "w")
         f.write(content)
