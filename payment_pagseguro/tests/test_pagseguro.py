@@ -13,7 +13,7 @@ from odoo.exceptions import ValidationError
 @odoo.tests.tagged("post_install", "-at_install")
 class PagseguroTest(odoo.tests.HttpCase):
     def setUp(self):
-        super(PagseguroTest, self).setUp()
+        super().setUp()
 
         self.eur_currency = self.env["res.currency"].search([("name", "=", "EUR")])
         self.brl_currency = self.env["res.currency"].search([("name", "=", "BRL")])
