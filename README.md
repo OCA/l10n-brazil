@@ -7,9 +7,9 @@
 
 <!-- /!\ do not modify above this line -->
 
-# l10n-brazil
+# Odoo Brazilian Localization / Localização brasileira do Odoo
 
-Odoo Brazilian localization
+Documentos fiscais, impostos brasileiros, notas fiscais, integrações bancárias... Você pode começar com o módulo `l10n_br_base` apenas. Se você precisa da parte fiscal ou de notas fiscais eletrônicas, o próximo módulo que você deve considerar é o módulo `l10n_br_fiscal`... Você pode testar a localização no Runboat com o botão "try me" (admin/admin) e eventualmente selecionar a empresa demo do Simples ou do Lucro Presumido.
 
 <!-- /!\ do not modify below this line -->
 
