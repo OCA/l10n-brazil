@@ -11,7 +11,6 @@ class TestL10nBrPosPartner(SavepointCase):
         cls.pos_config = cls.env.ref("point_of_sale.pos_config_main")
 
     def test_create_partner_from_ui_l10n_brazil(self):
-
         partner_vals = {
             "country_id": 31,
             "state_id": 95,
@@ -32,7 +31,6 @@ class TestL10nBrPosPartner(SavepointCase):
         self.assertEqual(1, len(partner), "Error creating the partner from UI.")
 
     def test_create_company_partner_from_ui_l10n_brazil(self):
-
         company_partner_vals = {
             "country_id": 31,
             "state_id": 95,

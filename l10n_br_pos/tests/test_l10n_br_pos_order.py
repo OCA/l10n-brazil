@@ -95,7 +95,6 @@ class TestL10nBrPosOrder(SavepointCase):
         self.env["pos.order"].create_from_ui([generic_order])
 
     def test_create_from_ui_l10n_brazil(self):
-
         orders_exported_to_ui = []
 
         self.pos_config.open_session_cb(check_coa=False)

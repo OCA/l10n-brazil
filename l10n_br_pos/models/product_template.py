@@ -5,7 +5,6 @@ from odoo import api, fields, models
 
 
 class ProductTemplate(models.Model):
-
     _inherit = "product.template"
 
     pos_fiscal_map_ids = fields.One2many(

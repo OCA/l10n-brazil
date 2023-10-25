@@ -5,7 +5,6 @@ from odoo import fields, models
 
 
 class L10nBrPosProductFiscalMap(models.Model):
-
     _name = "l10n_br_pos.product_fiscal_map"
     _description = "Pos Product Fiscal Map"
     _inherit = "l10n_br_fiscal.document.line.mixin"
