@@ -340,7 +340,7 @@ class CNABStructure(models.Model):
             raise UserError(
                 _("You cannot delete an CNAB Structure which is not draft !")
             )
-        return super(CNABStructure, self).unlink()
+        return super().unlink()
 
     def action_review(self):
         self.check_structure()
