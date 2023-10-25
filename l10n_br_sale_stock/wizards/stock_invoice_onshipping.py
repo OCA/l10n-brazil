@@ -5,7 +5,6 @@ from odoo import fields, models
 
 
 class StockInvoiceOnshipping(models.TransientModel):
-
     _inherit = "stock.invoice.onshipping"
 
     def _build_invoice_values_from_pickings(self, pickings):
