@@ -18,7 +18,7 @@ class PosOrder(models.Model):
     )
 
     def _prepare_invoice_vals(self):
-        vals = super(PosOrder, self)._prepare_invoice_vals()
+        vals = super()._prepare_invoice_vals()
 
         pos_config_id = self.session_id.config_id
         if pos_config_id.simplified_document_type == MODELO_FISCAL_NFCE:
@@ -61,9 +61,7 @@ class PosOrder(models.Model):
 
     @api.model
     def _process_order(self, pos_order_vals, draft, existing_order):
-        res = super(PosOrder, self)._process_order(
-            pos_order_vals, draft, existing_order
-        )
+        res = super()._process_order(pos_order_vals, draft, existing_order)
 
         created_order = self.browse(res)
         pos_config_id = created_order.session_id.config_id
@@ -114,7 +112,7 @@ class PosOrder(models.Model):
         return self.cnpj_cpf and self.partner_id.is_anonymous_consumer
 
     def _prepare_invoice_line(self, order_line):
-        vals = super(PosOrder, self)._prepare_invoice_line(order_line)
+        vals = super()._prepare_invoice_line(order_line)
 
         if self.config_id.simplified_document_type == MODELO_FISCAL_NFCE:
             vals.update(order_line._prepare_nfce_tax_dict())
@@ -123,7 +121,7 @@ class PosOrder(models.Model):
 
     @api.model
     def create_from_ui(self, orders, draft=False):
-        response = super(PosOrder, self).create_from_ui(orders, draft)
+        response = super().create_from_ui(orders, draft)
         for option in response:
             order = self.env["pos.order"].search([("id", "=", option["id"])])
             if order.document_type == MODELO_FISCAL_NFCE:
