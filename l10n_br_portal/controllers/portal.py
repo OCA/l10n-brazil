@@ -26,7 +26,7 @@ class L10nBrPortal(CustomerPortal):
     ) + ["inscr_mun", "street2", "mobile"]
 
     def _prepare_portal_layout_values(self):
-        values = super(L10nBrPortal, self)._prepare_portal_layout_values()
+        values = super()._prepare_portal_layout_values()
         cities = request.env["res.city"].sudo().search([])
         values.update(
             {
@@ -41,7 +41,7 @@ class L10nBrPortal(CustomerPortal):
             city_id = request.env["res.city"].sudo().browse(int(post.get("city_id")))
             if city_id:
                 post["city"] = city_id.name
-        res = super(L10nBrPortal, self).account(redirect, **post)
+        res = super().account(redirect, **post)
         return res
 
     @http.route("/l10n_br/zip_search", type="json", auth="user", website=True)
