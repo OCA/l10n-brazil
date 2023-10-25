@@ -12,7 +12,6 @@ from ..cnab.cnab import CnabLine
 
 
 class CNABLine(models.Model):
-
     _name = "l10n_br_cnab.line"
     _description = "Lines that make up the CNAB."
     _order = "sequence, id"
@@ -225,7 +224,6 @@ class CNABLine(models.Model):
         return super(CNABLine, self).unlink()
 
     def check_line(self):
-
         cnab_fields = self.field_ids.sorted(key=lambda r: r.start_pos)
 
         if len(cnab_fields) == 0:
