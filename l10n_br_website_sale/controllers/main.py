@@ -1,18 +1,13 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
+
+from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import http
 from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
-
-_logger = logging.getLogger(__name__)
-try:
-    from erpbrasil.base.fiscal import cnpj_cpf
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class L10nBrWebsiteSale(WebsiteSale):
