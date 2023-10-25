@@ -112,7 +112,7 @@ class Document(models.Model):
         )
 
     def _document_export(self, pretty_print=True):
-        result = super(Document, self)._document_export()
+        result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfse):
             if record.company_id.provedor_nfse:
                 edoc = record.serialize()[0]

@@ -13,7 +13,7 @@ from ..models.document import filter_processador_edoc_nfse
 
 class TestFiscalDocumentNFSeCommon(TransactionCase):
     def setUp(self):
-        super(TestFiscalDocumentNFSeCommon, self).setUp()
+        super().setUp()
 
         self.nfse_same_state = self.env.ref("l10n_br_fiscal.demo_nfse_same_state")
         self.company = self.env.ref("l10n_br_base.empresa_simples_nacional")
