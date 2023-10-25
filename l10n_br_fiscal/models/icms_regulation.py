@@ -1645,14 +1645,12 @@ class ICMSRegulation(models.Model):
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
-
         view_super = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
         if view_type == "form":
             doc = etree.fromstring(view_super.get("arch"))
 
             for node in doc.xpath("//notebook"):
-
                 br_states = self.env["res.country.state"].search(
                     [("country_id", "=", self.env.ref("base.br").id)], order="code"
                 )

@@ -7,7 +7,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_IN_OUT_ALL
 
 
 class DocumentImportWizardMixin(models.TransientModel):
-
     _name = "l10n_br_fiscal.document.import.wizard.mixin"
     _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
