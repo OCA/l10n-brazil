@@ -38,7 +38,6 @@ class TestSubsequentOperation(TransactionCase):
         subsequent_documents = self.nfe_simples_faturamento.document_subsequent_ids
 
         for document in subsequent_documents:
-
             self.assertTrue(
                 document.subsequent_document_id, "Subsequent document was not created"
             )
@@ -52,7 +51,6 @@ class TestSubsequentOperation(TransactionCase):
 
             # Subsequent Lines
             for product in document.subsequent_document_id.fiscal_line_ids:
-
                 # Document Line ICMS tax
                 self.assertEqual(
                     product.icms_tax_id.id,

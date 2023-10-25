@@ -46,7 +46,6 @@ def _request(ws_url, params):
 def get_ibpt_product(
     config, ncm, ex="0", reference="", description="", uom="", amount="0", gtin=""
 ):
-
     data = {
         "token": config.token,
         "cnpj": config.cnpj,
