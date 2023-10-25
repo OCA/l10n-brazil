@@ -16,7 +16,9 @@ class SaleOrder(models.Model):
     def _compute_get_button_create_invoice_invisible(self):
         button_create_invoice_invisible = False
 
-        lines = self.order_line.filtered(lambda l: l.invoice_status == "to invoice")
+        lines = self.order_line.filtered(
+            lambda line: line.invoice_status == "to invoice"
+        )
 
         # Somente depois do Pedido confirmado o botão pode aparecer
         if self.state != "sale":
