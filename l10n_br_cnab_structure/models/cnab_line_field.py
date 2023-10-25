@@ -248,7 +248,7 @@ class CNABField(models.Model):
             f.size = f.end_pos - f.start_pos + 1
 
     def unlink(self):
-        lines = self.filtered(lambda l: l.state != "draft")
+        lines = self.filtered(lambda line: line.state != "draft")
         if lines:
             raise UserError(_("You cannot delete an CNAB Field which is not draft !"))
         return super().unlink()
