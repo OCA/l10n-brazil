@@ -123,7 +123,6 @@ class StockMove(models.Model):
         return values
 
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
-
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
         if not self.fiscal_operation_id:
             # Caso não tenha a Operação Fiscal não é uma Fatura do Brasil
