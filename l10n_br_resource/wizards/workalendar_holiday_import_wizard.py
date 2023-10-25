@@ -21,7 +21,6 @@ _INTERVALS = {
 
 
 class WorkalendarHolidayImport(models.TransientModel):
-
     _name = "wizard.workalendar.holiday.import"
     _description = "Wizard de import de feriados"
 
@@ -147,7 +146,6 @@ class WorkalendarHolidayImport(models.TransientModel):
             while date_reference.year <= fields.Date.to_date(wiz.end_date).year:
                 all_holidays = brazil_all_holidays_set(date_reference.year)
                 for holiday in all_holidays:
-
                     if holiday.municipio_ibge:
                         municipio_nome = (
                             self.env["res.city"]
