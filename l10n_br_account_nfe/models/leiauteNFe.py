@@ -6,7 +6,6 @@ from odoo import fields, models
 
 
 class DetPag(models.AbstractModel):
-
     _inherit = "nfe.40.detpag"
 
     nfe40_indPag = fields.Selection(
