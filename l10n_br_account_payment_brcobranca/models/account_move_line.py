@@ -29,12 +29,10 @@ class AccountMoveLine(models.Model):
     # brcobranca/boleto/itau_spec.rb
 
     def send_payment(self):
-
         # super(AccountMoveLine, self).send_payment()
         wrapped_boleto_list = []
 
         for move_line in self:
-
             bank_account_id = move_line.payment_mode_id.fixed_journal_id.bank_account_id
             bank_name_brcobranca = get_brcobranca_bank(
                 bank_account_id, move_line.payment_mode_id.payment_method_code

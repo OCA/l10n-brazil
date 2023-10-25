@@ -131,7 +131,6 @@ class TestReturnImport(SavepointCase):
                 return self.account_move_obj.browse(action["res_id"])
 
     def test_valor_menor_1(self):
-
         mocked_response = [
             {
                 "codigo_registro": "1",
@@ -282,7 +281,6 @@ class TestReturnImport(SavepointCase):
         self.assertEqual("Banco UNICRED - Conta 371", log.name)
 
     def test_valor_menor_2(self):
-
         mocked_response = [
             {
                 "codigo_registro": "1",
@@ -435,7 +433,6 @@ class TestReturnImport(SavepointCase):
         self.assertEqual(self.invoice_unicred_1.payment_state, "paid")
 
     def test_valor_maior_3(self):
-
         mocked_response = [
             {
                 "codigo_registro": "1",
@@ -586,7 +583,6 @@ class TestReturnImport(SavepointCase):
         self.assertEqual("Banco UNICRED - Conta 371", log.name)
 
     def test_valor_maior_4(self):
-
         mocked_response = [
             {
                 "codigo_registro": "1",
@@ -739,7 +735,6 @@ class TestReturnImport(SavepointCase):
         self.assertEqual(self.invoice_unicred_2.payment_state, "paid")
 
     def test_ailos_return(self):
-
         mocked_response = [
             {
                 "codigo_registro": "03",
