@@ -204,7 +204,6 @@ class OperationLine(models.Model):
         city_taxation_code=None,
         ind_final=None,
     ):
-
         mapping_result = {
             "taxes": {},
             "cfop": False,

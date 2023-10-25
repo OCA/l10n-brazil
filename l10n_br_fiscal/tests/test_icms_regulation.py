@@ -60,7 +60,6 @@ class TestICMSRegulation(SavepointCase):
         self.assertEqual(tax_icms.percent_amount, 12.00)
 
     def find_icms_tax(self, in_state_id, out_state_id, ncm_id, ind_final):
-
         self.partner.state_id = in_state_id
         self.company.partner_id.inscr_est = False
         self.company.inscr_est = False
