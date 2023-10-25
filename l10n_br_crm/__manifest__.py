@@ -14,4 +14,9 @@
     "data": ["views/crm_lead_view.xml", "views/crm_quick_create_opportunity_form.xml"],
     "installable": True,
     "auto_install": True,
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base>=2.3.0",
+        ]
+    },
 }
