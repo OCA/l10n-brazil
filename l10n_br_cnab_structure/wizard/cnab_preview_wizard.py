@@ -7,7 +7,6 @@ from odoo import api, fields, models
 
 
 class CNABPreviewWizard(models.TransientModel):
-
     _name = "cnab.preview.wizard"
     _description = "CNAB Preview Wizard"
 

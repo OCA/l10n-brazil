@@ -14,7 +14,6 @@ CNAB_CODES = ["240", "400", "500", "750"]
 
 
 class CNABStructure(models.Model):
-
     _name = "l10n_br_cnab.structure"
     _description = (
         "An structure with header, body and trailer that make up the CNAB structure."
@@ -363,7 +362,6 @@ class CNABStructure(models.Model):
         self.write({"state": "draft"})
 
     def check_structure(self):
-
         for line in self.line_ids:
             line.check_line()
 

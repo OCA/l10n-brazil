@@ -10,7 +10,6 @@ from ..cnab.cnab import CnabBatch, CnabDetailRecord, RecordType
 
 
 class CNABBatch(models.Model):
-
     _name = "l10n_br_cnab.batch"
     _description = "A batch of lines in a CNAB structure."
 
@@ -110,7 +109,6 @@ class CNABBatch(models.Model):
         return super(CNABBatch, self).unlink()
 
     def check_batch(self):
-
         if self.cnab_structure_id.cnab_format != "240":
             raise UserError(
                 _(f"{self.name}: A batch must belong to a CNAB 240 structure!")
