@@ -6,7 +6,6 @@ from odoo.exceptions import UserError
 
 
 class FieldSelectWizard(models.TransientModel):
-
     _name = "field.select.wizard"
     _description = "Field Select Wizard"
 

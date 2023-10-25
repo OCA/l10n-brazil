@@ -9,7 +9,6 @@ from odoo.exceptions import UserError
 
 
 class CNABImportWizard(models.TransientModel):
-
     _name = "cnab.import.wizard"
     _description = "CNAB Import Wizard"
 
@@ -328,7 +327,6 @@ class CNABImportWizard(models.TransientModel):
         return value_dict
 
     def _create_return_events(self, details, return_lot_id, return_log_id):
-
         return_event_obj = self.env["l10n_br_cnab.return.event"]
 
         for detail in details:
