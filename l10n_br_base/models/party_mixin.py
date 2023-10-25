@@ -1,17 +1,11 @@
 # Copyright (C) 2021 Renato Lima (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+
+from erpbrasil.base import misc
+from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import api, fields, models
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-    from erpbrasil.base.fiscal import cnpj_cpf
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class PartyMixin(models.AbstractModel):
