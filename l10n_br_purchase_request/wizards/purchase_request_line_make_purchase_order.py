@@ -5,7 +5,6 @@ from odoo import models
 
 
 class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
-
     _inherit = "purchase.request.line.make.purchase.order"
 
     def make_purchase_order(self):
