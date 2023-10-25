@@ -28,4 +28,9 @@
     "installable": True,
     "auto_install": False,
     "license": "AGPL-3",
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base>=2.3.0",
+        ]
+    },
 }
