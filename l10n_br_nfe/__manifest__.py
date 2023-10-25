@@ -58,6 +58,7 @@
             "erpbrasil.transmissao>=1.1.0",
             "erpbrasil.edoc>=2.5.2",
             "erpbrasil.edoc.pdf",
+            "erpbrasil.base>=2.3.0",
         ],
     },
 }
