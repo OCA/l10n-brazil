@@ -45,7 +45,6 @@ def filter_paulistana(record):
 
 
 class Document(models.Model):
-
     _inherit = "l10n_br_fiscal.document"
 
     def convert_type_nfselib(self, class_object, object_filed, value):
