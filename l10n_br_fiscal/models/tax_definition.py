@@ -361,7 +361,6 @@ class TaxDefinition(models.Model):
         cest=None,
         city_taxation_code=None,
     ):
-
         if not ncm:
             ncm = product.ncm_id
 
