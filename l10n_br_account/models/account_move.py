@@ -253,7 +253,7 @@ class AccountMove(models.Model):
             else:
                 sign = 1
             inv_line_ids = move.line_ids.filtered(
-                lambda l: not l.exclude_from_invoice_tab
+                lambda line: not line.exclude_from_invoice_tab
             )
             move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
             move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
@@ -431,8 +431,9 @@ class AccountMove(models.Model):
         result = super()._recompute_payment_terms_lines()
         if self.document_number:
             terms_lines = self.line_ids.filtered(
-                lambda l: l.account_id.user_type_id.type in ("receivable", "payable")
-                and l.move_id.document_type_id
+                lambda line: line.account_id.user_type_id.type
+                in ("receivable", "payable")
+                and line.move_id.document_type_id
             )
             terms_lines.sorted(lambda line: line.date_maturity)
             for idx, terms_line in enumerate(terms_lines):
@@ -656,7 +657,7 @@ class AccountMove(models.Model):
 
     def create_wh_invoices(self):
         for move in self:
-            for line in move.line_ids.filtered(lambda l: l.tax_line_id):
+            for line in move.line_ids.filtered(lambda line: line.tax_line_id):
                 # Create Wh Invoice only for supplier invoice
                 if line.move_id and line.move_id.type != "in_invoice":
                     continue
