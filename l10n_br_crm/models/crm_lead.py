@@ -1,18 +1,11 @@
 # Copyright (C) 2012 - TODAY  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+from erpbrasil.base import misc
+from erpbrasil.base.fiscal import cnpj_cpf, ie
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-    from erpbrasil.base.fiscal import cnpj_cpf, ie
-except ImportError:
-    _logger.error("erpbrasil.base library not installed")
 
 
 class Lead(models.Model):
