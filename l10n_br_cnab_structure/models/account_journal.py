@@ -7,7 +7,6 @@ from odoo import fields, models
 
 
 class AccountJournal(models.Model):
-
     _inherit = "account.journal"
 
     used_to_import_cnab = fields.Boolean(string="Journal used for import CNAB")
