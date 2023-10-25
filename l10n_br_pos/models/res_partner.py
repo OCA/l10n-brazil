@@ -25,5 +25,5 @@ class ResPartner(models.Model):
         if partner.get("name"):
             partner["legal_name"] = partner["name"]
 
-        res = super(ResPartner, self).create_from_ui(partner)
+        res = super().create_from_ui(partner)
         return res

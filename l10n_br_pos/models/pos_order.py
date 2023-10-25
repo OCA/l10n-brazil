@@ -279,7 +279,7 @@ class PosOrder(models.Model):
 
     @api.model
     def _order_fields(self, ui_order):
-        order_fields = super(PosOrder, self)._order_fields(ui_order)
+        order_fields = super()._order_fields(ui_order)
         order_fields["status_code"] = ui_order.get("status_code")
         order_fields["status_name"] = ui_order.get("status_name")
         order_fields["status_description"] = ui_order.get("status_description")
