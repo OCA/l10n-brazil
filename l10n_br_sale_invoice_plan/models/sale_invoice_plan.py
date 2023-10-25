@@ -5,11 +5,9 @@ from odoo import models
 
 
 class SaleInvoicePlan(models.Model):
-
     _inherit = "sale.invoice.plan"
 
     def _compute_new_invoice_quantity(self, invoice_move):
-
         result = super()._compute_new_invoice_quantity(invoice_move=invoice_move)
 
         if invoice_move:
