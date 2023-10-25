@@ -66,7 +66,6 @@ class L10nBrZipSearch(models.TransientModel):
         return data
 
     def zip_search(self):
-
         self.ensure_one()
         data = self
         obj_zip = self.env["l10n_br.zip"]
