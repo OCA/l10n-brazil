@@ -12,7 +12,6 @@ _logger = logging.getLogger(__name__)
 
 
 class PaymentController(http.Controller):
-
     _accept_url = "/payment/bacenpix/feedback"
 
     @http.route(

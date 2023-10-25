@@ -33,7 +33,6 @@ BACENPIX = {
 
 
 class PaymentAcquirer(models.Model):
-
     _inherit = "payment.acquirer"
 
     provider = fields.Selection(
