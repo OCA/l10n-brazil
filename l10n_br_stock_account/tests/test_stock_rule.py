@@ -10,7 +10,7 @@ class StockRuleTest(TransactionCase):
     """Test Stock Rule"""
 
     def setUp(self):
-        super(StockRuleTest, self).setUp()
+        super().setUp()
 
         # Create a product route containing a stock rule that will
         # generate a move from Stock for every procurement created in Output
