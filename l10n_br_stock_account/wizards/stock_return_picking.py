@@ -22,7 +22,6 @@ class StockReturnPicking(models.TransientModel):
         origin_picking = self.env["stock.picking"].browse(self.env.context["active_id"])
 
         if origin_picking.fiscal_operation_id:
-
             refund_fiscal_operation = (
                 origin_picking.fiscal_operation_id.return_fiscal_operation_id
             )
