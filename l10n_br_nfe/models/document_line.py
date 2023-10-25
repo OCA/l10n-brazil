@@ -167,7 +167,6 @@ class NFeLine(spec_models.StackedModel):
     ################################
 
     def _export_fields_nfe_40_prod(self, xsd_fields, class_obj, export_dict):
-
         nfe40_cProd = self.product_id.default_code or self.nfe40_cProd or ""
         export_dict["cProd"] = nfe40_cProd
 
@@ -281,7 +280,6 @@ class NFeLine(spec_models.StackedModel):
     nfe40_vTotTrib = fields.Monetary(related="estimate_tax")
 
     def _export_fields_nfe_40_imposto(self, xsd_fields, class_obj, export_dict):
-
         if self.nfe40_choice10 == "nfe40_ICMS":
             xsd_fields.remove("nfe40_ISSQN")
         else:
@@ -591,12 +589,10 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_IPINT")
 
     def _export_fields_ipi(self, xsd_fields, class_obj, export_dict):
-
         export_dict["CST"] = self.ipi_cst_id.code
         export_dict["vBC"] = self.ipi_base
 
     def _export_fields_nfe_40_ipitrib(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_ipi(xsd_fields, class_obj, export_dict)
 
         if self.nfe40_choice20 == "nfe40_pIPI":
@@ -607,7 +603,6 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_pIPI")
 
     def _export_fields_nfe_40_ipint(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_ipi(xsd_fields, class_obj, export_dict)
 
     ################################
@@ -712,20 +707,16 @@ class NFeLine(spec_models.StackedModel):
                 xsd_fields.remove(tag_to_remove)
 
     def _export_fields_pis(self, xsd_fields, class_obj, export_dict):
-
         export_dict["CST"] = self.pis_cst_id.code
         export_dict["vBC"] = self.pis_base
 
     def _export_fields_nfe_40_pisaliq(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_pis(xsd_fields, class_obj, export_dict)
 
     def _export_fields_nfe_40_pisqtde(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_pis(xsd_fields, class_obj, export_dict)
 
     def _export_fields_nfe_40_pisoutr(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_pis(xsd_fields, class_obj, export_dict)
 
         if self.nfe40_choice13 == "nfe40_pPIS":
@@ -737,7 +728,6 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_pPIS")
 
     def _export_fields_nfe_40_pisnt(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_pis(xsd_fields, class_obj, export_dict)
 
     #################
@@ -854,21 +844,17 @@ class NFeLine(spec_models.StackedModel):
                 xsd_fields.remove(tag_to_remove)
 
     def _export_fields_cofins(self, xsd_fields, class_obj, export_dict):
-
         export_dict["CST"] = self.cofins_cst_id.code
         export_dict["vBC"] = self.cofins_base
         export_dict["vCOFINS"] = self.cofins_value
 
     def _export_fields_nfe_40_cofinsaliq(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_cofins(xsd_fields, class_obj, export_dict)
 
     def _export_fields_nfe_40_cofinsqtde(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_cofins(xsd_fields, class_obj, export_dict)
 
     def _export_fields_nfe_40_cofinsoutr(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_cofins(xsd_fields, class_obj, export_dict)
 
         if self.nfe40_choice16 == "nfe40_pCOFINS":
@@ -880,7 +866,6 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_pCOFINS")
 
     def _export_fields_nfe_40_cofinsnt(self, xsd_fields, class_obj, export_dict):
-
         self._export_fields_cofins(xsd_fields, class_obj, export_dict)
 
     ####################
