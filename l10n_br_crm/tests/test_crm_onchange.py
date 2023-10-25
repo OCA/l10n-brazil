@@ -7,7 +7,7 @@ from odoo.tests.common import TransactionCase
 
 class L10nBrCrmOnchangeTest(TransactionCase):
     def setUp(self):
-        super(L10nBrCrmOnchangeTest, self).setUp()
+        super().setUp()
 
         self.crm_lead_01 = self.env["crm.lead"].create(
             {
