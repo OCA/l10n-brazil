@@ -12,7 +12,7 @@ from odoo.addons.l10n_br_cnpj_search.tests.common import TestCnpjCommon
 @tagged("post_install", "-at_install")
 class TestReceitaWS(TestCnpjCommon):
     def setUp(self):
-        super(TestReceitaWS, self).setUp()
+        super().setUp()
 
         self.set_param("cnpj_provider", "receitaws")
 
