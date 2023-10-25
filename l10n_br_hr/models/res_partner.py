@@ -22,7 +22,7 @@ class ResPartner(models.Model):
             )
             vals["parent_id"] = employee_id.address_home_id.id
 
-        partner = super(ResPartner, self).create(vals)
+        partner = super().create(vals)
 
         if "create_depentent" not in self._context and vals.get(
             "is_employee_dependent", False
@@ -31,7 +31,7 @@ class ResPartner(models.Model):
         return partner
 
     def write(self, vals):
-        res = super(ResPartner, self).write(vals)
+        res = super().write(vals)
         if "is_employee_dependent" in vals and not self.is_employee_dependent:
             self.create_depentent()
         return res
