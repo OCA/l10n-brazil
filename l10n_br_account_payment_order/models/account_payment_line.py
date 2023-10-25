@@ -215,13 +215,13 @@ class AccountPaymentLine(models.Model):
         """
         Override to add brazilian validations
         """
-        res = super(AccountPaymentLine, self).draft2open_payment_line_check()
+        res = super().draft2open_payment_line_check()
         self._check_pix_transfer_type()
         return res
 
     @api.onchange("partner_id")
     def partner_id_change(self):
-        res = super(AccountPaymentLine, self).partner_id_change()
+        res = super().partner_id_change()
         partner_pix = False
         if self.partner_id.pix_key_ids:
             partner_pix = self.partner_id.pix_key_ids[0]
