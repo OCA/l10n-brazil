@@ -171,7 +171,6 @@ class L10nBrCNABChangeMethods(models.Model):
         return result
 
     def update_cnab_for_cancel_invoice(self):
-
         cnab_already_start = self._cnab_already_start()
         if cnab_already_start:
             reason_write_off = (
