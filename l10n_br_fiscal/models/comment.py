@@ -116,7 +116,6 @@ class Comment(models.Model):
         return "{pre}{0}{post}".format(formatted_amount, pre=pre, post=post)
 
     def compute_message(self, vals, manual_comment=None):
-
         if not self.ids and not manual_comment:
             return False
 

@@ -352,7 +352,6 @@ class ResCompany(models.Model):
 
     @api.onchange("profit_calculation", "tax_framework")
     def _onchange_profit_calculation(self):
-
         # Get all Simples Nacional default taxes
         sn_piscofins_id = self.env.ref("l10n_br_fiscal.tax_pis_cofins_simples_nacional")
 
