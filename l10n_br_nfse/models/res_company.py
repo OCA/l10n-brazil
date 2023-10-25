@@ -7,7 +7,6 @@ from ..constants.nfse import NFSE_ENVIRONMENT_DEFAULT, NFSE_ENVIRONMENTS
 
 
 class ResCompany(models.Model):
-
     _inherit = "res.company"
 
     provedor_nfse = fields.Selection(
