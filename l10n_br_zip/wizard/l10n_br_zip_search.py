@@ -48,7 +48,7 @@ class L10nBrZipSearch(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        data = super(L10nBrZipSearch, self).default_get(fields_list)
+        data = super().default_get(fields_list)
 
         context = dict(self._context or {})
         data["zip"] = context.get("zip", False)
