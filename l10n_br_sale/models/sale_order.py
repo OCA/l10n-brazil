@@ -219,7 +219,7 @@ class SaleOrder(models.Model):
                         res.setdefault(group, {"amount": 0.0, "base": 0.0})
                         res[group]["amount"] += computed_tax.get("tax_value", 0.0)
                         res[group]["base"] += computed_tax.get("base", 0.0)
-            res = sorted(res.items(), key=lambda l: l[0].sequence)
+            res = sorted(res.items(), key=lambda line: line[0].sequence)
             order.amount_by_group = [
                 (
                     line[0].name,
