@@ -2,7 +2,8 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
+
+from erpbrasil.base import misc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -14,13 +15,6 @@ from ..constants import (
     TIPO_MOVIMENTO,
     TIPO_SERVICO,
 )
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class AccountPaymentLine(models.Model):
