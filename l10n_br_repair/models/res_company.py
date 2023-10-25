@@ -5,7 +5,6 @@ from odoo import fields, models
 
 
 class ResCompany(models.Model):
-
     _inherit = "res.company"
 
     repair_fiscal_operation_id = fields.Many2one(

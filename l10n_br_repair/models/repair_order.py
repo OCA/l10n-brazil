@@ -205,11 +205,9 @@ class RepairOrder(models.Model):
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
-
         order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
         if view_type == "form":
-
             view = self.env["ir.ui.view"]
 
             sub_form_view = order_view["fields"]["operations"]["views"]["form"]["arch"]
@@ -473,7 +471,6 @@ class RepairOrder(models.Model):
         return {repair.id: repair.invoice_id.id for repair in repairs}
 
     def _split_invoice(self, group=False):
-
         self.ensure_one()
 
         document_type_list = []
@@ -496,7 +493,6 @@ class RepairOrder(models.Model):
         if (
             fiscal_document_type.id != invoice_created_by_super.document_type_id.id
         ) or (len(document_type_list) > 1):
-
             # Remove the First Document Type,
             # already has Invoice created
             invoice_created_by_super.document_type_id = document_type_list.pop(0)
