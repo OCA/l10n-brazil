@@ -1,7 +1,7 @@
 # Copyright (C) 2019  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -26,13 +26,6 @@ from ..constants.fiscal import (
     WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
     WORKFLOW_EDOC,
 )
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base.fiscal.edoc import ChaveEdoc
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class DocumentWorkflow(models.AbstractModel):
