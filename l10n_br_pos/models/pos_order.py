@@ -265,7 +265,6 @@ class PosOrder(models.Model):
 
     @api.model
     def _process_order(self, order, draft, existing_order):
-
         order_id = super(
             PosOrder,
             self.with_context(

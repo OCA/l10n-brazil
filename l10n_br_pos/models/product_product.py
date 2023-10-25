@@ -5,7 +5,6 @@ from odoo import api, models
 
 
 class ProductProduct(models.Model):
-
     _inherit = "product.product"
 
     @api.depends_context("company")
