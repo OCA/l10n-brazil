@@ -94,7 +94,7 @@ class L10nBrWebsiteSale(WebsiteSale):
             and res.qcontext["checkout"]["city_id"]
         ):
             state_id = res.qcontext["checkout"]["state_id"]
-            if type(state_id) != str:
+            if type(state_id) is not str:
                 state_id = state_id.id
             elif state_id:
                 state_id = int(state_id)
