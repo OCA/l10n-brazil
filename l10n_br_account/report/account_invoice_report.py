@@ -11,7 +11,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 
 class AccountInvoiceReport(models.Model):
-
     _inherit = "account.invoice.report"
 
     issuer = fields.Selection(
