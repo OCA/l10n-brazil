@@ -16,11 +16,12 @@
         "views/l10n_br_fiscal_menu.xml",
         "views/res_company_view.xml",
     ],
-    "demo": [],
     "external_dependencies": {
         "python": [
             "erpbrasil.edoc>=2.5.2",
+            "erpbrasil.assinatura>=1.7.0",
             "erpbrasil.transmissao>=1.1.0",
+            "nfelib>=2.0.0",
         ],
     },
 }
