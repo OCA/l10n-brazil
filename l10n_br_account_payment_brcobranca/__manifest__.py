@@ -26,4 +26,9 @@
         "demo/account_move_demo.xml",
         "demo/account_payment_mode.xml",
     ],
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base>=2.3.0",
+        ]
+    },
 }

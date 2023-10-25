@@ -1,19 +1,12 @@
 # Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-import logging
+from erpbrasil.base.fiscal import cnpj_cpf
+from erpbrasil.base.misc import format_zipcode, punctuation_rm
 
 from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base.fiscal import cnpj_cpf
-    from erpbrasil.base.misc import format_zipcode, punctuation_rm
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class ResPartner(spec_models.SpecModel):

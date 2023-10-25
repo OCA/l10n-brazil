@@ -16,7 +16,10 @@
         "l10n_br_pos",
     ],
     "external_dependencies": {
-        "python": ["satcomum"],
+        "python": [
+            "satcomum",
+            "erpbrasil.base>=2.3.0",
+        ],
     },
     "data": [
         # Views

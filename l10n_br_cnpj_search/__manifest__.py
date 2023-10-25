@@ -20,5 +20,9 @@
         "views/res_company_view.xml",
         "views/res_config_settings_view.xml",
     ],
-    "demo": [],
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base>=2.3.0",
+        ]
+    },
 }

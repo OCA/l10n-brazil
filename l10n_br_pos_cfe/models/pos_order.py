@@ -1,18 +1,12 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
+
+from satcomum.ersat import ChaveCFeSAT
 
 from odoo import api, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_CFE
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from satcomum.ersat import ChaveCFeSAT
-except ImportError:
-    _logger.error("Biblioteca satcomum não instalada")
 
 
 class PosOrder(models.Model):
