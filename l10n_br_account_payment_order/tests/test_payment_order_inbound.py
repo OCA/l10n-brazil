@@ -83,7 +83,7 @@ class TestPaymentOrderInbound(SavepointCase):
         self.invoice_cef.action_post()
 
         # Verificar os campos CNAB na account.move.line
-        for line in self.invoice_cef.line_ids.filtered(lambda l: l.own_number):
+        for line in self.invoice_cef.line_ids.filtered(lambda line: line.own_number):
             assert (
                 line.own_number
             ), "own_number field is not filled in created Move Line."
