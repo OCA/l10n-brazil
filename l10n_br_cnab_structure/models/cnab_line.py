@@ -221,7 +221,7 @@ class CNABLine(models.Model):
         lines = self.filtered(lambda l: l.state != "draft")
         if lines:
             raise UserError(_("You cannot delete an CNAB Line which is not draft !"))
-        return super(CNABLine, self).unlink()
+        return super().unlink()
 
     def check_line(self):
         cnab_fields = self.field_ids.sorted(key=lambda r: r.start_pos)
