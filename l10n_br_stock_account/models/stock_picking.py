@@ -66,11 +66,9 @@ class StockPicking(models.Model):
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
-
         order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
         if view_type == "form":
-
             view = self.env["ir.ui.view"]
 
             sub_form_view = order_view["fields"]["move_ids_without_package"]["views"][
