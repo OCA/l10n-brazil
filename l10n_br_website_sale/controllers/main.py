@@ -16,7 +16,6 @@ except ImportError:
 
 
 class L10nBrWebsiteSale(WebsiteSale):
-
     # overwrite confirm_order
     @http.route(
         ["/shop/confirm_order"], type="http", auth="public", website=True, sitemap=False
