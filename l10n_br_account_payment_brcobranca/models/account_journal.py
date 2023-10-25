@@ -58,7 +58,6 @@ class AccountJournal(models.Model):
             return res_cnab_log
 
     def _move_import(self, parser, file_stream, result_row_list=None, ftype="csv"):
-
         # Overwrite this method to create the CNAB Return Log and change
         # the warning message when the file don't has any line to create
         # the Journal Entry, because in CNAB exist the case where
