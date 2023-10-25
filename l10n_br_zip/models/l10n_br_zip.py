@@ -1,24 +1,12 @@
 # Copyright (C) 2012  Renato Lima (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+
+from brazilcep import WebService, get_address_from_cep
+from erpbrasil.base import misc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Library erpbrasil.base not installed!")
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from brazilcep import WebService, get_address_from_cep
-except ImportError:
-    _logger.warning("Python Library brazilcep not installed !")
 
 
 class L10nBrZip(models.Model):
