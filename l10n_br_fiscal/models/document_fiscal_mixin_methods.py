@@ -31,7 +31,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     def _get_product_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         fiscal_line_ids = self._get_amount_lines()
-        return fiscal_line_ids.filtered(lambda l: l.product_id.type != "service")
+        return fiscal_line_ids.filtered(lambda line: line.product_id.type != "service")
 
     @api.model
     def _get_amount_fields(self):

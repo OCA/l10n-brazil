@@ -317,7 +317,7 @@ class OperationLine(models.Model):
         self.write({"state": "review"})
 
     def unlink(self):
-        lines = self.filtered(lambda l: l.state == "approved")
+        lines = self.filtered(lambda line: line.state == "approved")
         if lines:
             raise UserError(
                 _("You cannot delete an Operation Line which is not draft !")
