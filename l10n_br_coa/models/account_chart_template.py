@@ -43,7 +43,6 @@ class AccountChartTemplate(models.Model):
         if self.parent_id and self.parent_id == self.env.ref(
             "l10n_br_coa.l10n_br_coa_template"
         ):
-
             acc_names = {
                 "sale": {
                     "account_id": "account_id",
