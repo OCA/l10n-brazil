@@ -119,7 +119,6 @@ class L10nBrSaleDiscount(SavepointCase):
             self.assertEqual(line.discount_value, 150)
 
     def test_l10n_br_sale_discount_percent(self):
-
         self.assertFalse(self.order_line.user_discount_value)
         self.assertFalse(self.order_line.user_total_discount)
         self.assertTrue(self.order_line.need_change_discount_value())
@@ -134,7 +133,6 @@ class L10nBrSaleDiscount(SavepointCase):
                 line.discount_value = 20
 
     def test_l10n_br_sale_discount_percent_with_total(self):
-
         self.user.groups_id = [(4, self.group_total_discount_id)]
 
         self.assertFalse(self.order_line.user_discount_value)
