@@ -6,7 +6,7 @@ from odoo.tests.common import TransactionCase
 
 class L10nBrSimpleCOA(TransactionCase):
     def setUp(self):
-        super(L10nBrSimpleCOA, self).setUp()
+        super().setUp()
 
         self.l10n_br_coa_simple = self.env.ref(
             "l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
