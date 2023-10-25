@@ -55,4 +55,9 @@
         "static/src/xml/Screens/OrderManagementScreen/OrderRow.xml",
     ],
     "installable": True,
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base>=2.3.0",
+        ]
+    },
 }
