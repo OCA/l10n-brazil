@@ -17,7 +17,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 class TestFiscalClosing(TransactionCase):
     def setUp(self):
-        super(TestFiscalClosing, self).setUp()
+        super().setUp()
 
         self.nfe_export = self.env.ref("l10n_br_fiscal.demo_nfe_export")
         self.nfe_export.date_in_out = fields.Datetime.now()
