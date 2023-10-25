@@ -921,7 +921,7 @@ class NFe(spec_models.StackedModel):
         else:
             state = SITUACAO_EDOC_REJEITADA
         if self.authorization_event_id and infProt.nProt:
-            if type(infProt.dhRecbto) == datetime:
+            if type(infProt.dhRecbto) is datetime:
                 protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
             else:
                 protocol_date = fields.Datetime.to_string(
