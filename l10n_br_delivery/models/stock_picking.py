@@ -5,7 +5,6 @@ from odoo import models
 
 
 class StockPicking(models.Model):
-
     _inherit = "stock.picking"
 
     def _add_delivery_cost_to_so(self):
