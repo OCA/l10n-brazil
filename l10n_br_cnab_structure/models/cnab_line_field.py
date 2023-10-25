@@ -15,7 +15,6 @@ from odoo.tools.safe_eval import safe_eval, time
 
 
 class CNABField(models.Model):
-
     _name = "l10n_br_cnab.line.field"
     _description = "Fields in CNAB lines."
     _order = "cnab_line_id, start_pos"
