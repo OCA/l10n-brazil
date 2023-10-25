@@ -251,7 +251,7 @@ class CNABField(models.Model):
         lines = self.filtered(lambda l: l.state != "draft")
         if lines:
             raise UserError(_("You cannot delete an CNAB Field which is not draft !"))
-        return super(CNABField, self).unlink()
+        return super().unlink()
 
     def action_review(self):
         self.write({"state": "review"})

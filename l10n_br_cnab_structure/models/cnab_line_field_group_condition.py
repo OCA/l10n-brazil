@@ -17,7 +17,7 @@ class CNABFieldCondition(models.Model):
     @api.model
     def default_get(self, fields_list):
         """Override default_get"""
-        res = super(CNABFieldCondition, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         # It seems to be a bug in native odoo that the field cnab_line_id
         # is not in the fields list by default. A workaround is required
         # to force this.
