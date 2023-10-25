@@ -228,7 +228,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
                 tmp_total_value_ncm = round(product_inventory_value, account_precision)
                 # A validação abaixo é necessária p/
                 # não preencher a primeira linha
-                if type(tmp_ncm_controler) != bool:
+                if type(tmp_ncm_controler) is not bool:
                     tmp_ncm_controler_line = True
 
             result_lines.append(
