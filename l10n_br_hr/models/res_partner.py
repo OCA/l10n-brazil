@@ -16,7 +16,6 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
-
         if "depentent_employee_id" in self.env.context:
             employee_id = self.env["hr.employee"].browse(
                 self.env.context.get("depentent_employee_id")
