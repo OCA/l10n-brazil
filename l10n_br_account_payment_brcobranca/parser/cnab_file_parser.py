@@ -66,7 +66,6 @@ class CNABFileParser(FileParser):
             return parser_name == "cnab240"
 
     def parse(self, filebuffer):
-
         files = {"data": base64.b64decode(filebuffer)}
 
         data = self._get_brcobranca_retorno(files)
@@ -76,7 +75,6 @@ class CNABFileParser(FileParser):
         yield self.result_row_list
 
     def _get_brcobranca_retorno(self, files):
-
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
         brcobranca_api_url = get_brcobranca_api_url(self.env)
         # Ex.: "http://boleto_cnab_api:9292/api/retorno"
@@ -118,7 +116,6 @@ class CNABFileParser(FileParser):
         return zeros_date, date_format
 
     def process_return_file(self, data):
-
         #          Forma de Lançamento do Retorno
         # Em caso de Pagamento/Liquidação é feita a criação de uma Entrada de
         # Diário para cada linha do arquivo CNAB com os valores de desconto,
@@ -199,7 +196,6 @@ class CNABFileParser(FileParser):
             registration_code_allowed = 1
 
         for linha_cnab in data:
-
             if int(linha_cnab["codigo_registro"]) != registration_code_allowed:
                 # Bradesco
                 # Existe o codigo de registro 9 que eh um totalizador
@@ -338,7 +334,6 @@ class CNABFileParser(FileParser):
                 linha_cnab.get("data_vencimento")
                 and linha_cnab.get("data_vencimento") != zeros_date
             ):
-
                 due_date = datetime.datetime.strptime(
                     str(linha_cnab.get("data_vencimento")), date_format
                 ).date()
@@ -367,7 +362,6 @@ class CNABFileParser(FileParser):
 
             # Caso de Pagamento deve criar os Lançamentos de Diário
             if cod_ocorrencia in cnab_liq_move_code:
-
                 row_list, log_event_payment = self._get_accounting_entries(
                     linha_cnab, account_move_line, payment_lines
                 )
@@ -473,7 +467,6 @@ class CNABFileParser(FileParser):
             valor_juros_mora = self.cnab_str_to_float(linha_cnab["juros_mora"])
 
             if valor_juros_mora > 0.0:
-
                 row_list.append(
                     {
                         "name": "Valor Juros Mora (boleto) "
