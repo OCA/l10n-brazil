@@ -158,7 +158,6 @@ class AccountTax(models.Model):
             sum_repartition_factor = sum(tax_repartition_lines.mapped("factor"))
 
             if fiscal_tax:
-
                 if fiscal_tax.get("base") < 0:
                     sign = -1
                     fiscal_tax["base"] = -fiscal_tax.get("base")
