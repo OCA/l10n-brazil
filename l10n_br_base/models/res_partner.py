@@ -108,7 +108,6 @@ class Partner(models.Model):
     def _check_cnpj_cpf(self):
         result = True
         for record in self:
-
             disable_cnpj_ie_validation = record.env[
                 "ir.config_parameter"
             ].sudo().get_param(
