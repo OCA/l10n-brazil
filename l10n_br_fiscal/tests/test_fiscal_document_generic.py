@@ -221,7 +221,6 @@ class TestFiscalDocumentGeneric(SavepointCase):
                     " for Venda de Contribuinte p/ Fora do Estado.",
                 )
             else:
-
                 self.assertEqual(
                     line.icms_tax_id.name,
                     "ICMS 7%",
@@ -1152,7 +1151,6 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_purchase_same_state(self):
-
         self.nfe_purchase_same_state.action_document_confirm()
 
         self.assertEqual(

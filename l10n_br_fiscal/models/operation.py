@@ -184,7 +184,6 @@ class Operation(models.Model):
         return serie
 
     def _line_domain(self, company, partner, product):
-
         domain = [
             ("fiscal_operation_id", "=", self.id),
             ("fiscal_operation_type", "=", self.fiscal_operation_type),
