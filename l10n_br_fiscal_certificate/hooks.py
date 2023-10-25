@@ -3,22 +3,13 @@
 
 import logging
 
+from erpbrasil.assinatura import misc
+
 from odoo import SUPERUSER_ID, _, api
 
 from .constants import CERTIFICATE_TYPE_ECNPJ, CERTIFICATE_TYPE_NFE
 
 _logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.assinatura import misc
-except ImportError:
-    _logger.error(
-        _(
-            "Python Library erpbrasil.assinatura not installed!"
-            "It doesn't matter much until you want to send NFe or NFSe documents."
-            "You can install it later with: pip install erpbrasil.assinatura."
-        )
-    )
 
 
 def post_init_hook(cr, registry):
