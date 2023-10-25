@@ -4,7 +4,7 @@
 
 {
     "name": "Brazilian Payment Order",
-    "version": "14.0.3.2.0",
+    "version": "14.0.3.3.0",
     "license": "AGPL-3",
     "author": "KMEE, Akretion, Odoo Community Association (OCA)",
     "maintainers": ["mbcosta"],
