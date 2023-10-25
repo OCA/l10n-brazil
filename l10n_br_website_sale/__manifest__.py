@@ -19,5 +19,9 @@
         "templates/portal_templates.xml",
         "views/assets.xml",
     ],
-    "demo": [],
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base>=2.3.0",
+        ]
+    },
 }
