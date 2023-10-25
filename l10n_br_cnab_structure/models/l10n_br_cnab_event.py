@@ -8,7 +8,6 @@ from odoo.exceptions import UserError
 
 
 class CNABReturnEvent(models.Model):
-
     _inherit = "l10n_br_cnab.return.event"
 
     # BASE FIELDS #

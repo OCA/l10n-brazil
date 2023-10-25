@@ -331,7 +331,6 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         self.assertEqual(cnab_structure.state, "draft")
 
     def test_field_select_wizard(self):
-
         cnab_field_id = self._create_valid_cnab_structure().line_ids[0].field_ids[0]
         wiz_action = cnab_field_id.action_change_field_sending()
 
