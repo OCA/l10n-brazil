@@ -7,7 +7,6 @@ from odoo import models
 
 
 class ResPartner(models.Model):
-
     _inherit = "res.partner"
 
     def prepare_partner_tomador(self, country_id):

@@ -39,7 +39,6 @@ def filter_processador_edoc_nfse(record):
 
 
 class Document(models.Model):
-
     _inherit = "l10n_br_fiscal.document"
 
     edoc_error_message = fields.Text(
