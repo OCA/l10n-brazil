@@ -200,7 +200,6 @@ class AccountMoveLine(models.Model):
         :return:
         """
         for record in self:
-
             cnab_state = "added"
             if record.reconciled:
                 cnab_state = "added_paid"
