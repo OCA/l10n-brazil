@@ -573,7 +573,6 @@ class InvoicingPickingTest(SavepointCase):
         self.stock_picking_sp.amount_other_value = 9.0
 
         for line in self.stock_picking_sp.move_lines:
-
             self.assertEqual(
                 line.freight_value,
                 3.0,
