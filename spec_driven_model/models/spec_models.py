@@ -58,7 +58,7 @@ class SpecModel(models.AbstractModel):
     @api.depends(lambda self: (self._rec_name,) if self._rec_name else ())
     def _compute_display_name(self):
         "More user friendly when automatic _rec_name is bad"
-        res = super(SpecModel, self)._compute_display_name()
+        res = super()._compute_display_name()
         for rec in self:
             if rec.display_name == "False" or not rec.display_name:
                 rec.display_name = _("Abrir...")
@@ -101,7 +101,7 @@ class SpecModel(models.AbstractModel):
                         pool[parent].__bases__ = (pool["spec.mixin"],) + pool[
                             parent
                         ].__bases__
-        return super(SpecModel, cls)._build_model(pool, cr)
+        return super()._build_model(pool, cr)
 
     @api.model
     def _setup_base(self):
@@ -214,7 +214,7 @@ class SpecModel(models.AbstractModel):
         return None
 
     def _register_hook(self):
-        res = super(SpecModel, self)._register_hook()
+        res = super()._register_hook()
         from .. import hooks  # importing here avoids loop
 
         hooks.register_hook(self.env, self._odoo_module, self._spec_module)
@@ -265,7 +265,7 @@ class StackedModel(SpecModel):
             ):
                 if kind == "stacked" and klass not in cls.__bases__:
                     cls.__bases__ = (klass,) + cls.__bases__
-        return super(StackedModel, cls)._build_model(pool, cr)
+        return super()._build_model(pool, cr)
 
     @api.model
     def _add_field(self, name, field):
