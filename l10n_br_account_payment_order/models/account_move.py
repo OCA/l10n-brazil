@@ -145,7 +145,6 @@ class AccountMove(models.Model):
             filtered_invoice_ids.create_account_payment_line()
 
     def unlink(self):
-
         # Verificar se é necessário solicitar a Baixa no caso de CNAB
         cnab_already_start = False
         for l_aml in self.mapped("line_ids"):

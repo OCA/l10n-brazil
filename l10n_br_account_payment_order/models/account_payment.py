@@ -15,7 +15,6 @@ class AccountPayment(models.Model):
     _inherit = "account.payment"
 
     def action_post(self):
-
         for record in self:
             if (
                 record.payment_method_code in BR_CODES_PAYMENT_ORDER
