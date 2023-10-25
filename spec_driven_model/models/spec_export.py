@@ -149,7 +149,7 @@ class AbstractSpecMixin(models.AbstractModel):
             return self._export_float_monetary(
                 xsd_field, xsd_type, class_obj, xsd_required, export_value
             )
-        elif type(self[xsd_field]) == str:
+        elif type(self[xsd_field]) is str:
             return self[xsd_field].strip()
         else:
             return self[xsd_field]
