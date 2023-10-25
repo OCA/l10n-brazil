@@ -18,7 +18,7 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestTestSerPro(TestCnpjCommon):
     def setUp(self):
-        super(TestTestSerPro, self).setUp()
+        super().setUp()
 
         self.set_param("cnpj_provider", "serpro")
         self.set_param("serpro_token", "06aef429-a981-3ec5-a1f8-71d38d86481e")
