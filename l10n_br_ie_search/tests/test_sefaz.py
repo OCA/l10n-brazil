@@ -103,7 +103,6 @@ class TestSefaz(SavepointCase):
         )
 
     def test_sefaz(self):
-
         dummy = self.model.create(
             {
                 "name": "Dummy",
