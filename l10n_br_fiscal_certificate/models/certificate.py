@@ -1,7 +1,8 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+
+from erpbrasil.assinatura import certificado
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -14,19 +15,6 @@ from ..constants import (
     CERTIFICATE_TYPE,
     CERTIFICATE_TYPE_DEFAULT,
 )
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.assinatura import certificado
-except ImportError:
-    _logger.error(
-        _(
-            "Python Library erpbrasil.assinatura not installed!"
-            "It doesn't matter much until you want to send NFe or NFSe documents."
-            "You can install it later with: pip install erpbrasil.assinatura."
-        )
-    )
 
 
 class Certificate(models.Model):
