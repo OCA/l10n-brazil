@@ -112,7 +112,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 record.delivery_costs == "total"
                 or record.force_compute_delivery_costs_by_total
             ):
-
                 amount_freight_value = record.amount_freight_value
                 if all(record._get_product_amount_lines().mapped("freight_value")):
                     amount_freight_old = sum(
@@ -160,7 +159,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 record.delivery_costs == "total"
                 or record.force_compute_delivery_costs_by_total
             ):
-
                 amount_insurance_value = record.amount_insurance_value
                 if all(record._get_product_amount_lines().mapped("insurance_value")):
                     amount_insurance_old = sum(
