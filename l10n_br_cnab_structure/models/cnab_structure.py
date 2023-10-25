@@ -278,11 +278,15 @@ class CNABStructure(models.Model):
 
     def get_header(self):
         "Returns the file header record"
-        return self.line_ids.filtered(lambda l: l.type == "header" and not l.batch_id)
+        return self.line_ids.filtered(
+            lambda line: line.type == "header" and not line.batch_id
+        )
 
     def get_trailer(self):
         "Returns the file trailer record"
-        return self.line_ids.filtered(lambda l: l.type == "trailer" and not l.batch_id)
+        return self.line_ids.filtered(
+            lambda line: line.type == "trailer" and not line.batch_id
+        )
 
     def output_dicts(self, pay_order):
         """
@@ -335,7 +339,7 @@ class CNABStructure(models.Model):
         )
 
     def unlink(self):
-        lines = self.filtered(lambda l: l.state != "draft")
+        lines = self.filtered(lambda line: line.state != "draft")
         if lines:
             raise UserError(
                 _("You cannot delete an CNAB Structure which is not draft !")
@@ -377,13 +381,13 @@ class CNABStructure(models.Model):
             )
 
         segment_lines = self.line_ids.filtered(
-            lambda l: l.type == "segment" and not l.batch_id
+            lambda line: line.type == "segment" and not line.batch_id
         )
         header_line = self.line_ids.filtered(
-            lambda l: l.type == "header" and not l.batch_id
+            lambda line: line.type == "header" and not line.batch_id
         )
         trailer_line = self.line_ids.filtered(
-            lambda l: l.type == "trailer" and not l.batch_id
+            lambda line: line.type == "trailer" and not line.batch_id
         )
 
         if segment_lines and self.cnab_format == "240":

@@ -218,7 +218,7 @@ class CNABLine(models.Model):
                 line.name = f"{line.cnab_structure_id.name} -> {name}"
 
     def unlink(self):
-        lines = self.filtered(lambda l: l.state != "draft")
+        lines = self.filtered(lambda line: line.state != "draft")
         if lines:
             raise UserError(_("You cannot delete an CNAB Line which is not draft !"))
         return super().unlink()
