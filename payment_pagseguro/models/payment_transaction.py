@@ -92,7 +92,7 @@ class PaymentTransactionPagseguro(models.Model):
         )
 
         if (
-            type(res) == dict
+            type(res) is dict
             and res.get("payment_response")
             and res.get("payment_response").get("message") == "SUCESSO"
         ):
@@ -136,7 +136,7 @@ class PaymentTransactionPagseguro(models.Model):
         )
 
         if (
-            type(res) == dict
+            type(res) is dict
             and res.get("payment_response")
             and res.get("payment_response").get("message") == "SUCESSO"
         ):
