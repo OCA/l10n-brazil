@@ -16,7 +16,7 @@ class CNABFieldGroup(models.Model):
 
     @api.model
     def default_get(self, fields):
-        res = super(CNABFieldGroup, self).default_get(fields)
+        res = super().default_get(fields)
         # It seems to be a bug in native odoo that the field cnab_line_id
         # is not in the fields list by default. A workaround is required
         # to force this.

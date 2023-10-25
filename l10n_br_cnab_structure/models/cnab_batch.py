@@ -106,7 +106,7 @@ class CNABBatch(models.Model):
         lines = self.filtered(lambda l: l.state != "draft")
         if lines:
             raise UserError(_("You cannot delete an CNAB Batch which is not draft !"))
-        return super(CNABBatch, self).unlink()
+        return super().unlink()
 
     def check_batch(self):
         if self.cnab_structure_id.cnab_format != "240":
