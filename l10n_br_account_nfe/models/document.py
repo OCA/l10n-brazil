@@ -19,7 +19,6 @@ NFE_OUT = "1"
 
 
 class DocumentNfe(models.Model):
-
     _inherit = "l10n_br_fiscal.document"
 
     ##########################
@@ -101,7 +100,6 @@ class DocumentNfe(models.Model):
                 for field in det_pag_vals
             }
             if det_pag_vals != detpag_current:
-
                 rec.nfe40_detPag = [(2, detpag, 0) for detpag in rec.nfe40_detPag.ids]
                 rec.nfe40_detPag = [(0, 0, det_pag_vals)]
 
@@ -142,7 +140,6 @@ class DocumentNfe(models.Model):
     @api.constrains("nfe40_detPag", "state_edoc")
     def _check_fiscal_payment_mode(self):
         for rec in self:
-
             if (
                 rec.state_edoc == "em_digitacao"
                 or not rec._need_compute_nfe_tags()
