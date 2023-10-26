@@ -3,7 +3,7 @@
 
 from odoo import fields, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_IN_OUT_ALL
+from ..constants.fiscal import FISCAL_IN_OUT_ALL
 
 
 class DocumentImportWizardMixin(models.TransientModel):
