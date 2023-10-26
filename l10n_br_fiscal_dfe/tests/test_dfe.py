@@ -20,7 +20,7 @@ response_sucesso_individual = """<?xml version="1.0" encoding="UTF-8"?><soap:Env
 response_rejeicao = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><nfeDistDFeInteresseResponse xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"><nfeDistDFeInteresseResult><retDistDFeInt xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.01"><tpAmb>2</tpAmb><verAplic>1.4.0</verAplic><cStat>589</cStat><xMotivo>Rejeicao: Numero do NSU informado superior ao maior NSU da base de dados doAmbiente Nacional</xMotivo><dhResp>2022-04-04T11:54:49-03:00</dhResp><ultNSU>000000000000000</ultNSU><maxNSU>000000000000000</maxNSU></retDistDFeInt></nfeDistDFeInteresseResult></nfeDistDFeInteresseResponse></soap:Body></soap:Envelope>"""
 
 
-class FakeRetorno(object):
+class FakeRetorno:
     def __init__(self, text, status_code=200):
         self.text = text
         self.content = text.encode("utf-8")
