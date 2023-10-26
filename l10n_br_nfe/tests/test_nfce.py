@@ -38,7 +38,7 @@ response_cancelamento = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope 
 response_contingency = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4"><retEnviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00"><tpAmb>2</tpAmb><verAplic>4.0.0</verAplic><cStat>108</cStat><xMotivo>Rejeição: Duplicidade de NF-e</xMotivo><cUF>33</cUF><dhRecbto>2023-08-08T10:30:00-03:00</dhRecbto><infRec><nRec>123456789012345</nRec><tMed>1</tMed></infRec></retEnviNFe></nfeResultMsg></soap:Body></soap:Envelope>"""
 
 
-class FakeRetorno(object):
+class FakeRetorno:
     def __init__(self, text):
         self.text = text
         self.content = text.encode("utf-8")

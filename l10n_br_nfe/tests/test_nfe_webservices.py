@@ -53,7 +53,7 @@ def is_libreoffice_command_available():
         return False
 
 
-class FakeRetorno(object):
+class FakeRetorno:
     def __init__(self, text):
         self.text = text
         self.content = text.encode("utf-8")
