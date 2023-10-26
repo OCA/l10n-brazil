@@ -175,6 +175,29 @@ class TestBankInter(SavepointCase):
             }
         )
 
+        cls.invoice_kmee_03 = cls.env["account.move"].create(
+            {
+                "name": "Test Payment Order",
+                "invoice_payment_term_id": cls.payment_term_advance.id,
+                "partner_id": cls.partner_kmee.id,
+                "move_type": "out_invoice",
+                "invoice_user_id": cls.user_demo.id,
+                "payment_mode_id": cls.payment_mode.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": cls.product_5.id,
+                            "price_unit": 3.45,
+                            "quantity": 1,
+                            "account_id": cls.account_3010101010200.id,
+                        },
+                    )
+                ],
+            }
+        )
+
         cls.env.cr.commit()
 
     def test_principal_workflow(self):
@@ -387,3 +410,32 @@ class TestBankInter(SavepointCase):
         ):
             slip_query = payment_order.move_ids.line_ids.search_bank_slip()
             self.assertEqual(slip_query["situacao"], "EMABERTO")
+
+    def test_automatic_query(self):
+        """
+        Test bank_inter_state = emaberto when created or updated
+        """
+
+        self.invoice_kmee_03.action_post()
+        self.invoice_kmee_03.create_account_payment_line()
+        self.assertEqual(self.invoice_kmee_03.state, "posted")
+
+        payment_order = self.env["account.payment.order"].search(
+            [("payment_mode_id", "=", self.invoice_kmee_03.payment_mode_id.id)]
+        )
+
+        self.assertEqual(len(payment_order.payment_line_ids), 2)
+        self.assertEqual(len(payment_order.payment_ids), 0)
+
+        payment_order.draft2open()
+        self.assertEqual(len(payment_order.payment_ids), 2)
+
+        with mock.patch(
+            _provider_class_pay_order + ".generate_payment_file",
+            return_value=(False, False),
+        ):
+            payment_order.open2generated()
+
+        payment_order.generated2uploaded()
+
+        self.assertEqual(self.invoice_kmee_03.line_ids[0].bank_inter_state, "emaberto")
