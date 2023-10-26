@@ -4,7 +4,7 @@
 
 {
     "name": "NF-e Stock Integration",
-    "summary": "Brazilian Eletronic Invoice NF-e",
+    "summary": "Integration between l10n_br_nfe and l10n_br_purchase_stock",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "KMEE," "Odoo Community Association (OCA)",
