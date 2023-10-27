@@ -24,7 +24,6 @@ BACENPIX_STATUS_REFUNDED = 4
 
 
 class PaymentTransaction(models.Model):
-
     _inherit = "payment.transaction"
 
     bacenpix_date_due = fields.Datetime()

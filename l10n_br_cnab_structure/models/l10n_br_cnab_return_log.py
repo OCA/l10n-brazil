@@ -8,7 +8,6 @@ from odoo.exceptions import UserError
 
 
 class L10nBrCNABReturnLog(models.Model):
-
     _inherit = "l10n_br_cnab.return.log"
 
     journal_id = fields.Many2one(

@@ -487,7 +487,6 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         self.po_products.amount_other_value = 10.0
 
         for line in self.po_products.order_line:
-
             self.assertEqual(
                 line.freight_value,
                 5.0,

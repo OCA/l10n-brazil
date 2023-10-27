@@ -5,7 +5,6 @@ from odoo import models
 
 
 class SaleOrder(models.Model):
-
     _inherit = "sale.order"
 
     def _prepare_contract_value(self, contract_template):

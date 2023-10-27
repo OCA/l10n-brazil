@@ -6,11 +6,9 @@ from odoo.exceptions import UserError
 
 
 class SaleBlanketOrderWizard(models.TransientModel):
-
     _inherit = ["sale.blanket.order.wizard"]
 
     def _prepare_so_line_vals(self, line):
-
         fiscal_vals = line.blanket_line_id._prepare_br_fiscal_dict()
 
         # change quantity
@@ -48,7 +46,6 @@ class SaleBlanketOrderWizard(models.TransientModel):
         payment_term_id,
         order_lines_by_customer,
     ):
-
         vals = super()._prepare_so_vals(
             customer=customer,
             user_id=user_id,

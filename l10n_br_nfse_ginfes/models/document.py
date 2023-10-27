@@ -48,7 +48,6 @@ def filter_ginfes(record):
 
 
 class Document(models.Model):
-
     _inherit = "l10n_br_fiscal.document"
 
     def _serialize(self, edocs):
@@ -160,7 +159,6 @@ class Document(models.Model):
         )
 
     def _serialize_ginfes_rps(self, dados):
-
         return tcRps(
             InfRps=tcInfRps(
                 Id=dados["id"],
@@ -294,7 +292,6 @@ class Document(models.Model):
                         if processo.resposta.ListaMensagemRetorno:
                             lista_msgs = processo.resposta.ListaMensagemRetorno
                             for mr in lista_msgs.MensagemRetorno:
-
                                 correcao = ""
                                 if mr.Correcao:
                                     correcao = mr.Correcao
@@ -327,7 +324,6 @@ class Document(models.Model):
             if processo.resposta.ListaMensagemRetorno:
                 lista_msgs = processo.resposta.ListaMensagemRetorno
                 for mr in lista_msgs.MensagemRetorno:
-
                     correcao = ""
                     if mr.Correcao:
                         correcao = mr.Correcao

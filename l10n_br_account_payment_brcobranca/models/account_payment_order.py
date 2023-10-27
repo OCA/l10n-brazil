@@ -56,7 +56,6 @@ class PaymentOrder(models.Model):
         remessa_values["codigo_beneficiario"] = int(self.payment_mode_id.code_convetion)
 
     def _prepare_remessa_sicredi_240(self, remessa_values):
-
         bank_account_id = self.journal_id.bank_account_id
         remessa_values.update(
             {
@@ -163,7 +162,6 @@ class PaymentOrder(models.Model):
         return remessa, self.get_file_name(cnab_type)
 
     def _get_brcobranca_remessa(self, bank_brcobranca, remessa_values, cnab_type):
-
         content = json.dumps(remessa_values)
         f = open(tempfile.mktemp(), "w")
         f.write(content)

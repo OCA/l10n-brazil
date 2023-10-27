@@ -7,7 +7,6 @@ from odoo import tools
 
 @openupgrade.migrate()
 def migrate(env, version):
-
     tools.convert_file(
         env.cr,
         "l10n_br_fiscal",

@@ -154,7 +154,6 @@ class L10nBrZip(models.Model):
 
     @api.model
     def zip_search(self, obj):
-
         try:
             domain = self._set_domain(
                 country_id=obj.country_id.id,
@@ -176,12 +175,10 @@ class L10nBrZip(models.Model):
 
         # More than one ZIP was found
         elif len(zips) > 1:
-
             return self.create_wizard(obj, zips)
 
         # Address not found in local DB, search by PyCEP-Correios
         elif not zips and obj.zip:
-
             cep_values = self._consultar_cep(obj.zip)
 
             if cep_values:
@@ -191,7 +188,6 @@ class L10nBrZip(models.Model):
                 return True
 
     def create_wizard(self, obj, zips):
-
         context = dict(self.env.context)
         context.update({"address_id": obj.id, "object_name": obj._name})
 

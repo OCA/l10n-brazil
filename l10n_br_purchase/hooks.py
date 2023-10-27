@@ -5,7 +5,6 @@ from odoo import SUPERUSER_ID, api, tools
 
 
 def post_init_hook(cr, registry):
-
     cr.execute("select demo from ir_module_module where name='l10n_br_purchase';")
     if cr.fetchone()[0]:
         env = api.Environment(cr, SUPERUSER_ID, {})

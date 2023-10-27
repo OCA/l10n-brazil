@@ -16,7 +16,6 @@ class RecordType(Enum):
 
 
 class CnabField:
-
     __slots__ = ["position", "value", "name"]
 
     def __init__(self, position: int, value: str, name: str = "") -> None:
@@ -26,7 +25,6 @@ class CnabField:
 
 
 class CnabLine:
-
     type: RecordType
     fields: List[CnabField]
 
@@ -54,12 +52,10 @@ class CnabLine:
         return "".join(self.sorted_values().values())
 
     def asdict(self):
-
         return {"type": self.type.name, "fields": self.sorted_values()}
 
 
 class CnabDetailRecord:
-
     segments: List[CnabLine]
 
     def __init__(self, name: str) -> None:
@@ -80,7 +76,6 @@ class CnabDetailRecord:
 
 
 class CnabBatch:
-
     header: CnabLine
     detail_records: List[CnabDetailRecord]
     trailer: CnabLine
@@ -116,7 +111,6 @@ class CnabBatch:
 
 
 class Cnab:
-
     header: CnabLine
     batches: List[CnabBatch]
     trailer: CnabLine

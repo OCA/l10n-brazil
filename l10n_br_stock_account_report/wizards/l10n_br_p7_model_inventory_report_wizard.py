@@ -30,7 +30,6 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
     )
 
     def print_report(self):
-
         data = self.read()[0]
         result = self.get_report_values()
         data.update(
@@ -50,7 +49,6 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
 
     @api.model
     def get_report_values(self):
-
         # Informar no relatorio o fuso/horario do usuario
         if self.env.context.get("tz"):
             time_zone = pytz.timezone(self.env.context.get("tz"))
@@ -74,7 +72,6 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         return result
 
     def header_footer(self, to_date_with_tz, time_zone):
-
         company = self.env.company
         header = {
             "company_name": company.name,
@@ -136,7 +133,6 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         }
 
     def lines(self):
-
         # Precision
         obj_precision = self.env["decimal.precision"]
         price_precision = obj_precision.precision_get("Product Price")
@@ -171,7 +167,6 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         fiscal_type_dict = {}
 
         for product in products_sorted_by_ncm:
-
             tmp_ncm_controler_line = False
 
             # TODO ? product.price.history foi removido na v13,
@@ -208,7 +203,6 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
                         svl.unit_cost, precision_rounding=price_precision
                     )
                 elif not float_is_zero(svl.value, precision_rounding=price_precision):
-
                     # Migração da OCA não preenche o unit_cost apenas o value
                     # https://github.com/OCA/OpenUpgrade/blob/13.0/addons/
                     # stock_account/migrations/13.0.1.1/post-migration.py#L80

@@ -23,7 +23,6 @@ ABRANGENCIA_FERIADO = {
 
 
 class ResourceCalendarLeave(models.Model):
-
     _inherit = "resource.calendar.leaves"
 
     country_id = fields.Many2one(
