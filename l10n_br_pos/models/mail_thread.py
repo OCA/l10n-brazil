@@ -12,10 +12,6 @@ class MailThread(models.AbstractModel):
                 [("name", "=", kwargs["values"]["origin"].origin)]
             )
             if not pos_order:
-                return super(MailThread, self).message_post_with_view(
-                    views_or_xmlid, **kwargs
-                )
+                return super().message_post_with_view(views_or_xmlid, **kwargs)
         except Exception:
-            return super(MailThread, self).message_post_with_view(
-                views_or_xmlid, **kwargs
-            )
+            return super().message_post_with_view(views_or_xmlid, **kwargs)

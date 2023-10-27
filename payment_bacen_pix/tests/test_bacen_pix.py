@@ -12,7 +12,7 @@ import odoo
 @odoo.tests.tagged("post_install", "-at_install")
 class BacenCommon(odoo.tests.HttpCase):
     def setUp(self):
-        super(BacenCommon, self).setUp()
+        super().setUp()
 
         bacenpix_client_id = "test_client_id"
         bacenpix_client_secret = "test_client_secret"
