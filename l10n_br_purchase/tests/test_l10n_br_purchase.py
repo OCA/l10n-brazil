@@ -533,3 +533,40 @@ class L10nBrPurchaseBaseTest(SavepointCase):
                     13.34,
                     "Unexpected value for the field Other Values in Purchase Order.",
                 )
+
+    def test_purchase_service_and_products(self):
+        """
+        Test Purchase Order with Services and Products.
+        """
+        # Caso Somente Serviços
+        po_only_service = self.env.ref("l10n_br_purchase.main_po_only_service")
+        self._run_purchase_order_onchanges(po_only_service)
+        for line in po_only_service.order_line:
+            self._run_purchase_line_onchanges(line)
+        po_only_service.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            po_only_service.state, "purchase", "Error to confirm Purchase Order."
+        )
+        po_only_service.action_create_invoice()
+        for invoice in po_only_service.invoice_ids:
+            # Caso Internacional não deve ter Documento Fiscal associado
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase with only Service.",
+            )
+
+        # Caso Serviços e Produtos
+        po_service_product = self.env.ref("l10n_br_purchase.main_po_service_product")
+        self._run_purchase_order_onchanges(po_service_product)
+        for line in po_service_product.order_line:
+            self._run_purchase_line_onchanges(line)
+        po_service_product.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            po_service_product.state, "purchase", "Error to confirm Purchase Order."
+        )
+        po_service_product.action_create_invoice()
+        for invoice in po_service_product.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase with Service and Product.",
+            )
