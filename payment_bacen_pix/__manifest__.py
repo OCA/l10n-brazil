@@ -5,7 +5,7 @@
     "name": "Payment Bacen PIX",
     "summary": """
         Payment PIX with bacen""",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
