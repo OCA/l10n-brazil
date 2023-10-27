@@ -220,7 +220,7 @@ class CNABReturnEvent(models.Model):
         # If it is an outbound payment, the counterpart will be an debit.
         # If inbound will be a credit
         debit_or_credit = "debit" if self.move_line_ids[0].balance < 0 else "credit"
-        move_lines = self.move_line_ids.sorted(key=lambda l: l.date_maturity)
+        move_lines = self.move_line_ids.sorted(key=lambda line: line.date_maturity)
         for index, move_line in enumerate(move_lines):
             line_balance = abs(move_line.balance)
             # the total value of counterpart move lines must be equal to balance in return event
