@@ -4,7 +4,7 @@
 
 from lxml import etree
 
-from odoo.tests import SavepointCase
+from odoo.tests import Form, SavepointCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
@@ -173,15 +173,9 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         }
 
         invoice_values.update(order._prepare_br_fiscal_dict())
-        document_type_id = order._context.get("document_type_id")
 
-        if document_type_id:
-            document_type = self.env["l10n_br_fiscal.document.type"].browse(
-                document_type_id
-            )
-        else:
-            document_type = order.company_id.document_type_id
-            document_type_id = order.company_id.document_type_id.id
+        document_type = order.company_id.document_type_id
+        document_type_id = order.company_id.document_type_id.id
 
         document_serie = document_type.get_document_serie(
             order.company_id, order.fiscal_operation_id
@@ -203,8 +197,8 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             )
             invoice_lines += invoice_line
         self.invoice.invoice_line_ids += invoice_lines
-        self.invoice._onchange_purchase_auto_complete()
         self.invoice.write({"purchase_id": order.id})
+        self.invoice._onchange_purchase_auto_complete()
 
         self.assertEqual(
             order.order_line.mapped("qty_invoiced"),
@@ -433,6 +427,30 @@ class L10nBrPurchaseBaseTest(SavepointCase):
 
         self._invoice_purchase_order(self.po_products)
 
+    def test_purchase_report(self):
+        """Test Purchase Report"""
+        self.env["purchase.report"].read_group(
+            [("product_id", "=", self.env.ref("product.product_product_12").id)],
+            ["qty_ordered", "price_average:avg"],
+            ["product_id"],
+        )
+        # TODO: Algo a ser validado?
+
+    def test_form_purchase(self):
+        """Test Purchase with Form"""
+
+        purchase_form = Form(self.env["purchase.order"])
+        purchase_form.partner_id = self.env.ref("l10n_br_base.res_partner_akretion")
+        purchase_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        with purchase_form.order_line.new() as line:
+            line.name = self.env.ref("product.product_product_12").name
+            line.product_id = self.env.ref("product.product_product_12")
+            line.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_compras_compras"
+            )
+
+        purchase_form.save()
+
     def test_fields_view_get(self):
         """Test Purchase Order fields_view_get."""
         view_arch = etree.fromstring(self.po_products.fields_view_get()["arch"])
@@ -569,4 +587,20 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             self.assertTrue(
                 invoice.fiscal_document_id,
                 "Fiscal Document missing for Purchase with Service and Product.",
+            )
+
+    def test_compatible_with_international_case(self):
+        """Test of compatible with international case, create Invoice but not for Brazil."""
+        po_international = self.env.ref("purchase.purchase_order_1")
+        self._run_purchase_order_onchanges(po_international)
+        for line in po_international.order_line:
+            line.product_id.purchase_method = "purchase"
+            self._run_purchase_line_onchanges(line)
+        po_international.with_context(tracking_disable=True).button_confirm()
+        po_international.action_create_invoice()
+        for invoice in po_international.invoice_ids:
+            # Caso Internacional não deve ter Documento Fiscal associado
+            self.assertFalse(
+                invoice.fiscal_document_id,
+                "International case should not has Fiscal Document.",
             )
