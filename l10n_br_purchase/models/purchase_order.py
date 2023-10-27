@@ -22,6 +22,12 @@ class PurchaseOrder(models.Model):
         ]
         return domain
 
+    active_company_country_id = fields.Many2one(
+        comodel_name="res.country",
+        string="Company",
+        default=lambda self: self.env.company.country_id,
+    )
+
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
@@ -53,6 +59,10 @@ class PurchaseOrder(models.Model):
         string="Comments",
     )
 
+    operation_name = fields.Char(
+        copy=False,
+    )
+
     @api.model
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
@@ -81,7 +91,9 @@ class PurchaseOrder(models.Model):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
+        result = super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+        return result
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
@@ -98,11 +110,13 @@ class PurchaseOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         invoice_vals = super()._prepare_invoice()
-        invoice_vals.update(
-            {
-                "ind_final": self.ind_final,
-                "fiscal_operation_id": self.fiscal_operation_id.id,
-                "document_type_id": self.company_id.document_type_id.id,
-            }
-        )
+        if self.fiscal_operation_id:
+            # O caso Brasil se caracteriza por ter a Operação Fiscal
+            invoice_vals.update(
+                {
+                    "ind_final": self.ind_final,
+                    "fiscal_operation_id": self.fiscal_operation_id.id,
+                    "document_type_id": self.company_id.document_type_id.id,
+                }
+            )
         return invoice_vals
