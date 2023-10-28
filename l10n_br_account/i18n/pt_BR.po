@@ -595,8 +595,10 @@ msgstr "Assistente de Número Invalidado"
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__move_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard__move_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_correction_wizard__move_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard_mixin__move_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_status_wizard__move_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard__move_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_nfe_import_xml__move_id
 msgid "Invoice"
 msgstr "Fatura"
 
