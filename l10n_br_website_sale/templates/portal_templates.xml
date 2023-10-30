@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- TODO: Encontrar uma forma de resolver e retirar o disable abaixo até para manter a compatibilidade com caso internacional e assim tirar esse replace -->
+<!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority  -->
 <odoo>
 
     <template id="portal_address" inherit_id="website_sale.address">
