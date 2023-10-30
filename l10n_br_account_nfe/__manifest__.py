@@ -22,6 +22,7 @@
     ],
     "data": [
         "views/account_payment_mode.xml",
+        "wizards/import_document.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,
