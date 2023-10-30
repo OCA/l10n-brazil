@@ -1,11 +1,12 @@
 # Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from erpbrasil.base import fiscal
+from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
+
+from odoo.addons.l10n_br_base.tools import check_cnpj_cpf, check_ie
 
 from ..constants.fiscal import (
     MODELO_FISCAL_CTE,
@@ -74,47 +75,13 @@ class DocumentRelated(models.Model):
 
     @api.constrains("cnpj_cpf")
     def _check_cnpj_cpf(self):
-        result = True
         for record in self:
-            if record.cnpj_cpf:
-                disable_cnpj_ie_validation = (
-                    record.env["ir.config_parameter"]
-                    .sudo()
-                    .get_param(
-                        "l10n_br_base.disable_cpf_cnpj_validation", default=False
-                    )
-                )
-
-                if not disable_cnpj_ie_validation:
-                    if record.cpfcnpj_type == "cnpj":
-                        if not fiscal.cnpj_cpf.validar(record.cnpj_cpf):
-                            result = False
-                            document = "CNPJ"
-                    elif record.cpfcnpj_type == "cpf":
-                        result = False
-                        document = "CPF"
-
-                    if not result:
-                        raise ValidationError(_("{} Invalid!").format(document))
+            check_cnpj_cpf(record.env, record.cnpj_cpf, record.country_id)
 
     @api.constrains("inscr_est", "state_id")
     def _check_ie(self):
         for record in self:
-            result = True
-
-            disable_ie_validation = (
-                record.env["ir.config_parameter"]
-                .sudo()
-                .get_param("l10n_br_base.disable_ie_validation", default=False)
-            )
-
-            if not disable_ie_validation:
-                if record.inscr_est and record.state_id:
-                    state_code = record.state_id.code or ""
-                    uf = state_code.lower()
-                    result = fiscal.ie.validar(uf, record.inscr_est)
-                if not result:
-                    raise ValidationError(_("Estadual Inscription Invalid !"))
+            check_ie(record.env, record.inscr_est, record.state_id, record.country_id)
 
     @api.onchange("document_related_id")
     def _onchange_document_related_id(self):
@@ -161,4 +128,4 @@ class DocumentRelated(models.Model):
 
     @api.onchange("cnpj_cpf", "cpfcnpj_type")
     def _onchange_mask_cnpj_cpf(self):
-        self.cnpj_cpf = fiscal.cnpj_cpf.formata(str(self.cnpj_cpf))
+        self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
