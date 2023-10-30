@@ -163,64 +163,66 @@ class AccountMoveLine(models.Model):
                         client_id=self.journal_payment_mode_id.bank_client_id,
                         client_secret=self.journal_payment_mode_id.bank_secret_id,
                     )
-                    resposta = api.consulta_boleto_detalhado(
-                        nosso_numero=self.own_number
-                    )
+                    if self.own_number:
 
-                    parser.parse(resposta)
+                        resposta = api.consulta_boleto_detalhado(
+                            nosso_numero=self.own_number
+                        )
 
-                    if resposta["situacao"].lower() != self.bank_inter_state:
-                        if resposta["situacao"] == "pago":
-                            move_id = self.env["account.move"].create(
-                                {
-                                    "date": date.today(),
-                                    "ref": self.ref,
-                                    "journal_id": self.journal_payment_mode_id.id,
-                                    "company_id": self.company_id.id,
-                                    "line_ids": [
-                                        (
-                                            0,
-                                            0,
-                                            {
-                                                "account_id": self.account_id.id,
-                                                "partner_id": self.partner_id.id,
-                                                "debit": self.move_id.line_ids[
-                                                    0
-                                                ].credit,
-                                                "credit": self.move_id.line_ids[
-                                                    0
-                                                ].debit,
-                                                "date_maturity": self.date_maturity,
-                                            },
-                                        ),
-                                        (
-                                            0,
-                                            0,
-                                            {
-                                                "account_id": self.account_id.id,
-                                                "partner_id": self.company_id.id,
-                                                "debit": self.move_id.line_ids[
-                                                    1
-                                                ].credit,
-                                                "credit": self.move_id.line_ids[
-                                                    1
-                                                ].debit,
-                                                "date_maturity": self.date_maturity,
-                                            },
-                                        ),
-                                    ],
-                                }
-                            )
-                            move_id.post()
-                            (move_id.line_ids[0] + self).reconcile()
+                        parser.parse(resposta)
 
-                        if resposta["situacao"] == "cancelado":
-                            self.write_off_by_api = True
-                            self.write_off_choice = resposta[
-                                "motivoCancelamento"
-                            ].lower()
+                        if resposta["situacao"].lower() != self.bank_inter_state:
+                            if resposta["situacao"] == "pago":
+                                move_id = self.env["account.move"].create(
+                                    {
+                                        "date": date.today(),
+                                        "ref": self.ref,
+                                        "journal_id": self.journal_payment_mode_id.id,
+                                        "company_id": self.company_id.id,
+                                        "line_ids": [
+                                            (
+                                                0,
+                                                0,
+                                                {
+                                                    "account_id": self.account_id.id,
+                                                    "partner_id": self.partner_id.id,
+                                                    "debit": self.move_id.line_ids[
+                                                        0
+                                                    ].credit,
+                                                    "credit": self.move_id.line_ids[
+                                                        0
+                                                    ].debit,
+                                                    "date_maturity": self.date_maturity,
+                                                },
+                                            ),
+                                            (
+                                                0,
+                                                0,
+                                                {
+                                                    "account_id": self.account_id.id,
+                                                    "partner_id": self.company_id.id,
+                                                    "debit": self.move_id.line_ids[
+                                                        1
+                                                    ].credit,
+                                                    "credit": self.move_id.line_ids[
+                                                        1
+                                                    ].debit,
+                                                    "date_maturity": self.date_maturity,
+                                                },
+                                            ),
+                                        ],
+                                    }
+                                )
+                                move_id.post()
+                                (move_id.line_ids[0] + self).reconcile()
 
-                    self.bank_inter_state = resposta["situacao"].lower()
+                            if resposta["situacao"] == "cancelado":
+                                self.write_off_by_api = True
+                                self.write_off_choice = resposta[
+                                    "motivoCancelamento"
+                                ].lower()
+
+                        self.bank_inter_state = resposta["situacao"].lower()
         except Exception as error:
             raise UserError(_(error))
 
