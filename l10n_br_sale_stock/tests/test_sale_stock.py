@@ -263,6 +263,8 @@ class TestSaleStock(SavepointCase):
             # a copia entre os objetos é testada tanto no stock.move acima
             # quanto na account.move.line abaixo
             "uom_id",
+            # O campo stock price não é passado em todos os casos
+            "stock_price_br",
         ]
 
         common_fields = list(set(acl_fields) & set(sol_fields) - set(skipped_fields))
