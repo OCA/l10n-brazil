@@ -68,7 +68,7 @@
         <field name="name">l10n_br_nfe.import_xml.products.tree</field>
         <field name="model">l10n_br_nfe.import_xml.products</field>
         <field name="arch" type="xml">
-            <tree string="Views" editable="top">
+            <tree editable="top">
                 <field
                     name="product_id"
                     options="{'no_quick_create': True, 'no_create': True}"
