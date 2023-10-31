@@ -14,7 +14,7 @@ class PosOrder(models.Model):
 
     @api.model
     def _order_fields(self, ui_order):
-        order_fields = super(PosOrder, self)._order_fields(ui_order)
+        order_fields = super()._order_fields(ui_order)
 
         document_key = ui_order.get("document_key")
         document_type = ui_order.get("document_type")
