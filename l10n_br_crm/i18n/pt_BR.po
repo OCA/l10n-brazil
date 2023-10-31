@@ -62,24 +62,6 @@ msgid "Indicates if Brazilian localization fields should be displayed."
 msgstr ""
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid CNPJ!"
-msgstr ""
-
-#. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid CPF!"
-msgstr ""
-
-#. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
-msgstr ""
-
-#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead____last_update
 msgid "Last Modified on"
 msgstr ""
