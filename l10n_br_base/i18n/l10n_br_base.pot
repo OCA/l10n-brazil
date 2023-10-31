@@ -8442,9 +8442,9 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
+#: code:addons/l10n_br_base/tools.py:0
 #, python-format
-msgid "Estadual Inscription Invalid !"
+msgid "Estadual Inscription {} Invalid for State {}!"
 msgstr ""
 
 #. module: l10n_br_base
@@ -10955,12 +10955,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5004403
 msgid "Inocência"
-msgstr ""
-
-#. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
 msgstr ""
 
 #. module: l10n_br_base
@@ -27386,9 +27380,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
+#: code:addons/l10n_br_base/tools.py:0
 #, python-format
-msgid "{} Invalid!"
+msgid "{} {} Invalid!"
 msgstr ""
 
 #. module: l10n_br_base
