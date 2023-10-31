@@ -8451,10 +8451,10 @@ msgid "Espírito Santo do Turvo"
 msgstr "Espírito Santo do Turvo"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
+#: code:addons/l10n_br_base/tools.py:0
 #, python-format
-msgid "Estadual Inscription Invalid !"
-msgstr "Inscrição Estadual Inválida !"
+msgid "Estadual Inscription {} Invalid for State {}!"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4307559
@@ -10965,12 +10965,6 @@ msgstr "Inimutaba"
 #: model:res.city,name:l10n_br_base.city_5004403
 msgid "Inocência"
 msgstr "Inocência"
-
-#. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
-msgstr "Número da Inscrição Estadual Inválido!"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4110201
@@ -27405,10 +27399,10 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
+#: code:addons/l10n_br_base/tools.py:0
 #, python-format
-msgid "{} Invalid!"
-msgstr "{} Inválido!"
+msgid "{} {} Invalid!"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1500347
@@ -27582,6 +27576,18 @@ msgstr "Óbidos"
 #: model:res.city,name:l10n_br_base.city_3533809
 msgid "Óleo"
 msgstr "Óleo"
+
+#, python-format
+#~ msgid "Estadual Inscription Invalid !"
+#~ msgstr "Inscrição Estadual Inválida !"
+
+#, python-format
+#~ msgid "Invalid State Tax Number!"
+#~ msgstr "Número da Inscrição Estadual Inválido!"
+
+#, python-format
+#~ msgid "{} Invalid!"
+#~ msgstr "{} Inválido!"
 
 #, python-format
 #~ msgid "State Tax Number already used %s"
