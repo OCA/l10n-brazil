@@ -2,16 +2,9 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
+from num2words.lang_PT_BR import Num2Word_PT_BR
 
 from odoo.tests import SavepointCase
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from num2words.lang_PT_BR import Num2Word_PT_BR
-except ImportError:
-    _logger.info("Biblioteca Num2Words não instalada")
 
 
 class Num2WordsPTBRTest(SavepointCase):
