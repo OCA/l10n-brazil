@@ -12,6 +12,8 @@ import tempfile
 import zipfile
 from datetime import datetime
 
+from erpbrasil.base import misc
+
 from odoo import _, api, fields, models
 from odoo.exceptions import RedirectWarning
 
@@ -32,11 +34,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 
 _logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Library erpbrasil.base not installed!")
 
 PATH_MODELO = {
     MODELO_FISCAL_NFE: "nfe",
