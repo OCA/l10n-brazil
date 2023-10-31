@@ -32,7 +32,6 @@ def check_ie(env, inscr_est, state, country):
                 #  Se no caso da empresa ser 'isenta' do IE o campo
                 #  deve estar vazio ou pode ter algum valor como abaixo
                 if inscr_est not in ("isento", "isenta", "ISENTO", "ISENTA"):
-
                     if not ie.validar(state.code.lower(), inscr_est):
                         raise ValidationError(
                             _("Estadual Inscription {} Invalid for State {}!").format(
