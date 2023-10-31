@@ -166,3 +166,39 @@ class DocumentNfe(models.Model):
         if self.move_ids:
             copy_invoice = self.move_ids[0].copy()
             copy_invoice.action_post()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        if self._context.get("create_from_move"):
+            filtered_vals_list = []
+            for values in vals_list:
+                if not values.get("imported_document", False):
+                    filtered_vals_list.append(values)
+            documents = super().create(filtered_vals_list)
+        else:
+            documents = super().create(vals_list)
+        if documents and self._context.get("create_from_document"):
+            documents._create_account_moves()
+        return documents
+
+    def _create_account_moves(self):
+        self.flush()
+        AccountMove = self.env["account.move"]
+        invoices_to_create = []
+        for document in self:
+            invoices_to_create.append(
+                {
+                    "partner_id": document.partner_id.id,
+                    "user_id": self.env.user.id,
+                    "company_id": self.env.company.id,
+                    "currency_id": self.env.company.currency_id.id,
+                    "invoice_date": document.document_date,  # TODO: Arrumar datedue
+                    "move_type": "in_invoice",
+                    "imported_document": True,
+                }
+            )
+        if invoices_to_create:
+            invoices = AccountMove.create(invoices_to_create)
+        for document, invoice in zip(self, invoices):
+            invoice.write({"fiscal_document_id": document.id})
+        return True
