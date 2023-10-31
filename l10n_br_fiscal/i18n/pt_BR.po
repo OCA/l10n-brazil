@@ -3331,12 +3331,6 @@ msgid "Error in the request: {}"
 msgstr "Erro na solicitação: {}"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_related.py:0
-#, python-format
-msgid "Estadual Inscription Invalid !"
-msgstr "Inscrição Estadual Inválida !"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__estimate_tax
 msgid "Estimate Tax"
@@ -10182,12 +10176,6 @@ msgid "{0} Tax Estimate Failure: {1}"
 msgstr "Falha na estimativa de impostos {0}: {1}"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_related.py:0
-#, python-format
-msgid "{} Invalid!"
-msgstr "{} Inválido!"
-
-#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #, python-format
 msgid "{} Tax Estimate Failure"
@@ -10198,6 +10186,14 @@ msgstr "{} Falha na Estimativa de Imposto"
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#, python-format
+#~ msgid "Estadual Inscription Invalid !"
+#~ msgstr "Inscrição Estadual Inválida !"
+
+#, python-format
+#~ msgid "{} Invalid!"
+#~ msgstr "{} Inválido!"
 
 #~ msgid "Cancellation Date"
 #~ msgstr "Data de cancelamento"
