@@ -230,12 +230,6 @@ msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:0
-#, python-format
-msgid "CPF Invalido!"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_code
 msgid "CRC Code"
 msgstr ""
