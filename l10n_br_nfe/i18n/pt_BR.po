@@ -3153,11 +3153,6 @@ msgid "Veículo"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_import_xml_products_tree
-msgid "Views"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__wizard_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__wizard_id
 msgid "Wizard ID"
