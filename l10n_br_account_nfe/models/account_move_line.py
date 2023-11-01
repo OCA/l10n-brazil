@@ -32,8 +32,13 @@ class AccountMoveLine(models.Model):
                 invoice.fiscal_document_id._document_export()
         return result
 
-    @api.onchange("fiscal_operation_line_id")
-    def _onchange_fiscal_operation_line_id(self):
-        if self.move_id.fiscal_document_id.imported_document:
-            return
-        return super(AccountMoveLine, self)._onchange_fiscal_operation_line_id()
+    @api.model_create_multi
+    def create(self, vals_list):
+        account_move_lines = super().create(vals_list)
+        # for account_move_line, vals in zip(account_move_lines, vals_list):
+        # if self._context.get("create_from_document") \
+        # and vals.get("fiscal_document_line_id"):
+        #         account_move_line.write({
+        #             "fiscal_document_line_id": vals.get("fiscal_document_line_id"),
+        #         })
+        return account_move_lines

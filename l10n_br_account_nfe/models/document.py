@@ -178,7 +178,8 @@ class DocumentNfe(models.Model):
         else:
             documents = super().create(vals_list)
         if documents and self._context.get("create_from_document"):
-            documents._create_account_moves()
+            invoices = documents._create_account_moves()
+            invoices._create_financial_lines_from_dups()
         return documents
 
     def _create_account_moves(self):
@@ -193,12 +194,48 @@ class DocumentNfe(models.Model):
                     "company_id": self.env.company.id,
                     "currency_id": self.env.company.currency_id.id,
                     "invoice_date": document.document_date,  # TODO: Arrumar datedue
+                    "invoice_line_ids": [
+                        (0, None, self._prepare_invoice_line(line))
+                        for line in document.fiscal_line_ids
+                    ],
                     "move_type": "in_invoice",
-                    "imported_document": True,
+                    "imported_document": document.imported_document,
                 }
             )
         if invoices_to_create:
             invoices = AccountMove.create(invoices_to_create)
-        for document, invoice in zip(self, invoices):
-            invoice.write({"fiscal_document_id": document.id})
-        return True
+            for document, invoice in zip(self, invoices):
+                invoice.write({"fiscal_document_id": document.id})
+                for invoice_line in invoice.invoice_line_ids:
+                    # TODO: Não vai funcionar para notas com o mesmo produto
+                    # em mais de uma linha
+                    invoice_line.fiscal_document_line_id = (
+                        document.fiscal_line_ids.filtered(
+                            lambda fl: fl.product_id == invoice_line.product_id
+                        )
+                    )
+        return invoices
+
+    def _prepare_invoice_line(self, fiscal_line):
+        fiscal_position = self.env["account.fiscal.position"].browse(
+            fiscal_line.partner_id.property_account_position_id.id
+        )
+        values = fiscal_line._convert_to_write(fiscal_line.read()[0])
+        # TODO: Utilizar lógica parecida com do stock.invoice.onshipping
+        # para mapear account_id
+        values.update(
+            {
+                "product_id": fiscal_line.product_id.id,
+                "quantity": fiscal_line.quantity,
+                "discount": fiscal_line.discount_value,
+                "price_unit": fiscal_line.price_unit,
+                "name": fiscal_line.name,
+                # "tax_ids": [(6, 0, order_line.tax_ids_after_fiscal_position.ids)],
+                "product_uom_id": fiscal_line.uom_id.id,
+                "fiscal_document_line_id": fiscal_line.id,
+                "account_id": fiscal_position.map_account(
+                    fiscal_line.product_id.categ_id.property_account_expense_categ_id
+                ).id,
+            }
+        )
+        return values
