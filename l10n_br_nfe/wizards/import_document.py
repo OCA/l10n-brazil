@@ -217,7 +217,7 @@ class NfeImport(models.TransientModel):
             edoc_type=self.fiscal_operation_type,
         )
 
-        if not self.partner_id:
+        if not edoc.partner_id:
             self.partner_id = edoc.partner_id
 
         self._attach_original_nfe_xml_to_document(edoc)
