@@ -39,6 +39,9 @@ class NfeImport(models.TransientModel):
         if self.xml:
             self._set_fields_by_xml_data()
 
+        if self.partner_id:
+            self.imported_products_ids._set_product_supplierinfo_data()
+
     def _set_fields_by_xml_data(self):
         parsed_xml = self._parse_xml()
         document = self._get_document_by_xml(parsed_xml)
