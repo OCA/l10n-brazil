@@ -358,7 +358,7 @@ class NfeImportProducts(models.TransientModel):
                 "product_name": self.product_name,
                 "product_code": self.product_code,
                 "price": price,
-                "name": self.imported_partner_id.id,
+                "name": self.imported_partner_id.name,
                 "partner_uom_id": self.uom_internal.id,
                 "partner_uom_factor": self.uom_conversion_factor,
             }
