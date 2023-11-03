@@ -340,9 +340,11 @@ class NfeImportProducts(models.TransientModel):
                 continue
 
             if not product.product_supplier_id:
-                product._create_product_supplier()
+                #product._create_product_supplier()
+                pass
             else:
-                product._update_product_supplier()
+                pass
+                #product._update_product_supplier()
 
     def _create_product_supplier(self):
         if self.uom_internal:
