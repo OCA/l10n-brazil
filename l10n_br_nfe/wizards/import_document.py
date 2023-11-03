@@ -51,7 +51,7 @@ class NfeImport(models.TransientModel):
         self.document_serie = int(document.numero_serie)
         self.xml_partner_cpf_cnpj = document.cnpj_cpf_emitente
         self.xml_partner_name = infNFe.emit.xFant or infNFe.emit.xNome
-        self.partner_id = self.env["res.partner"].search(
+        self.partner_id = self.env["res.partner"].sudo().search(
             [
                 "|",
                 ("cnpj_cpf", "=", document.cnpj_cpf_emitente),
@@ -59,6 +59,7 @@ class NfeImport(models.TransientModel):
             ],
             limit=1,
         )
+        self.partner_id = 1
         self.nat_op = infNFe.ide.natOp
         self._create_imported_products_by_xml()
 
