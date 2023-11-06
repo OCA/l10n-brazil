@@ -254,6 +254,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return taxes
 
     def _remove_all_fiscal_tax_ids(self):
+        if self._is_imported():
+            return
         for line in self:
             to_update = {"fiscal_tax_ids": False}
             for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
@@ -299,37 +301,27 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _update_fiscal_taxes(self):
         for line in self:
             compute_result = self._compute_taxes(line.fiscal_tax_ids)
-            to_update = {
-                "amount_tax_included": compute_result.get("amount_included", 0.0),
-                "amount_tax_not_included": compute_result.get(
-                    "amount_not_included", 0.0
-                ),
-                "amount_tax_withholding": compute_result.get("amount_withholding", 0.0),
-                "estimate_tax": compute_result.get("estimate_tax", 0.0),
-            }
-            to_update.update(line._prepare_tax_fields(compute_result))
+            computed_taxes = compute_result.get("taxes", {})
+            line.amount_tax_included = compute_result.get("amount_included", 0.0)
+            line.amount_tax_not_included = compute_result.get(
+                "amount_not_included", 0.0
+            )
+            line.amount_tax_withholding = compute_result.get("amount_withholding", 0.0)
+            line.estimate_tax = compute_result.get("estimate_tax", 0.0)
+            if self._is_imported():
+                continue
 
-            in_draft_mode = self != self._origin
-            if in_draft_mode:
-                line.update(to_update)
-            else:
-                line.write(to_update)
-
-    def _prepare_tax_fields(self, compute_result):
-        self.ensure_one()
-        computed_taxes = compute_result.get("taxes", {})
-        tax_values = {}
-        for tax in self.fiscal_tax_ids:
-            computed_tax = computed_taxes.get(tax.tax_domain, {})
-            tax_field_name = f"{tax.tax_domain}_tax_id"
-            if hasattr(self, tax_field_name):
-                tax_values[tax_field_name] = tax.ids[0]
-                method = getattr(self, f"_prepare_fields_{tax.tax_domain}", None)
-                if method and computed_tax:
-                    prepared_fields = method(computed_tax)
-                    if prepared_fields:
-                        tax_values.update(prepared_fields)
-        return tax_values
+            for tax in line.fiscal_tax_ids:
+                computed_tax = computed_taxes.get(tax.tax_domain, {})
+                if hasattr(line, "%s_tax_id" % (tax.tax_domain,)):
+                    # since v13, when line is a new record,
+                    # line.fiscal_tax_ids recordset is made of
+                    # NewId records with an origin pointing back to the original
+                    # tax. tax.ids[0] is a way to the the single original tax back.
+                    setattr(line, "%s_tax_id" % (tax.tax_domain,), tax.ids[0])
+                    method = getattr(self, "_set_fields_%s" % (tax.tax_domain,))
+                    if method:
+                        method(computed_tax)
 
     def _get_product_price(self):
         self.ensure_one()
@@ -397,20 +389,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
 
             self.cfop_id = mapping_result["cfop"]
-            self._process_fiscal_mapping(mapping_result)
 
-        if not self.fiscal_operation_line_id:
-            self.cfop_id = False
+            if self._is_imported():
+                return
 
-    def _process_fiscal_mapping(self, mapping_result):
-        self.ipi_guideline_id = mapping_result["ipi_guideline"]
-        self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
-        taxes = self.env["l10n_br_fiscal.tax"]
-        for tax in mapping_result["taxes"].values():
-            taxes |= tax
-        self.fiscal_tax_ids = taxes
-        self._update_fiscal_taxes()
-        self.comment_ids = self.fiscal_operation_line_id.comment_ids
+            self.ipi_guideline_id = mapping_result["ipi_guideline"]
+            self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
+            taxes = self.env["l10n_br_fiscal.tax"]
+            for tax in mapping_result["taxes"].values():
+                taxes |= tax
+            self.fiscal_tax_ids = taxes
+            self._update_taxes()
+            self.comment_ids = self.fiscal_operation_line_id.comment_ids
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
@@ -917,3 +907,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
+
+    def _is_imported(self):
+        # When the mixin is used for instance
+        # in a PO line or SO line, there is no document_id
+        # and we consider the document is not imported
+        return hasattr(self, "document_id") and self.document_id.imported_document
