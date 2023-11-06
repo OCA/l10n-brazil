@@ -1579,11 +1579,6 @@ msgid "Imported Products"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__importing_type
-msgid "Importing Type"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_accountant_download_xml
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_authorize_accountant_download_xml
 msgid ""
