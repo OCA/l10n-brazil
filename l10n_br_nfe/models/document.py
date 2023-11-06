@@ -1115,15 +1115,15 @@ class NFe(spec_models.StackedModel):
             }
         )
 
-    def import_nfe_xml(self, xml, edoc_type="out"):
+    def import_binding_nfe(self, binding, edoc_type="out"):
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
-            .build_from_binding(xml.NFe.infNFe)
+            .build_from_binding(binding.NFe.infNFe)
         )
 
         if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
-            xml.NFe.infNFe.emit.CNPJ
+            binding.NFe.infNFe.emit.CNPJ
         ):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
