@@ -7,22 +7,20 @@
         NFS-e (FocusNFE)""",
     "version": "14.0.1.0.0",
     "license": "AGPL-3",
-    "author": "KMEE, Odoo Community Association (OCA)",
-    "maintainers": ["AndreMarcos", "mileo", "ygcarvalh"],
+    "author": "KMEE, Escodoo, Odoo Community Association (OCA)",
+    "maintainers": [
+        "AndreMarcos",
+        "mileo",
+        "ygcarvalh",
+        "marcelsavegnago",
+    ],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-     "external_dependencies": {
-        "python": [
-            "erpbrasil.assinatura",
-            "erpbrasil.base>=2.3.0",
-            "nfelib>=2.0.0",
-            "xsdata",
-        ],
-    },
     "depends": [
         "l10n_br_nfse",
     ],
-    "data" : [
+    "data": [
         "views/res_company.xml",
-    ]
+        "data/l10n_br_nfse_focus_cron.xml",
+    ],
 }
