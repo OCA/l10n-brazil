@@ -318,6 +318,11 @@ msgid "Document Lines"
 msgstr "Linhas de documentos"
 
 #. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.wizard_document_status_act_multi
+msgid "Document Status"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_type_id
 msgid "Document Type"
 msgstr "Tipo do Documento"
