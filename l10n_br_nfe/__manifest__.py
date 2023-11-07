@@ -23,7 +23,6 @@
         # Data
         "data/ir_config_parameter.xml",
         # Security
-        "security/ir_model_access.xml",
         "security/nfe_security.xml",
         "security/ir.model.access.csv",
         # Views
