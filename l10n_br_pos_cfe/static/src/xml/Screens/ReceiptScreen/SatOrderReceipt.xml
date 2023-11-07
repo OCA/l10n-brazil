@@ -63,6 +63,38 @@
                             class="body__caption"
                         >* Valor aproximado dos tributos do item.</span>
                     </div>
+
+                    <div class="receipt__change" style="font-size: 12px">
+                        <div>
+                            <span>Federais: </span>
+                        </div>
+                        <div>
+                            <span>R$<t
+                                    t-esc="est_federal_tax_total.toFixed(2)"
+                                /></span>
+                        </div>
+                    </div>
+
+                    <div class="receipt__change" style="font-size: 12px">
+                        <div>
+                            <span>Estaduais: </span>
+                        </div>
+                        <div>
+                            <span>R$<t t-esc="est_state_tax_total.toFixed(2)" /></span>
+                        </div>
+                    </div>
+
+                    <div class="receipt__change" style="font-size: 12px">
+                        <div>
+                            <span>Total: </span>
+                        </div>
+                        <div>
+                            <span>R$<t
+                                    t-esc="(est_federal_tax_total + est_state_tax_total).toFixed(2)"
+                                /></span>
+                        </div>
+                    </div>
+
                     <span
                         class="receipt__divider"
                     >---------------------------------------------------------</span>
