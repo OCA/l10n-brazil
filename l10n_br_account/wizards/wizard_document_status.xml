@@ -7,7 +7,7 @@
         <field name="name">Document Status</field>
         <field name="res_model">l10n_br_fiscal.document.status.wizard</field>
         <field name="view_mode">form</field>
-        <field name="binding_model_id" ref="model_account_invoice" />
+        <field name="binding_model_id" ref="model_account_move" />
         <field name="target">new</field>
     </record>
 
