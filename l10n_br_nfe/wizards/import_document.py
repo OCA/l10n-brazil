@@ -20,6 +20,7 @@ class NfeImport(models.TransientModel):
     """Importar XML Nota Fiscal Eletrônica"""
 
     _name = "l10n_br_nfe.import_xml"
+    _description = "Import XML Brazilian Fiscal Document"
     _inherit = "l10n_br_fiscal.document.import.wizard.mixin"
 
     xml_partner_cpf_cnpj = fields.Char(string="Imported Partner Identification")
@@ -272,6 +273,7 @@ class NfeImport(models.TransientModel):
 
 class NfeImportProducts(models.TransientModel):
     _name = "l10n_br_nfe.import_xml.products"
+    _description = "Import XML NFe Products"
 
     product_name = fields.Char(string="Product Name")
 
