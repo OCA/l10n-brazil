@@ -2,7 +2,7 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models
+from odoo import api, models
 
 
 class PurchaseOrderLine(models.Model):
@@ -19,3 +19,18 @@ class PurchaseOrderLine(models.Model):
             if self.env.company.purchase_create_invoice_policy == "stock_picking":
                 v["invoice_state"] = "2binvoiced"
         return values
+
+    @api.model
+    def _prepare_purchase_order_line_from_procurement(
+        self, product_id, product_qty, product_uom, company_id, values, po
+    ):
+        res = super()._prepare_purchase_order_line_from_procurement(
+            product_id, product_qty, product_uom, company_id, values, po
+        )
+        if values.get("move_dest_ids"):
+            for move in values.get("move_dest_ids"):
+                move.fiscal_operation_id = (
+                    move.fiscal_operation_id.inverse_fiscal_operation_id.id
+                )
+
+        return res
