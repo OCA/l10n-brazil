@@ -8,6 +8,7 @@ class L10nBrAccountNfeExport(models.TransientModel):
     """Exportar Nota Fiscal Eletrônica"""
 
     _name = "l10n_br_account_product.nfe_export"
+    _description = "Eletronic Fiscal Document Export"
     _inherit = "l10n_br_account_product.nfe_export_invoice"
 
     company_id = fields.Many2one(
@@ -37,6 +38,7 @@ class L10nBrAccountNfeExport(models.TransientModel):
 
 class L10nBrAccountNfeExportResult(models.TransientModel):
     _name = "l10n_br_account_product.nfe_export_result"
+    _description = "Product NFe Export Result"
     _inherit = "l10n_br_account_product.nfe_export_invoice_result"
 
     wizard_id = fields.Many2one(
