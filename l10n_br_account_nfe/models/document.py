@@ -214,9 +214,11 @@ class DocumentNfe(models.Model):
                             lambda fl: fl.product_id == invoice_line.product_id
                         )
                     )
+                invoice._move_autocomplete_invoice_lines_values()
         return invoices
 
     def _prepare_invoice_line(self, fiscal_line):
+        fiscal_line.reserve_map_taxes_ids()
         fiscal_position = self.env["account.fiscal.position"].browse(
             fiscal_line.partner_id.property_account_position_id.id
         )
@@ -225,17 +227,25 @@ class DocumentNfe(models.Model):
         # para mapear account_id
         values.update(
             {
-                "product_id": fiscal_line.product_id.id,
-                "quantity": fiscal_line.quantity,
-                "discount": fiscal_line.discount_value,
-                "price_unit": fiscal_line.price_unit,
                 "name": fiscal_line.name,
-                # "tax_ids": [(6, 0, order_line.tax_ids_after_fiscal_position.ids)],
-                "product_uom_id": fiscal_line.uom_id.id,
-                "fiscal_document_line_id": fiscal_line.id,
                 "account_id": fiscal_position.map_account(
                     fiscal_line.product_id.categ_id.property_account_expense_categ_id
                 ).id,
+                "product_id": fiscal_line.product_id.id,
+                "product_uom_id": fiscal_line.uom_id.id,
+                "quantity": fiscal_line.quantity,
+                "discount": fiscal_line.discount_value,
+                "price_unit": fiscal_line.price_unit,
+                "tax_ids": [
+                    (
+                        6,
+                        0,
+                        fiscal_line.fiscal_tax_ids.account_taxes(
+                            user_type="purchase"
+                        ).ids,
+                    )
+                ],
+                "fiscal_document_line_id": fiscal_line.id,
             }
         )
         return values
