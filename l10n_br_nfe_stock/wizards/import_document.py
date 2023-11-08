@@ -195,6 +195,8 @@ class NfeImport(models.TransientModel):
             else:
                 raise UserError(_("No Purchase Order Selected."))
             edoc.linked_purchase_ids = [(4, self.purchase_id.id)]
+            if edoc.move_ids:
+                self._add_invoice_to_purchase(edoc)
         elif self.model_to_link == "picking":
             if self.link_type == "create":
                 self.picking_id = self._create_picking(edoc)
@@ -204,6 +206,8 @@ class NfeImport(models.TransientModel):
             else:
                 raise UserError(_("No Picking Selected."))
             edoc.linked_picking_ids = [(4, self.picking_id.id)]
+            if edoc.move_ids:
+                self._add_invoice_to_picking(edoc)
 
         return edoc
 
@@ -322,3 +326,23 @@ class NfeImport(models.TransientModel):
                     imported_line.quantity_com * imported_line.uom_conversion_factor
                 )
             line.quantity_done = quantity_done
+
+    def _add_invoice_to_purchase(self, edoc):
+        for order_line in self.purchase_id.order_line:
+            invoice_line_ids = edoc.move_ids.mapped("line_ids").filtered(
+                lambda il: il.product_id == order_line.product_id
+            )
+            order_line.write(
+                {
+                    "invoice_lines": [(6, 0, invoice_line_ids.ids)],
+                }
+            )
+        self._add_invoice_to_picking(edoc)
+
+    def _add_invoice_to_picking(self, edoc):
+        edoc.move_ids.write(
+            {
+                "picking_ids": [(4, self.picking_id.id)],
+            }
+        )
+        self.picking_id._set_as_invoiced()
