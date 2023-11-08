@@ -165,6 +165,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
 
 class L10nBrAccountNfeExportInvoiceResult(models.TransientModel):
     _name = "l10n_br_account_product.nfe_export_invoice_result"
+    _description = "NFe Export Invoice Result"
 
     wizard_id = fields.Many2one(
         comodel_name="l10n_br_account_product.nfe_export_invoice",
