@@ -262,7 +262,8 @@ class Document(models.Model):
             return status
 
     def _document_status(self):
-        for record in self.filtered(filter_oca_nfse):
+        status = super()._document_status()
+        for record in self.filtered(filter_oca_nfse).filtered(filter_ginfes):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
                 rps_number=int(record.rps_number),
@@ -270,7 +271,7 @@ class Document(models.Model):
                 rps_type=int(record.rps_type),
             )
 
-            return _(
+            status = _(
                 processador.analisa_retorno_consulta(
                     processo,
                     record.document_number,
@@ -278,6 +279,7 @@ class Document(models.Model):
                     record.company_legal_name,
                 )
             )
+        return status
 
     @staticmethod
     def _get_protocolo(record, processador, vals):
