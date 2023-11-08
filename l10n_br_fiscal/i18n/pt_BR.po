@@ -9985,6 +9985,11 @@ msgid "Withholding"
 msgstr "Retenção"
 
 #. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_import_wizard_mixin
+msgid "Wizard Import Document Mixin"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_event__write_date
 msgid "Write Date"
 msgstr "Data de gravação"
@@ -10152,11 +10157,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "is <strong>Cancelled</strong>"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_import_wizard_mixin
-msgid "l10n_br_fiscal.document.import.wizard.mixin"
 msgstr ""
 
 #. module: l10n_br_fiscal
