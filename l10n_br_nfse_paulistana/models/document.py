@@ -382,6 +382,7 @@ class Document(models.Model):
         return
 
     def _document_status(self):
+        status = super()._document_status()
         for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
@@ -409,7 +410,8 @@ class Document(models.Model):
                     protocol_number=record.authorization_protocol,
                     file_response_xml=processo.retorno,
                 )
-            return _(consulta)
+            status = _(consulta)
+        return status
 
     def cancel_document_paulistana(self):
         def doc_dict(record):
