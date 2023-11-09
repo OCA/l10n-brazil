@@ -34,6 +34,7 @@
         # Wizards
         "wizards/account_move_reversal_view.xml",
         "wizards/wizard_document_status.xml",
+        "wizards/document_import_wizard_mixin.xml",
         # Actions
         "views/l10n_br_account_action.xml",
         # Menus
