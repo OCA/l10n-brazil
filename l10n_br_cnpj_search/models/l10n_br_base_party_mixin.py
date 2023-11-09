@@ -14,7 +14,7 @@ class PartyMixin(models.AbstractModel):
     def search_cnpj(self):
         """Search CNPJ by the chosen API"""
         if not self.cnpj_cpf:
-            raise UserError(_("Por favor insira o CNPJ"))
+            raise UserError(_("Please enter your CNPJ"))
 
         if self.cnpj_validation_disabled():
             raise UserError(
