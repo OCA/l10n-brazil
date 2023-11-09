@@ -94,8 +94,7 @@ class SpecMixinImport(models.AbstractModel):
                         value = old_value[:19]
                         # TODO see python3/pysped/xml_sped/base.py#L692
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
-
-            self._build_string_not_simple_type(key, vals, value, node)
+            vals[key] = value
 
         else:
             if str(attr[1].type).startswith("typing.List") or "ForwardRef" in str(
@@ -138,18 +137,15 @@ class SpecMixinImport(models.AbstractModel):
                 comodel_vals = comodel.build_attrs(value, path=child_path)
                 child_defaults = self._extract_related_values(vals, key)
 
-                comodel_vals.update(child_defaults)
-                # FIXME comodel._build_many2one
-                self._build_many2one(
-                    comodel, vals, comodel_vals, key, value, child_path
-                )
+                new_value.update(child_defaults)
+                self._build_many2one(comodel, vals, new_value, key, value, child_path)
 
     @api.model
     def _build_string_not_simple_type(self, key, vals, value, node):
         vals[key] = value
 
     @api.model
-    def _build_many2one(self, comodel, vals, comodel_vals, key, value, path):
+    def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if comodel._name == self._name:
             # stacked m2o
             vals.update(comodel_vals)
