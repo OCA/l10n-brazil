@@ -14,3 +14,4 @@ from . import document
 from . import document_line
 from . import account_incoterms
 from . import ir_model_data
+from . import account_journal
