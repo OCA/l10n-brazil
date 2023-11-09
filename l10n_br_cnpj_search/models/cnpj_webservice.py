@@ -116,14 +116,12 @@ class CNPJWebservice(models.AbstractModel):
     def _get_cnae(self, raw_code):
         code = punctuation_rm(raw_code)
         cnae_id = False
-        if self._check_l10n_br_fiscal_module_installed():
-            if code:
-                formatted_code = code[0:4] + "-" + code[4] + "/" + code[5:]
+        if not self._check_l10n_br_fiscal_module_installed() or not code:
+            return False
+        formatted_code = code[0:4] + "-" + code[4] + "/" + code[5:]
 
-                cnae_id = (
-                    self.env["l10n_br_fiscal.cnae"]
-                    .search([("code", "=", formatted_code)])
-                    .id
-                )
+        cnae_id = (
+            self.env["l10n_br_fiscal.cnae"].search([("code", "=", formatted_code)]).id
+        )
 
         return cnae_id

@@ -20,8 +20,8 @@
                         name="action_open_cnpj_search_wizard"
                         type="object"
                         class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
-                        aria-label="Pesquisar CNPJ"
-                        title="Pesquisar CNPJ"
+                        aria-label="Search CNPJ"
+                        title="Search CNPJ"
                     />
                     </div>
                 </field>

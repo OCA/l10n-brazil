@@ -8,6 +8,7 @@
     "version": "14.0.1.5.2",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
+    "maintainers": ["GCKrauss"],
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
         "l10n_br_zip",
