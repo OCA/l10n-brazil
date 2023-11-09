@@ -6,6 +6,7 @@
     "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
+    "maintainers": ["GCKrauss"],
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["l10n_br_crm", "l10n_br_cnpj_search"],
     "data": [
