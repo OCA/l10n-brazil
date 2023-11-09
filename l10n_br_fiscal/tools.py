@@ -4,6 +4,7 @@
 
 import logging
 import os
+from unicodedata import normalize
 
 from erpbrasil.base.misc import punctuation_rm
 
@@ -73,3 +74,18 @@ def build_edoc_path(
     except Exception as e:
         _logger.error("Falha de permissão ao acessar diretorio do e-doc {}".format(e))
     return caminho
+
+
+def remove_non_ascii_characters(value):
+    result = ""
+    if value and type(value) is str:
+        result = (
+            normalize("NFKD", value)
+            .encode("ASCII", "ignore")
+            .decode("ASCII")
+            .replace("\n", "")
+            .replace("\r", "")
+            .strip()
+        )
+
+    return result
