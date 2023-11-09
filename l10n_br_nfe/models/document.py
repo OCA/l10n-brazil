@@ -7,7 +7,6 @@ import logging
 import re
 import string
 from datetime import datetime
-from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal import cnpj_cpf
@@ -48,6 +47,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
+from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
@@ -581,20 +581,12 @@ class NFe(spec_models.StackedModel):
             record.nfe40_infCpl = False
             record.nfe40_infAdFisco = False
             if record.fiscal_additional_data:
-                record.nfe40_infAdFisco = (
-                    normalize("NFKD", record.fiscal_additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
+                record.nfe40_infAdFisco = remove_non_ascii_characters(
+                    record.fiscal_additional_data
                 )
             if record.customer_additional_data:
-                record.nfe40_infCpl = (
-                    normalize("NFKD", record.customer_additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
+                record.nfe40_infCpl = remove_non_ascii_characters(
+                    record.customer_additional_data
                 )
 
     ##########################
