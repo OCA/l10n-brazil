@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 Akretion
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="document_import_wizard_mixin_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.document.import.wizard.mixin.form</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard.mixin</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_fiscal.l10n_br_fiscal_document_import_wizard_mixin_form"
+        />
+        <field name="arch" type="xml">
+            <button name="action_import_and_open_document" position="after">
+                 <button
+                    name="action_import_and_open_move"
+                    string="Import Move"
+                    class="btn-primary"
+                    type="object"
+                />
+                </button>
+        </field>
+    </record>
+
+</odoo>
