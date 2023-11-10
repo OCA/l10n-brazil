@@ -27,9 +27,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_REJEITADA,
 )
+from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
 from ..constants.betha import CONSULTAR_SITUACAO_LOTE_RPS
-from ..models.document import filter_processador_edoc_nfse
 
 
 def filter_betha(record):
