@@ -3,11 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import sys
-from unicodedata import normalize
 
 from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
+from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
 
 ICMSSN_CST_CODES_USE_102 = ("102", "103", "300", "400")
@@ -961,12 +961,8 @@ class NFeLine(spec_models.StackedModel):
     def _compute_nfe40_infAdProd(self):
         for record in self:
             if record.additional_data:
-                record.nfe40_infAdProd = (
-                    normalize("NFKD", record.additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
+                record.nfe40_infAdProd = remove_non_ascii_characters(
+                    record.additional_data
                 )
             else:
                 record.nfe40_infAdProd = False
