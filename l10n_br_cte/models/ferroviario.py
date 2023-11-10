@@ -7,8 +7,8 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class Ferroviario(spec_models.StackedModel):
-    _name = "l10n_br_cte.modal.ferroviario"
+class Ferrov(spec_models.StackedModel):
+    _name = "l10n_br_cte.modal.ferrov"
     _inherit = "cte.40.ferrov"
     _stacked = "cte.40.ferrov"
     _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_ferroviario_v4_00"

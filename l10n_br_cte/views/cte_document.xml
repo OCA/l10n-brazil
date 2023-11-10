@@ -19,6 +19,9 @@
                     name="invisible"
                 >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
             </xpath>
+            <field name="document_serie_id" position="after">
+                <field name="service_provider" />
+            </field>
             <page name="delivery" position="inside">
                 <separator name="cargo_infos_sep" string="Cargo Infos" />
                 <group name="cargo_infos">

@@ -6,8 +6,8 @@ from odoo import fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class Aquaviario(spec_models.StackedModel):
-    _name = "l10n_br_cte.modal.aquaviario"
+class Aquav(spec_models.StackedModel):
+    _name = "l10n_br_cte.modal.aquav"
     _inherit = "cte.40.aquav"
     _stacked = "cte.40.aquav"
     _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aquaviario_v4_00"
@@ -21,9 +21,9 @@ class Aquaviario(spec_models.StackedModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    cte40_vPrest = fields.Monetary(related="document_id.cte40_vPrest")
-
     cte40_vAFRMM = fields.Monetary(related="document_id.cte40_vAFRMM")
+
+    cte40_vPrest = fields.Monetary(related="document_id.cte40_vPrest")
 
     cte40_xNavio = fields.Char(related="document_id.cte40_xNavio")
 
@@ -43,7 +43,7 @@ class Aquaviario(spec_models.StackedModel):
 
 
 class Balsa(spec_models.SpecModel):
-    _name = "l10n_br_cte.modal.aquaviario.balsa"
+    _name = "l10n_br_cte.modal.aquav.balsa"
     _inherit = "cte.40.balsa"
     _description = "Grupo de informações das balsas"
 

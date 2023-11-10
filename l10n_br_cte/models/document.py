@@ -8,6 +8,7 @@ from datetime import datetime
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
+from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
 from requests import Session
 
 from odoo import _, api, fields
@@ -42,7 +43,7 @@ _logger = logging.getLogger(__name__)
 try:
     pass
 except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
+    _logger.error("Biblioteca erpbrasil.base não in stalada")
 
 
 def filter_processador_edoc_cte(record):
@@ -129,7 +130,7 @@ class CTe(spec_models.StackedModel):
         string="cte40_cUF",
     )
 
-    cte40_cCT = fields.Char(related="document_key")
+    cte40_cCT = fields.Char(compute="_compute_cct")
 
     cfop_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
@@ -290,6 +291,11 @@ class CTe(spec_models.StackedModel):
         for rec in self:
             if rec.document_key:
                 rec.cte40_cDV = rec.document_key[:-1]
+
+    def _compute_cct(self):
+        for rec in self:
+            if rec.document_key:
+                rec.cte40_cCT = rec.document_key[35:43]
 
     @api.depends("partner_id", "company_id")
     def _compute_cte40_data(self):
@@ -515,7 +521,7 @@ class CTe(spec_models.StackedModel):
     cte40_infRespTec = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_infresptec",
-        string="Responsável Técnico MDFe",
+        string="Responsável Técnico CTe",
     )
 
     ##########################
@@ -534,7 +540,7 @@ class CTe(spec_models.StackedModel):
 
     cte40_modal = fields.Selection(related="transport_modal")
 
-    cte40_versaoModal = fields.Char(CTE_MODAL_VERSION_DEFAULT)
+    cte40_versaoModal = fields.Char(default=CTE_MODAL_VERSION_DEFAULT)
 
     # Campos do Modal Aereo
     modal_aereo_id = fields.Many2one(comodel_name="l10n_br_cte.modal.aereo")
@@ -608,10 +614,10 @@ class CTe(spec_models.StackedModel):
     )
 
     # Campos do Modal Aquaviario
-    modal_aquaviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.aquaviario")
+    modal_aquaviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.aquav")
 
     cte40_vPrest = fields.Monetary(
-        compute="_compute_cte40_vPrest",
+        compute="_compute_cte40_vPrest",  # FIX
         store=True,
         string="Valor da Prestação Base de Cálculo",
     )
@@ -638,7 +644,7 @@ class CTe(spec_models.StackedModel):
     )
 
     cte40_irin = fields.Char(
-        string="Irin do navio sempre deverá",
+        string="Irin do navio",
         help="Irin do navio sempre deverá ser informado",
     )
 
@@ -655,13 +661,13 @@ class CTe(spec_models.StackedModel):
     )
 
     cte40_balsa = fields.One2many(
-        comodel_name="l10n_br_cte.modal.aquaviario.balsa",
+        comodel_name="l10n_br_cte.modal.aquav.balsa",
         inverse_name="document_id",
         string="Grupo de informações das balsas",
     )
 
     # Campos do Modal Dutoviario
-    modal_dutoviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.dutoviario")
+    modal_dutoviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.duto")
 
     cte40_dIni = fields.Date(string="Data de Início da prestação do serviço")
 
@@ -670,7 +676,7 @@ class CTe(spec_models.StackedModel):
     cte40_vTar = fields.Float(string="Valor da tarifa")
 
     # Campos do Modal Ferroviario
-    modal_ferroviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.ferroviario")
+    modal_ferroviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.ferrov")
 
     cte40_tpTraf = fields.Selection(
         selection=FERROV_TPTRAF,
@@ -718,7 +724,7 @@ class CTe(spec_models.StackedModel):
     )
 
     # Campos do Modal rodoviario
-    modal_rodoviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.rodoviario")
+    modal_rodoviario_id = fields.Many2one(comodel_name="l10n_br_cte.modal.rodo")
 
     cte40_RNTRC = fields.Char(
         string="RNTRC",
@@ -726,7 +732,7 @@ class CTe(spec_models.StackedModel):
     )
 
     cte40_occ = fields.One2many(
-        comodel_name="l10n_br_cte.modal.rodoviario.occ",
+        comodel_name="l10n_br_cte.modal.rodo.occ",
         inverse_name="document_id",
         string="Ordens de Coleta associados",
     )
@@ -744,7 +750,6 @@ class CTe(spec_models.StackedModel):
 
     def _export_fields_cte_40_tcte_infmodal(self, xsd_fields, class_obj, export_dict):
         self = self.with_context(module="l10n_br_cte")
-
         if self.cte40_modal == "1":
             export_dict["any_element"] = self._export_modal_rodoviario()
         elif self.cte40_modal == "2":
@@ -819,16 +824,18 @@ class CTe(spec_models.StackedModel):
         session = Session()
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
-        return Cte(
+        return edoc_cte(
             transmissao,
-            self.company_id.state_id.ibge_code,
+            self.company_id.state_id.id,
+            self.cte40_versao,
+            self.cte40_tpAmb,
         )
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
             edoc = record.serialize()[0]
-            record._processador()
+            processador = record._processador()
             xml_file = edoc.to_xml()
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
@@ -840,15 +847,15 @@ class CTe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            # xml_assinado = processador.assinar_edoc(edoc, edoc.infCte.Id)
-            # self._valida_xml(xml_assinado)
+            xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
+            self._valida_xml(xml_assinado)
         return result
 
-    # def _valida_xml(self, xml_file):
-    #     self.ensure_one()
-    #     erros = Cte.schema_validation(xml_file)
-    #     erros = "\n".join(erros)
-    #     self.write({"xml_error_message": erros or False})
+    def _valida_xml(self, xml_file):
+        self.ensure_one()
+        erros = Cte.schema_validation(xml_file)
+        erros = "\n".join(erros)
+        self.write({"xml_error_message": erros or False})
 
     def atualiza_status_cte(self, infProt, xml_file):
         self.ensure_one()
@@ -884,34 +891,38 @@ class CTe(spec_models.StackedModel):
     def _eletronic_document_send(self):
         super(CTe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_cte):
-            if self.xml_error_message:
+            if record.xml_error_message:
                 return
-            record._processador()
-            for _edoc in record.serialize():
+            processador = record._processador()
+            for edoc in record.serialize():
                 processo = None
-                # for p in processador.processar_documento(edoc):
-                #     processo = p
-                if processo.webservice == "cteAutorizacaoLote":
-                    record.authorization_event_id._save_event_file(
-                        processo.envio_xml.decode("utf-8"), "xml"
-                    )
+                for p in processador.processar_documento(edoc):
+                    processo = p
+                    if processo.webservice == "cteRecepcaoLote":
+                        record.authorization_event_id._save_event_file(
+                            processo.envio_xml, "xml"
+                        )
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
-                record.atualiza_status_cte(
-                    processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
-                )
-            elif processo.resposta.cStat == "225":
-                state = SITUACAO_EDOC_REJEITADA
+                record.atualiza_status_cte(processo)
 
-                record._change_state(state)
-
+            elif processo.resposta.cStat in DENEGADO:
+                record._change_state(SITUACAO_EDOC_DENEGADA)
                 record.write(
                     {
                         "status_code": processo.resposta.cStat,
                         "status_name": processo.resposta.xMotivo,
                     }
                 )
-        return
+
+            else:
+                record._change_state(SITUACAO_EDOC_REJEITADA)
+                record.write(
+                    {
+                        "status_code": processo.resposta.cStat,
+                        "status_name": processo.resposta.xMotivo,
+                    }
+                )
 
     def _document_cancel(self, justificative):
         result = super(CTe, self)._document_cancel(justificative)
