@@ -19,12 +19,9 @@ class CTeCargoQuantityInfos(spec_models.SpecModel):
         related="document_id.company_id.currency_id",
     )
 
-    cte40_chassi = fields.Char(string="Chassi do veículo", required=True)
+    cte40_chassi = fields.Char(string="Chassi do veículo", required=True, size=17)
 
-    cte40_cCor = fields.Char(
-        string="Cor do veículo",
-        required=True,
-    )
+    cte40_cCor = fields.Char(string="Cor do veículo", required=True, size=4)
 
     cte40_xCor = fields.Char(string="Descrição da cor", required=True)
 

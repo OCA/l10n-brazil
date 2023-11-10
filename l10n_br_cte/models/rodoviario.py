@@ -1,14 +1,15 @@
 # Copyright 2023 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-
 from odoo import fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
+from ..constants.modal import TUF
 
-class Rodoviario(spec_models.StackedModel):
-    _name = "l10n_br_cte.modal.rodoviario"
+
+class Rodo(spec_models.StackedModel):
+    _name = "l10n_br_cte.modal.rodo"
     _inherit = "cte.40.rodo"
     _stacked = "cte.40.rodo"
     _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_rodoviario_v4_00"
@@ -27,10 +28,17 @@ class Rodoviario(spec_models.StackedModel):
     cte40_occ = fields.One2many(related="document_id.cte40_occ")
 
 
-class Occ(spec_models.SpecModel):
-    _name = "l10n_br_cte.modal.rodoviario.occ"
+class Occ(spec_models.StackedModel):
+    _name = "l10n_br_cte.modal.rodo.occ"
     _inherit = "cte.40.occ"
+    _stacked = "cte.40.occ"
     _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_rodoviario_v4_00"
+    _field_prefix = "cte40_"
+    _schema_name = "cte"
+    _schema_version = "4.0.0"
+    _odoo_module = "l10n_br_cte"
+    _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_rodoviario_v4_00"
+    _spec_tab_name = "CTe"
     _description = "Ordens de Coleta associados"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
@@ -44,4 +52,25 @@ class Occ(spec_models.SpecModel):
         help="Data de emissão da ordem de coleta\nFormato AAAA-MM-DD",
     )
 
-    cte40_emiOcc = fields.Many2one(comodel_name="res.partner", string="emiOcc")
+    cte40_CNPJ = fields.Char(
+        string="Número do CNPJ",
+        help="Número do CNPJ\nInformar os zeros não significativos.",
+    )
+
+    cte40_cInt = fields.Char(
+        string="Código interno de uso da transportadora",
+        help=(
+            "Código interno de uso da transportadora\nUso intermo das "
+            "transportadoras."
+        ),
+    )
+
+    cte40_IE = fields.Char(string="Inscrição Estadual")
+
+    cte40_UF = fields.Selection(
+        TUF,
+        string="Sigla da UF",
+        help="Sigla da UF\nInformar EX para operações com o exterior.",
+    )
+
+    cte40_fone = fields.Char(string="Telefone")

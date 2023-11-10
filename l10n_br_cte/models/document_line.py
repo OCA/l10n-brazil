@@ -137,17 +137,17 @@ class CTeLine(spec_models.StackedModel):
                     record.cte40_CST = record.icms_cst_id.code
             elif record.icms_cst_id.code in ICMS_SN_CST:
                 record.cte40_choice_icms = "cte40_ICMSSN"
-                record.cte40_CST = "01"
+                record.cte40_CST = "90"
 
     def _export_fields_icms(self):
         icms = {
-            "CST": self.icms_cst_id.code,
+            "CST": self.cte40_CST,
             "vBC": str("%.02f" % self.icms_base),
             "pRedBC": str("%.04f" % self.icms_reduction),
             "pICMS": str("%.04f" % self.icms_percent),
             "vICMS": str("%.02f" % self.icms_value),
             "vICMSSubstituto": str("%.02f" % self.icms_substitute),
-            "indSN": self.cte40_indSN,
+            "indSN": int(self.cte40_indSN),
             "vBCSTRet": str("%.02f" % self.icmsst_wh_base),
             "vICMSSTRet": str("%.02f" % self.icmsst_wh_value),
             "pICMSSTRet": str("%.02f" % self.icmsst_wh_percent),

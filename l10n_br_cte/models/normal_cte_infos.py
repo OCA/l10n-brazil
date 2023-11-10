@@ -87,7 +87,7 @@ class CTeNormalInfos(spec_models.StackedModel):
 
     # Campos do Modal Aquaviario
     modal_aquaviario_id = fields.Many2one(
-        comodel_name="l10n_br_cte.modal.aquaviario",
+        comodel_name="l10n_br_cte.modal.aquav",
         related="document_id.modal_aquaviario_id",
     )
 
@@ -106,13 +106,13 @@ class CTeNormalInfos(spec_models.StackedModel):
     cte40_tpNav = fields.Selection(related="document_id.cte40_tpNav")
 
     cte40_balsa = fields.One2many(
-        comodel_name="l10n_br_cte.modal.aquaviario.balsa",
+        comodel_name="l10n_br_cte.modal.aquav.balsa",
         related="document_id.cte40_balsa",
     )
 
     # Campos do Modal Dutoviario
     modal_dutoviario_id = fields.Many2one(
-        comodel_name="l10n_br_cte.modal.dutoviario",
+        comodel_name="l10n_br_cte.modal.duto",
         related="document_id.modal_dutoviario_id",
     )
 
@@ -124,7 +124,7 @@ class CTeNormalInfos(spec_models.StackedModel):
 
     # Campos do Modal Ferroviario
     modal_ferroviario_id = fields.Many2one(
-        comodel_name="l10n_br_cte.modal.ferroviario",
+        comodel_name="l10n_br_cte.modal.ferrov",
         related="document_id.modal_ferroviario_id",
     )
 
@@ -142,12 +142,12 @@ class CTeNormalInfos(spec_models.StackedModel):
 
     # Campos do Modal rodoviario
     modal_rodoviario_id = fields.Many2one(
-        comodel_name="l10n_br_cte.modal.rodoviario",
+        comodel_name="l10n_br_cte.modal.rodo",
         related="document_id.modal_rodoviario_id",
     )
 
     cte40_RNTRC = fields.Char(related="document_id.cte40_RNTRC")
 
     cte40_occ = fields.One2many(
-        comodel_name="l10n_br_cte.modal.rodoviario.occ", related="document_id.cte40_occ"
+        comodel_name="l10n_br_cte.modal.rodo.occ", related="document_id.cte40_occ"
     )

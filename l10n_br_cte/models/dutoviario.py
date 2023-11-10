@@ -6,8 +6,8 @@ from odoo import fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class Dutoviario(spec_models.SpecModel):
-    _name = "l10n_br_cte.modal.dutoviario"
+class Duto(spec_models.SpecModel):
+    _name = "l10n_br_cte.modal.duto"
     _inherit = "cte.40.duto"
     _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_dutoviario_v4_00"
     _description = "Modal Dutoviario CTe"

@@ -21,6 +21,10 @@
         # "views/document_line.xml",
         # 'views/document_related.xml',
         # 'views/res_partner.xml',
+        "modal/modal_rodoviario.xml",
+        "modal/modal_aquaviario.xml",
+        "modal/modal_ferroviario.xml",
+        "modal/modal_aereo.xml",
         "views/res_company.xml",
         "views/cte_document.xml",
     ],
@@ -29,7 +33,7 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib>=2.0.0",
+            "nfelib",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
             "erpbrasil.assinatura",

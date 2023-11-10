@@ -94,9 +94,13 @@ class ResPartner(spec_models.SpecModel):
         related="country_id.name",
     )
 
-    cte40_IE = fields.Char(related="inscr_est")
+    cte40_IE = fields.Char(compute="_compute_cte40_IE")
 
     cte40_xNome = fields.Char(related="legal_name")
+
+    def _compute_cte40_IE(self):
+        for rec in self:
+            rec.cte40_IE = str(rec.inscr_est).replace(".", "")
 
     def _compute_cte40_ender(self):
         for rec in self:
