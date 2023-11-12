@@ -247,6 +247,7 @@ class Document(models.Model):
             compl_nfse.nfse.inf_nfse.data_emissao.to_datetime().replace(tzinfo=None)
         )
         self.verify_code = compl_nfse.nfse.inf_nfse.codigo_verificacao
+        self.nfse_preview_link = compl_nfse.nfse.inf_nfse.outras_informacoes
         self.authorization_event_id.set_done(
             status_code=None,
             response="NFS-e emitida com sucesso.",
