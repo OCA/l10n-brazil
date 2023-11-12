@@ -67,6 +67,17 @@ class Document(models.Model):
         string="NFSe Environment",
         default=lambda self: self.env.company.nfse_environment,
     )
+    nfse_preview_link = fields.Text(
+        string="Preview Link", help="Preview link in NFS-e Provider"
+    )
+    company_nfse_direct_print = fields.Boolean(related="company_id.nfse_direct_print")
+
+    def action_open_nfse(self):
+        return {
+            "type": "ir.actions.act_url",
+            "url": self.nfse_preview_link,
+            "target": "new",
+        }
 
     civil_construction_code = fields.Char(
         string="Civil Construction Code",

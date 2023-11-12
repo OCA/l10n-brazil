@@ -11,6 +11,26 @@
             <field name="status_description" position="after">
                 <field name="edoc_error_message" />
             </field>
+            <button name="view_pdf" position="after">
+                <field name="company_nfse_direct_print" invisible="1" />
+                <button
+                    name="action_open_nfse"
+                    string="Visualizar NFS-e"
+                    type="object"
+                    class="btn-primary"
+                    icon="fa-file-text"
+                    attrs="{'invisible': ['|', ('company_nfse_direct_print', '=', False), ('state_edoc', 'not in', ('autorizada', 'cancelada'))]}"
+                />
+            </button>
+            <button name="view_pdf" position="attributes">
+                <attribute name="attrs">
+                    {'invisible': [
+                        '|',
+                        ('state_edoc', 'not in', ('autorizada', 'cancelada')),
+                        ('company_nfse_direct_print', '=', True)
+                    ]}
+                </attribute>
+            </button>
             <group name="document_header_right" position="before">
                 <group
                     name="nfse_operation"
@@ -30,9 +50,11 @@
                     <field name="rps_number" force_save="1" readonly="1" />
                     <field name="rps_type" />
                     <field name="nfse_environment" readonly="1" />
+                    <field name="nfse_preview_link" widget="url" />
                     <field name="civil_construction_code" />
                     <field name="civil_construction_art" />
                 </group>
+
             </group>
         </field>
     </record>
