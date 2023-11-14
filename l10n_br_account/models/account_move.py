@@ -812,4 +812,7 @@ class AccountMove(models.Model):
                 line_form.fiscal_operation_id = self.fiscal_operation_id
                 line_form.fiscal_document_line_id = line
         move_form.save()
+        move = self.env["account.move"].browse(move_form.id)
+        for line in move.invoice_line_ids:
+            line.product_uom_id = line.fiscal_document_line_id.uom_id.id
         return move_form
