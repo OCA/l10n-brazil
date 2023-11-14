@@ -660,3 +660,8 @@ class AccountMoveLine(models.Model):
             "debit": balance > 0.0 and balance or 0.0,
             "credit": balance < 0.0 and -balance or 0.0,
         }
+
+    @api.constrains("product_uom_id")
+    def _check_product_uom_category_id(self):
+        not_imported = self.filtered(lambda line: not line._is_imported())
+        return super(AccountMoveLine, not_imported)._check_product_uom_category_id()
