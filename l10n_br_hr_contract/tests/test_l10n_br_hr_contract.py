@@ -9,9 +9,10 @@ class TestL10nBrContract(TransactionCase):
                 "name": "Test Contract",
                 "employee_id": self.env["hr.employee"].search([])[0].id,
                 "job_id": self.env["hr.job"].search([])[0].id,
-                "type_id": self.env["hr.contract.type"].search([])[0].id,
+                "structure_type_id": self.env["hr.payroll.structure.type"]
+                .search([])[0]
+                .id,
                 "wage": 2000,
-                "advantages": "Demo advantages",
                 "notes": "Demo notes",
                 "trial_date_end": "2016-03-01",
                 "date_start": "2016-03-02",

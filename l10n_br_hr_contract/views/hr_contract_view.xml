@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='type_id']" position="after">
+            <xpath expr="//field[@name='structure_type_id']" position="after">
                 <field
                     name="admission_type_id"
                     options="{'no_create': True, 'create_edit': False, 'no_open': True}"
@@ -76,37 +76,31 @@
     <record id="action_hr_contract_admission_type" model="ir.actions.act_window">
         <field name="name">Admission Type</field>
         <field name="res_model">hr.contract.admission.type</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="action_hr_contract_labor_bond_type" model="ir.actions.act_window">
         <field name="name">Labor Bond Type</field>
         <field name="res_model">hr.contract.labor.bond.type</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="action_hr_contract_labor_regime" model="ir.actions.act_window">
         <field name="name">Labor Regime</field>
         <field name="res_model">hr.contract.labor.regime</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="action_hr_contract_salary_unit" model="ir.actions.act_window">
         <field name="name">Salary Unit</field>
         <field name="res_model">hr.contract.salary.unit</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="action_hr_contract_resignation_cause" model="ir.actions.act_window">
         <field name="name">Resignation Cause</field>
         <field name="res_model">hr.contract.resignation.cause</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="action_hr_contract_notice_termination" model="ir.actions.act_window">
         <field name="name">Notice Termination</field>
         <field name="res_model">hr.contract.notice.termination</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
