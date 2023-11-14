@@ -97,4 +97,14 @@ class ProductProduct(models.Model):
                     )
                 )
                 values["ncm_id"] = ncm.id
+
+        # UOM
+        if parent_dict.get("nfe40_uCom"):
+            uom = self.env["uom.uom"].search(
+                [("code", "ilike", parent_dict.get("nfe40_uCom"))], limit=1
+            )
+            if uom:
+                values["uom_id"] = uom.id
+                values["uom_po_id"] = uom.id
+
         return values
