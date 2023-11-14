@@ -4,10 +4,10 @@
         <field name="name">nfe.40.di.tree</field>
         <field name="model">nfe.40.di</field>
         <field name="arch" type="xml">
-            <list string="Declaração de Importação">
+            <list>
                 <field name="nfe40_nDI" />
                 <field name="nfe40_dDI" />
-                <field name="nfe40_UFDesemb" />
+                <field name="state_clearance_id" />
                 <field name="nfe40_xLocDesemb" />
                 <field name="nfe40_dDesemb" />
                 <field name="nfe40_tpViaTransp" />
@@ -21,7 +21,7 @@
         <field name="name">nfe.40.di.form</field>
         <field name="model">nfe.40.di</field>
         <field name="arch" type="xml">
-            <form string="Declaração de Importação">
+            <form>
                 <group>
                     <group>
                         <field name="nfe40_nDI" />
@@ -31,17 +31,19 @@
                         <field name="partner_acquirer_id" />
                         <field name="nfe40_CNPJ" invisible="1" />
                         <field name="nfe40_UFTerceiro" invisible="1" />
-                        <field name="nfe40_cExportador" invisible="1" />
+                        <field name="nfe40_cExportador" />
                         <field name="nfe40_vAFRMM" />
                     </group>
                     <group>
-                        <field name="nfe40_UFDesemb" />
+                        <field name="state_clearance_id" />
+                        <field name="nfe40_UFDesemb" invisible="1" />
                         <field name="nfe40_xLocDesemb" />
                         <field name="nfe40_dDesemb" />
                     </group>
                 </group>
                 <field name="nfe40_adi">
                     <list>
+                        <field name="nfe40_nAdicao" />
                         <field name="nfe40_nSeqAdic" />
                         <field name="nfe40_cFabricante" />
                         <field name="nfe40_vDescDI" />
@@ -49,6 +51,7 @@
                     </list>
                     <form>
                         <group>
+                            <field name="nfe40_nAdicao" />
                             <field name="nfe40_nSeqAdic" />
                             <field name="nfe40_cFabricante" />
                             <field name="nfe40_vDescDI" />
