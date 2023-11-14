@@ -486,6 +486,11 @@ class AccountMoveLine(models.Model):
             # override the default product uom (set by the onchange):
             self.product_uom_id = self.fiscal_document_line_id.uom_id.id
 
+    def _get_computed_taxes(self):
+        if self._is_imported() and self.fiscal_tax_ids and self.tax_ids:
+            return self.tax_ids
+        return super()._get_computed_taxes()
+
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         """Ao alterar o campo fiscal_tax_ids que contém os impostos fiscais,
