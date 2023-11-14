@@ -521,3 +521,8 @@ class AccountMoveLine(models.Model):
         return self.fiscal_tax_ids.account_taxes(
             user_type=user_type, fiscal_operation=self.fiscal_operation_id
         )
+
+    @api.constrains("product_uom_id")
+    def _check_product_uom_category_id(self):
+        not_imported = self.filtered(lambda line: not line._is_imported())
+        return super(AccountMoveLine, not_imported)._check_product_uom_category_id()
