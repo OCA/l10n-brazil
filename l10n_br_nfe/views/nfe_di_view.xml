@@ -43,6 +43,7 @@
               </group>
               <field name="nfe40_adi">
                   <tree>
+                      <field name="nfe40_nAdicao" />
                       <field name="nfe40_nSeqAdic" />
                       <field name="nfe40_cFabricante" />
                       <field name="nfe40_vDescDI" />
@@ -50,7 +51,7 @@
                   </tree>
                   <form>
                       <group>
-                          <field name="nfe40_nSeqAdic" />
+                          <field name="nfe40_nAdicao" />
                           <field name="nfe40_cFabricante" />
                           <field name="nfe40_vDescDI" />
                           <field name="nfe40_nDraw" />
