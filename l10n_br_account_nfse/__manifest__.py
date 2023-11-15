@@ -4,7 +4,7 @@
 
 {
     "name": "Account NFS-e Integration",
-    "summary": "Integration between l10n_br_account and l10n_br_nfse",
+    "summary": "Integration between account and l10n_br_nfse",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Engenere, Odoo Community Association (OCA)",
@@ -13,8 +13,8 @@
     "version": "14.0.1.0.0",
     "development_status": "Beta",
     "depends": [
+        "account",
         "l10n_br_nfse",
-        "l10n_br_account",
     ],
     "installable": True,
     "auto_install": True,
