@@ -13,7 +13,7 @@
               <field name="nfe40_dDesemb" />
               <field name="nfe40_tpViaTransp" />
               <field name="nfe40_tpIntermedio" />
-              <field name="partner_acquirer_id" />
+              <!-- TODO <field name="partner_acquirer_id" /> -->
           </tree>
       </field>
   </record>
@@ -29,7 +29,7 @@
                     <field name="nfe40_dDI" />
                     <field name="nfe40_tpViaTransp" />
                     <field name="nfe40_tpIntermedio" />
-                    <field name="partner_acquirer_id" />
+                    <!-- TODO <field name="partner_acquirer_id" /> -->
                     <field name="nfe40_CNPJ" invisible="1" />
                     <field name="nfe40_UFTerceiro" invisible="1" />
                     <field name="nfe40_cExportador" invisible="1" />
