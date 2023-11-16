@@ -187,8 +187,8 @@ class NfeImport(models.TransientModel):
             pICMS = icms_choice.pICMS
         if hasattr(icms_choice, "vICMS"):
             vICMS = icms_choice.vICMS
-        ipi_trib = product.imposto.IPI.IPITrib
-        if ipi_trib is not None:
+        if hasattr(product.imposto.IPI, "IPITrib"):
+            ipi_trib = product.imposto.IPI.IPITrib
             if hasattr(ipi_trib, "pIPI"):
                 pIPI = ipi_trib.pIPI
             if hasattr(ipi_trib, "vIPI"):
