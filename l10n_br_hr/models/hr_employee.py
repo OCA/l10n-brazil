@@ -23,6 +23,10 @@ class HrEmployee(models.Model):
 
     pis_pasep = fields.Char(string="PIS/PASEP", groups="hr.group_hr_user")
 
+    pis_pasep_date = fields.Date(
+        string="PIS/PASEP emission date", groups="hr.group_hr_user"
+    )
+
     ctps = fields.Char(string="CTPS", help="CTPS number", groups="hr.group_hr_user")
 
     ctps_series = fields.Char(string="CTPS series", groups="hr.group_hr_user")
