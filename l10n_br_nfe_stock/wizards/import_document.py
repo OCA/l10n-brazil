@@ -182,6 +182,8 @@ class NfeImport(models.TransientModel):
         )
 
     def _create_edoc_from_xml(self):
+        # HACK: Next line should be removed once 'out' documents partner_id is fixed
+        self._set_fields_by_xml_data()
         edoc = super(NfeImport, self)._create_edoc_from_xml()
 
         if self.model_to_link == "purchase":
@@ -214,7 +216,7 @@ class NfeImport(models.TransientModel):
     def _create_purchase_order(self, document):
         purchase = self.env["purchase.order"].create(
             {
-                "partner_id": document.partner_id.id,
+                "partner_id": self.partner_id.id,  # HACK: Should be document.partner_id
                 "currency_id": self.company_id.currency_id.id,
                 "fiscal_operation_id": self._get_purchase_fiscal_operation_id(),
                 "date_order": datetime.now(),
@@ -249,7 +251,7 @@ class NfeImport(models.TransientModel):
     def _create_picking(self, document):
         picking = self.env["stock.picking"].create(
             {
-                "partner_id": document.partner_id.id,
+                "partner_id": self.partner_id.id,  # HACK: Should be document.partner_id
                 "currency_id": self.company_id.currency_id.id,
                 "picking_type_id": self.env.ref("stock.picking_type_in").id,
                 "fiscal_operation_id": self._get_picking_fiscal_operation_id(),
