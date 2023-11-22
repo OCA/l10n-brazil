@@ -286,7 +286,6 @@ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens tem erro de entrega."
 
@@ -467,11 +466,6 @@ msgid "Responsible User"
 msgstr "Usuário Responsável"
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erro de Entrega de SMS"
-
-#. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Send by email:"
 msgstr "Enviar por email:"
@@ -533,6 +527,9 @@ msgstr "Ano"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__zip_file
 msgid "Zip File"
 msgstr "Arquivo ZIP"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erro de Entrega de SMS"
 
 #~ msgid "state"
 #~ msgstr "situação"
