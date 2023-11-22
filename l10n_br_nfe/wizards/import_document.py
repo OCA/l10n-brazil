@@ -55,7 +55,7 @@ class NfeImport(models.TransientModel):
         self.partner_id = self.env["res.partner"].search(
             [
                 "|",
-                ("cnpj_cpf", "=", document.cnpj_cpf_emitente),
+                ("cnpj_cpf", "=", infNFe.emit.CNPJ),
                 ("nfe40_xNome", "=", infNFe.emit.xNome),
             ],
             limit=1,
@@ -222,7 +222,9 @@ class NfeImport(models.TransientModel):
             self.partner_id = edoc.partner_id
 
         self._attach_original_nfe_xml_to_document(edoc)
-        self.imported_products_ids._find_or_create_product_supplierinfo()
+
+        if self.fiscal_operation_type == "in":
+            self.imported_products_ids._find_or_create_product_supplierinfo()
 
         return edoc
 
