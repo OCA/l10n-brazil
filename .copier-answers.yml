@@ -1,5 +1,5 @@
 # Do NOT update manually; changes here will be overwritten by Copier
-_commit: v1.14.2
+_commit: v1.17.1
 _src_path: gh:oca/oca-addons-repo-template
 ci: GitHub
 dependency_installation_mode: PIP
@@ -11,12 +11,18 @@ github_enable_makepot: true
 github_enable_stale_action: true
 github_enforce_dev_status_compatibility: true
 include_wkhtmltopdf: false
+odoo_test_flavor: Both
 odoo_version: 14.0
 org_name: Odoo Community Association (OCA)
 org_slug: OCA
 rebel_module_groups: []
-repo_description: Odoo Brazilian localization
-repo_name: l10n-brazil
+repo_description: Documentos fiscais, impostos brasileiros, notas fiscais, integrações
+    bancárias... Você pode começar com o módulo `l10n_br_base` apenas. Se você precisa
+    da parte fiscal ou de notas fiscais eletrônicas, o próximo módulo que você deve
+    considerar é o módulo `l10n_br_fiscal`... Você pode testar a localização no Runboat
+    com o botão "try me" (admin/admin) e eventualmente selecionar a empresa demo do Simples
+    ou do Lucro Presumido.
+repo_name: Odoo Brazilian Localization / Localização brasileira do Odoo
 repo_slug: l10n-brazil
 repo_website: https://github.com/OCA/l10n-brazil
 travis_apt_packages: []
