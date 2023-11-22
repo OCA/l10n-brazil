@@ -5466,21 +5466,13 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -8246,18 +8238,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_SACOLA
 msgid "SACOLA"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_br_fiscal
