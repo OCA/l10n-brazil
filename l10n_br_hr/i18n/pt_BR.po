@@ -92,11 +92,6 @@ msgid "Activity Type Icon"
 msgstr "Ícone do Tipo de Atividade"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__additional_info
-msgid "Additional info"
-msgstr "Informações Adicionais"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__type
 msgid "Address Type"
 msgstr "Tipo de Endereço"
@@ -184,16 +179,6 @@ msgstr "Código de barras"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_blacklisted
 msgid "Blacklist"
 msgstr "Lista negra"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
-msgid "Blacklisted Phone Is Mobile"
-msgstr "O Telefone na Lista Negra é Celular"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_blacklisted
-msgid "Blacklisted Phone is Phone"
-msgstr "O Telefone na Lista Negra é Fixo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
@@ -400,11 +385,6 @@ msgstr "Entidade Nome da Empresa"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__company_type
 msgid "Company Type"
 msgstr "Tipo de Empresa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_gid
-msgid "Company database ID"
-msgstr "ID do banco de dados da Empresa"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contact_address
@@ -750,15 +730,6 @@ msgid "Female"
 msgstr "Fêmea"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_sanitized
-msgid ""
-"Field used to store sanitized phone number. Helps speeding up searches and "
-"comparisons."
-msgstr ""
-"Campo usado para armazenar número de telefone higienizado. Ajuda a acelerar "
-"pesquisas e comparações."
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_final
 msgid "Final Consumption Operation"
 msgstr "Operação de Consumo Final"
@@ -940,7 +911,6 @@ msgstr "Se marcado novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_has_error
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens tem erro de entrega."
 
@@ -959,13 +929,6 @@ msgid ""
 msgstr ""
 "Se o endereço de email estiver na lista negra, o contato não receberá mais "
 "emails em massa, de qualquer lista"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_sanitized_blacklisted
-msgid ""
-"If the sanitized phone number is on the blacklist, the contact won't receive "
-"mass mailing sms anymore, from any list"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_1920
@@ -1000,22 +963,6 @@ msgstr "Incapacidade física ou mental?"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
 msgid "Indicates if Brazilian localization fields should be displayed."
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
-msgid ""
-"Indicates if a blacklisted sanitized phone number is a mobile number. Helps "
-"distinguish which number is blacklisted             when there is both a "
-"mobile and phone field in a model."
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_blacklisted
-msgid ""
-"Indicates if a blacklisted sanitized phone number is a phone number. Helps "
-"distinguish which number is blacklisted             when there is both a "
-"mobile and phone field in a model."
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1454,11 +1401,6 @@ msgid "Phone"
 msgstr "Telefone"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_sanitized_blacklisted
-msgid "Phone Blacklisted"
-msgstr "Telefone na Lista Negra"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
 msgid "Pix Keys"
 msgstr "Chaves PIX"
@@ -1576,11 +1518,6 @@ msgid "Restrict publishing to this website."
 msgstr "Restrinja a publicação a este site."
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erro de Entrega de SMS"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_contract_count
 msgid "Sale Contracts"
 msgstr "Contratos de Venda"
@@ -1614,11 +1551,6 @@ msgstr "Vendedor"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dep_sf
 msgid "Salário Família?"
 msgstr "Salário Família?"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_sanitized
-msgid "Sanitized Number"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__cresv_categ__2
@@ -2079,6 +2011,31 @@ msgstr "XXX.XXXXX.XX-X"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
 msgid "Zip"
 msgstr "CEP"
+
+#~ msgid "Additional info"
+#~ msgstr "Informações Adicionais"
+
+#~ msgid "Blacklisted Phone Is Mobile"
+#~ msgstr "O Telefone na Lista Negra é Celular"
+
+#~ msgid "Blacklisted Phone is Phone"
+#~ msgstr "O Telefone na Lista Negra é Fixo"
+
+#~ msgid "Company database ID"
+#~ msgstr "ID do banco de dados da Empresa"
+
+#~ msgid ""
+#~ "Field used to store sanitized phone number. Helps speeding up searches "
+#~ "and comparisons."
+#~ msgstr ""
+#~ "Campo usado para armazenar número de telefone higienizado. Ajuda a "
+#~ "acelerar pesquisas e comparações."
+
+#~ msgid "Phone Blacklisted"
+#~ msgstr "Telefone na Lista Negra"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erro de Entrega de SMS"
 
 #, python-format
 #~ msgid "CPF Invalido!"
