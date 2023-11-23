@@ -1,8 +1,8 @@
-# @ 2019 Akretion - www.akretion.com.br -
-#   Magno Costa <magno.costa@akretion.com.br>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Copyright (C) 2019-Today - Akretion (<http://www.akretion.com>).
+# @author Magno Costa <magno.costa@akretion.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import Form, TransactionCase
 from odoo.tools import mute_logger
 
 
@@ -112,3 +112,20 @@ class StockRuleTest(TransactionCase):
             # self.assertEqual(
             #     move.fiscal_operation_line_id.name, 'Venda',
             #     "The stock.move created has not operation_line_id field Venda")
+
+    def test_stock_rule(self):
+        """Test Stock Rule"""
+        warehouse = self.env["stock.warehouse"].search(
+            [("company_id", "=", self.env.company.id)], limit=1
+        )
+        reception_route = warehouse.reception_route_id
+        reception_route.rule_ids.action_archive()
+        stock_rule_form = Form(self.env["stock.rule"])
+        stock_rule_form.name = "Looping Rule"
+        stock_rule_form.route_id = reception_route
+        stock_rule_form.location_id = warehouse.lot_stock_id
+        stock_rule_form.location_src_id = warehouse.lot_stock_id
+        stock_rule_form.action = "pull_push"
+        stock_rule_form.procure_method = "make_to_order"
+        stock_rule_form.picking_type_id = warehouse.int_type_id
+        stock_rule_form.save()
