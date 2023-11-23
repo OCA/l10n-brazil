@@ -35,8 +35,10 @@ def check_ie(env, inscr_est, state, country):
 
                     if not ie.validar(state.code.lower(), inscr_est):
                         raise ValidationError(
-                            _("Estadual Inscription {} Invalid for State {}!").format(
-                                inscr_est, state.name
+                            _(
+                                "Estadual Inscription %(inscr)s Invalid for State %(state)s!",
+                                inscr=inscr_est,
+                                state=state.name,
                             )
                         )
 
@@ -70,5 +72,9 @@ def check_cnpj_cpf(env, cnpj_cpf_value, country):
                         document = "CNPJ"
 
                     raise ValidationError(
-                        _("{} {} Invalid!").format(document, cnpj_cpf_value)
+                        _(
+                            "%(d_type)s %(d_id)s is invalid!",
+                            d_type=document,
+                            d_id=cnpj_cpf_value,
+                        )
                     )
