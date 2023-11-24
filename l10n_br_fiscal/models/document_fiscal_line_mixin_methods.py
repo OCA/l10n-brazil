@@ -552,6 +552,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if tax_dict.get("icms_dest_value") is not None:
                 self.icms_destination_value = tax_dict.get("icms_dest_value")
 
+            # Valor da desoneração do ICMS
+            if tax_dict.get("icms_relief") is not None:
+                self.icms_relief_value = tax_dict.get("icms_relief")
+
     @api.onchange(
         "icms_base",
         "icms_percent",
