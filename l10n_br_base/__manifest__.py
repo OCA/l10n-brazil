@@ -42,6 +42,11 @@
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "external_dependencies": {
-        "python": ["num2words", "erpbrasil.base", "phonenumbers", "email_validator"]
+        "python": [
+            "num2words",
+            "erpbrasil.base>=2.3.0",
+            "phonenumbers",
+            "email-validator",
+        ]
     },
 }

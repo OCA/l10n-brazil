@@ -80,20 +80,9 @@
                         attrs="{'invisible': [('is_company','=', True)]}"
                     />
                     <div class="oe_edit_only" name="inscr_est">
-                        <label
-                            for="inscr_est"
-                            name="inscr_est"
-                            string="State Tax Number"
-                            attrs="{'invisible': [('is_company','!=', True)]}"
-                        />
+                        <label for="inscr_est" name="inscr_est" string="IE" />
                     </div>
-                    <field
-                        colspan="4"
-                        name="inscr_est"
-                        nolabel="1"
-                        placeholder="Para ISENTO deixe vazio ou escreva 'ISENTO'"
-                        attrs="{'invisible': [('is_company','!=', True)]}"
-                    />
+                    <field colspan="4" name="inscr_est" nolabel="1" />
                 </group>
             </xpath>
             <page position="after" name="sales_purchases">
