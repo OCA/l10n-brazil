@@ -445,6 +445,14 @@ class NFeLine(spec_models.StackedModel):
                     "vFCPST": str("%.02f" % self.icmsfcpst_value),
                 }
             )
+        if self.icms_relief_id:
+            icms.update(
+                {
+                    # DESONERAÇÃO DO IMCS
+                    "vICMSDeson": str("%.02f" % self.icms_relief_value),
+                    "motDesICMS": self.icms_relief_id.code,
+                }
+            )
         return icms
 
     def _export_fields_nfe_40_icms(self, xsd_fields, class_obj, export_dict):
