@@ -1356,6 +1356,11 @@ msgid "PIS/PASEP"
 msgstr "PIS / PASEP"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_date
+msgid "PIS/PASEP emission date"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__partner_id
 msgid "Parceiro que contem as informações de banco do dependente."
 msgstr "Parceiro que contemple as informações de banco do dependente."
