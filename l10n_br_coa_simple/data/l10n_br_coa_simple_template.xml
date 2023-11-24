@@ -10,6 +10,7 @@
         <field name="currency_id" ref="base.BRL" />
         <field name="country_id" ref="base.br" />
         <field name="parent_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field name="use_anglo_saxon" eval="1" />
     </record>
 
 </odoo>
