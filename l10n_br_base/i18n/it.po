@@ -15,6 +15,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. module: l10n_br_base
+#: code:addons/l10n_br_base/tools.py:0
+#, python-format
+msgid "%(d_type)s %(d_id)s is invalid!"
+msgstr ""
+
+#. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid ""
@@ -8445,7 +8451,7 @@ msgstr ""
 #. module: l10n_br_base
 #: code:addons/l10n_br_base/tools.py:0
 #, python-format
-msgid "Estadual Inscription {} Invalid for State {}!"
+msgid "Estadual Inscription %(inscr)s Invalid for State %(state)s!"
 msgstr ""
 
 #. module: l10n_br_base
@@ -27378,12 +27384,6 @@ msgstr ""
 msgid ""
 "a transactional account must contain the bank information (code_bc) and the "
 "account number"
-msgstr ""
-
-#. module: l10n_br_base
-#: code:addons/l10n_br_base/tools.py:0
-#, python-format
-msgid "{} {} Invalid!"
 msgstr ""
 
 #. module: l10n_br_base
