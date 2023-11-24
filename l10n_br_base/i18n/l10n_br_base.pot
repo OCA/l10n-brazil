@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_base
+#: code:addons/l10n_br_base/tools.py:0
+#, python-format
+msgid "%(d_type)s %(d_id)s is invalid!"
+msgstr ""
+
+#. module: l10n_br_base
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid ""
@@ -6350,6 +6356,11 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__company_country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__company_country_id
 msgid "Company Country"
@@ -8427,9 +8438,9 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
+#: code:addons/l10n_br_base/tools.py:0
 #, python-format
-msgid "Estadual Inscription Invalid !"
+msgid "Estadual Inscription %(inscr)s Invalid for State %(state)s!"
 msgstr ""
 
 #. module: l10n_br_base
@@ -10233,6 +10244,11 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+msgid "IE"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__ispb_number
 msgid "ISPB Number"
 msgstr ""
@@ -10925,12 +10941,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5004403
 msgid "Inocência"
-msgstr ""
-
-#. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
 msgstr ""
 
 #. module: l10n_br_base
@@ -17537,11 +17547,6 @@ msgid "Paquetá"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "Para ISENTO deixe vazio ou escreva 'ISENTO'"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3303609
 msgid "Paracambi"
 msgstr ""
@@ -23272,7 +23277,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__inscr_est
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "State Tax Number"
 msgstr ""
 
@@ -27349,12 +27353,6 @@ msgstr ""
 msgid ""
 "a transactional account must contain the bank information (code_bc) and the "
 "account number"
-msgstr ""
-
-#. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "{} Invalid!"
 msgstr ""
 
 #. module: l10n_br_base
