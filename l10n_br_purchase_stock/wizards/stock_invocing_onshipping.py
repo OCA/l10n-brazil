@@ -62,5 +62,11 @@ class StockInvoiceOnshipping(models.TransientModel):
             # purchase_line_id é preciso ignora-la
             if moves.purchase_line_id:
                 values["purchase_line_id"] = moves.purchase_line_id.id
+                values[
+                    "analytic_account_id"
+                ] = moves.purchase_line_id.account_analytic_id.id
+                values["analytic_tag_ids"] = [
+                    (6, 0, moves.purchase_line_id.analytic_tag_ids.ids)
+                ]
 
         return values
