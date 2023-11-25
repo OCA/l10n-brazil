@@ -24,7 +24,7 @@ class StockRuleTest(TransactionCase):
         orderpoint = self.env["stock.warehouse.orderpoint"].create(
             {
                 "product_id": self.env.ref("product.product_product_12").id,
-                "product_min_qty": 100.0,
+                "product_min_qty": 1000.0,
             }
         )
 
