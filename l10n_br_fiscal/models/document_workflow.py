@@ -141,8 +141,10 @@ class DocumentWorkflow(models.AbstractModel):
                 _(
                     "Não é possível retornar o documento para em \n"
                     "digitação, quando o mesmo esta na situação: \n"
-                    "{}, {}"
-                ).format(old_state, self.state_fiscal)
+                    "%(old_state)s, %(fiscal_state)s",
+                    old_state=old_state,
+                    fiscal_state=self.state_fiscal,
+                )
             )
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):

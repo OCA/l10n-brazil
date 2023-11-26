@@ -17,18 +17,15 @@ class TaxDefinitionBenefit(models.Model):
     )
 
     code = fields.Char(
-        string="Code",
         size=8,
         states={"draft": [("readonly", False)]},
     )
 
     name = fields.Char(
-        string="Name",
         states={"draft": [("readonly", False)]},
     )
 
     description = fields.Text(
-        string="Description",
         states={"draft": [("readonly", False)]},
     )
 
