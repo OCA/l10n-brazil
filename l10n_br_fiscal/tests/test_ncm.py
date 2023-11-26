@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.exceptions import AccessError
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class TestNcm(SavepointCase):
+class TestNcm(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
