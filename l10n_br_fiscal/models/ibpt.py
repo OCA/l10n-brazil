@@ -31,8 +31,11 @@ def _request(ws_url, params):
             )
         elif response.status_code == requests.codes.forbidden:
             raise UserError(
-                _("IBPT Forbidden - token={!r}, " "cnpj={!r}, UF={!r}").format(
-                    params.get("token"), params.get("cnpj"), params.get("uf")
+                _(
+                    "IBPT Forbidden - token=%(token)s, cnpj=%(cnpj)s, UF=%(uf)s",
+                    token=params.get("token"),
+                    cnpj=params.get("cnpj"),
+                    uf=params.get("uf"),
                 )
             )
         elif response.status_code == requests.codes.not_found:
