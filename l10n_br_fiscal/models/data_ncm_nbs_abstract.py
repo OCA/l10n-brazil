@@ -114,11 +114,15 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
             except Exception as e:
                 _logger.warning(
-                    _("{0} Tax Estimate Failure: {1}").format(object_name, e)
+                    _(
+                        "%(name)s Tax Estimate Failure: %(error)s",
+                        name=object_name,
+                        error=e,
+                    )
                 )
                 record.message_post(
                     body=str(e),
-                    subject=_("{} Tax Estimate Failure").format(object_name),
+                    subject=_("%(name)s Tax Estimate Failure", name=object_name),
                 )
                 continue
 
