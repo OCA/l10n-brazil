@@ -1,14 +1,14 @@
 # Copyright 2020 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 from odoo.tools import float_compare
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES
 from ..constants.icms import ICMS_ORIGIN_DEFAULT
 
 
-class TestFiscalTax(SavepointCase):
+class TestFiscalTax(TransactionCase):
     def _check_compute_taxes_result(self, test_result, compute_result, currency):
         for tax_domain in test_result["taxes"]:
             for tax_field in test_result["taxes"][tax_domain]:
