@@ -7,6 +7,7 @@ from odoo.exceptions import ValidationError
 from ..constants.icms import ICMS_TAX_BENEFIT_TYPE
 
 
+# pylint: disable=consider-merging-classes-inherited
 class TaxDefinitionBenefit(models.Model):
     _inherit = "l10n_br_fiscal.tax.definition"
 
