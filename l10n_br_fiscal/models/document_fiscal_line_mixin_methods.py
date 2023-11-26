@@ -51,12 +51,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def inject_fiscal_fields(
         self,
-        view_arch,
+        doc,
         view_ref="l10n_br_fiscal.document_fiscal_line_mixin_form",
         xpath_mappings=None,
     ):
         """
-        Injects common fiscal fields into view placeholder elements.
+        Inject common fiscal fields into view placeholder elements.
         Used for invoice line, sale order line, purchase order line...
         """
         fiscal_view = self.env.ref(
@@ -65,7 +65,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         fsc_doc = etree.fromstring(
             fiscal_view.with_context(inherit_branding=True).get_combined_arch()
         )
-        doc = etree.fromstring(view_arch)
 
         if xpath_mappings is None:
             xpath_mappings = (
@@ -105,24 +104,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return doc
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
         if view_type == "form":
-            arch_tree = self.inject_fiscal_fields(model_view["arch"])
-            View = self.env["ir.ui.view"]
-            # Override context for postprocessing
-            if view_id and model_view.get("base_model", self._name) != self._name:
-                View = View.with_context(base_model_name=model_view["base_model"])
-
-            # Apply post processing, groups and modifiers etc...
-            xarch, xfields = View.postprocess_and_fields(
-                node=arch_tree, model=self._name
-            )
-            model_view["arch"] = xarch
-            model_view["fields"] = xfields
-        return model_view
+            arch = self.inject_fiscal_fields(arch)
+        return arch, view
 
     @api.depends(
         "fiscal_price",
@@ -374,6 +360,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
+        if not self.fiscal_operation_id:
+            return
         if self.product_id:
             self.name = self.product_id.display_name
             self.fiscal_type = self.product_id.fiscal_type
