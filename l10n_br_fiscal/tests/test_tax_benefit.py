@@ -1,12 +1,12 @@
 # Copyright 2023 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from ..constants.fiscal import SITUACAO_EDOC_A_ENVIAR, SITUACAO_EDOC_AUTORIZADA
 
 
-class TestTaxBenefit(SavepointCase):
+class TestTaxBenefit(TransactionCase):
     def setUp(self):
         super().setUp()
         self.nfe_tax_benefit = self.env.ref("l10n_br_fiscal.demo_nfe_tax_benefit")

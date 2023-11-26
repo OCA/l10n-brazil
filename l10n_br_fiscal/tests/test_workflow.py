@@ -1,7 +1,7 @@
 # Copyright (C) 2020  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from ..constants.fiscal import (
     SITUACAO_EDOC_A_ENVIAR,
@@ -12,7 +12,7 @@ from ..constants.fiscal import (
 )
 
 
-class TestWorkflow(SavepointCase):
+class TestWorkflow(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
