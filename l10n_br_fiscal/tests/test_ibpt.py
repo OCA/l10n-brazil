@@ -8,7 +8,7 @@ from os import environ
 from decorator import decorate
 from erpbrasil.base import misc
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.models.ibpt import (
     DeOlhoNoImposto,
@@ -79,7 +79,7 @@ def mocked_requests_get(*args, **kwargs):
     )
 
 
-class TestIbpt(SavepointCase):
+class TestIbpt(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
