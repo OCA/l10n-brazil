@@ -1,13 +1,13 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import TransactionCase, tagged
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES, TAX_DOMAIN_ICMS
 
 
 @tagged("icms")
-class TestICMSRegulation(SavepointCase):
+class TestICMSRegulation(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

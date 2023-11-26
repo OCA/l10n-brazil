@@ -63,9 +63,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
         ).sudo()
         fsc_doc = etree.fromstring(
-            fiscal_view.with_context(inherit_branding=True).read_combined(["arch"])[
-                "arch"
-            ]
+            fiscal_view.with_context(inherit_branding=True).get_combined_arch()
         )
         doc = etree.fromstring(view_arch)
 
@@ -285,7 +283,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
-    def _update_taxes(self):
+    def _update_fiscal_taxes(self):
         for line in self:
             compute_result = self._compute_taxes(line.fiscal_tax_ids)
             computed_taxes = compute_result.get("taxes", {})
@@ -368,7 +366,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             for tax in mapping_result["taxes"].values():
                 taxes |= tax
             self.fiscal_tax_ids = taxes
-            self._update_taxes()
+            self._update_fiscal_taxes()
             self.comment_ids = self.fiscal_operation_line_id.comment_ids
 
         if not self.fiscal_operation_line_id:
@@ -792,7 +790,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     )
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
-        self._update_taxes()
+        self._update_fiscal_taxes()
 
     @api.model
     def _update_fiscal_quantity(self, product_id, price, quantity, uom_id, uot_id):
@@ -820,7 +818,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.onchange("ii_customhouse_charges")
     def _onchange_ii_customhouse_charges(self):
         if self.ii_customhouse_charges:
-            self._update_taxes()
+            self._update_fiscal_taxes()
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
@@ -828,7 +826,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
-        self._update_taxes()
+        self._update_fiscal_taxes()
 
     @api.onchange("city_taxation_code_id")
     def _onchange_city_taxation_code_id(self):
