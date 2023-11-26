@@ -4,6 +4,7 @@
 from odoo import fields, models
 
 
+# pylint: disable=consider-merging-classes-inherited
 class NCM(models.Model):
     _inherit = "l10n_br_fiscal.ncm"
 

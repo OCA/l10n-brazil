@@ -176,7 +176,7 @@
     <!-- City -->
     <menuitem
         id="city_menu"
-        action="base_address_city.action_res_city_tree"
+        action="base_address_extended.action_res_city_tree"
         name="City"
         groups="l10n_br_fiscal.group_manager"
         parent="andresses_menu"

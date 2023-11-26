@@ -5,6 +5,7 @@ from odoo import _, api, models
 from odoo.exceptions import ValidationError
 
 
+# pylint: disable=consider-merging-classes-inherited
 class TaxDefinitionCompany(models.Model):
     _inherit = "l10n_br_fiscal.tax.definition"
 
