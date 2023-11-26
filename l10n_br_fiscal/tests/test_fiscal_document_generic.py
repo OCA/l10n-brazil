@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from ..constants.fiscal import (
     SITUACAO_EDOC_A_ENVIAR,
@@ -14,7 +14,7 @@ from ..constants.fiscal import (
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 
 
-class TestFiscalDocumentGeneric(SavepointCase):
+class TestFiscalDocumentGeneric(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
