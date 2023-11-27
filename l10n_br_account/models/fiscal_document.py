@@ -140,3 +140,13 @@ class FiscalDocument(models.Model):
             return super().create(filtered_vals_list)
         else:
             return super().create(vals_list)
+
+    def _update_cache(self, values, validate=True):
+        """
+        Overriden to avoid raising error with ensure_one() in super()
+        when called from some account.move onchange
+        as we allow empty fiscal document in account.move.
+        """
+        if len(self) == 0:
+            return
+        return super()._update_cache(values, validate)
