@@ -184,9 +184,6 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_copy_custom_date(self):
         return super().test_out_invoice_copy_custom_date()
 
-    def test_force_select_specific_product_account(self):
-        return super().test_select_specific_product_account()
-
     def test_force_out_invoice_note_and_tax_partner_is_set(self):
         return super().test_out_invoice_note_and_tax_partner_is_set()
 

@@ -118,10 +118,8 @@
                     attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"
                 />
             </field>
-            <field name="amount_untaxed" position="after">
+            <field name="amount_residual" position="after">
                 <field string="(-) Discount" name="amount_discount_value" />
-            </field>
-            <field name="amount_total" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
 
@@ -296,7 +294,6 @@
                 <field name="tax_repartition_line_id" invisible="1" />
                 <field name="tax_tag_ids" invisible="1" />
                 <field name="tax_base_amount" invisible="1" />
-                <field name="tax_exigible" invisible="1" />
                 <field name="company_currency_id" invisible="1" />
                 <field name="recompute_tax_line" invisible="1" force_save="1" />
                 <field name="is_rounding_line" invisible="1" />
