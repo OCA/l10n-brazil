@@ -5,12 +5,12 @@ from datetime import datetime, time, timedelta
 
 from pytz import UTC, timezone
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
 
 
-class TestInvoiceDiscount(SavepointCase):
+class TestInvoiceDiscount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
