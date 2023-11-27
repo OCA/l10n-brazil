@@ -19,6 +19,13 @@ msgstr ""
 
 #. module: l10n_br_base
 #. odoo-python
+#: code:addons/l10n_br_base/tools.py:0
+#, python-format
+msgid "%(d_type)s %(d_id)s is invalid!"
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid ""
@@ -6367,6 +6374,11 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__company_country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__company_country_id
 msgid "Company Country"
@@ -8452,10 +8464,10 @@ msgstr "Espírito Santo do Turvo"
 
 #. module: l10n_br_base
 #. odoo-python
-#: code:addons/l10n_br_base/models/res_partner.py:0
+#: code:addons/l10n_br_base/tools.py:0
 #, python-format
-msgid "Estadual Inscription Invalid !"
-msgstr "Inscrição Estadual Inválida !"
+msgid "Estadual Inscription %(inscr)s Invalid for State %(state)s!"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4307559
@@ -10258,6 +10270,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+msgid "IE"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__ispb_number
 msgid "ISPB Number"
 msgstr "Número ISPB"
@@ -10957,13 +10974,6 @@ msgstr "Inimutaba"
 #: model:res.city,name:l10n_br_base.city_5004403
 msgid "Inocência"
 msgstr "Inocência"
-
-#. module: l10n_br_base
-#. odoo-python
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
-msgstr "Número da Inscrição Estadual Inválido!"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4110201
@@ -17575,11 +17585,6 @@ msgid "Paquetá"
 msgstr "Paquetá"
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "Para ISENTO deixe vazio ou escreva 'ISENTO'"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3303609
 msgid "Paracambi"
 msgstr "Paracambi"
@@ -23314,7 +23319,6 @@ msgstr "Estado"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__inscr_est
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
@@ -27421,13 +27425,6 @@ msgstr ""
 "número da conta"
 
 #. module: l10n_br_base
-#. odoo-python
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "{} Invalid!"
-msgstr "{} Inválido!"
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1500347
 msgid "Água Azul do Norte"
 msgstr "Água Azul do Norte"
@@ -27599,6 +27596,18 @@ msgstr "Óbidos"
 #: model:res.city,name:l10n_br_base.city_3533809
 msgid "Óleo"
 msgstr "Óleo"
+
+#, python-format
+#~ msgid "Estadual Inscription Invalid !"
+#~ msgstr "Inscrição Estadual Inválida !"
+
+#, python-format
+#~ msgid "Invalid State Tax Number!"
+#~ msgstr "Número da Inscrição Estadual Inválido!"
+
+#, python-format
+#~ msgid "{} Invalid!"
+#~ msgstr "{} Inválido!"
 
 #~ msgid ""
 #~ "The Tax Identification Number. Complete it if the contact is subjected to "
