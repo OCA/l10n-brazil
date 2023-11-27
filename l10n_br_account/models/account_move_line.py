@@ -139,9 +139,10 @@ class AccountMoveLine(models.Model):
         field as required.
         """
         with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
-            super()._inherits_check()
+            res = super()._inherits_check()
         field = self._fields.get("fiscal_document_line_id")
         field.required = False  # unset the required = True assignement
+        return res
 
     @api.model
     def _shadowed_fields(self):
