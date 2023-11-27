@@ -3,10 +3,10 @@
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class TestInvoiceRefund(SavepointCase):
+class TestInvoiceRefund(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
