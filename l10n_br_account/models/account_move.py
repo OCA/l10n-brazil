@@ -170,7 +170,7 @@ class AccountMove(models.Model):
                     sub_form_view
                 )
                 sub_arch, sub_fields = view.postprocess_and_fields(
-                    sub_form_node, "account.move.line", False
+                    sub_form_node, "account.move.line"
                 )
                 line_field_name = "invoice_line_ids"
                 invoice_view["fields"][line_field_name]["views"]["form"] = {
@@ -188,7 +188,7 @@ class AccountMove(models.Model):
                         sub_form_view
                     )
                     sub_arch, sub_fields = view.postprocess_and_fields(
-                        sub_form_node, "account.move.line", False
+                        sub_form_node, "account.move.line"
                     )
                     line_field_name = "invoice_line_ids"
                     invoice_view["fields"][line_field_name]["views"]["form"] = {
@@ -207,7 +207,7 @@ class AccountMove(models.Model):
                         sub_form_view
                     )
                     sub_arch, sub_fields = view.postprocess_and_fields(
-                        sub_form_node, "account.move.line", False
+                        sub_form_node, "account.move.line"
                     )
                     line_field_name = "line_ids"
                     invoice_view["fields"][line_field_name]["views"]["tree"] = {
@@ -241,7 +241,7 @@ class AccountMove(models.Model):
                     move.is_invoice(include_receipts=True)
                     and not line.exclude_from_invoice_tab
                 ):
-                    line._update_taxes()
+                    line._update_fiscal_taxes()
 
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.company_id.country_id.code == "BR"):
