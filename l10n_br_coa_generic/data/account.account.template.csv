@@ -4,15 +4,60 @@ coa_generic_112101,1.1.2.1.01,Clientes,,asset_receivable,1,l10n_br_coa_generic_t
 coa_generic_112102,1.1.2.1.02,Controle de Débitos (POS),,asset_receivable,1,l10n_br_coa_generic_template
 coa_generic_112201,1.1.2.2.01,(-) Duplicatas Descontadas,,asset_receivable,1,l10n_br_coa_generic_template
 coa_generic_112901,1.1.2.9.01,Outros Valores a Receber,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113101,1.1.3.1.01,Adto à Fornecedores de Mercadorias,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113102,1.1.3.1.02,Adto à Fornecedores de Matéria Prima,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113103,1.1.3.1.03,Adto à Fornecedores de Uso e Consumo,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113104,1.1.3.1.04,Adto à Fornecedores de Despesas,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113105,1.1.3.1.05,Adto à Fornecedores de Outros,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113201,1.1.3.2.01,Adto Quinzenal,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113202,1.1.3.2.02,Adto Salarial,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113203,1.1.3.2.03,Adto de Férias,,asset_current,1,l10n_br_coa_generic_template
-coa_generic_113204,1.1.3.2.04,Adto de Rescisão,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_119001,1.1.9.0.01,Estoque Intermediário (Recebido),,asset_non_current,1,l10n_br_coa_generic_template
+coa_generic_119002,1.1.9.0.02,Estoque Intermediário (Enviado),,asset_non_current,1,l10n_br_coa_generic_template
+coa_generic_113101,1.1.3.1.01,Estoque Inicial Mercadorias,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_113102,1.1.3.1.02,Compras Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113103,1.1.3.1.03,Fretes e Carretos Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113104,1.1.3.1.04,ICMS – Substituição Tributária Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113105,1.1.3.1.05,ICMS – Antecipado Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113106,1.1.3.1.06,ICMS – Diferencial de Alíquota de Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113110,1.1.3.1.10,(-) Devoluções de Compras Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113111,1.1.3.1.11,(-) ICMS sobre Compras Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113112,1.1.3.1.12,(-) COFINS sobre Compras Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113113,1.1.3.1.13,(-) PIS sobre Compras Mercadorias,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113119,1.1.3.1.19,(-) Custo das Mercadorias Vendidas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113120,1.1.3.1.20,(-) Custo das Mercadorias Baixas Diversas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113201,1.1.3.2.01,Estoque Inicial Produtos Acabados,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113202,1.1.3.2.02,Produção Produtos Acabados,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113209,1.1.3.2.09,(-) Custo dos Produtos Vendidos,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113210,1.1.3.2.10,(-) Custo dos Produtos Baixas Diversas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113301,1.1.3.3.01,Estoque Inicial Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113302,1.1.3.3.02,Compras Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113303,1.1.3.3.03,Fretes e Carretos Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113304,1.1.3.3.04,ICMS – Substituição Tributária Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113305,1.1.3.3.05,ICMS – Antecipado Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113306,1.1.3.3.06,ICMS – Diferencial de Alíquota Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113310,1.1.3.3.10,(-) Devoluções de Compras Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113311,1.1.3.3.11,(-) ICMS sobre Compras Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113312,1.1.3.3.12,(-) COFINS sobre Compras Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113313,1.1.3.3.13,(-) PIS sobre Compras Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113314,1.1.3.3.14,(-) IPI sobre Compras Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113319,1.1.3.3.19,(-) Transferência para Consumo Matérias Primas,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113401,1.1.3.4.01,Estoque Inicial Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113402,1.1.3.4.02,Compras Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113403,1.1.3.4.03,Fretes e Carretos Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113404,1.1.3.4.04,ICMS – Substituição Tributária Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113405,1.1.3.4.05,ICMS – Antecipado Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113406,1.1.3.4.06,ICMS – Diferencial Alíquota de Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113410,1.1.3.4.10,(-) Devoluções de Compras Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113411,1.1.3.4.11,(-) ICMS sobre Compras Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113412,1.1.3.4.12,(-) COFINS sobre Compras Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113413,1.1.3.4.13,(-) PIS sobre Compras Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113414,1.1.3.4.14,(-) IPI sobre Compras Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113419,1.1.3.4.19,(-) Transferência para Consumo Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113901,1.1.3.9.01,Estoque Inicial Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113902,1.1.3.9.02,Compras Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113903,1.1.3.9.03,Fretes e Carretos Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113904,1.1.3.9.04,ICMS – Substituição Tributária Embalagens,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113905,1.1.3.9.05,ICMS – Antecipado Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113906,1.1.3.9.06,ICMS – Diferencial de Alíquota Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113910,1.1.3.9.10,(-) Devoluções de Compras Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113911,1.1.3.9.11,(-) ICMS sobre Compras Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113912,1.1.3.9.12,(-) COFINS sobre Compras Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113913,1.1.3.9.13,(-) PIS sobre Compras Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113914,1.1.3.9.14,(-) IPI sobre Compras Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_113919,1.1.3.9.19,(-) Transferência para Consumo Uso e Consumo,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114101,1.1.4.1.01,IPI a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114102,1.1.4.1.02,ICMS a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114103,1.1.4.1.03,ICMS Antecipado a Compensar,,asset_current,0,l10n_br_coa_generic_template
@@ -22,6 +67,15 @@ coa_generic_114106,1.1.4.1.06,IRPJ a Compensar,,asset_current,0,l10n_br_coa_gene
 coa_generic_114107,1.1.4.1.07,CSLL a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114108,1.1.4.1.08,IRRF a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114109,1.1.4.1.09,ISSF a Compensar,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_114201,1.1.4.2.01,Adto Quinzenal,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114202,1.1.4.2.02,Adto Salarial,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114203,1.1.4.2.03,Adto de Férias,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114204,1.1.4.2.04,Adto de Rescisão,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114301,1.1.4.3.01,Adto à Fornecedores de Mercadorias,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114302,1.1.4.3.02,Adto à Fornecedores de Matéria Prima,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114303,1.1.4.3.03,Adto à Fornecedores de Uso e Consumo,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114304,1.1.4.3.04,Adto à Fornecedores de Despesas,,asset_current,1,l10n_br_coa_generic_template
+coa_generic_114305,1.1.4.3.05,Adto à Fornecedores de Outros,,asset_current,1,l10n_br_coa_generic_template
 coa_generic_115101,1.1.5.1.01,Seguros a Apropriar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_115102,1.1.5.1.02,Encargos a Apropriar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_115103,1.1.5.1.03,IPTU a Apropriar,,asset_current,0,l10n_br_coa_generic_template
@@ -326,5 +380,3 @@ coa_generic_616201,6.1.6.2.01,Venda de Bens do Ativo Imobilizado,,income_other,0
 coa_generic_711101,7.1.1.1.01,Ativo,,liability_non_current,0,l10n_br_coa_generic_template
 coa_generic_711102,7.1.1.1.02,(-) Passivo,,liability_non_current,0,l10n_br_coa_generic_template
 coa_generic_711201,7.1.1.2.01,Ativo,,liability_non_current,0,l10n_br_coa_generic_template
-coa_generic_711202,7.1.1.2.02,(-) Passivo,,liability_non_current,0,l10n_br_coa_generic_template
-coa_generic_712101,7.1.2.1.01,Resultado Final de Exercício,,equity_unaffected,0,l10n_br_coa_generic_template
