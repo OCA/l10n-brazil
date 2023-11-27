@@ -64,7 +64,7 @@ class TestInvoiceDiscount(TransactionCase):
 
         self.move_id = (
             self.env["account.move"]
-            .with_context({"check_move_validity": False})
+            .with_context(check_move_validity=False)
             .create(
                 {
                     "company_id": self.company.id,
