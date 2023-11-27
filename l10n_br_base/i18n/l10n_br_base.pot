@@ -15,6 +15,13 @@ msgstr ""
 
 #. module: l10n_br_base
 #. odoo-python
+#: code:addons/l10n_br_base/tools.py:0
+#, python-format
+msgid "%(d_type)s %(d_id)s is invalid!"
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid ""
@@ -8448,9 +8455,9 @@ msgstr ""
 
 #. module: l10n_br_base
 #. odoo-python
-#: code:addons/l10n_br_base/models/res_partner.py:0
+#: code:addons/l10n_br_base/tools.py:0
 #, python-format
-msgid "Estadual Inscription Invalid !"
+msgid "Estadual Inscription %(inscr)s Invalid for State %(state)s!"
 msgstr ""
 
 #. module: l10n_br_base
@@ -10957,13 +10964,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5004403
 msgid "Inocência"
-msgstr ""
-
-#. module: l10n_br_base
-#. odoo-python
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
 msgstr ""
 
 #. module: l10n_br_base
@@ -27403,13 +27403,6 @@ msgstr ""
 msgid ""
 "a transactional account must contain the bank information (code_bc) and the "
 "account number"
-msgstr ""
-
-#. module: l10n_br_base
-#. odoo-python
-#: code:addons/l10n_br_base/models/res_partner.py:0
-#, python-format
-msgid "{} Invalid!"
 msgstr ""
 
 #. module: l10n_br_base
