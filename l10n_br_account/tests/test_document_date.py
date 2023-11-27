@@ -71,7 +71,7 @@ class TestInvoiceDiscount(SavepointCase):
 
         cls.move_id = (
             cls.env["account.move"]
-            .with_context({"check_move_validity": False})
+            .with_context(check_move_validity=False)
             .create(
                 {
                     "company_id": cls.company.id,
