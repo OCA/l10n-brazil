@@ -2,10 +2,10 @@
 # Copyright (C) 2023 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class TestCustomerInvoice(SavepointCase):
+class TestCustomerInvoice(TransactionCase):
     """
     This is a simple test for ensuring non fiscal account.move
     doesn't create fiscal document(.line).

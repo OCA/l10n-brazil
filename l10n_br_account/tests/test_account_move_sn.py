@@ -118,7 +118,6 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 973.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_icms = {
@@ -143,7 +142,6 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 27.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         term_line_vals_1 = {
@@ -164,7 +162,6 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "debit": 1000.0,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
-            "tax_exigible": True,
         }
 
         move_vals = {
