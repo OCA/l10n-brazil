@@ -54,3 +54,13 @@ class FiscalDocumentLine(models.Model):
                 return []
 
         return super().create(vals_list)
+
+    def _update_cache(self, values, validate=True):
+        """
+        Overriden to avoid raising error with ensure_one() in super()
+        when called from some account.move.line onchange
+        as we allow empty fiscal document line in account.move.line.
+        """
+        if len(self) == 0:
+            return
+        return super()._update_cache(values, validate)

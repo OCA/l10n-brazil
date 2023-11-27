@@ -17,12 +17,12 @@ class AccountTaxTemplate(models.Model):
 
     def _generate_tax(self, company):
         mapping = super()._generate_tax(company)
-        taxes_template = self.browse(mapping.get("tax_template_to_tax").keys())
+        taxes_template = mapping.get("tax_template_to_tax").keys()
 
         for tax_template in taxes_template:
             tax_id = mapping.get("tax_template_to_tax").get(tax_template.id)
             self.env["account.tax"].browse(tax_id).write(
-                {"fiscal_tax_ids": [(6, False, tax_template.fiscal_tax_ids.ids)]}
+                {"fiscal_tax_ids": [(6, 0, tax_template.fiscal_tax_ids.ids)]}
             )
 
         return mapping
