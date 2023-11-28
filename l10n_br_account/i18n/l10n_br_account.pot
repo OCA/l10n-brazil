@@ -659,7 +659,7 @@ msgid ""
 "Line without Return Fiscal Operation! \n"
 "\n"
 "                            Please force one! \n"
-"{}"
+"%(name)s"
 msgstr ""
 
 #. module: l10n_br_account
