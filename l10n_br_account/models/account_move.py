@@ -131,9 +131,10 @@ class AccountMove(models.Model):
         field as required.
         """
         with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
-            super()._inherits_check()
+            res = super()._inherits_check()
         field = self._fields.get("fiscal_document_id")
         field.required = False  # unset the required = True assignement
+        return res
 
     @api.model
     def _shadowed_fields(self):
@@ -597,9 +598,8 @@ class AccountMove(models.Model):
                     raise UserError(
                         _(
                             """Line without Return Fiscal Operation! \n
-                            Please force one! \n{}""".format(
-                                line.name
-                            )
+                            Please force one! \n%(name)s""",
+                            name=line.name,
                         )
                     )
 
