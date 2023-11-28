@@ -668,12 +668,8 @@ msgid ""
 "Line without Return Fiscal Operation! \n"
 "\n"
 "                            Please force one! \n"
-"{}"
+"%(name)s"
 msgstr ""
-"Linha sem Operação Fiscal de Retorno! \n"
-"\n"
-"                            Por favor force uma! \n"
-"{}"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
@@ -904,6 +900,18 @@ msgstr ""
 #, python-format
 msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "Line without Return Fiscal Operation! \n"
+#~ "\n"
+#~ "                            Please force one! \n"
+#~ "{}"
+#~ msgstr ""
+#~ "Linha sem Operação Fiscal de Retorno! \n"
+#~ "\n"
+#~ "                            Por favor force uma! \n"
+#~ "{}"
 
 #~ msgid "Currency"
 #~ msgstr "Moeda"
