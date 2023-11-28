@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2023-11-27 18:34+0000\n"
+"PO-Revision-Date: 2023-11-28 22:36+0000\n"
 "Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1182,7 +1182,7 @@ msgstr "Mensagem para Fatura"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn_msg
 msgid "Message for Purchase Order"
-msgstr ""
+msgstr "Mensagem para Pedido de Compra"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn_msg
@@ -1217,7 +1217,7 @@ msgstr "Celular"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__mother_name
 msgid "Mother Name"
-msgstr ""
+msgstr "Nome da mãe"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_mun
@@ -1249,7 +1249,7 @@ msgstr "Número de Identificação Nacional"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__country_id
 msgid "Nationality (Country)"
-msgstr "Nacionalidade (país)"
+msgstr "Nacionalidade (País)"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__naturalidade
@@ -1274,7 +1274,7 @@ msgstr "Tipo da Próxima Atividade"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__email_normalized
 msgid "Normalized Email"
-msgstr ""
+msgstr "Email Normalizado"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__comment
@@ -1324,7 +1324,7 @@ msgstr "Ocupação"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__on_time_rate
 msgid "On-Time Delivery Rate"
-msgstr ""
+msgstr "Taxa de Entrega no prazo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__opportunity_ids
