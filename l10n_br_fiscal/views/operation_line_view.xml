@@ -23,6 +23,7 @@
             <form string="Fiscal Operation Line">
                 <field name="fiscal_type" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
+                <field name="return_fiscal_operation_id" invisible="1" />
                 <header>
                     <button
                         name="action_review"
@@ -56,6 +57,7 @@
                             <group name="gereral_settings">
                                 <field name="document_type_id" />
                                 <field name="add_to_amount" />
+                                <field name="return_fiscal_operation_line_id" />
                             </group>
                             <group
                                 name="general_cfop"
