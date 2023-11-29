@@ -1,6 +1,6 @@
 **English**
 
-Provides pivotal modules to enhance the experience and usability of Odoo in line with Brazilian localization.
+Provides key modules to enhance the Odoo usability for the Brazilian localization.
 Additionally, it includes test cases that ensure the effective integration of these modules with local specificity.
 
 **Português**
