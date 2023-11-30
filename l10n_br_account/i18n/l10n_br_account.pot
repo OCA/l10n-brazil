@@ -487,12 +487,6 @@ msgid "Fiscal Taxes"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_uom_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_uom_id
-msgid "Fiscal UOM"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_user_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_user_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_user_id
