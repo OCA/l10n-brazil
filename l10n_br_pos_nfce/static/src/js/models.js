@@ -44,13 +44,6 @@ odoo.define("l10n_br_pos_nfce.models", function (require) {
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
-        initialize: function (attributes, options) {
-            _super_order.initialize.apply(this, arguments, options);
-            if (this.document_type === "65") {
-                this.to_invoice = true;
-            }
-        },
-
         async document_send(component) {
             if (this.document_type !== "65") {
                 return _super_order.document_send.apply(this, arguments);

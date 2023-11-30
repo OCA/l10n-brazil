@@ -17,11 +17,21 @@ odoo.define("l10n_br_pos_nfce.ReceiptScreen", function (require) {
         class extends _ReceiptScreen {
             constructor() {
                 super(...arguments);
-                if (this.currentOrder.document_type === "65") {
+                if (
+                    this.currentOrder.document_type === "65" &&
+                    this.currentOrder.to_invoice
+                ) {
                     this.orderReceipt = useRef("nfce-order-receipt");
                 } else {
                     this.orderReceipt = useRef("order-receipt");
                 }
+            }
+
+            checkNFCeType() {
+                return (
+                    this.currentOrder.document_type === "65" &&
+                    this.currentOrder.to_invoice
+                );
             }
         };
 
