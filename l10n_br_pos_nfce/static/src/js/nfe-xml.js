@@ -391,11 +391,11 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
         }
 
         getUOMCode(product) {
-            return this.pos.uoms.find((uom) => {
-                if (uom.id === product.uom_id[0]) {
-                    return uom.code;
-                }
+            const foundUOM = this.pos.uoms.find((uom) => {
+                return uom.id === product.uom_id[0];
             });
+
+            return foundUOM ? foundUOM.code : undefined;
         }
 
         mountICMSTag(line) {
@@ -452,6 +452,10 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
                         },
                     };
                 case "51":
+                    /**
+                     * FIXME: Verificar e corrigir os campos em que estão sendo
+                     *  definidos valores fixos.
+                     */
                     return {
                         ICMS51: {
                             orig: icms_origin,
@@ -460,9 +464,9 @@ odoo.define("l10n_br_pos_nfce.nfe-xml", function (require) {
                             pRedBC: taxes.icms_reduction.toFixed(4),
                             vBC: taxes.icms_base.toFixed(2),
                             pICMS: taxes.icms_percent.toFixed(4),
-                            vICMSOp: "0.00", // FIXME
-                            pDif: "0.0000", // FIXME
-                            vICMSDif: "0.00", // FIXME
+                            vICMSOp: "0.00",
+                            pDif: "0.0000",
+                            vICMSDif: "0.00",
                             vICMS: taxes.icms_value.toFixed(2),
                         },
                     };
