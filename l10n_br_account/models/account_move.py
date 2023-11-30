@@ -48,13 +48,7 @@ MOVE_TAX_USER_TYPE = {
     "in_refund": "purchase",
 }
 
-SHADOWED_FIELDS = [
-    "partner_id",
-    "company_id",
-    "currency_id",
-    "partner_shipping_id",
-    "user_id",
-]
+SHADOWED_FIELDS = ["company_id", "currency_id", "user_id", "partner_id"]
 
 
 class InheritsCheckMuteLogger(mute_logger):
