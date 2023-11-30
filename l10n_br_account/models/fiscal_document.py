@@ -41,11 +41,6 @@ class FiscalDocument(models.Model):
         related="currency_id",
         readonly=False,
     )
-    fiscal_partner_shipping_id = fields.Many2one(
-        string="Fiscal Partner Shipping",
-        related="partner_shipping_id",
-        readonly=False,
-    )
     fiscal_user_id = fields.Many2one(
         string="Fiscal User",
         related="user_id",
