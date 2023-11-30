@@ -5,6 +5,7 @@ odoo.define("l10n_br_pos_cfe.CancelOrderButton", function (require) {
     const CancelOrderButton = require("l10n_br_pos.CancelOrderButton");
     const Registries = require("point_of_sale.Registries");
 
+    // eslint-disable-next-line no-shadow
     const L10nBrPosNFCeCancelOrderButton = (CancelOrderButton) =>
         class extends CancelOrderButton {
             async _onClick() {
