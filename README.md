@@ -21,9 +21,9 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 14.0.10.1.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Account
+[l10n_br_account](l10n_br_account/) | 14.0.10.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Account
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 14.0.2.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Account Due List
-[l10n_br_account_nfe](l10n_br_account_nfe/) | 14.0.3.0.1 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) [![felipemotter](https://github.com/felipemotter.png?size=30px)](https://github.com/felipemotter) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Integration between l10n_br_account and l10n_br_nfe
+[l10n_br_account_nfe](l10n_br_account_nfe/) | 14.0.3.1.0 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) [![felipemotter](https://github.com/felipemotter.png?size=30px)](https://github.com/felipemotter) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Integration between l10n_br_account and l10n_br_nfe
 [l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 14.0.4.3.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | L10n Br Account Payment BRCobranca
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 14.0.3.3.3 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 14.0.3.10.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
@@ -64,7 +64,7 @@ addon | version | maintainers | summary
 [l10n_br_sale](l10n_br_sale/) | 14.0.3.2.5 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
 [l10n_br_sale_blanket_order](l10n_br_sale_blanket_order/) | 14.0.1.0.1 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Sale Blanket Order
 [l10n_br_sale_invoice_plan](l10n_br_sale_invoice_plan/) | 14.0.1.0.3 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Sale Invoice Plan
-[l10n_br_sale_stock](l10n_br_sale_stock/) | 14.0.1.1.4 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
+[l10n_br_sale_stock](l10n_br_sale_stock/) | 14.0.1.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
 [l10n_br_setup_tests](l10n_br_setup_tests/) | 14.0.1.0.1 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) | Modules for Odoo's Brazil-focused usability with integration tests.
 [l10n_br_stock](l10n_br_stock/) | 14.0.2.1.0 |  | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 14.0.3.2.3 |  | Brazilian Localization WMS Accounting
