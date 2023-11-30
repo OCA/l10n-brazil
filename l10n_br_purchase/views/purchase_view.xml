@@ -55,6 +55,27 @@
                   </group>
               </xpath>
               <xpath
+                expr="//field[@name='order_line']/form//field[@name='product_id']"
+                position="attributes"
+            >
+                <attribute name="attrs">{
+                    'readonly': [('id', '!=', False),('state', 'in', ('purchase', 'to approve','done', 'cancel'))],
+                    'required': [('display_type', '=', False)],
+                }</attribute>
+                <attribute name="context">{
+                    'partner_id':parent.partner_id, 'quantity':product_qty,'uom':product_uom, 'company_id': parent.company_id
+                }</attribute>
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/form//field[@name='product_uom']"
+                position="attributes"
+            >
+                <attribute name="attrs">{
+                    'readonly': [('id', '!=', False),('state', 'in', ('purchase', 'done', 'cancel'))],
+                    'required': [('display_type', '=', False)]
+                }</attribute>
+              </xpath>
+              <xpath
                 expr="//field[@name='order_line']/form//field[@name='taxes_id']"
                 position="replace"
             >
