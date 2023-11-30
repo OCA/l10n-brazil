@@ -114,7 +114,7 @@ class TestGeneratePaymentInfo(SavepointCase):
             {
                 "account_id": cls.invoice_line_account_id.id,
                 "quantity": 1,
-                "uom_id": cls.env.ref("uom.product_uom_unit").id,
+                "product_uom_id": cls.env.ref("uom.product_uom_unit").id,
                 "price_unit": 450.0,
                 "name": "Product - Invoice Line Test",
                 "fiscal_operation_line_id": cls.env.ref(
