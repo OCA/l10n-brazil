@@ -2,10 +2,10 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo.tests import Form, SavepointCase
+from odoo.tests import Form, TransactionCase
 
 
-class L10nBrSaleDiscount(SavepointCase):
+class L10nBrSaleDiscount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -121,7 +121,7 @@ class SaleOrder(models.Model):
             )
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                sub_form_node, "sale.order.line", False
+                sub_form_node, "sale.order.line"
             )
 
             order_view["fields"]["order_line"]["views"]["form"] = {
@@ -166,6 +166,7 @@ class SaleOrder(models.Model):
             == document_type_id
         ]
 
+    # pylint: disable=except-pass
     def _create_invoices(self, grouped=False, final=False, date=None):
         if not self.fiscal_operation_id:
             return super()._create_invoices(grouped=grouped, final=final, date=date)
