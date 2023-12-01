@@ -20,7 +20,7 @@
         "views/res_company_view.xml",
         # Reports
         "reports/purchase_report_views.xml",
-        "reports/purchase_order_templates.xml",
+        #        "reports/purchase_order_templates.xml",
     ],
     "demo": [
         "demo/company.xml",
