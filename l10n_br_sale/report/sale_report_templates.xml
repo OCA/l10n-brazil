@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- pylint:disable=file-not-used -->
 <odoo>
 
     <template
@@ -40,8 +41,9 @@
             </td>
         </xpath>
         <!-- Inclusão de outros Totais usados no Brasil -->
-        <xpath expr="//div[@name='total']/div/table/tr[@style='']" position="replace">
-            <!-- Replace foi necessário para colocar os Totais na ordem desejada. -->
+        <!-- TODO migrate overriding _compute_tax_totals_json for v15 -->
+        <!--xpath expr="//div[@name='total']/div/table/tr[@style='']" position="replace">
+            < Replace foi necessário para colocar os Totais na ordem desejada. >
             <tr
                 t-if="doc.amount_price_gross != doc.amount_untaxed"
                 class="border-black o_subtotal"
@@ -89,7 +91,7 @@
                 </td>
             </tr>
 
-        </xpath>
+        </xpath-->
 
     </template>
 
