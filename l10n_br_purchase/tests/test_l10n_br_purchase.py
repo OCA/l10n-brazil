@@ -4,7 +4,7 @@
 
 from lxml import etree
 
-from odoo.tests import Form, SavepointCase
+from odoo.tests import Form, TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
@@ -16,7 +16,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 
 
-class L10nBrPurchaseBaseTest(SavepointCase):
+class L10nBrPurchaseBaseTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
