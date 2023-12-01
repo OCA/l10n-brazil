@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Empresa Principal - Main Company -->
+    <record id="stock_account_inventory_main" model="stock.inventory">
+        <field
+            name="name"
+        >Inventário Inicial l10n_br_stock_account - Empresa Principal</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="stock_account_inventory_main_line_1" model="stock.inventory.line">
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
+        <field name="inventory_id" ref="stock_account_inventory_main" />
+        <field name="product_qty">100.0</field>
+        <field name="location_id" ref="stock.stock_location_stock" />
+    </record>
+
+    <record id="stock_account_inventory_main_line_2" model="stock.inventory.line">
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
+        <field name="inventory_id" ref="stock_account_inventory_main" />
+        <field name="product_qty">100.0</field>
+        <field name="location_id" ref="stock.stock_location_stock" />
+    </record>
+
+    <function model="stock.inventory" name="action_start">
+        <function
+            eval="[[('state','=','draft'),('id', '=', ref('stock_account_inventory_main'))]]"
+            model="stock.inventory"
+            name="search"
+        />
+    </function>
+    <function model="stock.inventory" name="action_validate">
+        <function
+            eval="[[('state','=','confirm'),('id', '=', ref('stock_account_inventory_main'))]]"
+            model="stock.inventory"
+            name="search"
+        />
+    </function>
+
+    <!-- Simples Nacional -->
+    <record id="stock_account_inventory_sn" model="stock.inventory">
+        <field
+            name="name"
+        >Inventário Inicial l10n_br_stock_account - Simples Nacional</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="stock_account_inventory_sn_line_1" model="stock.inventory.line">
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
+        <field name="inventory_id" ref="stock_account_inventory_sn" />
+        <field name="product_qty">100.0</field>
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
+    </record>
+    <record id="stock_account_inventory_sn_line_2" model="stock.inventory.line">
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
+        <field name="inventory_id" ref="stock_account_inventory_sn" />
+        <field name="product_qty">100.0</field>
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
+    </record>
+
+    <function model="stock.inventory" name="action_start">
+        <function
+            eval="[[('state','=','draft'),('id', '=', ref('stock_account_inventory_sn'))]]"
+            model="stock.inventory"
+            name="search"
+        />
+    </function>
+    <function model="stock.inventory" name="action_validate">
+        <function
+            eval="[[('state','=','confirm'),('id', '=', ref('stock_account_inventory_sn'))]]"
+            model="stock.inventory"
+            name="search"
+        />
+    </function>
+
+    <!-- Lucro Presumido -->
+
+    <record id="stock_account_inventory_lp" model="stock.inventory">
+        <field
+            name="name"
+        >Inventário Inicial l10n_br_stock_account - Lucro Presumido</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="stock_inventory_lp_line_1" model="stock.inventory.line">
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
+        <field name="inventory_id" ref="stock_account_inventory_lp" />
+        <field name="product_qty">100.0</field>
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+    </record>
+    <record id="stock_inventory_lp_line_2" model="stock.inventory.line">
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
+        <field name="inventory_id" ref="stock_account_inventory_lp" />
+        <field name="product_qty">100.0</field>
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+    </record>
+
+    <function model="stock.inventory" name="action_start">
+        <function
+            eval="[[('state','=','draft'),('id', '=', ref('stock_account_inventory_lp'))]]"
+            model="stock.inventory"
+            name="search"
+        />
+    </function>
+    <function model="stock.inventory" name="action_validate">
+        <function
+            eval="[[('state','=','confirm'),('id', '=', ref('stock_account_inventory_lp'))]]"
+            model="stock.inventory"
+            name="search"
+        />
+     </function>
+
+</odoo>
