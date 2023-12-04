@@ -4,10 +4,10 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
-from odoo.tests import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestCurrencyRateUpdateBCB(SavepointCase):
+class TestCurrencyRateUpdateBCB(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
