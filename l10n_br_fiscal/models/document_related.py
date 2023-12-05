@@ -76,12 +76,14 @@ class DocumentRelated(models.Model):
     @api.constrains("cnpj_cpf")
     def _check_cnpj_cpf(self):
         for record in self:
-            check_cnpj_cpf(record.env, record.cnpj_cpf, record.country_id)
+            check_cnpj_cpf(record.env, record.cnpj_cpf, self.env.ref("base.br"))
 
     @api.constrains("inscr_est", "state_id")
     def _check_ie(self):
         for record in self:
-            check_ie(record.env, record.inscr_est, record.state_id, record.country_id)
+            check_ie(
+                record.env, record.inscr_est, record.state_id, self.env.ref("base.br")
+            )
 
     @api.onchange("document_related_id")
     def _onchange_document_related_id(self):
