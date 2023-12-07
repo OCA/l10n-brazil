@@ -28,6 +28,11 @@ class ResCompany(models.Model):
     nfse_website = fields.Char(
         string="NFSe Website",
     )
+    nfse_direct_print = fields.Boolean(
+        string="NFS-e direct print",
+        help="Enable the printing of the NFS-e directly from the provider.",
+        default=False,
+    )
     city_taxation_code_id = fields.Many2many(
         comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
     )
