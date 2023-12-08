@@ -65,7 +65,6 @@ class L10nBrZipSearch(models.TransientModel):
 
         return data
 
-    @api.multi
     def zip_search(self):
 
         self.ensure_one()
@@ -93,7 +92,6 @@ class L10nBrZipSearch(models.TransientModel):
             "type": "ir.actions.act_window",
             "res_model": "l10n_br.zip.search",
             "view_mode": "form",
-            "view_type": "form",
             "res_id": data.id,
             "views": [(False, "form")],
             "target": "new",
@@ -101,7 +99,6 @@ class L10nBrZipSearch(models.TransientModel):
             "context": context,
         }
 
-    @api.multi
     def zip_new_search(self):
         data = self.read()[0]
         self.ensure_one()
@@ -111,7 +108,6 @@ class L10nBrZipSearch(models.TransientModel):
             "type": "ir.actions.act_window",
             "res_model": "l10n_br.zip.search",
             "view_mode": "form",
-            "view_type": "form",
             "res_id": data["id"],
             "views": [(False, "form")],
             "target": "new",

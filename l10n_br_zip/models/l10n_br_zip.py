@@ -85,7 +85,6 @@ class L10nBrZip(models.Model):
 
         return domain
 
-    @api.multi
     def _zip_update(self):
         self.ensure_one()
         cep_update_days = int(
@@ -100,7 +99,6 @@ class L10nBrZip(models.Model):
                 # Update zip object
                 self.write(cep_values)
 
-    @api.multi
     def set_result(self):
         self.ensure_one()
         self._zip_update()
@@ -221,7 +219,6 @@ class L10nBrZip(models.Model):
 
         return {
             "name": "Zip Search",
-            "view_type": "form",
             "view_mode": "form",
             "res_model": "l10n_br.zip.search",
             "view_id": False,
@@ -232,7 +229,6 @@ class L10nBrZip(models.Model):
             "context": context,
         }
 
-    @api.multi
     def zip_select(self):
         self.ensure_one()
         address_id = self._context.get("address_id")
