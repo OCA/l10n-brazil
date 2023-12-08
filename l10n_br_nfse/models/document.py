@@ -68,6 +68,13 @@ class Document(models.Model):
         default=lambda self: self.env.company.nfse_environment,
     )
 
+    civil_construction_code = fields.Char(
+        string="Civil Construction Code",
+    )
+    civil_construction_art = fields.Char(
+        string="Civil Construction ART",
+    )
+
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
@@ -261,7 +268,8 @@ class Document(models.Model):
             "status": "1",
             "rps_substitiuido": None,
             "intermediario_servico": None,
-            "construcao_civil": None,
+            "codigo_obra": self.civil_construction_code or "",
+            "art": self.civil_construction_art or "",
             "carga_tributaria": self.amount_tax,
             "total_recebido": self.amount_total,
             "carga_tributaria_estimada": self.amount_estimate_tax,
