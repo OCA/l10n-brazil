@@ -6,6 +6,7 @@ from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio import (
     EnviarLoteRpsEnvio,
     ListaRpsType,
     tcCpfCnpj,
+    tcDadosConstrucaoCivil,
     tcDadosServico,
     tcDadosTomador,
     tcEndereco,
@@ -211,8 +212,13 @@ class Document(models.Model):
                 IntermediarioServico=self.convert_type_nfselib(
                     tcInfRps, "IntermediarioServico", dados["intermediario_servico"]
                 ),
-                ConstrucaoCivil=self.convert_type_nfselib(
-                    tcInfRps, "ConstrucaoCivil", dados["construcao_civil"]
+                ConstrucaoCivil=tcDadosConstrucaoCivil(
+                    CodigoObra=self.convert_type_nfselib(
+                        tcDadosConstrucaoCivil, "CodigoObra", dados["codigo_obra"]
+                    ),
+                    Art=self.convert_type_nfselib(
+                        tcDadosConstrucaoCivil, "Art", dados["art"]
+                    ),
                 ),
             )
         )
