@@ -167,6 +167,16 @@ msgid "City Taxation Code"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__civil_construction_art
+msgid "Civil Construction ART"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__civil_construction_code
+msgid "Civil Construction Code"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_res_company
 msgid "Companies"
 msgstr ""
