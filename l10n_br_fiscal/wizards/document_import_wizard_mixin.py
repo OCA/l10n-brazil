@@ -3,7 +3,7 @@
 
 from odoo import fields, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_IN_OUT_ALL
+from ..constants.fiscal import FISCAL_IN_OUT_ALL
 
 
 class DocumentImportWizardMixin(models.TransientModel):
@@ -19,13 +19,10 @@ class DocumentImportWizardMixin(models.TransientModel):
 
     importing_type = fields.Selection(
         selection=[("xml_file", "XML File")],
-        string="Importing Type",
         required=True,
         default="xml_file",
     )
 
     xml = fields.Binary(string="XML to Import")
 
-    fiscal_operation_type = fields.Selection(
-        string="Fiscal Operation Type", selection=FISCAL_IN_OUT_ALL
-    )
+    fiscal_operation_type = fields.Selection(selection=FISCAL_IN_OUT_ALL)
