@@ -27,4 +27,5 @@ _field_renames = [
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    openupgrade.rename_fields(env, _field_renames)
+    if not openupgrade.column_exists(env.cr, "res_company", "simplified_tax_id"):
+        openupgrade.rename_fields(env, _field_renames)
