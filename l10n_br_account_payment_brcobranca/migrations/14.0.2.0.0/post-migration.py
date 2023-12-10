@@ -9,7 +9,7 @@ def populate_cnab_processor(env):
         AS apm
         SET cnab_processor='brcobranca'
         WHERE apm.payment_method_code IN ('240', '400', '500')
-        AND apm.cnab_processor IN (NULL, 'none')
+        AND apm.cnab_processor IS NULL
         """,
     )
 
