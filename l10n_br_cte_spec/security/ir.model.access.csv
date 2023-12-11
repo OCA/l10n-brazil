@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tcte_vprest_comp_user,access_tcte_vprest_comp,model_cte_40_tcte_vprest_comp,base.group_user,1,1,1,1
+access_veicnovos,access_veicnovos,model_cte_40_veicnovos,base.group_user,1,1,1,1
+access_tcte_infctecomp,access_tcte_infctecomp,model_cte_40_tcte_infctecomp,base.group_user,1,1,1,1

@@ -126,7 +126,6 @@ class NatCarga(models.AbstractModel):
     )
 
 
-
 class Tarifa(models.AbstractModel):
     "Informações de tarifa"
     _description = textwrap.dedent("    %s" % (__doc__,))
