@@ -517,6 +517,8 @@ msgid "Discount in Sales Orders per Value"
 msgstr "Desconto no Pedido de Vendas por Valor"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__display_name
@@ -580,6 +582,11 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__fiscal_operation_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
 msgid "Fiscal Operation"
@@ -595,6 +602,14 @@ msgstr "Linha de Operação Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__fiscal_partner_shipping_id
+msgid "Fiscal Partner Shipping"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_price
@@ -865,6 +880,8 @@ msgid "ICMSSN Credit Value"
 msgstr "Valor do Crédito de ICMSSN"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__id
@@ -1162,6 +1179,13 @@ msgid "Invoice Lines"
 msgstr "Linhas da Fatura"
 
 #. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move____last_update
+#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings____last_update
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order____last_update
