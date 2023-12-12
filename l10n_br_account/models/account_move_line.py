@@ -146,8 +146,8 @@ class AccountMoveLine(models.Model):
 
     @api.model
     def _shadowed_fields(self):
-        """Returns the list of shadowed fields that are synchronized
-        from the parent."""
+        """Return the list of shadowed fields that are synchronized
+        from account.move.line."""
         return SHADOWED_FIELDS
 
     @api.model
