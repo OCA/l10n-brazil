@@ -132,8 +132,8 @@ class AccountMove(models.Model):
 
     @api.model
     def _shadowed_fields(self):
-        """Returns the list of shadowed fields that are synced
-        from the parent."""
+        """Return the list of shadowed fields that are synchronized
+        from account.move."""
         return SHADOWED_FIELDS
 
     @api.model
@@ -147,6 +147,11 @@ class AccountMove(models.Model):
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
+        """
+        Inject fiscal fields into the account.move(.line) views.
+        FIXME: it's because of this override that the tax m2m widget
+        isn't fully displayed (tax names are missing) until the user saves the form.
+        """
         invoice_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
         if self.env.company.country_id.code != "BR":
             return invoice_view
@@ -154,6 +159,7 @@ class AccountMove(models.Model):
             view = self.env["ir.ui.view"]
 
             if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
+                # "fiscal view" case:
                 invoice_line_form_id = self.env.ref(
                     "l10n_br_account.fiscal_invoice_line_form"
                 ).id
@@ -172,11 +178,8 @@ class AccountMove(models.Model):
                     "arch": sub_arch,
                 }
 
-            else:
+            else:  # "normal" account.move case:
                 if invoice_view["fields"].get("invoice_line_ids"):
-                    invoice_line_form_id = self.env.ref(
-                        "l10n_br_account.invoice_form"
-                    ).id
                     sub_form_view = invoice_view["fields"]["invoice_line_ids"]["views"][
                         "form"
                     ]["arch"]
@@ -194,9 +197,8 @@ class AccountMove(models.Model):
                     }
 
                 if invoice_view["fields"].get("line_ids"):
-                    invoice_line_form_id = self.env.ref(
-                        "l10n_br_account.invoice_form"
-                    ).id
+                    # it is required to inject the fiscal fields in the
+                    # "accounting lines" view to avoid loosing fiscal values from the form.
                     sub_form_view = invoice_view["fields"]["line_ids"]["views"]["tree"][
                         "arch"
                     ]
@@ -310,7 +312,7 @@ class AccountMove(models.Model):
         return result
 
     def unlink(self):
-        """Allows delete a draft or cancelled invoices"""
+        """Allow to delete draft or cancelled invoices"""
         unlink_moves = self.env["account.move"]
         unlink_documents = self.env["l10n_br_fiscal.document"]
         for move in self:
@@ -382,7 +384,7 @@ class AccountMove(models.Model):
         return balance_taxes_res
 
     def _preprocess_taxes_map(self, taxes_map):
-        """Useful in case we want to pre-process taxes_map"""
+        """Compute taxes base and amount for Brazil"""
 
         taxes_mapped = super()._preprocess_taxes_map(taxes_map=taxes_map)
 
