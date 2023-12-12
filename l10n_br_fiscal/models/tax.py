@@ -545,6 +545,17 @@ class Tax(models.Model):
         if tax_dict.get("icmsst_mva_percent"):
             tax_dict["tax_value"] -= taxes_dict.get("icms", {}).get("tax_value", 0.0)
 
+        icmsst_debit_credit_percent = tax["percent_debit_credit"]
+        icmsst_debit_credit_value = tax_dict["tax_value"] * (icmsst_debit_credit_percent / 100)
+        tax_withholding = tax_dict["tax_value"] - icmsst_debit_credit_value
+
+        tax_dict.update({
+            "icmsst_credit_value": icmsst_debit_credit_value,
+            "icmsst_debit_credit_percent": icmsst_debit_credit_percent,
+            "tax_withholding": tax_withholding,
+            "tax_value": tax_dict["tax_value"] - icmsst_debit_credit_value,
+        })
+
         return tax_dict
 
     @api.model

@@ -622,6 +622,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "icmsst_reduction": tax_dict.get("percent_reduction"),
             "icmsst_base": tax_dict.get("base"),
             "icmsst_value": tax_dict.get("tax_value"),
+            "icmsst_credit_percent": tax_dict.get("icmsst_credit_percent"),
+            "icmsst_credit_value": tax_dict.get("icmsst_credit_value"),
         }
 
     @api.onchange(
