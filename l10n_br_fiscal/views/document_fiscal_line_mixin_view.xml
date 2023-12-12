@@ -295,6 +295,16 @@
                                             attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
                                         />
                         <field
+                                            name="icmsst_credit_value"
+                                            force_save="1"
+                                            attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
+                                        />
+                        <field
+                                            name="icmsst_credit_percent"
+                                            force_save="1"
+                                            attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
+                                        />
+                        <field
                                             name="icmsst_wh_base"
                                             force_save="1"
                                             attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"
