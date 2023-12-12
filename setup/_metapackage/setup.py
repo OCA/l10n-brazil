@@ -36,6 +36,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_nfe',
         'odoo14-addon-l10n_br_nfe_spec',
         'odoo14-addon-l10n_br_nfse',
+        'odoo14-addon-l10n_br_nfse_barueri',
         'odoo14-addon-l10n_br_nfse_ginfes',
         'odoo14-addon-l10n_br_nfse_paulistana',
         'odoo14-addon-l10n_br_portal',
