@@ -19,6 +19,19 @@ msgid "Automatic Reconcile payment returns"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
+#, python-format
+msgid ""
+"BRCobranca API URL is not configured.\n"
+"\n"
+" Set the URL using one of the these methods:\n"
+"\n"
+"1. Set the environment variable: BRCOBRANCA_API_URL=http://boleto_cnab_api:9292\n"
+"2. Configure the URL in Odoo configuration file: brcobranca_api_url=http://boleto_cnab_api:9292\n"
+"3. Set the URL in System Parameters: brcobranca_api_url=http://boleto_cnab_api:9292\n"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_journal__import_type__cnab240
 msgid "CNAB 240"
 msgstr ""
@@ -75,14 +88,6 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_credit_statement_import
 msgid "Import Batch File wizard"
-msgstr ""
-
-#. module: l10n_br_account_payment_brcobranca
-#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
-#, python-format
-msgid ""
-"Inform the URL where BRCobranca API are running in Odoo Configuration file or if you are using docky in the docker-compose.yml file. Example:\n"
-"BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
