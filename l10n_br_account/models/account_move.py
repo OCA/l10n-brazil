@@ -177,7 +177,12 @@ class AccountMove(models.Model):
             # represents the commercial entity.
             if partner_field in vals:
                 partner = self.env["res.partner"].browse(vals[partner_field])
-                vals[f"fiscal_{partner_field}"] = partner.commercial_partner_id.id
+                fiscal_partner = None
+                if partner.is_company:
+                    fiscal_partner = partner
+                else:
+                    fiscal_partner = partner.commercial_partner_id.id
+                vals[f"fiscal_{partner_field}"] = fiscal_partner
 
         for vals in vals_list:
             _assign_fiscal_partner_id(vals, "partner_id")
