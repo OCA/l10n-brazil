@@ -34,13 +34,15 @@ class SimplifiedTax(models.Model):
         readonly=True,
     )
 
-    @api.model
-    def create(self, vals):
-        """Override create for update effective tax lines in all companys"""
-        record = super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        """
+        Override the create method to update the effective tax lines in all companies
+        """
+        simplified_taxes = super().create(vals_list)
         companies = self.env["res.company"].search(
             [("tax_framework", "=", TAX_FRAMEWORK_SIMPLES)]
         )
         for company in companies:
             company.update_effective_tax_lines()
-        return record
+        return simplified_taxes
