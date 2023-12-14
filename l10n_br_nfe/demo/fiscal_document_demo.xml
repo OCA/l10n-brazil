@@ -76,6 +76,8 @@
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="document_number">1</field>
         <field name="document_key">35200159594315000157550010000000012062777161</field>
+        <field name="document_date">2020-01-01 11:00:00</field>
+        <field name="date_in_out">2020-01-01 11:00:00</field>
         <field name="document_serie">1</field>
         <field name="nfe_environment">2</field>
         <field name="processador_edoc">oca</field>
@@ -121,6 +123,8 @@
         <field name="document_number">2</field>
         <field name="document_serie">1</field>
         <field name="document_key">35200159594315000157550010000000022062777169</field>
+        <field name="document_date">2020-01-01 11:00:00</field>
+        <field name="date_in_out">2020-01-01 11:00:00</field>
         <field name="nfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente11_sp" />
@@ -165,6 +169,8 @@
         <field name="document_number">3</field>
         <field name="document_serie">1</field>
         <field name="document_key">35200159594315000157550010000000032062777166</field>
+        <field name="document_date">2020-01-01 11:00:00</field>
+        <field name="date_in_out">2020-01-01 11:00:00</field>
         <field name="nfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente4_am" />
@@ -206,6 +212,8 @@
         <field name="company_number">3</field>
         <field name="document_serie">1</field>
         <field name="document_key">33230807984267003800650040000000321935136447</field>
+        <field name="document_date">2023-08-01 11:00:00</field>
+        <field name="date_in_out">2023-08-01 11:00:00</field>
         <field name="nfe_environment">2</field>
         <field name="nfe_version">4.00</field>
         <field name="processador_edoc">oca</field>

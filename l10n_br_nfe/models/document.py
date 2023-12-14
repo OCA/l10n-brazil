@@ -801,6 +801,28 @@ class NFe(spec_models.StackedModel):
                             )
                         )
 
+    @api.constrains("document_date", "document_key", "state_edoc")
+    def _check_document_date_key(self):
+        for rec in self:
+            if rec.document_key:
+                key_date_str = rec.document_key[2:6]
+                key_date = datetime.strptime(key_date_str, "%y%m")
+
+                document_date = fields.Datetime.from_string(rec.document_date)
+                if (
+                    rec.document_type in ["55", "65"]
+                    and rec.state_edoc in ["a_enviar", "autorizada"]
+                    and (
+                        key_date.year != document_date.year
+                        or key_date.month != document_date.month
+                    )
+                ):
+                    raise ValidationError(
+                        _(
+                            "The document date does not match the date in the document key."
+                        )
+                    )
+
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
