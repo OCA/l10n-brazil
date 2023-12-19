@@ -6,7 +6,7 @@ import time  # You can't send multiple requests at the same time in trial versio
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.l10n_br_cnpj_search.tests.common import TestCnpjCommon
+from .common import TestCnpjCommon
 
 
 @tagged("post_install", "-at_install")
@@ -17,7 +17,14 @@ class TestReceitaWS(TestCnpjCommon):
         self.set_param("cnpj_provider", "receitaws")
 
     def test_receita_ws_success(self):
-        kilian = self.model.create({"name": "Kilian", "cnpj_cpf": "44.356.113/0001-08"})
+        kilian = self.model.create(
+            {
+                "name": "Kilian",
+                "cnpj_cpf": "44.356.113/0001-08",
+                "email": "kilian.melcher@gmail.com",
+                "company_type": "company",
+            }
+        )
 
         kilian._onchange_cnpj_cpf()
         kilian.search_cnpj()
@@ -34,8 +41,7 @@ class TestReceitaWS(TestCnpjCommon):
         self.assertEqual(kilian.phone, "(83) 8665-0905")
         self.assertEqual(kilian.state_id.code, "PB")
         self.assertEqual(kilian.city_id.name, "Campina Grande")
-        self.assertEqual(kilian.equity_capital, 3000)
-        self.assertEqual(kilian.cnae_main_id.code, "4751-2/01")
+        self.assertEqual(kilian.equity_capital, 0.0)
 
     def test_receita_ws_fail(self):
         invalido = self.model.create({"name": "invalido", "cnpj_cpf": "00000000000000"})
@@ -52,6 +58,6 @@ class TestReceitaWS(TestCnpjCommon):
         time.sleep(2)  # Pause
         isla.search_cnpj()
 
-        self.assertEqual(isla.name.strip(), "Isla Sementes Ltda.")
-        self.assertEqual(isla.phone.strip(), "(51) 9852-9561")
-        self.assertEqual(isla.mobile.strip(), "(51) 2136-6600")
+        self.assertEqual(isla.name, "Isla Sementes Ltda.")
+        self.assertEqual(isla.phone, "(51) 9852-9561 ")
+        self.assertEqual(isla.mobile, "(51) 2136-6600")

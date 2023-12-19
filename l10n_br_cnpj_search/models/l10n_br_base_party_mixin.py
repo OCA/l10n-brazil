@@ -14,7 +14,7 @@ class PartyMixin(models.AbstractModel):
     def search_cnpj(self):
         """Search CNPJ by the chosen API"""
         if not self.cnpj_cpf:
-            raise UserError(_("Por favor insira o CNPJ"))
+            raise UserError(_("Please enter your CNPJ"))
 
         if self.cnpj_validation_disabled():
             raise UserError(
@@ -32,7 +32,6 @@ class PartyMixin(models.AbstractModel):
 
         data = webservice.validate(response)
         values = webservice.import_data(data)
-        values["company_type"] = "company"
         self.write(values)
 
     @api.model

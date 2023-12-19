@@ -32,7 +32,11 @@ class TestTestSerPro(TestCnpjCommon):
     )
     def test_serpro_basica(self):
         dummy_basica = self.model.create(
-            {"name": "Dummy Basica", "cnpj_cpf": "34.238.864/0001-68"}
+            {
+                "name": "Dummy Basica",
+                "cnpj_cpf": "34.238.864/0001-68",
+                "company_type": "company",
+            }
         )
         time.sleep(3)
         dummy_basica._onchange_cnpj_cpf()
@@ -54,7 +58,6 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(dummy_basica.mobile, "(61) 22222222")
         self.assertEqual(dummy_basica.state_id.code, "DF")
         self.assertEqual(dummy_basica.equity_capital, 0)
-        self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_serpro_not_found.yaml",

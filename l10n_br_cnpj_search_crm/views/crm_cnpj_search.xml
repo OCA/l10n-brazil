@@ -1,0 +1,28 @@
+<odoo>
+    <!-- Copyright 2022 KMEE - Luis Felipe Mileo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+    <record id="l10n_br_crm_leads_form_inherit" model="ir.ui.view">
+          <field name="name">l10n_br_crm.leads.form (in l10n_br_cnpj_search_crm)</field>
+          <field name="model">crm.lead</field>
+          <field name="inherit_id" ref="l10n_br_crm.l10n_br_crm_leads_form" />
+          <field name="priority" eval="99" />
+          <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='lead']//group/field[@name='cnpj']"
+                position="replace"
+            >
+                <label for="cnpj_cpf" string="CNPJ" />
+                <div class="o_row" colspan="1">
+                    <field name="cnpj_cpf" />
+                    <button
+                        name="search_cnpj"
+                        type="object"
+                        class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
+                        aria-label="Pesquisar CNPJ"
+                        title="Pesquisar CNPJ"
+                    />
+                </div>
+            </xpath>
+          </field>
+      </record>
+  </odoo>
