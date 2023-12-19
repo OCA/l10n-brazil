@@ -69,7 +69,7 @@
         </xpath>
         <xpath expr="//button[@name='action_create_return']" position="replace">
           <button
-                    name="%(account.menu_action_move_out_refund_type)d"
+                    name="%(account.action_move_out_refund_type)d"
                     type='action'
                     string='Devolver'
                     groups="account.group_account_invoice"
