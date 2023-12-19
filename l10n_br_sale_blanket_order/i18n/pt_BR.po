@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-10-10 18:42+0000\n"
-"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
+"PO-Revision-Date: 2023-12-19 14:35+0000\n"
+"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Dados adicionais inseridos manualmente pelo usuário"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__allow_csll_irpj
 msgid "Allow Csll Irpj"
-msgstr ""
+msgstr "Permitir CSLL IRPJ"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_discount_value
@@ -1024,7 +1024,7 @@ msgstr "Identifica o destino da operação."
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__allow_csll_irpj
 msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
-msgstr ""
+msgstr "Indica potencial cobrança de imposto 'CSLL' e 'IRPJ' ."
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__partner_is_public_entity
