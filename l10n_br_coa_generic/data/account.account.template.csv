@@ -357,7 +357,7 @@ coa_generic_611206,6.1.1.2.06,PIS s/ Vendas,,income_other,0,l10n_br_coa_generic_
 coa_generic_611207,6.1.1.2.07,ICMS ST s/ Vendas,,income_other,0,l10n_br_coa_generic_template
 coa_generic_611208,6.1.1.2.08,IPI s/ Vendas,,income_other,0,l10n_br_coa_generic_template
 coa_generic_611209,6.1.1.2.09,CSLL s/ Vendas,,income_other,0,l10n_br_coa_generic_template
-coa_generic_611210,6.1.1.2.10,IRPJ s/ Vendas,,income_othern,0,l10n_br_coa_generic_template
+coa_generic_611210,6.1.1.2.10,IRPJ s/ Vendas,,income_other,0,l10n_br_coa_generic_template
 coa_generic_611211,6.1.1.2.11,II s/ Vendas,,income_other,0,l10n_br_coa_generic_template
 coa_generic_611221,6.1.1.2.21,(-)  Simples Nacional Devolução,,income_other,0,l10n_br_coa_generic_template
 coa_generic_611222,6.1.1.2.22,(-)  ISS Substituição Tributária Devolução,,income_other,0,l10n_br_coa_generic_template
