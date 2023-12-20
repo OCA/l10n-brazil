@@ -230,6 +230,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_pis_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_in_pis" model="account.tax.template">
@@ -263,6 +289,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_pis_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_in_pis_deductible" model="account.tax.template">
@@ -318,6 +370,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_cofinsst" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_in_cofins" model="account.tax.template">
@@ -351,6 +429,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_cofins_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
      </record>
 
      <record id="tax_template_cofins_in_deductible" model="account.tax.template">
@@ -406,6 +510,32 @@
          <field eval="0" name="deductible" />
          <field name="tax_group_id" ref="tax_group_issqn_wh" />
          <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
      </record>
 
      <record id="tax_template_in_issqn" model="account.tax.template">
@@ -439,6 +569,32 @@
          <field eval="0" name="deductible" />
          <field name="tax_group_id" ref="tax_group_issqn_wh" />
          <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
      </record>
 
     <record id="tax_template_out_irpj" model="account.tax.template">
@@ -472,6 +628,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_irpj_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_in_irpj" model="account.tax.template">
@@ -505,6 +687,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_irpj_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_out_csll" model="account.tax.template">
@@ -538,6 +746,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_csll_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_in_csll" model="account.tax.template">
@@ -571,6 +805,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_csll_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_out_inss" model="account.tax.template">
@@ -593,6 +853,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_inss_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_in_inss" model="account.tax.template">
@@ -615,6 +901,32 @@
         <field eval="0" name="deductible" />
         <field name="tax_group_id" ref="tax_group_inss_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+        <field
+            name="invoice_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
+        <field
+            name="refund_repartition_line_ids"
+            eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': -100,
+                'repartition_type': 'tax',
+            }),
+        ]"
+        />
     </record>
 
     <record id="tax_template_simples" model="account.tax.template">
