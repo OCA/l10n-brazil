@@ -301,12 +301,21 @@ class NFe(spec_models.StackedModel):
                 if record.document_type_id.code == MODELO_FISCAL_NFCE:
                     record.nfe40_tpImp = record.company_id.nfce_danfe_layout
 
-    @api.depends("partner_id", "company_id")
+    @api.depends("partner_id", "company_id", "partner_shipping_id")
     def _compute_nfe40_idDest(self):
         for doc in self:
-            if doc.company_id.partner_id.state_id == doc.partner_id.state_id:
+            company_partner = doc.company_id.partner_id
+            partner = doc.partner_id
+            partner_shipping = doc.partner_shipping_id
+            if (
+                partner_shipping
+                and company_partner == partner
+                and partner.state_id != partner_shipping.state_id
+            ):
+                doc.nfe40_idDest = "2"
+            elif company_partner.state_id == partner.state_id:
                 doc.nfe40_idDest = "1"
-            elif doc.company_id.partner_id.country_id == doc.partner_id.country_id:
+            elif company_partner.country_id == partner.country_id:
                 doc.nfe40_idDest = "2"
             else:
                 doc.nfe40_idDest = "3"
