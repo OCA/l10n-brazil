@@ -24,7 +24,7 @@ class TestReceitaWS(TestCnpjCommon):
 
         self.assertEqual(kilian.company_type, "company")
         self.assertEqual(kilian.legal_name, "Kilian Macedo Melcher 08777131460")
-        self.assertEqual(kilian.name, "Kilian Macedo Melcher")
+        self.assertEqual(kilian.name, "Kilian Macedo Melcher 08777131460")
         self.assertEqual(kilian.email, "kilian.melcher@gmail.com")
         self.assertEqual(kilian.street_name, "Rua Luiza Bezerra Motta")
         self.assertEqual(kilian.street2, "Bloco E;Apt 302")
