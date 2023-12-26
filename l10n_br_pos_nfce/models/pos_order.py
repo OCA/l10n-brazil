@@ -184,49 +184,95 @@ class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
 
     def _prepare_nfce_tax_dict(self):
+        # Get fiscal map for this product
         fiscal_map_id = self.product_id.pos_fiscal_map_ids.search(
             [("pos_config_id", "=", self.order_id.config_id.id)], limit=1
         )
 
-        return {
+        # Create base tax_dict
+        tax_dict = {
             "fiscal_operation_id": fiscal_map_id.fiscal_operation_id.id,
             "fiscal_operation_line_id": fiscal_map_id.fiscal_operation_line_id.id,
             "cfop_id": fiscal_map_id.cfop_id.id,
             "uot_id": fiscal_map_id.uot_id.id,
             "fiscal_genre_id": self.product_id.fiscal_genre_id.id,
+            "discount_value": (self.discount * self.amount_total) / 100,
+            "uom_id": self.product_id.uom_id.id,
+            "ncm_id": self.product_id.ncm_id.id,
+        }
+
+        # Update tax dict for each tax domain
+        tax_dict.update(self._prepare_nfce_icms_dict(fiscal_map_id))
+        tax_dict.update(self._prepare_nfce_ipi_dict(fiscal_map_id))
+        tax_dict.update(self._prepare_nfce_cofins_dict(fiscal_map_id))
+        tax_dict.update(self._prepare_pis_icms_dict(fiscal_map_id))
+        tax_dict.update(self._prepare_pis_icms_dict(fiscal_map_id))
+        # Update tax dict with fiscal_tax_ids data
+        tax_dict.update(self._prepare_nfce_fiscal_tax_ids(fiscal_map_id))
+
+        return tax_dict
+
+    def _prepare_nfce_icms_dict(self, fiscal_map_id):
+        return {
             "icms_tax_id": fiscal_map_id.icms_tax_id.id,
             "icms_cst_id": fiscal_map_id.icms_cst_id.id,
             "icms_base": fiscal_map_id.icms_base,
             "icms_percent": fiscal_map_id.icms_percent,
             "icms_value": fiscal_map_id.icms_value,
+            "icmssn_tax_id": fiscal_map_id.icmssn_tax_id.id,
+            "icmssn_range_id": fiscal_map_id.icmssn_range_id.id,
+            "icmssn_base": fiscal_map_id.icmssn_base,
+            "icmssn_percent": fiscal_map_id.icmssn_percent,
+        }
+
+    def _prepare_nfce_ipi_dict(self, fiscal_map_id):
+        return {
             "ipi_tax_id": fiscal_map_id.ipi_tax_id.id,
             "ipi_cst_id": fiscal_map_id.ipi_cst_id.id,
             "ipi_base": fiscal_map_id.ipi_base,
             "ipi_percent": fiscal_map_id.ipi_percent,
             "ipi_value": fiscal_map_id.ipi_value,
+        }
+
+    def _prepare_nfce_cofins_dict(self, fiscal_map_id):
+        return {
             "cofins_tax_id": fiscal_map_id.cofins_tax_id.id,
             "cofins_cst_id": fiscal_map_id.cofins_cst_id.id,
             "cofins_base": fiscal_map_id.cofins_base,
             "cofins_percent": fiscal_map_id.cofins_percent,
             "cofins_value": fiscal_map_id.cofins_value,
+        }
+
+    def _prepare_pis_icms_dict(self, fiscal_map_id):
+        return {
             "pis_tax_id": fiscal_map_id.pis_tax_id.id,
             "pis_cst_id": fiscal_map_id.pis_cst_id.id,
             "pis_base": fiscal_map_id.pis_base,
             "pis_percent": fiscal_map_id.pis_percent,
             "pis_value": fiscal_map_id.pis_value,
-            "fiscal_tax_ids": [
-                (
-                    6,
-                    0,
-                    [
-                        fiscal_map_id.icms_tax_id.id,
-                        fiscal_map_id.ipi_tax_id.id,
-                        fiscal_map_id.cofins_tax_id.id,
-                        fiscal_map_id.pis_tax_id.id,
-                    ],
-                )
-            ],
-            "discount_value": (self.discount * self.amount_total) / 100,
-            "uom_id": self.product_id.uom_id.id,
-            "ncm_id": self.product_id.ncm_id.id,
         }
+
+    def _prepare_nfce_fiscal_tax_ids(self, fiscal_map_id):
+        fiscal_taxes_list = list()
+        if fiscal_map_id.icms_tax_id:
+            fiscal_taxes_list.append(fiscal_map_id.icms_tax_id.id)
+        if fiscal_map_id.icmssn_tax_id:
+            fiscal_taxes_list.append(fiscal_map_id.icmssn_tax_id.id)
+        if fiscal_map_id.ipi_tax_id:
+            fiscal_taxes_list.append(fiscal_map_id.ipi_tax_id.id)
+        if fiscal_map_id.cofins_tax_id:
+            fiscal_taxes_list.append(fiscal_map_id.cofins_tax_id.id)
+        if fiscal_map_id.pis_tax_id:
+            fiscal_taxes_list.append(fiscal_map_id.pis_tax_id.id)
+
+        if fiscal_taxes_list:
+            return {
+                "fiscal_tax_ids": [
+                    (
+                        6,
+                        0,
+                        fiscal_taxes_list,
+                    )
+                ],
+            }
+        return dict()
