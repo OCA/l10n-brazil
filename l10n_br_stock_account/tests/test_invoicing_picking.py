@@ -33,7 +33,10 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
             # Os metodos do stock/core alteram o valor p/
             # negativo por isso o abs
-            self.assertEqual(abs(line.price_unit), line.product_id.standard_price)
+            self.assertEqual(
+                abs(line.price_unit),
+                line.product_id.with_company(line.company_id).standard_price,
+            )
             # O Campo fiscal_price precisa ser um espelho do price_unit,
             # apesar do onchange p/ preenche-lo sem incluir o compute no campo
             # ele traz o valor do lst_price e falha no teste abaixo
@@ -68,7 +71,10 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             # Pedido de Venda precisam informar o Preço de Custo e não o de
             # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
             # Aqui o campo não pode ser negativo
-            self.assertEqual(line.price_unit, line.product_id.standard_price)
+            self.assertEqual(
+                line.price_unit,
+                line.product_id.with_company(line.company_id).standard_price,
+            )
             # Valida presença dos campos principais para o mapeamento Fiscal
             self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
             self.assertTrue(
@@ -133,8 +139,14 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             # qty = 4 because 2 for each stock.move
             self.assertEqual(inv_line.quantity, 4)
             # Price Unit e Fiscal Price devem ser positivos
-            self.assertEqual(inv_line.price_unit, inv_line.product_id.standard_price)
-            self.assertEqual(inv_line.fiscal_price, inv_line.product_id.standard_price)
+            self.assertEqual(
+                inv_line.price_unit,
+                inv_line.product_id.with_company(inv_line.company_id).standard_price,
+            )
+            self.assertEqual(
+                inv_line.fiscal_price,
+                inv_line.product_id.with_company(inv_line.company_id).standard_price,
+            )
 
             # TODO: No travis falha o browse aqui
             #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
@@ -264,7 +276,10 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
             # Os metodos do stock/core alteram o valor p/
             # negativo por isso o abs
-            self.assertEqual(abs(line.price_unit), line.product_id.standard_price)
+            self.assertEqual(
+                abs(line.price_unit),
+                line.product_id.with_company(line.company_id).standard_price,
+            )
             # O Campo fiscal_price precisa ser um espelho do price_unit,
             # apesar do onchange p/ preenche-lo sem incluir o compute no campo
             # ele traz o valor do lst_price e falha no teste abaixo
