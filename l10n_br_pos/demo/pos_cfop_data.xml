@@ -13,7 +13,27 @@
         <field name="is_pos" eval="True" />
     </record>
 
+    <record id="l10n_br_fiscal.cfop_5104" model="l10n_br_fiscal.cfop">
+        <field name="is_pos" eval="True" />
+    </record>
+
+    <record id="l10n_br_fiscal.cfop_5115" model="l10n_br_fiscal.cfop">
+        <field name="is_pos" eval="True" />
+    </record>
+
+    <record id="l10n_br_fiscal.cfop_5403" model="l10n_br_fiscal.cfop">
+        <field name="is_pos" eval="True" />
+    </record>
+
     <record id="l10n_br_fiscal.cfop_5405" model="l10n_br_fiscal.cfop">
+        <field name="is_pos" eval="True" />
+    </record>
+
+    <record id="l10n_br_fiscal.cfop_5656" model="l10n_br_fiscal.cfop">
+        <field name="is_pos" eval="True" />
+    </record>
+
+    <record id="l10n_br_fiscal.cfop_5667" model="l10n_br_fiscal.cfop">
         <field name="is_pos" eval="True" />
     </record>
 

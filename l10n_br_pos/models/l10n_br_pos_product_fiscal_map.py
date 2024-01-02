@@ -44,6 +44,7 @@ class L10nBrPosProductFiscalMap(models.Model):
     company_id = fields.Many2one(
         related="pos_config_id.company_id",
     )
+
     tax_framework = fields.Selection(
         related="company_id.tax_framework",
         string="Tax Framework",

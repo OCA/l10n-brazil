@@ -21,79 +21,58 @@
             </xpath>
             <xpath expr="//sheet" position="inside">
                 <notebook>
-                    <page name="l10n_br_general" string="Geral">
-                        <group>
-                            <group string="Simplified">
-                                <field name="simplified_document_type_id" />
-                                <field name="simplified_document_type" />
-                                <field name="anonymous_simplified_limit" />
-                                <field name="simplified_invoice_limit" />
+                    <page name="l10n_br_pos_general_settings" string="General">
+                        <group string="Consumer Info">
+                            <field name="partner_id" />
+                        </group>
+
+                        <group string="Document Types">
+                            <group>
+                                <field string="Simplified Document" name="simplified_document_type_id" />
+                                <field string="Amount Limit" name="simplified_invoice_amount_limit" />
                             </group>
-                            <group string="Not Simplified">
-                                <field name="detailed_document_type_id" />
-                                <field name="detailed_document_type" />
+                            <group>
+                                <field string="Detailed Document" name="detailed_document_type_id" />
                             </group>
                         </group>
+
+                        <group string="Others">
+                            <field name="additional_data" />
+                        </group>
                     </page>
-                    <page name="l10n_br_tax" string="Taxation">
-                        <group string="Sale">
-                            <button
-                                name="update_pos_fiscal_map"
-                                type="object"
-                                string="Update Pos TAX"
-                            />
-                            <button
-                                type="action"
-                                id="product_pos_map_button"
-                                name="%(l10n_br_pos.l10n_br_pos_product_fiscal_map_act_window)d"
-                                context="{'search_pos_config_id': active_id}"
-                                string="Tax x Products"
-                            />
+
+                    <page name="l10n_br_pos_taxes" string="Taxes">
+                        <group string="Taxes">
+                            <group>
+                                <button
+                                    name="update_pos_fiscal_map"
+                                    type="object"
+                                    string="Update Product Taxes"
+                                />    
+                            </group>
+
+                            <group>
+                                <button
+                                    type="action"
+                                    id="product_pos_map_button"
+                                    name="%(l10n_br_pos.l10n_br_pos_product_fiscal_map_act_window)d"
+                                    context="{'search_pos_config_id': active_id}"
+                                    string="View Tax Details by Product"
+                                />
+                            </group>
+                        </group>
+
+                        <group string="Sales">
                             <field name="out_pos_fiscal_operation_id" />
-                            <field name="partner_id" />
                             <field name="cfop_ids" widget="many2many_tags" />
                             <field
                                 name="out_pos_fiscal_operation_line_ids"
                                 widget="many2many_tags"
                             />
-                            <field name="additional_data" />
                         </group>
+
                         <group string="Devolution">
                             <field name="refund_pos_fiscal_operation_id" />
-                        </group>
-                    </page>
-                    <page name="l10n_br_nfce" string="NFC-E">
-                        <group>
-                            <field name="iface_nfce_via_proxy" />
-                            <field name="certificate_nfe_id" />
-                        </group>
-                    </page>
-                    <page name="l10n_br_sat" string="SAT">
-                        <group>
-                            <group>
-                                <field name='sat_environment' />
-                                <field
-                                    name="cnpj_homologation"
-                                    attrs="{'invisible': [('sat_environment', '=', 'production')]}"
-                                />
-                                <field
-                                    name="ie_homologation"
-                                    attrs="{'invisible': [('sat_environment', '=', 'production')]}"
-                                />
-                                <field name="cnpj_software_house" />
-                                <field name="sat_path" />
-                                <field name="cashier_number" />
-                                <field name="activation_code" />
-                                <field name="signature_sat" />
-                                <field name="printer" />
-                                <field name="fiscal_printer_type" />
-                                <field name="printer_params" />
-                                <field name="session_sat" />
-                            </group>
-                        </group>
-                    </page>
-                    <page name="l10n_br_ecf" string="ECF">
-                        <group>
                         </group>
                     </page>
                 </notebook>
