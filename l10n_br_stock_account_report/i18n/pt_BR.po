@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 19:50+0000\n"
-"PO-Revision-Date: 2022-03-04 19:50+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2024-01-02 20:00+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_stock_account_report
 #: model:ir.actions.report,print_report_name:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report
@@ -163,7 +164,7 @@ msgstr "Inventário Atual"
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__display_name
 msgid "Display Name"
-msgstr "Nome de Exibição"
+msgstr "Nome Exibido"
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__id
@@ -178,17 +179,17 @@ msgstr "Inventário na Data"
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard____last_update
 msgid "Last Modified on"
-msgstr "Última atualização em"
+msgstr "Última Modificação em"
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr "Última Atualização por"
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__write_date
 msgid "Last Updated on"
-msgstr "Atualizado pela última vez em"
+msgstr "Última Atualização em"
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
