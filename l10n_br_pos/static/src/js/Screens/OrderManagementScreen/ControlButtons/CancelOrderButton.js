@@ -75,7 +75,7 @@ odoo.define("l10n_br_pos.CancelOrderButton", function (require) {
             if (cancel_reason) {
                 const result = await order.document_cancel(cancel_reason);
                 if (result) {
-                    order.cancel_order(result);
+                    order.cancel_order();
                     this.showScreen("ReprintReceiptScreen", {order: order});
                 } else {
                     this.document_event_messages.push({

@@ -104,20 +104,15 @@ odoo.define("l10n_br_pos.util", function () {
     }
 
     function validate_cnpj_cpf(value) {
-        var cnpj_cpf = value;
-
-        cnpj_cpf = cnpj_cpf.trim();
-        cnpj_cpf = cnpj_cpf.replace(/\./g, "");
-        cnpj_cpf = cnpj_cpf.replace("-", "");
-        cnpj_cpf = cnpj_cpf.replace("/", "");
-        cnpj_cpf = cnpj_cpf.split("");
+        let cnpj_cpf = value.trim().replace(/[^\d]/g, "");
 
         if (cnpj_cpf.length === 11) {
             return validate_cpf(cnpj_cpf);
         } else if (cnpj_cpf.length === 14) {
             return validate_cnpj(cnpj_cpf);
         }
-        return cnpj_cpf.length === 0;
+
+        return false;
     }
 
     return {

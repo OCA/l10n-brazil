@@ -15,6 +15,7 @@
         <field name="name">Crédito Visa</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+        <field name="edoc_payment_method" eval="'03'" />
     </record>
 
     <!--  Débito  -->
@@ -23,6 +24,7 @@
         <field name="name">Débito Visa</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+        <field name="edoc_payment_method" eval="'04'" />
     </record>
 
     <!--  Alimentação  -->
@@ -31,6 +33,7 @@
         <field name="name">VR Sodexo</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+        <field name="edoc_payment_method" eval="'11'" />
     </record>
 
     <!--  Outros  -->
@@ -39,6 +42,7 @@
         <field name="name">PIX</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+        <field name="edoc_payment_method" eval="'99'" />
     </record>
 
     <record id="presumido_dinheiro" model="pos.payment.method">
@@ -51,6 +55,7 @@
             search="[('type', '=', 'cash'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)]"
         />
         <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
+        <field name="edoc_payment_method" eval="'01'" />
     </record>
 
 </odoo>

@@ -7,7 +7,9 @@
         <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form" />
         <field name="arch" type="xml">
             <xpath expr="/form/sheet/group[1]" position="after">
-                <group string="Brazilian Fiscal Payment Terms" name="l10n_br_pos_payment" />
+                <group string="Brazilian Fiscal Payment Terms" name="l10n_br_pos_payment">
+                    <field name="edoc_payment_method" />
+                </group>
             </xpath>
         </field>
     </record>

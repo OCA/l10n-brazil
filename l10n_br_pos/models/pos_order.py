@@ -1,6 +1,7 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from datetime import datetime
 from odoo import api, fields, models
 from odoo.osv.expression import AND
 
@@ -26,6 +27,7 @@ class PosOrder(models.Model):
         return domain
 
     fiscal_operation_id = fields.Many2one(
+        string="Fiscal Operation",
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -44,14 +46,6 @@ class PosOrder(models.Model):
 
     document_key = fields.Char(
         string="Document Key",
-        copy=False,
-        index=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-
-    document_number = fields.Char(
-        string="Document Number",
         copy=False,
         index=True,
         readonly=True,
@@ -78,8 +72,8 @@ class PosOrder(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
-    document_serie = fields.Char(
-        string="Documnet Serie Number",
+    document_serie_number = fields.Char(
+        string="Document Number",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -98,11 +92,10 @@ class PosOrder(models.Model):
     )
 
     status_code = fields.Char(
-        string="Status Code",
         copy=False,
     )
 
-    status_name = fields.Char(
+    status_description = fields.Char(
         string="Status Name",
         copy=False,
     )
@@ -110,29 +103,29 @@ class PosOrder(models.Model):
     # Authorization Fields
 
     authorization_date = fields.Datetime(
-        string="Authorization Document Date",
+        string="Authorization Date",
         copy=False,
     )
 
     authorization_file = fields.Binary(
-        string="Authorization Document File",
+        string="Authorization File",
         readonly=True,
     )
 
     # Cancellation Fields
 
     cancel_date = fields.Datetime(
-        string="Cancel Document Date",
+        string="Cancellation Date",
         copy=False,
     )
 
     cancel_file = fields.Binary(
-        string="Cancel Document File",
+        string="Cancellation File",
         readonly=True,
     )
 
     cancel_document_key = fields.Char(
-        string="Cancel Document Key",
+        string="Cancellation Key",
         copy=False,
         index=True,
         readonly=True,
@@ -166,70 +159,47 @@ class PosOrder(models.Model):
     def _order_fields(self, ui_order):
         order_fields = super()._order_fields(ui_order)
 
-        attribute_list = [
-            "cnpj_cpf",
-            "fiscal_operation_id",
-            "document_type_id",
-            "status_code",
-            "status_name",
-            "state_edoc",
-            "document_number",
-            "document_serie",
-            "document_key",
-            "document_date",
-            "document_electronic",
-            "authorization_date",
-            "authorization_file",
-            "additional_data",
-        ]
-
-        self._assign_attributes_to_dict(ui_order, order_fields, attribute_list)
+        order_fields.update({
+            "cnpj_cpf": ui_order.get("cnpj_cpf"),
+            "fiscal_operation_id": ui_order.get("fiscal_operation_id"),
+            "document_type_id": ui_order.get("document_type_id"),
+            "state_edoc": ui_order.get("state_edoc"),
+            "document_serie_id": ui_order.get("document_serie_id"),
+            "document_serie_number": ui_order.get("document_serie_number"),
+            "document_key": ui_order.get("document_key"),
+            "authorization_date": ui_order.get("authorization_date") if ui_order.get("authorization_date") else datetime.now(),
+            "authorization_file": ui_order.get("authorization_file"),
+            "additional_data": ui_order.get("additional_data"),
+        })
 
         return order_fields
 
     def _export_for_ui(self, order):
         res = super()._export_for_ui(order)
 
-        attribute_list = [
-            "cnpj_cpf",
-            "document_type_id",
-            "fiscal_operation_id",
-            "status_code",
-            "status_name",
-            "state_edoc",
-            "document_number",
-            "document_serie",
-            "document_key",
-            "document_date",
-            "authorization_date",
-            "authorization_file",
-            "cancel_date",
-            "cancel_file",
-            "additional_data",
-        ]
-
-        self._assign_attributes_to_dict(order, res, attribute_list)
+        res.update({
+            "cnpj_cpf": order.cnpj_cpf,
+            "document_type_id": order.document_type_id.id,
+            "fiscal_operation_id": order.fiscal_operation_id.id,
+            "status_code": order.status_code,
+            "status_description": order.status_description,
+            "state_edoc": order.state_edoc,
+            "document_serie_number": order.document_serie_number,
+            "document_serie_id": order.document_serie_id.id,
+            "document_key": order.document_key,
+            "authorization_date": order.authorization_date.astimezone() if order.authorization_date else None,
+            "cancel_date": order.cancel_date.astimezone() if order.cancel_date else None,
+            "additional_data": order.additional_data,
+        })
 
         return res
-
-    def _assign_attributes_to_dict(self, source_obj, dest_dict, attribute_list):
-        """
-            Assign values of specified attributes from a source object to a destination dictionary.
-        """
-        for attribute_name in attribute_list:
-            attribute_value = getattr(source_obj, attribute_name, None)
-
-            if attribute_name.endswith("_date") and attribute_value:
-                attribute_value = attribute_value.astimezone()
-
-            dest_dict[attribute_name] = attribute_value
 
     @api.model
     def cancel_pos_order(self, result):
         """
             Cancel a Point of Sale (POS) order and initiate the refund process.
         """
-        order = self.browse(result["order_id"])
+        order = self.env["pos.order"].search([("pos_reference", "=", result["pos_reference"])], limit=1)
         self._cancel_order(order, result)
         self._refund_order(order)
 
@@ -246,8 +216,6 @@ class PosOrder(models.Model):
             Populate fields related to canceling an order with values from the provided dictionary.
         """
         self.write({
-            "cancel_document_key": order_vals.get("document_cancel_key"),
-            "cancel_file": order_vals.get("xml"),
             "state_edoc": "cancelada",
         })
 
@@ -298,7 +266,7 @@ class PosOrder(models.Model):
         refund_order.pos_reference = f"{order.pos_reference}-cancelled"
 
     @api.model
-    def search_paid_order_ids(self, config_id, custom_domain=None, limit=None, offset=None):
+    def search_paid_order_ids(self, config_id, domain, limit, offset):
         """
             Search for 'paid' orders with the given configuration ID, custom
             domain, limit, and offset.
@@ -313,7 +281,7 @@ class PosOrder(models.Model):
             ("state", "=", "cancel"),
         ]
 
-        final_domain = AND([custom_domain, default_domain]) if custom_domain else default_domain
+        final_domain = AND([domain, default_domain]) if domain else default_domain
 
         order_ids = self.search(final_domain, limit=limit, offset=offset).ids
         total_count = self.search_count(final_domain)
