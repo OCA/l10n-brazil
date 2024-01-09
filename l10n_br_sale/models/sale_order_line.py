@@ -285,3 +285,14 @@ class SaleOrderLine(models.Model):
             self.price_unit = self.product_id.standard_price
         else:
             self.price_unit = 0.00
+
+    def _get_partner_to_fiscal_operation(self):
+        self.ensure_one()
+        partner = super()._get_partner_to_fiscal_operation()
+        # Caso Vendas, a prioridade é do campo informado pelo usuário, quando
+        # o Partner tem um contato definido como Tipo Invoice o campo
+        # partner_invoice_id é preenchido com esse valor automaticamente
+        if partner != self.order_id.partner_invoice_id:
+            partner = self.order_id.partner_invoice_id
+
+        return partner

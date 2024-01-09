@@ -38,3 +38,14 @@ class StockMove(models.Model):
             values.update({"fiscal_operation_id": fiscal_operation.id})
 
         return values
+
+    def _get_partner_to_fiscal_operation(self):
+        self.ensure_one()
+        partner = super()._get_partner_to_fiscal_operation()
+        if self.sale_line_id:
+            # Caso Picking ligado a uma Venda o campo
+            # definido pelo usuário tem prioridade
+            if partner != self.sale_line_id.order_id.partner_invoice_id:
+                partner = self.sale_line_id.order_id.partner_invoice_id
+
+        return partner

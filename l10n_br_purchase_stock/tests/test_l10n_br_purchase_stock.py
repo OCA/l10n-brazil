@@ -279,3 +279,278 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         # Confirmando a Fatura
         invoice.action_post()
         self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
+
+    def test_purchase_with_partner_to_invoice(self):
+        """
+        Test Purchase Order with different Partner to Invoice.
+        """
+        # Caso do Pedido criado com um Partner que possui um Partner to Invoice
+        purchase = self.env.ref("l10n_br_purchase.main_company-purchase_2")
+        purchase.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(purchase.state, "purchase", "Error to confirm Purchase Order.")
+
+        picking = purchase.picking_ids
+        picking.set_to_be_invoiced()
+        self.assertEqual(
+            picking.invoice_state, "2binvoiced", "Error to inform Invoice State."
+        )
+
+        picking.action_confirm()
+        picking.action_assign()
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+        self.assertEqual(picking.state, "done")
+
+        self.assertEqual(
+            purchase.invoice_status,
+            "to invoice",
+            "Error in compute field invoice_status,"
+            " before create invoice by Picking.",
+        )
+
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=picking.ids,
+            active_model=picking._name,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        # One invoice per partner but group products
+        wizard_values.update(
+            {
+                "group": "partner_product",
+            }
+        )
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [("picking_ids", "=", picking.id)]
+        invoice = self.invoice_model.search(domain)
+
+        self.assertTrue(
+            invoice.fiscal_document_id,
+            "Fiscal Document missing for Purchase.",
+        )
+        partner_invoice = self.env["res.partner"].browse(
+            purchase.partner_id.address_get(["invoice"]).get("invoice")
+        )
+        self.assertEqual(
+            invoice.partner_id,
+            partner_invoice,
+            "The Invoice should be created with the Partner to Invoice",
+        )
+        self.assertNotEqual(
+            invoice.partner_id,
+            purchase.partner_id,
+            "The Invoice should be created with the Partner to Invoice",
+        )
+        # TODO: No l10n_br_purchase quando a Fatura é criada pelo
+        #  Pedido de Compra, deveria criar a Fatura com o
+        #  Endereço de Entrega/partner_shipping_id preenchido com o
+        #  Partner do Pedido como ocorre aqui?
+        self.assertEqual(
+            invoice.partner_shipping_id,
+            picking.partner_id,
+            "The Invoice should be created with Partner to Shipping.",
+        )
+
+        # Caso onde o Pedido é criado com o Partner to Invoice
+        purchase_2 = self.env.ref("l10n_br_purchase.main_company-purchase_3")
+        purchase_2.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            purchase_2.state, "purchase", "Error to confirm Purchase Order."
+        )
+
+        picking_2 = purchase_2.picking_ids
+        picking_2.set_to_be_invoiced()
+
+        self.assertEqual(
+            picking_2.invoice_state, "2binvoiced", "Error to inform Invoice State."
+        )
+
+        picking_2.action_confirm()
+        picking_2.action_assign()
+        # Force product availability
+        for move in picking_2.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking_2.button_validate()
+        self.assertEqual(picking_2.state, "done")
+
+        self.assertEqual(
+            purchase_2.invoice_status,
+            "to invoice",
+            "Error in compute field invoice_status,"
+            " before create invoice by Picking.",
+        )
+
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=picking_2.ids,
+            active_model=picking_2._name,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        # One invoice per partner but group products
+        wizard_values.update(
+            {
+                "group": "partner_product",
+            }
+        )
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [("picking_ids", "=", picking_2.id)]
+        invoice = self.invoice_model.search(domain)
+
+        self.assertEqual(
+            invoice.partner_id,
+            purchase_2.partner_id,
+            "The Partner in Purchase and Invoice should be the same.",
+        )
+        self.assertEqual(
+            invoice.partner_shipping_id,
+            picking_2.partner_id,
+            "The Invoice should be created with Partner to Shipping.",
+        )
+        self.assertEqual(
+            invoice.partner_shipping_id,
+            invoice.partner_id,
+            "The Invoice Partner and Partner to Shipping should be the same.",
+        )
+
+    def test_purchase_with_partner_to_shipping(self):
+        """Test brazilian Purchase Order with Partner to Shipping."""
+
+        # Caso do Pedido criado com o Contato de Entrega/Partner to Delivery
+        purchase = self.env.ref("l10n_br_purchase.main_company-purchase_4")
+        purchase.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(purchase.state, "purchase", "Error to confirm Purchase Order.")
+
+        picking = purchase.picking_ids
+        picking.set_to_be_invoiced()
+        self.assertEqual(
+            picking.invoice_state, "2binvoiced", "Error to inform Invoice State."
+        )
+
+        picking.action_confirm()
+        picking.action_assign()
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+        self.assertEqual(picking.state, "done")
+
+        self.assertEqual(
+            purchase.invoice_status,
+            "to invoice",
+            "Error in compute field invoice_status,"
+            " before create invoice by Picking.",
+        )
+
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=picking.ids,
+            active_model=picking._name,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        # One invoice per partner but group products
+        wizard_values.update(
+            {
+                "group": "partner_product",
+            }
+        )
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [("picking_ids", "=", picking.id)]
+        invoice = self.invoice_model.search(domain)
+
+        self.assertTrue(
+            invoice.fiscal_document_id,
+            "Fiscal Document missing for Purchase.",
+        )
+        partner_delivery = self.env["res.partner"].browse(
+            purchase.partner_id.address_get(["delivery"]).get("delivery")
+        )
+        self.assertEqual(
+            invoice.partner_shipping_id,
+            partner_delivery,
+            "The Invoice should be created with the Partner to Delivery",
+        )
+        self.assertNotEqual(
+            invoice.partner_id,
+            purchase.partner_id,
+            "The Invoice should be created with the Partner to Invoice",
+        )
+        # TODO: No l10n_br_purchase quando a Fatura é criada pelo
+        #  Pedido de Compra, deveria criar a Fatura com o
+        #  Endereço de Entrega/partner_shipping_id preenchido com o
+        #  Partner do Pedido como ocorre aqui?
+        self.assertEqual(
+            invoice.partner_shipping_id,
+            picking.partner_id,
+            "The Invoice should be created with Partner to Shipping.",
+        )
+
+        # Caso do Pedido com um Partner que tem um contato como endereço de entrega
+        purchase_2 = self.env.ref("l10n_br_purchase.main_company-purchase_5")
+        purchase_2.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            purchase_2.state, "purchase", "Error to confirm Purchase Order."
+        )
+
+        picking_2 = purchase_2.picking_ids
+        picking_2.set_to_be_invoiced()
+
+        self.assertEqual(
+            picking_2.invoice_state, "2binvoiced", "Error to inform Invoice State."
+        )
+
+        picking_2.action_confirm()
+        picking_2.action_assign()
+        # Force product availability
+        for move in picking_2.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking_2.button_validate()
+        self.assertEqual(picking_2.state, "done")
+
+        self.assertEqual(
+            purchase_2.invoice_status,
+            "to invoice",
+            "Error in compute field invoice_status,"
+            " before create invoice by Picking.",
+        )
+
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=picking_2.ids,
+            active_model=picking_2._name,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        # One invoice per partner but group products
+        wizard_values.update(
+            {
+                "group": "partner_product",
+            }
+        )
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [("picking_ids", "=", picking_2.id)]
+        invoice = self.invoice_model.search(domain)
+
+        self.assertEqual(
+            invoice.partner_id,
+            purchase_2.partner_id,
+            "The Partner in Purchase and Invoice should be the same.",
+        )
+        self.assertEqual(
+            invoice.partner_shipping_id,
+            picking_2.partner_id,
+            "The Invoice should be created with Partner to Shipping.",
+        )
+        self.assertEqual(
+            invoice.partner_shipping_id,
+            invoice.partner_id,
+            "The Invoice Partner and Partner to Shipping should be the same.",
+        )
