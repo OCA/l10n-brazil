@@ -9,7 +9,13 @@ class StockPicking(models.Model):
 
     def _get_partner_to_invoice(self):
         self.ensure_one()
-        partner = self.partner_id
+        partner_id = super()._get_partner_to_invoice()
         if self.sale_id:
-            partner = self.sale_id.partner_invoice_id
-        return partner.address_get(["invoice"]).get("invoice")
+            # Caso Vendas, a prioridade é do campo informado
+            # pelo usuário, quando o Partner tem um contato
+            # definido como Tipo Invoice o campo partner_invoice_id
+            # é preenchido com esse valor automaticamente
+            if partner_id != self.sale_id.partner_invoice_id.id:
+                partner_id = self.sale_id.partner_invoice_id.id
+
+        return partner_id
