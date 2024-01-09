@@ -445,7 +445,7 @@ msgid "Copy sale order notes in fiscal document"
 msgstr "Copiar observações do pedido de vendas no documento fiscal"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__country_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__company_country_id
 msgid "Country"
 msgstr "País"
 
