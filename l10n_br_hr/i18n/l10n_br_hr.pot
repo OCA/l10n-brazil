@@ -92,6 +92,11 @@ msgid "Address Type"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_ids
+msgid "Agents"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__lang
 msgid ""
 "All the emails and documents sent to this contact will be translated in this"
@@ -288,6 +293,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__agent
+msgid "Check this field if the partner is a creditor or an agent."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__city
 msgid "City"
 msgstr ""
@@ -338,6 +348,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__commercial_partner_id
 msgid "Commercial Entity"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__commission_id
+msgid "Commission"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -438,6 +453,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__credit_limit
 msgid "Credit Limit"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent
+msgid "Creditor/Agent"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1570,6 +1590,16 @@ msgid "Separated"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement_ids
+msgid "Settlement"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement
+msgid "Settlement period"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_share
 msgid "Share Partner"
 msgstr ""
@@ -1780,6 +1810,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__commission_id
+msgid ""
+"This is the default commission used in the sales where this agent is "
+"assigned. It can be changed on each operation if needed."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_supplier_payment_term_id
 msgid ""
 "This payment term will be used instead of the default one for purchase "
@@ -1843,6 +1880,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__debit
 msgid "Total amount you have to pay to this vendor."
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_type
+msgid "Type"
 msgstr ""
 
 #. module: l10n_br_hr
