@@ -365,6 +365,7 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_id
 msgid "Company"
 msgstr "Empresa"
@@ -1068,6 +1069,11 @@ msgid "Insurance Value"
 msgstr "Valor do Seguro"
 
 #. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Invoices and Incoming Shipments"
+msgstr "Faturas e Remessas Recebidas"
+
+#. module: l10n_br_purchase
 #: model:ir.model,name:l10n_br_purchase.model_account_move
 msgid "Journal Entry"
 msgstr "Lançamento de Diário"
@@ -1157,6 +1163,11 @@ msgid "National Simple Taxes without ICMS"
 msgstr "Impostos do Simples Nacional sem ICMS"
 
 #. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Notes"
+msgstr "Observações"
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_id
 msgid "Operation"
@@ -1166,6 +1177,11 @@ msgstr "Operação"
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_line_id
 msgid "Operation Line"
 msgstr "Linha de Operação"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__operation_name
+msgid "Operation Name"
+msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_other_value
@@ -2081,9 +2097,6 @@ msgstr ""
 #~ msgid "Invoice Line"
 #~ msgstr "Linha da Fatura"
 
-#~ msgid "Invoices and Incoming Shipments"
-#~ msgstr "Faturas e Remessas Recebidas"
-
 #~ msgid "Invoicing"
 #~ msgstr "Faturamento"
 
@@ -2226,9 +2239,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Campo relacionado não armazenado para permitir que o usuário do portal "
 #~ "veja a imagem do produto que solicitou"
-
-#~ msgid "Notes"
-#~ msgstr "Observações"
 
 #~ msgid "Nothing to Bill"
 #~ msgstr "Nada para faturar"
