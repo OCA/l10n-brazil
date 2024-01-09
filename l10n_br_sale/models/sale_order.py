@@ -48,17 +48,17 @@ class SaleOrder(models.Model):
 
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
-        related="partner_id.cnpj_cpf",
+        related="partner_invoice_id.cnpj_cpf",
     )
 
     legal_name = fields.Char(
         string="Legal Name",
-        related="partner_id.legal_name",
+        related="partner_invoice_id.legal_name",
     )
 
     ie = fields.Char(
         string="State Tax Number/RG",
-        related="partner_id.inscr_est",
+        related="partner_invoice_id.inscr_est",
     )
 
     discount_rate = fields.Float(
@@ -176,12 +176,15 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
-        # O caso Brasil se caracteriza por ter a Operação Fiscal
-        if self.fiscal_operation_id:
-            result.update(self._prepare_br_fiscal_dict())
+        if self.fiscal_operation_id:  # (Brazil)
+            fiscal_values = self._prepare_br_fiscal_dict()
+            # unlike super()._prepare_invoice(), prepare_fiscal_dict doesn't consider
+            # partner_invoice_id, so we adjust the partner_id eventually:
+            if fiscal_values.get("partner_id") != result.get("partner_id"):
+                fiscal_values["partner_id"] = result.get("partner_id")
+            result.update(fiscal_values)
 
             document_type_id = self._context.get("document_type_id")
-
             if not document_type_id:
                 # Quando ocorre esse caso? Os Testes não estão passando aqui
                 document_type_id = self.company_id.document_type_id.id
@@ -236,3 +239,14 @@ class SaleOrder(models.Model):
                 )
                 for line in res
             ]
+
+    def _get_fiscal_partner(self):
+        self.ensure_one()
+        partner = super()._get_fiscal_partner()
+        # Caso Vendas, a prioridade é do campo informado pelo usuário, quando
+        # o Partner tem um contato definido como Tipo Invoice o campo
+        # partner_invoice_id é preenchido com esse valor automaticamente
+        if partner != self.partner_invoice_id:
+            partner = self.partner_invoice_id
+
+        return partner
