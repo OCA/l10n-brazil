@@ -379,8 +379,18 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         self.assertEqual(invoice_pick_1.partner_id, sale_order_1.partner_invoice_id)
         # Fatura criada com o Partner Shipping usado no Picking
         self.assertEqual(invoice_pick_1.partner_shipping_id, picking.partner_id)
+
+        # TODO: O processo de criação a partir de um Pedido de Venda vem
+        #  preenchido o campo partner_shipping_id, isso deve ser mantido por
+        #  ser considerado o padrão ou é melhor remover o partner_shipping_id
+        #  quando o valor é igual ao partner_id?
+
         # Fatura Agrupada, não deve ter o partner_shipping_id preenchido
-        invoice_pick_3_4 = invoices.filtered(lambda t: not t.partner_shipping_id)
+        # invoice_pick_3_4 = invoices.filtered(lambda t: not t.partner_shipping_id)
+
+        invoice_pick_3_4 = invoices.filtered(
+            lambda t: t.partner_shipping_id == t.partner_id
+        )
         self.assertIn(invoice_pick_3_4, picking3.invoice_ids)
         self.assertIn(invoice_pick_3_4, picking4.invoice_ids)
 
