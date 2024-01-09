@@ -1163,6 +1163,12 @@ msgid "Carteira"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_wallet2
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_wallet2
+msgid "Carteira Boleto"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #, python-format
 msgid "Carteira no banco Itaú é obrigatória"
@@ -1561,9 +1567,23 @@ msgid "Código da Multa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_wallet2
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_wallet2
+msgid ""
+"Código da carteira para ser impresso no boleto, quando o mesmo for diferente"
+" do impresso na remessa."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_protest_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_protest_code
 msgid "Código de Protesto"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__transmission_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__transmission_code
+msgid "Código de Transmissão"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1906,6 +1926,13 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__indicative_form_payment
 msgid "Indicativo de Forma de Pagamento"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__transmission_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__transmission_code
+msgid ""
+"Informação cedida pelo banco que identifica o arquivo remessa do cliente"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
