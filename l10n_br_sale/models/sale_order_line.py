@@ -9,8 +9,6 @@ class SaleOrderLine(models.Model):
     _name = "sale.order.line"
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
 
-    country_id = fields.Many2one(related="company_id.country_id", store=True)
-
     @api.model
     def _default_fiscal_operation(self):
         return self.env.company.sale_fiscal_operation_id
@@ -19,6 +17,12 @@ class SaleOrderLine(models.Model):
     def _fiscal_operation_domain(self):
         domain = [("state", "=", "approved")]
         return domain
+
+    company_country_id = fields.Many2one(related="company_id.country_id", store=True)
+
+    order_fiscal_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation", related="order_id.fiscal_operation_id"
+    )
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
