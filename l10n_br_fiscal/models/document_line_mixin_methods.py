@@ -47,7 +47,7 @@ FISCAL_CST_ID_FIELDS = [
 
 class FiscalDocumentLineMixinMethods(models.AbstractModel):
     _name = "l10n_br_fiscal.document.line.mixin.methods"
-    _description = "Document Fiscal Mixin Methods"
+    _description = "Fiscal Document Mixin Methods"
 
     @api.model
     def inject_fiscal_fields(
@@ -174,7 +174,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return taxes.compute_taxes(
             company=self.company_id,
-            partner=self.partner_id,
+            partner=self._get_fiscal_partner(),
             product=self.product_id,
             price_unit=self.price_unit,
             quantity=self.quantity,
@@ -339,6 +339,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 d.__document_comment_vals(), d.manual_additional_data
             )
 
+    def _get_fiscal_partner(self):
+        """
+        Meant to be overriden when the l10n_br_fiscal.document partner_id should not
+        be the same as the sale.order, purchase.order, account.move (...) partner_id.
+
+        (In the case of invoicing, the invoicing partner set by the user should
+        get priority over any invoicing contact returned by address_get.)
+        """
+        self.ensure_one()
+        return self.partner_id
+
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
@@ -347,7 +358,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self._onchange_commercial_quantity()
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
-                partner=self.partner_id,
+                partner=self._get_fiscal_partner(),
                 product=self.product_id,
             )
             self._onchange_fiscal_operation_line_id()
@@ -359,7 +370,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self.fiscal_operation_line_id:
             mapping_result = self.fiscal_operation_line_id.map_fiscal_taxes(
                 company=self.company_id,
-                partner=self.partner_id,
+                partner=self._get_fiscal_partner(),
                 product=self.product_id,
                 ncm=self.ncm_id,
                 nbm=self.nbm_id,

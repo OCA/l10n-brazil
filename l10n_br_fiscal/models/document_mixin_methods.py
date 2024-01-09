@@ -8,7 +8,7 @@ from ..constants.fiscal import COMMENT_TYPE_COMMERCIAL, COMMENT_TYPE_FISCAL
 
 class FiscalDocumentMixinMethods(models.AbstractModel):
     _name = "l10n_br_fiscal.document.mixin.methods"
-    _description = "Document Fiscal Mixin Methods"
+    _description = "Fiscal Document Mixin Methods"
 
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
@@ -92,10 +92,22 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             )
             d.fiscal_line_ids._document_comment()
 
+    def _get_fiscal_partner(self):
+        """
+        Meant to be overriden when the l10n_br_fiscal.document partner_id should not
+        be the same as the sale.order, purchase.order, account.move (...) partner_id.
+
+        (In the case of invoicing, the invoicing partner set by the user should
+        get priority over any invoicing contact returned by address_get.)
+        """
+        self.ensure_one()
+        return self.partner_id
+
     @api.onchange("partner_id")
     def _onchange_partner_id_fiscal(self):
-        if self.partner_id:
-            self.ind_final = self.partner_id.ind_final
+        partner = self._get_fiscal_partner()
+        if partner:
+            self.ind_final = partner.ind_final
             for line in self._get_amount_lines():
                 # reload fiscal data, operation line, cfop, taxes, etc.
                 line._onchange_fiscal_operation_id()
