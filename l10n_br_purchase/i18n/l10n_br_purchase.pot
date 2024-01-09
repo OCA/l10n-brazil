@@ -361,6 +361,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_id
 msgid "Company"
 msgstr ""
@@ -1062,6 +1063,11 @@ msgid "Insurance Value"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Invoices and Incoming Shipments"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model,name:l10n_br_purchase.model_account_move
 msgid "Journal Entry"
 msgstr ""
@@ -1150,6 +1156,11 @@ msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Notes"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_id
 msgid "Operation"
@@ -1158,6 +1169,11 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_line_id
 msgid "Operation Line"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__operation_name
+msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_purchase
