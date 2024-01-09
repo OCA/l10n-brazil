@@ -32,10 +32,20 @@ class StockMove(models.Model):
                 values = self.sale_line_id.order_id._prepare_br_fiscal_dict()
 
         values.update(super()._get_new_picking_values())
-        # O self pode conter mais de uma stock.move por isso a Operação Fiscal
-        # usada é a do cabeçalho do Pedido de Venda já que nas linhas podem ser
-        # usadas diferentes Operações Fiscais
+        # self is a recordset, possibly with different fiscal operations
+        # so we use the fiscal_opration from the SO for the picking:
         if fiscal_operation:
             values.update({"fiscal_operation_id": fiscal_operation.id})
 
         return values
+
+    def _get_fiscal_partner(self):
+        """
+        Use partner_invoice_id if different from partner
+        """
+        self.ensure_one()
+        partner = super()._get_fiscal_partner()
+        if self.sale_line_id:
+            if partner != self.sale_line_id.order_id.partner_invoice_id:
+                partner = self.sale_line_id.order_id.partner_invoice_id
+        return partner
