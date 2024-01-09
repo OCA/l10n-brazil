@@ -198,3 +198,24 @@ class StockMove(models.Model):
     def _compute_fiscal_price(self):
         for record in self:
             record.fiscal_price = record.price_unit
+
+    def _get_partner_to_fiscal_operation(self):
+        self.ensure_one()
+        partner = super()._get_partner_to_fiscal_operation()
+        # Caso Picking sem relação com Pedido de Vendas ou Compras,
+        # quando o Partner tem um Contato definido como
+        # Tipo Invoice ele é usado para criar a Fatura/account.move
+        # https://github.com/OCA/account-invoicing/blob/14.0/
+        # stock_picking_invoicing/models/stock_picking.py#L38 .
+
+        # Isso também atende o caso compras no l10n_br_purchase_stock.
+        # Caso Compras, quando o Partner tem um Contato definido como
+        # Tipo Invoice ele é usado para criar a Fatura/account.move
+        # https://github.com/OCA/OCB/blob/14.0/addons/purchase/
+        # models/purchase.py#L556
+        if partner.id != partner.address_get(["invoice"]).get("invoice"):
+            partner = self.env["res.partner"].browse(
+                partner.address_get(["invoice"]).get("invoice")
+            )
+
+        return partner
