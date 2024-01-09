@@ -206,6 +206,34 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <record id="res_partner_cliente2_sp_end_entrega" model="res.partner">
+        <field name="name">Cliente 2 - SP - Endereço Entrega</field>
+        <field name="legal_name">Cliente 2 - SP - Endereço Entrega</field>
+        <field name="cnpj_cpf">96.660.336/0001-50</field>
+        <field name="street_name">Rua Delfos</field>
+        <field name="street_number">111</field>
+        <field name="district">Vila Cordeiro</field>
+        <field name="street2" />
+        <field name="state_id" ref="base.state_br_sp" />
+        <field name="city_id" ref="l10n_br_base.city_3550308" />
+        <field name="zip">04583-120</field>
+        <field name="country_id" ref="base.br" />
+        <field name="website">www.cliente2.com.br</field>
+        <field name="phone">(11) 7777-7777</field>
+        <field name="email">cliente2@cliente2.com.br</field>
+        <field name="inscr_est">811.510.100.755</field>
+        <!-- Necessário company_type person para o metodo address_get
+        identificar como sendo o Partner to Shipping
+        TODO: A localização deveria sobreescrever o metodo address_get
+         ou criar um novo que ignore o company_type? Já que em muitos casos
+         tanto o Endereço de Entrega e Faturamento são company e não person
+         porém sem isso os Casos de Uso com endereços diferentes não funciona
+        -->
+        <field name="company_type">person</field>
+        <field name="type">delivery</field>
+        <field name="parent_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+        <field name="active" eval="1" />
+    </record>
     <record id="res_partner_cliente3_am" model="res.partner">
         <field name="name">Cliente 3 - Z/F Manaus - Contribuinte</field>
         <field name="legal_name">Cliente 3 - Manaus</field>
@@ -304,6 +332,34 @@
         <field name="inscr_est">176/1256758</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
+        <field name="active" eval="1" />
+    </record>
+    <record id="res_partner_cliente7_rs_end_cobranca" model="res.partner">
+        <field name="name">Cliente 7 - RS - Endereço Cobrança</field>
+        <field name="legal_name">Cliente 7 - RS - Endereço Cobranca</field>
+        <field name="cnpj_cpf">13.691.522/0001-29</field>
+        <field name="street_name">Avenida Borges de Medeiros</field>
+        <field name="street_number">123</field>
+        <field name="district">Praia de Belas</field>
+        <field name="street2" />
+        <field name="state_id" ref="base.state_br_rs" />
+        <field name="city_id" ref="l10n_br_base.city_4314902" />
+        <field name="zip">90119-900</field>
+        <field name="country_id" ref="base.br" />
+        <field name="website">www.cliente7.com.br</field>
+        <field name="phone">(11) 7777-7777</field>
+        <field name="email">cliente2@cliente7.com.br</field>
+        <field name="inscr_est">845/2345834</field>
+        <!-- Necessário company_type person para o metodo address_get
+        identificar como sendo o Partner to Invoice
+        TODO: A localização deveria sobreescrever o metodo address_get
+         ou criar um novo que ignore o company_type? Já que em muitos casos
+         tanto o Endereço de Entrega e Faturamento são company e não person
+         porém sem isso os Casos de Uso com endereços diferentes não funciona
+        -->
+        <field name="company_type">person</field>
+        <field name="type">invoice</field>
+        <field name="parent_id" ref="l10n_br_base.res_partner_cliente7_rs" />
         <field name="active" eval="1" />
     </record>
     <record id="res_partner_cliente8_rs" model="res.partner">
