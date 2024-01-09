@@ -99,18 +99,34 @@ class StockInvoiceOnshipping(models.TransientModel):
         if picking.fiscal_operation_id and picking.fiscal_operation_id.journal_id:
             fiscal_vals["journal_id"] = picking.fiscal_operation_id.journal_id.id
 
+        # Necessário para o caso do Pedido de Compra criado com o Contato
+        # de Faturamento onde o Picking é criado com esse partner e está
+        # sendo necessário preencher o partner_shipping_id com esse partner
+        # do Picking, sem isso o uso o Partner principal do Contato
+        if values.get("partner_shipping_id") != values.get("partner_id"):
+            if not fiscal_vals.get("partner_shipping_id"):
+                fiscal_vals["partner_shipping_id"] = picking.partner_id.id
+
         # Endereço de Entrega diferente do Endereço de Faturamento
         # so informado quando é diferente
         if fiscal_vals["partner_id"] != values["partner_id"]:
             values["partner_shipping_id"] = fiscal_vals["partner_id"]
-        else:
-            # Já no modulo stock_picking_invoicing o campo partner_shipping_id
-            # é informado mas para evitar ter a NFe com o Endereço de Entrega
-            # quando esse é o mesmo Endereço, esta sendo removido.
-            # TODO: Deveria ser informado mesmo quando é o mesmo? Isso não
-            #  acontecia na v12.
-            pass
-            # del values["partner_shipping_id"]
+            # Necessário para manter o Partner mapeado pelo metodo
+            # https://github.com/OCA/account-invoicing/blob/14.0/
+            # stock_picking_invoicing/models/stock_picking.py#L38
+            fiscal_vals["partner_id"] = values["partner_id"]
+
+        # TODO: Na criação da Fatura pelo Pedido de Venda o campo
+        #  partner_shipping_id sempre vai preenchido, isso deve ser
+        #  considerado o padrão? Ou deveria ser feito como antes aqui
+        #  onde nos casos em que o partner_id é o mesmo que o partner_shipping_id
+        #  o campo era apagado e assim a Fatura era criada sem o Endereço de
+        #  Entrega
+        # else:
+        #    # Já no modulo stock_picking_invoicing o campo partner_shipping_id
+        #    # é informado mas para evitar ter a NFe com o Endereço de Entrega
+        #    # quando esse é o mesmo Endereço, esta sendo removido.
+        #    del values["partner_shipping_id"]
 
         # Ser for feito o update como abaixo o campo
         # fiscal_operation_id vai vazio
