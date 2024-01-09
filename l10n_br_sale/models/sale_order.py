@@ -182,7 +182,17 @@ class SaleOrder(models.Model):
         result = super()._prepare_invoice()
         # O caso Brasil se caracteriza por ter a Operação Fiscal
         if self.fiscal_operation_id:
-            result.update(self._prepare_br_fiscal_dict())
+            # TODO: O metodo prepare_br_fiscal_dict retorna o partner_id
+            #  principal e não está considerando os casos do partner_invoice_id
+            #  diferente do partner, deveria?
+            fiscal_values = self._prepare_br_fiscal_dict()
+            if fiscal_values.get("partner_id") != result.get("partner_id"):
+                # Usa o partner mapeado pelos metodos do modulo sale, sem isso
+                # o caso do partner_id ser diferente do partner_invoice_id a
+                # Fatura acabava sendo criada com o partner_id
+                fiscal_values["partner_id"] = result.get("partner_id")
+
+            result.update(fiscal_values)
 
             document_type_id = self._context.get("document_type_id")
 
