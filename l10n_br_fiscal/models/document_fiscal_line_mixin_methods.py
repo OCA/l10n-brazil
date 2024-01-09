@@ -331,15 +331,30 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 d.__document_comment_vals(), d.manual_additional_data
             )
 
+    def _get_partner_to_fiscal_operation(self):
+        """
+        Metodo para ser herdado e permitir mapear o Partner para os casos onde
+        o objeto pode ter um Partner to Invoice diferente do Partner,
+        nesses casos é preciso usar o Partner to Invoice, isso acontece por
+        exemplo no Pedido de Vendas, Compras e Picking.
+        """
+        self.ensure_one()
+        # Caso Fatura, o campo informado pelo usuário tem prioridade
+        # e não é considerado quando o address_get retorna um Contato
+        # definido como Tipo Invoice.
+
+        return self.partner_id
+
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
             if not self.price_unit:
                 self._get_product_price()
             self._onchange_commercial_quantity()
+            partner = self._get_partner_to_fiscal_operation()
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
-                partner=self.partner_id,
+                partner=partner,
                 product=self.product_id,
             )
             self._onchange_fiscal_operation_line_id()
