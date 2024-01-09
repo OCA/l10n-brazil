@@ -291,3 +291,16 @@ class SaleOrderLine(models.Model):
             self.price_unit = self.product_id.standard_price
         else:
             self.price_unit = 0.00
+
+    def _get_fiscal_partner(self):
+        """
+        Return partner_invoice_id if different from partner.
+        partner_invoice_id is auto filled when the partner
+        has some invoicing contact defined, but it can be changed.
+        """
+        self.ensure_one()
+        partner = super()._get_fiscal_partner()
+        if partner != self.order_id.partner_invoice_id:
+            partner = self.order_id.partner_invoice_id
+
+        return partner
