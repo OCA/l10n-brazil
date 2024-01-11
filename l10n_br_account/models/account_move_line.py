@@ -62,15 +62,6 @@ class AccountMoveLine(models.Model):
         string="Fiscal Product Genre Code",
     )
 
-    fiscal_tax_line_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="Originator Fiscal Tax",
-        ondelete="restrict",
-        store=True,
-        compute="_compute_tax_line_id",
-        help="Indicates that this journal item is a tax line",
-    )
-
     # The following fields belong to the fiscal document line mixin
     # but they are redefined here to ensure they are recomputed in the
     # account.move.line views.
