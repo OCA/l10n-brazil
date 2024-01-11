@@ -183,17 +183,9 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
         self.assertInvoiceValues(
             self.move_out_revenda,
             [
-                {
-                    **product_line_vals_1,
-                },
-                {
-                    **tax_line_vals_icms,
-                },
-                {
-                    **term_line_vals_1,
-                },
+                product_line_vals_1,
+                tax_line_vals_icms,
+                term_line_vals_1,
             ],
-            {
-                **move_vals,
-            },
+            move_vals,
         )
