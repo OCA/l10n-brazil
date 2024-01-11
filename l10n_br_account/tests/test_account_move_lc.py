@@ -118,7 +118,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         )
 
     def test_venda(self):
-        self.product_line_vals_1 = {
+        product_line_vals_1 = {
             "name": self.product_a.name,
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_income_id.id,
@@ -138,7 +138,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_cofins = {
+        tax_line_vals_cofins = {
             "name": "COFINS Saida",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -163,7 +163,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_icms = {
+        tax_line_vals_icms = {
             "name": "ICMS Saida",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -188,7 +188,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_ipi = {
+        tax_line_vals_ipi = {
             "name": "IPI Saída",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -220,7 +220,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_pis = {
+        tax_line_vals_pis = {
             "name": "PIS Saida",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -245,7 +245,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.term_line_vals_1 = {
+        term_line_vals_1 = {
             "name": "",
             "product_id": False,
             "account_id": self.company_data["default_account_receivable"].id,
@@ -266,7 +266,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.move_vals = {
+        move_vals = {
             "partner_id": self.partner_a.id,
             "currency_id": self.company_data["currency"].id,
             "journal_id": self.company_data["default_journal_sale"].id,
@@ -282,32 +282,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         self.assertInvoiceValues(
             self.move_out_venda,
             [
-                {
-                    **self.product_line_vals_1,
-                },
-                {
-                    **self.tax_line_vals_cofins,
-                },
-                {
-                    **self.tax_line_vals_icms,
-                },
-                {
-                    **self.tax_line_vals_ipi,
-                },
-                {
-                    **self.tax_line_vals_pis,
-                },
-                {
-                    **self.term_line_vals_1,
-                },
+                product_line_vals_1,
+                tax_line_vals_cofins,
+                tax_line_vals_icms,
+                tax_line_vals_ipi,
+                tax_line_vals_pis,
+                term_line_vals_1,
             ],
-            {
-                **self.move_vals,
-            },
+            move_vals,
         )
 
     def test_simples_remessa(self):
-        self.product_line_vals_1 = {
+        product_line_vals_1 = {
             "name": self.product_a.name,
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_income_id.id,
@@ -327,7 +313,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_cofins = {
+        tax_line_vals_cofins = {
             "name": "COFINS Saida",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -352,7 +338,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_icms = {
+        tax_line_vals_icms = {
             "name": "ICMS Saida",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -377,7 +363,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_ipi = {
+        tax_line_vals_ipi = {
             "name": "IPI Saída",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -409,7 +395,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_pis = {
+        tax_line_vals_pis = {
             "name": "PIS Saida",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -434,7 +420,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.term_line_vals_1 = {
+        term_line_vals_1 = {
             "name": "",
             "product_id": False,
             "account_id": self.company_data["default_account_receivable"].id,
@@ -455,7 +441,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.move_vals = {
+        move_vals = {
             "partner_id": self.partner_a.id,
             "currency_id": self.company_data["currency"].id,
             "journal_id": self.company_data["default_journal_sale"].id,
@@ -471,35 +457,21 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         self.assertInvoiceValues(
             self.move_out_simples_remessa,
             [
-                {
-                    **self.product_line_vals_1,
-                },
-                {
-                    **self.tax_line_vals_cofins,
-                },
-                {
-                    **self.tax_line_vals_icms,
-                },
-                {
-                    **self.tax_line_vals_ipi,
-                },
-                {
-                    **self.tax_line_vals_pis,
-                },
-                {
-                    **self.term_line_vals_1,
-                },
+                product_line_vals_1,
+                tax_line_vals_cofins,
+                tax_line_vals_icms,
+                tax_line_vals_ipi,
+                tax_line_vals_pis,
+                term_line_vals_1,
             ],
-            {
-                **self.move_vals,
-            },
+            move_vals,
         )
 
     def test_compra_para_revenda(self):
         """
         Test move with deductible taxes
         """
-        self.product_line_vals_1 = {
+        product_line_vals_1 = {
             "name": self.product_a.name,
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_expense_id.id,
@@ -519,7 +491,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_cofins = {
+        tax_line_vals_cofins = {
             "name": "COFINS Entrada",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -544,7 +516,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_cofins_comp = {
+        tax_line_vals_cofins_comp = {
             "name": "COFINS Entrada Dedutível",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -571,7 +543,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_icms = {
+        tax_line_vals_icms = {
             "name": "ICMS Entrada",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -596,7 +568,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_icms_comp = {
+        tax_line_vals_icms_comp = {
             "name": "ICMS Entrada Dedutível",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -621,7 +593,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_ipi = {
+        tax_line_vals_ipi = {
             "name": "IPI Entrada",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -646,7 +618,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_ipi_comp = {
+        tax_line_vals_ipi_comp = {
             "name": "IPI Entrada Dedutível",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -671,7 +643,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_pis = {
+        tax_line_vals_pis = {
             "name": "PIS Entrada",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -696,7 +668,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.tax_line_vals_pis_comp = {
+        tax_line_vals_pis_comp = {
             "name": "PIS Entrada Dedutível",
             "product_id": False,
             "account_id": self.env["account.account"]
@@ -721,7 +693,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.term_line_vals_1 = {
+        term_line_vals_1 = {
             "name": "42/1-1",
             "product_id": False,
             "account_id": self.company_data["default_account_payable"].id,
@@ -742,7 +714,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_exigible": True,
         }
 
-        self.move_vals = {
+        move_vals = {
             "partner_id": self.partner_a.id,
             "currency_id": self.company_data["currency"].id,
             "journal_id": self.company_data["default_journal_purchase"].id,
@@ -758,40 +730,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         self.assertInvoiceValues(
             self.move_in_compra_para_revenda,
             [
-                {
-                    **self.product_line_vals_1,
-                },
-                {
-                    **self.tax_line_vals_cofins,
-                },
-                {
-                    **self.tax_line_vals_cofins_comp,
-                },
-                {
-                    **self.tax_line_vals_icms,
-                },
-                {
-                    **self.tax_line_vals_icms_comp,
-                },
-                {
-                    **self.tax_line_vals_ipi,
-                },
-                {
-                    **self.tax_line_vals_ipi_comp,
-                },
-                {
-                    **self.tax_line_vals_pis,
-                },
-                {
-                    **self.tax_line_vals_pis_comp,
-                },
-                {
-                    **self.term_line_vals_1,
-                },
+                product_line_vals_1,
+                tax_line_vals_cofins,
+                tax_line_vals_cofins_comp,
+                tax_line_vals_icms,
+                tax_line_vals_icms_comp,
+                tax_line_vals_ipi,
+                tax_line_vals_ipi_comp,
+                tax_line_vals_pis,
+                tax_line_vals_pis_comp,
+                term_line_vals_1,
             ],
-            {
-                **self.move_vals,
-            },
+            move_vals,
         )
 
     # TODO test effect of ind_final?
