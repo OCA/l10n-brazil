@@ -24,13 +24,18 @@ msgid "<option value=\"\">select...</option>"
 msgstr ""
 
 #. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Bairro"
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf
+msgid "CNPJ/CPF"
 msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "CNPJ/CPF"
+msgid "CNPJ/VAT"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -42,12 +47,17 @@ msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Cidade"
+msgid "City"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__city_id
+msgid "City of Address"
 msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Complemento"
+msgid "Company Name"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -56,8 +66,25 @@ msgid "Confirm<span class=\"fa fa-long-arrow-right\"/>"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model,name:l10n_br_portal.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__country_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Country"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__district
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "District"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -66,13 +93,19 @@ msgid "Email"
 msgstr ""
 
 #. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "IE/RG"
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__id
+msgid "ID"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_name
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Inscrição Municipal"
+msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -81,8 +114,19 @@ msgid "Mobile"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_mun
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Municipal Tax Number"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Nº"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__state_tax_number_ids
+msgid "Others State Tax Number"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -91,8 +135,8 @@ msgid "Phone"
 msgstr ""
 
 #. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Razão Social / Nome Completo"
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__rg
+msgid "RG"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -101,8 +145,29 @@ msgid "State / Province"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_est
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "State Tax Number"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Street"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Street2"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__suframa
+msgid "Suframa"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__legal_name
+msgid "Used in fiscal documents"
 msgstr ""
 
 #. module: l10n_br_portal
