@@ -56,14 +56,14 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         help="Código da carteira para ser impresso no boleto, "
         "quando o mesmo for diferente do impresso na remessa.",
         size=3,
-        track_visibility="always",
+        tracking=True,
     )
 
     transmission_code = fields.Char(
         string="Código de Transmissão",
         help="Informação cedida pelo banco que identifica o arquivo remessa do cliente",
         size=20,
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_modality = fields.Char(
