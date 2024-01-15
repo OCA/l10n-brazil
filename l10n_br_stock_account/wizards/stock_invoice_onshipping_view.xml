@@ -10,7 +10,11 @@
         />
         <field name="arch" type="xml">
             <field name="show_sale_journal" position="before">
-                <field name="fiscal_operation_journal" />
+                <field name="has_fiscal_operation" invisible="True" />
+                <field
+                    name="fiscal_operation_journal"
+                    attrs="{'invisible': [('has_fiscal_operation', '=', False)]}"
+                />
             </field>
             <field name="sale_journal" position="attributes">
                 <attribute
