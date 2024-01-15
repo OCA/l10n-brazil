@@ -619,6 +619,16 @@ class L10nBrSaleBaseTest(SavepointCase):
         for line in so_international.order_line:
             line.product_id.invoice_policy = "order"
             self._run_sale_line_onchanges(line)
+        # TODO: Em algum momento nos dados de demonstração está carregando
+        #  a Operação Fiscal, o problema não aparece quando os testes são
+        #  feitos da forma como ocorre no github, porém ao instalar o modulo
+        #  e depois rodar os testes o valor está vindo preenchido, isso não
+        #  está afetando o processo na tela e até simula o caso quando apesar
+        #  da Empresa ser do Brasil o metodo default preenche o campo mas o
+        #  usuário decide que não deve gerar Documento Fiscal e por isso apaga
+        #  a Operação Fiscal
+        so_international.fiscal_operation_id = False
+
         so_international.action_confirm()
         so_international._create_invoices(final=True)
         for invoice in so_international.invoice_ids:
