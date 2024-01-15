@@ -545,11 +545,6 @@ msgid "Incoterms"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__fiscal_tax_line_id
-msgid "Indicates that this journal item is a tax line"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__partner_is_public_entity
 msgid ""
 "Indicates whether the entity in question is a public organization or "
@@ -682,11 +677,6 @@ msgstr ""
 msgid ""
 "Odoo helps you easily track all activities\n"
 "            related to a fiscal operation."
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_line_id
-msgid "Originator Fiscal Tax"
 msgstr ""
 
 #. module: l10n_br_account
