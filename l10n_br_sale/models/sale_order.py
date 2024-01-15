@@ -134,7 +134,20 @@ class SaleOrder(models.Model):
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         result = super()._onchange_fiscal_operation_id()
-        self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+        if self.fiscal_operation_id:
+            self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+        else:
+            # Caso de uso onde o Pedido foi criado com a Operação Fiscal tanto
+            # no Pedido quanto na Linha, os metodo default podem preencher porém
+            # o usuário decide que não deve ter Operação Fiscal e não gerar
+            # Documento Fiscal, o caso pode ser visto nos Dados de Demonstração,
+            # caso a Operação Fiscal seja apagada e o Pedido já tem linhas é
+            # preciso apagar o campo na Linha, sem isso acontece um looping porque
+            # ao apagar no Pedido o campo fica invisivel na Linha e quando está
+            # visivel ele é requirido.
+            for line in self.order_line:
+                line.fiscal_operation_id = False
+
         return result
 
     def _get_invoiceable_lines(self, final=False):
