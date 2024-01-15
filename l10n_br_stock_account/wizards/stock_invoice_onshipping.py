@@ -1,7 +1,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -23,6 +23,17 @@ class StockInvoiceOnshipping(models.TransientModel):
         else:
             # Caso Brasileiro
             return True
+
+    @api.onchange("group")
+    def onchange_group(self):
+        super().onchange_group()
+        pickings = self._load_pickings()
+        has_fiscal_operation = False
+        if pickings.mapped("fiscal_operation_id"):
+            has_fiscal_operation = True
+        self.has_fiscal_operation = has_fiscal_operation
+
+    has_fiscal_operation = fields.Boolean()
 
     fiscal_operation_journal = fields.Boolean(
         string="Account Jornal from Fiscal Operation",
