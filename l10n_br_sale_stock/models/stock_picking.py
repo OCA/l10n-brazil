@@ -13,3 +13,12 @@ class StockPicking(models.Model):
         if self.sale_id:
             partner = self.sale_id.partner_invoice_id
         return partner.address_get(["invoice"]).get("invoice")
+
+    def write(self, values):
+        # Forma encontrada para evitar que Operação Fiscal do metodo default
+        # seja preenchida quando o Pedido não tem o campo preenchido
+        if self.sale_id:
+            if not self.sale_id.fiscal_operation_id:
+                values["fiscal_operation_id"] = False
+
+        return super().write(values)
