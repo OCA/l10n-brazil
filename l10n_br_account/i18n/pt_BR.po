@@ -552,11 +552,6 @@ msgid "Incoterms"
 msgstr "Incoterms"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__fiscal_tax_line_id
-msgid "Indicates that this journal item is a tax line"
-msgstr "Indica que este item de diário é uma linha de imposto"
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__partner_is_public_entity
 msgid ""
 "Indicates whether the entity in question is a public organization or "
@@ -694,12 +689,6 @@ msgid ""
 msgstr ""
 "Odoo ajuda você rastrear facilmente todas as atividades\n"
 "            relacionadas com a operação fiscal."
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_line_id
-#, fuzzy
-msgid "Originator Fiscal Tax"
-msgstr "Origem do tributo fiscal"
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
@@ -886,6 +875,13 @@ msgstr ""
 #, python-format
 msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
+
+#~ msgid "Indicates that this journal item is a tax line"
+#~ msgstr "Indica que este item de diário é uma linha de imposto"
+
+#, fuzzy
+#~ msgid "Originator Fiscal Tax"
+#~ msgstr "Origem do tributo fiscal"
 
 #, python-format
 #~ msgid ""
