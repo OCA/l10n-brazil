@@ -2,6 +2,9 @@
 email-validator
 erpbrasil.assinatura>=1.7.0
 erpbrasil.base>=2.3.0
+erpbrasil.edoc>=2.5.2
+erpbrasil.transmissao>=1.1.0
+nfelib>=2.0.0
 num2words
 phonenumbers
 pycep_correios
