@@ -7,4 +7,7 @@ from . import test_non_fiscal_move
 from . import test_document_date
 from . import test_invoice_refund
 from . import test_move_discount
+
+# FIXME: a few "AssertionError: field tax_ids is not visible"
+# migration errors to fix!
 from . import test_multi_localizations_invoice

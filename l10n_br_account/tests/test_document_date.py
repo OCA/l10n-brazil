@@ -25,7 +25,7 @@ class TestInvoiceDiscount(TransactionCase):
         cls.invoice_account_id = cls.env["account.account"].create(
             {
                 "company_id": cls.company.id,
-                "user_type_id": cls.env.ref("account.data_account_type_receivable").id,
+                "account_type": "asset_receivable",
                 "code": "RECTEST",
                 "name": "Test receivable account",
                 "reconcile": True,
@@ -44,7 +44,7 @@ class TestInvoiceDiscount(TransactionCase):
         cls.invoice_line_account_id = cls.env["account.account"].create(
             {
                 "company_id": cls.company.id,
-                "user_type_id": cls.env.ref("account.data_account_type_revenue").id,
+                "account_type": "income",
                 "code": "705070",
                 "name": "Product revenue account (test)",
             }
@@ -80,7 +80,7 @@ class TestInvoiceDiscount(TransactionCase):
                     ).id,
                     "journal_id": cls.invoice_journal.id,
                     "invoice_user_id": cls.env.user.id,
-                    "fiscal_operation_id": cls.fiscal_operation_id,
+                    "fiscal_operation_id": cls.fiscal_operation_id.id,
                     "move_type": "out_invoice",
                     "currency_id": cls.company.currency_id.id,
                     "invoice_line_ids": invoice_line_vals,
