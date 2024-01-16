@@ -159,7 +159,8 @@ class FiscalDocument(models.Model):
         related account moves.
         """
         for doc in self:
-            doc.move_ids.message_post(**kwargs)
+            for move in doc.move_ids:
+                move.message_post(**kwargs)
 
     def cancel_move_ids(self):
         for record in self:
