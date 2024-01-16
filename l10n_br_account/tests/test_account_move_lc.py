@@ -158,18 +158,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_cofins = {
-            "name": "COFINS Saida",
+            "name": "COFINS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "COFINS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 30.0,
-            "price_subtotal": 30.0,
-            "price_total": 30.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Saida")], order="id DESC", limit=1)
@@ -182,18 +182,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_icms = {
-            "name": "ICMS Saida",
+            "name": "ICMS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "ICMS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 120.0,
-            "price_subtotal": 120.0,
-            "price_total": 120.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Saida")], order="id desc", limit=1)
@@ -206,7 +206,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_ipi = {
-            "name": "IPI Saída",
+            "name": "IPI",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search(
@@ -220,11 +220,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .id,  # TODO find our why this complex domain is required for IPI
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 50.0,
-            "price_subtotal": 50.0,
-            "price_total": 50.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Saída")], order="id desc", limit=1)
@@ -237,18 +237,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_pis = {
-            "name": "PIS Saida",
+            "name": "PIS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "PIS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 6.5,
-            "price_subtotal": 6.5,
-            "price_total": 6.5,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Saida")], order="id desc", limit=1)
@@ -266,11 +266,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "account_id": self.company_data["default_account_receivable"].id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": -1050.0,
-            "price_subtotal": -1050.0,
-            "price_total": -1050.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
@@ -317,7 +317,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "discount": 0.0,
             "price_unit": 1000.0,
             "price_subtotal": 1000.0,
-            "price_total": 1050.00,
+            "price_total": 1050.0,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": -875.38,
@@ -327,18 +327,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_cofins = {
-            "name": "COFINS Saida",
+            "name": "COFINS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "COFINS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 30.0,
-            "price_subtotal": 30.0,
-            "price_total": 30.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Saida")], order="id DESC", limit=1)
@@ -351,18 +351,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_icms = {
-            "name": "ICMS Saida",
+            "name": "ICMS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "ICMS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": 0.0,
             "discount": 0.0,
-            "price_unit": 88.12,
-            "price_subtotal": 88.12,
-            "price_total": 88.12,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Saida")], order="id desc", limit=1)
@@ -375,7 +375,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_ipi = {
-            "name": "IPI Saída",
+            "name": "IPI",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search(
@@ -389,11 +389,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .id,  # TODO find our why this complex domain is required for IPI
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": 0.0,
             "discount": 0.0,
-            "price_unit": 50.0,
-            "price_subtotal": 50.0,
-            "price_total": 50.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Saída")], order="id desc", limit=1)
@@ -406,18 +406,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_pis = {
-            "name": "PIS Saida",
+            "name": "PIS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "PIS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": 0.0,
             "discount": 0.0,
-            "price_unit": 6.5,
-            "price_subtotal": 6.5,
-            "price_total": 6.5,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Saida")], order="id desc", limit=1)
@@ -435,16 +435,16 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "account_id": self.company_data["default_account_receivable"].id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": -1050.00,
-            "price_subtotal": -1050.00,
-            "price_total": -1050.00,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 1050.00,
-            "debit": 1050.00,
+            "amount_currency": 1050.0,
+            "debit": 1050.0,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
         }
@@ -509,18 +509,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_cofins = {
-            "name": "COFINS Saida",
+            "name": "COFINS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "COFINS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 30.0,
-            "price_subtotal": 30.0,
-            "price_total": 30.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Saida")], order="id DESC", limit=1)
@@ -533,18 +533,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_icms = {
-            "name": "ICMS Saida",
+            "name": "ICMS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "ICMS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": 0.0,
             "discount": 0.0,
-            "price_unit": 88.12,
-            "price_subtotal": 88.12,
-            "price_total": 88.12,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Saida")], order="id desc", limit=1)
@@ -557,7 +557,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_ipi = {
-            "name": "IPI Saída",
+            "name": "IPI",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search(
@@ -571,11 +571,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .id,  # TODO find our why this complex domain is required for IPI
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": 0.0,
             "discount": 0.0,
-            "price_unit": 50.0,
-            "price_subtotal": 50.0,
-            "price_total": 50.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Saída")], order="id desc", limit=1)
@@ -588,18 +588,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_pis = {
-            "name": "PIS Saida",
+            "name": "PIS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "PIS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": 0.0,
             "discount": 0.0,
-            "price_unit": 6.5,
-            "price_subtotal": 6.5,
-            "price_total": 6.5,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Saida")], order="id desc", limit=1)
@@ -617,11 +617,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "account_id": self.company_data["default_account_receivable"].id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": 0.0,
             "discount": 0.0,
-            "price_unit": -1013.77,
-            "price_subtotal": -1013.77,
-            "price_total": -1013.77,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
@@ -678,18 +678,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_cofins = {
-            "name": "COFINS Saida",
+            "name": "COFINS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "COFINS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 30.0,
-            "price_subtotal": 30.0,
-            "price_total": 30.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Saida")], order="id DESC", limit=1)
@@ -702,18 +702,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_icms = {
-            "name": "ICMS Saida",
+            "name": "ICMS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "ICMS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 120.0,
-            "price_subtotal": 120.0,
-            "price_total": 120.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Saida")], order="id desc", limit=1)
@@ -726,7 +726,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_ipi = {
-            "name": "IPI Saída",
+            "name": "IPI",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search(
@@ -740,11 +740,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .id,  # TODO find our why this complex domain is required for IPI
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 50.0,
-            "price_subtotal": 50.0,
-            "price_total": 50.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Saída")], order="id desc", limit=1)
@@ -757,18 +757,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_pis = {
-            "name": "PIS Saida",
+            "name": "PIS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "PIS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 6.5,
-            "price_subtotal": 6.5,
-            "price_total": 6.5,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Saida")], order="id desc", limit=1)
@@ -786,11 +786,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "account_id": self.company_data["default_account_receivable"].id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": -206.5,
-            "price_subtotal": -206.5,
-            "price_total": -206.5,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
@@ -850,18 +850,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_cofins = {
-            "name": "COFINS Entrada",
+            "name": "COFINS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "COFINS a Compensar")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 30.0,
-            "price_subtotal": 30.0,
-            "price_total": 30.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Entrada")], order="id DESC", limit=1)
@@ -874,18 +874,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_cofins_comp = {
-            "name": "COFINS Entrada Dedutível",
+            "name": "COFINS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "COFINS s/ Vendas")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": -30.0,
-            "price_subtotal": -30.0,
-            "price_total": -30.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search(
@@ -900,18 +900,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_icms = {
-            "name": "ICMS Entrada",
+            "name": "ICMS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "ICMS a Compensar")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 120.0,
-            "price_subtotal": 120.0,
-            "price_total": 120.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Entrada")], order="id DESC", limit=1)
@@ -924,18 +924,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_icms_comp = {
-            "name": "ICMS Entrada Dedutível",
+            "name": "ICMS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "ICMS s/ Vendas")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": -120.0,
-            "price_subtotal": -120.0,
-            "price_total": -120.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Entrada Dedutível")], order="id desc", limit=1)
@@ -948,18 +948,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_ipi = {
-            "name": "IPI Entrada",
+            "name": "IPI",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "IPI a Compensar")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 50.0,
-            "price_subtotal": 50.0,
-            "price_total": 50.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Entrada")], order="id desc", limit=1)
@@ -972,18 +972,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_ipi_comp = {
-            "name": "IPI Entrada Dedutível",
+            "name": "IPI",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "IPI s/ Vendas")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": -50.0,
-            "price_subtotal": -50.0,
-            "price_total": -50.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Entrada Dedutível")], order="id desc", limit=1)
@@ -996,18 +996,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_pis = {
-            "name": "PIS Entrada",
+            "name": "PIS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "PIS a Compensar")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": 6.5,
-            "price_subtotal": 6.5,
-            "price_total": 6.5,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Entrada")], order="id desc", limit=1)
@@ -1020,18 +1020,18 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         }
 
         tax_line_vals_pis_comp = {
-            "name": "PIS Entrada Dedutível",
+            "name": "PIS",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "PIS s/ Vendas")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": -6.5,
-            "price_subtotal": -6.5,
-            "price_total": -6.5,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Entrada Dedutível")], order="id desc", limit=1)
@@ -1049,11 +1049,11 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "account_id": self.company_data["default_account_payable"].id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
-            "price_unit": -1050.0,
-            "price_subtotal": -1050.0,
-            "price_total": -1050.0,
+            "price_unit": 0.0,
+            "price_subtotal": 0.0,
+            "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
@@ -1067,7 +1067,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "partner_id": self.partner_a.id,
             "currency_id": self.company_data["currency"].id,
             "journal_id": self.company_data["default_journal_purchase"].id,
-            "date": fields.Date.from_string("2019-01-01"),
+            "date": fields.Date.from_string("2019-01-31"),
             "fiscal_position_id": False,
             "payment_reference": "",
             "invoice_payment_term_id": self.pay_terms_a.id,
@@ -1080,14 +1080,14 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             self.move_in_compra_para_revenda,
             [
                 product_line_vals_1,
-                tax_line_vals_cofins,
                 tax_line_vals_cofins_comp,
-                tax_line_vals_icms,
+                tax_line_vals_cofins,
                 tax_line_vals_icms_comp,
-                tax_line_vals_ipi,
+                tax_line_vals_icms,
                 tax_line_vals_ipi_comp,
-                tax_line_vals_pis,
+                tax_line_vals_ipi,
                 tax_line_vals_pis_comp,
+                tax_line_vals_pis,
                 term_line_vals_1,
             ],
             move_vals,
@@ -1115,7 +1115,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 880.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_cofins = {
@@ -1138,7 +1137,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 30.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_icms = {
@@ -1163,7 +1161,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 120.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_ipi = {
@@ -1195,7 +1192,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 50.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_pis = {
@@ -1218,7 +1214,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 6.5,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         term_line_vals_1 = {
@@ -1239,7 +1234,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 1013.5,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
-            "tax_exigible": True,
         }
 
         move_vals = {
@@ -1286,7 +1280,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_cofins = {
@@ -1309,7 +1302,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 30.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_icms = {
@@ -1334,7 +1326,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 120.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_ipi = {
@@ -1366,7 +1357,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 50.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_pis = {
@@ -1389,7 +1379,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 6.5,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         term_line_vals_1 = {
@@ -1410,7 +1399,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 133.5,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
-            "tax_exigible": True,
         }
 
         move_vals = {
@@ -1460,7 +1448,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 1050.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_cofins = {
@@ -1485,7 +1472,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 30.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_icms = {
@@ -1510,7 +1496,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 120.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_icms_comp = {
@@ -1535,7 +1520,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 120.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_ipi = {
@@ -1560,7 +1544,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 50.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_ipi_comp = {
@@ -1585,7 +1568,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 50.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_pis = {
@@ -1610,7 +1592,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 6.5,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         term_line_vals_1 = {
@@ -1631,7 +1612,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 1013.5,
             "date_maturity": fields.Date.from_string("2019-01-01"),
-            "tax_exigible": True,
         }
 
         move_vals = {

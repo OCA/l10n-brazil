@@ -35,6 +35,7 @@
                 <field name="document_number" />
                 <button
                     name="open_fiscal_document"
+                    title="Open Fiscal Document"
                     type="object"
                     class="oe_stat_button"
                     icon="fa-pencil-square-o"
@@ -54,6 +55,7 @@
             <div name="button_box" position="inside">
                 <button
                     name="open_fiscal_document"
+                    title="Open Fiscal Document"
                     type="object"
                     class="oe_stat_button"
                     icon="fa-pencil-square-o"
@@ -294,7 +296,7 @@
                         name="fiscal_quantity"
                         class="oe_inline"
                         attrs="{'invisible': [('document_type_id', '=', False)]}"
-                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'uom_qty_change':True, 'company_id': parent.company_id}"
                     />
                     <field
                         name="uot_id"
@@ -316,10 +318,10 @@
                 <field name="tax_tag_ids" invisible="1" />
                 <field name="tax_base_amount" invisible="1" />
                 <field name="company_currency_id" invisible="1" />
-                <field name="recompute_tax_line" invisible="1" force_save="1" />
-                <field name="is_rounding_line" invisible="1" />
-                <field name="exclude_from_invoice_tab" invisible="1" />
-                <field name="account_internal_type" invisible="1" />
+                <!--field name="recompute_tax_line" invisible="1" force_save="1" /-->
+                <!--field name="is_rounding_line" invisible="1" /-->
+                <!--field name="exclude_from_invoice_tab" invisible="1" /-->
+                <!--field name="account_internal_type" invisible="1" /-->
                 <field name="account_internal_group" invisible="1" />
                 <field name="ind_final" invisible="1" />
                 <field name="partner_company_type" force_save="1" invisible="1" />
@@ -349,7 +351,7 @@
                     name="domain"
                 >context.get('default_move_type') in ('out_invoice', 'out_refund', 'out_receipt') and [('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)] or [('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
             </xpath>
-            <xpath
+            <!--xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='account_id']"
                 position="attributes"
             >
@@ -361,23 +363,23 @@
                 <attribute
                     name="attrs"
                 >{'required': [('display_type', '=', False)]}</attribute>
-            </xpath>
-            <xpath
+            </xpath-->
+            <!--xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_account_id']"
                 position="attributes"
             >
                 <attribute
                     name="domain"
                 >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
-            </xpath>
-            <xpath
+            </xpath-->
+            <!--xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_tag_ids']"
                 position="attributes"
             >
                 <attribute
                     name="domain"
                 >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
-            </xpath>
+            </xpath-->
 
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='discount']"
@@ -392,7 +394,7 @@
                 <field name="discount_value" />
             </xpath>
             <xpath
-                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_tag_ids']"
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='tax_ids']"
                 position="after"
             >
                 <field
@@ -483,6 +485,7 @@
                     <page name="fiscal_line_extra_info" string="Extra Info" />
                     <page name="accounting" string="Accounting">
                         <group>
+                            <field name="fiscal_document_line_id" />
                             <field
                                 name="tax_ids"
                                 context="{'move_type': parent.move_type}"
@@ -531,11 +534,19 @@
                     <field name="amount_total" class="oe_subtotal_footer_separator" />
 
                     <field
+                        name="tax_totals"
+                        widget="account-tax-totals-field"
+                        nolabel="1"
+                        colspan="2"
+                        attrs="{'readonly': ['|', ('state', '!=', 'draft'), '&amp;', ('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt')), ('quick_edit_mode', '=', False)]}"
+                    />
+                    <field
                         name="invoice_payments_widget"
                         colspan="2"
                         nolabel="1"
                         widget="payment"
                     />
+
                     <field
                         name="amount_residual"
                         class="oe_subtotal_footer_separator"
