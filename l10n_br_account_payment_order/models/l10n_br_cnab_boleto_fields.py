@@ -21,7 +21,7 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     code_convetion = fields.Char(
         string="Código do Convênio no Banco",
         size=20,
-        help="Campo G007 do CNAB",
+        help="Codigo da Empresa/Beneficiario/Convenio/Transmissão",
         tracking=True,
     )
 
@@ -48,21 +48,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     boleto_wallet = fields.Char(
         string="Carteira",
         size=3,
-        tracking=True,
-    )
-
-    boleto_wallet2 = fields.Char(
-        string="Carteira Boleto",
-        help="Código da carteira para ser impresso no boleto, "
-        "quando o mesmo for diferente do impresso na remessa.",
-        size=3,
-        tracking=True,
-    )
-
-    transmission_code = fields.Char(
-        string="Código de Transmissão",
-        help="Informação cedida pelo banco que identifica o arquivo remessa do cliente",
-        size=20,
         tracking=True,
     )
 
@@ -320,5 +305,14 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         size=2,
         help="Código do Posto da Cooperativa de Crédito,"
         " usado pelos bancos Sicred/Unicred e Sicoob.",
+        tracking=True,
+    )
+
+    # Santander
+    boleto_wallet_to_impress = fields.Char(
+        string="Carteira Boleto",
+        help="Código da carteira para ser impresso no boleto, "
+        "quando o mesmo for diferente do impresso na remessa.",
+        size=3,
         tracking=True,
     )
