@@ -39,6 +39,28 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         self._picking_purchase_order(self.po_products)
         return result
 
+    def picking_move_state(self, picking):
+        picking.action_confirm()
+        # Check product availability
+        picking.action_assign()
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+
+    def wizard_create_invoice(self, pickings):
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=pickings.ids,
+            active_model=pickings._name,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        # One invoice per partner but group products
+        wizard_values.update({"group": "partner_product"})
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+
     def test_grouping_pickings(self):
         """
         Test the invoice generation grouped by partner/product with 2
@@ -51,12 +73,8 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
             picking_1.invoice_state, "2binvoiced", "Error to inform Invoice State."
         )
 
-        picking_1.action_confirm()
-        picking_1.action_assign()
-        # Force product availability
-        for move in picking_1.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking_1.button_validate()
+        self.picking_move_state(picking_1)
+
         self.assertEqual(picking_1.state, "done")
 
         self.assertEqual(
@@ -68,30 +86,12 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
 
         purchase_2 = self.env.ref("l10n_br_purchase_stock.main_po_only_products_2")
         purchase_2.button_confirm()
+
         picking_2 = purchase_2.picking_ids
-        picking_2.action_confirm()
-        picking_2.action_assign()
-        # Force product availability
-        for move in picking_2.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking_2.button_validate()
+        self.picking_move_state(picking_2)
 
         pickings = picking_1 | picking_2
-        wizard_obj = self.invoice_wizard.with_context(
-            active_ids=pickings.ids,
-            active_model=pickings._name,
-        )
-        fields_list = wizard_obj.fields_get().keys()
-        wizard_values = wizard_obj.default_get(fields_list)
-        # One invoice per partner but group products
-        wizard_values.update(
-            {
-                "group": "partner_product",
-            }
-        )
-        wizard = wizard_obj.create(wizard_values)
-        wizard.onchange_group()
-        wizard.action_generate()
+        self.wizard_create_invoice(pickings)
         domain = [("picking_ids", "in", (picking_1.id, picking_2.id))]
         invoice = self.invoice_model.search(domain)
         # Fatura Agrupada
@@ -160,23 +160,10 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
             self.assertTrue(
                 line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
             )
-        picking_devolution.action_confirm()
-        picking_devolution.action_assign()
-        # Force product availability
-        for move in picking_devolution.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking_devolution.button_validate()
+        self.picking_move_state(picking_devolution)
         self.assertEqual(picking_devolution.state, "done", "Change state fail.")
-        wizard_obj = self.invoice_wizard.with_context(
-            active_ids=picking_devolution.ids,
-            active_model=picking_devolution._name,
-            active_id=picking_devolution.id,
-        )
-        fields_list = wizard_obj.fields_get().keys()
-        wizard_values = wizard_obj.default_get(fields_list)
-        wizard = wizard_obj.create(wizard_values)
-        wizard.onchange_group()
-        wizard.action_generate()
+
+        self.wizard_create_invoice(picking_devolution)
         domain = [("picking_ids", "=", picking_devolution.id)]
         invoice_devolution = self.invoice_model.search(domain)
         # Confirmando a Fatura
@@ -206,19 +193,13 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         purchase.button_confirm()
         picking = purchase.picking_ids
 
-        #
         picking.set_to_be_invoiced()
 
         self.assertEqual(
             picking.invoice_state, "2binvoiced", "Error to inform Invoice State."
         )
 
-        picking.action_confirm()
-        picking.action_assign()
-        # Force product availability
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking.button_validate()
+        self.picking_move_state(picking)
         self.assertEqual(picking.state, "done")
 
         self.assertEqual(
@@ -228,21 +209,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
             " before create invoice by Picking.",
         )
 
-        wizard_obj = self.invoice_wizard.with_context(
-            active_ids=picking.ids,
-            active_model=picking._name,
-        )
-        fields_list = wizard_obj.fields_get().keys()
-        wizard_values = wizard_obj.default_get(fields_list)
-        # One invoice per partner but group products
-        wizard_values.update(
-            {
-                "group": "partner_product",
-            }
-        )
-        wizard = wizard_obj.create(wizard_values)
-        wizard.onchange_group()
-        wizard.action_generate()
+        self.wizard_create_invoice(picking)
         domain = [("picking_ids", "=", picking.id)]
         invoice = self.invoice_model.search(domain)
 
@@ -279,3 +246,45 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         # Confirmando a Fatura
         invoice.action_post()
         self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
+
+    def test_button_create_bill_in_view(self):
+        """
+        Test Field to make Button Create Bill invisible.
+        """
+        purchase_products = self.env.ref(
+            "l10n_br_purchase_stock.main_po_only_products_2"
+        )
+        # Caso do Pedido de Compra em Rascunho
+        self.assertTrue(
+            purchase_products.button_create_invoice_invisible,
+            "Field to make invisible the Button Create Bill should be"
+            " invisible when Purchase Order is not in state Purchase or Done.",
+        )
+        # Caso somente com Produtos
+        purchase_products.button_confirm()
+        self.assertTrue(
+            purchase_products.button_create_invoice_invisible,
+            "Field to make invisible the button Create Bill should be"
+            " invisible when Purchase Order has only products.",
+        )
+
+        # Caso Somente Serviços
+        purchase_only_service = self.env.ref(
+            "l10n_br_purchase_stock.main_po_only_service_stock"
+        )
+        purchase_only_service.button_confirm()
+        self.assertFalse(
+            purchase_only_service.button_create_invoice_invisible,
+            "Field to make invisible the Button Create Bill should be"
+            " False when the Purchase Order has only Services.",
+        )
+        # Caso Serviço e Produto
+        purchase_service_product = self.env.ref(
+            "l10n_br_purchase_stock.main_po_service_product_stock"
+        )
+        purchase_service_product.button_confirm()
+        self.assertFalse(
+            purchase_only_service.button_create_invoice_invisible,
+            "Field to make invisible the Button Create Bill should be"
+            " False when the Purchase Order has Service and Product.",
+        )

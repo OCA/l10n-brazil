@@ -8,13 +8,30 @@
         <field name="priority">120</field>
         <field name="arch" type="xml">
             <field name="fiscal_operation_id" position="after">
-                <field name="purchase_create_invoice_policy" invisible="1" />
+                <field name="button_create_invoice_invisible" invisible="1" />
             </field>
-            <xpath expr="//button[@name='action_view_invoice']" position="attributes">
+
+            <xpath
+                expr="//button[@name='action_create_invoice'][1]"
+                position="attributes"
+            >
                 <attribute
                     name="attrs"
-                >{'invisible': ['|','|', ('invoice_count', '=', 0), ('purchase_create_invoice_policy', '=', 'stock_picking'), ('state', 'in', ('draft','sent','to approve'))]}</attribute>
+                >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+
             </xpath>
+
+            <xpath
+                expr="//button[@name='action_create_invoice'][2]"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+
+            </xpath>
+
+
         </field>
     </record>
 
