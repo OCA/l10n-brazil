@@ -300,7 +300,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
             )
         )
         move_form.invoice_date = invoice_date or fields.Date.from_string("2019-01-01")
-        move_form.date = move_form.invoice_date
+        #        move_form.date = move_form.invoice_date
         move_form.partner_id = partner or cls.partner_a
         move_form.currency_id = currency if currency else cls.company_data["currency"]
 
