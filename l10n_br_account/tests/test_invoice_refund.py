@@ -15,7 +15,7 @@ class TestInvoiceRefund(TransactionCase):
             dict(
                 code="X1020",
                 name="Product Refund Sales - (test)",
-                user_type_id=cls.env.ref("account.data_account_type_revenue").id,
+                account_type="income",
             )
         )
 
@@ -61,11 +61,9 @@ class TestInvoiceRefund(TransactionCase):
                             .search(
                                 [
                                     (
-                                        "user_type_id",
+                                        "account_type",
                                         "=",
-                                        cls.env.ref(
-                                            "account.data_account_type_revenue"
-                                        ).id,
+                                        "income",
                                     ),
                                     (
                                         "company_id",
