@@ -3,7 +3,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 # pylint: disable=api-one-deprecated
 
-from odoo import api, fields, models
+from contextlib import contextmanager
+
+from odoo import _, api, fields, models
+from odoo.tools import frozendict
 
 from .account_move import InheritsCheckMuteLogger
 
@@ -175,11 +178,10 @@ class AccountMoveLine(models.Model):
                     values.get("uot_id"),
                 )
             )
-            if values.get("product_uom_id"):
-                values["uom_id"] = values["product_uom_id"]
+            values["uom_id"] = values.get("product_uom_id")
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
-            if (
+            if False and (  # FIXME migrate
                 move_id.is_invoice(include_receipts=True)
                 and move_id.company_id.country_id.code == "BR"
                 and any(
@@ -187,6 +189,7 @@ class AccountMoveLine(models.Model):
                     for field in [*ACCOUNTING_FIELDS, *BUSINESS_FIELDS]
                 )
             ):
+                # TODO migrate!
                 fisc_values = {
                     key: values[key]
                     for key in self.env["l10n_br_fiscal.document.line"]._fields.keys()
@@ -199,7 +202,7 @@ class AccountMoveLine(models.Model):
                     self.env["l10n_br_fiscal.cfop"].browse(cfop) if cfop else False
                 )
                 values.update(
-                    self._get_amount_credit_debit_model(
+                    self._get_amount_credit_debit_model(  # TODO migrate!
                         move_id,
                         exclude_from_invoice_tab=values.get(
                             "exclude_from_invoice_tab", False
@@ -256,17 +259,18 @@ class AccountMoveLine(models.Model):
         for idx in inverted_index:
             sorted_result |= result[idx]
 
-        for line in sorted_result:
-            # Forces the recalculation of price_total and price_subtotal fields which are
-            # recalculated by super
-            if line.move_id.company_id.country_id.code == "BR":
-                line.update(line._get_price_total_and_subtotal())
+        # TODO MIGRATE, see https://github.com/OCA/l10n-brazil/pull/3037
+        # for line in sorted_result:
+        # Forces the recalculation of price_total and price_subtotal fields which are
+        # recalculated by super
+        # if line.move_id.company_id.country_id.code == "BR":
+        #    line.update(line._get_price_total_and_subtotal())
 
         return sorted_result
 
-    def write(self, values):
-        if values.get("product_uom_id"):
-            values["uom_id"] = values["product_uom_id"]
+    # TODO MIGRATE v16
+    def TODO_write(self, values):
+        values["uom_id"] = values.get("product_uom_id")
         non_dummy = self.filtered(lambda line: line.fiscal_document_line_id)
         self._inject_shadowed_fields([values])
         if values.get("move_id") and len(non_dummy) == len(self):
@@ -325,9 +329,75 @@ class AccountMoveLine(models.Model):
         self.clear_caches()
         return result
 
+    @contextmanager
+    def _sync_invoice(self, container):
+        """
+        Almost the same as the super method from the account module.
+        Overriden only to change one line where country_id.code is compared with "BR"
+        """
+        if container["records"].env.context.get("skip_invoice_line_sync"):
+            yield
+            return  # avoid infinite recursion
+
+        def existing():
+            return {
+                line: {
+                    "amount_currency": line.currency_id.round(line.amount_currency),
+                    "balance": line.company_id.currency_id.round(line.balance),
+                    "currency_rate": line.currency_rate,
+                    "price_subtotal": line.currency_id.round(line.price_subtotal),
+                    "move_type": line.move_id.move_type,
+                }
+                for line in container["records"]
+                .with_context(
+                    skip_invoice_line_sync=True,
+                )
+                .filtered(lambda l: l.move_id.is_invoice(True))
+            }
+
+        def changed(fname):
+            return line not in before or before[line][fname] != after[line][fname]
+
+        before = existing()
+        yield
+        after = existing()
+        for line in after:
+            if (
+                line.move_id.company_id.country_id.code != "BR"  # LINE ADDED!
+                and line.display_type == "product"
+                and (not changed("amount_currency") or line not in before)
+            ):
+                amount_currency = line.move_id.direction_sign * line.currency_id.round(
+                    line.price_subtotal
+                )
+                if line.amount_currency != amount_currency or line not in before:
+                    line.amount_currency = amount_currency
+                if line.currency_id == line.company_id.currency_id:
+                    line.balance = amount_currency
+
+        after = existing()
+        for line in after:
+            if (
+                changed("amount_currency")
+                or changed("currency_rate")
+                or changed("move_type")
+            ) and (not changed("balance") or (line not in before and not line.balance)):
+                balance = line.company_id.currency_id.round(
+                    line.amount_currency / line.currency_rate
+                )
+                line.balance = balance
+        # Since this method is called during the sync, inside of `create`/`write`,
+        # these fields
+        # already have been computed and marked as so. But this method should
+        # re-trigger it since
+        # it changes the dependencies.
+        self.env.add_to_compute(self._fields["debit"], container["records"])
+        self.env.add_to_compute(self._fields["credit"], container["records"])
+
     # TODO As the accounting behavior of taxes in Brazil is completely different,
     # for now the method for companies in Brazil brings an empty result.
     # You can correctly map this behavior later.
+    # TODO MIGRATE, no such method in v16, see https://github.com/OCA/l10n-brazil/pull/3037
     @api.model
     def _get_fields_onchange_balance_model(
         self,
@@ -357,133 +427,177 @@ class AccountMoveLine(models.Model):
 
         return res
 
-    def _get_price_total_and_subtotal(
-        self,
-        price_unit=None,
-        quantity=None,
-        discount=None,
-        currency=None,
-        product=None,
-        partner=None,
-        taxes=None,
-        move_type=None,
-    ):
-        self.ensure_one()
-        return super(
-            AccountMoveLine,
-            self.with_context(
-                partner_id=self.partner_id,
-                product_id=self.product_id,
-                fiscal_tax_ids=self.fiscal_tax_ids,
-                fiscal_operation_line_id=self.fiscal_operation_line_id,
-                ncm=self.ncm_id,
-                nbs=self.nbs_id,
-                nbm=self.nbm_id,
-                cest=self.cest_id,
-                discount_value=self.discount_value,
-                insurance_value=self.insurance_value,
-                other_value=self.other_value,
-                freight_value=self.freight_value,
-                fiscal_price=self.fiscal_price,
-                fiscal_quantity=self.fiscal_quantity,
-                uot_id=self.uot_id,
-                icmssn_range=self.icmssn_range_id,
-                icms_origin=self.icms_origin,
-                ind_final=self.ind_final,
-                icms_relief_value=self.icms_relief_value,
-            ),
-        )._get_price_total_and_subtotal(
-            price_unit=price_unit or self.price_unit,
-            quantity=quantity or self.quantity,
-            discount=discount or self.discount,
-            currency=currency or self.currency_id,
-            product=product or self.product_id,
-            partner=partner or self.partner_id,
-            taxes=taxes or self.tax_ids,
-            move_type=move_type or self.move_id.move_type,
-        )
-
-    @api.model
-    def _get_price_total_and_subtotal_model(
-        self,
-        price_unit,
-        quantity,
-        discount,
-        currency,
-        product,
-        partner,
-        taxes,
-        move_type,
-    ):
-        """This method is used to compute 'price_total' & 'price_subtotal'.
-        :param price_unit:  The current price unit.
-        :param quantity:    The current quantity.
-        :param discount:    The current discount.
-        :param currency:    The line's currency.
-        :param product:     The line's product.
-        :param partner:     The line's partner.
-        :param taxes:       The applied taxes.
-        :param move_type:   The type of the move.
-        :return:            A dictionary containing 'price_subtotal' & 'price_total'.
+    @api.depends(
+        "quantity", "discount", "price_unit", "tax_ids", "currency_id", "discount"
+    )  # TODO complete!
+    def _compute_totals(self):
         """
-        result = super()._get_price_total_and_subtotal_model(
-            price_unit, quantity, discount, currency, product, partner, taxes, move_type
-        )
+        Overriden to pass all the Brazilian parameters we need
+        to the account.tax#compute_all method.
+        """
+        result = super()._compute_totals()
+        if not self.move_id.fiscal_operation_id:
+            return result
 
-        # Compute 'price_subtotal'.
-        line_discount_price_unit = price_unit * (1 - (discount / 100.0))
+        for line in self:
+            if line.display_type != "product":
+                continue  # handled in super method
 
-        insurance_value = self.env.context.get("insurance_value", 0)
-        other_value = self.env.context.get("other_value", 0)
-        freight_value = self.env.context.get("other_value", 0)
-        ii_customhouse_charges = self.env.context.get("ii_customhouse_charges", 0)
-        icms_relief_value = self.env.context.get("icms_relief_value", 0)
+            line_discount_price_unit = line.price_unit * (1 - (line.discount / 100.0))
 
-        # Compute 'price_total'.
-        if taxes:
-            force_sign = (
-                -1 if move_type in ("out_invoice", "in_refund", "out_receipt") else 1
+            # Compute 'price_total'.
+            if line.tax_ids:
+                # force_sign = (
+                #     -1
+                #     if line.move_type in ("out_invoice", "in_refund", "out_receipt")
+                #     else 1
+                # )
+                taxes_res = line.tax_ids._origin.with_context(
+                    #                    force_sign=force_sign
+                ).compute_all(
+                    line_discount_price_unit,
+                    currency=line.currency_id,
+                    quantity=line.quantity,
+                    product=line.product_id,
+                    partner=line.partner_id,
+                    is_refund=line.move_type in ("out_refund", "in_refund"),
+                    handle_price_include=True,  # FIXME
+                    fiscal_taxes=line.fiscal_tax_ids,
+                    operation_line=line.fiscal_operation_line_id,
+                    cfop=line.cfop_id or None,
+                    ncm=line.ncm_id,
+                    nbs=line.nbs_id,
+                    nbm=line.nbm_id,
+                    cest=line.cest_id,
+                    discount_value=line.discount_value,
+                    insurance_value=line.insurance_value,
+                    other_value=line.other_value,
+                    ii_customhouse_charges=line.ii_customhouse_charges,
+                    freight_value=line.freight_value,
+                    fiscal_price=line.fiscal_price,
+                    fiscal_quantity=line.fiscal_quantity,
+                    uot_id=line.uot_id,
+                    icmssn_range=line.icmssn_range_id,
+                    icms_origin=line.icms_origin,
+                    ind_final=line.ind_final,
+                )
+
+                line.price_subtotal = taxes_res["total_excluded"]
+                line.price_total = taxes_res["total_included"]
+                line._compute_balance()
+
+            line.price_total += (
+                line.insurance_value
+                + line.other_value
+                + line.freight_value
+                - line.icms_relief_value
             )
-            taxes_res = taxes._origin.with_context(force_sign=force_sign).compute_all(
-                line_discount_price_unit,
-                currency=currency,
-                quantity=quantity,
-                product=self.env.context.get("product_id"),
-                partner=self.env.context.get("partner_id"),
-                is_refund=move_type in ("out_refund", "in_refund"),
-                handle_price_include=True,  # FIXME
-                fiscal_taxes=self.env.context.get("fiscal_tax_ids"),
-                operation_line=self.env.context.get("fiscal_operation_line_id"),
-                cfop=self.cfop_id or None,
-                ncm=self.env.context.get("ncm_id"),
-                nbs=self.env.context.get("nbs_id"),
-                nbm=self.env.context.get("nbm_id"),
-                cest=self.env.context.get("cest_id"),
-                discount_value=self.env.context.get("discount_value"),
-                insurance_value=insurance_value,
-                other_value=other_value,
-                ii_customhouse_charges=ii_customhouse_charges,
-                freight_value=freight_value,
-                fiscal_price=self.env.context.get("fiscal_price"),
-                fiscal_quantity=self.env.context.get("fiscal_quantity"),
-                uot_id=self.env.context.get("uot_id"),
-                icmssn_range=self.env.context.get("icmssn_range"),
-                icms_origin=self.env.context.get("icms_origin"),
-                ind_final=self.env.context.get("ind_final"),
-            )
-
-            result["price_subtotal"] = taxes_res["total_excluded"]
-            result["price_total"] = taxes_res["total_included"]
-
-        result["price_total"] = (
-            result["price_total"]
-            + insurance_value
-            + other_value
-            + freight_value
-            - icms_relief_value
-        )
-
+            # TODO MIGRATE v16 (that is make icms_relief_value really work),
+            # for icms_relief_value see https://github.com/OCA/l10n-brazil/pull/3037
         return result
+
+    @api.depends(
+        "tax_ids",
+        "currency_id",
+        "partner_id",
+        "analytic_distribution",
+        "balance",
+        "partner_id",
+        "move_id.partner_id",
+        "price_unit",
+    )
+    def _compute_all_tax(self):
+        """
+        Overriden to pass all the extra Brazilian parameters we need
+        to the account.tax#compute_all method.
+        """
+        # TODO seems we should use sign in account_tax#compute_all
+        # so base and amount are negative if move is in.
+        if not self.move_id.fiscal_operation_id:
+            return super()._compute_all_tax()
+
+        for line in self:
+            sign = line.move_id.direction_sign
+            if line.display_type == "tax":
+                line.compute_all_tax = {}
+                line.compute_all_tax_dirty = False
+                continue
+            if line.display_type == "product" and line.move_id.is_invoice(True):
+                amount_currency = sign * line.price_unit * (1 - line.discount / 100)
+                handle_price_include = True
+                quantity = line.quantity
+            else:
+                amount_currency = line.amount_currency
+                handle_price_include = False
+                quantity = 1
+            compute_all_currency = line.tax_ids.compute_all(
+                amount_currency,
+                currency=line.currency_id,
+                quantity=quantity,
+                product=line.product_id,
+                partner=line.move_id.partner_id or line.partner_id,
+                is_refund=line.is_refund,
+                handle_price_include=handle_price_include,
+                include_caba_tags=line.move_id.always_tax_exigible,
+                fixed_multiplicator=sign,
+                fiscal_taxes=line.fiscal_tax_ids,
+                operation_line=line.fiscal_operation_line_id,
+                cfop=line.cfop_id or None,
+                ncm=line.ncm_id,
+                nbs=line.nbs_id,
+                nbm=line.nbm_id,
+                cest=line.cest_id,
+                discount_value=line.discount_value,
+                insurance_value=line.insurance_value,
+                other_value=line.other_value,
+                ii_customhouse_charges=line.ii_customhouse_charges,
+                freight_value=line.freight_value,
+                fiscal_price=line.fiscal_price,
+                fiscal_quantity=line.fiscal_quantity,
+                uot_id=line.uot_id,
+                icmssn_range=line.icmssn_range_id,
+                icms_origin=line.icms_origin,
+                ind_final=line.ind_final,
+            )
+            rate = (
+                line.amount_currency / line.balance
+                if (line.balance and line.amount_currency)
+                else 1
+            )
+            line.compute_all_tax_dirty = True
+            line.compute_all_tax = {
+                frozendict(
+                    {
+                        "tax_repartition_line_id": tax["tax_repartition_line_id"],
+                        "group_tax_id": tax["group"] and tax["group"].id or False,
+                        "account_id": tax["account_id"] or line.account_id.id,
+                        "currency_id": line.currency_id.id,
+                        "analytic_distribution": (
+                            tax["analytic"] or not tax["use_in_tax_closing"]
+                        )
+                        and line.analytic_distribution,
+                        "tax_ids": [(6, 0, tax["tax_ids"])],
+                        "tax_tag_ids": [(6, 0, tax["tag_ids"])],
+                        "partner_id": line.move_id.partner_id.id or line.partner_id.id,
+                        "move_id": line.move_id.id,
+                        "display_type": line.display_type,
+                    }
+                ): {
+                    "name": tax["name"]
+                    + (" " + _("(Discount)") if line.display_type == "epd" else ""),
+                    "balance": tax["amount"] / rate,
+                    "amount_currency": tax["amount"],
+                    "tax_base_amount": tax["base"]
+                    / rate
+                    * (-1 if line.tax_tag_invert else 1),
+                }
+                for tax in compute_all_currency["taxes"]
+                if tax["amount"]
+            }
+            if not line.tax_repartition_line_id:
+                line.compute_all_tax[frozendict({"id": line.id})] = {
+                    "tax_tag_ids": [(6, 0, compute_all_currency["base_tags"])],
+                }
 
     @api.onchange("fiscal_document_line_id")
     def _onchange_fiscal_document_line_id(self):
@@ -514,26 +628,6 @@ class AccountMoveLine(models.Model):
 
         return result
 
-    @api.onchange(
-        "amount_currency",
-        "currency_id",
-        "debit",
-        "credit",
-        "tax_ids",
-        "fiscal_tax_ids",
-        "account_id",
-        "price_unit",
-        "quantity",
-        "fiscal_quantity",
-        "fiscal_price",
-    )
-    def _onchange_mark_recompute_taxes(self):
-        """Recompute the dynamic onchange based on taxes.
-        If the edited line is a tax line, don't recompute anything as the
-        user must be able to set a custom value.
-        """
-        return super()._onchange_mark_recompute_taxes()
-
     @api.model
     def _get_fields_onchange_subtotal_model(
         self, price_subtotal, move_type, currency, company, date
@@ -557,35 +651,37 @@ class AccountMoveLine(models.Model):
     amount_untaxed = fields.Monetary(compute="_compute_amounts")
     amount_total = fields.Monetary(compute="_compute_amounts")
 
-    @api.onchange(
-        "move_id",
-        "amount_untaxed",
-        "amount_tax_included",
-        "amount_tax_not_included",
-        "amount_total",
-        "currency_id",
-        "company_currency_id",
-        "company_id",
-        "date",
-        "quantity",
-        "discount",
-        "price_unit",
-        "tax_ids",
-    )
-    def _onchange_price_subtotal(self):
-        # Overridden to replace the method that calculates the amount_currency, debit
-        # and credit. As this method is called manually in some places to guarantee
-        # the calculation of the balance, that's why we prefer not to make a
-        # completely new onchange, even if the name is not totally consistent with the
-        # fields declared in the api.onchange.
-        if self.company_id.country_id.code != "BR":
-            return super()._onchange_price_subtotal()
-        for line in self:
-            if not line.move_id.is_invoice(include_receipts=True):
-                continue
-            line.update(line._get_price_total_and_subtotal())
-            line.update(line._get_amount_credit_debit())
+    # TODO MIGARTE v16: no such method in v16
+    # @api.onchange(
+    #     "move_id",
+    #     "amount_untaxed",
+    #     "amount_tax_included",
+    #     "amount_tax_not_included",
+    #     "amount_total",
+    #     "currency_id",
+    #     "company_currency_id",
+    #     "company_id",
+    #     "date",
+    #     "quantity",
+    #     "discount",
+    #     "price_unit",
+    #     "tax_ids",
+    # )
+    # def _onchange_price_subtotal(self):
+    #     # Overridden to replace the method that calculates the amount_currency, debit
+    #     # and credit. As this method is called manually in some places to guarantee
+    #     # the calculation of the balance, that's why we prefer not to make a
+    #     # completely new onchange, even if the name is not totally consistent with the
+    #     # fields declared in the api.onchange.
+    #     if self.company_id.country_id.code != "BR":
+    #         return super()._onchange_price_subtotal()
+    #     for line in self:
+    #         if not line.move_id.is_invoice(include_receipts=True):
+    #             continue
+    #         line.update(line._get_price_total_and_subtotal())
+    #         line.update(line._get_amount_credit_debit())
 
+    # TODO MIGRATE v16
     def _get_amount_credit_debit(
         self,
         move_id=None,
@@ -605,27 +701,36 @@ class AccountMoveLine(models.Model):
         # Example: _get_fields_onchange_subtotal
         return self._get_amount_credit_debit_model(
             move_id=self.move_id if move_id is None else move_id,
-            exclude_from_invoice_tab=self.exclude_from_invoice_tab
-            if exclude_from_invoice_tab is None
-            else exclude_from_invoice_tab,
-            amount_tax_included=self.amount_tax_included
-            if amount_tax_included is None
-            else amount_tax_included,
-            amount_tax_not_included=self.amount_tax_not_included
-            if amount_tax_not_included is None
-            else amount_tax_not_included,
-            amount_tax_withholding=self.amount_tax_withholding
-            if amount_tax_withholding is None
-            else amount_tax_withholding,
+            exclude_from_invoice_tab=(
+                self.exclude_from_invoice_tab
+                if exclude_from_invoice_tab is None
+                else exclude_from_invoice_tab
+            ),
+            amount_tax_included=(
+                self.amount_tax_included
+                if amount_tax_included is None
+                else amount_tax_included
+            ),
+            amount_tax_not_included=(
+                self.amount_tax_not_included
+                if amount_tax_not_included is None
+                else amount_tax_not_included
+            ),
+            amount_tax_withholding=(
+                self.amount_tax_withholding
+                if amount_tax_withholding is None
+                else amount_tax_withholding
+            ),
             amount_total=self.amount_total if amount_total is None else amount_total,
             currency_id=self.currency_id if currency_id is None else currency_id,
             company_id=self.company_id if company_id is None else company_id,
-            date=(self.date or fields.Date.context_today(self))
-            if date is None
-            else date,
+            date=(
+                (self.date or fields.Date.context_today(self)) if date is None else date
+            ),
             cfop_id=self.cfop_id if cfop_id is None else cfop_id,
         )
 
+    # TODO MIGRATE v16
     def _get_amount_credit_debit_model(
         self,
         move_id,
