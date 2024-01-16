@@ -194,7 +194,7 @@
                 <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('parent.fiscal_operation_id', '!=', False)], 'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': ['&amp;', ('parent.fiscal_operation_id', '!=', False), ('product_id', '!=', False)], 'invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="cfop_id"
