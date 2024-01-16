@@ -1,4 +1,5 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_fixme_document_line_user","Fiscal Document Line for User","model_l10n_br_fiscal_document_line","base.group_user",1,1,1,1
 "l10n_br_account_document_serie_user","Fiscal Document Serie for Account User","l10n_br_fiscal.model_l10n_br_fiscal_document_serie","account.group_account_invoice",1,0,0,0
 "l10n_br_account_document_type_user","Fiscal Document Type for Account User","l10n_br_fiscal.model_l10n_br_fiscal_document_type","account.group_account_invoice",1,0,0,0
 "l10n_br_account_document_user","Fiscal Document for Account User","l10n_br_fiscal.model_l10n_br_fiscal_document","account.group_account_invoice",1,1,0,0
