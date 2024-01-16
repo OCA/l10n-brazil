@@ -90,7 +90,9 @@ class AccountMoveLine(models.Model):
             if bank_account_id.bank_id.code_bc in ("033"):
                 boleto_cnab_api_data.update(
                     {
-                        "carteira": str(move_line.payment_mode_id.boleto_wallet2),
+                        "carteira": str(
+                            move_line.payment_mode_id.boleto_wallet_to_impress
+                        ),
                     }
                 )
 
