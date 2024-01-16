@@ -148,7 +148,7 @@ class AccountMove(models.Model):
                 inv.fiscal_operation_type = MOVE_TO_OPERATION[inv.move_type]
 
     def _get_amount_lines(self):
-        """Get object lines instaces used to compute fields"""
+        """Get object lines instances used to compute fields"""
         return self.mapped("invoice_line_ids")
 
     @api.model
@@ -188,78 +188,43 @@ class AccountMove(models.Model):
             )
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        """
-        Inject fiscal fields into the account.move(.line) views.
-        FIXME: it's because of this override that the tax m2m widget
-        isn't fully displayed (tax names are missing) until the user saves the form.
-        """
-        invoice_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR":
-            return invoice_view
-        elif view_type == "form":
+            return arch, view
+        if view_type == "form":
             view = self.env["ir.ui.view"]
 
             if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
-                # "fiscal view" case:
                 invoice_line_form_id = self.env.ref(
                     "l10n_br_account.fiscal_invoice_line_form"
                 ).id
-                sub_form_view = self.env["account.move.line"].fields_view_get(
+                sub_form_node, _sub_view = self.env["account.move.line"]._get_view(
                     view_id=invoice_line_form_id, view_type="form"
-                )["arch"]
-                sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
-                    sub_form_view
                 )
-                sub_arch, sub_fields = view.postprocess_and_fields(
-                    sub_form_node, "account.move.line"
-                )
-                line_field_name = "invoice_line_ids"
-                invoice_view["fields"][line_field_name]["views"]["form"] = {
-                    "fields": sub_fields,
-                    "arch": sub_arch,
-                }
+                self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
 
-            else:  # "normal" account.move case:
-                if invoice_view["fields"].get("invoice_line_ids"):
-                    sub_form_view = invoice_view["fields"]["invoice_line_ids"]["views"][
-                        "form"
-                    ]["arch"]
+                # TODO FIXME test this part:
+                for original_sub_form_node in arch.xpath(
+                    "//field[@name='invoice_line_ids']/form"
+                ):
+                    parent = original_sub_form_node.parent
+                    parent.remove(original_sub_form_node)
+                    parent.append(sub_form_node)
 
-                    sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
-                        sub_form_view
-                    )
-                    sub_arch, sub_fields = view.postprocess_and_fields(
-                        sub_form_node, "account.move.line"
-                    )
-                    line_field_name = "invoice_line_ids"
-                    invoice_view["fields"][line_field_name]["views"]["form"] = {
-                        "fields": sub_fields,
-                        "arch": sub_arch,
-                    }
+            else:
+                for sub_form_node in arch.xpath(
+                    "//field[@name='invoice_line_ids']/form"
+                ):
+                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+                for sub_form_node in arch.xpath("//field[@name='line_ids']/tree"):
+                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+                    # TODO kanban??
+        #                for sub_form_node in arch.xpath("//field[@name='line_ids']/kanban"):
+        #                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+        #
 
-                if invoice_view["fields"].get("line_ids"):
-                    # it is required to inject the fiscal fields in the
-                    # "accounting lines" view to avoid loosing fiscal values from the form.
-                    sub_form_view = invoice_view["fields"]["line_ids"]["views"]["tree"][
-                        "arch"
-                    ]
-
-                    sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
-                        sub_form_view
-                    )
-                    sub_arch, sub_fields = view.postprocess_and_fields(
-                        sub_form_node, "account.move.line"
-                    )
-                    line_field_name = "line_ids"
-                    invoice_view["fields"][line_field_name]["views"]["tree"] = {
-                        "fields": sub_fields,
-                        "arch": sub_arch,
-                    }
-
-        return invoice_view
+        return arch, view
 
     @api.depends(
         "line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched",
@@ -268,14 +233,14 @@ class AccountMove(models.Model):
         "line_ids.matched_credit_ids.credit_move_id.move_id.payment_id.is_matched",
         "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual",
         "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual_currency",
-        "line_ids.debit",
-        "line_ids.credit",
+        "line_ids.balance",
         "line_ids.currency_id",
         "line_ids.amount_currency",
         "line_ids.amount_residual",
         "line_ids.amount_residual_currency",
         "line_ids.payment_id.state",
         "line_ids.full_reconcile_id",
+        "state",
         "ind_final",
     )
     def _compute_amount(self):
@@ -283,7 +248,7 @@ class AccountMove(models.Model):
             for line in move.line_ids:
                 if (
                     move.is_invoice(include_receipts=True)
-                    and not line.exclude_from_invoice_tab
+                    and line.display_type == "product"
                 ):
                     line._update_fiscal_taxes()
 
@@ -305,12 +270,13 @@ class AccountMove(models.Model):
 
         return result
 
-    @api.onchange("ind_final")
-    def _onchange_ind_final(self):
-        """Trigger the recompute of the taxes when the ind_final is changed"""
-        for line in self.invoice_line_ids:
-            line._onchange_fiscal_operation_id()
-        return self._recompute_dynamic_lines(recompute_all_taxes=True)
+    # @api.onchange("ind_final")
+    # def _onchange_ind_final(self):
+    #     """Trigger the recompute of the taxes when the ind_final is changed"""
+    #     for line in self.invoice_line_ids:
+    #         line._onchange_fiscal_operation_id()
+    #     return self._recompute_dynamic_lines(recompute_all_taxes=True)
+    # FIXME no _recompute_dynamic_lines in v16!
 
     @api.model
     def default_get(self, fields_list):
@@ -324,6 +290,7 @@ class AccountMove(models.Model):
                 defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
         return defaults
 
+    # TODO MIGRATE v16: no such meth in v16
     @api.model
     def _move_autocomplete_invoice_lines_create(self, vals_list):
         fiscal_document_line_ids = {}
@@ -357,13 +324,14 @@ class AccountMove(models.Model):
                             and line_val[1] == 0
                             and isinstance(line_val[2], dict)
                         ):
-                            line_val[2][
-                                "fiscal_document_line_id"
-                            ] = fiscal_document_line_ids[idx1].get(idx2)
+                            line_val[2]["fiscal_document_line_id"] = (
+                                fiscal_document_line_ids[idx1].get(idx2)
+                            )
                             idx2 += 1
 
         return new_vals_list
 
+    # TODO MIGRATE v16: no such method in v16
     def _move_autocomplete_invoice_lines_values(self):
         self.ensure_one()
         if self._context.get("lines_compute_amounts"):
@@ -398,10 +366,12 @@ class AccountMove(models.Model):
         self.clear_caches()
         return result
 
+    # TODO MIGRATE v16: no such method in v16
     @api.model
     def _serialize_tax_grouping_key(self, grouping_dict):
         return "-".join(str(v) for v in grouping_dict.values())
 
+    # TODO MIGRATE v16: no such method in v16
     @api.model
     def _compute_taxes_mapped(self, base_line):
         move = base_line.move_id
@@ -454,6 +424,7 @@ class AccountMove(models.Model):
         )
         return balance_taxes_res
 
+    # TODO MIGRATE v16: no such method in v16
     def _preprocess_taxes_map(self, taxes_map):
         """Compute taxes base and amount for Brazil"""
 
@@ -487,6 +458,7 @@ class AccountMove(models.Model):
 
         return taxes_mapped
 
+    # TODO MIGRATE v16: no such method in v16
     def _recompute_payment_terms_lines(self):
         """Compute the dynamic payment term lines of the journal entry.
         overwritten this method to change aml's field name.
