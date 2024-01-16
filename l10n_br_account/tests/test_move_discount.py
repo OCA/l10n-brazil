@@ -18,7 +18,7 @@ class TestInvoiceDiscount(TransactionCase):
         self.invoice_account_id = self.env["account.account"].create(
             {
                 "company_id": self.company.id,
-                "user_type_id": self.env.ref("account.data_account_type_receivable").id,
+                "account_type": "asset_receivable",
                 "code": "RECTEST",
                 "name": "Test receivable account",
                 "reconcile": True,
@@ -37,7 +37,7 @@ class TestInvoiceDiscount(TransactionCase):
         self.invoice_line_account_id = self.env["account.account"].create(
             {
                 "company_id": self.company.id,
-                "user_type_id": self.env.ref("account.data_account_type_revenue").id,
+                "account_type": "income",
                 "code": "705070",
                 "name": "Product revenue account (test)",
             }
@@ -73,7 +73,7 @@ class TestInvoiceDiscount(TransactionCase):
                     ).id,
                     "journal_id": self.invoice_journal.id,
                     "invoice_user_id": self.env.user.id,
-                    "fiscal_operation_id": self.fiscal_operation_id,
+                    "fiscal_operation_id": self.fiscal_operation_id.id,
                     "move_type": "out_invoice",
                     "currency_id": self.company.currency_id.id,
                     "invoice_line_ids": invoice_line_vals,
@@ -86,5 +86,4 @@ class TestInvoiceDiscount(TransactionCase):
         self.assertEqual(self.move_id.invoice_line_ids.quantity, 1)
         self.assertEqual(self.move_id.invoice_line_ids.discount_value, 100)
         self.assertEqual(self.move_id.invoice_line_ids.discount, 10)
-        self.move_id.invoice_line_ids._onchange_price_subtotal()
         self.assertEqual(self.move_id.invoice_line_ids.price_subtotal, 900)

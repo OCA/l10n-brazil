@@ -18,7 +18,7 @@ class TestCustomerInvoice(TransactionCase):
             dict(
                 code="X1020",
                 name="Product Sales - (test)",
-                user_type_id=cls.env.ref("account.data_account_type_revenue").id,
+                account_type="income",
                 reconcile=True,
             )
         )
@@ -57,11 +57,9 @@ class TestCustomerInvoice(TransactionCase):
                             .search(
                                 [
                                     (
-                                        "user_type_id",
+                                        "account_type",
                                         "=",
-                                        cls.env.ref(
-                                            "account.data_account_type_revenue"
-                                        ).id,
+                                        "income",
                                     ),
                                     (
                                         "company_id",

@@ -121,14 +121,14 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
         }
 
         tax_line_vals_icms = {
-            "name": "ICMS SN Saida",
+            "name": "ICMS - Simples Nacional",
             "product_id": False,
             "account_id": self.env["account.account"]
             .search([("name", "=", "ICMS a Recolher")], order="id DESC", limit=1)
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
             "price_unit": 0.0,
             "price_subtotal": 0.0,
@@ -150,7 +150,7 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "account_id": self.company_data["default_account_receivable"].id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
-            "quantity": 1.0,
+            "quantity": False,
             "discount": 0.0,
             "price_unit": 0.0,
             "price_subtotal": 0.0,
@@ -172,8 +172,8 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "fiscal_position_id": False,
             "payment_reference": "",
             "invoice_payment_term_id": self.pay_terms_a.id,
-            "amount_untaxed": 1000.0,
-            "amount_tax": 0.0,
+            "amount_untaxed": 973.0,  # 1000.0,
+            "amount_tax": 27.0,  # 0.0,
             "amount_total": 1000.0,
         }
 

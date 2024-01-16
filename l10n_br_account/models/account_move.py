@@ -115,7 +115,7 @@ class AccountMove(models.Model):
                 inv.fiscal_operation_type = MOVE_TO_OPERATION[inv.move_type]
 
     def _get_amount_lines(self):
-        """Get object lines instaces used to compute fields"""
+        """Get object lines instances used to compute fields"""
         return self.mapped("invoice_line_ids")
 
     @api.model
@@ -144,78 +144,43 @@ class AccountMove(models.Model):
                     vals["fiscal_%s" % (field,)] = vals[field]
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        """
-        Inject fiscal fields into the account.move(.line) views.
-        FIXME: it's because of this override that the tax m2m widget
-        isn't fully displayed (tax names are missing) until the user saves the form.
-        """
-        invoice_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR":
-            return invoice_view
-        elif view_type == "form":
+            return arch, view
+        if view_type == "form":
             view = self.env["ir.ui.view"]
 
             if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
-                # "fiscal view" case:
                 invoice_line_form_id = self.env.ref(
                     "l10n_br_account.fiscal_invoice_line_form"
                 ).id
-                sub_form_view = self.env["account.move.line"].fields_view_get(
+                sub_form_node, _sub_view = self.env["account.move.line"]._get_view(
                     view_id=invoice_line_form_id, view_type="form"
-                )["arch"]
-                sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
-                    sub_form_view
                 )
-                sub_arch, sub_fields = view.postprocess_and_fields(
-                    sub_form_node, "account.move.line"
-                )
-                line_field_name = "invoice_line_ids"
-                invoice_view["fields"][line_field_name]["views"]["form"] = {
-                    "fields": sub_fields,
-                    "arch": sub_arch,
-                }
+                self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
 
-            else:  # "normal" account.move case:
-                if invoice_view["fields"].get("invoice_line_ids"):
-                    sub_form_view = invoice_view["fields"]["invoice_line_ids"]["views"][
-                        "form"
-                    ]["arch"]
+                # TODO FIXME test this part:
+                for original_sub_form_node in arch.xpath(
+                    "//field[@name='invoice_line_ids']/form"
+                ):
+                    parent = original_sub_form_node.parent
+                    parent.remove(original_sub_form_node)
+                    parent.append(sub_form_node)
 
-                    sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
-                        sub_form_view
-                    )
-                    sub_arch, sub_fields = view.postprocess_and_fields(
-                        sub_form_node, "account.move.line"
-                    )
-                    line_field_name = "invoice_line_ids"
-                    invoice_view["fields"][line_field_name]["views"]["form"] = {
-                        "fields": sub_fields,
-                        "arch": sub_arch,
-                    }
+            else:
+                for sub_form_node in arch.xpath(
+                    "//field[@name='invoice_line_ids']/form"
+                ):
+                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+                for sub_form_node in arch.xpath("//field[@name='line_ids']/tree"):
+                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+                    # TODO kanban??
+        #                for sub_form_node in arch.xpath("//field[@name='line_ids']/kanban"):
+        #                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+        #
 
-                if invoice_view["fields"].get("line_ids"):
-                    # it is required to inject the fiscal fields in the
-                    # "accounting lines" view to avoid loosing fiscal values from the form.
-                    sub_form_view = invoice_view["fields"]["line_ids"]["views"]["tree"][
-                        "arch"
-                    ]
-
-                    sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
-                        sub_form_view
-                    )
-                    sub_arch, sub_fields = view.postprocess_and_fields(
-                        sub_form_node, "account.move.line"
-                    )
-                    line_field_name = "line_ids"
-                    invoice_view["fields"][line_field_name]["views"]["tree"] = {
-                        "fields": sub_fields,
-                        "arch": sub_arch,
-                    }
-
-        return invoice_view
+        return arch, view
 
     @api.depends(
         "line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched",
@@ -224,14 +189,14 @@ class AccountMove(models.Model):
         "line_ids.matched_credit_ids.credit_move_id.move_id.payment_id.is_matched",
         "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual",
         "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual_currency",
-        "line_ids.debit",
-        "line_ids.credit",
+        "line_ids.balance",
         "line_ids.currency_id",
         "line_ids.amount_currency",
         "line_ids.amount_residual",
         "line_ids.amount_residual_currency",
         "line_ids.payment_id.state",
         "line_ids.full_reconcile_id",
+        "state",
         "ind_final",
     )
     def _compute_amount(self):
@@ -239,34 +204,95 @@ class AccountMove(models.Model):
             for line in move.line_ids:
                 if (
                     move.is_invoice(include_receipts=True)
-                    and not line.exclude_from_invoice_tab
+                    #                    and not line.exclude_from_invoice_tab
                 ):
                     line._update_fiscal_taxes()
 
         result = super()._compute_amount()
-        for move in self.filtered(lambda m: m.company_id.country_id.code == "BR"):
+
+        for move in self:
+            if not move.invoice_line_ids:
+                continue
+
+            # print(
+            #     "1111111111 BEFORE",
+            #     move.name,
+            #     move.amount_total,
+            #     move.amount_untaxed_signed,
+            #     move.amount_tax_signed,
+            #     move.amount_residual_signed,
+            #     move.amount_total_in_currency_signed,
+            # )
+            # print("    total debit:", sum(move.line_ids.mapped("debit")))
+            # print("    total credit:", sum(move.line_ids.mapped("credit")))
+            # print(
+            #     "    amount_tax BR",
+            #     sum(move.invoice_line_ids.mapped("amount_tax")),
+            #     sum(move.line_ids.mapped("amount_tax")),
+            # )
+
+            # here is the v14/v15 computation:
+            # if move.move_type == "entry" or move.is_outbound():
+            #     sign = -1
+            # else:
+            #     sign = 1
+            # inv_line_ids = move.invoice_line_ids
+            # move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
+            # move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
+            # move.amount_untaxed_signed = sign * sum(
+            #     inv_line_ids.mapped("amount_untaxed")
+            # )
+            # move.amount_tax_signed = sign * sum(inv_line_ids.mapped("amount_tax"))
+            #
+            # print("22222222 AFTER", move.amount_total, move.amount_untaxed_signed,
+            # move.amount_tax_signed, move.amount_residual_signed,
+            # move.amount_total_in_currency_signed)
+            # print("    total debit:", sum(move.line_ids.mapped("debit")))
+            # print("    total credit:", sum(move.line_ids.mapped("credit")))
+            # print("    amount_tax BR", sum(move.invoice_line_ids.mapped("amount_tax")),
+            # sum(move.line_ids.mapped("amount_tax")))
+
+        # for move in self.filtered(lambda m: m.company_id.country_id.code == "BR"):
+        # these amount_tax(_signed) and amount_untaxed)_signed) totals are required
+        # for BR sale but super result (with patch) is OK for remessa and KO with
+        # the code in the loop here:
+        if False:  # required for move totals but screws the remessa payment term values
             if move.move_type == "entry" or move.is_outbound():
                 sign = -1
             else:
                 sign = 1
-            inv_line_ids = move.line_ids.filtered(
-                lambda line: not line.exclude_from_invoice_tab
-            )
-            move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
-            move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
-            move.amount_untaxed_signed = sign * sum(
-                inv_line_ids.mapped("amount_untaxed")
-            )
-            move.amount_tax_signed = sign * sum(inv_line_ids.mapped("amount_tax"))
+            br_amount_untaxed = 0
+            br_amount_untaxed_signed = 0
+            br_amount_tax = 0
+            br_amount_tax_signed = 0
+
+            for line in move.invoice_line_ids:
+                if not line.cfop_id or line.cfop_id and line.cfop_id.finance_move:
+                    # if True:
+                    br_amount_tax += line.amount_tax
+                    br_amount_tax_signed += sign * line.amount_tax
+                    br_amount_untaxed += line.amount_untaxed
+                    br_amount_untaxed_signed += sign * line.amount_untaxed
+
+            if br_amount_tax > 0 or br_amount_untaxed > 0:
+                # FIXME / TODO: this is a ugly hack to get the tests
+                # quickly running for the v16 migration.
+                # but a rewrite is needed for moves with more
+                # than 1 remessa line!!
+                move.amount_untaxed = br_amount_untaxed
+                move.amount_untaxed_signed = br_amount_untaxed_signed
+                move.amount_tax = br_amount_tax
+                move.amount_tax_signed = br_amount_tax_signed
 
         return result
 
-    @api.onchange("ind_final")
-    def _onchange_ind_final(self):
-        """Trigger the recompute of the taxes when the ind_final is changed"""
-        for line in self.invoice_line_ids:
-            line._onchange_fiscal_operation_id()
-        return self._recompute_dynamic_lines(recompute_all_taxes=True)
+    # @api.onchange("ind_final")
+    # def _onchange_ind_final(self):
+    #     """Trigger the recompute of the taxes when the ind_final is changed"""
+    #     for line in self.invoice_line_ids:
+    #         line._onchange_fiscal_operation_id()
+    #     return self._recompute_dynamic_lines(recompute_all_taxes=True)
+    # FIXME no _recompute_dynamic_lines in v16!
 
     @api.model
     def default_get(self, fields_list):
@@ -281,7 +307,9 @@ class AccountMove(models.Model):
         return defaults
 
     @api.model
-    def _move_autocomplete_invoice_lines_create(self, vals_list):
+    def TODO_move_autocomplete_invoice_lines_create(
+        self, vals_list
+    ):  # no such meth in v16
         new_vals_list = super(
             AccountMove, self.with_context(lines_compute_amounts=True)
         )._move_autocomplete_invoice_lines_create(vals_list)
@@ -292,7 +320,7 @@ class AccountMove(models.Model):
                 ] = False  # self.env.company.fiscal_dummy_id.id
         return new_vals_list
 
-    def _move_autocomplete_invoice_lines_values(self):
+    def TODO_move_autocomplete_invoice_lines_values(self):  # no such meth in v16
         self.ensure_one()
         if self._context.get("lines_compute_amounts"):
             self.line_ids._compute_amounts()
@@ -326,97 +354,97 @@ class AccountMove(models.Model):
         self.clear_caches()
         return result
 
-    @api.model
-    def _serialize_tax_grouping_key(self, grouping_dict):
-        return "-".join(str(v) for v in grouping_dict.values())
+    # @api.model
+    # def TODO_serialize_tax_grouping_key(self, grouping_dict):  # no such meth in v16
+    #     return "-".join(str(v) for v in grouping_dict.values())
+    #
+    # @api.model
+    # def _compute_taxes_mapped(self, base_line):
+    #     move = base_line.move_id
+    #
+    #     if move.is_invoice(include_receipts=True):
+    #         handle_price_include = True
+    #         sign = -1 if move.is_inbound() else 1
+    #         quantity = base_line.quantity
+    #         is_refund = move.move_type in ("out_refund", "in_refund")
+    #         price_unit_wo_discount = (
+    #             sign * base_line.price_unit * (1 - (base_line.discount / 100.0))
+    #         )
+    #     else:
+    #         handle_price_include = False
+    #         quantity = 1.0
+    #         tax_type = base_line.tax_ids[0].type_tax_use if base_line.tax_ids else None
+    #         is_refund = (tax_type == "sale" and base_line.debit) or (
+    #             tax_type == "purchase" and base_line.credit
+    #         )
+    #         price_unit_wo_discount = base_line.amount_currency
+    #
+    #     balance_taxes_res = base_line.tax_ids._origin.with_context(
+    #         force_sign=move._get_tax_force_sign()
+    #     ).compute_all(
+    #         price_unit_wo_discount,
+    #         currency=base_line.currency_id,
+    #         quantity=quantity,
+    #         product=base_line.product_id,
+    #         partner=base_line.partner_id,
+    #         is_refund=is_refund,
+    #         handle_price_include=handle_price_include,
+    #         fiscal_taxes=base_line.fiscal_tax_ids,
+    #         operation_line=base_line.fiscal_operation_line_id,
+    #         ncm=base_line.ncm_id,
+    #         nbs=base_line.nbs_id,
+    #         nbm=base_line.nbm_id,
+    #         cest=base_line.cest_id,
+    #         discount_value=base_line.discount_value,
+    #         insurance_value=base_line.insurance_value,
+    #         other_value=base_line.other_value,
+    #         ii_customhouse_charges=base_line.ii_customhouse_charges,
+    #         cfop=base_line.cfop_id,
+    #         freight_value=base_line.freight_value,
+    #         fiscal_price=base_line.fiscal_price,
+    #         fiscal_quantity=base_line.fiscal_quantity,
+    #         uot_id=base_line.uot_id,
+    #         icmssn_range=base_line.icmssn_range_id,
+    #         icms_origin=base_line.icms_origin,
+    #         ind_final=base_line.ind_final,
+    #     )
+    #
+    #     return balance_taxes_res
+    #
+    # def TODO_preprocess_taxes_map(self, taxes_map):  # no such meth in v16
+    #     """Useful in case we want to pre-process taxes_map"""
+    #
+    #     taxes_mapped = super()._preprocess_taxes_map(taxes_map=taxes_map)
+    #
+    #     for line in self.line_ids.filtered(
+    #         lambda line: not line.tax_repartition_line_id
+    #     ):
+    #         if not line.tax_ids or not line.fiscal_tax_ids:
+    #             continue
+    #
+    #         compute_all_vals = self._compute_taxes_mapped(line)
+    #
+    #         for tax_vals in compute_all_vals["taxes"]:
+    #             grouping_dict = self._get_tax_grouping_key_from_base_line(
+    #                 line, tax_vals
+    #             )
+    #             grouping_key = self._serialize_tax_grouping_key(grouping_dict)
+    #
+    #             tax_repartition_line = self.env["account.tax.repartition.line"].browse(
+    #                 tax_vals["tax_repartition_line_id"]
+    #             )
+    #
+    #             if taxes_mapped[grouping_key]:
+    #                 taxes_mapped[grouping_key]["amount"] += tax_vals["amount"]
+    #                 taxes_mapped[grouping_key][
+    #                     "tax_base_amount"
+    #                 ] += self._get_base_amount_to_display(
+    #                     tax_vals["base"], tax_repartition_line, tax_vals["group"]
+    #                 )
+    #
+    #     return taxes_mapped
 
-    @api.model
-    def _compute_taxes_mapped(self, base_line):
-        move = base_line.move_id
-
-        if move.is_invoice(include_receipts=True):
-            handle_price_include = True
-            sign = -1 if move.is_inbound() else 1
-            quantity = base_line.quantity
-            is_refund = move.move_type in ("out_refund", "in_refund")
-            price_unit_wo_discount = (
-                sign * base_line.price_unit * (1 - (base_line.discount / 100.0))
-            )
-        else:
-            handle_price_include = False
-            quantity = 1.0
-            tax_type = base_line.tax_ids[0].type_tax_use if base_line.tax_ids else None
-            is_refund = (tax_type == "sale" and base_line.debit) or (
-                tax_type == "purchase" and base_line.credit
-            )
-            price_unit_wo_discount = base_line.amount_currency
-
-        balance_taxes_res = base_line.tax_ids._origin.with_context(
-            force_sign=move._get_tax_force_sign()
-        ).compute_all(
-            price_unit_wo_discount,
-            currency=base_line.currency_id,
-            quantity=quantity,
-            product=base_line.product_id,
-            partner=base_line.partner_id,
-            is_refund=is_refund,
-            handle_price_include=handle_price_include,
-            fiscal_taxes=base_line.fiscal_tax_ids,
-            operation_line=base_line.fiscal_operation_line_id,
-            ncm=base_line.ncm_id,
-            nbs=base_line.nbs_id,
-            nbm=base_line.nbm_id,
-            cest=base_line.cest_id,
-            discount_value=base_line.discount_value,
-            insurance_value=base_line.insurance_value,
-            other_value=base_line.other_value,
-            ii_customhouse_charges=base_line.ii_customhouse_charges,
-            cfop=base_line.cfop_id,
-            freight_value=base_line.freight_value,
-            fiscal_price=base_line.fiscal_price,
-            fiscal_quantity=base_line.fiscal_quantity,
-            uot_id=base_line.uot_id,
-            icmssn_range=base_line.icmssn_range_id,
-            icms_origin=base_line.icms_origin,
-            ind_final=base_line.ind_final,
-        )
-
-        return balance_taxes_res
-
-    def _preprocess_taxes_map(self, taxes_map):
-        """Compute taxes base and amount for Brazil"""
-
-        taxes_mapped = super()._preprocess_taxes_map(taxes_map=taxes_map)
-
-        for line in self.line_ids.filtered(
-            lambda line: not line.tax_repartition_line_id
-        ):
-            if not line.tax_ids or not line.fiscal_tax_ids:
-                continue
-
-            compute_all_vals = self._compute_taxes_mapped(line)
-
-            for tax_vals in compute_all_vals["taxes"]:
-                grouping_dict = self._get_tax_grouping_key_from_base_line(
-                    line, tax_vals
-                )
-                grouping_key = self._serialize_tax_grouping_key(grouping_dict)
-
-                tax_repartition_line = self.env["account.tax.repartition.line"].browse(
-                    tax_vals["tax_repartition_line_id"]
-                )
-
-                if taxes_mapped[grouping_key]:
-                    taxes_mapped[grouping_key]["amount"] += tax_vals["amount"]
-                    taxes_mapped[grouping_key][
-                        "tax_base_amount"
-                    ] += self._get_base_amount_to_display(
-                        tax_vals["base"], tax_repartition_line, tax_vals["group"]
-                    )
-
-        return taxes_mapped
-
-    def _recompute_payment_terms_lines(self):
+    def TODO_recompute_payment_terms_lines(self):  # no such meth in v16
         """Compute the dynamic payment term lines of the journal entry.
         overwritten this method to change aml's field name.
         """
