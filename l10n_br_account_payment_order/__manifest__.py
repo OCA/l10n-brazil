@@ -32,6 +32,7 @@
         "data/cnab_codes/banco_sicred_cnab_240.xml",
         "data/cnab_codes/banco_unicred_cnab_240_400.xml",
         "data/cnab_codes/banco_ailos_cnab_240.xml",
+        "data/cnab_codes/banco_santander_cnab_240_400.xml",
         # Wizards
         "wizards/account_payment_line_create_view.xml",
         "wizards/account_move_line_change.xml",
