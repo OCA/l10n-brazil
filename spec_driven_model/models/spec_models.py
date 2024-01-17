@@ -72,35 +72,39 @@ class SpecModel(models.Model):
         class as long as generated class inherit from some
         spec.mixin.<schema_name> mixin.
         """
-        parents = cls._inherit
-        parents = [parents] if isinstance(parents, str) else (parents or [])
+        parents = [
+            item[0] if isinstance(item, list) else item for item in list(cls._inherit)
+        ]
         for parent in parents:
-            super_parents = pool[parent]._inherit
-            if isinstance(super_parents, str):
-                super_parents = [super_parents]
-            else:
-                super_parents = super_parents or []
+            super_parents = list(pool[parent]._inherit)
             for super_parent in super_parents:
-                if super_parent.startswith("spec.mixin."):
-                    cr.execute(
-                        "SELECT name FROM ir_module_module "
-                        "WHERE name=%s "
-                        "AND state in ('to install', 'to upgrade', 'to remove')",
-                        (pool[super_parent]._odoo_module,),
-                    )
-                    if cr.fetchall():
-                        setattr(
-                            pool,
-                            "_%s_need_hook" % (pool[super_parent]._odoo_module,),
-                            True,
-                        )
+                if not super_parent.startswith("spec.mixin."):
+                    continue
 
-                    cls._map_concrete(parent, cls._name)
-                    if not hasattr(pool[parent], "build_from_binding"):
-                        pool[parent]._inherit = super_parents + ["spec.mixin"]
-                        pool[parent].__bases__ = (pool["spec.mixin"],) + pool[
-                            parent
-                        ].__bases__
+                cr.execute(
+                    "SELECT name FROM ir_module_module "
+                    "WHERE name=%s "
+                    "AND state in ('to install', 'to upgrade', 'to remove')",
+                    (pool[super_parent]._odoo_module,),
+                )
+                if cr.fetchall():
+                    setattr(
+                        pool,
+                        "_%s_need_hook" % (pool[super_parent]._odoo_module,),
+                        True,
+                    )
+
+                cls._map_concrete(parent, cls._name)
+                if "spec.mixin" not in [
+                    c._name for c in pool[parent]._BaseModel__base_classes
+                ]:
+                    pool[parent]._inherit = super_parents + ["spec.mixin"]
+                    pool[parent]._BaseModel__base_classes = tuple(
+                        [pool["spec.mixin"]]
+                        + list(pool[parent]._BaseModel__base_classes)
+                    )
+                    pool[parent].__bases__ = pool[parent]._BaseModel__base_classes
+
         return super()._build_model(pool, cr)
 
     @api.model
@@ -117,7 +121,7 @@ class SpecModel(models.Model):
         relational fields pointing to such mixins should be remapped to the
         proper concrete models where these mixins are injected.
         """
-        cls = type(self)
+        cls = self.env.registry[self._name]
         for klass in cls.__bases__:
             if (
                 not hasattr(klass, "_name")
@@ -165,7 +169,7 @@ class SpecModel(models.Model):
                         continue
                     inv_name = field.inverse_name
                     for n, f in comodel._fields.items():
-                        if n == inv_name and f.args.get("comodel_name"):
+                        if n == inv_name and f.args and f.args.get("comodel_name"):
                             _logger.debug(
                                 "    MUTATING m2o %s.%s (%s) -> %s",
                                 comodel._name.split(".")[-1],
