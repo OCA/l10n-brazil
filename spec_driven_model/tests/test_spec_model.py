@@ -4,12 +4,12 @@
 from odoo_test_helper import FakeModelLoader
 
 from odoo.models import NewId
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from ..hooks import get_remaining_spec_models
 
 
-class TestSpecModel(SavepointCase, FakeModelLoader):
+class TestSpecModel(TransactionCase, FakeModelLoader):
     """
     A simple usage example using the reference PurchaseOrderSchema.xsd
     https://docs.microsoft.com/en-us/visualstudio/xml-tools/sample-xsd-file-purchase-order-schema?view=vs-2019
@@ -17,17 +17,46 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
 
     @classmethod
     def setUpClass(cls):
-        super(TestSpecModel, cls).setUpClass()
+        super().setUpClass()
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
 
         # import a simpilified equivalend of purchase module
+        from .fake_mixin import PoXsdMixin
+        from .spec_poxsd import (
+            Items,
+            Item,
+            Usaddress,
+            Comment,
+            PurchaseOrderType,
+            PurchaseOrder as PurchaseOrderXsd,
+        )
         from .fake_odoo_purchase import (
             PurchaseOrder as FakePurchaseOrder,
             PurchaseOrderLine as FakePurchaseOrderLine,
         )
+        from .spec_purchase import (
+            ResPartner,
+            PurchaseOrder as SpecPurchaseOrder,
+            PurchaseOrderLine as SpecPurchaseOrderLine,
+        )
 
-        cls.loader.update_registry((FakePurchaseOrder, FakePurchaseOrderLine))
+        cls.loader.update_registry(
+            (
+                PoXsdMixin,
+                Items,
+                Item,
+                Usaddress,
+                Comment,
+                PurchaseOrderType,
+                PurchaseOrderXsd,
+                ResPartner,
+                FakePurchaseOrder,
+                FakePurchaseOrderLine,
+                SpecPurchaseOrder,
+                SpecPurchaseOrderLine,
+            )
+        )
 
         # import generated spec mixins
         from .fake_mixin import PoXsdMixin
