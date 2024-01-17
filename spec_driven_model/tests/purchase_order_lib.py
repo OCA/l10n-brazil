@@ -4,6 +4,7 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import List, Optional
+
 from xsdata.models.datatype import XmlDate
 
 __NAMESPACE__ = "http://tempuri.org/PurchaseOrderSchema.xsd"
@@ -16,7 +17,7 @@ class Items:
         metadata={
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
-        }
+        },
     )
 
     @dataclass
@@ -28,7 +29,7 @@ class Items:
                 "type": "Element",
                 "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
                 "required": True,
-            }
+            },
         )
         quantity: Optional[int] = field(
             default=None,
@@ -38,7 +39,7 @@ class Items:
                 "required": True,
                 "min_inclusive": 1,
                 "max_exclusive": 100,
-            }
+            },
         )
         usprice: Optional[Decimal] = field(
             default=None,
@@ -47,7 +48,7 @@ class Items:
                 "type": "Element",
                 "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
                 "required": True,
-            }
+            },
         )
         comment: Optional[str] = field(
             default=None,
@@ -55,7 +56,7 @@ class Items:
                 "type": "Element",
                 "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
                 "required": True,
-            }
+            },
         )
         ship_date: Optional[XmlDate] = field(
             default=None,
@@ -63,7 +64,7 @@ class Items:
                 "name": "shipDate",
                 "type": "Element",
                 "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
-            }
+            },
         )
         part_num: Optional[str] = field(
             default=None,
@@ -71,7 +72,7 @@ class Items:
                 "name": "partNum",
                 "type": "Attribute",
                 "pattern": r"\d{3}\w{3}",
-            }
+            },
         )
 
 
@@ -80,6 +81,7 @@ class Usaddress:
     """
     Purchase order schema for Example.Microsoft.com.
     """
+
     class Meta:
         name = "USAddress"
 
@@ -89,7 +91,7 @@ class Usaddress:
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
             "required": True,
-        }
+        },
     )
     street: Optional[str] = field(
         default=None,
@@ -97,7 +99,7 @@ class Usaddress:
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
             "required": True,
-        }
+        },
     )
     city: Optional[str] = field(
         default=None,
@@ -105,7 +107,7 @@ class Usaddress:
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
             "required": True,
-        }
+        },
     )
     state: Optional[str] = field(
         default=None,
@@ -113,7 +115,7 @@ class Usaddress:
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
             "required": True,
-        }
+        },
     )
     zip: Optional[Decimal] = field(
         default=None,
@@ -121,14 +123,14 @@ class Usaddress:
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
             "required": True,
-        }
+        },
     )
     country: str = field(
         init=False,
         default="US",
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -142,7 +144,7 @@ class Comment:
         default="",
         metadata={
             "required": True,
-        }
+        },
     )
 
 
@@ -155,7 +157,7 @@ class PurchaseOrderType:
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
             "required": True,
-        }
+        },
     )
     bill_to: Optional[Usaddress] = field(
         default=None,
@@ -164,14 +166,14 @@ class PurchaseOrderType:
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
             "required": True,
-        }
+        },
     )
     comment: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
-        }
+        },
     )
     items: Optional[Items] = field(
         default=None,
@@ -179,14 +181,14 @@ class PurchaseOrderType:
             "type": "Element",
             "namespace": "http://tempuri.org/PurchaseOrderSchema.xsd",
             "required": True,
-        }
+        },
     )
     order_date: Optional[XmlDate] = field(
         default=None,
         metadata={
             "name": "orderDate",
             "type": "Attribute",
-        }
+        },
     )
     confirm_date: Optional[XmlDate] = field(
         default=None,
@@ -194,7 +196,7 @@ class PurchaseOrderType:
             "name": "confirmDate",
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
