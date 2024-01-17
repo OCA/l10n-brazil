@@ -124,6 +124,7 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
     all_spec_models = {
         c._name
         for name, c in inspect.getmembers(sys.modules[spec_module], inspect.isclass)
+        if c._name in registry
     }
 
     remaining_models = remaining_models.union(
@@ -160,16 +161,18 @@ def register_hook(env, module_name, spec_module, force=False):
                 fields,
             )
         )
+        inherit = list(spec_class._inherit) + ["spec.mixin"]
         c = type(
             name,
             (SpecModel, spec_class),
             {
                 "_name": name,
-                "_inherit": [spec_class._inherit, "spec.mixin"],
+                "_inherit": inherit,
                 "_original_module": "fiscal",
                 "_odoo_module": module_name,
                 "_spec_module": spec_module,
                 "_rec_name": rec_name,
+                "_module": module_name,
             },
         )
         models.MetaModel.module_to_models[module_name] += [c]
