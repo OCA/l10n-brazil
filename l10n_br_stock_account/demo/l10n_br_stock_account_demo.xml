@@ -98,14 +98,6 @@
         <value eval="[ref('main_company-move_1_1')]" />
     </function>
 
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_1_1')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_company-move_1_1')]" />
-    </function>
-
     <record model="stock.move" id="main_company-move_1_2">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
@@ -129,14 +121,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-move_1_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_1_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_company-move_1_2')]" />
     </function>
 
@@ -164,14 +148,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-move_1_3')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_1_3')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_company-move_1_3')]" />
     </function>
 
@@ -213,14 +189,6 @@
         <value eval="[ref('main_company-move_2_1')]" />
     </function>
 
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_2_1')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_company-move_2_1')]" />
-    </function>
-
     <record model="stock.move" id="main_company-move_2_2">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
@@ -244,14 +212,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-move_2_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_2_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_company-move_2_2')]" />
     </function>
 
@@ -279,14 +239,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-move_2_3')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_2_3')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_company-move_2_3')]" />
     </function>
 
@@ -336,14 +288,6 @@
         <value eval="[ref('main_company-move_3_1')]" />
     </function>
 
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_3_1')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_company-move_3_1')]" />
-    </function>
-
     <record model="stock.move" id="main_company-move_3_2">
         <field
             name="name"
@@ -369,14 +313,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-move_3_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_3_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_company-move_3_2')]" />
     </function>
 
@@ -406,14 +342,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-move_3_3')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_3_3')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_company-move_3_3')]" />
     </function>
 
@@ -459,14 +387,6 @@
         <value eval="[ref('main_company-move_4_1')]" />
     </function>
 
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_4_1')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_company-move_4_1')]" />
-    </function>
-
     <record model="stock.move" id="main_company-move_4_2">
         <field
             name="name"
@@ -492,14 +412,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-move_4_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_4_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_company-move_4_2')]" />
     </function>
 
@@ -529,14 +441,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-move_4_3')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-move_4_3')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_company-move_4_3')]" />
     </function>
 
@@ -595,14 +499,6 @@
         <value eval="[ref('lucro_presumido-move_1_1')]" />
     </function>
 
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('lucro_presumido-move_1_1')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('lucro_presumido-move_1_1')]" />
-    </function>
-
     <record model="stock.move" id="lucro_presumido-move_1_2">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
@@ -629,14 +525,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lucro_presumido-move_1_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('lucro_presumido-move_1_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('lucro_presumido-move_1_2')]" />
     </function>
 
@@ -692,14 +580,6 @@
         <value eval="[ref('lucro_presumido-move_2_1')]" />
     </function>
 
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('lucro_presumido-move_2_1')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('lucro_presumido-move_2_1')]" />
-    </function>
-
     <record model="stock.move" id="lucro_presumido-move_2_2">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
@@ -726,14 +606,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lucro_presumido-move_2_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('lucro_presumido-move_2_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('lucro_presumido-move_2_2')]" />
     </function>
 
@@ -789,14 +661,6 @@
         <value eval="[ref('simples_nacional-move_1_1')]" />
     </function>
 
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('simples_nacional-move_1_1')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('simples_nacional-move_1_1')]" />
-    </function>
-
     <record model="stock.move" id="simples_nacional-move_1_2">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
@@ -823,14 +687,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('simples_nacional-move_1_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('simples_nacional-move_1_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('simples_nacional-move_1_2')]" />
     </function>
 
@@ -886,14 +742,6 @@
         <value eval="[ref('simples_nacional-move_2_1')]" />
     </function>
 
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('simples_nacional-move_2_1')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('simples_nacional-move_2_1')]" />
-    </function>
-
     <record model="stock.move" id="simples_nacional-move_2_2">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
@@ -920,14 +768,6 @@
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
-        <value eval="[ref('simples_nacional-move_2_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('simples_nacional-move_2_2')]" />
-    </function>
-
-    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('simples_nacional-move_2_2')]" />
     </function>
 
