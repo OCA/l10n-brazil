@@ -8,7 +8,7 @@ from erpbrasil.edoc.resposta import analisar_retorno_raw
 from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
 from nfelib.v4_00 import retDistDFeInt
 
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 from ..tools import utils
 
@@ -70,7 +70,7 @@ def mocked_post_error_status_code(*args, **kwargs):
     )
 
 
-class TestDFe(SavepointCase):
+class TestDFe(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
