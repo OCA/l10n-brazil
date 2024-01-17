@@ -86,8 +86,11 @@ class DFe(models.Model):
         if not valid:
             self.message_post(
                 body=_(
-                    "Error validating document distribution: \n\n"
-                    "%s - %s" % (code, message)
+                    _(
+                        "Error validating document distribution: \n\n%(code)s - %(message)s",
+                        code=code,
+                        message=message,
+                    )
                 )
             )
 
@@ -103,7 +106,9 @@ class DFe(models.Model):
                     ultimo_nsu=utils.format_nsu(self.last_nsu),
                 )
             except Exception as e:
-                self.message_post(body=_("Error on searching documents.\n%s" % e))
+                self.message_post(
+                    body=_("Error on searching documents.\n%(error)s", error=e)
+                )
                 break
 
             self.write(
@@ -141,7 +146,9 @@ class DFe(models.Model):
                 chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
             )
         except Exception as e:
-            self.message_post(body=_("Error on searching documents.\n%s" % e))
+            self.message_post(
+                body=_("Error on searching documents.\n%(error)s", error=e)
+            )
             return
 
         if not self.validate_distribution_response(result):
