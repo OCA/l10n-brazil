@@ -114,7 +114,10 @@ class SpecMixinImport(models.AbstractModel):
                     return False  # ex: don't import NFe infRespTec
                 # example: company.nfe40_enderEmit related on partner_id
                 # then we need to set partner_id, not nfe40_enderEmit
-                key = fields[key].related[-1]  # -1 works with _inherits
+                if isinstance(fields[key].related, list):
+                    key = fields[key].related[-1]  # -1 works with _inherits
+                else:
+                    key = fields[key].related
                 comodel_name = fields[key].comodel_name
             else:
                 clean_type = binding_type.lower()
@@ -215,14 +218,18 @@ class SpecMixinImport(models.AbstractModel):
 
             # reverse map related fields as much as possible
             elif v.related is not None and vals.get(k) is not None:
-                if len(v.related) == 1:
-                    vals[v.related[0]] = vals.get(k)
-                elif len(v.related) == 2 and k.startswith(self._field_prefix):
-                    related_m2o = v.related[0]
+                if not hasattr(v, "__len__"):
+                    related = v.related.split(".")
+                else:
+                    related = v.related
+                if len(related) == 1:
+                    vals[related[0]] = vals.get(k)
+                elif len(related) == 2 and k.startswith(self._field_prefix):
+                    related_m2o = related[0]
                     # don't mess with _inherits write system
                     if not any(related_m2o == i[1] for i in model._inherits.items()):
                         key_vals = related_many2ones.get(related_m2o, {})
-                        key_vals[v.related[1]] = vals.get(k)
+                        key_vals[related[1]] = vals.get(k)
                         related_many2ones[related_m2o] = key_vals
 
         # now we deal with the related m2o with compound related
