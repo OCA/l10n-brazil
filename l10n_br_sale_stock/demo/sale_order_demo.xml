@@ -72,14 +72,6 @@
         <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]" />
     </function>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]" />
-    </function>
-
     <record id="main_sl_l10n_br_sale_stock_1_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
         <field name="name">Cadeira de Escritório Preta</field>
@@ -93,14 +85,6 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]" />
     </function>
 
@@ -120,14 +104,6 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]" />
     </function>
 
@@ -170,14 +146,6 @@
         <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]" />
     </function>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]" />
-    </function>
-
     <record id="main_sl_l10n_br_sale_stock_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_2" />
         <field name="name">Customized Odoo Development</field>
@@ -194,14 +162,6 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]" />
     </function>
 
@@ -244,14 +204,6 @@
         <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]" />
     </function>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]" />
-    </function>
-
     <record id="main_sl_l10n_br_sale_stock_3_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
         <field name="name">Cadeira de Escritório Preta</field>
@@ -265,14 +217,6 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]" />
     </function>
 
@@ -292,14 +236,6 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]" />
     </function>
 
@@ -342,14 +278,6 @@
         <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]" />
     </function>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]" />
-    </function>
-
     <record id="main_sl_l10n_br_sale_stock_4_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
         <field name="name">Cadeira de Escritório Preta</field>
@@ -363,14 +291,6 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]" />
     </function>
 
@@ -390,14 +310,6 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
     </function>
 
@@ -433,14 +345,6 @@
         <value eval="[ref('l10n_br_sale_stock_lucro_presumido_1_2')]" />
     </function>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_1_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_1_2')]" />
-    </function>
-
     <record id="l10n_br_sale_stock_lucro_presumido_2_2" model="sale.order.line">
         <field name="order_id" ref="l10n_br_sale_stock_lucro_presumido" />
         <field name="name">Cadeira de Escritório Preta</field>
@@ -457,14 +361,6 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_2_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_2_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('l10n_br_sale_stock_lucro_presumido_2_2')]" />
     </function>
 
