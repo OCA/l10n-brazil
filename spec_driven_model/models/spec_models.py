@@ -165,7 +165,7 @@ class SpecModel(models.AbstractModel):
                         continue
                     inv_name = field.inverse_name
                     for n, f in comodel._fields.items():
-                        if n == inv_name and f.args.get("comodel_name"):
+                        if n == inv_name and f.args and f.args.get("comodel_name"):
                             _logger.debug(
                                 "    MUTATING m2o %s.%s (%s) -> %s",
                                 comodel._name.split(".")[-1],
