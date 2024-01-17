@@ -33,7 +33,9 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
         from .fake_mixin import PoXsdMixin
         from .spec_poxsd import Item, Items, PurchaseOrderType, Usaddress
 
-        cls.loader.update_registry((PoXsdMixin, Item, Items, Usaddress, PurchaseOrderType))
+        cls.loader.update_registry(
+            (PoXsdMixin, Item, Items, Usaddress, PurchaseOrderType)
+        )
 
         # inject the mixins into existing Odoo models
         from .spec_purchase import (
@@ -58,8 +60,8 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
             "spec_driven_model",
             "odoo.addons.spec_driven_model.tests.spec_poxsd",
         )
-        self.assertEqual(remaining_spec_models,
-                {"poxsd.10.purchaseorder", "poxsd.10.comment"}
+        self.assertEqual(
+            remaining_spec_models, {"poxsd.10.purchaseorder", "poxsd.10.comment"}
         )
 
     def test_spec_models(self):
