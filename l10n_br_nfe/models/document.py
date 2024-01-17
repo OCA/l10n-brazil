@@ -998,7 +998,7 @@ class NFe(spec_models.StackedModel):
                 # Se der problema que apareça quando
                 # o usuário clicar no gerar PDF novamente.
                 _logger.error("DANFE Error \n {}".format(e))
-        super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
+        return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
         for record in self.filtered(filter_processador_edoc_nfe):
