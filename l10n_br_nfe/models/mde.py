@@ -35,7 +35,7 @@ class MDe(models.Model):
 
     key = fields.Char(string="Access Key", size=44)
 
-    serie = fields.Char(string="Serie", size=3, index=True)
+    serie = fields.Char(size=3, index=True)
 
     number = fields.Float(string="Document Number", index=True, digits=(18, 0))
 
@@ -44,15 +44,14 @@ class MDe(models.Model):
         string="Fiscal Document",
     )
 
-    emitter = fields.Char(string="Emitter", size=60)
+    emitter = fields.Char(size=60)
 
     cnpj_cpf = fields.Char(string="CNPJ/CPF", size=18)
 
-    nsu = fields.Char(string="NSU", size=25, index=True)
+    nsu = fields.Char(size=25, index=True)
 
     operation_type = fields.Selection(
         selection=OPERATION_TYPE,
-        string="Operation Type",
     )
 
     document_value = fields.Float(
@@ -84,16 +83,15 @@ class MDe(models.Model):
 
     cancellation_datetime = fields.Datetime(string="Cancellation Date", index=True)
 
-    digest_value = fields.Char(string="Digest Value", size=28)
+    digest_value = fields.Char(size=28)
 
-    inclusion_mode = fields.Char(string="Inclusion Mode", size=255)
+    inclusion_mode = fields.Char(size=255)
 
     authorization_protocol = fields.Char(string="Authorization protocol", size=60)
 
     cancellation_protocol = fields.Char(string="Cancellation protocol", size=60)
 
     document_state = fields.Selection(
-        string="Document State",
         selection=SITUACAO_NFE,
         index=True,
     )
@@ -147,7 +145,11 @@ class MDe(models.Model):
 
         if not valid:
             raise ValidationError(
-                _("Error on validating event: %s - %s" % (code, message))
+                _(
+                    "Error on validating event: %(code)s - %(msg)s",
+                    code=code,
+                    msg=message,
+                )
             )
 
     def import_document(self):

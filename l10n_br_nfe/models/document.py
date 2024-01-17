@@ -844,7 +844,11 @@ class NFe(spec_models.StackedModel):
                     record.nfe40_cDV = chave.digito_verificador
                 except Exception as e:
                     raise ValidationError(
-                        _("{}:\n {}").format(record.document_type_id.name, e)
+                        _(
+                            "%(doc)s:\n %(error)s",
+                            doc=record.document_type_id.name,
+                            error=e,
+                        )
                     ) from e
         return result
 

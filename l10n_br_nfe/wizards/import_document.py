@@ -67,7 +67,7 @@ class NfeImport(models.TransientModel):
         try:
             binding = TnfeProc.from_xml(base64.b64decode(self.xml).decode())
         except Exception as e:
-            raise UserError(_("Invalid file: %s" % e))
+            raise UserError(_("Invalid file: %(error)s", error=e)) from e
         else:
             return self._edit_parsed_xml(binding)
 
@@ -277,7 +277,7 @@ class NfeImportProducts(models.TransientModel):
     _name = "l10n_br_nfe.import_xml.products"
     _description = "Import XML NFe Products"
 
-    product_name = fields.Char(string="Product Name")
+    product_name = fields.Char()
 
     uom_com = fields.Char(string="UOM Comercial")
 
@@ -291,7 +291,7 @@ class NfeImportProducts(models.TransientModel):
 
     price_unit_trib = fields.Float(string="Fiscal Price Unit")
 
-    total = fields.Float(string="Total")
+    total = fields.Float()
 
     import_xml_id = fields.Many2one(comodel_name="l10n_br_nfe.import_xml")
 
