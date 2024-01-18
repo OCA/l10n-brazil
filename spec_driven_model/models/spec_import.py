@@ -19,6 +19,7 @@ _logger = logging.getLogger(__name__)
 tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
 
 
+# pylint: disable=consider-merging-classes-inherited
 class AbstractSpecMixin(models.AbstractModel):
     """
     A recursive Odoo object builder that works along with the

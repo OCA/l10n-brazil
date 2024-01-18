@@ -29,6 +29,7 @@ class SelectionMuteLogger(mute_logger):
         return super().filter(record)
 
 
+# pylint: disable=consider-merging-classes-inherited
 class SpecModel(models.AbstractModel):
     """When you inherit this Model, then your model becomes concrete just like
     models.Model and it can use _inherit to inherit from several xsd generated

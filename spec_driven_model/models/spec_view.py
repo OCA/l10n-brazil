@@ -15,6 +15,7 @@ _logger = logging.getLogger(__name__)
 # TODO use MetaModel._get_concrete
 
 
+# pylint: disable=consider-merging-classes-inherited
 class SpecViewMixin(models.AbstractModel):
     _inherit = "spec.mixin"
 

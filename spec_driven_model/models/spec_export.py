@@ -9,6 +9,7 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
+# pylint: disable=consider-merging-classes-inherited
 class AbstractSpecMixin(models.AbstractModel):
     _inherit = "spec.mixin"
 
