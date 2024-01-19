@@ -170,6 +170,7 @@ def register_hook(env, module_name, spec_module, force=False):
                 "_odoo_module": module_name,
                 "_spec_module": spec_module,
                 "_rec_name": rec_name,
+                "_module": "odoo.addons.%s" % (module_name,),
             },
         )
         models.MetaModel.module_to_models[module_name] += [c]
