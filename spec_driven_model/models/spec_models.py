@@ -72,14 +72,16 @@ class SpecModel(models.AbstractModel):
         class as long as generated class inherit from some
         spec.mixin.<schema_name> mixin.
         """
-        parents = cls._inherit
-        parents = [parents] if isinstance(parents, str) else (parents or [])
+        # parents = list(cls._inherit)
+        parents = [
+            item[0] if isinstance(item, list) else item for item in list(cls._inherit)
+        ]
+        _logger.info(cls._inherit)
+        _logger.info(parents)
+        _logger.info("iterating the parents...")
         for parent in parents:
-            super_parents = pool[parent]._inherit
-            if isinstance(super_parents, str):
-                super_parents = [super_parents]
-            else:
-                super_parents = super_parents or []
+            _logger.info(parent)
+            super_parents = list(pool[parent]._inherit)
             for super_parent in super_parents:
                 if super_parent.startswith("spec.mixin."):
                     cr.execute(
