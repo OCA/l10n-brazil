@@ -20,7 +20,7 @@ class PosPaymentMethod(models.Model):
             ("12", "12 - Vale Presente"),
             ("13", "13 - Vale Combustível"),
             ("90", "90 - Sem Pagamento"),
-            ("99", "99 - Others")
+            ("99", "99 - Others"),
         ],
         required=True,
         default="90",

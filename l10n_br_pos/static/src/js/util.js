@@ -104,7 +104,7 @@ odoo.define("l10n_br_pos.util", function () {
     }
 
     function validate_cnpj_cpf(value) {
-        let cnpj_cpf = value.trim().replace(/[^\d]/g, "");
+        const cnpj_cpf = value.trim().replace(/[^\d]/g, "");
 
         if (cnpj_cpf.length === 11) {
             return validate_cpf(cnpj_cpf);

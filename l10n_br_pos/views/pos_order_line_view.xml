@@ -15,7 +15,10 @@
     <record model="ir.ui.view" id="pos_order_line_devolucao_tree_all_sales_line_view">
         <field name="name">pos.order.line.devolucao.tree.all.sales.line.view</field>
         <field name="model">pos.order.line</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree_all_sales_lines"/>
+        <field
+            name="inherit_id"
+            ref="point_of_sale.view_pos_order_tree_all_sales_lines"
+        />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='qty']" position="after">
                 <field name="amount_returned_products" />

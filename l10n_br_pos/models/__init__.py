@@ -12,3 +12,4 @@ from . import product_template
 from . import mail_thread
 from . import product_product
 from . import pos_payment_method
+from . import pos_cancel_reason

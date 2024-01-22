@@ -49,15 +49,24 @@
         <field name="name">Shop Presumed</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="picking_type_id" ref="l10n_br_pos.picking_type_posout_presumido" />
-        <field name="barcode_nomenclature_id" ref="barcodes.default_barcode_nomenclature"/>
+        <field
+            name="barcode_nomenclature_id"
+            ref="barcodes.default_barcode_nomenclature"
+        />
         <field name="journal_id" ref="l10n_br_pos.pos_sale_journal_presumido" />
         <field name="module_account" eval="True" />
         <field name="invoice_journal_id" ref="l10n_br_pos.pos_sale_journal_presumido" />
         <field name="out_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
-        <field name="refund_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_venda"/>
+        <field
+            name="refund_pos_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_venda"
+        />
         <field name="simplified_document_type_id" ref="l10n_br_fiscal.document_59" />
         <field name="detailed_document_type_id" ref="l10n_br_fiscal.document_55" />
-        <field name="available_pricelist_ids" eval="[(4, ref('l10n_br_pos.pos_pricelist_presumido'))]" />
+        <field
+            name="available_pricelist_ids"
+            eval="[(4, ref('l10n_br_pos.pos_pricelist_presumido'))]"
+        />
         <field name="partner_id" ref="l10n_br_fiscal.res_partner_anonimo" />
         <field
             name="payment_method_ids"

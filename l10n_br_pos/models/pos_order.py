@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from datetime import datetime
+
 from odoo import api, fields, models
 from odoo.osv.expression import AND
 
@@ -117,6 +118,7 @@ class PosOrder(models.Model):
     cancel_date = fields.Datetime(
         string="Cancellation Date",
         copy=False,
+        readonly=True,
     )
 
     cancel_file = fields.Binary(
@@ -130,6 +132,18 @@ class PosOrder(models.Model):
         index=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
+    )
+
+    cancel_reason_id = fields.Many2one(
+        string="Cancellation Reason",
+        comodel_name="pos.cancel.reason",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    cancel_reason_notes = fields.Text(
+        string="Cancellation Reason Notes",
+        readonly=True,
     )
 
     state_edoc = fields.Selection(
@@ -159,73 +173,98 @@ class PosOrder(models.Model):
     def _order_fields(self, ui_order):
         order_fields = super()._order_fields(ui_order)
 
-        order_fields.update({
-            "cnpj_cpf": ui_order.get("cnpj_cpf"),
-            "fiscal_operation_id": ui_order.get("fiscal_operation_id"),
-            "document_type_id": ui_order.get("document_type_id"),
-            "state_edoc": ui_order.get("state_edoc"),
-            "document_serie_id": ui_order.get("document_serie_id"),
-            "document_serie_number": ui_order.get("document_serie_number"),
-            "document_key": ui_order.get("document_key"),
-            "authorization_date": ui_order.get("authorization_date") if ui_order.get("authorization_date") else datetime.now(),
-            "authorization_file": ui_order.get("authorization_file"),
-            "additional_data": ui_order.get("additional_data"),
-        })
+        order_fields.update(
+            {
+                "cnpj_cpf": ui_order.get("cnpj_cpf"),
+                "fiscal_operation_id": ui_order.get("fiscal_operation_id"),
+                "document_type_id": ui_order.get("document_type_id"),
+                "state_edoc": ui_order.get("state_edoc"),
+                "document_serie_id": ui_order.get("document_serie_id"),
+                "document_serie_number": ui_order.get("document_serie_number"),
+                "document_key": ui_order.get("document_key"),
+                "authorization_date": ui_order.get("authorization_date")
+                if ui_order.get("authorization_date")
+                else datetime.now(),
+                "authorization_file": ui_order.get("authorization_file"),
+                "additional_data": ui_order.get("additional_data"),
+            }
+        )
 
         return order_fields
 
     def _export_for_ui(self, order):
         res = super()._export_for_ui(order)
 
-        res.update({
-            "cnpj_cpf": order.cnpj_cpf,
-            "document_type_id": order.document_type_id.id,
-            "fiscal_operation_id": order.fiscal_operation_id.id,
-            "status_code": order.status_code,
-            "status_description": order.status_description,
-            "state_edoc": order.state_edoc,
-            "document_serie_number": order.document_serie_number,
-            "document_serie_id": order.document_serie_id.id,
-            "document_key": order.document_key,
-            "authorization_date": order.authorization_date.astimezone() if order.authorization_date else None,
-            "cancel_date": order.cancel_date.astimezone() if order.cancel_date else None,
-            "additional_data": order.additional_data,
-        })
+        res.update(
+            {
+                "cnpj_cpf": order.cnpj_cpf,
+                "document_type_id": order.document_type_id.id,
+                "fiscal_operation_id": order.fiscal_operation_id.id,
+                "status_code": order.status_code,
+                "status_description": order.status_description,
+                "state_edoc": order.state_edoc,
+                "document_serie_number": order.document_serie_number,
+                "document_serie_id": order.document_serie_id.id,
+                "document_key": order.document_key,
+                "authorization_date": order.authorization_date.astimezone()
+                if order.authorization_date
+                else None,
+                "cancel_date": order.cancel_date.astimezone()
+                if order.cancel_date
+                else None,
+                "additional_data": order.additional_data,
+            }
+        )
 
         return res
 
     @api.model
     def cancel_pos_order(self, result):
         """
-            Cancel a Point of Sale (POS) order and initiate the refund process.
+        Cancel a Point of Sale (POS) order and initiate the refund process.
         """
-        order = self.env["pos.order"].search([("pos_reference", "=", result["pos_reference"])], limit=1)
+        order = self.env["pos.order"].search(
+            [("pos_reference", "=", result["pos_reference"])], limit=1
+        )
         self._cancel_order(order, result)
         self._refund_order(order)
 
     def _cancel_order(self, order, result):
         """
-            Cancel a specific order in the system and perform related operations.
+        Cancel a specific order in the system and perform related operations.
         """
         order.write({"state": "cancel"})
         order._populate_cancel_order_fields(result)
-        order.with_context(mail_create_nolog=True, tracking_disable=True, mail_create_nosubscribe=True, mail_notrack=True).refund()
+        order.with_context(
+            mail_create_nolog=True,
+            tracking_disable=True,
+            mail_create_nosubscribe=True,
+            mail_notrack=True,
+        ).refund()
 
     def _populate_cancel_order_fields(self, order_vals):
         """
-            Populate fields related to canceling an order with values from the provided dictionary.
+        Populate fields related to canceling an order with values from the provided dictionary.
         """
-        self.write({
-            "state_edoc": "cancelada",
-        })
+        self.write(
+            {
+                "state_edoc": "cancelada",
+                "cancel_reason_id": order_vals.get("cancel_reason_id"),
+                "cancel_date": datetime.now(),
+                "cancel_reason_notes": order_vals.get("notes"),
+            }
+        )
 
     def refund(self):
-        res = super(PosOrder, self.with_context(
-                    mail_create_nolog=True,
-                    tracking_disable=True,
-                    mail_create_nosubscribe=True,
-                    mail_notrack=True,
-                    )).refund()
+        res = super(
+            PosOrder,
+            self.with_context(
+                mail_create_nolog=True,
+                tracking_disable=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+            ),
+        ).refund()
         refund_order = self.browse(res["res_id"])
         self._update_refund_order(refund_order)
         self._generate_refund_payments(refund_order)
@@ -234,16 +273,15 @@ class PosOrder(models.Model):
 
     def _update_refund_order(self, refund_order):
         """
-            Update the refunded order with specific attributes
+        Update the refunded order with specific attributes
         """
-        refund_order.write({
-            "amount_total": self.amount_total * -1,
-            "state_edoc": "cancelada"
-        })
+        refund_order.write(
+            {"amount_total": self.amount_total * -1, "state_edoc": "cancelada"}
+        )
 
     def _generate_refund_payments(self, refund_order):
         """
-            Generate refund payments for the refunded order.
+        Generate refund payments for the refunded order.
         """
         payment_data = [
             {
@@ -260,16 +298,19 @@ class PosOrder(models.Model):
 
     def _refund_order(self, order):
         """
-            Process a refund for a Point of Sale (POS) order if applicable.
+        Process a refund for a Point of Sale (POS) order if applicable.
         """
-        refund_order = self.search([("pos_reference", "=", order.pos_reference), ("amount_total", ">", 0)], limit=1)
+        refund_order = self.search(
+            [("pos_reference", "=", order.pos_reference), ("amount_total", ">", 0)],
+            limit=1,
+        )
         refund_order.pos_reference = f"{order.pos_reference}-cancelled"
 
     @api.model
     def search_paid_order_ids(self, config_id, domain, limit, offset):
         """
-            Search for 'paid' orders with the given configuration ID, custom
-            domain, limit, and offset.
+        Search for 'paid' orders with the given configuration ID, custom
+        domain, limit, and offset.
         """
 
         default_domain = [

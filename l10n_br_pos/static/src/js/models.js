@@ -49,7 +49,10 @@ odoo.define("l10n_br_pos.models", function (require) {
         "district",
     ];
     models.load_fields("res.partner", PARTNER_COMPANY_FIELDS.concat(["ind_ie_dest"]));
-    models.load_fields("res.company", PARTNER_COMPANY_FIELDS.concat(["tax_framework", "logo"]));
+    models.load_fields(
+        "res.company",
+        PARTNER_COMPANY_FIELDS.concat(["tax_framework", "logo"])
+    );
 
     models.load_fields("uom.uom", ["code"]);
 
@@ -81,7 +84,21 @@ odoo.define("l10n_br_pos.models", function (require) {
         loaded: function (self, lines) {
             self.fiscal_map = lines;
             self.fiscal_map_by_template_id = {};
-            lines.forEach((line) => { self.fiscal_map_by_template_id[line.product_tmpl_id[0]] = line; });
+            lines.forEach((line) => {
+                self.fiscal_map_by_template_id[line.product_tmpl_id[0]] = line;
+            });
+        },
+    });
+
+    models.load_models({
+        model: "pos.cancel.reason",
+        fields: ["id", "name", "active", "is_custom"],
+        // eslint-disable-next-line no-unused-vars
+        domain: function (self) {
+            return [["active", "=", true]];
+        },
+        loaded: function (self, reasons) {
+            self.cancel_reasons = reasons;
         },
     });
 
@@ -92,8 +109,10 @@ odoo.define("l10n_br_pos.models", function (require) {
 
             this.cnpj_cpf = "";
 
-            this.fiscal_operation_id = this.pos.config.out_pos_fiscal_operation_id[0] || null;
-            this.document_type_id = this.pos.config.simplified_document_type_id[0] || null;
+            this.fiscal_operation_id =
+                this.pos.config.out_pos_fiscal_operation_id[0] || null;
+            this.document_type_id =
+                this.pos.config.simplified_document_type_id[0] || null;
             this.document_type = this.pos.config.simplified_document_type_id[1] || null;
 
             this.status_code = this.status_code || 0;
@@ -116,7 +135,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
             this.document_event_messages = this.document_event_messages || [];
         },
-        
+
         init_from_JSON: function (json) {
             _super_order.init_from_JSON.call(this, json);
 
@@ -175,10 +194,10 @@ odoo.define("l10n_br_pos.models", function (require) {
             json.document_event_messages = this.document_event_messages;
 
             json.lines = json.lines.filter(function (line) {
-                 return line[2].price_subtotal !== 0 || line[2].qty !== 0;
+                return line[2].price_subtotal !== 0 || line[2].qty !== 0;
             });
             json.paymentlines = this.paymentlines.filter(function (line) {
-                 return line.payment_status !== "reversed";
+                return line.payment_status !== "reversed";
             });
             return json;
         },
@@ -190,10 +209,9 @@ odoo.define("l10n_br_pos.models", function (require) {
                 this.cnpj_cpf = cnpj_cpf;
                 this.trigger("change", this);
                 return true;
-            } else {
-                this.show_invalid_cnpj_cpf_alert();
-                return false;
             }
+            this.show_invalid_cnpj_cpf_alert();
+            return false;
         },
 
         show_invalid_cnpj_cpf_alert() {
@@ -218,27 +236,33 @@ odoo.define("l10n_br_pos.models", function (require) {
             return {
                 federal: federalTaxes,
                 estadual: stateTaxes,
-            }
+            };
         },
 
         calculate_federal_taxes: function (order, line, rounding) {
             const federalPercent = line.cofins_percent + line.pis_percent;
-            const federalTotal = round_pr(order.total_paid * (federalPercent / 100), rounding);
+            const federalTotal = round_pr(
+                order.total_paid * (federalPercent / 100),
+                rounding
+            );
 
             return {
                 percent: federalPercent,
                 total: federalTotal,
-            }
+            };
         },
 
         calculate_state_taxes: function (order, line, rounding) {
             const statePercent = line.icms_percent;
-            const stateTotal = round_pr(order.total_paid * (statePercent / 100), rounding);
+            const stateTotal = round_pr(
+                order.total_paid * (statePercent / 100),
+                rounding
+            );
 
             return {
                 percent: statePercent,
                 total: stateTotal,
-            }
+            };
         },
 
         compute_message: function (templateString, taxes) {
@@ -251,7 +275,10 @@ odoo.define("l10n_br_pos.models", function (require) {
                 label: element.label,
                 item: element.id,
             }));
-            this.pos.showSelectionPopup(this.document_event_messages, "Document Status");
+            this.pos.showSelectionPopup(
+                this.document_event_messages,
+                "Document Status"
+            );
         },
 
         update_state_edoc: function (newState) {
@@ -265,8 +292,9 @@ odoo.define("l10n_br_pos.models", function (require) {
             });
         },
 
+        // eslint-disable-next-line no-unused-vars
         document_send: async function (component) {
-            this.update_state_edoc(SITUACAO_EDOC_AUTORIZADA)
+            this.update_state_edoc(SITUACAO_EDOC_AUTORIZADA);
             return true;
         },
 
@@ -281,15 +309,15 @@ odoo.define("l10n_br_pos.models", function (require) {
         _document_check_result: async function () {
             this.update_state_edoc(SITUACAO_EDOC_AUTORIZADA);
         },
-        
+
         _document_cancel_validate: async function () {
             return true;
         },
-        
+
         _document_cancel_check_result: async function () {
             this.update_state_edoc(SITUACAO_EDOC_CANCELADA);
         },
-        
+
         document_cancel: async function (cancel_reason) {
             this.cancel_reason = cancel_reason;
             return true;
@@ -299,12 +327,18 @@ odoo.define("l10n_br_pos.models", function (require) {
             return this.state_edoc ? SITUACAO_EDOC[this.state_edoc] : "";
         },
 
-        cancel_order: function () {
+        cancel_order: function (cancel_reason) {
             try {
                 this.pos.rpc({
                     model: "pos.order",
                     method: "cancel_pos_order",
-                    args: [{ "pos_reference": this.name }],
+                    args: [
+                        {
+                            pos_reference: this.name,
+                            cancel_reason_id: cancel_reason.id,
+                            notes: cancel_reason.notes,
+                        },
+                    ],
                 });
             } catch (error) {
                 this.pos.handle_offline_error(error);
@@ -312,10 +346,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
 
         handle_offline_error: function (error) {
-            if (
-                error.message &&
-                [100, 200, 404, -32098].includes(error.message.code)
-            ) {
+            if (error.message && [100, 200, 404, -32098].includes(error.message.code)) {
                 Gui.showPopup("ErrorPopup", {
                     title: this.pos.comp.env._t("Network Error"),
                     body: this.pos.comp.env._t(
@@ -349,7 +380,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.last_document_session_number = null;
             return _super_posmodel.initialize.call(this, session, attributes);
         },
-    
+
         get_cnpj_cpf: function () {
             const order = this.get_order();
             return order ? order.get_cnpj_cpf() : "";
@@ -367,5 +398,5 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     return {
         models: models,
-    }
+    };
 });

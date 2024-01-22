@@ -21,7 +21,7 @@
     "data": [
         # security
         "security/l10n_br_pos_product_fiscal_map.xml",
-
+        "security/pos_cancel_reason.xml",
         # Views
         "views/cfop_views.xml",
         "views/l10n_br_pos_product_fiscal_map.xml",
@@ -30,7 +30,7 @@
         "views/product_template_view.xml",
         "views/pos_payment_method_view.xml",
         "views/res_company.xml",
-
+        "views/pos_cancel_reason.xml",
         # Templates
         "views/pos_template.xml",
     ],
@@ -38,7 +38,7 @@
         "demo/product_template_demo.xml",
         "demo/pos_payment_method_demo.xml",
         "demo/pos_config_demo.xml",
-        "demo/pos_cfop_data.xml"
+        "demo/pos_cfop_data.xml",
     ],
     "qweb": [
         "static/src/xml/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.xml",

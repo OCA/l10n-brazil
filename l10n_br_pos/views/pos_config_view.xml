@@ -28,11 +28,20 @@
 
                         <group string="Document Types">
                             <group>
-                                <field string="Simplified Document" name="simplified_document_type_id" />
-                                <field string="Amount Limit" name="simplified_invoice_amount_limit" />
+                                <field
+                                    string="Simplified Document"
+                                    name="simplified_document_type_id"
+                                />
+                                <field
+                                    string="Amount Limit"
+                                    name="simplified_invoice_amount_limit"
+                                />
                             </group>
                             <group>
-                                <field string="Detailed Document" name="detailed_document_type_id" />
+                                <field
+                                    string="Detailed Document"
+                                    name="detailed_document_type_id"
+                                />
                             </group>
                         </group>
 
@@ -48,7 +57,7 @@
                                     name="update_pos_fiscal_map"
                                     type="object"
                                     string="Update Product Taxes"
-                                />    
+                                />
                             </group>
 
                             <group>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-<template id="pos_l10n_br_assets_backend" name="pos_l10n_br_assets_backend" inherit_id="point_of_sale.assets">
+<template
+        id="pos_l10n_br_assets_backend"
+        name="pos_l10n_br_assets_backend"
+        inherit_id="point_of_sale.assets"
+    >
     <xpath expr="." position="inside">
 
         <script src="/l10n_br_pos/static/lib/JsBarcode.js" type="text/javascript" />
@@ -8,10 +12,19 @@
         <script src="/l10n_br_pos/static/src/js/models.js" type="text/javascript" />
         <script src="/l10n_br_pos/static/src/js/util.js" type="text/javascript" />
 
-        <script src="/l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.js" type="text/javascript" />
-        <script src="/l10n_br_pos/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.js" type="text/javascript"/>
-        <script src="/l10n_br_pos/static/src/js/Screens/OrderManagementScreen/OrderRow.js" type="text/javascript" />
-    
+        <script
+                src="/l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.js"
+                type="text/javascript"
+            />
+        <script
+                src="/l10n_br_pos/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.js"
+                type="text/javascript"
+            />
+        <script
+                src="/l10n_br_pos/static/src/js/Screens/OrderManagementScreen/OrderRow.js"
+                type="text/javascript"
+            />
+
     </xpath>
 </template>
 

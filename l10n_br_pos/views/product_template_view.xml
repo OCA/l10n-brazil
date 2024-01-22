@@ -7,9 +7,16 @@
         <field name="inherit_id" ref="point_of_sale.product_template_form_view" />
         <field name="arch" type="xml">
             <group name="pos" position="after">
-                <button name="update_pos_fiscal_map" type="object" string="Update POS taxes"/>
+                <button
+                    name="update_pos_fiscal_map"
+                    type="object"
+                    string="Update POS taxes"
+                />
                 <group>
-                    <field name="pos_fiscal_map_ids" context="{'default_product_tmpl_id': id}" />
+                    <field
+                        name="pos_fiscal_map_ids"
+                        context="{'default_product_tmpl_id': id}"
+                    />
                 </group>
             </group>
         </field>

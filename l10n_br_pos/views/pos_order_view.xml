@@ -20,13 +20,13 @@
 
             <field name="fiscal_position_id" position="before">
                 <field name="cnpj_cpf" />
-                <field name="fiscal_operation_id"/>
+                <field name="fiscal_operation_id" />
             </field>
 
             <group name="order_fields" position="after">
                   <group name="l10n_br_fiscal" colspan="4">
-                    <group name="document_header_right">                    
-                        <field name="document_electronic"/>
+                    <group name="document_header_right">
+                        <field name="document_electronic" />
                         <field name="edoc_purpose" />
                         <field name="state_edoc" />
                     </group>
@@ -40,12 +40,21 @@
                   <group>
                     <group name="document_header_right">
                         <field name="document_type_id" required="1" />
-                      <field name="document_serie_id" attrs="{'invisible': [('document_electronic', '=', False)]}"/>
-                      <field name="document_serie_number" attrs="{'invisible': [('document_electronic', '=', False)]}" />
+                      <field
+                            name="document_serie_id"
+                            attrs="{'invisible': [('document_electronic', '=', False)]}"
+                        />
+                      <field
+                            name="document_serie_number"
+                            attrs="{'invisible': [('document_electronic', '=', False)]}"
+                        />
                     </group>
-                    
+
                     <group name="document_header_left">
-                        <field name="document_key" attrs="{'invisible': [('document_electronic', '=', False)]}"/>
+                        <field
+                            name="document_key"
+                            attrs="{'invisible': [('document_electronic', '=', False)]}"
+                        />
                       <field name="authorization_file" />
                       <field name="authorization_date" />
                     </group>
@@ -53,12 +62,18 @@
             </group>
 
             <page name="extra" position="after">
-                <page name="coupon_cancelled" string="Cancellation" attrs="{'invisible': [('state', '!=', 'cancel')]}">
+                <page
+                    name="coupon_cancelled"
+                    string="Cancellation"
+                    attrs="{'invisible': [('state', '!=', 'cancel')]}"
+                >
                     <group string="Cancellation Information">
                         <group name="cancel_document_header_right">
+                            <field name="cancel_reason_id" />
                           <field name="cancel_document_key" />
                           <field name="cancel_date" />
                           <field name="cancel_file" />
+                          <field name="cancel_reason_notes" />
                         </group>
                     </group>
                 </page>
