@@ -50,7 +50,7 @@
                         </group>
                     </page>
 
-                    <page name="l10n_br_pos_taxes" string="Taxes">
+                    <page name="l10n_br_pos_taxes" string="Brazilian Taxes">
                         <group string="Taxes">
                             <group>
                                 <button
@@ -68,6 +68,10 @@
                                     context="{'search_pos_config_id': active_id}"
                                     string="View Tax Details by Product"
                                 />
+                            </group>
+
+                            <group>
+                                <field name="iface_brazilian_taxes" />
                             </group>
                         </group>
 

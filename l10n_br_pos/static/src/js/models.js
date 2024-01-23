@@ -104,6 +104,7 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
+        // eslint-disable-next-line complexity
         initialize: function (attributes, options) {
             _super_order.initialize.call(this, attributes, options);
 
@@ -227,42 +228,31 @@ odoo.define("l10n_br_pos.models", function (require) {
             return this.cnpj_cpf || partner_vat;
         },
 
-        get_federal_state_taxes: function () {
-            const order = this.pos.get_order();
-            const rounding = this.pos.currency.rounding;
-            const line = order.orderlines[0];
-            const federalTaxes = this.calculate_federal_taxes(order, line, rounding);
-            const stateTaxes = this.calculate_state_taxes(order, line, rounding);
-            return {
-                federal: federalTaxes,
-                estadual: stateTaxes,
-            };
+        get_total_with_tax: function () {
+            /*
+             * The tax is already included in the price of the product.
+             */
+            if (this.pos.config.iface_brazilian_taxes) {
+                return round_pr(
+                    this.get_total_without_tax(),
+                    this.pos.currency.rounding
+                );
+            }
+            return _super_order.get_total_with_tax.apply(this, arguments);
         },
 
-        calculate_federal_taxes: function (order, line, rounding) {
-            const federalPercent = line.cofins_percent + line.pis_percent;
-            const federalTotal = round_pr(
-                order.total_paid * (federalPercent / 100),
-                rounding
-            );
+        get_total_tax: function () {
+            /**
+             * Calculate the total amount of Brazilian taxes for this order.
+             */
+            if (this.pos.config.iface_brazilian_taxes) {
+                const taxesSum = this.orderlines.models.reduce((sum, line) => {
+                    return sum + line.get_tax();
+                }, 0);
+                return round_pr(taxesSum, this.pos.currency.rounding);
+            }
 
-            return {
-                percent: federalPercent,
-                total: federalTotal,
-            };
-        },
-
-        calculate_state_taxes: function (order, line, rounding) {
-            const statePercent = line.icms_percent;
-            const stateTotal = round_pr(
-                order.total_paid * (statePercent / 100),
-                rounding
-            );
-
-            return {
-                percent: statePercent,
-                total: stateTotal,
-            };
+            return _super_order.get_total_tax.apply(this, arguments);
         },
 
         compute_message: function (templateString, taxes) {
@@ -358,9 +348,34 @@ odoo.define("l10n_br_pos.models", function (require) {
                 throw error;
             }
         },
+    });
 
-        decode_cancel_xml: function (XmlEncoded) {
-            return decodeURIComponent(atob(XmlEncoded));
+    var _super_orderline = models.Orderline.prototype;
+    models.Orderline = models.Orderline.extend({
+        get_tax: function () {
+            if (this.pos.config.iface_brazilian_taxes) {
+                const fiscal_map_id = this.pos.fiscal_map_by_template_id[
+                    this.get_product().product_tmpl_id
+                ];
+
+                if (fiscal_map_id) {
+                    const productValue = this.get_unit_price() * this.get_quantity();
+                    const taxesPercent =
+                        fiscal_map_id.cofins_percent +
+                        fiscal_map_id.icms_percent +
+                        fiscal_map_id.pis_percent;
+                    let taxes = 0;
+                    taxes = (productValue * taxesPercent) / 100;
+
+                    return round_pr(taxes, this.pos.currency.rounding);
+                }
+                return Gui.showPopup("ErrorPopup", {
+                    title: _t("Error"),
+                    body: _t("Fiscal map not found for product"),
+                });
+            }
+
+            return _super_orderline.get_tax.apply(this, arguments);
         },
     });
 

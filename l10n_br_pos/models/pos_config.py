@@ -25,6 +25,12 @@ class PosConfig(models.Model):
         else:
             self.out_pos_fiscal_operation_line_ids = False
 
+    iface_brazilian_taxes = fields.Boolean(
+        string="Brazilian Taxes",
+        help="Activating will enable brazilian taxes calculation on POS",
+        default=False,
+    )
+
     partner_id = fields.Many2one(
         string="Default Partner",
         comodel_name="res.partner",
@@ -64,7 +70,8 @@ class PosConfig(models.Model):
 
     simplified_invoice_amount_limit = fields.Float(
         digits="Account",
-        help="Over this amount is not legally possible to create a simplified invoice for CF-e or NFC-e operations.",
+        help="""Over this amount is not legally possible to create a simplified
+            invoice for CF-e or NFC-e operations.""",
     )
 
     simplified_document_type_id = fields.Many2one(
@@ -102,7 +109,7 @@ class PosConfig(models.Model):
         )
 
         pos_fiscal_map_ids = self.pos_fiscal_map_ids.filtered(
-            lambda map_id: map_id.pos_config_id == self.id
+            lambda map_id: map_id.pos_config_id.id == self.id
         )
         pos_fiscal_map_ids.unlink()
 
