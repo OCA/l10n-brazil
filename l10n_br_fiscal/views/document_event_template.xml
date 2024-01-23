@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<template id="report_document_event">
+    <t t-set="o" t-value="doc" />
+        <t t-set="o" t-value="o.with_context(lang=o.document_id.partner_id.lang)" />
+        <div class="page" style="font-size:16px;">
+            <style type="text/css">
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+    padding: 5px 5px 5px 5px;
+}
+.bt {
+    border-top: 1px solid black;
+}
+.bb {
+    border-bottom: 1px solid black;
+}
+.bl {
+    border-left: 1px solid black;
+}
+.br {
+    border-right: 1px solid black;
+}
+row {
+    cols: 10;
+}
+            </style>
+
+        <div class="oe_structure" />
+
+        <div id="header" class="row bt bb bl br">
+            <div class="col-12" style="text-align: center; font-size: 36px;">
+                <span t-field="o.type" />
+            </div>
+        </div>
+        <div class="row bb bl br">
+              <div id="document_key" class="col-6">
+                  <strong style="font-size:18px;">Document Key:</strong>
+                  <p t-field="o.document_id.document_key" />
+              </div>
+              <div id="company_cnpj_cpf" class="col-6 bl">
+                  <strong style="font-size:18px;">CNPJ:</strong>
+                  <p t-field="o.document_id.company_cnpj_cpf" />
+              </div>
+        </div>
+        <div class="row bb bl br">
+              <div id="document_number" class="col-3">
+                  <strong style="font-size:18px;">Document Number:</strong>
+                  <p t-field="o.document_number" />
+              </div>
+              <div id="document_serie_code" class="col-3 bl">
+                  <strong style="font-size:18px;">Document Serie:</strong>
+                  <p t-field="o.document_serie_id.code" />
+              </div>
+              <div id="environment" class="col-6 bl">
+                  <strong style="font-size:18px;">Environment:</strong>
+                  <p t-field="o.environment" />
+              </div>
+        </div>
+        <div class="row bb bl br">
+              <div id="protocol_number" class="col-6">
+                  <strong style="font-size:18px;">Protocol Number:</strong>
+                  <p t-field="o.protocol_number" />
+              </div>
+               <div id="protocol_date" class="col-6 bl">
+                  <strong style="font-size:18px;">Protocol Date:</strong>
+                  <p t-field="o.protocol_date" />
+              </div>
+        </div>
+        <div id="justification" class="row bb bl br">
+              <div class="col-12" t-if="o.justification">
+                  <strong style="font-size:18px;">Justification:</strong>
+                  <p t-field="o.justification" />
+              </div>
+        </div>
+        <div id="cce_notes" class="row bb bl br">
+              <div class="col-12" style="font-size:10px;" t-if="o.type == '14'">
+                  A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:<br
+                    />
+                  <br />
+                  I - as variáveis que determinam o valor do imposto tais como: base de cálculo, alíquota, diferença de preço, quantidade, valor da operação ou da prestação;<br
+                    />
+                  II - a correção de dados cadastrais que impliquem mudança do remetente ou do destinatário;<br
+                    />
+                  III - a data de emissão ou de saída.<br />
+              </div>
+        </div>
+    </div>
+</template>
+
+<template id="main_report_document_event">
+    <t t-call="web.html_container">
+        <div class="article">
+            <t t-foreach="docs" t-as="doc">
+                <t
+                        t-call="l10n_br_fiscal.report_document_event"
+                        t-lang="doc.document_id.partner_id.lang"
+                    />
+            </t>
+        </div>
+    </t>
+</template>
+
+</odoo>

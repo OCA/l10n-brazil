@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="fiscal_document_change_state_template" model="mail.template">
+      <field name="name">Fiscal Document Change State Notification Email</field>
+      <field name="model_id" ref="model_l10n_br_fiscal_document" />
+      <field name="email_from">{{ object.company_id.partner_id.email }}</field>
+      <field
+            name="subject"
+        >{{object.document_type_id.name}}: {{object.document_number}} Serie: {{object.document_serie}} is: {{dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}}</field>
+      <field name="partner_to">{{object.partner_id.id}}</field>
+      <field name="auto_delete" eval="False" />
+      <field name="lang">{{object.partner_id.lang}}</field>
+      <field name="body_html" type="html">
+        <div style="margin: 0px; padding: 0px;">
+            <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                Hello <t t-out="object.partner_id.name" />,
+                <br /><br />
+                The Fiscal Document <t t-out="object.document_number" /> has changed:
+                <br />
+                Document Number: <t t-out="object.document_number" />
+                <br />
+                Document Serie: <t t-out="object.document_serie" />
+                <br />
+                Document Key: <t t-out="object.document_key" />
+                <br />
+                Document Status: <t
+                        t-out="dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')"
+                    />
+            </p>
+        </div>
+      </field>
+    </record>
+
+    <record id="fiscal_document_change_state_template_nfse" model="mail.template">
+      <field name="name">NFSe Fiscal Document Change State Notification Email</field>
+      <field name="model_id" ref="model_l10n_br_fiscal_document" />
+      <field
+            name="email_from"
+        >{{ object.company_id.partner_id.email_formatted }}</field>
+      <field
+            name="subject"
+        >{{object.document_type_id.name}}: {{object.document_number}} Serie: {{object.document_serie}} is: {{dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}}</field>
+      <field name="partner_to">{{object.partner_id.id}}</field>
+      <field name="auto_delete" eval="False" />
+      <field name="lang">{{object.partner_id.lang}}</field>
+      <field name="body_html" type="html">
+        <div style="margin: 0px; padding: 0px;">
+            <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                Hello <t t-out="object.partner_id.name" />,
+                <br /><br />
+                The Fiscal Document <t t-out="object.document_number" /> has changed:
+                <br />
+                Document Number: <t t-out="object.document_number" />
+                <br />
+                Document Serie: <t t-out="object.document_serie" />
+                <br />
+                Document Key: <t t-out="object.document_key" />
+                <br />
+                Document Status: <t
+                        t-out="dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')"
+                    />
+            </p>
+        </div>
+      </field>
+    </record>
+
+</odoo>
