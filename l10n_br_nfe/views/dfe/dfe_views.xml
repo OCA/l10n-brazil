@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2023 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="nfe_dfe_form">
+        <field name="name">l10n_br_nfe.dfe.form</field>
+        <field name="model">l10n_br_fiscal.dfe</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_dfe.dfe_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='search_documents']" position="after">
+                <button
+                    name="import_documents"
+                    string="Import Documents"
+                    type="object"
+                    class="btn-primary"
+                />
+            </xpath>
+
+            <xpath expr="//page[@id='documents']" position="after">
+                <page string="Manifestations">
+                    <field
+                        name="mde_ids"
+                        nolabel="1"
+                        readonly="1"
+                        context="{'tree_view_ref': 'l10n_br_fiscal.dfe_manifestacao_tree'}"
+                    />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

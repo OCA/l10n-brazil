@@ -1,0 +1,7 @@
+cryptography==38.0.4
+pyopenssl>=23.2
+odoo-addon-l10n_br_fiscal @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/2803/head#subdirectory=setup/l10n_br_fiscal
+odoo-addon-l10n_br_fiscal_certificate @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/2869/head#subdirectory=setup/l10n_br_fiscal_certificate
+odoo-addon-l10n_br_fiscal_dfe @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/2872/head#subdirectory=setup/l10n_br_fiscal_dfe
+odoo-addon-l10n_br_nfe_spec @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/2875/head#subdirectory=setup/l10n_br_nfe_spec
+odoo-addon-spec_driven_model @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/2876/head#subdirectory=setup/spec_driven_model
