@@ -1,4 +1,3 @@
-
 [MASTER]
 load-plugins=pylint_odoo
 score=n
@@ -69,7 +68,7 @@ enable=anomalous-backslash-in-string,
     deprecated-openerp-xml-node,
     duplicate-po-message-definition,
     except-pass,
-    file-not-used,
+#    file-not-used,
     invalid-commit,
     manifest-maintainers-list,
     missing-newline-extrafiles,
