@@ -15,6 +15,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_coa_simple>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_crm>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_currency_rate_update>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_br_fiscal>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_resource>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_setup_tests>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_stock>=15.0dev,<15.1dev',
