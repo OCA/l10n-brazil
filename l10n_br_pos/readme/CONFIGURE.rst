@@ -1,14 +1,12 @@
-Configurar aba POS do cadastro da empresa.
+Configurações Gerais da Empresa:
+* Acesse as configurações e o registro da empresa desejada para configurar as operações do PDV.
+* Na aba Fiscal > POS, selecione as operações padrões a serem utilizadas.
+* OBS: Embora seja possível configurar manualmente as operações no PDV, recomenda*se realizar essa configuração na página de configurações da empresa.
 
-Configurar o Ponto de venda, prestando atenção nos seguintes campos:
-
-  * A aba Geral, com os detalhes do documento fiscal simplificado e não simplificado;
-  * A aba tributos, com os dados da tributação a ser utilizada, o o cliente anónimo para servir como referência, assim como seus campos de endereço.
-  * Clicar no botão Update Tax no pos config ou no produto;
-  * Validar que a tributação esta correta;
-
-Configurar e instalar um dos módulos responsáveis pela transmissão do documento fiscal:
-
-  * l10n_br_pos_cfe
-  * l10n_br_pos_nfce
-  * l10n_br_account_nfe (Somente para emissão de NF-e);
+Configuração de um PDV:
+* Ao criar um novo PDV, vá para a parte inferior, onde há várias abas para configuração.
+* Na aba "Geral": especifique o consumidor padrão, garantindo que o estado esteja definido para calcular os impostos corretamente.
+* Defina os tipos de documentos e o limite total do pedido a ser vendido.
+* Na aba "Impostos Brasileiros", habilite o campo dos impostos se desejar que os valores sejam exibidos no pedido.
+* Configure as operações padrões.
+* Após a configuração, clique no botão para atualizar os impostos, e eles serão calculados automaticamente.
