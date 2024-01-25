@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        Partners Extension
+    -->
+    <record id="l10n_br_account_partner_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <group position="after" name="banks">
+                <div />
+                <group
+                    string="Brazilian Instant Payment Keys (PIX)"
+                    name="pix_keys"
+                    groups="account.group_account_invoice,account.group_account_readonly"
+                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                >
+                    <field name="show_l10n_br" invisible="1" />
+                    <field name="pix_key_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="partner_id" invisible="1" />
+                            <field name="sequence" widget="handle" />
+                            <field name="key_type" />
+                            <field name="key" />
+                            <field name="partner_bank_id" />
+                        </tree>
+                    </field>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

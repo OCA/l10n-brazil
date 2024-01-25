@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <record id="nfe_document_form_inherit" model="ir.ui.view">
+      <field name="name">l10n_br_nfe.document.form.inherit</field>
+      <field name="model">l10n_br_fiscal.document</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+      <field name="arch" type="xml">
+          <field name="state_fiscal" position="after">
+              <field name="move_ids" invisible="1" />
+          </field>
+      </field>
+  </record>
+
+</odoo>
