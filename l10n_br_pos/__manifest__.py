@@ -8,7 +8,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
     "category": "Point Of Sale",
-    "development_status": "Alpha",
+    "development_status": "Beta",
     "maintainers": ["mileo", "lfdivino", "luismalta", "ygcarvalh"],
     "depends": [
         "l10n_br_fiscal",
