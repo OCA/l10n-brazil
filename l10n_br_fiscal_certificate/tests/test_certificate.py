@@ -7,11 +7,11 @@ from erpbrasil.assinatura import misc
 
 from odoo import fields
 from odoo.exceptions import ValidationError
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 from odoo.tools.misc import format_date
 
 
-class TestCertificate(SavepointCase):
+class TestCertificate(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -114,3 +114,20 @@ class TestCertificate(SavepointCase):
                     "file": self.certificate_invalid,
                 }
             )
+
+    def test_compute_field_to_get_certificate(self):
+        """Test compute field to get Certificate or e-CNPJ or e-NFe"""
+        company = self.env.company
+        with self.assertRaises(ValidationError):
+            assert company.certificate
+        cert = self.certificate_model.create(
+            {
+                "type": "nf-e",
+                "subtype": "a1",
+                "password": self.cert_passwd,
+                "file": self.certificate_valid,
+            }
+        )
+
+        company.certificate_nfe_id = cert
+        assert company.certificate
