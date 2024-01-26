@@ -409,12 +409,6 @@ msgid "Cancellation protocol"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/invalidate_number.py:0
-#, python-format
-msgid "Certificado não encontrado"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_CFOP
 msgid "Cfop"
 msgstr ""
