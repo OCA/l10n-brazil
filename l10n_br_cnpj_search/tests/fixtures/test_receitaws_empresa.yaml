@@ -1,0 +1,66 @@
+interactions:
+  - request:
+      body: null
+      headers:
+        Accept:
+          - "*/*"
+        Accept-Encoding:
+          - gzip, deflate
+        Authorization:
+          - Bearer 06aef429-a981-3ec5-a1f8-71d38d86481e
+        Connection:
+          - keep-alive
+        User-Agent:
+          - python-requests/2.25.1
+      method: GET
+      uri: https://www.receitaws.com.br/v1/cnpj/44356113000108
+    response:
+      body:
+        string:
+          "{\"abertura\": \"24/11/2021\", \"situacao\": \"BAIXADA\", \"tipo\":
+          \"MATRIZ\", \"nome\": \"KILIAN MACEDO MELCHER 08777131460\", \"porte\":
+          \"MICRO EMPRESA\", \"natureza_juridica\": \"213-5 - Empres\\u00e1rio
+          (Individual)\", \"logradouro\": \"RUA LUIZA BEZERRA MOTTA\", \"numero\":
+          \"950\", \"complemento\": \"BLOCO E;APT 302\", \"municipio\": \"CAMPINA
+          GRANDE\", \"bairro\": \"CATOLE\", \"uf\": \"PB\", \"cep\": \"58.410-410\",
+          \"email\": \"kilian.melcher@gmail.com\", \"telefone\": \"(83) 8665-0905\",
+          \"data_situacao\": \"18/12/2023\", \"motivo_situacao\": \"EXTIN\\u00c7\\u00c3O
+          POR ENCERRAMENTO LIQUIDA\\u00c7\\u00c3O VOLUNT\\u00c1RIA\", \"cnpj\":
+          \"44356113000108\", \"ultima_atualizacao\": \"2024-01-13T23:59:59.000Z\",
+          \"status\": \"OK\", \"fantasia\": \"\", \"efr\": \"\", \"situacao_especial\":
+          \"\", \"data_situacao_especial\": \"\", \"atividade_principal\": [{\"code\":
+          \"4751-2/01\", \"text\": \"********\"}], \"atividades_secundarias\":
+          [{\"code\": \"00.00-0-00\", \"text\": \"Não informada\"}], \"capital_social\":
+          \"3000.00\", \"qsa\": [], \"extra\": {}, \"billing\": {\"free\": true,
+          \"database\": true}}"
+      headers:
+        Access-Control-Allow-Headers:
+          - authorization,Access-Control-Allow-Origin,Content-Type,SOAPAction,apikey,Internal-Key,x-cpf-usuario,signature,x-signature,x-credencial,X-Request-Trace-Id
+        Access-Control-Allow-Methods:
+          - GET
+        Access-Control-Expose-Headers:
+          - ""
+        Connection:
+          - keep-alive
+        Date:
+          - Wed, 28 Jun 2023 13:45:28 GMT
+        Transfer-Encoding:
+          - chunked
+        access-control-allow-origin:
+          - "*"
+        activityid:
+          - 0c70c470-9419-4869-aa01-b964c345f5ac
+        content-type:
+          - application/json; charset=utf-8
+        etag:
+          - W/"86a-p2CeQnt0OF5zs4vPG4Lpgnsxv8k"
+        strict-transport-security:
+          - max-age=15768000
+        x-content-type-options:
+          - nosniff
+        x-powered-by:
+          - Express
+      status:
+        code: 200
+        message: OK
+version: 1
