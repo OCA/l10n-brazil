@@ -1,7 +1,10 @@
 # Copyright 2022 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import os
 import time  # You can't send multiple requests at the same time in trial version
+
+import vcr
 
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
@@ -16,6 +19,11 @@ class TestReceitaWS(TestCnpjCommon):
 
         self.set_param("cnpj_provider", "receitaws")
 
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_receitaws_empresa.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
     def test_receita_ws_success(self):
         kilian = self.model.create({"name": "Kilian", "cnpj_cpf": "44.356.113/0001-08"})
 
@@ -37,6 +45,11 @@ class TestReceitaWS(TestCnpjCommon):
         self.assertEqual(kilian.equity_capital, 3000)
         self.assertEqual(kilian.cnae_main_id.code, "4751-2/01")
 
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_receitaws_not_found.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
     def test_receita_ws_fail(self):
         invalido = self.model.create({"name": "invalido", "cnpj_cpf": "00000000000000"})
         invalido._onchange_cnpj_cpf()
@@ -45,6 +58,11 @@ class TestReceitaWS(TestCnpjCommon):
         with self.assertRaises(ValidationError):
             invalido.search_cnpj()
 
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_receitaws_multiplos_telefones.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
     def test_receita_ws_multiple_phones(self):
         isla = self.model.create({"name": "Isla", "cnpj_cpf": "92.666.056/0001-06"})
         isla._onchange_cnpj_cpf()
