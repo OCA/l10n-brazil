@@ -146,6 +146,7 @@ class Lead(models.Model):
                 result["rg"] = self.partner_id.rg
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
+        return result
 
     def _prepare_customer_values(self, name, is_company, parent_id=False):
         """Extract data from lead to create a partner.
