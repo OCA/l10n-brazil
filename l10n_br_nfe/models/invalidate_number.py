@@ -3,7 +3,6 @@
 
 from datetime import datetime
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
@@ -18,11 +17,7 @@ class InvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.invalidate.number"
 
     def _processador(self):
-        certificate = self.env.company.certificate
-        certificado = cert.Certificado(
-            arquivo=certificate.file,
-            senha=certificate.password,
-        )
+        certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
         params = {
