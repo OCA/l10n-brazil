@@ -31,8 +31,7 @@
                 <field name="name" required="1" />
                 <field name="icms_imported_tax_id" required="1" />
               </group>
-              <notebook>
-              </notebook>
+              <notebook />
             </sheet>
             <div class="oe_chatter">
                 <field name="message_follower_ids" groups="base.group_user" />

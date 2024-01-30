@@ -19,12 +19,10 @@ VIEW = """
 <page name="uf_{0}" string="{1}">
     <notebook>
         <page name="uf_{0}_internal" string="Interno">
-            <group name="icms_internal_{0}" string="Internal">
+            <separator name="icms_internal_{0}" string="Internal" />
             <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}"/>
-            </group>
-            <group name="icms_external_{0}" string="External">
+            <separator name="icms_external_{0}" string="External" />
             <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}"/>
-            </group>
         </page>
         <page name="uf_{0}_st" string="ST">
             <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {3}, 'default_state_from_id': {5}}}"/>
@@ -1642,36 +1640,33 @@ class ICMSRegulation(models.Model):
     )
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        view_super = super().fields_view_get(view_id, view_type, toolbar, submenu)
-
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
         if view_type == "form":
-            doc = etree.fromstring(view_super.get("arch"))
+            arch = self._apply_state_tax_definition_tabs(arch)
+        return arch, view
 
-            for node in doc.xpath("//notebook"):
-                br_states = self.env["res.country.state"].search(
-                    [("country_id", "=", self.env.ref("base.br").id)], order="code"
+    @api.model
+    def _apply_state_tax_definition_tabs(self, view_arch):
+        for node in view_arch.xpath("//notebook"):
+            br_states = self.env["res.country.state"].search(
+                [("country_id", "=", self.env.ref("base.br").id)], order="code"
+            )
+            i = 0
+            for state in br_states:
+                i += 1
+                state_page = VIEW.format(
+                    state.code.lower(),
+                    state.name,
+                    self.env.ref("l10n_br_fiscal.tax_group_icms").id,
+                    self.env.ref("l10n_br_fiscal.tax_group_icmsst").id,
+                    self.env.ref("l10n_br_fiscal.tax_group_icmsfcp").id,
+                    state.id,
                 )
+                node_page = etree.fromstring(state_page)
+                node.insert(i, node_page)
 
-                i = 0
-                for state in br_states:
-                    i += 1
-                    state_page = VIEW.format(
-                        state.code.lower(),
-                        state.name,
-                        self.env.ref("l10n_br_fiscal.tax_group_icms").id,
-                        self.env.ref("l10n_br_fiscal.tax_group_icmsst").id,
-                        self.env.ref("l10n_br_fiscal.tax_group_icmsfcp").id,
-                        state.id,
-                    )
-                    node_page = etree.fromstring(state_page)
-                    node.insert(i, node_page)
-
-            view_super["arch"] = etree.tostring(doc, encoding="unicode")
-
-        return view_super
+        return view_arch
 
     def _build_map_tax_def_domain(
         self,
