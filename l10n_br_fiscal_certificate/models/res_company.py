@@ -3,7 +3,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
-from odoo import _, fields, models
+from erpbrasil.assinatura import certificado as cert
+
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -44,3 +46,18 @@ class ResCompany(models.Model):
                 )
 
             record.certificate = certificate
+
+    @api.model
+    def _get_br_ecertificate(self, only_ecnpj=False):
+        certificate = self.certificate
+        if only_ecnpj:
+            if certificate != self.sudo().certificate_ecnpj_id:
+                certificate = self.sudo().certificate_ecnpj_id
+                if not certificate:
+                    raise ValidationError(
+                        _("Only e-CNPJ Certicate can be used for this case.")
+                    )
+        return cert.Certificado(
+            arquivo=certificate.file,
+            senha=certificate.password,
+        )
