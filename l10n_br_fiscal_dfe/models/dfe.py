@@ -4,7 +4,6 @@
 import logging
 import re
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
@@ -53,20 +52,12 @@ class DFe(models.Model):
         return self.mapped(lambda d: (d.id, f"{d.company_id.name} - NSU: {d.last_nsu}"))
 
     @api.model
-    def _get_certificate(self):
-        certificate_id = self.company_id.certificate_nfe_id
-        return cert.Certificado(
-            arquivo=certificate_id.file,
-            senha=certificate_id.password,
-        )
-
-    @api.model
     def _get_processor(self):
+        certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
-
         return edoc_nfe(
-            TransmissaoSOAP(self._get_certificate(), session),
+            TransmissaoSOAP(certificado, session),
             self.company_id.state_id.ibge_code,
             versao=self.version,
             ambiente=self.environment,
