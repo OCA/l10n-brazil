@@ -115,8 +115,8 @@ class TestCertificate(TransactionCase):
                 }
             )
 
-    def test_compute_field_to_get_certificate(self):
-        """Test compute field to get Certificate or e-CNPJ or e-NFe"""
+    def test_compute_field_and_method_to_get_certificate(self):
+        """Test compute field and Method to get Certificate or e-CNPJ or e-NFe"""
         company = self.env.company
         with self.assertRaises(ValidationError):
             assert company.certificate
@@ -131,3 +131,7 @@ class TestCertificate(TransactionCase):
 
         company.certificate_nfe_id = cert
         assert company.certificate
+
+        # Caso onde apenas o e-CNPJ atende
+        with self.assertRaises(ValidationError):
+            assert company._get_br_ecertificate(only_ecnpj=True)
