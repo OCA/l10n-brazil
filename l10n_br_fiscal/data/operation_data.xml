@@ -217,6 +217,24 @@
         <field name="state">approved</field>
     </record>
 
+    <record id="fo_compras_servico_ind" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Prestação de Serviço de Industrialização</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1124" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2124" />
+        <field name="state">approved</field>
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">icms</field>
+    </record>
+
+    <record id="fo_compras_servico" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Prestação de Serviço</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_SE" />
+        <field name="state">approved</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+    </record>
+
     <record id="fo_devolucao_compras" model="l10n_br_fiscal.operation">
         <field name="code">Devolução de Compras</field>
         <field name="name">Devolução de Compras</field>
