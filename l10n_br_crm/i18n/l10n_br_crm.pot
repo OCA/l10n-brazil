@@ -44,21 +44,8 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid CNPJ!"
-msgstr ""
-
-#. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid CPF!"
-msgstr ""
-
-#. module: l10n_br_crm
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_l10n_br
+msgid "Indicates if Brazilian localization fields should be displayed."
 msgstr ""
 
 #. module: l10n_br_crm
@@ -94,6 +81,11 @@ msgstr ""
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__rg
 msgid "RG"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
+msgid "Show L10N Br"
 msgstr ""
 
 #. module: l10n_br_crm
