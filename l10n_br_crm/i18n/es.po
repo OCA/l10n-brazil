@@ -47,25 +47,9 @@ msgid "District"
 msgstr "Distrito"
 
 #. module: l10n_br_crm
-#. odoo-python
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid CNPJ!"
-msgstr "¡CNPJ inválido!"
-
-#. module: l10n_br_crm
-#. odoo-python
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid CPF!"
-msgstr "¡CNPJ inválido!"
-
-#. module: l10n_br_crm
-#. odoo-python
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
-msgstr "¡Número de identificación fiscal no válido!"
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_l10n_br
+msgid "Indicates if Brazilian localization fields should be displayed."
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
@@ -103,6 +87,11 @@ msgid "RG"
 msgstr "RG"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
+msgid "Show L10N Br"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
 msgid "State Tax Number"
 msgstr "Número de identificación fiscal estatal"
@@ -126,3 +115,15 @@ msgstr "Subframa"
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_name
 msgid "Used in fiscal documents"
 msgstr "Utilizado en documentos fiscales"
+
+#, python-format
+#~ msgid "Invalid CNPJ!"
+#~ msgstr "¡CNPJ inválido!"
+
+#, python-format
+#~ msgid "Invalid CPF!"
+#~ msgstr "¡CNPJ inválido!"
+
+#, python-format
+#~ msgid "Invalid State Tax Number!"
+#~ msgstr "¡Número de identificación fiscal no válido!"
