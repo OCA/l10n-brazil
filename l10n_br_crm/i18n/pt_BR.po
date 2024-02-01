@@ -47,25 +47,9 @@ msgid "District"
 msgstr "Bairro"
 
 #. module: l10n_br_crm
-#. odoo-python
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid CNPJ!"
-msgstr "CNPJ Invalido!"
-
-#. module: l10n_br_crm
-#. odoo-python
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid CPF!"
-msgstr "CPF Invalido!"
-
-#. module: l10n_br_crm
-#. odoo-python
-#: code:addons/l10n_br_crm/models/crm_lead.py:0
-#, python-format
-msgid "Invalid State Tax Number!"
-msgstr "Inscrição Estadual Invalida!"
+#: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_l10n_br
+msgid "Indicates if Brazilian localization fields should be displayed."
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
@@ -103,6 +87,11 @@ msgid "RG"
 msgstr "RG"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
+msgid "Show L10N Br"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
 msgid "State Tax Number"
 msgstr "Número de inscrição estadual"
@@ -126,6 +115,18 @@ msgstr "Suframa"
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_name
 msgid "Used in fiscal documents"
 msgstr "Usado em Documentos Fiscais"
+
+#, python-format
+#~ msgid "Invalid CNPJ!"
+#~ msgstr "CNPJ Invalido!"
+
+#, python-format
+#~ msgid "Invalid CPF!"
+#~ msgstr "CPF Invalido!"
+
+#, python-format
+#~ msgid "Invalid State Tax Number!"
+#~ msgstr "Inscrição Estadual Invalida!"
 
 #, python-format
 #~ msgid "CNPJ inválido!"
