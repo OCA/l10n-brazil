@@ -19,7 +19,7 @@
                      <div class="o_row" colspan="4">
                         <field name="cnpj_cpf" nolabel="1" />
                         <button
-                        name="search_cnpj"
+                        name="action_open_cnpj_search_wizard"
                         type="object"
                         attrs="{'invisible':
                                 [

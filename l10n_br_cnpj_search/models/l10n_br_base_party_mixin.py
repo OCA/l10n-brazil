@@ -1,8 +1,7 @@
 # Copyright 2022 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
-from erpbrasil.base.misc import punctuation_rm
-from requests import get
+# Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
+# @author Cristiano Mafra Junior
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
@@ -11,29 +10,32 @@ from odoo.exceptions import UserError
 class PartyMixin(models.AbstractModel):
     _inherit = "l10n_br_base.party.mixin"
 
-    def search_cnpj(self):
-        """Search CNPJ by the chosen API"""
+    def action_open_cnpj_search_wizard(self):
         if not self.cnpj_cpf:
-            raise UserError(_("Por favor insira o CNPJ"))
-
+            raise UserError(_("Please enter your CNPJ"))
         if self.cnpj_validation_disabled():
             raise UserError(
                 _(
-                    "It is necessary to activate the option to validate de CNPJ to use this "
-                    + "functionality."
+                    "It is necessary to activate the option to validate de CNPJ to use"
+                    " this functionality."
                 )
             )
+        if self._name == "res.partner":
+            default_partner_id = self.id
+        else:
+            default_partner_id = self.partner_id.id
 
-        cnpj_cpf = punctuation_rm(self.cnpj_cpf)
-        webservice = self.env["l10n_br_cnpj_search.webservice.abstract"]
-        response = get(
-            webservice.get_api_url(cnpj_cpf), headers=webservice.get_headers()
-        )
-
-        data = webservice.validate(response)
-        values = webservice.import_data(data)
-        values["company_type"] = "company"
-        self.write(values)
+        return {
+            "name": "Search Data by CNPJ",
+            "type": "ir.actions.act_window",
+            "res_model": "partner.search.wizard",
+            "view_type": "form",
+            "view_mode": "form",
+            "context": {
+                "default_partner_id": default_partner_id,
+            },
+            "target": "new",
+        }
 
     @api.model
     def cnpj_validation_disabled(self):
