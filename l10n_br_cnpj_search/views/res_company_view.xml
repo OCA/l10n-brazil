@@ -17,7 +17,7 @@
                      <div class="o_row" colspan="1">
                         <field name="cnpj_cpf" />
                         <button
-                        name="search_cnpj"
+                        name="action_open_cnpj_search_wizard"
                         type="object"
                         class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
                         aria-label="Pesquisar CNPJ"
