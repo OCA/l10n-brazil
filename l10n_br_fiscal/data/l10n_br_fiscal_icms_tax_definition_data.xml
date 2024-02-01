@@ -63,7 +63,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_ac_ac_17_default"
+        id="tax_icms_regulation_ac_ac_19_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -72,7 +72,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_17" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -181,7 +181,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_al_al_18_default"
+        id="tax_icms_regulation_al_al_19_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -190,7 +190,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -286,7 +286,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_am_am_18_default"
+        id="tax_icms_regulation_am_am_20_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -295,7 +295,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_20" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -533,7 +533,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_ba_ba_18_default"
+        id="tax_icms_regulation_ba_ba_20_50_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -542,7 +542,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_20_50" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -689,7 +689,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_ce_ce_18_default"
+        id="tax_icms_regulation_ce_ce_20_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -698,7 +698,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_20" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -832,7 +832,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_df_df_18_default"
+        id="tax_icms_regulation_df_df_20_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -841,23 +841,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="state">approved</field>
-  </record>
-
-  <record
-        id="tax_icms_regulation_df_df_18_default"
-        model="l10n_br_fiscal.tax.definition"
-    >
-    <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
-    <field name="is_taxed" eval="True" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_20" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -1121,13 +1105,13 @@
   </record>
 
   <record
-        id="tax_icms_regulation_go_go_17_default"
+        id="tax_icms_regulation_go_go_19_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
     <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_17" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -1249,7 +1233,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_ma_ma_18_default"
+        id="tax_icms_regulation_ma_ma_22_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -1258,7 +1242,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_22" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -1863,7 +1847,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_pa_pa_17_default"
+        id="tax_icms_regulation_pa_pa_19_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -1872,7 +1856,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_17" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -2019,22 +2003,9 @@
   </record>
 
   <record
-        id="tax_icms_regulation_pb_pb_18_default"
+        id="tax_icms_regulation_pb_pb_20_default"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_pb" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
-    <field name="is_taxed" eval="True" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="state">approved</field>
-  </record>
-
-  <record id="tax_icms_regulation_pb_pb_20" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
     <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
@@ -2044,7 +2015,7 @@
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_20" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="state">draft</field>
+    <field name="state">approved</field>
   </record>
 
   <record id="tax_icms_regulation_pb_pb_28" model="l10n_br_fiscal.tax.definition">
@@ -2136,7 +2107,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_pr_pr_18_default"
+        id="tax_icms_regulation_pr_pr_19_50_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -2145,7 +2116,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19_50" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -2295,7 +2266,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_pe_pe_18_default"
+        id="tax_icms_regulation_pe_pe_20_50_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -2516,7 +2487,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_pi_pi_18_default"
+        id="tax_icms_regulation_pi_pi_21_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -2525,7 +2496,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_21" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -2672,7 +2643,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_rj_rj_20_default"
+        id="tax_icms_regulation_rj_rj_22_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -2681,7 +2652,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_20" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_22" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -3013,7 +2984,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_rs_rs_18_default"
+        id="tax_icms_regulation_rs_rs_17_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -3022,7 +2993,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_17" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -3036,19 +3007,6 @@
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_12" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="state">draft</field>
-  </record>
-
-  <record id="tax_icms_regulation_rs_rs_17" model="l10n_br_fiscal.tax.definition">
-    <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
-    <field name="is_taxed" eval="True" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_17" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">draft</field>
@@ -3172,7 +3130,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_ro_ro_17_5_default"
+        id="tax_icms_regulation_ro_ro_19_50_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -3181,7 +3139,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_17_5" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19_50" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -3315,7 +3273,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_rr_rr_17_default"
+        id="tax_icms_regulation_rr_rr_20_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -3324,7 +3282,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_17" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_20" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -3786,7 +3744,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_se_se_18_default"
+        id="tax_icms_regulation_se_se_19_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -3795,7 +3753,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
@@ -3861,19 +3819,6 @@
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_17" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="state">draft</field>
-  </record>
-
-  <record id="tax_icms_regulation_se_se_19" model="l10n_br_fiscal.tax.definition">
-    <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
-    <field name="is_taxed" eval="True" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">draft</field>
@@ -3984,7 +3929,7 @@
   </record>
 
   <record
-        id="tax_icms_regulation_to_to_18_default"
+        id="tax_icms_regulation_to_to_20_default"
         model="l10n_br_fiscal.tax.definition"
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
@@ -3993,7 +3938,7 @@
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_20" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
     <field name="state">approved</field>
