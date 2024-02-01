@@ -1,8 +1,9 @@
 # Copyright 2022 KMEE
+# Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
+# @author Cristiano Mafra Junior
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import os
-import time  # You can't send multiple requests at the same time in trial version
 
 import vcr
 
@@ -25,11 +26,19 @@ class TestReceitaWS(TestCnpjCommon):
         ignore_localhost=True,
     )
     def test_receita_ws_success(self):
-        kilian = self.model.create({"name": "Kilian", "cnpj_cpf": "44.356.113/0001-08"})
+        kilian = self.model.create(
+            {
+                "name": "Kilian",
+                "cnpj_cpf": "44.356.113/0001-08",
+            }
+        )
 
-        kilian._onchange_cnpj_cpf()
-        kilian.search_cnpj()
-
+        action_wizard = kilian.action_open_cnpj_search_wizard()
+        wizard_context = action_wizard.get("context")
+        wizard = (
+            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+        )
+        wizard.action_update_partner()
         self.assertEqual(kilian.company_type, "company")
         self.assertEqual(kilian.legal_name, "Kilian Macedo Melcher 08777131460")
         self.assertEqual(kilian.name, "Kilian Macedo Melcher 08777131460")
@@ -54,9 +63,10 @@ class TestReceitaWS(TestCnpjCommon):
         invalido = self.model.create({"name": "invalido", "cnpj_cpf": "00000000000000"})
         invalido._onchange_cnpj_cpf()
 
-        time.sleep(2)  # Pause
         with self.assertRaises(ValidationError):
-            invalido.search_cnpj()
+            action_wizard = invalido.action_open_cnpj_search_wizard()
+            wizard_context = action_wizard.get("context")
+            self.env["partner.search.wizard"].with_context(wizard_context).create({})
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_receitaws_multiplos_telefones.yaml",
@@ -67,9 +77,12 @@ class TestReceitaWS(TestCnpjCommon):
         isla = self.model.create({"name": "Isla", "cnpj_cpf": "92.666.056/0001-06"})
         isla._onchange_cnpj_cpf()
 
-        time.sleep(2)  # Pause
-        isla.search_cnpj()
-
+        action_wizard = isla.action_open_cnpj_search_wizard()
+        wizard_context = action_wizard.get("context")
+        wizard = (
+            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+        )
+        wizard.action_update_partner()
         self.assertEqual(isla.name.strip(), "Isla Sementes Ltda.")
         self.assertEqual(isla.phone.strip(), "(51) 9852-9561")
         self.assertEqual(isla.mobile.strip(), "(51) 2136-6600")

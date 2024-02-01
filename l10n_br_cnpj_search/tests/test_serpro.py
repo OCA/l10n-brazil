@@ -1,9 +1,10 @@
 # Copyright 2022 KMEE
+# Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
+# @author Cristiano Mafra Junior
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
 import os
-import time  # You can't send multiple requests at the same time in trial version
 
 import vcr
 
@@ -34,15 +35,19 @@ class TestTestSerPro(TestCnpjCommon):
         dummy_basica = self.model.create(
             {"name": "Dummy Basica", "cnpj_cpf": "34.238.864/0001-68"}
         )
-        time.sleep(3)
         dummy_basica._onchange_cnpj_cpf()
-        dummy_basica.search_cnpj()
 
-        self.assertEqual(dummy_basica.company_type, "company")
+        action_wizard = dummy_basica.action_open_cnpj_search_wizard()
+        wizard_context = action_wizard.get("context")
+        wizard = (
+            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+        )
+        wizard.action_update_partner()
         self.assertEqual(
             dummy_basica.legal_name,
             "Uhieqkx Whnhiwd Nh Fixkhuuwphmvx Nh Nwnxu (Uhifix)",
         )
+        self.assertEqual(dummy_basica.company_type, "company")
         self.assertEqual(dummy_basica.name, "Uhifix Uhnh")
         self.assertEqual(dummy_basica.email, "EMPRESA@XXXXXX.BR")
         self.assertEqual(dummy_basica.street_name, "Nh Biwmnh Wihw Mxivh")
@@ -62,15 +67,16 @@ class TestTestSerPro(TestCnpjCommon):
         ignore_localhost=True,
     )
     def test_serpro_not_found(self):
-        # Na versão Trial só há alguns registros de CNPJ cadastrados
+        # In the Trial version there are only a few registered CNPJ records
         invalid = self.model.create(
             {"name": "invalid", "cnpj_cpf": "44.356.113/0001-08"}
         )
         invalid._onchange_cnpj_cpf()
 
-        time.sleep(3)  # Pause
         with self.assertRaises(ValidationError):
-            invalid.search_cnpj()
+            action_wizard = invalid.action_open_cnpj_search_wizard()
+            wizard_context = action_wizard.get("context")
+            self.env["partner.search.wizard"].with_context(wizard_context).create({})
 
     def assert_socios(self, partner, expected_cnpjs):
         socios = self.model.search_read(
@@ -126,9 +132,13 @@ class TestTestSerPro(TestCnpjCommon):
             {"name": "Dummy Empresa", "cnpj_cpf": "34.238.864/0001-68"}
         )
 
-        time.sleep(3)  # Pause
         dummy_empresa._onchange_cnpj_cpf()
-        dummy_empresa.search_cnpj()
+        action_wizard = dummy_empresa.action_open_cnpj_search_wizard()
+        wizard_context = action_wizard.get("context")
+        wizard = (
+            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+        )
+        wizard.action_update_partner()
 
         expected_cnpjs = {
             "Joana": "23982012600",
@@ -155,9 +165,13 @@ class TestTestSerPro(TestCnpjCommon):
             {"name": "Dummy QSA", "cnpj_cpf": "34.238.864/0001-68"}
         )
 
-        time.sleep(3)  # Pause
         dummy_qsa._onchange_cnpj_cpf()
-        dummy_qsa.search_cnpj()
+        action_wizard = dummy_qsa.action_open_cnpj_search_wizard()
+        wizard_context = action_wizard.get("context")
+        wizard = (
+            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+        )
+        wizard.action_update_partner()
 
         expected_cnpjs = {
             "Joana": False,
