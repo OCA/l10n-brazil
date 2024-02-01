@@ -16,6 +16,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "wizard/partner_cnpj_search_wizard.xml",
         "views/res_partner_view.xml",
         "views/res_company_view.xml",
         "views/res_config_settings_view.xml",
