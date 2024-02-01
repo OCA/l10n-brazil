@@ -1,25 +1,19 @@
 # Copyright (C) 2012 - TODAY  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+from erpbrasil.base import misc
+from erpbrasil.base.fiscal import cnpj_cpf
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-    from erpbrasil.base.fiscal import cnpj_cpf, ie
-except ImportError:
-    _logger.error("erpbrasil.base library not installed")
+from odoo.addons.l10n_br_base.tools import check_cnpj_cpf, check_ie
 
 
 class Lead(models.Model):
     """CRM Lead Case"""
 
     _name = "crm.lead"
-    _inherit = [_name, "l10n_br_base.party.mixin", "format.address.mixin"]
+    _inherit = [_name, "l10n_br_base.party.mixin"]
 
     cnpj = fields.Char(string="CNPJ")
 
@@ -33,6 +27,43 @@ class Lead(models.Model):
 
     cpf = fields.Char(string="CPF")
 
+    show_l10n_br = fields.Boolean(
+        compute="_compute_show_l10n_br",
+        help="Indicates if Brazilian localization fields should be displayed.",
+    )
+
+    @api.depends("country_id")
+    def _compute_show_l10n_br(self):
+        """
+        Defines when Brazilian localization fields should be displayed.
+        """
+        for record in self:
+            show_l10n_br = False
+            if record.partner_id and record.partner_id.country_id == self.env.ref(
+                "base.br"
+            ):
+                show_l10n_br = True
+            elif record.country_id == self.env.ref("base.br"):
+                show_l10n_br = True
+
+            record.show_l10n_br = show_l10n_br
+
+            # Apesar do metodo create ter os campos informados
+            # o metodo _prepare_address_values_from_partner esta sendo
+            # chamado com o partner vazio e os campos abaixo com False
+            # o que acaba apagando os campos, por enquanto essa é a forma
+            # encontrada para contornar o problema.
+            # TODO: revalidar nas migrações
+            partner = record.partner_id
+            if partner:
+                result = {
+                    "street_name": partner.street_name,
+                    "street_number": partner.street_number,
+                    "district": partner.district,
+                    "city_id": partner.city_id.id,
+                }
+                record.update(result)
+
     @api.onchange("contact_name")
     def _onchange_contact_name(self):
         if not self.name_surname:
@@ -41,22 +72,12 @@ class Lead(models.Model):
     @api.constrains("cnpj")
     def _check_cnpj(self):
         for record in self:
-            country_code = record.country_id.code or ""
-            if record.cnpj and country_code.upper() == "BR":
-                cnpj = misc.punctuation_rm(record.cnpj)
-                if not cnpj_cpf.validar(cnpj):
-                    raise ValidationError(_("Invalid CNPJ!"))
-            return True
+            check_cnpj_cpf(record.env, record.cnpj, record.country_id)
 
     @api.constrains("cpf")
     def _check_cpf(self):
         for record in self:
-            country_code = record.country_id.code or ""
-            if record.cpf and country_code.upper() == "BR":
-                cpf = misc.punctuation_rm(record.cpf)
-                if not cnpj_cpf.validar(cpf):
-                    raise ValidationError(_("Invalid CPF!"))
-            return True
+            check_cnpj_cpf(record.env, record.cpf, record.country_id)
 
     @api.constrains("inscr_est")
     def _check_ie(self):
@@ -66,13 +87,7 @@ class Lead(models.Model):
         :Return: True or False.
         """
         for record in self:
-            result = True
-            if record.inscr_est and record.cnpj and record.state_id:
-                state_code = record.state_id.code or ""
-                uf = state_code.lower()
-                result = ie.validar(uf, record.inscr_est)
-            if not result:
-                raise ValidationError(_("Invalid State Tax Number!"))
+            check_ie(record.env, record.inscr_est, record.state_id, record.country_id)
 
     @api.onchange("cnpj", "country_id")
     def _onchange_cnpj(self):
@@ -104,7 +119,7 @@ class Lead(models.Model):
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
-        result = super(Lead, self)._prepare_values_from_partner(self.partner_id)
+        result = super()._prepare_values_from_partner(self.partner_id)
 
         if self.partner_id:
             result["street_name"] = self.partner_id.street_name
