@@ -1,13 +1,11 @@
 # Copyright 2023 KMEE - Breno Oliveira Dias
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
 from requests import Session, get
 
-from odoo import _, api, models
-from odoo.exceptions import UserError
+from odoo import api, models
 
 SINTEGRA_URL = "https://www.sintegraws.com.br/api/v1/execute-api.php"
 
@@ -62,13 +60,7 @@ class PartyMixin(models.AbstractModel):
     @api.model
     def _processador(self):
         company = self.env.company
-        if not company.certificate_ecnpj_id:
-            raise UserError(_("Certificate not found"))
-
-        certificado = cert.Certificado(
-            arquivo=company.certificate_ecnpj_id.file,
-            senha=company.certificate_ecnpj_id.password,
-        )
+        certificado = company._get_br_ecertificate()
         session = Session()
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
