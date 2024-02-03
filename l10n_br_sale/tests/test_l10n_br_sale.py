@@ -154,6 +154,9 @@ class L10nBrSaleBaseTest(SavepointCase):
         sale_order._onchange_fiscal_operation_id()
 
     def _run_sale_line_onchanges(self, sale_line):
+        # Skip when it is a display line.
+        if sale_line.display_type:
+            return
         sale_line._onchange_product_id_fiscal()
         sale_line._onchange_fiscal_operation_id()
         sale_line._onchange_fiscal_operation_line_id()
