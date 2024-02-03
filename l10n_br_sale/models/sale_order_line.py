@@ -195,7 +195,7 @@ class SaleOrderLine(models.Model):
     def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
         result = {}
-        if self.fiscal_operation_id:
+        if not self.display_type and self.fiscal_operation_id:
             # O caso Brasil se caracteriza por ter a Operação Fiscal
             result = self._prepare_br_fiscal_dict()
             if self.product_id and self.product_id.invoice_policy == "delivery":
