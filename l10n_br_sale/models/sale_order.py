@@ -161,7 +161,8 @@ class SaleOrder(models.Model):
         return [
             line
             for line in lines
-            if line.fiscal_operation_line_id.get_document_type(line.company_id).id
+            if not line.display_type
+            and line.fiscal_operation_line_id.get_document_type(line.company_id).id
             == document_type_id
         ]
 
@@ -172,6 +173,7 @@ class SaleOrder(models.Model):
             line.fiscal_operation_line_id.get_document_type(line.company_id)
             for sale in self
             for line in sale.order_line
+            if not line.display_type
         }
 
         moves = self.env["account.move"]
