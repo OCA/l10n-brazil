@@ -455,6 +455,11 @@
                     <field name="amount_issqn_wh_base" />
                     <field name="amount_issqn_wh_value" />
                   </group>
+                  <group string="II">
+                    <field name="amount_ii_base" />
+                    <field name="amount_ii_value" />
+                    <field name="amount_ii_customhouse_charges" />
+                  </group>
                   <group string="PIS">
                     <field name="amount_pis_base" />
                     <field name="amount_pis_value" />
