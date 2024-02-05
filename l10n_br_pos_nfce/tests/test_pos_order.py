@@ -53,9 +53,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         order_data["data"]["cnpj_cpf"] = "42820627030"
 
-        with mock.patch.object(
-            DocumentWorkflow, "action_document_confirm", side_effect=KeyError("foo")
-        ):
+        with mock.patch.object(DocumentWorkflow, "action_document_confirm"):
             # nothing will happen
             res = self.env["pos.order"].create_from_ui([order_data])
 
