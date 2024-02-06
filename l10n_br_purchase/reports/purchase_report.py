@@ -103,7 +103,8 @@ class PurchaseReport(models.Model):
             , SUM(l.freight_value) as freight_value
             , SUM(l.insurance_value) as insurance_value
             , SUM(l.other_value) as other_value
-            , SUM(l.price_unit / COALESCE(NULLIF(po.currency_rate, 0), 1.0) * l.product_qty
+            , SUM(l.price_unit / COALESCE(NULLIF(po.currency_rate, 0), 1.0)
+            * l.product_qty
             )::decimal(16,2)
              + SUM(CASE WHEN l.ipi_value IS NULL THEN
               0.00 ELSE l.ipi_value END)

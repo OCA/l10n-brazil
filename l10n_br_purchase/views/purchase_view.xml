@@ -70,6 +70,7 @@
                       <field name="fiscal_genre_code" invisible="1" />
                       <field name="tax_framework" invisible="1" />
                       <field name="tax_icms_or_issqn" invisible="1" />
+                      <field name="product_uom" invisible="1" />
                   </group>
               </xpath>
               <xpath
@@ -81,7 +82,7 @@
                     'required': [('display_type', '=', False)],
                 }</attribute>
                 <attribute name="context">{
-                    'partner_id':parent.partner_id, 'quantity':product_qty,'uom':product_uom, 'company_id': parent.company_id
+                    'partner_id':parent.partner_id, 'quantity':product_qty, 'uom':product_uom, 'company_id': parent.company_id
                 }</attribute>
               </xpath>
               <xpath
@@ -210,7 +211,7 @@
                     options="{'currency_field': 'currency_id'}"
                 />
               </xpath>
-              <xpath expr="//field[@name='tax_totals_json']" position="before">
+              <xpath expr="//field[@name='tax_totals']" position="before">
                   <field
                     name="amount_price_gross"
                     widget="monetary"
@@ -222,7 +223,7 @@
                     options="{'currency_field': 'currency_id'}"
                 />
               </xpath>
-              <xpath expr="//field[@name='tax_totals_json']" position="after">
+              <xpath expr="//field[@name='tax_totals']" position="after">
                   <field name="delivery_costs" invisible="1" />
                   <field
                     name="amount_freight_value"
