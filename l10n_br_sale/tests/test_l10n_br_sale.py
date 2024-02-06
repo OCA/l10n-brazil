@@ -149,8 +149,6 @@ class L10nBrSaleBaseTest(TransactionCase):
         self.env.user.company_id = company
 
     def _run_sale_order_onchanges(self, sale_order):
-        sale_order.onchange_partner_id()
-        sale_order.onchange_partner_shipping_id()
         sale_order._onchange_fiscal_operation_id()
 
     def _run_sale_line_onchanges(self, sale_line):
@@ -238,7 +236,6 @@ class L10nBrSaleBaseTest(TransactionCase):
             )
 
             for line in invoice.invoice_line_ids:
-                line._onchange_price_subtotal()
                 self.assertTrue(
                     line.fiscal_operation_line_id,
                     "Error to included Operation Line from Sale Order Line.",

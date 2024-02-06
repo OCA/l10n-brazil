@@ -73,7 +73,10 @@ class SaleOrderLine(models.Model):
 
     # Add Fields in model sale.order.line
     price_gross = fields.Monetary(
-        compute="_compute_amount", string="Gross Amount", compute_sudo=True
+        compute="_compute_amount",
+        string="Gross Amount",
+        store=True,
+        precompute=True,
     )
 
     comment_ids = fields.Many2many(
@@ -89,11 +92,13 @@ class SaleOrderLine(models.Model):
     discount = fields.Float(
         compute="_compute_discounts",
         store=True,
+        precompute=True,
     )
 
     discount_value = fields.Monetary(
         compute="_compute_discounts",
         store=True,
+        precompute=True,
     )
 
     ind_final = fields.Selection(related="order_id.ind_final")
@@ -110,7 +115,6 @@ class SaleOrderLine(models.Model):
     # Fields compute need parameter compute_sudo
     price_subtotal = fields.Monetary(compute_sudo=True)
     price_tax = fields.Monetary(compute_sudo=True)
-    price_total = fields.Monetary(compute_sudo=True)
 
     user_total_discount = fields.Boolean(compute="_compute_user_total_discount")
     user_discount_value = fields.Boolean(compute="_compute_user_discount_value")
@@ -209,7 +213,6 @@ class SaleOrderLine(models.Model):
 
     @api.depends(
         "qty_delivered_method",
-        "qty_delivered_manual",
         "analytic_line_ids.so_line",
         "analytic_line_ids.unit_amount",
         "analytic_line_ids.product_uom_id",
@@ -268,20 +271,21 @@ class SaleOrderLine(models.Model):
 
     def _get_product_price(self):
         self.ensure_one()
-
         if (
-            self.fiscal_operation_id.default_price_unit == "sale_price"
+            self.product_id
+            and self.fiscal_operation_id.default_price_unit == "sale_price"
             and self.order_id.pricelist_id
             and self.order_id.partner_id
         ):
+            price = self.with_company(self.company_id)._get_display_price()
             self.price_unit = self.product_id._get_tax_included_unit_price(
                 self.company_id,
                 self.order_id.currency_id,
                 self.order_id.date_order,
                 "sale",
                 fiscal_position=self.order_id.fiscal_position_id,
-                product_price_unit=self._get_display_price(self.product_id),
-                product_currency=self.order_id.currency_id,
+                product_price_unit=price,
+                product_currency=self.currency_id,
             )
         elif self.fiscal_operation_id.default_price_unit == "cost_price":
             self.price_unit = self.product_id.standard_price
