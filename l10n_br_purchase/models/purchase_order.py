@@ -64,30 +64,10 @@ class PurchaseOrder(models.Model):
     )
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
-
-        if view_type == "form":
-            view = self.env["ir.ui.view"]
-
-            sub_form_view = order_view["fields"]["order_line"]["views"]["form"]["arch"]
-
-            sub_form_node = self.env["purchase.order.line"].inject_fiscal_fields(
-                sub_form_view
-            )
-
-            sub_arch, sub_fields = view.postprocess_and_fields(
-                sub_form_node, "purchase.order.line"
-            )
-
-            order_view["fields"]["order_line"]["views"]["form"] = {
-                "fields": sub_fields,
-                "arch": sub_arch,
-            }
-
-        return order_view
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        arch = self.env["purchase.order.line"].inject_fiscal_fields(arch)
+        return arch, view
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
