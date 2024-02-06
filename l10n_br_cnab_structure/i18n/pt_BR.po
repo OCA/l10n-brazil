@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-03-31 14:22+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2024-02-06 13:34+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
@@ -1365,7 +1365,7 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model,name:l10n_br_cnab_structure.model_account_payment_line
 msgid "Payment Lines"
-msgstr ""
+msgstr "Linhas de Pagamento"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__payment_method_ids
@@ -1446,7 +1446,7 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_transfer_type__type_domain__payment
 msgid "Prepaid Payment Account (Conta Pagamento)"
-msgstr ""
+msgstr "Conta Pagamento Pré-pago (Conta Pagamento)"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__preview_field
