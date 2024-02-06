@@ -16,7 +16,9 @@ class L10nBrSaleDiscount(TransactionCase):
         cls.group_discount_per_value_id = cls.env.ref(
             "l10n_br_sale.group_discount_per_value"
         ).id
-
+        cls.group_discount_per_so_line = cls.env.ref(
+            "product.group_discount_per_so_line"
+        ).id
         sale_manager_user = cls.env.ref("sales_team.group_sale_manager")
         fiscal_user = cls.env.ref("l10n_br_fiscal.group_user")
         user_groups = [sale_manager_user.id, fiscal_user.id]
@@ -71,6 +73,7 @@ class L10nBrSaleDiscount(TransactionCase):
 
     def test_l10n_br_sale_discount_value(self):
         self.user.groups_id = [(4, self.group_discount_per_value_id)]
+        self.user.groups_id = [(4, self.group_discount_per_so_line)]
 
         self.assertTrue(self.order_line.user_discount_value)
         self.assertFalse(self.order_line.user_total_discount)
@@ -88,6 +91,7 @@ class L10nBrSaleDiscount(TransactionCase):
     def test_l10n_br_sale_discount_value_with_total(self):
         self.user.groups_id = [(4, self.group_discount_per_value_id)]
         self.user.groups_id = [(4, self.group_total_discount_id)]
+        self.user.groups_id = [(4, self.group_discount_per_so_line)]
 
         self.assertTrue(self.order_line.user_discount_value)
         self.assertTrue(self.order_line.user_total_discount)
@@ -123,6 +127,7 @@ class L10nBrSaleDiscount(TransactionCase):
         self.assertFalse(self.order_line.user_total_discount)
         self.assertTrue(self.order_line.need_change_discount_value())
 
+        self.user.groups_id = [(4, self.group_discount_per_so_line)]
         order = Form(self.order)
         with order.order_line.edit(0) as line:
             line.discount = 33
@@ -134,6 +139,7 @@ class L10nBrSaleDiscount(TransactionCase):
 
     def test_l10n_br_sale_discount_percent_with_total(self):
         self.user.groups_id = [(4, self.group_total_discount_id)]
+        self.user.groups_id = [(4, self.group_discount_per_so_line)]
 
         self.assertFalse(self.order_line.user_discount_value)
         self.assertTrue(self.order_line.user_total_discount)
