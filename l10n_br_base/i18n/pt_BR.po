@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2024-02-06 13:16+0000\n"
+"PO-Revision-Date: 2024-02-06 13:34+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -17777,7 +17777,7 @@ msgstr "Paraíso"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5006275
 msgid "Paraíso das Águas"
-msgstr ""
+msgstr "Paraíso das Águas"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4118006
@@ -18524,7 +18524,7 @@ msgstr "Pescador"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4212650
 msgid "Pescaria Brava"
-msgstr ""
+msgstr "Pescaria Brava"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2610905
@@ -18806,7 +18806,7 @@ msgstr "Pintadas"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4314548
 msgid "Pinto Bandeira"
-msgstr ""
+msgstr "Pinto Bandeira"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3150570
@@ -19609,7 +19609,7 @@ msgstr "Pouso Redondo"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5107008
 msgid "Poxoréu"
-msgstr ""
+msgstr "Poxoréu"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3539806
@@ -19758,7 +19758,7 @@ msgstr "Pratânia"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__payment
 #, python-format
 msgid "Prepaid Payment Account (Conta Pagamento)"
-msgstr ""
+msgstr "Conta Pagamento Pré-pago (Conta Pagamento)"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3541109
