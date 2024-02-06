@@ -1,1 +1,2 @@
 pyopenssl==22.1.0
+odoo-addon-l10n_br_account @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/2865/head#subdirectory=setup/l10n_br_account

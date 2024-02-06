@@ -89,6 +89,7 @@ class SaleOrderLine(models.Model):
     discount = fields.Float(
         compute="_compute_discounts",
         store=True,
+        precompute=True,
     )
 
     discount_value = fields.Monetary(
@@ -108,7 +109,7 @@ class SaleOrderLine(models.Model):
     )
 
     # Fields compute need parameter compute_sudo
-    price_subtotal = fields.Monetary(compute_sudo=True)
+    price_subtotal = fields.Monetary(compute_sudo=True, precompute=True)
     price_tax = fields.Monetary(compute_sudo=True)
     price_total = fields.Monetary(compute_sudo=True)
 
@@ -211,7 +212,6 @@ class SaleOrderLine(models.Model):
 
     @api.depends(
         "qty_delivered_method",
-        "qty_delivered_manual",
         "analytic_line_ids.so_line",
         "analytic_line_ids.unit_amount",
         "analytic_line_ids.product_uom_id",
