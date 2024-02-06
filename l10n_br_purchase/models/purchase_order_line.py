@@ -114,9 +114,7 @@ class PurchaseOrderLine(models.Model):
     def _onchange_quantity(self):
         """To call the method in the mixin to update
         the price and fiscal quantity."""
-        result = super()._onchange_quantity()
-        self._onchange_commercial_quantity()
-        return result
+        return self._onchange_commercial_quantity()
 
     def _compute_tax_id(self):
         for line in self:

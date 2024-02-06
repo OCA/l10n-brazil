@@ -2,8 +2,6 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from lxml import etree
-
 from odoo.tests import Form, TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -225,58 +223,54 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             self.assertEqual(
                 order.amount_total,
                 invoice.amount_total,
-                "Error field Amount Total in Invoice"
-                " are different from Purchase Order.",
+                "Error Amount Total in Invoice" " is different from Purchase Order.",
             )
 
             self.assertEqual(
                 order.amount_tax,
                 invoice.amount_tax,
-                "Error field Amount Tax in Invoice are"
-                " different from Purchase Order.",
+                "Error Amount Tax in Invoice is" " different from Purchase Order.",
             )
             self.assertEqual(
                 order.amount_untaxed,
                 invoice.amount_untaxed,
-                "Error field Amount Untaxed in Invoice"
-                " are different from Purchase Order.",
+                "Error Amount Untaxed in Invoice" " is different from Purchase Order.",
             )
             self.assertEqual(
                 order.amount_price_gross,
                 invoice.amount_price_gross,
-                "Error field Amount Price Gross in Invoice"
-                " are different from Purchase Order.",
+                "Error Amount Price Gross in Invoice"
+                " is different from Purchase Order.",
             )
             self.assertEqual(
                 order.amount_financial_total,
                 invoice.amount_financial_total,
-                "Error field Amount Financial Total in Invoice"
-                " are different from Purchase Order.",
+                "Error Amount Financial Total in Invoice"
+                " is different from Purchase Order.",
             )
             self.assertEqual(
                 order.amount_financial_total_gross,
                 invoice.amount_financial_total_gross,
-                "Error field Amount Financial Total Gross in Invoice"
-                " are different from Purchase Order.",
+                "Error Amount Financial Total Gross in Invoice"
+                " is different from Purchase Order.",
             )
             self.assertEqual(
                 order.amount_freight_value,
                 invoice.amount_freight_value,
-                "Error field Amount Freight in Invoice are different from Purchase Order.",
+                "Error Amount Freight in Invoice is different from Purchase Order.",
             )
             self.assertEqual(
                 order.amount_insurance_value,
                 invoice.amount_insurance_value,
-                "Error field Amount Insurance in Invoice are different from Purchase Order.",
+                "Error Amount Insurance in Invoice is different from Purchase Order.",
             )
             self.assertEqual(
                 order.amount_other_value,
                 invoice.amount_other_value,
-                "Error field Amount Other Values in Invoice are different from Purchase Order.",
+                "Error Amount Other Values in Invoice is different from Purchase Order",
             )
 
             for line in invoice.invoice_line_ids:
-                line._onchange_price_subtotal()
                 self.assertTrue(
                     line.fiscal_operation_line_id,
                     "Error to included Operation " "Line from Purchase Order Line.",
@@ -284,8 +278,8 @@ class L10nBrPurchaseBaseTest(TransactionCase):
                 self.assertEqual(
                     line.price_total,
                     line.purchase_line_id.price_total,
-                    "Error field Price Total in Invoice Line"
-                    " are different from Purchase Order Line.",
+                    "Error is Price Total in Invoice Line"
+                    " is different from Purchase Order Line.",
                 )
 
         self.invoice_action = order.action_view_invoice()
@@ -334,7 +328,7 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             self.assertEqual(
                 line.cfop_id.code,
                 cfop.code,
-                "Error to mapping CFOP {} for {}.".format(cfop.code, cfop.name),
+                f"Error to mapping CFOP {cfop.code} for {cfop.name}.",
             )
 
             if line.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
@@ -451,12 +445,10 @@ class L10nBrPurchaseBaseTest(TransactionCase):
 
         purchase_form.save()
 
-    def test_fields_view_get(self):
-        """Test Purchase Order fields_view_get."""
-        view_arch = etree.fromstring(self.po_products.fields_view_get()["arch"])
-
+    def test_get_view(self):
+        arch, models = self.po_products._get_view()
         self.assertTrue(
-            view_arch.findall(".//field[@name='fiscal_operation_id']"),
+            arch.findall(".//field[@name='fiscal_operation_id']"),
             "Error to included Operation " "Line from Purchase Order Line.",
         )
 
@@ -590,7 +582,7 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             )
 
     def test_compatible_with_international_case(self):
-        """Test of compatible with international case, create Invoice but not for Brazil."""
+        """International test case: create an Invoice but not for Brazil."""
         po_international = self.env.ref("purchase.purchase_order_1")
         self._run_purchase_order_onchanges(po_international)
         for line in po_international.order_line:
