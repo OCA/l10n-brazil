@@ -40,12 +40,6 @@ msgid "CNPJ Webservice"
 msgstr ""
 
 #. module: l10n_br_ie_search
-#: code:addons/l10n_br_ie_search/models/l10n_br_base_party_mixin.py:0
-#, python-format
-msgid "Certificate not found"
-msgstr ""
-
-#. module: l10n_br_ie_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
 msgid "Choose the provider for state subscription search"
 msgstr ""
