@@ -8,7 +8,6 @@ import re
 import string
 from datetime import datetime
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.pdf import base
@@ -864,14 +863,8 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
-
         self._check_nfe_environment()
-
-        certificate = self.env.company.certificate
-        certificado = cert.Certificado(
-            arquivo=certificate.file,
-            senha=certificate.password,
-        )
+        certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
         params = {
