@@ -363,6 +363,12 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+#, python-format
+msgid "Only e-CNPJ Certicate can be used for this case."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__owner_name
 msgid "Owner"
 msgstr ""
