@@ -95,20 +95,22 @@ class Certificate(models.Model):
 
     @api.depends("file", "password")
     def _compute_name(self):
-        for c in self:
-            if c.file and c.password:
-                c.name = "{} - {} - {} - Valid: {}".format(
-                    c.type and c.type.upper() or "",
-                    c.subtype and c.subtype.upper() or "",
-                    c.owner_name or "",
-                    format_date(self.env, c.date_expiration.date())
-                    if c.date_expiration
+        for cert in self:
+            name = False
+            file_name = False
+            if cert.file and cert.password:
+                name = "{} - {} - {} - Valid: {}".format(
+                    cert.type and cert.type.upper() or "",
+                    cert.subtype and cert.subtype.upper() or "",
+                    cert.owner_name or "",
+                    format_date(self.env, cert.date_expiration.date())
+                    if cert.date_expiration
                     else "",
                 )
-                c.file_name = c.name + ".p12"
-            else:
-                c.name = False
-                c.file_name = False
+                file_name = name + ".p12"
+
+            cert.name = name
+            cert.file_name = file_name
 
     def update_certificate_data(self, values):
         cert_file = values.get("file")
