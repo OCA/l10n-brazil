@@ -90,6 +90,9 @@ class TestCertificate(SavepointCase):
         self.assertEqual(cert.date_expiration.day, self.cert_date_exp.day)
         self.assertEqual(cert.name, self.cert_name)
         self.assertEqual(cert.is_valid, True)
+        # Testa metodo write
+        cert.type = "e-cnpj"
+        cert._onchange_file_password()
 
     def test_certificate_wrong_password(self):
         """Write a valid certificate with wrong password"""
@@ -135,3 +138,14 @@ class TestCertificate(SavepointCase):
         # Caso onde apenas o e-CNPJ atende
         with self.assertRaises(ValidationError):
             assert company._get_br_ecertificate(only_ecnpj=True)
+        company.certificate_nfe_id = False
+        cert_ecnpj = self.certificate_model.create(
+            {
+                "type": "e-cnpj",
+                "subtype": "a1",
+                "password": self.cert_passwd,
+                "file": self.certificate_valid,
+            }
+        )
+        company.certificate_ecnpj_id = cert_ecnpj
+        assert company._get_br_ecertificate(only_ecnpj=True)
