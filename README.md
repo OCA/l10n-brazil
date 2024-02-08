@@ -28,7 +28,7 @@ addon | version | maintainers | summary
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 14.0.3.5.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 14.0.3.12.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
 [l10n_br_cnab_structure](l10n_br_cnab_structure/) | 14.0.1.0.4 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) [![felipemotter](https://github.com/felipemotter.png?size=30px)](https://github.com/felipemotter) | This module allows defining the structure for generating the CNAB file. Used to exchange information with Brazilian banks.
-[l10n_br_cnpj_search](l10n_br_cnpj_search/) | 14.0.1.4.3 |  | Integração com os Webservices da ReceitaWS e SerPro
+[l10n_br_cnpj_search](l10n_br_cnpj_search/) | 14.0.1.5.0 |  | Integração com os Webservices da ReceitaWS e SerPro
 [l10n_br_coa](l10n_br_coa/) | 14.0.3.5.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Base do Planos de Contas brasileiros
 [l10n_br_coa_generic](l10n_br_coa_generic/) | 14.0.3.4.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 14.0.3.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
@@ -43,7 +43,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal_closing](l10n_br_fiscal_closing/) | 14.0.1.3.0 |  | Fechamento fiscal do periodo
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 14.0.2.3.0 |  | Distribuição de documentos fiscais
 [l10n_br_hr](l10n_br_hr/) | 14.0.1.5.0 |  | Brazilian Localization HR
-[l10n_br_ie_search](l10n_br_ie_search/) | 14.0.1.1.0 |  | Integração com a API SintegraWS e SEFAZ
+[l10n_br_ie_search](l10n_br_ie_search/) | 14.0.1.2.0 |  | Integração com a API SintegraWS e SEFAZ
 [l10n_br_mdfe_spec](l10n_br_mdfe_spec/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | CT-e spec
 [l10n_br_mis_report](l10n_br_mis_report/) | 14.0.1.0.1 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 [l10n_br_nfe](l10n_br_nfe/) | 14.0.13.12.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Eletronic Invoice NF-e
