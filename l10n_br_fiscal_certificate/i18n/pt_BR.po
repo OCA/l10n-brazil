@@ -106,6 +106,7 @@ msgstr ""
 #. module: l10n_br_fiscal_certificate
 #: model:ir.actions.act_window,name:l10n_br_fiscal_certificate.certificate_action
 #: model:ir.model,name:l10n_br_fiscal_certificate.model_l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__certificate
 #: model:ir.ui.menu,name:l10n_br_fiscal_certificate.certificate_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_search
@@ -127,6 +128,14 @@ msgstr "Informações do Certificado"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__type
 msgid "Certificate Type"
 msgstr "Tipo de certificado"
+
+#. module: l10n_br_fiscal_certificate
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+#, python-format
+msgid ""
+"Certificate not found, you need to inform your e-CNPJ or e-NFe certificate "
+"in the Company."
+msgstr ""
 
 #. module: l10n_br_fiscal_certificate
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.fiscal_res_company_form
@@ -170,8 +179,6 @@ msgstr "Dias Antes"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Nome de Exibição"
 
@@ -207,11 +214,6 @@ msgid "Followers"
 msgstr "Seguidores"
 
 #. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguidores (Canais)"
-
-#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Parceiros)"
@@ -222,9 +224,12 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Ícone do Font awesome ex. fa-tasks"
 
 #. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings__id
 msgid "ID"
 msgstr "ID"
 
@@ -266,8 +271,6 @@ msgstr "Nome do Emissor"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
 
@@ -317,6 +320,11 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Prazo da Próxima Atividade"
@@ -355,6 +363,12 @@ msgstr "Numero de mensagens com um erro de entrega"
 #: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_unread_counter
 msgid "Number of unread messages"
 msgstr "Quantidade de mensagens não lidas"
+
+#. module: l10n_br_fiscal_certificate
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+#, python-format
+msgid "Only e-CNPJ Certicate can be used for this case."
+msgstr ""
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__owner_name
@@ -423,3 +437,6 @@ msgstr "Histórico de comunicação do website"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__file
 msgid "file"
 msgstr "arquivo"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canais)"
