@@ -1,6 +1,7 @@
 # generated from manifests external_dependencies
 brazilcep
 email-validator
+erpbrasil.assinatura>=1.7.0
 erpbrasil.base>=2.3.0
 num2words
 phonenumbers
