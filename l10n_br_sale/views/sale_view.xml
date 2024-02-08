@@ -1,0 +1,384 @@
+<odoo>
+
+    <!--Search by cnpj / cpf in the SOs -->
+    <record id="view_l10n_br_sale_partner_filter" model="ir.ui.view">
+        <field name="name">l10n_br_sale.partner.filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="legal_name" string="Razão Social" />
+                <field name="cnpj_cpf" string="CNPJ/CPF" />
+                <field name="ie" string="Inscr. Estadual" />
+            </field>
+        </field>
+    </record>
+
+    <record id="l10n_br_sale_order_form" model="ir.ui.view">
+        <field name="name">l10n_br_sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="tax_totals_json" position="before">
+                <field
+                    name="amount_untaxed"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+                <field
+                    name="amount_price_gross"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="amount_discount_value"
+                    groups="l10n_br_sale.group_discount_per_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+                <field name="delivery_costs" invisible="1" />
+                <field
+                    name="amount_freight_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="amount_insurance_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="amount_other_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+            </field>
+            <field name="tax_totals_json" position="after">
+                <field
+                    name="amount_financial_total"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+            </field>
+            <group name="sale_shipping" position="inside">
+                <field name="force_compute_delivery_costs_by_total" />
+            </group>
+            <field name="validity_date" position="after">
+                <field name="company_country_id" invisible="True" />
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="ind_final"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
+                />
+                <field
+                    name="ind_pres"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
+                />
+            </field>
+            <field name="note" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('fiscal_operation_id', '!=', False)]}</attribute>
+            </field>
+            <field name="note" position="after">
+                <group attrs="{'invisible': [('fiscal_operation_id', '=', False)]}">
+                    <field name="copy_note" />
+                    <field
+                        name="note"
+                        placeholder="Terms and conditions... (note: you can setup default ones in the Configuration menu)"
+                        style="min-width: 590px;"
+                    />
+                    <field
+                        name="manual_customer_additional_data"
+                        style="min-width: 590px;"
+                    />
+                    <field
+                        name="manual_fiscal_additional_data"
+                        style="min-width: 590px;"
+                    />
+                </group>
+            </field>
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                <attribute name="editable" />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='analytic_tag_ids']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']//form//field[@name='product_id']"
+                position="attributes"
+            >
+                <attribute name="widget">product_configurator</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="style">width:80%;</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='discount']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='tax_id']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='price_unit']"
+                position="after"
+            >
+                <field
+                    name="discount"
+                    groups="!l10n_br_sale.group_discount_per_value"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="discount_value"
+                    groups="l10n_br_sale.group_discount_per_value"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='price_subtotal']"
+                position="after"
+            >
+                <field
+                    name="price_total"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form" position="inside">
+                <group name="fiscal_fields" invisible="1">
+                    <field name="fiscal_operation_type" invisible="1" readonly="1" />
+                    <field name="fiscal_genre_code" invisible="1" />
+                    <field name="tax_framework" invisible="1" />
+                    <field name="tax_icms_or_issqn" invisible="1" />
+                </group>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//label[@for='customer_lead']"
+                position="before"
+            >
+                <field
+                    name="fiscal_operation_id"
+                    options="{'no_create': True}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('parent.fiscal_operation_id', '!=', False)], 'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    options="{'no_create': True}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': ['&amp;', ('parent.fiscal_operation_id', '!=', False), ('product_id', '!=', False)], 'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="cfop_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <field name="price_total" invisible="1" />
+                <field name="price_subtotal" invisible="1" />
+                <field
+                    name="service_type_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="city_taxation_code_id"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
+                    options="{'no_create': True}"
+                />
+                <field
+                    name="cnae_id"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
+                    options="{'no_create': True}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='tax_id']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='price_unit']"
+                position="after"
+            >
+                <label
+                    for="fiscal_quantity"
+                    string="Fiscal Quantity"
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <div
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                >
+                    <field
+                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                        name="fiscal_quantity"
+                        class="oe_inline"
+                    />
+                    <field
+                        name="uot_id"
+                        force_save="1"
+                        groups="uom.group_uom"
+                        class="oe_inline oe_no_button"
+                        attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)],}"
+                    />
+                </div>
+                <field
+                    name="fiscal_price"
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form/field[@name='name']"
+                position="after"
+            >
+                <notebook
+                    attrs="{'invisible': ['|', ('display_type', '!=', False), ('parent.fiscal_operation_id', '=', False)]}"
+                >
+                    <page name="fiscal_taxes" string="Taxes" />
+                    <page
+                        string="Invoice Lines"
+                        groups="base.group_no_one"
+                        attrs="{'invisible': [('display_type', '!=', False)]}"
+                    >
+                        <div>
+                            <label for="invoice_lines" />
+                            <field name="invoice_lines" />
+                        </div>
+                    </page>
+                    <page name="amounts" string="Amounts">
+                        <group>
+                            <group>
+                                <field name="amount_untaxed" />
+                                <field name="amount_fiscal" />
+                                <field name="amount_tax" />
+                                <field name="estimate_tax" readonly="1" />
+                            </group>
+                            <group>
+                                <field name="amount_total" />
+                                <field name="amount_tax_withholding" readonly="1" />
+                                <field name="amount_taxed" />
+                            </group>
+                        </group>
+                    </page>
+                    <page name="others" string="Others">
+                        <group>
+                            <field name="delivery_costs" invisible="1" />
+                            <field
+                                name="force_compute_delivery_costs_by_total"
+                                invisible="1"
+                            />
+                            <field
+                                name="freight_value"
+                                attrs="{'readonly': ['|', ('delivery_costs', '=', 'total'), ('force_compute_delivery_costs_by_total', '=', True)]}"
+                            />
+                            <field
+                                name="insurance_value"
+                                attrs="{'readonly': ['|', ('delivery_costs', '=', 'total'), ('force_compute_delivery_costs_by_total', '=', True)]}"
+                            />
+                            <field
+                                name="other_value"
+                                attrs="{'readonly': ['|', ('delivery_costs', '=', 'total'), ('force_compute_delivery_costs_by_total', '=', True)]}"
+                            />
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info" />
+                    <page name="accounting" string="Accounting">
+                        <group>
+                            <field
+                                name="tax_id"
+                                widget="many2many_tags"
+                                options="{'no_create': True}"
+                                context="{'search_view_ref': 'account.account_tax_view_search'}"
+                                domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                                attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"
+                            />
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//label[@for='discount']"
+                position="before"
+            >
+                <field
+                    name="discount_fixed"
+                    groups="l10n_br_sale.group_total_discount"
+                />
+                <field name="user_discount_value" invisible="1" />
+                <field name="user_total_discount" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='discount']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'readonly':['|',['user_discount_value','=',True],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//div[@name='discount']"
+                position="after"
+            >
+                <label for="discount_value" />
+                <div name="discount_value">
+                    <field
+                        name="discount_value"
+                        class="oe_inline"
+                        attrs="{'readonly':['|',['user_discount_value','=',False],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}"
+                    />
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='sale_total']" position="after">
+                <group style="width: 65%%" groups="l10n_br_sale.group_total_discount">
+                    <label for="discount_rate" />
+                    <div>
+                        <field name="discount_rate" class="oe_inline" />
+                        %%
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
