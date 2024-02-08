@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -361,6 +361,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_id
 msgid "Company"
 msgstr ""
@@ -416,22 +417,8 @@ msgid "Despesas Aduaneiras"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
-msgid "Discount"
-msgstr ""
-
-#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__discount_value
 msgid "Discount Value"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__display_name
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company__display_name
-msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -539,20 +526,10 @@ msgid "Force Compute Delivery Costs By Total"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
-msgid "Freight"
-msgstr ""
-
-#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_freight_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__freight_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__freight_value
 msgid "Freight Value"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
-msgid "Gross"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -762,15 +739,6 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__id
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__id
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__id
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company__id
-msgid "ID"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1050,11 +1018,6 @@ msgid "Inscr. Estadual"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
-msgid "Insurance"
-msgstr ""
-
-#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__insurance_value
@@ -1062,17 +1025,13 @@ msgid "Insurance Value"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model,name:l10n_br_purchase.model_account_move
-msgid "Journal Entry"
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Invoices and Incoming Shipments"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report____last_update
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company____last_update
-msgid "Last Modified on"
+#: model:ir.model,name:l10n_br_purchase.model_account_move
+msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1150,6 +1109,11 @@ msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Notes"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_id
 msgid "Operation"
@@ -1161,8 +1125,12 @@ msgid "Operation Line"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__operation_name
+msgid "Operation Name"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_other_value
-#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
 msgid "Other Costs"
 msgstr ""
 
