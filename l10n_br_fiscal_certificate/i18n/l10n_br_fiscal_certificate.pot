@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -86,12 +86,14 @@ msgid "CNPJ/CPF"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
+#. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
 #, python-format
 msgid "Cannot load Certificate !"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
+#. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
 #, python-format
 msgid ""
@@ -103,6 +105,7 @@ msgstr ""
 #. module: l10n_br_fiscal_certificate
 #: model:ir.actions.act_window,name:l10n_br_fiscal_certificate.certificate_action
 #: model:ir.model,name:l10n_br_fiscal_certificate.model_l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__certificate
 #: model:ir.ui.menu,name:l10n_br_fiscal_certificate.certificate_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_search
@@ -123,6 +126,15 @@ msgstr ""
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__type
 msgid "Certificate Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+#, python-format
+msgid ""
+"Certificate not found, you need to inform your e-CNPJ or e-NFe certificate "
+"in the Company."
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
@@ -167,8 +179,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -204,11 +214,6 @@ msgid "Followers"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -219,9 +224,12 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings__id
 msgid "ID"
 msgstr ""
 
@@ -237,7 +245,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_needaction
-#: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -263,8 +270,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -314,6 +319,11 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -340,7 +350,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
@@ -349,8 +359,10 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_unread_counter
-msgid "Number of unread messages"
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+#, python-format
+msgid "Only e-CNPJ Certicate can be used for this case."
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
@@ -365,6 +377,7 @@ msgid "Password"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
+#. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/hooks.py:0
 #, python-format
 msgid ""
@@ -390,16 +403,6 @@ msgstr ""
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
-
-#. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_unread_counter
-msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
