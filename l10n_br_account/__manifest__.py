@@ -31,6 +31,7 @@
         "views/document_view.xml",
         "views/fiscal_invoice_view.xml",
         "views/fiscal_invoice_line_view.xml",
+        "views/res_company.xml",
         # Wizards
         "wizards/account_move_reversal_view.xml",
         "wizards/wizard_document_status.xml",

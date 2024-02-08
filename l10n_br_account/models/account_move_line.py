@@ -477,7 +477,10 @@ class AccountMoveLine(models.Model):
         }
         user_type = user_type_map.get(self.move_id.move_type, "sale")
 
-        if self.fiscal_operation_line_id.disable_tax_entries:
+        if (
+            self.fiscal_operation_line_id.disable_tax_entries
+            or self.company_id.disable_tax_entries
+        ):
             # If the operation line is configured to not generate tax entries,
             self.tax_ids = False
         else:
