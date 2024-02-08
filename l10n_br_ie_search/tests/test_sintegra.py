@@ -1,10 +1,12 @@
 # Copyright 2023 KMEE
+# Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
+# @author Cristiano Mafra Junior
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-import time  # You can't send multiple requests at the same time in trial version
+from unittest.mock import patch
 
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 from odoo.tests.common import SavepointCase
 
 _logger = logging.getLogger(__name__)
@@ -74,11 +76,15 @@ class TestSintegra(SavepointCase):
             .set_param("l10n_br_ie_search." + param_name, param_value)
         )
 
-    def test_sintegra(self):
+    @patch("requests.get")
+    def test_sintegra(self, mock_get_partner_ie):
+        mock_get_partner_ie.return_value = self.retorno
         dummy = self.model.create({"name": "Dummy", "cnpj_cpf": "06990590000123"})
-
-        time.sleep(2)  # to avoid too many requests
         dummy._onchange_cnpj_cpf()
-        dummy.ie_search(self.retorno)
-
+        action_wizard = dummy.action_open_cnpj_search_wizard()
+        wizard_context = action_wizard.get("context")
+        wizard = Form(
+            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+        ).save()
+        wizard.action_update_partner()
         self.assertEqual(dummy.inscr_est, "149848403115")

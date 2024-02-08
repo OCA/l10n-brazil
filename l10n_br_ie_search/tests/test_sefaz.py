@@ -1,13 +1,16 @@
 # Copyright 2023 KMEE
+# Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
+# @author Cristiano Mafra Junior
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
-import time
+import os
 from datetime import timedelta
+from unittest.mock import patch
 
+import vcr
 from erpbrasil.assinatura import misc
 
 from odoo import fields
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 from odoo.tests.common import SavepointCase
 from odoo.tools.misc import format_date
 
@@ -102,16 +105,30 @@ class TestSefaz(SavepointCase):
             }
         )
 
+    @vcr.use_cassette(
+        os.path.dirname(__file__) + "/fixtures/test_sefaz.yaml",
+        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        ignore_localhost=True,
+    )
     def test_sefaz(self):
-        dummy = self.model.create(
-            {
-                "name": "Dummy",
-                "cnpj_cpf": "88.570.377/0001-27",
-                "certificate_ecnpj_id": self.cert.id,
-            }
-        )
-        time.sleep(1)  # to avoid too many requests
-        dummy._onchange_cnpj_cpf()
-        dummy.ie_search(self.retorno)
-
-        self.assertEqual(dummy.inscr_est, "528388258640")
+        with patch(
+            "odoo.addons.l10n_br_ie_search.models.sefaz_webservice.SefazWebservice.sefaz_search"
+        ) as mock_get_partner_ie:
+            mock_get_partner_ie.return_value = self.retorno
+            dummy = self.model.create(
+                {
+                    "name": "Dummy",
+                    "cnpj_cpf": "88.570.377/0001-27",
+                    "certificate_ecnpj_id": self.cert.id,
+                }
+            )
+            dummy._onchange_cnpj_cpf()
+            action_wizard = dummy.action_open_cnpj_search_wizard()
+            wizard_context = action_wizard.get("context")
+            wizard = Form(
+                self.env["partner.search.wizard"]
+                .with_context(wizard_context)
+                .create({})
+            ).save()
+            wizard.action_update_partner()
+            self.assertEqual(dummy.inscr_est, "528388258640")
