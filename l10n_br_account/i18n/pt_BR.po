@@ -2103,13 +2103,6 @@ msgid "Service Type LC 166"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_shipping_id
-msgid "Shipping Address"
-msgstr "Endereço de Entrega"
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmssn_range_id
 msgid "Simplified Range Tax"
 msgstr ""
@@ -2390,6 +2383,9 @@ msgstr ""
 #, python-format
 msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
+
+#~ msgid "Shipping Address"
+#~ msgstr "Endereço de Entrega"
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
