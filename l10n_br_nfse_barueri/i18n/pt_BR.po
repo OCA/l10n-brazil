@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-06 13:34+0000\n"
+"PO-Revision-Date: 2024-02-09 20:09+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -19,18 +19,18 @@ msgstr ""
 #. module: l10n_br_nfse_barueri
 #: model:ir.model.fields.selection,name:l10n_br_nfse_barueri.selection__res_company__provedor_nfse__barueri
 msgid "Barueri"
-msgstr ""
+msgstr "Barueri"
 
 #. module: l10n_br_nfse_barueri
 #: code:addons/l10n_br_nfse_barueri/models/document.py:0
 #, python-format
 msgid "Batch not yet processed"
-msgstr ""
+msgstr "Lote ainda não processado"
 
 #. module: l10n_br_nfse_barueri
 #: model:ir.model,name:l10n_br_nfse_barueri.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: l10n_br_nfse_barueri
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_l10n_br_fiscal_document__display_name
