@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2024-02-06 13:34+0000\n"
+"PO-Revision-Date: 2024-02-09 20:09+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1885,24 +1885,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__manual_additional_data
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__manual_additional_data
 msgid "Manual Additional Data"
-msgstr "Informação Adicional Manual"
+msgstr "Dado Adicional Manual"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__manual_customer_additional_data
-#, fuzzy
 msgid "Manual Customer Additional Data"
-msgstr "Informação Adicional Manual"
+msgstr "Dado Adicional do Cliente Manual"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__manual_fiscal_additional_data
-#, fuzzy
 msgid "Manual Fiscal Additional Data"
-msgstr "Informação Adicional Manual"
+msgstr "Dado Adicional Fiscal Manual"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Erro de Entrega da Mensagem"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_ids
