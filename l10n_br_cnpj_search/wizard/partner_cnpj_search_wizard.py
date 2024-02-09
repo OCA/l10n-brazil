@@ -102,9 +102,11 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "equity_capital": self.equity_capital,
             "cnae_main_id": self.cnae_main_id,
             "cnae_secondary_ids": self.cnae_secondary_ids,
-            "child_ids": [(6, 0, self.child_ids.ids)],
             "company_type": "company",
         }
+        if self.child_ids:
+            values_to_update["child_ids"] = [(6, 0, self.child_ids.ids)]
+
         non_empty_values = {
             key: value for key, value in values_to_update.items() if value
         }
