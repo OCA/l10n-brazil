@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-12-19 14:35+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2024-02-09 20:09+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -1051,22 +1051,22 @@ msgstr "Última Modificação em"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__legal_name
 msgid "Legal Name"
-msgstr "Nome Legal"
+msgstr "Razão Social"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__manual_additional_data
 msgid "Manual Additional Data"
-msgstr "Dados Adicionais Manuais"
+msgstr "Dado Adicional Manual"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__manual_customer_additional_data
 msgid "Manual Customer Additional Data"
-msgstr "Dados Adicionais do Cliente Manuais"
+msgstr "Dado Adicional do Cliente Manual"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__manual_fiscal_additional_data
 msgid "Manual Fiscal Additional Data"
-msgstr "Dados Fiscais Adicionais Manuais"
+msgstr "Dado Adicional Fiscal Manual"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__nbm_id
