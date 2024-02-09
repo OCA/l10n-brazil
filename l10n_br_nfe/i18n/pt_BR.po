@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-06 13:34+0000\n"
+"PO-Revision-Date: 2024-02-09 20:09+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -526,7 +526,7 @@ msgstr "Confirmado"
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_dfe
 msgid "Consult DF-e"
-msgstr ""
+msgstr "Consulte o DF-e"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -593,7 +593,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_country_state
 msgid "Country state"
-msgstr "País Estado"
+msgstr "Estado do país"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__create_uid
