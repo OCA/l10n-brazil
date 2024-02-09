@@ -358,13 +358,15 @@ class CNABFileParser(FileParser):
                 #    obj_account_move_line.company_id.partner_id.name,
                 # 'tipo_moeda': evento.credito_moeda_tipo,
             }
-
             # Caso de Pagamento deve criar os Lançamentos de Diário
+            merged_row_list = []
+            log_event_payment = {}
+            valor_tarifa = self.cnab_str_to_float(linha_cnab.get("valor_tarifa", 0.0))
             if cod_ocorrencia in cnab_liq_move_code:
                 row_list, log_event_payment = self._get_accounting_entries(
-                    linha_cnab, account_move_line, payment_lines
+                    linha_cnab, account_move_line, payment_lines, valor_tarifa
                 )
-                result_row_list.append(row_list)
+                merged_row_list.extend(row_list)
                 cnab_return_log_event.update(log_event_payment)
             else:
                 # Nos codigos de retorno cadastrados no Data do modulo
@@ -374,12 +376,19 @@ class CNABFileParser(FileParser):
                 #  exceções ?
                 #  Caso exista será preciso criar o campo no payment.mode
                 #  para informa-lo como nos outros casos.
-                if cod_ocorrencia == "02":
-                    account_move_line.cnab_state = "accepted"
-                elif cod_ocorrencia == "03":
-                    # TODO - algo a mais a ser feito ?
-                    account_move_line.cnab_state = "not_accepted"
-
+                ocorrencia_to_state = {
+                    "02": "accepted",
+                    "03": "not_accepted",
+                }
+                account_move_line.cnab_state = ocorrencia_to_state.get(cod_ocorrencia)
+            if valor_tarifa:
+                row_list = self._create_tariff_entries(
+                    account_move_line, payment_lines, valor_tarifa
+                )
+                merged_row_list.extend(row_list)
+                cnab_return_log_event.update({"tariff_charge": valor_tarifa})
+            if merged_row_list:
+                result_row_list.append(merged_row_list)
             # Inclui o LOG do Evento CNAB
             self.cnab_return_events.append(cnab_return_log_event)
 
@@ -403,12 +412,43 @@ class CNABFileParser(FileParser):
 
         return descricao_ocorrencia
 
-    def _get_accounting_entries(self, linha_cnab, account_move_line, payment_lines):
+    def _create_tariff_entries(self, account_move_line, payment_lines, valor_tarifa):
+        row_list = []
+        row_list.append(
+            {
+                "name": "Tarifas bancárias (boleto) "
+                + account_move_line.document_number,
+                "debit": 0.0,
+                "credit": valor_tarifa,
+                "account_id": self.journal.default_account_id.id,
+                "type": "tarifa",
+                "partner_id": account_move_line.company_id.partner_id.id,
+                "payment_line_ids": payment_lines.ids,
+                "cnab_returned_ref": account_move_line.document_number,
+            }
+        )
+        cnab_config = account_move_line.payment_mode_id.cnab_config_id
+        tariff_charge_account = cnab_config.tariff_charge_account_id
+        row_list.append(
+            {
+                "name": "Tarifas bancárias (boleto) "
+                + account_move_line.document_number,
+                "debit": valor_tarifa,
+                "credit": 0.0,
+                "type": "tarifa",
+                "account_id": tariff_charge_account.id,
+                "payment_line_ids": payment_lines.ids,
+                "cnab_returned_ref": account_move_line.document_number,
+            }
+        )
+        return row_list
+
+    def _get_accounting_entries(
+        self, linha_cnab, account_move_line, payment_lines, valor_tarifa
+    ):
         row_list = []
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
-        valor_recebido = (
-            valor_desconto
-        ) = valor_juros_mora = valor_abatimento = valor_tarifa = 0.0
+        valor_recebido = valor_desconto = valor_juros_mora = valor_abatimento = 0.0
 
         if linha_cnab["valor_recebido"]:
             # Campo Valor Recebido vem com o Valor da Tarifa:
@@ -495,42 +535,6 @@ class CNABFileParser(FileParser):
                     }
                 )
 
-        # Valor Tarifa
-        if linha_cnab.get("valor_tarifa"):
-            valor_tarifa = self.cnab_str_to_float(linha_cnab["valor_tarifa"])
-
-            if valor_tarifa > 0.0:
-                # Usado para Conciliar a Fatura
-                row_list.append(
-                    {
-                        "name": "Tarifas bancárias (boleto) "
-                        + account_move_line.document_number,
-                        "debit": 0.0,
-                        "credit": valor_tarifa,
-                        "account_id": self.journal.default_account_id.id,
-                        "type": "tarifa",
-                        "partner_id": account_move_line.company_id.partner_id.id,
-                        "payment_line_ids": payment_lines.ids,
-                        "cnab_returned_ref": account_move_line.document_number,
-                    }
-                )
-
-                # Avoid error in pre commit
-                tariff_charge_account = cnab_config.tariff_charge_account_id
-
-                row_list.append(
-                    {
-                        "name": "Tarifas bancárias (boleto) "
-                        + account_move_line.document_number,
-                        "debit": valor_tarifa,
-                        "credit": 0.0,
-                        "type": "tarifa",
-                        "account_id": tariff_charge_account.id,
-                        "payment_line_ids": payment_lines.ids,
-                        "cnab_returned_ref": account_move_line.document_number,
-                    }
-                )
-
         # Valor Abatimento
         if linha_cnab.get("valor_abatimento"):
             valor_abatimento = self.cnab_str_to_float(linha_cnab["valor_abatimento"])
@@ -589,7 +593,6 @@ class CNABFileParser(FileParser):
                 "cnab_returned_ref": account_move_line.own_number,
             }
         )
-
         # CNAB LOG
         log_event_payment = {
             "real_payment_date": data_credito.strftime("%Y-%m-%d"),
@@ -597,7 +600,6 @@ class CNABFileParser(FileParser):
             "discount_value": valor_desconto,
             "interest_fee_value": valor_juros_mora,
             "rebate_value": valor_abatimento,
-            "tariff_charge": valor_tarifa,
         }
 
         return row_list, log_event_payment
@@ -614,6 +616,14 @@ class CNABFileParser(FileParser):
         of statement.
         :return: dict of vals that represent additional infos for the statement
         """
+        for row in self.cnab_return_events:
+            if "real_payment_date" in row and row["real_payment_date"]:
+                self.move_date = row["real_payment_date"]
+                break
+            elif "occurrence_date" in row:
+                self.move_date = row["occurrence_date"] + datetime.timedelta(
+                    days=self.journal.floating_days
+                )
         return {
             # O campo name precisa ser como abaixo ou não ser enviado
             # se não gera erro no metodo _check_unique_sequence_number,
@@ -626,6 +636,7 @@ class CNABFileParser(FileParser):
             + " - Conta "
             + self.journal.bank_account_id.acc_number,
             "is_cnab": True,
+            "date": self.move_date if self.move_date else datetime.date.today(),
         }
 
     def get_move_line_vals(self, line, *args, **kwargs):

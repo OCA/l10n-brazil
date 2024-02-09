@@ -11,6 +11,7 @@
         <field name="arch" type="xml">
             <field name="split_counterpart" position="after">
                 <field name="return_auto_reconcile" />
+                <field name="floating_days" />
             </field>
         </field>
     </record>
