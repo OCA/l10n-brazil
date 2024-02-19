@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-19 13:39+0000\n"
+"PO-Revision-Date: 2024-02-19 13:53+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -993,28 +993,28 @@ msgstr "Redução de Retenção de ISSQN %"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_wh_base
 msgid "ISSQN RET Base"
-msgstr "Base de Retenção de ISSQN"
+msgstr "Base do ISSQN RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_wh_value
 msgid "ISSQN RET Value"
-msgstr "Valor de Retenção de ISSQN"
+msgstr "Valor ISSQN RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_issqn_wh_base
 msgid "ISSQN Ret Base"
-msgstr "Base de Retenção de ISSQN"
+msgstr "Base do ISSQN Ret"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_issqn_wh_value
 msgid "ISSQN Ret Value"
-msgstr "Valor de Retenção de ISSQN"
+msgstr "Valor ISSQN Ret"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_issqn_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_value
 msgid "ISSQN Value"
-msgstr "Valor de ISSQN"
+msgstr "Valor ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cfop_destination
@@ -1034,6 +1034,10 @@ msgid ""
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
 msgstr ""
+"Indica se a entidade em questão é uma organização pública ou uma entidade "
+"relacionada ao governo. Abrange uma gama de entidades, como governos "
+"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
+"organizações controladas pelo governo."
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_insurance_value
