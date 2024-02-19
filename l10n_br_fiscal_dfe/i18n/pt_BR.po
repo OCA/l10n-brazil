@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-09 20:09+0000\n"
+"PO-Revision-Date: 2024-02-19 13:53+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -246,7 +246,7 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "É um seguidor"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment____last_update
@@ -265,13 +265,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última Atualização por"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última Atualização em"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__last_query
