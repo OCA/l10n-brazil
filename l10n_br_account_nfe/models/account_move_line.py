@@ -2,7 +2,7 @@
 # @author Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import models,fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -31,3 +31,8 @@ class AccountMoveLine(models.Model):
                 invoice.fiscal_document_id.action_document_confirm()
                 invoice.fiscal_document_id._document_export()
         return result
+
+    @api.onchange('city_taxation_code_id')
+    def _onchange_city_taxation_code_id(self):
+        if self.city_taxation_code_id and self.city_taxation_code_id.city_id:
+            self.update({'issqn_fg_city_id': self.city_taxation_code_id.city_id})
