@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-09 20:09+0000\n"
+"PO-Revision-Date: 2024-02-19 13:53+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -5773,7 +5773,7 @@ msgstr "Documento de Entrada"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__allow_csll_irpj
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__allow_csll_irpj
 msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
-msgstr ""
+msgstr "Indica potencial cobrança de imposto 'CSLL' e 'IRPJ' ."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_is_public_entity
@@ -5787,6 +5787,10 @@ msgid ""
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
 msgstr ""
+"Indica se a entidade em questão é uma organização pública ou uma entidade "
+"relacionada ao governo. Abrange uma gama de entidades, como governos "
+"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
+"organizações controladas pelo governo."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__industry_type
@@ -6373,7 +6377,7 @@ msgstr "Anexo Principal"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__cnae_main_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__cnae_main_id
 msgid "Main CNAE"
-msgstr "CNAE principal"
+msgstr "CNAE Principal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__type__13
@@ -6587,7 +6591,7 @@ msgstr "Configurações de movimento"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_mun
 msgid "Municipal Tax Number"
-msgstr "Número de Impostos Municipais"
+msgstr "Número da Inscrição Municipal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__my_activity_date_deadline
