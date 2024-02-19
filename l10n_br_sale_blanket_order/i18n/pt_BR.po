@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-09 20:09+0000\n"
+"PO-Revision-Date: 2024-02-19 13:39+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -66,37 +66,37 @@ msgstr "Valor Financeiro Bruto"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_fiscal
 msgid "Amount Fiscal"
-msgstr "Valor Fiscal"
+msgstr "Total Fiscal"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_price_gross
 msgid "Amount Gross"
-msgstr "Valor Bruto"
+msgstr "Total Bruto"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax
 msgid "Amount Tax"
-msgstr "Valor do Imposto"
+msgstr "Total de Imposto"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_included
 msgid "Amount Tax Included"
-msgstr "Valor do Imposto Incluso"
+msgstr "Total Impostos Inclusos"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr "Valor do Imposto Não Incluso"
+msgstr "Total Não incluído Impostos"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_tax_withholding
 msgid "Amount Tax Withholding"
-msgstr "Valor da Retenção de Imposto na Fonte"
+msgstr "Total de Imposto Retido na Fonte"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_taxed
 msgid "Amount Taxed"
-msgstr "Valor Tributado"
+msgstr "Total Tributado"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_total
@@ -106,18 +106,18 @@ msgstr "Valor Total"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_untaxed
 msgid "Amount Untaxed"
-msgstr "Valor Não Tributado"
+msgstr "Total sem Impostos"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_price_gross
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__price_gross
 msgid "Amount without discount."
-msgstr "Valor sem desconto."
+msgstr "Total sem desconto."
 
 #. module: l10n_br_sale_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
 msgid "Amounts"
-msgstr "Valores"
+msgstr "Totais"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model,name:l10n_br_sale_blanket_order.model_sale_blanket_order
