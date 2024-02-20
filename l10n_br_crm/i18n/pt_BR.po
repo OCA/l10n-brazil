@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-06-14 13:11+0000\n"
+"PO-Revision-Date: 2024-02-20 15:33+0000\n"
 "Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -49,7 +49,7 @@ msgstr "Bairro"
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_l10n_br
 msgid "Indicates if Brazilian localization fields should be displayed."
-msgstr ""
+msgstr "Indica se os campos de localização brasileira devem ser exibidos."
 
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
@@ -89,7 +89,7 @@ msgstr "RG"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
 msgid "Show L10N Br"
-msgstr ""
+msgstr "Exibir L10N Br"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
