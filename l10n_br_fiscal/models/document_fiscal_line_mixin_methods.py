@@ -835,6 +835,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self.city_taxation_code_id:
             self.cnae_id = self.city_taxation_code_id.cnae_id
             self._onchange_fiscal_operation_id()
+            if self.city_taxation_code_id.city_id:
+                self.update({"issqn_fg_city_id": self.city_taxation_code_id.city_id})
 
     @api.model
     def _add_fields_to_amount(self):
