@@ -1,7 +1,7 @@
-To use this module:
+Para usar este módulo:
 
-#. Create an invoice with the fiscal document type 'SE'.
-#. Fill in the necessary details such as the city's tax code, taxes, and related information.
-#. Validate the document.
-#. Send the Fiscal Document.
-#. Monitor the document's processing status.
+#. Crie uma fatura com o tipo de documento fiscal 'SE'.
+#. Preencha os detalhes necessários, como o código tributário da cidade, impostos e informações correlatas.
+#. Valide o documento.
+#. Envie o Documento Fiscal.
+#. Acompanhe o status de processamento do documento.
