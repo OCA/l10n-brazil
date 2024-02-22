@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:25+0000\n"
-"PO-Revision-Date: 2023-03-29 18:54+0000\n"
+"PO-Revision-Date: 2024-02-22 13:39+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_purchase_stock
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
@@ -54,7 +54,7 @@ msgstr "Operação Fiscal Padrão para Compra"
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome Exibido"
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__id
@@ -65,7 +65,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_purchase_stock
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase_stock.l10n_br_purchase_res_config_settings_form
@@ -85,7 +85,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__purchase_create_invoice_policy
@@ -115,12 +115,12 @@ msgstr "Selecione faturas com base no pedido ou na separação de mercadorias"
 #. module: l10n_br_purchase_stock
 #: model:ir.model,name:l10n_br_purchase_stock.model_stock_invoice_onshipping
 msgid "Stock Invoice Onshipping"
-msgstr ""
+msgstr "Faturamento ao Enviar"
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model,name:l10n_br_purchase_stock.model_stock_move
 msgid "Stock Move"
-msgstr "Movimentação de Estoque"
+msgstr "Movimento de Estoque"
 
 #. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/res_company.py:0
