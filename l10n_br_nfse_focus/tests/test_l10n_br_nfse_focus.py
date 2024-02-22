@@ -563,7 +563,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
                     self.assertTrue(mock_search)  # Asserting search was executed
                     mock_search.assert_called_once_with(
-                        [("state", "in", ["enviada"])]
+                        [("state", "in", ["enviada"])], limit=25
                     )  # Asserting search criteria
                     mock_document_status.assert_called_once()  # Asserting document status check
 
