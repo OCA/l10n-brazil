@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-06 13:34+0000\n"
+"PO-Revision-Date: 2024-02-22 13:42+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -24,7 +24,7 @@ msgstr ""
 #. module: l10n_br_sale_commission
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_commission.res_config_settings_form_view
 msgid "Brazilian Fiscal Document"
-msgstr ""
+msgstr "Documento Fiscal Brasileiro"
 
 #. module: l10n_br_sale_commission
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_commission.res_config_settings_form_view
@@ -67,7 +67,7 @@ msgstr ""
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_res_config_settings__commission_document_type_id
 msgid "Default Fiscal Document"
-msgstr ""
+msgstr "Documento Fiscal Padrão"
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_res_config_settings__commission_fiscal_operation_id
