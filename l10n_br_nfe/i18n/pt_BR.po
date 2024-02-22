@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-19 13:53+0000\n"
+"PO-Revision-Date: 2024-02-22 13:38+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -127,7 +127,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__key
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
 msgid "Access Key"
-msgstr ""
+msgstr "Chave de Acesso"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.actions.act_window,help:l10n_br_nfe.nfe_document_action
@@ -922,7 +922,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_number
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__number
 msgid "Document Number"
-msgstr ""
+msgstr "Número do Documento"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_serie
@@ -942,7 +942,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_type_id
 msgid "Document Type"
-msgstr ""
+msgstr "Tipo de Documento"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__document
@@ -2487,12 +2487,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_name
 msgid "Product Name"
-msgstr ""
+msgstr "Nome do Produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_supplier_id
 msgid "Product Supplier"
-msgstr ""
+msgstr "Fornecedor do Produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_uom_uom
@@ -3212,7 +3212,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export__state__done
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice__state__done
 msgid "done"
-msgstr ""
+msgstr "feito"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_email
