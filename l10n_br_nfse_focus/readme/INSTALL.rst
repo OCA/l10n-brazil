@@ -1,1 +1,1 @@
-To install this feature, simply install the module.
+Para instalar esta funcionalidde, simplesmente instale o módulo e faça as devidas configurações.
