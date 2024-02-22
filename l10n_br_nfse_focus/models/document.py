@@ -599,7 +599,7 @@ class Document(models.Model):
         from the NFSe provider.
         """
         records = (
-            self.search([("state", "in", ["enviada"])])
+            self.search([("state", "in", ["enviada"])], limit=25)
             .filtered(filter_oca_nfse)
             .filtered(filter_focusnfe)
         )
