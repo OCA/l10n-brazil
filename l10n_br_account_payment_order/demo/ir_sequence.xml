@@ -153,7 +153,6 @@
         <field eval="10" name="padding" />
     </record>
 
-
     <record id="sequence_own_number_manual_test" model="ir.sequence">
         <field name="name">Nosso número - Manual Test</field>
         <field name="code">nosso.numero - Manual Test</field>
@@ -162,7 +161,6 @@
         <field eval="False" name="company_id" />
         <field eval="10" name="padding" />
     </record>
-
 
     <record id="sequence_own_number_bradesco_400" model="ir.sequence">
         <field name="name">Nosso número - Bradesco 400</field>
@@ -270,6 +268,41 @@
         <field eval="1" name="number_increment" />
         <field eval="False" name="company_id" />
         <field eval="9" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_santander_400" model="ir.sequence">
+        <field name="name">Nosso Número - Santander 400</field>
+        <field name="code">nosso.numero - Santander 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <!-- Campo tamanho maximo 7 -->
+        <field eval="7" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_santander_240" model="ir.sequence">
+        <field name="name">Nosso Número - Santander 240</field>
+        <field name="code">nosso.numero - Santander 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="12" name="padding" />
+    </record>
+
+    <record id="sequence_cnab_number_santander_400" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Santander 400</field>
+        <field name="code">Sequencia Arquivo CNAB - Santander 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_santander_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Santander 240</field>
+        <field name="code">Sequencia Arquivo CNAB - Santander 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
     </record>
 
     <record id="sequence_own_number_main_company" model="ir.sequence">

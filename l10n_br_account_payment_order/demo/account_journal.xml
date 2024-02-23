@@ -127,6 +127,20 @@
         <field name="edi_format_ids" eval="False" />
     </record>
 
+    <!-- Diario Banco Santander -->
+    <record id="santander_journal" model="account.journal">
+        <field name="name">Banco Santander</field>
+        <field name="type">bank</field>
+        <field name="code">BNC7</field>
+        <field
+            name="inbound_payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"
+        />
+        <field name="bank_account_id" ref="main_company_bank_santander" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
+    </record>
+
     <!-- Diario Banco Teste -->
     <record id="test_bank_journal" model="account.journal">
         <field name="name">Banco Teste Manual</field>
