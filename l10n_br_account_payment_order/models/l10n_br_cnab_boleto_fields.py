@@ -51,14 +51,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         tracking=True,
     )
 
-    boleto_wallet2 = fields.Char(
-        string="Carteira Boleto",
-        help="Código da carteira para ser impresso no boleto, "
-        "quando o mesmo for diferente do impresso na remessa.",
-        size=3,
-        tracking=True,
-    )
-
     transmission_code = fields.Char(
         string="Código de Transmissão",
         help="Informação cedida pelo banco que identifica o arquivo remessa do cliente",
@@ -320,5 +312,14 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         size=2,
         help="Código do Posto da Cooperativa de Crédito,"
         " usado pelos bancos Sicred/Unicred e Sicoob.",
+        tracking=True,
+    )
+
+    # Código da Carteira ou Tipo de Cobrança usado por
+    # Santanter 400 e 240
+    # Bradesco 240
+    boleto_wallet_code_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.boleto.wallet.code",
+        string="Boleto Wallet Code",
         tracking=True,
     )
