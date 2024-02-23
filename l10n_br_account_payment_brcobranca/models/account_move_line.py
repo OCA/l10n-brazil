@@ -86,14 +86,6 @@ class AccountMoveLine(models.Model):
                 "instrucao1": move_line.payment_mode_id.instructions or "",
             }
 
-            # No Santander a carteira impressa no boleto é diferente da remessa.
-            if bank_account_id.bank_id.code_bc in ("033"):
-                boleto_cnab_api_data.update(
-                    {
-                        "carteira": str(move_line.payment_mode_id.boleto_wallet2),
-                    }
-                )
-
             # Instrução de Juros
             if move_line.payment_mode_id.boleto_interest_perc > 0.0:
                 valor_juros = move_line.currency_id.round(
