@@ -15,3 +15,4 @@ from . import ir_attachment
 from . import l10n_br_cnab_data_abstract
 from . import l10n_br_cnab_return_move_code
 from . import l10n_br_cnab_mov_intruction_code
+from . import l10n_br_cnab_boleto_wallet_code
