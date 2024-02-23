@@ -31,8 +31,39 @@
                     <notebook name="l10n_br_account_payment_order">
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
-                                <field name="code_convetion" />
-                                <field name="code_convenio_lider" />
+                                <!-- Forma encontrada para evitar ter diversos
+                                     campos duplicados com o mesmo objetivo
+                                     Campo que tem o código que identifica a
+                                     Empresa no Banco e que tem o tamanho 20,
+                                     alterar a String para os casos especificos
+                                -->
+                                <!-- Casos com nomes diferentes de Código da Empresa no Banco -->
+                                <!-- Banco UNICRED e AILOS -->
+                                <field
+                                    name="cnab_company_bank_code"
+                                    string="Código do Beneficiário"
+                                    attrs="{'invisible': [('bank_code_bc', 'not in', ('136', '085'))]}"
+                                />
+                                <!-- Banco Santander -->
+                                <field
+                                    name="cnab_company_bank_code"
+                                    string="Código de Transmissão"
+                                    attrs="{'invisible': [('bank_code_bc', '!=', '033')]}"
+                                />
+                                <!-- Bradesco 240 chama Convênio porém no 400
+                                chama Código da Empresa -->
+                                <field
+                                    name="cnab_company_bank_code"
+                                    string="Código do Convênio no Banco"
+                                    attrs="{'invisible': ['&amp;', ('bank_code_bc', '!=', '237'), ('payment_method_code', '!=', '240')]}"
+                                />
+                                <!-- Casos que ou usam o termo Codigo da Empresa
+                                     ou que não estao mapeados
+                                -->
+                                <field
+                                    name="cnab_company_bank_code"
+                                    attrs="{'invisible': [('bank_code_bc', 'in', ('136', '085', '033'))]}"
+                                />
                                 <field name="instructions" />
                                 <field name="invoice_print" />
                                 <field name="condition_issuing_paper" />
@@ -54,7 +85,6 @@
                                 <field name="boleto_wallet" />
                                 <field name="boleto_modality" />
                                 <field name="boleto_variation" />
-                                <field name="transmission_code" />
                                 <field name="boleto_accept" />
                                 <field name="boleto_species" />
                                 <field name="payment_method_code" invisible="1" />
@@ -80,22 +110,33 @@
                             </group>
                             <group
                                 name="outros"
-                                string="Other Configurations"
-                                attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756', '033', '237') )]}"
+                                string="Outras Configurações"
+                                attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756', '001', '033', '237') )]}"
                             >
                                 <group
                                     name="sicred_sicoob"
-                                    string="Bancos SICRED e SICOOB"
+                                    string="Bancos SICRED ou SICOOB"
                                     attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"
                                 >
                                     <field name="boleto_byte_idt" />
                                     <field name="boleto_post" />
                                 </group>
+                                <group
+                                    name="brasil"
+                                    string="Banco do Brasil"
+                                    attrs="{'invisible': [('bank_code_bc', '!=', '001')]}"
+                                >
+                                    <field
+                                        name="convention_code"
+                                        string="Código do Convênio Líder"
+                                    />
+                                 </group>
                                  <group
                                     name="santander"
                                     string="Banco Santander"
                                     attrs="{'invisible': [('bank_code_bc', '!=', '033')]}"
                                 >
+                                    <field name="convention_code" />
                                     <field
                                         name="boleto_wallet_code_id"
                                         string="Tipo de Cobrança ou Código da Carteira"
