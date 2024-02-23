@@ -33,6 +33,9 @@
         "data/cnab_codes/banco_unicred_cnab_240_400.xml",
         "data/cnab_codes/banco_ailos_cnab_240.xml",
         "data/cnab_codes/banco_santander_cnab_240_400.xml",
+        # Boleto Wallet Code
+        "data/cnab_codes/banco_santander_boleto_wallet_code.xml",
+        "data/cnab_codes/banco_bradesco_boleto_wallet_code.xml",
         # Wizards
         "wizards/account_payment_line_create_view.xml",
         "wizards/account_move_line_change.xml",
@@ -47,6 +50,7 @@
         "views/account_payment_views.xml",
         "views/l10n_br_cnab_mov_instruction_code_view.xml",
         "views/account_move_view.xml",
+        "views/l10n_br_cnab_boleto_wallet_code_view.xml",
     ],
     "demo": [
         "demo/account_payment_method.xml",
