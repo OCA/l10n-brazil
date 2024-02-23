@@ -26,47 +26,49 @@ _logger = logging.getLogger(__name__)
 class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    def _prepare_remessa_banco_brasil_400(self, remessa_values):
+    def _prepare_remessa_banco_brasil(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "convenio": int(self.payment_mode_id.code_convetion),
+                "convenio": int(self.payment_mode_id.cnab_company_bank_code),
                 "variacao_carteira": self.payment_mode_id.boleto_variation.zfill(3),
-                "convenio_lider": self.payment_mode_id.code_convenio_lider.zfill(7),
+                "convenio_lider": self.payment_mode_id.convention_code.zfill(7),
                 "carteira": str(self.payment_mode_id.boleto_wallet).zfill(2),
             }
         )
 
-    def _prepare_remessa_santander_400(self, remessa_values):
+    def _prepare_remessa_santander(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "codigo_carteira": str(self.payment_mode_id.boleto_wallet),
-                "codigo_transmissao": self.payment_mode_id.transmission_code,
+                "codigo_carteira": self.payment_mode_id.boleto_wallet_code_id.code,
+                "codigo_transmissao": self.payment_mode_id.cnab_company_bank_code,
                 "conta_corrente": misc.punctuation_rm(
                     self.journal_id.bank_account_id.acc_number
                 ),
             }
         )
 
-    def _prepare_remessa_caixa_240(self, remessa_values):
+    def _prepare_remessa_caixa(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "convenio": int(self.payment_mode_id.code_convetion),
+                "convenio": int(self.payment_mode_id.cnab_company_bank_code),
                 "digito_agencia": self.journal_id.bank_account_id.bra_number_dig,
             }
         )
 
-    def _prepare_remessa_ailos_240(self, remessa_values):
+    def _prepare_remessa_ailos(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "convenio": int(self.payment_mode_id.code_convetion),
+                "convenio": int(self.payment_mode_id.cnab_company_bank_code),
                 "digito_agencia": self.journal_id.bank_account_id.bra_number_dig,
             }
         )
 
-    def _prepare_remessa_unicred_400(self, remessa_values):
-        remessa_values["codigo_beneficiario"] = int(self.payment_mode_id.code_convetion)
+    def _prepare_remessa_unicred(self, remessa_values, cnab_type):
+        remessa_values["codigo_beneficiario"] = int(
+            self.payment_mode_id.cnab_company_bank_code
+        )
 
-    def _prepare_remessa_sicredi_240(self, remessa_values):
+    def _prepare_remessa_sicredi(self, remessa_values, cnab_type):
         bank_account_id = self.journal_id.bank_account_id
         remessa_values.update(
             {
@@ -78,8 +80,10 @@ class PaymentOrder(models.Model):
             }
         )
 
-    def _prepare_remessa_bradesco_400(self, remessa_values):
-        remessa_values["codigo_empresa"] = int(self.payment_mode_id.code_convetion)
+    def _prepare_remessa_bradesco(self, remessa_values, cnab_type):
+        remessa_values["codigo_empresa"] = int(
+            self.payment_mode_id.cnab_company_bank_code
+        )
 
     def get_file_name(self, cnab_type):
         context_today = fields.Date.context_today(self)
@@ -159,10 +163,10 @@ class PaymentOrder(models.Model):
 
         try:
             bank_method = getattr(
-                self, "_prepare_remessa_{}_{}".format(bank_brcobranca.name, cnab_type)
+                self, "_prepare_remessa_{}".format(bank_brcobranca.name)
             )
             if bank_method:
-                bank_method(remessa_values)
+                bank_method(remessa_values, cnab_type)
         except Exception:
             pass
 
