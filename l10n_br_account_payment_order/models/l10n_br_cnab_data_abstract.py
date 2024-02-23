@@ -29,10 +29,6 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
     @api.constrains("code")
     def check_code(self):
         for record in self:
-            # Tamanho do campo é padrão 2 p/ todos os codigos CNAB ?
-            if len(record.code) != 2:
-                raise ValidationError(_("The field Code should have two characters."))
-
             # Mesmo o record que está sendo alterado não ter sido ainda salvo
             # a pesquisa acaba trazendo ele, por isso o filtro 'id'
             code_already_exist = record.search(

@@ -2,7 +2,8 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class L10nBrCNABMovInstructionCode(models.Model):
@@ -57,3 +58,12 @@ class L10nBrCNABMovInstructionCode(models.Model):
             record.payment_method_id = (
                 record.payment_method_ids and record.payment_method_ids[0] or False
             )
+
+    @api.constrains("code")
+    def check_code(self):
+        for record in self:
+            # Tamanho do campo é padrão 2 p/ todos
+            # os codigos de Instrução CNAB ?
+            if len(record.code) != 2:
+                raise ValidationError(_("The field Code should have two characters."))
+            return super().check_code()
