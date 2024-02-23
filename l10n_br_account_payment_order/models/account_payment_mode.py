@@ -99,7 +99,7 @@ class AccountPaymentMode(models.Model):
     )
 
     @api.constrains(
-        "code_convetion",
+        "cnab_company_bank_code",
         "cnab_sequence_id",
         "fixed_journal_id",
         "boleto_wallet",

@@ -18,17 +18,45 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         string="Instruções de cobrança",
     )
 
-    code_convetion = fields.Char(
-        string="Código do Convênio no Banco",
+    # Devido a falta de padrão entre os Bancos/CNAB mesmo um campo que
+    # possui o objetivo de armazenar a mesma informação pode ter diferentes
+    # nomes Código da Empresa/Beneficiario/Convenio/Transmissão mas é
+    # possível identifica-lo como:
+    #    Campo que tem o código que identifica a Empresa no Banco
+    #    e que na maioria dos casos tem o tamanho 20
+    # Para evitar criar campos duplicados porque todos contém a mesma
+    # informação, como nesse exemplo, foi usado apenas um e na visão
+    # está sendo alterado o atributo String de acordo com a nomenclatura
+    # usada por cada Banco
+    cnab_company_bank_code = fields.Char(
+        string="Código da Empresa no Banco",
         size=20,
-        help="Campo G007 do CNAB",
+        help="""Campo que tem o Código que identifica a Empresa no Banco e que
+        tem na maioria dos casos o tamanho 20, devido a falta de padrão entre
+        os Bancos e CNAB pode ter diferentes nomes Código da Empresa, Beneficiario,
+        Convenio, Transmissão, campo G007 e etc porém contém a mesma informação.""",
         tracking=True,
     )
 
-    code_convenio_lider = fields.Char(
-        string="Convênio Líder",
+    # Em alguns casos além do 'Código da Empresa no Banco' pode existir
+    # outro campo com uma informação referente a:
+    #   Um código com tamanho 7 que faz referencia a um
+    #   Convenio ou contrato entre a empresa e o Banco
+    # Aqui entra a mesma questão do campo acima, devido a falta de
+    # nomenclatura dependendendo do Banco/CNAB o nome pode variar mas
+    # é importante identifica-lo para evitar a necessidade de criar um
+    # novo campo assim diminuindo a duplicação de campos.
+    # Por enquanto os casos mapeados são:
+    # - Banco do Brasil - chamado de Código do Convênio Líder
+    # - Banco Santander - chamado de Código do Convênio
+    convention_code = fields.Char(
+        string="Código do Convênio",
         size=7,
-        help="Código do Convênio Líder, exclusivo para o Banco do Brasil",
+        help="""Código do Convênio, campo com tamanho 7 usado em alguns casos
+        onde além do 'Código da Empresa tamanho 20' existe esse segundo campo,
+        casos mapeados hoje são Banco do Brasil como Código do Convênio Líder
+        e o Banco Santander como Código do Convênio.
+        """,
         tracking=True,
     )
 
@@ -48,13 +76,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     boleto_wallet = fields.Char(
         string="Carteira",
         size=3,
-        tracking=True,
-    )
-
-    transmission_code = fields.Char(
-        string="Código de Transmissão",
-        help="Informação cedida pelo banco que identifica o arquivo remessa do cliente",
-        size=20,
         tracking=True,
     )
 
