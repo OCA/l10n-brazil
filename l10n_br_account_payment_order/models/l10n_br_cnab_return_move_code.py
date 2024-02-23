@@ -28,6 +28,8 @@ class L10nBrCNABReturnMoveCode(models.Model):
         tracking=True,
     )
 
+    comment = fields.Text()
+
     # TODO: Forma encontrada para pode fazer o Group By, na v15
     #  parece já ser possivel usar campos many2many.
     #  Também deve ser considerado apagar o campo many2many e deixar
