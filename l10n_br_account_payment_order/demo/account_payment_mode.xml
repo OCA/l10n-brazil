@@ -8,7 +8,7 @@
         <field name="company_id" ref="base.main_company" />
         <field name="payment_method_id" ref="payment_mode_type_manual_test" />
         <field name="group_lines">False</field>
-        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_company_bank_code">0001222130126</field>
         <field name="bank_account_link">fixed</field>
         <field name="payment_order_ok">True</field>
         <field name="auto_create_payment_order">True</field>
@@ -83,7 +83,7 @@
         <field name="company_id" ref="base.main_company" />
         <field name="payment_method_id" ref="payment_mode_type_manual_test" />
         <field name="group_lines">False</field>
-        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_company_bank_code">0001222130126</field>
         <field name="bank_account_link">fixed</field>
         <field name="payment_order_ok">True</field>
         <field name="auto_create_payment_order">False</field>
@@ -162,7 +162,7 @@
             ref="account.account_payment_method_manual_in"
         />
         <field name="group_lines">False</field>
-        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_company_bank_code">0001222130126</field>
         <field name="bank_account_link">fixed</field>
         <field name="fixed_journal_id" ref="main_company_bank_journal" />
         <field name="cnab_sequence_id" ref="sequence_cnab_number_main_company" />
@@ -180,7 +180,7 @@
             ref="account.account_payment_method_manual_in"
         />
         <field name="group_lines">False</field>
-        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_company_bank_code">0001222130126</field>
         <field
             name="cnab_sequence_id"
             ref="sequence_cnab_number_empresa_simples_nacional"
@@ -202,7 +202,7 @@
             ref="account.account_payment_method_manual_in"
         />
         <field name="group_lines">False</field>
-        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_company_bank_code">0001222130126</field>
         <field
             name="cnab_sequence_id"
             ref="sequence_cnab_number_empresa_lucro_presumido"
@@ -230,7 +230,7 @@
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bradesco_400" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bradesco_400" />
         <field name="group_lines">False</field>
-        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_company_bank_code">0001222130126</field>
         <field name="boleto_discount_perc">1</field>
         <field
             name="cnab_liq_return_move_code_ids"
@@ -272,6 +272,7 @@
         <field name="auto_create_payment_order">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab240" />
         <field name="boleto_wallet">3</field>
+        <field name="boleto_wallet_code_id" ref="bradesco_240_boleto_wallet_code_1" />
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
@@ -299,7 +300,7 @@
             name="not_payment_account_id"
             ref="1_account_template_32333_avoid_travis_error"
         />
-        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_company_bank_code">0001222130126</field>
         <field
             name="cnab_liq_return_move_code_ids"
             eval="[(6,0,[ref('bradesco_240_return_06'),
@@ -376,7 +377,7 @@
             ref="1_account_template_32333_avoid_travis_error"
         />
         <!-- Code de Convenio maximo 10 caracteres -->
-        <field name="code_convetion">92035760</field>
+        <field name="cnab_company_bank_code">92035760</field>
         <field
             name="cnab_liq_return_move_code_ids"
             eval="[(6,0,[ref('unicred_240_400_return_01'), ref('unicred_240_400_return_06'),
@@ -420,7 +421,7 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_unicred_240" />
         <field name="boleto_protest_code">2</field>
         <field name="boleto_days_protest">5</field>
-        <field name="code_convetion">72234050</field>
+        <field name="cnab_company_bank_code">72234050</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -482,7 +483,7 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_ailos_240" />
         <field name="boleto_protest_code">3</field>
         <field name="boleto_days_protest">5</field>
-        <field name="code_convetion">101004</field>
+        <field name="cnab_company_bank_code">101004</field>
         <field name="group_lines">False</field>
         <field
             name="tariff_charge_account_id"
@@ -563,7 +564,7 @@
             ref="1_account_template_32333_avoid_travis_error"
         />
         <!-- Convenio deve ser menor ou igual a 5 -->
-        <field name="code_convetion">12345</field>
+        <field name="cnab_company_bank_code">12345</field>
         <field
             name="cnab_liq_return_move_code_ids"
             eval="[(6,0,[ref('itau_240_return_06'),
@@ -615,7 +616,7 @@
             ref="1_account_template_32333_avoid_travis_error"
         />
         <!-- Convenio deve ser menor ou igual a 5 -->
-        <field name="code_convetion">12345</field>
+        <field name="cnab_company_bank_code">12345</field>
         <field
             name="cnab_liq_return_move_code_ids"
             eval="[(6,0,[ref('itau_400_return_06'), ref('itau_400_return_07'),
@@ -666,7 +667,7 @@
             ref="1_account_template_32333_avoid_travis_error"
         />
         <!-- Code de Convenio maximo 6 caracteres -->
-        <field name="code_convetion">000122</field>
+        <field name="cnab_company_bank_code">000122</field>
         <field
             name="cnab_liq_return_move_code_ids"
             eval="[(6,0,[ref('cef_240_return_06'), ref('cef_240_return_46')])]"
@@ -729,7 +730,7 @@
             ref="1_account_template_32333_avoid_travis_error"
         />
         <!-- Code de Convenio maximo 6 caracteres -->
-        <field name="code_convetion">000122</field>
+        <field name="cnab_company_bank_code">000122</field>
     </record>
 
     <!-- Modo de Pagamento Cobrança SICRED 240 -->
@@ -751,7 +752,7 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_sicredi_240" />
         <field name="group_lines">False</field>
         <!-- Code de Convenio maximo 5 caracteres -->
-        <field name="code_convetion">12345</field>
+        <field name="cnab_company_bank_code">12345</field>
         <!-- Campo Especifico do SICREDI -->
         <field name="boleto_byte_idt">2</field>
         <field name="boleto_post">1</field>
@@ -840,8 +841,8 @@
             ref="1_account_template_32333_avoid_travis_error"
         />
         <!-- O campo do convenio varia de acordo com o tamanho da sequencia own_number_sequence_id -->
-        <field name="code_convetion">1234</field>
-        <field name="code_convenio_lider">7654321</field>
+        <field name="cnab_company_bank_code">1234</field>
+        <field name="convention_code">7654321</field>
         <field
             name="cnab_liq_return_move_code_ids"
             eval="[(6,0,[ref('brasil_400_return_05'), ref('brasil_400_return_06'),
@@ -905,7 +906,7 @@
             name="not_payment_account_id"
             ref="1_account_template_32333_avoid_travis_error"
         />
-        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_company_bank_code">0001222130126</field>
     </record>
 
     <!-- Payment Mode Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
