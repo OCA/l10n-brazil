@@ -74,6 +74,51 @@ class AccountPaymentLine(models.Model):
                 payment_mode_id.boleto_protest_code or "00"
             )
 
+    # Caso Santander 400 precisa enviar o Nosso Numero com DV isso não acontece no
+    # 240, por enquanto é o único caso mapeado.
+    # Houve um PR https://github.com/kivanio/brcobranca/pull/236 na lib buscando
+    # resolver isso e foi apontando a contradição em ter para esse mesmo banco no
+    # caso do 400 a necessidade de informar o DV mas não precisar no 240,
+    # mas o mantedor da biblioteca não aceito a alteração.
+    # A melhor solução talvez seja ver a possibilidade de incluir ou fazer algo
+    # semelhante ao git-aggregator https://github.com/acsone/git-aggregator
+    # na API e com isso incluir um commit de outro repositorio que faça essa
+    # simples alteração porém mantendo a API ligada diretamente ao repo pricipal
+    # do BRcobranca, já que não existe o interesse em manter um Fork e um simples
+    # commit resolve o problema, por enquanto o calculo esta sendo feito aqui, se
+    # necessário ou isso for útil para outros casos pode ser visto de migrar esse
+    # calculo do modulo11 para um lugar genereico e facilitar seu uso exemplo
+    # l10n_br_account_payment_order/tools.py
+    def modulo11(self, num, base=9, r=0):
+        soma = 0
+        fator = 2
+        for c in reversed(num):
+            soma += int(c) * fator
+            if fator == base:
+                fator = 1
+            fator += 1
+        if r == 0:
+            soma = soma * 10
+            digito = soma % 11
+            if digito == 10:
+                digito = 0
+            return digito
+        if r == 1:
+            resto = soma % 11
+            return resto
+
+    def _prepare_bank_line_santander(self, payment_mode_id, linhas_pagamentos):
+        if payment_mode_id.payment_method_code == "400":
+            nosso_numero = linhas_pagamentos["nosso_numero"]
+            # O campo deve ter tamanho 7 caso a Sequencia não esteja configurada
+            # corretamente é tratado aqui, talvez deva ser feito na validação
+            if len(nosso_numero) > 7:
+                start_point = len(nosso_numero) - 7
+                nosso_numero = nosso_numero[start_point : len(nosso_numero)]
+
+            dv = self.modulo11(nosso_numero, 9, 0)
+            linhas_pagamentos["nosso_numero"] = str(nosso_numero) + str(dv)
+
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         payment_mode_id = self.order_id.payment_mode_id
         linhas_pagamentos = self._prepare_boleto_line_vals()
