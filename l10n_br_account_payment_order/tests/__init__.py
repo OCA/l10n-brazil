@@ -6,3 +6,4 @@ from . import test_payment_order_change
 from . import test_invoice_manual_workflow
 from . import test_payment_mode
 from . import test_payment_order_outbound_pix
+from . import test_cnab_codes
