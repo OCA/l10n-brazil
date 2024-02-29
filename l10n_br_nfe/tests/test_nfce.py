@@ -1,14 +1,10 @@
 # Copyright 2023 KMEE (Felipe Zago Rodrigues <felipe.zago@kmee.com.br>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-# pylint: disable=line-too-long
 
 from datetime import datetime
 from unittest import mock
 
 from erpbrasil.assinatura import misc
-from erpbrasil.edoc.resposta import analisar_retorno_raw
-from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter as DocumentoEletronico
-from nfelib.v4_00 import retEnvEvento, retEnviNFe, retInutNFe
 
 from odoo.fields import Datetime
 
@@ -22,101 +18,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_REJEITADA,
 )
 
+from .mock_utils import nfe_mock
 from .test_nfe_serialize import TestNFeExport
-
-# flake8: noqa: B950
-response_autorizada = """<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4"><retEnviNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><tpAmb>2</tpAmb><verAplic>SVRSnfce202307311112</verAplic><cStat>104</cStat><xMotivo>Lote processado</xMotivo><cUF>33</cUF><dhRecbto>2023-08-07T11:09:08-03:00</dhRecbto><protNFe versao="4.00"><infProt><tpAmb>2</tpAmb><verAplic>SVRSnfce202307311112</verAplic><chNFe>33230807984267003800650040000000321935136447</chNFe><dhRecbto>2023-08-07T11:09:08-03:00</dhRecbto><nProt>333230000396082</nProt><digVal>zwJzbq4FXks09tlHU1GEWRI7t/A=</digVal><cStat>100</cStat><xMotivo>Autorizado o uso da NF-e</xMotivo></infProt></protNFe></retEnviNFe></nfeResultMsg></soap:Body></soap:Envelope>"""
-
-response_denegada = """<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4"><retEnviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00"><tpAmb>2</tpAmb><verAplic>1.0</verAplic><cStat>110</cStat><xMotivo>Uso Denegado: Irregularidade Fiscal do Emitente</xMotivo><cUF>33</cUF><dhRecbto>2023-08-07T12:40:00-03:00</dhRecbto><infRec><nRec>123456789012345</nRec><tMed>1</tMed></infRec></retEnviNFe></nfeResultMsg></soap:Body></soap:Envelope>"""
-
-response_rejeitada = """<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4"><retEnviNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><tpAmb>2</tpAmb><verAplic>SVRSnfce202307311112</verAplic><cStat>225</cStat><xMotivo>Rejeicao: Falha no Schema XML da NFe</xMotivo><cUF>33</cUF><dhRecbto>2023-08-04T15:00:00-03:00</dhRecbto></retEnviNFe></nfeResultMsg></soap:Body></soap:Envelope>"""
-
-response_inutilizacao = """<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4"><retInutNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><infInut><tpAmb>2</tpAmb><verAplic>SVRSnfce202307171617</verAplic><cStat>102</cStat><xMotivo>Inutilizacao de numero homologado</xMotivo><cUF>33</cUF><ano>23</ano><CNPJ>07984267003800</CNPJ><mod>65</mod><serie>4</serie><nNFIni>35</nNFIni><nNFFin>35</nNFFin><dhRecbto>2023-08-07T11:23:22-03:00</dhRecbto><nProt>333230000396102</nProt></infInut></retInutNFe></nfeResultMsg></soap:Body></soap:Envelope>"""
-
-response_cancelamento = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soap:Body><nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4"><retEnvEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00"><idLote /><tpAmb>2</tpAmb><verAplic>SVRS202305251555</verAplic><cStat>101</cStat><retEvento versao="1.00"><infEvento><tpAmb>2</tpAmb><verAplic>SVRS202305251555</verAplic><cStat>101</cStat><xMotivo>Era apenas um teste.</xMotivo><chNFe>33230807984267003800650040000000321935136447</chNFe><tpEvento>110111</tpEvento><xEvento>Cancelamento registrado</xEvento><nSeqEvento>1</nSeqEvento><CNPJDest>07984267003800</CNPJDest><dhRegEvento>2023-07-05T16:52:52-03:00</dhRegEvento><nProt>333230000396082</nProt></infEvento></retEvento></retEnvEvento></nfeResultMsg></soap:Body></soap:Envelope>"""
-
-response_contingency = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4"><retEnviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00"><tpAmb>2</tpAmb><verAplic>4.0.0</verAplic><cStat>108</cStat><xMotivo>Rejeição: Duplicidade de NF-e</xMotivo><cUF>33</cUF><dhRecbto>2023-08-08T10:30:00-03:00</dhRecbto><infRec><nRec>123456789012345</nRec><tMed>1</tMed></infRec></retEnviNFe></nfeResultMsg></soap:Body></soap:Envelope>"""
-
-
-class FakeRetorno(object):
-    def __init__(self, text):
-        self.text = text
-        self.content = text.encode("utf-8")
-
-    def raise_for_status(self):
-        pass
-
-
-def mocked_nfce_autorizada(*args, **kwargs):
-    result = analisar_retorno_raw(
-        "nfeAutorizacaoLote",
-        object(),
-        b"<fake_post/>",
-        FakeRetorno(response_autorizada),
-        retEnviNFe,
-    )
-    result.processo_xml = b"dummy"
-    return result
-
-
-def mocked_nfce_denegada(*args, **kwargs):
-    result = analisar_retorno_raw(
-        "nfeAutorizacaoLote",
-        object(),
-        b"<fake_post/>",
-        FakeRetorno(response_denegada),
-        retEnviNFe,
-    )
-    result.processo_xml = b"dummy"
-    return result
-
-
-def mocked_nfce_rejeitada(*args, **kwargs):
-    result = analisar_retorno_raw(
-        "nfeAutorizacaoLote",
-        object(),
-        b"<fake_post/>",
-        FakeRetorno(response_rejeitada),
-        retEnviNFe,
-    )
-    result.processo_xml = b"dummy"
-    return result
-
-
-def mocked_nfce_contingencia(*args, **kwargs):
-    result = analisar_retorno_raw(
-        "nfeAutorizacaoLote",
-        object(),
-        b"<fake_post/>",
-        FakeRetorno(response_contingency),
-        retEnviNFe,
-    )
-    result.processo_xml = b"dummy"
-    return result
-
-
-def mocked_inutilizacao(*args, **kwargs):
-    result = analisar_retorno_raw(
-        "nfeInutilizacaoNF",
-        object(),
-        b"<fake_post/>",
-        FakeRetorno(response_inutilizacao),
-        retInutNFe,
-    )
-    result.processo_xml = b"dummy"
-    return result
-
-
-def mock_cancela(*args, **kwargs):
-    result = analisar_retorno_raw(
-        "nfeRecepcaoEvento",
-        object(),
-        b"<fake_post/>",
-        FakeRetorno(response_cancelamento),
-        retEnvEvento,
-    )
-    result.processo_xml = b"dummy"
-    return result
 
 
 class TestNFCe(TestNFeExport):
@@ -146,8 +49,8 @@ class TestNFCe(TestNFeExport):
 
         self.prepare_test_nfe(self.document_id)
 
-    @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_autorizada)
-    def test_nfce_success(self, _mock_post):
+    @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
+    def test_nfce_success(self):
         self.document_id.action_document_send()
 
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
@@ -164,43 +67,41 @@ class TestNFCe(TestNFeExport):
                 }
             )
         )
-        with mock.patch.object(DocumentoEletronico, "_post", side_effect=mock_cancela):
+        with nfe_mock({"nfeRecepcaoEvento": "retEnvEvento/nfce_cancelamento.xml"}):
             cancel_wizard.doit()
 
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_CANCELADA)
         self.assertIsNotNone(self.document_id.cancel_event_id)
         self.assertEqual(self.document_id.cancel_event_id.state, "done")
-        self.assertEqual(self.document_id.cancel_event_id.status_code, "101")
+        self.assertEqual(self.document_id.cancel_event_id.status_code, "135")
         self.assertEqual(
-            self.document_id.cancel_event_id.response, "Era apenas um teste."
+            self.document_id.cancel_event_id.response,
+            "Evento registrado e vinculado a NF-e",
         )
         self.assertEqual(
             Datetime.to_string(self.document_id.cancel_event_id.protocol_date),
             "2023-07-05 16:52:52",
         )
 
-    @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_rejeitada)
-    def test_nfce_rejeitada(self, _mock_post):
+    @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/rejeitada.xml"})
+    def test_nfce_rejeitada(self):
         self.document_id.action_document_send()
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_REJEITADA)
 
-    @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_denegada)
-    def test_nfce_denegada(self, _mock_post):
+    @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/denegada.xml"})
+    def test_nfce_denegada(self):
         self.document_id.action_document_send()
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_DENEGADA)
 
-    @mock.patch.object(
-        DocumentoEletronico, "_post", side_effect=mocked_nfce_contingencia
-    )
-    def test_nfce_contingencia(self, _mock_post):
+    @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/servico_paralizado.xml"})
+    def test_nfce_contingencia(self):
         self.document_id.action_document_send()
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_A_ENVIAR)
         self.assertEqual(self.document_id.nfe_transmission, "9")
-
         self.assertIsNotNone(self.document_id.get_nfce_qrcode())
 
-    @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_inutilizacao)
-    def test_inutilizar(self, mocked_post):
+    @nfe_mock({"nfeInutilizacaoNF": "retInutNFe/nfce_inutilizacao.xml"})
+    def test_inutilizar(self):
         inutilizar_wizard = (
             self.env["l10n_br_fiscal.invalidate.number.wizard"]
             .with_context(
@@ -253,8 +154,8 @@ class TestNFCe(TestNFeExport):
         self.assertIsNotNone(qr_code)
         self.assertIsNotNone(qr_code_url)
 
-    @mock.patch.object(DocumentoEletronico, "_post", side_effect=mocked_nfce_autorizada)
-    def test_prepare_nfce_payment(self, _mock):
+    @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
+    def test_prepare_nfce_payment(self):
         amount = self.document_id.amount_financial_total / 2
         self.document_id.nfe40_detPag = [
             (5, 0, 0),
