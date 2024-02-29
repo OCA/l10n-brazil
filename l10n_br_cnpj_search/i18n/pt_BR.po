@@ -59,6 +59,11 @@ msgid "CNPJ Webservice"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_partner_search_wizard
+msgid "CNPJ based search wizard allowing to update partner data."
+msgstr ""
+
+#. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "CNPJ data was obtained through the webservice:"
 msgstr ""
@@ -367,11 +372,6 @@ msgstr ""
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__zip
 msgid "Zip"
-msgstr ""
-
-#. module: l10n_br_cnpj_search
-#: model:ir.model,name:l10n_br_cnpj_search.model_partner_search_wizard
-msgid "partner.search.wizard"
 msgstr ""
 
 #, python-format
