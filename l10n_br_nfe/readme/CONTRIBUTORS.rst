@@ -12,4 +12,8 @@
 
 * `ESCODOO <https://escodoo.com.br>`_:
 
-  + Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+
+* `ENGENERE <https://engenere.one>`_:
+
+  * Antônio S. Pereira Neto <neto@engenere.one>
