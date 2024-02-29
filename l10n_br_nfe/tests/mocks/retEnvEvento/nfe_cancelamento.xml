@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
+    <soap:Body>
+        <nfeResultMsg
+            xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4"
+        >
+            <retEnvEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
+                <idLote>20211101182251</idLote>
+                <tpAmb>2</tpAmb>
+                <verAplic>sefaz_mocked</verAplic>
+                <cOrgao>42</cOrgao>
+                <cStat>128</cStat>
+                <xMotivo>Lote de Evento Processado</xMotivo>
+                <retEvento versao="1.00">
+                    <infEvento>
+                        <tpAmb>2</tpAmb>
+                        <verAplic>sefaz_mocked</verAplic>
+                        <cOrgao>42</cOrgao>
+                        <cStat>135</cStat>
+                        <xMotivo>Evento registrado e vinculado a NF-e</xMotivo>
+                        <chNFe>35200159594315000157550010000000022062777169</chNFe>
+                        <tpEvento>110111</tpEvento>
+                        <nSeqEvento>1</nSeqEvento>
+                        <CNPJDest>08474768000290</CNPJDest>
+                        <dhRegEvento>2023-07-05T16:52:52-03:00</dhRegEvento>
+                        <nProt>141190000382704</nProt>
+                    </infEvento>
+                </retEvento>
+            </retEnvEvento>
+        </nfeResultMsg>
+    </soap:Body>
+</soap:Envelope>
