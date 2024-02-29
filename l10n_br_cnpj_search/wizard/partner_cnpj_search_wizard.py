@@ -10,6 +10,7 @@ from odoo import api, fields, models
 
 class PartnerCnpjSearchWizard(models.TransientModel):
     _name = "partner.search.wizard"
+    _description = "CNPJ based search wizard allowing to update partner data."
 
     partner_id = fields.Many2one(comodel_name="res.partner")
     provider_name = fields.Char()
