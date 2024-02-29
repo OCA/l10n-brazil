@@ -35,6 +35,11 @@ msgid "CNPJ Webservice"
 msgstr ""
 
 #. module: l10n_br_ie_search
+#: model:ir.model,name:l10n_br_ie_search.model_partner_search_wizard
+msgid "CNPJ based search wizard allowing to update partner data."
+msgstr ""
+
+#. module: l10n_br_ie_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
 msgid "Choose the provider for state subscription search"
 msgstr ""
@@ -90,9 +95,4 @@ msgstr ""
 msgid ""
 "Select to choose the provider for state subscription search when searching "
 "for cnpj"
-msgstr ""
-
-#. module: l10n_br_ie_search
-#: model:ir.model,name:l10n_br_ie_search.model_partner_search_wizard
-msgid "partner.search.wizard"
 msgstr ""
