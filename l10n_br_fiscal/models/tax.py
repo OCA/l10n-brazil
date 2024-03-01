@@ -380,6 +380,7 @@ class Tax(models.Model):
             tax_dict["compute_with_tax_value"] = True
 
         tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
+        tax_dict.update({"icms_base_type": tax.icms_base_type})
 
         # DIFAL
         # TODO
