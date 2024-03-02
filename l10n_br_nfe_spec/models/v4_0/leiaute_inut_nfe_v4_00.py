@@ -20,18 +20,19 @@ INFINUT_XSERV = [
 
 class TinutNfe(models.AbstractModel):
     "Tipo Pedido de Inutilização de Numeração da Nota Fiscal Eletrônica"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tinutnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TinutNfe"
-    _generateds_type = "TInutNFe"
 
     nfe40_infInut = fields.Many2one(
         comodel_name="nfe.40.tinutnfe_infinut",
         string="Dados do Pedido de Inutilização",
         xsd_required=True,
         help=(
-            "Dados do Pedido de Inutilização de Numeração da Nota Fiscal " "Eletrônica"
+            "Dados do Pedido de Inutilização de Numeração da Nota Fiscal "
+            "Eletrônica"
         ),
     )
 
@@ -48,7 +49,6 @@ class TinutNfeInfInut(models.AbstractModel):
     _name = "nfe.40.tinutnfe_infinut"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TinutNfe.InfInut"
-    _generateds_type = "infInutType"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -70,7 +70,9 @@ class TinutNfeInfInut(models.AbstractModel):
     )
 
     nfe40_ano = fields.Char(
-        string="Ano de inutilização da numeração", xsd_required=True, xsd_type="Tano"
+        string="Ano de inutilização da numeração",
+        xsd_required=True,
+        xsd_type="Tano",
     )
 
     nfe40_CNPJ = fields.Char(
@@ -78,7 +80,10 @@ class TinutNfeInfInut(models.AbstractModel):
     )
 
     nfe40_mod = fields.Selection(
-        TMOD, string="Modelo da NF-e (55, 65 etc.)", xsd_required=True, xsd_type="TMod"
+        TMOD,
+        string="Modelo da NF-e (55, 65 etc.)",
+        xsd_required=True,
+        xsd_type="TMod",
     )
 
     nfe40_serie = fields.Char(
@@ -110,7 +115,6 @@ class TretInutNfe(models.AbstractModel):
     _name = "nfe.40.tretinutnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretInutNfe"
-    _generateds_type = "TRetInutNFe"
 
     nfe40_infInut = fields.Many2one(
         comodel_name="nfe.40.tretinutnfe_infinut",
@@ -135,7 +139,6 @@ class TretInutNfeInfInut(models.AbstractModel):
     _name = "nfe.40.tretinutnfe_infinut"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretInutNfe.InfInut"
-    _generateds_type = "infInutType"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -172,7 +175,9 @@ class TretInutNfeInfInut(models.AbstractModel):
         xsd_type="TCodUfIBGE",
     )
 
-    nfe40_ano = fields.Char(string="Ano de inutilização da numeração", xsd_type="Tano")
+    nfe40_ano = fields.Char(
+        string="Ano de inutilização da numeração", xsd_type="Tano"
+    )
 
     nfe40_CNPJ = fields.Char(string="CNPJ do emitente", xsd_type="TCnpj")
 
@@ -213,11 +218,11 @@ class TretInutNfeInfInut(models.AbstractModel):
 
 class TprocInutNfe(models.AbstractModel):
     "Tipo Pedido de inutilzação de númeração de NF-e processado"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tprocinutnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TprocInutNfe"
-    _generateds_type = "TProcInutNFe"
 
     nfe40_inutNFe = fields.Many2one(
         comodel_name="nfe.40.tinutnfe",

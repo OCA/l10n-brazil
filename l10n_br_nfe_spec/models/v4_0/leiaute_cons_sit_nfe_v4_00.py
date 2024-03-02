@@ -25,11 +25,11 @@ TVERCONSSITNFE = [
 
 class TconsSitNfe(models.AbstractModel):
     "Tipo Pedido de Consulta da Situação Atual da Nota Fiscal Eletrônica"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tconssitnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TconsSitNfe"
-    _generateds_type = "TConsSitNFe"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -55,20 +55,25 @@ class TconsSitNfe(models.AbstractModel):
     )
 
     nfe40_versao = fields.Selection(
-        TVERCONSSITNFE, string="versao", xsd_required=True, xsd_type="TVerConsSitNFe"
+        TVERCONSSITNFE,
+        string="versao",
+        xsd_required=True,
+        xsd_type="TVerConsSitNFe",
     )
 
 
 class Tevento(models.AbstractModel):
     "Tipo Evento"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tevento"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tevento"
-    _generateds_type = "TEvento"
 
     nfe40_infEvento = fields.Many2one(
-        comodel_name="nfe.40.tevento_infevento", string="infEvento", xsd_required=True
+        comodel_name="nfe.40.tevento_infevento",
+        string="infEvento",
+        xsd_required=True,
     )
 
     nfe40_versao = fields.Char(
@@ -81,7 +86,6 @@ class TeventoInfEvento(models.AbstractModel):
     _name = "nfe.40.tevento_infevento"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tevento.InfEvento"
-    _generateds_type = "infEventoType"
 
     nfe40_cOrgao = fields.Selection(
         TCORGAOIBGE,
@@ -103,11 +107,17 @@ class TeventoInfEvento(models.AbstractModel):
     )
 
     nfe40_CNPJ = fields.Char(
-        string="CNPJ", choice="infevento", xsd_choice_required=True, xsd_type="TCnpjOpc"
+        string="CNPJ",
+        choice="infevento",
+        xsd_choice_required=True,
+        xsd_type="TCnpjOpc",
     )
 
     nfe40_CPF = fields.Char(
-        string="CPF", choice="infevento", xsd_choice_required=True, xsd_type="TCpf"
+        string="CPF",
+        choice="infevento",
+        xsd_choice_required=True,
+        xsd_type="TCpf",
     )
 
     nfe40_chNFe = fields.Char(
@@ -140,7 +150,9 @@ class TeventoInfEvento(models.AbstractModel):
         ),
     )
 
-    nfe40_verEvento = fields.Char(string="Versão do Tipo do Evento", xsd_required=True)
+    nfe40_verEvento = fields.Char(
+        string="Versão do Tipo do Evento", xsd_required=True
+    )
 
     nfe40_detEvento = fields.Many2one(
         comodel_name="nfe.40.detevento",
@@ -160,23 +172,25 @@ class TeventoInfEvento(models.AbstractModel):
 
 class DetEvento(models.AbstractModel):
     "Detalhe Específico do Evento"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.detevento"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tevento.InfEvento.DetEvento"
-    _generateds_type = "detEventoType"
 
 
 class TprotNfe(models.AbstractModel):
     "Tipo Protocolo de status resultado do processamento da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tprotnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TprotNfe"
-    _generateds_type = "TProtNFe"
 
     nfe40_protNFe_TRetConsReciNFe_id = fields.Many2one(
-        comodel_name="nfe.40.tretconsrecinfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.tretconsrecinfe",
+        xsd_implicit=True,
+        ondelete="cascade",
     )
     nfe40_infProt = fields.Many2one(
         comodel_name="nfe.40.infprot",
@@ -184,16 +198,18 @@ class TprotNfe(models.AbstractModel):
         xsd_required=True,
     )
 
-    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+    nfe40_versao = fields.Char(
+        string="versao", xsd_required=True, xsd_type="TVerNFe"
+    )
 
 
 class InfProt(models.AbstractModel):
     "Dados do protocolo de status"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infprot"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TprotNfe.InfProt"
-    _generateds_type = "infProtType"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -271,18 +287,19 @@ class InfProt(models.AbstractModel):
 
 class TretCancNfe(models.AbstractModel):
     "Tipo retorno Pedido de Cancelamento da Nota Fiscal Eletrônica"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tretcancnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretCancNfe"
-    _generateds_type = "TRetCancNFe"
 
     nfe40_infCanc = fields.Many2one(
         comodel_name="nfe.40.infcanc",
         string="Dados do Resultado do Pedido",
         xsd_required=True,
         help=(
-            "Dados do Resultado do Pedido de Cancelamento da Nota Fiscal " "Eletrônica"
+            "Dados do Resultado do Pedido de Cancelamento da Nota Fiscal "
+            "Eletrônica"
         ),
     )
 
@@ -299,7 +316,6 @@ class InfCanc(models.AbstractModel):
     _name = "nfe.40.infcanc"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretCancNfe.InfCanc"
-    _generateds_type = "infCancType"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -371,11 +387,11 @@ class InfCanc(models.AbstractModel):
 
 class TretEvento(models.AbstractModel):
     "Tipo retorno do Evento"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tretevento"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretEvento"
-    _generateds_type = "TRetEvento"
 
     nfe40_infEvento = fields.Many2one(
         comodel_name="nfe.40.tretevento_infevento",
@@ -393,7 +409,6 @@ class TretEventoInfEvento(models.AbstractModel):
     _name = "nfe.40.tretevento_infevento"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretEvento.InfEvento"
-    _generateds_type = "infEventoType"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -459,7 +474,8 @@ class TretEventoInfEvento(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDateTimeUTC",
         help=(
-            "Data e Hora de registro do evento formato UTC AAAA-MM-" "DDTHH:MM:SSTZD"
+            "Data e Hora de registro do evento formato UTC AAAA-MM-"
+            "DDTHH:MM:SSTZD"
         ),
     )
 
@@ -474,14 +490,16 @@ class TretEventoInfEvento(models.AbstractModel):
 
 class TprocEvento(models.AbstractModel):
     "Tipo procEvento"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tprocevento"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TprocEvento"
-    _generateds_type = "TProcEvento"
 
     nfe40_procEventoNFe_TRetConsSitNFe_id = fields.Many2one(
-        comodel_name="nfe.40.tretconssitnfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="nfe.40.tretconssitnfe",
+        xsd_implicit=True,
+        ondelete="cascade",
     )
     nfe40_evento = fields.Many2one(
         comodel_name="nfe.40.tevento",
@@ -510,7 +528,6 @@ class TretConsSitNfe(models.AbstractModel):
     _name = "nfe.40.tretconssitnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretConsSitNfe"
-    _generateds_type = "TRetConsSitNFe"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -548,7 +565,9 @@ class TretConsSitNfe(models.AbstractModel):
     )
 
     nfe40_dhRecbto = fields.Datetime(
-        string="AAAA-MM-DDTHH:MM:SSTZD", xsd_required=True, xsd_type="TDateTimeUTC"
+        string="AAAA-MM-DDTHH:MM:SSTZD",
+        xsd_required=True,
+        xsd_type="TDateTimeUTC",
     )
 
     nfe40_chNFe = fields.Char(
@@ -578,5 +597,8 @@ class TretConsSitNfe(models.AbstractModel):
     )
 
     nfe40_versao = fields.Selection(
-        TVERCONSSITNFE, string="versao", xsd_required=True, xsd_type="TVerConsSitNFe"
+        TVERCONSSITNFE,
+        string="versao",
+        xsd_required=True,
+        xsd_type="TVerConsSitNFe",
     )
