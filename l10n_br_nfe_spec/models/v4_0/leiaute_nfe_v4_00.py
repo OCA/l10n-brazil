@@ -129,7 +129,8 @@ DI_TPINTERMEDIO = [
     ("3", "encomenda"),
 ]
 
-"Via de transporte internacional informada na DI"
+"""Via de transporte internacional informada na DI ou na Declaração Única
+    de Importação"""
 DI_TPVIATRANSP = [
     ("1", "Maritima"),
     ("2", "Fluvial"),
@@ -215,6 +216,17 @@ ICMS20_CST = [
     ("20", "Com redução de base de cálculo"),
 ]
 
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS20_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
+]
+
 "Modalidade de determinação da BC do ICMS"
 ICMS20_MODBC = [
     ("0", "Margem Valor Agregado (%)"),
@@ -236,6 +248,17 @@ ICMS30_CST = [
         "30",
         "Isenta ou não tributada e com cobrança do ICMS por substituição tributária",
     ),
+]
+
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS30_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
 ]
 
 "Modalidade de determinação da BC do ICMS ST"
@@ -261,6 +284,17 @@ ICMS40_CST = [
     ("40", "Isenta "),
     ("41", "Não tributada "),
     ("50", "Suspensão "),
+]
+
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS40_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
 ]
 
 """Este campo será preenchido quando o campo anterior estiver preenchido"""
@@ -318,6 +352,17 @@ ICMS70_CST = [
     ),
 ]
 
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS70_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
+]
+
 "Modalidade de determinação da BC do ICMS"
 ICMS70_MODBC = [
     ("0", "Margem Valor Agregado (%)"),
@@ -354,6 +399,17 @@ ICMS70_MOTDESICMSST = [
 "Tributção pelo ICMS"
 ICMS90_CST = [
     ("90", "Outras"),
+]
+
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS90_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
 ]
 
 "Modalidade de determinação da BC do ICMS"
@@ -698,14 +754,16 @@ ARMA_TPARMA = [
 ]
 
 """Tipo de Integração do processo de pagamento com o sistema de automação
-    da empresa/
-    1=Pagamento integrado com o sistema de automação da empresa Ex. equipamento TEF
-    , Comercio Eletronico
-    2=Pagamento não integrado com o sistema de automação da empresa Ex: equipamento
-    POS"""
+    da empresa"""
 CARD_TPINTEGRA = [
-    ("1", "1"),
-    ("2", "2"),
+    (
+        "1",
+        "Pagamento integrado com o sistema de automação da empresa (Ex.: equipamento TEF, Comércio Eletrônico, POS Integrado)",
+    ),
+    (
+        "2",
+        "Pagamento não integrado com o sistema de automação da empresa (Ex.: equipamento POS Simples).",
+    ),
 ]
 
 "Indicador da IE do destinatário"
@@ -801,19 +859,17 @@ PROCREF_INDPROC = [
     ("1", "Justiça Federal"),
     ("2", "Justiça Estadual"),
     ("3", "Secex/RFB"),
-    ("9", "Outros"),
+    ("4", "CONFAZ"),
+    ("9", "Outros."),
 ]
 
-"""Tipo do ato concessório
-    Para origem do Processo na SEFAZ (indProc=0), informar o
-    tipo de ato concessório:
-    08=Termo de Acordo;
-    10=Regime Especial;
-    12=Autorização específica;"""
+"Tipo do ato concessório"
 PROCREF_TPATO = [
-    ("08", "08"),
-    ("10", "10"),
-    ("12", "12"),
+    ("08", "Termo de Acordo"),
+    ("10", "Regime Especial"),
+    ("12", "Autorização específica"),
+    ("14", "Ajuste SINIEF"),
+    ("15", "Convênio ICMS."),
 ]
 
 PROD_INDESCALA = [
@@ -2444,6 +2500,29 @@ class Prod(models.AbstractModel):
 
     nfe40_cBenef = fields.Char(string="cBenef")
 
+    nfe40_cCredPresumido = fields.Char(
+        string="Código de Benefício Fiscal",
+        help=(
+            "Código de Benefício Fiscal de Crédito Presumido na UF aplicado ao"
+            " item"
+        ),
+    )
+
+    nfe40_pCredPresumido = fields.Float(
+        string="Percentual do Crédito Presumido",
+        xsd_type="TDec_0302a04",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    nfe40_vCredPresumido = fields.Monetary(
+        string="Valor do Crédito Presumido",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
     nfe40_EXTIPI = fields.Char(string="Código EX TIPI (3 posições)")
 
     nfe40_CFOP = fields.Char(string="Cfop", xsd_required=True)
@@ -2658,11 +2737,11 @@ class Di(models.AbstractModel):
         comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
     )
     nfe40_nDI = fields.Char(
-        string="Numero do Documento",
+        string="Número do Documento de Importação",
         xsd_required=True,
         help=(
-            "Numero do Documento de Importação DI/DSI/DA/DRI-E "
-            "(DI/DSI/DA/DRI-E) (NT2011/004)"
+            "Número do Documento de Importação (DI, DSI, DIRE, DUImp) "
+            "(NT2011/004)"
         ),
     )
 
@@ -2696,10 +2775,10 @@ class Di(models.AbstractModel):
         string="Via",
         xsd_required=True,
         help=(
-            "Via de transporte internacional informada na DI\n\t\t\t\t\t\t\t\t"
-            "\t\t\t\t\t\t\t\t\t1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-"
-            "Postal;6-Ferroviaria;7-Rodoviaria;8-Conduto;9-Meios "
-            "Proprios;10-Entrada/Saida "
+            "Via de transporte internacional informada na DI ou na Declaração "
+            "Única de Importação (DUImp):\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t1"
+            "-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-"
+            "Rodoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida "
             "Ficta;\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t11-Courier;12-Em "
             "maos;13-Por reboque."
         ),
@@ -2724,7 +2803,15 @@ class Di(models.AbstractModel):
     )
 
     nfe40_CNPJ = fields.Char(
-        string="CNPJ do adquirente ou do encomendante", xsd_type="TCnpj"
+        string="CNPJ do adquirente ou do encomendante",
+        choice="di",
+        xsd_type="TCnpj",
+    )
+
+    nfe40_CPF = fields.Char(
+        string="CPF do adquirente ou do encomendante",
+        choice="di",
+        xsd_type="TCpf",
     )
 
     nfe40_UFTerceiro = fields.Selection(
@@ -2762,9 +2849,7 @@ class Adi(models.AbstractModel):
     nfe40_nAdicao = fields.Char(string="Número da Adição")
 
     nfe40_nSeqAdic = fields.Char(
-        string="Número seqüencial do item dentro",
-        xsd_required=True,
-        help="Número seqüencial do item dentro da Adição",
+        string="Número seqüencial do item", xsd_required=True
     )
 
     nfe40_cFabricante = fields.Char(
@@ -2777,7 +2862,7 @@ class Adi(models.AbstractModel):
     )
 
     nfe40_vDescDI = fields.Monetary(
-        string="Valor do desconto do item da DI – adição",
+        string="Valor do desconto do item",
         xsd_type="TDec_1302Opc",
         currency_field="brl_currency_id",
     )
@@ -5662,13 +5747,40 @@ class DetPag(models.AbstractModel):
         ),
     )
 
+    nfe40_dPag = fields.Date(string="Data do Pagamento", xsd_type="TData")
+
+    nfe40_CNPJPag = fields.Char(
+        string="CNPJ transacional do pagamento",
+        xsd_type="TCnpj",
+        help=(
+            "CNPJ transacional do pagamento - Preencher informando o CNPJ do "
+            "estabelecimento onde o pagamento foi "
+            "processado/transacionado/recebido quando a emissão do documento "
+            "fiscal ocorrer em estabelecimento distinto"
+        ),
+    )
+
+    nfe40_UFPag = fields.Selection(
+        TUFEMI,
+        string="UF do CNPJ do estabelecimento onde",
+        xsd_type="TUfEmi",
+        help=(
+            "UF do CNPJ do estabelecimento onde o pagamento foi "
+            "processado/transacionado/recebido."
+        ),
+    )
+
     nfe40_card = fields.Many2one(
-        comodel_name="nfe.40.card", string="Grupo de Cartões"
+        comodel_name="nfe.40.card",
+        string="Grupo de Cartões, PIX",
+        help=(
+            "Grupo de Cartões, PIX, Boletos e outros Pagamentos Eletrônicos"
+        ),
     )
 
 
 class Card(models.AbstractModel):
-    "Grupo de Cartões"
+    "Grupo de Cartões, PIX, Boletos e outros Pagamentos Eletrônicos"
 
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.card"
@@ -5681,12 +5793,10 @@ class Card(models.AbstractModel):
         xsd_required=True,
         help=(
             "Tipo de Integração do processo de pagamento com o sistema de "
-            "automação da empresa/ "
-            "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t1=Pagamento integrado com o "
-            "sistema de automação da empresa Ex. equipamento TEF , Comercio "
-            "Eletronico\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t2=Pagamento não "
-            "integrado com o sistema de automação da empresa Ex: equipamento "
-            "POS"
+            "automação da empresa:\n1 - Pagamento integrado com o sistema de "
+            "automação da empresa (Ex.: equipamento TEF, Comércio Eletrônico, "
+            "POS Integrado);\n2 - Pagamento não integrado com o sistema de "
+            "automação da empresa (Ex.: equipamento POS Simples)."
         ),
     )
 
@@ -5697,8 +5807,19 @@ class Card(models.AbstractModel):
     nfe40_tBand = fields.Char(string="Bandeira da operadora de cartão")
 
     nfe40_cAut = fields.Char(
-        string="Número de autorização da operação cartão",
-        help="Número de autorização da operação cartão de crédito/débito",
+        string="Número de autorização da operação",
+        help=(
+            "Número de autorização da operação com cartões, PIX, boletos e "
+            "outros pagamentos eletrônicos"
+        ),
+    )
+
+    nfe40_CNPJReceb = fields.Char(
+        string="CNPJ do beneficiário do pagamento", xsd_type="TCnpj"
+    )
+
+    nfe40_idTermPag = fields.Char(
+        string="Identificador do terminal de pagamento"
     )
 
 
@@ -5828,7 +5949,8 @@ class ProcRef(models.AbstractModel):
         xsd_required=True,
         help=(
             "Origem do processo, informar com:\n0 - SEFAZ;\n1 - Justiça "
-            "Federal;\n2 - Justiça Estadual;\n3 - Secex/RFB;\n9 - Outros"
+            "Federal;\n2 - Justiça Estadual;\n3 - Secex/RFB;\n4 - CONFAZ;\n9 -"
+            " Outros."
         ),
     )
 
@@ -5838,8 +5960,8 @@ class ProcRef(models.AbstractModel):
         help=(
             "Tipo do ato concessório\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPara origem "
             "do Processo na SEFAZ (indProc=0), informar o\ntipo de ato "
-            "concessório:\n08=Termo de Acordo;\n10=Regime "
-            "Especial;\n12=Autorização específica;"
+            "concessório:\n08 - Termo de Acordo;\n10 - Regime Especial;\n12 - "
+            "Autorização específica;\n14 - Ajuste SINIEF;\n15 - Convênio ICMS."
         ),
     )
 
