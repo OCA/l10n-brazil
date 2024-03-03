@@ -223,7 +223,7 @@ class NFeLine(spec_models.StackedModel):
     #######################################
 
     # Overriden to define default value for normal product
-    nfe40_choice9 = fields.Selection(
+    nfe40_choice_prod = fields.Selection(
         selection=[
             ("normal", "Produto Normal"),
             ("nfe40_veicProd", "Veículo"),
@@ -280,7 +280,7 @@ class NFeLine(spec_models.StackedModel):
     nfe40_vTotTrib = fields.Monetary(related="estimate_tax")
 
     def _export_fields_nfe_40_imposto(self, xsd_fields, class_obj, export_dict):
-        if self.nfe40_choice10 == "nfe40_ICMS":
+        if self.nfe40_choice_imposto == "nfe40_ICMS":
             xsd_fields.remove("nfe40_ISSQN")
         else:
             xsd_fields.remove("nfe40_ICMS")
@@ -320,7 +320,7 @@ class NFeLine(spec_models.StackedModel):
     # Grupo N10. Grupo Tributação do ICMS= 90
     #################################################
 
-    nfe40_choice11 = fields.Selection(
+    nfe40_choice_icms = fields.Selection(
         selection=[
             ("nfe40_ICMS00", "ICMS00"),
             ("nfe40_ICMS10", "ICMS10"),
@@ -341,7 +341,7 @@ class NFeLine(spec_models.StackedModel):
             ("nfe40_ICMSSN900", "ICMSSN900"),
         ],
         string="Tipo de ICMS",
-        compute="_compute_choice11",
+        compute="_compute_choice_icms",
         store=True,
     )
 
@@ -379,7 +379,7 @@ class NFeLine(spec_models.StackedModel):
     ##########################
 
     @api.depends("icms_cst_id")
-    def _compute_choice11(self):
+    def _compute_choice_icms(self):
         for record in self:
             icms_choice = ""
             if record.icms_cst_id.code in ICMS_CST:
@@ -394,7 +394,7 @@ class NFeLine(spec_models.StackedModel):
             elif record.icms_cst_id.code in ICMS_SN_CST:
                 icms_choice = "{}{}".format("nfe40_ICMSSN", record.icms_cst_id.code)
 
-            record.nfe40_choice11 = icms_choice
+            record.nfe40_choice_icms = icms_choice
 
     ##########################
     # NF-e tag: ICMS
@@ -464,9 +464,9 @@ class NFeLine(spec_models.StackedModel):
         if "nfe40_ICMSST" in xsd_fields:
             xsd_fields.remove("nfe40_ICMSST")
 
-        xsd_fields = [self.nfe40_choice11]
+        xsd_fields = [self.nfe40_choice_icms]
         icms_tag = (
-            self.nfe40_choice11.replace("nfe40_", "")
+            self.nfe40_choice_icms.replace("nfe40_", "")
             .replace("ICMS", "Icms")
             .replace("IcmsSN", "Icmssn")
         )
@@ -533,14 +533,14 @@ class NFeLine(spec_models.StackedModel):
     # Grupo O. Imposto sobre Produtos Industrializados
     ##################################################
 
-    nfe40_choice3 = fields.Selection(
+    nfe40_choice_tipi = fields.Selection(
         selection=[("nfe40_IPITrib", "IPITrib"), ("nfe40_IPINT", "IPINT")],
         string="IPITrib ou IPINT",
-        compute="_compute_choice3",
+        compute="_compute_choice_tipi",
         store=True,
     )
 
-    nfe40_choice20 = fields.Selection(
+    nfe40_choice_ipitrib = fields.Selection(
         selection=[
             ("nfe40_vBC", "vBC"),
             ("nfe40_pIPI", "pIPI"),
@@ -548,7 +548,7 @@ class NFeLine(spec_models.StackedModel):
             ("nfe40_vUnid", "vUnid"),
         ],
         string="Base vBC/pIPI/qUnid/vUnid",
-        compute="_compute_nfe40_choice20",
+        compute="_compute_nfe40_choice_ipitrib",
         store=True,
     )
 
@@ -570,20 +570,20 @@ class NFeLine(spec_models.StackedModel):
     ##########################
 
     @api.depends("ipi_cst_id")
-    def _compute_choice3(self):
+    def _compute_choice_tipi(self):
         for record in self:
             if record.ipi_cst_id.code in ["00", "49", "50", "99"]:
-                record.nfe40_choice3 = "nfe40_IPITrib"
+                record.nfe40_choice_tipi = "nfe40_IPITrib"
             else:
-                record.nfe40_choice3 = "nfe40_IPINT"
+                record.nfe40_choice_tipi = "nfe40_IPINT"
 
     @api.depends("ipi_base_type")
-    def _compute_nfe40_choice20(self):
+    def _compute_nfe40_choice_ipitrib(self):
         for record in self:
             if record.ipi_base_type == "percent":
-                record.nfe40_choice20 = "nfe40_pIPI"
+                record.nfe40_choice_ipitrib = "nfe40_pIPI"
             else:
-                record.nfe40_choice20 = "nfe40_vUnid"
+                record.nfe40_choice_ipitrib = "nfe40_vUnid"
 
     ##########################
     # NF-e tag: IPI
@@ -603,7 +603,7 @@ class NFeLine(spec_models.StackedModel):
     def _export_fields_nfe_40_ipitrib(self, xsd_fields, class_obj, export_dict):
         self._export_fields_ipi(xsd_fields, class_obj, export_dict)
 
-        if self.nfe40_choice20 == "nfe40_pIPI":
+        if self.nfe40_choice_ipitrib == "nfe40_pIPI":
             xsd_fields.remove("nfe40_qUnid")
             xsd_fields.remove("nfe40_vUnid")
         else:
@@ -631,7 +631,7 @@ class NFeLine(spec_models.StackedModel):
     # Grupo Q. PIS
     ###############
 
-    nfe40_choice12 = fields.Selection(
+    nfe40_choice_pis = fields.Selection(
         selection=[
             ("nfe40_PISAliq", "PISAliq"),
             ("nfe40_PISQtde", "PISQtde"),
@@ -639,18 +639,18 @@ class NFeLine(spec_models.StackedModel):
             ("nfe40_PISOutr", "PISOutr"),
         ],
         stringo="PISAliq/PISQtde/PISNT/PISOutr",
-        compute="_compute_choice12",
+        compute="_compute_choice_pis",
         store=True,
     )
 
-    nfe40_choice13 = fields.Selection(
+    nfe40_choice_pisoutr = fields.Selection(
         [
             ("nfe40_vBC", "vBC"),
             ("nfe40_pPIS", "pPIS"),
             ("nfe40_qBCProd", "qBCProd"),
             ("nfe40_vAliqProd", "vAliqProd"),
         ],
-        compute="_compute_nfe40_choice13",
+        compute="_compute_nfe40_choice_pisoutr",
         store=True,
         string="Tipo de Tributação do PIS",
     )
@@ -676,24 +676,24 @@ class NFeLine(spec_models.StackedModel):
     ##########################
 
     @api.depends("pis_cst_id")
-    def _compute_choice12(self):
+    def _compute_choice_pis(self):
         for record in self:
             if record.pis_cst_id.code in ["01", "02"]:
-                record.nfe40_choice12 = "nfe40_PISAliq"
+                record.nfe40_choice_pis = "nfe40_PISAliq"
             elif record.pis_cst_id.code == "03":
-                record.nfe40_choice12 = "nfe40_PISQtde"
+                record.nfe40_choice_pis = "nfe40_PISQtde"
             elif record.pis_cst_id.code in ["04", "06", "07", "08", "09"]:
-                record.nfe40_choice12 = "nfe40_PISNT"
+                record.nfe40_choice_pis = "nfe40_PISNT"
             else:
-                record.nfe40_choice12 = "nfe40_PISOutr"
+                record.nfe40_choice_pis = "nfe40_PISOutr"
 
     @api.depends("pis_base_type")
-    def _compute_nfe40_choice13(self):
+    def _compute_nfe40_choice_pisoutr(self):
         for record in self:
             if record.pis_base_type == "percent":
-                record.nfe40_choice13 = "nfe40_pPIS"
+                record.nfe40_choice_pisoutr = "nfe40_pPIS"
             else:
-                record.nfe40_choice13 = "nfe40_vAliqProd"
+                record.nfe40_choice_pisoutr = "nfe40_vAliqProd"
 
     ##########################
     # NF-e tag: PIS
@@ -710,7 +710,7 @@ class NFeLine(spec_models.StackedModel):
             "nfe40_PISOutr": ["nfe40_PISAliq", "nfe40_PISQtde", "nfe40_PISNT"],
         }
 
-        for tag_to_remove in remove_tags.get(self.nfe40_choice12, []):
+        for tag_to_remove in remove_tags.get(self.nfe40_choice_pis, []):
             if tag_to_remove in xsd_fields:
                 xsd_fields.remove(tag_to_remove)
 
@@ -727,11 +727,11 @@ class NFeLine(spec_models.StackedModel):
     def _export_fields_nfe_40_pisoutr(self, xsd_fields, class_obj, export_dict):
         self._export_fields_pis(xsd_fields, class_obj, export_dict)
 
-        if self.nfe40_choice13 == "nfe40_pPIS":
+        if self.nfe40_choice_pisoutr == "nfe40_pPIS":
             xsd_fields.remove("nfe40_qBCProd")
             xsd_fields.remove("nfe40_vAliqProd")
 
-        if self.nfe40_choice13 == "nfe40_vAliqProd":
+        if self.nfe40_choice_pisoutr == "nfe40_vAliqProd":
             xsd_fields.remove("nfe40_vBC")
             xsd_fields.remove("nfe40_pPIS")
 
@@ -750,7 +750,7 @@ class NFeLine(spec_models.StackedModel):
     # Grupo S. COFINS
     ##################
 
-    nfe40_choice15 = fields.Selection(
+    nfe40_choice_cofins = fields.Selection(
         selection=[
             ("nfe40_COFINSAliq", "COFINSAliq"),
             ("nfe40_COFINSQtde", "COFINSQtde"),
@@ -758,18 +758,18 @@ class NFeLine(spec_models.StackedModel):
             ("nfe40_COFINSOutr", "COFINSOutr"),
         ],
         string="COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr",
-        compute="_compute_choice15",
+        compute="_compute_choice_cofins",
         store=True,
     )
 
-    nfe40_choice16 = fields.Selection(
+    nfe40_choice_cofinsoutr = fields.Selection(
         selection=[
             ("nfe40_vBC", "vBC"),
             ("nfe40_pCOFINS", "pCOFINS"),
             ("nfe40_qBCProd", "qBCProd"),
             ("nfe40_vAliqProd", "vAliqProd"),
         ],
-        compute="_compute_nfe40_choice16",
+        compute="_compute_nfe40_choice_cofinsoutr",
         store=True,
         string="Tipo de Tributação do COFINS",
     )
@@ -797,24 +797,24 @@ class NFeLine(spec_models.StackedModel):
     ##########################
 
     @api.depends("cofins_cst_id")
-    def _compute_choice15(self):
+    def _compute_choice_cofins(self):
         for record in self:
             if record.cofins_cst_id.code in ["01", "02"]:
-                record.nfe40_choice15 = "nfe40_COFINSAliq"
+                record.nfe40_choice_cofins = "nfe40_COFINSAliq"
             elif record.cofins_cst_id.code == "03":
-                record.nfe40_choice15 = "nfe40_COFINSQtde"
+                record.nfe40_choice_cofins = "nfe40_COFINSQtde"
             elif record.cofins_cst_id.code in ["04", "06", "07", "08", "09"]:
-                record.nfe40_choice15 = "nfe40_COFINSNT"
+                record.nfe40_choice_cofins = "nfe40_COFINSNT"
             else:
-                record.nfe40_choice15 = "nfe40_COFINSOutr"
+                record.nfe40_choice_cofins = "nfe40_COFINSOutr"
 
     @api.depends("cofins_base_type")
-    def _compute_nfe40_choice16(self):
+    def _compute_nfe40_choice_cofinsoutr(self):
         for record in self:
             if record.cofins_base_type == "percent":
-                record.nfe40_choice16 = "nfe40_pCOFINS"
+                record.nfe40_choice_cofinsoutr = "nfe40_pCOFINS"
             else:
-                record.nfe40_choice16 = "nfe40_vAliqProd"
+                record.nfe40_choice_cofinsoutr = "nfe40_vAliqProd"
 
     ##########################
     # NF-e tag: COFINS
@@ -847,7 +847,7 @@ class NFeLine(spec_models.StackedModel):
             ],
         }
 
-        for tag_to_remove in remove_tags.get(self.nfe40_choice15, []):
+        for tag_to_remove in remove_tags.get(self.nfe40_choice_cofins, []):
             if tag_to_remove in xsd_fields:
                 xsd_fields.remove(tag_to_remove)
 
@@ -865,11 +865,11 @@ class NFeLine(spec_models.StackedModel):
     def _export_fields_nfe_40_cofinsoutr(self, xsd_fields, class_obj, export_dict):
         self._export_fields_cofins(xsd_fields, class_obj, export_dict)
 
-        if self.nfe40_choice16 == "nfe40_pCOFINS":
+        if self.nfe40_choice_cofinsoutr == "nfe40_pCOFINS":
             xsd_fields.remove("nfe40_qBCProd")
             xsd_fields.remove("nfe40_vAliqProd")
 
-        if self.nfe40_choice16 == "nfe40_vAliqProd":
+        if self.nfe40_choice_cofinsoutr == "nfe40_vAliqProd":
             xsd_fields.remove("nfe40_vBC")
             xsd_fields.remove("nfe40_pCOFINS")
 
@@ -928,7 +928,7 @@ class NFeLine(spec_models.StackedModel):
     # Grupo W. Total da NF-e
     ########################
 
-    nfe40_choice10 = fields.Selection(
+    nfe40_choice_imposto = fields.Selection(
         selection=[
             ("nfe40_ICMS", "ICMS"),
             #            ("nfe40_II", "II"),
@@ -936,7 +936,7 @@ class NFeLine(spec_models.StackedModel):
             ("nfe40_ISSQN", "ISSQN"),
         ],
         string="ICMS/II/IPI ou ISSQN",
-        compute="_compute_nfe40_choice10",
+        compute="_compute_nfe40_choice_imposto",
         store=True,
     )
 
@@ -946,12 +946,12 @@ class NFeLine(spec_models.StackedModel):
     ##########################
 
     @api.depends("tax_icms_or_issqn")
-    def _compute_nfe40_choice10(self):
+    def _compute_nfe40_choice_imposto(self):
         for record in self:
             if record.tax_icms_or_issqn == "issqn":
-                record.nfe40_choice10 = "nfe40_ISSQN"
+                record.nfe40_choice_imposto = "nfe40_ISSQN"
             else:
-                record.nfe40_choice10 = "nfe40_ICMS"
+                record.nfe40_choice_imposto = "nfe40_ICMS"
 
     #######################################################
     # NF-e tag: infAdProd
@@ -999,7 +999,7 @@ class NFeLine(spec_models.StackedModel):
             "nfe40_ICMSTot",
             "nfe40_ICMSUFDest",
         ]:
-            vals["nfe40_choice11"] = key
+            vals["nfe40_choice_icms"] = key
 
         if key == "nfe40_vUnCom":
             vals["price_unit"] = float(value)
