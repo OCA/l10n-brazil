@@ -38,7 +38,7 @@ class NFeRelated(spec_models.StackedModel):
     > <refNFP>
     > <refECF>"""
 
-    nfe40_choice4 = fields.Selection(
+    nfe40_choice_nfref = fields.Selection(
         [
             ("nfe40_refNFe", "refNFe"),
             ("nfe40_refNF", "refNF"),
@@ -48,7 +48,7 @@ class NFeRelated(spec_models.StackedModel):
         ],
         "refNFe/refNF/refNFP/refCTe/refECF",
         compute="_compute_nfe_data",
-        inverse="_inverse_nfe40_choice4",
+        inverse="_inverse_nfe40_choice_nfref",
     )
 
     nfe40_refNFe = fields.Char(
@@ -59,10 +59,6 @@ class NFeRelated(spec_models.StackedModel):
     nfe40_refCTe = fields.Char(
         compute="_compute_nfe_data",
         inverse="_inverse_nfe40_refCTe",
-    )
-
-    nfe40_choice5 = fields.Selection(
-        [("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")], "CNPJ/CPF do Produtor"
     )
 
     # TODO
@@ -95,21 +91,21 @@ class NFeRelated(spec_models.StackedModel):
                     MODELO_FISCAL_NFCE,
                     MODELO_FISCAL_CFE,
                 ):
-                    rec.nfe40_choice4 = "nfe40_refNFe"
+                    rec.nfe40_choice_nfref = "nfe40_refNFe"
                     rec.nfe40_refNFe = rec.document_key
                 elif rec.document_type_id.code == MODELO_FISCAL_CTE:
-                    rec.nfe40_choice4 = "nfe40_refCTe"
+                    rec.nfe40_choice_nfref = "nfe40_refCTe"
                     rec.nfe40_refCTe = rec.document_key
                 else:
                     if rec.document_type_id.code == MODELO_FISCAL_RL:
-                        rec.nfe40_choice4 = "nfe40_refNFP"
+                        rec.nfe40_choice_nfref = "nfe40_refNFP"
                     elif rec.document_type_id.code == MODELO_FISCAL_CUPOM_FISCAL_ECF:
-                        rec.nfe40_choice4 = "nfe40_refECF"
+                        rec.nfe40_choice_nfref = "nfe40_refECF"
                     elif rec.document_type_id.code in (
                         MODELO_FISCAL_01,
                         MODELO_FISCAL_04,
                     ):
-                        rec.nfe40_choice4 = "nfe40_refNF"
+                        rec.nfe40_choice_nfref = "nfe40_refNF"
                     rec.nfe40_cUF = document.partner_id.state_id.ibge_code
                     rec.nfe40_AAMM = (
                         fields.Datetime.from_string(
@@ -127,9 +123,9 @@ class NFeRelated(spec_models.StackedModel):
                     rec.nfe40_serie = document.document_serie
                     rec.nfe40_nNF = document.document_number
 
-    def _inverse_nfe40_choice4(self):
+    def _inverse_nfe40_choice_nfref(self):
         for rec in self:
-            if rec.nfe40_choice4 == "nfe40_refNFe":
+            if rec.nfe40_choice_nfref == "nfe40_refNFe":
                 rec.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
 
     def _inverse_nfe40_refNFe(self):
@@ -147,7 +143,7 @@ class NFeRelated(spec_models.StackedModel):
             xsd_fields = [
                 f
                 for f in xsd_fields
-                if f not in [i[0] for i in self._fields["nfe40_choice4"].selection]
+                if f not in [i[0] for i in self._fields["nfe40_choice_nfref"].selection]
             ]
-            xsd_fields += [self.nfe40_choice4]
+            xsd_fields += [self.nfe40_choice_nfref]
         return super()._export_fields(xsd_fields, class_obj, export_dict)
