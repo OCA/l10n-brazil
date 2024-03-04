@@ -64,6 +64,10 @@
                             <Cep>4576060</Cep>
                         </Endereco>
                     </Tomador>
+                    <ConstrucaoCivil>
+                        <CodigoObra></CodigoObra>
+                        <Art></Art>
+                    </ConstrucaoCivil>
                 </InfRps>
             </Rps>
         </ListaRps>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-10-10 18:42+0000\n"
-"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
+"PO-Revision-Date: 2024-03-04 16:10+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,18 @@ msgstr ""
 "${object.document_type_id.name}: ${object.document_number} Série: ${object."
 "document_serie} é: ${dict(object.fields_get('state').get('state')."
 "get('selection')).get(object.state, '')}"
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
+#, python-format
+msgid "%(name)s Tax Estimate Failure"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
+#, python-format
+msgid "%(name)s Tax Estimate Failure: %(error)s"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_tax_withholding
@@ -1411,7 +1423,7 @@ msgstr "Autopeças"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_workflow__state_edoc__autorizada
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__autorizada
 msgid "Autorizada"
-msgstr "Autorizado"
+msgstr "Autorizada"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
@@ -2807,7 +2819,7 @@ msgstr "Data de Entrada/Saída"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Date In/Out"
-msgstr ""
+msgstr "Data de Entrada/Saída"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_debit_credit
@@ -2982,7 +2994,7 @@ msgstr "Devolver"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__discount_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__discount_value
 msgid "Discount Value"
-msgstr "Valor do desconto"
+msgstr "Valor do Desconto"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__display_name
@@ -3146,7 +3158,7 @@ msgstr "Relatório de Documento"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number_wizard__document_serie
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__document_serie_id
 msgid "Document Serie"
-msgstr "Série de Documentos"
+msgstr "Série do Documento"
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document_serie.py:0
@@ -4045,7 +4057,7 @@ msgstr "Seguidores (Parceiros)"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_type_icon
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Ícone Font Awesome ex. fa-tasks"
+msgstr "Ícone do font awesome ex. fa-task"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__force_compute_delivery_costs_by_total
@@ -4162,8 +4174,8 @@ msgstr "Horas"
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
-msgid "IBPT Forbidden - token={!r}, cnpj={!r}, UF={!r}"
-msgstr "IBPT Proibido - token={!r}, cnpj={!r}, UF={!r}"
+msgid "IBPT Forbidden - token=%(token)s, cnpj=%(cnpj)s, UF=%(uf)s"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
@@ -4256,7 +4268,7 @@ msgstr "Base para ICMS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_base_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_base_type
 msgid "ICMS Base Type"
-msgstr "Tipo base do ICMS"
+msgstr "Tipo da Base do ICMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_cst_code
@@ -5671,21 +5683,13 @@ msgstr "Se marcado novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens tem erro de entrega."
 
@@ -5769,7 +5773,7 @@ msgstr "Documento de Entrada"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__allow_csll_irpj
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__allow_csll_irpj
 msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
-msgstr ""
+msgstr "Indica potencial cobrança de imposto 'CSLL' e 'IRPJ' ."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_is_public_entity
@@ -5783,6 +5787,10 @@ msgid ""
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
 msgstr ""
+"Indica se a entidade em questão é uma organização pública ou uma entidade "
+"relacionada ao governo. Abrange uma gama de entidades, como governos "
+"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
+"organizações controladas pelo governo."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__industry_type
@@ -6369,7 +6377,7 @@ msgstr "Anexo Principal"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__cnae_main_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__cnae_main_id
 msgid "Main CNAE"
-msgstr "CNAE principal"
+msgstr "CNAE Principal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__type__13
@@ -6548,7 +6556,7 @@ msgstr "Mensagem"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_has_error
 msgid "Message Delivery error"
-msgstr "Erro de entrega de Mensagem"
+msgstr "Erro de Entrega da Mensagem"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_ids
@@ -6583,7 +6591,7 @@ msgstr "Configurações de movimento"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_mun
 msgid "Municipal Tax Number"
-msgstr "Número de Impostos Municipais"
+msgstr "Número da Inscrição Municipal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__my_activity_date_deadline
@@ -7100,15 +7108,12 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document_workflow.py:0
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Não é possível retornar o documento para em \n"
 "digitação, quando o mesmo esta na situação: \n"
-"{}, {}"
+"%(old_state)s, %(fiscal_state)s"
 msgstr ""
-"Não é possível retornar o documento para em \n"
-"digitação, quando o mesmo esta na situação: \n"
-"{}, {}"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_cancel_wizard_form
@@ -8120,7 +8125,7 @@ msgstr "Número do Protocolo"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__is_public_entity
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__is_public_entity
 msgid "Public Entity"
-msgstr ""
+msgstr "Entidade Pública"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_type__purchase
@@ -8481,18 +8486,6 @@ msgstr "SACO"
 #: model:uom.uom,name:l10n_br_fiscal.UOM_SACOLA
 msgid "SACOLA"
 msgstr "SACOLA"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erro de Entrega de SMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_type__sale
@@ -9663,7 +9656,9 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
-msgid "There is already a fiscal document with this Serie: {}, Number: {} !"
+msgid ""
+"There is already a fiscal document with this Serie: %(serie)s, Number: "
+"%(number)s!"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -10062,7 +10057,9 @@ msgstr "Você não pode excluir uma Definição de Imposto que não é rascunho 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
-msgid "You cannot delete fiscal document number {} with the status: {}!"
+msgid ""
+"You cannot delete fiscal document number %(number)s with the status: "
+"%(state)!"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -10172,20 +10169,33 @@ msgstr "pis_wh"
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #, python-format
-msgid "{0} Tax Estimate Failure: {1}"
-msgstr "Falha na estimativa de impostos {0}: {1}"
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
-#, python-format
-msgid "{} Tax Estimate Failure"
-msgstr "{} Falha na Estimativa de Imposto"
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
-#, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#, python-format
+#~ msgid "IBPT Forbidden - token={!r}, cnpj={!r}, UF={!r}"
+#~ msgstr "IBPT Proibido - token={!r}, cnpj={!r}, UF={!r}"
+
+#, fuzzy, python-format
+#~ msgid ""
+#~ "Não é possível retornar o documento para em \n"
+#~ "digitação, quando o mesmo esta na situação: \n"
+#~ "{}, {}"
+#~ msgstr ""
+#~ "Não é possível retornar o documento para em \n"
+#~ "digitação, quando o mesmo esta na situação: \n"
+#~ "{}, {}"
+
+#, python-format
+#~ msgid "{0} Tax Estimate Failure: {1}"
+#~ msgstr "Falha na estimativa de impostos {0}: {1}"
+
+#, python-format
+#~ msgid "{} Tax Estimate Failure"
+#~ msgstr "{} Falha na Estimativa de Imposto"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erro de Entrega de SMS"
 
 #, python-format
 #~ msgid "Estadual Inscription Invalid !"

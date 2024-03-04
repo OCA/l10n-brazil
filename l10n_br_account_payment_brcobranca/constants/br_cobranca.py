@@ -22,7 +22,7 @@ DICT_BRCOBRANCA_BANK = {
     "001": BankRecord("banco_brasil", retorno=["400"], remessa=["240", "400"]),
     "004": BankRecord("banco_nordeste", retorno=["400"], remessa=["400"]),
     "021": BankRecord("banestes", retorno=[], remessa=[]),
-    "033": BankRecord("santander", retorno=["240"], remessa=["400"]),
+    "033": BankRecord("santander", retorno=["400", "240"], remessa=["400", "240"]),
     "041": BankRecord("banrisul", retorno=["400"], remessa=["400"]),
     "070": BankRecord("banco_brasilia", retorno=[], remessa=["400"]),
     "085": BankRecord("ailos", retorno=["240"], remessa=["240"]),
@@ -68,10 +68,14 @@ def get_brcobranca_api_url(env):
     if not brcobranca_api_url:
         raise UserError(
             _(
-                "Inform the URL where BRCobranca API are running"
-                " in Odoo Configuration file or if you are using docky"
-                " in the docker-compose.yml file. Example:\n"
-                "BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
+                "BRCobranca API URL is not configured.\n\n"
+                " Set the URL using one of the these methods:\n\n"
+                "1. Set the environment variable:"
+                " BRCOBRANCA_API_URL=http://boleto_cnab_api:9292\n"
+                "2. Configure the URL in Odoo configuration file:"
+                " brcobranca_api_url=http://boleto_cnab_api:9292\n"
+                "3. Set the URL in System Parameters:"
+                " brcobranca_api_url=http://boleto_cnab_api:9292\n"
             )
         )
 

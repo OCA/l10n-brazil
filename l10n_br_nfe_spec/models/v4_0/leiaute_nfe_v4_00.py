@@ -129,7 +129,8 @@ DI_TPINTERMEDIO = [
     ("3", "encomenda"),
 ]
 
-"Via de transporte internacional informada na DI"
+"""Via de transporte internacional informada na DI ou na Declaração Única
+    de Importação"""
 DI_TPVIATRANSP = [
     ("1", "Maritima"),
     ("2", "Fluvial"),
@@ -215,6 +216,17 @@ ICMS20_CST = [
     ("20", "Com redução de base de cálculo"),
 ]
 
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS20_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
+]
+
 "Modalidade de determinação da BC do ICMS"
 ICMS20_MODBC = [
     ("0", "Margem Valor Agregado (%)"),
@@ -236,6 +248,17 @@ ICMS30_CST = [
         "30",
         "Isenta ou não tributada e com cobrança do ICMS por substituição tributária",
     ),
+]
+
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS30_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
 ]
 
 "Modalidade de determinação da BC do ICMS ST"
@@ -261,6 +284,17 @@ ICMS40_CST = [
     ("40", "Isenta "),
     ("41", "Não tributada "),
     ("50", "Suspensão "),
+]
+
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS40_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
 ]
 
 """Este campo será preenchido quando o campo anterior estiver preenchido"""
@@ -318,6 +352,17 @@ ICMS70_CST = [
     ),
 ]
 
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS70_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
+]
+
 "Modalidade de determinação da BC do ICMS"
 ICMS70_MODBC = [
     ("0", "Margem Valor Agregado (%)"),
@@ -354,6 +399,17 @@ ICMS70_MOTDESICMSST = [
 "Tributção pelo ICMS"
 ICMS90_CST = [
     ("90", "Outras"),
+]
+
+"""Indica se o valor do ICMS desonerado (vICMSDeson) deduz do valor do item
+    (vProd):
+    0=Valor do ICMS desonerado (vICMSDeson) não deduz do valor do item (vProd) /
+    total da NF-e;
+    1=Valor do ICMS desonerado (vICMSDeson) deduz do valor do item (vProd) / total
+    da NF-e."""
+ICMS90_INDDEDUZDESON = [
+    ("0", "0"),
+    ("1", "1"),
 ]
 
 "Modalidade de determinação da BC do ICMS"
@@ -416,13 +472,19 @@ ICMSPART_MODBCST = [
 
 "CSOSN"
 ICMSSN101_CSOSN = [
-    ("101", " Tributada pelo Simples Nacional com permissão de crédito. (v.2.0)"),
+    (
+        "101",
+        " Tributada pelo Simples Nacional com permissão de crédito. (v.2.0)",
+    ),
 ]
 
 "CSOSN"
 ICMSSN102_CSOSN = [
     ("102", " Tributada pelo Simples Nacional sem permissão de crédito. "),
-    ("103", "Isenção do ICMS  no Simples Nacional para faixa de receita bruta."),
+    (
+        "103",
+        "Isenção do ICMS  no Simples Nacional para faixa de receita bruta.",
+    ),
     ("300", "Imune."),
     ("400", "Não tributda pelo Simples Nacional (v.2.0) (v.2.0)"),
 ]
@@ -692,14 +754,16 @@ ARMA_TPARMA = [
 ]
 
 """Tipo de Integração do processo de pagamento com o sistema de automação
-    da empresa/
-    1=Pagamento integrado com o sistema de automação da empresa Ex. equipamento TEF
-    , Comercio Eletronico
-    2=Pagamento não integrado com o sistema de automação da empresa Ex: equipamento
-    POS"""
+    da empresa"""
 CARD_TPINTEGRA = [
-    ("1", "1"),
-    ("2", "2"),
+    (
+        "1",
+        "Pagamento integrado com o sistema de automação da empresa (Ex.: equipamento TEF, Comércio Eletrônico, POS Integrado)",
+    ),
+    (
+        "2",
+        "Pagamento não integrado com o sistema de automação da empresa (Ex.: equipamento POS Simples).",
+    ),
 ]
 
 "Indicador da IE do destinatário"
@@ -795,19 +859,17 @@ PROCREF_INDPROC = [
     ("1", "Justiça Federal"),
     ("2", "Justiça Estadual"),
     ("3", "Secex/RFB"),
-    ("9", "Outros"),
+    ("4", "CONFAZ"),
+    ("9", "Outros."),
 ]
 
-"""Tipo do ato concessório
-    Para origem do Processo na SEFAZ (indProc=0), informar o
-    tipo de ato concessório:
-    08=Termo de Acordo;
-    10=Regime Especial;
-    12=Autorização específica;"""
+"Tipo do ato concessório"
 PROCREF_TPATO = [
-    ("08", "08"),
-    ("10", "10"),
-    ("12", "12"),
+    ("08", "Termo de Acordo"),
+    ("10", "Regime Especial"),
+    ("12", "Autorização específica"),
+    ("14", "Ajuste SINIEF"),
+    ("15", "Convênio ICMS."),
 ]
 
 PROD_INDESCALA = [
@@ -895,9 +957,10 @@ class TinfRespTec(models.AbstractModel):
     _name = "nfe.40.tinfresptec"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TinfRespTec"
-    _generateds_type = "TInfRespTec"
 
-    nfe40_CNPJ = fields.Char(string="CNPJ", xsd_required=True, xsd_type="TCnpjOpc")
+    nfe40_CNPJ = fields.Char(
+        string="CNPJ", xsd_required=True, xsd_type="TCnpjOpc"
+    )
 
     nfe40_xContato = fields.Char(
         string="nome da pessoa a ser contatada",
@@ -912,7 +975,8 @@ class TinfRespTec(models.AbstractModel):
         string="e-mail da pessoa a ser contatada",
         xsd_required=True,
         help=(
-            "e-mail da pessoa a ser contatada na empresa desenvolvedora do " "sistema."
+            "e-mail da pessoa a ser contatada na empresa desenvolvedora do "
+            "sistema."
         ),
     )
 
@@ -947,7 +1011,6 @@ class TconsReciNfe(models.AbstractModel):
     _name = "nfe.40.tconsrecinfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TconsReciNfe"
-    _generateds_type = "TConsReciNFe"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -961,7 +1024,9 @@ class TconsReciNfe(models.AbstractModel):
         string="Número do Recibo", xsd_required=True, xsd_type="TRec"
     )
 
-    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+    nfe40_versao = fields.Char(
+        string="versao", xsd_required=True, xsd_type="TVerNFe"
+    )
 
 
 class TenderEmi(models.AbstractModel):
@@ -972,7 +1037,6 @@ class TenderEmi(models.AbstractModel):
     _name = "nfe.40.tenderemi"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TenderEmi"
-    _generateds_type = "TEnderEmi"
 
     nfe40_xLgr = fields.Char(string="Logradouro", xsd_required=True)
 
@@ -1006,11 +1070,11 @@ class TenderEmi(models.AbstractModel):
 
 class Tendereco(models.AbstractModel):
     "Tipo Dados do Endereço // 24/10/08 - tamanho mínimo"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tendereco"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tendereco"
-    _generateds_type = "TEndereco"
 
     nfe40_xLgr = fields.Char(string="Logradouro", xsd_required=True)
 
@@ -1033,7 +1097,10 @@ class Tendereco(models.AbstractModel):
     nfe40_xMun = fields.Char(
         string="Nome do município",
         xsd_required=True,
-        help=("Nome do município, informar EXTERIOR para operações com o " "exterior."),
+        help=(
+            "Nome do município, informar EXTERIOR para operações com o "
+            "exterior."
+        ),
     )
 
     nfe40_UF = fields.Selection(
@@ -1062,11 +1129,11 @@ class Tendereco(models.AbstractModel):
 
 class Tipi(models.AbstractModel):
     "Tipo: Dados do IPI"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tipi"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tipi"
-    _generateds_type = "TIpi"
 
     nfe40_CNPJProd = fields.Char(
         string="CNPJ do produtor da mercadoria",
@@ -1084,7 +1151,10 @@ class Tipi(models.AbstractModel):
     nfe40_cEnq = fields.Char(
         string="Código de Enquadramento Legal do IPI",
         xsd_required=True,
-        help=("Código de Enquadramento Legal do IPI (tabela a ser criada pela " "RFB)"),
+        help=(
+            "Código de Enquadramento Legal do IPI (tabela a ser criada pela "
+            "RFB)"
+        ),
     )
 
     nfe40_IPITrib = fields.Many2one(
@@ -1107,7 +1177,6 @@ class Ipitrib(models.AbstractModel):
     _name = "nfe.40.ipitrib"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tipi.Ipitrib"
-    _generateds_type = "IPITribType"
 
     nfe40_CST = fields.Selection(
         IPITRIB_CST,
@@ -1179,7 +1248,6 @@ class Ipint(models.AbstractModel):
     _name = "nfe.40.ipint"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tipi.Ipint"
-    _generateds_type = "IPINTType"
 
     nfe40_CST = fields.Selection(
         IPINT_CST,
@@ -1203,14 +1271,19 @@ class Tlocal(models.AbstractModel):
     _name = "nfe.40.tlocal"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tlocal"
-    _generateds_type = "TLocal"
 
     nfe40_CNPJ = fields.Char(
-        string="CNPJ", choice="tlocal", xsd_choice_required=True, xsd_type="TCnpjOpc"
+        string="CNPJ",
+        choice="tlocal",
+        xsd_choice_required=True,
+        xsd_type="TCnpjOpc",
     )
 
     nfe40_CPF = fields.Char(
-        string="CPF (v2.0)", choice="tlocal", xsd_choice_required=True, xsd_type="TCpf"
+        string="CPF (v2.0)",
+        choice="tlocal",
+        xsd_choice_required=True,
+        xsd_type="TCpf",
     )
 
     nfe40_xNome = fields.Char(
@@ -1273,7 +1346,6 @@ class TretConsReciNfe(models.AbstractModel):
     _name = "nfe.40.tretconsrecinfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretConsReciNfe"
-    _generateds_type = "TRetConsReciNFe"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -1291,7 +1363,9 @@ class TretConsReciNfe(models.AbstractModel):
     )
 
     nfe40_nRec = fields.Char(
-        string="Número do Recibo Consultado", xsd_required=True, xsd_type="TRec"
+        string="Número do Recibo Consultado",
+        xsd_required=True,
+        xsd_type="TRec",
     )
 
     nfe40_cStat = fields.Char(
@@ -1346,16 +1420,18 @@ class TretConsReciNfe(models.AbstractModel):
         help="Protocolo de status resultado do processamento da NF-e",
     )
 
-    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+    nfe40_versao = fields.Char(
+        string="versao", xsd_required=True, xsd_type="TVerNFe"
+    )
 
 
 class TretEnviNfe(models.AbstractModel):
     "Tipo Retorno do Pedido de Autorização da Nota Fiscal Eletrônica"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tretenvinfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretEnviNfe"
-    _generateds_type = "TRetEnviNFe"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -1411,19 +1487,23 @@ class TretEnviNfe(models.AbstractModel):
         choice="tretenvinfe",
         xsd_choice_required=True,
         xsd_type="TProtNFe",
-        help=("Protocolo de status resultado do processamento sincrono da NFC-e"),
+        help=(
+            "Protocolo de status resultado do processamento sincrono da NFC-e"
+        ),
     )
 
-    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+    nfe40_versao = fields.Char(
+        string="versao", xsd_required=True, xsd_type="TVerNFe"
+    )
 
 
 class InfRec(models.AbstractModel):
     "Dados do Recibo do Lote"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infrec"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TretEnviNfe.InfRec"
-    _generateds_type = "infRecType"
 
     nfe40_nRec = fields.Char(
         string="Número do Recibo", xsd_required=True, xsd_type="TRec"
@@ -1434,23 +1514,26 @@ class InfRec(models.AbstractModel):
         xsd_required=True,
         xsd_type="TMed",
         help=(
-            "Tempo médio de resposta do serviço (em segundos) dos últimos 5 " "minutos"
+            "Tempo médio de resposta do serviço (em segundos) dos últimos 5 "
+            "minutos"
         ),
     )
 
 
 class Tveiculo(models.AbstractModel):
     "Tipo Dados do Veículo"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tveiculo"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tveiculo"
-    _generateds_type = "TVeiculo"
 
     nfe40_reboque_transp_id = fields.Many2one(
         comodel_name="nfe.40.transp", xsd_implicit=True, ondelete="cascade"
     )
-    nfe40_placa = fields.Char(string="Placa do veículo (NT2011/004)", xsd_required=True)
+    nfe40_placa = fields.Char(
+        string="Placa do veículo (NT2011/004)", xsd_required=True
+    )
 
     nfe40_UF = fields.Selection(TUF, string="Sigla da UF", xsd_type="TUf")
 
@@ -1462,11 +1545,11 @@ class Tveiculo(models.AbstractModel):
 
 class Tnfe(models.AbstractModel):
     "Tipo Nota Fiscal Eletrônica"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe"
-    _generateds_type = "TNFe"
 
     nfe40_NFe_TEnviNFe_id = fields.Many2one(
         comodel_name="nfe.40.tenvinfe", xsd_implicit=True, ondelete="cascade"
@@ -1478,20 +1561,23 @@ class Tnfe(models.AbstractModel):
     )
 
     nfe40_infNFeSupl = fields.Many2one(
-        comodel_name="nfe.40.infnfesupl", string="Informações suplementares Nota Fiscal"
+        comodel_name="nfe.40.infnfesupl",
+        string="Informações suplementares Nota Fiscal",
     )
 
 
 class InfNfe(models.AbstractModel):
     "Informações da Nota Fiscal eletrônica"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infnfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe"
-    _generateds_type = "infNFeType"
 
     nfe40_ide = fields.Many2one(
-        comodel_name="nfe.40.ide", string="identificação da NF-e", xsd_required=True
+        comodel_name="nfe.40.ide",
+        string="identificação da NF-e",
+        xsd_required=True,
     )
 
     nfe40_emit = fields.Many2one(
@@ -1538,7 +1624,9 @@ class InfNfe(models.AbstractModel):
     )
 
     nfe40_det = fields.One2many(
-        "nfe.40.det", "nfe40_det_infNFe_id", string="Dados dos detalhes da NF-e"
+        "nfe.40.det",
+        "nfe40_det_infNFe_id",
+        string="Dados dos detalhes da NF-e",
     )
 
     nfe40_total = fields.Many2one(
@@ -1561,7 +1649,9 @@ class InfNfe(models.AbstractModel):
         comodel_name="nfe.40.pag",
         string="Dados de Pagamento",
         xsd_required=True,
-        help=("Dados de Pagamento. Obrigatório apenas para (NFC-e) NT 2012/004"),
+        help=(
+            "Dados de Pagamento. Obrigatório apenas para (NFC-e) NT 2012/004"
+        ),
     )
 
     nfe40_infIntermed = fields.Many2one(
@@ -1604,7 +1694,9 @@ class InfNfe(models.AbstractModel):
     )
 
     nfe40_versao = fields.Char(
-        string="Versão do leiaute (v4.00)", xsd_required=True, xsd_type="TVerNFe"
+        string="Versão do leiaute (v4.00)",
+        xsd_required=True,
+        xsd_type="TVerNFe",
     )
 
     nfe40_Id = fields.Char(
@@ -1614,11 +1706,11 @@ class InfNfe(models.AbstractModel):
 
 class Ide(models.AbstractModel):
     "identificação da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.ide"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Ide"
-    _generateds_type = "ideType"
 
     nfe40_cUF = fields.Selection(
         TCODUFIBGE,
@@ -1765,7 +1857,9 @@ class Ide(models.AbstractModel):
         IDE_INDFINAL,
         string="Indica operação com consumidor final",
         xsd_required=True,
-        help=("Indica operação com consumidor final (0-Não;1-Consumidor Final)"),
+        help=(
+            "Indica operação com consumidor final (0-Não;1-Consumidor Final)"
+        ),
     )
 
     nfe40_indPres = fields.Selection(
@@ -1834,11 +1928,11 @@ class Ide(models.AbstractModel):
 
 class Nfref(models.AbstractModel):
     "Grupo de infromações da NF referenciada"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.nfref"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Ide.Nfref"
-    _generateds_type = "NFrefType"
 
     nfe40_NFref_ide_id = fields.Many2one(
         comodel_name="nfe.40.ide", xsd_implicit=True, ondelete="cascade"
@@ -1873,7 +1967,9 @@ class Nfref(models.AbstractModel):
         string="Dados da NF modelo 1/1A referenciada",
         choice="nfref",
         xsd_choice_required=True,
-        help=("Dados da NF modelo 1/1A referenciada ou NF modelo 2 referenciada"),
+        help=(
+            "Dados da NF modelo 1/1A referenciada ou NF modelo 2 referenciada"
+        ),
     )
 
     nfe40_refNFP = fields.Many2one(
@@ -1905,11 +2001,11 @@ class Nfref(models.AbstractModel):
 
 class RefNf(models.AbstractModel):
     "Dados da NF modelo 1/1A referenciada ou NF modelo 2 referenciada"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.refnf"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Ide.Nfref.RefNf"
-    _generateds_type = "refNFType"
 
     nfe40_cUF = fields.Selection(
         TCODUFIBGE,
@@ -1955,11 +2051,11 @@ class RefNf(models.AbstractModel):
 
 class RefNfp(models.AbstractModel):
     "Grupo com as informações NF de produtor referenciada"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.refnfp"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Ide.Nfref.RefNfp"
-    _generateds_type = "refNFPType"
 
     nfe40_cUF = fields.Selection(
         TCODUFIBGE,
@@ -1991,7 +2087,9 @@ class RefNfp(models.AbstractModel):
     )
 
     nfe40_IE = fields.Char(
-        string="IE do emitente da NF de Produtor", xsd_required=True, xsd_type="TIeDest"
+        string="IE do emitente da NF de Produtor",
+        xsd_required=True,
+        xsd_type="TIeDest",
     )
 
     nfe40_mod = fields.Selection(
@@ -2021,11 +2119,11 @@ class RefNfp(models.AbstractModel):
 
 class RefEcf(models.AbstractModel):
     "Grupo do Cupom Fiscal vinculado à NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.refecf"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Ide.Nfref.RefEcf"
-    _generateds_type = "refECFType"
 
     nfe40_mod = fields.Selection(
         REFECF_MOD,
@@ -2051,17 +2149,19 @@ class RefEcf(models.AbstractModel):
     nfe40_nCOO = fields.Char(
         string="Número do Contador de Ordem de Operação",
         xsd_required=True,
-        help=("Número do Contador de Ordem de Operação - COO vinculado à NF-e"),
+        help=(
+            "Número do Contador de Ordem de Operação - COO vinculado à NF-e"
+        ),
     )
 
 
 class Emit(models.AbstractModel):
     "Identificação do emitente"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.emit"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Emit"
-    _generateds_type = "emitType"
 
     nfe40_CNPJ = fields.Char(
         string="Número do CNPJ do emitente",
@@ -2091,7 +2191,9 @@ class Emit(models.AbstractModel):
     )
 
     nfe40_IE = fields.Char(
-        string="Inscrição Estadual do Emitente", xsd_required=True, xsd_type="TIe"
+        string="Inscrição Estadual do Emitente",
+        xsd_required=True,
+        xsd_type="TIe",
     )
 
     nfe40_IEST = fields.Char(
@@ -2118,11 +2220,11 @@ class Emit(models.AbstractModel):
 
 class Avulsa(models.AbstractModel):
     "Emissão de avulsa, informar os dados do Fisco emitente"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.avulsa"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Avulsa"
-    _generateds_type = "avulsaType"
 
     nfe40_CNPJ = fields.Char(
         string="CNPJ do Órgão emissor", xsd_required=True, xsd_type="TCnpj"
@@ -2158,7 +2260,9 @@ class Avulsa(models.AbstractModel):
         currency_field="brl_currency_id",
     )
 
-    nfe40_repEmi = fields.Char(string="Repartição Fiscal emitente", xsd_required=True)
+    nfe40_repEmi = fields.Char(
+        string="Repartição Fiscal emitente", xsd_required=True
+    )
 
     nfe40_dPag = fields.Date(
         string="Data de pagamento do DAR",
@@ -2169,11 +2273,11 @@ class Avulsa(models.AbstractModel):
 
 class Dest(models.AbstractModel):
     "Identificação do Destinatário"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.dest"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Dest"
-    _generateds_type = "destType"
 
     nfe40_CNPJ = fields.Char(
         string="Número do CNPJ",
@@ -2183,14 +2287,19 @@ class Dest(models.AbstractModel):
     )
 
     nfe40_CPF = fields.Char(
-        string="Número do CPF", choice="dest", xsd_choice_required=True, xsd_type="TCpf"
+        string="Número do CPF",
+        choice="dest",
+        xsd_choice_required=True,
+        xsd_type="TCpf",
     )
 
     nfe40_idEstrangeiro = fields.Char(
         string="Identificador do destinatário",
         choice="dest",
         xsd_choice_required=True,
-        help=("Identificador do destinatário, em caso de comprador estrangeiro"),
+        help=(
+            "Identificador do destinatário, em caso de comprador estrangeiro"
+        ),
     )
 
     nfe40_xNome = fields.Char(string="Razão Social ou nome do destinatário")
@@ -2246,11 +2355,11 @@ class Dest(models.AbstractModel):
 
 class AutXml(models.AbstractModel):
     "Pessoas autorizadas para o download do XML da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.autxml"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.AutXml"
-    _generateds_type = "autXMLType"
 
     nfe40_autXML_infNFe_id = fields.Many2one(
         comodel_name="nfe.40.infnfe", xsd_implicit=True, ondelete="cascade"
@@ -2272,11 +2381,11 @@ class AutXml(models.AbstractModel):
 
 class Det(models.AbstractModel):
     "Dados dos detalhes da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.det"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det"
-    _generateds_type = "detType"
 
     nfe40_det_infNFe_id = fields.Many2one(
         comodel_name="nfe.40.infnfe", xsd_implicit=True, ondelete="cascade"
@@ -2317,11 +2426,11 @@ class Det(models.AbstractModel):
 
 class Prod(models.AbstractModel):
     "Dados dos produtos e serviços da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.prod"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod"
-    _generateds_type = "prodType"
 
     nfe40_cProd = fields.Char(
         string="Código do produto ou serviço",
@@ -2391,6 +2500,29 @@ class Prod(models.AbstractModel):
 
     nfe40_cBenef = fields.Char(string="cBenef")
 
+    nfe40_cCredPresumido = fields.Char(
+        string="Código de Benefício Fiscal",
+        help=(
+            "Código de Benefício Fiscal de Crédito Presumido na UF aplicado ao"
+            " item"
+        ),
+    )
+
+    nfe40_pCredPresumido = fields.Float(
+        string="Percentual do Crédito Presumido",
+        xsd_type="TDec_0302a04",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    nfe40_vCredPresumido = fields.Monetary(
+        string="Valor do Crédito Presumido",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
     nfe40_EXTIPI = fields.Char(string="Código EX TIPI (3 posições)")
 
     nfe40_CFOP = fields.Char(string="Cfop", xsd_required=True)
@@ -2443,7 +2575,9 @@ class Prod(models.AbstractModel):
 
     nfe40_cBarraTrib = fields.Char(
         string="Código de barras",
-        help=("Código de barras da unidade tributável diferente do padrão GTIN"),
+        help=(
+            "Código de barras da unidade tributável diferente do padrão GTIN"
+        ),
     )
 
     nfe40_uTrib = fields.Char(string="Unidade Tributável", xsd_required=True)
@@ -2519,7 +2653,9 @@ class Prod(models.AbstractModel):
     )
 
     nfe40_detExport = fields.One2many(
-        "nfe.40.detexport", "nfe40_detExport_prod_id", string="Detalhe da exportação"
+        "nfe.40.detexport",
+        "nfe40_detExport_prod_id",
+        string="Detalhe da exportação",
     )
 
     nfe40_xPed = fields.Char(
@@ -2596,17 +2732,16 @@ class Di(models.AbstractModel):
     _name = "nfe.40.di"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Di"
-    _generateds_type = "DIType"
 
     nfe40_DI_prod_id = fields.Many2one(
         comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
     )
     nfe40_nDI = fields.Char(
-        string="Numero do Documento",
+        string="Número do Documento de Importação",
         xsd_required=True,
         help=(
-            "Numero do Documento de Importação DI/DSI/DA/DRI-E "
-            "(DI/DSI/DA/DRI-E) (NT2011/004)"
+            "Número do Documento de Importação (DI, DSI, DIRE, DUImp) "
+            "(NT2011/004)"
         ),
     )
 
@@ -2640,10 +2775,10 @@ class Di(models.AbstractModel):
         string="Via",
         xsd_required=True,
         help=(
-            "Via de transporte internacional informada na DI\n\t\t\t\t\t\t\t\t"
-            "\t\t\t\t\t\t\t\t\t1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-"
-            "Postal;6-Ferroviaria;7-Rodoviaria;8-Conduto;9-Meios "
-            "Proprios;10-Entrada/Saida "
+            "Via de transporte internacional informada na DI ou na Declaração "
+            "Única de Importação (DUImp):\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t1"
+            "-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-"
+            "Rodoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida "
             "Ficta;\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t11-Courier;12-Em "
             "maos;13-Por reboque."
         ),
@@ -2668,7 +2803,15 @@ class Di(models.AbstractModel):
     )
 
     nfe40_CNPJ = fields.Char(
-        string="CNPJ do adquirente ou do encomendante", xsd_type="TCnpj"
+        string="CNPJ do adquirente ou do encomendante",
+        choice="di",
+        xsd_type="TCnpj",
+    )
+
+    nfe40_CPF = fields.Char(
+        string="CPF do adquirente ou do encomendante",
+        choice="di",
+        xsd_type="TCpf",
     )
 
     nfe40_UFTerceiro = fields.Selection(
@@ -2694,11 +2837,11 @@ class Di(models.AbstractModel):
 
 class Adi(models.AbstractModel):
     "Adições (NT 2011/004)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.adi"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Di.Adi"
-    _generateds_type = "adiType"
 
     nfe40_adi_DI_id = fields.Many2one(
         comodel_name="nfe.40.di", xsd_implicit=True, ondelete="cascade"
@@ -2706,9 +2849,7 @@ class Adi(models.AbstractModel):
     nfe40_nAdicao = fields.Char(string="Número da Adição")
 
     nfe40_nSeqAdic = fields.Char(
-        string="Número seqüencial do item dentro",
-        xsd_required=True,
-        help="Número seqüencial do item dentro da Adição",
+        string="Número seqüencial do item", xsd_required=True
     )
 
     nfe40_cFabricante = fields.Char(
@@ -2721,7 +2862,7 @@ class Adi(models.AbstractModel):
     )
 
     nfe40_vDescDI = fields.Monetary(
-        string="Valor do desconto do item da DI – adição",
+        string="Valor do desconto do item",
         xsd_type="TDec_1302Opc",
         currency_field="brl_currency_id",
     )
@@ -2731,11 +2872,11 @@ class Adi(models.AbstractModel):
 
 class DetExport(models.AbstractModel):
     "Detalhe da exportação"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.detexport"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.DetExport"
-    _generateds_type = "detExportType"
 
     nfe40_detExport_prod_id = fields.Many2one(
         comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
@@ -2749,11 +2890,11 @@ class DetExport(models.AbstractModel):
 
 class ExportInd(models.AbstractModel):
     "Exportação indireta"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.exportind"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.DetExport.ExportInd"
-    _generateds_type = "exportIndType"
 
     nfe40_nRE = fields.Char(string="Registro de exportação", xsd_required=True)
 
@@ -2781,12 +2922,13 @@ class Rastro(models.AbstractModel):
     _name = "nfe.40.rastro"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Rastro"
-    _generateds_type = "rastroType"
 
     nfe40_rastro_prod_id = fields.Many2one(
         comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
     )
-    nfe40_nLote = fields.Char(string="Número do lote do produto", xsd_required=True)
+    nfe40_nLote = fields.Char(
+        string="Número do lote do produto", xsd_required=True
+    )
 
     nfe40_qLote = fields.Float(
         string="Quantidade de produto no lote",
@@ -2820,13 +2962,15 @@ class Rastro(models.AbstractModel):
 
 class InfProdNff(models.AbstractModel):
     "Informações mais detalhadas do produto (usada na NFF)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infprodnff"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.InfProdNff"
-    _generateds_type = "infProdNFFType"
 
-    nfe40_cProdFisco = fields.Char(string="Código Fiscal do Produto", xsd_required=True)
+    nfe40_cProdFisco = fields.Char(
+        string="Código Fiscal do Produto", xsd_required=True
+    )
 
     nfe40_cOperNFF = fields.Char(
         string="Código da operação selecionada na NFF",
@@ -2837,11 +2981,11 @@ class InfProdNff(models.AbstractModel):
 
 class InfProdEmb(models.AbstractModel):
     "Informações mais detalhadas do produto (usada na NFF)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infprodemb"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.InfProdEmb"
-    _generateds_type = "infProdEmbType"
 
     nfe40_xEmb = fields.Char(string="Embalagem do produto", xsd_required=True)
 
@@ -2855,16 +2999,18 @@ class InfProdEmb(models.AbstractModel):
         ),
     )
 
-    nfe40_uEmb = fields.Char(string="Unidade de Medida da Embalagem", xsd_required=True)
+    nfe40_uEmb = fields.Char(
+        string="Unidade de Medida da Embalagem", xsd_required=True
+    )
 
 
 class VeicProd(models.AbstractModel):
     "Veículos novos"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.veicprod"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.VeicProd"
-    _generateds_type = "veicProdType"
 
     nfe40_tpOp = fields.Selection(
         VEICPROD_TPOP,
@@ -2929,12 +3075,16 @@ class VeicProd(models.AbstractModel):
     nfe40_CMT = fields.Char(
         string="CMT-Capacidade Máxima de Tração",
         xsd_required=True,
-        help=("CMT-Capacidade Máxima de Tração - em Toneladas 4 casas decimais"),
+        help=(
+            "CMT-Capacidade Máxima de Tração - em Toneladas 4 casas decimais"
+        ),
     )
 
     nfe40_dist = fields.Char(string="Distância entre eixos", xsd_required=True)
 
-    nfe40_anoMod = fields.Char(string="Ano Modelo de Fabricação", xsd_required=True)
+    nfe40_anoMod = fields.Char(
+        string="Ano Modelo de Fabricação", xsd_required=True
+    )
 
     nfe40_anoFab = fields.Char(string="Ano de Fabricação", xsd_required=True)
 
@@ -2966,7 +3116,10 @@ class VeicProd(models.AbstractModel):
         VEICPROD_CONDVEIC,
         string="Condição do veículo",
         xsd_required=True,
-        help=("Condição do veículo (1 - acabado; 2 - inacabado; 3 - semi-" "acabado)"),
+        help=(
+            "Condição do veículo (1 - acabado; 2 - inacabado; 3 - semi-"
+            "acabado)"
+        ),
     )
 
     nfe40_cMod = fields.Char(
@@ -3015,7 +3168,6 @@ class Med(models.AbstractModel):
     _name = "nfe.40.med"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Med"
-    _generateds_type = "medType"
 
     nfe40_cProdANVISA = fields.Char(
         string="Utilizar o número do registro ANVISA",
@@ -3045,11 +3197,11 @@ class Med(models.AbstractModel):
 
 class Arma(models.AbstractModel):
     "Armamentos"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.arma"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Arma"
-    _generateds_type = "armaType"
 
     nfe40_arma_prod_id = fields.Many2one(
         comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
@@ -3059,13 +3211,18 @@ class Arma(models.AbstractModel):
         string="Indicador do tipo de arma de fogo",
         xsd_required=True,
         help=(
-            "Indicador do tipo de arma de fogo (0 - Uso permitido; 1 - Uso " "restrito)"
+            "Indicador do tipo de arma de fogo (0 - Uso permitido; 1 - Uso "
+            "restrito)"
         ),
     )
 
-    nfe40_nSerie = fields.Char(string="Número de série da arma", xsd_required=True)
+    nfe40_nSerie = fields.Char(
+        string="Número de série da arma", xsd_required=True
+    )
 
-    nfe40_nCano = fields.Char(string="Número de série do cano", xsd_required=True)
+    nfe40_nCano = fields.Char(
+        string="Número de série do cano", xsd_required=True
+    )
 
     nfe40_descr = fields.Char(
         string="Descrição completa da arma",
@@ -3080,11 +3237,11 @@ class Arma(models.AbstractModel):
 
 class Comb(models.AbstractModel):
     "Informar apenas para operações com combustíveis líquidos"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.comb"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Comb"
-    _generateds_type = "combType"
 
     nfe40_cProdANP = fields.Char(
         string="Código de produto da ANP",
@@ -3188,10 +3345,13 @@ class Comb(models.AbstractModel):
         TUF, string="Sigla da UF de Consumo", xsd_required=True, xsd_type="TUf"
     )
 
-    nfe40_CIDE = fields.Many2one(comodel_name="nfe.40.cide", string="CIDE Combustíveis")
+    nfe40_CIDE = fields.Many2one(
+        comodel_name="nfe.40.cide", string="CIDE Combustíveis"
+    )
 
     nfe40_encerrante = fields.Many2one(
-        comodel_name="nfe.40.encerrante", string="Informações do grupo de 'encerrante'"
+        comodel_name="nfe.40.encerrante",
+        string="Informações do grupo de 'encerrante'",
     )
 
     nfe40_pBio = fields.Float(
@@ -3216,11 +3376,11 @@ class Comb(models.AbstractModel):
 
 class Cide(models.AbstractModel):
     "CIDE Combustíveis"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.cide"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Comb.Cide"
-    _generateds_type = "CIDEType"
 
     nfe40_qBCProd = fields.Float(
         string="BC do CIDE",
@@ -3259,7 +3419,6 @@ class Encerrante(models.AbstractModel):
     _name = "nfe.40.encerrante"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Comb.Encerrante"
-    _generateds_type = "encerranteType"
 
     nfe40_nBico = fields.Char(
         string="Numero de identificação",
@@ -3269,13 +3428,17 @@ class Encerrante(models.AbstractModel):
 
     nfe40_nBomba = fields.Char(
         string="Numero de identificação da bomba",
-        help=("Numero de identificação da bomba ao qual o bico está interligado"),
+        help=(
+            "Numero de identificação da bomba ao qual o bico está interligado"
+        ),
     )
 
     nfe40_nTanque = fields.Char(
         string="Numero de identificação do tanque",
         xsd_required=True,
-        help=("Numero de identificação do tanque ao qual o bico está interligado"),
+        help=(
+            "Numero de identificação do tanque ao qual o bico está interligado"
+        ),
     )
 
     nfe40_vEncIni = fields.Float(
@@ -3303,11 +3466,11 @@ class Encerrante(models.AbstractModel):
 
 class OrigComb(models.AbstractModel):
     "Grupo indicador da origem do combustível"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.origcomb"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Prod.Comb.OrigComb"
-    _generateds_type = "origCombType"
 
     nfe40_origComb_comb_id = fields.Many2one(
         comodel_name="nfe.40.comb", xsd_implicit=True, ondelete="cascade"
@@ -3339,17 +3502,19 @@ class OrigComb(models.AbstractModel):
 
 class Imposto(models.AbstractModel):
     "Tributos incidentes nos produtos ou serviços da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.imposto"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto"
-    _generateds_type = "impostoType"
 
     nfe40_vTotTrib = fields.Monetary(
         string="Valor estimado total",
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
-        help=("Valor estimado total de impostos federais, estaduais e municipais"),
+        help=(
+            "Valor estimado total de impostos federais, estaduais e municipais"
+        ),
     )
 
     nfe40_ICMS = fields.Many2one(
@@ -3381,10 +3546,13 @@ class Imposto(models.AbstractModel):
         xsd_choice_required=True,
     )
 
-    nfe40_PIS = fields.Many2one(comodel_name="nfe.40.pis", string="Dados do PIS")
+    nfe40_PIS = fields.Many2one(
+        comodel_name="nfe.40.pis", string="Dados do PIS"
+    )
 
     nfe40_PISST = fields.Many2one(
-        comodel_name="nfe.40.pisst", string="Dados do PIS Substituição Tributária"
+        comodel_name="nfe.40.pisst",
+        string="Dados do PIS Substituição Tributária",
     )
 
     nfe40_COFINS = fields.Many2one(
@@ -3409,11 +3577,11 @@ class Imposto(models.AbstractModel):
 
 class Pis(models.AbstractModel):
     "Dados do PIS"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.pis"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Pis"
-    _generateds_type = "PISType"
 
     nfe40_PISAliq = fields.Many2one(
         comodel_name="nfe.40.pisaliq",
@@ -3474,7 +3642,6 @@ class Pisaliq(models.AbstractModel):
     _name = "nfe.40.pisaliq"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Pis.Pisaliq"
-    _generateds_type = "PISAliqType"
 
     nfe40_CST = fields.Selection(
         PISALIQ_CST,
@@ -3522,7 +3689,6 @@ class Pisqtde(models.AbstractModel):
     _name = "nfe.40.pisqtde"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Pis.Pisqtde"
-    _generateds_type = "PISQtdeType"
 
     nfe40_CST = fields.Selection(
         PISQTDE_CST,
@@ -3577,7 +3743,6 @@ class Pisnt(models.AbstractModel):
     _name = "nfe.40.pisnt"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Pis.Pisnt"
-    _generateds_type = "PISNTType"
 
     nfe40_CST = fields.Selection(
         PISNT_CST,
@@ -3601,7 +3766,6 @@ class Pisoutr(models.AbstractModel):
     _name = "nfe.40.pisoutr"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Pis.Pisoutr"
-    _generateds_type = "PISOutrType"
 
     nfe40_CST = fields.Selection(
         PISOUTR_CST,
@@ -3662,11 +3826,11 @@ class Pisoutr(models.AbstractModel):
 
 class Pisst(models.AbstractModel):
     "Dados do PIS Substituição Tributária"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.pisst"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Pisst"
-    _generateds_type = "PISSTType"
 
     nfe40_vBC = fields.Monetary(
         string="Valor da BC do PIS ST",
@@ -3725,11 +3889,11 @@ class Pisst(models.AbstractModel):
 
 class Cofins(models.AbstractModel):
     "Dados do COFINS"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.cofins"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Cofins"
-    _generateds_type = "COFINSType"
 
     nfe40_COFINSAliq = fields.Many2one(
         comodel_name="nfe.40.cofinsaliq",
@@ -3824,7 +3988,6 @@ class Cofinsaliq(models.AbstractModel):
     _name = "nfe.40.cofinsaliq"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Cofins.Cofinsaliq"
-    _generateds_type = "COFINSAliqType"
 
     nfe40_CST = fields.Selection(
         COFINSALIQ_CST,
@@ -3872,7 +4035,6 @@ class Cofinsqtde(models.AbstractModel):
     _name = "nfe.40.cofinsqtde"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Cofins.Cofinsqtde"
-    _generateds_type = "COFINSQtdeType"
 
     nfe40_CST = fields.Selection(
         COFINSQTDE_CST,
@@ -3926,7 +4088,6 @@ class Cofinsnt(models.AbstractModel):
     _name = "nfe.40.cofinsnt"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Cofins.Cofinsnt"
-    _generateds_type = "COFINSNTType"
 
     nfe40_CST = fields.Selection(
         COFINSNT_CST,
@@ -3988,7 +4149,6 @@ class Cofinsoutr(models.AbstractModel):
     _name = "nfe.40.cofinsoutr"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Cofins.Cofinsoutr"
-    _generateds_type = "COFINSOutrType"
 
     nfe40_CST = fields.Selection(
         COFINSOUTR_CST,
@@ -4089,7 +4249,6 @@ class Cofinsst(models.AbstractModel):
     _name = "nfe.40.cofinsst"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Cofinsst"
-    _generateds_type = "COFINSSTType"
 
     nfe40_vBC = fields.Monetary(
         string="Valor da BC do COFINS ST",
@@ -4154,7 +4313,6 @@ class Icmsufdest(models.AbstractModel):
     _name = "nfe.40.icmsufdest"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Icmsufdest"
-    _generateds_type = "ICMSUFDestType"
 
     nfe40_vBCUFDest = fields.Monetary(
         string="Valor da Base de Cálculo do ICMS na UF",
@@ -4256,11 +4414,11 @@ class Icmsufdest(models.AbstractModel):
 
 class Icms(models.AbstractModel):
     "Dados do ICMS Normal e ST"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.icms"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Icms"
-    _generateds_type = "ICMSType"
 
     nfe40_ICMSPart = fields.Many2one(
         comodel_name="nfe.40.icmspart",
@@ -4301,7 +4459,6 @@ class Icmspart(models.AbstractModel):
     _name = "nfe.40.icmspart"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Icms.Icmspart"
-    _generateds_type = "ICMSPartType"
 
     nfe40_orig = fields.Selection(
         TORIG,
@@ -4427,7 +4584,10 @@ class Icmspart(models.AbstractModel):
         string="Valor da Base de cálculo do FCP retido",
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
-        help=("Valor da Base de cálculo do FCP retido por substituicao " "tributaria."),
+        help=(
+            "Valor da Base de cálculo do FCP retido por substituicao "
+            "tributaria."
+        ),
     )
 
     nfe40_pFCPST = fields.Float(
@@ -4479,7 +4639,6 @@ class Icmsst(models.AbstractModel):
     _name = "nfe.40.icmsst"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Icms.Icmsst"
-    _generateds_type = "ICMSSTType"
 
     nfe40_orig = fields.Selection(
         TORIG,
@@ -4523,7 +4682,9 @@ class Icmsst(models.AbstractModel):
         string="Valor do ICMS Próprio",
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
-        help=("Valor do ICMS Próprio do Substituto cobrado em operação anterior"),
+        help=(
+            "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+        ),
     )
 
     nfe40_vICMSSTRet = fields.Monetary(
@@ -4613,11 +4774,11 @@ class Icmsst(models.AbstractModel):
 
 class Ii(models.AbstractModel):
     "Dados do Imposto de Importação"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.ii"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Ii"
-    _generateds_type = "IIType"
 
     nfe40_vBC = fields.Monetary(
         string="Base da BC do Imposto de Importação",
@@ -4651,11 +4812,11 @@ class Ii(models.AbstractModel):
 
 class Issqn(models.AbstractModel):
     "ISSQN"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.issqn"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.Imposto.Issqn"
-    _generateds_type = "ISSQNType"
 
     nfe40_vBC = fields.Monetary(
         string="Valor da BC do ISSQN",
@@ -4694,7 +4855,8 @@ class Issqn(models.AbstractModel):
         xsd_required=True,
         xsd_type="TCListServ",
         help=(
-            "Item da lista de serviços da LC 116/03 em que se classifica o " "serviço."
+            "Item da lista de serviços da LC 116/03 em que se classifica o "
+            "serviço."
         ),
     )
 
@@ -4756,7 +4918,8 @@ class Issqn(models.AbstractModel):
     nfe40_nProcesso = fields.Char(
         string="Número do Processo administrativo",
         help=(
-            "Número do Processo administrativo ou judicial de suspenção do " "processo"
+            "Número do Processo administrativo ou judicial de suspenção do "
+            "processo"
         ),
     )
 
@@ -4773,7 +4936,6 @@ class ImpostoDevol(models.AbstractModel):
     _name = "nfe.40.impostodevol"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.ImpostoDevol"
-    _generateds_type = "impostoDevolType"
 
     nfe40_pDevol = fields.Float(
         string="Percentual de mercadoria devolvida",
@@ -4797,7 +4959,6 @@ class Ipi(models.AbstractModel):
     _name = "nfe.40.ipi"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.ImpostoDevol.Ipi"
-    _generateds_type = "IPIType"
 
     nfe40_vIPIDevol = fields.Monetary(
         string="Valor do IPI devolvido",
@@ -4809,11 +4970,11 @@ class Ipi(models.AbstractModel):
 
 class ObsItem(models.AbstractModel):
     "Grupo de observações de uso livre (para o item da NF-e)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.obsitem"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.ObsItem"
-    _generateds_type = "obsItemType"
 
     nfe40_obsCont = fields.Many2one(
         comodel_name="nfe.40.det_obscont",
@@ -4830,11 +4991,11 @@ class ObsItem(models.AbstractModel):
 
 class DetObsCont(models.AbstractModel):
     "Grupo de observações de uso livre (para o item da NF-e)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.det_obscont"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.ObsItem.ObsCont"
-    _generateds_type = "obsContType"
 
     nfe40_xTexto = fields.Char(string="xTexto", xsd_required=True)
 
@@ -4843,11 +5004,11 @@ class DetObsCont(models.AbstractModel):
 
 class DetObsFisco(models.AbstractModel):
     "Grupo de observações de uso livre (para o item da NF-e)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.det_obsfisco"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Det.ObsItem.ObsFisco"
-    _generateds_type = "obsFiscoType"
 
     nfe40_xTexto = fields.Char(string="xTexto", xsd_required=True)
 
@@ -4856,11 +5017,11 @@ class DetObsFisco(models.AbstractModel):
 
 class Total(models.AbstractModel):
     "Dados dos totais da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.total"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Total"
-    _generateds_type = "totalType"
 
     nfe40_ICMSTot = fields.Many2one(
         comodel_name="nfe.40.icmstot",
@@ -4879,11 +5040,11 @@ class Total(models.AbstractModel):
 
 class Icmstot(models.AbstractModel):
     "Totais referentes ao ICMS"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.icmstot"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Total.Icmstot"
-    _generateds_type = "ICMSTotType"
 
     nfe40_vBC = fields.Monetary(
         string="BC do ICMS",
@@ -4978,7 +5139,9 @@ class Icmstot(models.AbstractModel):
         string="Valor total da quantidade tributada",
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
-        help=("Valor total da quantidade tributada do ICMS monofásico próprio"),
+        help=(
+            "Valor total da quantidade tributada do ICMS monofásico próprio"
+        ),
     )
 
     nfe40_vICMSMono = fields.Monetary(
@@ -5108,24 +5271,27 @@ class Icmstot(models.AbstractModel):
         string="Valor estimado total",
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
-        help=("Valor estimado total de impostos federais, estaduais e municipais"),
+        help=(
+            "Valor estimado total de impostos federais, estaduais e municipais"
+        ),
     )
 
 
 class Issqntot(models.AbstractModel):
     "Totais referentes ao ISSQN"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.issqntot"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Total.Issqntot"
-    _generateds_type = "ISSQNtotType"
 
     nfe40_vServ = fields.Monetary(
         string="Valor Total",
         xsd_type="TDec_1302Opc",
         currency_field="brl_currency_id",
         help=(
-            "Valor Total dos Serviços sob não-incidência ou não tributados " "pelo ICMS"
+            "Valor Total dos Serviços sob não-incidência ou não tributados "
+            "pelo ICMS"
         ),
     )
 
@@ -5198,11 +5364,11 @@ class Issqntot(models.AbstractModel):
 
 class RetTrib(models.AbstractModel):
     "Retenção de Tributos Federais"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.rettrib"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Total.RetTrib"
-    _generateds_type = "retTribType"
 
     nfe40_vRetPIS = fields.Monetary(
         string="Valor Retido de PIS",
@@ -5250,11 +5416,11 @@ class RetTrib(models.AbstractModel):
 
 class Transp(models.AbstractModel):
     "Dados dos transportes da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.transp"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Transp"
-    _generateds_type = "transpType"
 
     nfe40_modFrete = fields.Selection(
         TRANSP_MODFRETE,
@@ -5314,11 +5480,11 @@ class Transp(models.AbstractModel):
 
 class Transporta(models.AbstractModel):
     "Dados do transportador"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.transporta"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Transp.Transporta"
-    _generateds_type = "transportaType"
 
     nfe40_CNPJ = fields.Char(
         string="CNPJ do transportador", choice="transporta", xsd_type="TCnpj"
@@ -5330,7 +5496,9 @@ class Transporta(models.AbstractModel):
 
     nfe40_xNome = fields.Char(string="Razão Social ou nome do transportador")
 
-    nfe40_IE = fields.Char(string="Inscrição Estadual (v2.0)", xsd_type="TIeDest")
+    nfe40_IE = fields.Char(
+        string="Inscrição Estadual (v2.0)", xsd_type="TIeDest"
+    )
 
     nfe40_xEnder = fields.Char(string="Endereço completo")
 
@@ -5341,11 +5509,11 @@ class Transporta(models.AbstractModel):
 
 class RetTransp(models.AbstractModel):
     "Dados da retenção ICMS do Transporte"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.rettransp"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Transp.RetTransp"
-    _generateds_type = "retTranspType"
 
     nfe40_vServ = fields.Monetary(
         string="Valor do Serviço",
@@ -5395,11 +5563,11 @@ class RetTransp(models.AbstractModel):
 
 class Vol(models.AbstractModel):
     "Dados dos volumes"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.vol"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Transp.Vol"
-    _generateds_type = "volType"
 
     nfe40_vol_transp_id = fields.Many2one(
         comodel_name="nfe.40.transp", xsd_implicit=True, ondelete="cascade"
@@ -5440,7 +5608,6 @@ class Lacres(models.AbstractModel):
     _name = "nfe.40.lacres"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Transp.Vol.Lacres"
-    _generateds_type = "lacresType"
 
     nfe40_lacres_vol_id = fields.Many2one(
         comodel_name="nfe.40.vol", xsd_implicit=True, ondelete="cascade"
@@ -5450,26 +5617,30 @@ class Lacres(models.AbstractModel):
 
 class Cobr(models.AbstractModel):
     "Dados da cobrança da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.cobr"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Cobr"
-    _generateds_type = "cobrType"
 
-    nfe40_fat = fields.Many2one(comodel_name="nfe.40.fat", string="Dados da fatura")
+    nfe40_fat = fields.Many2one(
+        comodel_name="nfe.40.fat", string="Dados da fatura"
+    )
 
     nfe40_dup = fields.One2many(
-        "nfe.40.dup", "nfe40_dup_cobr_id", string="Dados das duplicatas NT 2011/004"
+        "nfe.40.dup",
+        "nfe40_dup_cobr_id",
+        string="Dados das duplicatas NT 2011/004",
     )
 
 
 class Fat(models.AbstractModel):
     "Dados da fatura"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.fat"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Cobr.Fat"
-    _generateds_type = "fatType"
 
     nfe40_nFat = fields.Char(string="Número da fatura")
 
@@ -5494,11 +5665,11 @@ class Fat(models.AbstractModel):
 
 class Dup(models.AbstractModel):
     "Dados das duplicatas NT 2011/004"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.dup"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Cobr.Dup"
-    _generateds_type = "dupType"
 
     nfe40_dup_cobr_id = fields.Many2one(
         comodel_name="nfe.40.cobr", xsd_implicit=True, ondelete="cascade"
@@ -5521,11 +5692,11 @@ class Dup(models.AbstractModel):
 
 class Pag(models.AbstractModel):
     "Dados de Pagamento. Obrigatório apenas para (NFC-e) NT 2012/004"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.pag"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Pag"
-    _generateds_type = "pagType"
 
     nfe40_detPag = fields.One2many(
         "nfe.40.detpag",
@@ -5535,17 +5706,19 @@ class Pag(models.AbstractModel):
     )
 
     nfe40_vTroco = fields.Monetary(
-        string="Valor do Troco", xsd_type="TDec_1302", currency_field="brl_currency_id"
+        string="Valor do Troco",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
     )
 
 
 class DetPag(models.AbstractModel):
     "Grupo de detalhamento da forma de pagamento."
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.detpag"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Pag.DetPag"
-    _generateds_type = "detPagType"
 
     nfe40_detPag_pag_id = fields.Many2one(
         comodel_name="nfe.40.pag", xsd_implicit=True, ondelete="cascade"
@@ -5574,16 +5747,45 @@ class DetPag(models.AbstractModel):
         ),
     )
 
-    nfe40_card = fields.Many2one(comodel_name="nfe.40.card", string="Grupo de Cartões")
+    nfe40_dPag = fields.Date(string="Data do Pagamento", xsd_type="TData")
+
+    nfe40_CNPJPag = fields.Char(
+        string="CNPJ transacional do pagamento",
+        xsd_type="TCnpj",
+        help=(
+            "CNPJ transacional do pagamento - Preencher informando o CNPJ do "
+            "estabelecimento onde o pagamento foi "
+            "processado/transacionado/recebido quando a emissão do documento "
+            "fiscal ocorrer em estabelecimento distinto"
+        ),
+    )
+
+    nfe40_UFPag = fields.Selection(
+        TUFEMI,
+        string="UF do CNPJ do estabelecimento onde",
+        xsd_type="TUfEmi",
+        help=(
+            "UF do CNPJ do estabelecimento onde o pagamento foi "
+            "processado/transacionado/recebido."
+        ),
+    )
+
+    nfe40_card = fields.Many2one(
+        comodel_name="nfe.40.card",
+        string="Grupo de Cartões, PIX",
+        help=(
+            "Grupo de Cartões, PIX, Boletos e outros Pagamentos Eletrônicos"
+        ),
+    )
 
 
 class Card(models.AbstractModel):
-    "Grupo de Cartões"
+    "Grupo de Cartões, PIX, Boletos e outros Pagamentos Eletrônicos"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.card"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Pag.DetPag.Card"
-    _generateds_type = "cardType"
 
     nfe40_tpIntegra = fields.Selection(
         CARD_TPINTEGRA,
@@ -5591,12 +5793,10 @@ class Card(models.AbstractModel):
         xsd_required=True,
         help=(
             "Tipo de Integração do processo de pagamento com o sistema de "
-            "automação da empresa/ "
-            "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t1=Pagamento integrado com o "
-            "sistema de automação da empresa Ex. equipamento TEF , Comercio "
-            "Eletronico\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t2=Pagamento não "
-            "integrado com o sistema de automação da empresa Ex: equipamento "
-            "POS"
+            "automação da empresa:\n1 - Pagamento integrado com o sistema de "
+            "automação da empresa (Ex.: equipamento TEF, Comércio Eletrônico, "
+            "POS Integrado);\n2 - Pagamento não integrado com o sistema de "
+            "automação da empresa (Ex.: equipamento POS Simples)."
         ),
     )
 
@@ -5607,18 +5807,29 @@ class Card(models.AbstractModel):
     nfe40_tBand = fields.Char(string="Bandeira da operadora de cartão")
 
     nfe40_cAut = fields.Char(
-        string="Número de autorização da operação cartão",
-        help="Número de autorização da operação cartão de crédito/débito",
+        string="Número de autorização da operação",
+        help=(
+            "Número de autorização da operação com cartões, PIX, boletos e "
+            "outros pagamentos eletrônicos"
+        ),
+    )
+
+    nfe40_CNPJReceb = fields.Char(
+        string="CNPJ do beneficiário do pagamento", xsd_type="TCnpj"
+    )
+
+    nfe40_idTermPag = fields.Char(
+        string="Identificador do terminal de pagamento"
     )
 
 
 class InfIntermed(models.AbstractModel):
     "Grupo de Informações do Intermediador da Transação"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infintermed"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.InfIntermed"
-    _generateds_type = "infIntermedType"
 
     nfe40_CNPJ = fields.Char(
         string="CNPJ do Intermediador da Transação",
@@ -5639,11 +5850,11 @@ class InfIntermed(models.AbstractModel):
 
 class InfAdic(models.AbstractModel):
     "Informações adicionais da NF-e"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infadic"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.InfAdic"
-    _generateds_type = "infAdicType"
 
     nfe40_infAdFisco = fields.Char(
         string="Informações adicionais de interesse",
@@ -5685,11 +5896,11 @@ class InfAdic(models.AbstractModel):
 
 class InfAdicObsCont(models.AbstractModel):
     "Grupo de observações de uso livre (para o item da NF-e)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infadic_obscont"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.InfAdic.ObsCont"
-    _generateds_type = "obsContType"
 
     nfe40_obsCont_infAdic_id = fields.Many2one(
         comodel_name="nfe.40.infadic", xsd_implicit=True, ondelete="cascade"
@@ -5701,11 +5912,11 @@ class InfAdicObsCont(models.AbstractModel):
 
 class InfAdicObsFisco(models.AbstractModel):
     "Grupo de observações de uso livre (para o item da NF-e)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infadic_obsfisco"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.InfAdic.ObsFisco"
-    _generateds_type = "obsFiscoType"
 
     nfe40_obsFisco_infAdic_id = fields.Many2one(
         comodel_name="nfe.40.infadic", xsd_implicit=True, ondelete="cascade"
@@ -5717,11 +5928,11 @@ class InfAdicObsFisco(models.AbstractModel):
 
 class ProcRef(models.AbstractModel):
     "Grupo de informações do processo referenciado"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.procref"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.InfAdic.ProcRef"
-    _generateds_type = "procRefType"
 
     nfe40_procRef_infAdic_id = fields.Many2one(
         comodel_name="nfe.40.infadic", xsd_implicit=True, ondelete="cascade"
@@ -5738,7 +5949,8 @@ class ProcRef(models.AbstractModel):
         xsd_required=True,
         help=(
             "Origem do processo, informar com:\n0 - SEFAZ;\n1 - Justiça "
-            "Federal;\n2 - Justiça Estadual;\n3 - Secex/RFB;\n9 - Outros"
+            "Federal;\n2 - Justiça Estadual;\n3 - Secex/RFB;\n4 - CONFAZ;\n9 -"
+            " Outros."
         ),
     )
 
@@ -5748,19 +5960,19 @@ class ProcRef(models.AbstractModel):
         help=(
             "Tipo do ato concessório\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPara origem "
             "do Processo na SEFAZ (indProc=0), informar o\ntipo de ato "
-            "concessório:\n08=Termo de Acordo;\n10=Regime "
-            "Especial;\n12=Autorização específica;"
+            "concessório:\n08 - Termo de Acordo;\n10 - Regime Especial;\n12 - "
+            "Autorização específica;\n14 - Ajuste SINIEF;\n15 - Convênio ICMS."
         ),
     )
 
 
 class Exporta(models.AbstractModel):
     "Informações de exportação"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.exporta"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Exporta"
-    _generateds_type = "exportaType"
 
     nfe40_UFSaidaPais = fields.Selection(
         TUFEMI,
@@ -5781,15 +5993,17 @@ class Exporta(models.AbstractModel):
 
 class Compra(models.AbstractModel):
     "Informações de compras (Nota de Empenho, Pedido e Contrato)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.compra"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Compra"
-    _generateds_type = "compraType"
 
     nfe40_xNEmp = fields.Char(
         string="Informação da Nota de Empenho",
-        help=("Informação da Nota de Empenho de compras públicas (NT2011/004)"),
+        help=(
+            "Informação da Nota de Empenho de compras públicas (NT2011/004)"
+        ),
     )
 
     nfe40_xPed = fields.Char(string="Informação do pedido")
@@ -5799,13 +6013,15 @@ class Compra(models.AbstractModel):
 
 class Cana(models.AbstractModel):
     "Informações de registro aquisições de cana"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.cana"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Cana"
-    _generateds_type = "canaType"
 
-    nfe40_safra = fields.Char(string="Identificação da safra", xsd_required=True)
+    nfe40_safra = fields.Char(
+        string="Identificação da safra", xsd_required=True
+    )
 
     nfe40_ref = fields.Char(
         string="Mês e Ano de Referência",
@@ -5848,7 +6064,9 @@ class Cana(models.AbstractModel):
     )
 
     nfe40_deduc = fields.One2many(
-        "nfe.40.deduc", "nfe40_deduc_cana_id", string="Deduções - Taxas e Contribuições"
+        "nfe.40.deduc",
+        "nfe40_deduc_cana_id",
+        string="Deduções - Taxas e Contribuições",
     )
 
     nfe40_vFor = fields.Monetary(
@@ -5876,11 +6094,11 @@ class Cana(models.AbstractModel):
 
 class ForDia(models.AbstractModel):
     "Fornecimentos diários"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.fordia"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Cana.ForDia"
-    _generateds_type = "forDiaType"
 
     nfe40_forDia_cana_id = fields.Many2one(
         comodel_name="nfe.40.cana", xsd_implicit=True, ondelete="cascade"
@@ -5901,11 +6119,11 @@ class ForDia(models.AbstractModel):
 
 class Deduc(models.AbstractModel):
     "Deduções - Taxas e Contribuições"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.deduc"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.Cana.Deduc"
-    _generateds_type = "deducType"
 
     nfe40_deduc_cana_id = fields.Many2one(
         comodel_name="nfe.40.cana", xsd_implicit=True, ondelete="cascade"
@@ -5922,11 +6140,11 @@ class Deduc(models.AbstractModel):
 
 class InfSolicNff(models.AbstractModel):
     "Grupo para informações da solicitação da NFF"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infsolicnff"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfe.InfSolicNff"
-    _generateds_type = "infSolicNFFType"
 
     nfe40_xSolic = fields.Char(
         string="Solicitação do pedido de emissão da NFF", xsd_required=True
@@ -5935,11 +6153,11 @@ class InfSolicNff(models.AbstractModel):
 
 class InfNfeSupl(models.AbstractModel):
     "Informações suplementares Nota Fiscal"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.infnfesupl"
     _inherit = "spec.mixin.nfe"
     _binding_type = "Tnfe.InfNfeSupl"
-    _generateds_type = "infNFeSuplType"
 
     nfe40_qrCode = fields.Char(
         string="Texto com o QR-Code impresso",
@@ -5960,13 +6178,15 @@ class InfNfeSupl(models.AbstractModel):
 
 class TenviNfe(models.AbstractModel):
     "Tipo Pedido de Concessão de Autorização da Nota Fiscal Eletrônica"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tenvinfe"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TenviNfe"
-    _generateds_type = "TEnviNFe"
 
-    nfe40_idLote = fields.Char(string="idLote", xsd_required=True, xsd_type="TIdLote")
+    nfe40_idLote = fields.Char(
+        string="idLote", xsd_required=True, xsd_type="TIdLote"
+    )
 
     nfe40_indSinc = fields.Selection(
         TENVINFE_INDSINC,
@@ -5979,19 +6199,24 @@ class TenviNfe(models.AbstractModel):
         "nfe.40.tnfe", "nfe40_NFe_TEnviNFe_id", string="NFe", xsd_type="TNFe"
     )
 
-    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+    nfe40_versao = fields.Char(
+        string="versao", xsd_required=True, xsd_type="TVerNFe"
+    )
 
 
 class TnfeProc(models.AbstractModel):
     "Tipo da NF-e processada"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "nfe.40.tnfeproc"
     _inherit = "spec.mixin.nfe"
     _binding_type = "TnfeProc"
-    _generateds_type = "TNfeProc"
 
     nfe40_NFe = fields.Many2one(
-        comodel_name="nfe.40.tnfe", string="NFe", xsd_required=True, xsd_type="TNFe"
+        comodel_name="nfe.40.tnfe",
+        string="NFe",
+        xsd_required=True,
+        xsd_type="TNFe",
     )
 
     nfe40_protNFe = fields.Many2one(
@@ -6001,4 +6226,6 @@ class TnfeProc(models.AbstractModel):
         xsd_type="TProtNFe",
     )
 
-    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+    nfe40_versao = fields.Char(
+        string="versao", xsd_required=True, xsd_type="TVerNFe"
+    )

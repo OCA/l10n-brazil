@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="make_invoice_form" model="ir.ui.view">
+        <field name="name">l10n_br_commission.make_invoice.form</field>
+        <field name="model">sale.commission.make.invoice</field>
+        <field
+            name="inherit_id"
+            ref="sale_commission.sale_commission_make_invoice_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//form/group" position="after">
+                <field name="commission_gen_br_fiscal_doc" invisible="1" />
+                <group
+                    string="Brazilian Fiscal Data"
+                    attrs="{'invisible': [('commission_gen_br_fiscal_doc', '=', False)]}"
+                >
+                    <field
+                        name="commission_document_type_id"
+                        groups="l10n_br_fiscal.group_manager"
+                    />
+                    <field
+                        name="fiscal_operation_id"
+                        groups="l10n_br_fiscal.group_manager"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

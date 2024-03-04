@@ -55,7 +55,7 @@ class NfeImport(models.TransientModel):
         self.partner_id = self.env["res.partner"].search(
             [
                 "|",
-                ("cnpj_cpf", "=", document.cnpj_cpf_emitente),
+                ("cnpj_cpf", "=", infNFe.emit.CNPJ),
                 ("nfe40_xNome", "=", infNFe.emit.xNome),
             ],
             limit=1,
@@ -187,8 +187,8 @@ class NfeImport(models.TransientModel):
             pICMS = icms_choice.pICMS
         if hasattr(icms_choice, "vICMS"):
             vICMS = icms_choice.vICMS
-        ipi_trib = product.imposto.IPI.IPITrib
-        if ipi_trib is not None:
+        if hasattr(product.imposto.IPI, "IPITrib"):
+            ipi_trib = product.imposto.IPI.IPITrib
             if hasattr(ipi_trib, "pIPI"):
                 pIPI = ipi_trib.pIPI
             if hasattr(ipi_trib, "vIPI"):
@@ -222,7 +222,9 @@ class NfeImport(models.TransientModel):
             self.partner_id = edoc.partner_id
 
         self._attach_original_nfe_xml_to_document(edoc)
-        self.imported_products_ids._find_or_create_product_supplierinfo()
+
+        if self.fiscal_operation_type == "in":
+            self.imported_products_ids._find_or_create_product_supplierinfo()
 
         return edoc
 

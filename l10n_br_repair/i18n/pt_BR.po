@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-28 01:20+0000\n"
-"PO-Revision-Date: 2023-10-10 18:42+0000\n"
-"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
+"PO-Revision-Date: 2024-03-04 16:10+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -604,7 +604,7 @@ msgstr "Despesas Aduaneiras"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__discount_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__discount_value
 msgid "Discount Value"
-msgstr ""
+msgstr "Valor do Desconto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__display_name
@@ -621,7 +621,7 @@ msgstr "Nome Exibido"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__estimate_tax
 msgid "Estimate Tax"
-msgstr ""
+msgstr "Estimativa de Imposto"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
@@ -784,7 +784,7 @@ msgstr "Base para ICMS"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_base_type
 msgid "ICMS Base Type"
-msgstr "Tipo base do ICMS"
+msgstr "Tipo da Base do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_cst_code
@@ -1396,7 +1396,7 @@ msgstr "Identifica o destino da operação."
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__allow_csll_irpj
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_line__allow_csll_irpj
 msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
-msgstr ""
+msgstr "Indica potencial cobrança de imposto 'CSLL' e 'IRPJ' ."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__partner_is_public_entity
@@ -1408,6 +1408,10 @@ msgid ""
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
 msgstr ""
+"Indica se a entidade em questão é uma organização pública ou uma entidade "
+"relacionada ao governo. Abrange uma gama de entidades, como governos "
+"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
+"organizações controladas pelo governo."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__insurance_value
@@ -1746,7 +1750,7 @@ msgstr "Produto"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__partner_is_public_entity
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__partner_is_public_entity
 msgid "Public Entity"
-msgstr ""
+msgstr "Entidade Pública"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__quantity

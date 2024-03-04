@@ -24,6 +24,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
+#, python-format
+msgid "%(name)s Tax Estimate Failure"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
+#, python-format
+msgid "%(name)s Tax Estimate Failure: %(error)s"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_tax_withholding
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__amount_tax_withholding
 msgid "(-) Amount Tax Withholding"
@@ -3958,7 +3970,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
-msgid "IBPT Forbidden - token={!r}, cnpj={!r}, UF={!r}"
+msgid "IBPT Forbidden - token=%(token)s, cnpj=%(cnpj)s, UF=%(uf)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5466,21 +5478,13 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -6881,7 +6885,7 @@ msgstr ""
 msgid ""
 "Não é possível retornar o documento para em \n"
 "digitação, quando o mesmo esta na situação: \n"
-"{}, {}"
+"%(old_state)s, %(fiscal_state)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8249,18 +8253,6 @@ msgid "SACOLA"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_type__sale
 msgid "Sale"
 msgstr ""
@@ -9414,7 +9406,9 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
-msgid "There is already a fiscal document with this Serie: {}, Number: {} !"
+msgid ""
+"There is already a fiscal document with this Serie: %(serie)s, Number: "
+"%(number)s!"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9809,7 +9803,9 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
-msgid "You cannot delete fiscal document number {} with the status: {}!"
+msgid ""
+"You cannot delete fiscal document number %(number)s with the status: "
+"%(state)!"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9914,18 +9910,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__pis_wh
 msgid "pis_wh"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
-#, python-format
-msgid "{0} Tax Estimate Failure: {1}"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
-#, python-format
-msgid "{} Tax Estimate Failure"
 msgstr ""
 
 #. module: l10n_br_fiscal

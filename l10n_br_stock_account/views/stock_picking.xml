@@ -90,6 +90,22 @@
                         name="cfop_id"
                         attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                     />
+                    <field
+                        name="ncm_id"
+                        aattrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    />
+                    <field
+                        name="fiscal_genre_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
+                    />
+                    <field
+                        name="nbm_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
+                    />
+                    <field
+                        name="cest_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
+                    />
                     <field name="partner_id" invisible="1" />
                     <field name="company_id" invisible="1" />
                 </group>

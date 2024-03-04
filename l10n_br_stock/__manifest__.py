@@ -4,7 +4,7 @@
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "14.0.2.0.3",
+    "version": "14.0.2.1.1",
     "depends": ["stock", "l10n_br_base"],
     "data": ["views/stock_picking_view.xml"],
     "demo": [

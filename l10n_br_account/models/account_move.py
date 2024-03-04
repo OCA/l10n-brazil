@@ -48,13 +48,7 @@ MOVE_TAX_USER_TYPE = {
     "in_refund": "purchase",
 }
 
-SHADOWED_FIELDS = [
-    "partner_id",
-    "company_id",
-    "currency_id",
-    "partner_shipping_id",
-    "user_id",
-]
+SHADOWED_FIELDS = ["company_id", "currency_id", "user_id", "partner_id"]
 
 
 class InheritsCheckMuteLogger(mute_logger):
@@ -131,14 +125,15 @@ class AccountMove(models.Model):
         field as required.
         """
         with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
-            super()._inherits_check()
+            res = super()._inherits_check()
         field = self._fields.get("fiscal_document_id")
         field.required = False  # unset the required = True assignement
+        return res
 
     @api.model
     def _shadowed_fields(self):
-        """Returns the list of shadowed fields that are synced
-        from the parent."""
+        """Return the list of shadowed fields that are synchronized
+        from account.move."""
         return SHADOWED_FIELDS
 
     @api.model
@@ -152,6 +147,11 @@ class AccountMove(models.Model):
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
+        """
+        Inject fiscal fields into the account.move(.line) views.
+        FIXME: it's because of this override that the tax m2m widget
+        isn't fully displayed (tax names are missing) until the user saves the form.
+        """
         invoice_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
         if self.env.company.country_id.code != "BR":
             return invoice_view
@@ -159,6 +159,7 @@ class AccountMove(models.Model):
             view = self.env["ir.ui.view"]
 
             if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
+                # "fiscal view" case:
                 invoice_line_form_id = self.env.ref(
                     "l10n_br_account.fiscal_invoice_line_form"
                 ).id
@@ -177,11 +178,8 @@ class AccountMove(models.Model):
                     "arch": sub_arch,
                 }
 
-            else:
+            else:  # "normal" account.move case:
                 if invoice_view["fields"].get("invoice_line_ids"):
-                    invoice_line_form_id = self.env.ref(
-                        "l10n_br_account.invoice_form"
-                    ).id
                     sub_form_view = invoice_view["fields"]["invoice_line_ids"]["views"][
                         "form"
                     ]["arch"]
@@ -199,9 +197,8 @@ class AccountMove(models.Model):
                     }
 
                 if invoice_view["fields"].get("line_ids"):
-                    invoice_line_form_id = self.env.ref(
-                        "l10n_br_account.invoice_form"
-                    ).id
+                    # it is required to inject the fiscal fields in the
+                    # "accounting lines" view to avoid loosing fiscal values from the form.
                     sub_form_view = invoice_view["fields"]["line_ids"]["views"]["tree"][
                         "arch"
                     ]
@@ -315,7 +312,7 @@ class AccountMove(models.Model):
         return result
 
     def unlink(self):
-        """Allows delete a draft or cancelled invoices"""
+        """Allow to delete draft or cancelled invoices"""
         unlink_moves = self.env["account.move"]
         unlink_documents = self.env["l10n_br_fiscal.document"]
         for move in self:
@@ -387,7 +384,7 @@ class AccountMove(models.Model):
         return balance_taxes_res
 
     def _preprocess_taxes_map(self, taxes_map):
-        """Useful in case we want to pre-process taxes_map"""
+        """Compute taxes base and amount for Brazil"""
 
         taxes_mapped = super()._preprocess_taxes_map(taxes_map=taxes_map)
 
@@ -513,35 +510,11 @@ class AccountMove(models.Model):
             i.button_cancel()
             i.button_draft()
 
-    def action_post(self):
-        result = super().action_post()
-
+    def _post(self, soft=True):
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
         ).action_document_confirm()
-
-        # TODO FIXME
-        # Deixar a migração das funcionalidades do refund por último.
-        # Verificar se ainda haverá necessidade desse código.
-
-        # for record in self.filtered(lambda i: i.refund_move_id):
-        #     if record.state == "open":
-        #         # Ao confirmar uma fatura/documento fiscal se é uma devolução
-        #         # é feito conciliado com o documento de origem para abater
-        #         # o valor devolvido pelo documento de refund
-        #         to_reconcile_lines = self.env["account.move.line"]
-        #         for line in record.move_id.line_ids:
-        #             if line.account_id.id == record.account_id.id:
-        #                 to_reconcile_lines += line
-        #             if line.reconciled:
-        #                 line.remove_move_reconcile()
-        #         for line in record.refund_move_id.move_id.line_ids:
-        #             if line.account_id.id == record.refund_move_id.account_id.id:
-        #                 to_reconcile_lines += line
-
-        #         to_reconcile_lines.filtered(lambda l: l.reconciled).reconcile()
-
-        return result
+        return super()._post(soft=soft)
 
     def view_xml(self):
         self.ensure_one()
@@ -597,9 +570,8 @@ class AccountMove(models.Model):
                     raise UserError(
                         _(
                             """Line without Return Fiscal Operation! \n
-                            Please force one! \n{}""".format(
-                                line.name
-                            )
+                            Please force one! \n%(name)s""",
+                            name=line.name,
                         )
                     )
 

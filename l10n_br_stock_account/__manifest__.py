@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "14.0.3.2.3",
+    "version": "14.0.3.4.0",
     "depends": [
         "stock_account",
         "stock_picking_invoicing",
@@ -33,6 +33,7 @@
         "demo/company_demo.xml",
         "demo/l10n_br_stock_account_demo.xml",
         "demo/account_journal_demo.xml",
+        "demo/stock_inventory_demo.xml",
     ],
     "installable": True,
     "post_init_hook": "post_init_hook",

@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2024-02-06 13:16+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_pos_cfe
 #. openerp-web
@@ -320,7 +322,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_order__display_name
 #: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_payment_method__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome Exibido"
 
 #. module: l10n_br_pos_cfe
 #. openerp-web
@@ -376,7 +378,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_order__id
 #: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_payment_method__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_pos_cfe
 #. openerp-web
@@ -406,7 +408,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_payment_method____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_pos_cfe
 #. openerp-web

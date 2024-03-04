@@ -1,7 +1,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -23,6 +23,17 @@ class StockInvoiceOnshipping(models.TransientModel):
         else:
             # Caso Brasileiro
             return True
+
+    @api.onchange("group")
+    def onchange_group(self):
+        super().onchange_group()
+        pickings = self._load_pickings()
+        has_fiscal_operation = False
+        if pickings.mapped("fiscal_operation_id"):
+            has_fiscal_operation = True
+        self.has_fiscal_operation = has_fiscal_operation
+
+    has_fiscal_operation = fields.Boolean()
 
     fiscal_operation_journal = fields.Boolean(
         string="Account Jornal from Fiscal Operation",
@@ -58,26 +69,26 @@ class StockInvoiceOnshipping(models.TransientModel):
 
     def _build_invoice_values_from_pickings(self, pickings):
         invoice, values = super()._build_invoice_values_from_pickings(pickings)
-        pick = fields.first(pickings)
-        if not pick.fiscal_operation_id:
+        picking = fields.first(pickings)
+        if not picking.fiscal_operation_id:
             # Caso de Fatura Internacional, sem os dados Fiscais do Brasil
             return invoice, values
 
-        fiscal_vals = pick._prepare_br_fiscal_dict()
+        fiscal_vals = picking._prepare_br_fiscal_dict()
 
-        document_type = pick.company_id.document_type_id
-        document_type_id = pick.company_id.document_type_id.id
+        document_type = picking.company_id.document_type_id
+        document_type_id = picking.company_id.document_type_id.id
 
         fiscal_vals["document_type_id"] = document_type_id
 
         document_serie = document_type.get_document_serie(
-            pick.company_id, pick.fiscal_operation_id
+            picking.company_id, picking.fiscal_operation_id
         )
         if document_serie:
             fiscal_vals["document_serie_id"] = document_serie.id
 
-        if pick.fiscal_operation_id and pick.fiscal_operation_id.journal_id:
-            fiscal_vals["journal_id"] = pick.fiscal_operation_id.journal_id.id
+        if picking.fiscal_operation_id and picking.fiscal_operation_id.journal_id:
+            fiscal_vals["journal_id"] = picking.fiscal_operation_id.journal_id.id
 
         # Endereço de Entrega diferente do Endereço de Faturamento
         # so informado quando é diferente
@@ -108,6 +119,10 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         values = super()._get_invoice_line_values(moves, invoice_values, invoice)
         move = fields.first(moves)
+        if not move.fiscal_operation_id:
+            # Caso Brasileiro se caracteriza pela Operação Fiscal
+            return values
+
         fiscal_values = move._prepare_br_fiscal_dict()
 
         # A Fatura não pode ser criada com os campos price_unit e fiscal_price

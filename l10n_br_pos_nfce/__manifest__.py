@@ -5,7 +5,7 @@
     "name": "L10n Br Pos Nfce",
     "summary": """
         NFC-E no Ponto de Venda""",
-    "version": "14.0.1.1.2",
+    "version": "14.0.1.1.4",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",

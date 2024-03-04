@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 09:02+0000\n"
-"PO-Revision-Date: 2023-06-10 20:09+0000\n"
-"Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
+"PO-Revision-Date: 2024-03-04 15:08+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Conta"
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_chart_template
 msgid "Account Chart Template"
-msgstr ""
+msgstr "Template do Plano de Contas"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__journal_id
@@ -84,7 +84,7 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_total
 msgid "Amount Total"
-msgstr ""
+msgstr "Valor Total"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_untaxed
@@ -325,7 +325,7 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_type_id
 msgid "Document Type"
-msgstr "Tipo do Documento"
+msgstr "Tipo de Documento"
 
 #. module: l10n_br_account
 #: code:addons/l10n_br_account/models/account_move.py:0
@@ -440,14 +440,6 @@ msgid "Fiscal Partner"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_partner_shipping_id
-msgid "Fiscal Partner Shipping"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__fiscal_position_id
 msgid "Fiscal Position"
@@ -492,12 +484,6 @@ msgstr "Grupos de impostos"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
 msgid "Fiscal Taxes"
 msgstr "Impostos Fiscais"
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_uom_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_uom_id
-msgid "Fiscal UOM"
-msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_user_id
@@ -566,11 +552,6 @@ msgid "Incoterms"
 msgstr "Incoterms"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__fiscal_tax_line_id
-msgid "Indicates that this journal item is a tax line"
-msgstr "Indica que este item de diário é uma linha de imposto"
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__partner_is_public_entity
 msgid ""
 "Indicates whether the entity in question is a public organization or "
@@ -578,6 +559,10 @@ msgid ""
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
 msgstr ""
+"Indica se a entidade em questão é uma organização pública ou uma entidade "
+"relacionada ao governo. Abrange uma gama de entidades, como governos "
+"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
+"organizações controladas pelo governo."
 
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__incoterm_id
@@ -668,12 +653,8 @@ msgid ""
 "Line without Return Fiscal Operation! \n"
 "\n"
 "                            Please force one! \n"
-"{}"
+"%(name)s"
 msgstr ""
-"Linha sem Operação Fiscal de Retorno! \n"
-"\n"
-"                            Por favor force uma! \n"
-"{}"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
@@ -688,7 +669,7 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_mun
 msgid "Municipal Tax Number"
-msgstr "Numero Inscrição Municipal"
+msgstr "Número da Inscrição Municipal"
 
 #. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_nfe_action
@@ -712,12 +693,6 @@ msgid ""
 msgstr ""
 "Odoo ajuda você rastrear facilmente todas as atividades\n"
 "            relacionadas com a operação fiscal."
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_line_id
-#, fuzzy
-msgid "Originator Fiscal Tax"
-msgstr "Origem do tributo fiscal"
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
@@ -812,7 +787,7 @@ msgstr "Processador documentos eletrônicos"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_is_public_entity
 msgid "Public Entity"
-msgstr ""
+msgstr "Entidade Pública"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_est
@@ -904,6 +879,25 @@ msgstr ""
 #, python-format
 msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
+
+#~ msgid "Indicates that this journal item is a tax line"
+#~ msgstr "Indica que este item de diário é uma linha de imposto"
+
+#, fuzzy
+#~ msgid "Originator Fiscal Tax"
+#~ msgstr "Origem do tributo fiscal"
+
+#, python-format
+#~ msgid ""
+#~ "Line without Return Fiscal Operation! \n"
+#~ "\n"
+#~ "                            Please force one! \n"
+#~ "{}"
+#~ msgstr ""
+#~ "Linha sem Operação Fiscal de Retorno! \n"
+#~ "\n"
+#~ "                            Por favor force uma! \n"
+#~ "{}"
 
 #~ msgid "Currency"
 #~ msgstr "Moeda"

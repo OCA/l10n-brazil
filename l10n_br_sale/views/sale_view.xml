@@ -25,6 +25,7 @@
                     name="amount_price_gross"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="amount_discount_value"
@@ -42,19 +43,19 @@
                     name="amount_freight_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
-                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)], 'invisible': [('fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="amount_insurance_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
-                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)], 'invisible': [('fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="amount_other_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
-                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)], 'invisible': [('fiscal_operation_id', '=', False)]}"
                 />
             </field>
             <field name="amount_total" position="after">
@@ -62,15 +63,31 @@
                     name="amount_financial_total"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)]}"
                 />
             </field>
             <field name="validity_date" position="after">
-                <field name="fiscal_operation_id" required="True" />
-                <field name="ind_final" required="True" />
-                <field name="ind_pres" required="True" />
+                <field name="company_country_id" invisible="True" />
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="ind_final"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
+                />
+                <field
+                    name="ind_pres"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
+                />
             </field>
-            <field name="note" position="replace">
-                <group>
+            <field name="note" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('fiscal_operation_id', '!=', False)]}</attribute>
+            </field>
+            <field name="note" position="after">
+                <group attrs="{'invisible': [('fiscal_operation_id', '=', False)]}">
                     <field name="copy_note" />
                     <field
                         name="note"
@@ -97,8 +114,12 @@
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='analytic_tag_ids']"
-                position="replace"
-            />
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
             <xpath
                 expr="//field[@name='order_line']//form//field[@name='product_id']"
                 position="attributes"
@@ -109,12 +130,20 @@
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='discount']"
-                position="replace"
-            />
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='tax_id']"
-                position="replace"
-            />
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='price_unit']"
                 position="after"
@@ -122,22 +151,28 @@
                 <field
                     name="discount"
                     groups="!l10n_br_sale.group_discount_per_value"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="discount_value"
                     groups="l10n_br_sale.group_discount_per_value"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="fiscal_tax_ids"
                     widget="many2many_tags"
                     options="{'no_create': True}"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='price_subtotal']"
                 position="after"
             >
-                <field name="price_total" invisible="1" />
+                <field
+                    name="price_total"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}"
+                />
             </xpath>
             <xpath expr="//field[@name='order_line']/form" position="inside">
                 <group name="fiscal_fields" invisible="1">
@@ -154,44 +189,52 @@
                 <field
                     name="fiscal_operation_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('parent.fiscal_operation_id', '!=', False)], 'invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': ['&amp;', ('parent.fiscal_operation_id', '!=', False), ('product_id', '!=', False)], 'invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="cfop_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field name="price_total" invisible="1" />
                 <field name="price_subtotal" invisible="1" />
                 <field
                     name="service_type_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="city_taxation_code_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
                     options="{'no_create': True}"
                 />
                 <field
                     name="cnae_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
                     options="{'no_create': True}"
                 />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='tax_id']"
-                position="replace"
-            />
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
             <xpath
                 expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']"
-                position="replace"
-            />
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+            </xpath>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='price_unit']"
                 position="after"
@@ -199,9 +242,11 @@
                 <label
                     for="fiscal_quantity"
                     string="Fiscal Quantity"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
-                <div attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}">
+                <div
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                >
                     <field
                         context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
                         name="fiscal_quantity"
@@ -217,20 +262,17 @@
                 </div>
                 <field
                     name="fiscal_price"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form/field[@name='name']"
                 position="after"
             >
-                <field name="country_id" invisible="1" />
-                <notebook attrs="{'invisible': [('display_type', '!=', False)]}">
-                    <page
-                        name="fiscal_taxes"
-                        string="Taxes"
-                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
-                    />
+                <notebook
+                    attrs="{'invisible': ['|', ('display_type', '!=', False), ('parent.fiscal_operation_id', '=', False)]}"
+                >
+                    <page name="fiscal_taxes" string="Taxes" />
                     <page
                         string="Invoice Lines"
                         groups="base.group_no_one"

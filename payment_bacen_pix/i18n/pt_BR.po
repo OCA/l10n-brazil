@@ -1,0 +1,200 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payment_bacen_pix
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-11-27 11:54+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacenpix_api_key
+msgid "API KEY"
+msgstr "API KEY"
+
+#. module: payment_bacen_pix
+#: model:payment.acquirer,name:payment_bacen_pix.payment_acquirer_bacenpix
+msgid "Bacen (PIX)"
+msgstr "Bacen (PIX)"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields.selection,name:payment_bacen_pix.selection__payment_acquirer__provider__bacenpix
+msgid "Bacen (pix)"
+msgstr "Bacen (pix)"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacen_pix_expiration
+msgid "Bacen PIX Expiration"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_amount
+msgid "Bacenpix Amount"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_chave
+msgid "Bacenpix Chave"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_criacao
+msgid "Bacenpix Criacao"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_currency
+msgid "Bacenpix Currency"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_date_due
+msgid "Bacenpix Date Due"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_expiracao
+msgid "Bacenpix Expiracao"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_location
+msgid "Bacenpix Location"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_qrcode
+msgid "Bacenpix Qrcode"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_state
+msgid "Bacenpix State"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_state_message
+msgid "Bacenpix State Message"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__bacenpix_txid
+msgid "Bacenpix Txid"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacen_pix_basic
+msgid "Basic"
+msgstr "Básico"
+
+#. module: payment_bacen_pix
+#: model_terms:ir.ui.view,arch_db:payment_bacen_pix.transaction_form_bacenpix
+msgid "Check Status"
+msgstr "Verificar status"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacenpix_client_id
+msgid "Client ID"
+msgstr "ID do Cliente"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacenpix_client_secret
+msgid "Client Secret"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacenpix_dev_app_key
+msgid "Dev APP KEY"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__display_name
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__display_name
+msgid "Display Name"
+msgstr "Nome de Exibição"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacenpix_email_account
+msgid "Email"
+msgstr "E-mail"
+
+#. module: payment_bacen_pix
+#: model_terms:ir.ui.view,arch_db:payment_bacen_pix.acquirer_form_bacenpix
+msgid "Get Token"
+msgstr "Obter Token"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__id
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__id
+msgid "ID"
+msgstr "ID"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer____last_update
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacen_pix_key
+msgid "PIX Key"
+msgstr "Chave PIX"
+
+#. module: payment_bacen_pix
+#: code:addons/payment_bacen_pix/models/payment_transaction.py:0
+#, python-format
+msgid ""
+"Payload Error {type} \n"
+" {message}"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model:ir.model,name:payment_bacen_pix.model_payment_acquirer
+msgid "Payment Acquirer"
+msgstr "Entidade Responsável Pelo Pagamento"
+
+#. module: payment_bacen_pix
+#: model:ir.model,name:payment_bacen_pix.model_payment_transaction
+msgid "Payment Transaction"
+msgstr "Transação de pagamento"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__provider
+msgid "Provider"
+msgstr "Provedor"
+
+#. module: payment_bacen_pix
+#: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__textoImagemQRcode
+msgid "Textoimagemqrcode"
+msgstr ""
+
+#. module: payment_bacen_pix
+#: model_terms:payment.acquirer,auth_msg:payment_bacen_pix.payment_acquirer_bacenpix
+msgid "Your payment has been authorized."
+msgstr "O seu pagamento foi autorizado."
+
+#. module: payment_bacen_pix
+#: model_terms:payment.acquirer,cancel_msg:payment_bacen_pix.payment_acquirer_bacenpix
+msgid "Your payment has been cancelled."
+msgstr "O seu pagamento foi cancelado."
+
+#. module: payment_bacen_pix
+#: model_terms:payment.acquirer,pending_msg:payment_bacen_pix.payment_acquirer_bacenpix
+msgid ""
+"Your payment has been successfully processed but is waiting for approval."
+msgstr ""
+"O seu pagamento foi processado com sucesso, mas está a aguardar aprovação."
+
+#. module: payment_bacen_pix
+#: model_terms:payment.acquirer,done_msg:payment_bacen_pix.payment_acquirer_bacenpix
+msgid "Your payment has been successfully processed. Thank you!"
+msgstr "O seu pagamento foi processado com sucesso. Obrigado!"

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Sale Order with only products test -->
+    <record id="so_commission_br" model="sale.order">
+        <field name="name">l10n_br_sale_commission - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="so_commission_br_1_1" model="sale.order.line">
+        <field name="order_id" ref="so_commission_br" />
+        <field name="name">Gaveta</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <record id="commission_br_1_1" model="sale.order.line.agent">
+        <field name="object_id" ref="so_commission_br_1_1" />
+        <field name="agent_id" ref="sale_commission.res_partner_tiny_sale_agent" />
+        <field name="commission_id" ref="sale_commission.demo_commission" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('so_commission_br_1_1')]" />
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('so_commission_br_1_1')]" />
+    </function>
+
+    <record id="so_commission_br_1_2" model="sale.order.line">
+        <field name="order_id" ref="so_commission_br" />
+        <field name="name">Cadeira de Escritório Preta</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
+    </record>
+
+    <record id="commission_br_1_2" model="sale.order.line.agent">
+        <field name="object_id" ref="so_commission_br_1_2" />
+        <field name="agent_id" ref="sale_commission.res_partner_tiny_sale_agent" />
+        <field name="commission_id" ref="sale_commission.demo_commission" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('so_commission_br_1_2')]" />
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('so_commission_br_1_2')]" />
+    </function>
+
+</odoo>

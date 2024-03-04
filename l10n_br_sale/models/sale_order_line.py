@@ -9,8 +9,6 @@ class SaleOrderLine(models.Model):
     _name = "sale.order.line"
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
 
-    country_id = fields.Many2one(related="company_id.country_id", store=True)
-
     @api.model
     def _default_fiscal_operation(self):
         return self.env.company.sale_fiscal_operation_id
@@ -117,7 +115,13 @@ class SaleOrderLine(models.Model):
     user_total_discount = fields.Boolean(compute="_compute_user_total_discount")
     user_discount_value = fields.Boolean(compute="_compute_user_discount_value")
 
-    # Depends of price_unit because we need an field to force compute in new records
+    cnae_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cnae",
+        string="CNAE Code",
+        domain=lambda self: self._cnae_domain(),
+    )
+
+    # Depends on price_unit because we need a field to force compute in new records
     # not created yet. This field is necessary to compute readonly condition for
     # discount/discount value.
     @api.depends("price_unit")
@@ -128,7 +132,7 @@ class SaleOrderLine(models.Model):
             else:
                 rec.user_total_discount = False
 
-    # Depends of price_unit because we need an field to force compute in new records
+    # Depends on price_unit because we need a field to force compute in new records
     # not created yet. This field is necessary to compute readonly condition for
     # discount/discount value.
     @api.depends("price_unit")
@@ -148,12 +152,6 @@ class SaleOrderLine(models.Model):
             cnae_secondary_ids = company.cnae_secondary_ids.ids
             domain = ["|", ("id", "in", cnae_secondary_ids), ("id", "=", cnae_main_id)]
         return domain
-
-    cnae_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cnae",
-        string="CNAE Code",
-        domain=lambda self: self._cnae_domain(),
-    )
 
     def _get_protected_fields(self):
         protected_fields = super()._get_protected_fields()
@@ -196,9 +194,12 @@ class SaleOrderLine(models.Model):
 
     def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
-        result = self._prepare_br_fiscal_dict()
-        if self.product_id and self.product_id.invoice_policy == "delivery":
-            result["fiscal_quantity"] = self.qty_to_invoice
+        result = {}
+        if not self.display_type and self.fiscal_operation_id:
+            # O caso Brasil se caracteriza por ter a Operação Fiscal
+            result = self._prepare_br_fiscal_dict()
+            if self.product_id and self.product_id.invoice_policy == "delivery":
+                result["fiscal_quantity"] = self.qty_to_invoice
         result.update(super()._prepare_invoice_line(**optional_values))
         return result
 

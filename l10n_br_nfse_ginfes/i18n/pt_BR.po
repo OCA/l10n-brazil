@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 05:24+0000\n"
+"PO-Revision-Date: 2024-02-06 13:16+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_nfse_ginfes
 #: code:addons/l10n_br_nfse_ginfes/models/document.py:0
@@ -31,7 +31,7 @@ msgstr "Empresas"
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_res_company__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome Exibido"
 
 #. module: l10n_br_nfse_ginfes
 #: model:ir.model,name:l10n_br_nfse_ginfes.model_l10n_br_fiscal_document
@@ -47,13 +47,13 @@ msgstr "Ginfes"
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_res_company__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_nfse_ginfes
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_res_company____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_nfse_ginfes
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_res_company__provedor_nfse

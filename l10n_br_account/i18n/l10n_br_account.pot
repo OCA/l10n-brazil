@@ -433,14 +433,6 @@ msgid "Fiscal Partner"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_partner_shipping_id
-msgid "Fiscal Partner Shipping"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__fiscal_position_id
 msgid "Fiscal Position"
@@ -484,12 +476,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
 msgid "Fiscal Taxes"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_uom_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_uom_id
-msgid "Fiscal UOM"
 msgstr ""
 
 #. module: l10n_br_account
@@ -556,11 +542,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_incoterms
 msgid "Incoterms"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__fiscal_tax_line_id
-msgid "Indicates that this journal item is a tax line"
 msgstr ""
 
 #. module: l10n_br_account
@@ -659,7 +640,7 @@ msgid ""
 "Line without Return Fiscal Operation! \n"
 "\n"
 "                            Please force one! \n"
-"{}"
+"%(name)s"
 msgstr ""
 
 #. module: l10n_br_account
@@ -696,11 +677,6 @@ msgstr ""
 msgid ""
 "Odoo helps you easily track all activities\n"
 "            related to a fiscal operation."
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_line_id
-msgid "Originator Fiscal Tax"
 msgstr ""
 
 #. module: l10n_br_account

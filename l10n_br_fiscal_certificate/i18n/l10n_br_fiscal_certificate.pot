@@ -103,6 +103,7 @@ msgstr ""
 #. module: l10n_br_fiscal_certificate
 #: model:ir.actions.act_window,name:l10n_br_fiscal_certificate.certificate_action
 #: model:ir.model,name:l10n_br_fiscal_certificate.model_l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__certificate
 #: model:ir.ui.menu,name:l10n_br_fiscal_certificate.certificate_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_search
@@ -123,6 +124,14 @@ msgstr ""
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__type
 msgid "Certificate Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+#, python-format
+msgid ""
+"Certificate not found, you need to inform your e-CNPJ or e-NFe certificate "
+"in the Company."
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
@@ -243,7 +252,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_has_error
-#: model:ir.model.fields,help:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -355,6 +363,12 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+#, python-format
+msgid "Only e-CNPJ Certicate can be used for this case."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__owner_name
 msgid "Owner"
 msgstr ""
@@ -377,11 +391,6 @@ msgstr ""
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_user_id
 msgid "Responsible User"
-msgstr ""
-
-#. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate

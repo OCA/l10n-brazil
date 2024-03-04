@@ -4,7 +4,6 @@
 import base64
 import logging
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base import misc
 from erpbrasil.edoc.provedores.cidades import NFSeFactory
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -68,6 +67,13 @@ class Document(models.Model):
         default=lambda self: self.env.company.nfse_environment,
     )
 
+    civil_construction_code = fields.Char(
+        string="Civil Construction Code",
+    )
+    civil_construction_art = fields.Char(
+        string="Civil Construction ART",
+    )
+
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
@@ -94,10 +100,7 @@ class Document(models.Model):
             self.file_report_id = self.env["ir.attachment"].create(vals_dict)
 
     def _processador_erpbrasil_nfse(self):
-        certificado = cert.Certificado(
-            arquivo=self.company_id.certificate_nfe_id.file,
-            senha=self.company_id.certificate_nfe_id.password,
-        )
+        certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
@@ -261,7 +264,8 @@ class Document(models.Model):
             "status": "1",
             "rps_substitiuido": None,
             "intermediario_servico": None,
-            "construcao_civil": None,
+            "codigo_obra": self.civil_construction_code or "",
+            "art": self.civil_construction_art or "",
             "carga_tributaria": self.amount_tax,
             "total_recebido": self.amount_total,
             "carga_tributaria_estimada": self.amount_estimate_tax,

@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2023-05-02 07:41+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2024-03-04 16:10+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__meeting_count
@@ -92,14 +92,14 @@ msgid "Activity Type Icon"
 msgstr "Ícone do Tipo de Atividade"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__additional_info
-msgid "Additional info"
-msgstr "Informações Adicionais"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__type
 msgid "Address Type"
 msgstr "Tipo de Endereço"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_ids
+msgid "Agents"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__lang
@@ -184,16 +184,6 @@ msgstr "Código de barras"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_blacklisted
 msgid "Blacklist"
 msgstr "Lista negra"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
-msgid "Blacklisted Phone Is Mobile"
-msgstr "O Telefone na Lista Negra é Celular"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_blacklisted
-msgid "Blacklisted Phone is Phone"
-msgstr "O Telefone na Lista Negra é Fixo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
@@ -314,6 +304,11 @@ msgstr ""
 "possui uma 'Cidade' selecionada na lista de cidades daquele país."
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__agent
+msgid "Check this field if the partner is a creditor or an agent."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__city
 msgid "City"
 msgstr "Cidade"
@@ -367,6 +362,11 @@ msgid "Commercial Entity"
 msgstr "Entidade Comercial"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__commission_id
+msgid "Commission"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__common_law_marriage
 msgid "Common law marriage"
 msgstr "União estável"
@@ -400,11 +400,6 @@ msgstr "Entidade Nome da Empresa"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__company_type
 msgid "Company Type"
 msgstr "Tipo de Empresa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_gid
-msgid "Company database ID"
-msgstr "ID do banco de dados da Empresa"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contact_address
@@ -470,6 +465,11 @@ msgstr "Criado em"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__credit_limit
 msgid "Credit Limit"
 msgstr "Limite de Crédito"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent
+msgid "Creditor/Agent"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__currency_id
@@ -750,15 +750,6 @@ msgid "Female"
 msgstr "Fêmea"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_sanitized
-msgid ""
-"Field used to store sanitized phone number. Helps speeding up searches and "
-"comparisons."
-msgstr ""
-"Campo usado para armazenar número de telefone higienizado. Ajuda a acelerar "
-"pesquisas e comparações."
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_final
 msgid "Final Consumption Operation"
 msgstr "Operação de Consumo Final"
@@ -796,7 +787,7 @@ msgstr "Seguidores (Parceiros)"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Ícone Font Awesome ex. fa-tasks"
+msgstr "Ícone do font awesome ex. fa-task"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__email_formatted
@@ -940,7 +931,6 @@ msgstr "Se marcado novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_has_error
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens tem erro de entrega."
 
@@ -959,13 +949,6 @@ msgid ""
 msgstr ""
 "Se o endereço de email estiver na lista negra, o contato não receberá mais "
 "emails em massa, de qualquer lista"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_sanitized_blacklisted
-msgid ""
-"If the sanitized phone number is on the blacklist, the contact won't receive "
-"mass mailing sms anymore, from any list"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_1920
@@ -1003,22 +986,6 @@ msgid "Indicates if Brazilian localization fields should be displayed."
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
-msgid ""
-"Indicates if a blacklisted sanitized phone number is a mobile number. Helps "
-"distinguish which number is blacklisted             when there is both a "
-"mobile and phone field in a model."
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_blacklisted
-msgid ""
-"Indicates if a blacklisted sanitized phone number is a phone number. Helps "
-"distinguish which number is blacklisted             when there is both a "
-"mobile and phone field in a model."
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_public_entity
 msgid ""
 "Indicates whether the entity in question is a public organization or "
@@ -1026,6 +993,10 @@ msgid ""
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
 msgstr ""
+"Indica se a entidade em questão é uma organização pública ou uma entidade "
+"relacionada ao governo. Abrange uma gama de entidades, como governos "
+"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
+"organizações controladas pelo governo."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__industry_id
@@ -1225,7 +1196,7 @@ msgstr "Reuniões"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_error
 msgid "Message Delivery error"
-msgstr "Erro de entrega de Mensagem"
+msgstr "Erro de Entrega da Mensagem"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_warn_msg
@@ -1235,7 +1206,7 @@ msgstr "Mensagem para Fatura"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn_msg
 msgid "Message for Purchase Order"
-msgstr ""
+msgstr "Mensagem para Pedido de Compra"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn_msg
@@ -1270,7 +1241,7 @@ msgstr "Celular"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__mother_name
 msgid "Mother Name"
-msgstr ""
+msgstr "Nome da mãe"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_mun
@@ -1302,7 +1273,7 @@ msgstr "Número de Identificação Nacional"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__country_id
 msgid "Nationality (Country)"
-msgstr "Nacionalidade (país)"
+msgstr "Nacionalidade (País)"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__naturalidade
@@ -1327,7 +1298,7 @@ msgstr "Tipo da Próxima Atividade"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__email_normalized
 msgid "Normalized Email"
-msgstr ""
+msgstr "Email Normalizado"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__comment
@@ -1377,7 +1348,7 @@ msgstr "Ocupação"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__on_time_rate
 msgid "On-Time Delivery Rate"
-msgstr ""
+msgstr "Taxa de Entrega no prazo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__opportunity_ids
@@ -1407,6 +1378,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "PIS/PASEP"
 msgstr "PIS / PASEP"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_date
+msgid "PIS/PASEP emission date"
+msgstr "Data de Emissão PIS/PASEP"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__partner_id
@@ -1454,11 +1430,6 @@ msgid "Phone"
 msgstr "Telefone"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_sanitized_blacklisted
-msgid "Phone Blacklisted"
-msgstr "Telefone na Lista Negra"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
 msgid "Pix Keys"
 msgstr "Chaves PIX"
@@ -1489,7 +1460,7 @@ msgstr "Lista de Preços"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_public_entity
 msgid "Public Entity"
-msgstr ""
+msgstr "Entidade Pública"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_contract_count
@@ -1576,11 +1547,6 @@ msgid "Restrict publishing to this website."
 msgstr "Restrinja a publicação a este site."
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erro de Entrega de SMS"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_contract_count
 msgid "Sale Contracts"
 msgstr "Contratos de Venda"
@@ -1614,11 +1580,6 @@ msgstr "Vendedor"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dep_sf
 msgid "Salário Família?"
 msgstr "Salário Família?"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_sanitized
-msgid "Sanitized Number"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__cresv_categ__2
@@ -1658,6 +1619,16 @@ msgstr "Mesmo"
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__separated
 msgid "Separated"
 msgstr "Separado"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement_ids
+msgid "Settlement"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement
+msgid "Settlement period"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_share
@@ -1884,6 +1855,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__commission_id
+msgid ""
+"This is the default commission used in the sales where this agent is "
+"assigned. It can be changed on each operation if needed."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_supplier_payment_term_id
 msgid ""
 "This payment term will be used instead of the default one for purchase "
@@ -1954,6 +1932,11 @@ msgstr "Valor total que este cliente lhe deve."
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__debit
 msgid "Total amount you have to pay to this vendor."
 msgstr "Valor total que você deve pagar a este fornecedor."
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_type
+msgid "Type"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_exception_decoration
@@ -2079,6 +2062,31 @@ msgstr "XXX.XXXXX.XX-X"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
 msgid "Zip"
 msgstr "CEP"
+
+#~ msgid "Additional info"
+#~ msgstr "Informações Adicionais"
+
+#~ msgid "Blacklisted Phone Is Mobile"
+#~ msgstr "O Telefone na Lista Negra é Celular"
+
+#~ msgid "Blacklisted Phone is Phone"
+#~ msgstr "O Telefone na Lista Negra é Fixo"
+
+#~ msgid "Company database ID"
+#~ msgstr "ID do banco de dados da Empresa"
+
+#~ msgid ""
+#~ "Field used to store sanitized phone number. Helps speeding up searches "
+#~ "and comparisons."
+#~ msgstr ""
+#~ "Campo usado para armazenar número de telefone higienizado. Ajuda a "
+#~ "acelerar pesquisas e comparações."
+
+#~ msgid "Phone Blacklisted"
+#~ msgstr "Telefone na Lista Negra"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erro de Entrega de SMS"
 
 #, python-format
 #~ msgid "CPF Invalido!"

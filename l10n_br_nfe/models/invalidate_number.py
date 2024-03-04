@@ -3,14 +3,12 @@
 
 from datetime import datetime
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
 from requests import Session
 
-from odoo import _, fields, models
-from odoo.exceptions import UserError
+from odoo import fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 
@@ -19,13 +17,7 @@ class InvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.invalidate.number"
 
     def _processador(self):
-        if not self.company_id.sudo().certificate_nfe_id:
-            raise UserError(_("Certificado não encontrado"))
-
-        certificado = cert.Certificado(
-            arquivo=self.company_id.sudo().certificate_nfe_id.file,
-            senha=self.company_id.sudo().certificate_nfe_id.password,
-        )
+        certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
         params = {

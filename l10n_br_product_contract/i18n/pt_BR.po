@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-10-05 18:30+0000\n"
-"Last-Translator: Wesley Oliveira <wesleygabrieldeoliveira@gmail.com>\n"
+"PO-Revision-Date: 2024-02-22 13:39+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -26,13 +26,13 @@ msgstr "Nome Exibido"
 #: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order__id
 #: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_product_contract
 #: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order_line____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_product_contract
 #: model:product.product,name:l10n_br_product_contract.recurrency_service_product
@@ -48,10 +48,10 @@ msgstr ""
 #. module: l10n_br_product_contract
 #: model:ir.model,name:l10n_br_product_contract.model_sale_order_line
 msgid "Sales Order Line"
-msgstr ""
+msgstr "Linha do Pedido de Vendas"
 
 #. module: l10n_br_product_contract
 #: model:product.product,uom_name:l10n_br_product_contract.recurrency_service_product
 #: model:product.template,uom_name:l10n_br_product_contract.recurrency_service_product_product_template
 msgid "Units"
-msgstr ""
+msgstr "Unidades"

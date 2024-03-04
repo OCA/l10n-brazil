@@ -5,7 +5,7 @@
     "name": "NFS-e (Ginfes)",
     "summary": """
         NFS-e (Ginfes)""",
-    "version": "14.0.1.0.5",
+    "version": "14.0.1.1.0",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "maintainers": ["gabrielcardoso21", "mileo", "luismalta"],

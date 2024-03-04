@@ -26,6 +26,8 @@ class SaleOrder(models.Model):
         domain = [("state", "=", "approved")]
         return domain
 
+    company_country_id = fields.Many2one(related="company_id.country_id")
+
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
@@ -132,25 +134,46 @@ class SaleOrder(models.Model):
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         result = super()._onchange_fiscal_operation_id()
-        self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+        if self.fiscal_operation_id:
+            self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+        else:
+            # Caso de uso onde o Pedido foi criado com a Operação Fiscal tanto
+            # no Pedido quanto na Linha, os metodo default podem preencher porém
+            # o usuário decide que não deve ter Operação Fiscal e não gerar
+            # Documento Fiscal, o caso pode ser visto nos Dados de Demonstração,
+            # caso a Operação Fiscal seja apagada e o Pedido já tem linhas é
+            # preciso apagar o campo na Linha, sem isso acontece um looping porque
+            # ao apagar no Pedido o campo fica invisivel na Linha e quando está
+            # visivel ele é requirido.
+            for line in self.order_line:
+                line.fiscal_operation_id = False
+
         return result
 
     def _get_invoiceable_lines(self, final=False):
+
         lines = super()._get_invoiceable_lines(final=final)
+        if not self.fiscal_operation_id:
+            # O caso Brasil se caracteriza por ter a Operação Fiscal
+            return lines
         document_type_id = self._context.get("document_type_id")
 
         return [
             line
             for line in lines
-            if line.fiscal_operation_line_id.get_document_type(line.company_id).id
+            if not line.display_type
+            and line.fiscal_operation_line_id.get_document_type(line.company_id).id
             == document_type_id
         ]
 
     def _create_invoices(self, grouped=False, final=False, date=None):
+        if not self.fiscal_operation_id:
+            return super()._create_invoices(grouped=grouped, final=final, date=date)
         document_types = {
             line.fiscal_operation_line_id.get_document_type(line.company_id)
             for sale in self
             for line in sale.order_line
+            if not line.display_type
         }
 
         moves = self.env["account.move"]
@@ -172,27 +195,28 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
-        result.update(self._prepare_br_fiscal_dict())
+        # O caso Brasil se caracteriza por ter a Operação Fiscal
+        if self.fiscal_operation_id:
+            result.update(self._prepare_br_fiscal_dict())
 
-        document_type_id = self._context.get("document_type_id")
+            document_type_id = self._context.get("document_type_id")
 
-        if document_type_id:
+            if not document_type_id:
+                # Quando ocorre esse caso? Os Testes não estão passando aqui
+                document_type_id = self.company_id.document_type_id.id
+
             document_type = self.env["l10n_br_fiscal.document.type"].browse(
                 document_type_id
             )
-        else:
-            document_type = self.company_id.document_type_id
-            document_type_id = self.company_id.document_type_id.id
 
-        if document_type:
-            result["document_type_id"] = document_type_id
-            document_serie = document_type.get_document_serie(
-                self.company_id, self.fiscal_operation_id
-            )
-            if document_serie:
-                result["document_serie_id"] = document_serie.id
+            if document_type:
+                result["document_type_id"] = document_type_id
+                document_serie = document_type.get_document_serie(
+                    self.company_id, self.fiscal_operation_id
+                )
+                if document_serie:
+                    result["document_serie_id"] = document_serie.id
 
-        if self.fiscal_operation_id:
             if self.fiscal_operation_id.journal_id:
                 result["journal_id"] = self.fiscal_operation_id.journal_id.id
 

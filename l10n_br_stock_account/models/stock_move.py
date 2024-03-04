@@ -80,7 +80,9 @@ class StockMove(models.Model):
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
         if self.fiscal_operation_id.fiscal_operation_type == "out":
-            self.price_unit = self.product_id.standard_price
+            self.price_unit = self.product_id.with_company(
+                self.company_id
+            ).standard_price
 
     def _get_new_picking_values(self):
         """Prepares a new picking for this move as it could not be assigned to
@@ -113,12 +115,18 @@ class StockMove(models.Model):
         return keys_sorted
 
     def _prepare_extra_move_vals(self, qty):
-        values = self._prepare_br_fiscal_dict()
+        values = {}
+        if self.fiscal_operation_id:
+            # Caso Brasil se caracteriza por ter Operação Fiscal
+            values = self._prepare_br_fiscal_dict()
         values.update(super()._prepare_extra_move_vals(qty))
         return values
 
     def _prepare_move_split_vals(self, uom_qty):
-        values = self._prepare_br_fiscal_dict()
+        values = {}
+        if self.fiscal_operation_id:
+            # Caso Brasil se caracteriza por ter Operação Fiscal
+            values = self._prepare_br_fiscal_dict()
         values.update(super()._prepare_move_split_vals(uom_qty))
         return values
 
@@ -135,7 +143,7 @@ class StockMove(models.Model):
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
         if inv_type in ("out_invoice", "out_refund"):
-            result = product.standard_price
+            result = product.with_company(self.company_id).standard_price
 
         return result
 
@@ -150,7 +158,7 @@ class StockMove(models.Model):
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
         if self.fiscal_operation_id.fiscal_operation_type == "out":
-            result = self.product_id.standard_price
+            result = self.product_id.with_company(self.company_id).standard_price
 
         return result
 
@@ -163,6 +171,10 @@ class StockMove(models.Model):
 
     def _split(self, qty, restrict_partner_id=False):
         new_moves_vals = super()._split(qty, restrict_partner_id)
+        if not self.fiscal_operation_id:
+            # Caso Brasil se caracteriza por ter Operação Fiscal
+            return new_moves_vals
+
         self._onchange_commercial_quantity()
         self._onchange_fiscal_taxes()
 

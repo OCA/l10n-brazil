@@ -4,7 +4,6 @@
 
 import logging
 import os
-from datetime import datetime
 
 from xmldiff import main
 
@@ -58,10 +57,6 @@ class TestNFeExport(TransactionCase):
             ),
         ]
         nfe.action_document_confirm()
-        nfe.document_date = datetime.strptime(
-            "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
-        )
-        nfe.date_in_out = datetime.strptime("2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S")
         nfe.nfe40_cNF = "06277716"
         nfe.company_id.country_id.name = "Brasil"
         nfe._document_export()

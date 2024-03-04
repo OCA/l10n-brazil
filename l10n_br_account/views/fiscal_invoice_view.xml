@@ -69,7 +69,7 @@
         </xpath>
         <xpath expr="//button[@name='action_create_return']" position="replace">
           <button
-                    name="%(account.menu_action_move_out_refund_type)d"
+                    name="%(account.action_move_out_refund_type)d"
                     type='action'
                     string='Devolver'
                     groups="account.group_account_invoice"
@@ -87,7 +87,7 @@
                 >
                 <tree>
                   <field name="product_id" />
-                  <field name="uom_id" />
+                  <field name="product_uom_id" />
                   <field name="price_unit" />
                   <field name="quantity" />
                   <field name="amount_total" />

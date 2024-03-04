@@ -7,9 +7,7 @@ import logging
 import re
 import string
 from datetime import datetime
-from unicodedata import normalize
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.pdf import base
@@ -48,6 +46,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
+from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
@@ -301,12 +300,21 @@ class NFe(spec_models.StackedModel):
                 if record.document_type_id.code == MODELO_FISCAL_NFCE:
                     record.nfe40_tpImp = record.company_id.nfce_danfe_layout
 
-    @api.depends("partner_id", "company_id")
+    @api.depends("partner_id", "company_id", "partner_shipping_id")
     def _compute_nfe40_idDest(self):
         for doc in self:
-            if doc.company_id.partner_id.state_id == doc.partner_id.state_id:
+            company_partner = doc.company_id.partner_id
+            partner = doc.partner_id
+            partner_shipping = doc.partner_shipping_id
+            if (
+                partner_shipping
+                and company_partner == partner
+                and partner.state_id != partner_shipping.state_id
+            ):
+                doc.nfe40_idDest = "2"
+            elif company_partner.state_id == partner.state_id:
                 doc.nfe40_idDest = "1"
-            elif doc.company_id.partner_id.country_id == doc.partner_id.country_id:
+            elif company_partner.country_id == partner.country_id:
                 doc.nfe40_idDest = "2"
             else:
                 doc.nfe40_idDest = "3"
@@ -581,20 +589,12 @@ class NFe(spec_models.StackedModel):
             record.nfe40_infCpl = False
             record.nfe40_infAdFisco = False
             if record.fiscal_additional_data:
-                record.nfe40_infAdFisco = (
-                    normalize("NFKD", record.fiscal_additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
+                record.nfe40_infAdFisco = remove_non_ascii_characters(
+                    record.fiscal_additional_data
                 )
             if record.customer_additional_data:
-                record.nfe40_infCpl = (
-                    normalize("NFKD", record.customer_additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
+                record.nfe40_infCpl = remove_non_ascii_characters(
+                    record.customer_additional_data
                 )
 
     ##########################
@@ -707,7 +707,24 @@ class NFe(spec_models.StackedModel):
         return super()._build_attr(node, fields, vals, path, attr)
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
-        if key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
+        if key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
+            enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
+            new_value.update(enderEntreg_value)
+            parent_domain = [("nfe40_CNPJ", "=", new_value.get("nfe40_CNPJ"))]
+            parent_partner_match = self.env["res.partner"].search(
+                parent_domain, limit=1
+            )
+            new_vals = {
+                "nfe40_CNPJ": False,
+                "type": "delivery",
+                "parent_id": parent_partner_match.id,
+                "company_type": "person",
+            }
+            new_value.update(new_vals)
+            super()._build_many2one(
+                self.env["res.partner"], vals, new_value, key, value, path
+            )
+        elif key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
             enderEmit_value = self.env["res.partner"].build_attrs(
                 value.enderEmit, path=path
             )
@@ -725,27 +742,39 @@ class NFe(spec_models.StackedModel):
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
-        elif key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
-            enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
-            new_value.update(enderEntreg_value)
-            parent_domain = [("nfe40_CNPJ", "=", new_value.get("nfe40_CNPJ"))]
-            parent_partner_match = self.env["res.partner"].search(
-                parent_domain, limit=1
+        elif key == "nfe40_dest" and self.env.context.get("edoc_type") == "out":
+            enderDest_value = self.env["res.partner"].build_attrs(
+                value.enderDest, path=path
             )
-            new_vals = {
-                "nfe40_CNPJ": False,
-                "type": "delivery",
-                "parent_id": parent_partner_match.id,
-                "company_type": "person",
-            }
-            new_value.update(new_vals)
+            new_value.update(enderDest_value)
+            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            dest_cnpj = new_value.get("nfe40_CNPJ").translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            if company_cnpj != dest_cnpj:
+                vals["issuer"] = "partner"
+            new_value["is_company"] = True
+            new_value["cnpj_cpf"] = dest_cnpj
             super()._build_many2one(
-                self.env["res.partner"], vals, new_value, key, value, path
+                self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
-        elif self.env.context.get("edoc_type") == "in" and key in [
-            "nfe40_dest",
-            "nfe40_enderDest",
-        ]:
+        elif (
+            self.env.context.get("edoc_type") == "in"
+            and key
+            in [
+                "nfe40_dest",
+                "nfe40_enderDest",
+            ]
+        ) or (
+            self.env.context.get("edoc_type") == "out"
+            and key
+            in [
+                "nfe40_emit",
+                "nfe40_enderEmit",
+            ]
+        ):
             # this would be the emit/company data, but we won't update it on
             # NFe import so just do nothing
             return
@@ -780,6 +809,28 @@ class NFe(spec_models.StackedModel):
                             )
                         )
 
+    @api.constrains("document_date", "document_key", "state_edoc")
+    def _check_document_date_key(self):
+        for rec in self:
+            if rec.document_key:
+                key_date_str = rec.document_key[2:6]
+                key_date = datetime.strptime(key_date_str, "%y%m")
+
+                document_date = fields.Datetime.from_string(rec.document_date)
+                if (
+                    rec.document_type in ["55", "65"]
+                    and rec.state_edoc in ["a_enviar", "autorizada"]
+                    and (
+                        key_date.year != document_date.year
+                        or key_date.month != document_date.month
+                    )
+                ):
+                    raise ValidationError(
+                        _(
+                            "The document date does not match the date in the document key."
+                        )
+                    )
+
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
@@ -812,20 +863,8 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
-        certificate = False
-        if self.company_id.sudo().certificate_nfe_id:
-            certificate = self.company_id.sudo().certificate_nfe_id
-        elif self.company_id.sudo().certificate_ecnpj_id:
-            certificate = self.company_id.sudo().certificate_ecnpj_id
-
-        if not certificate:
-            raise UserError(_("Certificado não encontrado"))
         self._check_nfe_environment()
-
-        certificado = cert.Certificado(
-            arquivo=certificate.file,
-            senha=certificate.password,
-        )
+        certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
         params = {

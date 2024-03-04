@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Generate BR Fiscal Doc -->
+    <!-- <record
+        id="commission_gen_br_fiscal_doc_config_settings"
+        model="res.config.settings"
+    >
+        <field name="commission_gen_br_fiscal_doc">True</field>
+    </record>
+
+    <function model="res.config.settings" name="execute">
+        <value
+            model="res.config.settings"
+            search="[('id', '=', ref('commission_gen_br_fiscal_doc_config_settings'))]"
+        />
+    </function> -->
+
+    <!-- Fiscal Document Type -->
+    <!-- <record
+        id="commission_document_type_id_config_settings"
+        model="res.config.settings"
+    >
+        <field name="commission_document_type_id" ref="l10n_br_fiscal.document_SE" />
+    </record>
+
+    <function model="res.config.settings" name="execute">
+        <value
+            model="res.config.settings"
+            search="[('id', '=', ref('commission_document_type_id_config_settings'))]"
+        />
+    </function> -->
+
+    <!-- Fiscal Operation -->
+    <!-- <record
+        id="commission_fiscal_operation_id_config_settings"
+        model="res.config.settings"
+    >
+        <field name="commission_fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+    </record>
+
+    <function model="res.config.settings" name="execute">
+        <value
+            model="res.config.settings"
+            search="[('id', '=', ref('commission_fiscal_operation_id_config_settings'))]"
+        />
+    </function> -->
+
+    <!-- Produto -->
+    <record id="service_commission" model="product.product">
+        <field name="name">Serviço de Comissão</field>
+        <field name="categ_id" ref="product.product_category_3" />
+        <field name="type">service</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+        <field name="fiscal_type">09</field>
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
+        <field name="service_type_id" ref="l10n_br_fiscal.service_type_1009" />
+    </record>
+
+    <!-- <record id="commission_product_id_config_settings" model="res.config.settings">
+        <field name="commission_product_id" ref="service_commission" />
+    </record>
+
+    <function model="res.config.settings" name="execute">
+        <value
+            model="res.config.settings"
+            search="[('id', '=', ref('commission_product_id_config_settings'))]"
+        />
+    </function> -->
+
+
+</odoo>

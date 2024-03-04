@@ -53,14 +53,11 @@ class AccountPaymentOrder(models.Model):
         help="Campo G029 do CNAB",
     )
 
-    code_convetion = fields.Char(
-        related="payment_mode_id.code_convetion",
-        help="Campo G007 do CNAB",
+    cnab_company_bank_code = fields.Char(
+        related="payment_mode_id.cnab_company_bank_code",
     )
 
-    code_convenio_lider = fields.Char(
-        string="Convênio Líder", related="payment_mode_id.code_convenio_lider"
-    )
+    convention_code = fields.Char(related="payment_mode_id.convention_code")
 
     indicative_form_payment = fields.Selection(
         selection=INDICATIVO_FORMA_PAGAMENTO,

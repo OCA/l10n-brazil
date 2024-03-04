@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-28 16:51+0000\n"
+"PO-Revision-Date: 2024-02-19 13:53+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -20,6 +20,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
 msgid "<span class=\"o_form_label\">Brazilian CNPJ service API</span>"
 msgstr "<span class=\"o_form_label\">API de Serviço do CNPJ Brasileiro</span>"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Address"
+msgstr ""
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
@@ -39,6 +44,7 @@ msgstr "Básica"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_company_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "CNPJ"
 msgstr "CNPJ"
 
@@ -50,6 +56,46 @@ msgstr "Provedor de Pesquisa de CNPJ"
 #. module: l10n_br_cnpj_search
 #: model:ir.model,name:l10n_br_cnpj_search.model_l10n_br_cnpj_search_webservice_abstract
 msgid "CNPJ Webservice"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_partner_search_wizard
+msgid "CNPJ based search wizard allowing to update partner data."
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "CNPJ data was obtained through the webservice:"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__child_ids
+msgid "Child"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__city_id
+msgid "City"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Close"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_main_id
+msgid "Cnae Main"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_secondary_ids
+msgid "Cnae Secondary"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnpj_cpf
+msgid "Cnpj Cpf"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
@@ -73,7 +119,7 @@ msgstr "Tipo de Empresa"
 #. module: l10n_br_cnpj_search
 #: model:ir.model,name:l10n_br_cnpj_search.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajuste de Configurações"
+msgstr "Ajustes de Configurações"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model,name:l10n_br_cnpj_search.model_res_partner
@@ -81,13 +127,49 @@ msgid "Contact"
 msgstr "Contato"
 
 #. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Contacts"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_cnpj_search_webservice_abstract__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__display_name
 msgid "Display Name"
-msgstr "Nome exibido"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__district
+msgid "District"
+msgstr "Bairro"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__email
+msgid "Email"
+msgstr "E-mail"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__serpro_schema__empresa
@@ -96,6 +178,7 @@ msgstr "Empresa"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__equity_capital
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__equity_capital
@@ -105,11 +188,27 @@ msgstr "Capital Social"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_cnpj_search_webservice_abstract__id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__id
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "IE"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Identification"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__inscr_est
+msgid "Inscr Est"
+msgstr ""
 
 #. module: l10n_br_cnpj_search
 #: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
@@ -124,6 +223,7 @@ msgstr ""
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_cnpj_search_webservice_abstract____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner____last_update
@@ -131,7 +231,23 @@ msgid "Last Modified on"
 msgstr "Última Modificação em"
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__legal_name
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__legal_nature
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__legal_nature
@@ -139,9 +255,30 @@ msgid "Legal Nature"
 msgstr "Natureza Jurídica"
 
 #. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Main CNAE"
+msgstr "CNAE Principal"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__mobile
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__mobile
 msgid "Mobile"
 msgstr "Celular"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Other Information"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__partner_id
+msgid "Partner"
+msgstr ""
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_company_form
@@ -150,10 +287,20 @@ msgid "Pesquisar CNPJ"
 msgstr "Pesquisar CNPJ"
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__phone
+msgid "Phone"
+msgstr "Telefone"
+
+#. module: l10n_br_cnpj_search
 #: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
 #, python-format
-msgid "Por favor insira o CNPJ"
-msgstr "Por favor, insira o CNPJ"
+msgid "Please enter your CNPJ"
+msgstr "Por favor digite seu CNPJ"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__provider_name
+msgid "Provider Name"
+msgstr ""
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__serpro_schema__qsa
@@ -188,6 +335,45 @@ msgid "Secondary CNAE"
 msgstr "CNAE Secundário"
 
 #. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Secundary CNAE"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__state_id
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street_name
+msgid "Street Name"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street_number
+msgid "Street Number"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street2
+msgid "Street2"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Update Partner"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__serpro_trial
 msgid "Use SERPRO Trial"
 msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__zip
+msgid "Zip"
+msgstr ""
+
+#, python-format
+#~ msgid "Por favor insira o CNPJ"
+#~ msgstr "Por favor, insira o CNPJ"

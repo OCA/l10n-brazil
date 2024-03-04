@@ -380,6 +380,7 @@ class Tax(models.Model):
             tax_dict["compute_with_tax_value"] = True
 
         tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
+        tax_dict.update({"icms_base_type": tax.icms_base_type})
 
         # DIFAL
         # TODO
@@ -387,9 +388,11 @@ class Tax(models.Model):
         if (
             cfop
             and cfop.destination == CFOP_DESTINATION_EXTERNAL
-            and operation_line.fiscal_operation_type == FISCAL_OUT
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and tax_dict.get("tax_value")
+            and operation_line.fiscal_operation_type == FISCAL_OUT
+            or operation_line.fiscal_operation_id.fiscal_type == "return_in"
+            and operation_line.fiscal_operation_type == FISCAL_IN
         ):
             icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line, ind_final

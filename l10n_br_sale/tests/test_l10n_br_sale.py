@@ -154,6 +154,9 @@ class L10nBrSaleBaseTest(SavepointCase):
         sale_order._onchange_fiscal_operation_id()
 
     def _run_sale_line_onchanges(self, sale_line):
+        # Skip when it is a display line.
+        if sale_line.display_type:
+            return
         sale_line._onchange_product_id_fiscal()
         sale_line._onchange_fiscal_operation_id()
         sale_line._onchange_fiscal_operation_line_id()
@@ -611,3 +614,29 @@ class L10nBrSaleBaseTest(SavepointCase):
                     11.43,
                     "Unexpected value for the field Other Values in Sale line.",
                 )
+
+    def test_compatible_with_international_case(self):
+        """Test of compatible with international case, create Invoice but not for Brazil."""
+        so_international = self.env.ref("sale.sale_order_2")
+        self._run_sale_order_onchanges(so_international)
+        for line in so_international.order_line:
+            line.product_id.invoice_policy = "order"
+            self._run_sale_line_onchanges(line)
+        # TODO: Em algum momento nos dados de demonstração está carregando
+        #  a Operação Fiscal, o problema não aparece quando os testes são
+        #  feitos da forma como ocorre no github, porém ao instalar o modulo
+        #  e depois rodar os testes o valor está vindo preenchido, isso não
+        #  está afetando o processo na tela e até simula o caso quando apesar
+        #  da Empresa ser do Brasil o metodo default preenche o campo mas o
+        #  usuário decide que não deve gerar Documento Fiscal e por isso apaga
+        #  a Operação Fiscal
+        so_international.fiscal_operation_id = False
+
+        so_international.action_confirm()
+        so_international._create_invoices(final=True)
+        for invoice in so_international.invoice_ids:
+            # Caso Internacional não deve ter Documento Fiscal associado
+            self.assertFalse(
+                invoice.fiscal_document_id,
+                "International case should not has Fiscal Document.",
+            )

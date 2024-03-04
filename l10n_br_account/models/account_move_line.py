@@ -19,7 +19,6 @@ from .account_move import InheritsCheckMuteLogger
 SHADOWED_FIELDS = [
     "name",
     "product_id",
-    "uom_id",
     "quantity",
     "price_unit",
 ]
@@ -61,15 +60,6 @@ class AccountMoveLine(models.Model):
     fiscal_genre_code = fields.Char(
         related="fiscal_genre_id.code",
         string="Fiscal Product Genre Code",
-    )
-
-    fiscal_tax_line_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="Originator Fiscal Tax",
-        ondelete="restrict",
-        store=True,
-        compute="_compute_tax_line_id",
-        help="Indicates that this journal item is a tax line",
     )
 
     # The following fields belong to the fiscal document line mixin
@@ -140,14 +130,15 @@ class AccountMoveLine(models.Model):
         field as required.
         """
         with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
-            super()._inherits_check()
+            res = super()._inherits_check()
         field = self._fields.get("fiscal_document_line_id")
         field.required = False  # unset the required = True assignement
+        return res
 
     @api.model
     def _shadowed_fields(self):
-        """Returns the list of shadowed fields that are synchronized
-        from the parent."""
+        """Return the list of shadowed fields that are synchronized
+        from account.move.line."""
         return SHADOWED_FIELDS
 
     @api.model
@@ -171,10 +162,12 @@ class AccountMoveLine(models.Model):
                     values.get("product_id"),
                     values.get("price_unit"),
                     values.get("quantity"),
-                    values.get("uom_id"),
+                    values.get("product_uom_id"),
                     values.get("uot_id"),
                 )
             )
+            if values.get("product_uom_id"):
+                values["uom_id"] = values["product_uom_id"]
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
             if (
@@ -231,6 +224,8 @@ class AccountMoveLine(models.Model):
         return results
 
     def write(self, values):
+        if values.get("product_uom_id"):
+            values["uom_id"] = values["product_uom_id"]
         non_dummy = self.filtered(lambda line: line.fiscal_document_line_id)
         self._inject_shadowed_fields([values])
         if values.get("move_id") and len(non_dummy) == len(self):
