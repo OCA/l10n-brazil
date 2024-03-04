@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2024-02-22 13:39+0000\n"
+"PO-Revision-Date: 2024-03-04 15:08+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -562,44 +562,44 @@ msgstr "Valor CSLL"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_cst_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_cst_id
 msgid "CST COFINS"
-msgstr ""
+msgstr "CST COFINS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_cst_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_cst_id
 msgid "CST COFINS ST"
-msgstr ""
+msgstr "CST COFINS ST"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_cst_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_cst_id
 msgid "CST ICMS"
-msgstr ""
+msgstr "CST ICMS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_cst_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_cst_id
 msgid "CST IPI"
-msgstr ""
+msgstr "CST IPI"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_cst_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_cst_id
 msgid "CST PIS"
-msgstr ""
+msgstr "CST PIS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_cst_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pisst_cst_id
 msgid "CST PIS ST"
-msgstr ""
+msgstr "CST PIS ST"
 
 #. module: l10n_br_pos
 #. openerp-web
 #: code:addons/l10n_br_pos/static/src/xml/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.xml:0
 #, python-format
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__cancel_date
@@ -728,13 +728,12 @@ msgstr ""
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_search
 msgid "Corporate name"
-msgstr ""
+msgstr "Razão Social"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_coupon_date
-#, fuzzy
 msgid "Coupon Fiscal Date"
-msgstr "Montante Fiscal"
+msgstr "Data do Cupom Fiscal"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__create_uid
@@ -786,24 +785,22 @@ msgstr "Moeda"
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__partner_id
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__customer_additional_data
-#, fuzzy
 msgid "Customer Additional Data"
-msgstr "Dados Adicionais"
+msgstr "Dados Adicionais do Cliente"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__manual_customer_additional_data
-#, fuzzy
 msgid "Customer Additional data manually entered by user"
-msgstr "Dados adicionais inseridos manualmente pelo usuário"
+msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_ii_customhouse_charges
 msgid "Customhouse Charges"
-msgstr ""
+msgstr "Encargos Alfandegários"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__printer__daruma-dr700
@@ -812,9 +809,8 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_date
-#, fuzzy
 msgid "Date"
-msgstr "Movimento de data"
+msgstr "Data"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__date_in_out
@@ -824,7 +820,7 @@ msgstr "Movimento de data"
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__refund_pos_fiscal_operation_id
 msgid "Default Return Operation"
-msgstr ""
+msgstr "Operação Padrão de Retorno"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__out_pos_fiscal_operation_id
@@ -843,6 +839,8 @@ msgid ""
 "Define if costs of Insurance, Freight and Other Costs should be informed by "
 "Line or by Total."
 msgstr ""
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
+"por Linha ou por Total."
 
 #. module: l10n_br_pos
 #: model:pos.payment.method,name:l10n_br_pos.presumido_delivery
@@ -851,14 +849,13 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__delivery_costs
-#, fuzzy
 msgid "Delivery Costs"
-msgstr "Outros Custos"
+msgstr "Custos de Entrega"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__state_edoc__denegada
 msgid "Denegada"
-msgstr ""
+msgstr "Denegada"
 
 #. module: l10n_br_pos
 #: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
@@ -869,7 +866,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_customhouse_charges
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ii_customhouse_charges
 msgid "Despesas Aduaneiras"
-msgstr ""
+msgstr "Despesas Aduaneiras"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__detailed_document_type_id
@@ -889,7 +886,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__certificate_nfe_id
 msgid "Digital certificate"
-msgstr ""
+msgstr "Certificado Digital"
 
 #. module: l10n_br_pos
 #: model:pos.payment.method,name:l10n_br_pos.presumido_dinheiro
@@ -900,7 +897,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__discount_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__discount_value
 msgid "Discount Value"
-msgstr "Valor do desconto"
+msgstr "Valor do Desconto"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_cfop__display_name
@@ -938,9 +935,9 @@ msgstr "Tipo de Documento"
 #. module: l10n_br_pos
 #. openerp-web
 #: code:addons/l10n_br_pos/static/src/xml/Screens/OrderManagementScreen/OrderList.xml:0
-#, fuzzy, python-format
+#, python-format
 msgid "Documento Fiscal"
-msgstr "Montante Fiscal"
+msgstr "Documento Fiscal"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__fiscal_printer_type__dummyconnection
@@ -1010,9 +1007,8 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__estimate_tax
-#, fuzzy
 msgid "Estimate Tax"
-msgstr "Valor dos Impostos Estimados"
+msgstr "Estimativa de Imposto"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_code_exception
