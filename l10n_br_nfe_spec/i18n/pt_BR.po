@@ -69,16 +69,6 @@ msgid "04"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_tpAto__08
-msgid "08"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_tpAto__10
-msgid "10"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_tenderemi__nfe40_cPais__1058
 msgid "1058"
 msgstr ""
@@ -103,7 +93,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_cUF__12
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_infcanc__nfe40_cUF__12
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_origcomb__nfe40_cUFOrig__12
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_tpAto__12
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_refnf__nfe40_cUF__12
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_refnfp__nfe40_cUF__12
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_tevento_infevento__nfe40_cOrgao__12
@@ -666,6 +655,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ac
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ac
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ac
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ac
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__ac
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__ac
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__ac
@@ -683,6 +673,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__al
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__al
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__al
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__al
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__al
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__al
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__al
@@ -700,6 +691,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__am
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__am
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__am
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__am
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__am
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__am
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__am
@@ -717,6 +709,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ap
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ap
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ap
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ap
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__ap
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__ap
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__ap
@@ -743,6 +736,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__4
 msgid "Aerea"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_tpAto__14
+msgid "Ajuste SINIEF"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -899,10 +897,16 @@ msgid "Arrendamento Mercantil"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_tpAto__12
+msgid "Autorização específica"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ba
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__ba
@@ -987,6 +991,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ce
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ce
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ce
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ce
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__ce
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__ce
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__ce
@@ -1083,6 +1088,11 @@ msgid "CNPJ do adquirente ou do encomendante"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_card__nfe40_CNPJReceb
+msgid "CNPJ do beneficiário do pagamento"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_refnf__nfe40_CNPJ
 msgid "CNPJ do emitente"
 msgstr ""
@@ -1120,6 +1130,19 @@ msgid "CNPJ do Órgão emissor"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_CNPJPag
+msgid "CNPJ transacional do pagamento"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_CNPJPag
+msgid ""
+"CNPJ transacional do pagamento - Preencher informando o CNPJ do "
+"estabelecimento onde o pagamento foi processado/transacionado/recebido "
+"quando a emissão do documento fiscal ocorrer em estabelecimento distinto"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofins__nfe40_COFINSNT
 msgid "COFINSNT"
 msgstr ""
@@ -1132,6 +1155,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofins__nfe40_COFINSQtde
 msgid "COFINSQtde"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_indProc__4
+msgid "CONFAZ"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -1157,6 +1185,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretevento_infevento__nfe40_CPFDest
 msgid "CPF Destiantário"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__nfe40_CPF
+msgid "CPF do adquirente ou do encomendante"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -1383,6 +1416,11 @@ msgid "Contribuinte isento de inscrição"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_tpAto__15
+msgid "Convênio ICMS."
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_veicprod__nfe40_cCor
 msgid "Cor do veículo"
 msgstr ""
@@ -1596,6 +1634,16 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_infprodnff__nfe40_cOperNFF
 msgid "Código da operação selecionada na NFF e relacionada ao item"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_cCredPresumido
+msgid "Código de Benefício Fiscal"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_cCredPresumido
+msgid "Código de Benefício Fiscal de Crédito Presumido na UF aplicado ao item"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2132,6 +2180,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__df
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__df
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__df
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__df
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__df
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__df
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__df
@@ -2383,6 +2432,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_dup__nfe40_dVenc
 msgid "Data de vencimento da duplicata (AAAA-MM-DD)"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_dPag
+msgid "Data do Pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2746,6 +2800,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__es
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__es
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__es
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__es
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__es
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__es
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__es
@@ -2999,6 +3054,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__go
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__go
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__go
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__go
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__go
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__go
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__go
@@ -3066,9 +3122,14 @@ msgid "Grupo com as informações NF de produtor referenciada"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model,name:l10n_br_nfe_spec.model_nfe_40_card
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_card
-msgid "Grupo de Cartões"
+msgid "Grupo de Cartões, PIX"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model,name:l10n_br_nfe_spec.model_nfe_40_card
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_card
+msgid "Grupo de Cartões, PIX, Boletos e outros Pagamentos Eletrônicos"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -3380,6 +3441,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_dest__nfe40_idEstrangeiro
 msgid "Identificador do destinatário, em caso de comprador estrangeiro"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_card__nfe40_idTermPag
+msgid "Identificador do terminal de pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4023,6 +4089,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ma
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ma
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ma
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ma
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__ma
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__ma
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__ma
@@ -4040,6 +4107,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__mg
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__mg
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__mg
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__mg
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__mg
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__mg
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__mg
@@ -4057,6 +4125,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ms
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ms
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ms
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ms
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__ms
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__ms
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__ms
@@ -4074,6 +4143,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__mt
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__mt
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__mt
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__mt
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__mt
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__mt
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__mt
@@ -4497,18 +4567,6 @@ msgid "Numero de identificação do tanque ao qual o bico está interligado"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__nfe40_nDI
-msgid "Numero do Documento"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_di__nfe40_nDI
-msgid ""
-"Numero do Documento de Importação DI/DSI/DA/DRI-E (DI/DSI/DA/DRI-E) "
-"(NT2011/004)"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_indFinal__0
 msgid "Não"
 msgstr ""
@@ -4577,12 +4635,14 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_card__nfe40_cAut
-msgid "Número de autorização da operação cartão"
+msgid "Número de autorização da operação"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_card__nfe40_cAut
-msgid "Número de autorização da operação cartão de crédito/débito"
+msgid ""
+"Número de autorização da operação com cartões, PIX, boletos e outros "
+"pagamentos eletrônicos"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4655,6 +4715,16 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_avulsa__nfe40_nDAR
 msgid "Número do Documento de Arrecadação de Receita"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__nfe40_nDI
+msgid "Número do Documento de Importação"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_di__nfe40_nDI
+msgid "Número do Documento de Importação (DI, DSI, DIRE, DUImp) (NT2011/004)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4760,12 +4830,7 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_adi__nfe40_nSeqAdic
-msgid "Número seqüencial do item dentro"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_adi__nfe40_nSeqAdic
-msgid "Número seqüencial do item dentro da Adição"
+msgid "Número seqüencial do item"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4968,7 +5033,8 @@ msgid ""
 "1 - Justiça Federal;\n"
 "2 - Justiça Estadual;\n"
 "3 - Secex/RFB;\n"
-"9 - Outros"
+"4 - CONFAZ;\n"
+"9 - Outros."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -5011,17 +5077,13 @@ msgid "Outras saídas"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_indProc__9
-msgid "Outros"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_veicprod__nfe40_tpOp__0
 msgid "Outros)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_icmspart__nfe40_CST__90
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_indProc__9
 msgid "Outros."
 msgstr ""
 
@@ -5030,6 +5092,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pa
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pa
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pa
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pa
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__pa
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__pa
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__pa
@@ -5047,6 +5110,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pb
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pb
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pb
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pb
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__pb
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__pb
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__pb
@@ -5064,6 +5128,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__pe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__pe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__pe
@@ -5081,6 +5146,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pi
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pi
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pi
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pi
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__pi
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__pi
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__pi
@@ -5118,6 +5184,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pr
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__pr
@@ -5128,6 +5195,20 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transporta__nfe40_UF__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_tveiculo__nfe40_UF__pr
 msgid "PR"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_card__nfe40_tpIntegra__1
+msgid ""
+"Pagamento integrado com o sistema de automação da empresa (Ex.: equipamento "
+"TEF, Comércio Eletrônico, POS Integrado)"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_card__nfe40_tpIntegra__2
+msgid ""
+"Pagamento não integrado com o sistema de automação da empresa (Ex.: "
+"equipamento POS Simples)."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -5273,6 +5354,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_icmsst__nfe40_pRedBCEfet
 msgid "Percentual de redução da base de cálculo efetiva."
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_pCredPresumido
+msgid "Percentual do Crédito Presumido"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -5575,6 +5661,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__rj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__rj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__rj
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__rj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__rj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__rj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__rj
@@ -5592,6 +5679,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__rn
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__rn
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__rn
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__rn
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__rn
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__rn
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__rn
@@ -5609,6 +5697,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ro
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ro
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ro
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ro
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__ro
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__ro
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__ro
@@ -5626,6 +5715,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__rr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__rr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__rr
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__rr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__rr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__rr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__rr
@@ -5643,6 +5733,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__rs
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__rs
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__rs
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__rs
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__rs
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__rs
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__rs
@@ -5691,6 +5782,11 @@ msgid ""
 "Referencia uma NF-e (modelo 55) emitida anteriormente pela sua Chave de "
 "Acesso com código numérico zerado, permitindo manter o sigilo da NF-e "
 "referenciada."
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_tpAto__10
+msgid "Regime Especial"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -5766,6 +5862,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__sc
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__sc
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__sc
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__sc
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__sc
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__sc
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__sc
@@ -5783,6 +5880,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__se
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__se
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__se
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__se
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__se
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__se
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__se
@@ -5805,6 +5903,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__sp
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__sp
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__sp
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__sp
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__sp
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__sp
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__sp
@@ -5980,6 +6079,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__to
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__to
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__to
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__to
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFDesemb__to
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_UFTerceiro__to
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_exporta__nfe40_UFSaidaPais__to
@@ -6016,6 +6116,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_infrec__nfe40_tMed
 msgid "Tempo médio de resposta do serviço (em segundos) dos últimos 5 minutos"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_tpAto__08
+msgid "Termo de Acordo"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -6129,11 +6234,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_card__nfe40_tpIntegra
 msgid ""
 "Tipo de Integração do processo de pagamento com o sistema de automação da "
-"empresa/ \n"
-"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t1=Pagamento integrado com o sistema de "
-"automação da empresa Ex. equipamento TEF , Comercio Eletronico\n"
-"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t2=Pagamento não integrado com o sistema de "
-"automação da empresa Ex: equipamento POS"
+"empresa:\n"
+"1 - Pagamento integrado com o sistema de automação da empresa (Ex.: "
+"equipamento TEF, Comércio Eletrônico, POS Integrado);\n"
+"2 - Pagamento não integrado com o sistema de automação da empresa (Ex.: "
+"equipamento POS Simples)."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -6195,9 +6300,11 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t\t\t\t\t\tPara origem do Processo na SEFAZ (indProc=0), "
 "informar o\n"
 "tipo de ato concessório:\n"
-"08=Termo de Acordo;\n"
-"10=Regime Especial;\n"
-"12=Autorização específica;"
+"08 - Termo de Acordo;\n"
+"10 - Regime Especial;\n"
+"12 - Autorização específica;\n"
+"14 - Ajuste SINIEF;\n"
+"15 - Convênio ICMS."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -6292,6 +6399,18 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_origcomb__nfe40_cUFOrig
 msgid "UF de origem do produtor ou do importado"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_UFPag
+msgid "UF do CNPJ do estabelecimento onde"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_UFPag
+msgid ""
+"UF do CNPJ do estabelecimento onde o pagamento foi processado/transacionado/"
+"recebido."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -6713,6 +6832,11 @@ msgid "Valor do COFINS sobre serviços"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_vCredPresumido
+msgid "Valor do Crédito Presumido"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_vDesc
 msgid "Valor do Desconto"
 msgstr ""
@@ -6885,7 +7009,7 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_adi__nfe40_vDescDI
-msgid "Valor do desconto do item da DI – adição"
+msgid "Valor do desconto do item"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -7090,7 +7214,8 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_di__nfe40_tpViaTransp
 msgid ""
-"Via de transporte internacional informada na DI\n"
+"Via de transporte internacional informada na DI ou na Declaração Única de "
+"Importação (DUImp):\n"
 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-"
 "Postal;6-Ferroviaria;7-Rodoviaria;8-Conduto;9-Meios Proprios;10-Entrada/"
 "Saida Ficta;\n"
