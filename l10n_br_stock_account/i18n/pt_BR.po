@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2024-02-22 13:39+0000\n"
+"PO-Revision-Date: 2024-03-04 15:08+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -429,7 +429,7 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__discount_value
 msgid "Discount Value"
-msgstr ""
+msgstr "Valor do Desconto"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_group__display_name
@@ -446,7 +446,7 @@ msgstr "Nome Exibido"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__estimate_tax
 msgid "Estimate Tax"
-msgstr ""
+msgstr "Estimativa de Imposto"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.l10n_br_stock_account_res_company_form
