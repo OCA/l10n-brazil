@@ -42,7 +42,7 @@ class ResCompany(spec_models.SpecModel):
         readonly=False,
     )
 
-    nfe40_choice6 = fields.Selection(
+    nfe40_choice_emit = fields.Selection(
         [("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
         string="CNPJ ou CPF?",
         compute="_compute_nfe_data",
@@ -135,9 +135,9 @@ class ResCompany(spec_models.SpecModel):
         # compute because a simple related field makes the match_record fail
         for rec in self:
             if rec.partner_id.is_company:
-                rec.nfe40_choice6 = "nfe40_CNPJ"
+                rec.nfe40_choice_emit = "nfe40_CNPJ"
             else:
-                rec.nfe40_choice6 = "nfe40_CPF"
+                rec.nfe40_choice_emit = "nfe40_CPF"
 
     def _build_attr(self, node, fields, vals, path, attr):
         if attr[0] == "enderEmit" and self.env.context.get("edoc_type") == "in":
