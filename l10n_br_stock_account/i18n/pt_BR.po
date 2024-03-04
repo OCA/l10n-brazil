@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2024-03-04 15:08+0000\n"
+"PO-Revision-Date: 2024-03-04 16:10+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -457,7 +457,7 @@ msgstr "Estoque"
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Extra Info"
-msgstr ""
+msgstr "Informação Extra"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_value_wh
@@ -599,7 +599,7 @@ msgstr "Base para ICMS"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_base_type
 msgid "ICMS Base Type"
-msgstr "Tipo base do ICMS"
+msgstr "Tipo da Base do ICMS"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_cst_code
