@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-04 15:08+0000\n"
+"PO-Revision-Date: 2024-03-04 16:10+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -456,7 +456,7 @@ msgstr "Estimativa de Imposto"
 #. module: l10n_br_sale_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
 msgid "Extra Info"
-msgstr "Informações Extras"
+msgstr "Informação Extra"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcp_value_wh
@@ -466,12 +466,12 @@ msgstr "FCP WH"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcp_wh_percent
 msgid "FCP WH %"
-msgstr "FCP WH %"
+msgstr "% FCP WH"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcp_base_wh
 msgid "FCP WH Base"
-msgstr "Base de FCP WH"
+msgstr "Base para FCP WH"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__ind_final
@@ -488,12 +488,12 @@ msgstr "Valor do Desconto Financeiro"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_additional_data
 msgid "Fiscal Additional Data"
-msgstr "Dados Fiscais Adicionais"
+msgstr "Dados Adicionais Fiscais"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
-msgstr "Dados Fiscais Adicionais inseridos manualmente pelo usuário"
+msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_operation_type
@@ -539,7 +539,7 @@ msgstr "Quantidade de Unidade Tributária Entregue"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__force_compute_delivery_costs_by_total
 msgid "Force Compute Delivery Costs By Total"
-msgstr "Forçar o Cálculo dos Custos de Entrega por Total"
+msgstr "Forçar Cálculo de Custos de Entrega por Total"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_freight_value
@@ -555,43 +555,43 @@ msgstr "Valor Bruto"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_percent
 msgid "ICMS %"
-msgstr "ICMS %"
+msgstr "% ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_reduction
 msgid "ICMS % Reduction"
-msgstr "Redução de ICMS %"
+msgstr "% de Redução de ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icms_base
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_base
 msgid "ICMS Base"
-msgstr "Base de ICMS"
+msgstr "Base para ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_base_type
 msgid "ICMS Base Type"
-msgstr "Tipo de Base de ICMS"
+msgstr "Tipo da Base do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_cst_code
 msgid "ICMS CST Code"
-msgstr "Código CST de ICMS"
+msgstr "Código CST do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_destination_value
 msgid "ICMS Dest. Value"
-msgstr "Valor de ICMS do Destino"
+msgstr "Valor do Dest. ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_destination_base
 msgid "ICMS Destination Base"
-msgstr "Base de ICMS do Destino"
+msgstr "Base de Destino do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icms_destination_value
 msgid "ICMS Destination Value"
-msgstr "Valor de ICMS do Destino"
+msgstr "Valor Destino ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_effective_value
@@ -601,111 +601,111 @@ msgstr "ICMS Efetivo"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_effective_percent
 msgid "ICMS Effective %"
-msgstr "ICMS Efetivo %"
+msgstr "% ICMS Efetivo"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_effective_reduction
 msgid "ICMS Effective % Reduction"
-msgstr "Redução de ICMS Efetivo %"
+msgstr "% de Redução ICMS Efetivo"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_effective_base
 msgid "ICMS Effective Base"
-msgstr "Base de ICMS Efetivo"
+msgstr "Base para ICMS Efetivo"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_destination_percent
 msgid "ICMS External %"
-msgstr "ICMS Externo %"
+msgstr "% ICMS Externo"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcp_percent
 msgid "ICMS FCP %"
-msgstr "ICMS FCP %"
+msgstr "% ICMS FCP"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmsfcp_base
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcp_base
 msgid "ICMS FCP Base"
-msgstr "Base de ICMS FCP"
+msgstr "Base para ICMS FCP"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcpst_value
 msgid "ICMS FCP ST Value"
-msgstr "Valor de ICMS FCP ST"
+msgstr "Valor ICMS FCP ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmsfcp_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcp_value
 msgid "ICMS FCP Value"
-msgstr "Valor de ICMS FCP"
+msgstr "Valor do ICMS FCP"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_origin_percent
 msgid "ICMS Internal %"
-msgstr "ICMS Interno %"
+msgstr "% ICMS Interno"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_origin
 msgid "ICMS Origin"
-msgstr "ICMS de Origem"
+msgstr "Origem do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icms_origin_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_origin_value
 msgid "ICMS Origin Value"
-msgstr "Valor de ICMS de Origem"
+msgstr "Valor do ICMS de Origem"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_relief_id
 msgid "ICMS Relief"
-msgstr "Alívio de ICMS"
+msgstr "Alívio do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_relief_value
 msgid "ICMS Relief Value"
-msgstr "Valor de Alívio de ICMS"
+msgstr "Valor de Alívio do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmssn_percent
 msgid "ICMS SN %"
-msgstr "ICMS SN %"
+msgstr "% ICMS SN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmssn_base
 msgid "ICMS SN Base"
-msgstr "Base de ICMS SN"
+msgstr "Base do ICMS SN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmssn_credit_value
 msgid "ICMS SN Credit"
-msgstr "Crédito de ICMS SN"
+msgstr "Crédito ICMS SN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmssn_reduction
 msgid "ICMS SN Reduction"
-msgstr "Redução de ICMS SN"
+msgstr "Redução do ICMS SN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_percent
 msgid "ICMS ST %"
-msgstr "ICMS ST %"
+msgstr "% ICMS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_reduction
 msgid "ICMS ST % Reduction"
-msgstr "Redução de ICMS ST %"
+msgstr "% Redução de ICMS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmsst_base
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_base
 msgid "ICMS ST Base"
-msgstr "Base de ICMS ST"
+msgstr "Base do ICMS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_base_type
 msgid "ICMS ST Base Type"
-msgstr "Tipo de Base de ICMS ST"
+msgstr "Tipo de Base do ICMS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_mva_percent
