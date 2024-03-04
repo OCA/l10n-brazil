@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-21 15:37+0000\n"
+"PO-Revision-Date: 2024-03-04 15:08+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -368,7 +368,7 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__city_taxation_code_id
 msgid "City Taxation Code"
-msgstr "Código de Tributação Municipal"
+msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__comment_ids
@@ -410,12 +410,12 @@ msgstr "Dados Adicionais do Cliente"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__manual_customer_additional_data
 msgid "Customer Additional data manually entered by user"
-msgstr "Dados Adicionais do Cliente inseridos manualmente pelo usuário"
+msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_ii_customhouse_charges
 msgid "Customhouse Charges"
-msgstr "Despesas Aduaneiras"
+msgstr "Encargos Alfandegários"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__delivery_costs
@@ -451,7 +451,7 @@ msgstr "Exibir Nome"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__estimate_tax
 msgid "Estimate Tax"
-msgstr "Imposto Estimado"
+msgstr "Estimativa de Imposto"
 
 #. module: l10n_br_sale_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
