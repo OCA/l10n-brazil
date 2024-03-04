@@ -140,7 +140,7 @@ msgid "Amount without discount."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_arma
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_arma
 msgid "Arma"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgid "Base de Cálculo do IRRF"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice20
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_ipitrib
 msgid "Base vBC/pIPI/qUnid/vUnid"
 msgstr ""
 
@@ -239,25 +239,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CNPJ
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe40_choice6__nfe40_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice19__nfe40_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice6__nfe40_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice8__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe40_choice_emit__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_autxml__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_dest__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_emit__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_tlocal__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_transporta__nfe40_cnpj
 msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice19
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice19
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice19
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice_transporta
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_transporta
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_transporta
 msgid "CNPJ or CPF"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice6
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_choice_emit
 msgid "CNPJ ou CPF?"
 msgstr ""
 
@@ -267,35 +266,30 @@ msgid "CNPJ/CPF"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice6
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice6
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice6
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice_emit
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_emit
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_emit
 msgid "CNPJ/CPF do Emitente"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice2
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice2
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice2
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice_tlocal
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_tlocal
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_tlocal
 msgid "CNPJ/CPF do Parceiro"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice8
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice8
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice8
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice_autxml
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_autxml
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_autxml
 msgid "CNPJ/CPF do Parceiro Autorizado"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_choice5
-msgid "CNPJ/CPF do Produtor"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice7
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice7
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice7
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice_dest
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice_dest
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice_dest
 msgid "CNPJ/CPF/idEstrangeiro"
 msgstr ""
 
@@ -305,38 +299,37 @@ msgid "CNPJ:"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice15__nfe40_cofinsaliq
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofins__nfe40_cofinsaliq
 msgid "COFINSAliq"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice15
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_cofins
 msgid "COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice15__nfe40_cofinsnt
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofins__nfe40_cofinsnt
 msgid "COFINSNT"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice15__nfe40_cofinsoutr
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofins__nfe40_cofinsoutr
 msgid "COFINSOutr"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice15__nfe40_cofinsqtde
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofins__nfe40_cofinsqtde
 msgid "COFINSQtde"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cpf
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe40_choice6__nfe40_cpf
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice19__nfe40_cpf
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cpf
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice6__nfe40_cpf
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cpf
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice8__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe40_choice_emit__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_autxml__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_dest__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_emit__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_tlocal__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_transporta__nfe40_cpf
 msgid "CPF"
 msgstr ""
 
@@ -439,7 +432,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_comb
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_comb
 msgid "Combustível"
 msgstr ""
 
@@ -1283,7 +1276,7 @@ msgid "Homologação"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice10__nfe40_icms
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_imposto__nfe40_icms
 msgid "ICMS"
 msgstr ""
 
@@ -1298,92 +1291,92 @@ msgid "ICMS Value"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice10
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_imposto
 msgid "ICMS/II/IPI ou ISSQN"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms00
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms00
 msgid "ICMS00"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms10
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms10
 msgid "ICMS10"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms20
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms20
 msgid "ICMS20"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms30
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms30
 msgid "ICMS30"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms40
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms40
 msgid "ICMS40"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms51
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms51
 msgid "ICMS51"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms60
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms60
 msgid "ICMS60"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms70
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms70
 msgid "ICMS70"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icms90
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icms90
 msgid "ICMS90"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icmspart
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmspart
 msgid "ICMSPart"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icmssn101
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn101
 msgid "ICMSSN101"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icmssn102
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn102
 msgid "ICMSSN102"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icmssn201
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn201
 msgid "ICMSSN201"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icmssn202
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn202
 msgid "ICMSSN202"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icmssn500
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn500
 msgid "ICMSSN500"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icmssn900
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn900
 msgid "ICMSSN900"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice11__nfe40_icmsst
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmsst
 msgid "ICMSST"
 msgstr ""
 
@@ -1434,22 +1427,22 @@ msgid "IPI Value"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice3__nfe40_ipint
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_tipi__nfe40_ipint
 msgid "IPINT"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice3__nfe40_ipitrib
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_tipi__nfe40_ipitrib
 msgid "IPITrib"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice3
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_tipi
 msgid "IPITrib ou IPINT"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice10__nfe40_issqn
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_imposto__nfe40_issqn
 msgid "ISSQN"
 msgstr ""
 
@@ -1939,7 +1932,7 @@ msgid "Manifestações do Destinatário Importadas"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_med
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_med
 msgid "Medicamento"
 msgstr ""
 
@@ -2160,8 +2153,8 @@ msgid "Nfe40 Autxml Infnfe"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice12
-msgid "Nfe40 Choice12"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_pis
+msgid "Nfe40 Choice Pis"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2291,7 +2284,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_nrecopi
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_nrecopi
 msgid "Número do RECOPI"
 msgstr ""
 
@@ -2328,22 +2321,22 @@ msgid "Outros Custos"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice12__nfe40_pisaliq
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pis__nfe40_pisaliq
 msgid "PISAliq"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice12__nfe40_pisnt
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pis__nfe40_pisnt
 msgid "PISNT"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice12__nfe40_pisoutr
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pis__nfe40_pisoutr
 msgid "PISOutr"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice12__nfe40_pisqtde
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pis__nfe40_pisqtde
 msgid "PISQtde"
 msgstr ""
 
@@ -2460,7 +2453,7 @@ msgid "Product Unit of Measure"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__normal
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__normal
 msgid "Produto Normal"
 msgstr ""
 
@@ -2678,22 +2671,22 @@ msgid "The partner that is doing the delivery service."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice11
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_icms
 msgid "Tipo de ICMS"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice9
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_prod
 msgid "Tipo de Produto"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice16
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_cofinsoutr
 msgid "Tipo de Tributação do COFINS"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice13
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_pisoutr
 msgid "Tipo de Tributação do PIS"
 msgstr ""
 
@@ -3127,7 +3120,7 @@ msgid "Versão do leiaute (v4.00)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_veicprod
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_veicprod
 msgid "Veículo"
 msgstr ""
 
@@ -3196,7 +3189,7 @@ msgid "erpbrasil.edoc"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_idestrangeiro
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice_dest__nfe40_idestrangeiro
 msgid "idEstrangeiro"
 msgstr ""
 
@@ -3294,7 +3287,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice16__nfe40_pcofins
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofinsoutr__nfe40_pcofins
 msgid "pCOFINS"
 msgstr ""
 
@@ -3310,7 +3303,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pIPI
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice20__nfe40_pipi
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_ipitrib__nfe40_pipi
 msgid "pIPI"
 msgstr ""
 
@@ -3320,7 +3313,7 @@ msgid "pMVAST"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice13__nfe40_ppis
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pisoutr__nfe40_ppis
 msgid "pPIS"
 msgstr ""
 
@@ -3341,43 +3334,43 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice13__nfe40_qbcprod
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice16__nfe40_qbcprod
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofinsoutr__nfe40_qbcprod
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pisoutr__nfe40_qbcprod
 msgid "qBCProd"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice20__nfe40_qunid
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_ipitrib__nfe40_qunid
 msgid "qUnid"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice4__nfe40_refcte
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice_nfref__nfe40_refcte
 msgid "refCTe"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice4__nfe40_refecf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice_nfref__nfe40_refecf
 msgid "refECF"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice4__nfe40_refnf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice_nfref__nfe40_refnf
 msgid "refNF"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice4__nfe40_refnfp
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice_nfref__nfe40_refnfp
 msgid "refNFP"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice4__nfe40_refnfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice_nfref__nfe40_refnfe
 msgid "refNFe"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_choice4
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_choice_nfref
 msgid "refNFe/refNF/refNFP/refCTe/refECF"
 msgstr ""
 
@@ -3388,15 +3381,15 @@ msgid "state"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice13__nfe40_valiqprod
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice16__nfe40_valiqprod
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofinsoutr__nfe40_valiqprod
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pisoutr__nfe40_valiqprod
 msgid "vAliqProd"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice13__nfe40_vbc
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice16__nfe40_vbc
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice20__nfe40_vbc
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofinsoutr__nfe40_vbc
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_ipitrib__nfe40_vbc
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pisoutr__nfe40_vbc
 msgid "vBC"
 msgstr ""
 
@@ -3407,7 +3400,7 @@ msgid "vICMSUFRemet"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice20__nfe40_vunid
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_ipitrib__nfe40_vunid
 msgid "vUnid"
 msgstr ""
 
