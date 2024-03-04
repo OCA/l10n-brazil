@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+    <soap:Body>
+        <nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
+            <retEnviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+                <tpAmb>2</tpAmb>
+                <verAplic>sefaz_mocked</verAplic>
+                <cStat>108</cStat>
+                <xMotivo>Serviço Paralisado Momentaneamente (curto prazo)</xMotivo>
+                <cUF>33</cUF>
+                <dhRecbto>2023-08-08T10:30:00-03:00</dhRecbto>
+            </retEnviNFe>
+        </nfeResultMsg>
+    </soap:Body>
+</soap:Envelope>
