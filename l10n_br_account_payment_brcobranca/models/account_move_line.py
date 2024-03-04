@@ -29,7 +29,9 @@ class AccountMoveLine(models.Model):
     # brcobranca/boleto/itau_spec.rb
 
     def send_payment(self):
-        # super(AccountMoveLine, self).send_payment()
+        # Desnecessario chamar o super aqui o metodo
+        # que esta chamando já verifica isso.
+
         wrapped_boleto_list = []
 
         for move_line in self:
@@ -58,7 +60,7 @@ class AccountMoveLine(models.Model):
                 "sacado_documento": move_line.partner_id.cnpj_cpf,
                 "agencia": bank_account_id.bra_number,
                 "conta_corrente": bank_account_id.acc_number,
-                "convenio": move_line.payment_mode_id.code_convetion,
+                "convenio": move_line.payment_mode_id.cnab_company_bank_code,
                 "carteira": str(move_line.payment_mode_id.boleto_wallet),
                 "nosso_numero": int(
                     "".join(i for i in move_line.own_number if i.isdigit())
@@ -85,14 +87,6 @@ class AccountMoveLine(models.Model):
                 ),
                 "instrucao1": move_line.payment_mode_id.instructions or "",
             }
-
-            # No Santander a carteira impressa no boleto é diferente da remessa.
-            if bank_account_id.bank_id.code_bc in ("033"):
-                boleto_cnab_api_data.update(
-                    {
-                        "carteira": str(move_line.payment_mode_id.boleto_wallet2),
-                    }
-                )
 
             # Instrução de Juros
             if move_line.payment_mode_id.boleto_interest_perc > 0.0:
@@ -158,6 +152,10 @@ class AccountMoveLine(models.Model):
                 )
 
             bank_account = move_line.payment_mode_id.fixed_journal_id.bank_account_id
+            # Abaixo Campos Especificos de cada caso
+
+            # 021 - BANCO DO ESTADO DO ESPIRITO SANTO
+            # 004 - BANCO INTER
             if bank_account_id.bank_id.code_bc in ("021", "004"):
                 boleto_cnab_api_data.update(
                     {
@@ -178,6 +176,18 @@ class AccountMoveLine(models.Model):
                 boleto_cnab_api_data.update(
                     {
                         "conta_corrente_dv": bank_account.acc_number_dig,
+                    }
+                )
+
+            # Campo Santander
+            if bank_account_id.bank_id.code_bc == "033":
+                # Caso Santander possui:
+                # Codigo de Transmissao tamanho 20 no 400 no 240 e 15
+                # Codigo do Convenio tamanho 7
+                # no boleto é usado o convenio
+                boleto_cnab_api_data.update(
+                    {
+                        "convenio": move_line.payment_mode_id.convention_code,
                     }
                 )
 

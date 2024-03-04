@@ -143,7 +143,6 @@
         />
     </record>
 
-
     <!-- Invoice AILOS 240 -->
     <record id="demo_invoice_payment_order_ailos_cnab240" model="account.move">
         <field name="name">Teste AILOS CNAB240</field>
@@ -155,6 +154,47 @@
         <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_ailos240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Banco Santander -->
+    <!-- 400 -->
+    <record id="demo_invoice_payment_order_santander_cnab400" model="account.move">
+        <field name="name">Teste Santander CNAB400</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_santander_400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- 240 -->
+    <record id="demo_invoice_payment_order_santander_cnab240" model="account.move">
+        <field name="name">Teste Santander CNAB240</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_santander_240" />
         <field name="instructions">TESTE Intruções Boleto</field>
         <field
             name="invoice_line_ids"
