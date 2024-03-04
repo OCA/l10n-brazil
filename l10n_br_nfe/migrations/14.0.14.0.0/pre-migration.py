@@ -39,7 +39,7 @@ _field_renames = [
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    if not openupgrade.column_exists(
+    if openupgrade.column_exists(
         env.cr, "l10n_br_fiscal_document_line", "nfe40_choice3"
     ):
         openupgrade.rename_fields(env, _field_renames)
