@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-28 01:20+0000\n"
-"PO-Revision-Date: 2024-03-04 15:08+0000\n"
+"PO-Revision-Date: 2024-03-04 16:10+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -784,7 +784,7 @@ msgstr "Base para ICMS"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icms_base_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icms_base_type
 msgid "ICMS Base Type"
-msgstr "Tipo base do ICMS"
+msgstr "Tipo da Base do ICMS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_cst_code
