@@ -106,6 +106,7 @@ class PaymentOrder(models.Model):
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
+        self.file_number = self.payment_mode_id.cnab_sequence_id.next_by_id()
 
         # see remessa fields here:
         # https://github.com/kivanio/brcobranca/blob/master/lib/brcobranca/remessa/base.rb
@@ -158,7 +159,7 @@ class PaymentOrder(models.Model):
                 bank_account_id.partner_id.cnpj_cpf
             ),
             "pagamentos": pagamentos,
-            "sequencial_remessa": self.payment_mode_id.cnab_sequence_id.next_by_id(),
+            "sequencial_remessa": self.file_number,
         }
 
         try:
