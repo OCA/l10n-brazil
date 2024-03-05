@@ -145,22 +145,6 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         values.update(fiscal_values)
 
-        # Chamar este método garante que os tax_ids sejam calculados corretamente
-        values = self._simulate_onchange_fiscal_tax_ids(values)
-
-        return values
-
-    def _simulate_onchange_fiscal_tax_ids(self, values):
-        """
-        Simulate onchange fiscal tax ids
-        :param values: dict
-        :return: dict
-        """
-        line = self.env["account.move.line"].new(values.copy())
-        line._onchange_fiscal_tax_ids()
-        new_values = line._convert_to_write(line._cache)
-        # Ensure basic values are not updated
-        values.update(new_values)
         return values
 
     def _get_move_key(self, move):
