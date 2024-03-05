@@ -3,6 +3,15 @@
 
 from odoo import api, fields, models
 
+USER_TYPE_MAP = {
+    ("outgoing", "customer"): ["sale"],
+    ("outgoing", "supplier"): ["purchase"],
+    ("outgoing", "transit"): ["sale", "purchase"],
+    ("incoming", "supplier"): ["purchase"],
+    ("incoming", "customer"): ["sale"],
+    ("incoming", "transit"): ["purchase", "sale"],
+}
+
 
 class StockMove(models.Model):
     _name = "stock.move"
@@ -69,6 +78,43 @@ class StockMove(models.Model):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs",
     )
+
+    tax_ids = fields.Many2many(
+        comodel_name="account.tax",
+        string="Taxes",
+        check_company=True,
+        help="Taxes that apply on the base amount",
+        compute="_compute_tax_ids",
+        store=True,
+    )
+
+    @api.depends("fiscal_tax_ids", "fiscal_operation_line_id")
+    def _compute_tax_ids(self):
+        for record in self:
+            # TODO: Ver na v16 ou posterior se é possível fazer esse
+            #  mapeamento do user_type no stock_picking_invoicing
+            #  para reduzir metodos duplicados
+            if record.product_id and record.fiscal_operation_line_id:
+                pick_type_code = record.picking_id.picking_type_id.code
+                if pick_type_code == "incoming":
+                    usage = record.location_id.usage
+                else:
+                    usage = record.location_dest_id.usage
+                user_type = USER_TYPE_MAP.get((pick_type_code, usage))
+
+                if user_type:
+                    # Necessario usar o with_company porque sem isso, pelo menos,
+                    # no caso dos Dados de Demonstração são criados sem o Tax IDs
+                    # porque a empresa do self.env.company vai errado
+                    tax_ids = self.fiscal_tax_ids.with_company(
+                        record.company_id
+                    ).account_taxes(
+                        user_type=user_type[0],
+                        fiscal_operation=record.fiscal_operation_id,
+                    )
+
+                if tax_ids:
+                    record.tax_ids = tax_ids
 
     @api.onchange("product_id", "product_uom", "product_uom_qty", "price_unit")
     def _onchange_product_quantity(self):
@@ -198,3 +244,17 @@ class StockMove(models.Model):
     def _compute_fiscal_price(self):
         for record in self:
             record.fiscal_price = record.price_unit
+
+    def _get_taxes(self, fiscal_position, inv_type):
+        """
+        Map product taxes based on given fiscal position
+        :param fiscal_position: account.fiscal.position recordset
+        :param inv_type: string
+        :return: account.tax recordset
+        """
+        taxes = super()._get_taxes(fiscal_position, inv_type)
+        if self.fiscal_operation_line_id:
+            # Caso Brasil
+            taxes = self.tax_ids
+
+        return taxes
