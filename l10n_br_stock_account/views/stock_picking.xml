@@ -12,6 +12,10 @@
                     name="fiscal_operation_id"
                     attrs="{'invisible': [('invoice_state', '=', 'none')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
+                <field
+                    name="ind_final"
+                    attrs="{'invisible': ['|', ('invoice_state', '=', 'none'), ('fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
             </field>
             <field name="invoice_state" position="attributes">
                 <attribute name="readonly">1</attribute>
@@ -141,19 +145,55 @@
                             </group>
                         </page>
                         <page name="fiscal_line_extra_info" string="Extra Info" />
-                        <page name="accounting" string="Accounting" />
+                        <page name="accounting" string="Accounting">
+                            <group string="Taxes">
+                                <field
+                                    name="tax_ids"
+                                    widget="many2many_tags"
+                                    options="{'no_create': True}"
+                                />
+                            </group>
+                            <group
+                                name="invoice_lines"
+                                string="Invoicing"
+                                colspan="4"
+                                groups="base.group_no_one"
+                                attrs="{'invisible': [('invoice_state', 'in', [False, 'none'])]}"
+                            >
+                                <field
+                                    name="invoice_line_ids"
+                                    readonly="1"
+                                    nolabel="1"
+                                />
+                            </group>
+                        </page>
+                        <page name="amounts" string="Amounts">
+                            <group>
+                                <group>
+                                    <field name="amount_untaxed" />
+                                    <field name="amount_fiscal" />
+                                    <field name="amount_tax" />
+                                    <field name="estimate_tax" />
+                                </group>
+                                <group>
+                                    <field name="amount_total" />
+                                    <field name="amount_tax_withholding" />
+                                    <field name="amount_taxed" />
+                                </group>
+                            </group>
+                        </page>
                     </notebook>
                 </group>
-
                 <group
                     name="invoice_lines"
                     string="Invoicing"
                     colspan="4"
                     groups="base.group_no_one"
-                    attrs="{'invisible': [('invoice_state', 'in', [False, 'none'])]}"
+                    attrs="{'invisible': ['|', ('fiscal_operation_line_id', '!=', False), ('invoice_state', 'in', [False, 'none'])]}"
                 >
                     <field name="invoice_line_ids" readonly="1" nolabel="1" />
                 </group>
+
 
             </xpath>
             <xpath expr="//page[@name='extra']/group" position="inside">
