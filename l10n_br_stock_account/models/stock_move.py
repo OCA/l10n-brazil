@@ -120,15 +120,20 @@ class StockMove(models.Model):
     def _onchange_product_quantity(self):
         """To call the method in the mixin to update
         the price and fiscal quantity."""
-        self._onchange_commercial_quantity()
+        result = self._onchange_commercial_quantity()
 
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-        if self.fiscal_operation_id.fiscal_operation_type == "out":
+        if (
+            self.fiscal_operation_id.fiscal_operation_type == "out"
+            and self.price_unit == 0.0
+        ):
             self.price_unit = self.product_id.with_company(
                 self.company_id
             ).standard_price
+
+        return result
 
     def _get_new_picking_values(self):
         """Prepares a new picking for this move as it could not be assigned to
@@ -188,8 +193,13 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-        if inv_type in ("out_invoice", "out_refund"):
+        # Mas o valor informado pelo usuário tem prioridade
+        price_unit = self.mapped("price_unit")[0]
+        if inv_type in ("out_invoice", "out_refund") and price_unit == 0.0:
             result = product.with_company(self.company_id).standard_price
+        else:
+            # Caso do Valor Informado pelo usuário tem prioridade
+            result = price_unit
 
         return result
 
@@ -203,6 +213,9 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+        # TODO: Deve ser o valor informado pelo usuário ou no
+        #  Quant deve ser registrado o preço padrão como era feito antes
+        #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.with_company(self.company_id).standard_price
 
@@ -210,9 +223,16 @@ class StockMove(models.Model):
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
+        # Metodo super altera o price_unit
+        # TODO: Isso deveria ser resolvido no metodo principal?
+        price_unit = self.price_unit
         result = super()._onchange_product_id_fiscal()
-        if self.product_id:
-            self.price_unit = self._get_price_unit()
+        # Valor informado pelo usuario tem prioridade
+        if self.product_id and price_unit == 0.0:
+            price_unit = self._get_price_unit()
+
+        self.price_unit = price_unit
+
         return result
 
     def _split(self, qty, restrict_partner_id=False):
