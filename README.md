@@ -38,7 +38,7 @@ addon | version | maintainers | summary
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 14.0.1.0.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 14.0.2.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | delivery module Brazilian Localization
 [l10n_br_delivery_nfe](l10n_br_delivery_nfe/) | 14.0.1.1.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Delivery NFe
-[l10n_br_fiscal](l10n_br_fiscal/) | 14.0.21.2.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 14.0.21.3.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_fiscal_certificate](l10n_br_fiscal_certificate/) | 14.0.1.3.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | A1 fiscal certificate management for Brazil
 [l10n_br_fiscal_closing](l10n_br_fiscal_closing/) | 14.0.1.3.0 |  | Fechamento fiscal do periodo
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 14.0.2.3.0 |  | Distribuição de documentos fiscais
@@ -46,7 +46,7 @@ addon | version | maintainers | summary
 [l10n_br_ie_search](l10n_br_ie_search/) | 14.0.1.2.0 |  | Integração com a API SintegraWS e SEFAZ
 [l10n_br_mdfe_spec](l10n_br_mdfe_spec/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | CT-e spec
 [l10n_br_mis_report](l10n_br_mis_report/) | 14.0.1.0.1 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
-[l10n_br_nfe](l10n_br_nfe/) | 14.0.14.0.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Eletronic Invoice NF-e
+[l10n_br_nfe](l10n_br_nfe/) | 14.0.14.1.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Eletronic Invoice NF-e
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 14.0.6.1.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 14.0.1.17.0 | [![gabrielcardoso21](https://github.com/gabrielcardoso21.png?size=30px)](https://github.com/gabrielcardoso21) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e
 [l10n_br_nfse_barueri](l10n_br_nfse_barueri/) | 14.0.1.0.1 | [![AndreMarcos](https://github.com/AndreMarcos.png?size=30px)](https://github.com/AndreMarcos) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![ygcarvalh](https://github.com/ygcarvalh.png?size=30px)](https://github.com/ygcarvalh) | NFS-e (Barueri)
