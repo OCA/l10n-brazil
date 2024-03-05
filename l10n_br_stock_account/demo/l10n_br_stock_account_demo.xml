@@ -496,11 +496,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
-        <!-- Campo preenchido apenas para teste porque ao Validar o Picking
-             o metodo atualiza o campo com o standard_price ou o lst_price do
-             produto dependendo do Tipo do Picking
-        -->
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="lucro_presumido-picking_1" />
         <field
@@ -529,7 +525,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="lucro_presumido-picking_1" />
         <field
@@ -582,11 +578,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
-        <!-- Campo preenchido apenas para teste porque ao Validar o Picking
-             o metodo atualiza o campo com o standard_price ou o lst_price do
-             produto dependendo do Tipo do Picking
-        -->
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="lucro_presumido-picking_2" />
         <field
@@ -615,7 +607,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="lucro_presumido-picking_2" />
         <field
@@ -668,11 +660,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
-        <!-- Campo preenchido apenas para teste porque ao Validar o Picking
-             o metodo atualiza o campo com o standard_price ou o lst_price do
-             produto dependendo do Tipo do Picking
-        -->
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="simples_nacional-picking_1" />
         <field
@@ -701,7 +689,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="simples_nacional-picking_1" />
         <field
@@ -754,11 +742,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
-        <!-- Campo preenchido apenas para teste porque ao Validar o Picking
-             o metodo atualiza o campo com o standard_price ou o lst_price do
-             produto dependendo do Tipo do Picking
-        -->
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="simples_nacional-picking_2" />
         <field
@@ -787,7 +771,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="simples_nacional-picking_2" />
         <field
