@@ -1393,16 +1393,6 @@ msgid "ICMSSN102"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn201
-msgid "ICMSSN201"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn202
-msgid "ICMSSN202"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn500
 msgid "ICMSSN500"
 msgstr ""
@@ -2188,11 +2178,6 @@ msgid "Nfe40 Autxml Infnfe"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_pis
-msgid "Nfe40 Choice Pis"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_det_infNFe_id
 msgid "Nfe40 Det Infnfe"
 msgstr ""
@@ -2358,6 +2343,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pis__nfe40_pisaliq
 msgid "PISAliq"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_pis
+msgid "PISAliq/PISQtde/PISNT/PISOutr"
 msgstr ""
 
 #. module: l10n_br_nfe
