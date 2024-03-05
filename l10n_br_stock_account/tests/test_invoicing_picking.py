@@ -292,6 +292,8 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.assertEqual(
             invoice.partner_id, self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         )
+        # Campo 'Consumidor Final' deve estar vazio
+        assert invoice.ind_final, "Error field ind_final not None"
         self.assertIn(invoice, picking.invoice_ids)
         self.assertIn(picking, invoice.picking_ids)
         nb_invoice_after = self.env["account.move"].search_count([])
@@ -315,6 +317,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             self.assertTrue(
                 line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
             )
+            assert line.ind_final, "Error field ind_final in Invoice Line not None"
 
         self.assertTrue(
             invoice.fiscal_operation_id,
