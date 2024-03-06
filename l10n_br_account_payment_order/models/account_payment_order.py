@@ -221,3 +221,21 @@ class AccountPaymentOrder(models.Model):
             return (False, False)
         else:
             return super().generate_payment_file()
+
+    def get_file_name(self, cnab_type):
+        context_today = fields.Date.context_today(self)
+        if cnab_type == "240":
+            return "CB%s%s.REM" % (
+                context_today.strftime("%d%m"),
+                str(self.file_number),
+            )
+        elif cnab_type == "400":
+            return "CB%s%02d.REM" % (
+                context_today.strftime("%d%m"),
+                self.file_number or 1,
+            )
+        elif cnab_type == "500":
+            return "PG%s%s.REM" % (
+                context_today.strftime("%d%m"),
+                str(self.file_number),
+            )
