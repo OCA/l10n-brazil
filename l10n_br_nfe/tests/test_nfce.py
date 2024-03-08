@@ -133,7 +133,9 @@ class TestNFCe(TestNFeExport):
         mock_autorizada.protocolo.infProt.xMotivo = "TESTE AUTORIZADO"
         mock_autorizada.protocolo.infProt.dhRecbto = datetime.now()
         mock_autorizada.processo_xml = b"dummy"
-        self.document_id.atualiza_status_nfe(mock_autorizada)
+        mock_autorizada.resposta = mock.MagicMock()
+        mock_autorizada.webservice = "dummy_service"
+        self.document_id._nfe_update_status_and_save_data(mock_autorizada)
 
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
         self.assertEqual(self.document_id.status_code, AUTORIZADO[0])
