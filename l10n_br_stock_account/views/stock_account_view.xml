@@ -25,12 +25,6 @@
         <field name="inherit_id" ref="stock_picking_invoicing.view_move_picking_form" />
         <field name="priority">99</field>
         <field name="arch" type="xml">
-            <field name="name" position="after">
-                <field
-                    name="quantity_done"
-                    attrs="{'readonly': [('parent.state', '!=', 'assigned')]}"
-                />
-            </field>
             <field name="invoice_state" position="attributes">
                 <attribute name="readonly">1</attribute>
                 <attribute name="force_save">1</attribute>
