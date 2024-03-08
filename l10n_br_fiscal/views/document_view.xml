@@ -118,7 +118,7 @@
                         string="Voltar p/ Em Digitação"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-secondary"
-                        attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'rejeitada')), ('document_electronic', '=', False)]}"
+                        attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'rejeitada', 'enviada')), ('document_electronic', '=', False)]}"
                     />
             <button
                         name="view_pdf"
