@@ -9,6 +9,8 @@
         <group name="fiscal_fields" invisible="1">
           <field name="currency_id" force_save="1" invisible="1" />
           <field name="fiscal_operation_type" force_save="1" invisible="1" />
+          <field name="fiscal_operation_id" force_save="1" invisible="1" />
+          <field name="fiscal_operation_line_id" force_save="1" invisible="1" />
           <field name="company_id" force_save="1" invisible="1" />
           <field name="partner_id" force_save="1" invisible="1" />
           <field name="fiscal_type" force_save="1" invisible="1" />

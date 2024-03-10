@@ -81,7 +81,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 # these will only collect (invisible) fields for onchanges:
                 (
                     ".//control[@name='fiscal_fields']...",
-                    "//group[@name='fiscal_fields']//field"),
+                    "//group[@name='fiscal_fields']//field",
+                ),
                 (
                     ".//control[@name='fiscal_taxes_fields']...",
                     "//page[@name='fiscal_taxes']//field",
