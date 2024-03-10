@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2010-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 <odoo>
 
-    <!--Search by cnpj / cpf in the SOs -->
     <record id="view_l10n_br_sale_partner_filter" model="ir.ui.view">
         <field name="name">l10n_br_sale.partner.filter</field>
         <field name="model">sale.order</field>
@@ -20,6 +25,8 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="priority">99</field>
         <field name="arch" type="xml">
+
+            <!-- order top form view extensions: -->
             <field name="amount_untaxed" position="before">
                 <field
                     name="amount_price_gross"
@@ -109,8 +116,20 @@
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
-            <xpath expr="//field[@name='order_line']/tree" position="attributes">
-                <attribute name="editable" />
+
+            <xpath expr="//field[@name='order_line']/tree" position="inside">
+                <control name="fiscal_fields" invisible="1" />
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+
+                <!-- these fields would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework.
+                -->
+                <field name="tax_framework" />
+                <field name="fiscal_operation_line_id" invisible="1" />
+                <field name="freight_value" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='analytic_tag_ids']"
@@ -119,14 +138,6 @@
                 <attribute
                     name="attrs"
                 >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
-            </xpath>
-            <xpath
-                expr="//field[@name='order_line']//form//field[@name='product_id']"
-                position="attributes"
-            >
-                <attribute name="widget">product_configurator</attribute>
-                <attribute name="force_save">1</attribute>
-                <attribute name="style">width:80%;</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='discount']"
@@ -149,16 +160,6 @@
                 position="after"
             >
                 <field
-                    name="discount"
-                    groups="!l10n_br_sale.group_discount_per_value"
-                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
-                />
-                <field
-                    name="discount_value"
-                    groups="l10n_br_sale.group_discount_per_value"
-                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
-                />
-                <field
                     name="fiscal_tax_ids"
                     widget="many2many_tags"
                     options="{'no_create': True}"
@@ -174,14 +175,98 @@
                     attrs="{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}"
                 />
             </xpath>
+
+            <!-- order bottom form view extensions: -->
+            <xpath
+                expr="//field[@name='order_line']/form//label[@for='discount']"
+                position="before"
+            >
+                <field
+                    name="discount_fixed"
+                    groups="l10n_br_sale.group_total_discount"
+                />
+                <field name="user_discount_value" invisible="1" />
+                <field name="user_total_discount" invisible="1" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="l10n_br_sale_order_form_detail" model="ir.ui.view">
+        <field name="name">l10n_br_sale.order.form.detail</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="priority">99</field>
+        <field
+            name="groups_id"
+            eval="[(4, ref('l10n_br_sale.group_so_line_fiscal_detail'))]"
+        />
+        <field name="arch" type="xml">
+            <!-- order lines tree view extensions: -->
+            <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                <attribute name="editable" />
+            </xpath>
+
+            <!-- order lines form view extensions: -->
+            <xpath
+                expr="//field[@name='order_line']//form//field[@name='product_id']"
+                position="attributes"
+            >
+                <attribute name="widget">product_configurator</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="style">width:80%;</attribute>
+            </xpath>
             <xpath expr="//field[@name='order_line']/form" position="inside">
                 <group name="fiscal_fields" invisible="1">
+                    <!-- required because of cfop_id default domain: -->
                     <field name="fiscal_operation_type" invisible="1" readonly="1" />
-                    <field name="fiscal_genre_code" invisible="1" />
-                    <field name="tax_framework" invisible="1" />
+                    <!-- required because used in domain of some next SO view fields: -->
                     <field name="tax_icms_or_issqn" invisible="1" />
                 </group>
             </xpath>
+
+            <!-- discount management: -->
+            <xpath
+                expr="//field[@name='order_line']/form//label[@for='discount']"
+                position="before"
+            >
+                <field
+                    name="discount_fixed"
+                    groups="l10n_br_sale.group_total_discount"
+                />
+                <field name="user_discount_value" invisible="1" />
+                <field name="user_total_discount" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='discount']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'readonly':['|',['user_discount_value','=',True],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//div[@name='discount']"
+                position="after"
+            >
+                <label for="discount_value" />
+                <div name="discount_value">
+                    <field
+                        name="discount_value"
+                        class="oe_inline"
+                        attrs="{'readonly':['|',['user_discount_value','=',False],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}"
+                    />
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='sale_total']" position="after">
+                <group style="width: 65%%" groups="l10n_br_sale.group_total_discount">
+                    <label for="discount_rate" />
+                    <div>
+                        <field name="discount_rate" class="oe_inline" />
+                        %%
+                    </div>
+                </group>
+            </xpath>
+
             <xpath
                 expr="//field[@name='order_line']/form//label[@for='customer_lead']"
                 position="before"
@@ -333,47 +418,6 @@
                         </group>
                     </page>
                 </notebook>
-            </xpath>
-            <xpath
-                expr="//field[@name='order_line']/form//label[@for='discount']"
-                position="before"
-            >
-                <field
-                    name="discount_fixed"
-                    groups="l10n_br_sale.group_total_discount"
-                />
-                <field name="user_discount_value" invisible="1" />
-                <field name="user_total_discount" invisible="1" />
-            </xpath>
-            <xpath
-                expr="//field[@name='order_line']/form//field[@name='discount']"
-                position="attributes"
-            >
-                <attribute
-                    name="attrs"
-                >{'readonly':['|',['user_discount_value','=',True],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}</attribute>
-            </xpath>
-            <xpath
-                expr="//field[@name='order_line']/form//div[@name='discount']"
-                position="after"
-            >
-                <label for="discount_value" />
-                <div name="discount_value">
-                    <field
-                        name="discount_value"
-                        class="oe_inline"
-                        attrs="{'readonly':['|',['user_discount_value','=',False],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}"
-                    />
-                </div>
-            </xpath>
-            <xpath expr="//group[@name='sale_total']" position="after">
-                <group style="width: 65%%" groups="l10n_br_sale.group_total_discount">
-                    <label for="discount_rate" />
-                    <div>
-                        <field name="discount_rate" class="oe_inline" />
-                        %%
-                    </div>
-                </group>
             </xpath>
         </field>
     </record>
