@@ -30,11 +30,17 @@
           <field name="fiscal_quantity" force_save="1" invisible="1" />
           <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1" />
           <field name="allow_csll_irpj" force_save="1" invisible="1" />
+          <field name="freight_value" force_save="1" invisible="1" />
+          <field name="insurance_value" force_save="1" invisible="1" />
+          <field name="other_value" force_save="1" invisible="1" />
         </group>
         <notebook>
           <field name="product_id" force_save="1" invisible="1" />
           <page name="fiscal_taxes" string="Taxes">
             <group>
+              <!-- for some reason l10n_br_account Form tests fail without
+                  repeating tax_framework here:
+              -->
               <field name="tax_framework" invisible="1" />
               <field
                                 name="tax_icms_or_issqn"
