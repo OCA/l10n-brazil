@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2010-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 <odoo>
 
-    <!--Search by cnpj / cpf in the SOs -->
     <record id="view_l10n_br_sale_partner_filter" model="ir.ui.view">
         <field name="name">l10n_br_sale.partner.filter</field>
         <field name="model">sale.order</field>
@@ -20,6 +25,8 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="priority">99</field>
         <field name="arch" type="xml">
+
+            <!-- order top form view extensions: -->
             <field name="amount_untaxed" position="before">
                 <field
                     name="amount_price_gross"
@@ -81,22 +88,38 @@
                     attrs="{'invisible': [('fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
                 />
             </field>
+
+            <!-- order lines tree view extensions: -->
             <xpath expr="//field[@name='order_line']" position="attributes">
                 <attribute
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
-            <xpath expr="//field[@name='order_line']/tree" position="attributes">
-                <attribute name="editable" />
+
+            <xpath expr="//field[@name='order_line']/tree" position="inside">
+                <control
+                    name="fiscal_fields"
+                    invisible="1"
+                /><!-- this is a dynamic fiscal fields placeholder-->
+                <control
+                    name="fiscal_taxes_fields"
+                    string="Taxes"
+                    invisible="1"
+                /><!-- this is a dynamic fiscal fields placeholder-->
+
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="freight_value" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
             </xpath>
-            <xpath
-                expr="//field[@name='order_line']//form//field[@name='product_id']"
-                position="attributes"
-            >
-                <attribute name="widget">product_configurator</attribute>
-                <attribute name="force_save">1</attribute>
-                <attribute name="style">width:80%;</attribute>
-            </xpath>
+
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='discount']"
                 position="attributes"
@@ -113,6 +136,7 @@
                     name="attrs"
                 >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
             </xpath>
+
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='price_unit']"
                 position="after"
@@ -126,6 +150,10 @@
                     name="discount_value"
                     groups="l10n_br_sale.group_discount_per_value"
                     attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
                 />
                 <field
                     name="fiscal_tax_ids"
@@ -143,11 +171,27 @@
                     attrs="{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}"
                 />
             </xpath>
+
+            <!-- order lines form view extensions:
+                (only users belonging to the l10n_br_sale.group_so_line_fiscal_detail
+                group will see this form view)
+            -->
+            <xpath
+                expr="//field[@name='order_line']//form//field[@name='product_id']"
+                position="attributes"
+            >
+                <attribute name="widget">product_configurator</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="style">width:80%;</attribute>
+            </xpath>
             <xpath expr="//field[@name='order_line']/form" position="inside">
-                <group name="fiscal_fields" invisible="1">
+                <group
+                    name="fiscal_fields"
+                    invisible="1"
+                ><!-- this is a dynamic fiscal fields placeholder-->
+                    <!-- required because of cfop_id default domain: -->
                     <field name="fiscal_operation_type" invisible="1" readonly="1" />
-                    <field name="fiscal_genre_code" invisible="1" />
-                    <field name="tax_framework" invisible="1" />
+                    <!-- required because used in domain of some next SO view fields: -->
                     <field name="tax_icms_or_issqn" invisible="1" />
                 </group>
             </xpath>
@@ -285,7 +329,10 @@
                 <notebook
                     attrs="{'invisible': ['|', ('display_type', '!=', False), ('parent.fiscal_operation_id', '=', False)]}"
                 >
-                    <page name="fiscal_taxes" string="Taxes" />
+                    <page
+                        name="fiscal_taxes"
+                        string="Taxes"
+                    /><!-- this is a dynamic fiscal fields placeholder-->
                     <page
                         string="Invoice Lines"
                         groups="base.group_no_one"
@@ -348,6 +395,7 @@
                 </notebook>
             </xpath>
 
+            <!-- order bottom form view extensions: -->
             <field name="note" position="attributes">
                 <attribute
                     name="attrs"
