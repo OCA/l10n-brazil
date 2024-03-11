@@ -211,7 +211,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         if document_serie is not None:
             move_form.document_serie = document_serie
 
-        for index, product in enumerate(products):
+        for index, product in enumerate(products or []):
             with move_form.invoice_line_ids.new() as line_form:
                 line_form.product_id = product
 
@@ -220,9 +220,10 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
 
                 if taxes:
                     line_form.tax_ids.clear()
-                    line_form.tax_ids.add(taxes)
+                    for tax in taxes:
+                        line_form.tax_ids.add(tax)
 
-        for amount in amounts:
+        for amount in amounts or []:
             with move_form.invoice_line_ids.new() as line_form:
                 line_form.name = "test line"
                 # We use account_predictive_bills_disable_prediction context key so that
