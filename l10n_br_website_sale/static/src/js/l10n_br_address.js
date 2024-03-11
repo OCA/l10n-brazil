@@ -41,15 +41,20 @@ odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
             "select[name='country_id']",
             function () {
                 var country_id = $("select[name='country_id']") || false;
-                if (country_id) {
-                    if (country_id.val() === 31) {
-                        $("input[name='city']").parent("div").hide();
-                        $("select[name='city_id']").parent("div").show();
-                    } else {
-                        $("select[name='city_id']").parent("div").hide();
-                        $("input[name='city']").parent("div").show();
+
+                ajax.jsonRpc("/shop/country_infos/" + country_id.val(), "call", {
+                    mode: $("#country_id").attr("mode"),
+                }).then(function (data) {
+                    if (data.country_code) {
+                        if (data.country_code === "BR") {
+                            $("input[name='city']").parent("div").hide();
+                            $("select[name='city_id']").parent("div").show();
+                        } else {
+                            $("select[name='city_id']").parent("div").hide();
+                            $("input[name='city']").parent("div").show();
+                        }
                     }
-                }
+                });
             }
         );
         $checkout_autoformat_selector.on(
