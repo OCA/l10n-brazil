@@ -159,14 +159,9 @@ class L10nBrWebsiteSale(WebsiteSale):
         website=True,
     )
     def country_infos(self, country, mode, **kw):
-        return dict(
-            fields=country.get_address_fields(),
-            states=[
-                (st.id, st.name, st.code)
-                for st in country.get_website_sale_states(mode=mode)
-            ],
-            phone_code=country.phone_code,
-        )
+        res = super().country_infos(country, mode, **kw)
+        res["country_code"] = country.code
+        return res
 
     @http.route(
         ['/shop/state_infos/<model("res.country.state"):state>'],
