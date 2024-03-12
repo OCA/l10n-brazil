@@ -1747,6 +1747,7 @@ msgstr "CT-e"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_cancel_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_correction_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.invalidate_number_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_document_import_wizard_mixin_form
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -2805,6 +2806,13 @@ msgid "Document Fiscal Mixin Methods"
 msgstr "Métodos de Mixina Fiscal de Documentos"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
+#, python-format
+msgid "Document Imported"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Document Info"
 msgstr "Informações do Documento"
@@ -3205,6 +3213,11 @@ msgid "File Path"
 msgstr "Caminho do Arquivo"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard_mixin__file
+msgid "File to Import"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__ind_final
@@ -3450,6 +3463,7 @@ msgstr "Resumo de Dados fiscais do NCM e NBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_operation
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard_mixin__fiscal_operation_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_search
 msgid "Fiscal Operation"
@@ -5251,13 +5265,20 @@ msgid "Import Document"
 msgstr "Documento de Importação"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__imported_document
-msgid "Imported"
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_document_import_wizard_mixin_form
+msgid "Import Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard_mixin__importing_type
-msgid "Importing Type"
+#. odoo-python
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
+#, python-format
+msgid "Importation not implemented for %s!"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__imported_document
+msgid "Imported"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5389,6 +5410,13 @@ msgstr "Inutilização"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.invalidate_number_wizard
 msgid "Inutilização de documento fiscal"
 msgstr "Inutilização de documento fiscal"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
+#, python-format
+msgid "Invalid file!"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
@@ -9101,18 +9129,8 @@ msgid "XML"
 msgstr "XML"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_import_wizard_mixin__importing_type__xml_file
-msgid "XML File"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_event__file_response_id
 msgid "XML Response"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard_mixin__xml
-msgid "XML to Import"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9273,6 +9291,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__pis_wh
 msgid "pis_wh"
 msgstr "pis_wh"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
+#, python-format
+msgid "xsdata Python lib not installed!"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:mail.template,subject:l10n_br_fiscal.fiscal_document_change_state_template
