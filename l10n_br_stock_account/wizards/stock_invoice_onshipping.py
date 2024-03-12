@@ -94,6 +94,11 @@ class StockInvoiceOnshipping(models.TransientModel):
         # so informado quando é diferente
         if fiscal_vals["partner_id"] != values["partner_id"]:
             values["partner_shipping_id"] = fiscal_vals["partner_id"]
+            # Partner a ser usado deve ser o que é mapeado pelo metodo
+            # _get_partner_to_invoice sem isso o caso do Pedido de Vendas
+            # que tem um partner_shipping_id diferente do partner_invoice_id
+            # falha, o teste pode ser visto no modulo l10n_br_sale_stock
+            del fiscal_vals["partner_id"]
         else:
             # Já no modulo stock_picking_invoicing o campo partner_shipping_id
             # é informado mas para evitar ter a NFe com o Endereço de Entrega
