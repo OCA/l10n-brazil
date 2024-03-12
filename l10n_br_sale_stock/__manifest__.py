@@ -11,14 +11,9 @@
     "version": "14.0.1.2.1",
     "maintainers": ["renatonlima", "mbcosta"],
     "depends": [
-        "sale_stock",
         "l10n_br_sale",
         "l10n_br_stock_account",
-    ],
-    "data": [
-        "views/res_company_view.xml",
-        "views/res_config_settings_view.xml",
-        "views/sale_order_view.xml",
+        "sale_stock_picking_invoicing",
     ],
     "demo": [
         "demo/l10n_br_sale_stock_demo.xml",
