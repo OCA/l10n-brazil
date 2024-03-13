@@ -10,3 +10,4 @@ from . import test_nfe_xml_validation
 from . import test_res_partner
 from . import test_nfe_dfe
 from . import test_nfe_mde
+from . import test_nfe_danfe
