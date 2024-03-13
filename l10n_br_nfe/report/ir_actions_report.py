@@ -8,7 +8,7 @@ from brazilfiscalreport.danfe import Danfe, DanfeConfig, InvoiceDisplay, Margins
 from erpbrasil.edoc.pdf import base
 from lxml import etree
 
-from odoo import _, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -82,9 +82,7 @@ class IrActionsReport(models.Model):
             tmpLogo.seek(0)
         else:
             tmpLogo = False
-
-        danfe_invoice_display = nfe.company_id.danfe_invoice_display
-        config = self._get_danfe_config(tmpLogo, danfe_invoice_display)
+        config = self._get_danfe_config(tmpLogo, nfe.company_id)
         if nfe.company_id.danfe_display_pis_cofins:
             config.display_pis_cofins = True
 
@@ -97,15 +95,20 @@ class IrActionsReport(models.Model):
 
         return danfe_file, "pdf"
 
-    def _get_danfe_config(self, tmpLogo, danfe_invoice_display):
+    @api.model
+    def _get_danfe_config(self, tmpLogo, company):
+        margins = Margins(
+            top=company.danfe_margin_top,
+            right=company.danfe_margin_right,
+            bottom=company.danfe_margin_bottom,
+            left=company.danfe_margin_left,
+        )
         danfe_config = {
             "logo": tmpLogo,
-            "margins": Margins(top=2, right=2, bottom=2, left=2),
+            "margins": margins,
         }
-
-        if danfe_invoice_display == "duplicates_only":
+        if company.danfe_invoice_display == "duplicates_only":
             danfe_config["invoice_display"] = InvoiceDisplay.DUPLICATES_ONLY
-
         return DanfeConfig(**danfe_config)
 
     def render_danfe_erpbrasil(self, nfe_xml):
