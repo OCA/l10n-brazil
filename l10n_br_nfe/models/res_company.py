@@ -7,6 +7,8 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
+    DANFE_LIBRARY,
+    DANFE_LIBRARY_DEFAULT,
     NFCE_DANFE_LAYOUT_DEFAULT,
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUT_DEFAULT,
@@ -160,6 +162,16 @@ class ResCompany(spec_models.SpecModel):
         string="CSC Code",
         help="Código CSC (Código de Segurança do Contribuinte) "
         "fornecido pela SEFAZ para a NFC-e",
+    )
+    danfe_library = fields.Selection(
+        selection=DANFE_LIBRARY,
+        default=DANFE_LIBRARY_DEFAULT,
+        help="""
+        Choose the library used for generating the DANFE
+        (Document Auxiliary for Nota Fiscal Eletrônica).
+        Options include 'erpbrasil.edoc.pdf' and 'brazil_fiscal_report'.
+        The default library is set to 'erpbrasil.edoc.pdf'.
+        """,
     )
 
     def _compute_nfe_data(self):
