@@ -187,6 +187,22 @@ class ResCompany(spec_models.SpecModel):
         help="Select whether PIS and COFINS should be displayed in DANFE.",
     )
 
+    danfe_margin_top = fields.Integer(
+        default=5, help="Top margin in mm for the DANFE layout."
+    )
+
+    danfe_margin_right = fields.Integer(
+        default=5, help="Right margin in mm for the DANFE layout."
+    )
+
+    danfe_margin_bottom = fields.Integer(
+        default=5, help="Bottom margin in mm for the DANFE layout."
+    )
+
+    danfe_margin_left = fields.Integer(
+        default=5, help="Left margin in mm for the DANFE layout."
+    )
+
     def _compute_nfe_data(self):
         # compute because a simple related field makes the match_record fail
         for rec in self:
