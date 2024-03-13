@@ -28,7 +28,11 @@ class AccountInvoice(models.Model):
             lines = move.line_ids.filtered(
                 lambda l: l.account_id.internal_type in ("receivable", "payable")
             )
-            move.financial_move_line_ids = lines.sorted()
+            # we added filtered because since odoo/odoo#156729
+            # sorted doesn't filter new records anymore and this
+            # causes issues in l10n_br_account tests for instance,
+            # see https://github.com/OCA/l10n-brazil/pull/2943#issuecomment-1988556702
+            move.financial_move_line_ids = lines.sorted().filtered("id")
 
     @api.depends("line_ids.amount_residual")
     def _compute_payments(self):
