@@ -4,3 +4,4 @@ from .hooks import post_init_hook
 from . import models
 from . import tests
 from . import wizards
+from . import report

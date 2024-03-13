@@ -11,7 +11,6 @@ from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
@@ -1286,35 +1285,21 @@ class NFe(spec_models.StackedModel):
         if not self.filtered(filter_processador_edoc_nfe):
             return super().make_pdf()
 
+        attachment_data = {
+            "name": self.document_key + ".pdf",
+            "res_model": self._name,
+            "res_id": self.id,
+            "mimetype": "application/pdf",
+            "type": "binary",
+        }
+        report = self.env.ref("l10n_br_nfe.report_danfe")
+        pdf_data = report._render_qweb_pdf(self.fiscal_line_ids.document_id.ids)
+        attachment_data["datas"] = base64.b64encode(pdf_data[0])
         file_pdf = self.file_report_id
         self.file_report_id = False
         file_pdf.unlink()
 
-        if self.authorization_file_id:
-            arquivo = self.authorization_file_id
-            xml_string = base64.b64decode(arquivo.datas).decode()
-        else:
-            arquivo = self.send_file_id
-            xml_string = base64.b64decode(arquivo.datas).decode()
-            xml_string = self.temp_xml_autorizacao(xml_string)
-
-        pdf = base.ImprimirXml.imprimir(
-            string_xml=xml_string,
-            # output_dir=self.authorization_event_id.file_path
-        )
-        # TODO: Alterar a opção output_dir para devolter também o arquivo do XML
-        # no retorno, evitando a releitura do arquivo.
-
-        self.file_report_id = self.env["ir.attachment"].create(
-            {
-                "name": self.document_key + ".pdf",
-                "res_model": self._name,
-                "res_id": self.id,
-                "datas": base64.b64encode(pdf),
-                "mimetype": "application/pdf",
-                "type": "binary",
-            }
-        )
+        self.file_report_id = self.env["ir.attachment"].create(attachment_data)
 
     def import_binding_nfe(self, binding, edoc_type="out"):
         document = (
@@ -1330,26 +1315,6 @@ class NFe(spec_models.StackedModel):
             document.issuer = "partner"
 
         return document
-
-    def temp_xml_autorizacao(self, xml_string):
-        """TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
-        root = etree.fromstring(xml_string)
-        ns = {None: "http://www.portalfiscal.inf.br/nfe"}
-        new_root = etree.Element("nfeProc", nsmap=ns)
-
-        protNFe_node = etree.Element("protNFe")
-        infProt = etree.SubElement(protNFe_node, "infProt")
-        etree.SubElement(infProt, "tpAmb").text = "2"
-        etree.SubElement(infProt, "verAplic").text = ""
-        etree.SubElement(infProt, "dhRecbto").text = None
-        etree.SubElement(infProt, "nProt").text = ""
-        etree.SubElement(infProt, "digVal").text = ""
-        etree.SubElement(infProt, "cStat").text = ""
-        etree.SubElement(infProt, "xMotivo").text = ""
-
-        new_root.append(root)
-        new_root.append(protNFe_node)
-        return etree.tostring(new_root)
 
     def _document_cancel(self, justificative):
         result = super()._document_cancel(justificative)

@@ -33,6 +33,7 @@
                             />
                           <field name="nfe_authorize_accountant_download_xml" />
                           <field name="nfe_authorize_technical_download_xml" />
+                          <field name="danfe_library" />
                       </group>
                   </group>
 
