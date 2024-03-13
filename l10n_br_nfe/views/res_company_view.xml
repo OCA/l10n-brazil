@@ -57,6 +57,26 @@
                                 string="PIS/COFINS Display"
                                 attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
                             />
+                            <field
+                                name="danfe_margin_top"
+                                string="Margin Top"
+                                attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
+                            />
+                        <field
+                                name="danfe_margin_right"
+                                string="Margin Right"
+                                attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
+                            />
+                            <field
+                                name="danfe_margin_bottom"
+                                string="Margin Bottom"
+                                attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
+                            />
+                        <field
+                                name="danfe_margin_left"
+                                string="Margin Left"
+                                attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
+                            />
                     </group>
                   </group>
               </page>
