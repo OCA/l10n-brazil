@@ -15,18 +15,6 @@ msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid ""
-"<i class=\"fa fa-chevron-left\"/>\n"
-"                            <span>Back</span>"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "<option value=\"\">Country...</option>"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
 msgid "<option value=\"\">State / Province...</option>"
 msgstr ""
 
@@ -37,19 +25,21 @@ msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
+msgid "CPF"
+msgstr ""
+
+#. module: l10n_br_website_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.address_b2b
 msgid ""
-"<span>Next</span>\n"
-"                            <i class=\"fa fa-chevron-right\"/>"
+"Changing Municipal Tax number is not allowed once document(s) have been "
+"issued for your account. Please contact us directly for this operation."
 msgstr ""
 
 #. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Bairro"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "CPF/CNPJ"
+#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.address_b2b
+msgid ""
+"Changing State Tax number is not allowed once document(s) have been issued "
+"for your account. Please contact us directly for this operation."
 msgstr ""
 
 #. module: l10n_br_website_sale
@@ -64,22 +54,12 @@ msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Complemento"
+msgid "District"
 msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Country"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Email"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Name"
+msgid "Mobile"
 msgstr ""
 
 #. module: l10n_br_website_sale
@@ -89,45 +69,19 @@ msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Pessoa Física"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Pessoa Jurídica"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid "Phone"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid ""
-"Ship to the same address\n"
-"                                    <span class=\"ship_to_other text-muted\" style=\"display: none\">\n"
-"                                        &amp;nbsp;(<i>Your shipping address\n"
-"                                        will be requested later) </i></span>"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
 msgid ""
 "State /\n"
-"                            Province"
+"                    Province"
+msgstr ""
+
+#. module: l10n_br_website_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.address_b2b
+msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
 msgid "Street"
-msgstr ""
-
-#. module: l10n_br_website_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
-msgid ""
-"Tipo de\n"
-"                            Pessoa:"
 msgstr ""
 
 #. module: l10n_br_website_sale
