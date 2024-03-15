@@ -3,6 +3,15 @@
 
 from odoo import api, fields, models
 
+USER_TYPE_MAP = {
+    ("outgoing", "customer"): ["sale"],
+    ("outgoing", "supplier"): ["purchase"],
+    ("outgoing", "transit"): ["sale", "purchase"],
+    ("incoming", "supplier"): ["purchase"],
+    ("incoming", "customer"): ["sale"],
+    ("incoming", "transit"): ["purchase", "sale"],
+}
+
 
 class StockMove(models.Model):
     _name = "stock.move"
@@ -70,19 +79,61 @@ class StockMove(models.Model):
         related="company_id.delivery_costs",
     )
 
+    tax_ids = fields.Many2many(
+        comodel_name="account.tax",
+        string="Taxes",
+        check_company=True,
+        help="Taxes that apply on the base amount",
+        compute="_compute_tax_ids",
+        store=True,
+    )
+
+    @api.depends("fiscal_tax_ids", "fiscal_operation_line_id")
+    def _compute_tax_ids(self):
+        for record in self:
+            # TODO: Ver na v16 ou posterior se é possível fazer esse
+            #  mapeamento do user_type no stock_picking_invoicing
+            #  para reduzir metodos duplicados
+            if record.product_id and record.fiscal_operation_line_id:
+                pick_type_code = record.picking_id.picking_type_id.code
+                if pick_type_code == "incoming":
+                    usage = record.location_id.usage
+                else:
+                    usage = record.location_dest_id.usage
+                user_type = USER_TYPE_MAP.get((pick_type_code, usage))
+
+                if user_type:
+                    # Necessario usar o with_company porque sem isso, pelo menos,
+                    # no caso dos Dados de Demonstração são criados sem o Tax IDs
+                    # porque a empresa do self.env.company vai errado
+                    tax_ids = self.fiscal_tax_ids.with_company(
+                        record.company_id
+                    ).account_taxes(
+                        user_type=user_type[0],
+                        fiscal_operation=record.fiscal_operation_id,
+                    )
+
+                if tax_ids:
+                    record.tax_ids = tax_ids
+
     @api.onchange("product_id", "product_uom", "product_uom_qty", "price_unit")
     def _onchange_product_quantity(self):
         """To call the method in the mixin to update
         the price and fiscal quantity."""
-        self._onchange_commercial_quantity()
+        result = self._onchange_commercial_quantity()
 
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-        if self.fiscal_operation_id.fiscal_operation_type == "out":
+        if (
+            self.fiscal_operation_id.fiscal_operation_type == "out"
+            and self.price_unit == 0.0
+        ):
             self.price_unit = self.product_id.with_company(
                 self.company_id
             ).standard_price
+
+        return result
 
     def _get_new_picking_values(self):
         """Prepares a new picking for this move as it could not be assigned to
@@ -142,8 +193,13 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-        if inv_type in ("out_invoice", "out_refund"):
+        # Mas o valor informado pelo usuário tem prioridade
+        price_unit = self.mapped("price_unit")[0]
+        if inv_type in ("out_invoice", "out_refund") and price_unit == 0.0:
             result = product.with_company(self.company_id).standard_price
+        else:
+            # Caso do Valor Informado pelo usuário tem prioridade
+            result = price_unit
 
         return result
 
@@ -157,6 +213,9 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+        # TODO: Deve ser o valor informado pelo usuário ou no
+        #  Quant deve ser registrado o preço padrão como era feito antes
+        #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.with_company(self.company_id).standard_price
 
@@ -164,9 +223,16 @@ class StockMove(models.Model):
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
+        # Metodo super altera o price_unit
+        # TODO: Isso deveria ser resolvido no metodo principal?
+        price_unit = self.price_unit
         result = super()._onchange_product_id_fiscal()
-        if self.product_id:
-            self.price_unit = self._get_price_unit()
+        # Valor informado pelo usuario tem prioridade
+        if self.product_id and price_unit == 0.0:
+            price_unit = self._get_price_unit()
+
+        self.price_unit = price_unit
+
         return result
 
     def _split(self, qty, restrict_partner_id=False):
@@ -198,3 +264,17 @@ class StockMove(models.Model):
     def _compute_fiscal_price(self):
         for record in self:
             record.fiscal_price = record.price_unit
+
+    def _get_taxes(self, fiscal_position, inv_type):
+        """
+        Map product taxes based on given fiscal position
+        :param fiscal_position: account.fiscal.position recordset
+        :param inv_type: string
+        :return: account.tax recordset
+        """
+        taxes = super()._get_taxes(fiscal_position, inv_type)
+        if self.fiscal_operation_line_id:
+            # Caso Brasil
+            taxes = self.tax_ids
+
+        return taxes
