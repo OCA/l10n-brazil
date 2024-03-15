@@ -122,6 +122,11 @@ msgid "Amount without discount."
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Amounts"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__ind_pres
 msgid "Buyer Presence"
 msgstr ""
@@ -1495,9 +1500,15 @@ msgid "Tax UoM"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__tax_ids
+msgid "Taxes that apply on the base amount"
 msgstr ""
 
 #. module: l10n_br_stock_account
