@@ -22,8 +22,15 @@
     </record>
 
     <!-- All Documents -->
-    <record id="l10n_br_fiscal.document_all_menu" model="ir.ui.menu">
-        <field name="action" ref="fiscal_invoice_all_action" />
-    </record>
+    <!-- (we keep l10n_br_fiscal.document_all_menu
+    with l10n_br_fiscal.document object for low level fiscal detail)-->
+    <menuitem
+        id="document_all_menu"
+        action="fiscal_invoice_all_action"
+        name="All Documents"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.document_sub_menu"
+        sequence="25"
+    />
 
 </odoo>
