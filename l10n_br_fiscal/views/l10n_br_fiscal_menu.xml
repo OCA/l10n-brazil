@@ -80,7 +80,7 @@
     <menuitem
         id="document_all_menu"
         action="document_all_action"
-        name="All Documents"
+        name="All low level Documents"
         groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
         parent="document_sub_menu"
         sequence="30"
