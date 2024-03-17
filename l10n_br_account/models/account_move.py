@@ -468,17 +468,17 @@ class AccountMove(models.Model):
         return action
 
     def button_draft(self):
-        for i in self.filtered(lambda d: d.document_type_id):
-            if i.state_edoc == SITUACAO_EDOC_CANCELADA:
-                if i.issuer == DOCUMENT_ISSUER_COMPANY:
+        for move in self.filtered(lambda d: d.document_type_id):
+            if move.state_edoc == SITUACAO_EDOC_CANCELADA:
+                if move.issuer == DOCUMENT_ISSUER_COMPANY:
                     raise UserError(
                         _(
                             "You can't set this document number: {} to draft "
                             "because this document is cancelled in SEFAZ"
-                        ).format(i.document_number)
+                        ).format(move.document_number)
                     )
-            if i.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
-                i.fiscal_document_id.action_document_back2draft()
+            if move.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
+                move.fiscal_document_id.action_document_back2draft()
         return super().button_draft()
 
     def action_document_send(self):
@@ -492,23 +492,23 @@ class AccountMove(models.Model):
             #     invoice.move_id.post(invoice=invoice)
 
     def action_document_cancel(self):
-        for i in self.filtered(lambda d: d.document_type_id):
-            return i.fiscal_document_id.action_document_cancel()
+        for move in self.filtered(lambda d: d.document_type_id):
+            return move.fiscal_document_id.action_document_cancel()
 
     def action_document_correction(self):
-        for i in self.filtered(lambda d: d.document_type_id):
-            return i.fiscal_document_id.action_document_correction()
+        for move in self.filtered(lambda d: d.document_type_id):
+            return move.fiscal_document_id.action_document_correction()
 
     def action_document_invalidate(self):
-        for i in self.filtered(lambda d: d.document_type_id):
-            return i.fiscal_document_id.action_document_invalidate()
+        for move in self.filtered(lambda d: d.document_type_id):
+            return move.fiscal_document_id.action_document_invalidate()
 
     def action_document_back2draft(self):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
-        for i in self.filtered(lambda d: d.document_type_id):
-            i.button_cancel()
-            i.button_draft()
+        for move in self.filtered(lambda d: d.document_type_id):
+            move.button_cancel()
+            move.button_draft()
 
     def action_post(self):
         result = super().action_post()
