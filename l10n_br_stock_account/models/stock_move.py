@@ -113,8 +113,8 @@ class StockMove(models.Model):
                         fiscal_operation=record.fiscal_operation_id,
                     )
 
-                if tax_ids:
-                    record.tax_ids = tax_ids
+                    if tax_ids:
+                        record.tax_ids = tax_ids
 
     @api.onchange("product_id", "product_uom", "product_uom_qty", "price_unit")
     def _onchange_product_quantity(self):
