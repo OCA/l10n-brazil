@@ -29,6 +29,7 @@ ICMS_SUB_TAGS = [
     "ICMSST",
     "ICMSSN101",
     "ICMSSN102",
+    "ICMSSN202",
     "ICMSSN500",
     "ICMSSN900",
 ]
