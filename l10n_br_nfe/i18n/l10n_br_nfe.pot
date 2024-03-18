@@ -1362,6 +1362,11 @@ msgid "ICMSSN102"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn202
+msgid "ICMSSN202"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn500
 msgid "ICMSSN500"
 msgstr ""
