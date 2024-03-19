@@ -6,7 +6,7 @@
     "summary": """
         Website sale localização brasileira.""",
     "version": "14.0.2.0.0",
-    "development_status": "Alpha",
+    "development_status": "Beta",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
