@@ -54,7 +54,7 @@ class FocusnfeNfse(models.AbstractModel):
     _description = "FocusNFE NFSE"
 
     def _make_focus_nfse_http_request(self, method, url, token, data=None, params=None):
-        """Performs a generic HTTP request.
+        """Perform a generic HTTP request.
 
         Args:
             method (str): The HTTP method to use (e.g., 'GET', 'POST').
@@ -80,7 +80,7 @@ class FocusnfeNfse(models.AbstractModel):
             raise UserError(_("Error communicating with NFSe service: %s" % e))
 
     def _identify_service_recipient(self, recipient):
-        """Identifies whether the service recipient is a CPF or CNPJ.
+        """Identify whether the service recipient is a CPF or CNPJ.
 
         Args:
             recipient (dict): A dictionary containing either 'cpf' or 'cnpj' keys.
@@ -96,7 +96,7 @@ class FocusnfeNfse(models.AbstractModel):
 
     @api.model
     def process_focus_nfse_document(self, edoc, ref, company, environment):
-        """Processes the electronic fiscal document.
+        """Process the electronic fiscal document.
 
         Args:
             edoc (tuple): The electronic document data.
@@ -116,7 +116,7 @@ class FocusnfeNfse(models.AbstractModel):
         )
 
     def _prepare_payload(self, rps, service, recipient, company):
-        """Constructs the NFSe payload.
+        """Construct the NFSe payload.
 
         Args:
             rps (dict): Information about the RPS.
@@ -148,7 +148,7 @@ class FocusnfeNfse(models.AbstractModel):
         }
 
     def _prepare_provider_data(self, rps, company):
-        """Constructs the provider section of the payload.
+        """Construct the provider section of the payload.
 
         Args:
             rps (dict): Information about the RPS.
@@ -164,7 +164,7 @@ class FocusnfeNfse(models.AbstractModel):
         }
 
     def _prepare_service_data(self, service, company):
-        """Constructs the service section of the payload.
+        """Construct the service section of the payload.
 
         Args:
             service (dict): Details of the service provided.
@@ -201,7 +201,7 @@ class FocusnfeNfse(models.AbstractModel):
         }
 
     def _prepare_recipient_data(self, recipient, identification):
-        """Constructs the recipient section of the payload.
+        """Construct the recipient section of the payload.
 
         Args:
             recipient (dict): Information about the service recipient.
@@ -226,7 +226,7 @@ class FocusnfeNfse(models.AbstractModel):
 
     @api.model
     def query_focus_nfse_by_rps(self, ref, complete, company, environment):
-        """Queries NFSe by RPS.
+        """Query NFSe by RPS.
 
         Args:
             ref (str): The RPS reference.
@@ -244,7 +244,7 @@ class FocusnfeNfse(models.AbstractModel):
 
     @api.model
     def cancel_focus_nfse_document(self, ref, cancel_reason, company, environment):
-        """Cancels an electronic fiscal document.
+        """Cancel an electronic fiscal document.
 
         Args:
             ref (str): The document reference.
@@ -266,19 +266,13 @@ class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
 
     def make_focus_nfse_pdf(self, content):
-        """
-        Generates a PDF for a NFSe (Nota Fiscal de Serviços Eletrônica) document using
-        Focus NFSe service.
-        If the current document has a document number, it names the file as
-        'NFS-e-[document_number].pdf', otherwise, it uses 'RPS-[rps_number].pdf'.
-        The generated PDF content is then attached to the document record as an
-        'ir.attachment'.
+        """Generate a PDF for a NFSe document using Focus NFSe service.
 
         Parameters:
-        - content: The binary content of the PDF to be attached.
+            - content: The binary content of the PDF to be attached.
 
         Returns:
-        None. Creates or updates an 'ir.attachment' record with the PDF content.
+            None. Creates or updates an 'ir.attachment' record with the PDF content.
         """
         if not self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
             return super().make_pdf()
@@ -302,17 +296,14 @@ class Document(models.Model):
                 self.file_report_id = self.env["ir.attachment"].create(vals_dict)
 
     def _serialize(self, edocs):
-        """
-        Serializes the electronic documents (edocs) for sending to the NFSe provider.
-        It extends the base serialization process by adding specific data structures
-        for the NFSe, including RPS, service, and recipient details.
+        """Serialize electronic documents (edocs) for sending to the NFSe provider.
 
         Parameters:
-        - edocs: The initial list of electronic documents to serialize.
+            - edocs: The initial list of electronic documents to serialize.
 
         Returns:
-        The updated list of serialized electronic documents, including additional
-        NFSe-specific information.
+            The updated list of serialized electronic documents, including additional
+            NFSe-specific information.
         """
         edocs = super()._serialize(edocs)
         for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
@@ -324,19 +315,14 @@ class Document(models.Model):
         return edocs
 
     def _document_export(self, pretty_print=True):
-        """
-        Prepares and exports the document's electronic information, potentially
-        triggering the generation and storage of related event records for NFSe
-        documents. It adapts the export process based on whether the document is
-        managed by the Focus NFSe provider.
+        """Prepare and export the document's electronic information.
 
         Parameters:
-        - pretty_print: A boolean indicating whether the exported data should be
-        formatted for readability.
+            - pretty_print: A boolean indicating whether the exported data should be
+            formatted for readability.
 
         Returns:
-        The result of the document export operation, which may include modifications
-        to the document's event records.
+            The result of the document export operation.
         """
         if self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
             result = super(FiscalDocument, self)._document_export()
@@ -359,18 +345,13 @@ class Document(models.Model):
         return result
 
     def _document_status(self):
-        """
-        Checks and updates the status of the NFSe document by querying the Focus NFSe
-        provider. It handles different response scenarios including authorized,
-        authorization errors, and cancellation. Updates the document record with
-        the new status and related information as needed.
+        """Check and update the status of the NFSe document.
 
         Parameters:
-        None.
+            None.
 
         Returns:
-        A string indicating the current status of the document after querying the NFSe
-        provider.
+            A string indicating the current status of the document.
         """
         result = super(FiscalDocument, self)._document_status()
         for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
@@ -437,19 +418,13 @@ class Document(models.Model):
         return result
 
     def cancel_document_focus(self):
-        """
-        Cancels a NFSe document with the Focus NFSe provider. It handles the response
-        from the provider to determine if the cancellation was successful, updating
-        the document's status and creating cancellation
-        event records as necessary.
+        """Cancel a NFSe document with the Focus NFSe provider.
 
         Parameters:
-        None.
+            None.
 
         Returns:
-        The response from the NFSe provider regarding the cancellation request. Raises
-        a UserError if the cancellation fails or if there's an unexpected response
-        status code.
+            The response regarding the cancellation request.
         """
         for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
             ref = "rps" + record.rps_number
@@ -521,18 +496,13 @@ class Document(models.Model):
                 raise UserError(_("%s - %s" % (response.status_code, json["mensagem"])))
 
     def _eletronic_document_send(self):
-        """
-        Sends the electronic document to the NFSe provider for processing. This method
-        specifically handles the interaction with the Focus NFSe service, updating the
-        document's status based on the response. It deals with authorization processing
-        statuses and handles any errors that occur during sending.
+        """Send the electronic document to the NFSe provider.
 
         Parameters:
-        None.
+            None.
 
         Returns:
-        None. Updates the document's status and may change its state based on the
-        response from the NFSe provider.
+            None. Updates the document's status based on the response.
         """
         super()._eletronic_document_send()
         for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
@@ -567,36 +537,27 @@ class Document(models.Model):
                     record._change_state(SITUACAO_EDOC_REJEITADA)
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
-        """
-        A hook method executed before changing the document's state to
-        'SITUACAO_EDOC_CANCELADA' (Cancelled).
-        It triggers the cancellation process for the NFSe document with the Focus NFSe
-        provider.
+        """Hook method before changing document's state to 'Cancelled'.
 
         Parameters:
-        - old_state: The document's previous state.
-        - new_state: The new state to which the document is transitioning.
+            - old_state: The document's previous state.
+            - new_state: The new state.
 
         Returns:
-        The result of the cancellation process, typically involving updates to event
-        records and document status.
+            The result of the cancellation process.
         """
         super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
         return self.cancel_document_focus()
 
     @api.model
     def _cron_document_status_focus(self):
-        """
-        A scheduled method to periodically check the status of sent NFSe documents. It
-        queries the status of documents in the 'enviada' state with the Focus NFSe
-        provider and updates their status accordingly.
+        """Scheduled method to check the status of sent NFSe documents.
 
         Parameters:
-        None.
+            None.
 
         Returns:
-        None. This method updates the status of each document based on the response
-        from the NFSe provider.
+            None. Updates the status of each document based on the NFSe provider's response.
         """
         records = (
             self.search([("state", "in", ["enviada"])], limit=25)
