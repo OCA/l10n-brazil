@@ -42,19 +42,22 @@ class ResCompany(models.Model):
 
     def get_focusnfe_token(self):
         """
-        Retrieves the appropriate FocusNFe API token for the current NFSe environment setting.
-        This method decides between the production and homologation (test) tokens based on the
-        'nfse_environment' field of the record.
+        Retrieve the appropriate FocusNFe API token based on the current NFSe
+        environment setting.
+        Decide between the production and homologation (test) environment tokens by
+        examining the 'nfse_environment' field of the record.
 
-        Preconditions:
-        - The method must be called on a single record (ensure_one is used to enforce this).
+        Precondition:
+        - Call this method on a single record only. The method uses ensure_one to
+        enforce this rule.
 
         Returns:
-        - str: The FocusNFe token. It returns the production token if 'nfse_environment'
-        is set to "1", otherwise, it returns the homologation token.
+        - str: The FocusNFe token. Return the production token if 'nfse_environment'
+        is set to "1"; otherwise, return the homologation token.
 
         Raises:
-        - ValueError: If called on a recordset containing more than one record.
+        - ValueError: If the method is called on a recordset containing more than one
+        record.
         """
         self.ensure_one()
         return (
