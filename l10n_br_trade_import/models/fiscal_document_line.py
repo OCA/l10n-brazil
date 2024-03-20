@@ -1,7 +1,7 @@
 # Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class FiscalDocumentLine(models.Model):
@@ -23,7 +23,9 @@ class FiscalDocumentLine(models.Model):
     def _compute_nfe40_DI(self):
         for line in self:
             if line.document_id._need_compute_nfe_tags:
-                import_declarations = line.account_line_ids.import_addition_ids.mapped("import_declaration_id")
+                import_declarations = line.account_line_ids.import_addition_ids.mapped(
+                    "import_declaration_id"
+                )
 
                 map_intermediary_type = {
                     "conta_propria": "1",
@@ -72,9 +74,13 @@ class FiscalDocumentLine(models.Model):
                         "nfe40_xLocDesemb": di.customs_clearance_location,
                         "nfe40_UFDesemb": di.customs_clearance_state_id.code,
                         "nfe40_dDesemb": di.customs_clearance_date,
-                        "nfe40_tpViaTransp": map_transportation_type[di.transportation_type],
+                        "nfe40_tpViaTransp": map_transportation_type[
+                            di.transportation_type
+                        ],
                         "nfe40_vAFRMM": di.afrmm_value,
-                        "nfe40_tpIntermedio": map_intermediary_type[di.intermediary_type],
+                        "nfe40_tpIntermedio": map_intermediary_type[
+                            di.intermediary_type
+                        ],
                         "nfe40_CNPJ": di.third_party_partner_id.cnpj_cpf,
                         "nfe40_UFTerceiro": di.third_party_partner_id.state_id.code,
                         "nfe40_cExportador": di.exporting_partner_id.id,

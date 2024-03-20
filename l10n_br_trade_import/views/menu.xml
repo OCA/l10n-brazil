@@ -5,10 +5,10 @@
         <field name="view_mode">tree,form,kanban</field>
     </record>
     <menuitem
-        id="menu_import_declaration"
-        name="Import Declaration"
-        action="action_import_declaration"
-        parent="account.menu_finance_payables"
-        sequence="10"
-    />
+    id="menu_import_declaration"
+    name="Import Declaration"
+    action="action_import_declaration"
+    parent="account.menu_finance_payables"
+    sequence="10"
+  />
 </odoo>

@@ -1,8 +1,7 @@
 # Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 
-from odoo import models, fields, api, _
-
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -10,22 +9,15 @@ class ImportDeclaration(models.Model):
     _name = "l10n_br_trade_import.declaration"
     _description = "Import Declaration"
     _rec_name = "document_number"
-    _order = 'document_date desc, document_number desc, id desc'
+    _order = "document_date desc, document_number desc, id desc"
 
-    document_number = fields.Char(
-        required=True,
-        help="Number of Import Document"
-    )
+    document_number = fields.Char(required=True, help="Number of Import Document")
 
-    document_date = fields.Date(
-        required=True,
-        help="Document Registration Date"
-    )
+    document_date = fields.Date(required=True, help="Document Registration Date")
 
     # Local de desembaraço Aduaneiro
     customs_clearance_location = fields.Char(
-        required=True,
-        help="Customs Clearance Location"
+        required=True, help="Customs Clearance Location"
     )
 
     # Estado onde ocorreu o Desembaraço Aduaneiro
@@ -33,14 +25,11 @@ class ImportDeclaration(models.Model):
         comodel_name="res.country.state",
         required=True,
         domain=[("country_id.code", "=", "BR")],
-        help="State where Customs Clearance occurred"
+        help="State where Customs Clearance occurred",
     )
 
     # Data do Desembaraço Aduaneiro
-    customs_clearance_date = fields.Date(
-        required=True,
-        help="Customs Clearance Date"
-    )
+    customs_clearance_date = fields.Date(required=True, help="Customs Clearance Date")
 
     # Via de transporte internacional informada na Declaração
     # de Importação (DI)
@@ -62,14 +51,13 @@ class ImportDeclaration(models.Model):
         ],
         required=True,
         string="International Transport Route",
-        help="International transport route reported in the Import Declaration (DI)"
+        help="International transport route reported in the Import Declaration (DI)",
     )
 
     # Valor da AFRMM - Adicional ao Frete para Renovação da
     # Marinha Mercante
     afrmm_value = fields.Float(
-        string="AFRMM",
-        help="Additional Freight for Merchant Navy Renewal"
+        string="AFRMM", help="Additional Freight for Merchant Navy Renewal"
     )
 
     # Forma de importação quanto a intermediação
@@ -81,7 +69,7 @@ class ImportDeclaration(models.Model):
         ],
         required=True,
         string="Intermediation",
-        help="Form of import regarding intermediation"
+        help="Form of import regarding intermediation",
     )
 
     # Parceiro adquirente ou encomendante
@@ -89,7 +77,7 @@ class ImportDeclaration(models.Model):
         comodel_name="res.partner",
         string="Acquirer or the Orderer",
         help="Acquirer or the Orderer Partner.\n"
-        "Required when intermediation is 'Conta e Ordem' or 'Encomenda'"
+        "Required when intermediation is 'Conta e Ordem' or 'Encomenda'",
     )
 
     # Exportador
@@ -111,19 +99,20 @@ class ImportDeclaration(models.Model):
                 di.intermediary_type in ["conta_ordem", "encomenda"]
                 and not di.third_party_partner_id
             ):
-                raise UserError(_(
-                    "When the intermediation is 'Conta e Ordem' or 'Encomenda' "
-                    "you must provide the Acquirer or Orderer's information"
-                ))
+                raise UserError(
+                    _(
+                        "When the intermediation is 'Conta e Ordem' or 'Encomenda' "
+                        "you must provide the Acquirer or Orderer's information"
+                    )
+                )
 
     @api.constrains("transportation_type", "afrmm_value")
     def _check_AFRMM_value(self):
         for di in self:
-            if (
-                di.transportation_type == "maritime"
-                and di.afrmm_value == 0
-            ):
-                raise UserError(_(
-                    "When the international transport route is 'Maritime'\n"
-                    "You must inform the AFRMM value.")
+            if di.transportation_type == "maritime" and di.afrmm_value == 0:
+                raise UserError(
+                    _(
+                        "When the international transport route is 'Maritime'\n"
+                        "You must inform the AFRMM value."
+                    )
                 )

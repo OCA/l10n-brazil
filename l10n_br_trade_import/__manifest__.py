@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "author": "Engenere," "Odoo Community Association (OCA)",
     "maintainers": ["antoniospneto", "felipemotter"],
-    "website": "https://github.com/OCA/l10n-brazil",
+    "website": "https://engenere.one",
     "version": "14.0.0.0.0",
     "development_status": "Beta",
     "depends": [

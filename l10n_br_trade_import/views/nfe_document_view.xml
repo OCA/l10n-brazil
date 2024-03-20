@@ -10,9 +10,9 @@
         <notebook position="inside">
             <page name="import_documents" string="Import Documents">
                 <field
-                        name="nfe40_DI"
-                        context="{'form_view_ref': 'l10n_br_trade_import.l10n_br_nfe_di_form_view', 'tree_view_ref': 'l10n_br_trade_import.l10n_br_nfe_di_tree_view'}"
-                    />
+            name="nfe40_DI"
+            context="{'form_view_ref': 'l10n_br_trade_import.l10n_br_nfe_di_form_view', 'tree_view_ref': 'l10n_br_trade_import.l10n_br_nfe_di_tree_view'}"
+          />
             </page>
         </notebook>
       </field>

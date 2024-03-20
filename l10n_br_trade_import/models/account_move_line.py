@@ -1,7 +1,7 @@
 # Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class AccountMoveLine(models.Model):

@@ -42,22 +42,25 @@
                             <field name="document_date" />
                             <field name="intermediary_type" />
                             <field
-                                name="third_party_partner_id"
-                                attrs="{
+                name="third_party_partner_id"
+                attrs="{
                                     'required': [('intermediary_type','in',('conta_ordem','encomenda'))],
                                     'invisible': [('intermediary_type','not in',('conta_ordem','encomenda'))]}"
-                            />
+              />
                             <field name="transportation_type" />
                             <field
-                                name="afrmm_value"
-                                attrs="{
+                name="afrmm_value"
+                attrs="{
                                     'required': [('transportation_type','=','maritime')],
                                     'invisible': [('transportation_type','!=','maritime')]}"
-                                />
+              />
                             <field name="exporting_partner_id" />
                         </group>
                         <group name="customs_clearance" string="Customs Clearance">
-                            <field name="customs_clearance_location" string="Location" />
+                            <field
+                name="customs_clearance_location"
+                string="Location"
+              />
                             <field name="customs_clearance_state_id" string="State" />
                             <field name="customs_clearance_date" string="Date" />
                         </group>
