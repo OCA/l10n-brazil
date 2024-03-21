@@ -14,13 +14,11 @@
         <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_bradesco400" />
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-05'"/>
         <field name="instructions">TESTE Intruções Boleto</field>
-        <field
-            name="invoice_line_ids"
-            eval="[
-            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
-        ]"
-        />
+        <field name="invoice_line_ids" eval="[
+            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 100.0, 'quantity': 10.0, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]" />
     </record>
 
     <!-- Invoice Itau 240 -->

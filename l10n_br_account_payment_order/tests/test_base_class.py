@@ -4,11 +4,11 @@
 
 from odoo.exceptions import UserError
 from odoo.fields import Date
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestL10nBrAccountPaymentOder(SavepointCase):
+class TestL10nBrAccountPaymentOder(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

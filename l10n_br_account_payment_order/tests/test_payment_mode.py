@@ -5,10 +5,10 @@
 import unittest
 
 from odoo.exceptions import ValidationError
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class TestPaymentMode(SavepointCase):
+class TestPaymentMode(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

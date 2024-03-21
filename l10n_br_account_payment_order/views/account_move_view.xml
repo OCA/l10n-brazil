@@ -57,7 +57,7 @@
             <!--
             domain="[('invoice_payment_state', '=', 'not_paid'), ('state', '=', 'posted')]"
             -->
-            <filter name="unpaid" position="attributes">
+            <filter name="open" position="attributes">
                 <attribute
                     name="domain"
                 >[('payment_state','!=','paid'), ('state', '=', 'posted')]</attribute>

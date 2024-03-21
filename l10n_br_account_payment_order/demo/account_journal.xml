@@ -6,7 +6,7 @@
     <record id="main_company_bank_journal" model="account.journal">
         <field name="name">Diário de Banco - Empresa Principal</field>
         <field name="code">TPO</field>
-        <field name="type">sale</field>
+        <field name="type">bank</field>
         <field name="company_id" ref="base.main_company" />
         <field name="edi_format_ids" eval="False" />
     </record>
@@ -14,8 +14,8 @@
     <!-- Account Journal for Simples Nacional -->
     <record id="simples_nacional_bank_journal" model="account.journal">
         <field name="name">Diário de Banco - Simples Nacional</field>
-        <field name="code">TPO</field>
-        <field name="type">sale</field>
+        <field name="code">TPO1</field>
+        <field name="type">bank</field>
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="edi_format_ids" eval="False" />
     </record>
@@ -23,8 +23,8 @@
     <!-- Account Journal for Lucro Presumido -->
     <record id="lucro_presumido_bank_journal" model="account.journal">
         <field name="name">Diário de Banco - Lucro Presumido</field>
-        <field name="code">TPO</field>
-        <field name="type">sale</field>
+        <field name="code">TPO2</field>
+        <field name="type">bank</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="edi_format_ids" eval="False" />
     </record>
@@ -131,7 +131,7 @@
     <record id="santander_journal" model="account.journal">
         <field name="name">Banco Santander</field>
         <field name="type">bank</field>
-        <field name="code">BNC7</field>
+        <field name="code">BNC10</field>
         <field
             name="inbound_payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"
@@ -158,7 +158,7 @@
     <!-- Diario Banco Teste -->
     <record id="l10n_br_account_payment_order-account_journal" model="account.journal">
         <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
-        <field name="code">TPO</field>
+        <field name="code">TPO4</field>
         <field name="type">sale</field>
         <field name="company_id" ref="base.main_company" />
         <field name="edi_format_ids" eval="False" />
@@ -168,7 +168,7 @@
     <record id="cheque_journal" model="account.journal">
         <field name="name">Diário Cheque</field>
         <field name="code">DCQ</field>
-        <field name="type">sale</field>
+        <field name="type">bank</field>
         <field name="company_id" ref="base.main_company" />
         <field name="edi_format_ids" eval="False" />
     </record>
