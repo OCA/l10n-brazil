@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+
+    <!-- Bank Account for Main Company -->
+    <record id="main_company_bank_bb" model="res.partner.bank">
+        <field name="acc_number">5384</field>
+        <field name="acc_number_dig">8</field>
+        <field name="bra_number">7030</field>
+        <field name="bra_number_dig">8</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_001" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco do Brasil</field>
+    </record>
+
+    <record id="main_company_bank_hsbc" model="res.partner.bank">
+        <field name="acc_number">5162</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">0100</field>
+        <field name="bra_number_dig">3</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_399" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco HSBC</field>
+    </record>
+
+    <record id="main_company_bank_itau" model="res.partner.bank">
+        <field name="acc_number">15016</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">8515</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco ITAÚ</field>
+    </record>
+
+    <record id="main_company_bank_santander" model="res.partner.bank">
+        <field name="acc_number">1333</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">0707</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_033" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco Santander</field>
+    </record>
+
+    <record id="main_company_bank_cef" model="res.partner.bank">
+        <field name="acc_number">414</field>
+        <field name="acc_number_dig">3</field>
+        <field name="bra_number">1565</field>
+        <field name="bra_number_dig">1</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_104" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Caixa Economica Federal</field>
+    </record>
+
+    <record id="main_company_bank_bradesco" model="res.partner.bank">
+        <field name="acc_number">395</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1611</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco Bradesco</field>
+    </record>
+
+    <record id="main_company_bank_nordeste" model="res.partner.bank">
+        <field name="acc_number">123</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1234</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_004" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco do Nordeste</field>
+    </record>
+
+    <record id="main_company_bank_banrisul" model="res.partner.bank">
+        <field name="acc_number">321</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1234</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_041" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">BANCO DO ESTADO DO RIO GRANDE DO SUL</field>
+    </record>
+
+    <record id="main_company_bank_banestes" model="res.partner.bank">
+        <field name="acc_number">231</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1234</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_021" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco BANESTES</field>
+    </record>
+
+    <record id="main_company_bank_sicoob" model="res.partner.bank">
+        <field name="acc_number">312</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1234</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_756" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Bsnco SICOOB</field>
+    </record>
+
+    <record id="main_company_bank_sicredi" model="res.partner.bank">
+        <field name="acc_number">331</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1234</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_748" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco Sicredi</field>
+    </record>
+
+    <!-- Bank Accounts for Simples Nacional Company -->
+    <record id="simples_nacional_bank_bb" model="res.partner.bank">
+        <field name="acc_number">5385</field>
+        <field name="acc_number_dig">8</field>
+        <field name="bra_number">7031</field>
+        <field name="bra_number_dig">8</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_001" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Banco do Brasil</field>
+    </record>
+
+    <record id="simples_nacional_bank_hsbc" model="res.partner.bank">
+        <field name="acc_number">5163</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">0101</field>
+        <field name="bra_number_dig">3</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_399" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Banco HSBC</field>
+    </record>
+
+    <record id="simples_nacional_bank_itau" model="res.partner.bank">
+        <field name="acc_number">15017</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">8516</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Banco ITAÚ</field>
+    </record>
+
+    <record id="simples_nacional_bank_santander" model="res.partner.bank">
+        <field name="acc_number">1334</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">0708</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_033" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Banco Santander</field>
+    </record>
+
+    <record id="simples_nacional_bank_cef" model="res.partner.bank">
+        <field name="acc_number">415</field>
+        <field name="acc_number_dig">3</field>
+        <field name="bra_number">1566</field>
+        <field name="bra_number_dig">1</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_104" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Caixa Economica Federal</field>
+    </record>
+
+    <record id="simples_nacional_bank_bradesco" model="res.partner.bank">
+        <field name="acc_number">396</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1612</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Banco Bradesco</field>
+    </record>
+
+    <record id="simples_nacional_bank_nordeste" model="res.partner.bank">
+        <field name="acc_number">124</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1235</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_004" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">BANCO DO NORDEST</field>
+    </record>
+
+    <record id="simples_nacional_bank_banrisul" model="res.partner.bank">
+        <field name="acc_number">322</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1235</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_041" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">BANCO DO ESTADO DO RIO GRANDE DO SUL</field>
+    </record>
+
+    <record id="simples_nacional_bank_banestes" model="res.partner.bank">
+        <field name="acc_number">232</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1235</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_021" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Banco BANESTES</field>
+    </record>
+
+    <record id="simples_nacional_bank_sicoob" model="res.partner.bank">
+        <field name="acc_number">313</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1235</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_756" />
+         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Banco SICOOB</field>
+    </record>
+
+    <record id="simples_nacional_bank_sicredi" model="res.partner.bank">
+        <field name="acc_number">332</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1235</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_748" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.simples_nacional_partner" />
+        <field name="bank_name">Banco Sicredi</field>
+    </record>
+
+
+    <!-- Bank Accounts for Lucro Presumido Company -->
+    <record id="lucro_presumido_bank_bb" model="res.partner.bank">
+        <field name="acc_number">5386</field>
+        <field name="acc_number_dig">8</field>
+        <field name="bra_number">7032</field>
+        <field name="bra_number_dig">8</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_001" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco do Brasil</field>
+    </record>
+
+    <record id="lucro_presumido_bank_hsbc" model="res.partner.bank">
+        <field name="acc_number">5164</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">0102</field>
+        <field name="bra_number_dig">3</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_399" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco HSBC</field>
+    </record>
+
+    <record id="lucro_presumido_bank_itau" model="res.partner.bank">
+        <field name="acc_number">15018</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">8517</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco ITAÚ</field>
+    </record>
+
+    <record id="lucro_presumido_bank_santander" model="res.partner.bank">
+        <field name="acc_number">1335</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">0709</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_033" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco Santander</field>
+    </record>
+
+    <record id="lucro_presumido_bank_cef" model="res.partner.bank">
+        <field name="acc_number">416</field>
+        <field name="acc_number_dig">3</field>
+        <field name="bra_number">1567</field>
+        <field name="bra_number_dig">1</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_104" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Caixa Economica Federal</field>
+    </record>
+
+    <record id="lucro_presumido_bank_bradesco" model="res.partner.bank">
+        <field name="acc_number">397</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1613</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco Bradesco</field>
+    </record>
+
+    <record id="lucro_presumido_bank_nordeste" model="res.partner.bank">
+        <field name="acc_number">125</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1236</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_004" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco do Nordeste</field>
+    </record>
+
+    <record id="lucro_presumido_bank_banrisul" model="res.partner.bank">
+        <field name="acc_number">323</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1236</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_041" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco do Estado do Rio Grande do Sul</field>
+    </record>
+
+    <record id="lucro_presumido_bank_banestes" model="res.partner.bank">
+        <field name="acc_number">233</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1236</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_021" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco BANESTES</field>
+    </record>
+
+    <record id="lucro_presumido_bank_sicoob" model="res.partner.bank">
+        <field name="acc_number">314</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1239</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_756" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco SICOOB</field>
+    </record>
+
+    <record id="lucro_presumido_bank_sicredi" model="res.partner.bank">
+        <field name="acc_number">333</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1238</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_748" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="bank_name">Banco Sicredi</field>
+    </record>
+
+    <record id="main_company_bank_unicredi" model="res.partner.bank">
+        <field name="acc_number">371</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1234</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco Unicred</field>
+    </record>
+
+    <record id="main_company_bank_test" model="res.partner.bank">
+        <field name="acc_number">372</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1235</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_001" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco do Brasil</field>
+    </record>
+
+    <record id="main_company_bank_ailos" model="res.partner.bank">
+        <field name="acc_number">373</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1236</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_085" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="base.main_partner" />
+        <field name="bank_name">Banco AILOS</field>
+    </record>
+</odoo>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="cnab_account_payment_line_tree" model="ir.ui.view">
+        <field name="name">cnab.account.payment.line.tree</field>
+        <field name="model">account.payment.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_tree"
+        />
+        <field name="arch" type="xml">
+
+            <field name="partner_id" position="before">
+                <field name="document_number" optional="show" />
+            </field>
+            <field name="communication" position="attributes">
+                <attribute name="optional">show</attribute>
+            </field>
+            <field name="name" position="after">
+                <field name="mov_instruction_code_id" />
+                <field name="barcode" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record id="cnab_view_move_line_form_inherit" model="ir.ui.view">
+        <field name="name">cnab.account.move.line.form.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <sheet position="before">
+                <header>
+                    <field name="payment_method_code" invisible="1" />
+                    <button
+                        string="Update CNAB Information"
+                        type="action"
+                        name="%(account_move_line_change_act_window)d"
+                        attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                    />
+                </header>
+            </sheet>
+            <field name="date_maturity" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'readonly': [('payment_method_code', 'in', ('400', '240', '500'))]}</attribute>
+            </field>
+            <group name="payments" position="after">
+                <group
+                    string="Informações do CNAB"
+                    attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                >
+                    <field name="cnab_state" readonly="1" />
+                    <field name="payment_situation" readonly="1" />
+                    <field name="own_number" readonly="1" />
+                    <field name="document_number" readonly="1" />
+                    <field name="mov_instruction_code_id" readonly="1" />
+                    <field name="boleto_discount_perc" />
+                    <field name="company_title_identification" readonly="1" />
+                    <field name="instructions" />
+                </group>
+                <group
+                    string="Linhas de Ordem de Pagamentos"
+                    attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                >
+                    <field name="payment_line_ids" nolabel="1">
+                        <tree>
+                            <field name="communication" />
+                            <field name="partner_bank_id" />
+                            <field name="ml_maturity_date" />
+                            <field name="date" />
+                            <field name="amount_currency" string="Amount" />
+                            <field name="currency_id" />
+                            <field name="name" />
+                            <field name="mov_instruction_code_id" />
+                            <field name="state" />
+                        </tree>
+                    </field>
+                </group>
+                <group
+                    string="Linhas de Retorno do CNAB"
+                    attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                >
+                    <field name="cnab_return_line_ids" nolabel="1">
+                        <tree>
+                            <field name="lot_id" />
+                            <field name="invoice_id" />
+                            <field name="partner_id" />
+                            <field name="occurrence_date" />
+                            <field name="real_payment_date" />
+                            <field name="segment" />
+                            <field name="own_number" />
+                            <field name="title_value" />
+                            <field name="payment_value" />
+                            <field name="tariff_charge" />
+                            <field name="occurrences" />
+                            <field name="str_motiv_a" />
+                        </tree>
+                    </field>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="cnab_view_move_line_tree_inherit" model="ir.ui.view">
+        <field name="name">cnab.account.move.line.tree.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account_due_list.view_payments_tree" />
+        <field name="priority" eval="16" />
+        <field name="arch" type="xml">
+            <field name="reconciled" position="after">
+                <button
+                    string="Update Information"
+                    type="action"
+                    name="%(account_move_line_change_act_window)d"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>
