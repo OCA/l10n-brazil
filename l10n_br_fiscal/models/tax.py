@@ -21,6 +21,7 @@ from ..constants.fiscal import (
 from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
+    ICMS_CST_RELIEF,
     ICMS_DIFAL_DOUBLE_BASE,
     ICMS_DIFAL_PARTITION,
     ICMS_DIFAL_UNIQUE_BASE,
@@ -469,7 +470,7 @@ class Tax(models.Model):
                 }
             )
 
-        if cst["code"] in ["20", "30", "40", "41", "50", "70", "90"]:
+        if cst["code"] in ICMS_CST_RELIEF:
             icms_base = kwargs.get("price_unit", 0.00) * kwargs.get("quantity", 0.00)
             icms_percent = tax_dict.get("percent_amount", 0.00) / 100
             icms_reduction = tax_dict.get("percent_reduction", 0.00) / 100
