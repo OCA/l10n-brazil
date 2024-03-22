@@ -480,21 +480,36 @@ SITUACAO_PAGAMENTO = [
 ]
 
 BOLETO_ESPECIE = [
-    ("01", "DUPLICATA MERCANTIL"),
-    ("02", "NOTA PROMISSÓRIA"),
-    ("03", "NOTA DE SEGURO"),
-    ("04", "MENSALIDADE ESCOLAR"),
-    ("05", "RECIBO"),
-    ("06", "CONTRATO"),
-    ("07", "COSSEGUROS"),
-    ("08", "DUPLICATA DE SERVIÇO"),
-    ("09", "LETRA DE CÂMBIO"),
-    ("13", "NOTA DE DÉBITOS"),
-    ("15", "DOCUMENTO DE DÍVIDA"),
-    ("16", "ENCARGOS CONDOMINIAIS"),
-    ("17", "CONTA DE PRESTAÇÃO DE SERVIÇOS"),
-    ("99", "DIVERSOS"),
+    # CODE, DESCRIPTION, SHORT NAME
+    ("01", "DUPLICATA MERCANTIL", "DM"),
+    ("02", "NOTA PROMISSÓRIA", "NP"),
+    ("03", "NOTA DE SEGURO", "NS"),
+    ("04", "MENSALIDADE ESCOLAR", "ME"),
+    ("05", "RECIBO", "REC"),
+    ("06", "CONTRATO", "CONT"),
+    ("07", "COSSEGUROS", "COSSEG"),
+    ("08", "DUPLICATA DE SERVIÇO", "DS"),
+    ("09", "LETRA DE CÂMBIO", "LC"),
+    ("13", "NOTA DE DÉBITOS", "ND"),
+    ("15", "DOCUMENTO DE DÍVIDA", "DD"),
+    ("16", "ENCARGOS CONDOMINIAIS", "EC"),
+    ("17", "CONTA DE PRESTAÇÃO DE SERVIÇOS", "CPS"),
+    ("99", "DIVERSOS", "DIV"),
 ]
+
+
+def get_boleto_especies():
+    # return the list of "boleto especie" only code and description
+    return [(code, desc) for code, desc, _ in BOLETO_ESPECIE]
+
+
+def get_boleto_especie_short_name(selected_code):
+    # return the short name of "boleto especie"
+    for code, _, short_name in BOLETO_ESPECIE:
+        if code == selected_code:
+            return short_name
+    return None
+
 
 STATE_CNAB = [
     ("draft", "Novo"),
