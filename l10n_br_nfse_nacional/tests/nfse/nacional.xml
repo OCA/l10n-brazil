@@ -6,16 +6,22 @@
     <verAplic>Odoo OCA</verAplic>
     <serie>001</serie>
     <nDPS>50</nDPS>
+    <tpEmit>1</tpEmit>
+    <cLocEmi>3132404</cLocEmi>
     <prest>
       <CNPJ>59594315000157</CNPJ>
       <IM>35172</IM>
+      <fone>(21) 3010 9965</fone>
+      <email>info@simplesnacional.example.com</email>
       <regTrib>
         <opSimpNac>1</opSimpNac>
+        <regApTribSN>1</regApTribSN>
         <regEspTrib>1</regEspTrib>
       </regTrib>
     </prest>
     <toma>
       <CNPJ>81493979000189</CNPJ>
+      <xNome>Cliente 1 SP</xNome>
       <end>
         <endNac>
           <cMun>3550308</cMun>
@@ -25,9 +31,15 @@
         <nro>135</nro>
         <xBairro>Brooklin</xBairro>
       </end>
+      <fone>(21) 3010 9965</fone>
+      <email>info@simplesnacional.example.com</email>
     </toma>
     <serv>
+      <locPrest>
+        <cLocPrestacao />
+      </locPrest>
       <cServ>
+        <cTribNac>105</cTribNac>
         <cTribMun>6311900</cTribMun>
         <xDescServ>[ODOO_DEV] Customized Odoo Development</xDescServ>
       </cServ>
@@ -43,12 +55,18 @@
         <vDR>0.0</vDR>
       </vDedRed>
       <trib>
-        <tribMun />
+        <tribMun>
+          <tribISSQN>1</tribISSQN>
+          <pAliq>0.05</pAliq>
+          <tpRetISSQN>2</tpRetISSQN>
+        </tribMun>
         <tribNac>
           <piscofins>
             <vPis>0.0</vPis>
             <vCofins>0.0</vCofins>
           </piscofins>
+          <vRetCP>0.0</vRetCP>
+          <vRetIRRF>0.0</vRetIRRF>
           <vRetCSLL>0.0</vRetCSLL>
         </tribNac>
         <totTrib>
