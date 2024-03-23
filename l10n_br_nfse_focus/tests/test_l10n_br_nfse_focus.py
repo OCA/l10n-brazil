@@ -146,20 +146,21 @@ class MockResponse:
 class TestL10nBrNfseFocus(common.TransactionCase):
     """Test class for Brazilian NFSe Focus integration."""
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         """Sets up test environment."""
-        super().setUp()
-        self.tpAmb = "2"  # Environment type: 1 for production, 2 for test
-        self.token = "123456789"  # Example token for authentication
-        self.company = self.env.ref("base.main_company")  # Reference to main company
-        self.company.focusnfe_homologation_token = self.token  # Setting company token
-        self.company.provedor_nfse = "focusnfe"  # Setting NFSe provider to focusnfe
-        self.nfse_demo = self.env.ref(
+        super().setUpClass()
+        cls.tpAmb = "2"  # Environment type: 1 for production, 2 for test
+        cls.token = "123456789"  # Example token for authentication
+        cls.company = cls.env.ref("base.main_company")  # Reference to main company
+        cls.company.focusnfe_homologation_token = cls.token  # Setting company token
+        cls.company.provedor_nfse = "focusnfe"  # Setting NFSe provider to focusnfe
+        cls.nfse_demo = cls.env.ref(
             "l10n_br_fiscal.demo_nfse_same_state"
         )  # NFSe demo document
-        self.nfse_demo.document_number = "0001"  # Setting document number
-        self.nfse_demo.rps_number = "0002"  # Setting RPS number
-        self.nfse_focus = self.env["focusnfe.nfse"]  # NFSe processing model
+        cls.nfse_demo.document_number = "0001"  # Setting document number
+        cls.nfse_demo.rps_number = "0002"  # Setting RPS number
+        cls.nfse_focus = cls.env["focusnfe.nfse"]  # NFSe processing model
 
     def test_filter_oca_nfse(self):
         """Tests filtering of NFSe documents for OCA processor."""
@@ -437,7 +438,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         )  # Asserting result message
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.document.FocusnfeNfse._make_focus_nfse_http_request"  # noqa: E501
+        "odoo.addons.l10n_br_nfse_focus.models.document.FocusnfeNfse._make_focus_nfse_http_request"  # noqa: B950
     )
     def test_cancel_document_focus_with_error(self, mock_request):
         """Tests document cancellation with simulated error."""
@@ -468,7 +469,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         )
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.document.FocusnfeNfse.process_focus_nfse_document"  # noqa: E501
+        "odoo.addons.l10n_br_nfse_focus.models.document.FocusnfeNfse.process_focus_nfse_document"  # noqa: B950
     )
     def test_eletronic_document_send(self, mock_process_focus_nfse_document):
         """Tests sending of electronic document with simulated responses."""
