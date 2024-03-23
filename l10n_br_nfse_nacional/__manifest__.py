@@ -13,7 +13,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "external_dependencies": {
         "python": [
-            "erpbrasil.assinatura",
+            "erpbrasil.assinatura>=1.7.0",
             "erpbrasil.base>=2.3.0",
             "nfelib>=2.0.0",
             "xsdata",

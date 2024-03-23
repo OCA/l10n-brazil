@@ -22,6 +22,7 @@ from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import (
     TcinfoPrestador,
     TcinfoTributacao,
     TcinfoValores,
+    TclocPrest,
     TcregTrib,
     Tcserv,
     TctribMunicipal,
@@ -41,6 +42,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     SITUACAO_EDOC_AUTORIZADA,
+    TAX_FRAMEWORK_SIMPLES_ALL,
 )
 from odoo.addons.l10n_br_fiscal.models.document import Document as FiscalDocument
 from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
@@ -128,22 +130,16 @@ class Document(models.Model):
         self.fiscal_line_ids.ensure_one()
         dados = self._prepare_dados_servico()
         return Tcserv(
-            #           locPrest=  # TODO
+            locPrest=TclocPrest(
+                cLocPrestacao=dados["municipio_prestacao_servico"],  # TODO complete
+            ),
             cServ=Tccserv(
-                # cTribNac= TODO ?
-                # dados["codigo_cnae"] TODO ?
-                # cNBS= TODO?
-                #                cTribMun=  # TODO
+                cTribNac=dados["item_lista_servico"],
                 cTribMun=dados["codigo_tributacao_municipio"],
                 xDescServ=dados["discriminacao"],
-            )
-            #   TODO ?
-            #   ItemListaServico=self.convert_type_nfselib(
-            #       tcDadosServico, "ItemListaServico", dados["item_lista_servico"]
-            #   ),
-            #   CodigoMunicipio=self.convert_type_nfselib(
-            #       tcDadosServico, "CodigoMunicipio", dados["codigo_municipio"]
-            #   ),
+                cNBS=self.fiscal_line_ids[0].product_id.nbs_id.code or None,
+                # cIntContrib= TODO
+            ),
         )
 
     def _serialize_nacional_dados_tomador(self):
@@ -151,8 +147,11 @@ class Document(models.Model):
         return TcinfoPessoa(
             CNPJ=dados["cnpj"],
             CPF=dados["cpf"],
+            # NIF= TODO
+            # cNaoNIF= TODO
+            # CAEPF= TODO
             IM=dados["inscricao_municipal"],
-            #            RazaoSocial? dados["razao_social"] ?
+            xNome=self.partner_id.legal_name,
             end=Tcendereco(
                 endNac=TcenderNac(
                     cMun=dados["codigo_municipio"],
@@ -164,36 +163,58 @@ class Document(models.Model):
                 xCpl=dados["complemento"],
                 xBairro=dados["bairro"],
             ),
+            fone=self.company_id.partner_id.mobile or self.company_id.partner_id.phone,
+            email=self.company_id.partner_id.email,
         )
 
     def _serialize_nacional_rps(self, dados_lote_rps, dados_servico):
+        trib_issqn = self.operation_nature  # TODO "5" and "6" don't match!
+        if trib_issqn == "1":
+            trib_nac = TctribNacional(
+                piscofins=TctribOutrosPisCofins(
+                    vPis=dados_servico["valor_pis"],
+                    vCofins=dados_servico["valor_cofins"],
+                ),
+                vRetCP=dados_servico["valor_inss_retido"],
+                vRetIRRF=dados_servico["valor_ir_retido"],
+                vRetCSLL=dados_servico["valor_csll_retido"],
+            )
+            if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+                tot_trib = TctribTotal(pTotTribSN=dados_servico["aliquota"])
+            else:
+                tot_trib = TctribTotal(
+                    pTotTrib=dados_servico["aliquota"],
+                )
+                # TODO vTotTrib
+
+        else:
+            trib_nac = None
+            tot_trib = TctribTotal(
+                indTotTrib=0,
+            )
+
         return TcinfDps(
             tpAmb=self.nfse_environment,
             Id=dados_lote_rps["id"],
             nDPS=dados_lote_rps["numero"],
             serie=dados_lote_rps["serie"],
-            # tipo=dados["tipo"],
-            dhEmi=dados_lote_rps["date_in_out"],  # NOTE convert?
+            dhEmi=dados_lote_rps["data_emissao"],  # NOTE convert?
             verAplic="Odoo OCA",  # TODO sure?
-            #            dCompet=  # TODO
-            # TODO ?
-            #   NaturezaOperacao=self.convert_type_nfselib(
-            #       tcInfRps, "NaturezaOperacao", dados["natureza_operacao"]
-            #   ),
-            #   IncentivadorCultural=self.convert_type_nfselib(
-            #       tcInfRps, "IncentivadorCultural", dados["incentivador_cultural"]
-            #   ),
-            #   Status=self.convert_type_nfselib(tcInfRps, "Status", dados["status"]),
-            #   RpsSubstituido=self.convert_type_nfselib(
-            #       tcInfRps, "RpsSubstituido", dados["rps_substitiuido"]
-            #   ),
+            # dCompet=  # TODO
+            tpEmit="1",  # TODO can be 2 or 3
+            cLocEmi=self.company_id.partner_id.city_id.ibge_code,
             prest=TcinfoPrestador(
                 CNPJ=dados_lote_rps["cnpj"],
-                #                CPF=  # TODO
+                # CPF=  # TODO
                 IM=dados_lote_rps["inscricao_municipal"],
+                fone=self.company_id.partner_id.mobile
+                or self.company_id.partner_id.phone,
+                email=self.company_id.partner_id.email,
                 regTrib=TcregTrib(
                     opSimpNac=dados_lote_rps["optante_simples_nacional"],
-                    #                    regApTribSN=  # TODO
+                    regApTribSN="1"
+                    if dados_lote_rps["optante_simples_nacional"] == "1"
+                    else None,  # TODO complete
                     regEspTrib=dados_lote_rps["regime_especial_tributacao"],
                 ),
             ),
@@ -218,19 +239,16 @@ class Document(models.Model):
                 #                    ),
                 trib=TcinfoTributacao(
                     tribMun=TctribMunicipal(
-                        #                        tribISSQN=  # TODO
-                        #                        tpRetISSQN=  # TODO
+                        tribISSQN=trib_issqn,
+                        # cPaisResult=self.partner_id.country_id.code,
+                        # BM=,
+                        # exigSusp=,
+                        # tpImunidade=,
+                        pAliq=dados_servico["aliquota"],
+                        tpRetISSQN=dados_servico["iss_retido"],
                     ),
-                    tribNac=TctribNacional(
-                        piscofins=TctribOutrosPisCofins(
-                            vPis=dados_servico["valor_pis"],
-                            vCofins=dados_servico["valor_cofins"],
-                        ),
-                        #                        vRetCP=  # TODO
-                        #                        vRetIRRF =dados_servico["valor_ir"]
-                        vRetCSLL=dados_servico["valor_csll"],
-                    ),
-                    totTrib=TctribTotal(pTotTribSN=dados_servico["aliquota"]),
+                    tribNac=trib_nac,
+                    totTrib=tot_trib,
                 )
                 # TODO
                 #   ValorInss=self.convert_type_nfselib(
@@ -262,7 +280,6 @@ class Document(models.Model):
         )
 
     def serialize_nfse_nacional(self):
-        #        lote_rps = EnviarLoteRpsEnvio(LoteRps=self._serialize_nacional_lote_rps())
         dados_lote_rps = self._prepare_lote_rps()
         dados_servico = self._prepare_dados_servico()
         dps = Dps(infDPS=self._serialize_nacional_rps(dados_lote_rps, dados_servico))
