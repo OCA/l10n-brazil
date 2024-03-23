@@ -22,6 +22,18 @@ class ProductTemplate(models.Model):
         if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
             return self.env.ref(NCM_FOR_SERVICE_REF)
 
+    # Some modules of the repo depend on stock and have
+    # demo products of type 'product' (this type is added to product.template
+    # in the stock module).
+    # For some reason when running the tests, some inverse method fields then fail when
+    # reading 'product' value for the product type. It seems it is because l10n_br_fiscal
+    # doesn't depend on stock. But we don't want such a dependency.
+    # So a workaround to avoid the bug we add the 'product' value to the selection.
+    type = fields.Selection(
+        selection_add=[("product", "Storable Product")],
+        ondelete={"product": "set consu"},
+    )
+
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
         company_dependent=True,
