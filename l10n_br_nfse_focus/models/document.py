@@ -4,6 +4,7 @@
 
 import base64
 import json
+import logging
 from datetime import datetime
 
 import pytz
@@ -35,6 +36,10 @@ API_ENDPOINT = {
     "resposta": "/v2/nfse/",
     "cancelamento": "/v2/nfse/",
 }
+
+TIMEOUT = 60  # 60 seconds
+
+_logger = logging.getLogger(__name__)
 
 
 def filter_oca_nfse(record):
@@ -71,13 +76,17 @@ class FocusnfeNfse(models.AbstractModel):
         """
         auth = (token, "")
         try:
-            response = requests.request(
-                method, url, data=data, params=params, auth=auth
+            response = requests.request(  # pylint: disable=external-request-timeout
+                method,
+                url,
+                data=data,
+                params=params,
+                auth=auth,
             )
             response.raise_for_status()  # Raises an error for 4xx/5xx responses
             return response
         except requests.HTTPError as e:
-            raise UserError(_("Error communicating with NFSe service: %s" % e))
+            raise UserError(_("Error communicating with NFSe service: %s") % e) from e
 
     def _identify_service_recipient(self, recipient):
         """Identify whether the service recipient is a CPF or CNPJ.
@@ -380,11 +389,12 @@ class Document(models.Model):
 
                         xml = requests.get(
                             NFSE_URL[record.nfse_environment]
-                            + json["caminho_xml_nota_fiscal"]
+                            + json["caminho_xml_nota_fiscal"],
+                            timeout=TIMEOUT,
                         ).content.decode("utf-8")
                         pdf_content = (
-                            requests.get(json["url"]).content
-                            or requests.get(json["url_danfse"]).content
+                            requests.get(json["url"], timeout=TIMEOUT).content
+                            or requests.get(json["url_danfse"], timeout=TIMEOUT).content
                         )
 
                         record.make_focus_nfse_pdf(pdf_content)
@@ -442,18 +452,24 @@ class Document(models.Model):
                     code = json["codigo"]
                     response = True
                 except Exception:
-                    pass
+                    _logger.error(
+                        _("HTTP status is 200 or 400 but unable to read json['codigo']")
+                    )
                 try:
                     status = json["status"]
                 except Exception:
-                    pass
+                    _logger.error(
+                        _("HTTP status is 200 or 400 but unable to read json['status']")
+                    )
 
                 # hack barueri - provisório
                 if not code and record.company_id.city_id.ibge_code == "3505708":
                     try:
                         code = json["erros"][0].get("codigo")
                     except Exception:
-                        pass
+                        _logger.error(
+                            _("HTTP status is 200 or 400 but unable to read error code")
+                        )
                     if code == "OK200":
                         code = "nfe_cancelada"
 
@@ -483,17 +499,31 @@ class Document(models.Model):
                     )
                     status_json = status_rps.json()
                     pdf_content = (
-                        requests.get(status_json["url"]).content
-                        or requests.get(status_json["url_danfse"]).content
+                        requests.get(status_json["url"], timeout=TIMEOUT).content
+                        or requests.get(
+                            status_json["url_danfse"], timeout=TIMEOUT
+                        ).content
                     )
                     record.make_focus_nfse_pdf(pdf_content)
 
                     return response
 
                 else:
-                    raise UserError(_("%s - %s" % (response.status_code, status)))
+                    raise UserError(
+                        _(
+                            "%(code)s - %(status)s",
+                            code=response.status_code,
+                            status=status,
+                        )
+                    )
             else:
-                raise UserError(_("%s - %s" % (response.status_code, json["mensagem"])))
+                raise UserError(
+                    _(
+                        "%(code)s - %(msg)s",
+                        code=response.status_code,
+                        msg=json["mensagem"],
+                    )
+                )
 
     def _eletronic_document_send(self):
         """Send the electronic document to the NFSe provider.
@@ -504,7 +534,7 @@ class Document(models.Model):
         Returns:
             None. Updates the document's status based on the response.
         """
-        super()._eletronic_document_send()
+        res = super()._eletronic_document_send()
         for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
             for edoc in record.serialize():
                 ref = "rps" + record.rps_number
@@ -535,6 +565,7 @@ class Document(models.Model):
                         record._change_state(SITUACAO_EDOC_REJEITADA)
                 else:
                     record._change_state(SITUACAO_EDOC_REJEITADA)
+        return res
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
         """Hook method before changing document's state to 'Cancelled'.
