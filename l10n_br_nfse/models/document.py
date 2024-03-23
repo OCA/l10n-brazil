@@ -46,7 +46,6 @@ class Document(models.Model):
     )
 
     rps_type = fields.Selection(
-        string="RPS Type",
         selection=RPS_TYPE,
         default="1",
     )
@@ -67,9 +66,7 @@ class Document(models.Model):
         default=lambda self: self.env.company.nfse_environment,
     )
 
-    civil_construction_code = fields.Char(
-        string="Civil Construction Code",
-    )
+    civil_construction_code = fields.Char()
     civil_construction_art = fields.Char(
         string="Civil Construction ART",
     )
