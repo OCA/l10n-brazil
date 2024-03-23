@@ -12,25 +12,26 @@ from ..models.document import filter_processador_edoc_nfse
 
 
 class TestFiscalDocumentNFSeCommon(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.nfse_same_state = self.env.ref("l10n_br_fiscal.demo_nfse_same_state")
-        self.company = self.env.ref("l10n_br_base.empresa_simples_nacional")
+        cls.nfse_same_state = cls.env.ref("l10n_br_fiscal.demo_nfse_same_state")
+        cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
 
-        self.company.processador_edoc = PROCESSADOR_OCA
-        self.company.partner_id.inscr_mun = "35172"
-        self.company.partner_id.inscr_est = ""
-        self.company.partner_id.state_id = self.env.ref("base.state_br_mg")
-        self.company.partner_id.city_id = self.env.ref("l10n_br_base.city_3132404")
-        self.company.icms_regulation_id = self.env.ref(
+        cls.company.processador_edoc = PROCESSADOR_OCA
+        cls.company.partner_id.inscr_mun = "35172"
+        cls.company.partner_id.inscr_est = ""
+        cls.company.partner_id.state_id = cls.env.ref("base.state_br_mg")
+        cls.company.partner_id.city_id = cls.env.ref("l10n_br_base.city_3132404")
+        cls.company.icms_regulation_id = cls.env.ref(
             "l10n_br_fiscal.tax_icms_regulation"
         ).id
-        self.company.city_taxation_code_id = self.env.ref(
+        cls.company.city_taxation_code_id = cls.env.ref(
             "l10n_br_fiscal.city_taxation_code_itajuba"
         )
-        self.company.document_type_id = self.env.ref("l10n_br_fiscal.document_SE")
-        self.nfse_same_state.company_id = self.company.id
+        cls.company.document_type_id = cls.env.ref("l10n_br_fiscal.document_SE")
+        cls.nfse_same_state.company_id = cls.company.id
 
     def test_certified_nfse_same_state_(self):
         """Test Certified NFSe same state."""
