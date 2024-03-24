@@ -46,6 +46,7 @@ class PartnerPix(models.Model):
     key = fields.Char(
         help="PIX Addressing key",
         required=True,
+        unaccent=False,
     )
 
     partner_bank_id = fields.Many2one(

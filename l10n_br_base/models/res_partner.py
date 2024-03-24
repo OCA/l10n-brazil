@@ -34,15 +34,15 @@ class Partner(models.Model):
 
     is_accountant = fields.Boolean(string="Is accountant?")
 
-    crc_code = fields.Char(string="CRC Code", size=18)
+    crc_code = fields.Char(string="CRC Code", size=18, unaccent=False)
 
     crc_state_id = fields.Many2one(comodel_name="res.country.state", string="CRC State")
 
-    rntrc_code = fields.Char(string="RNTRC Code", size=12)
+    rntrc_code = fields.Char(string="RNTRC Code", size=12, unaccent=False)
 
-    cei_code = fields.Char(string="CEI Code", size=12)
+    cei_code = fields.Char(string="CEI Code", size=12, unaccent=False)
 
-    union_entity_code = fields.Char(string="Union Entity code")
+    union_entity_code = fields.Char(string="Union Entity code", unaccent=False)
 
     pix_key_ids = fields.One2many(
         string="Pix Keys",
