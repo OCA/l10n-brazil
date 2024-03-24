@@ -6,10 +6,11 @@ from odoo.tests.common import TransactionCase
 
 
 class L10nBrCrmOnchangeTest(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.crm_lead_01 = self.env["crm.lead"].create(
+        cls.crm_lead_01 = cls.env["crm.lead"].create(
             {
                 "name": "Test Company Lead",
                 "partner_name": "Test Company",
@@ -17,8 +18,8 @@ class L10nBrCrmOnchangeTest(TransactionCase):
                 "contact_name": "Test Name Contact",
                 "name_surname": "Test NameSurname Contact",
                 "cnpj": "56.647.352/0001-98",
-                "city_id": self.env.ref("l10n_br_base.city_3205002").id,
-                "country_id": self.env.ref("base.br").id,
+                "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
+                "country_id": cls.env.ref("base.br").id,
                 "zip": "29161-695",
                 "cpf": "70531160505",
                 "email_from": "testcontact@email.com",
