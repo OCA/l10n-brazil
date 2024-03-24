@@ -50,6 +50,7 @@ class ResPartnerBank(models.Model):
         string="Account Number",
         size=64,
         required=False,
+        unaccent=False,
     )
 
     acc_number_dig = fields.Char(
@@ -60,6 +61,7 @@ class ResPartnerBank(models.Model):
     bra_number = fields.Char(
         string="Bank Branch",
         size=8,
+        unaccent=False,
     )
 
     bra_number_dig = fields.Char(
@@ -71,6 +73,7 @@ class ResPartnerBank(models.Model):
         string="BIC/Swift Final Code.",
         size=3,
         help="Last part of BIC/Swift Code.",
+        unaccent=False,
     )
 
     company_country_id = fields.Many2one(
