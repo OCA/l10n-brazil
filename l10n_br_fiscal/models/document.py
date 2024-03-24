@@ -74,18 +74,21 @@ class Document(models.Model):
     document_number = fields.Char(
         copy=False,
         index=True,
+        unaccent=False,
     )
 
     rps_number = fields.Char(
         string="RPS Number",
         copy=False,
         index=True,
+        unaccent=False,
     )
 
     document_key = fields.Char(
         string="Key",
         copy=False,
         index=True,
+        unaccent=False,
     )
 
     document_date = fields.Datetime(
