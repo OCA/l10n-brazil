@@ -15,15 +15,18 @@ class PartyMixin(models.AbstractModel):
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
         size=18,
+        unaccent=False,
     )
 
     inscr_est = fields.Char(
         string="State Tax Number",
         size=17,
+        unaccent=False,
     )
 
     rg = fields.Char(
         string="RG",
+        unaccent=False,
     )
 
     state_tax_number_ids = fields.One2many(
@@ -35,10 +38,12 @@ class PartyMixin(models.AbstractModel):
     inscr_mun = fields.Char(
         string="Municipal Tax Number",
         size=18,
+        unaccent=False,
     )
 
     suframa = fields.Char(
         size=18,
+        unaccent=False,
     )
 
     legal_name = fields.Char(
