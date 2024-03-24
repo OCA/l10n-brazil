@@ -5,9 +5,10 @@ from odoo.tests.common import TransactionCase
 
 
 class TestUomUom(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.uom_uom_kg = self.env.ref("uom.product_uom_kgm")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.uom_uom_kg = cls.env.ref("uom.product_uom_kgm")
 
     def test_uom_uom_alternative(self):
         uom_uom_alternative = self.env["uom.uom.alternative"].create(

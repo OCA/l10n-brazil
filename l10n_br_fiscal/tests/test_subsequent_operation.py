@@ -5,22 +5,18 @@ from odoo.tests.common import TransactionCase
 
 
 class TestSubsequentOperation(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
-        self.nfe_simples_faturamento = self.env.ref(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.nfe_simples_faturamento = cls.env.ref(
             "l10n_br_fiscal.demo_nfe_so_simples_faturamento"
         ).copy()
-
-        self.so_simples_faturamento = self.env.ref(
+        cls.so_simples_faturamento = cls.env.ref(
             "l10n_br_fiscal.so_simples_faturamento"
         )
-
-        self.tax_icms_12 = self.env.ref("l10n_br_fiscal.tax_icms_12")
-
-        self.pis_tax_0 = self.env.ref("l10n_br_fiscal.tax_pis_0")
-
-        self.cofins_tax_0 = self.env.ref("l10n_br_fiscal.tax_cofins_0")
+        cls.tax_icms_12 = cls.env.ref("l10n_br_fiscal.tax_icms_12")
+        cls.pis_tax_0 = cls.env.ref("l10n_br_fiscal.tax_pis_0")
+        cls.cofins_tax_0 = cls.env.ref("l10n_br_fiscal.tax_cofins_0")
 
     def test_subsequent_operation_simple_faturamento(self):
         """Test Fiscal Subsequent Operation Simples Faturamento"""
