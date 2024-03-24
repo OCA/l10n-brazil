@@ -7,5 +7,6 @@ from .test_l10n_br_purchase_stock import L10nBrPurchaseStockBase
 
 
 class L10nBrPurchaseStockBase(L10nBrPurchaseStockBase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()

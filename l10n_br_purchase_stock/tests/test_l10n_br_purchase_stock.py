@@ -9,13 +9,14 @@ from odoo.addons.l10n_br_purchase.tests import test_l10n_br_purchase
 
 
 class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
-    def setUp(self):
-        super().setUp()
-        self.invoice_model = self.env["account.move"]
-        self.invoice_wizard = self.env["stock.invoice.onshipping"]
-        self.stock_return_picking = self.env["stock.return.picking"]
-        self.stock_picking = self.env["stock.picking"]
-        self.company_lucro_presumido = self.env.ref(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.invoice_model = cls.env["account.move"]
+        cls.invoice_wizard = cls.env["stock.invoice.onshipping"]
+        cls.stock_return_picking = cls.env["stock.return.picking"]
+        cls.stock_picking = cls.env["stock.picking"]
+        cls.company_lucro_presumido = cls.env.ref(
             "l10n_br_base.empresa_lucro_presumido"
         )
 
