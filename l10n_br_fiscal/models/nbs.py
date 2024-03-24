@@ -15,9 +15,9 @@ class Nbs(models.Model):
     ]
     _description = "NBS"
 
-    code = fields.Char(size=12)
+    code = fields.Char(size=12, unaccent=False)
 
-    code_unmasked = fields.Char(size=10)
+    code_unmasked = fields.Char(size=10, unaccent=False)
 
     tax_estimate_ids = fields.One2many(inverse_name="nbs_id")
 
