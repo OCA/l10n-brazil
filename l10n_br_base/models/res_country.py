@@ -10,17 +10,21 @@ class Country(models.Model):
     bc_code = fields.Char(
         string="BC Code",
         size=4,
+        unaccent=False,
     )
 
     ibge_code = fields.Char(
         string="IBGE Code",
         size=4,
+        unaccent=False,
     )
 
     siscomex_code = fields.Char(
         size=3,
+        unaccent=False,
     )
 
     nationality_code = fields.Char(
         size=2,
+        unaccent=False,
     )
