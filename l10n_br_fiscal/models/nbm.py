@@ -11,9 +11,9 @@ class Nbm(models.Model):
     _inherit = "l10n_br_fiscal.data.product.abstract"
     _description = "NBM"
 
-    code = fields.Char(size=12)
+    code = fields.Char(size=12, unaccent=False)
 
-    code_unmasked = fields.Char(size=10)
+    code_unmasked = fields.Char(size=10, unaccent=False)
 
     name = fields.Text(required=True, index=True)
 
