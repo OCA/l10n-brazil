@@ -9,12 +9,13 @@ from odoo.tools import mute_logger
 class StockRuleTest(TransactionCase):
     """Test Stock Rule"""
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
         # Create a product route containing a stock rule that will
         # generate a move from Stock for every procurement created in Output
-        self.product_route = self.env["stock.location.route"].create(
+        cls.product_route = cls.env["stock.location.route"].create(
             {
                 "name": "Stock -> output route",
                 "product_selectable": True,
@@ -25,11 +26,11 @@ class StockRuleTest(TransactionCase):
                         {
                             "name": "Stock -> output rule",
                             "action": "pull",
-                            "picking_type_id": self.ref("stock.picking_type_internal"),
-                            "location_src_id": self.ref("stock.stock_location_stock"),
-                            "location_id": self.ref("stock.stock_location_output"),
+                            "picking_type_id": cls.ref("stock.picking_type_internal"),
+                            "location_src_id": cls.ref("stock.stock_location_stock"),
+                            "location_id": cls.ref("stock.stock_location_output"),
                             "invoice_state": "2binvoiced",
-                            "fiscal_operation_id": self.ref("l10n_br_fiscal.fo_venda"),
+                            "fiscal_operation_id": cls.ref("l10n_br_fiscal.fo_venda"),
                         },
                     )
                 ],
@@ -37,8 +38,8 @@ class StockRuleTest(TransactionCase):
         )
 
         # Set this route on `product.product_product_3`
-        self.env.ref("product.product_product_3").write(
-            {"route_ids": [(4, self.product_route.id)]}
+        cls.env.ref("product.product_product_3").write(
+            {"route_ids": [(4, cls.product_route.id)]}
         )
 
     def test_procument_order(self):
