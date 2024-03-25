@@ -15,9 +15,14 @@ msgstr ""
 
 #. module: l10n_br_nfse_focus
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "%(code)s - %(msg)s"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
-msgid "%s - %s"
+msgid "%(code)s - %(status)s"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -72,6 +77,24 @@ msgstr ""
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_production_token
 msgid "FocusNFe Production Token"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read error code"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read json['codigo']"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read json['status']"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
