@@ -523,6 +523,20 @@ msgid "City Taxation Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__civil_construction_art
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__civil_construction_art
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__civil_construction_art
+msgid "Civil Construction ART"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__civil_construction_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__civil_construction_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__civil_construction_code
+msgid "Civil Construction Code"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__comment_ids
@@ -820,6 +834,13 @@ msgstr ""
 " Force uma!"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__edoc_error_message
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__edoc_error_message
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__edoc_error_message
+msgid "Edoc Error Message"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_electronic
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_electronic
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_electronic
@@ -915,6 +936,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_currency_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_currency_id
 msgid "Fiscal Currency"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_deductions_value
+msgid "Fiscal Deductions"
 msgstr ""
 
 #. module: l10n_br_account
@@ -1806,6 +1832,13 @@ msgid "NFS-e"
 msgstr "NFS-e"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfse_environment
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfse_environment
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfse_environment
+msgid "NFSe Environment"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_value
 msgid "National Simple Taxes"
 msgstr ""
@@ -1849,10 +1882,22 @@ msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__operation_nature
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__operation_nature
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__operation_nature
+msgid "Operation Nature"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_other_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_other_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_other_value
 msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__other_retentions_value
+msgid "Other Retentions"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2084,6 +2129,13 @@ msgid "RPS Number"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__rps_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__rps_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__rps_type
+msgid "Rps Type"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__send_file_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__send_file_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__send_file_id
@@ -2294,6 +2346,13 @@ msgid "Tax UoM"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__taxation_special_regime
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__taxation_special_regime
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__taxation_special_regime
+msgid "Taxation Special Regime"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Taxes"
 msgstr "Impostos"
@@ -2327,6 +2386,13 @@ msgstr "Validar"
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__verify_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__verify_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__verify_code
+msgid "Verify Code"
 msgstr ""
 
 #. module: l10n_br_account
