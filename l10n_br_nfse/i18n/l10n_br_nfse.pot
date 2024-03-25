@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -247,15 +247,6 @@ msgid "Discriminação dos serviços"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_partner__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "E-mail:"
 msgstr ""
@@ -314,15 +305,6 @@ msgid "Homologação"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_partner__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "INSS"
 msgstr ""
@@ -355,15 +337,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__3
 msgid "Isenção"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_partner____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -474,7 +447,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_product_template
-msgid "Product Template"
+msgid "Product"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -486,11 +459,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__rps_type__2
 msgid "RPS Nota Fiscal Conjugada (Mista)"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_type
-msgid "RPS Type"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -506,6 +474,11 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Regime esp. Tributação"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_type
+msgid "Rps Type"
 msgstr ""
 
 #. module: l10n_br_nfse
