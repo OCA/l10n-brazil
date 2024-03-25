@@ -62,6 +62,8 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
             codigoAleatorio = false,
             validar = false
         ) {
+            // FIXME: Alterar a verificação condicional
+            // eslint-disable-next-line no-negated-condition
             if (!chave) {
                 if (
                     !(
@@ -89,11 +91,12 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
                 campos += numeroDocumento.toString().padStart(9, "0");
                 campos += formaEmissao.toString().padStart(1, "0");
 
+                let aleatorio = "";
                 if (!codigoAleatorio) {
-                    codigoAleatorio = this.calculoCodigoAleatorio(campos);
+                    aleatorio = this.calculoCodigoAleatorio(campos);
                 }
 
-                campos += codigoAleatorio.toString().padStart(8, "0");
+                campos += aleatorio.toString().padStart(8, "0");
                 campos += modulo11(campos).toString();
 
                 this.modeloDocumento = parseInt(
@@ -144,6 +147,9 @@ odoo.define("l10n_br_pos_nfce.utils", function (require) {
             return this._generatedChave;
         }
 
+        // FIXME: Alterar a classe para que o nome do campo não seja o mesmo
+        //  da função.
+        // eslint-disable-next-line accessor-pairs
         set chaveGerada(textChave) {
             this._generatedChave = textChave;
         }
