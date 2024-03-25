@@ -232,9 +232,7 @@ class Document(models.Model):
 
     def _prepare_dados_tomador(self):
         result = self.partner_id.prepare_partner_tomador(self.company_id.country_id.id)
-
         result.update({"complemento": self.partner_shipping_id.street2 or None})
-
         return result
 
     def _prepare_lote_rps(self):
