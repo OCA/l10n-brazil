@@ -14,6 +14,7 @@ class DocumentType(models.Model):
 
     code = fields.Char(
         size=8,
+        unaccent=False,
     )
 
     name = fields.Char(
