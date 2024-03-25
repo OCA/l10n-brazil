@@ -8,7 +8,12 @@
         <field name="arch" type="xml">
             <group name="fiscal_numbers" position="after">
                 <group string="Fiscal Profile" name="fiscal_profile">
-                    <field name="fiscal_profile_id" />
+                    <field name="fiscal_profile_id" invisible="1" force_save="1" />
+                    <field
+                        name="fiscal_profile_id"
+                        force_save="1"
+                        groups="l10n_br_fiscal.group_user"
+                    />
                     <field
                         name="ind_ie_dest"
                         force_save="1"
