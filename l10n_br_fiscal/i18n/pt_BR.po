@@ -8102,6 +8102,11 @@ msgid "Stock Moves?"
 msgstr "Movimentos de Estoque?"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__product_template__type__product
+msgid "Storable Product"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__withholding_possible
 msgid "Subject to withholding tax"
 msgstr "Sujeito a imposto de renda retido na parte"
@@ -8868,6 +8873,8 @@ msgstr "Situações"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__type_in_out
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins__piscofins_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__type
 msgid "Type"
 msgstr "Tipo"
 
