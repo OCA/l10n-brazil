@@ -986,6 +986,11 @@ msgid "Indicates if Brazilian localization fields should be displayed."
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_anonymous_consumer
+msgid "Indicates that the partner is an anonymous consumer"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_public_entity
 msgid ""
 "Indicates whether the entity in question is a public organization or "
@@ -1041,6 +1046,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_ids
 msgid "Invoices"
 msgstr "Pedidos"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_anonymous_consumer
+msgid "Is Anonymous Consumer"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_is_follower
