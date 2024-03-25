@@ -96,6 +96,11 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
+    is_anonymous_consumer = fields.Boolean(
+        tracking=True,
+        string="Anonymous Consumer",
+    )
+
     def _inverse_fiscal_profile(self):
         for p in self:
             p._onchange_fiscal_profile_id()

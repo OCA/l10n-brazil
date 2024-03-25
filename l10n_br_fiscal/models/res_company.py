@@ -321,6 +321,12 @@ class ResCompany(models.Model):
         default="line",
     )
 
+    anonymous_partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Anonymous Partner",
+        help="Partner used to create anonymous fiscal documents",
+    )
+
     def _del_tax_definition(self, tax_domain):
         tax_def = self.tax_definition_ids.filtered(
             lambda d: d.tax_group_id.tax_domain != tax_domain
