@@ -1110,6 +1110,11 @@ msgid "Annual Revenue"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__anonymous_partner_id
+msgid "Anonymous Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Approve"
@@ -5590,6 +5595,12 @@ msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__is_anonymous_consumer
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__is_anonymous_consumer
+msgid "Indicates that the partner is an anonymous consumer"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_is_public_entity
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_is_public_entity
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__is_public_entity
@@ -5743,6 +5754,12 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #, python-format
 msgid "Invoices owed to you"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__is_anonymous_consumer
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__is_anonymous_consumer
+msgid "Is Anonymous Consumer"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7518,6 +7535,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_zip
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__partner_zip
 msgid "Partner Zip"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__anonymous_partner_id
+msgid "Partner used to create anonymous fiscal documents"
 msgstr ""
 
 #. module: l10n_br_fiscal
