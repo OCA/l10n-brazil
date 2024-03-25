@@ -20,8 +20,10 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
 
         self.company.processador_edoc = PROCESSADOR_OCA
         self.company.partner_id.inscr_mun = "35172"
-        self.company.partner_id.inscr_est = ""
-        self.company.partner_id.state_id = self.env.ref("base.state_br_mg")
+        self.company.with_context(
+            disable_ie_validation=True
+        ).partner_id.state_id = self.env.ref("base.state_br_mg")
+        self.company.partner_id.inscr_est = "901.171.022/6680"
         self.company.partner_id.city_id = self.env.ref("l10n_br_base.city_3132404")
         self.company.icms_regulation_id = self.env.ref(
             "l10n_br_fiscal.tax_icms_regulation"
