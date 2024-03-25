@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,10 +14,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfse_focus
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
-msgid "%s - %s"
+msgid "%(code)s - %(msg)s"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "%(code)s - %(status)s"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -37,13 +44,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_br_nfse_focus
+#. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
 msgid "Error communicating with NFSe service: %s"
@@ -75,17 +76,24 @@ msgid "FocusNFe Production Token"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse__id
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document__id
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__id
-msgid "ID"
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read error code"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company____last_update
-msgid "Last Modified on"
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read json['codigo']"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read json['status']"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -101,7 +109,6 @@ msgstr ""
 #. module: l10n_br_nfse_focus
 #: model:ir.actions.server,name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron
-#: model:ir.cron,name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron
 msgid "NFSe FocusNFe: Check status and update status of submitted documents."
 msgstr ""
 
@@ -111,6 +118,7 @@ msgid "NFSe Provider"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
@@ -123,6 +131,7 @@ msgid "Service Type"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
 msgid "status"
