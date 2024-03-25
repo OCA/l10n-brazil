@@ -11,6 +11,7 @@ from pathlib import Path
 import requests
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.assinatura.certificado import ArquivoCertificado
+from erpbrasil.base.misc import punctuation_rm
 from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
 from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import (
     Tccserv,
@@ -35,7 +36,7 @@ from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import (
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -87,7 +88,13 @@ class NFSeRESTClient(object):
             if response.status_code == 201:
                 return response
             else:
-                raise UserError(_("%s - %s" % (response.status_code, response.text)))
+                raise UserError(
+                    _(
+                        "%(status)s - %(text)s",
+                        status=response.status_code,
+                        text=response.text,
+                    )
+                )
 
 
 def filter_nacional(record):
@@ -98,25 +105,6 @@ def filter_nacional(record):
 
 class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
-
-    def convert_type_nfselib(self, class_object, object_filed, value):
-        if value is None:
-            return value
-
-        value_type = ""
-        for field in class_object().member_data_items_:
-            if field.name == object_filed:
-                value_type = field.child_attrs.get("type", "").replace("xsd:", "")
-                break
-
-        if value_type in ("int", "byte", "nonNegativeInteger"):
-            return int(value)
-        elif value_type == "decimal":
-            return float(value)
-        elif value_type == "string":
-            return str(value)
-        else:
-            return value
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -130,12 +118,15 @@ class Document(models.Model):
         self.fiscal_line_ids.ensure_one()
         dados = self._prepare_dados_servico()
         return Tcserv(
-            locPrest=TclocPrest(
-                cLocPrestacao=dados["municipio_prestacao_servico"],  # TODO complete
+            locPrest=TclocPrest(  # TODO complete
+                cLocPrestacao=dados["municipio_prestacao_servico"]
+                if dados.get("municipio_prestacao_servico")
+                else None,
             ),
             cServ=Tccserv(
-                cTribNac=dados["item_lista_servico"],
-                cTribMun=dados["codigo_tributacao_municipio"],
+                cTribNac=dados["item_lista_servico"].zfill(6),
+                # TODO not this one? (should be 3 digits only):
+                # cTribMun=dados["codigo_tributacao_municipio"],
                 xDescServ=dados["discriminacao"],
                 cNBS=self.fiscal_line_ids[0].product_id.nbs_id.code or None,
                 # cIntContrib= TODO
@@ -155,7 +146,8 @@ class Document(models.Model):
             end=Tcendereco(
                 endNac=TcenderNac(
                     cMun=dados["codigo_municipio"],
-                    CEP=dados["cep"],
+                    # force 8 digits for CEP as per xsd:
+                    CEP=str(dados["cep"]).zfill(8),
                 ),
                 # TODO endExt
                 xLgr=dados["endereco"],
@@ -163,25 +155,28 @@ class Document(models.Model):
                 xCpl=dados["complemento"],
                 xBairro=dados["bairro"],
             ),
-            fone=self.company_id.partner_id.mobile or self.company_id.partner_id.phone,
-            email=self.company_id.partner_id.email,
+            fone=punctuation_rm(
+                self.partner_id.mobile or self.partner_id.phone or ""
+            ).replace(" ", ""),
+            email=self.partner_id.email,
         )
 
     def _serialize_nacional_rps(self, dados_lote_rps, dados_servico):
         trib_issqn = self.operation_nature  # TODO "5" and "6" don't match!
         if trib_issqn == "1":
-            trib_nac = TctribNacional(
-                piscofins=TctribOutrosPisCofins(
-                    vPis=dados_servico["valor_pis"],
-                    vCofins=dados_servico["valor_cofins"],
-                ),
-                vRetCP=dados_servico["valor_inss_retido"],
-                vRetIRRF=dados_servico["valor_ir_retido"],
-                vRetCSLL=dados_servico["valor_csll_retido"],
-            )
             if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+                trib_nac = None
                 tot_trib = TctribTotal(pTotTribSN=dados_servico["aliquota"])
             else:
+                trib_nac = TctribNacional(
+                    piscofins=TctribOutrosPisCofins(
+                        vPis=dados_servico["valor_pis"],
+                        vCofins=dados_servico["valor_cofins"],
+                    ),
+                    vRetCP=dados_servico["valor_inss_retido"],
+                    vRetIRRF=dados_servico["valor_ir_retido"],
+                    vRetCSLL=dados_servico["valor_csll_retido"],
+                )
                 tot_trib = TctribTotal(
                     pTotTrib=dados_servico["aliquota"],
                 )
@@ -193,22 +188,52 @@ class Document(models.Model):
                 indTotTrib=0,
             )
 
+        emitente = self.company_id.partner_id
+        if emitente.is_company:
+            inscr_fed_type = "1"
+            id_dps = (
+                "DPS"
+                + emitente.city_id.ibge_code
+                + inscr_fed_type
+                + punctuation_rm(emitente.inscr_est).zfill(14)
+                + dados_lote_rps["serie"].zfill(5)
+                + dados_lote_rps["numero"].zfill(15)
+            )
+        else:
+            inscr_fed_type = "2"  # TODO 3: CAEPF, 4:CNO
+            id_dps = (
+                "DPS"
+                + emitente.city_id.ibge_code
+                + inscr_fed_type
+                + punctuation_rm(emitente.cnpj_cpf).zfill(14)
+                + dados_lote_rps["serie"].zfill(5)
+                + dados_lote_rps["numero"].zfill(15)
+            )
+
         return TcinfDps(
             tpAmb=self.nfse_environment,
-            Id=dados_lote_rps["id"],
+            Id=id_dps,
             nDPS=dados_lote_rps["numero"],
             serie=dados_lote_rps["serie"],
-            dhEmi=dados_lote_rps["data_emissao"],  # NOTE convert?
+            dhEmi=fields.Datetime.context_timestamp(
+                self, fields.Datetime.from_string(self.document_date)
+            ).isoformat("T"),
             verAplic="Odoo OCA",  # TODO sure?
-            # dCompet=  # TODO
+            # TODO dCompet should be the day the service was done
+            dCompet=fields.Datetime.from_string(self.document_date).strftime(
+                "%Y-%m-%d"
+            ),
             tpEmit="1",  # TODO can be 2 or 3
             cLocEmi=self.company_id.partner_id.city_id.ibge_code,
             prest=TcinfoPrestador(
                 CNPJ=dados_lote_rps["cnpj"],
                 # CPF=  # TODO
                 IM=dados_lote_rps["inscricao_municipal"],
-                fone=self.company_id.partner_id.mobile
-                or self.company_id.partner_id.phone,
+                fone=punctuation_rm(
+                    self.company_id.partner_id.mobile
+                    or self.company_id.partner_id.phone
+                    or ""
+                ).replace(" ", ""),
                 email=self.company_id.partner_id.email,
                 regTrib=TcregTrib(
                     opSimpNac=dados_lote_rps["optante_simples_nacional"],
@@ -222,21 +247,16 @@ class Document(models.Model):
             toma=self._serialize_nacional_dados_tomador(),
             valores=TcinfoValores(
                 vServPrest=TcvservPrest(
-                    vServ=dados_servico["valor_servicos"],
+                    vServ="{:.2f}".format(dados_servico["valor_servicos"]),
                     #                        vReceb=
                 ),
                 vDescCondIncond=TcvdescCondIncond(
-                    vDescIncond=dados_servico["valor_desconto_incondicionado"],
+                    vDescIncond="{:.2f}".format(
+                        dados_servico["valor_desconto_incondicionado"]
+                    ),
                     #                    vDescCond=  # TODO
                 ),
-                # TODO
-                #                    ValorServicos=self.convert_type_nfselib(
-                #                        tcValores, "ValorServicos", dados["valor_servicos"]
-                #                    ),
-                vDedRed=TcinfoDedRed(vDR=dados_servico["valor_deducoes"]),
-                #                    ValorDeducoes=self.convert_type_nfselib(
-                #                        tcValores, "ValorDeducoes", dados["valor_deducoes"]
-                #                    ),
+                vDedRed=TcinfoDedRed("{:.2f}".format(dados_servico["valor_deducoes"])),
                 trib=TcinfoTributacao(
                     tribMun=TctribMunicipal(
                         tribISSQN=trib_issqn,
@@ -249,40 +269,17 @@ class Document(models.Model):
                     ),
                     tribNac=trib_nac,
                     totTrib=tot_trib,
-                )
-                # TODO
-                #   ValorInss=self.convert_type_nfselib(
-                #       tcValores, "ValorInss", dados["valor_inss"]
-                #   ),
-                #   IssRetido=self.convert_type_nfselib(
-                #       tcValores, "IssRetido", dados["iss_retido"]
-                #   ),
-                #   ValorIss=self.convert_type_nfselib(
-                #       tcValores, "ValorIss", dados["valor_iss"]
-                #   ),
-                #   ValorIssRetido=self.convert_type_nfselib(
-                #       tcValores, "ValorIssRetido", dados["valor_iss_retido"]
-                #   ),
-                #   OutrasRetencoes=self.convert_type_nfselib(
-                #       tcValores, "OutrasRetencoes", dados["outras_retencoes"]
-                #   ),
-                #   BaseCalculo=self.convert_type_nfselib(
-                #       tcValores, "BaseCalculo", dados["base_calculo"]
-                #   ),
-                #   ValorLiquidoNfse=self.convert_type_nfselib(
-                #       tcValores, "ValorLiquidoNfse", dados["valor_liquido_nfse"]
-                #   ),
-                # interm=TcinfoPessoa()  # FIXME dados["intermediario_servico"]
-                # ConstrucaoCivil=self.convert_type_nfselib(  # TODO
-                #    tcInfRps, "ConstrucaoCivil", dados["construcao_civil"]
-                # ),
+                ),
             ),
         )
 
     def serialize_nfse_nacional(self):
         dados_lote_rps = self._prepare_lote_rps()
         dados_servico = self._prepare_dados_servico()
-        dps = Dps(infDPS=self._serialize_nacional_rps(dados_lote_rps, dados_servico))
+        dps = Dps(
+            infDPS=self._serialize_nacional_rps(dados_lote_rps, dados_servico),
+            versao="1.00",
+        )
         return dps
 
     def _processador_nfse_nacional(self):

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<DPS xmlns="http://www.sped.fazenda.gov.br/nfse">
-  <infDPS Id="rps50">
+<DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.00">
+  <infDPS Id="DPS313240410901171022668000001000000000000050">
     <tpAmb>2</tpAmb>
-    <dhEmi>2020-06-04T13:58:46</dhEmi>
+    <dhEmi>2020-06-04T13:58:46+02:00</dhEmi>
     <verAplic>Odoo OCA</verAplic>
     <serie>001</serie>
     <nDPS>50</nDPS>
+    <dCompet>2020-06-04</dCompet>
     <tpEmit>1</tpEmit>
     <cLocEmi>3132404</cLocEmi>
     <prest>
       <CNPJ>59594315000157</CNPJ>
       <IM>35172</IM>
-      <fone>(21) 3010 9965</fone>
+      <fone>2130109965</fone>
       <email>info@simplesnacional.example.com</email>
       <regTrib>
         <opSimpNac>1</opSimpNac>
@@ -25,34 +26,31 @@
       <end>
         <endNac>
           <cMun>3550308</cMun>
-          <CEP>4576060</CEP>
+          <CEP>04576060</CEP>
         </endNac>
         <xLgr>Rua Samuel Morse</xLgr>
         <nro>135</nro>
         <xBairro>Brooklin</xBairro>
       </end>
-      <fone>(21) 3010 9965</fone>
-      <email>info@simplesnacional.example.com</email>
+      <fone>551134782150</fone>
+      <email>cliente1@cliente1.com.br</email>
     </toma>
     <serv>
-      <locPrest>
-        <cLocPrestacao />
-      </locPrest>
+      <locPrest />
       <cServ>
-        <cTribNac>105</cTribNac>
-        <cTribMun>6311900</cTribMun>
+        <cTribNac>000105</cTribNac>
         <xDescServ>[ODOO_DEV] Customized Odoo Development</xDescServ>
       </cServ>
     </serv>
     <valores>
       <vServPrest>
-        <vServ>100.0</vServ>
+        <vServ>100.00</vServ>
       </vServPrest>
       <vDescCondIncond>
-        <vDescIncond>0.0</vDescIncond>
+        <vDescIncond>0.00</vDescIncond>
       </vDescCondIncond>
       <vDedRed>
-        <vDR>0.0</vDR>
+        <pDR>0.00</pDR>
       </vDedRed>
       <trib>
         <tribMun>
@@ -60,15 +58,6 @@
           <pAliq>0.05</pAliq>
           <tpRetISSQN>2</tpRetISSQN>
         </tribMun>
-        <tribNac>
-          <piscofins>
-            <vPis>0.0</vPis>
-            <vCofins>0.0</vCofins>
-          </piscofins>
-          <vRetCP>0.0</vRetCP>
-          <vRetIRRF>0.0</vRetIRRF>
-          <vRetCSLL>0.0</vRetCSLL>
-        </tribNac>
         <totTrib>
           <pTotTribSN>0.05</pTotTribSN>
         </totTrib>
