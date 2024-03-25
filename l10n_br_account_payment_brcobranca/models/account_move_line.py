@@ -6,6 +6,10 @@ import logging
 
 from odoo import fields, models
 
+from odoo.addons.l10n_br_account_payment_order.constants import (
+    get_boleto_especie_short_name,
+)
+
 from ..constants.br_cobranca import DICT_BRCOBRANCA_CURRENCY, get_brcobranca_bank
 
 _logger = logging.getLogger(__name__)
@@ -68,7 +72,10 @@ class AccountMoveLine(models.Model):
                 "documento_numero": move_line.document_number,
                 "data_vencimento": move_line.date_maturity.strftime("%Y/%m/%d"),
                 "data_documento": move_line.move_id.invoice_date.strftime("%Y/%m/%d"),
-                "especie": move_line.payment_mode_id.boleto_species,
+                "especie": move_line.currency_id.symbol,
+                "especie_documento": get_boleto_especie_short_name(
+                    move_line.payment_mode_id.boleto_species
+                ),
                 "moeda": DICT_BRCOBRANCA_CURRENCY["R$"],
                 "aceite": move_line.payment_mode_id.boleto_accept,
                 "sacado_endereco": (move_line.partner_id.street_name or "")
