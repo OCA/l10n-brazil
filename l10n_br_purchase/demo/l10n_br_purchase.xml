@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Main Company Simples Nacional -->
+    <!-- Purchase Order with only products test -->
+    <record id="main_po_only_products" model="purchase.order">
+        <field name="name">Main l10n_br_purchase - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <function model="purchase.order" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_po_only_products')]" />
+    </function>
+
+    <record id="main_pl_only_products_1_2" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
+        <field name="price_unit">25.0</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_1_2')]" />
+    </function>
+
+    <record id="main_pl_only_products_2_2" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_2_2')]" />
+    </function>
+
+    <!-- Empresa Lucro Presumido -->
+    <!-- Purchase Order with only products test -->
+    <record id="lp_po_only_products" model="purchase.order">
+        <field name="name">LP l10n_br_purchase - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <function model="purchase.order" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lp_po_only_products')]" />
+    </function>
+
+    <record id="lp_pl_only_products_1_2" model="purchase.order.line">
+        <field name="order_id" ref="lp_po_only_products" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lp_pl_only_products_1_2')]" />
+    </function>
+
+    <record id="lp_pl_only_products_2_2" model="purchase.order.line">
+        <field name="order_id" ref="lp_po_only_products" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lp_pl_only_products_2_2')]" />
+    </function>
+
+    <!-- Empresa Simples Nacional -->
+    <!-- Purchase Order with only products test -->
+    <record id="sn_po_only_products" model="purchase.order">
+        <field name="name">SN l10n_br_purchase - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <function model="purchase.order" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_po_only_products')]" />
+    </function>
+
+    <record id="sn_pl_only_products_1_2" model="purchase.order.line">
+        <field name="order_id" ref="sn_po_only_products" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_pl_only_products_1_2')]" />
+    </function>
+
+    <record id="sn_pl_only_products_2_2" model="purchase.order.line">
+        <field name="order_id" ref="sn_po_only_products" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_pl_only_products_2_2')]" />
+    </function>
+
+    <!-- Purchase Order with only Service -->
+    <record id="main_po_only_service" model="purchase.order">
+        <field name="name">Main l10n_br_purchase - Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <function model="purchase.order" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_po_only_service')]" />
+    </function>
+
+    <record id="main_pl_only_service_1_1" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_service" />
+        <field name="name">Desenvolvimento Odoo</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">250</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras_uso_consumo"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">0000001</field>
+        <field name="partner_order_line">001</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_service_1_1')]" />
+    </function>
+
+    <!-- Purchase Order with Service and Product -->
+    <record id="main_po_service_product" model="purchase.order">
+        <field name="name">Main l10n_br_purchase - Serviço e Produto</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <function model="purchase.order" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_po_service_product')]" />
+    </function>
+
+    <record id="main_pl_service_product_1_1" model="purchase.order.line">
+        <field name="order_id" ref="main_po_service_product" />
+        <field name="name">Desenvolvimento Odoo</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">250</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras_uso_consumo"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">0000001</field>
+        <field name="partner_order_line">001</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_service_1_1')]" />
+    </function>
+
+    <record id="main_pl_service_product_2_2" model="purchase.order.line">
+        <field name="order_id" ref="main_po_service_product" />
+        <field name="name">Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">0000001</field>
+        <field name="partner_order_line">002</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_service_product_2_2')]" />
+    </function>
+
+</odoo>

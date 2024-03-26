@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Produtos -->
+    <record id="product.product_product_12" model="product.product">
+        <field name="purchase_method">purchase</field>
+    </record>
+
+    <record id="product.product_product_16" model="product.product">
+        <field name="purchase_method">purchase</field>
+    </record>
+
+    <!-- Serviço -->
+    <record id="l10n_br_fiscal.customized_development_sale" model="product.product">
+        <field name="purchase_method">purchase</field>
+    </record>
+
+</odoo>

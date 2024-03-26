@@ -792,16 +792,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
         return result
 
-    @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
-    def _onchange_commercial_quantity(self):
-        product_id = False
-        if self.product_id:
-            product_id = self.product_id.id
-        self.update(
-            self._update_fiscal_quantity(
-                product_id, self.price_unit, self.quantity, self.uom_id, self.uot_id
-            )
-        )
+    # TODO MIGRATE
+    # @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
+    # def _onchange_commercial_quantity(self):
+    #     product_id = False
+    #     if self.product_id:
+    #         product_id = self.product_id.id
+    #     self.update(
+    #         self._update_fiscal_quantity(
+    #             product_id, self.price_unit, self.quantity, self.uom_id, self.uot_id
+    #         )
+    #     )
 
     @api.onchange("ii_customhouse_charges")
     def _onchange_ii_customhouse_charges(self):
