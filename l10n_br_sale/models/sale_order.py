@@ -157,23 +157,24 @@ class SaleOrder(models.Model):
             # O caso Brasil se caracteriza por ter a Operação Fiscal
             return lines
         document_type_id = self._context.get("document_type_id")
-
-        return [
-            line
-            for line in lines
-            if not line.display_type
-            and line.fiscal_operation_line_id.get_document_type(line.company_id).id
+        lines_with_fo_line = lines.filtered(lambda ln: ln.fiscal_operation_line_id)
+        lines_doc_type = lines_with_fo_line.filtered(
+            lambda ln: ln.fiscal_operation_line_id.get_document_type(ln.company_id).id
             == document_type_id
-        ]
+        )
+        other_lines = lines.filtered(lambda ln: ln.is_downpayment or ln.display_type)
+        lines_doc_type |= other_lines
+        return lines_doc_type
 
     def _create_invoices(self, grouped=False, final=False, date=None):
         if not self.fiscal_operation_id:
             return super()._create_invoices(grouped=grouped, final=final, date=date)
+        lines_with_fiscal_op_line = self.order_line.filtered(
+            lambda ln: ln.fiscal_operation_line_id
+        )
         document_types = {
             line.fiscal_operation_line_id.get_document_type(line.company_id)
-            for sale in self
-            for line in sale.order_line
-            if not line.display_type
+            for line in lines_with_fiscal_op_line
         }
 
         moves = self.env["account.move"]
