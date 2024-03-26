@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="fiscal_invoice_search" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.invoice.search</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_search" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='document_number']" position="after">
+              <field name="name" string="Account Number" invisible="1" />
+              <field name="partner_legal_name" string="Legal Name" />
+              <field name="partner_cnpj_cpf" string="CNPJ/CPF" />
+              <field name="partner_inscr_est" string="State Tax Number" />
+          </xpath>
+        </field>
+    </record>
+
+    <record id="fiscal_invoice_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.invoice.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='document_number']" position="after">
+                <field name="name" string="Account Number" invisible="1" />
+                <field name="commercial_partner_id" invisible="1" />
+                <!--field name="reference" invisible="1" /-->
+                <field name="name" invisible="1" />
+                <field name="journal_id" invisible="1" />
+                <field name="move_type" invisible="context.get('move_type',True)" />
+                <field name="currency_id" invisible="1" />
+                <field name="company_currency_id" invisible="1" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="fiscal_invoice_form" model="ir.ui.view">
+      <field name="name">l10n_br_account.fiscal.invoice.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+      <field name="mode">primary</field>
+      <field name="priority">100</field>
+      <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+            <field name="state" invisible="1" />
+            <field name="suitable_journal_ids" invisible="1" />
+            <field name="fiscal_document_id" required="0" invisible="1" />
+        </xpath>
+        <xpath expr="//button[@name='action_document_confirm']" position="replace">
+            <button
+                    name="action_post"
+                    type="object"
+                    states="draft"
+                    string="Validate"
+                    class="oe_highlight o_invoice_validate"
+                    groups="account.group_account_invoice"
+                />
+        </xpath>
+        <xpath expr="//button[@name='action_document_back2draft']" position="replace">
+          <button
+                    name="action_document_back2draft"
+                    type="object"
+                    string="Voltar para Digitação"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'enviada', 'rejeitada')), ('document_electronic', '=', False)]}"
+                    class="btn-secondary"
+                />
+        </xpath>
+        <xpath expr="//button[@name='action_create_return']" position="replace">
+          <button
+                    name="%(account.action_move_out_refund_type)d"
+                    type='action'
+                    string='Devolver'
+                    groups="account.group_account_invoice"
+                    attrs="{'invisible': ['|',('move_type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"
+                />
+        </xpath>
+        <page name="finance" position="inside">
+            <field name="name" invisible="1" />
+            <field name="move_type" invisible="1" />
+        </page>
+        <xpath expr="//field[@name='fiscal_line_ids']" position="replace">
+            <field
+                    name="invoice_line_ids"
+                    context="{'form_view_ref': 'l10n_br_account.fiscal_invoice_line_form', 'default_document_id': fiscal_document_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}"
+                >
+                <tree>
+                  <field name="product_id" />
+                  <field name="product_uom_id" />
+                  <field name="price_unit" />
+                  <field name="quantity" />
+                  <field name="amount_total" />
+                </tree>
+            </field>
+        </xpath>
+        <xpath expr="//sheet" position="after">
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers" />
+                <field name="activity_ids" widget="mail_activity" />
+                <field name="message_ids" widget="mail_thread" />
+            </div>
+        </xpath>
+      </field>
+    </record>
+
+</odoo>
