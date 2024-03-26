@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-04 16:10+0000\n"
+"PO-Revision-Date: 2024-03-26 18:39+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -5697,7 +5697,7 @@ msgstr "Identifica o destino da operação."
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_needaction
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_unread
 msgid "If checked, new messages require your attention."
-msgstr "Se marcado novas mensagens solicitarão sua atenção."
+msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_error
@@ -6645,7 +6645,7 @@ msgstr "Número da Inscrição Municipal"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__my_activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Prazo das minhas atividades"
+msgstr "Prazo Final das Minhas Atividades"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.nbm_action
@@ -6858,7 +6858,7 @@ msgstr "Faixa Nacional Simplificada de Impostos"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Prazo final para Próxima Atividade"
+msgstr "Prazo Final da Próxima Atividade"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__activity_summary
@@ -6955,7 +6955,7 @@ msgstr "Número"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Número de ações"
+msgstr "Número de Ações"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_error_counter
@@ -6979,7 +6979,7 @@ msgstr "Número de erros"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr "Número de mensagens que requer uma ação"
+msgstr "Número de mensagens que requerem uma ação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_error_counter
@@ -7003,7 +7003,7 @@ msgstr "Número de mensagens com erro de entrega"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_unread_counter
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_unread_counter
 msgid "Number of unread messages"
-msgstr "Quantidade de mensagens não lidas"
+msgstr "Número de mensagens não lidas"
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
@@ -9777,7 +9777,7 @@ msgstr "Tipo movimento"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_exception_decoration
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Tipo da atividade de exceção no registro."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__uom_id
@@ -9831,7 +9831,7 @@ msgstr "Código desmascarado"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_unread
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_unread
 msgid "Unread Messages"
-msgstr "Mensagens não lidas"
+msgstr "Mensagens Não Lidas"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_unread_counter
@@ -10007,7 +10007,7 @@ msgstr "Aviso!"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__website_message_ids
 msgid "Website Messages"
-msgstr "Mensagens do site"
+msgstr "Mensagens do Website"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__website_message_ids
@@ -10019,7 +10019,7 @@ msgstr "Mensagens do site"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__website_message_ids
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__website_message_ids
 msgid "Website communication history"
-msgstr "Histórico de comunicação do site"
+msgstr "Histórico de comunicação do website"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_form
