@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Queue Job Channel -->
+        <record id="edocument_job" model="queue.job.channel">
+            <field name="name">eDocument Job</field>
+            <field name="parent_id" ref="queue_job.channel_root" />
+        </record>
+
+        <!-- Queue Job Function -->
+        <record id="job_function_send_edocument_job" model="queue.job.function">
+            <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document" />
+            <field name="method">_send_document_job</field>
+            <field name="channel_id" ref="edocument_job" />
+        </record>
+
+        <!-- Queue Job Function -->
+        <record
+            id="job_function_send_subsequent_edocument_job"
+            model="queue.job.function"
+        >
+            <field
+                name="model_id"
+                ref="l10n_br_fiscal.model_l10n_br_fiscal_subsequent_document"
+            />
+            <field name="method">_generate_subsequent_document_job</field>
+            <field name="channel_id" ref="edocument_job" />
+        </record>
+
+    </data>
+</odoo>
