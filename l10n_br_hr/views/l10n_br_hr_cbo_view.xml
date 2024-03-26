@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_l10n_br_hr_cbo_tree" model="ir.ui.view">
+        <field name="name">l10n_br_hr.cbo.tree</field>
+        <field name="model">l10n_br_hr.cbo</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_hr_cbo_filter" model="ir.ui.view">
+        <field name="name">Código Brasileiro de Ocupações</field>
+        <field name="model">l10n_br_hr.cbo</field>
+        <field name="arch" type="xml">
+            <search string="Ocupação">
+                <field name="code" string="Código" />
+                <field name="name" string="Ocupação" />
+            </search>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_hr_cbo_form" model="ir.ui.view">
+        <field name="name">l10n_br_hr.cbo.form</field>
+        <field name="model">l10n_br_hr.cbo</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form string="Código Brasileiro de Ocupação">
+                <group col="4">
+                    <field name="code" />
+                    <field name="name" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_l10n_br_hr_cbo">
+        <field name="name">Código Brasileiro de Ocupações</field>
+        <field name="res_model">l10n_br_hr.cbo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_l10n_br_hr_cbo_filter" />
+    </record>
+
+    <menuitem
+        action="action_l10n_br_hr_cbo"
+        id="menu_view_post_cbo_form"
+        parent="hr.menu_human_resources_configuration"
+        name="CBO"
+        sequence="1"
+    />
+
+</odoo>
