@@ -8,20 +8,21 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page
-                    string="Receivables"
-                    attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
-                    name="receivable_move_line_tab"
+                    string="Financial"
+                    attrs="{'invisible': [('financial_move_line_ids','=',True)]}"
+                    name="financial_move_line_tab"
                 >
-                    <field name="financial_move_line_ids" />
+                    <field name="financial_move_line_ids">
+                        <tree>
+                            <field name="account_id" />
+                            <field name="name" />
+                            <field name="debit" />
+                            <field name="credit" />
+                            <field name="date_maturity" />
+                        </tree>
+                    </field>
                 </page>
-                <page
-                    string="Payables"
-                    attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
-                    name="payable_move_line_tab"
-                >
-                    <field name="financial_move_line_ids" />
-                </page>
-                <page string="Payments" name="payment_move_line_tab">
+                 <page string="Payments" name="payment_move_line_tab">
                     <field name="payment_move_line_ids" />
                 </page>
             </notebook>

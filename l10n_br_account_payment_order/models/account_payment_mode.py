@@ -24,6 +24,7 @@ class AccountPaymentMode(models.Model):
         ("dinheiro", _("Dinheiro")),
         ("cheque", _("Cheque")),
         ("pix_transfer", _("PIX Transfer")),
+        ("pix_qrcode", _("PIX QRCode")),
         ("ted", _("TED")),
         ("doc", _("DOC")),
         ("boleto", _("Boleto")),

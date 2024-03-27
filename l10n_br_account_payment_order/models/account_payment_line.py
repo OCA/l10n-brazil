@@ -81,6 +81,16 @@ class AccountPaymentLine(models.Model):
         compute="_compute_pix_transfer_type",
     )
 
+    pix_qrcode_key = fields.Char(
+        string="Pix QRCode Key",
+        help="URL / Pix Key. Extracted from the PIX QRCode",
+    )
+
+    pix_qrcode_txid = fields.Char(
+        string="Pix QRCode Transaction ID",
+        help="Pix QRCode Identification Code",
+    )
+
     service_type = fields.Selection(
         selection=TIPO_SERVICO,
         string="Tipo de Serviço",

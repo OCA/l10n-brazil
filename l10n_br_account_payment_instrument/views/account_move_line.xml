@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="account_move_line_form_view">
+        <field
+            name="name"
+        >account.move.line.form (in l10n_br_account_payment_instrument)</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="before">
+                <field name="account_internal_type" invisible="1" />
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        name="open_payment_instruments"
+                        string="Payment Instrument"
+                        type="object"
+                        icon="fa-barcode"
+                        attrs="{'invisible': [('account_internal_type', '!=', 'payable')]}"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_move_form">
+        <field
+            name="name"
+        >account.move.form (in l10n_br_account_payment_instrument)</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_br_account_due_list.invoice_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='financial_move_line_ids']/tree"
+                position="inside"
+            >
+                <button
+                    name="open_payment_instruments"
+                    help="Payment Instrument"
+                    type="object"
+                    icon="fa-barcode"
+                    attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice', 'out_refund'))]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_payment_instrument_tree_view">
+        <field name="model">l10n_br.payment.instrument</field>
+        <field name="arch" type="xml">
+            <tree default_order='boleto_due ASC'>
+                <field name="boleto_due" optional="show" />
+                <field name="boleto_amount" optional="show" />
+                <field name="instrument_type" optional="show" />
+                <field name="line_ids" optional="show" />
+                <field name="company_id" optional="show" />
+                <field name="boleto_bank_id" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_account_payment_instrument_form_view">
+        <field name="model">l10n_br.payment.instrument</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="instrument" string="Payment Instrument">
+                        <field name="company_currency_id" invisible="1" />
+                        <field name="instrument_type" />
+                    </group>
+                    <group name="inpute_code">
+                        <field
+                            name="boleto_barcode_input"
+                            string="Barcode"
+                            attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
+                        />
+                        <field
+                            name="pix_qrcode_string"
+                            string="QR Code"
+                            attrs="{'invisible': [('instrument_type', '!=', 'pix_qrcode')]}"
+                        />
+                    </group>
+                    <group
+                        name="pix_qrcode_data"
+                        attrs="{'invisible': [('pix_qrcode_string', '==', False)]}"
+                    >
+                        <field name="pix_qrcode_key" string="Payment Key" />
+                        <field name="pix_qrcode_txid" string="Transaction ID" />
+                    </group>
+                    <group
+                        name="boleto_data"
+                        attrs="{'invisible': [('boleto_barcode', '==', False)]}"
+                    >
+                        <label for="boleto_raw_bank" string="Bank" />
+                        <div>
+                            <div class="o_row">
+                                <field name="boleto_raw_bank" decoration-bf="1" />
+                                <field name="boleto_bank_id" decoration-bf="1" />
+                            </div>
+                        </div>
+                        <field
+                            name="boleto_amount"
+                            string="Amount"
+                            widget="monetary"
+                            decoration-bf="1"
+                        />
+                        <field name="boleto_due" string="Due Date" decoration-bf="1" />
+                        <field
+                            name="boleto_digitable_line"
+                            string="Digitable Line"
+                            decoration-bf="1"
+                        />
+                    </group>
+                    <notebook>
+                        <page
+                            name="accouny_move_line_ids"
+                            string="Receivable/Payable Accounts"
+                        >
+                            <field
+                                name="line_ids"
+                                widget="many2many"
+                                options="{'no_create': True}"
+                            >
+                                <tree>
+                                    <field name="date" />
+                                    <field name="company_id" />
+                                    <field name="move_id" />
+                                    <field name="account_id" />
+                                    <field name="partner_id" />
+                                    <field name="name" />
+                                    <field name="debit" />
+                                    <field name="credit" />
+                                    <field name="date_maturity" />
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- Only Developer Mode -->
+                        <page
+                            name="boleto_raw_data"
+                            string="Boleto Data"
+                            attrs="{'invisible': [('instrument_type', '!=', 'boleto')]}"
+                            groups="base.group_no_one"
+                        >
+                            <group>
+                                <field name="boleto_raw_bank" string="Bank" />
+                                <field name="boleto_raw_currency" string="Currency" />
+                                <field
+                                    name="boleto_raw_check_digit_barcode"
+                                    string="Check Digit"
+                                />
+                                <field
+                                    name="boleto_raw_due_factor"
+                                    string="Due Factor"
+                                />
+                                <field name="boleto_raw_amount" string="Amount" />
+                                <field
+                                    name="boleto_raw_free_field"
+                                    string="Free Field"
+                                />
+                                <field name="boleto_barcode" />
+                            </group>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
