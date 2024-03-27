@@ -2,7 +2,7 @@
 # @author Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import api, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -31,3 +31,14 @@ class AccountMoveLine(models.Model):
                 invoice.fiscal_document_id.action_document_confirm()
                 invoice.fiscal_document_id._document_export()
         return result
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        account_move_lines = super().create(vals_list)
+        # for account_move_line, vals in zip(account_move_lines, vals_list):
+        # if self._context.get("create_from_document") \
+        # and vals.get("fiscal_document_line_id"):
+        #         account_move_line.write({
+        #             "fiscal_document_line_id": vals.get("fiscal_document_line_id"),
+        #         })
+        return account_move_lines
