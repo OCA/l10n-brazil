@@ -7,7 +7,9 @@
         <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form" />
         <field name="arch" type="xml">
             <xpath expr="/form/sheet/group[1]" position="after">
-                <group string="Fiscal Data" name="l10n_br_pos" />
+                <group string="Fiscal Data" name="l10n_br_pos">
+                    <field name="sat_card_acquirer" />
+                </group>
             </xpath>
         </field>
     </record>

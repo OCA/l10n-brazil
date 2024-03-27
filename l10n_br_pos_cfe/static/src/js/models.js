@@ -32,6 +32,7 @@ odoo.define("l10n_br_pos_cfe.models", function (require) {
         "sign_software_house",
     ]);
     models.load_fields("pos.payment.method", ["sat_payment_mode", "sat_card_acquirer"]);
+    models.load_fields("pos.payment.method", ["sat_payment_mode"]);
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
