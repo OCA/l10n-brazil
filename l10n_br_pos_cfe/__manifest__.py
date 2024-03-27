@@ -14,6 +14,7 @@
     "depends": [
         "point_of_sale",
         "l10n_br_pos",
+        "l10n_br_fiscal_closing",
     ],
     "external_dependencies": {
         "python": [
@@ -24,6 +25,7 @@
     "data": [
         # Views
         "views/pos_payment_method_view.xml",
+        "views/closing_view.xml",
         # Templates
         "views/pos_template.xml",
     ],

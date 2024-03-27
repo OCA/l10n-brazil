@@ -4,13 +4,15 @@
 
 from satcomum.ersat import ChaveCFeSAT
 
-from odoo import api, models
+from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_CFE
 
 
 class PosOrder(models.Model):
     _inherit = "pos.order"
+
+    close_id = fields.Many2one(comodel_name="l10n_br_fiscal.closing", string="Close ID")
 
     @api.model
     def _order_fields(self, ui_order):
