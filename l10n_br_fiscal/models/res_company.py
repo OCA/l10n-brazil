@@ -251,6 +251,11 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.icms.regulation", string="ICMS Regulation"
     )
 
+    icms_difal_regulation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.icms.difal.regulation",
+        string="ICMS Difal Regulation",
+    )
+
     tax_issqn_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default ISSQN",

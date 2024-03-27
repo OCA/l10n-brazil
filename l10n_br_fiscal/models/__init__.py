@@ -44,6 +44,7 @@ from . import tax_definition_operation_line
 from . import tax_definition_partner_profile
 from . import icms_regulation
 from . import icms_relief
+from . import icms_difal_regulation
 from . import document_type
 from . import document_serie
 from . import product_genre

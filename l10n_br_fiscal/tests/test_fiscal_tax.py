@@ -1,6 +1,7 @@
 # Copyright 2020 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from odoo import exceptions
 from odoo.tests import SavepointCase
 from odoo.tools import float_compare
 
@@ -303,3 +304,45 @@ class TestFiscalTax(SavepointCase):
         }
 
         self._check_compute_taxes_result(test_result, compute_result, currency)
+
+    def test_difal(self):
+        """Testa o calculo dos impostos de compra - entrada de importação"""
+
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+
+        kwargs["partner"] = self.env.ref("l10n_br_base.res_partner_cliente10_mg")
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        fiscal_taxes |= self.env.ref("l10n_br_fiscal.tax_icms_4")
+
+        difal_regulation = self.env.ref("l10n_br_fiscal.tax_icms_difal_regulation")
+        kwargs["company"].icms_difal_regulation_id = False
+
+        with self.assertRaises(exceptions.UserError):
+            fiscal_taxes.compute_taxes(**kwargs)
+
+        kwargs["company"].icms_difal_regulation_id = difal_regulation
+
+        compute_result = fiscal_taxes.compute_taxes(**kwargs)
+
+        test_result = {
+            "amount_included": 1.38,
+            "amount_not_included": 0.0,
+            "amount_withholding": 0.0,
+            "estimate_tax": 0.0,
+            "taxes": {
+                "icms": {
+                    "icms_dest_base": 34.58,
+                    "icms_dest_value": 4.84,
+                },
+            },
+        }
+
+        self._check_compute_taxes_result(test_result, compute_result, currency)
+
+        difal_regulation.unique_base_state_ids = [(5, 0, 0)]
+        difal_regulation.double_base_state_ids = [(5, 0, 0)]
+
+        with self.assertRaises(exceptions.UserError):
+            fiscal_taxes.compute_taxes(**kwargs)
