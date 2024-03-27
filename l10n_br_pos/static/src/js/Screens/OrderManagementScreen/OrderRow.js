@@ -12,21 +12,14 @@ odoo.define("l10n_br_pos.OrderRow", function (require) {
 
     const L10nBrPosOrderRow = (OrderRow_screen = OrderRow) =>
         class extends OrderRow_screen {
-            get document_serie_number() {
-                if (
-                    this.props.order.document_serie &&
-                    this.props.order.document_number
-                ) {
-                    return (
-                        this.props.order.document_type +
-                        "/" +
-                        this.props.order.document_serie +
-                        "/" +
-                        this.props.order.document_number
-                    );
-                }
-                return null;
+            get document_type() {
+                return this.props.order.document_type;
             }
+
+            get document_serie_number() {
+                return this.props.order.document_serie_number;
+            }
+
             get customer() {
                 const customer = this.order.get("client");
                 const cnpj_cpf = this.props.order.get_cnpj_cpf();

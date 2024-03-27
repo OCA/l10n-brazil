@@ -14,6 +14,13 @@ class TestL10nBrPosOrder(SavepointCase):
         cls.env.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.pos_config = cls.env.ref("l10n_br_pos.pos_config_presumido")
         cls.cash_payment_method = cls.env.ref("l10n_br_pos.presumido_dinheiro")
+        cls.cancel_reason_id = cls.env["pos.cancel.reason"].create(
+            {
+                "name": "Teste de cancelamento",
+                "active": True,
+                "is_custom": True,
+            }
+        )
         cls.led_lamp = cls.env["product.product"].create(
             {
                 "name": "LED Lamp",
@@ -43,6 +50,7 @@ class TestL10nBrPosOrder(SavepointCase):
                 "amount_total": untax + atax,
                 "creation_date": fields.Datetime.to_string(fields.Datetime.now()),
                 "fiscal_position_id": False,
+                "cnpj_cpf": "51235528049",
                 "pricelist_id": self.pos_config.available_pricelist_ids[0].id,
                 "lines": [
                     [
@@ -86,7 +94,8 @@ class TestL10nBrPosOrder(SavepointCase):
             "document_key": "Cfe35181104113837000100590001128550021551657445",
             "document_type_id": 33,
             "document_session_number": 123456,
-            "document_serie": "123456789",
+            "document_serie_id": 1,
+            "document_serie_number": "123456789",
             "fiscal_operation_id": 1,
             "status_code": "06000",
             "status_name": "Autorizado o Uso do CF-e",
@@ -128,12 +137,11 @@ class TestL10nBrPosOrder(SavepointCase):
         order = current_session.order_ids[0]
 
         order_data = {
-            "order_id": order.id,
-            "numSessao": 123456,
-            "chave_cfe": "Cfe35181104113837000100590001128550021551657445",
-            "xml": "dGVzdGVfY2FuY2VsX2Zsb3c=",
+            "pos_reference": order.pos_reference,
+            "cancel_reason_id": self.cancel_reason_id.id,
+            "notes": "Teste de cancelamento",
         }
-        order.cancel_order(order_data)
+        order.cancel_pos_order(order_data)
         self.assertEqual(
             num_starting_orders + 2,
             len(current_session.order_ids),

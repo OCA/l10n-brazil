@@ -24,6 +24,7 @@
                 src="/l10n_br_pos/static/src/js/Screens/OrderManagementScreen/OrderRow.js"
                 type="text/javascript"
             />
+
     </xpath>
 </template>
 

@@ -8,10 +8,12 @@ class MailThread(models.AbstractModel):
 
     def message_post_with_view(self, views_or_xmlid, **kwargs):
         try:
-            pos_order = self.env["pos.order"].search(
-                [("name", "=", kwargs["values"]["origin"].origin)]
-            )
+            origin_name = kwargs.get("values", {}).get("origin", {}).get("origin")
+            pos_order = self.env["pos.order"].search([("name", "=", origin_name)])
+
             if not pos_order:
                 return super().message_post_with_view(views_or_xmlid, **kwargs)
         except Exception:
-            return super().message_post_with_view(views_or_xmlid, **kwargs)
+            pass
+
+        return super().message_post_with_view(views_or_xmlid, **kwargs)

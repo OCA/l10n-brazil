@@ -1,15 +1,15 @@
-14.0.1.0.0 (2011)
-~~~~~~~~~~~~~~~~~
+14.0.2.0.0 (01-2024)
+~~~~~~~~~~~~~~~~~~~~
 
-O módulo foi reestruturado para atender novos tipos de documentos fiscais: NFC-E / CF-e (SP e Ceará), PAF-ECF e DAF-EFC;
+* O módulo passou por uma significativa refatoração, transformando-o na base para os demais módulos que implementam os conceitos da CF-e e da NFC-e.
+* Foram removidos diversos arquivos e funcionalidades que não estavam sendo utilizados.
 
-12.0.1.0.0 (2011)
-~~~~~~~~~~~~~~~~~
+14.0.1.1.0 (03-2023)
+~~~~~~~~~~~~~~~~~~~~
 
-A partir da versão 12.0 o módulo foi melhorado para atender um volume maior de transações com maoir confiabilidade e adequação ao modelo de dados atual da localização.
+* Foi elaborado um script de migração após a alteração dos nomes dos campos, que anteriormente estavam em português, para o inglês, seguindo os padrões  estabelecidos pela OCA.
 
+14.0.1.0.0 (01-2023)
+~~~~~~~~~~~~~~~~~~~~
 
-8.0.1.0.0 (2016)
-~~~~~~~~~~~~~~~~
-
-O módulo do ponto de venda foi criado para atender clientes do estado de São Paulo, com SAT.
+* O módulo base foi desenvolvido para abranger a aplicação de impostos e outras operações brasileiras específicas para o Ponto de Venda. Este módulo inclui funcionalidades comuns para a utilização da CF-e e da NFC-e.

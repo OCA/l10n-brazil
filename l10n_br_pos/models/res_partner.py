@@ -12,18 +12,19 @@ class ResPartner(models.Model):
 
     @api.model
     def create_from_ui(self, partner):
-        if partner.get("vat") and cnpj_cpf.validar_cpf(partner["vat"]):
-            partner["cnpj_cpf"] = cnpj_cpf.formata(partner["vat"])
-            partner["company_type"] = "person"
-        elif partner.get("vat") and cnpj_cpf.validar_cnpj(partner["vat"]):
-            partner["cnpj_cpf"] = cnpj_cpf.formata(partner["vat"])
-            partner["company_type"] = "company"
+        vat = partner.get("vat")
 
-        if partner.get("cnpj_cpf"):
+        if vat:
+            if cnpj_cpf.validar_cpf(vat) or cnpj_cpf.validar_cnpj(vat):
+                partner["cnpj_cpf"] = cnpj_cpf.formata(vat)
+                partner["company_type"] = (
+                    "person" if cnpj_cpf.validar_cpf(vat) else "company"
+                )
+
+        if "vat" in partner:
             partner.pop("vat")
 
-        if partner.get("name"):
+        if "name" in partner:
             partner["legal_name"] = partner["name"]
 
-        res = super().create_from_ui(partner)
-        return res
+        return super().create_from_ui(partner)
