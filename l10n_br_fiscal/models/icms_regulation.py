@@ -359,7 +359,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST BA",
         domain=[
             ("state_from_id.code", "=", "BA"),
-            ("state_to_ids.code", "=", "BA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -429,7 +428,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST CE",
         domain=[
             ("state_from_id.code", "=", "CE"),
-            ("state_to_ids.code", "=", "CE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -499,7 +497,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST DF",
         domain=[
             ("state_from_id.code", "=", "DF"),
-            ("state_to_ids.code", "=", "DF"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -569,7 +566,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST ES",
         domain=[
             ("state_from_id.code", "=", "ES"),
-            ("state_to_ids.code", "=", "ES"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -639,7 +635,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST GO",
         domain=[
             ("state_from_id.code", "=", "GO"),
-            ("state_to_ids.code", "=", "GO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -709,7 +704,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST MA",
         domain=[
             ("state_from_id.code", "=", "MA"),
-            ("state_to_ids.code", "=", "MA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -779,7 +773,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST MT",
         domain=[
             ("state_from_id.code", "=", "MT"),
-            ("state_to_ids.code", "=", "MT"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -849,7 +842,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST MS",
         domain=[
             ("state_from_id.code", "=", "MS"),
-            ("state_to_ids.code", "=", "MS"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -919,7 +911,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST MG",
         domain=[
             ("state_from_id.code", "=", "MG"),
-            ("state_to_ids.code", "=", "MG"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -989,7 +980,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PA",
         domain=[
             ("state_from_id.code", "=", "PA"),
-            ("state_to_ids.code", "=", "PA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1059,7 +1049,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PB",
         domain=[
             ("state_from_id.code", "=", "PB"),
-            ("state_to_ids.code", "=", "PB"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1129,7 +1118,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PR",
         domain=[
             ("state_from_id.code", "=", "PR"),
-            ("state_to_ids.code", "=", "PR"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1199,7 +1187,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PE",
         domain=[
             ("state_from_id.code", "=", "PE"),
-            ("state_to_ids.code", "=", "PE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1269,7 +1256,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PI",
         domain=[
             ("state_from_id.code", "=", "PI"),
-            ("state_to_ids.code", "=", "PI"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1339,7 +1325,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RN",
         domain=[
             ("state_from_id.code", "=", "RN"),
-            ("state_to_ids.code", "=", "RN"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1409,7 +1394,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RS",
         domain=[
             ("state_from_id.code", "=", "RS"),
-            ("state_to_ids.code", "=", "RS"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1479,7 +1463,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RJ",
         domain=[
             ("state_from_id.code", "=", "RJ"),
-            ("state_to_ids.code", "=", "RJ"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1549,7 +1532,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RO",
         domain=[
             ("state_from_id.code", "=", "RO"),
-            ("state_to_ids.code", "=", "RO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1619,7 +1601,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RR",
         domain=[
             ("state_from_id.code", "=", "RR"),
-            ("state_to_ids.code", "=", "RR"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1688,8 +1669,7 @@ class ICMSRegulation(models.Model):
         inverse_name="icms_regulation_id",
         string="ICMS ST SC",
         domain=[
-            ("state_from_id.code", "in", ("SC", False)),
-            ("state_to_ids.code", "in", ("SC", False)),
+            ("state_from_id.code", "=", "SC"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1828,7 +1808,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST SE",
         domain=[
             ("state_from_id.code", "=", "SE"),
-            ("state_to_ids.code", "=", "SE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1898,7 +1877,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST TO",
         domain=[
             ("state_from_id.code", "=", "TO"),
-            ("state_to_ids.code", "=", "TO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
