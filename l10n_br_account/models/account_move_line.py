@@ -6,6 +6,10 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.l10n_br_fiscal.models.document_fiscal_line_mixin_methods import (
+    FISCAL_TAX_PREFIXES,
+)
+
 from .account_move import InheritsCheckMuteLogger
 
 # These fields have the same name in account.move.line
@@ -331,6 +335,10 @@ class AccountMoveLine(models.Model):
         move_type=None,
     ):
         self.ensure_one()
+
+        # get the dict with the values of the taxes entered manually.
+        manual_tax_values = self._prepare_br_manual_tax_dict()
+
         return super(
             AccountMoveLine,
             self.with_context(
@@ -352,6 +360,7 @@ class AccountMoveLine(models.Model):
                 icmssn_range=self.icmssn_range_id,
                 icms_origin=self.icms_origin,
                 ind_final=self.ind_final,
+                **manual_tax_values,
             ),
         )._get_price_total_and_subtotal(
             price_unit=price_unit or self.price_unit,
@@ -363,6 +372,17 @@ class AccountMoveLine(models.Model):
             taxes=taxes or self.tax_ids,
             move_type=move_type or self.move_id.move_type,
         )
+
+    def _get_manual_tax_values_from_context(self):
+        tax_values = {}
+        suffixes = ["_base_manual", "_value_manual"]
+
+        for tax_prefix in FISCAL_TAX_PREFIXES:
+            for suffix in suffixes:
+                attr_name = tax_prefix + suffix
+                tax_values[attr_name] = self.env.context.get(attr_name)
+
+        return tax_values
 
     @api.model
     def _get_price_total_and_subtotal_model(
@@ -404,6 +424,7 @@ class AccountMoveLine(models.Model):
             force_sign = (
                 -1 if move_type in ("out_invoice", "in_refund", "out_receipt") else 1
             )
+            manual_tax_values = self._get_manual_tax_values_from_context()
             taxes_res = taxes._origin.with_context(force_sign=force_sign).compute_all(
                 line_discount_price_unit,
                 currency=currency,
@@ -430,6 +451,7 @@ class AccountMoveLine(models.Model):
                 icmssn_range=self.env.context.get("icmssn_range"),
                 icms_origin=self.env.context.get("icms_origin"),
                 ind_final=self.env.context.get("ind_final"),
+                **manual_tax_values,
             )
 
             result["price_subtotal"] = taxes_res["total_excluded"]
@@ -441,7 +463,47 @@ class AccountMoveLine(models.Model):
 
         return result
 
-    @api.onchange("fiscal_tax_ids")
+    @api.onchange(
+        "fiscal_tax_ids",
+        "icms_base_manual",
+        "icms_value_manual",
+        "icmsst_base_manual",
+        "icmsst_value_manual",
+        "issqn_base_manual",
+        "issqn_value_manual",
+        "issqn_wh_base_manual",
+        "issqn_wh_value_manual",
+        "icmsst_wh_base_manual",
+        "icmsst_wh_value_manual",
+        "ipi_base_manual",
+        "ipi_value_manual",
+        "ii_base_manual",
+        "ii_value_manual",
+        "cofins_base_manual",
+        "cofins_value_manual",
+        "cofinsst_base_manual",
+        "cofinsst_value_manual",
+        "cofins_wh_base_manual",
+        "cofins_wh_value_manual",
+        "pis_base_manual",
+        "pis_value_manual",
+        "pisst_base_manual",
+        "pisst_value_manual",
+        "pis_wh_base_manual",
+        "pis_wh_value_manual",
+        "csll_base_manual",
+        "csll_value_manual",
+        "csll_wh_base_manual",
+        "csll_wh_value_manual",
+        "irpj_base_manual",
+        "irpj_value_manual",
+        "irpj_wh_base_manual",
+        "irpj_wh_value_manual",
+        "inss_base_manual",
+        "inss_value_manual",
+        "inss_wh_base_manual",
+        "inss_wh_value_manual",
+    )
     def _onchange_fiscal_tax_ids(self):
         """Ao alterar o campo fiscal_tax_ids que contém os impostos fiscais,
         são atualizados os impostos contábeis relacionados"""

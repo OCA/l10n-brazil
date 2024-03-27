@@ -43,6 +43,28 @@ FISCAL_CST_ID_FIELDS = [
     "cofinsst_cst_id",
 ]
 
+FISCAL_TAX_PREFIXES = [
+    "icms",
+    "icmsst",
+    "issqn",
+    "issqn_wh",
+    "icmsst_wh",
+    "ipi",
+    "ii",
+    "cofins",
+    "cofinsst",
+    "cofins_wh",
+    "pis",
+    "pisst",
+    "pis_wh",
+    "csll",
+    "csll_wh",
+    "irpj",
+    "irpj_wh",
+    "inss",
+    "inss_wh",
+]
+
 
 class FiscalDocumentLineMixinMethods(models.AbstractModel):
     _name = "l10n_br_fiscal.document.line.mixin.methods"
@@ -186,6 +208,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _compute_taxes(self, taxes, cst=None):
         self.ensure_one()
+
+        # get the dict with the values of the taxes entered manually.
+        manual_tax_values = self._prepare_br_manual_tax_dict()
+
         return taxes.compute_taxes(
             company=self.company_id,
             partner=self.partner_id,
@@ -211,6 +237,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icmssn_range=self.icmssn_range_id,
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
+            **manual_tax_values,
             ind_final=self.ind_final,
         )
 
@@ -239,6 +266,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if default:  # in case you want to use new rather than write later
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
+
+    def _prepare_br_manual_tax_dict(self):
+        manual_tax_dict = {}
+        suffixes = ["_base_manual", "_value_manual"]
+
+        for tax_prefix in FISCAL_TAX_PREFIXES:
+            for suffix in suffixes:
+                attr_name = tax_prefix + suffix
+                manual_tax_dict[attr_name] = getattr(self, attr_name)
+
+        return manual_tax_dict
 
     def _get_all_tax_id_fields(self):
         self.ensure_one()
@@ -789,6 +827,44 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "insurance_value",
         "other_value",
         "freight_value",
+        "icms_base_manual",
+        "icms_value_manual",
+        "icmsst_base_manual",
+        "icmsst_value_manual",
+        "issqn_base_manual",
+        "issqn_value_manual",
+        "issqn_wh_base_manual",
+        "issqn_wh_value_manual",
+        "icmsst_wh_base_manual",
+        "icmsst_wh_value_manual",
+        "ipi_base_manual",
+        "ipi_value_manual",
+        "ii_base_manual",
+        "ii_value_manual",
+        "cofins_base_manual",
+        "cofins_value_manual",
+        "cofinsst_base_manual",
+        "cofinsst_value_manual",
+        "cofins_wh_base_manual",
+        "cofins_wh_value_manual",
+        "pis_base_manual",
+        "pis_value_manual",
+        "pisst_base_manual",
+        "pisst_value_manual",
+        "pis_wh_base_manual",
+        "pis_wh_value_manual",
+        "csll_base_manual",
+        "csll_value_manual",
+        "csll_wh_base_manual",
+        "csll_wh_value_manual",
+        "irpj_base_manual",
+        "irpj_value_manual",
+        "irpj_wh_base_manual",
+        "irpj_wh_value_manual",
+        "inss_base_manual",
+        "inss_value_manual",
+        "inss_wh_base_manual",
+        "inss_wh_value_manual",
     )
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())

@@ -350,7 +350,7 @@ class AccountMove(models.Model):
                 tax_type == "purchase" and base_line.credit
             )
             price_unit_wo_discount = base_line.amount_currency
-
+        manual_tax_values = base_line._prepare_br_manual_tax_dict()
         balance_taxes_res = base_line.tax_ids._origin.with_context(
             force_sign=move._get_tax_force_sign()
         ).compute_all(
@@ -379,6 +379,7 @@ class AccountMove(models.Model):
             icmssn_range=base_line.icmssn_range_id,
             icms_origin=base_line.icms_origin,
             ind_final=base_line.ind_final,
+            **manual_tax_values,
         )
 
         return balance_taxes_res
