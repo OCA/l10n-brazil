@@ -1,7 +1,11 @@
 # Copyright 2019-2020 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
-from odoo import models
+from collections import defaultdict
+
+from odoo import api, models
+
+MIXIN_MAPPINGS = defaultdict(dict)  # by db
 
 
 class SpecMixin(models.AbstractModel):
@@ -29,3 +33,11 @@ class SpecMixin(models.AbstractModel):
             return True
         else:
             return super()._valid_field_parameter(field, name)
+
+    @api.model
+    def _get_concrete_model(self, model_name):
+        "Lookup for concrete models where abstract schema mixins were injected"
+        if MIXIN_MAPPINGS[self.env.cr.dbname].get(model_name) is not None:
+            return self.env[MIXIN_MAPPINGS[self.env.cr.dbname].get(model_name)]
+        else:
+            return self.env.get(model_name)

@@ -11,8 +11,6 @@ from typing import ForwardRef
 
 from odoo import api, models
 
-from .spec_models import SpecModel
-
 _logger = logging.getLogger(__name__)
 
 
@@ -45,8 +43,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
         Defaults values and control options are meant to be passed in the context.
         """
-        model_name = SpecModel._get_concrete(self._name) or self._name
-        model = self.env[model_name]
+        model = self._get_concrete_model(self._name)
         attrs = model.with_context(dry_run=dry_run).build_attrs(node)
         if dry_run:
             return model.new(attrs)
@@ -125,7 +122,7 @@ class AbstractSpecMixin(models.AbstractModel):
                     clean_type.split(".")[-1],
                 )
 
-            comodel = self.get_concrete_model(comodel_name)
+            comodel = self._get_concrete_model(comodel_name)
             if comodel is None:  # example skip ICMS100 class
                 return
             if str(attr[1].type).startswith("typing.List"):
@@ -157,17 +154,6 @@ class AbstractSpecMixin(models.AbstractModel):
             vals.update(new_value)
         else:
             vals[key] = comodel.match_or_create_m2o(new_value, vals)
-
-    @api.model
-    def get_concrete_model(self, comodel_name):
-        "Lookup for concrete models where abstract schema mixins were injected"
-        if (
-            hasattr(models.MetaModel, "mixin_mappings")
-            and models.MetaModel.mixin_mappings.get(comodel_name) is not None
-        ):
-            return self.env[models.MetaModel.mixin_mappings[comodel_name]]
-        else:
-            return self.env.get(comodel_name)
 
     @api.model
     def _extract_related_values(self, vals, key):
@@ -228,7 +214,7 @@ class AbstractSpecMixin(models.AbstractModel):
         # (example: create Nfe lines product)
         for related_m2o, sub_val in related_many2ones.items():
             comodel_name = fields[related_m2o].comodel_name
-            comodel = model.get_concrete_model(comodel_name)
+            comodel = model._get_concrete_model(comodel_name)
             related_many2ones = model._verify_related_many2ones(related_many2ones)
             if hasattr(comodel, "match_or_create_m2o"):
                 vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals)
