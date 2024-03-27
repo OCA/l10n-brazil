@@ -2,55 +2,16 @@
 # Copyright (C) 2021  Magno Costa - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests import Form, SavepointCase, tagged
+from odoo.tests import Form, tagged
+
+from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class TestSaleStock(SavepointCase):
+class TestSaleStock(TestBrPickingInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.invoice_model = cls.env["account.move"]
-        cls.invoice_wizard = cls.env["stock.invoice.onshipping"]
-        cls.stock_return_picking = cls.env["stock.return.picking"]
-        cls.stock_picking = cls.env["stock.picking"]
-
-        # TODO: Em uma instalção direta do modulo
-        #  $ odoo -d test -i l10n_br_sale_stock --stop-after-init
-        #  e depois
-        #  $ odoo -d test --update=l10n_br_sale_stock --test-enable
-        #  o campo do Diário não está vindo preenchido a solução e forçar
-        #  preenchimento para não ter erro nos testes porem no caso dos dados
-        #  demo ao testar na tela vai continuar o problema, para evita-lo é
-        #  preciso instalar o l10n_br_account antes ou preencher manualmente,
-        #  porém isso é um problema já que a instalação direta do modulo deve
-        #  funcionar sem isso.
-        #  No modulo l10n_br_sale para resolver esse problema é feito isso
-        #  https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_sale/
-        #  hooks.py#L35 e https://github.com/OCA/l10n-brazil/blob/12.0/
-        #  l10n_br_sale/demo/fiscal_operation_simple.xml#L10 mas por algum
-        #  motivo não vem carregado aqui, mesmo tendo o l10n_br_sale como
-        #  dependencia.
-        cls.fiscal_operation_venda = cls.env.ref("l10n_br_fiscal.fo_venda")
-        if not cls.fiscal_operation_venda.journal_id:
-            cls.fiscal_operation_venda.journal_id = cls.env.ref(
-                "l10n_br_coa_simple.sale_journal_main_company"
-            )
-        cls.fiscal_operation_dev_venda = cls.env.ref(
-            "l10n_br_fiscal.fo_devolucao_venda"
-        )
-        if not cls.fiscal_operation_dev_venda.journal_id:
-            cls.fiscal_operation_dev_venda.journal_id = cls.env.ref(
-                "l10n_br_coa_simple.general_journal_main_company"
-            )
-
-            cls.stock_picking_sp_lp = cls.env.ref(
-                "l10n_br_stock_account.demo_l10n_br_stock_account-picking-1"
-            )
-
-        cls.company_lucro_presumido = cls.env.ref(
-            "l10n_br_base.empresa_lucro_presumido"
-        )
 
     def test_02_sale_stock_return(self):
         """
@@ -187,33 +148,19 @@ class TestSaleStock(SavepointCase):
             )
 
         picking = sale_order.picking_ids
-        # Check product availability
-        picking.action_assign()
         # Apenas o Produto criado
         self.assertEqual(len(picking.move_ids_without_package), 1)
         self.assertEqual(picking.invoice_state, "2binvoiced")
         # Force product availability
         for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
             # Usado para validar a transferencia dos campos da linha
             # do Pedido de Venda para a linha da Fatura/Invoice
             sale_order_line = move.sale_line_id
             self.assertEqual(sale_order_line.product_uom, move.product_uom)
 
-        picking.button_validate()
+        self.picking_move_state(picking)
         self.assertEqual(picking.state, "done")
-        wizard_obj = self.invoice_wizard.with_context(
-            active_ids=picking.ids,
-            active_model=picking._name,
-            active_id=picking.id,
-        )
-        fields_list = wizard_obj.fields_get().keys()
-        wizard_values = wizard_obj.default_get(fields_list)
-        wizard = wizard_obj.create(wizard_values)
-        wizard.onchange_group()
-        wizard.action_generate()
-        domain = [("picking_ids", "=", picking.id)]
-        invoice = self.invoice_model.search(domain)
+        invoice = self.create_invoice_wizard(picking)
         self.assertEqual(picking.invoice_state, "invoiced")
         self.assertIn(invoice, picking.invoice_ids)
         self.assertIn(picking, invoice.picking_ids)
@@ -281,18 +228,7 @@ class TestSaleStock(SavepointCase):
                 self.assertEqual(sale_order_line.product_uom, inv_line.product_uom_id)
 
         # Teste de Retorno
-        return_wizard_form = Form(
-            self.stock_return_picking.with_context(
-                active_id=picking.id, active_model="stock.picking"
-            )
-        )
-        return_wizard_form.invoice_state = "2binvoiced"
-        self.return_wizard = return_wizard_form.save()
-        result_wizard = self.return_wizard.create_returns()
-
-        self.assertTrue(result_wizard, "Create returns wizard fail.")
-        picking_devolution = self.stock_picking.browse(result_wizard.get("res_id"))
-
+        picking_devolution = self.return_picking_wizard(picking)
         self.assertEqual(picking_devolution.invoice_state, "2binvoiced")
         self.assertTrue(
             picking_devolution.fiscal_operation_id, "Missing Fiscal Operation."
@@ -311,18 +247,7 @@ class TestSaleStock(SavepointCase):
             move.quantity_done = move.product_uom_qty
         picking_devolution.button_validate()
         self.assertEqual(picking_devolution.state, "done", "Change state fail.")
-        wizard_obj = self.invoice_wizard.with_context(
-            active_ids=picking_devolution.ids,
-            active_model=picking_devolution._name,
-            active_id=picking_devolution.id,
-        )
-        fields_list = wizard_obj.fields_get().keys()
-        wizard_values = wizard_obj.default_get(fields_list)
-        wizard = wizard_obj.create(wizard_values)
-        wizard.onchange_group()
-        wizard.action_generate()
-        domain = [("picking_ids", "=", picking_devolution.id)]
-        invoice_devolution = self.invoice_model.search(domain)
+        invoice_devolution = self.create_invoice_wizard(picking_devolution)
         # Confirmando a Fatura
         invoice_devolution.action_post()
         self.assertEqual(
@@ -349,43 +274,16 @@ class TestSaleStock(SavepointCase):
         sale_order_form = Form(sale_order_1)
         sale_order = sale_order_form.save()
         picking = sale_order.picking_ids
-        picking.action_confirm()
-        # Check product availability
-        picking.action_assign()
-        # Force product availability
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking.button_validate()
+        self.picking_move_state(picking)
 
         sale_order_2 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_2")
         sale_order_2.action_confirm()
         picking2 = sale_order_2.picking_ids
-        # Check product availability
-        picking2.action_assign()
-        # Force product availability
-        for move in picking2.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking2.button_validate()
+        self.picking_move_state(picking2)
         self.assertEqual(picking.state, "done")
         self.assertEqual(picking2.state, "done")
         pickings = picking | picking2
-        wizard_obj = self.invoice_wizard.with_context(
-            active_ids=pickings.ids,
-            active_model=pickings._name,
-        )
-        fields_list = wizard_obj.fields_get().keys()
-        wizard_values = wizard_obj.default_get(fields_list)
-        # One invoice per partner but group products
-        wizard_values.update(
-            {
-                "group": "partner_product",
-            }
-        )
-        wizard = wizard_obj.create(wizard_values)
-        wizard.onchange_group()
-        wizard.action_generate()
-        domain = [("picking_ids", "in", (picking.id, picking2.id))]
-        invoice = self.invoice_model.search(domain)
+        invoice = self.create_invoice_wizard(pickings)
         # Fatura Agrupada
         self.assertEqual(len(invoice), 1)
         self.assertEqual(picking.invoice_state, "invoiced")
@@ -427,56 +325,24 @@ class TestSaleStock(SavepointCase):
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
-        picking.action_confirm()
-        # Check product availability
-        picking.action_assign()
-        # Force product availability
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking.button_validate()
+        self.picking_move_state(picking)
 
         sale_order_3 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_3")
         sale_order_3.action_confirm()
         picking3 = sale_order_3.picking_ids
-        # Check product availability
-        picking3.action_assign()
-        # Force product availability
-        for move in picking3.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking3.button_validate()
+        self.picking_move_state(picking3)
         self.assertEqual(picking.state, "done")
         self.assertEqual(picking3.state, "done")
 
         sale_order_4 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_4")
         sale_order_4.action_confirm()
         picking4 = sale_order_4.picking_ids
-        # Check product availability
-        picking4.action_assign()
-        # Force product availability
-        for move in picking4.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking4.button_validate()
+        self.picking_move_state(picking4)
         self.assertEqual(picking.state, "done")
-        self.assertEqual(picking3.state, "done")
+        self.assertEqual(picking4.state, "done")
 
         pickings = picking | picking3 | picking4
-        wizard_obj = self.invoice_wizard.with_context(
-            active_ids=pickings.ids,
-            active_model=pickings._name,
-        )
-        fields_list = wizard_obj.fields_get().keys()
-        wizard_values = wizard_obj.default_get(fields_list)
-        # One invoice per partner but group products
-        wizard_values.update(
-            {
-                "group": "partner_product",
-            }
-        )
-        wizard = wizard_obj.create(wizard_values)
-        wizard.onchange_group()
-        wizard.action_generate()
-        domain = [("picking_ids", "in", (picking.id, picking3.id, picking4.id))]
-        invoices = self.invoice_model.search(domain)
+        invoices = self.create_invoice_wizard(pickings)
         # Mesmo tendo o mesmo Partner Invoice se não tiver o
         # mesmo Partner Shipping não deve ser Agrupado
         self.assertEqual(len(invoices), 2)
@@ -511,15 +377,11 @@ class TestSaleStock(SavepointCase):
         sale_order_1._onchange_partner_shipping_id()
         self.assertEqual(sale_order_1.partner_shipping_id, picking.partner_id)
 
-    def _change_user_company(self, company):
-        self.env.user.company_ids += company
-        self.env.user.company_id = company
-
     def test_lucro_presumido_company(self):
         """
         Test Lucro Presumido Company
         """
-        self._change_user_company(self.company_lucro_presumido)
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
         sale_order_1 = self.env.ref(
             "l10n_br_sale_stock.l10n_br_sale_stock_lucro_presumido"
         )
@@ -535,31 +397,9 @@ class TestSaleStock(SavepointCase):
         sale_order = sale_order_form.save()
         sale_order.action_confirm()
         picking = sale_order.picking_ids
-        picking.action_confirm()
-        # Check product availability
-        picking.action_assign()
-        # Force product availability
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking.button_validate()
+        self.picking_move_state(picking)
 
-        wizard_obj = self.invoice_wizard.with_context(
-            active_ids=picking.ids,
-            active_model=picking._name,
-        )
-        fields_list = wizard_obj.fields_get().keys()
-        wizard_values = wizard_obj.default_get(fields_list)
-        # One invoice per partner but group products
-        wizard_values.update(
-            {
-                "group": "partner_product",
-            }
-        )
-        wizard = wizard_obj.create(wizard_values)
-        wizard.onchange_group()
-        wizard.action_generate()
-        domain = [("picking_ids", "=", picking.id)]
-        invoice = self.invoice_model.search(domain)
+        invoice = self.create_invoice_wizard(picking)
         self.assertEqual(len(invoice), 1)
         for inv_line in invoice.invoice_line_ids:
             # TODO: No Travis quando a empresa main_company falha esse browse aqui
@@ -568,3 +408,32 @@ class TestSaleStock(SavepointCase):
             #  feito o teste apenas instalando os modulos l10n_br_account e em
             #  seguida o l10n_br_stock_account.
             self.assertTrue(inv_line.tax_ids, "Error to map Sale Tax in invoice.line.")
+
+    def test_compatible_with_international_case(self):
+        """Test of compatible with international case, create Invoice but not for Brazil."""
+        so_international = self.env.ref("sale.sale_order_3")
+        # TODO: Em algum momento nos dados de demonstração está carregando
+        #  a Operação Fiscal, o problema não aparece quando os testes são
+        #  feitos da forma como ocorre no github, porém ao instalar o modulo
+        #  e depois rodar os testes o valor está vindo preenchido, isso não
+        #  está afetando o processo na tela e até simula o caso quando apesar
+        #  da Empresa ser do Brasil o metodo default preenche o campo mas o
+        #  usuário decide que não deve gerar Documento Fiscal e por isso apaga
+        #  a Operação Fiscal
+        so_international.fiscal_operation_id = False
+        so_international.action_confirm()
+        picking = so_international.picking_ids
+        self.picking_move_state(picking)
+        invoice = self.create_invoice_wizard(picking)
+        # Caso Internacional não deve ter Documento Fiscal associado
+        self.assertFalse(
+            invoice.fiscal_document_id,
+            "International case should not has Fiscal Document.",
+        )
+        # Teste Retorno
+        picking_devolution = self.return_picking_wizard(picking)
+        invoice_devolution = self.create_invoice_wizard(picking_devolution)
+        self.assertFalse(
+            invoice_devolution.fiscal_document_id,
+            "International case should not has Fiscal Document.",
+        )
