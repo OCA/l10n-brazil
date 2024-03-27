@@ -80,6 +80,7 @@ class NFe(spec_models.StackedModel):
     _schema_version = "4.0.0"
     _odoo_module = "l10n_br_nfe"
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
+    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
     _spec_tab_name = "NFe"
     _nfe_search_keys = ["nfe40_Id"]
 
@@ -852,6 +853,7 @@ class NFe(spec_models.StackedModel):
         for record in self.with_context(lang="pt_BR").filtered(
             filter_processador_edoc_nfe
         ):
+            record = record.with_context(module="l10n_br_nfe")
             inf_nfe = record.export_ds()[0]
 
             inf_nfe_supl = None

@@ -72,6 +72,7 @@ class NFeLine(spec_models.StackedModel):
     _schema_version = "4.0.0"
     _odoo_module = "l10n_br_nfe"
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
+    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
     _spec_tab_name = "NFe"
     _stacking_points = {}
     # all m2o below this level will be stacked even if not required:

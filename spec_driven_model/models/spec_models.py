@@ -213,6 +213,16 @@ class SpecModel(models.AbstractModel):
                 return base_class
         return None
 
+    @classmethod
+    def _find_origin_class_by_module(cls, module, spec_module=False):
+        for klass in cls.__bases__:
+            if spec_module:
+                if hasattr(klass, "_spec_module") and klass._spec_module == module:
+                    return klass
+
+            elif klass._module == module:
+                return klass
+
     def _register_hook(self):
         res = super()._register_hook()
         from .. import hooks  # importing here avoids loop
