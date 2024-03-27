@@ -17,8 +17,8 @@ from .account_move import InheritsCheckMuteLogger
 # Fields that are related in l10n_br_fiscal.document.line like partner_id or company_id
 # don't need to be written through the account.move.line write.
 SHADOWED_FIELDS = [
-    "name",
     "product_id",
+    "name",
     "quantity",
     "price_unit",
 ]
@@ -150,11 +150,31 @@ class AccountMoveLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        inv_line_index = -1
         for values in vals_list:
+            inv_line_index_old = inv_line_index
+            if values.get("product_id"):
+                inv_line_index += 1
+            if values.get("fiscal_document_line_id"):
+                fiscal_line_data = (
+                    self.env["l10n_br_fiscal.document.line"]
+                    .browse(values["fiscal_document_line_id"])
+                    .read(self._shadowed_fields())[0]
+                )
+                for k, v in fiscal_line_data.items():
+                    if isinstance(v, tuple):  # m2o
+                        values[k] = v[0]
+                    else:
+                        values[k] = v
+                continue
+
+            if values.get("exclude_from_invoice_tab"):
+                continue
+
             move_id = self.env["account.move"].browse(values["move_id"])
             fiscal_doc_id = move_id.fiscal_document_id.id
 
-            if not fiscal_doc_id or values.get("exclude_from_invoice_tab"):
+            if not fiscal_doc_id:
                 continue
 
             values.update(
@@ -189,16 +209,29 @@ class AccountMoveLine(models.Model):
                 cfop_id = (
                     self.env["l10n_br_fiscal.cfop"].browse(cfop) if cfop else False
                 )
+
+                if move_id.imported_document and inv_line_index != inv_line_index_old:
+                    # this will fix the the Debit side for imported fiscal documents
+                    amount_tax_included = move_id.fiscal_document_id.fiscal_line_ids[
+                        inv_line_index
+                    ].amount_tax_included_from_tax_values
+                    amount_tax_not_included = (
+                        move_id.fiscal_document_id.fiscal_line_ids[
+                            inv_line_index
+                        ].amount_tax_excluded_from_tax_values
+                    )
+                else:
+                    amount_tax_included = values.get("amount_tax_included")
+                    amount_tax_not_included = values.get("amount_tax_not_included")
+
                 values.update(
                     self._get_amount_credit_debit_model(
                         move_id,
                         exclude_from_invoice_tab=values.get(
                             "exclude_from_invoice_tab", False
                         ),
-                        amount_tax_included=values.get("amount_tax_included", 0),
-                        amount_tax_not_included=values.get(
-                            "amount_tax_not_included", 0
-                        ),
+                        amount_tax_included=amount_tax_included,
+                        amount_tax_not_included=amount_tax_not_included,
                         amount_total=fiscal_line.amount_total,
                         currency_id=move_id.currency_id,
                         company_id=move_id.company_id,
@@ -216,7 +249,7 @@ class AccountMoveLine(models.Model):
         # of the remaining fiscal document lines with their proper aml. That's why we
         # remove the useless fiscal document lines here.
         for line in results:
-            if not fiscal_doc_id or line.exclude_from_invoice_tab:
+            if not line.move_id.fiscal_document_id or line.exclude_from_invoice_tab:
                 fiscal_line_to_delete = line.fiscal_document_line_id
                 line.fiscal_document_line_id = False
                 fiscal_line_to_delete.sudo().unlink()
@@ -396,7 +429,7 @@ class AccountMoveLine(models.Model):
 
         insurance_value = self.env.context.get("insurance_value", 0)
         other_value = self.env.context.get("other_value", 0)
-        freight_value = self.env.context.get("other_value", 0)
+        freight_value = self.env.context.get("other_value", 0)  # TODO freight_value?
         ii_customhouse_charges = self.env.context.get("ii_customhouse_charges", 0)
 
         # Compute 'price_total'.
@@ -440,6 +473,23 @@ class AccountMoveLine(models.Model):
         )
 
         return result
+
+    @api.onchange("fiscal_document_line_id")
+    def _onchange_fiscal_document_line_id(self):
+        if self.fiscal_document_line_id:
+            for field in self._shadowed_fields():
+                value = getattr(self.fiscal_document_line_id, field)
+                if isinstance(value, tuple):  # m2o
+                    setattr(self, field, value[0])
+                else:
+                    setattr(self, field, value)
+            # override the default product uom (set by the onchange):
+            self.product_uom_id = self.fiscal_document_line_id.uom_id.id
+
+    def _get_computed_taxes(self):
+        if self._is_imported() and self.fiscal_tax_ids and self.tax_ids:
+            return self.tax_ids
+        return super()._get_computed_taxes()
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
@@ -546,6 +596,11 @@ class AccountMoveLine(models.Model):
         # The formatting was a little strange, but I tried to make it as close as
         # possible to the logic adopted by native Odoo.
         # Example: _get_fields_onchange_subtotal
+        if self._is_imported():
+            # this will get the Credit side correct for imported fiscal documents:
+            amount_tax_included = self.amount_tax_included_from_tax_values
+            amount_tax_not_included = self.amount_tax_excluded_from_tax_values
+
         return self._get_amount_credit_debit_model(
             move_id=self.move_id if move_id is None else move_id,
             exclude_from_invoice_tab=self.exclude_from_invoice_tab
@@ -610,3 +665,8 @@ class AccountMoveLine(models.Model):
             "debit": balance > 0.0 and balance or 0.0,
             "credit": balance < 0.0 and -balance or 0.0,
         }
+
+    @api.constrains("product_uom_id")
+    def _check_product_uom_category_id(self):
+        not_imported = self.filtered(lambda line: not line._is_imported())
+        return super(AccountMoveLine, not_imported)._check_product_uom_category_id()

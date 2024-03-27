@@ -1116,6 +1116,7 @@ class NFe(spec_models.StackedModel):
         )
 
     def import_binding_nfe(self, binding, edoc_type="out"):
+        binding.NFe.infNFe.autXML = None  # don't import autXML
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
