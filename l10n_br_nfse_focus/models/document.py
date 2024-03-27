@@ -16,14 +16,13 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
-    MODELO_FISCAL_NFSE,
-    PROCESSADOR_OCA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
 )
 from odoo.addons.l10n_br_fiscal.models.document import Document as FiscalDocument
+from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
 NFSE_URL = {
     "1": "https://api.focusnfe.com.br",
@@ -40,14 +39,6 @@ API_ENDPOINT = {
 TIMEOUT = 60  # 60 seconds
 
 _logger = logging.getLogger(__name__)
-
-
-def filter_oca_nfse(record):
-    if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
-        MODELO_FISCAL_NFSE,
-    ]:
-        return True
-    return False
 
 
 def filter_focusnfe(record):
@@ -283,7 +274,7 @@ class Document(models.Model):
         Returns:
             None. Creates or updates an 'ir.attachment' record with the PDF content.
         """
-        if not self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
+        if not self.filtered(filter_processador_edoc_nfse).filtered(filter_focusnfe):
             return super().make_pdf()
         else:
             if self.document_number:
@@ -315,7 +306,9 @@ class Document(models.Model):
             NFSe-specific information.
         """
         edocs = super()._serialize(edocs)
-        for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe
+        ):
             edoc = []
             edoc.append({"rps": record._prepare_lote_rps()})
             edoc.append({"service": record._prepare_dados_servico()})
@@ -333,24 +326,23 @@ class Document(models.Model):
         Returns:
             The result of the document export operation.
         """
-        if self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
+        if self.filtered(filter_processador_edoc_nfse).filtered(filter_focusnfe):
             result = super(FiscalDocument, self)._document_export()
         else:
             result = super()._document_export()
-        for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
-            if record.company_id.provedor_nfse:
-                event_id = record.event_ids.create_event_save_xml(
-                    company_id=self.company_id,
-                    environment=(
-                        EVENT_ENV_PROD
-                        if record.nfse_environment == "1"
-                        else EVENT_ENV_HML
-                    ),
-                    event_type="0",
-                    xml_file="",
-                    document_id=record,
-                )
-                record.authorization_event_id = event_id
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe
+        ):
+            event_id = record.event_ids.create_event_save_xml(
+                company_id=self.company_id,
+                environment=(
+                    EVENT_ENV_PROD if record.nfse_environment == "1" else EVENT_ENV_HML
+                ),
+                event_type="0",
+                xml_file="",
+                document_id=record,
+            )
+            record.authorization_event_id = event_id
         return result
 
     def _document_status(self):
@@ -363,7 +355,9 @@ class Document(models.Model):
             A string indicating the current status of the document.
         """
         result = super(FiscalDocument, self)._document_status()
-        for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe
+        ):
             ref = "rps" + record.rps_number
             response = self.env["focusnfe.nfse"].query_focus_nfse_by_rps(
                 ref, 0, record.company_id, record.nfse_environment
@@ -436,7 +430,9 @@ class Document(models.Model):
         Returns:
             The response regarding the cancellation request.
         """
-        for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe
+        ):
             ref = "rps" + record.rps_number
             response = self.env["focusnfe.nfse"].cancel_focus_nfse_document(
                 ref, record.cancel_reason, record.company_id, record.nfse_environment
@@ -535,7 +531,9 @@ class Document(models.Model):
             None. Updates the document's status based on the response.
         """
         res = super()._eletronic_document_send()
-        for record in self.filtered(filter_oca_nfse).filtered(filter_focusnfe):
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe
+        ):
             for edoc in record.serialize():
                 ref = "rps" + record.rps_number
                 response = self.env["focusnfe.nfse"].process_focus_nfse_document(
@@ -592,7 +590,7 @@ class Document(models.Model):
         """
         records = (
             self.search([("state", "in", ["enviada"])], limit=25)
-            .filtered(filter_oca_nfse)
+            .filtered(filter_processador_edoc_nfse)
             .filtered(filter_focusnfe)
         )
         if records:
