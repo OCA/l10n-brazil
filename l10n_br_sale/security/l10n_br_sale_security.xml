@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+
+  <record id="group_discount_per_value" model="res.groups">
+    <field name="name">Discount in Sales Orders per Value</field>
+    <field name="category_id" ref="base.module_category_hidden" />
+  </record>
+
+  <record id="group_total_discount" model="res.groups">
+    <field name="name">Allow Amount Discount on Sales Orders</field>
+    <field name="category_id" ref="base.module_category_hidden" />
+  </record>
+
+  <record id="base.user_admin" model="res.users">
+    <field
+            name="groups_id"
+            eval="[(4, ref('l10n_br_sale.group_discount_per_value')), (4, ref('product.group_discount_per_so_line'))]"
+        />
+  </record>
+
+</odoo>

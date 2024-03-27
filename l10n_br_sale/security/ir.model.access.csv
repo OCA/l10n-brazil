@@ -1,0 +1,7 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_fiscal_fiscal_document","l10n_br_fiscal.fiscal.document","l10n_br_fiscal.model_l10n_br_fiscal_document","sales_team.group_sale_salesman",1,0,0,0
+"l10n_br_fiscal_operation","l10n_br_fiscal.fiscal.operation","l10n_br_fiscal.model_l10n_br_fiscal_operation","sales_team.group_sale_salesman",1,0,0,0
+"l10n_br_fiscal_document_serie","l10n_br_fiscal.document.serie","l10n_br_fiscal.model_l10n_br_fiscal_document_serie","sales_team.group_sale_salesman",1,0,0,0
+"l10n_br_fiscal_product_genre","l10n_br_fiscal.l10n_br_fiscal_product_genre","l10n_br_fiscal.model_l10n_br_fiscal_product_genre","sales_team.group_sale_salesman",1,0,0,0
+"l10n_br_fiscal_cnae","l10n_br_fiscal.cnae","l10n_br_fiscal.model_l10n_br_fiscal_cnae","sales_team.group_sale_salesman",1,0,0,0
+"l10n_br_fiscal_partner_profile_user","l10n_br_fiscal.partner_profile","l10n_br_fiscal.model_l10n_br_fiscal_partner_profile","sales_team.group_sale_salesman",1,0,0,0
