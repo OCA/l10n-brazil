@@ -212,7 +212,7 @@
                 <field name="uom_id" optional="hide" />
                 <field name="fiscal_genre_id" optional="hide" />
                 <field name="partner_company_type" invisible="1" />
-                    <field name="fiscal_operation_type" invisible="1" />
+                <field name="fiscal_operation_type" invisible="1" />
                 <field
                     name="fiscal_tax_ids"
                     invisible="1"
@@ -315,6 +315,11 @@
                 <field name="debit" invisible="1" />
             </xpath>
 
+            <!-- The next fields are defined in a superficial way in the inherited
+                form that is considered specific for mobile edition by Odoo but not
+                for us in the Brazilian localization. To make it work properly
+                we had to define some extra attributes just like in the editable tree view:
+            -->
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='product_id']"
                 position="attributes"
@@ -323,7 +328,6 @@
                     name="domain"
                 >context.get('default_move_type') in ('out_invoice', 'out_refund', 'out_receipt') and [('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)] or [('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
             </xpath>
-
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='account_id']"
                 position="attributes"
@@ -337,17 +341,14 @@
                     name="attrs"
                 >{'required': [('display_type', '=', False)]}</attribute>
             </xpath>
-
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_account_id']"
                 position="attributes"
             >
-                <attribute name="groups">analytic.group_analytic_accounting</attribute>
                 <attribute
                     name="domain"
                 >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
             </xpath>
-
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_tag_ids']"
                 position="attributes"
@@ -355,7 +356,6 @@
                 <attribute
                     name="domain"
                 >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
-                <attribute name="groups">analytic.group_analytic_tags</attribute>
             </xpath>
 
             <xpath
