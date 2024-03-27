@@ -64,6 +64,19 @@ class ResCompany(spec_models.SpecModel):
         default=NFE_ENVIRONMENT_DEFAULT,
     )
 
+    nfe_synchronous_processing = fields.Boolean(
+        help=(
+            "When enabled, this option configures the system to transmit the "
+            "NFe (Electronic Invoice) using a synchronous method instead of an "
+            "asynchronous one. This means that the system will wait for an immediate "
+            "response from the tax authority's system (SEFAZ) upon submission of the "
+            "NFe, providing quicker feedback on the submission status. Before "
+            "activating this option, please ensure that the SEFAZ in your state "
+            "supports synchronous processing for NFe submissions. Failure to verify "
+            "compatibility may result in transmission errors or rejections."
+        ),
+    )
+
     nfe_transmission = fields.Selection(
         selection=NFE_TRANSMISSIONS,
         string="Transmission Type",

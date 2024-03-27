@@ -13,6 +13,11 @@
                           <field name="nfe_version" required="1" />
                           <field name="nfe_environment" required="1" />
                           <field name="nfe_transmission" required="1" />
+                          <field
+                                name="nfe_synchronous_processing"
+                                string="Synchronous Processing"
+                                required="1"
+                            />
                           <field name="nfe_danfe_layout" required="1" />
                           <field name="nfce_danfe_layout" required="1" />
                           <field
