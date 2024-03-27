@@ -45,6 +45,21 @@ class TestFiscalDocumentGeneric(SavepointCase):
     def test_nfe_same_state(self):
         """Test NFe same state."""
 
+        # First we will create a fiscal document for a contact
+        # in a different state but related to a partner in the same state
+        # In the fiscal document we expect only "commercial partners"
+        # but this will test what can happen with a SO/PO or invoice
+        # using a contact different from the "commercial partner".
+        contact_other_state = self.nfe_other_state.partner_id.copy(
+            default={
+                "parent_id": self.nfe_same_state.partner_id.id,
+                "is_company": False,
+                "cnpj_cpf": False,
+            },
+        )
+        # yes for some reason we need to specify the state again:
+        contact_other_state.state_id = self.nfe_other_state.partner_id.state_id.id
+        self.nfe_same_state.partner_id = contact_other_state.id
         self.nfe_same_state._onchange_document_serie_id()
         self.nfe_same_state._onchange_fiscal_operation_id()
 

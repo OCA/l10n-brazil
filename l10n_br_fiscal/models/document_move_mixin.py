@@ -19,101 +19,101 @@ class DocumentMoveMixin(models.AbstractModel):
 
     partner_legal_name = fields.Char(
         string="Legal Name",
-        related="partner_id.legal_name",
+        related="partner_id.commercial_partner_id.legal_name",
     )
 
     partner_name = fields.Char(
         string="Partner Name",
-        related="partner_id.name",
+        related="partner_id.commercial_partner_id.name",
     )
 
     partner_cnpj_cpf = fields.Char(
         string="CNPJ",
-        related="partner_id.cnpj_cpf",
+        related="partner_id.commercial_partner_id.cnpj_cpf",
     )
 
     partner_inscr_est = fields.Char(
         string="State Tax Number",
-        related="partner_id.inscr_est",
+        related="partner_id.commercial_partner_id.inscr_est",
     )
 
     partner_ind_ie_dest = fields.Selection(
         string="Contribuinte do ICMS",
-        related="partner_id.ind_ie_dest",
+        related="partner_id.commercial_partner_id.ind_ie_dest",
     )
 
     partner_inscr_mun = fields.Char(
         string="Municipal Tax Number",
-        related="partner_id.inscr_mun",
+        related="partner_id.commercial_partner_id.inscr_mun",
     )
 
     partner_suframa = fields.Char(
         string="Suframa",
-        related="partner_id.suframa",
+        related="partner_id.commercial_partner_id.suframa",
     )
 
     partner_cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
         string="Main CNAE",
-        related="partner_id.cnae_main_id",
+        related="partner_id.commercial_partner_id.cnae_main_id",
     )
 
     partner_tax_framework = fields.Selection(
         string="Tax Framework",
-        related="partner_id.tax_framework",
+        related="partner_id.commercial_partner_id.tax_framework",
     )
 
     partner_street = fields.Char(
         string="Partner Street",
-        related="partner_id.street",
+        related="partner_id.commercial_partner_id.street",
     )
 
     partner_number = fields.Char(
         string="Partner Number",
-        related="partner_id.street_number",
+        related="partner_id.commercial_partner_id.street_number",
     )
 
     partner_street2 = fields.Char(
         string="Partner Street2",
-        related="partner_id.street2",
+        related="partner_id.commercial_partner_id.street2",
     )
 
     partner_district = fields.Char(
         string="Partner District",
-        related="partner_id.district",
+        related="partner_id.commercial_partner_id.district",
     )
 
     partner_country_id = fields.Many2one(
         comodel_name="res.country",
         string="Partner Country",
-        related="partner_id.country_id",
+        related="partner_id.commercial_partner_id.country_id",
     )
 
     partner_state_id = fields.Many2one(
         comodel_name="res.country.state",
         string="Partner State",
-        related="partner_id.state_id",
+        related="partner_id.commercial_partner_id.state_id",
     )
 
     partner_city_id = fields.Many2one(
         comodel_name="res.city",
         string="Partner City",
-        related="partner_id.city_id",
+        related="partner_id.commercial_partner_id.city_id",
     )
 
     partner_zip = fields.Char(
         string="Partner Zip",
-        related="partner_id.zip",
+        related="partner_id.commercial_partner_id.zip",
     )
 
     partner_phone = fields.Char(
         string="Partner Phone",
-        related="partner_id.phone",
+        related="partner_id.commercial_partner_id.phone",
     )
 
     partner_is_company = fields.Boolean(
         string="Partner Is Company?",
-        related="partner_id.is_company",
+        related="partner_id.commercial_partner_id.is_company",
     )
 
     company_id = fields.Many2one(
