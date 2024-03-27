@@ -12,6 +12,12 @@
                     attrs="{'readonly': [('state', '!=', 'draft')]}"
                 />
             </field>
+            <field name="document_type_id" position="after">
+                <field
+                    name="disable_tax_entries"
+                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                />
+            </field>
         </field>
     </record>
 
