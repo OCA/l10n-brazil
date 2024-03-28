@@ -145,6 +145,16 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         values.update(fiscal_values)
 
+        # Apesar do metodo _get_taxes retornar os Impostos corretamente
+        # ao rodar o _simulate_line_onchange
+        # https://github.com/OCA/account-invoicing/blob/14.0/
+        # stock_picking_invoicing/wizards/stock_invoice_onshipping.py#L415
+        # o valor acaba sendo alterado
+        # TODO: Analisar se isso é um problema da Localização e se existe
+        #  alguma forma de resolver, por enquanto está sendo informado
+        #  novamente aqui
+        values["tax_ids"] = [(6, 0, move.tax_ids.ids)]
+
         return values
 
     def _get_move_key(self, move):
