@@ -98,9 +98,7 @@ class NFSeRESTClient(object):
 
 
 def filter_nacional(record):
-    if record.company_id.provedor_nfse == "nacional":
-        return True
-    return False
+    return record.company_id.provedor_nfse == "nacional"
 
 
 class Document(models.Model):
@@ -298,30 +296,48 @@ class Document(models.Model):
         return NFSeRESTClient(tpAmb=self.nfse_environment, certificate=certificado)
 
     def _document_export(self, pretty_print=True):
-        result = super(FiscalDocument, self)._document_export()
-        # we skip super the l10n_br_nfase super because we don't use erpbrasil.edoc
-        for record in self.filtered(filter_nacional):
-            if record.company_id.provedor_nfse:
-                edoc = record.serialize()[0]
-                processador = record._processador_nfse_nacional()
-                xml_file = processador.render_edoc_xsdata(
-                    edoc, pretty_print=pretty_print
-                )
-                event_id = self.event_ids.create_event_save_xml(
-                    company_id=self.company_id,
-                    environment=(
-                        EVENT_ENV_PROD
-                        if self.nfse_environment == "1"
-                        else EVENT_ENV_HML
-                    ),
-                    event_type="0",
-                    xml_file=xml_file,
-                    document_id=self,
-                )
-                _logger.debug(xml_file)
-                record.authorization_event_id = event_id
-                record.make_pdf()
+        if self.filtered(filter_processador_edoc_nfse).filtered(filter_nacional):
+            result = super(FiscalDocument, self)._document_export()
+        else:
+            result = super()._document_export()
+        for record in self.filtered(filter_nacional).filtered(filter_nacional):
+            edoc = record.serialize()[0]
+            processador = record._processador_nfse_nacional()
+            xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)
+            event_id = self.event_ids.create_event_save_xml(
+                company_id=self.company_id,
+                environment=(
+                    EVENT_ENV_PROD if self.nfse_environment == "1" else EVENT_ENV_HML
+                ),
+                event_type="0",
+                xml_file=xml_file,
+                document_id=self,
+            )
+            _logger.debug(xml_file)
+            record.authorization_event_id = event_id
+            record.make_pdf()
         return result
+
+    def _document_status(self):
+        # TODO
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_nacional
+        ):
+            processador = record._processador_erpbrasil_nfse()  # TODO
+            processo = processador.consulta_nfse_rps(
+                rps_number=int(record.rps_number),
+                rps_serie=record.document_serie,
+                rps_type=int(record.rps_type),
+            )
+
+            return _(
+                processador.analisa_retorno_consulta(
+                    processo,
+                    record.document_number,
+                    record.company_cnpj_cpf,
+                    record.company_legal_name,
+                )
+            )
 
     def cancel_document_nacional(self):
         # TODO
@@ -349,25 +365,6 @@ class Document(models.Model):
             )
 
             return status
-
-    def _document_status(self):
-        # TODO
-        for record in self.filtered(filter_processador_edoc_nfse):
-            processador = record._processador_erpbrasil_nfse()  # TODO
-            processo = processador.consulta_nfse_rps(
-                rps_number=int(record.rps_number),
-                rps_serie=record.document_serie,
-                rps_type=int(record.rps_type),
-            )
-
-            return _(
-                processador.analisa_retorno_consulta(
-                    processo,
-                    record.document_number,
-                    record.company_cnpj_cpf,
-                    record.company_legal_name,
-                )
-            )
 
     def _eletronic_document_send(self):  # TODO
         super()._eletronic_document_send()
