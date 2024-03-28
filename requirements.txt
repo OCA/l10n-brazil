@@ -16,3 +16,4 @@ pyyaml
 satcomum
 unidecode
 workalendar
+xsdata

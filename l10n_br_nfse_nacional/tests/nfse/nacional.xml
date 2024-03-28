@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.00">
+  <infDPS Id="DPS313240410901171022668000001000000000000050">
+    <tpAmb>2</tpAmb>
+    <dhEmi>2020-06-04T13:58:46+02:00</dhEmi>
+    <verAplic>Odoo OCA</verAplic>
+    <serie>001</serie>
+    <nDPS>50</nDPS>
+    <dCompet>2020-06-04</dCompet>
+    <tpEmit>1</tpEmit>
+    <cLocEmi>3132404</cLocEmi>
+    <prest>
+      <CNPJ>59594315000157</CNPJ>
+      <IM>35172</IM>
+      <fone>2130109965</fone>
+      <email>info@simplesnacional.example.com</email>
+      <regTrib>
+        <opSimpNac>1</opSimpNac>
+        <regApTribSN>1</regApTribSN>
+        <regEspTrib>1</regEspTrib>
+      </regTrib>
+    </prest>
+    <toma>
+      <CNPJ>81493979000189</CNPJ>
+      <xNome>Cliente 1 SP</xNome>
+      <end>
+        <endNac>
+          <cMun>3550308</cMun>
+          <CEP>04576060</CEP>
+        </endNac>
+        <xLgr>Rua Samuel Morse</xLgr>
+        <nro>135</nro>
+        <xBairro>Brooklin</xBairro>
+      </end>
+      <fone>551134782150</fone>
+      <email>cliente1@cliente1.com.br</email>
+    </toma>
+    <serv>
+      <locPrest />
+      <cServ>
+        <cTribNac>000105</cTribNac>
+        <xDescServ>[ODOO_DEV] Customized Odoo Development</xDescServ>
+      </cServ>
+    </serv>
+    <valores>
+      <vServPrest>
+        <vServ>100.00</vServ>
+      </vServPrest>
+      <vDescCondIncond>
+        <vDescIncond>0.00</vDescIncond>
+      </vDescCondIncond>
+      <vDedRed>
+        <pDR>0.00</pDR>
+      </vDedRed>
+      <trib>
+        <tribMun>
+          <tribISSQN>1</tribISSQN>
+          <pAliq>0.05</pAliq>
+          <tpRetISSQN>2</tpRetISSQN>
+        </tribMun>
+        <totTrib>
+          <pTotTribSN>0.05</pTotTribSN>
+        </totTrib>
+      </trib>
+    </valores>
+  </infDPS>
+</DPS>
