@@ -1,4 +1,5 @@
 # Copyright 2023 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# Copyright 2023 Engenere - Antônio S. Pereira Neto <neto@engenere.one>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields
@@ -77,13 +78,23 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
         return res
 
     def test_company_sn_config(self):
-        self.assertEqual(
-            self.company_data["company"].simplified_tax_id.name, "Anexo 2 - Indústria"
+        company_sn = self.company_data["company"]
+        # Imposto quando é venda de fabricação própria (Venda)
+        industry_sn_taxes = company_sn.sn_effective_tax_ids.filtered(
+            lambda t: t.simplified_tax_id.name == "Anexo 2 - Indústria"
         )
-        self.assertEqual(self.company_data["company"].simplified_tax_percent, 8.44)
-        self.assertEqual(
-            self.company_data["company"].simplified_tax_range_id.name, "Faixa 4"
+        self.assertAlmostEqual(industry_sn_taxes.current_effective_tax, 8.44, places=2)
+        self.assertEqual(industry_sn_taxes.current_range_id.name, "Faixa 4")
+        self.assertAlmostEqual(industry_sn_taxes.tax_icms_percent, 2.70, places=2)
+        self.assertAlmostEqual(company_sn.icmssn_credit_industry, 2.70, places=2)
+        # Impostos quando é comercialização (Revenda)
+        commerce_sn_taxes = company_sn.sn_effective_tax_ids.filtered(
+            lambda t: t.simplified_tax_id.name == "Anexo 1 - Comércio"
         )
+        self.assertAlmostEqual(commerce_sn_taxes.current_effective_tax, 7.94, places=2)
+        self.assertEqual(commerce_sn_taxes.current_range_id.name, "Faixa 4")
+        self.assertAlmostEqual(commerce_sn_taxes.tax_icms_percent, 2.66, places=2)
+        self.assertAlmostEqual(company_sn.icmssn_credit_commerce, 2.66, places=2)
 
     def test_revenda_fiscal_lines(self):
         self.assertEqual(
@@ -98,7 +109,7 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             self.move_out_revenda.invoice_line_ids[0].icms_cst_id,
             self.env.ref("l10n_br_fiscal.cst_icmssn_101"),
         )
-        self.assertEqual(self.move_out_revenda.invoice_line_ids[0].icmssn_percent, 2.70)
+        self.assertEqual(self.move_out_revenda.invoice_line_ids[0].icmssn_percent, 2.66)
 
     def test_revenda(self):
         product_line_vals_1 = {
@@ -114,9 +125,9 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "price_total": 1000.0,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": -973.0,
+            "amount_currency": -973.4,
             "debit": 0.0,
-            "credit": 973.0,
+            "credit": 973.4,
             "date_maturity": False,
             "tax_exigible": True,
         }
@@ -139,9 +150,9 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             .search([("name", "=", "ICMS SN Saida")], order="id DESC", limit=1)
             .id,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": -27.0,
+            "amount_currency": -26.6,
             "debit": 0.0,
-            "credit": 27.0,
+            "credit": 26.6,
             "date_maturity": False,
             "tax_exigible": True,
         }

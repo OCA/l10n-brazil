@@ -33,6 +33,14 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         fiscal_line_ids = self._get_amount_lines()
         return fiscal_line_ids.filtered(lambda line: line.product_id.type != "service")
 
+    def is_sale_industry(self):
+        types = self.fiscal_line_ids.mapped("cfop_id").mapped("type_move")
+        return "sale_industry" in types
+
+    def is_sale_commerce(self):
+        types = self.fiscal_line_ids.mapped("cfop_id").mapped("type_move")
+        return "sale_commerce" in types
+
     @api.model
     def _get_amount_fields(self):
         """Get all fields with 'amount_' prefix"""

@@ -52,6 +52,7 @@ from . import product_template
 from . import product_product
 from . import simplified_tax
 from . import simplified_tax_range
+from . import simplified_tax_effective
 from . import operation
 from . import operation_line
 from . import operation_document_type
