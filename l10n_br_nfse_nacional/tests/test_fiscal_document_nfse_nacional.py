@@ -105,7 +105,9 @@ class TestFiscalDocumentNFSeNacional(TestFiscalDocumentNFSeCommon):
             "2020-06-04T11:58:46", "%Y-%m-%dT%H:%M:%S"
         )
 
-        self.nfse_same_state.with_context(lang="pt_BR")._document_export()
+        self.nfse_same_state.with_context(
+            lang="pt_BR", skip_sign=True
+        )._document_export()
 
         output = os.path.join(
             config["data_dir"],

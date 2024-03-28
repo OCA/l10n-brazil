@@ -10,8 +10,10 @@ from pathlib import Path
 
 import requests
 from erpbrasil.assinatura import certificado as cert
+from erpbrasil.assinatura.assinatura import Assinatura
 from erpbrasil.assinatura.certificado import ArquivoCertificado
 from erpbrasil.base.misc import punctuation_rm
+from lxml import etree
 from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
 from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import (
     Tccserv,
@@ -246,13 +248,13 @@ class Document(models.Model):
             valores=TcinfoValores(
                 vServPrest=TcvservPrest(
                     vServ="{:.2f}".format(dados_servico["valor_servicos"]),
-                    #                        vReceb=
+                    # vReceb=
                 ),
                 vDescCondIncond=TcvdescCondIncond(
                     vDescIncond="{:.2f}".format(
                         dados_servico["valor_desconto_incondicionado"]
                     ),
-                    #                    vDescCond=  # TODO
+                    # vDescCond=  # TODO
                 ),
                 vDedRed=TcinfoDedRed("{:.2f}".format(dados_servico["valor_deducoes"])),
                 trib=TcinfoTributacao(
@@ -303,17 +305,24 @@ class Document(models.Model):
         for record in self.filtered(filter_nacional).filtered(filter_nacional):
             edoc = record.serialize()[0]
             processador = record._processador_nfse_nacional()
-            xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)
+            edoc_xml = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)
+            edoc_etree = etree.fromstring(edoc_xml.encode())
+            certificate = self.env.company._get_br_ecertificate()
+            signed_xml = Assinatura(certificate).assina_xml2(
+                edoc_etree, edoc.infDPS.Id, False
+            )
+            if not self.env.context.get("skip_sign"):
+                edoc_xml = signed_xml
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
                     EVENT_ENV_PROD if self.nfse_environment == "1" else EVENT_ENV_HML
                 ),
                 event_type="0",
-                xml_file=xml_file,
+                xml_file=edoc_xml,
                 document_id=self,
             )
-            _logger.debug(xml_file)
+            _logger.debug(signed_xml)
             record.authorization_event_id = event_id
             record.make_pdf()
         return result
