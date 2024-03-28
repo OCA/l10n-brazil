@@ -114,46 +114,28 @@ class Document(models.Model):
             edocs.append(record.serialize_nfse_nacional())
         return edocs
 
-    def _serialize_nacional_dados_servico(self):
-        self.fiscal_line_ids.ensure_one()
-        dados = self._prepare_dados_servico()
-        return Tcserv(
-            locPrest=TclocPrest(  # TODO complete
-                cLocPrestacao=dados["municipio_prestacao_servico"]
-                if dados.get("municipio_prestacao_servico")
-                else None,
-            ),
-            cServ=Tccserv(
-                cTribNac=dados["item_lista_servico"].zfill(6),
-                # TODO not this one? (should be 3 digits only):
-                # cTribMun=dados["codigo_tributacao_municipio"],
-                xDescServ=dados["discriminacao"],
-                cNBS=self.fiscal_line_ids[0].product_id.nbs_id.code or None,
-                # cIntContrib= TODO
-            ),
-        )
-
     def _serialize_nacional_dados_tomador(self):
-        dados = self._prepare_dados_tomador()
+        self.ensure_one()
+        partner_data = self._prepare_dados_tomador()
         return TcinfoPessoa(
-            CNPJ=dados["cnpj"],
-            CPF=dados["cpf"],
+            CNPJ=partner_data["cnpj"],
+            CPF=partner_data["cpf"],
             # NIF= TODO
             # cNaoNIF= TODO
             # CAEPF= TODO
-            IM=dados["inscricao_municipal"],
+            IM=partner_data["inscricao_municipal"],
             xNome=self.partner_id.legal_name,
             end=Tcendereco(
                 endNac=TcenderNac(
-                    cMun=dados["codigo_municipio"],
+                    cMun=partner_data["codigo_municipio"],
                     # force 8 digits for CEP as per xsd:
-                    CEP=str(dados["cep"]).zfill(8),
+                    CEP=str(partner_data["cep"]).zfill(8),
                 ),
                 # TODO endExt
-                xLgr=dados["endereco"],
-                nro=dados["numero"],
-                xCpl=dados["complemento"],
-                xBairro=dados["bairro"],
+                xLgr=partner_data["endereco"],
+                nro=partner_data["numero"],
+                xCpl=partner_data["complemento"],
+                xBairro=partner_data["bairro"],
             ),
             fone=punctuation_rm(
                 self.partner_id.mobile or self.partner_id.phone or ""
@@ -161,7 +143,11 @@ class Document(models.Model):
             email=self.partner_id.email,
         )
 
-    def _serialize_nacional_rps(self, dados_lote_rps, dados_servico):
+    def serialize_nfse_nacional(self):
+        self.ensure_one()
+        dados_lote_rps = self._prepare_lote_rps()
+        dados_servico = self._prepare_dados_servico()
+
         trib_issqn = self.operation_nature  # TODO "5" and "6" don't match!
         if trib_issqn == "1":
             if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
@@ -181,7 +167,6 @@ class Document(models.Model):
                     pTotTrib=dados_servico["aliquota"],
                 )
                 # TODO vTotTrib
-
         else:
             trib_nac = None
             tot_trib = TctribTotal(
@@ -210,77 +195,87 @@ class Document(models.Model):
                 + dados_lote_rps["numero"].zfill(15)
             )
 
-        return TcinfDps(
-            tpAmb=self.nfse_environment,
-            Id=id_dps,
-            nDPS=dados_lote_rps["numero"],
-            serie=dados_lote_rps["serie"],
-            dhEmi=fields.Datetime.context_timestamp(
-                self, fields.Datetime.from_string(self.document_date)
-            ).isoformat("T"),
-            verAplic="Odoo OCA",  # TODO sure?
-            # TODO dCompet should be the day the service was done
-            dCompet=fields.Datetime.from_string(self.document_date).strftime(
-                "%Y-%m-%d"
+        service = Tcserv(
+            locPrest=TclocPrest(  # TODO complete
+                cLocPrestacao=dados_servico["municipio_prestacao_servico"]
+                if dados_servico.get("municipio_prestacao_servico")
+                else None,
             ),
-            tpEmit="1",  # TODO can be 2 or 3
-            cLocEmi=self.company_id.partner_id.city_id.ibge_code,
-            prest=TcinfoPrestador(
-                CNPJ=dados_lote_rps["cnpj"],
-                # CPF=  # TODO
-                IM=dados_lote_rps["inscricao_municipal"],
-                fone=punctuation_rm(
-                    self.company_id.partner_id.mobile
-                    or self.company_id.partner_id.phone
-                    or ""
-                ).replace(" ", ""),
-                email=self.company_id.partner_id.email,
-                regTrib=TcregTrib(
-                    opSimpNac=dados_lote_rps["optante_simples_nacional"],
-                    regApTribSN="1"
-                    if dados_lote_rps["optante_simples_nacional"] == "1"
-                    else None,  # TODO complete
-                    regEspTrib=dados_lote_rps["regime_especial_tributacao"],
-                ),
-            ),
-            serv=self._serialize_nacional_dados_servico(),
-            toma=self._serialize_nacional_dados_tomador(),
-            valores=TcinfoValores(
-                vServPrest=TcvservPrest(
-                    vServ="{:.2f}".format(dados_servico["valor_servicos"]),
-                    # vReceb=
-                ),
-                vDescCondIncond=TcvdescCondIncond(
-                    vDescIncond="{:.2f}".format(
-                        dados_servico["valor_desconto_incondicionado"]
-                    ),
-                    # vDescCond=  # TODO
-                ),
-                vDedRed=TcinfoDedRed("{:.2f}".format(dados_servico["valor_deducoes"])),
-                trib=TcinfoTributacao(
-                    tribMun=TctribMunicipal(
-                        tribISSQN=trib_issqn,
-                        # cPaisResult=self.partner_id.country_id.code,
-                        # BM=,
-                        # exigSusp=,
-                        # tpImunidade=,
-                        pAliq=dados_servico["aliquota"],
-                        tpRetISSQN=dados_servico["iss_retido"],
-                    ),
-                    tribNac=trib_nac,
-                    totTrib=tot_trib,
-                ),
+            cServ=Tccserv(
+                cTribNac=dados_servico["item_lista_servico"].zfill(6),
+                # TODO not this one? (should be 3 digits only):
+                # cTribMun=dados["codigo_tributacao_municipio"],
+                xDescServ=dados_servico["discriminacao"],
+                cNBS=self.fiscal_line_ids[0].product_id.nbs_id.code or None,
+                # cIntContrib= TODO
             ),
         )
 
-    def serialize_nfse_nacional(self):
-        dados_lote_rps = self._prepare_lote_rps()
-        dados_servico = self._prepare_dados_servico()
-        dps = Dps(
-            infDPS=self._serialize_nacional_rps(dados_lote_rps, dados_servico),
+        return Dps(
+            infDPS=TcinfDps(
+                tpAmb=self.nfse_environment,
+                Id=id_dps,
+                nDPS=dados_lote_rps["numero"],
+                serie=dados_lote_rps["serie"],
+                dhEmi=fields.Datetime.context_timestamp(
+                    self, fields.Datetime.from_string(self.document_date)
+                ).isoformat("T"),
+                verAplic="Odoo OCA",  # TODO sure?
+                # TODO dCompet should be the day the service was done
+                dCompet=fields.Datetime.from_string(self.document_date).strftime(
+                    "%Y-%m-%d"
+                ),
+                tpEmit="1",  # TODO can be 2 or 3
+                cLocEmi=emitente.city_id.ibge_code,
+                prest=TcinfoPrestador(
+                    CNPJ=dados_lote_rps["cnpj"],
+                    # CPF=  # TODO
+                    IM=dados_lote_rps["inscricao_municipal"],
+                    fone=punctuation_rm(
+                        emitente.mobile or emitente.phone or ""
+                    ).replace(" ", ""),
+                    email=emitente.email,
+                    regTrib=TcregTrib(
+                        opSimpNac=dados_lote_rps["optante_simples_nacional"],
+                        regApTribSN="1"
+                        if dados_lote_rps["optante_simples_nacional"] == "1"
+                        else None,  # TODO complete
+                        regEspTrib=dados_lote_rps["regime_especial_tributacao"],
+                    ),
+                ),
+                serv=service,
+                toma=self._serialize_nacional_dados_tomador(),
+                valores=TcinfoValores(
+                    vServPrest=TcvservPrest(
+                        vServ="{:.2f}".format(dados_servico["valor_servicos"]),
+                        # vReceb=
+                    ),
+                    vDescCondIncond=TcvdescCondIncond(
+                        vDescIncond="{:.2f}".format(
+                            dados_servico["valor_desconto_incondicionado"]
+                        ),
+                        # vDescCond=  # TODO
+                    ),
+                    vDedRed=TcinfoDedRed(
+                        "{:.2f}".format(dados_servico["valor_deducoes"])
+                    ),
+                    trib=TcinfoTributacao(
+                        tribMun=TctribMunicipal(
+                            tribISSQN=trib_issqn,
+                            # cPaisResult=self.partner_id.country_id.code,
+                            # BM=,
+                            # exigSusp=,
+                            # tpImunidade=,
+                            pAliq=dados_servico["aliquota"],
+                            tpRetISSQN=dados_servico["iss_retido"],
+                        ),
+                        tribNac=trib_nac,
+                        totTrib=tot_trib,
+                    ),
+                ),
+            ),
             versao="1.00",
         )
-        return dps
 
     def _processador_nfse_nacional(self):
         if environ.get("CERT_FILE") and environ.get(
