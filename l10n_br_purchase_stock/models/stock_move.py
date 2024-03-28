@@ -8,6 +8,23 @@ from odoo import models
 class StockMove(models.Model):
     _inherit = "stock.move"
 
+    def _get_price_unit(self):
+        res = super()._get_price_unit()
+
+        if not self.purchase_line_id or not self.fiscal_operation_id:
+            # Reservado para casos internacionais, especificamente sem f.o.
+            return res
+
+        po_line = self.purchase_line_id.sudo()
+        if (
+            po_line
+            and self.product_id == po_line.product_id
+            and self.fiscal_operation_id.fiscal_operation_type != "out"
+        ):
+            res = po_line.stock_price_br
+
+        return res
+
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
         # Caso tenha Purchase Line já vem desagrupado aqui devido ao KEY

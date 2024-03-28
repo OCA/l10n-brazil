@@ -139,6 +139,11 @@ class OperationLine(models.Model):
 
     date_end = fields.Datetime(string="End Date")
 
+    non_creditable_tax_definition_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.tax.group",
+        string="Non-creditable Tax Groups",
+    )
+
     _sql_constraints = [
         (
             "fiscal_operation_name_uniq",

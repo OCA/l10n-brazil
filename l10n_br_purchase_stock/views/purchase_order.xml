@@ -30,6 +30,15 @@
                 >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
 
             </xpath>
+            <xpath
+                expr="//field[@name='order_line']//form//notebook//field[@name='other_value']"
+                position="after"
+            >
+                    <field
+                    name="stock_price_br"
+                    attrs="{'invisible': [('fiscal_operation_line_id', '=', False)]}"
+                />
+            </xpath>
 
 
         </field>
