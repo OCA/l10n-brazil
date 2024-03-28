@@ -303,7 +303,6 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
                 "Relation between invoice and picking are missing.",
             )
         for line in invoice.invoice_line_ids:
-            self.assertTrue(line.tax_ids, "Taxes in invoice lines are missing.")
             # No Brasil o caso de Ordens de Entrega que não tem ligação com
             # Pedido de Venda precisam informar o Preço de Custo e não o de
             # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
@@ -317,8 +316,17 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             self.assertTrue(
                 line.fiscal_tax_ids, "Error to map fiscal_tax_ids in invoice line."
             )
-            self.assertTrue(line.tax_ids, "Error to map tax_ids in invoice.line.")
             assert line.ind_final, "Error field ind_final in Invoice Line not None"
+            # Verifica se o campo tax_ids da Fatura esta igual ao da Separação
+            mv_line = picking.move_lines.filtered(
+                lambda ln: ln.product_id == line.product_id
+                and ln.fiscal_operation_id == line.fiscal_operation_id
+            )
+            self.assertEqual(
+                line.tax_ids,
+                mv_line.tax_ids,
+                "Taxes in invoice lines are different from move lines.",
+            )
 
         self.assertTrue(
             invoice.fiscal_operation_id,
