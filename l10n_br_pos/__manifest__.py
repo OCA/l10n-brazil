@@ -17,6 +17,7 @@
         "l10n_br_zip",
         "l10n_br_base",
         "point_of_sale",
+        "pos_ask_vat",
         # TODO: Check this files after alpha version
         #   "queue_job",
         #   "l10n_br_stock_account",
