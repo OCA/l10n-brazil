@@ -18,9 +18,11 @@
 "l10n_br_fiscal_tax_manager","Fiscal Tax for Manager","model_l10n_br_fiscal_tax","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_estimate_user","Fiscal Tax Estimate for User","model_l10n_br_fiscal_tax_estimate","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_estimate_manager","Fiscal Tax Estimate for Manager","model_l10n_br_fiscal_tax_estimate","l10n_br_fiscal.group_manager",1,1,1,1
+"base_ncm_user","Fiscal NCM for User","model_l10n_br_fiscal_ncm","base.group_user",1,0,0,0
 "l10n_br_fiscal_ncm_user","Fiscal NCM for User","model_l10n_br_fiscal_ncm","l10n_br_fiscal.group_user",1,1,0,0
 "l10n_br_fiscal_ncm_manager","Fiscal NCM for Manager","model_l10n_br_fiscal_ncm","l10n_br_fiscal.group_manager",1,1,0,0
 "l10n_br_fiscal_ncm_manager_maintenance","Fiscal NCM for Maintenance","model_l10n_br_fiscal_ncm","l10n_br_fiscal.group_data_maintenance",1,1,1,1
+"base_nbm_user","Fiscal NBM for User","model_l10n_br_fiscal_nbm","base.group_user",1,0,0,0
 "l10n_br_fiscal_nbm_user","Fiscal NBM for User","model_l10n_br_fiscal_nbm","l10n_br_fiscal.group_user",1,1,0,0
 "l10n_br_fiscal_nbm_manager","Fiscal NBM for Manager","model_l10n_br_fiscal_nbm","l10n_br_fiscal.group_manager",1,1,0,0
 "l10n_br_fiscal_nbm_manager_maintenance","Fiscal NBM for Maintenance","model_l10n_br_fiscal_nbm","l10n_br_fiscal.group_data_maintenance",1,1,1,1
@@ -77,7 +79,7 @@
 "l10n_br_fiscal_document_line_manager","Fiscal Document Line for Manager","model_l10n_br_fiscal_document_line","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_comment_user","Comment for User","model_l10n_br_fiscal_comment","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_comment_manager","Comment for Manager","model_l10n_br_fiscal_comment","l10n_br_fiscal.group_manager",1,1,1,1
-"l10n_br_fiscal_tax_definition_user","Tax Definition for User","model_l10n_br_fiscal_tax_definition","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_tax_definition_user","Tax Definition for User","model_l10n_br_fiscal_tax_definition","base.group_user",1,0,0,0
 "l10n_br_fiscal_tax_definition_manager","Tax Definition for Manager","model_l10n_br_fiscal_tax_definition","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_pis_cofins_user","Tax PIS COFINS for User","model_l10n_br_fiscal_tax_pis_cofins","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_pis_cofins_manager","Tax PIS COFINS for Manager","model_l10n_br_fiscal_tax_pis_cofins","l10n_br_fiscal.group_manager",1,0,0,0
