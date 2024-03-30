@@ -151,6 +151,50 @@
                     <field name="tax_icms_or_issqn" invisible="1" />
                 </group>
             </xpath>
+
+            <!-- discount management in line form: -->
+            <xpath
+                expr="//field[@name='order_line']/form//label[@for='discount']"
+                position="before"
+            >
+                <field
+                    name="discount_fixed"
+                    groups="l10n_br_sale.group_total_discount"
+                />
+                <field name="user_discount_value" invisible="1" />
+                <field name="user_total_discount" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='discount']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'readonly':['|',['user_discount_value','=',True],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='order_line']/form//div[@name='discount']"
+                position="after"
+            >
+                <label for="discount_value" />
+                <div name="discount_value">
+                    <field
+                        name="discount_value"
+                        class="oe_inline"
+                        attrs="{'readonly':['|',['user_discount_value','=',False],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}"
+                    />
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='sale_total']" position="after">
+                <group style="width: 65%%" groups="l10n_br_sale.group_total_discount">
+                    <label for="discount_rate" />
+                    <div>
+                        <field name="discount_rate" class="oe_inline" />
+                        %%
+                    </div>
+                </group>
+            </xpath>
+
             <xpath
                 expr="//field[@name='order_line']/form//label[@for='customer_lead']"
                 position="before"
@@ -303,44 +347,12 @@
                     </page>
                 </notebook>
             </xpath>
-            <xpath
-                expr="//field[@name='order_line']/form//label[@for='discount']"
-                position="before"
-            >
-                <field
-                    name="discount_fixed"
-                    groups="l10n_br_sale.group_total_discount"
-                />
-                <field name="user_discount_value" invisible="1" />
-                <field name="user_total_discount" invisible="1" />
-            </xpath>
-            <xpath
-                expr="//field[@name='order_line']/form//field[@name='discount']"
-                position="attributes"
-            >
-                <attribute
-                    name="attrs"
-                >{'readonly':['|',['user_discount_value','=',True],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}</attribute>
-            </xpath>
 
             <field name="note" position="attributes">
                 <attribute
                     name="attrs"
                 >{'invisible': [('fiscal_operation_id', '!=', False)]}</attribute>
             </field>
-            <xpath
-                expr="//field[@name='order_line']/form//div[@name='discount']"
-                position="after"
-            >
-                <label for="discount_value" />
-                <div name="discount_value">
-                    <field
-                        name="discount_value"
-                        class="oe_inline"
-                        attrs="{'readonly':['|',['user_discount_value','=',False],'&amp;',['user_total_discount','=',True],['discount_fixed','=',False]]}"
-                    />
-                </div>
-            </xpath>
             <field name="note" position="after">
                 <group attrs="{'invisible': [('fiscal_operation_id', '=', False)]}">
                     <field name="copy_note" />
