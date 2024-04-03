@@ -29,15 +29,6 @@ class NfeImport(models.TransientModel):
         required=True,
     )
 
-    purchase_id = fields.Many2one(
-        comodel_name="purchase.order",
-        string="Purchase Order",
-    )
-
-    picking_id = fields.Many2one(
-        comodel_name="stock.picking",
-        string="Picking",
-    )
 
     has_error = fields.Boolean()
 
