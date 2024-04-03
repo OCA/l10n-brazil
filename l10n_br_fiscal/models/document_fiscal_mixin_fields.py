@@ -436,3 +436,5 @@ class FiscalDocumentMixinFields(models.AbstractModel):
     )
 
     force_compute_delivery_costs_by_total = fields.Boolean(default=False)
+
+    imported_document = fields.Boolean(string="Imported", default=False)
