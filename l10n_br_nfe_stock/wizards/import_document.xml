@@ -17,7 +17,7 @@
                     attrs="{
                     'invisible': [
                         '|',
-                        ('xml', '=', False),
+                        ('file', '=', False),
                         ('document_id', '!=', False),
                     ]
                 }"

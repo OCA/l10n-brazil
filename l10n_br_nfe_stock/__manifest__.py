@@ -18,9 +18,9 @@
     ],
     "data": [
         # Views
-        "views/document_view.xml",
-        "views/picking_view.xml",
-        "views/purchase_view.xml",
+        # "views/document_view.xml",
+        # "views/picking_view.xml",
+        # "views/purchase_view.xml",
         # Wizards
         "wizards/import_document.xml",
     ],

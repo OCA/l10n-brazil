@@ -16,7 +16,6 @@ class NfeImport(models.TransientModel):
     model_to_link = fields.Selection(
         string="Link with",
         selection=[("picking", "Picking"), ("purchase", "Purchase Order")],
-        required=True,
     )
 
     link_type = fields.Selection(
@@ -172,10 +171,10 @@ class NfeImport(models.TransientModel):
             ]
         )
 
-    def _create_edoc_from_xml(self):
+    def _create_edoc_from_file(self):
         # HACK: Next line should be removed once 'out' documents partner_id is fixed
-        self._set_fields_by_xml_data()
-        edoc = super(NfeImport, self)._create_edoc_from_xml()
+        # self._set_fields_by_xml_data()
+        binding, edoc = super(NfeImport, self)._create_edoc_from_file()
 
         if self.model_to_link == "purchase":
             if self.link_type == "create":
@@ -202,7 +201,7 @@ class NfeImport(models.TransientModel):
             if edoc.move_ids:
                 self._add_invoice_to_picking(edoc)
 
-        return edoc
+        return binding, edoc
 
     def _create_purchase_order(self, document):
         purchase = self.env["purchase.order"].create(
@@ -212,7 +211,7 @@ class NfeImport(models.TransientModel):
                 "fiscal_operation_id": self._get_purchase_fiscal_operation_id(),
                 "date_order": datetime.now(),
                 "origin_document_id": document.id,
-                "imported": True,
+                "imported_document": True,
             }
         )
 
@@ -253,7 +252,7 @@ class NfeImport(models.TransientModel):
                 ).default_location_dest_id.id,
                 "location_id": self.env.ref("stock.stock_location_suppliers").id,
                 "origin_document_id": document.id,
-                "imported": True,
+                "imported_document": True,
             }
         )
 
