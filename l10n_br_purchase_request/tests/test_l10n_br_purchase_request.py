@@ -42,7 +42,24 @@ class L10nBrPurchaseRequestBaseTest(SavepointCase):
         ).create(vals)
         wiz_id.with_context(default_company_id=self.company.id).make_purchase_order()
         purchase_order = request.line_ids[0].purchase_lines[0].order_id
+        self.assertEqual(purchase_order.ind_final, "0")
         self.assertTrue(purchase_order)
         self.assertTrue(purchase_order.order_line.fiscal_operation_line_id)
         self.assertTrue(purchase_order.order_line.fiscal_tax_ids)
         self.assertTrue(purchase_order.order_line.taxes_id)
+
+    def test_purchase_request_to_rfq_ind_final(self):
+        request = self.purchase_request
+        self.assertTrue(request.to_approve_allowed)
+
+        request.button_approved()
+        self.supplier.ind_final = "1"
+        vals = {
+            "supplier_id": self.supplier.id,
+        }
+        wiz_id = self.wiz.with_context(
+            active_model="purchase.request.line", active_ids=[request.line_ids[0].id]
+        ).create(vals)
+        wiz_id.with_context(default_company_id=self.company.id).make_purchase_order()
+        purchase_order = request.line_ids[0].purchase_lines[0].order_id
+        self.assertEqual(purchase_order.ind_final, "1")
