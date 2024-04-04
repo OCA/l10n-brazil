@@ -61,6 +61,15 @@ class AccountChartTemplate(models.Model):
                         refund_account_id = (
                             group_tax_account_template.ded_refund_account_id
                         )
+                    elif tax.withholdable:
+                        if tax.type_tax_use == "purchase":
+                            account_id = group_tax_account_template.account_id
+                            refund_account_id = (
+                                group_tax_account_template.refund_account_id
+                            )
+                        else:
+                            account_id = False
+                            refund_account_id = False
                     else:
                         account_id = group_tax_account_template[
                             acc_names.get(tax.type_tax_use, {}).get("account_id")
@@ -85,12 +94,12 @@ class AccountChartTemplate(models.Model):
                                     0,
                                     0,
                                     {
-                                        "factor_percent": 100
-                                        if not tax.deductible
-                                        else -100,
+                                        "factor_percent": -100
+                                        if tax.deductible or tax.withholdable
+                                        else 100,
                                         "repartition_type": "tax",
                                         "account_id": account_ref.get(
-                                            account_id.id, False
+                                            account_id.id if account_id else None, False
                                         ),
                                     },
                                 ),
@@ -109,12 +118,15 @@ class AccountChartTemplate(models.Model):
                                     0,
                                     0,
                                     {
-                                        "factor_percent": 100
-                                        if not tax.deductible
-                                        else -100,
+                                        "factor_percent": -100
+                                        if tax.deductible or tax.withholdable
+                                        else 100,
                                         "repartition_type": "tax",
                                         "account_id": account_ref.get(
-                                            refund_account_id.id, False
+                                            refund_account_id.id
+                                            if refund_account_id
+                                            else None,
+                                            False,
                                         ),
                                     },
                                 ),
