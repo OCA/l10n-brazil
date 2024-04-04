@@ -5,7 +5,7 @@
     "name": "L10n Br Purchase Request",
     "summary": """
         Purchase Request Brazilian Localization Purchase Request""",
-    "version": "14.0.1.0.2",
+    "version": "14.0.1.0.3",
     "license": "AGPL-3",
     "author": "Escodoo,Odoo Community Association (OCA)",
     "maintainers": ["marcelsavegnago"],
