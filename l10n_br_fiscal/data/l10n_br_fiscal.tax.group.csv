@@ -6,6 +6,7 @@
 "tax_group_csll_wh","CSLL RET","csll_wh","True","True",120,"999","federal","res_partner_ministerio_fazenda",20,"False"
 "tax_group_icms","ICMS","icms","True","False",30,"30","state",,,"True"
 "tax_group_icmsfcp","ICMS FCP","icmsfcp","True","False",135,"135","state",,,"True"
+"tax_group_icmsfcp_st","ICMS FCP ST","icmsfcpst","False","False",136,"136","state",,,"True"
 "tax_group_icmssn","ICMS - Simples Nacional","icmssn","True","False",125,"125","state",,,"True"
 "tax_group_icmsst","ICMS ST","icmsst","False","False",130,"130","state",,,"True"
 "tax_group_ii","II","ii","True","False",10,"10","federal",,,"False"
