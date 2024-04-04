@@ -9,3 +9,4 @@ from . import test_document_date
 from . import test_invoice_refund
 from . import test_move_discount
 from . import test_multi_localizations_invoice
+from . import test_account_wh_invoice
