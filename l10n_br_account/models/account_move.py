@@ -91,6 +91,61 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
+    wh_invoice_count = fields.Integer(
+        string="WH Invoice Count", compute="_compute_wh_invoice_ids", readonly=True
+    )
+    wh_invoice_ids = fields.Many2many(
+        comodel_name="account.move",
+        string="WH Invoices",
+        compute="_compute_wh_invoice_ids",
+        readonly=True,
+        copy=False,
+    )
+
+    @api.depends("line_ids.wh_move_line_id")
+    def _compute_wh_invoice_ids(self):
+        """
+        Update withholding invoice IDs and their count for an invoice.
+
+        Search for account move lines linked by 'wh_move_line_id' and update
+        'wh_invoice_ids' and 'wh_invoice_count' on the invoice.
+
+        :return: None.
+        """
+        for invoice in self:
+            wh_invoices = (
+                self.env["account.move.line"]
+                .search([("wh_move_line_id", "in", invoice.line_ids.ids)])
+                .move_id.ids
+            )
+            invoice.wh_invoice_ids = wh_invoices
+            invoice.wh_invoice_count = len(wh_invoices)
+
+    def action_view_wh_invoice(self):
+        """
+        Open the view for withholding invoices associated with the current record.
+
+        Map 'wh_invoice_ids' to retrieve the related invoices. Prepare and return an
+        action dict to open the invoice view. If no invoices are found, return an
+        action to close the window.
+
+        :return: A dictionary with action details to open related invoices or close
+        the window.
+        """
+        invoices = self.mapped("wh_invoice_ids")
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "account.action_move_in_invoice_type"
+        )
+        if len(invoices):
+            action["domain"] = [("id", "in", invoices.ids)]
+        else:
+            action = {"type": "ir.actions.act_window_close"}
+        context = {
+            "default_move_type": "in_invoice",
+        }
+        action["context"] = context
+        return action
+
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
         for rec in self:
@@ -479,6 +534,7 @@ class AccountMove(models.Model):
                     )
             if i.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
                 i.fiscal_document_id.action_document_back2draft()
+            self._withholding_validate()
         return super().button_draft()
 
     def action_document_send(self):
@@ -514,7 +570,9 @@ class AccountMove(models.Model):
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
         ).action_document_confirm()
-        return super()._post(soft=soft)
+        result = super()._post(soft=soft)
+        self.create_wh_invoices()
+        return result
 
     def view_xml(self):
         self.ensure_one()
@@ -593,73 +651,102 @@ class AccountMove(models.Model):
         return new_moves
 
     def _prepare_wh_invoice(self, move_line, fiscal_group):
+        """
+        Prepare a withholding tax invoice based on the provided move line and fiscal
+        group.
+
+        :param move_line: The move line.
+        :param fiscal_group: The fiscal group.
+
+        :return: Dictionary of invoice values.
+        """
         wh_date_invoice = move_line.move_id.date
         wh_due_invoice = wh_date_invoice.replace(day=fiscal_group.wh_due_day)
         values = {
             "partner_id": fiscal_group.partner_id.id,
             "date": wh_date_invoice,
-            "date_due": wh_due_invoice + relativedelta(months=1),
-            "type": "in_invoice",
-            "account_id": fiscal_group.partner_id.property_account_payable_id.id,
-            "journal_id": move_line.journal_id.id,
-            "origin": move_line.move_id.name,
+            "invoice_date": wh_date_invoice,
+            "invoice_date_due": wh_due_invoice + relativedelta(months=1),
+            "move_type": "in_invoice",
+            "journal_id": fiscal_group.journal_id.id or move_line.journal_id.id,
+            "invoice_origin": move_line.move_id.name,
+            "invoice_line_ids": [
+                (
+                    0,
+                    0,
+                    {
+                        "name": move_line.name,
+                        "price_unit": abs(move_line.balance),
+                        "account_id": move_line.account_id.id,
+                        "wh_move_line_id": move_line.id,
+                        "analytic_account_id": move_line.analytic_account_id.id,
+                    },
+                )
+            ],
         }
         return values
-
-    def _prepare_wh_invoice_line(self, invoice, move_line):
-        values = {
-            "name": move_line.name,
-            "quantity": move_line.quantity,
-            "uom_id": move_line.product_uom_id,
-            "price_unit": abs(move_line.balance),
-            "move_id": invoice.id,
-            "account_id": move_line.account_id.id,
-            "wh_move_line_id": move_line.id,
-            "account_analytic_id": move_line.analytic_account_id.id,
-        }
-        return values
-
-    def _finalize_invoices(self, invoices):
-        for invoice in invoices:
-            invoice.compute_taxes()
-            for line in invoice.line_ids:
-                # Use additional field helper function (for account extensions)
-                line._set_additional_fields(invoice)
-            invoice._onchange_cash_rounding()
 
     def create_wh_invoices(self):
+        """
+        Create withholding tax invoices for applicable lines in the move.
+
+        Iterate over each move in the recordset. For each tax line in the move
+        that matches the criteria, create a withholding tax invoice if the line
+        belongs to a supplier invoice and is associated with a tax that requires
+        withholding. Prepare and post these invoices.
+
+        :return: None. Generate withholding tax invoices and post them.
+        """
         for move in self:
             for line in move.line_ids.filtered(lambda line: line.tax_line_id):
                 # Create Wh Invoice only for supplier invoice
-                if line.move_id and line.move_id.type != "in_invoice":
+                if line.move_id and line.move_id.move_type != "in_invoice":
                     continue
 
                 account_tax_group = line.tax_line_id.tax_group_id
                 if account_tax_group and account_tax_group.fiscal_tax_group_id:
                     fiscal_group = account_tax_group.fiscal_tax_group_id
-                    if fiscal_group.tax_withholding:
-                        invoice = self.env["account.move"].create(
+                    if (
+                        fiscal_group.generate_wh_invoice
+                        and fiscal_group.tax_withholding
+                    ):
+                        wh_invoice = self.env["account.move"].create(
                             self._prepare_wh_invoice(line, fiscal_group)
                         )
-
-                        self.env["account.move.line"].create(
-                            self._prepare_wh_invoice_line(invoice, line)
+                        wh_invoice.message_post_with_view(
+                            "mail.message_origin_link",
+                            values={"self": wh_invoice, "origin": move},
+                            subtype_id=self.env.ref("mail.mt_note").id,
                         )
-
-                        self._finalize_invoices(invoice)
-                        invoice.action_post()
+                        wh_invoice.action_post()
 
     def _withholding_validate(self):
+        """
+        Validate withholding by updating related invoices' states and clearing their
+        withholding move line references.
+
+        For each record in the context, search for related invoices based on the
+        withholding move line IDs associated with the record's line items. Set any
+        posted invoices to draft, cancel any draft invoices, clear the withholding
+        move line ID reference from the invoice lines, and invalidate the cache to
+        ensure data coherency.
+
+        :return: None
+        """
         for m in self:
-            invoices = (
+            wh_invoices = (
                 self.env["account.move.line"]
-                .search([("wh_move_line_id", "in", m.mapped("line_ids").ids)])
+                .search(
+                    [
+                        ("wh_move_line_id", "in", m.mapped("line_ids").ids),
+                    ]
+                )
                 .mapped("move_id")
             )
-            invoices.filtered(lambda i: i.state == "open").button_cancel()
-            invoices.filtered(lambda i: i.state == "cancel").button_draft()
-            invoices.invalidate_cache()
-            invoices.filtered(lambda i: i.state == "draft").unlink()
+            wh_invoices.filtered(lambda i: i.state == "posted").button_draft()
+            wh_invoices.filtered(lambda i: i.state == "draft").button_cancel()
+            wh_invoices.line_ids.wh_move_line_id = False
+            wh_invoices.invalidate_cache()
 
     def post(self, invoice=False):
         # TODO FIXME migrate: no more invoice keyword
@@ -677,8 +764,6 @@ class AccountMove(models.Model):
     def button_cancel(self):
         for doc in self.filtered(lambda d: d.document_type_id):
             doc.fiscal_document_id.action_document_cancel()
-        # Esse método é responsavel por verificar se há alguma fatura de impostos
-        # retidos associada a essa fatura e cancela-las também.
         self._withholding_validate()
         return super().button_cancel()
 
