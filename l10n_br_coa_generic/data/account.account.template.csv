@@ -68,6 +68,7 @@ coa_generic_114107,1.1.4.1.07,CSLL a Compensar,,asset_current,0,l10n_br_coa_gene
 coa_generic_114108,1.1.4.1.08,IRRF a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114109,1.1.4.1.09,ISS a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114110,1.1.4.1.10,II a Compensar,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_114111,1.1.4.1.11,INSS a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114201,1.1.4.2.01,Adto Quinzenal,,asset_current,1,l10n_br_coa_generic_template
 coa_generic_114202,1.1.4.2.02,Adto Salarial,,asset_current,1,l10n_br_coa_generic_template
 coa_generic_114203,1.1.4.2.03,Adto de Férias,,asset_current,1,l10n_br_coa_generic_template
