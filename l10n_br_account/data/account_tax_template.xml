@@ -87,6 +87,20 @@
         />
     </record>
 
+    <record id="l10n_br_coa.tax_template_out_icmsfcp_st" model="account.tax.template">
+        <field
+            name="fiscal_tax_ids"
+            search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_icmsfcp_st').id)]"
+        />
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_icmsfcp_st" model="account.tax.template">
+        <field
+            name="fiscal_tax_ids"
+            search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_icmsfcp_st').id)]"
+        />
+    </record>
+
     <record id="l10n_br_coa.tax_template_out_pis" model="account.tax.template">
         <field
             name="fiscal_tax_ids"
