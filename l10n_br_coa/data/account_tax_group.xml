@@ -26,6 +26,10 @@
         <field name="name">ICMS FCP</field>
     </record>
 
+    <record id="tax_group_icmsfcp_st" model="account.tax.group">
+        <field name="name">ICMS FCP ST</field>
+    </record>
+
     <record id="tax_group_pis" model="account.tax.group">
         <field name="name">PIS</field>
     </record>
