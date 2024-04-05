@@ -21,6 +21,7 @@ FISCAL_TAX_ID_FIELDS = [
     "icmsfcp_tax_id",
     "icmssn_tax_id",
     "icmsst_tax_id",
+    "icmsfcpst_tax_id",
     "ii_tax_id",
     "inss_tax_id",
     "inss_wh_tax_id",
@@ -262,6 +263,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self._set_fields_inss(TAX_DICT_VALUES)
             self._set_fields_icms(TAX_DICT_VALUES)
             self._set_fields_icmsfcp(TAX_DICT_VALUES)
+            self._set_fields_icmsfcpst(TAX_DICT_VALUES)
             self._set_fields_icmsst(TAX_DICT_VALUES)
             self._set_fields_icmssn(TAX_DICT_VALUES)
             self._set_fields_ipi(TAX_DICT_VALUES)
@@ -621,7 +623,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.icmsfcp_base = tax_dict.get("base", 0.0)
         self.icmsfcp_percent = tax_dict.get("percent_amount", 0.0)
         self.icmsfcp_value = tax_dict.get("tax_value", 0.0)
-        self.icmsfcpst_value = tax_dict.get("fcpst_value", 0.0)
+
+    def _set_fields_icmsfcpst(self, tax_dict):
+        self.ensure_one()
+        self.icmsfcpst_base = self.icmsst_base
+        self.icmsfcpst_percent = tax_dict.get("percent_amount", 0.0)
+        self.icmsfcpst_value = tax_dict.get("tax_value", 0.0)
 
     @api.onchange("icmsfcp_percent", "icmsfcp_value")
     def _onchange_icmsfcp_fields(self):
@@ -779,6 +786,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "icmssn_tax_id",
         "icmsst_tax_id",
         "icmsfcp_tax_id",
+        "icmsfcpst_tax_id",
         "ipi_tax_id",
         "ii_tax_id",
         "pis_tax_id",

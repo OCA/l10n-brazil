@@ -1964,6 +1964,12 @@ class ICMSRegulation(models.Model):
         if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_FCP:
             domain += [("state_to_ids", "=", partner.state_id.id)]
 
+        if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_FCP_ST:
+            domain += [
+                ("state_from_id", "=", company.state_id.id),
+                ("state_to_ids", "=", partner.state_id.id),
+            ]
+
         return domain
 
     def _tax_definition_search(self, domain, ncm, nbm, cest, product, ind_final=None):
@@ -2138,6 +2144,29 @@ class ICMSRegulation(models.Model):
 
         return tax_definitions
 
+    def _map_tax_def_icmsfcpst(
+        self,
+        company,
+        partner,
+        product,
+        ncm=None,
+        nbm=None,
+        cest=None,
+        operation_line=None,
+    ):
+        self.ensure_one()
+        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
+        tax_group_icmsfcpst = self.env.ref("l10n_br_fiscal.tax_group_icmsfcp_st")
+
+        # FCP ST
+        domain = self._build_map_tax_def_domain(
+            company, partner, tax_group_icmsfcpst, ncm, nbm, cest
+        )
+
+        tax_definitions = self._tax_definition_search(domain, ncm, nbm, cest, product)
+
+        return tax_definitions
+
     # TODO adicionar o argumento CFOP????
     def map_tax(
         self,
@@ -2169,6 +2198,10 @@ class ICMSRegulation(models.Model):
         )
 
         icms_def_taxes |= self._map_tax_def_icmsfcp(
+            company, partner, product, ncm, nbm, cest, operation_line
+        )
+
+        icms_def_taxes |= self._map_tax_def_icmsfcpst(
             company, partner, product, ncm, nbm, cest, operation_line
         )
 
