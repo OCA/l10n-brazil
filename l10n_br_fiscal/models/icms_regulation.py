@@ -22,20 +22,25 @@ VIEW = """
     <notebook>
         <page name="uf_{0}_internal" string="Interno">
             <group name="icms_internal_{0}" string="Internal">
-            <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}"/>
+            <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}"/>
             </group>
             <group name="icms_external_{0}" string="External">
-            <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}"/>
+            <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}"/>
             </group>
         </page>
         <page name="uf_{0}_st" string="ST">
-            <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {3}, 'default_state_from_id': {5}}}"/>
+            <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {3}, 'default_state_from_id': {6}}}"/>
         </page>
         <page name="uf_{0}_others" string="Outros">
-            <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {4}, 'default_state_from_id': {5}}}"/>
+            <group name="icms_fcp_{0}" string="FCP">
+            <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {4}, 'default_state_from_id': {6}}}"/>
+            </group>
+            <group name="icms_fcp_st_{0}" string="FCP-ST">
+            <field name="icms_fcp_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {5}, 'default_state_from_id': {6}}}"/>
+            </group>
         </page>
         <page name="uf_{0}_benefit" string="Tax Benefit">
-            <field name="tax_benefit_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_benefit_tree', 'default_icms_regulation_id': id, 'default_is_benefit': True, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}" />
+            <field name="tax_benefit_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_benefit_tree', 'default_icms_regulation_id': id, 'default_is_benefit': True, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}" />
         </page>
     </notebook>
 </page>
@@ -1963,6 +1968,7 @@ class ICMSRegulation(models.Model):
                         self.env.ref("l10n_br_fiscal.tax_group_icms").id,
                         self.env.ref("l10n_br_fiscal.tax_group_icmsst").id,
                         self.env.ref("l10n_br_fiscal.tax_group_icmsfcp").id,
+                        self.env.ref("l10n_br_fiscal.tax_group_icmsfcp_st").id,
                         state.id,
                     )
                     node_page = etree.fromstring(state_page)
