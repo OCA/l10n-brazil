@@ -37,6 +37,12 @@
         <field name="country_id" ref="base.br" />
     </record>
 
+    <record id="tax_tag_icmsfcp_st" model="account.account.tag">
+        <field name="name">ICMS FCP ST</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.br" />
+    </record>
+
     <record id="tax_tag_pis" model="account.account.tag">
         <field name="name">PIS</field>
         <field name="applicability">taxes</field>
