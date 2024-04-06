@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2024-02-09 20:09+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-04-06 22:44+0000\n"
+"Last-Translator: \"Augusto D. Lisbôa\" <augusto.diniz.l@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -8460,7 +8460,7 @@ msgstr "Espírito Santo do Turvo"
 #: code:addons/l10n_br_base/tools.py:0
 #, python-format
 msgid "Estadual Inscription %(inscr)s Invalid for State %(state)s!"
-msgstr ""
+msgstr "Inscrição Estadual %(inscr)s Inválida para o Estado %(state)s!"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4307559
@@ -17266,7 +17266,7 @@ msgstr "Ouvidor"
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner_pix__key
 msgid "PIX Addressing key"
-msgstr ""
+msgstr "Chave PIX"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3534906
@@ -17746,7 +17746,7 @@ msgstr "Paratinga"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3303807
 msgid "Paraty"
-msgstr ""
+msgstr "Paraty"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1505536
@@ -20398,7 +20398,7 @@ msgstr "Restinga"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4315503
 msgid "Restinga Sêca"
-msgstr ""
+msgstr "Restinga Sêca"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2926103
@@ -21402,8 +21402,9 @@ msgstr "Sanharó"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4317103
+#, fuzzy
 msgid "Sant'Ana do Livramento"
-msgstr ""
+msgstr "Sant'Ana do Livramento"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3545605
@@ -21700,7 +21701,7 @@ msgstr "Santa Izabel do Oeste"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1506500
 msgid "Santa Izabel do Pará"
-msgstr ""
+msgstr "Santa Izabel do Pará"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3157708
@@ -22596,7 +22597,7 @@ msgstr "Saudades"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__saving
 #, python-format
 msgid "Saving Account (Conta Poupança)"
-msgstr ""
+msgstr "Conta Poupança (Conta Poupança)"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2929800
@@ -22856,7 +22857,7 @@ msgstr "Serra Branca"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2410306
 msgid "Serra Caiada"
-msgstr ""
+msgstr "Serra Caiada"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2930303
@@ -23084,7 +23085,7 @@ msgstr "Nome curto"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__show_l10n_br
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__show_l10n_br
 msgid "Show L10N Br"
-msgstr ""
+msgstr "Exibir L10N Br"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4217600
@@ -23326,7 +23327,7 @@ msgstr "Número da Inscrição Estadual"
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "State Tax Number already used {}"
-msgstr ""
+msgstr "Insc. Estadual já utilizada {}"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
@@ -24531,13 +24532,15 @@ msgstr "São Luiz Gonzaga"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5220157
+#, fuzzy
 msgid "São Luiz do Norte"
-msgstr ""
+msgstr "São Luiz do Norte"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3550001
+#, fuzzy
 msgid "São Luiz do Paraitinga"
-msgstr ""
+msgstr "São Luiz do Paraitinga"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2111300
@@ -25026,8 +25029,9 @@ msgstr "São Valentim do Sul"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1720499
+#, fuzzy
 msgid "São Valério"
-msgstr ""
+msgstr "São Valério"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4319737
@@ -25058,8 +25062,9 @@ msgstr "São Vicente de Minas"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2515401
+#, fuzzy
 msgid "São Vicente do Seridó"
-msgstr ""
+msgstr "São Vicente do Seridó"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4319802
@@ -25166,7 +25171,7 @@ msgstr "Taciba"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2516409
 msgid "Tacima"
-msgstr ""
+msgstr "Tacima"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5007950
@@ -25931,8 +25936,9 @@ msgstr "Trairão"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3305901
+#, fuzzy
 msgid "Trajano de Moraes"
-msgstr ""
+msgstr "Trajano de Moraes"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4321600
