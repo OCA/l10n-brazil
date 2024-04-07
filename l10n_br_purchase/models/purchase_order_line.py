@@ -79,6 +79,8 @@ class PurchaseOrderLine(models.Model):
         related="company_id.delivery_costs",
     )
 
+    partner_uom_factor = fields.Float(string="Partner UOM Factor")
+
     @api.depends(
         "product_uom_qty",
         "price_unit",
@@ -147,3 +149,15 @@ class PurchaseOrderLine(models.Model):
                 values.update(fiscal_values)
 
         return values
+
+    def _prepare_stock_move_vals(
+        self, picking, price_unit, product_uom_qty, product_uom
+    ):
+        res = super()._prepare_stock_move_vals(
+            picking, price_unit, product_uom_qty, product_uom
+        )
+
+        if self.partner_uom_factor:
+            res["product_uom_qty"] = product_uom_qty * self.partner_uom_factor
+
+        return res

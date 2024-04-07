@@ -18,6 +18,8 @@
         # View
         "views/purchase_view.xml",
         "views/res_company_view.xml",
+        # Wizards
+        "wizards/document_import_wizard_mixin.xml",
         # Reports
         "reports/purchase_report_views.xml",
         "reports/purchase_order_templates.xml",

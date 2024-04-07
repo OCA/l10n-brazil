@@ -27,6 +27,7 @@
         "views/res_company_view.xml",
         # Wizards
         "wizards/stock_invoice_onshipping_view.xml",
+        "wizards/document_import_wizard_mixin.xml",
     ],
     "demo": [
         # Demo

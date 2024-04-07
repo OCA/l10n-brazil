@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="import_edoc_action" model="ir.actions.act_window">
+        <field name="name">Import Fiscal Document</field>
+        <field name="res_model">l10n_br_fiscal.document.import.wizard.mixin</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_purchase_order" />
+        <field name="binding_view_types">form,list</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="import_xml_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.import_xml.form (in l10n_br_nfe_stock)</field>
+        <field name="model">l10n_br_nfe.import_xml</field>
+        <field name="inherit_id" ref="l10n_br_nfe.l10n_br_nfe_import_xml_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@id='existing_document']" position="after">
+                <field name="model_to_link" invisible="1" />
+                <group
+                    id='model_to_link_info'
+                    col="4"
+                    attrs="{
+                    'invisible': [
+                        '|',
+                        ('file', '=', False),
+                        ('document_id', '!=', False),
+                    ]
+                }"
+                >
+                    <group id="model_to_link" colspan="4">
+                        <field name="model_to_link" />
+                    </group>
+                    <separator
+                        string="Purchase Order"
+                        colspan="4"
+                        attrs="{'invisible': [('model_to_link', '!=', 'purchase'),]}"
+                    />
+                    <group
+                        id="purchase_info"
+                        colspan="4"
+                        attrs="{'invisible': [('model_to_link', '!=', 'purchase'),]}"
+                    >
+                        <group>
+                            <field name="link_type" />
+                            <field
+                                name="purchase_id"
+                                attrs="{'invisible': [('link_type', '!=', 'choose'),]}"
+                            />
+                        </group>
+                    </group>
+                    <separator
+                        string="Picking"
+                        colspan="4"
+                        attrs="{'invisible': [('model_to_link', '!=', 'picking'),]}"
+                    />
+                    <group
+                        id="picking_info"
+                        colspan="4"
+                        attrs="{'invisible': [('model_to_link', '!=', 'picking'),]}"
+                    >
+                        <group>
+                            <field name="link_type" />
+                            <field
+                                name="picking_id"
+                                attrs="{'invisible': [('link_type', '!=', 'choose'),]}"
+                            />
+                        </group>
+                    </group>
+                    <group id="error" colspan="4" col="1">
+                        <field name="has_error" invisible="1" />
+                        <field
+                            name="error_message"
+                            nolabel="1"
+                            readonly="1"
+                            attrs="{'invisible': [('has_error', '=', False)]}"
+                        />
+                    </group>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

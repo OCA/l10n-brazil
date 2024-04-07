@@ -1,0 +1,28 @@
+<odoo>
+    <record id="l10n_br_purchase_document_form" model="ir.ui.view">
+        <field
+            name="name"
+        >l10n_br_nfe.fiscal.purchase.document.form (in l10n_br_stock_account)</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <field name="linked_picking_ids" invisible="1" />
+                <button
+                    type="object"
+                    name="action_open_picking"
+                    class="oe_stat_button"
+                    icon="fa-folder-open"
+                    attrs="{'invisible':[('linked_picking_ids', '=', [])]}"
+                >
+                    <field
+                        name="linked_picking_count"
+                        widget="statinfo"
+                        string="Pickings"
+                    />
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
