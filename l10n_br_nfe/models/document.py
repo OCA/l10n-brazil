@@ -16,6 +16,7 @@ from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
 from requests import Session
+from xsdata.models.datatype import XmlDateTime
 
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
@@ -940,6 +941,10 @@ class NFe(spec_models.StackedModel):
         if self.authorization_event_id and infProt.nProt:
             if type(infProt.dhRecbto) is datetime:
                 protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
+            # When the bidding comes from xsdata, the date comes as XmlDateTime
+            elif type(infProt.dhRecbto) is XmlDateTime:
+                dt = infProt.dhRecbto.to_datetime()
+                protocol_date = fields.Datetime.to_string(dt)
             else:
                 protocol_date = fields.Datetime.to_string(
                     datetime.fromisoformat(infProt.dhRecbto)
