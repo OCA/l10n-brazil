@@ -154,6 +154,12 @@ class FiscalDocumentMixinFields(models.AbstractModel):
         store=True,
     )
 
+    amount_icmsfcpst_value = fields.Monetary(
+        string="ICMS FCP ST Value",
+        compute="_compute_amount",
+        store=True,
+    )
+
     amount_icms_destination_value = fields.Monetary(
         string="ICMS Destination Value",
         compute="_compute_amount",
