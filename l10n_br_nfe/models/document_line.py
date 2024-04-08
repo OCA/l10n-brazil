@@ -1296,6 +1296,11 @@ class NFeLine(spec_models.StackedModel):
             map_binding_attr("pFCPST", "icmsfcpst_percent")
             map_binding_attr("vFCPST", "icmsfcpst_value")
 
+            # ICMS FCP ST Fields
+            map_binding_attr("vBCFCPST", "icmsfcpst_base")
+            map_binding_attr("pFCPST", "icmsfcpst_percent")
+            map_binding_attr("vFCPST", "icmsfcpst_value")
+
             # ICMS DIFAL Fields
             map_binding_attr("vBCUFDest", "icms_destination_base")
             map_binding_attr("pICMSUFDest", "icms_origin_percent")
