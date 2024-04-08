@@ -382,6 +382,9 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_vICMSST = fields.Monetary(related="icmsst_value")
 
+    # ICMS FCP ST
+    nfe40_vFCPST = fields.Monetary(related="icmsfcpst_value")
+
     # COLOCAR NA ORDEM
     nfe40_pICMSST = fields.Float(related="icmsst_percent", string="pICMSST")
     nfe40_pMVAST = fields.Float(related="icmsst_mva_percent", string="pMVAST")
@@ -462,8 +465,17 @@ class NFeLine(spec_models.StackedModel):
             icms.update(
                 {
                     # FUNDO DE COMBATE À POBREZA
-                    "vBCFCPST": str("%.02f" % self.icmsfcp_base),
-                    "pFCPST": str("%.04f" % self.icmsfcp_percent),
+                    "vBCFCP": str("%.02f" % self.icmsfcp_base),
+                    "pFCP": str("%.04f" % self.icmsfcp_percent),
+                    "vFCP": str("%.02f" % self.icmsfcp_value),
+                }
+            )
+        if self.icmsfcpst_percent:
+            icms.update(
+                {
+                    # FUNDO DE COMBATE À POBREZA - COM ST
+                    "vBCFCPST": str("%.02f" % self.icmsfcpst_base),
+                    "pFCPST": str("%.04f" % self.icmsfcpst_percent),
                     "vFCPST": str("%.02f" % self.icmsfcpst_value),
                 }
             )
@@ -1263,7 +1275,12 @@ class NFeLine(spec_models.StackedModel):
             # ICMS FCP Fields
             map_binding_attr("pFCPUFDest", "icmsfcp_percent")
             map_binding_attr("vfCPUFDest", "icmsfcp_value")
-            map_binding_attr("vBCFCPST", "icmsfcp_base")
+            map_binding_attr("vBCFCP", "icmsfcp_base")
+
+            # ICMS FCP ST Fields
+            map_binding_attr("vBCFCPST", "icmsfcpst_base")
+            map_binding_attr("pFCPST", "icmsfcpst_percent")
+            map_binding_attr("vFCPST", "icmsfcpst_value")
 
             # ICMS DIFAL Fields
             map_binding_attr("vBCUFDest", "icms_destination_base")
