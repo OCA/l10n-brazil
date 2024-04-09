@@ -2870,6 +2870,18 @@ msgid "Valor Total da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFCPST
+msgid ""
+"Valor Total do FCP (Fundo de Combate à Pobreza) retido por substituição "
+"tributária."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFCPST
+msgid "Valor Total do FCP (vFCPST)"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFrete
 msgid "Valor Total do Frete"
@@ -2974,6 +2986,16 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vDesc
 msgid "Valor do Desconto"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPST
+msgid "Valor do FCP retido"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPST
+msgid "Valor do FCP retido por substituição tributária."
 msgstr ""
 
 #. module: l10n_br_nfe
