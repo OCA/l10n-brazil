@@ -21,16 +21,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
 )
+from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
 # Importing necessary models and functions for NFSe processing
 from ... import l10n_br_nfse_focus
-from ..models.document import (
-    API_ENDPOINT,
-    NFSE_URL,
-    Document,
-    filter_focusnfe,
-    filter_oca_nfse,
-)
+from ..models.document import API_ENDPOINT, NFSE_URL, Document, filter_focusnfe
 
 # Mock path for testing purposes
 MOCK_PATH = "odoo.addons.l10n_br_nfse_focus"
@@ -161,7 +156,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.nfse_demo.rps_number = "0002"  # Setting RPS number
         self.nfse_focus = self.env["focusnfe.nfse"]  # NFSe processing model
 
-    def test_filter_oca_nfse(self):
+    def test_filter_processador_edoc_nfse(self):
         """Tests filtering of NFSe documents for OCA processor."""
         record = self.nfse_demo
         record.processador_edoc = PROCESSADOR_OCA  # Setting document processor to OCA
@@ -169,7 +164,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             MODELO_FISCAL_NFSE  # Setting document type to NFSe
         )
 
-        result = filter_oca_nfse(record)  # Applying filter
+        result = filter_processador_edoc_nfse(record)  # Applying filter
 
         self.assertEqual(
             record.processador_edoc, PROCESSADOR_OCA
@@ -182,7 +177,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         record.processador_edoc = None  # Resetting document processor
         record.document_type_id.code = MODELO_FISCAL_NFE  # Setting document type to NFe
 
-        result = filter_oca_nfse(record)  # Applying filter again
+        result = filter_processador_edoc_nfse(record)  # Applying filter again
 
         self.assertNotEqual(
             record.processador_edoc, PROCESSADOR_OCA
