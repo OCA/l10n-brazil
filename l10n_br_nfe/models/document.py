@@ -492,7 +492,7 @@ class NFe(spec_models.StackedModel):
 
     nfe40_vST = fields.Monetary(related="amount_icmsst_value")
 
-    # <vFCPST>0.00</vFCPST> TODO
+    nfe40_vFCPST = fields.Monetary(related="amount_icmsfcpst_value")
 
     # <vFCPSTRet>0.00</vFCPSTRet> TODO
 

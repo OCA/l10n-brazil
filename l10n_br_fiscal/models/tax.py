@@ -546,6 +546,21 @@ class Tax(models.Model):
         return tax_dict
 
     @api.model
+    def _compute_icmsfcpst(self, tax, taxes_dict, **kwargs):
+        """Compute ICMS FCP ST"""
+        tax_dict = taxes_dict.get(tax.tax_domain)
+
+        if taxes_dict.get("icmsst"):
+            tax_dict["base"] = taxes_dict["icmsst"].get("base", 0.0)
+        else:
+            tax_dict["base"] = 0
+
+        # pop percent_amount to get it from tax_id
+        tax_dict.pop("percent_amount", None)
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
     def _compute_icmssn(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
