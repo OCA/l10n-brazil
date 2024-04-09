@@ -1266,7 +1266,20 @@ msgid "ICMS FCP Base"
 msgstr "Base para ICMS FCP"
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_percent
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_base
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_value
 msgid "ICMS FCP ST Value"
 msgstr "Valor ICMS FCP ST"
@@ -2605,6 +2618,12 @@ msgstr "ICMS tributário"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcp_tax_id
 msgid "Tax ICMS FCP"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_tax_id
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
 msgstr ""
 
 #. module: l10n_br_pos
