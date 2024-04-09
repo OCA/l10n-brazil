@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 Marcel Savegnago - Escodoo (https://www.escodoo.com.br)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_tax_group_form_view">
+        <field name="model">l10n_br_fiscal.tax.group</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.tax_group_form" />
+        <field name="arch" type="xml">
+            <field name='partner_id' position='before'>
+                <field name='generate_wh_invoice' />
+                <field name='journal_id' />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_tax_group_search_view">
+        <field name="model">l10n_br_fiscal.tax.group</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.tax_group_search" />
+        <field name="arch" type="xml">
+            <filter name="group_by_tax_scope" position="after">
+                <filter
+                    name="group_by_wh_invoice_generate"
+                    string="WH Invoice Generate"
+                    context="{'group_by':'generate_wh_invoice'}"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_tax_group_tree_view">
+        <field name="model">l10n_br_fiscal.tax.group</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.tax_group_tree" />
+        <field name="arch" type="xml">
+            <field name="tax_domain" position="after">
+                <field name="generate_wh_invoice" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
