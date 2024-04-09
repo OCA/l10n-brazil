@@ -655,7 +655,18 @@ msgid "ICMS FCP Base"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icmsfcpst_value
 msgid "ICMS FCP ST Value"
 msgstr ""
 
@@ -1427,6 +1438,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcp_tax_id
 msgid "Tax ICMS FCP"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
 msgstr ""
 
 #. module: l10n_br_stock_account
