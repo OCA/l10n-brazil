@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="l10n_br_fiscal_document_import_wizard_mixin_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.import.wizard.mixin.form</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard.mixin</field>
+        <field name="arch" type="xml">
+            <form string="Import Document">
+                <group>
+                    <field name="file" required="1" />
+                </group>
+                <separator
+                    string="Preview Data"
+                    attrs="{'invisible': [('file', '=', False)]}"
+                />
+                <group id="document_info" attrs="{'invisible': [('file', '=', False)]}">
+                    <group>
+                        <field name="fiscal_operation_id" required="1" />
+                        <field name="fiscal_operation_type" invisible="1" />
+                        <field name="document_key" readonly="1" />
+                        <field name="document_number" readonly="1" />
+                        <field name="document_serie" readonly="1" />
+                    </group>
+
+                    <group>
+                        <field name="partner_id" readonly="1" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_import_and_open_document"
+                        string="Import Fiscal Document"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
