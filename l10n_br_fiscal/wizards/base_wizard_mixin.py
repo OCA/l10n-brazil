@@ -36,11 +36,6 @@ class BaseWizardMixin(models.TransientModel):
 
     document_serie = fields.Char()
 
-    event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.event",
-        string="Fiscal Event",
-    )
-
     justification = fields.Text()
 
     document_status = fields.Text(string="Status", readonly=True)

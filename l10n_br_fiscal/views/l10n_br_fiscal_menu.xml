@@ -86,25 +86,6 @@
         sequence="30"
     />
 
-    <!-- Invalidate Number -->
-    <menuitem
-        id="invalidate_number_menu"
-        action="invalidate_number_action"
-        name="Invalidate Number"
-        parent="document_sub_menu"
-        sequence="40"
-    />
-
-    <!-- Fiscal Events -->
-    <menuitem
-        id="event_menu"
-        action="event_action"
-        name="Fiscal Event"
-        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
-        parent="document_sub_menu"
-        sequence="50"
-    />
-
     <!-- Partners -->
     <menuitem
         id="partners_menu"
