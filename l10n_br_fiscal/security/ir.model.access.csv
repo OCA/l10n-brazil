@@ -93,14 +93,9 @@
 "uom_alternative_user","UOM alternative for User","model_uom_uom_alternative","l10n_br_fiscal.group_user",1,0,0,0
 "uom_alternative_manager","UOM alternative for Manager","model_uom_uom_alternative","l10n_br_fiscal.group_manager",1,0,0,0
 "uom_alternative_maintenance","UOM alternative for Maintenance","model_uom_uom_alternative","l10n_br_fiscal.group_data_maintenance",1,1,1,1
-"l10n_br_fiscal_event_user","Fiscal Document Event for User","model_l10n_br_fiscal_event","l10n_br_fiscal.group_user",1,1,1,0
 "l10n_br_fiscal_invalidate_number_user","user_l10n_br_fiscal_invalidate_number","model_l10n_br_fiscal_invalidate_number","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_invalidate_number_manager","manager_l10n_br_fiscal_invalidate_number","model_l10n_br_fiscal_invalidate_number","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_city_taxation_code_user","Fiscal City Taxation Code for User","model_l10n_br_fiscal_city_taxation_code","l10n_br_fiscal.group_user",1,1,1,0
 "l10n_br_fiscal_city_taxation_code_manager","Fiscal City Taxation Code for Manager","model_l10n_br_fiscal_city_taxation_code","l10n_br_fiscal.group_user",1,1,1,1
 "l10n_br_fiscal_base_wizard_mixin_user",l10n_br_fiscal_base_wizard_mixin,model_l10n_br_fiscal_base_wizard_mixin,base.group_user,1,1,1,1
-"l10n_br_fiscal_document_cancel_wizard_user",l10n_br_fiscal_document_cancel_wizard,model_l10n_br_fiscal_document_cancel_wizard,base.group_user,1,1,1,1
-"l10n_br_fiscal_document_correction_wizard_user",l10n_br_fiscal_document_correction_wizard,model_l10n_br_fiscal_document_correction_wizard,base.group_user,1,1,1,1
 "l10n_br_fiscal_document_status_wizard_user",l10n_br_fiscal_document_status_wizard,model_l10n_br_fiscal_document_status_wizard,base.group_user,1,1,1,1
-"l10n_br_fiscal_invalidate_number_wizard_user",l10n_br_fiscal_invalidate_number_wizard,model_l10n_br_fiscal_invalidate_number_wizard,base.group_user,1,1,1,1
-"l10n_br_fiscal_document_import_wizard_mixin_user",l10n_br_fiscal_document_import_wizard_mixin_user,model_l10n_br_fiscal_document_import_wizard_mixin,base.group_user,1,1,1,1

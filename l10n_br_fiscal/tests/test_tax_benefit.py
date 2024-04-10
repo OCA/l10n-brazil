@@ -3,8 +3,6 @@
 
 from odoo.tests import TransactionCase
 
-from ..constants.fiscal import SITUACAO_EDOC_A_ENVIAR, SITUACAO_EDOC_AUTORIZADA
-
 
 class TestTaxBenefit(TransactionCase):
     def setUp(self):
@@ -53,22 +51,3 @@ class TestTaxBenefit(TransactionCase):
                 self.tax_benefit,
                 "Document line must have tax benefit",
             )
-
-        self.nfe_tax_benefit.action_document_confirm()
-
-        self.assertEqual(
-            self.nfe_tax_benefit.state_edoc,
-            SITUACAO_EDOC_A_ENVIAR,
-            "Document is not in To Send state",
-        )
-
-        self.nfe_tax_benefit.action_document_send()
-
-        self.assertEqual(
-            self.nfe_tax_benefit.state_edoc,
-            SITUACAO_EDOC_AUTORIZADA,
-            "Document is not in Authorized state",
-        )
-
-        result = self.nfe_tax_benefit.action_document_cancel()
-        self.assertTrue(result)

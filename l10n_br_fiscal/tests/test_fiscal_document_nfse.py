@@ -46,5 +46,3 @@ class TestFiscalDocumentNFSe(TransactionCase):
                 "Error to mapping ICMS CST Tributada com permissão de crédito"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.",
             )
-
-        self.nfse_same_state.action_document_confirm()
