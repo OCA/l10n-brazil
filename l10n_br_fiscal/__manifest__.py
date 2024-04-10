@@ -81,19 +81,13 @@
         "views/subsequent_operation_view.xml",
         "views/subsequent_document_view.xml",
         "views/uom_uom.xml",
-        "views/invalidate_number_view.xml",
+        #        "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
         "views/operation_dashboard_view.xml",
-        "views/document_event_view.xml",
+        #        "views/document_event_view.xml",
         # Reports
-        "views/document_event_report.xml",
-        "views/document_event_template.xml",
-        # Wizards
-        "wizards/document_cancel_wizard.xml",
-        "wizards/document_correction_wizard.xml",
-        "wizards/document_status_wizard.xml",
-        "wizards/invalidate_number_wizard.xml",
-        "wizards/document_import_wizard_mixin.xml",
+        # "views/document_event_report.xml",
+        # "views/document_event_template.xml",
         # Actions
         "views/l10n_br_fiscal_action.xml",
         # Menus

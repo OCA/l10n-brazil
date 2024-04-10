@@ -120,7 +120,7 @@
                         class="btn-secondary"
                         attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'rejeitada', 'enviada')), ('document_electronic', '=', False)]}"
                     />
-            <button
+            <!--button
                         name="view_pdf"
                         type="object"
                         string="Visualizar PDF"
@@ -156,7 +156,7 @@
                         string="Carta de correção"
                         groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
-                    />
+                    /-->
             <button
                         name="action_create_return"
                         type="object"
@@ -195,10 +195,13 @@
                     attrs="{'invisible': [('state_edoc','not in',('rejeitada', 'denegada'))]}"
                 >
             Fiscal Document: <field name="document_type_id" readonly="1" /> is <strong
-                    ><field name="state_edoc" readonly="1" /></strong>: <field
+                    ><field
+                            name="state_edoc"
+                            readonly="1"
+                        /></strong>: <!--field
                         name="status_description"
                         readonly="1"
-                    />
+                    /-->
         </div>
         <div
                     class="alert alert-success"
@@ -401,68 +404,6 @@
               <group>
                 <field name="force_compute_delivery_costs_by_total" />
               </group>
-            </page>
-            <page name="others" string="Others">
-                <group>
-                    <field name="operation_name" />
-                    <field
-                                    name="status_description"
-                                    attrs="{'invisible': [('document_electronic', '=', '0')]}"
-                                />
-                </group>
-                <group>
-                    <group name="authorization" string="Authorization" colspan="4">
-                        <field name="authorization_event_id" />
-                        <field name="authorization_date" />
-                        <field name="authorization_protocol" />
-                        <field name="send_file_id" />
-                        <field name="authorization_file_id" />
-                        <field name="file_report_id" />
-                    </group>
-                    <group
-                                    name="cancel"
-                                    string="Cancelation"
-                                    colspan="4"
-                                    attrs="{'invisible': [('state_edoc', '!=', 'cancelada')]}"
-                                >
-                        <field name="cancel_event_id" />
-                        <field name="cancel_date" />
-                        <field name="cancel_protocol_number" />
-                        <field name="cancel_reason" />
-                        <field name="cancel_file_id" />
-                    </group>
-                    <group
-                                    name="corrections"
-                                    string="Corrections"
-                                    colspan="4"
-                                    attrs="{'invisible': [('correction_event_ids', '=', [])]}"
-                                >
-                        <field name="correction_event_ids" nolabel="1">
-                            <tree>
-                                <field name="id" />
-                                <field name="justification" />
-                                <field name="create_date" />
-                                <field name="state" />
-                                <button
-                                                name="print_document_event"
-                                                icon="fa-print"
-                                                type="object"
-                                            />
-                            </tree>
-                        </field>
-                    </group>
-                    <group name="events" string="Events" colspan="4">
-                        <field name="event_ids" nolabel="1">
-                            <tree>
-                                <field name="id" />
-                                <field name="type" />
-                                <field name="origin" />
-                                <field name="create_date" />
-                                <field name="state" />
-                            </tree>
-                        </field>
-                    </group>
-                </group>
             </page>
             <page name="amounts" string="Amounts">
               <group>

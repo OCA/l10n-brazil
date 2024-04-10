@@ -10,6 +10,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
+    DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
@@ -49,7 +50,8 @@ class Document(models.Model):
     _name = "l10n_br_fiscal.document"
     _inherit = [
         "l10n_br_fiscal.document.mixin.fields",
-        "l10n_br_fiscal.document.electronic",
+        #        "l10n_br_fiscal.document.electronic",
+        "l10n_br_fiscal.document.workflow",
         "l10n_br_fiscal.document.move.mixin",
     ]
     _description = "Fiscal Document"
@@ -163,22 +165,22 @@ class Document(models.Model):
         default=EDOC_PURPOSE_NORMAL,
     )
 
-    event_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.event",
-        inverse_name="document_id",
-        string="Events",
-        copy=False,
-        readonly=True,
-    )
-
-    correction_event_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.event",
-        inverse_name="document_id",
-        domain=[("type", "=", "14")],
-        string="Correction Events",
-        copy=False,
-        readonly=True,
-    )
+    # event_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.event",
+    #     inverse_name="document_id",
+    #     string="Events",
+    #     copy=False,
+    #     readonly=True,
+    # )
+    #
+    # correction_event_ids = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.event",
+    #     inverse_name="document_id",
+    #     domain=[("type", "=", "14")],
+    #     string="Correction Events",
+    #     copy=False,
+    #     readonly=True,
+    # )
 
     document_type = fields.Char(
         string="Document Type Code",
@@ -197,6 +199,11 @@ class Document(models.Model):
     # Você não vai poder fazer isso em modelos que já tem state
     # TODO Porque não usar o campo state do fiscal.document???
     state = fields.Selection(related="state_edoc", string="State")
+
+    issuer = fields.Selection(
+        selection=DOCUMENT_ISSUER,
+        default=DOCUMENT_ISSUER_COMPANY,
+    )
 
     document_subsequent_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.subsequent.document",
@@ -265,9 +272,10 @@ class Document(models.Model):
                 domain.append(("partner_id", "=", record.partner_id.id))
             else:
                 if record.document_serie_id:
-                    invalid_number = record.document_serie_id._is_invalid_number(
-                        record.document_number
-                    )
+                    invalid_number = False
+                    # record.document_serie_id._is_invalid_number(
+                    #     record.document_number
+                    # )
 
             documents = record.env["l10n_br_fiscal.document"].search_count(domain)
 

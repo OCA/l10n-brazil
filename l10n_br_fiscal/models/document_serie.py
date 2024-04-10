@@ -49,11 +49,11 @@ class DocumentSerie(models.Model):
         related="internal_sequence_id.number_next",
     )
 
-    invalidate_number_id = fields.One2many(
-        comodel_name="l10n_br_fiscal.invalidate.number",
-        inverse_name="document_serie_id",
-        string="Invalidate Number Range",
-    )
+    # invalidate_number_id = fields.One2many(
+    #     comodel_name="l10n_br_fiscal.invalidate.number",
+    #     inverse_name="document_serie_id",
+    #     string="Invalidate Number Range",
+    # )
 
     @api.model
     def _create_sequence(self, values):
@@ -81,26 +81,25 @@ class DocumentSerie(models.Model):
     def name_get(self):
         return [(r.id, "{}".format(r.name)) for r in self]
 
-    def _is_invalid_number(self, document_number):
-        self.ensure_one()
-        is_invalid_number = True
-        # TODO Improve this implementation!
-        invalids = self.env["l10n_br_fiscal.invalidate.number"].search(
-            [("state", "=", "done"), ("document_serie_id", "=", self.id)]
-        )
-        invalid_numbers = []
-        for invalid in invalids:
-            invalid_numbers += range(invalid.number_start, invalid.number_end + 1)
-        if int(document_number) not in invalid_numbers:
-            is_invalid_number = False
-        return is_invalid_number
+    # def _is_invalid_number(self, document_number):
+    #     self.ensure_one()
+    #     is_invalid_number = True
+    #     # TODO Improve this implementation!
+    #     invalids = self.env["l10n_br_fiscal.invalidate.number"].search(
+    #         [("state", "=", "done"), ("document_serie_id", "=", self.id)]
+    #     )
+    #     invalid_numbers = []
+    #     for invalid in invalids:
+    #         invalid_numbers += range(invalid.number_start, invalid.number_end + 1)
+    #     if int(document_number) not in invalid_numbers:
+    #         is_invalid_number = False
+    #     return is_invalid_number
 
     def next_seq_number(self):
         self.ensure_one()
         document_number = self.internal_sequence_id._next()
-        if self._is_invalid_number(document_number) or self.check_number_in_use(
-            document_number
-        ):
+        # if self._is_invalid_number(document_number) or self.check_number_in_use(
+        if self.check_number_in_use(document_number):
             document_number = self.next_seq_number()
         return document_number
 

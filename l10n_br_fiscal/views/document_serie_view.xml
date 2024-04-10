@@ -40,13 +40,13 @@
                         <field name="internal_sequence_id" />
                         <field name="sequence_number_next" />
                     </group>
-                    <group name="invalidate_number" string="Invalidate Numbers">
+                    <!--group name="invalidate_number" string="Invalidate Numbers">
                         <field
                             name="invalidate_number_id"
                             nolabel="1"
                             context="{'default_document_serie_id': id}"
                         />
-                    </group>
+                    </group-->
                 </sheet>
             </form>
         </field>

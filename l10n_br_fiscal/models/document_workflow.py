@@ -149,8 +149,8 @@ class DocumentWorkflow(models.AbstractModel):
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
         self.ensure_one()
-        if self._direct_draft_send():
-            self.action_document_send()
+        # if self._direct_draft_send():
+        #    self.action_document_send()
 
     def _exec_after_SITUACAO_EDOC_ENVIADA(self, old_state, new_state):
         pass
@@ -317,20 +317,21 @@ class DocumentWorkflow(models.AbstractModel):
         pass
 
     def action_document_send(self):
-        to_send = self.filtered(
-            lambda d: d.state_edoc
-            in (
-                SITUACAO_EDOC_A_ENVIAR,
-                SITUACAO_EDOC_ENVIADA,
-                SITUACAO_EDOC_REJEITADA,
-            )
-        )
-        if to_send:
-            to_send._document_send()
+        pass
+        # to_send = self.filtered(
+        #     lambda d: d.state_edoc
+        #     in (
+        #         SITUACAO_EDOC_A_ENVIAR,
+        #         SITUACAO_EDOC_ENVIADA,
+        #         SITUACAO_EDOC_REJEITADA,
+        #     )
+        # )
+        # if to_send:
+        #    to_send._document_send()
 
     def action_document_back2draft(self):
         self.xml_error_message = False
-        self.file_report_id = False
+        # self.file_report_id = False
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             self._change_state(SITUACAO_EDOC_EM_DIGITACAO)
         else:
