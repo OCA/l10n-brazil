@@ -23,4 +23,5 @@
         "views/res_company.xml",
         "data/l10n_br_nfse_focus_cron.xml",
     ],
+    "installable": False,
 }

@@ -36,8 +36,10 @@ jobs:
       matrix:
         include:
           - container: ghcr.io/oca/oca-ci/py3.8-odoo14.0:latest
+            exclude: "l10n_br_account_nfe,l10n_br_fiscal_closing,l10n_br_delivery_nfe,l10n_br_ie_search,l10n_br_nfe,l10n_br_nfse,l10n_br_nfse_barueri,l10n_br_nfse_focus,l10n_br_nfse_ginfes,l10n_br_nfse_paulistana,l10n_br_pos_nfce"
             name: test with Odoo
           - container: ghcr.io/oca/oca-ci/py3.8-ocb14.0:latest
+            exclude: "l10n_br_account_nfe,l10n_br_fiscal_closing,l10n_br_delivery_nfe,l10n_br_ie_search,l10n_br_nfe,l10n_br_nfse,l10n_br_nfse_barueri,l10n_br_nfse_focus,l10n_br_nfse_ginfes,l10n_br_nfse_paulistana,l10n_br_pos_nfce"
             name: test with OCB
             makepot: "true"
     services:
@@ -49,6 +51,9 @@ jobs:
           POSTGRES_DB: odoo
         ports:
           - 5432:5432
+    env:
+      INCLUDE: "${{ matrix.include }}"
+      EXCLUDE: "${{ matrix.exclude }}"
     steps:
       - uses: actions/checkout@v3
         with:

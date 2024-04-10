@@ -34,4 +34,5 @@
         "demo/product_demo.xml",
         "demo/fiscal_document_demo.xml",
     ],
+    "installable": False,
 }

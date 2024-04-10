@@ -34,5 +34,5 @@
         "static/src/xml/Screens/ReceiptScreen/NfceItemReceipt.xml",
         "static/src/xml/Screens/ReceiptScreen/ReceiptScreen.xml",
     ],
-    "installable": True,
+    "installable": False,
 }

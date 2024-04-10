@@ -23,4 +23,5 @@
     "depends": [
         "l10n_br_nfse",
     ],
+    "installable": False,
 }

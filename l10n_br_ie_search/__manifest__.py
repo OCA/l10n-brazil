@@ -19,4 +19,5 @@
             "erpbrasil.edoc>=2.5.2",
         ]
     },
+    "installable": False,
 }

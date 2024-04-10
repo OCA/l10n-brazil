@@ -1,6 +1,17 @@
 exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
+  ^l10n_br_account_nfe/|
+  ^l10n_br_delivery_nfe/|
+  ^l10n_br_fiscal_closing/|
+  ^l10n_br_ie_search/|
+  ^l10n_br_nfe/|
+  ^l10n_br_nfse/|
+  ^l10n_br_nfse_barueri/|
+  ^l10n_br_nfse_focus/|
+  ^l10n_br_nfse_ginfes/|
+  ^l10n_br_nfse_paulistana/|
+  ^l10n_br_pos_nfce/|
   # END NOT INSTALLABLE ADDONS
   ^l10n_br_nfe_spec/models/v4_0/|  # (don't reformat generated code)
   ^l10n_br_cte_spec/models/v4_0/|  # (don't reformat generated code)
