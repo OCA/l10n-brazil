@@ -6,13 +6,12 @@ from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constants.fiscal import (
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
-    SITUACAO_EDOC,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
@@ -21,7 +20,6 @@ from ..constants.fiscal import (
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_INUTILIZADA,
     SITUACAO_EDOC_REJEITADA,
-    SITUACAO_FISCAL,
     SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
     WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
     WORKFLOW_EDOC,
@@ -29,27 +27,17 @@ from ..constants.fiscal import (
 
 
 class DocumentWorkflow(models.AbstractModel):
+    """
+    This mixin encapsulates the fiscal_state and state_edoc transitions logic.
+    This is legacy code that was made by the KMEE company in version 10
+    and included in the l10n_br_fiscal in version 12. The strange method names
+    with _exec_after_*/_exec_before_* reflect the old Odoo "low-code"
+    "state machine" for invoices that was customized in version 8 by Akretion.
+    So this legacy code can probably be improved a lot...
+    """
+
     _name = "l10n_br_fiscal.document.workflow"
     _description = "Fiscal Document Workflow"
-
-    state_edoc = fields.Selection(
-        selection=SITUACAO_EDOC,
-        string="Situação e-doc",
-        default=SITUACAO_EDOC_EM_DIGITACAO,
-        copy=False,
-        required=True,
-        readonly=True,
-        # tracking=True,
-        index=True,
-    )
-
-    state_fiscal = fields.Selection(
-        selection=SITUACAO_FISCAL,
-        string="Situação Fiscal",
-        copy=False,
-        # tracking=True,
-        index=True,
-    )
 
     cancel_reason = fields.Char()
 
@@ -312,16 +300,13 @@ class DocumentWorkflow(models.AbstractModel):
         if to_confirm:
             to_confirm._document_confirm()
 
-    def action_document_confirm(self):
-        self._document_confirm_to_send()
-
     def _no_eletronic_document_send(self):
         self._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def _document_export(self):
         pass
 
-    def action_document_send(self):
+    def _action_document_send(self):
         to_send = self.filtered(
             lambda d: d.state_edoc
             in (
@@ -341,7 +326,7 @@ class DocumentWorkflow(models.AbstractModel):
         else:
             self.state_edoc = SITUACAO_EDOC_EM_DIGITACAO
 
-    def action_document_back2draft(self):
+    def _action_document_back2draft(self):
         self.document_back2draft()
 
     def _document_cancel(self, justificative):
@@ -350,18 +335,18 @@ class DocumentWorkflow(models.AbstractModel):
         if self._change_state(SITUACAO_EDOC_CANCELADA):
             self.cancel_reason = justificative
 
-    def action_document_cancel(self):
+    def _action_document_cancel(self):
         self.ensure_one()
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
                 result = self.env["ir.actions.act_window"]._for_xml_id(
-                    "l10n_br_fiscal.document_cancel_wizard_action"
+                    "l10n_br_fiscal_edi.document_cancel_wizard_action"
                 )
                 return result
         else:
             self.state_edoc = SITUACAO_EDOC_CANCELADA
 
-    def action_document_invalidate(self):
+    def _action_document_invalidate(self):
         self.ensure_one()
         if (
             self.document_number
@@ -375,7 +360,7 @@ class DocumentWorkflow(models.AbstractModel):
             and self.issuer == DOCUMENT_ISSUER_COMPANY
         ):
             return self.env["ir.actions.act_window"]._for_xml_id(
-                "l10n_br_fiscal.invalidate_number_wizard_action"
+                "l10n_br_fiscal_edi.invalidate_number_wizard_action"
             )
         else:
             raise UserError(_("You cannot invalidate this document"))
@@ -384,14 +369,14 @@ class DocumentWorkflow(models.AbstractModel):
         self.ensure_one()
         self.correction_reason = justificative
 
-    def action_document_correction(self):
+    def _action_document_correction(self):
         self.ensure_one()
         if (
             self.state_edoc in SITUACAO_EDOC_AUTORIZADA
             and self.issuer == DOCUMENT_ISSUER_COMPANY
         ):
             return self.env["ir.actions.act_window"]._for_xml_id(
-                "l10n_br_fiscal.document_correction_wizard_action"
+                "l10n_br_fiscal_edi.document_correction_wizard_action"
             )
         else:
             raise UserError(

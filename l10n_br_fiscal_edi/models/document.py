@@ -5,7 +5,7 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
-from ..constants.fiscal import (
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
     PROCESSADOR_NENHUM,
@@ -19,10 +19,37 @@ def filter_processador(record):
     return False
 
 
-class DocumentEletronic(models.AbstractModel):
-    _name = "l10n_br_fiscal.document.electronic"
-    _description = "Fiscal Eletronic Document"
-    _inherit = "l10n_br_fiscal.document.workflow"
+class Document(models.Model):
+    """
+    As of August 2024, this is the extraction of the legacy
+    l10n_br_fiscal.document.electronic mixin that was part of l10n_br_fiscal
+    from version 12 to 14. This code was made before the OCA/edi and OCA/edi-framework
+    and might easily be improved...
+    """
+
+    _name = "l10n_br_fiscal.document"
+
+    _inherit = [
+        "l10n_br_fiscal.document",
+        "l10n_br_fiscal.document.workflow",
+    ]
+
+    event_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.event",
+        inverse_name="document_id",
+        string="Events",
+        copy=False,
+        readonly=True,
+    )
+
+    correction_event_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.event",
+        inverse_name="document_id",
+        domain=[("type", "=", "14")],
+        string="Correction Events",
+        copy=False,
+        readonly=True,
+    )
 
     issuer = fields.Selection(
         selection=DOCUMENT_ISSUER,
@@ -144,6 +171,37 @@ class DocumentEletronic(models.AbstractModel):
         copy=False,
     )
 
+    # these workflow methods are plugged here so their interface defined in
+    # l10n_br_fiscal can easily be overriden in other modules.
+    def action_document_confirm(self):
+        super().action_document_confirm()
+        return self._document_confirm_to_send()
+
+    def action_document_send(self):
+        super().action_document_send()
+        return self._action_document_send()
+
+    def action_document_back2draft(self):
+        super().action_document_back2draft()
+        return self._action_document_back2draft()
+
+    def action_document_cancel(self):
+        super().action_document_confirm()
+        return self._action_document_cancel()
+
+    def action_document_invalidate(self):
+        super().action_document_invalidate()
+        return self._action_document_invalidate()
+
+    def action_document_correction(self):
+        super().action_document_correction()
+        return self._action_document_correction()
+
+    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
+        # see https://github.com/OCA/l10n-brazil/pull/3272
+        super().exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
+        return self._exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
+
     @api.depends("status_code", "status_name")
     def _compute_status_description(self):
         for record in self:
@@ -197,6 +255,7 @@ class DocumentEletronic(models.AbstractModel):
 
     def view_xml(self):
         self.ensure_one()
+        super().view_xml()
         xml_file = self.authorization_file_id or self.send_file_id
         if not xml_file:
             self._document_export()
@@ -210,6 +269,7 @@ class DocumentEletronic(models.AbstractModel):
 
     def view_pdf(self):
         self.ensure_one()
+        super().view_pdf()
         if not self.file_report_id or not self.authorization_file_id:
             self.make_pdf()
         if not self.file_report_id:

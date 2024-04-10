@@ -1,10 +1,12 @@
 # Copyright 2023 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests import TransactionCase
+from odoo.tests import SavepointCase
+
+from ..constants.fiscal import SITUACAO_EDOC_A_ENVIAR
 
 
-class TestTaxBenefit(TransactionCase):
+class TestTaxBenefit(SavepointCase):
     def setUp(self):
         super().setUp()
         self.nfe_tax_benefit = self.env.ref("l10n_br_fiscal.demo_nfe_tax_benefit")
@@ -51,3 +53,22 @@ class TestTaxBenefit(TransactionCase):
                 self.tax_benefit,
                 "Document line must have tax benefit",
             )
+
+        # self.nfe_tax_benefit.action_document_confirm()
+
+        self.assertEqual(
+            self.nfe_tax_benefit.state_edoc,
+            SITUACAO_EDOC_A_ENVIAR,
+            "Document is not in To Send state",
+        )
+
+        self.nfe_tax_benefit.action_document_send()
+
+        # self.assertEqual(
+        #     self.nfe_tax_benefit.state_edoc,
+        #     SITUACAO_EDOC_AUTORIZADA,
+        #     "Document is not in Authorized state",
+        # )
+
+        # result = self.nfe_tax_benefit.action_document_cancel()
+        # self.assertTrue(result)

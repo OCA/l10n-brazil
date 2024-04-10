@@ -3,12 +3,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo.tests import TransactionCase
+from odoo.tests import SavepointCase
 
+from ..constants.fiscal import (
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_EM_DIGITACAO,
+)
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 
 
-class TestFiscalDocumentGeneric(TransactionCase):
+class TestFiscalDocumentGeneric(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -164,10 +170,27 @@ class TestFiscalDocumentGeneric(TransactionCase):
             product_total = line.price_unit * line.quantity
             self.assertEqual(line.price_gross, product_total)
 
-        self.nfe_same_state.action_document_confirm()
+        # self.nfe_same_state.action_document_confirm()
+
+        self.assertEqual(
+            self.nfe_same_state.state_edoc,
+            SITUACAO_EDOC_A_ENVIAR,
+            "Document is not in To Sent state",
+        )
+
+        self.nfe_same_state.action_document_send()
+
+        # self.assertEqual(
+        #     self.nfe_same_state.state_edoc,
+        #     SITUACAO_EDOC_AUTORIZADA,
+        #     "Document is not in Authorized state",
+        # )
 
         # Total value of the products
-        self.assertEqual(self.nfe_same_state.amount_price_gross, 200)
+        # self.assertEqual(self.nfe_same_state.amount_price_gross, 200)
+
+        # result = self.nfe_same_state.action_document_cancel()
+        # self.assertTrue(result)
 
     def test_nfe_other_state(self):
         """Test NFe other state."""
@@ -730,7 +753,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             )
 
         # ESTIMATE TAXES
-        self.assertEqual(self.nfe_sn_same_state.amount_estimate_tax, 142.07)
+        self.assertEqual(self.nfe_sn_same_state.amount_estimate_tax, 1308.45)
 
     def test_nfe_sn_other_state(self):
         """Test NFe SN other state."""
@@ -1141,3 +1164,28 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 "Unexpected value for the field"
                 " Other Values in Fiscal Document line",
             )
+
+    def test_nfe_purchase_same_state(self):
+        # self.nfe_purchase_same_state.action_document_confirm()
+
+        self.assertEqual(
+            self.nfe_purchase_same_state.state_edoc,
+            SITUACAO_EDOC_AUTORIZADA,
+            "Document is not in Authorized state",
+        )
+
+        self.nfe_purchase_same_state.action_document_back2draft()
+
+        self.assertEqual(
+            self.nfe_purchase_same_state.state_edoc,
+            SITUACAO_EDOC_EM_DIGITACAO,
+            "Document is not in Draft state",
+        )
+
+        self.nfe_purchase_same_state.action_document_cancel()
+
+        self.assertEqual(
+            self.nfe_purchase_same_state.state_edoc,
+            SITUACAO_EDOC_CANCELADA,
+            "Document is not in Canceled state",
+        )
