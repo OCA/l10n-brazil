@@ -1,0 +1,7 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_fiscal_event_user","Fiscal Document Event for User","model_l10n_br_fiscal_event","l10n_br_fiscal.group_user",1,1,1,0
+"l10n_br_fiscal_invalidate_number_user","user_l10n_br_fiscal_invalidate_number","model_l10n_br_fiscal_invalidate_number","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_invalidate_number_manager","manager_l10n_br_fiscal_invalidate_number","model_l10n_br_fiscal_invalidate_number","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_document_cancel_wizard_user",l10n_br_fiscal_document_cancel_wizard,model_l10n_br_fiscal_document_cancel_wizard,base.group_user,1,1,1,1
+"l10n_br_fiscal_document_correction_wizard_user",l10n_br_fiscal_document_correction_wizard,model_l10n_br_fiscal_document_correction_wizard,base.group_user,1,1,1,1
+"l10n_br_fiscal_document_import_wizard_mixin_user",l10n_br_fiscal_document_import_wizard_mixin_user,model_l10n_br_fiscal_document_import_wizard_mixin,base.group_user,1,1,1,1
