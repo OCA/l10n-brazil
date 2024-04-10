@@ -42,21 +42,16 @@
                         class="oe_highlight"
                     />
           </header>
-          <group>
+          <group name="serie">
               <field name="company_id" />
               <field name="document_type_id" />
               <field name="document_serie_id" />
           </group>
-          <group>
+          <group name="invalidation">
               <field name="number_start" />
               <field name="number_end" />
               <field name="justification" />
           </group>
-          <notebook>
-              <page string="Events">
-                  <field name="event_ids" />
-              </page>
-          </notebook>
       </form>
     </field>
   </record>
