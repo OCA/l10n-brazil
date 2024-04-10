@@ -3,14 +3,14 @@
 
 {
     "name": "Módulo fiscal brasileiro",
-    "summary": "Brazilian fiscal core module.",
+    "summary": "Fiscal module/tax engine for Brazil",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "16.0.1.18.2",
+    "version": "16.0.2.0.0",
     "depends": [
         "product",
         "l10n_br_base",
@@ -84,16 +84,6 @@
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
         "views/operation_dashboard_view.xml",
-        "views/document_event_view.xml",
-        # Reports
-        "views/document_event_report.xml",
-        "views/document_event_template.xml",
-        # Wizards
-        "wizards/document_cancel_wizard.xml",
-        "wizards/document_correction_wizard.xml",
-        "wizards/document_status_wizard.xml",
-        "wizards/invalidate_number_wizard.xml",
-        "wizards/document_import_wizard_mixin.xml",
         # Actions
         "views/l10n_br_fiscal_action.xml",
         # Menus
