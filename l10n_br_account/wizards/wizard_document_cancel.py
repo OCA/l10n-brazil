@@ -8,6 +8,8 @@ from odoo import models
 class DocumentCancelWizard(models.TransientModel):
     _inherit = "l10n_br_fiscal.document.cancel.wizard"
 
+    # TODO message_post can be done in fiscal.document
+    # and then copied to the account.move
     def do_cancel(self):
         result = super().do_cancel()
         if self.move_id:
