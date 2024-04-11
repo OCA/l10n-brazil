@@ -2017,6 +2017,9 @@ class ICMSRegulation(models.Model):
             domain += [
                 ("state_from_id", "=", company.state_id.id),
                 ("state_to_ids", "=", partner.state_id.id),
+                ("ncm_ids", "=", ncm.id),
+                ("nbm_ids", "=", nbm.id),
+                ("cest_ids", "=", cest.id),
             ]
 
         return domain
