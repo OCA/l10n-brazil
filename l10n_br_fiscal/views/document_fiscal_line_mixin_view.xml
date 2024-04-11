@@ -336,11 +336,6 @@
                                             attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', '=', '500')]}"
                                         />
                           <field
-                                            name="icmsfcpst_value"
-                                            force_save="1"
-                                            attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'not in', ('10', '30', '70', '90', '201', '202', '203', '900'))]}"
-                                        />
-                          <field
                                             name="icmsfcp_base_wh"
                                             force_save="1"
                                             attrs="{'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"
