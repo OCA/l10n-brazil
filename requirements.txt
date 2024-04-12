@@ -6,7 +6,7 @@ erpbrasil.base>=2.3.0
 erpbrasil.edoc.pdf
 erpbrasil.edoc>=2.5.2
 erpbrasil.transmissao>=1.1.0
-nfelib>=2.0.0
+nfelib>=2.0.1
 nfselib.barueri
 nfselib.ginfes
 nfselib.paulistana
