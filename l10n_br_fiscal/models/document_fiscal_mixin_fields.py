@@ -380,6 +380,7 @@ class FiscalDocumentMixinFields(models.AbstractModel):
     )
 
     amount_tax_withholding = fields.Monetary(
+        string="Tax Withholding",
         compute="_compute_amount",
         store=True,
     )
