@@ -208,6 +208,7 @@ class AccountMoveLine(models.Model):
                         amount_tax_not_included=values.get(
                             "amount_tax_not_included", 0
                         ),
+                        amount_tax_withholding=values.get("amount_tax_withholding", 0),
                         amount_total=fiscal_line.amount_total,
                         currency_id=move_id.currency_id,
                         company_id=move_id.company_id,
@@ -301,6 +302,7 @@ class AccountMoveLine(models.Model):
                     exclude_from_invoice_tab=line.exclude_from_invoice_tab,
                     amount_tax_included=line.amount_tax_included,
                     amount_tax_not_included=line.amount_tax_not_included,
+                    amount_tax_withholding=line.amount_tax_withholding,
                     amount_total=line.amount_total,
                     currency_id=line.currency_id,
                     company_id=line.company_id,
@@ -590,6 +592,7 @@ class AccountMoveLine(models.Model):
         exclude_from_invoice_tab=None,
         amount_tax_included=None,
         amount_tax_not_included=None,
+        amount_tax_withholding=None,
         amount_total=None,
         currency_id=None,
         company_id=None,
@@ -611,6 +614,9 @@ class AccountMoveLine(models.Model):
             amount_tax_not_included=self.amount_tax_not_included
             if amount_tax_not_included is None
             else amount_tax_not_included,
+            amount_tax_withholding=self.amount_tax_withholding
+            if amount_tax_withholding is None
+            else amount_tax_withholding,
             amount_total=self.amount_total if amount_total is None else amount_total,
             currency_id=self.currency_id if currency_id is None else currency_id,
             company_id=self.company_id if company_id is None else company_id,
@@ -626,6 +632,7 @@ class AccountMoveLine(models.Model):
         exclude_from_invoice_tab,
         amount_tax_included,
         amount_tax_not_included,
+        amount_tax_withholding,
         amount_total,
         currency_id,
         company_id,
@@ -644,10 +651,13 @@ class AccountMoveLine(models.Model):
             amount_currency = 0
         else:
             if move_id.fiscal_operation_id.deductible_taxes:
-                amount_currency = amount_total
+                amount_currency = amount_total + amount_tax_withholding
             else:
+                amount_total = amount_total + amount_tax_withholding
                 amount_currency = (
-                    amount_total - amount_tax_included - amount_tax_not_included
+                    amount_total
+                    - (amount_tax_included - amount_tax_withholding)
+                    - amount_tax_not_included
                 )
 
         amount_currency = amount_currency * sign
