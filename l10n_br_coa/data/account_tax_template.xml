@@ -341,7 +341,7 @@
         <field eval="0" name="price_include" />
         <field eval="0" name="deductible" />
         <field eval="1" name="withholdable" />
-        <field name="tax_group_id" ref="tax_group_cofinsst" />
+        <field name="tax_group_id" ref="tax_group_cofins_wh" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
     </record>
 
