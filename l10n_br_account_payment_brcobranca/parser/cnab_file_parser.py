@@ -423,7 +423,6 @@ class CNABFileParser(FileParser):
                 "account_id": self.journal.default_account_id.id,
                 "type": "tarifa",
                 "partner_id": account_move_line.company_id.partner_id.id,
-                "payment_line_ids": payment_lines.ids,
                 "cnab_returned_ref": account_move_line.document_number,
             }
         )
@@ -437,7 +436,6 @@ class CNABFileParser(FileParser):
                 "credit": 0.0,
                 "type": "tarifa",
                 "account_id": tariff_charge_account.id,
-                "payment_line_ids": payment_lines.ids,
                 "cnab_returned_ref": account_move_line.document_number,
             }
         )
@@ -482,7 +480,6 @@ class CNABFileParser(FileParser):
                         "credit": 0.0,
                         "account_id": cnab_config.discount_account_id.id,
                         "type": "desconto",
-                        "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
                     }
                 )
@@ -496,7 +493,6 @@ class CNABFileParser(FileParser):
                         "type": "desconto",
                         "account_id": self.journal.default_account_id.id,
                         "partner_id": account_move_line.partner_id.id,
-                        "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
                     }
                 )
@@ -515,7 +511,6 @@ class CNABFileParser(FileParser):
                         "type": "juros_mora",
                         "account_id": cnab_config.interest_fee_account_id.id,
                         "partner_id": account_move_line.partner_id.id,
-                        "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
                     }
                 )
@@ -530,7 +525,6 @@ class CNABFileParser(FileParser):
                         "journal_id": account_move_line.journal_id.id,
                         "type": "juros_mora",
                         "partner_id": account_move_line.partner_id.id,
-                        "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
                     }
                 )
@@ -548,7 +542,6 @@ class CNABFileParser(FileParser):
                         "credit": 0.0,
                         "account_id": cnab_config.rebate_account_id.id,
                         "type": "abatimento",
-                        "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
                     }
                 )
@@ -562,7 +555,6 @@ class CNABFileParser(FileParser):
                         "type": "abatimento",
                         "account_id": self.journal.default_account_id.id,
                         "partner_id": account_move_line.partner_id.id,
-                        "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
                     }
                 )
@@ -586,7 +578,6 @@ class CNABFileParser(FileParser):
                 "credit": valor_recebido_calculado,
                 "move_line": account_move_line,
                 "type": "liquidado",
-                "payment_line_ids": payment_lines.ids,
                 "account_id": account_move_line.account_id.id,
                 "partner_id": account_move_line.partner_id.id,
                 "date": data_credito,
@@ -664,7 +655,6 @@ class CNABFileParser(FileParser):
             "partner_id": None,
             "account_id": line["account_id"],
             "already_completed": True,
-            "payment_line_ids": line["payment_line_ids"],
             "cnab_returned_ref": line["cnab_returned_ref"],
         }
         if (
