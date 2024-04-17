@@ -184,9 +184,7 @@ class SaleOrderLine(models.Model):
             # Update record
             line.update(
                 {
-                    "price_subtotal": line.amount_untaxed,
                     "price_tax": line.amount_tax,
-                    "price_gross": line.amount_untaxed + line.discount_value,
                     "price_total": line.amount_total,
                 }
             )
