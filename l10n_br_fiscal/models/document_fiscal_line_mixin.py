@@ -234,7 +234,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     amount_tax_not_included = fields.Monetary()
 
-    amount_tax_withholding = fields.Monetary(string="(-) Amount Tax Withholding")
+    amount_tax_withholding = fields.Monetary(string="Tax Withholding")
 
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre", string="Fiscal Product Genre"
