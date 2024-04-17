@@ -520,6 +520,7 @@
                     <field name="amount_freight_value" />
                     <field name="amount_insurance_value" />
                     <field name="amount_other_value" />
+                    <field name="amount_tax_withholding" />
                     <field name="amount_tax" />
 
                     <field name="amount_total" class="oe_subtotal_footer_separator" />
