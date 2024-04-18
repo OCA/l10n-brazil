@@ -830,11 +830,6 @@ msgid "Voltar para Digitação"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__wh_move_line_id
-msgid "WH Account Move Line"
-msgstr ""
-
-#. module: l10n_br_account
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
@@ -846,12 +841,6 @@ msgstr ""
 #: code:addons/l10n_br_account/models/fiscal_document.py:0
 #, python-format
 msgid "You cannot delete a fiscal document which is not draft state."
-msgstr ""
-
-#. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_move_line.py:0
-#, python-format
-msgid "You cannot edit an invoice related to a withholding entry"
 msgstr ""
 
 #. module: l10n_br_account
