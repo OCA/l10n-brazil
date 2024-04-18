@@ -13,14 +13,23 @@ class AccountTaxMixin(models.AbstractModel):
         default=True,
     )
 
-    @api.onchange("deductible")
+    withholdable = fields.Boolean(
+        string="Withholdable Tax?",
+        default=False,
+    )
+
+    @api.onchange("deductible", "withholdable")
     def _onchange_deductible(self):
         for repartition in self.invoice_repartition_line_ids.filtered(
             lambda r: r.repartition_type == "tax"
         ):
-            repartition.factor_percent = 100 if not self.deductible else -100
+            repartition.factor_percent = (
+                -100 if self.deductible or self.withholdable else 100
+            )
 
         for repartition in self.refund_repartition_line_ids.filtered(
             lambda r: r.repartition_type == "tax"
         ):
-            repartition.factor_percent = 100 if not self.deductible else -100
+            repartition.factor_percent = (
+                -100 if self.deductible or self.withholdable else 100
+            )
