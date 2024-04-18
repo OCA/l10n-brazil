@@ -11,4 +11,5 @@ class AccountTaxTemplate(models.Model):
     def _get_tax_vals(self, company, tax_template_to_tax):
         values = super()._get_tax_vals(company, tax_template_to_tax)
         values["deductible"] = self.deductible
+        values["withholdable"] = self.withholdable
         return values
