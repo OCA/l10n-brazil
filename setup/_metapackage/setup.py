@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_account_nfe',
         'odoo14-addon-l10n_br_account_payment_brcobranca',
         'odoo14-addon-l10n_br_account_payment_order',
+        'odoo14-addon-l10n_br_account_withholding',
         'odoo14-addon-l10n_br_base',
         'odoo14-addon-l10n_br_cnab_structure',
         'odoo14-addon-l10n_br_cnpj_search',
