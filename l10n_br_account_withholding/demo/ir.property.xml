@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 Marcel Savegnago - Escodoo (https://www.escodoo.com.br)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+
+     <record id="property_tax_group_pis_wh_generate_wh_invoice" model="ir.property">
+        <field name="name">generate_wh_invoice</field>
+        <field
+            name="fields_id"
+            search="[('model','=','l10n_br_fiscal.tax.group'),('name','=','generate_wh_invoice')]"
+        />
+        <field name="value">1</field>
+        <field name="type" eval="'integer'" />
+        <field
+            eval="'l10n_br_fiscal.tax.group,'+str(ref('l10n_br_fiscal.tax_group_pis_wh'))"
+            name="res_id"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="property_tax_group_cofins_wh_generate_wh_invoice" model="ir.property">
+        <field name="name">generate_wh_invoice</field>
+        <field
+            name="fields_id"
+            search="[('model','=','l10n_br_fiscal.tax.group'),('name','=','generate_wh_invoice')]"
+        />
+        <field name="value">1</field>
+        <field name="type" eval="'integer'" />
+        <field
+            eval="'l10n_br_fiscal.tax.group,'+str(ref('l10n_br_fiscal.tax_group_cofins_wh'))"
+            name="res_id"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+</odoo>
