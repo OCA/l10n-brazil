@@ -8,6 +8,7 @@
       <field name="arch" type="xml">
           <field name="price_include" position="after">
               <field name="deductible" />
+              <field name="withholdable" />
           </field>
       </field>
   </record>
