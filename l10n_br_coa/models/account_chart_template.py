@@ -56,27 +56,38 @@ class AccountChartTemplate(models.Model):
                     "l10n_br_coa.account.tax.group.account.template"
                 ].search(domain)
                 if group_tax_account_template:
+
                     if tax.deductible:
-                        account_id = group_tax_account_template.ded_account_id
-                        refund_account_id = (
+                        account = group_tax_account_template.ded_account_id
+                        refund_account = (
                             group_tax_account_template.ded_refund_account_id
                         )
                     elif tax.withholdable:
                         if tax.type_tax_use == "purchase":
-                            account_id = group_tax_account_template.account_id
-                            refund_account_id = (
+                            account = group_tax_account_template.account_id
+                            refund_account = (
                                 group_tax_account_template.refund_account_id
                             )
                         else:
-                            account_id = False
-                            refund_account_id = False
+                            account = False
+                            refund_account = False
                     else:
-                        account_id = group_tax_account_template[
+                        account = group_tax_account_template[
                             acc_names.get(tax.type_tax_use, {}).get("account_id")
                         ]
-                        refund_account_id = group_tax_account_template[
+                        refund_account = group_tax_account_template[
                             acc_names.get(tax.type_tax_use, {}).get("refund_account_id")
                         ]
+
+                    if account:
+                        account_id = account_ref[account.id].id
+                    else:
+                        account_id = False
+
+                    if refund_account:
+                        refund_account_id = account_ref[refund_account.id].id
+                    else:
+                        refund_account_id = False
 
                     tax.write(
                         {
@@ -98,9 +109,7 @@ class AccountChartTemplate(models.Model):
                                         if tax.deductible or tax.withholdable
                                         else 100,
                                         "repartition_type": "tax",
-                                        "account_id": account_ref.get(
-                                            account_id.id if account_id else None, False
-                                        ),
+                                        "account_id": account_id,
                                     },
                                 ),
                             ],
@@ -122,12 +131,7 @@ class AccountChartTemplate(models.Model):
                                         if tax.deductible or tax.withholdable
                                         else 100,
                                         "repartition_type": "tax",
-                                        "account_id": account_ref.get(
-                                            refund_account_id.id
-                                            if refund_account_id
-                                            else None,
-                                            False,
-                                        ),
+                                        "account_id": refund_account_id,
                                     },
                                 ),
                             ],
