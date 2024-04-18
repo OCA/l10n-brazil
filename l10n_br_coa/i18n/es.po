@@ -232,3 +232,10 @@ msgstr "Grupo de impuesto"
 #: model:ir.model,name:l10n_br_coa.model_account_tax_template
 msgid "Templates for Taxes"
 msgstr "Plantillas para impuestos"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__withholdable
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__withholdable
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__withholdable
+msgid "Withholdable Tax?"
+msgstr ""
