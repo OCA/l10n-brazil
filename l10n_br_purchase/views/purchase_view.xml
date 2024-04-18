@@ -108,7 +108,7 @@
                   <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)], 'required': ['&amp;', ('fiscal_operation_id', '!=', False), ('product_id', '!=', False)]}"
                 />
                   <field
                     name="cfop_id"
@@ -128,14 +128,14 @@
                   <!-- necessario incluir porque o attrs não funciona na tag Page apenas  na Notebook-->
                   <attribute
                     name="attrs"
-                >{'invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+                >{'invisible': ['|', ('parent.fiscal_operation_id', '!=', False), ('display_type', '!=', False)]}</attribute>
               </xpath>
               <xpath
                 expr="//field[@name='order_line']/form/field[@name='name']"
                 position="after"
             >
                 <notebook
-                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    attrs="{'invisible': ['|', ('parent.fiscal_operation_id', '=', False), ('display_type', '!=', False)]}"
                 >
                       <page
                         name="fiscal_taxes"
