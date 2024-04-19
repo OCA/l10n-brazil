@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-26 18:39+0000\n"
+"PO-Revision-Date: 2024-04-19 14:37+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -9090,7 +9090,7 @@ msgstr "Estado"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_est
 msgid "State Tax Number"
-msgstr "Número do Imposto Estadual/RG"
+msgstr "Número da Inscrição Estadual"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__document_status
