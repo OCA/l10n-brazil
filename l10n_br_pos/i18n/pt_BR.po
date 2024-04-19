@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2024-04-19 17:35+0000\n"
+"PO-Revision-Date: 2024-04-19 22:41+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -2262,7 +2262,7 @@ msgstr "Linhas de pedido de Ponto de Venda"
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_pos_order
 msgid "Point of Sale Orders"
-msgstr "Pedidos do Ponto de Vendas"
+msgstr "Pedidos do Ponto de Venda"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pos_config_id
@@ -2305,7 +2305,7 @@ msgstr "Preço por Unidade"
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__printer
 msgid "Printer"
-msgstr ""
+msgstr "Impressora"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__printer_params
@@ -2411,7 +2411,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
 msgid "Sale"
-msgstr ""
+msgstr "Venda"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__out_pos_fiscal_operation_line_ids
@@ -2547,37 +2547,37 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_tax_benefit_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_tax_benefit_id
 msgid "Tax Benefit"
-msgstr ""
+msgstr "Benefício Fiscal"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_tax_benefit_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_tax_benefit_code
 msgid "Tax Benefit Code"
-msgstr ""
+msgstr "Código do Benefício Fiscal"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_tax_id
 msgid "Tax COFINS"
-msgstr "COFINS Tributária"
+msgstr "Imposto COFINS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofins_wh_tax_id
 msgid "Tax COFINS RET"
-msgstr ""
+msgstr "Imposto COFINS RET"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cofinsst_tax_id
 msgid "Tax COFINS ST"
-msgstr "Cofins Fiscal ST"
+msgstr "Imposto COFINS ST"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__csll_tax_id
 msgid "Tax CSLL"
-msgstr "CSLL fiscal"
+msgstr "Imposto CSLL"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_tax_id
@@ -2595,37 +2595,37 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__tax_framework
 msgid "Tax Framework"
-msgstr "Regime Tributário"
+msgstr "Estrutura Tributária"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icms_tax_id
 msgid "Tax ICMS"
-msgstr "ICMS tributário"
+msgstr "Imposto ICMS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcp_tax_id
 msgid "Tax ICMS FCP"
-msgstr ""
+msgstr "Imposto ICMS FCP"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_tax_id
 msgid "Tax ICMS FCP ST"
-msgstr ""
+msgstr "Imposto ICMS FCP ST"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmssn_tax_id
 msgid "Tax ICMS SN"
-msgstr "ICMS Fiscal SN"
+msgstr "Imposto ICMS SN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsst_tax_id
 msgid "Tax ICMS ST"
-msgstr ""
+msgstr "Imposto ICMS ST"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_tax_id
@@ -2637,19 +2637,19 @@ msgstr "Imposto II"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_tax_id
 msgid "Tax INSS"
-msgstr "Imposto do INSS"
+msgstr "Imposto INSS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__inss_wh_tax_id
 msgid "Tax INSS RET"
-msgstr "Imposto do INSS RET"
+msgstr "Imposto INSS RET"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_tax_id
 msgid "Tax IPI"
-msgstr "IPI fiscal"
+msgstr "Imposto IPI"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_tax_id
@@ -2667,19 +2667,19 @@ msgstr "Imposto IRPJ RET"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_tax_id
 msgid "Tax ISSQN"
-msgstr "ISSQN fiscal"
+msgstr "Imposto ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_wh_tax_id
 msgid "Tax ISSQN RET"
-msgstr "ISSQN RET fiscal"
+msgstr "Imposto ISSQN RET"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__pis_tax_id
 msgid "Tax PIS"
-msgstr "Imposto pis"
+msgstr "Imposto PIS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_tax_id
