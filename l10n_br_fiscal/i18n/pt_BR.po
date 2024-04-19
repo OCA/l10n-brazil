@@ -29,12 +29,6 @@ msgid "%(name)s Tax Estimate Failure: %(error)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr "(-) Valor Retido na Fonte"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__icms_origin__0
@@ -973,13 +967,6 @@ msgstr "Total Impostos Inclusos"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__amount_tax_not_included
 msgid "Amount Tax Not Included"
 msgstr "Total Não incluído Impostos"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin_fields__amount_tax_withholding
-msgid "Amount Tax Withholding"
-msgstr "Total de Imposto Retido na Fonte"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_taxed
@@ -8805,6 +8792,11 @@ msgid "Tax UoM Factor"
 msgstr "Fator UoM Fiscal"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin_fields__amount_tax_withholding
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__tax_withholding
 msgid "Tax Withholding"
 msgstr "Retenção de Impostos"
@@ -9425,6 +9417,12 @@ msgstr ""
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#~ msgid "(-) Amount Tax Withholding"
+#~ msgstr "(-) Valor Retido na Fonte"
+
+#~ msgid "Amount Tax Withholding"
+#~ msgstr "Total de Imposto Retido na Fonte"
 
 #~ msgid ""
 #~ "${object.document_type_id.name}: ${object.document_number} Serie: "
