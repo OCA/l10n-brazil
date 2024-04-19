@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-19 14:37+0000\n"
+"PO-Revision-Date: 2024-04-19 17:35+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -9115,13 +9115,13 @@ msgstr "Código de Status"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__status_description
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_electronic__status_description
 msgid "Status Description"
-msgstr ""
+msgstr "Descrição do Status"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__status_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_electronic__status_name
 msgid "Status Name"
-msgstr ""
+msgstr "Nome do Status"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__activity_state
@@ -9151,7 +9151,7 @@ msgstr "Movimentos de Estoque?"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__withholding_possible
 msgid "Subject to withholding tax"
-msgstr "Sujeito a imposto de renda retido na parte"
+msgstr "Sujeito a retenção de impostos"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__fiscal_type__05
@@ -9177,7 +9177,7 @@ msgstr "Subproduto"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__subsequent_document_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.subsequent_document_menu
 msgid "Subsequent Document"
-msgstr "Documento subsequente"
+msgstr "Documento Subsequente"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.subsequent_operation_action
@@ -9186,7 +9186,7 @@ msgstr "Documento subsequente"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__subsequent_operation_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.subsequent_operation_menu
 msgid "Subsequent Operation"
-msgstr "Operação subsequente"
+msgstr "Operação Subsequente"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_subsequent_generated
@@ -9196,7 +9196,7 @@ msgstr "Documentos subsequentes gerados?"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Subsequents Documents"
-msgstr "Documentos subsequentes"
+msgstr "Documentos Subsequentes"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__sufix
