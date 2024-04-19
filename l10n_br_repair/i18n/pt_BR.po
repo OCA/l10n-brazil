@@ -18,13 +18,6 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr "(-) Valor Retido na Fonte"
-
-#. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Amount Gross</strong>"
 msgstr "<strong>Total Bruto</strong>"
@@ -144,11 +137,6 @@ msgstr "Total Impostos Inclusos"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
 msgstr "Total Não incluído Impostos"
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
-msgstr "Total de Imposto Retido na Fonte"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_taxed
@@ -1991,6 +1979,14 @@ msgid "Tax UoM"
 msgstr "UoM Fiscal"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
+msgid "Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
@@ -2039,6 +2035,12 @@ msgstr ""
 #, python-format
 msgid "You have to select an invoice address in the repair form."
 msgstr "Você tem que selecionar um endereço de fatura no formulário de reparo."
+
+#~ msgid "(-) Amount Tax Withholding"
+#~ msgstr "(-) Valor Retido na Fonte"
+
+#~ msgid "Amount Tax Withholding"
+#~ msgstr "Total de Imposto Retido na Fonte"
 
 #~ msgid "Type"
 #~ msgstr "Tipo"
