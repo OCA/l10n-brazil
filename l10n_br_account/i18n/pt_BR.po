@@ -73,6 +73,7 @@ msgstr "Todos"
 
 #. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_all_action
+#: model:ir.ui.menu,name:l10n_br_account.document_all_menu
 msgid "All Documents"
 msgstr "Todos os Documentos"
 
@@ -132,6 +133,12 @@ msgstr "Código CST de COFINS"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_cst_code
 msgid "COFINS ST CST Code"
 msgstr "Código CST ST COFINS"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "Cannot import in non draft Account Move!"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_is_company
@@ -232,6 +239,12 @@ msgstr "Tipo de Empresa"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_zip
 msgid "Company ZIP"
 msgstr "Cep da Empresa"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "Company mismatch!"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_ind_ie_dest
@@ -401,6 +414,23 @@ msgid "Fiscal Document Line"
 msgstr "Linha do Documento Fiscal"
 
 #. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Fiscal Document Line to import..."
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Fiscal Document to import..."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_document_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_document_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_document_ids
+msgid "Fiscal Documents"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__incoterm_id
@@ -430,6 +460,12 @@ msgstr "Linha de Operação Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "Fiscal Operation Type mismatch!"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_partner_id
@@ -537,9 +573,25 @@ msgid "Identifies the operation destination."
 msgstr "Identifica o destino da operação."
 
 #. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Import Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__in
 msgid "In"
 msgstr "Entrada"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__fiscal_document_ids
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__fiscal_document_ids
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__fiscal_document_ids
+msgid ""
+"In some rare cases (NFS-e, CT-e...) a single account.move\n"
+"        may have several different fiscal documents related to its account."
+"move.lines.\n"
+"        "
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_in_action
@@ -667,6 +719,14 @@ msgid "Model Data"
 msgstr ""
 
 #. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid ""
+"More than 1 fiscal document!You should open the fiscal viewand perform the "
+"action on each document!"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_mun
 msgid "Municipal Tax Number"
 msgstr "Número da Inscrição Municipal"
@@ -680,6 +740,12 @@ msgstr "NF-e"
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_nfse_action
 msgid "NFS-e"
 msgstr "NFS-e"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "No new Fiscal Document Line to import!"
+msgstr ""
 
 #. module: l10n_br_account
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_all_action
@@ -778,6 +844,12 @@ msgstr "Complemento da Rua do Parceiro"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_zip
 msgid "Partner Zip"
 msgstr "Cep do Parceiro"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "Partner mismatch!"
+msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__processador_edoc
