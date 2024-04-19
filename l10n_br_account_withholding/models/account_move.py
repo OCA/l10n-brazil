@@ -165,7 +165,7 @@ class AccountMove(models.Model):
             wh_invoices.invalidate_cache()
 
     def button_draft(self):
-        res = super().button_draft
+        res = super().button_draft()
         self._withholding_validate()
         return res
 
