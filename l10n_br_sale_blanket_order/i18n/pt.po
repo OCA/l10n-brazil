@@ -15,11 +15,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
 msgid "Accounting"
 msgstr ""
@@ -84,11 +79,6 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1417,6 +1407,12 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__uot_id
 msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_withholding
+msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
