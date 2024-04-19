@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-26 18:39+0000\n"
+"PO-Revision-Date: 2024-04-19 17:35+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -473,7 +473,7 @@ msgstr "Enviar por email:"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__state
 msgid "State"
-msgstr "Situação"
+msgstr "Estado"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_state
