@@ -38,12 +38,6 @@ msgid "$ 8.50"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr "(-) Valor Retido na Fonte"
-
-#. module: l10n_br_pos
 #: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
 msgid "<span class=\"pos-change_amount\">$ 0.86</span>"
 msgstr ""
@@ -215,11 +209,6 @@ msgstr "Total Impostos Inclusos"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
 msgstr "Total Não incluído Impostos"
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
-msgstr "Total de Imposto Retido na Fonte"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_taxed
@@ -2711,6 +2700,13 @@ msgid "Tax UoM"
 msgstr "UoM fiscal"
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_withholding
+msgid "Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
 msgid "Tax x Products"
 msgstr ""
@@ -2853,6 +2849,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__state_edoc
 msgid "e-doc Status"
 msgstr ""
+
+#~ msgid "(-) Amount Tax Withholding"
+#~ msgstr "(-) Valor Retido na Fonte"
+
+#~ msgid "Amount Tax Withholding"
+#~ msgstr "Total de Imposto Retido na Fonte"
 
 #~ msgid "Add CNPJ/CPF"
 #~ msgstr "Adicionar CNPJ/CPF"
