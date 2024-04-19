@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-19 17:35+0000\n"
+"PO-Revision-Date: 2024-04-19 22:40+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -9242,7 +9242,7 @@ msgstr "Tipo de Base Tributária"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_tax_benefit_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Tax Benefit"
-msgstr ""
+msgstr "Benefício Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_ac_ids
@@ -9278,7 +9278,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icms_tax_benefit_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icms_tax_benefit_code
 msgid "Tax Benefit Code"
-msgstr ""
+msgstr "Código do Benefício Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__tax_benefit_df_ids
@@ -9551,7 +9551,7 @@ msgstr "Imposto ICMS FCP"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcpst_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcpst_tax_id
 msgid "Tax ICMS FCP ST"
-msgstr ""
+msgstr "Imposto ICMS FCP ST"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__tax_icms_percent
