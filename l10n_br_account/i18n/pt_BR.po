@@ -18,11 +18,6 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "(-) Discount"
 msgstr "(-) Desconto"
@@ -152,13 +147,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_tax_withholding
-msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2343,6 +2331,14 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__uot_id
 msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_tax_withholding
+msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_account
