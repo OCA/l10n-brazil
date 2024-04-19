@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-26 18:39+0000\n"
+"PO-Revision-Date: 2024-04-19 14:38+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -2623,7 +2623,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__state
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__status
