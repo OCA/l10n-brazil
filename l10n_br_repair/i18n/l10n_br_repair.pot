@@ -14,13 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Amount Gross</strong>"
 msgstr ""
@@ -139,11 +132,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_not_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr ""
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -1976,6 +1964,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__uot_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__uot_id
 msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
+msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_repair
