@@ -59,6 +59,7 @@
                                 <field name="ctps_date" />
                                 <field
                                     name="ctps_uf_id"
+                                    groups="hr.group_hr_user"
                                     domain="[('country_id','=',country_id)]"
                                 />
                             </group>
@@ -73,9 +74,13 @@
                                 <field name="identity_validity" />
                                 <field
                                     name="identity_uf_id"
+                                    groups="hr.group_hr_user"
                                     domain="[('country_id','=',country_id)]"
                                 />
-                                <field name="identity_city_id" />
+                                <field
+                                    name="identity_city_id"
+                                    groups="hr.group_hr_user"
+                                />
                             </group>
                             <group name="reservist" string="Reservist">
                                 <field name="creservist" string="Number" />
