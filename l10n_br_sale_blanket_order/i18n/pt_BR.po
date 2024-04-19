@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-04 16:10+0000\n"
+"PO-Revision-Date: 2024-04-19 22:41+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -1312,12 +1312,12 @@ msgstr "Imposto COFINS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofins_wh_tax_id
 msgid "Tax COFINS RET"
-msgstr "Imposto de Retenção de COFINS"
+msgstr "Imposto COFINS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofinsst_tax_id
 msgid "Tax COFINS ST"
-msgstr "Imposto de COFINS ST"
+msgstr "Imposto COFINS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__csll_tax_id
@@ -1327,12 +1327,12 @@ msgstr "Imposto CSLL"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__csll_wh_tax_id
 msgid "Tax CSLL RET"
-msgstr "Imposto de Retenção de CSLL"
+msgstr "Imposto CSLL RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__tax_framework
 msgid "Tax Framework"
-msgstr "Enquadramento Fiscal"
+msgstr "Estrutura Tributária"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_tax_id
@@ -1347,7 +1347,7 @@ msgstr "Imposto ICMS FCP"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcpst_tax_id
 msgid "Tax ICMS FCP ST"
-msgstr ""
+msgstr "Imposto ICMS FCP ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmssn_tax_id
@@ -1372,7 +1372,7 @@ msgstr "Imposto INSS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_tax_id
 msgid "Tax INSS RET"
-msgstr "Imposto de Retenção de INSS"
+msgstr "Imposto INSS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ipi_tax_id
@@ -1387,7 +1387,7 @@ msgstr "Imposto IRPJ"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_wh_tax_id
 msgid "Tax IRPJ RET"
-msgstr "Imposto de Retenção de IRPJ"
+msgstr "Imposto IRPJ RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_tax_id
@@ -1397,7 +1397,7 @@ msgstr "Imposto ISSQN"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_wh_tax_id
 msgid "Tax ISSQN RET"
-msgstr "Imposto de Retenção de ISSQN"
+msgstr "Imposto ISSQN RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__pis_tax_id
@@ -1407,12 +1407,12 @@ msgstr "Imposto PIS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__pis_wh_tax_id
 msgid "Tax PIS RET"
-msgstr "Imposto de Retenção de PIS"
+msgstr "Imposto PIS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__pisst_tax_id
 msgid "Tax PIS ST"
-msgstr "Imposto de PIS ST"
+msgstr "Imposto PIS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__uot_id
