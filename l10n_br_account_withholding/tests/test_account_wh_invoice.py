@@ -101,7 +101,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "debit": 1050.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_cofins_wh = {
@@ -126,7 +125,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 30.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_icms = {
@@ -151,7 +149,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "debit": 120.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_icms_comp = {
@@ -176,7 +173,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 120.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_ipi = {
@@ -201,7 +197,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "debit": 50.0,
             "credit": 0.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_ipi_comp = {
@@ -226,7 +221,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 50.0,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         tax_line_vals_pis_wh = {
@@ -251,7 +245,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 6.5,
             "date_maturity": False,
-            "tax_exigible": True,
         }
 
         term_line_vals_1 = {
@@ -272,7 +265,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "debit": 0.0,
             "credit": 1013.5,
             "date_maturity": fields.Date.from_string("2019-01-01"),
-            "tax_exigible": True,
         }
 
         move_vals = {
