@@ -58,6 +58,14 @@
                     attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)], 'invisible': [('fiscal_operation_id', '=', False)]}"
                 />
             </field>
+            <field name="amount_tax" position="before">
+                <field
+                    name="amount_tax_withholding"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False), ('amount_tax_withholding', '=', 0) ]}"
+                />
+            </field>
             <field name="amount_total" position="after">
                 <field
                     name="amount_financial_total"
