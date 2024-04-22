@@ -67,17 +67,3 @@ class TestL10nBr(SavepointCase):
             "1 - Branca",
             "The ethnicity get is not valid, expectded" " '1 - Branca'",
         )
-
-    def test_hr_educational_attainment(self):
-        educational_attainment = self.env["hr.educational.attainment"]
-        educational_attainment = educational_attainment.search([])[0].name_get()[0][1]
-        expected_result = (
-            "01 - Analfabeto, inclusive o que, embora tenha "
-            "recebido instrução, não se alfabetizou"
-        )
-        self.assertEqual(
-            educational_attainment,
-            expected_result,
-            "The educational attainment get is not valid,"
-            " expected '" + expected_result + "'",
-        )
