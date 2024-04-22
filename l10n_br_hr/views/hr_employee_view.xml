@@ -115,22 +115,6 @@
             </xpath>
             <xpath expr="//page[@name='public']" position="after">
                 <page
-                    name="spouse_dependents_page"
-                    string="Spouse and Dependents"
-                    groups="hr.group_hr_manager,hr.group_hr_user"
-                >
-                    <form string="Spouse and Dependents" version="7.0">
-                        <group colspan="4" col="4">
-                            <field name="have_dependent" />
-                        </group>
-                        <field
-                            name="dependent_ids"
-                            widget="one2many_list"
-                            attrs="{'invisible':[('have_dependent', '!=', True)]}"
-                        />
-                    </form>
-                </page>
-                <page
                     name="health"
                     string="Health"
                     groups="hr.group_hr_manager,hr.group_hr_user"
@@ -165,18 +149,6 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="initials" />
-                <field name="name" />
-            </tree>
-        </field>
-    </record>
-
-    <record id="view_hr_dependent_type_tree" model="ir.ui.view">
-        <field name="name">hr.dependent.type.tree.view</field>
-        <field name="model">hr.dependent.type</field>
-        <field name="type">tree</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="code" />
                 <field name="name" />
             </tree>
         </field>
@@ -258,12 +230,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record id="action_hr_dependent_type" model="ir.actions.act_window">
-        <field name="name">Relatedness</field>
-        <field name="res_model">hr.dependent.type</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
     <record id="action_hr_ethnicity" model="ir.actions.act_window">
         <field name="name">Ethnicity</field>
         <field name="res_model">hr.ethnicity</field>
@@ -303,13 +269,6 @@
         id="menu_hr_civil_certificate_type"
         parent="menu_hr_employee_register"
         sequence="3"
-    />
-
-    <menuitem
-        action="action_hr_dependent_type"
-        id="menu_hr_dependent_type"
-        parent="menu_hr_employee_register"
-        sequence="5"
     />
 
     <menuitem

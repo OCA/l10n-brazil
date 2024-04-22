@@ -60,17 +60,6 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user",
     )
 
-    have_dependent = fields.Boolean(
-        string="Has dependents", tracking=True, groups="hr.group_hr_user"
-    )
-
-    dependent_ids = fields.One2many(
-        comodel_name="hr.employee.dependent",
-        inverse_name="employee_id",
-        string="Dependents",
-        groups="hr.group_hr_user",
-    )
-
     rg = fields.Char(
         string="RG",
         store=True,
@@ -197,38 +186,6 @@ class HrEmployee(models.Model):
         required=True,
         groups="hr.group_hr_user",
     )
-
-    @api.constrains("dependent_ids")
-    def _check_dependents(self):
-        self._check_dob()
-        self._check_dependent_type()
-
-    def _check_dob(self):
-        for dependent in self.dependent_ids:
-            if dependent.dependent_dob > fields.Date.context_today(self):
-                raise ValidationError(
-                    _("Invalid birth date for dependent %s") % dependent.name
-                )
-
-    def _check_dependent_type(self):
-        seen = set()
-        restrictions = (
-            self.env.ref("l10n_br_hr.l10n_br_dependent_1"),
-            self.env.ref("l10n_br_hr.l10n_br_dependent_9_1"),
-            self.env.ref("l10n_br_hr.l10n_br_dependent_9_2"),
-        )
-        for dependent in self.dependent_ids:
-            dep_type = dependent.dependent_type_id
-            if dep_type not in seen and dep_type in restrictions:
-                seen.add(dep_type)
-            elif dep_type in seen and dep_type in restrictions:
-                raise ValidationError(
-                    _(
-                        "A dependent with the same level of relatedness"
-                        " already exists for dependent %s"
-                    )
-                    % dependent.name
-                )
 
     @api.constrains("pis_pasep")
     def _validate_pis_pasep(self):
