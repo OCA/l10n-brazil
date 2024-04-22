@@ -51,6 +51,7 @@ class Document(models.Model):
         "l10n_br_fiscal.document.mixin.fields",
         "l10n_br_fiscal.document.electronic",
         "l10n_br_fiscal.document.move.mixin",
+        "mail.thread",
     ]
     _description = "Fiscal Document"
     _check_company_auto = True
