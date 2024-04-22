@@ -54,12 +54,6 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user",
     )
 
-    educational_attainment = fields.Many2one(
-        comodel_name="hr.educational.attainment",
-        tracking=True,
-        groups="hr.group_hr_user",
-    )
-
     rg = fields.Char(
         string="RG",
         store=True,

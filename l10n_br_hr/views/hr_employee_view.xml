@@ -18,10 +18,6 @@
             </field>
             <xpath expr="//field[@name='identification_id']" position="replace">
                 <field name="cpf" />
-                <field
-                    name="educational_attainment"
-                    options="{'no_create': True, 'no_open': True}"
-                />
             </xpath>
             <xpath expr="//page[@name='personal_information']" position="inside">
                 <group name="characteristics" string="Characteristics">
@@ -184,34 +180,6 @@
         </field>
     </record>
 
-    <record id="view_hr_educational_attainment_tree" model="ir.ui.view">
-        <field name="name">hr.educational.attainment.tree.view</field>
-        <field name="model">hr.educational.attainment</field>
-        <field name="arch" type="xml">
-            <tree edit="false" delete="false" create="false">
-                <field name="code" />
-                <field name="name" />
-            </tree>
-        </field>
-    </record>
-
-    <record id="view_hr_educational_attainment_form" model="ir.ui.view">
-        <field name="name">hr.educational.attainment.form.view</field>
-        <field name="model">hr.educational.attainment</field>
-        <field name="arch" type="xml">
-            <form string="Escolaridade" edit="false" delete="false" create="false">
-                <sheet>
-                    <group>
-                        <group name="geral" colspan="4" col="4">
-                            <field name="code" colspan="4" />
-                            <field name="name" colspan="4" />
-                        </group>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
     <record id="action_hr_deficiency" model="ir.actions.act_window">
         <field name="name">Deficiency</field>
         <field name="res_model">hr.deficiency</field>
@@ -233,12 +201,6 @@
     <record id="action_hr_ethnicity" model="ir.actions.act_window">
         <field name="name">Ethnicity</field>
         <field name="res_model">hr.ethnicity</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <record id="action_hr_educational_attainment" model="ir.actions.act_window">
-        <field name="name">Educational Attainment</field>
-        <field name="res_model">hr.educational.attainment</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -276,13 +238,6 @@
         id="menu_hr_ethnicity"
         parent="menu_hr_employee_register"
         sequence="6"
-    />
-
-    <menuitem
-        action="action_hr_educational_attainment"
-        id="menu_hr_educational_attainment"
-        parent="menu_hr_employee_register"
-        sequence="7"
     />
 
     <!-- Menu item de colaboradores -->
