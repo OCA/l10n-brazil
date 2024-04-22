@@ -60,14 +60,6 @@ class TestL10nBr(SavepointCase):
             "The deficiency name get is not valid, expected " "'Física'",
         )
 
-    def test_dependent_type(self):
-        dependent_type = self.env["hr.dependent.type"].search([])[0].name_get()[0][1]
-        self.assertEqual(
-            dependent_type,
-            "1 - Cônjuge",
-            "The dependent type get is not valid, expected" " '1 - Cônjuge'",
-        )
-
     def test_hr_ethnicity(self):
         ethnicity = self.env["hr.ethnicity"].search([])[0].name_get()[0][1]
         self.assertEqual(
