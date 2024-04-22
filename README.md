@@ -7,9 +7,31 @@
 
 <!-- /!\ do not modify above this line -->
 
-# Odoo Brazilian Localization / Localização brasileira do Odoo
+# Odoo Brazilian Localization / Localização Brasileira do Odoo
 
-Documentos fiscais, impostos brasileiros, notas fiscais, integrações bancárias... Você pode começar com o módulo `l10n_br_base` apenas. Se você precisa da parte fiscal ou de notas fiscais eletrônicas, o próximo módulo que você deve considerar é o módulo `l10n_br_fiscal`... Você pode testar a localização no Runboat com o botão "try me" (admin/admin) e eventualmente selecionar a empresa demo do Simples ou do Lucro Presumido.
+A localização brasileira do Odoo, criada pela comunidade Open Source da Odoo Community Association (OCA), inclui um conjunto de módulos detalhados para atender às normas fiscais e legais do Brasil. Esta localização aprimora o Odoo com funcionalidades para:
+
+- **Documentos fiscais:** Suporte abrangente a documentações conforme legislação nacional.
+- **Tributos específicos:** Gestão de ICMS, IPI, ISS, PIS, COFINS, CSLL, IRPJ, e outros, incluindo substituição tributária e retenção de impostos.
+- **Emissão de notas fiscais eletrônicas:** Compatível com NF-e, NFS-e e mais.
+- **Integrações bancárias:** Ferramentas para importação de extratos OFX e geração de CNAB 240 e 400.
+
+## Começando com a Localização
+
+Instale o módulo `l10n_br_base` para configurar as bases da localização brasileira no Odoo. Adicione o `l10n_br_fiscal` para expandir a emissão e gestão de documentos fiscais eletrônicos.
+
+## :arrow_forward: **Teste a Localização Agora!**
+
+Não perca a chance de ver a localização em ação:
+
+1. Clique no botão abaixo para iniciar um container no ambiente Runboat:
+
+   [![Runboat](https://img.shields.io/badge/runboat-Try%20me-875A7B.png)](https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0)
+
+2. Aguarde até o container ficar disponível (indicador verde).
+3. Clique em **Live** para acessar o Odoo.
+4. Entre com `admin/admin`.
+5. Escolha a empresa demo com o regime tributário de seu interesse, seja Simples Nacional ou Lucro Presumido, e explore um ambiente rico em detalhes e funcionalidades.
 
 <!-- /!\ do not modify below this line -->
 
