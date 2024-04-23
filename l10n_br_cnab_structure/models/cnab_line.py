@@ -105,7 +105,7 @@ class CNABLine(models.Model):
     def _selection_target_model(self):
         return [
             ("account.payment.order", "Payment Order"),
-            ("bank.payment.line", "Bank Payment Line"),
+            ("account.payment.line", "Payment Line"),
         ]
 
     resource_ref = fields.Reference(
@@ -150,7 +150,7 @@ class CNABLine(models.Model):
             )
         else:
             self.content_source_model_id = self.env["ir.model"].search(
-                [("model", "=", "bank.payment.line")]
+                [("model", "=", "account.payment.line")]
             )
 
     def _compute_dest_source_model_id(self):
