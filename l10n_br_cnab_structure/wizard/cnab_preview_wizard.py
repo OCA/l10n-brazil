@@ -14,7 +14,7 @@ class CNABPreviewWizard(models.TransientModel):
     def _selection_target_model(self):
         return [
             ("account.payment.order", "Payment Order"),
-            ("bank.payment.line", "Bank Payment Line"),
+            ("account.payment.line", "Payment Line"),
         ]
 
     payment_order_id = fields.Many2one(
