@@ -168,7 +168,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "discount": 0.0,
             "price_unit": 1000.0,
             "price_subtotal": 1000.0,
-            "price_total": 1000.0,
+            "price_total": 1050.0,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": -843.5,
@@ -188,9 +188,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 30.0,
+            "price_subtotal": 30.0,
+            "price_total": 30.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Saida")], order="id DESC", limit=1)
@@ -213,9 +213,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 120.0,
+            "price_subtotal": 120.0,
+            "price_total": 120.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Saida")], order="id desc", limit=1)
@@ -245,9 +245,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 50.0,
+            "price_subtotal": 50.0,
+            "price_total": 50.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Saída")], order="id desc", limit=1)
@@ -270,9 +270,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 6.5,
+            "price_subtotal": 6.5,
+            "price_total": 6.5,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Saida")], order="id desc", limit=1)
@@ -293,9 +293,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -1050.0,
+            "price_subtotal": -1050.0,
+            "price_total": -1050.0,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
@@ -343,7 +343,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "discount": 0.0,
             "price_unit": 1000.0,
             "price_subtotal": 1000.0,
-            "price_total": 1000.0,
+            "price_total": 1050.00,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": -875.38,
@@ -363,9 +363,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 30.0,
+            "price_subtotal": 30.0,
+            "price_total": 30.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Saida")], order="id DESC", limit=1)
@@ -388,9 +388,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 88.12,
+            "price_subtotal": 88.12,
+            "price_total": 88.12,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Saida")], order="id desc", limit=1)
@@ -420,9 +420,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 50.0,
+            "price_subtotal": 50.0,
+            "price_total": 50.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Saída")], order="id desc", limit=1)
@@ -445,9 +445,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 6.5,
+            "price_subtotal": 6.5,
+            "price_total": 6.5,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Saida")], order="id desc", limit=1)
@@ -468,14 +468,14 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -1050.00,
+            "price_subtotal": -1050.00,
+            "price_total": -1050.00,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 1050.0,
-            "debit": 1050.0,
+            "amount_currency": 1050.00,
+            "debit": 1050.00,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
             "tax_exigible": True,
@@ -507,6 +507,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             move_vals,
         )
 
+    def test_venda_with_icms_reduction_with_relief(self):
         # Testando com Alivio do ICMS
         self.move_out_venda_with_icms_reduction.invoice_line_ids[0].icms_relief_id = 1
         self.move_out_venda_with_icms_reduction.invoice_line_ids._onchange_fiscal_taxes()
@@ -530,7 +531,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "discount": 0.0,
             "price_unit": 1000.0,
             "price_subtotal": 1000.0,
-            "price_total": 1050.0,
+            "price_total": 1013.77,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": -839.15,
@@ -550,9 +551,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 30.0,
+            "price_subtotal": 30.0,
+            "price_total": 30.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Saida")], order="id DESC", limit=1)
@@ -575,9 +576,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 88.12,
+            "price_subtotal": 88.12,
+            "price_total": 88.12,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Saida")], order="id desc", limit=1)
@@ -607,9 +608,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 50.0,
+            "price_subtotal": 50.0,
+            "price_total": 50.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Saída")], order="id desc", limit=1)
@@ -632,9 +633,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 6.5,
+            "price_subtotal": 6.5,
+            "price_total": 6.5,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Saida")], order="id desc", limit=1)
@@ -655,9 +656,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -1013.77,
+            "price_subtotal": -1013.77,
+            "price_total": -1013.77,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
@@ -705,7 +706,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "discount": 0.0,
             "price_unit": 1000.0,
             "price_subtotal": 1000.0,
-            "price_total": 1000.0,
+            "price_total": 1050.0,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": 0.0,
@@ -725,9 +726,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 30.0,
+            "price_subtotal": 30.0,
+            "price_total": 30.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Saida")], order="id DESC", limit=1)
@@ -750,9 +751,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 120.0,
+            "price_subtotal": 120.0,
+            "price_total": 120.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Saida")], order="id desc", limit=1)
@@ -782,9 +783,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 50.0,
+            "price_subtotal": 50.0,
+            "price_total": 50.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Saída")], order="id desc", limit=1)
@@ -807,9 +808,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 6.5,
+            "price_subtotal": 6.5,
+            "price_total": 6.5,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Saida")], order="id desc", limit=1)
@@ -830,9 +831,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -206.5,
+            "price_subtotal": -206.5,
+            "price_total": -206.5,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
@@ -883,7 +884,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "discount": 0.0,
             "price_unit": 1000.0,
             "price_subtotal": 1000.0,
-            "price_total": 1000.0,
+            "price_total": 1050.0,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": 1050.0,
@@ -903,9 +904,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 30.0,
+            "price_subtotal": 30.0,
+            "price_total": 30.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS Entrada")], order="id DESC", limit=1)
@@ -928,9 +929,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -30.0,
+            "price_subtotal": -30.0,
+            "price_total": -30.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search(
@@ -955,9 +956,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 120.0,
+            "price_subtotal": 120.0,
+            "price_total": 120.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Entrada")], order="id DESC", limit=1)
@@ -980,9 +981,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -120.0,
+            "price_subtotal": -120.0,
+            "price_total": -120.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Entrada Dedutível")], order="id desc", limit=1)
@@ -1005,9 +1006,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 50.0,
+            "price_subtotal": 50.0,
+            "price_total": 50.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Entrada")], order="id desc", limit=1)
@@ -1030,9 +1031,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -50.0,
+            "price_subtotal": -50.0,
+            "price_total": -50.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Entrada Dedutível")], order="id desc", limit=1)
@@ -1055,9 +1056,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 6.5,
+            "price_subtotal": 6.5,
+            "price_total": 6.5,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Entrada")], order="id desc", limit=1)
@@ -1080,9 +1081,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -6.5,
+            "price_subtotal": -6.5,
+            "price_total": -6.5,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS Entrada Dedutível")], order="id desc", limit=1)
@@ -1103,9 +1104,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -1050.0,
+            "price_subtotal": -1050.0,
+            "price_total": -1050.0,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
