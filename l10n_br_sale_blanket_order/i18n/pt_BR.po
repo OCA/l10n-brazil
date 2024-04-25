@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-19 22:41+0000\n"
+"PO-Revision-Date: 2024-04-25 22:43+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -622,12 +622,12 @@ msgstr "Base para ICMS FCP"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcpst_percent
 msgid "ICMS FCP ST %"
-msgstr ""
+msgstr "% ICMS FCP ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcpst_base
 msgid "ICMS FCP ST Base"
-msgstr ""
+msgstr "Base para ICMS FCP ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmsfcpst_value
@@ -711,18 +711,18 @@ msgstr "Tipo de Base do ICMS ST"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_mva_percent
 msgid "ICMS ST MVA %"
-msgstr "ICMS ST MVA %"
+msgstr "% ICMS ST MVA"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmsst_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_value
 msgid "ICMS ST Value"
-msgstr "Valor de ICMS ST"
+msgstr "Valor do ICMS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_wh_percent
 msgid "ICMS ST WH %"
-msgstr "ICMS ST WH %"
+msgstr "% ICMS ST WH"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_wh_base
@@ -737,23 +737,23 @@ msgstr "Valor de ICMS ST WH"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_sharing_percent
 msgid "ICMS Sharing %"
-msgstr "Compartilhamento de ICMS %"
+msgstr "% de Compartilhamento do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_substitute
 msgid "ICMS Substitute"
-msgstr "Substituto de ICMS"
+msgstr "ICMS Substituto"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icms_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_value
 msgid "ICMS Value"
-msgstr "Valor de ICMS"
+msgstr "Valor do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__tax_icms_or_issqn
 msgid "ICMS or ISSQN Tax"
-msgstr "Imposto ICMS ou ISSQN"
+msgstr "Imposto sobre ICMS ou ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmssn_credit_value
@@ -770,7 +770,7 @@ msgstr "ID"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ii_percent
 msgid "II %"
-msgstr "II %"
+msgstr "% II"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_ii_base
@@ -787,12 +787,12 @@ msgstr "Valor de II"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_percent
 msgid "INSS %"
-msgstr "INSS %"
+msgstr "% INSS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_reduction
 msgid "INSS % Reduction"
-msgstr "Redução de INSS %"
+msgstr "% de Redução do INSS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_inss_base
@@ -803,17 +803,17 @@ msgstr "Base de INSS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_percent
 msgid "INSS RET %"
-msgstr "Retenção de INSS %"
+msgstr "% INSS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_reduction
 msgid "INSS RET % Reduction"
-msgstr "Redução da Retenção de INSS %"
+msgstr "% de Redução do INSS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_base
 msgid "INSS RET Base"
-msgstr "Base da Retenção de INSS"
+msgstr "Base do INSS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_value
@@ -823,7 +823,7 @@ msgstr "Valor da Retenção de INSS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_inss_wh_base
 msgid "INSS Ret Base"
-msgstr "Base da Retenção de INSS"
+msgstr "Base do INSS Ret"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_inss_wh_value
