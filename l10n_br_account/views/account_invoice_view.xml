@@ -186,6 +186,21 @@
                     name="context"
                 >{'default_move_type': context.get('default_move_type'), 'line_ids': line_ids, 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id, 'default_exclude_from_invoice_tab': 1}</attribute>
             </xpath>
+
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='price_total']"
+                position="attributes"
+            >
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='price_subtotal']"
+                position="attributes"
+            >
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
             <xpath
                 expr="//field[@name='line_ids']/tree/field[@name='tax_ids']"
                 position="replace"
@@ -310,8 +325,8 @@
                 <field name="fiscal_operation_type" invisible="1" />
                 <field name="partner_company_type" force_save="1" invisible="1" />
                 <field name="cfop_destination" force_save="1" invisible="1" />
-                <field name="price_subtotal" invisible="1" />
-                <field name="price_total" invisible="1" />
+                <field name="price_subtotal" force_save="1" invisible="1" />
+                <field name="price_total" force_save="1" invisible="1" />
                 <field name="credit" invisible="1" />
                 <field name="debit" invisible="1" />
             </xpath>
