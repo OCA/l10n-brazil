@@ -835,7 +835,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_all_action
-#: model:ir.ui.menu,name:l10n_br_fiscal.document_all_menu
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_sub_menu
 msgid "All Documents"
 msgstr "Todos os Documentos"
@@ -858,6 +857,11 @@ msgid ""
 msgstr ""
 "Todas as Séries para documentos suportadas pelo módulo\n"
 "              Fiscal Brasileiro para Odoo."
+
+#. module: l10n_br_fiscal
+#: model:ir.ui.menu,name:l10n_br_fiscal.document_all_menu
+msgid "All low level Documents"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__allow_csll_irpj
