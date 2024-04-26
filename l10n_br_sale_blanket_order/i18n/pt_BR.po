@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-25 22:43+0000\n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -413,7 +413,7 @@ msgid ""
 "Define if costs of Insurance, Freight and Other Costs should be informed by "
 "Line or by Total."
 msgstr ""
-"Definir se os custos de Seguro, Frete e Outros Custos devem ser informados "
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
 "por Linha ou por Total."
 
 #. module: l10n_br_sale_blanket_order
@@ -436,7 +436,7 @@ msgstr "Valor do Desconto"
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_wizard__display_name
 msgid "Display Name"
-msgstr "Exibir Nome"
+msgstr "Nome Exibido"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__estimate_tax
