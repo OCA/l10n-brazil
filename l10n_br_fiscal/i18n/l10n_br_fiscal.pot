@@ -780,7 +780,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_all_action
-#: model:ir.ui.menu,name:l10n_br_fiscal.document_all_menu
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_sub_menu
 msgid "All Documents"
 msgstr ""
@@ -798,6 +797,11 @@ msgstr ""
 msgid ""
 "All Serie for Documents supported by\n"
 "              Brazilian Fiscal modulo for Odoo."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.ui.menu,name:l10n_br_fiscal.document_all_menu
+msgid "All low level Documents"
 msgstr ""
 
 #. module: l10n_br_fiscal
