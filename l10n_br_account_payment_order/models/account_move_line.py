@@ -88,11 +88,6 @@ class AccountMoveLine(models.Model):
         copy=False,
     )
 
-    journal_entry_ref = fields.Char(
-        compute="_compute_journal_entry_ref",
-        store=True,
-    )
-
     # TODO: Confirmar o caso de uso de diferentes modos de pagto na mesma
     #  account.invoice
     payment_mode_id = fields.Many2one(string="Modo de Pagamento")
@@ -131,18 +126,6 @@ class AccountMoveLine(models.Model):
         readonly=True,
         inverse_name="move_line_id",
     )
-
-    @api.depends("move_id")
-    def _compute_journal_entry_ref(self):
-        for record in self:
-            if record.name:
-                record.journal_entry_ref = record.name
-            elif record.move_id.name:
-                record.journal_entry_ref = record.move_id.name
-            elif record.invoice_id and record.invoice_id.number:
-                record.journal_entry_ref = record.invoice_id.number
-            else:
-                record.journal_entry_ref = "*" + str(record.move_id.id)
 
     def _get_default_service_type(self):
         if self.move_id.move_type == "in_invoice":
