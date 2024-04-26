@@ -2106,11 +2106,6 @@ msgid "Journal Entry"
 msgstr "Lançamento de Diário"
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__journal_entry_ref
-msgid "Journal Entry Ref"
-msgstr "Referência de Lançamento Contábil"
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_move_line
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__move_line_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__move_line_id
@@ -3212,6 +3207,9 @@ msgstr "Você não pode excluir ordem CNAB."
 #: model:account.payment.method,name:l10n_br_account_payment_order.payment_mode_type_manual_test
 msgid "manual_test"
 msgstr ""
+
+#~ msgid "Journal Entry Ref"
+#~ msgstr "Referência de Lançamento Contábil"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Erro de Entrega de SMS"
