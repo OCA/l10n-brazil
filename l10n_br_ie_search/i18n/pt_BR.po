@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-06 13:09+0000\n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -61,7 +61,7 @@ msgstr "Nome Exibido"
 #: model:ir.model.fields,field_description:l10n_br_ie_search.field_partner_search_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_ie_search
 #: model:ir.model.fields,field_description:l10n_br_ie_search.field_l10n_br_cnpj_search_webservice_abstract____last_update
