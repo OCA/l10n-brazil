@@ -196,6 +196,11 @@ msgid "ICMS FCP"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_icmsfcp_st
+msgid "ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_icmssn
 msgid "ICMS SN"
 msgstr ""
