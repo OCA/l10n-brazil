@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-19 17:35+0000\n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -120,7 +120,7 @@ msgstr "Verifique as permissões de gravação na pasta temporária do sistema"
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Close"
-msgstr "Encerrar"
+msgstr "Fechar"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_document__close_id
