@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-19 14:37+0000\n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -114,12 +114,12 @@ msgstr "Número da Inscrição Estadual"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_name
 msgid "Street Name"
-msgstr ""
+msgstr "Nome da Rua"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_number
 msgid "Street Number"
-msgstr ""
+msgstr "Número do Endereço"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__suframa
