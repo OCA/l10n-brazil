@@ -2083,11 +2083,6 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__journal_entry_ref
-msgid "Journal Entry Ref"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_move_line
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__move_line_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__move_line_id
