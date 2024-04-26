@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-09 20:09+0000\n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -58,22 +58,22 @@ msgstr "Última Modificação em"
 #. module: l10n_br_nfse_barueri
 #: model:ir.model.fields,field_description:l10n_br_nfse_barueri.field_res_company__provedor_nfse
 msgid "NFSe Provider"
-msgstr ""
+msgstr "Provedor de NFSe"
 
 #. module: l10n_br_nfse_barueri
 #: code:addons/l10n_br_nfse_barueri/models/document.py:0
 #, python-format
 msgid "Not received"
-msgstr ""
+msgstr "Não recebido"
 
 #. module: l10n_br_nfse_barueri
 #: code:addons/l10n_br_nfse_barueri/models/document.py:0
 #, python-format
 msgid "Processed with Error"
-msgstr ""
+msgstr "Processado com Erro"
 
 #. module: l10n_br_nfse_barueri
 #: code:addons/l10n_br_nfse_barueri/models/document.py:0
 #, python-format
 msgid "Successfully Processed"
-msgstr ""
+msgstr "Processado com Sucesso"
