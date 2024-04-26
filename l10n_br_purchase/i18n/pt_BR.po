@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:23+0000\n"
 "PO-Revision-Date: 2024-04-26 18:55+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "Base para CSLL RET"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_csll_wh_value
 msgid "CSLL Ret Value"
-msgstr "Valor Ret da CSLL"
+msgstr "Valor RET CSLL"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_csll_value
