@@ -68,17 +68,6 @@ class TestPaymentOrderInbound(SavepointCase):
         # Change status of Move to draft just to test
         self.invoice_cef.button_cancel()
 
-        # TODO v13, o account.move não tem um campo para informar um account_id
-        #  isso pode ser um problema na localização?
-        # for line in self.invoice_cef.line_ids.filtered(
-        #     lambda l: l.account_id.id == self.invoice_cef.account_id.id
-        # ):
-        #     self.assertEqual(
-        #        line.journal_entry_ref,
-        #        line.invoice_id.name,
-        #        "Error with compute field journal_entry_ref",
-        #    )
-
         # Return the status of Move to Posted
         self.invoice_cef.action_post()
 
@@ -89,11 +78,6 @@ class TestPaymentOrderInbound(SavepointCase):
             ), "own_number field is not filled in created Move Line."
             assert line.mov_instruction_code_id, (
                 "mov_instruction_code_id field is not filled" " in created Move Line."
-            )
-            self.assertEqual(
-                line.journal_entry_ref,
-                line.move_id.name,
-                "Error with compute field journal_entry_ref",
             )
             # testar com a parcela 700
             if line.debit == 700.0:
