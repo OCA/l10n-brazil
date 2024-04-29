@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2024-04-25 22:43+0000\n"
+"PO-Revision-Date: 2024-04-29 19:55+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -37,7 +37,7 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__allow_csll_irpj
 msgid "Allow Csll Irpj"
-msgstr ""
+msgstr "Permitir CSLL IRPJ"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_discount_value
@@ -565,10 +565,10 @@ msgid ""
 "single invoice line."
 msgstr ""
 "Agrupar separações/movimentos para criar fatura(s):\n"
-"Separação: Uma fatura por separação;;\n"
+"Separação: Uma fatura por separação;\n"
 "Parceiro: Uma fatura por cada separação do parceiro;\n"
 "Parceiro/Produto: Uma fatura por separação do parceiro e agrupar produtos em "
-"uma única linha de fatura"
+"uma única linha de fatura."
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__has_fiscal_operation
@@ -1524,7 +1524,7 @@ msgstr "UoM Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_withholding
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_tax_withholding
 msgid "Tax Withholding"
-msgstr ""
+msgstr "Imposto Retido"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_ids
