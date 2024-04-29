@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2024-04-27 07:43+0000\n"
+"PO-Revision-Date: 2024-04-29 19:55+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -76,7 +76,7 @@ msgstr "Ação Necessária"
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_config__save_identity_automatic
 msgid "Activating will create a new identity customer to the partners data"
 msgstr ""
-"A ativação criará uma nova identidade do cliente para os dados dos parceiros."
+"A ativação criará uma nova identidade do cliente para os dados dos parceiros"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__activation_code
@@ -141,7 +141,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__allow_csll_irpj
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__allow_csll_irpj
 msgid "Allow Csll Irpj"
-msgstr ""
+msgstr "Permitir CSLL IRPJ"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cfop_ids
@@ -155,29 +155,27 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_discount_value
-#, fuzzy
 msgid "Amount Discount"
-msgstr "Valor Sem Desconto."
+msgstr "Total do Desconto"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_estimate_tax
 msgid "Amount Estimate Tax"
-msgstr "Valor dos Impostos Estimados"
+msgstr "Total Estimado de Impostos"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_financial_total
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__financial_total
 msgid "Amount Financial"
-msgstr "Valor Financeiro"
+msgstr "Total Financeiro"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__financial_total_gross
-#, fuzzy
 msgid "Amount Financial Gross"
-msgstr "Valor Financeiro"
+msgstr "Total Financeiro Bruto"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_fiscal
@@ -2065,13 +2063,13 @@ msgstr "ISSQN Outro valor"
 msgid ""
 "Over this amount is not legally posible to create a Anonymous NFC-E / CF-e"
 msgstr ""
-"Acima deste valor não é legalmente possível criar uma NFC-E/CF-e Anônima."
+"Acima deste valor não é legalmente possível criar uma NFC-E/CF-e Anônima"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_config__simplified_invoice_limit
 msgid "Over this amount is not legally posible to create a simplified invoice"
 msgstr ""
-"Acima deste valor não é legalmente possível criar uma fatura simplificada."
+"Acima deste valor não é legalmente possível criar uma fatura simplificada"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_percent
@@ -2702,7 +2700,7 @@ msgstr "UoM fiscal"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_tax_withholding
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_withholding
 msgid "Tax Withholding"
-msgstr ""
+msgstr "Imposto Retido"
 
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
