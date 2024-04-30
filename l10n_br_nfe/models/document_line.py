@@ -449,9 +449,6 @@ class NFeLine(spec_models.StackedModel):
             "vBCSTRet": str("%.02f" % self.icmsst_wh_base),
             "pST": str("%.04f" % (self.icmsst_wh_percent + self.icmsfcp_wh_percent)),
             "vICMSSTRet": str("%.02f" % self.icmsst_wh_value),
-            "vBCFCPSTRet": str("%.02f" % self.icmsfcp_base_wh),
-            "pFCPSTRet": str("%.04f" % self.icmsfcp_wh_percent),
-            "vFCPSTRet": str("%.02f" % self.icmsfcp_value_wh),
             "pRedBCEfet": str("%.04f" % self.icms_effective_reduction),
             "vBCEfet": str("%.02f" % self.icms_effective_base),
             "pICMSEfet": str("%.04f" % self.icms_effective_percent),
@@ -461,6 +458,15 @@ class NFeLine(spec_models.StackedModel):
             "pCredSN": str("%.04f" % self.icmssn_percent),
             "vCredICMSSN": str("%.02f" % self.icmssn_credit_value),
         }
+        if self.icmsfcp_wh_percent:
+            icms.update(
+                {
+                    # FUNDO DE COMBATE À POBREZA RETIDO
+                    "vBCFCPSTRet": str("%.02f" % self.icmsfcp_base_wh),
+                    "pFCPSTRet": str("%.04f" % self.icmsfcp_wh_percent),
+                    "vFCPSTRet": str("%.02f" % self.icmsfcp_value_wh),
+                }
+            )
         if self.icmsfcp_percent:
             icms.update(
                 {
