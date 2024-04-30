@@ -8,7 +8,7 @@
     "author": "KMEE, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "16.0.1.0.0",
-    "depends": ["hr", "l10n_br_base"],
+    "depends": ["hr", "l10n_br_base", "hr_employee_relative"],
     "data": [
         "data/l10n_br_hr.cbo.csv",
         "data/hr_deficiency_data.xml",
