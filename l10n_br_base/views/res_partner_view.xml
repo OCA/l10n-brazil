@@ -35,9 +35,13 @@
         <field name="priority">99</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <field name="vat" position="replace" />
+            <field name="vat" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'readonly': [('parent_id','!=',False)], 'invisible': [('country_id', '=', %(base.br)d)]}</attribute>
+            </field>
             <xpath expr="//h1" position="after">
-                <group>
+                <group attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}">
                     <field name="city_id" invisible="1" />
                     <!-- Allow inject city_id on context above -->
                     <div class="oe_edit_only">
@@ -86,7 +90,11 @@
                 </group>
             </xpath>
             <page position="after" name="sales_purchases">
-                <page string="Fiscal" name="fiscal">
+                <page
+                    string="Fiscal"
+                    name="fiscal"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                >
                     <group name="fiscal">
                         <group string="Fiscal Infos" name="fiscal_numbers">
                             <field name="cei_code" />

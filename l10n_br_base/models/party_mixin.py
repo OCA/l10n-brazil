@@ -14,7 +14,6 @@ class PartyMixin(models.AbstractModel):
 
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
-        size=18,
     )
 
     inscr_est = fields.Char(

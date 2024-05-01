@@ -16,7 +16,7 @@ class Partner(models.Model):
     _name = "res.partner"
     _inherit = [_name, "l10n_br_base.party.mixin"]
 
-    vat = fields.Char(related="cnpj_cpf")
+    vat = fields.Char(related="cnpj_cpf", readonly=False, store=True)
 
     is_accountant = fields.Boolean(string="Is accountant?")
 
