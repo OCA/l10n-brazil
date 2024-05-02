@@ -2494,11 +2494,6 @@ msgid "Voltar para Digitação"
 msgstr "Voltar para Digitação"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__wh_move_line_id
-msgid "WH Account Move Line"
-msgstr "Linha de Movimento Contábil RET"
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__xml_error_message
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__xml_error_message
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__xml_error_message
@@ -2524,17 +2519,18 @@ msgstr ""
 "rascunho."
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_move_line.py:0
-#, python-format
-msgid "You cannot edit an invoice related to a withholding entry"
-msgstr ""
-"Você não pode editar um documento relacionado a um lançamento de retenção"
-
-#. module: l10n_br_account
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
+
+#~ msgid "WH Account Move Line"
+#~ msgstr "Linha de Movimento Contábil RET"
+
+#, python-format
+#~ msgid "You cannot edit an invoice related to a withholding entry"
+#~ msgstr ""
+#~ "Você não pode editar um documento relacionado a um lançamento de retenção"
 
 #~ msgid "Shipping Address"
 #~ msgstr "Endereço de Entrega"
