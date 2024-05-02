@@ -22,23 +22,9 @@ msgid "Account Journal"
 msgstr "Diário de Conta"
 
 #. module: l10n_br_account_withholding
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_account_withholding
 #: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__generate_wh_invoice
 msgid "Generate WH Invoice"
 msgstr "Gerar Conta RET"
-
-#. module: l10n_br_account_withholding
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move_line__id
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__id
-msgid "ID"
-msgstr "ID"
 
 #. module: l10n_br_account_withholding
 #: model:ir.model,name:l10n_br_account_withholding.model_account_move
@@ -49,13 +35,6 @@ msgstr "Lançamento de Diário"
 #: model:ir.model,name:l10n_br_account_withholding.model_account_move_line
 msgid "Journal Item"
 msgstr "Item de Diário"
-
-#. module: l10n_br_account_withholding
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: l10n_br_account_withholding
 #: model:ir.model,name:l10n_br_account_withholding.model_l10n_br_fiscal_tax_group
@@ -92,3 +71,12 @@ msgstr "Contas RET"
 #, python-format
 msgid "You cannot edit an invoice related to a withholding entry"
 msgstr "Você não pode editar uma conta relacionada a uma entrada de retenção"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
