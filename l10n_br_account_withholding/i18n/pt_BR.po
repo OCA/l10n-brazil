@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_account_withholding
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-04-19 14:37+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__journal_id
+msgid "Account Journal"
+msgstr "Diário de Conta"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__generate_wh_invoice
+msgid "Generate WH Invoice"
+msgstr "Gerar Conta RET"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model,name:l10n_br_account_withholding.model_account_move
+msgid "Journal Entry"
+msgstr "Lançamento de Diário"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model,name:l10n_br_account_withholding.model_account_move_line
+msgid "Journal Item"
+msgstr "Item de Diário"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_l10n_br_fiscal_tax_group____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model,name:l10n_br_account_withholding.model_l10n_br_fiscal_tax_group
+msgid "Tax Group"
+msgstr "Grupo de Imposto"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move_line__wh_move_line_id
+msgid "WH Account Move Line"
+msgstr "Linha do Movimento Contábil RET"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_bank_statement_line__wh_invoice_count
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move__wh_invoice_count
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_payment__wh_invoice_count
+msgid "WH Invoice Count"
+msgstr "Contagem de Contas RET"
+
+#. module: l10n_br_account_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_withholding.l10n_br_fiscal_tax_group_search_view
+msgid "WH Invoice Generate"
+msgstr "Geração de Conta RET"
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_bank_statement_line__wh_invoice_ids
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_move__wh_invoice_ids
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_account_payment__wh_invoice_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_withholding.account_move_form_view
+msgid "WH Invoices"
+msgstr "Contas RET"
+
+#. module: l10n_br_account_withholding
+#: code:addons/l10n_br_account_withholding/models/account_move_line.py:0
+#, python-format
+msgid "You cannot edit an invoice related to a withholding entry"
+msgstr "Você não pode editar uma conta relacionada a uma entrada de retenção"
