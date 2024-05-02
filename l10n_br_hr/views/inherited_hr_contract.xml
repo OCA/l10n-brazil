@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <menuitem
+        id="menu_l10n_br_hr_relatorios_root"
+        name="Relatórios"
+        sequence="9"
+        parent="hr.menu_hr_root"
+        groups="hr.group_hr_manager"
+    />
+
+</odoo>
