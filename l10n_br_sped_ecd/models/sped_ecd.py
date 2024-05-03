@@ -10,7 +10,10 @@ from lxml.builder import E
 
 from odoo import api, fields, models
 
-from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
+from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
+    EDITABLE_ON_DRAFT,
+    LAYOUT_VERSIONS,
+)
 
 
 class Registro0000(models.Model):
@@ -69,9 +72,9 @@ class Registro0000(models.Model):
     )
 
     @api.model
-    def _append_top_view_elements(self, group):
+    def _append_top_view_elements(self, group, inline=False):
         super()._append_top_view_elements(group)
-        group.append(E.field(name="ind_esc", required="1"))
+        group.append(E.field(name="ind_esc", required="1", attrs=EDITABLE_ON_DRAFT))
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
