@@ -438,20 +438,18 @@ class SpedMixin(models.AbstractModel):
             line_start = ""
         else:
             line_start = "\n"
-        for vals in self.read(keys):
+
+        for rec in self:
             sped.write("%s|%s|" % (line_start, code))
             line_count[0] += 1
-            children = []
+            children_groups = []
             should_break_next = False
+            vals = {k: getattr(rec, k) for k in keys}
             for fname, value in vals.items():
                 if register_spec._fields[fname].type == "one2many" and fname.startswith(
                     "reg_"
                 ):
-                    children.append(
-                        self.env[self._fields[fname].comodel_name].search(
-                            [("id", "in", value)]
-                        )
-                    )
+                    children_groups.append(value)
                     should_break_next = True
                     continue  # we assume it's the last register specific field
                 elif should_break_next:  # if the register has a parent but no children
@@ -488,9 +486,11 @@ class SpedMixin(models.AbstractModel):
                     val = str(value)
                 sped.write(val + "|")
 
-            children = sorted(children, key=lambda reg: reg._name)
-            for child in children:
-                child._generate_register_text(
+            children_groups = sorted(
+                children_groups, key=lambda children: children._name
+            )
+            for children in children_groups:
+                children._generate_register_text(
                     sped, version, line_count, count_by_register
                 )
         return sped
@@ -548,6 +548,9 @@ class SpedMixin(models.AbstractModel):
         self._log_chatter_sped_item(log_msg, level, records)
 
         for index, record in enumerate(records):
+            # TODO find a way/mode to skip pulling existing records
+            # may be search for existing register with res_model/res_id
+            # or even parent_field and skip
             register_vals = self._map_from_odoo(
                 record, parent_record, declaration, index=index
             )
