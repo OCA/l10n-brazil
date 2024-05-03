@@ -75,6 +75,7 @@ class SpedDeclaration(models.AbstractModel):
         return self._name.replace(".0000", "").split(".")[-1]
 
     def button_populate_sped_from_odoo(self):
+        # TODO add cron pulling from Odoo for open declarations
         log_msg = StringIO()
         log_msg.write("<h3>%s</h3>" % (_("Pulled from Odoo:"),))
         kind = self._get_kind()
