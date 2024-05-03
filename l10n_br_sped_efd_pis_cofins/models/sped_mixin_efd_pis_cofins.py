@@ -14,3 +14,5 @@ class SpecMixinEFDPISCOFINS(models.AbstractModel):
         comodel_name="l10n_br_sped.efd_pis_cofins.0000",
         required=True,
     )
+
+    state = fields.Selection(related="declaration_id.state")
