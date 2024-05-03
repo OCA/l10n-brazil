@@ -616,21 +616,16 @@ class RegistroI550(models.Model):
 
     def _generate_register_text(self, sped, version, line_count, count_by_register):
         code = self._name[-4:].upper()
-        vals_list = self.read(["RZ_CONT", "reg_I555_ids"])
         if len(self):
             count_by_register[code] += len(self)
-        for vals in vals_list:
+        for rec in self:
             sped.write("\n|%s|" % (code,))
-            sped.write(vals["RZ_CONT"])
+            sped.write(rec.RZ_CONT)
             sped.write("|")
             line_count[0] += 1
-            children = self.env["l10n_br_sped.ecd.i555"].search(
-                [("id", "in", vals["reg_I555_ids"])]
+            rec.reg_I555_ids._generate_register_text(
+                sped, version, line_count, count_by_register
             )
-            for child in children:
-                child._generate_register_text(
-                    sped, version, line_count, count_by_register
-                )
         return sped
 
 
@@ -649,13 +644,11 @@ class RegistroI555(models.Model):
 
     def _generate_register_text(self, sped, version, line_count, count_by_register):
         code = self._name[-4:].upper()
-        keys = [i[0] for i in self._fields.items()]
-        vals_list = self.read(keys)
         if len(self):
             count_by_register[code] += len(self)
-        for vals in vals_list:
+        for rec in self:
             sped.write("\n|%s|" % (code,))
-            sped.write(vals.get("RZ_CONT_TOT", ""))
+            sped.write(rec.RZ_CONT_TOT or "")
             sped.write("|")
             line_count[0] += 1
 
