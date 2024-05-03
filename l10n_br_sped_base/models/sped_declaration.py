@@ -199,7 +199,7 @@ class SpedDeclaration(models.AbstractModel):
         form.append(div)
 
     @api.model
-    def _append_top_view_elements(self, group):
+    def _append_top_view_elements(self, group, inline=False):
         group.append(E.field(name="company_id"))
         group.append(E.separator(colspan="4"))
 
