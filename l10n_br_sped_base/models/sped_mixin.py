@@ -20,6 +20,8 @@ LAYOUT_VERSIONS = {
 
 MAX_REGISTER_NAME = 40
 
+EDITABLE_ON_DRAFT = "{'readonly': [('state', 'not in', ['draft'])]}"
+
 
 class SpedMixin(models.AbstractModel):
     _name = "l10n_br_sped.mixin"
@@ -136,8 +138,9 @@ class SpedMixin(models.AbstractModel):
         desc = self._description
         tree = E.tree(string=desc)
         fields = self.fields_get()
-
         added_fields = set()
+
+        tree.append(E.field(name="state", invisible="1"))
         if not self._name.endswith("0000"):
             tree.append(E.field(name="declaration_id"))
 
@@ -194,14 +197,15 @@ class SpedMixin(models.AbstractModel):
         return tree
 
     @api.model
-    def _get_default_form_view(self):
+    def _get_default_form_view(self, inline=False):
         """Generate a default single-line form view using all fields
 
         :return: a tree view as an lxml document
         :rtype: etree._Element
         """
         group = E.group(col="4")
-        self._append_top_view_elements(group)
+        self._append_top_view_elements(group, inline=inline)
+        group.append(E.field(name="state", invisible="1"))
 
         for fname, field in self._fields.items():
             if field.automatic:
@@ -218,7 +222,12 @@ class SpedMixin(models.AbstractModel):
                 continue
             elif field.type in ("one2many", "many2many", "text", "html"):
                 group.append(E.newline())
-                field_tag = E.field(name=fname, colspan="4")
+                field_tag = E.field(
+                    name=fname,
+                    colspan="4",
+                    attrs=EDITABLE_ON_DRAFT,
+                    context="{'default_declaration_id': declaration_id}",
+                )
                 if field.type == "one2many":
                     tree_fields = [
                         (f, native_field)
@@ -237,11 +246,19 @@ class SpedMixin(models.AbstractModel):
                     ):
                         # few fields -> editable tree
                         field_tree = E.tree(editable="bottom")
+                        field_tree.append(E.field(name="declaration_id", invisible="1"))
+                        field_tree.append(E.field(name="state", invisible="1"))
+                        field_tree.append(E.field(name="reference", widget="reference"))
                         for tree_field in tree_fields:
-                            field_tree.append(E.field(name=tree_field[0]))
+                            field_tree.append(
+                                E.field(
+                                    name=tree_field[0],
+                                )
+                            )
                         field_tag.append(field_tree)
                     else:
                         field_tree = E.tree()
+                        field_tree.append(E.field(name="state", invisible="1"))
                         for index, tree_field in enumerate(tree_fields):
                             if index > 6:
                                 break
@@ -251,18 +268,27 @@ class SpedMixin(models.AbstractModel):
                             ):
                                 continue
                             field_tree.append(
-                                E.field(name=tree_field[0], string=tree_field[0])
+                                E.field(
+                                    name=tree_field[0],
+                                    string=tree_field[0],
+                                )
                             )
                         field_tag.append(field_tree)
+                        field_form = self.env[
+                            field.comodel_name
+                        ]._get_default_form_view(inline=True)
+                        field_tag.append(field_form)
                 group.append(field_tag)
                 group.append(E.newline())
             elif fname.isupper():
-                group.append(E.field(name=fname))
+                group.append(E.field(name=fname, attrs=EDITABLE_ON_DRAFT))
         group.append(E.separator())
         form = E.form()
-        self._append_view_header(form)
+        if not inline:
+            self._append_view_header(form)
         form.append(E.sheet(group, string=self._description))
-        self._append_view_footer(form)
+        if not inline:
+            self._append_view_footer(form)
         return form
 
     @api.model
@@ -274,8 +300,14 @@ class SpedMixin(models.AbstractModel):
         pass
 
     @api.model
-    def _append_top_view_elements(self, group):
-        group.append(E.field(name="declaration_id"))
+    def _append_top_view_elements(self, group, inline=False):
+        group.append(
+            E.field(
+                name="declaration_id",
+                attrs="{'readonly': [('state', 'not in', ['draft']), ('declaration_id', '!=', False)]}",
+                invisible="1" if inline else "0",
+            )
+        )
         group.append(E.field(name="reference", widget="reference"))
         group.append(E.separator(colspan="4"))
 
