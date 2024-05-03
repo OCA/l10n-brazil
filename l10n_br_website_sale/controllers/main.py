@@ -11,6 +11,9 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class L10nBrWebsiteSale(WebsiteSale):
+    def _get_country_code(self, country_id):
+        return request.env["res.country"].browse(country_id).code
+
     # overwrite confirm_order
     @http.route(
         ["/shop/confirm_order"], type="http", auth="public", website=True, sitemap=False
@@ -32,8 +35,10 @@ class L10nBrWebsiteSale(WebsiteSale):
         req = super()._get_mandatory_fields_billing(country_id)
         company_country_code = request.website.company_id.country_id.code
         if country_id:
-            partner_country_code = request.env["res.country"].browse(country_id).code
-            if partner_country_code == "BR" and company_country_code == "BR":
+            if (
+                self._get_country_code(country_id) == "BR"
+                and company_country_code == "BR"
+            ):
                 req.remove("city")
                 req.remove("street")
                 extension = [
@@ -45,7 +50,6 @@ class L10nBrWebsiteSale(WebsiteSale):
                     "city_id",
                     "zip",
                     "cnpj_cpf",
-                    "company_type",
                 ]
                 req.extend(extension)
         return req
@@ -54,8 +58,10 @@ class L10nBrWebsiteSale(WebsiteSale):
         req = super()._get_mandatory_fields_shipping(country_id)
         company_country_code = request.website.company_id.country_id.code
         if country_id:
-            partner_country_code = request.env["res.country"].browse(country_id).code
-            if partner_country_code == "BR" and company_country_code == "BR":
+            if (
+                self._get_country_code(country_id) == "BR"
+                and company_country_code == "BR"
+            ):
                 req.remove("city")
                 req.remove("street")
                 extension = [
@@ -108,35 +114,43 @@ class L10nBrWebsiteSale(WebsiteSale):
         new_values, errors, error_msg = super().values_postprocess(
             order, mode, values, errors, error_msg
         )
-        if "country_id" in new_values and new_values["country_id"] != "31":
-            if "state_id" in errors:
-                errors.pop("state_id", None)
-            if "city_id" in errors:
-                errors.pop("city_id", None)
-            if "cnpj_cpf" in errors:
-                errors.pop("city_id", None)
 
-        if "city_id" in values:
-            new_values["city_id"] = values["city_id"]
-        if "cnpj_cpf" in values and "cnpj_cpf" not in errors:
-            new_values["cnpj_cpf"] = values["cnpj_cpf"]
-        if "company_type" in values and "company_type" not in errors:
-            new_values["company_type"] = values["company_type"]
-        if "street_name" in values:
-            new_values["street_name"] = values["street_name"]
-        if "street_number" in values:
-            new_values["street_number"] = values["street_number"]
-        if "district" in values:
-            new_values["district"] = values["district"]
+        # Check if the current country is not Brazil and remove specific errors
+        if self._get_country_code(new_values.get("country_id")) != "BR":
+            error_fields = ["state_id", "city_id", "cnpj_cpf", "inscr_est", "inscr_mun"]
+            for field in error_fields:
+                errors.pop(field, None)
+
+        # Expected fields that may be updated in new_values if not present in errors
+        expected_fields = [
+            "city_id",
+            "cnpj_cpf",
+            "company_type",
+            "street_name",
+            "street_number",
+            "district",
+            "mobile",
+            "inscr_est",
+            "inscr_mun",
+            "vat",
+        ]
+
+        # Update new_values for each expected field if it exists in values and not in errors
+        for field in expected_fields:
+            if field in values and field not in errors:
+                new_values[field] = values[field]
+
         return new_values, errors, error_msg
 
     def checkout_form_validate(self, mode, all_form_values, data):
         error, error_message = super().checkout_form_validate(
             mode, all_form_values, data
         )
-
         if "cnpj_cpf" in data:
-            if "country_id" in data and data["country_id"] == "31":
+            if (
+                "country_id" in data
+                and self._get_country_code(data["country_id"]) == "BR"
+            ):
                 order = request.website.sale_get_order()
                 if order.partner_id.is_company:
                     if not cnpj_cpf.validar(data["cnpj_cpf"]):
@@ -148,6 +162,16 @@ class L10nBrWebsiteSale(WebsiteSale):
 
                 if "cnpj_cpf" not in error:
                     all_form_values["cnpj_cpf"] = data["cnpj_cpf"]
+        if "vat" in data and data["vat"]:
+            if (
+                "country_id" in data
+                and self._get_country_code(data["country_id"]) == "BR"
+            ):
+                if not cnpj_cpf.validar(data["vat"]):
+                    error["cnpj_cpf"] = "error"
+                    error_message.append("VAT Inválido")
+            if "vat" not in error:
+                all_form_values["vat"] = data["vat"]
 
         return error, error_message
 
@@ -159,14 +183,9 @@ class L10nBrWebsiteSale(WebsiteSale):
         website=True,
     )
     def country_infos(self, country, mode, **kw):
-        return dict(
-            fields=country.get_address_fields(),
-            states=[
-                (st.id, st.name, st.code)
-                for st in country.get_website_sale_states(mode=mode)
-            ],
-            phone_code=country.phone_code,
-        )
+        res = super().country_infos(country, mode, **kw)
+        res["country_code"] = country.code
+        return res
 
     @http.route(
         ['/shop/state_infos/<model("res.country.state"):state>'],

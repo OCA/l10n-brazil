@@ -15,6 +15,7 @@ from ..constants.fiscal import (
     TAX_DOMAIN_CSLL_WH,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ICMS_FCP,
+    TAX_DOMAIN_ICMS_FCP_ST,
     TAX_DOMAIN_ICMS_SN,
     TAX_DOMAIN_ICMS_ST,
     TAX_DOMAIN_II,
@@ -234,7 +235,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     amount_tax_not_included = fields.Monetary()
 
-    amount_tax_withholding = fields.Monetary(string="(-) Amount Tax Withholding")
+    amount_tax_withholding = fields.Monetary(string="Tax Withholding")
 
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre", string="Fiscal Product Genre"
@@ -442,6 +443,21 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # vFCPUFDest - Valor do ICMS relativo ao Fundo
     # de Combate à Pobreza (FCP) da UF de destino
     icmsfcp_value = fields.Monetary(string="ICMS FCP Value")
+
+    # ICMS FCP ST Fields
+    icmsfcpst_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax ICMS FCP ST",
+        domain=[("tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST)],
+    )
+
+    # vBCFCPST
+    icmsfcpst_base = fields.Monetary(
+        string="ICMS FCP ST Base",
+    )
+
+    # pFCPST - Percentual do FCP ST
+    icmsfcpst_percent = fields.Float(string="ICMS FCP ST %")
 
     # vFCPST - Valor do ICMS relativo ao
     # Fundo de Combate à Pobreza (FCP) por Substituição Tributária

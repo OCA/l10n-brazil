@@ -35,7 +35,7 @@
                     attrs="{
                     'invisible': [
                         '|',
-                        ('xml', '=', False),
+                        ('file', '=', False),
                         ('document_id', '!=', False),
                     ]
                 }"
@@ -44,22 +44,11 @@
                     <group
                         colspan="4"
                         id="imported_products"
-                        attrs="{'invisible': [('xml', '=', False)]}"
+                        attrs="{'invisible': [('file', '=', False)]}"
                     >
                         <field name="imported_products_ids" nolabel="1" />
                     </group>
                 </group>
-            </xpath>
-
-            <xpath expr="//footer" position="inside">
-                <button
-                    name="import_xml"
-                    string="Import"
-                    class="btn-primary"
-                    type="object"
-                    attrs="{'invisible': [('importing_type', '!=', 'xml_file')]}"
-                />
-                <button string="Cancel" class="btn-default" special="cancel" />
             </xpath>
         </field>
     </record>

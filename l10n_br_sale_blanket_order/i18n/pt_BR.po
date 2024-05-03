@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-04 16:10+0000\n"
+"PO-Revision-Date: 2024-04-29 19:55+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -15,11 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.17\n"
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr "(-) Valor da Retenção de Imposto na Fonte"
 
 #. module: l10n_br_sale_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
@@ -44,24 +39,24 @@ msgstr "Permitir CSLL IRPJ"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_discount_value
 msgid "Amount Discount"
-msgstr "Valor do Desconto"
+msgstr "Total do Desconto"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_estimate_tax
 msgid "Amount Estimate Tax"
-msgstr "Valor Estimado do Imposto"
+msgstr "Total Estimado de Impostos"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_financial_total
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__financial_total
 msgid "Amount Financial"
-msgstr "Valor Financeiro"
+msgstr "Total Financeiro"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__financial_total_gross
 msgid "Amount Financial Gross"
-msgstr "Valor Financeiro Bruto"
+msgstr "Total Financeiro Bruto"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_fiscal
@@ -87,11 +82,6 @@ msgstr "Total Impostos Inclusos"
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
 msgstr "Total Não incluído Impostos"
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
-msgstr "Total de Imposto Retido na Fonte"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_taxed
@@ -423,7 +413,7 @@ msgid ""
 "Define if costs of Insurance, Freight and Other Costs should be informed by "
 "Line or by Total."
 msgstr ""
-"Definir se os custos de Seguro, Frete e Outros Custos devem ser informados "
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
 "por Linha ou por Total."
 
 #. module: l10n_br_sale_blanket_order
@@ -446,7 +436,7 @@ msgstr "Valor do Desconto"
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_wizard__display_name
 msgid "Display Name"
-msgstr "Exibir Nome"
+msgstr "Nome Exibido"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__estimate_tax
@@ -630,6 +620,17 @@ msgid "ICMS FCP Base"
 msgstr "Base para ICMS FCP"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr "% ICMS FCP ST"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr "Base para ICMS FCP ST"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcpst_value
 msgid "ICMS FCP ST Value"
 msgstr "Valor ICMS FCP ST"
@@ -710,18 +711,18 @@ msgstr "Tipo de Base do ICMS ST"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_mva_percent
 msgid "ICMS ST MVA %"
-msgstr "ICMS ST MVA %"
+msgstr "% ICMS ST MVA"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmsst_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_value
 msgid "ICMS ST Value"
-msgstr "Valor de ICMS ST"
+msgstr "Valor do ICMS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_wh_percent
 msgid "ICMS ST WH %"
-msgstr "ICMS ST WH %"
+msgstr "% ICMS ST WH"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsst_wh_base
@@ -736,23 +737,23 @@ msgstr "Valor de ICMS ST WH"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_sharing_percent
 msgid "ICMS Sharing %"
-msgstr "Compartilhamento de ICMS %"
+msgstr "% de Compartilhamento do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_substitute
 msgid "ICMS Substitute"
-msgstr "Substituto de ICMS"
+msgstr "ICMS Substituto"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icms_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_value
 msgid "ICMS Value"
-msgstr "Valor de ICMS"
+msgstr "Valor do ICMS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__tax_icms_or_issqn
 msgid "ICMS or ISSQN Tax"
-msgstr "Imposto ICMS ou ISSQN"
+msgstr "Imposto sobre ICMS ou ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmssn_credit_value
@@ -769,7 +770,7 @@ msgstr "ID"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ii_percent
 msgid "II %"
-msgstr "II %"
+msgstr "% II"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_ii_base
@@ -786,12 +787,12 @@ msgstr "Valor de II"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_percent
 msgid "INSS %"
-msgstr "INSS %"
+msgstr "% INSS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_reduction
 msgid "INSS % Reduction"
-msgstr "Redução de INSS %"
+msgstr "% de Redução do INSS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_inss_base
@@ -802,17 +803,17 @@ msgstr "Base de INSS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_percent
 msgid "INSS RET %"
-msgstr "Retenção de INSS %"
+msgstr "% INSS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_reduction
 msgid "INSS RET % Reduction"
-msgstr "Redução da Retenção de INSS %"
+msgstr "% de Redução do INSS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_base
 msgid "INSS RET Base"
-msgstr "Base da Retenção de INSS"
+msgstr "Base do INSS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_value
@@ -822,7 +823,7 @@ msgstr "Valor da Retenção de INSS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_inss_wh_base
 msgid "INSS Ret Base"
-msgstr "Base da Retenção de INSS"
+msgstr "Base do INSS Ret"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_inss_wh_value
@@ -1311,12 +1312,12 @@ msgstr "Imposto COFINS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofins_wh_tax_id
 msgid "Tax COFINS RET"
-msgstr "Imposto de Retenção de COFINS"
+msgstr "Imposto COFINS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofinsst_tax_id
 msgid "Tax COFINS ST"
-msgstr "Imposto de COFINS ST"
+msgstr "Imposto COFINS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__csll_tax_id
@@ -1326,12 +1327,12 @@ msgstr "Imposto CSLL"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__csll_wh_tax_id
 msgid "Tax CSLL RET"
-msgstr "Imposto de Retenção de CSLL"
+msgstr "Imposto CSLL RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__tax_framework
 msgid "Tax Framework"
-msgstr "Enquadramento Fiscal"
+msgstr "Estrutura Tributária"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_tax_id
@@ -1342,6 +1343,11 @@ msgstr "Imposto ICMS"
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcp_tax_id
 msgid "Tax ICMS FCP"
 msgstr "Imposto ICMS FCP"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr "Imposto ICMS FCP ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmssn_tax_id
@@ -1366,7 +1372,7 @@ msgstr "Imposto INSS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__inss_wh_tax_id
 msgid "Tax INSS RET"
-msgstr "Imposto de Retenção de INSS"
+msgstr "Imposto INSS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ipi_tax_id
@@ -1381,7 +1387,7 @@ msgstr "Imposto IRPJ"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_wh_tax_id
 msgid "Tax IRPJ RET"
-msgstr "Imposto de Retenção de IRPJ"
+msgstr "Imposto IRPJ RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_tax_id
@@ -1391,7 +1397,7 @@ msgstr "Imposto ISSQN"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_wh_tax_id
 msgid "Tax ISSQN RET"
-msgstr "Imposto de Retenção de ISSQN"
+msgstr "Imposto ISSQN RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__pis_tax_id
@@ -1401,17 +1407,23 @@ msgstr "Imposto PIS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__pis_wh_tax_id
 msgid "Tax PIS RET"
-msgstr "Imposto de Retenção de PIS"
+msgstr "Imposto PIS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__pisst_tax_id
 msgid "Tax PIS ST"
-msgstr "Imposto de PIS ST"
+msgstr "Imposto PIS ST"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__uot_id
 msgid "Tax UoM"
 msgstr "Imposto de UdM"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_withholding
+msgid "Tax Withholding"
+msgstr "Imposto Retido"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_tax
@@ -1457,4 +1469,10 @@ msgstr "Usado em documentos fiscais"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
-msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""
+
+#~ msgid "(-) Amount Tax Withholding"
+#~ msgstr "(-) Valor da Retenção de Imposto na Fonte"
+
+#~ msgid "Amount Tax Withholding"
+#~ msgstr "Total de Imposto Retido na Fonte"

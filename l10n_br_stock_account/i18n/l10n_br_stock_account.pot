@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__fiscal_operation_journal
 msgid "Account Jornal from Fiscal Operation"
 msgstr ""
@@ -94,11 +89,6 @@ msgid "Amount Tax Not Included"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_tax_withholding
-msgid "Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_taxed
 msgid "Amount Taxed"
 msgstr ""
@@ -119,6 +109,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__price_gross
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__amount_price_gross
 msgid "Amount without discount."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Amounts"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -650,7 +645,18 @@ msgid "ICMS FCP Base"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_icmsfcpst_value
 msgid "ICMS FCP ST Value"
 msgstr ""
 
@@ -1425,6 +1431,11 @@ msgid "Tax ICMS FCP"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_tax_id
 msgid "Tax ICMS SN"
 msgstr ""
@@ -1495,9 +1506,21 @@ msgid "Tax UoM"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_tax_withholding
+msgid "Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__tax_ids
+msgid "Taxes that apply on the base amount"
 msgstr ""
 
 #. module: l10n_br_stock_account

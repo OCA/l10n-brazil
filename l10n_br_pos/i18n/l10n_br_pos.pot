@@ -34,12 +34,6 @@ msgid "$ 8.50"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
 msgid "<span class=\"pos-change_amount\">$ 0.86</span>"
 msgstr ""
@@ -206,11 +200,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_not_included
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -1254,7 +1243,20 @@ msgid "ICMS FCP Base"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_percent
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_base
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_value
 msgid "ICMS FCP ST Value"
 msgstr ""
@@ -2572,6 +2574,12 @@ msgid "Tax ICMS FCP"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_tax_id
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__icmssn_tax_id
 msgid "Tax ICMS SN"
@@ -2653,6 +2661,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__uot_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__uot_id
 msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_withholding
+msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_pos

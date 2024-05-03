@@ -140,3 +140,13 @@ class FiscalDocument(models.Model):
             return super().create(filtered_vals_list)
         else:
             return super().create(vals_list)
+
+    @api.returns("mail.message", lambda value: value.id)
+    def message_post(self, **kwargs):
+        """
+        broadcast message_post to all related account.move so
+        messages in a fiscal document chatter are visible in the
+        related account moves.
+        """
+        for doc in self:
+            doc.move_ids.message_post(**kwargs)

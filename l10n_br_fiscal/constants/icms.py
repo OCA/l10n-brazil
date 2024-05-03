@@ -141,3 +141,5 @@ ICMS_DIFAL_DOUBLE_BASE = [
 
 
 ICSM_CST_CSOSN_ST_BASE = ["10", "30", "70", "90", "201", "202", "203", "900"]
+
+ICMS_CST_RELIEF = ["20", "30", "40", "41", "50", "70", "90"]

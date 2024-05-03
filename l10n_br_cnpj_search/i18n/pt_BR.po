@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-19 13:53+0000\n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -24,7 +24,7 @@ msgstr "<span class=\"o_form_label\">API de Serviço do CNPJ Brasileiro</span>"
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Address"
-msgstr ""
+msgstr "Endereço"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
@@ -76,12 +76,12 @@ msgstr ""
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__city_id
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_main_id
@@ -129,12 +129,12 @@ msgstr "Contato"
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Contacts"
-msgstr ""
+msgstr "Contatos"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__country_id
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__create_uid
@@ -203,7 +203,7 @@ msgstr ""
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Identification"
-msgstr ""
+msgstr "Identificação"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__inscr_est
@@ -268,17 +268,17 @@ msgstr "Celular"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Other Information"
-msgstr ""
+msgstr "Outras Informações"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Parceiro"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_company_form
@@ -300,7 +300,7 @@ msgstr "Por favor digite seu CNPJ"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__provider_name
 msgid "Provider Name"
-msgstr ""
+msgstr "Nome do Provedor"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__serpro_schema__qsa
@@ -337,32 +337,32 @@ msgstr "CNAE Secundário"
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Secundary CNAE"
-msgstr ""
+msgstr "CNAB Secundário"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__state_id
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street_name
 msgid "Street Name"
-msgstr ""
+msgstr "Nome da Rua"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street_number
 msgid "Street Number"
-msgstr ""
+msgstr "Número do Endereço"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street2
 msgid "Street2"
-msgstr ""
+msgstr "Complemento"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Update Partner"
-msgstr ""
+msgstr "Atualizar Parceiro"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__serpro_trial
@@ -372,7 +372,7 @@ msgstr ""
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__zip
 msgid "Zip"
-msgstr ""
+msgstr "CEP"
 
 #, python-format
 #~ msgid "Por favor insira o CNPJ"

@@ -1,0 +1,1 @@
+Automatize a conformidade fiscal brasileira, simplificando a criação de faturas a pagar para impostos retidos em compras de fornecedores. Garanta a precisão e eficiência no gerenciamento de obrigações fiscais com o módulo `l10n_br_account_withholding` para Odoo.

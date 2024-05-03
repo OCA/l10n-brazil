@@ -27,12 +27,13 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
         for line in picking.move_lines:
             # No Brasil o caso de Ordens de Entrega que não tem ligação com
-            # Pedido de Venda precisam informar o Preço de Custo e não o de
-            # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-            # Teria algum caso que não deve usar ?
-
+            # Pedido de Venda por padrão deve trazer o valor o Preço de Custo
+            # e não o de Venda, ex.: Simples Remessa, Remessa p/
+            # Industrialiazação e etc, mas o valor informado pelo usuário deve
+            # ter prioridade.
             # Os metodos do stock/core alteram o valor p/
             # negativo por isso o abs
+
             self.assertEqual(
                 abs(line.price_unit),
                 line.product_id.with_company(line.company_id).standard_price,
@@ -63,7 +64,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             # TODO: No travis falha o browse aqui
             #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
             #  isso não acontece no caso da empresa de Lucro Presumido
-            #  ou quando é feito o teste apenas instalanado os modulos
+            #  ou quando é feito o teste apenas instalando os modulos
             #  l10n_br_account e em seguida o l10n_br_stock_account
             # self.assertTrue(line.tax_ids, "Taxes in invoice lines are missing.")
 
@@ -139,13 +140,16 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             # qty = 4 because 2 for each stock.move
             self.assertEqual(inv_line.quantity, 4)
             # Price Unit e Fiscal Price devem ser positivos
+            price_unit_mv_line = picking.move_lines.filtered(
+                lambda mv: mv.product_id == inv_line.product_id
+            ).mapped("price_unit")[0]
             self.assertEqual(
                 inv_line.price_unit,
-                inv_line.product_id.with_company(inv_line.company_id).standard_price,
+                price_unit_mv_line,
             )
             self.assertEqual(
                 inv_line.fiscal_price,
-                inv_line.product_id.with_company(inv_line.company_id).standard_price,
+                price_unit_mv_line,
             )
 
             # TODO: No travis falha o browse aqui
@@ -212,7 +216,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         # TODO: No travis falha o browse aqui
         #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
         #  isso não acontece no caso da empresa de Lucro Presumido
-        #  ou quando é feito o teste apenas instalanado os modulos
+        #  ou quando é feito o teste apenas instalando os modulos
         #  l10n_br_account e em seguida o l10n_br_stock_account
         # for inv_line in invoice_pick_1.invoice_line_ids:
         #    self.assertTrue(inv_line.tax_ids, "Error to map Sale Tax in invoice.line.")
@@ -269,22 +273,15 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         # Estoque, o metodo do core é chamado pelo botão Validate
 
         for line in picking.move_lines:
-            # No Brasil o caso de Ordens de Entrega que não tem ligação com
-            # Pedido de Venda precisam informar o Preço de Custo e não o de
-            # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-            # Teria algum caso que não deve usar ?
-
-            # Os metodos do stock/core alteram o valor p/
-            # negativo por isso o abs
-            self.assertEqual(
-                abs(line.price_unit),
-                line.product_id.with_company(line.company_id).standard_price,
-            )
             # O Campo fiscal_price precisa ser um espelho do price_unit,
             # apesar do onchange p/ preenche-lo sem incluir o compute no campo
             # ele traz o valor do lst_price e falha no teste abaixo
             # TODO - o fiscal_price aqui tbm deve ter um valor negativo ?
             self.assertEqual(line.fiscal_price, line.price_unit)
+            # Testa o _get_price_unit_invoice para o caso onde o Preço Padrão
+            # do Produto e o Preço Unitário informado é Zero
+            line.product_id.standard_price = 0.0
+            line.price_unit = 0.0
 
         invoice = self.create_invoice_wizard(picking)
         self.assertTrue(invoice, "Invoice is not created.")
@@ -292,6 +289,8 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.assertEqual(
             invoice.partner_id, self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         )
+        # Campo 'Consumidor Final' deve estar vazio
+        assert invoice.ind_final, "Error field ind_final not None"
         self.assertIn(invoice, picking.invoice_ids)
         self.assertIn(picking, invoice.picking_ids)
         nb_invoice_after = self.env["account.move"].search_count([])
@@ -304,7 +303,6 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
                 "Relation between invoice and picking are missing.",
             )
         for line in invoice.invoice_line_ids:
-            self.assertTrue(line.tax_ids, "Taxes in invoice lines are missing.")
             # No Brasil o caso de Ordens de Entrega que não tem ligação com
             # Pedido de Venda precisam informar o Preço de Custo e não o de
             # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
@@ -314,6 +312,20 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
             self.assertTrue(
                 line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
+            )
+            self.assertTrue(
+                line.fiscal_tax_ids, "Error to map fiscal_tax_ids in invoice line."
+            )
+            assert line.ind_final, "Error field ind_final in Invoice Line not None"
+            # Verifica se o campo tax_ids da Fatura esta igual ao da Separação
+            mv_line = picking.move_lines.filtered(
+                lambda ln: ln.product_id == line.product_id
+                and ln.fiscal_operation_id == line.fiscal_operation_id
+            )
+            self.assertEqual(
+                line.tax_ids,
+                mv_line.tax_ids,
+                "Taxes in invoice lines are different from move lines.",
             )
 
         self.assertTrue(
@@ -517,12 +529,17 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             self.env.ref("l10n_br_stock_account.main_company-move_2_1")
         )
         stock_move_form.product_uom_qty = 10
+        # Testa o _onchange_product_quantity
+        stock_move_form.price_unit = 0.0
         stock_move_form.save()
 
     def test_simples_nacional(self):
         """Test case of Simples Nacional"""
         self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         picking = self.env.ref("l10n_br_stock_account.simples_nacional-picking_1")
+        for line in picking.move_lines:
+            # Testa _get_price_unit
+            line.price_unit = 0.0
         self.picking_move_state(picking)
         self.assertEqual(picking.state, "done", "Change state fail.")
         # Testes falhando apenas no CI, a Operação Fiscal por algum motivo
@@ -536,7 +553,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         # odoo.exceptions.ValidationError: The chosen journal has a type that
         # is not compatible with your invoice type. Sales operations should go
         #  to 'sale' journals, and purchase operations to 'purchase' ones.
-        # TODO: teria alguama forma de corrigir? Por enquanto está sendo
+        # TODO: teria alguma forma de corrigir? Por enquanto está sendo
         # preciso preenche o campo com o Diário correto para evitar o erro
         journal = self.env.ref(
             "l10n_br_stock_account.simples_remessa_journal_simples_nacional"

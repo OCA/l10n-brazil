@@ -5,10 +5,11 @@
     "name": "L10n Br Portal",
     "summary": """
         Campos Brasileiros no Portal""",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.0.1",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
+    "development_status": "Beta",
     "depends": [
         "portal",
         "l10n_br_zip",

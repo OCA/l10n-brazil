@@ -14,13 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_withholding
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "<strong>Amount Gross</strong>"
 msgstr ""
@@ -139,11 +132,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_not_included
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr ""
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -855,9 +843,24 @@ msgid "ICMS FCP Base"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcpst_percent
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcpst_percent
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcpst_base
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcpst_base
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_icmsfcpst_value
 msgid "ICMS FCP ST Value"
 msgstr ""
 
@@ -1859,6 +1862,13 @@ msgid "Tax ICMS FCP"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcpst_tax_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmsfcpst_tax_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__icmssn_tax_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__icmssn_tax_id
@@ -1954,6 +1964,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__uot_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__uot_id
 msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_tax_withholding
+msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_repair

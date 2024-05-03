@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-08 11:27+0000\n"
+"PO-Revision-Date: 2024-03-26 18:39+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_coa
 #: model:account.account.type,name:l10n_br_coa.data_account_type_other_operational_expenses
@@ -203,6 +203,11 @@ msgid "ICMS FCP"
 msgstr "ICMS FCP"
 
 #. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_icmsfcp_st
+msgid "ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_icmssn
 msgid "ICMS SN"
 msgstr ""
@@ -358,7 +363,7 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:account.account.type,name:l10n_br_coa.data_account_type_production
 msgid "Produção"
-msgstr ""
+msgstr "Produção"
 
 #. module: l10n_br_coa
 #: model:account.account.type,name:l10n_br_coa.data_account_type_revenue_deduction
@@ -394,3 +399,10 @@ msgstr "Grupo de Imposto"
 #: model:ir.model,name:l10n_br_coa.model_account_tax_template
 msgid "Templates for Taxes"
 msgstr "Modelos para Impostos"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__withholdable
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__withholdable
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__withholdable
+msgid "Withholdable Tax?"
+msgstr ""

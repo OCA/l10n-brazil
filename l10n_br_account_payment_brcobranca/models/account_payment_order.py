@@ -11,7 +11,7 @@ import tempfile
 import requests
 from erpbrasil.base import misc
 
-from odoo import _, fields, models
+from odoo import _, models
 from odoo.exceptions import Warning as ValidationError
 
 from ..constants.br_cobranca import (
@@ -85,27 +85,10 @@ class PaymentOrder(models.Model):
             self.payment_mode_id.cnab_company_bank_code
         )
 
-    def get_file_name(self, cnab_type):
-        context_today = fields.Date.context_today(self)
-        if cnab_type == "240":
-            return "CB%s%s.REM" % (
-                context_today.strftime("%d%m"),
-                str(self.file_number),
-            )
-        elif cnab_type == "400":
-            return "CB%s%02d.REM" % (
-                context_today.strftime("%d%m"),
-                self.file_number or 1,
-            )
-        elif cnab_type == "500":
-            return "PG%s%s.REM" % (
-                context_today.strftime("%d%m"),
-                str(self.file_number),
-            )
-
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
+        self.file_number = self.payment_mode_id.cnab_sequence_id.next_by_id()
 
         # see remessa fields here:
         # https://github.com/kivanio/brcobranca/blob/master/lib/brcobranca/remessa/base.rb
@@ -158,7 +141,7 @@ class PaymentOrder(models.Model):
                 bank_account_id.partner_id.cnpj_cpf
             ),
             "pagamentos": pagamentos,
-            "sequencial_remessa": self.payment_mode_id.cnab_sequence_id.next_by_id(),
+            "sequencial_remessa": self.file_number,
         }
 
         try:

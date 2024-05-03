@@ -1,0 +1,152 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_nfse_focus
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "%(code)s - %(msg)s"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "%(code)s - %(status)s"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_cnae_code_value__codigo_cnae
+msgid "CNAE Code"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_cnae_code_value__codigo_tributacao_municipio
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__codigo_tributacao_municipio
+msgid "City Taxation Code"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "Error communicating with NFSe service: %s"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse
+msgid "FocusNFE NFSE"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__provedor_nfse__focusnfe
+msgid "FocusNFe"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_homologation_token
+msgid "FocusNFe Homologation Token"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_production_token
+msgid "FocusNFe Production Token"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read error code"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read json['codigo']"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "HTTP status is 200 or 400 but unable to read json['status']"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse__id
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document__id
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_cnae_code_value
+msgid "NFSE CNAE Code Value"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_service_type_value
+msgid "NFSE Service Type Value"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.actions.server,name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron
+#: model:ir.cron,name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron
+msgid "NFSe FocusNFe: Check status and update status of submitted documents."
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__provedor_nfse
+msgid "NFSe Provider"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "Processado com Sucesso"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__item_lista_servico
+msgid "Service Type"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "status"
+msgstr ""

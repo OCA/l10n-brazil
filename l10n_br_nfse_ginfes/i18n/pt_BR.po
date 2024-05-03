@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-06 13:16+0000\n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: code:addons/l10n_br_nfse_ginfes/models/document.py:0
 #, python-format
 msgid "Batch not yet processed"
-msgstr ""
+msgstr "Lote ainda não processado"
 
 #. module: l10n_br_nfse_ginfes
 #: model:ir.model,name:l10n_br_nfse_ginfes.model_res_company
@@ -58,25 +58,25 @@ msgstr "Última Modificação em"
 #. module: l10n_br_nfse_ginfes
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_res_company__provedor_nfse
 msgid "NFSe Provider"
-msgstr "Provedor NFSe"
+msgstr "Provedor de NFSe"
 
 #. module: l10n_br_nfse_ginfes
 #: code:addons/l10n_br_nfse_ginfes/models/document.py:0
 #, python-format
 msgid "Not received"
-msgstr ""
+msgstr "Não recebido"
 
 #. module: l10n_br_nfse_ginfes
 #: code:addons/l10n_br_nfse_ginfes/models/document.py:0
 #, python-format
 msgid "Processed with Error"
-msgstr ""
+msgstr "Processado com Erro"
 
 #. module: l10n_br_nfse_ginfes
 #: code:addons/l10n_br_nfse_ginfes/models/document.py:0
 #, python-format
 msgid "Successfully Processed"
-msgstr ""
+msgstr "Processado com Sucesso"
 
 #, python-format
 #~ msgid "Lote ainda não processado"

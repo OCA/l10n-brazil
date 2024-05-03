@@ -4,7 +4,7 @@
 
 from odoo import fields, models
 
-from ..constants import BOLETO_ESPECIE
+from ..constants import get_boleto_especies
 
 
 class L10nBrCNABBoletoFields(models.AbstractModel):
@@ -99,7 +99,7 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     boleto_species = fields.Selection(
-        selection=BOLETO_ESPECIE,
+        selection=get_boleto_especies(),
         string="Espécie do Título",
         default="01",
         tracking=True,

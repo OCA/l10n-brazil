@@ -12,6 +12,7 @@ from ..constants.fiscal import (
     NFE_IND_IE_DEST_9,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ICMS_FCP,
+    TAX_DOMAIN_ICMS_FCP_ST,
     TAX_DOMAIN_ICMS_ST,
 )
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
@@ -21,20 +22,25 @@ VIEW = """
     <notebook>
         <page name="uf_{0}_internal" string="Interno">
             <group name="icms_internal_{0}" string="Internal">
-            <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}"/>
+            <field name="icms_internal_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}"/>
             </group>
             <group name="icms_external_{0}" string="External">
-            <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}"/>
+            <field name="icms_external_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}"/>
             </group>
         </page>
         <page name="uf_{0}_st" string="ST">
-            <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {3}, 'default_state_from_id': {5}}}"/>
+            <field name="icms_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {3}, 'default_state_from_id': {6}}}"/>
         </page>
         <page name="uf_{0}_others" string="Outros">
-            <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {4}, 'default_state_from_id': {5}}}"/>
+            <group name="icms_fcp_{0}" string="FCP">
+            <field name="icms_fcp_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {4}, 'default_state_from_id': {6}}}"/>
+            </group>
+            <group name="icms_fcp_st_{0}" string="FCP-ST">
+            <field name="icms_fcp_st_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_definition_icms_tree', 'default_icms_regulation_id': id, 'default_tax_group_id': {5}, 'default_state_from_id': {6}}}"/>
+            </group>
         </page>
         <page name="uf_{0}_benefit" string="Tax Benefit">
-            <field name="tax_benefit_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_benefit_tree', 'default_icms_regulation_id': id, 'default_is_benefit': True, 'default_tax_group_id': {2}, 'default_state_from_id': {5}}}" />
+            <field name="tax_benefit_{0}_ids" context="{{'tree_view_ref': 'l10n_br_fiscal.tax_benefit_tree', 'default_icms_regulation_id': id, 'default_is_benefit': True, 'default_tax_group_id': {2}, 'default_state_from_id': {6}}}" />
         </page>
     </notebook>
 </page>
@@ -95,8 +101,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP AC",
         domain=[
             ("state_from_id.code", "=", "AC"),
-            ("state_to_ids.code", "=", "AC"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_ac_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST AC",
+        domain=[
+            ("state_from_id.code", "=", "AC"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -153,8 +169,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP AL",
         domain=[
             ("state_from_id.code", "=", "AL"),
-            ("state_to_ids.code", "=", "AL"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_al_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST AL",
+        domain=[
+            ("state_from_id.code", "=", "AL"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -211,8 +237,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP AM",
         domain=[
             ("state_from_id.code", "=", "AM"),
-            ("state_to_ids.code", "=", "AM"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_am_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST AM",
+        domain=[
+            ("state_from_id.code", "=", "AM"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -269,8 +305,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP AP",
         domain=[
             ("state_from_id.code", "=", "AP"),
-            ("state_to_ids.code", "=", "AP"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_ap_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST AP",
+        domain=[
+            ("state_from_id.code", "=", "AP"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -316,7 +362,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST BA",
         domain=[
             ("state_from_id.code", "=", "BA"),
-            ("state_to_ids.code", "=", "BA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -328,8 +373,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP BA",
         domain=[
             ("state_from_id.code", "=", "BA"),
-            ("state_to_ids.code", "=", "BA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_ba_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST BA",
+        domain=[
+            ("state_from_id.code", "=", "BA"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -375,7 +430,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST CE",
         domain=[
             ("state_from_id.code", "=", "CE"),
-            ("state_to_ids.code", "=", "CE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -387,8 +441,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP CE",
         domain=[
             ("state_from_id.code", "=", "CE"),
-            ("state_to_ids.code", "=", "CE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_ce_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST CE",
+        domain=[
+            ("state_from_id.code", "=", "CE"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -434,7 +498,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST DF",
         domain=[
             ("state_from_id.code", "=", "DF"),
-            ("state_to_ids.code", "=", "DF"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -446,8 +509,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP DF",
         domain=[
             ("state_from_id.code", "=", "DF"),
-            ("state_to_ids.code", "=", "DF"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_df_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST DF",
+        domain=[
+            ("state_from_id.code", "=", "DF"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -493,7 +566,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST ES",
         domain=[
             ("state_from_id.code", "=", "ES"),
-            ("state_to_ids.code", "=", "ES"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -505,8 +577,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP ES",
         domain=[
             ("state_from_id.code", "=", "ES"),
-            ("state_to_ids.code", "=", "ES"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_es_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST ES",
+        domain=[
+            ("state_from_id.code", "=", "ES"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -552,7 +634,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST GO",
         domain=[
             ("state_from_id.code", "=", "GO"),
-            ("state_to_ids.code", "=", "GO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -564,8 +645,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP GO",
         domain=[
             ("state_from_id.code", "=", "GO"),
-            ("state_to_ids.code", "=", "GO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_go_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST GO",
+        domain=[
+            ("state_from_id.code", "=", "GO"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -611,7 +702,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST MA",
         domain=[
             ("state_from_id.code", "=", "MA"),
-            ("state_to_ids.code", "=", "MA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -623,8 +713,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP MA",
         domain=[
             ("state_from_id.code", "=", "MA"),
-            ("state_to_ids.code", "=", "MA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_ma_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST MA",
+        domain=[
+            ("state_from_id.code", "=", "MA"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -670,7 +770,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST MT",
         domain=[
             ("state_from_id.code", "=", "MT"),
-            ("state_to_ids.code", "=", "MT"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -682,8 +781,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP MT",
         domain=[
             ("state_from_id.code", "=", "MT"),
-            ("state_to_ids.code", "=", "MT"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_mt_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST MT",
+        domain=[
+            ("state_from_id.code", "=", "MT"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -729,7 +838,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST MS",
         domain=[
             ("state_from_id.code", "=", "MS"),
-            ("state_to_ids.code", "=", "MS"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -741,8 +849,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP MS",
         domain=[
             ("state_from_id.code", "=", "MS"),
-            ("state_to_ids.code", "=", "MS"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_ms_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST MS",
+        domain=[
+            ("state_from_id.code", "=", "MS"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -788,7 +906,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST MG",
         domain=[
             ("state_from_id.code", "=", "MG"),
-            ("state_to_ids.code", "=", "MG"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -800,8 +917,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP MG",
         domain=[
             ("state_from_id.code", "=", "MG"),
-            ("state_to_ids.code", "=", "MG"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_mg_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST MG",
+        domain=[
+            ("state_from_id.code", "=", "MG"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -847,7 +974,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PA",
         domain=[
             ("state_from_id.code", "=", "PA"),
-            ("state_to_ids.code", "=", "PA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -859,8 +985,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP PA",
         domain=[
             ("state_from_id.code", "=", "PA"),
-            ("state_to_ids.code", "=", "PA"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_pa_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST PA",
+        domain=[
+            ("state_from_id.code", "=", "PA"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -906,7 +1042,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PB",
         domain=[
             ("state_from_id.code", "=", "PB"),
-            ("state_to_ids.code", "=", "PB"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -918,8 +1053,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP PB",
         domain=[
             ("state_from_id.code", "=", "PB"),
-            ("state_to_ids.code", "=", "PB"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_pb_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST PB",
+        domain=[
+            ("state_from_id.code", "=", "PB"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -965,7 +1110,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PR",
         domain=[
             ("state_from_id.code", "=", "PR"),
-            ("state_to_ids.code", "=", "PR"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -977,8 +1121,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP PR",
         domain=[
             ("state_from_id.code", "=", "PR"),
-            ("state_to_ids.code", "=", "PR"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_pr_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST PR",
+        domain=[
+            ("state_from_id.code", "=", "PR"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1024,7 +1178,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PE",
         domain=[
             ("state_from_id.code", "=", "PE"),
-            ("state_to_ids.code", "=", "PE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1036,8 +1189,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP PE",
         domain=[
             ("state_from_id.code", "=", "PE"),
-            ("state_to_ids.code", "=", "PE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_pe_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST PE",
+        domain=[
+            ("state_from_id.code", "=", "PE"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1083,7 +1246,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST PI",
         domain=[
             ("state_from_id.code", "=", "PI"),
-            ("state_to_ids.code", "=", "PI"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1095,8 +1257,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP PI",
         domain=[
             ("state_from_id.code", "=", "PI"),
-            ("state_to_ids.code", "=", "PI"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_pi_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST PI",
+        domain=[
+            ("state_from_id.code", "=", "PI"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1142,7 +1314,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RN",
         domain=[
             ("state_from_id.code", "=", "RN"),
-            ("state_to_ids.code", "=", "RN"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1154,8 +1325,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP RN",
         domain=[
             ("state_from_id.code", "=", "RN"),
-            ("state_to_ids.code", "=", "RN"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_rn_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST RN",
+        domain=[
+            ("state_from_id.code", "=", "RN"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1201,7 +1382,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RS",
         domain=[
             ("state_from_id.code", "=", "RS"),
-            ("state_to_ids.code", "=", "RS"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1213,8 +1393,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP RS",
         domain=[
             ("state_from_id.code", "=", "RS"),
-            ("state_to_ids.code", "=", "RS"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_rs_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST RS",
+        domain=[
+            ("state_from_id.code", "=", "RS"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1260,7 +1450,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RJ",
         domain=[
             ("state_from_id.code", "=", "RJ"),
-            ("state_to_ids.code", "=", "RJ"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1272,8 +1461,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP RJ",
         domain=[
             ("state_from_id.code", "=", "RJ"),
-            ("state_to_ids.code", "=", "RJ"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_rj_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST RJ",
+        domain=[
+            ("state_from_id.code", "=", "RJ"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1319,7 +1518,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RO",
         domain=[
             ("state_from_id.code", "=", "RO"),
-            ("state_to_ids.code", "=", "RO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1331,8 +1529,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP RO",
         domain=[
             ("state_from_id.code", "=", "RO"),
-            ("state_to_ids.code", "=", "RO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_ro_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST RO",
+        domain=[
+            ("state_from_id.code", "=", "RO"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1378,7 +1586,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST RR",
         domain=[
             ("state_from_id.code", "=", "RR"),
-            ("state_to_ids.code", "=", "RR"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1390,8 +1597,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP RR",
         domain=[
             ("state_from_id.code", "=", "RR"),
-            ("state_to_ids.code", "=", "RR"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_rr_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST RR",
+        domain=[
+            ("state_from_id.code", "=", "RR"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1436,8 +1653,7 @@ class ICMSRegulation(models.Model):
         inverse_name="icms_regulation_id",
         string="ICMS ST SC",
         domain=[
-            ("state_from_id.code", "in", ("SC", False)),
-            ("state_to_ids.code", "in", ("SC", False)),
+            ("state_from_id.code", "=", "SC"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1449,8 +1665,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP SC",
         domain=[
             ("state_from_id.code", "=", "SC"),
-            ("state_to_ids.code", "=", "SC"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_sc_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST SC",
+        domain=[
+            ("state_from_id.code", "=", "SC"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1507,8 +1733,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP SP",
         domain=[
             ("state_from_id.code", "=", "SP"),
-            ("state_to_ids.code", "=", "SP"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_sp_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST SP",
+        domain=[
+            ("state_from_id.code", "=", "SP"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1554,7 +1790,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST SE",
         domain=[
             ("state_from_id.code", "=", "SE"),
-            ("state_to_ids.code", "=", "SE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1566,8 +1801,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP SE",
         domain=[
             ("state_from_id.code", "=", "SE"),
-            ("state_to_ids.code", "=", "SE"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_se_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST SE",
+        domain=[
+            ("state_from_id.code", "=", "SE"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1613,7 +1858,6 @@ class ICMSRegulation(models.Model):
         string="ICMS ST TO",
         domain=[
             ("state_from_id.code", "=", "TO"),
-            ("state_to_ids.code", "=", "TO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_ST),
             ("is_benefit", "=", False),
         ],
@@ -1625,8 +1869,18 @@ class ICMSRegulation(models.Model):
         string="ICMS FCP TO",
         domain=[
             ("state_from_id.code", "=", "TO"),
-            ("state_to_ids.code", "=", "TO"),
             ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP),
+            ("is_benefit", "=", False),
+        ],
+    )
+
+    icms_fcp_st_to_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        inverse_name="icms_regulation_id",
+        string="ICMS FCP ST TO",
+        domain=[
+            ("state_from_id.code", "=", "TO"),
+            ("tax_group_id.tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST),
             ("is_benefit", "=", False),
         ],
     )
@@ -1665,6 +1919,7 @@ class ICMSRegulation(models.Model):
                         self.env.ref("l10n_br_fiscal.tax_group_icms").id,
                         self.env.ref("l10n_br_fiscal.tax_group_icmsst").id,
                         self.env.ref("l10n_br_fiscal.tax_group_icmsfcp").id,
+                        self.env.ref("l10n_br_fiscal.tax_group_icmsfcp_st").id,
                         state.id,
                     )
                     node_page = etree.fromstring(state_page)
@@ -1708,6 +1963,15 @@ class ICMSRegulation(models.Model):
 
         if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_FCP:
             domain += [("state_to_ids", "=", partner.state_id.id)]
+
+        if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_FCP_ST:
+            domain += [
+                ("state_from_id", "=", company.state_id.id),
+                ("state_to_ids", "=", partner.state_id.id),
+                ("ncm_ids", "=", ncm.id),
+                ("nbm_ids", "=", nbm.id),
+                ("cest_ids", "=", cest.id),
+            ]
 
         return domain
 
@@ -1883,6 +2147,29 @@ class ICMSRegulation(models.Model):
 
         return tax_definitions
 
+    def _map_tax_def_icmsfcpst(
+        self,
+        company,
+        partner,
+        product,
+        ncm=None,
+        nbm=None,
+        cest=None,
+        operation_line=None,
+    ):
+        self.ensure_one()
+        tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
+        tax_group_icmsfcpst = self.env.ref("l10n_br_fiscal.tax_group_icmsfcp_st")
+
+        # FCP ST
+        domain = self._build_map_tax_def_domain(
+            company, partner, tax_group_icmsfcpst, ncm, nbm, cest
+        )
+
+        tax_definitions = self._tax_definition_search(domain, ncm, nbm, cest, product)
+
+        return tax_definitions
+
     # TODO adicionar o argumento CFOP????
     def map_tax(
         self,
@@ -1914,6 +2201,10 @@ class ICMSRegulation(models.Model):
         )
 
         icms_def_taxes |= self._map_tax_def_icmsfcp(
+            company, partner, product, ncm, nbm, cest, operation_line
+        )
+
+        icms_def_taxes |= self._map_tax_def_icmsfcpst(
             company, partner, product, ncm, nbm, cest, operation_line
         )
 

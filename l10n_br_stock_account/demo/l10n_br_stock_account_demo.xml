@@ -72,6 +72,11 @@
         <field name="company_id" ref="base.main_company" />
     </record>
 
+    <!-- Necessário porque sem isso o ind_final fica Sim devido metodo Default -->
+    <function model="stock.picking" name="_onchange_partner_id_fiscal">
+        <value eval="[ref('main_company-picking_1')]" />
+    </function>
+
     <record model="stock.move" id="main_company-move_1_1">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
@@ -162,6 +167,11 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa" />
         <field name="company_id" ref="base.main_company" />
     </record>
+
+    <!-- Necessário porque sem isso o ind_final fica Sim devido metodo Default -->
+    <function model="stock.picking" name="_onchange_partner_id_fiscal">
+        <value eval="[ref('main_company-picking_2')]" />
+    </function>
 
     <record model="stock.move" id="main_company-move_2_1">
         <field name="name">Test - l10n_br_stock_account - 2</field>
@@ -259,6 +269,11 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa" />
         <field name="company_id" ref="base.main_company" />
     </record>
+
+    <!-- Necessário porque sem isso o ind_final fica Sim devido metodo Default -->
+    <function model="stock.picking" name="_onchange_partner_id_fiscal">
+        <value eval="[ref('main_company-picking_3')]" />
+    </function>
 
     <record model="stock.move" id="main_company-move_3_1">
         <field
@@ -358,6 +373,11 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa" />
         <field name="company_id" ref="base.main_company" />
     </record>
+
+    <!-- Necessário porque sem isso o ind_final fica Sim devido metodo Default -->
+    <function model="stock.picking" name="_onchange_partner_id_fiscal">
+        <value eval="[ref('main_company-picking_4')]" />
+    </function>
 
     <record model="stock.move" id="main_company-move_4_1">
         <field
@@ -465,17 +485,18 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
+    <!-- Necessário porque sem isso o ind_final fica Sim devido metodo Default -->
+    <function model="stock.picking" name="_onchange_partner_id_fiscal">
+        <value eval="[ref('lucro_presumido-picking_1')]" />
+    </function>
+
     <record model="stock.move" id="lucro_presumido-move_1_1">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
-        <!-- Campo preenchido apenas para teste porque ao Validar o Picking
-             o metodo atualiza o campo com o standard_price ou o lst_price do
-             produto dependendo do Tipo do Picking
-        -->
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="lucro_presumido-picking_1" />
         <field
@@ -504,7 +525,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="lucro_presumido-picking_1" />
         <field
@@ -546,17 +567,18 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
+    <!-- Necessário porque sem isso o ind_final fica Sim devido metodo Default -->
+    <function model="stock.picking" name="_onchange_partner_id_fiscal">
+        <value eval="[ref('lucro_presumido-picking_2')]" />
+    </function>
+
     <record model="stock.move" id="lucro_presumido-move_2_1">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
-        <!-- Campo preenchido apenas para teste porque ao Validar o Picking
-             o metodo atualiza o campo com o standard_price ou o lst_price do
-             produto dependendo do Tipo do Picking
-        -->
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="lucro_presumido-picking_2" />
         <field
@@ -585,7 +607,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="lucro_presumido-picking_2" />
         <field
@@ -627,17 +649,18 @@
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
     </record>
 
+    <!-- Necessário porque sem isso o ind_final fica Sim devido metodo Default -->
+    <function model="stock.picking" name="_onchange_partner_id_fiscal">
+        <value eval="[ref('simples_nacional-picking_1')]" />
+    </function>
+
     <record model="stock.move" id="simples_nacional-move_1_1">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
-        <!-- Campo preenchido apenas para teste porque ao Validar o Picking
-             o metodo atualiza o campo com o standard_price ou o lst_price do
-             produto dependendo do Tipo do Picking
-        -->
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="simples_nacional-picking_1" />
         <field
@@ -666,7 +689,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="simples_nacional-picking_1" />
         <field
@@ -690,7 +713,7 @@
         <value eval="[ref('simples_nacional-move_1_2')]" />
     </function>
 
-    <!-- Picking Test - Lucro Presumido -->
+    <!-- Picking Test - Simples Nacional -->
     <record model="stock.picking" id="simples_nacional-picking_2">
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field
@@ -708,17 +731,18 @@
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
     </record>
 
+    <!-- Necessário porque sem isso o ind_final fica Sim devido metodo Default -->
+    <function model="stock.picking" name="_onchange_partner_id_fiscal">
+        <value eval="[ref('simples_nacional-picking_2')]" />
+    </function>
+
     <record model="stock.move" id="simples_nacional-move_2_1">
         <field name="name">Test - l10n_br_stock_account - 1</field>
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
-        <!-- Campo preenchido apenas para teste porque ao Validar o Picking
-             o metodo atualiza o campo com o standard_price ou o lst_price do
-             produto dependendo do Tipo do Picking
-        -->
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="simples_nacional-picking_2" />
         <field
@@ -747,7 +771,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="picking_id" ref="simples_nacional-picking_2" />
         <field

@@ -21,6 +21,7 @@ from ..constants.fiscal import (
 from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
+    ICMS_CST_RELIEF,
     ICMS_DIFAL_DOUBLE_BASE,
     ICMS_DIFAL_PARTITION,
     ICMS_DIFAL_UNIQUE_BASE,
@@ -348,6 +349,7 @@ class Tax(models.Model):
         cfop = kwargs.get("cfop")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         ind_final = kwargs.get("ind_final", FINAL_CUSTOMER_NO)
+        cst = kwargs.get("icms_cst_id", self.env["l10n_br_fiscal.cst"])
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
@@ -468,6 +470,27 @@ class Tax(models.Model):
                 }
             )
 
+        if kwargs.get("icms_relief_id") and cst["code"] in ICMS_CST_RELIEF:
+            icms_base = kwargs.get("price_unit", 0.00) * kwargs.get("quantity", 0.00)
+            icms_percent = tax_dict.get("percent_amount", 0.00) / 100
+            icms_reduction = tax_dict.get("percent_reduction", 0.00) / 100
+            if cst["code"] in ["30", "40"]:
+                icms_relief = icms_base * icms_percent
+                tax_dict.update({"icms_relief": icms_relief})
+            elif cst["code"] in ["20", "70"]:
+                icms_relief = (
+                    icms_base
+                    * (1 - (icms_percent * (1 - icms_reduction)))
+                    / (1 - icms_percent)
+                    - icms_base
+                )
+                tax_dict.update({"icms_relief": icms_relief})
+            else:
+                icms_relief = (icms_base / (1 - icms_percent)) * icms_percent
+                tax_dict.update({"icms_relief": icms_relief})
+        else:
+            tax_dict.update({"icms_relief": 0})
+
         return taxes_dict
 
     @api.model
@@ -523,6 +546,21 @@ class Tax(models.Model):
             tax_dict["tax_value"] -= taxes_dict.get("icms", {}).get("tax_value", 0.0)
 
         return tax_dict
+
+    @api.model
+    def _compute_icmsfcpst(self, tax, taxes_dict, **kwargs):
+        """Compute ICMS FCP ST"""
+        tax_dict = taxes_dict.get(tax.tax_domain)
+
+        if taxes_dict.get("icmsst"):
+            tax_dict["base"] = taxes_dict["icmsst"].get("base", 0.0)
+        else:
+            tax_dict["base"] = 0
+
+        # pop percent_amount to get it from tax_id
+        tax_dict.pop("percent_amount", None)
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
 
     @api.model
     def _compute_icmssn(self, tax, taxes_dict, **kwargs):

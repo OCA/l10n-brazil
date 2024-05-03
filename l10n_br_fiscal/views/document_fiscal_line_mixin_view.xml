@@ -239,12 +239,12 @@
                         <field
                                             name="icms_relief_id"
                                             force_save="1"
-                                            attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2')), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))]}"
+                                            attrs="{'readonly': [('icms_tax_id', '!=', False), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))], 'invisible': ['|', ('tax_framework', 'in', ('1', '2')), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))]}"
                                         />
                         <field
                                             name="icms_relief_value"
                                             force_save="1"
-                                            attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2')), ('icms_cst_code', 'not in', ('20', '30', '70', '90'))]}"
+                                            attrs="{'readonly': [('icms_tax_id', '!=', False), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))], 'invisible': ['|', ('tax_framework', 'in', ('1', '2')), ('icms_cst_code', 'not in', ('20', '30', '40', '41', '50', '70', '90'))]}"
                                         />
                           <field
                                             name="icms_substitute"
@@ -336,11 +336,6 @@
                                             attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', '=', '500')]}"
                                         />
                           <field
-                                            name="icmsfcpst_value"
-                                            force_save="1"
-                                            attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'not in', ('10', '30', '70', '90', '201', '202', '203', '900'))]}"
-                                        />
-                          <field
                                             name="icmsfcp_base_wh"
                                             force_save="1"
                                             attrs="{'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"
@@ -354,6 +349,32 @@
                                             name="icmsfcp_value_wh"
                                             force_save="1"
                                             attrs="{'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"
+                                        />
+                      </group>
+                      <group
+                                        name="icms_fcp_st"
+                                        string="ICMS FCP ST"
+                                        attrs="{'invisible': [('icms_cst_code', 'not in', ('10', '30', '70', '90', '201', '202', '203', '500', '900'))]}"
+                                    >
+                          <field
+                                            name="icmsfcpst_tax_id"
+                                            attrs="{'invisible': [('icms_cst_code', '=', '500')]}"
+                                            options="{'no_create': True, 'no_create_edit': True}"
+                                        />
+                        <field
+                                            name="icmsfcpst_base"
+                                            force_save="1"
+                                            attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', '=', '500')]}"
+                                        />
+                        <field
+                                            name="icmsfcpst_percent"
+                                            force_save="1"
+                                            attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', '=', '500')]}"
+                                        />
+                        <field
+                                            name="icmsfcpst_value"
+                                            force_save="1"
+                                            attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', '=', '500')]}"
                                         />
                       </group>
                       <group

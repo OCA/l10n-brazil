@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
 msgid "<strong>Amount Gross</strong>"
 msgstr ""
@@ -118,11 +113,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -731,6 +721,17 @@ msgid "ICMS FCP Base"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_value
 msgid "ICMS FCP ST Value"
 msgstr ""
@@ -1595,6 +1596,11 @@ msgid "Tax ICMS FCP"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmssn_tax_id
 msgid "Tax ICMS SN"
 msgstr ""
@@ -1662,6 +1668,12 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__uot_id
 msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_withholding
+msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_sale

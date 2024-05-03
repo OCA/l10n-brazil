@@ -16,6 +16,7 @@ from lxml import etree
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
 from requests import Session
+from xsdata.models.datatype import XmlDateTime
 
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
@@ -492,7 +493,7 @@ class NFe(spec_models.StackedModel):
 
     nfe40_vST = fields.Monetary(related="amount_icmsst_value")
 
-    # <vFCPST>0.00</vFCPST> TODO
+    nfe40_vFCPST = fields.Monetary(related="amount_icmsfcpst_value")
 
     # <vFCPSTRet>0.00</vFCPSTRet> TODO
 
@@ -940,6 +941,10 @@ class NFe(spec_models.StackedModel):
         if self.authorization_event_id and infProt.nProt:
             if type(infProt.dhRecbto) is datetime:
                 protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
+            # When the bidding comes from xsdata, the date comes as XmlDateTime
+            elif type(infProt.dhRecbto) is XmlDateTime:
+                dt = infProt.dhRecbto.to_datetime()
+                protocol_date = fields.Datetime.to_string(dt)
             else:
                 protocol_date = fields.Datetime.to_string(
                     datetime.fromisoformat(infProt.dhRecbto)
@@ -1115,15 +1120,15 @@ class NFe(spec_models.StackedModel):
             }
         )
 
-    def import_nfe_xml(self, xml, edoc_type="out"):
+    def import_binding_nfe(self, binding, edoc_type="out"):
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
-            .build_from_binding(xml.NFe.infNFe)
+            .build_from_binding(binding.NFe.infNFe)
         )
 
         if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
-            xml.NFe.infNFe.emit.CNPJ
+            binding.NFe.infNFe.emit.CNPJ
         ):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"

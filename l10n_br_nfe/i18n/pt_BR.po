@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-04 16:10+0000\n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -382,11 +382,6 @@ msgid "CSC Token"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_import_xml_form
-msgid "Cancel"
-msgstr "Cancelar"
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__document_state__2
 msgid "Cancelada"
 msgstr ""
@@ -432,7 +427,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_city
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
@@ -879,6 +874,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_dfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__display_name
@@ -1111,6 +1107,11 @@ msgid "Fatura"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__file
+msgid "File to Import"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
 msgid "Filter"
 msgstr ""
@@ -1155,6 +1156,11 @@ msgstr "Tipo de Documento Fiscal"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__event_id
 msgid "Fiscal Event"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__fiscal_operation_id
+msgid "Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1387,11 +1393,6 @@ msgid "ICMSSN102"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn201
-msgid "ICMSSN201"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_icms__nfe40_icmssn202
 msgid "ICMSSN202"
 msgstr ""
@@ -1420,6 +1421,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_dfe__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement__id
@@ -1542,7 +1544,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_import_xml_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_product_supplierinfo_form_view
 msgid "Import"
 msgstr ""
@@ -1607,11 +1608,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__imported_products_ids
 msgid "Imported Products"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__importing_type
-msgid "Importing Type"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1855,12 +1851,6 @@ msgid "Internal UoM, equivalent to the comercial one in the document"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/wizards/import_document.py:0
-#, python-format
-msgid "Invalid file: %s"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_invalidate_number
 msgid "Invalidate Number"
 msgstr ""
@@ -1896,6 +1886,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_dfe____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_supplement____last_update
@@ -2192,11 +2183,6 @@ msgid "Nfe40 Autxml Infnfe"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_pis
-msgid "Nfe40 Choice Pis"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_det_infNFe_id
 msgid "Nfe40 Det Infnfe"
 msgstr ""
@@ -2365,6 +2351,11 @@ msgid "PISAliq"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_pis
+msgid "PISAliq/PISQtde/PISNT/PISOutr"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pis__nfe40_pisnt
 msgid "PISNT"
 msgstr ""
@@ -2503,7 +2494,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_environment__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_environment__1
 msgid "Produção"
-msgstr ""
+msgstr "Produção"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -2632,14 +2623,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__state
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__status
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__status
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_status
 msgid "Status"
-msgstr ""
+msgstr "Situação"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice_result__status__success
@@ -2879,6 +2870,18 @@ msgid "Valor Total da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFCPST
+msgid ""
+"Valor Total do FCP (Fundo de Combate à Pobreza) retido por substituição "
+"tributária."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFCPST
+msgid "Valor Total do FCP (vFCPST)"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFrete
 msgid "Valor Total do Frete"
@@ -2983,6 +2986,16 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vDesc
 msgid "Valor do Desconto"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPST
+msgid "Valor do FCP retido"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPST
+msgid "Valor do FCP retido por substituição tributária."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3171,6 +3184,11 @@ msgid "Wizard ID"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_import_wizard_mixin
+msgid "Wizard Import Document Mixin"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export__file_type__xml
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice__file_type__xml
 msgid "XML"
@@ -3189,11 +3207,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_code
 msgid "XML Product Code"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__xml
-msgid "XML to Import"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3418,7 +3431,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__state
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__state
 msgid "state"
-msgstr ""
+msgstr "estado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofinsoutr__nfe40_valiqprod
@@ -3460,6 +3473,9 @@ msgid ""
 "versão do aplicativo utilizado no processo de\n"
 "emissão"
 msgstr ""
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
 
 #~ msgid "The full name of the country."
 #~ msgstr "Nome completo do país."

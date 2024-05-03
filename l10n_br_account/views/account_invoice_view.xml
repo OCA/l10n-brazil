@@ -147,6 +147,7 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                 />
+                <field name="fiscal_document_line_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="amount_tax_withholding" optional="hide" />
                 <field name="amount_tax_included" optional="hide" />
@@ -197,6 +198,7 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                 />
+                <field name="fiscal_document_line_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="amount_tax_withholding" invisible="1" />
                 <field name="amount_tax_included" invisible="1" />
@@ -214,7 +216,7 @@
                 <field name="uom_id" optional="hide" />
                 <field name="fiscal_genre_id" optional="hide" />
                 <field name="partner_company_type" invisible="1" />
-                    <field name="fiscal_operation_type" invisible="1" />
+                <field name="fiscal_operation_type" invisible="1" />
                 <field
                     name="fiscal_tax_ids"
                     invisible="1"
@@ -288,7 +290,6 @@
                     name="fiscal_price"
                     attrs="{'invisible': [('document_type_id', '=', False)]}"
                 />
-
                 <field name="amount_currency" invisible="1" />
                 <field name="date" invisible="1" />
                 <field name="date_maturity" invisible="1" />
@@ -318,6 +319,11 @@
                 <field name="debit" invisible="1" />
             </xpath>
 
+            <!-- The next fields are defined in a superficial way in the inherited
+                form that is considered specific for mobile edition by Odoo but not
+                for us in the Brazilian localization. To make it work properly
+                we had to define some extra attributes just like in the editable tree view:
+            -->
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='product_id']"
                 position="attributes"
@@ -326,7 +332,6 @@
                     name="domain"
                 >context.get('default_move_type') in ('out_invoice', 'out_refund', 'out_receipt') and [('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)] or [('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
             </xpath>
-
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='account_id']"
                 position="attributes"
@@ -340,17 +345,14 @@
                     name="attrs"
                 >{'required': [('display_type', '=', False)]}</attribute>
             </xpath>
-
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_account_id']"
                 position="attributes"
             >
-                <attribute name="groups">analytic.group_analytic_accounting</attribute>
                 <attribute
                     name="domain"
                 >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
             </xpath>
-
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_tag_ids']"
                 position="attributes"
@@ -358,7 +360,6 @@
                 <attribute
                     name="domain"
                 >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
-                <attribute name="groups">analytic.group_analytic_tags</attribute>
             </xpath>
 
             <xpath
@@ -454,6 +455,13 @@
                             <field name="other_value" />
                             <field name="estimate_tax" invisible="1" />
                         </group>
+                        <group>
+                            <field
+                                name="fiscal_document_line_id"
+                                placeholder="Fiscal Document Line to import..."
+                                domain="[('partner_id', '=', parent.partner_id), ('company_id', '=', parent.company_id)]"
+                            />
+                        </group>
                     </page>
                     <page name="fiscal_line_extra_info" string="Extra Info" />
                     <page name="accounting" string="Accounting">
@@ -469,6 +477,22 @@
                     </page>
                 </notebook>
             </xpath>
+
+            <field name="fiscal_position_id" position="after">
+                    <field
+                    name="fiscal_document_id"
+                    placeholder="Fiscal Document to import..."
+                    domain="[('partner_id', '=', partner_id), ('company_id', '=', company_id)]"
+                    attrs="{'invisible': [('state', '!=', 'draft')]}"
+                />
+                <button
+                    name="button_import_fiscal_document"
+                    type="object"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('fiscal_document_id', '=', False), ('state', '!=', 'draft')]}"
+                    string="Import Fiscal Document"
+                />
+            </field>
 
             <xpath
                 expr="//page[@id='invoice_tab']//group[hasclass('oe_subtotal_footer')]"
