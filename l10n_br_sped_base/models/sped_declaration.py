@@ -97,6 +97,12 @@ class SpedDeclaration(models.AbstractModel):
         self.ensure_one()
         self.env["l10n_br_sped.mixin"]._flush_registers(self._get_kind(), self.id)
 
+    def button_done(self):
+        self.state = "done"
+
+    def button_draft(self):
+        self.state = "draft"
+
     def button_create_sped_file(self):
         self.ensure_one()
         sped_txt = self._generate_sped_text()
@@ -150,9 +156,29 @@ class SpedDeclaration(models.AbstractModel):
         )
         header.append(
             E.button(
-                name="button_create_sped_file",
+                name="button_done",
                 type="object",
                 states="draft",
+                string="Set to Done",
+                #            class="oe_highlight",
+                groups="l10n_br_fiscal.group_manager",
+            )
+        )
+        header.append(
+            E.button(
+                name="button_draft",
+                type="object",
+                states="done",
+                string="Reset to Draft",
+                #            class="oe_highlight",
+                groups="l10n_br_fiscal.group_manager",
+            )
+        )
+        header.append(
+            E.button(
+                name="button_create_sped_file",
+                type="object",
+                states="done",
                 string="Generate SPED File",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
