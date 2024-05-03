@@ -14,3 +14,5 @@ class SpecMixinEFDICMSIPI(models.AbstractModel):
         comodel_name="l10n_br_sped.efd_icms_ipi.0000",
         required=True,
     )
+
+    state = fields.Selection(related="declaration_id.state")
