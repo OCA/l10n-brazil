@@ -211,6 +211,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
             ind_final=self.ind_final,
+            icms_relief_id=self.icms_relief_id,
         )
 
     @api.depends("tax_icms_or_issqn", "partner_is_public_entity")
@@ -552,6 +553,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if tax_dict.get("icms_dest_value") is not None:
                 self.icms_destination_value = tax_dict.get("icms_dest_value")
 
+            # Valor da desoneração do ICMS
+            if tax_dict.get("icms_relief") is not None:
+                self.icms_relief_value = tax_dict.get("icms_relief")
+
     @api.onchange(
         "icms_base",
         "icms_percent",
@@ -781,6 +786,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "icmsst_tax_id",
         "icmsfcp_tax_id",
         "icmsfcpst_tax_id",
+        "icms_relief_id",
+        "icms_relief_value",
         "ipi_tax_id",
         "ii_tax_id",
         "pis_tax_id",
