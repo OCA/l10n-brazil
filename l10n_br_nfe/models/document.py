@@ -868,11 +868,21 @@ class NFe(spec_models.StackedModel):
         certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
+
+        # contingency check
+        # tpEmis 6: SVC-AN (SEFAZ Virtual de Contingência do AN)
+        # tpEmis 7: SVC-RS (SEFAZ Virtual de Contingência do RS)
+        if self.nfe40_tpEmis in ["6", "7"]:
+            contingencia = True
+        else:
+            contingencia = False
+
         params = {
             "transmissao": TransmissaoSOAP(certificado, session),
             "uf": self.company_id.state_id.ibge_code,
             "versao": self.nfe_version,
             "ambiente": self.nfe_environment,
+            "contingencia": contingencia or False,
         }
 
         if self.document_type == MODELO_FISCAL_NFCE:
