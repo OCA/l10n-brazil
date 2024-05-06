@@ -21,6 +21,7 @@ from ..constants.fiscal import (
 from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
+    ICMS_CST_RELIEF,
     ICMS_DIFAL_DOUBLE_BASE,
     ICMS_DIFAL_PARTITION,
     ICMS_DIFAL_UNIQUE_BASE,
@@ -348,6 +349,7 @@ class Tax(models.Model):
         cfop = kwargs.get("cfop")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         ind_final = kwargs.get("ind_final", FINAL_CUSTOMER_NO)
+        cst = kwargs.get("icms_cst_id", self.env["l10n_br_fiscal.cst"])
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
@@ -467,6 +469,27 @@ class Tax(models.Model):
                     "icms_dest_value": difal_dest_value,
                 }
             )
+
+        if kwargs.get("icms_relief_id") and cst["code"] in ICMS_CST_RELIEF:
+            icms_base = kwargs.get("price_unit", 0.00) * kwargs.get("quantity", 0.00)
+            icms_percent = tax_dict.get("percent_amount", 0.00) / 100
+            icms_reduction = tax_dict.get("percent_reduction", 0.00) / 100
+            if cst["code"] in ["30", "40"]:
+                icms_relief = icms_base * icms_percent
+                tax_dict.update({"icms_relief": icms_relief})
+            elif cst["code"] in ["20", "70"]:
+                icms_relief = (
+                    icms_base
+                    * (1 - (icms_percent * (1 - icms_reduction)))
+                    / (1 - icms_percent)
+                    - icms_base
+                )
+                tax_dict.update({"icms_relief": icms_relief})
+            else:
+                icms_relief = (icms_base / (1 - icms_percent)) * icms_percent
+                tax_dict.update({"icms_relief": icms_relief})
+        else:
+            tax_dict.update({"icms_relief": 0})
 
         return taxes_dict
 
