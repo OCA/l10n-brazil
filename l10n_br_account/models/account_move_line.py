@@ -255,6 +255,12 @@ class AccountMoveLine(models.Model):
         for idx in inverted_index:
             sorted_result |= result[idx]
 
+        for line in sorted_result:
+            # Forces the recalculation of price_total and price_subtotal fields which are
+            # recalculated by super
+            if line.move_id.company_id.country_id.code == "BR":
+                line.update(line._get_price_total_and_subtotal())
+
         return sorted_result
 
     def write(self, values):
