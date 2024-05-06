@@ -55,7 +55,7 @@
             "nfelib>=2.0.0",
             "erpbrasil.assinatura>=1.7.0",
             "erpbrasil.transmissao>=1.1.0",
-            "erpbrasil.edoc>=2.5.2",
+            "erpbrasil.edoc",
             "erpbrasil.edoc.pdf",
             "erpbrasil.base>=2.3.0",
         ],
