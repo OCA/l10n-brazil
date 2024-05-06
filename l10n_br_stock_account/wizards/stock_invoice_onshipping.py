@@ -107,6 +107,8 @@ class StockInvoiceOnshipping(models.TransientModel):
         # fiscal_vals.update(values)
         values.update(fiscal_vals)
 
+        invoice, values = self._simulate_invoice_onchange(values)
+
         return invoice, values
 
     def _get_invoice_line_values(self, moves, invoice_values, invoice):
