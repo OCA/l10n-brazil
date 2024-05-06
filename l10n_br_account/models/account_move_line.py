@@ -332,19 +332,22 @@ class AccountMoveLine(models.Model):
         price_subtotal,
         force_computation=False,
     ):
-        if self.env.company.country_id.code != "BR":
-            return super()._get_fields_onchange_balance_model(
-                quantity=quantity,
-                discount=discount,
-                amount_currency=amount_currency,
-                move_type=move_type,
-                currency=currency,
-                taxes=taxes,
-                price_subtotal=price_subtotal,
-                force_computation=force_computation,
-            )
+        res = super()._get_fields_onchange_balance_model(
+            quantity=quantity,
+            discount=discount,
+            amount_currency=amount_currency,
+            move_type=move_type,
+            currency=currency,
+            taxes=taxes,
+            price_subtotal=price_subtotal,
+            force_computation=force_computation,
+        )
+        if (self.env.company.country_id.code == "BR") and (
+            not self.exclude_from_invoice_tab and "price_unit" in res
+        ):
+            res = {}
 
-        return {}
+        return res
 
     def _get_price_total_and_subtotal(
         self,
