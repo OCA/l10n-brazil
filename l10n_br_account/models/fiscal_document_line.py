@@ -41,17 +41,27 @@ class FiscalDocumentLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         """
-        It's not allowed to create a fiscal document line without a document_id anyway.
-        But instead of letting Odoo crash in this case we simply avoid creating the
-        record. This makes it possible to create an account.move.line without
-        a fiscal_document_line_id: Odoo will write NULL as the value in this case.
-        This is a requirement to allow account moves without fiscal documents despite
-        the _inherits system.
+        Override the create method to ensure it filters out account.move.line records
+        that lack a valid document_id or fiscal_operation_line_id. Prevent the
+        creation  of fiscal document lines without these mandatory fields to avoid
+        system crashes due to invalid records. If the conditions are not met, return an
+        empty list instead of creating any records. This supports the creation of
+        account.move.line records with NULL values for fiscal_document_line_id where
+        necessary.
         """
 
         if self._context.get("create_from_move_line"):
-            if not any(vals.get("document_id") for vals in vals_list):
+            # Filter out the dictionaries that do not meet the conditions
+            filtered_vals_list = [
+                vals
+                for vals in vals_list
+                if vals.get("document_id") and vals.get("fiscal_operation_line_id")
+            ]
+            # Stop execution and return empty if no dictionary meets the conditions
+            if not filtered_vals_list:
                 return []
+            # Assign the filtered list back to the original list for further processing
+            vals_list = filtered_vals_list
 
         return super().create(vals_list)
 
