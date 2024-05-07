@@ -89,6 +89,7 @@ class TestL10nBrSalesCommission(SavepointCase):
         payment.with_context(context).create_invoices()
         self.assertNotEqual(len(sale_order.invoice_ids), 0)
         for invoice in sale_order.invoice_ids:
+            invoice.flush()
             invoice.action_post()
             self.assertEqual(invoice.state, "posted")
 
