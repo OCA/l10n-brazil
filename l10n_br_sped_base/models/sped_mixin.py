@@ -16,6 +16,7 @@ LAYOUT_VERSIONS = {
     "ecf": "9",
     "efd_icms_ipi": "17",
     "efd_pis_cofins": "6",
+    "fake": "9",  # tests; similar to ecd
 }
 
 MAX_REGISTER_NAME = 40
