@@ -1,1 +1,2 @@
 pyopenssl==22.1.0
+nfelib>=2.0.0
