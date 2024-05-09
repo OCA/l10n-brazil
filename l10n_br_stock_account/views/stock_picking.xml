@@ -179,6 +179,7 @@
                                     <field name="amount_total" />
                                     <field name="amount_tax_withholding" />
                                     <field name="amount_taxed" />
+                                    <field name="amount_tax_included" invisible="1" />
                                 </group>
                             </group>
                         </page>
