@@ -77,6 +77,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain = [("state", "=", "approved")]
         return domain
 
+    def _default_valuation_stock_price(self):
+        return True
+
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Currency",
@@ -262,6 +265,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     partner_order = fields.Char(string="Partner Order (xPed)", size=15)
 
     partner_order_line = fields.Char(string="Partner Order Line (nItemPed)", size=6)
+
+    valuation_via_stock_price = fields.Boolean(
+        string="Valuation Via Stock Price",
+        default=_default_valuation_stock_price,
+        help="Determina se o valor utilizado no custeamento automático será padrão do"
+        " Odoo ou com base no campo stock_price_br.\n\n"
+        "    * Usar True para valor de estoque líquido (sem imposto)",
+    )
+
+    stock_price_br = fields.Monetary(
+        string="Stock Price", compute="_compute_stock_price_br"
+    )
 
     # ISSQN Fields
     issqn_tax_id = fields.Many2one(

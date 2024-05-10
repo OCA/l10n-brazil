@@ -218,6 +218,11 @@ class StockMove(models.Model):
         #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.with_company(self.company_id).standard_price
+        elif (
+            self.fiscal_operation_id.fiscal_operation_type == "in"
+            and self.valuation_via_stock_price
+        ):
+            result = self.stock_price_br
 
         return result
 

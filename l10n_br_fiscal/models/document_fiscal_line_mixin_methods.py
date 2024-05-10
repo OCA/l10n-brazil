@@ -6,6 +6,7 @@ from copy import deepcopy
 from lxml import etree
 
 from odoo import api, models
+from odoo.tools.float_utils import float_round
 
 from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN
 from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
@@ -878,3 +879,32 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
+
+    @api.depends("amount_total", "fiscal_tax_ids")
+    def _compute_stock_price_br(self):
+        for record in self:
+            record.stock_price_br = 0
+
+            if not hasattr(record, "product_uom_qty"):
+                continue
+
+            if record.fiscal_operation_line_id and record.product_uom_qty:
+                non_creditable_taxes = (
+                    record.fiscal_operation_line_id.non_creditable_tax_definition_ids
+                )
+                price = record.amount_total
+
+                for tax in record.fiscal_tax_ids:
+                    if hasattr(record, "%s_tax_id" % (tax.tax_domain,)):
+                        tax_id = getattr(record, "%s_tax_id" % (tax.tax_domain,))
+                        if tax_id.tax_group_id not in non_creditable_taxes:
+                            if not hasattr(record, "%s_value" % (tax.tax_domain)):
+                                continue
+                            price -= getattr(record, "%s_value" % (tax.tax_domain))
+
+                price_precision = self.env["decimal.precision"].precision_get(
+                    "Product Price"
+                )
+                record.stock_price_br = float_round(
+                    (price / record.product_uom_qty), precision_digits=price_precision
+                )
