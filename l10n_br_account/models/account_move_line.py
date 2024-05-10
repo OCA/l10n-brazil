@@ -216,13 +216,50 @@ class AccountMoveLine(models.Model):
                     )
                 )
         self._inject_shadowed_fields(vals_list)
+
+        # This reordering is crucial to ensure accurate linkage between
+        # account.move.line (aml) and the fiscal document line. In the fiscal create a
+        # fiscal document line, leaving only those that should be created. Proper
+        # ordering is essential as mismatches between the order of amls and the
+        # manipulated vals_list of fiscal documents can lead to incorrect linkages.
+        # For example, if vals_list[0] in amls does not match vals_list[0] in the
+        # fiscal document (which is a manipulated vals_list), it results in erroneous
+        # associations.
+        if len(vals_list) > 1 and self.env.company.country_id.code == "BR":
+            # Store the original order using a copy of the data
+            original_vals_list = list(vals_list)
+            # Reorder vals_list for processing based on the presence of
+            # 'fiscal_operation_line_id'
+            vals_list = sorted(
+                vals_list,
+                key=lambda x: x.get("fiscal_operation_line_id") is False,
+            )
+
+        # Create the records
         results = super(
             AccountMoveLine, self.with_context(create_from_move_line=True)
         ).create(vals_list)
 
-        for line in results:
-            if not line.move_id.fiscal_document_id or line.exclude_from_invoice_tab:
-                line.fiscal_document_line_id = False
+        if len(results) > 1 and self.env.company.country_id.code == "BR":
+            # Create a map of results based on original values
+            # Use Python's 'id' to maintain a mapping of objects before and after creation
+            original_to_new = {
+                id(val): result for val, result in zip(vals_list, results)
+            }
+
+            # Sort the results based on the original list
+            results = [
+                original_to_new[id(val)]
+                for val in original_vals_list
+                if id(val) in original_to_new
+            ]
+
+            # Collect all IDs from 'account.move.line' objects contained in 'results'
+            all_ids = [line.id for result in results for line in result]
+
+            # Create a new instance of 'account.move.line' that includes all the
+            # collected IDs
+            results = self.env["account.move.line"].browse(all_ids)
 
         return results
 
