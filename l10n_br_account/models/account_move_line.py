@@ -217,7 +217,7 @@ class AccountMoveLine(models.Model):
                 )
         self._inject_shadowed_fields(vals_list)
 
-        # This reordering is crucial to ensure accurate linkage between
+        # This reordering bellow is crucial to ensure accurate linkage between
         # account.move.line (aml) and the fiscal document line. In the fiscal create a
         # fiscal document line, leaving only those that should be created. Proper
         # ordering is essential as mismatches between the order of amls and the
@@ -225,22 +225,30 @@ class AccountMoveLine(models.Model):
         # For example, if vals_list[0] in amls does not match vals_list[0] in the
         # fiscal document (which is a manipulated vals_list), it results in erroneous
         # associations.
-        if len(vals_list) > 1 and self.env.company.country_id.code == "BR":
-            # Store the original order using a copy of the data
-            original_vals_list = list(vals_list)
-            # Reorder vals_list for processing based on the presence of
-            # 'fiscal_operation_line_id'
-            vals_list = sorted(
-                vals_list,
-                key=lambda x: x.get("fiscal_operation_line_id") is False,
-            )
+
+        # Add index to each dictionary in vals_list
+        indexed_vals_list = [(idx, val) for idx, val in enumerate(vals_list)]
+
+        # Reorder vals_list for processing based on the presence of
+        # 'fiscal_operation_line_id'
+        sorted_indexed_vals_list = sorted(
+            indexed_vals_list,
+            key=lambda x: x[1].get("fiscal_operation_line_id") is False,
+        )
+        original_indexes = [idx for idx, _ in sorted_indexed_vals_list]
+        vals_list = [val for _, val in sorted_indexed_vals_list]
 
         # Create the records
-        results = super(
+        result = super(
             AccountMoveLine, self.with_context(create_from_move_line=True)
         ).create(vals_list)
 
-        return results
+        # Re-order the result according to the initial vals_list order
+        sorted_result = self.env["account.move.line"]
+        for i in original_indexes:
+            sorted_result |= result[i]
+
+        return sorted_result
 
     def write(self, values):
         if values.get("product_uom_id"):
