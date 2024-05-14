@@ -229,11 +229,11 @@ class AccountMoveLine(models.Model):
         # Add index to each dictionary in vals_list
         indexed_vals_list = [(idx, val) for idx, val in enumerate(vals_list)]
 
-        # Reorder vals_list for processing based on the presence of
-        # 'fiscal_operation_line_id'
+        # Reorder vals_list so lines with fiscal_operation_line_id will
+        # be created first
         sorted_indexed_vals_list = sorted(
             indexed_vals_list,
-            key=lambda x: x[1].get("fiscal_operation_line_id") is False,
+            key=lambda x: not x[1].get("fiscal_operation_line_id"),
         )
         original_indexes = [idx for idx, _ in sorted_indexed_vals_list]
         vals_list = [val for _, val in sorted_indexed_vals_list]
