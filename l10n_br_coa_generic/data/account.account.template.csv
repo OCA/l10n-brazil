@@ -306,12 +306,12 @@ coa_generic_511307,5.1.1.3.07,Tarifas Bancárias,,expense,0,l10n_br_coa_generic_
 coa_generic_511308,5.1.1.3.08,Material de Consumo,,expense,0,l10n_br_coa_generic_template
 coa_generic_511309,5.1.1.3.09,Material de Expediente,,expense,0,l10n_br_coa_generic_template
 coa_generic_511310,5.1.1.3.10,Correios,,expense,0,l10n_br_coa_generic_template
-coa_generic_511401,5.1.1.4.01,Fretes e Carretos,,expenses,0,l10n_br_coa_generic_template
-coa_generic_511402,5.1.1.4.02,Comissões e Corretagens,,expenses,0,l10n_br_coa_generic_template
-coa_generic_511403,5.1.1.4.03,Despesas de Viagens e Estadas,,expenses,0,l10n_br_coa_generic_template
-coa_generic_511404,5.1.1.4.04,Despesas com Marketing,,expenses,0,l10n_br_coa_generic_template
-coa_generic_511405,5.1.1.4.05,Bonificações (CFOP 5.910),,expenses,0,l10n_br_coa_generic_template
-coa_generic_511406,5.1.1.4.06,Bonificações (CFOP 6.910),,expenses,0,l10n_br_coa_generic_template
+coa_generic_511401,5.1.1.4.01,Fretes e Carretos,,expense,0,l10n_br_coa_generic_template
+coa_generic_511402,5.1.1.4.02,Comissões e Corretagens,,expense,0,l10n_br_coa_generic_template
+coa_generic_511403,5.1.1.4.03,Despesas de Viagens e Estadas,,expense,0,l10n_br_coa_generic_template
+coa_generic_511404,5.1.1.4.04,Despesas com Marketing,,expense,0,l10n_br_coa_generic_template
+coa_generic_511405,5.1.1.4.05,Bonificações (CFOP 5.910),,expense,0,l10n_br_coa_generic_template
+coa_generic_511406,5.1.1.4.06,Bonificações (CFOP 6.910),,expense,0,l10n_br_coa_generic_template
 coa_generic_511501,5.1.1.5.01,IPTU,,expense,0,l10n_br_coa_generic_template
 coa_generic_511502,5.1.1.5.02,IPVA,,expense,0,l10n_br_coa_generic_template
 coa_generic_511503,5.1.1.5.03,IOF,,expense,0,l10n_br_coa_generic_template
