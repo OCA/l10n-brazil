@@ -21,6 +21,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_fiscal_certificate>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_fiscal_dfe>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_hr>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_br_mis_report>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_nfe_spec>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_nfse>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_nfse_focus>=15.0dev,<15.1dev',
