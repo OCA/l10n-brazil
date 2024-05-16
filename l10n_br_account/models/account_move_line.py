@@ -243,10 +243,17 @@ class AccountMoveLine(models.Model):
             AccountMoveLine, self.with_context(create_from_move_line=True)
         ).create(vals_list)
 
+        # Initialize the inverted index list with the same length as the original list
+        inverted_index = [0] * len(original_indexes)
+
+        # Iterate over the original_indexes list and fill the inverted_index list accordingly
+        for i, val in enumerate(original_indexes):
+            inverted_index[val] = i
+
         # Re-order the result according to the initial vals_list order
         sorted_result = self.env["account.move.line"]
-        for i in original_indexes:
-            sorted_result |= result[i]
+        for idx in inverted_index:
+            sorted_result |= result[idx]
 
         return sorted_result
 
