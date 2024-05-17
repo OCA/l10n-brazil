@@ -247,7 +247,7 @@ class NFe(spec_models.StackedModel):
         selection=NFE_TRANSMISSIONS,
         string="NFe Transmission",
         copy=False,
-        default=lambda self: self.env.user.company_id.nfe_transmission,
+        default=lambda self: self.env.company.nfe_transmission,
     )
 
     # <cDV>0</cDV> TODO
@@ -258,7 +258,7 @@ class NFe(spec_models.StackedModel):
         selection=NFE_ENVIRONMENTS,
         string="NFe Environment",
         copy=False,
-        default=lambda self: self.env.user.company_id.nfe_environment,
+        default=lambda self: self.env.company.nfe_environment,
     )
 
     nfe40_finNFe = fields.Selection(related="edoc_purpose")
@@ -730,7 +730,7 @@ class NFe(spec_models.StackedModel):
                 value.enderEmit, path=path
             )
             new_value.update(enderEmit_value)
-            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
+            company_cnpj = self.env.company.cnpj_cpf.translate(
                 str.maketrans("", "", string.punctuation)
             )
             emit_cnpj = new_value.get("nfe40_CNPJ").translate(
@@ -748,7 +748,7 @@ class NFe(spec_models.StackedModel):
                 value.enderDest, path=path
             )
             new_value.update(enderDest_value)
-            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
+            company_cnpj = self.env.company.cnpj_cpf.translate(
                 str.maketrans("", "", string.punctuation)
             )
             dest_cnpj = new_value.get("nfe40_CNPJ").translate(
