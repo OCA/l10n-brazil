@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-19 14:38+0000\n"
+"PO-Revision-Date: 2024-05-17 16:36+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -19,12 +19,12 @@ msgstr ""
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
 msgid "<option value=\"\">State / Province...</option>"
-msgstr ""
+msgstr "<option value=\"\">Estado / Província...</option>"
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
 msgid "<option value=\"\">select...</option>"
-msgstr ""
+msgstr "<option value=\"\">selecione...</option>"
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
@@ -37,6 +37,9 @@ msgid ""
 "Changing Municipal Tax number is not allowed once document(s) have been "
 "issued for your account. Please contact us directly for this operation."
 msgstr ""
+"A alteração do número da Inscrição Municipal não é permitida após a emissão "
+"do(s) documento(s) da sua conta. Entre em contato conosco diretamente para "
+"esta operação."
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.address_b2b
@@ -44,6 +47,9 @@ msgid ""
 "Changing State Tax number is not allowed once document(s) have been issued "
 "for your account. Please contact us directly for this operation."
 msgstr ""
+"A alteração do número da Incrição Estadual não é permitida depois que os "
+"documentos forem emitidos para sua conta. Entre em contato conosco "
+"diretamente para esta operação."
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.portal_address
@@ -76,6 +82,8 @@ msgid ""
 "State /\n"
 "                    Province"
 msgstr ""
+"Estado /\n"
+"                    Província"
 
 #. module: l10n_br_website_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_website_sale.address_b2b
