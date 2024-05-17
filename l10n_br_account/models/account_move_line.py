@@ -216,15 +216,46 @@ class AccountMoveLine(models.Model):
                     )
                 )
         self._inject_shadowed_fields(vals_list)
-        results = super(
+
+        # This reordering bellow is crucial to ensure accurate linkage between
+        # account.move.line (aml) and the fiscal document line. In the fiscal create a
+        # fiscal document line, leaving only those that should be created. Proper
+        # ordering is essential as mismatches between the order of amls and the
+        # manipulated vals_list of fiscal documents can lead to incorrect linkages.
+        # For example, if vals_list[0] in amls does not match vals_list[0] in the
+        # fiscal document (which is a manipulated vals_list), it results in erroneous
+        # associations.
+
+        # Add index to each dictionary in vals_list
+        indexed_vals_list = [(idx, val) for idx, val in enumerate(vals_list)]
+
+        # Reorder vals_list so lines with fiscal_operation_line_id will
+        # be created first
+        sorted_indexed_vals_list = sorted(
+            indexed_vals_list,
+            key=lambda x: not x[1].get("fiscal_operation_line_id"),
+        )
+        original_indexes = [idx for idx, _ in sorted_indexed_vals_list]
+        vals_list = [val for _, val in sorted_indexed_vals_list]
+
+        # Create the records
+        result = super(
             AccountMoveLine, self.with_context(create_from_move_line=True)
         ).create(vals_list)
 
-        for line in results:
-            if not line.move_id.fiscal_document_id or line.exclude_from_invoice_tab:
-                line.fiscal_document_line_id = False
+        # Initialize the inverted index list with the same length as the original list
+        inverted_index = [0] * len(original_indexes)
 
-        return results
+        # Iterate over the original_indexes list and fill the inverted_index list accordingly
+        for i, val in enumerate(original_indexes):
+            inverted_index[val] = i
+
+        # Re-order the result according to the initial vals_list order
+        sorted_result = self.env["account.move.line"]
+        for idx in inverted_index:
+            sorted_result |= result[idx]
+
+        return sorted_result
 
     def write(self, values):
         if values.get("product_uom_id"):
