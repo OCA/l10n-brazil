@@ -17,16 +17,16 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
     _description = "Export eletronic invoice"
 
     def _default_file_type(self):
-        return self.env.user.company_id.file_type
+        return self.env.company.file_type
 
     def _default_nfe_environment(self):
-        return self.env.user.company_id.nfe_environment
+        return self.env.company.nfe_environment
 
     def _default_export_folder(self):
-        return self.env.user.company_id.nfe_export_folder
+        return self.env.company.nfe_export_folder
 
     def _default_sign_xml(self):
-        return self.env.user.company_id.sign_xml
+        return self.env.company.sign_xml
 
     name = fields.Char(string="Nome", size=255)
 
