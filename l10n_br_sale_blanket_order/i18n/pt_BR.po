@@ -6,8 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-29 19:55+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-05-17 20:38+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -1468,8 +1469,9 @@ msgstr "Usado em documentos fiscais"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_substitute
+#, fuzzy
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
-msgstr ""
+msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor da Retenção de Imposto na Fonte"
