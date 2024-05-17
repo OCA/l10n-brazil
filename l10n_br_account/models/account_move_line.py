@@ -255,6 +255,12 @@ class AccountMoveLine(models.Model):
         for idx in inverted_index:
             sorted_result |= result[idx]
 
+        for line in sorted_result:
+            # Forces the recalculation of price_total and price_subtotal fields which are
+            # recalculated by super
+            if line.move_id.company_id.country_id.code == "BR":
+                line.update(line._get_price_total_and_subtotal())
+
         return sorted_result
 
     def write(self, values):
@@ -332,19 +338,22 @@ class AccountMoveLine(models.Model):
         price_subtotal,
         force_computation=False,
     ):
-        if self.env.company.country_id.code != "BR":
-            return super()._get_fields_onchange_balance_model(
-                quantity=quantity,
-                discount=discount,
-                amount_currency=amount_currency,
-                move_type=move_type,
-                currency=currency,
-                taxes=taxes,
-                price_subtotal=price_subtotal,
-                force_computation=force_computation,
-            )
+        res = super()._get_fields_onchange_balance_model(
+            quantity=quantity,
+            discount=discount,
+            amount_currency=amount_currency,
+            move_type=move_type,
+            currency=currency,
+            taxes=taxes,
+            price_subtotal=price_subtotal,
+            force_computation=force_computation,
+        )
+        if (self.env.company.country_id.code == "BR") and (
+            not self.exclude_from_invoice_tab and "price_unit" in res
+        ):
+            res = {}
 
-        return {}
+        return res
 
     def _get_price_total_and_subtotal(
         self,
@@ -379,6 +388,7 @@ class AccountMoveLine(models.Model):
                 icmssn_range=self.icmssn_range_id,
                 icms_origin=self.icms_origin,
                 ind_final=self.ind_final,
+                icms_relief_value=self.icms_relief_value,
             ),
         )._get_price_total_and_subtotal(
             price_unit=price_unit or self.price_unit,
@@ -425,6 +435,7 @@ class AccountMoveLine(models.Model):
         other_value = self.env.context.get("other_value", 0)
         freight_value = self.env.context.get("other_value", 0)
         ii_customhouse_charges = self.env.context.get("ii_customhouse_charges", 0)
+        icms_relief_value = self.env.context.get("icms_relief_value", 0)
 
         # Compute 'price_total'.
         if taxes:
@@ -463,7 +474,11 @@ class AccountMoveLine(models.Model):
             result["price_total"] = taxes_res["total_included"]
 
         result["price_total"] = (
-            result["price_total"] + insurance_value + other_value + freight_value
+            result["price_total"]
+            + insurance_value
+            + other_value
+            + freight_value
+            - icms_relief_value
         )
 
         return result
