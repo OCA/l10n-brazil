@@ -12,7 +12,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.fol_sale_with_icms_reduction = cls.env[
+
+        cls.fo_sale_with_icms_reduction = cls.env[
             "l10n_br_fiscal.operation.line"
         ].create(
             {
@@ -57,7 +58,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             }
         )
 
-        cls.cofins_tax_definition_empresa_lc_icms_reduction = cls.env[
+        cls.icms_tax_definition_empresa_lc_icms_reduction = cls.env[
             "l10n_br_fiscal.tax.definition"
         ].create(
             {
@@ -69,7 +70,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
                 "tax_id": cls.env.ref("l10n_br_fiscal.tax_icms_12_red_26_57").id,
                 "cst_id": cls.env.ref("l10n_br_fiscal.cst_icms_20").id,
                 "state": "approved",
-                "fiscal_operation_line_id": cls.fol_sale_with_icms_reduction.id,
+                "fiscal_operation_line_id": cls.fo_sale_with_icms_reduction.id,
             }
         )
 
@@ -99,7 +100,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             document_type=cls.env.ref("l10n_br_fiscal.document_55"),
             document_serie_id=cls.empresa_lc_document_55_serie_1,
             fiscal_operation=cls.env.ref("l10n_br_fiscal.fo_venda"),
-            fiscal_operation_lines=[cls.fol_sale_with_icms_reduction],
+            fiscal_operation_lines=[cls.fo_sale_with_icms_reduction],
         )
 
         cls.move_out_simples_remessa = cls.init_invoice(
