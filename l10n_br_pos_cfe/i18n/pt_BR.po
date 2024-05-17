@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-27 07:43+0000\n"
+"PO-Revision-Date: 2024-05-17 16:36+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -402,6 +402,8 @@ msgid ""
 "It was not possible to communicate with the tax processor. Please contact "
 "support."
 msgstr ""
+"Não foi possível comunicar com o processador fiscal. Entre em contato com o "
+"suporte."
 
 #. module: l10n_br_pos_cfe
 #: model:ir.model.fields,field_description:l10n_br_pos_cfe.field_pos_config____last_update
@@ -415,7 +417,7 @@ msgstr "Última Modificação em"
 #: code:addons/l10n_br_pos_cfe/static/src/js/PaymentScreen/PaymentScreen.js:0
 #, python-format
 msgid "No Tax Processor Configured"
-msgstr ""
+msgstr "Nenhum Processador Fiscal Configurado"
 
 #. module: l10n_br_pos_cfe
 #. openerp-web
@@ -434,7 +436,7 @@ msgstr ""
 #: code:addons/l10n_br_pos_cfe/static/src/js/fiscal_cfe.js:0
 #, python-format
 msgid "Please check if the Fiscal Interface is still connected."
-msgstr ""
+msgstr "Verifique se a Interface Fiscal ainda está conectada."
 
 #. module: l10n_br_pos_cfe
 #: model:ir.model,name:l10n_br_pos_cfe.model_pos_config
