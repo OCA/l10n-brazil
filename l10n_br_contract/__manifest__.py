@@ -5,7 +5,7 @@
     "name": "Brazilian Localization Contract",
     "summary": """
         Customization of Contract module for implementations in Brazil.""",
-    "version": "14.0.2.3.3",
+    "version": "14.0.2.3.4",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "maintainers": ["mileo", "marcelsavegnago"],
