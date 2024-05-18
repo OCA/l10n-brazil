@@ -32,7 +32,7 @@ class ContractContract(models.Model):
             if company_id:
                 company_id = self.env["res.company"].browse(company_id)
             else:
-                company_id = self.env.user.company_id
+                company_id = self.env.company
             if contract_type == "sale":
                 fiscal_operation_id = company_id.contract_sale_fiscal_operation_id
             else:
