@@ -7,8 +7,9 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2024-05-17 16:36+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-05-20 22:42+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -13329,7 +13330,6 @@ msgstr "Lagoa de Dentro"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2608503
-#, fuzzy
 msgid "Lagoa de Itaenga"
 msgstr "Lagoa de Itaenga"
 
@@ -13885,7 +13885,6 @@ msgstr "Lucianópolis"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5105309
-#, fuzzy
 msgid "Luciara"
 msgstr "Luciara"
 
@@ -15386,7 +15385,6 @@ msgstr "Mogi Guaçu"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3530805
-#, fuzzy
 msgid "Mogi Mirim"
 msgstr "Mogi Mirim"
 
@@ -21402,7 +21400,6 @@ msgstr "Sanharó"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4317103
-#, fuzzy
 msgid "Sant'Ana do Livramento"
 msgstr "Sant'Ana do Livramento"
 
@@ -24532,13 +24529,11 @@ msgstr "São Luiz Gonzaga"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5220157
-#, fuzzy
 msgid "São Luiz do Norte"
 msgstr "São Luiz do Norte"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3550001
-#, fuzzy
 msgid "São Luiz do Paraitinga"
 msgstr "São Luiz do Paraitinga"
 
@@ -25029,7 +25024,6 @@ msgstr "São Valentim do Sul"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1720499
-#, fuzzy
 msgid "São Valério"
 msgstr "São Valério"
 
@@ -25062,7 +25056,6 @@ msgstr "São Vicente de Minas"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2515401
-#, fuzzy
 msgid "São Vicente do Seridó"
 msgstr "São Vicente do Seridó"
 
@@ -25936,7 +25929,6 @@ msgstr "Trairão"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3305901
-#, fuzzy
 msgid "Trajano de Moraes"
 msgstr "Trajano de Moraes"
 
