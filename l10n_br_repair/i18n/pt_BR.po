@@ -7,8 +7,9 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-28 01:20+0000\n"
-"PO-Revision-Date: 2024-04-29 19:55+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-05-20 16:37+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -671,7 +672,7 @@ msgstr "Contagem de Documentos Fiscais"
 #. module: l10n_br_repair
 #: model:ir.model,name:l10n_br_repair.model_l10n_br_repair_fiscal_line_mixin
 msgid "Fiscal Line Mixin"
-msgstr ""
+msgstr "Mixin de Linha Fiscal"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_type
@@ -1243,7 +1244,7 @@ msgstr "% Redução do IRPJ RET"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__irpj_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__irpj_wh_base
 msgid "IRPJ RET Base"
-msgstr ""
+msgstr "Base de Retenção de IRPJ"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__irpj_wh_value
@@ -1723,13 +1724,13 @@ msgstr "Linha de Pedido do Parceiro (nItemPed)"
 #: code:addons/l10n_br_repair/models/repair_order.py:0
 #, python-format
 msgid "Please define an accounting sales journal for the company {} ({})."
-msgstr ""
+msgstr "Defina um diário de vendas contábeis para a empresa {} ({})."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_subtotal
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_subtotal
 msgid "Price Subtotal"
-msgstr ""
+msgstr "Subtotal de preço"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_total
@@ -2028,7 +2029,7 @@ msgstr "Usado em documentos fiscais"
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__icms_substitute
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
-msgstr ""
+msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 
 #. module: l10n_br_repair
 #: code:addons/l10n_br_repair/models/repair_order.py:0
