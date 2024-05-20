@@ -6,8 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-29 19:55+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-05-20 16:37+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -115,13 +116,11 @@ msgstr "Presença do Comprador"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cest_id
-#, fuzzy
 msgid "CEST"
 msgstr "CEST"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cfop_id
-#, fuzzy
 msgid "CFOP"
 msgstr "CFOP"
 
@@ -905,7 +904,7 @@ msgstr "% Redução do IRPJ RET"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_base
 msgid "IRPJ RET Base"
-msgstr ""
+msgstr "IRPJ RET Base"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__irpj_wh_value
@@ -1077,6 +1076,8 @@ msgid ""
 "Mark this check if you want to control recurrrence at line level instead of "
 "all together for the whole contract."
 msgstr ""
+"Marque esta verificação se desejar controlar a recorrência no nível da linha "
+"em vez de todos juntos para todo o contrato."
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__nbm_id
@@ -1276,7 +1277,7 @@ msgstr "Recalcular impostos antes do faturamento"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__line_recurrence
 msgid "Recurrence at line level?"
-msgstr ""
+msgstr "Recorrência no nível da linha?"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__service_type_id
@@ -1452,7 +1453,7 @@ msgstr "Usado em documentos fiscais"
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
-msgstr ""
+msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor Retido na Fonte"
