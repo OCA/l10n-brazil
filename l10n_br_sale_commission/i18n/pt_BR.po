@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-22 13:42+0000\n"
+"PO-Revision-Date: 2024-05-20 19:36+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. module: l10n_br_sale_commission
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_commission.make_invoice_form
 msgid "Brazilian Fiscal Data"
-msgstr ""
+msgstr "Dados Fiscais Brasileiros"
 
 #. module: l10n_br_sale_commission
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_commission.res_config_settings_form_view
@@ -39,18 +39,20 @@ msgstr "Ajustes de Configurações"
 #. module: l10n_br_sale_commission
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_commission.res_config_settings_form_view
 msgid "Default Brazilian Fiscal Document Type at Commission payment."
-msgstr ""
+msgstr "Tipo de Documento Fiscal Brasileiro Padrão para Pagamento de Comissão."
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,help:l10n_br_sale_commission.field_res_config_settings__commission_document_type_id
 msgid ""
 "Default Brazilian Fiscal Document for Fiscal Document at Commission payment."
 msgstr ""
+"Documento Fiscal Brasileiro Padrão para Documento Fiscal no Pagamento de "
+"Comissão."
 
 #. module: l10n_br_sale_commission
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_commission.res_config_settings_form_view
 msgid "Default Brazilian Fiscal Operation at Commission payment."
-msgstr ""
+msgstr "Operação Fiscal Brasileira Padrão para Pagamento de Comissão."
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,help:l10n_br_sale_commission.field_res_config_settings__commission_fiscal_operation_id
@@ -58,11 +60,13 @@ msgid ""
 "Default Brazilian Fiscal Operation for Fiscal Document at Commission "
 "payment."
 msgstr ""
+"Operação Fiscal Brasileira Padrão para Documento Fiscal no Pagamento de "
+"Comissão."
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,help:l10n_br_sale_commission.field_res_config_settings__commission_product_id
 msgid "Default Commission Product for invoicing."
-msgstr ""
+msgstr "Produto Padrão para Faturamento de Comissão."
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_res_config_settings__commission_document_type_id
@@ -77,12 +81,12 @@ msgstr "Operação Fiscal Padrão"
 #. module: l10n_br_sale_commission
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_commission.res_config_settings_form_view
 msgid "Default Product at Commission payment."
-msgstr ""
+msgstr "Produto Padrão para Pagamento de Comissão."
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_res_config_settings__commission_product_id
 msgid "Default Product for invoicing"
-msgstr ""
+msgstr "Produto Padrão para Faturamento"
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_account_move_line__display_name
@@ -107,7 +111,7 @@ msgstr "Operação Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_res_config_settings__commission_gen_br_fiscal_doc
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_sale_commission_make_invoice__commission_gen_br_fiscal_doc
 msgid "Generate Brazilian Fiscal Document"
-msgstr ""
+msgstr "Gerar Documento Fiscal Brasileiro"
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_account_move_line__id
@@ -116,7 +120,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_sale_commission_settlement__id
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_sale_order_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_sale_commission
 #: model:ir.model,name:l10n_br_sale_commission.model_account_move_line
@@ -136,7 +140,7 @@ msgstr "Última Modificação em"
 #: code:addons/l10n_br_sale_commission/models/settlement.py:0
 #, python-format
 msgid "Period: from %s to %s"
-msgstr ""
+msgstr "Período: de %s a %s"
 
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,field_description:l10n_br_sale_commission.field_sale_commission_make_invoice__product
@@ -157,7 +161,7 @@ msgstr ""
 #. module: l10n_br_sale_commission
 #: model:ir.model,name:l10n_br_sale_commission.model_sale_commission_settlement
 msgid "Settlement"
-msgstr ""
+msgstr "Liquidação"
 
 #. module: l10n_br_sale_commission
 #: model:product.product,uom_name:l10n_br_sale_commission.service_commission
@@ -172,8 +176,10 @@ msgid ""
 "When create the invoice for commission payment should generate Brazilian "
 "Fiscal Document."
 msgstr ""
+"Ao criar a fatura para pagamento de comissão, deve-se gerar um Documento "
+"Fiscal Brasileiro."
 
 #. module: l10n_br_sale_commission
 #: model:ir.model,name:l10n_br_sale_commission.model_sale_commission_make_invoice
 msgid "Wizard for making an invoice from a settlement"
-msgstr ""
+msgstr "Assistente para criação de uma fatura a partir de uma liquidação"
