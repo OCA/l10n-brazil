@@ -3,8 +3,9 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2024-04-29 19:55+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-05-20 22:42+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +33,7 @@ msgstr "Dados Adicionais"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__manual_additional_data
 msgid "Additional data manually entered by user"
-msgstr ""
+msgstr "Dados adicionais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__allow_csll_irpj
@@ -114,7 +115,7 @@ msgstr "Total sem desconto."
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Amounts"
-msgstr ""
+msgstr "Totais"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__ind_pres
@@ -409,7 +410,7 @@ msgstr "Custos de Entrega"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
 msgid "Demand"
-msgstr ""
+msgstr "Demanda"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_customhouse_charges
@@ -419,7 +420,7 @@ msgstr "Despesas Aduaneiras"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_id
 msgid "Destination Address "
-msgstr ""
+msgstr "Endereço do Destinatário "
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__discount_value
@@ -573,7 +574,7 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__has_fiscal_operation
 msgid "Has Fiscal Operation"
-msgstr ""
+msgstr "Possui Operação Fiscal"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_percent
@@ -945,7 +946,7 @@ msgstr "% Redução do IRPJ RET"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_base
 msgid "IRPJ RET Base"
-msgstr ""
+msgstr "IRPJ RET Base"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__irpj_wh_value
@@ -1091,6 +1092,8 @@ msgid ""
 "Invalid Journal! There is not journal defined for this company: {} in fiscal "
 "operation: {} !"
 msgstr ""
+"Diário inválido! Não há diário definido para esta empresa: {} na operação "
+"fiscal: {} !"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
