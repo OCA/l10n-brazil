@@ -131,56 +131,53 @@
                 >{'invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
               </xpath>
               <xpath
-                expr="//field[@name='order_line']/form/field[@name='name']"
-                position="after"
+                expr="//field[@name='order_line']/form/group/group[3]"
+                position="before"
             >
+                <group colspan="12">
                 <notebook
-                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
-                >
-                      <page
-                        name="fiscal_taxes"
-                        string="Taxes"
-                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
-                    />
-                      <page
-                        name="fiscal_line_extra_info"
-                        string="Extra Info"
-                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
-                    />
-                      <page
-                        name="others"
-                        string="Outros Custos"
-                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+(??)                    attrs="{'invisible': ['|', ('parent.fiscal_operation_id', '=', False), ('display_type', '!=', False)]}"
+(??)                >
+(??)                      <page
+(??)                        name="fiscal_taxes"
+(??)                        string="Taxes"
+(??)                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+(??)                    />
+(??)                      <page
+(??)                        name="fiscal_line_extra_info"
+(??)                        string="Extra Info"
+(??)                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+(??)                    />
+(??)                      <page
+(??)                        name="others"
+(??)                        string="Outros Custos"
+(??)                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
                     >
                           <group>
                               <field name="delivery_costs" invisible="1" />
                               <field
-                                name="freight_value"
-                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
-                            />
+                                    name="freight_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                />
                               <field
-                                name="insurance_value"
-                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
-                            />
+                                    name="insurance_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                />
                               <field
-                                name="other_value"
-                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
-                            />
+                                    name="other_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                />
                           </group>
                       </page>
-                      <page
-                        name="accounting"
-                        string="Accounting"
-                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
-                    >
+                      <page name="accounting" string="Accounting">
                           <group>
                               <field
-                                name="taxes_id"
-                                widget="many2many_tags"
-                                options="{'no_create': True}"
-                                context="{'search_view_ref': 'account.account_tax_view_search'}"
-                                domain="[('type_tax_use','=','purchase'),('company_id','=',parent.company_id)]"
-                            />
+                                    name="taxes_id"
+                                    widget="many2many_tags"
+                                    options="{'no_create': True}"
+                                    context="{'search_view_ref': 'account.account_tax_view_search'}"
+                                    domain="[('type_tax_use','=','purchase'),('company_id','=',parent.company_id)]"
+                                />
                           </group>
                       </page>
                           <!-- necessario incluir porque o attrs não funciona na tag Page apenas  na Notebook-->
@@ -188,12 +185,13 @@
                               <field name="name" />
                           </page>
                           <page
-                        string="Invoices and Incoming Shipments"
-                        name="invoices_incoming_shiptments"
-                    >
+                            string="Invoices and Incoming Shipments"
+                            name="invoices_incoming_shiptments"
+                        >
                               <field name="invoice_lines" />
                           </page>
-                  </notebook>
+                </notebook>
+                </group>
               </xpath>
               <xpath
                 expr="//field[@name='order_line']/form//field[@name='price_unit']"
