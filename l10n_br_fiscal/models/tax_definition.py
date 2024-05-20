@@ -371,6 +371,7 @@ class TaxDefinition(models.Model):
             cest = product.cest_id
 
         domain = [
+            ("state", "!=", "expired"),
             ("id", "in", self.ids),
             "|",
             ("state_to_ids", "=", False),
