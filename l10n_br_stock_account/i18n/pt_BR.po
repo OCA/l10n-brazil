@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2024-05-20 22:42+0000\n"
+"PO-Revision-Date: 2024-05-21 03:02+0000\n"
 "Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
 "translation.odoo-community.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1197,6 +1197,8 @@ msgid ""
 "Optional address where goods are to be delivered, specifically used for "
 "allotment"
 msgstr ""
+"Endereço opcional onde as mercadorias serão entregues, usado especificamente "
+"para loteamento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_other_value
@@ -1212,7 +1214,7 @@ msgstr "Outros Valores"
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Others"
-msgstr ""
+msgstr "Outros"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__pis_percent
