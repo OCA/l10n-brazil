@@ -5,14 +5,14 @@ import pkg_resources
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
 from odoo.models import NewId
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons.spec_driven_model import hooks
 
 _logger = logging.getLogger(__name__)
 
 
-class NFeImportTest(SavepointCase):
+class NFeImportTest(TransactionCase):
     def test_import_in_nfe_dry_run(self):
         hooks.register_hook(
             self.env,

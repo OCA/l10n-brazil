@@ -4,14 +4,14 @@ import re
 from unittest.mock import MagicMock, patch
 
 from odoo.exceptions import UserError
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
 
 from ..wizards.import_document import NfeImport
 
 
-class NFeImportWizardTest(SavepointCase):
+class NFeImportWizardTest(TransactionCase):
     def setUp(self):
         super(NFeImportWizardTest, self).setUp()
 
