@@ -6,7 +6,7 @@ from unittest import mock
 
 from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
 
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_fiscal_dfe.tests.test_dfe import (
     mocked_post_error_status_code,
@@ -17,7 +17,7 @@ from odoo.addons.l10n_br_fiscal_dfe.tests.test_dfe import (
 from ..models.mde import MDe
 
 
-class TestNFeDFe(SavepointCase):
+class TestNFeDFe(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -3,7 +3,7 @@
 
 from io import StringIO
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons.spec_driven_model import hooks
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
@@ -13,7 +13,7 @@ from ..models.document_line import NFeLine
 from ..models.document_related import NFeRelated
 
 
-class NFeStructure(SavepointCase):
+class NFeStructure(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
