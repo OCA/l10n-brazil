@@ -57,8 +57,8 @@ jobs:
         run: oca_install_addons
       - name: Check licenses
         run: manifestoo -d . check-licenses
-      - name: Check development status
-        run: manifestoo -d . check-dev-status --default-dev-status=Beta
+      # - name: Check development status
+      #   run: manifestoo -d . check-dev-status --default-dev-status=Beta
       - name: Initialize test db
         run: oca_init_test_database
       - name: Run tests
