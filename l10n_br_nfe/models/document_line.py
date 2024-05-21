@@ -126,6 +126,13 @@ class NFeLine(spec_models.StackedModel):
     ##########################
 
     ######################################
+    # NF-e tag: det
+    # Grupo I. Produtos e Serviços da NF-e
+    ######################################
+
+    nfe40_det_infNFe_id = fields.Many2one(related="document_id")
+
+    ######################################
     # NF-e tag: prod
     # Grupo I. Produtos e Serviços da NF-e
     ######################################
