@@ -20,12 +20,6 @@ def post_init_hook(cr, registry):
         env, "l10n_br_nfe", "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
     )
 
-    hooks.post_init_hook(
-        cr,
-        registry,
-        "l10n_br_nfe",
-        "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-    )
     cr.execute("select demo from ir_module_module where name='l10n_br_nfe';")
     is_demo = cr.fetchone()[0]
     if is_demo:

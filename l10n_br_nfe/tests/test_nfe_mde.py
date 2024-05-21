@@ -9,7 +9,7 @@ from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
 from nfelib.v4_00 import retEnvEvento
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_fiscal_dfe.tests.test_dfe import mocked_post_success_multiple
 
@@ -97,7 +97,7 @@ def mocked_post_nao_realizada(*args, **kwargs):
     )
 
 
-class TestMDe(SavepointCase):
+class TestMDe(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
