@@ -179,7 +179,6 @@ class ResPartner(spec_models.SpecModel):
     )
 
     is_anonymous_consumer = fields.Boolean(
-        string="Is Anonymous Consumer",
         help="Indicates that the partner is an anonymous consumer",
     )
 
