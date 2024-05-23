@@ -261,7 +261,7 @@ class NfeImportProducts(models.TransientModel):
     _name = "l10n_br_nfe.import_xml.products"
     _description = "Import XML NFe Products"
 
-    product_name = fields.Char(string="Product Name")
+    product_name = fields.Char()
 
     uom_com = fields.Char(string="UOM Comercial")
 
@@ -271,11 +271,11 @@ class NfeImportProducts(models.TransientModel):
 
     uom_trib = fields.Char(string="UOM Fiscal")
 
-    quantity_trib = fields.Float(string="Fiscal Quantity")
+    quantity_trib = fields.Float()
 
     price_unit_trib = fields.Float(string="Fiscal Price Unit")
 
-    total = fields.Float(string="Total")
+    total = fields.Float()
 
     import_xml_id = fields.Many2one(comodel_name="l10n_br_nfe.import_xml")
 
