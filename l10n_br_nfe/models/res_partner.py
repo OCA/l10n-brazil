@@ -383,7 +383,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.nfe40_xMun = rec.city_id.name
                 rec.nfe40_UF = rec.state_id.code
                 rec.nfe40_cPais = rec.country_id.bc_code
-                rec.nfe40_xPais = rec.country_id.name
+                rec.nfe40_xPais = rec.country_id.name.replace("Brazil", "Brasil")
             else:
                 rec.nfe40_xLgr = None
                 rec.nfe40_nro = None

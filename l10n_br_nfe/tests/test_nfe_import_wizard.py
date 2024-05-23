@@ -146,7 +146,7 @@ class NFeImportWizardTest(TransactionCase):
         first_product.product_supplier_id = self.env["product.supplierinfo"].create(
             {
                 "product_id": self.product_1.id,
-                "name": self.partner_1.id,
+                "partner_id": self.partner_1.id,
                 "partner_uom_id": self.env["uom.uom"].search([], limit=1).id,
                 "price": 100,
             }
