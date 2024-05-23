@@ -59,7 +59,7 @@ class TestNFeExport(TransactionCase):
         nfe.action_document_confirm()
         nfe.nfe40_cNF = "06277716"
         nfe.company_id.country_id.name = "Brasil"
-        nfe._document_export()
+        nfe.with_context(force_product_lang="en_US")._document_export()
 
     def serialize_xml(self, nfe_data):
         nfe = nfe_data["nfe"]

@@ -147,7 +147,7 @@ class NfeImport(models.TransientModel):
     def _search_product_supplier_by_product_code(self, code):
         return self.env["product.supplierinfo"].search(
             [
-                ("name", "=", self.partner_id.id),
+                ("partner_id", "=", self.partner_id.id),
                 ("product_code", "=", code),
             ],
             limit=1,
@@ -346,7 +346,7 @@ class NfeImportProducts(models.TransientModel):
                 "product_name": self.product_name,
                 "product_code": self.product_code,
                 "price": price,
-                "name": self.imported_partner_id.id,
+                "partner_id": self.imported_partner_id.id,
                 "partner_uom_id": self.uom_internal.id,
                 "partner_uom_factor": self.uom_conversion_factor,
             }
