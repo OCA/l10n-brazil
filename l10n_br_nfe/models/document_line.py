@@ -223,7 +223,11 @@ class NFeLine(spec_models.StackedModel):
         export_dict["cProd"] = nfe40_cProd
 
         nfe40_xProd = (
-            self.product_id.with_context(display_default_code=False).display_name
+            self.product_id.with_context(
+                display_default_code=False,
+                lang=self._context.get("force_product_lang")  # used for tests
+                or self._context.get("lang"),
+            ).display_name
             or self.name
             or ""
         )
