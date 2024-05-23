@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-29 19:55+0000\n"
+"PO-Revision-Date: 2024-05-23 13:37+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -2150,7 +2150,7 @@ msgstr "Cervejas, chopes, refrigerantes, águas e outras bebidas"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__is_company
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__is_company
 msgid "Check if the contact is a company, otherwise it is a person"
-msgstr "Marque se o contato é uma empresa, de outra forma é uma pessoa"
+msgstr "Marque se o contato é uma empresa, caso contrário, é uma pessoa"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.service_type_form
@@ -2337,13 +2337,13 @@ msgstr "Empresa"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_cnpj_cpf
 msgid "Company CNPJ"
-msgstr "CNPJ"
+msgstr "CNPJ da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_city_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_city_id
 msgid "Company City"
-msgstr "Cidade da empresa"
+msgstr "Cidade da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_country_id
@@ -2361,7 +2361,7 @@ msgstr "Bairro da Empresa"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_legal_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_legal_name
 msgid "Company Legal Name"
-msgstr "Nome Legal da Empresa"
+msgstr "Razão Social da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_cnae_main_id
@@ -2373,7 +2373,7 @@ msgstr "CNAE Principal da Empresa"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_inscr_mun
 msgid "Company Municipal Tax Number"
-msgstr "Número de Impostos Municipais da Empresa"
+msgstr "Número de Inscrição Municipal da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_name
@@ -2385,7 +2385,7 @@ msgstr "Nome da Empresa"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_number
 msgid "Company Number"
-msgstr "Número"
+msgstr "Número da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_phone
@@ -2403,7 +2403,7 @@ msgstr "Estado da Empresa"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_inscr_est
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_inscr_est
 msgid "Company State Tax Number"
-msgstr "Número da Inscrição Estadual"
+msgstr "Número da Inscrição Estadual da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_street
@@ -2415,20 +2415,20 @@ msgstr "Rua da Empresa"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_street2
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_street2
 msgid "Company Street2"
-msgstr "Empresa Rua2"
+msgstr "Completo do Endereço da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_suframa
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_suframa
 msgid "Company Suframa"
-msgstr "Empresa Suframa"
+msgstr "Suframa da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
 msgid "Company Tax Framework"
-msgstr "Marco fiscal da empresa"
+msgstr "Estrutura Tributária da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_company_type
@@ -3630,7 +3630,7 @@ msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_base_wizard_mixin
 msgid "Fiscal Base Wizard Mixin"
-msgstr ""
+msgstr "Assistente de Base Fiscal Mixin"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_comment
@@ -3677,12 +3677,12 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_cancel_wizard
 msgid "Fiscal Document Cancel Wizard"
-msgstr "Assistente de cancelamento de documento fiscal"
+msgstr "Assistente de Cancelamento de Documento Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_correction_wizard
 msgid "Fiscal Document Correction Wizard"
-msgstr "Assistente de correção de documentos fiscais"
+msgstr "Assistente de Correção de Documento Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_email__email_template_id
@@ -3908,7 +3908,7 @@ msgstr "Estimativa de Impostos Fiscais"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cst__tax_group_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__tax_group_id
 msgid "Fiscal Tax Group"
-msgstr "Grupo Tributário Fiscal"
+msgstr "Grupo de Imposto Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_tax_ids
@@ -7879,7 +7879,7 @@ msgstr "Nome do Parceiro"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__partner_number
 msgid "Partner Number"
-msgstr "Número do parceiro"
+msgstr "Número do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_order
@@ -7927,7 +7927,7 @@ msgstr "Rua do Parceiro"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_street2
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__partner_street2
 msgid "Partner Street2"
-msgstr "Rua2 do Parceiro"
+msgstr "Complemento da Rua do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__partner_tax_framework
@@ -7938,7 +7938,7 @@ msgstr "Framework Fiscal do Parceiro"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_zip
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__partner_zip
 msgid "Partner Zip"
-msgstr "Parceiro Zip"
+msgstr "Cep do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_company__anonymous_partner_id
