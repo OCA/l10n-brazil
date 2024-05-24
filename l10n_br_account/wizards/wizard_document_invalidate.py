@@ -9,6 +9,5 @@ class InvalidateNumberWizard(models.TransientModel):
 
     def do_invalidate(self):
         result = super().do_invalidate()
-        if self.move_id:
-            self.move_id.button_cancel()
+        self.document_id.cancel_move_ids()
         return result
