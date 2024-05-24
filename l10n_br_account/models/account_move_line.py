@@ -208,6 +208,7 @@ class AccountMoveLine(models.Model):
                         amount_tax_not_included=values.get(
                             "amount_tax_not_included", 0
                         ),
+                        amount_tax_withholding=values.get("amount_tax_withholding", 0),
                         amount_total=fiscal_line.amount_total,
                         currency_id=move_id.currency_id,
                         company_id=move_id.company_id,
@@ -216,21 +217,52 @@ class AccountMoveLine(models.Model):
                     )
                 )
         self._inject_shadowed_fields(vals_list)
-        results = super(
+
+        # This reordering bellow is crucial to ensure accurate linkage between
+        # account.move.line (aml) and the fiscal document line. In the fiscal create a
+        # fiscal document line, leaving only those that should be created. Proper
+        # ordering is essential as mismatches between the order of amls and the
+        # manipulated vals_list of fiscal documents can lead to incorrect linkages.
+        # For example, if vals_list[0] in amls does not match vals_list[0] in the
+        # fiscal document (which is a manipulated vals_list), it results in erroneous
+        # associations.
+
+        # Add index to each dictionary in vals_list
+        indexed_vals_list = [(idx, val) for idx, val in enumerate(vals_list)]
+
+        # Reorder vals_list so lines with fiscal_operation_line_id will
+        # be created first
+        sorted_indexed_vals_list = sorted(
+            indexed_vals_list,
+            key=lambda x: not x[1].get("fiscal_operation_line_id"),
+        )
+        original_indexes = [idx for idx, _ in sorted_indexed_vals_list]
+        vals_list = [val for _, val in sorted_indexed_vals_list]
+
+        # Create the records
+        result = super(
             AccountMoveLine, self.with_context(create_from_move_line=True)
         ).create(vals_list)
 
-        # Unfortunately when creating several aml there is no way to selectively avoid
-        # the creation of l10n_br_fiscal.document.line as it would mess the association
-        # of the remaining fiscal document lines with their proper aml. That's why we
-        # remove the useless fiscal document lines here.
-        for line in results:
-            if not line.move_id.fiscal_document_id or line.exclude_from_invoice_tab:
-                fiscal_line_to_delete = line.fiscal_document_line_id
-                line.fiscal_document_line_id = False
-                fiscal_line_to_delete.sudo().unlink()
+        # Initialize the inverted index list with the same length as the original list
+        inverted_index = [0] * len(original_indexes)
 
-        return results
+        # Iterate over the original_indexes list and fill the inverted_index list accordingly
+        for i, val in enumerate(original_indexes):
+            inverted_index[val] = i
+
+        # Re-order the result according to the initial vals_list order
+        sorted_result = self.env["account.move.line"]
+        for idx in inverted_index:
+            sorted_result |= result[idx]
+
+        for line in sorted_result:
+            # Forces the recalculation of price_total and price_subtotal fields which are
+            # recalculated by super
+            if line.move_id.company_id.country_id.code == "BR":
+                line.update(line._get_price_total_and_subtotal())
+
+        return sorted_result
 
     def write(self, values):
         if values.get("product_uom_id"):
@@ -270,6 +302,7 @@ class AccountMoveLine(models.Model):
                     exclude_from_invoice_tab=line.exclude_from_invoice_tab,
                     amount_tax_included=line.amount_tax_included,
                     amount_tax_not_included=line.amount_tax_not_included,
+                    amount_tax_withholding=line.amount_tax_withholding,
                     amount_total=line.amount_total,
                     currency_id=line.currency_id,
                     company_id=line.company_id,
@@ -307,19 +340,22 @@ class AccountMoveLine(models.Model):
         price_subtotal,
         force_computation=False,
     ):
-        if self.env.company.country_id.code != "BR":
-            return super()._get_fields_onchange_balance_model(
-                quantity=quantity,
-                discount=discount,
-                amount_currency=amount_currency,
-                move_type=move_type,
-                currency=currency,
-                taxes=taxes,
-                price_subtotal=price_subtotal,
-                force_computation=force_computation,
-            )
+        res = super()._get_fields_onchange_balance_model(
+            quantity=quantity,
+            discount=discount,
+            amount_currency=amount_currency,
+            move_type=move_type,
+            currency=currency,
+            taxes=taxes,
+            price_subtotal=price_subtotal,
+            force_computation=force_computation,
+        )
+        if (self.env.company.country_id.code == "BR") and (
+            not self.exclude_from_invoice_tab and "price_unit" in res
+        ):
+            res = {}
 
-        return {}
+        return res
 
     def _get_price_total_and_subtotal(
         self,
@@ -354,6 +390,7 @@ class AccountMoveLine(models.Model):
                 icmssn_range=self.icmssn_range_id,
                 icms_origin=self.icms_origin,
                 ind_final=self.ind_final,
+                icms_relief_value=self.icms_relief_value,
             ),
         )._get_price_total_and_subtotal(
             price_unit=price_unit or self.price_unit,
@@ -400,6 +437,7 @@ class AccountMoveLine(models.Model):
         other_value = self.env.context.get("other_value", 0)
         freight_value = self.env.context.get("other_value", 0)
         ii_customhouse_charges = self.env.context.get("ii_customhouse_charges", 0)
+        icms_relief_value = self.env.context.get("icms_relief_value", 0)
 
         # Compute 'price_total'.
         if taxes:
@@ -438,7 +476,11 @@ class AccountMoveLine(models.Model):
             result["price_total"] = taxes_res["total_included"]
 
         result["price_total"] = (
-            result["price_total"] + insurance_value + other_value + freight_value
+            result["price_total"]
+            + insurance_value
+            + other_value
+            + freight_value
+            - icms_relief_value
         )
 
         return result
@@ -550,6 +592,7 @@ class AccountMoveLine(models.Model):
         exclude_from_invoice_tab=None,
         amount_tax_included=None,
         amount_tax_not_included=None,
+        amount_tax_withholding=None,
         amount_total=None,
         currency_id=None,
         company_id=None,
@@ -571,6 +614,9 @@ class AccountMoveLine(models.Model):
             amount_tax_not_included=self.amount_tax_not_included
             if amount_tax_not_included is None
             else amount_tax_not_included,
+            amount_tax_withholding=self.amount_tax_withholding
+            if amount_tax_withholding is None
+            else amount_tax_withholding,
             amount_total=self.amount_total if amount_total is None else amount_total,
             currency_id=self.currency_id if currency_id is None else currency_id,
             company_id=self.company_id if company_id is None else company_id,
@@ -586,6 +632,7 @@ class AccountMoveLine(models.Model):
         exclude_from_invoice_tab,
         amount_tax_included,
         amount_tax_not_included,
+        amount_tax_withholding,
         amount_total,
         currency_id,
         company_id,
@@ -604,10 +651,13 @@ class AccountMoveLine(models.Model):
             amount_currency = 0
         else:
             if move_id.fiscal_operation_id.deductible_taxes:
-                amount_currency = amount_total
+                amount_currency = amount_total + amount_tax_withholding
             else:
+                amount_total = amount_total + amount_tax_withholding
                 amount_currency = (
-                    amount_total - amount_tax_included - amount_tax_not_included
+                    amount_total
+                    - (amount_tax_included - amount_tax_withholding)
+                    - amount_tax_not_included
                 )
 
         amount_currency = amount_currency * sign

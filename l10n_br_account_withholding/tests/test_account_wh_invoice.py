@@ -94,7 +94,7 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "discount": 0.0,
             "price_unit": 1000.0,
             "price_subtotal": 1000.0,
-            "price_total": 1000.0,
+            "price_total": 1050.0,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": 1050.0,
@@ -114,9 +114,9 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -30.0,
+            "price_subtotal": -30.0,
+            "price_total": -30.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "COFINS WH Entrada")], order="id DESC", limit=1)
@@ -139,9 +139,9 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 120.0,
+            "price_subtotal": 120.0,
+            "price_total": 120.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Entrada")], order="id DESC", limit=1)
@@ -164,9 +164,9 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -120.0,
+            "price_subtotal": -120.0,
+            "price_total": -120.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "ICMS Entrada Dedutível")], order="id desc", limit=1)
@@ -189,9 +189,9 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": 50.0,
+            "price_subtotal": 50.0,
+            "price_total": 50.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Entrada")], order="id desc", limit=1)
@@ -214,9 +214,9 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -50.0,
+            "price_subtotal": -50.0,
+            "price_total": -50.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "IPI Entrada Dedutível")], order="id desc", limit=1)
@@ -239,9 +239,9 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -6.5,
+            "price_subtotal": -6.5,
+            "price_total": -6.5,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
             .search([("name", "=", "PIS WH Entrada")], order="id desc", limit=1)
@@ -262,9 +262,9 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             "product_uom_id": False,
             "quantity": 1.0,
             "discount": 0.0,
-            "price_unit": 0.0,
-            "price_subtotal": 0.0,
-            "price_total": 0.0,
+            "price_unit": -1013.5,
+            "price_subtotal": -1013.5,
+            "price_total": -1013.5,
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,

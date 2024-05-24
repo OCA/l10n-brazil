@@ -14,11 +14,11 @@ class RepairOrder(models.Model):
 
     @api.model
     def _default_fiscal_operation(self):
-        return self.env.user.company_id.repair_fiscal_operation_id
+        return self.env.company.repair_fiscal_operation_id
 
     @api.model
     def _default_copy_note(self):
-        return self.env.user.company_id.copy_repair_quotation_notes
+        return self.env.company.copy_repair_quotation_notes
 
     @api.model
     def _fiscal_operation_domain(self):
