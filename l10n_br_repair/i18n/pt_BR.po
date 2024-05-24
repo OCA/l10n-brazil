@@ -7,9 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-28 01:20+0000\n"
-"PO-Revision-Date: 2024-05-20 16:37+0000\n"
-"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
-"translation.odoo-community.org>\n"
+"PO-Revision-Date: 2024-05-24 22:49+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -275,7 +274,7 @@ msgstr "% Redução de RETENÇÃO de COFINS"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cofins_wh_base
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr "Base para COFINS RET"
+msgstr "Base para RET COFINS"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cofins_wh_value
@@ -744,7 +743,7 @@ msgstr "Valor do Frete"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_gross
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_gross
 msgid "Gross Amount"
-msgstr "Quantidade Bruta"
+msgstr "Total Bruto"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_percent
