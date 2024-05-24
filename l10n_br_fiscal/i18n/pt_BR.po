@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-05-23 13:37+0000\n"
+"PO-Revision-Date: 2024-05-24 22:48+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -1062,7 +1062,7 @@ msgstr "Dados Adicionais"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__manual_additional_data
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__manual_additional_data
 msgid "Additional data manually entered by user"
-msgstr "Dado adicional manualmente inserido pelo usuário"
+msgstr "Dados adicionais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
@@ -1755,7 +1755,7 @@ msgstr "% Redução de RETENÇÃO de COFINS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_wh_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr "Base para COFINS RET"
+msgstr "Base para RET COFINS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_wh_value
