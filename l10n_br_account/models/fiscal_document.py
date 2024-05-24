@@ -160,3 +160,21 @@ class FiscalDocument(models.Model):
         """
         for doc in self:
             doc.move_ids.message_post(**kwargs)
+
+    def cancel_move_ids(self):
+        for record in self:
+            if record.move_ids:
+                self.move_ids.button_cancel()
+
+    def _document_cancel(self, justificative):
+        result = super()._document_cancel(justificative)
+        msg = "Cancelamento: {}".format(justificative)
+        self.cancel_move_ids()
+        self.message_post(body=msg)
+        return result
+
+    def _document_correction(self, justificative):
+        result = super()._document_correction(justificative)
+        msg = "Carta de correção: {}".format(justificative)
+        self.message_post(body=msg)
+        return result
