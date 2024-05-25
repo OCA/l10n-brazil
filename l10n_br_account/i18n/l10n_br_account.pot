@@ -912,11 +912,6 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_base_wizard_mixin
-msgid "Fiscal Base Wizard Mixin"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_company_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_company_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_company_id
@@ -943,16 +938,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_document_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_document_id
 msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_cancel_wizard
-msgid "Fiscal Document Cancel Wizard"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_correction_wizard
-msgid "Fiscal Document Correction Wizard"
 msgstr ""
 
 #. module: l10n_br_account
@@ -1741,16 +1726,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__invalidate_protocol_number
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__invalidate_protocol_number
 msgid "Invalidate Protocol Number"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__move_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard__move_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_correction_wizard__move_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard_mixin__move_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_status_wizard__move_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard__move_id
-msgid "Invoice"
 msgstr ""
 
 #. module: l10n_br_account
