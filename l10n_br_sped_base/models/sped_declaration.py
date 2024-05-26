@@ -27,19 +27,6 @@ class SpedDeclaration(models.AbstractModel):
         dt = fields.Date.context_today(self)
         return dt.replace(year=dt.year + 1)
 
-    def name_get(self):
-        res = []
-        for declaration in self:
-            name = "%s-%s-%s" % (
-                declaration.DT_FIN.month
-                if declaration.DT_FIN.month > 9
-                else "0" + str(declaration.DT_FIN.month),
-                declaration.DT_FIN.year,
-                declaration.company_id.name.replace(" ", "_"),
-            )
-            res.append((declaration.id, name))
-        return res
-
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
@@ -71,10 +58,20 @@ class SpedDeclaration(models.AbstractModel):
     sped_attachment_id = fields.Many2one("ir.attachment", string="Sped Attachment")
 
     @api.model
-    def _get_kind(self):
+    def _get_kind(self) -> str:
         return self._name.replace(".0000", "").split(".")[-1]
 
+    def name_get(self):
+        return [
+            (
+                declaration.id,
+                f"{declaration.DT_FIN:%m-%Y}-{declaration.company_id.name.replace(' ', '_')}",
+            )
+            for declaration in self
+        ]
+
     def button_populate_sped_from_odoo(self):
+        """Populate SPED registers from Odoo."""
         # TODO add cron pulling from Odoo for open declarations
         log_msg = StringIO()
         log_msg.write("<h3>%s</h3>" % (_("Pulled from Odoo:"),))
@@ -104,10 +101,11 @@ class SpedDeclaration(models.AbstractModel):
         self.state = "draft"
 
     def button_create_sped_file(self):
+        """Generate and attach the SPED file."""
         self.ensure_one()
         sped_txt = self._generate_sped_text()
         kind = self._get_kind()
-        file_name = kind + "-" + self.name_get()[0][1] + ".txt"
+        file_name = f"{kind}-{self.name_get()[0][1]}.txt"
         self.sped_attachment_id = self.env["ir.attachment"].create(
             {
                 "name": file_name,
@@ -133,6 +131,7 @@ class SpedDeclaration(models.AbstractModel):
 
     @api.model
     def _append_view_header(self, form):
+        """Append custom buttons to the form view header."""
         header = E.header()
         header.append(
             E.button(
@@ -190,6 +189,7 @@ class SpedDeclaration(models.AbstractModel):
 
     @api.model
     def _append_view_footer(self, form):
+        """Append the chatter elements to the form view footer."""
         div = E.div(
             name="message_follower_ids",
         )
@@ -200,18 +200,12 @@ class SpedDeclaration(models.AbstractModel):
 
     @api.model
     def _append_top_view_elements(self, group, inline=False):
+        """Append top-level elements to the form view."""
         group.append(E.field(name="company_id"))
         group.append(E.separator(colspan="4"))
 
     def _generate_sped_text(self, version=None):
-        """
-        Generate SPED text from Odoo declaration records.
-
-        :param declaration: Odoo declaration record.
-        :param version: SPED layout version (optional).
-        :return: SPED text as a string.
-        """
-
+        """Generate SPED text from Odoo declaration records."""
         self.ensure_one()
         kind = self._get_kind()
         if version is None:
@@ -219,7 +213,6 @@ class SpedDeclaration(models.AbstractModel):
         top_register_classes = self._get_top_registers(kind)
         sped = StringIO()
         last_bloco = None
-        bloco = None
         line_total = 0
         # mutable register line_count https://stackoverflow.com/a/15148557
         line_count = [0]
@@ -260,12 +253,9 @@ class SpedDeclaration(models.AbstractModel):
             last_bloco = bloco
 
         # close the last register:
-        if (
-            kind == "ecf"
-        ):  # WTF why is it different for ecf?? You kidding me? or is it an error?
-            sped.write("\n|" + bloco + "099|%s|" % (line_count[0] + 1,))
-        else:
-            sped.write("\n|" + bloco + "990|%s|" % (line_count[0] + 1,))
+        # closing_register = "099" if kind == "ecf" else "990"
+        # sped.write(f"\n|{bloco}{closing_register}|{line_count[0] + 1}|")
+        sped.write(f"\n|{bloco}990|{line_count[0] + 1}|")
 
         # totals:
         sped.write("\n|9001|0|")
