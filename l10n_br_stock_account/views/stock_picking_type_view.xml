@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="code" position="after">
                 <field name="fiscal_operation_id" />
+                <field name="pre_generate_fiscal_document_number" />
             </field>
         </field>
     </record>
