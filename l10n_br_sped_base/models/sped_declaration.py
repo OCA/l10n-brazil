@@ -55,7 +55,7 @@ class SpedDeclaration(models.AbstractModel):
         default=_get_default_dt_fin,
     )
 
-    sped_attachment_id = fields.Many2one("ir.attachment", string="Sped Attachment")
+    split_sped_by_bloco = fields.Boolean()
 
     @api.model
     def _get_kind(self) -> str:
@@ -86,7 +86,7 @@ class SpedDeclaration(models.AbstractModel):
             ._get_top_registers(kind)
         )
         for register in top_registers:
-            register.pull_records_from_odoo(kind, level=2, log_msg=log_msg)
+            register._pull_records_from_odoo(kind, level=2, log_msg=log_msg)
 
         self.message_post(body=log_msg.getvalue())
 
@@ -100,22 +100,54 @@ class SpedDeclaration(models.AbstractModel):
     def button_draft(self):
         self.state = "draft"
 
-    def button_create_sped_file(self):
+    def button_create_sped_files(self):
         """Generate and attach the SPED file."""
         self.ensure_one()
         sped_txt = self._generate_sped_text()
+
+        if self.split_sped_by_bloco:
+            attachment_vals = self._split_sped_text_by_bloco(sped_txt)
+        else:
+            attachment_vals = [self._create_sped_attachment(sped_txt)]
+        self.env["ir.attachment"].create(attachment_vals)
+
+    def _split_sped_text_by_bloco(self, sped_txt):
+        blocos = {}
+        # Split the text by bloco
+        current_bloco = None
+        for line in sped_txt.splitlines():
+            if line.startswith(("|0", "|9")):
+                continue
+            current_bloco = line[1]
+            if current_bloco not in blocos:
+                blocos[current_bloco] = []
+            if current_bloco:
+                blocos[current_bloco].append(line)
+
+        attachments_vals = []
+        for bloco, lines in blocos.items():
+            if len(lines) < 3:  # empty bloco
+                continue
+            bloco_txt = "\n".join(lines)
+            attachments_vals.append(self._create_sped_attachment(bloco_txt, bloco))
+
+        return attachments_vals
+
+    def _create_sped_attachment(self, text, bloco=None):
         kind = self._get_kind()
-        file_name = f"{kind}-{self.name_get()[0][1]}.txt"
-        self.sped_attachment_id = self.env["ir.attachment"].create(
-            {
-                "name": file_name,
-                "res_model": self._name,
-                "res_id": self.id,
-                "datas": base64.b64encode(sped_txt.encode()),
-                "mimetype": "application/txt",
-                "type": "binary",
-            }
-        )
+        if bloco:
+            file_name = f"{kind.upper()}-bloco_{bloco}-{self.name_get()[0][1]}.txt"
+        else:
+            file_name = f"{kind.upper()}-{self.name_get()[0][1]}.txt"
+
+        return {
+            "name": file_name,
+            "res_model": self._name,
+            "res_id": self.id,
+            "datas": base64.b64encode(text.encode()),
+            "mimetype": "application/txt",
+            "type": "binary",
+        }
 
     @api.onchange("company_id")
     def onchange_company_id(self):
@@ -175,7 +207,7 @@ class SpedDeclaration(models.AbstractModel):
         )
         header.append(
             E.button(
-                name="button_create_sped_file",
+                name="button_create_sped_files",
                 type="object",
                 states="done",
                 string="Generate SPED File",
@@ -202,6 +234,7 @@ class SpedDeclaration(models.AbstractModel):
     def _append_top_view_elements(self, group, inline=False):
         """Append top-level elements to the form view."""
         group.append(E.field(name="company_id"))
+        group.append(E.field(name="split_sped_by_bloco"))
         group.append(E.separator(colspan="4"))
 
     def _generate_sped_text(self, version=None):
