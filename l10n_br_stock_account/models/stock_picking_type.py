@@ -12,3 +12,15 @@ class StockPickingType(models.Model):
         string="Default Fiscal Operation",
         domain="[('state', '=', 'approved')]",
     )
+
+    pre_generate_fiscal_document_number = fields.Selection(
+        selection=[
+            ("none", "None"),
+            ("pack", "Pack"),
+            ("validate", "Validate"),
+            ("invoice_wizard", "Invoice Create Wizard"),
+        ],
+        default="none",
+        string="Pré generate Fiscal Document Number",
+        help="Check this box if you want to generate fiscal document for this operation.",
+    )
