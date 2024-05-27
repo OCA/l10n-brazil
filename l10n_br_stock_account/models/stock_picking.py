@@ -87,3 +87,34 @@ class StockPicking(models.Model):
             }
 
         return order_view
+
+    def _put_in_pack(self, move_line_ids, create_package_level=True):
+        package = super()._put_in_pack(move_line_ids, create_package_level)
+        if (
+            package
+            and self.picking_type_id.pre_generate_fiscal_document_number == "pack"
+        ):
+            self._generate_document_number()
+        return package
+
+    def button_validate(self):
+        result = super().button_validate()
+        for record in self:
+            if (
+                record.state == "done"
+                and record.picking_type_id.pre_generate_fiscal_document_number
+                == "validate"
+            ):
+                record._generate_document_number()
+        return result
+
+    def _generate_document_number(self):
+        if self.company_id.document_type_id and self.fiscal_operation_id:
+            if self.document_serie and self.document_number:
+                return
+            self.document_type_id = self.company_id.document_type_id
+            self.document_serie_id = self.document_type_id.get_document_serie(
+                self.company_id, self.fiscal_operation_id
+            )
+            self.document_serie = self.document_serie_id.code
+            self.document_number = self.document_serie_id.next_seq_number()
