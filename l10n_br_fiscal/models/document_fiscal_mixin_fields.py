@@ -443,3 +443,27 @@ class FiscalDocumentMixinFields(models.AbstractModel):
     )
 
     force_compute_delivery_costs_by_total = fields.Boolean(default=False)
+
+    document_type_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.type",
+    )
+
+    document_serie_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.serie",
+        domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
+    )
+
+    document_serie = fields.Char(
+        string="Serie Number",
+    )
+
+    document_number = fields.Char(
+        copy=False,
+        index=True,
+    )
+
+    document_key = fields.Char(
+        string="Key",
+        copy=False,
+        index=True,
+    )
