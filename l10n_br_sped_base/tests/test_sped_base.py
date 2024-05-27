@@ -94,6 +94,7 @@ class TestSpedBase(SavepointCase, FakeModelLoader):
             target_content = f.read()
             # print(sped)
             self.assertEqual(sped.strip(), target_content.strip())
+        self.assertEqual(len(self.declaration._split_sped_text_by_bloco(sped)), 2)
 
     def test_register_tree_view(self):
         arch = self.env["l10n_br_sped.fake.i010"].fields_view_get(view_type="tree")[
