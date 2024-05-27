@@ -20,7 +20,11 @@ class SpedTest(common.TransactionCase):
         sped_mixin = self.env["l10n_br_sped.mixin"]
         declaration = sped_mixin._import_file(file_path, "ecd")
         sped = declaration._generate_sped_text()
+        # IMPORTANT: to complete the test, we also manually tested that the
+        # generated SPED file can be imported in the
+        # free Java SPED transmissor app.
         with open(file_path) as f:
             target_content = f.read()
             # print(sped)
             self.assertEqual(sped.strip(), target_content.strip())
+        self.assertEqual(len(declaration._split_sped_text_by_bloco(sped)), 2)
