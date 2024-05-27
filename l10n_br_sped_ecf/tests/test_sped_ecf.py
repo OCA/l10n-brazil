@@ -14,13 +14,13 @@ class SpedTest(common.TransactionCase):
         super().setUpClass()
         cls.demo_path = path.join(l10n_br_sped_ecf.__path__[0], "demo")
 
-    # FIXME: the demo file is broken
-    # def test_import_ecf(self):
-    #     self.env["l10n_br_sped.mixin"]._flush_registers("ecf")
-    #     file_path = path.join(self.demo_path, "demo_ecf.txt")
-    #     self.env["l10n_br_sped.mixin"]._import_file(file_path, "ecf")
-    #     sped = self.env["l10n_br_sped.mixin"]._generate_sped_text("ecf")
-    #     with open(file_path) as f:
-    #         target_content = f.read()
-    #         self.assertEqual(sped.strip(), target_content.strip())
-    #     print(sped)
+    def test_import_ecf(self):
+        self.env["l10n_br_sped.mixin"]._flush_registers("ecf")
+        file_path = path.join(self.demo_path, "demo_ecf.txt")
+        sped_mixin = self.env["l10n_br_sped.mixin"]
+        declaration = sped_mixin._import_file(file_path, "ecf")
+        sped = declaration._generate_sped_text()
+        with open(file_path) as f:
+            target_content = f.read()
+            # print(sped)
+            self.assertEqual(sped.strip(), target_content.strip())
