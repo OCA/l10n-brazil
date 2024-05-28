@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-05-24 22:49+0000\n"
+"PO-Revision-Date: 2024-05-28 22:43+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -881,70 +881,70 @@ msgstr "Valor do IPI"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_percent
 msgid "IRPJ %"
-msgstr "IRPJ %"
+msgstr "% IRPJ"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_reduction
 msgid "IRPJ % Reduction"
-msgstr "Redução de IRPJ %"
+msgstr "% Redução do IRPJ"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_irpj_base
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_base
 msgid "IRPJ Base"
-msgstr "Base de IRPJ"
+msgstr "Base do IRPJ"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_wh_percent
 msgid "IRPJ RET %"
-msgstr "Retenção de IRPJ %"
+msgstr "% RET IRPJ"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_wh_reduction
 msgid "IRPJ RET % Reduction"
-msgstr "Redução de Retenção de IRPJ %"
+msgstr "% Redução do IRPJ RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_wh_base
 msgid "IRPJ RET Base"
-msgstr "Base de Retenção de IRPJ"
+msgstr "Base do IRPJ RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_wh_value
 msgid "IRPJ RET Value"
-msgstr "Valor de Retenção de IRPJ"
+msgstr "Valor do IRPJ RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_irpj_wh_base
 msgid "IRPJ Ret Base"
-msgstr "Base de Retenção de IRPJ"
+msgstr "Base do IRPJ Ret"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_irpj_wh_value
 msgid "IRPJ Ret Value"
-msgstr "Valor de Retenção de IRPJ"
+msgstr "Valor do IRPJ Ret"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_irpj_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__irpj_value
 msgid "IRPJ Value"
-msgstr "Valor de IRPJ"
+msgstr "Valor do IRPJ"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_percent
 msgid "ISSQN %"
-msgstr "ISSQN %"
+msgstr "% ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_reduction
 msgid "ISSQN % Reduction"
-msgstr "Redução de ISSQN %"
+msgstr "% de Redução do ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_issqn_base
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_base
 msgid "ISSQN Base"
-msgstr "Base de ISSQN"
+msgstr "Base do ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_fg_city_id
@@ -954,17 +954,17 @@ msgstr "Cidade do ISSQN"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_deduction_amount
 msgid "ISSQN Deduction Value"
-msgstr "Valor da Dedução de ISSQN"
+msgstr "Valor de Dedução do ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_desc_cond_amount
 msgid "ISSQN Discount Cond"
-msgstr "Desconto Condicional de ISSQN"
+msgstr "Desconto Cond. do ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_desc_incond_amount
 msgid "ISSQN Discount Incond"
-msgstr "Desconto Incondicional de ISSQN"
+msgstr "Desconto Incond. do ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_eligibility
@@ -974,22 +974,22 @@ msgstr "Elegibilidade do ISSQN"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_incentive
 msgid "ISSQN Incentive"
-msgstr "Incentivo do ISSQN"
+msgstr "Incentivo ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_other_amount
 msgid "ISSQN Other Value"
-msgstr "Outro Valor de ISSQN"
+msgstr "Outro Valor ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_wh_percent
 msgid "ISSQN RET %"
-msgstr "Retenção de ISSQN %"
+msgstr "% RET ISSQN"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_wh_reduction
 msgid "ISSQN RET % Reduction"
-msgstr "Redução de Retenção de ISSQN %"
+msgstr "% de Redução ISSQN RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__issqn_wh_base
