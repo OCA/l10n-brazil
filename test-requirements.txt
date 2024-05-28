@@ -2,3 +2,4 @@ vcrpy  # Needed by payment_pagseguro
 odoo-test-helper  # Needed by spec_driven_model
 signxml<3.1.0
 xmldiff
+odoo14-addon-l10n_br_sped_base @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/3100/head#subdirectory=setup/l10n_br_sped_base
