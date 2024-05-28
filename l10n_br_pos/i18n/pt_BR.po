@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2024-05-24 22:49+0000\n"
+"PO-Revision-Date: 2024-05-28 22:42+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1572,107 +1572,104 @@ msgstr "Valor do IPI"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_percent
 msgid "IRPJ %"
-msgstr ""
+msgstr "% IRPJ"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_reduction
 msgid "IRPJ % Reduction"
-msgstr "Redução de % IRPJ"
+msgstr "% Redução do IRPJ"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_irpj_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_base
 msgid "IRPJ Base"
-msgstr ""
+msgstr "Base do IRPJ"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_wh_percent
 msgid "IRPJ RET %"
-msgstr ""
+msgstr "% RET IRPJ"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_wh_reduction
 msgid "IRPJ RET % Reduction"
-msgstr "IrPJ RET % Redução"
+msgstr "% Redução do IRPJ RET"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_wh_base
-#, fuzzy
 msgid "IRPJ RET Base"
-msgstr "Valor RET IRPJ"
+msgstr "Base do IRPJ RET"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_wh_value
 msgid "IRPJ RET Value"
-msgstr "Valor RET IRPJ"
+msgstr "Valor do IRPJ RET"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_irpj_wh_base
-#, fuzzy
 msgid "IRPJ Ret Base"
-msgstr "Valor RET IRPJ"
+msgstr "Base do IRPJ Ret"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_irpj_wh_value
-#, fuzzy
 msgid "IRPJ Ret Value"
-msgstr "Valor RET IRPJ"
+msgstr "Valor do IRPJ Ret"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_irpj_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__irpj_value
 msgid "IRPJ Value"
-msgstr "Valor IRPJ"
+msgstr "Valor do IRPJ"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_percent
 msgid "ISSQN %"
-msgstr "ISSQN"
+msgstr "% ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_reduction
 msgid "ISSQN % Reduction"
-msgstr "Redução de % issqn"
+msgstr "% de Redução do ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_issqn_base
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_base
 msgid "ISSQN Base"
-msgstr ""
+msgstr "Base do ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_fg_city_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_fg_city_id
 msgid "ISSQN City"
-msgstr ""
+msgstr "Cidade do ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_deduction_amount
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_deduction_amount
 msgid "ISSQN Deduction Value"
-msgstr "Valor de dedução do ISSQN"
+msgstr "Valor de Dedução do ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_desc_cond_amount
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_desc_cond_amount
 msgid "ISSQN Discount Cond"
-msgstr "Cond de desconto ISSQN"
+msgstr "Desconto Cond. do ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_desc_incond_amount
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_desc_incond_amount
 msgid "ISSQN Discount Incond"
-msgstr "Desconto Incondicional do ISSQN"
+msgstr "Desconto Incond. do ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_eligibility
@@ -1690,19 +1687,19 @@ msgstr "Incentivo ISSQN"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_other_amount
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_other_amount
 msgid "ISSQN Other Value"
-msgstr "ISSQN Outro valor"
+msgstr "Outro Valor ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_wh_percent
 msgid "ISSQN RET %"
-msgstr ""
+msgstr "% RET ISSQN"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_reduction
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_wh_reduction
 msgid "ISSQN RET % Reduction"
-msgstr "Redução de % ISSQN RET"
+msgstr "% de Redução ISSQN RET"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_base
