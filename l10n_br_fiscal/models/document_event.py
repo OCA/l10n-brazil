@@ -69,7 +69,7 @@ class Event(models.Model):
     type = fields.Selection(
         selection=[
             ("-1", "Exception"),
-            ("0", "Envio Lote"),
+            ("0", "Autorização de Uso"),
             ("1", "Consulta Recibo"),
             ("2", "Cancelamento"),
             ("3", "Inutilização"),
@@ -300,7 +300,7 @@ class Event(models.Model):
         )
 
         if authorization:
-            # Nâo deletamos um aquivo de autorização já
+            # Não deletamos um aquivo de autorização já
             # Existente por segurança
             self.file_response_id = False
             self.file_response_id = attachment_id

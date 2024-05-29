@@ -50,6 +50,7 @@
                         <field name="file_request_id" />
                         <field name="file_response_id" />
                         <field name="protocol_number" />
+                        <field name="lot_receipt_number" />
                         <field name="response" />
                         <field name="origin" />
                         <field name="write_date" />
