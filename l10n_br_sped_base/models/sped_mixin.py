@@ -66,7 +66,7 @@ class SpedMixin(models.AbstractModel):
             if not res.res_model:
                 res.reference = ""
                 continue
-            model = self.env["ir.model"].search([("model", "=", self.res_model)])
+            model = self.env["ir.model"].search([("model", "=", res.res_model)])
             if not model:
                 raise UserError(
                     _("Undefined mapping model for Register %s and model")
