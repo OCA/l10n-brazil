@@ -89,7 +89,6 @@
     <field name="arch" type="xml">
       <form string="Fiscal Document">
         <field name="id" invisible="1" />
-<!--        <field name="state_edoc" invisible="1"/>-->
         <field name="currency_id" invisible="1" />
         <field name="document_electronic" invisible="1" />
         <field name="fiscal_operation_type" invisible="1" />
@@ -171,10 +170,6 @@
                         groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('state_edoc', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"
                     />
-<!--                <button name="action_edoc_check" type="object"-->
-<!--                        string="Consultar no sefaz"-->
-<!--                        groups="base.group_no_one"/>-->
-<!--            -->
             <field
                         name="state_edoc"
                         widget="statusbar"
@@ -421,7 +416,7 @@
                     </group>
                     <group
                                     name="cancel"
-                                    string="Cancelation"
+                                    string="Cancellation"
                                     colspan="4"
                                     attrs="{'invisible': [('state_edoc', '!=', 'cancelada')]}"
                                 >
@@ -451,7 +446,7 @@
                             </tree>
                         </field>
                     </group>
-                    <group name="events" string="Events" colspan="4">
+                    <group name="events" string="Events and Services" colspan="4">
                         <field name="event_ids" nolabel="1">
                             <tree>
                                 <field name="id" />
