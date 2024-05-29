@@ -6,8 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-12-19 14:35+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2024-05-29 16:37+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -74,12 +75,12 @@ msgstr "(x) Alíquota %"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "- CEP:"
-msgstr ""
+msgstr "- CEP:"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "/ IBPT"
-msgstr ""
+msgstr "/ IBPT"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -99,7 +100,7 @@ msgstr "1 - Sim"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "1 - Tributação no <br>município</br>"
-msgstr ""
+msgstr "1 - Tributação no <br>município</br>"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -136,6 +137,10 @@ msgid ""
 "                    <br/>\n"
 "                    NOTA FISCAL ELETRÔNICA DE SERVIÇO"
 msgstr ""
+"<br/>\n"
+"                    Secretaria Municipal da Fazenda\n"
+"                    <br/>\n"
+"                    NOTA FISCAL ELETRÔNICA DE SERVIÇO"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -235,7 +240,7 @@ msgstr "Código do Serviço / Atividade"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Dados Adicionais"
-msgstr ""
+msgstr "Dados Adicionais"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -270,7 +275,7 @@ msgstr "Mensagem Erro do Edoc"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Endereço"
-msgstr ""
+msgstr "Endereço"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__2
@@ -459,7 +464,7 @@ msgstr "Prefeitura do Município de"
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_product_template
 msgid "Product"
-msgstr ""
+msgstr "Produto"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__nfse_environment__1
@@ -490,7 +495,7 @@ msgstr "Regime esp. Tributação"
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_type
 msgid "Rps Type"
-msgstr ""
+msgstr "Tipo de Rps"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__3
@@ -520,12 +525,12 @@ msgstr "Tributação no município"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Tributos Federais (Lei 12.741/2012)"
-msgstr ""
+msgstr "Tributos Federais (Lei 12.741/2012)"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Valor Aproximado dos Tributos R$ / Fonte"
-msgstr ""
+msgstr "Valor Aproximado dos Tributos R$ / Fonte"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
