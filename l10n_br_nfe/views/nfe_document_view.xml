@@ -144,6 +144,7 @@
                 position="after"
             >
                 <field name="nfe_environment" />
+                <field name="nfe_transmission" />
             </xpath>
       </field>
   </record>

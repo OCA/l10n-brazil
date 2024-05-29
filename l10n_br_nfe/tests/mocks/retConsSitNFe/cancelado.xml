@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+    <soap:Body>
+        <nfeResultMsg
+            xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4"
+        >
+            <retConsSitNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+                <tpAmb>2</tpAmb>
+                <verAplic>sefaz_mocked</verAplic>
+                <cStat>101</cStat>
+                <xMotivo>Cancelamento de NF-e homologado</xMotivo>
+                <cUF>26</cUF>
+                <dhRecbto>2020-02-03T10:31:52-03:00</dhRecbto>
+                <chNFe>26200124494200000106550010000010111352744151</chNFe>
+                <retCancNFe versao="4.00">
+                    <infCanc Id="ID43060992665611012850550070000081711388781007">
+                        <tpAmb>2</tpAmb>
+                        <verAplic>2.2.21</verAplic>
+                        <cStat>103</cStat>
+                        <xMotivo>Lote recebido com sucesso</xMotivo>
+                        <cUF>12</cUF>
+                        <chNFe>43060992665611012850550070000081711388781007</chNFe>
+                        <dhRecbto>1969-12-31T21:00:01.000-03:00</dhRecbto>
+                        <nProt>143060000295038</nProt>
+                        </infCanc>
+                </retCancNFe>
+            </retConsSitNFe>
+        </nfeResultMsg>
+    </soap:Body>
+</soap:Envelope>
