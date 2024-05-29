@@ -157,8 +157,8 @@ class DocumentNfe(models.Model):
                     )
                 )
 
-    def _process_document_in_contingency(self):
-        super()._process_document_in_contingency()
+    def _update_nfce_for_offline_contingency(self):
+        super()._update_nfce_for_offline_contingency()
 
         if self.move_ids:
             copy_invoice = self.move_ids[0].copy()
