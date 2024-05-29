@@ -63,6 +63,6 @@ class TestAccountNFCe(TransactionCase):
         self.document_move_id.fiscal_document_id = self.document_id.id
 
     def test_nfce_contingencia(self):
-        self.document_id._process_document_in_contingency()
+        self.document_id._update_nfce_for_offline_contingency()
 
         self.assertIn(self.document_move_id, self.document_id.move_ids)
