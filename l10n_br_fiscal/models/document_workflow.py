@@ -199,7 +199,7 @@ class DocumentWorkflow(models.AbstractModel):
 
         self._generates_subsequent_operations()
 
-    def _change_state(self, new_state):
+    def _change_state(self, new_state, force_change=False):
         """Método para alterar o estado do documento fiscal, mantendo a
         integridade do workflow da invoice.
 
@@ -215,7 +215,9 @@ class DocumentWorkflow(models.AbstractModel):
         for record in self:
             old_state = record.state_edoc
 
-            if not record._avaliable_transition(old_state, new_state):
+            if force_change or record._avaliable_transition(old_state, new_state):
+                pass
+            else:
                 raise UserError(
                     _(
                         "Não é possível realizar esta operação,\n"
