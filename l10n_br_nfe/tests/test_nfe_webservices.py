@@ -1,19 +1,26 @@
 # Copyright (C) 2023 - TODAY Raphaël Valyi - Akretion
+# Copyright (C) 2024 - TODAY Antônio S. P. Neto - Engenere
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+
+import logging
 import subprocess
 from unittest import mock
 
 from odoo.fields import Datetime
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_ENVIADA,
 )
 from odoo.addons.l10n_br_nfe.models.document import NFe
 
 from .mock_utils import nfe_mock
 from .test_nfe_serialize import TestNFeExport
+
+_logger = logging.getLogger(__name__)
 
 
 def is_libreoffice_command_available():
@@ -26,7 +33,7 @@ def is_libreoffice_command_available():
         return False
 
 
-class TestNFeWebservices(TestNFeExport):
+class TestNFeWebServices(TestNFeExport):
     def setUp(self):
         nfe_list = [
             {
@@ -91,3 +98,70 @@ class TestNFeWebservices(TestNFeExport):
             .create({"document_id": nfe.id, "justification": "Era apenas um teste."})
         )
         inutilizar_wizard.doit()
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+        }
+    )
+    def test_nfe_consult_receipt(self):
+        """
+        Tests the asynchronous NFe transmission, separating the sending and
+        the consultation into two distinct steps.
+        """
+        for nfe_data in self.nfe_list:
+            nfe = nfe_data["nfe"]
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_A_ENVIAR)
+            with mock.patch.object(NFe, "make_pdf"):
+                # enable skip receipt consultation during the send action
+                self.env.company.nfe_separate_async_process = True
+                nfe.action_document_send()
+            # Document has been sent, but the receipt has not been consulted yet,
+            # meaning the authorization protocol has not been received.
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_ENVIADA)
+            # Consult the receipt to receive the usage authorization.
+            nfe._nfe_consult_receipt()
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+        }
+    )
+    @mock.patch("odoo.addons.l10n_br_nfe.models.document._logger")
+    def test_nfe_consult_receipt_without_nfe_saved(self, mock_logger):
+        """
+        Tests the NF-e processing result query after deleting the sent nfe xml.
+        """
+        for nfe_data in self.nfe_list:
+            nfe = nfe_data["nfe"]
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_A_ENVIAR)
+            with mock.patch.object(NFe, "make_pdf"):
+                # enable skip receipt consultation during the send action
+                self.env.company.nfe_separate_async_process = True
+                nfe.action_document_send()
+            # Document has been sent, but the receipt has not been consulted yet,
+            # meaning the authorization protocol has not been received.
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_ENVIADA)
+            # Consult the receipt to receive the usage authorization.
+
+            # Erase the sending_file
+            nfe.send_file_id = False
+            self.assertFalse(nfe.send_file_id)
+
+            nfe._nfe_consult_receipt()
+            mock_logger.info.assert_called_with(
+                "NF-e data not found when trying to assemble the "
+                "xml with the authorization protocol (nfeProc)"
+            )
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+
+    @nfe_mock({"nfeConsultaNF": "retConsSitNFe/autorizado.xml"})
+    def test_nfe_consult(self):
+        for nfe_data in self.nfe_list:
+            nfe = nfe_data["nfe"]
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_A_ENVIAR)
+            nfe._document_status()
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
