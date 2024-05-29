@@ -7,8 +7,9 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2023-12-27 15:35+0000\n"
-"Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
+"PO-Revision-Date: 2024-05-29 20:35+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -3599,7 +3600,7 @@ msgstr "Mixin de dados para empresas e parceiros brasileiros"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3108909
 msgid "Brazópolis"
-msgstr ""
+msgstr "Brazópolis"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4202800
@@ -3933,7 +3934,7 @@ msgstr "CPF"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__cnpj_cpf
 #, python-format
 msgid "CPF or CNPJ"
-msgstr ""
+msgstr "CPF ou CNPJ"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_code
@@ -7012,7 +7013,7 @@ msgstr "País..."
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1706001
 msgid "Couto Magalhães"
-msgstr ""
+msgstr "Couto Magalhães"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3120102
@@ -8127,7 +8128,7 @@ msgstr "Dário Meira"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__email
 #, python-format
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3514700
@@ -8163,7 +8164,7 @@ msgstr "Eldorado"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1502954
 msgid "Eldorado do Carajás"
-msgstr ""
+msgstr "Eldorado do Carajás"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4306767
@@ -8213,7 +8214,7 @@ msgstr "Embaúba"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3515004
 msgid "Embu das Artes"
-msgstr ""
+msgstr "Embu das Artes"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3515103
