@@ -25,6 +25,11 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
 
+    nfe_enable_sync_transmission = fields.Boolean(
+        related="company_id.nfe_enable_sync_transmission",
+        readonly=False,
+    )
+
     nfe_danfe_layout = fields.Selection(
         string="NFe Layout",
         related="company_id.nfe_danfe_layout",

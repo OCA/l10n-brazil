@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+    <soap:Body>
+        <nfeResultMsg
+            xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeConsultaProtocolo4"
+        >
+            <retConsSitNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+                <tpAmb>2</tpAmb>
+                <verAplic>sefaz_mocked</verAplic>
+                <cStat>100</cStat>
+                <xMotivo>Autorizado o uso da NF-e</xMotivo>
+                <cUF>26</cUF>
+                <dhRecbto>2020-02-03T10:31:52-03:00</dhRecbto>
+                <chNFe>26200124494200000106550010000010111352744151</chNFe>
+                <protNFe versao="4.00">
+                    <infProt Id="ID26200124494200000106550010000010111352744151">
+                        <tpAmb>2</tpAmb>
+                        <verAplic>sefaz_mocked.00.07.211</verAplic>
+                        <chNFe>26200124494200000106550010000010111352744151</chNFe>
+                        <dhRecbto>2020-01-13T14:20:52-03:00</dhRecbto>
+                        <nProt>126200000020426</nProt>
+                        <digVal>YRn2TFuteCw8/KW0mwxQBQGurlI=</digVal>
+                        <cStat>100</cStat>
+                        <xMotivo>Autorizado o uso da NF-e</xMotivo>
+                    </infProt>
+                </protNFe>
+            </retConsSitNFe>
+        </nfeResultMsg>
+    </soap:Body>
+</soap:Envelope>
