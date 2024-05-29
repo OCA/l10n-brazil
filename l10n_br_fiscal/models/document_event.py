@@ -185,6 +185,13 @@ class Event(models.Model):
 
     protocol_number = fields.Char()
 
+    lot_receipt_number = fields.Char(
+        help=(
+            "In asynchronous processing, a lot receipt number is generated, "
+            "which is used for later consultation."
+        ),
+    )
+
     state = fields.Selection(
         selection=[
             ("draft", _("Draft")),
@@ -312,7 +319,8 @@ class Event(models.Model):
     def set_done(
         self, status_code, response, protocol_date, protocol_number, file_response_xml
     ):
-        self._save_event_file(file_response_xml, "xml", authorization=True)
+        if file_response_xml:
+            self._save_event_file(file_response_xml, "xml", authorization=True)
         self.write(
             {
                 "state": "done",
