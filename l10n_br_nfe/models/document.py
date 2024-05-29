@@ -6,6 +6,7 @@ import base64
 import logging
 import re
 import string
+import threading
 from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
@@ -13,9 +14,11 @@ from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
+from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
 from requests import Session
+from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.models.datatype import XmlDateTime
 
 from odoo import _, api, fields
@@ -27,7 +30,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO,
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
-    CONTINGENCIA,
     DENEGADO,
     DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
@@ -38,6 +40,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     PROCESSADOR_OCA,
+    SERVICO_PARALIZADO,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
@@ -59,6 +62,7 @@ from ..constants.nfe import (
 )
 
 PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
+NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
 
 _logger = logging.getLogger(__name__)
 
@@ -868,6 +872,7 @@ class NFe(spec_models.StackedModel):
         certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
+
         params = {
             "transmissao": TransmissaoSOAP(certificado, session),
             "uf": self.company_id.state_id.ibge_code,
@@ -875,14 +880,19 @@ class NFe(spec_models.StackedModel):
             "ambiente": self.nfe_environment,
         }
 
+        if self.document_type == MODELO_FISCAL_NFE:
+            params.update(
+                envio_sincrono=self.env.company.nfe_enable_sync_transmission,
+                contingencia=self.env.company.nfe_enable_contingency_ws,
+            )
+            return edoc_nfe(**params)
+
         if self.document_type == MODELO_FISCAL_NFCE:
             params.update(
                 csc_token=self.company_id.nfce_csc_token,
                 csc_code=self.company_id.nfce_csc_code,
             )
             return edoc_nfce(**params)
-
-        return edoc_nfe(**params)
 
     def _check_nfe_environment(self):
         self.ensure_one()
@@ -904,7 +914,13 @@ class NFe(spec_models.StackedModel):
             xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
                 0
             ]
-            _logger.debug(xml_file)
+            # Delete previous authorization events in draft
+            if (
+                record.authorization_event_id
+                and record.authorization_event_id.state == "draft"
+            ):
+                record.sudo().authorization_event_id.unlink()
+
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
@@ -919,51 +935,76 @@ class NFe(spec_models.StackedModel):
             self._valida_xml(xml_assinado)
         return result
 
-    def atualiza_status_nfe(self, processo):
+    def _nfe_update_status_and_save_data(self, process):
+        """
+        Updates the NFe status based on the webservice response,
+        handling different scenarios.
+        """
         self.ensure_one()
-
-        if hasattr(processo, "protocolo"):
-            infProt = processo.protocolo.infProt
+        force_change_status = False
+        response = process.resposta
+        webservice = process.webservice
+        if hasattr(process, "protocolo"):
+            inf_prot = process.protocolo.infProt
         else:
-            infProt = processo.resposta.protNFe.infProt
-
-        # TODO: Verificar a consulta de notas
-        # if not infProt.chNFe == self.key:
-        #     self = self.search([
-        #         ('key', '=', infProt.chNFe)
-        #     ])
-        if infProt.cStat in AUTORIZADO:
-            state = SITUACAO_EDOC_AUTORIZADA
-        elif infProt.cStat in DENEGADO:
-            state = SITUACAO_EDOC_DENEGADA
-        else:
-            state = SITUACAO_EDOC_REJEITADA
-        if self.authorization_event_id and infProt.nProt:
-            if type(infProt.dhRecbto) is datetime:
-                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
-            # When the bidding comes from xsdata, the date comes as XmlDateTime
-            elif type(infProt.dhRecbto) is XmlDateTime:
-                dt = infProt.dhRecbto.to_datetime()
-                protocol_date = fields.Datetime.to_string(dt)
+            # The ´nfeRetAutorizacaoLote´ webservice allows
+            # querying a batch of NFe, therefore in this case the return of protNFe
+            # is a list, but the localization only sends one NFe per batch.
+            if webservice == "nfeRetAutorizacaoLote":
+                inf_prot = response.protNFe[0].infProt
             else:
-                protocol_date = fields.Datetime.to_string(
-                    datetime.fromisoformat(infProt.dhRecbto)
-                )
-
-            self.authorization_event_id.set_done(
-                status_code=infProt.cStat,
-                response=infProt.xMotivo,
-                protocol_date=protocol_date,
-                protocol_number=infProt.nProt,
-                file_response_xml=processo.processo_xml.decode("utf-8"),
-            )
-        self.write(
+                inf_prot = response.protNFe.infProt
+        nfe_proc_xml = getattr(process, "processo_xml", None)
+        if nfe_proc_xml:
+            nfe_proc_xml = nfe_proc_xml.decode()
+        self._nfe_save_protocol(inf_prot, nfe_proc_xml)
+        # For ´nfeConsultaNF´ webservice, the status is checked in the main response.
+        # This is crucial because for canceled NFes, the current status does not
+        # reflect the authorization protocol status.
+        if webservice == "nfeConsultaNF":
+            c_stat = response.cStat
+            x_motivo = response.xMotivo
+            force_change_status = True
+        else:
+            c_stat = inf_prot.cStat
+            x_motivo = inf_prot.xMotivo
+        # update document
+        self.update(
             {
-                "status_code": infProt.cStat,
-                "status_name": infProt.xMotivo,
+                "status_code": c_stat,
+                "status_name": x_motivo,
             }
         )
-        self._change_state(state)
+        # change state
+        state_map = {
+            **dict.fromkeys(AUTORIZADO, SITUACAO_EDOC_AUTORIZADA),
+            **dict.fromkeys(DENEGADO, SITUACAO_EDOC_DENEGADA),
+            **dict.fromkeys(CANCELADO, SITUACAO_EDOC_CANCELADA),
+        }
+        state = state_map.get(c_stat, SITUACAO_EDOC_REJEITADA)
+        self._change_state(state, force_change_status)
+
+    def _nfe_save_protocol(self, inf_prot, nfe_proc_xml=None):
+        if not self.authorization_event_id:
+            # TODO: create new event.
+            pass
+        if type(inf_prot.dhRecbto) is datetime:
+            protocol_date = fields.Datetime.to_string(inf_prot.dhRecbto)
+        # When the bidding comes from xsdata, the date comes as XmlDateTime
+        elif type(inf_prot.dhRecbto) is XmlDateTime:
+            dt = inf_prot.dhRecbto.to_datetime()
+            protocol_date = fields.Datetime.to_string(dt)
+        else:
+            protocol_date = fields.Datetime.to_string(
+                datetime.fromisoformat(inf_prot.dhRecbto)
+            )
+        self.authorization_event_id.set_done(
+            status_code=inf_prot.cStat,
+            response=inf_prot.xMotivo,
+            protocol_date=protocol_date,
+            protocol_number=inf_prot.nProt,
+            file_response_xml=nfe_proc_xml,
+        )
 
     def _valida_xml(self, xml_file):
         self.ensure_one()
@@ -1023,57 +1064,212 @@ class NFe(spec_models.StackedModel):
             )
             record.document_key = chave_edoc.chave
 
-    def _eletronic_document_send(self):
-        self._prepare_payments_for_nfce()
+    def _nfe_consult_receipt(self):
+        self.ensure_one()
+        processor = self._processador()
+        # Consult receipt and process the response
+        rec_num = self.authorization_event_id.lot_receipt_number
+        receipt_process = processor.consulta_recibo(numero=rec_num)
+        if receipt_process.resposta.cStat == "104":  # Lote Processado
+            self._nfe_response_add_proc(receipt_process)
+        self._nfe_process_authorization(receipt_process)
 
+    def _nfe_response_add_proc(self, ws_response_process):
+        """
+        Inject the final NF-e, tag `nfeProc`, into the response.
+        """
+        xml_soap = ws_response_process.retorno.content
+        tree_soap = etree.fromstring(xml_soap)
+        prot_nfe_element = tree_soap.xpath(
+            "//nfe:protNFe", namespaces=NFE_XML_NAMESPACE
+        )[0]
+        proc_nfe_xml = self._nfe_create_proc(prot_nfe_element)
+        if proc_nfe_xml:
+            # it is not always possible to create nfeProc.
+            parser = XmlParser()
+            nfe_proc = parser.from_string(proc_nfe_xml.decode(), TnfeProc)
+            ws_response_process.processo = nfe_proc
+            ws_response_process.processo_xml = proc_nfe_xml
+
+    def _nfe_create_proc(self, prot_nfe_element):
+        """
+        Create the `nfeProc` XML by combining the NF-e and the authorization protocol.
+
+        This method decodes the saved `enviNFe` message, extracts the <NFe> tag,
+        and combines it with the provided authorization protocol element to create
+        the `nfeProc` XML, which represents the finalized NF-e document.
+
+        Args:
+            prot_nfe_element: The XML element containing the authorization protocol.
+
+        Returns:
+            The assembled `nfeProc` XML, or None if the `send_file_id` data is not
+            found.
+
+        Note:
+            Useful for recreating the final NF-e XML, as SEFAZ does not provide the
+            complete XML upon consultation, only the authorization protocol.
+        """
+        self.ensure_one()
+
+        if not self.send_file_id.datas:
+            _logger.info(
+                "NF-e data not found when trying to assemble the "
+                "xml with the authorization protocol (nfeProc)"
+            )
+            return None
+
+        processor = self._processador()
+
+        # Extract the <NFe> tag from the `enviNFe` message, which represents the NF-e
+        nfe_send_xml = base64.b64decode(self.send_file_id.datas)
+        tree_envi_nfe = etree.fromstring(nfe_send_xml)
+        element_nfe = tree_envi_nfe.xpath("//nfe:NFe", namespaces=NFE_XML_NAMESPACE)[0]
+
+        # Assemble the `nfeProc` using the erpbrasil.edoc library.
+        proc_nfe_xml = processor.monta_nfe_proc(
+            nfe=element_nfe, prot_nfe=prot_nfe_element
+        )
+
+        return proc_nfe_xml
+
+    def _document_status(self):
+        self.ensure_one()
+        status = super()._document_status()
+        if filter_processador_edoc_nfe(self):
+            status = self.check_nfe_status_in_sefaz()
+        return status
+
+    def check_nfe_status_in_sefaz(self):
+        """
+        Checks the status and protocol of an NF-e against SEFAZ's database.
+        It updates the NF-e status and saves the data if the NF-e is found
+        with specific status codes.
+        Returns the response status message.
+        """
+
+        def _is_nfe_found(c_stat):
+            """
+            Determines if the NF-e is registered in SEFAZ by analyzing the status code:
+            - 100: NF-e authorized - found and valid.
+            - 101: NF-e cancellation approved - found but cancelled.
+            - 110: NF-e use denied - present but restricted.
+            Returns True for these codes, indicating the NF-e's registration in SEFAZ.
+            """
+            return c_stat in ["100", "101", "110"]
+
+        nfe_manager = self._processador()
+        check_response = nfe_manager.consulta_documento(chave=self.document_key)
+        status = check_response.resposta.xMotivo
+
+        if _is_nfe_found(check_response.resposta.cStat):
+            if not self.authorization_file_id:
+                # There's no need to assemble and persist the NFe file (nfeproc)
+                #  if it is already saved.
+                self._nfe_response_add_proc(check_response)
+            # Updates the information if it is inconsistent in the system.
+            self._nfe_update_status_and_save_data(check_response)
+        return status
+
+    def _prepare_nfce_send(self):
+        self.ensure_one()
+        self._prepare_payments_for_nfce()
+        self.nfe40_infNFeSupl = self.env["l10n_br_fiscal.document.supplement"].create(
+            {
+                "nfe40_qrCode": self.get_nfce_qrcode(),
+                "nfe40_urlChave": self.get_nfce_qrcode_url(),
+            }
+        )
+
+    def _eletronic_document_send(self):
         super()._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.xml_error_message:
-                return
-
+                return  # Skip
+            if record.state_edoc not in ["enviada", "a_enviar"]:
+                return  # Skip
             if record.document_type == MODELO_FISCAL_NFCE:
-                record.nfe40_infNFeSupl = self.env[
-                    "l10n_br_fiscal.document.supplement"
-                ].create(
-                    {
-                        "nfe40_qrCode": self.get_nfce_qrcode(),
-                        "nfe40_urlChave": self.get_nfce_qrcode_url(),
-                    }
-                )
+                record._prepare_nfce_send()
+            if record.state_edoc == "enviada":
+                record._nfe_consult_receipt()
+            if record.state_edoc == "a_enviar":
+                record._nfe_send_for_authorization()
 
-            processador = record._processador()
-            for edoc in record.serialize():
-                processo = None
-                for p in processador.processar_documento(edoc):
-                    processo = p
-                    if processo.webservice == "nfeAutorizacaoLote":
-                        record.authorization_event_id._save_event_file(
-                            processo.envio_xml.decode("utf-8"), "xml"
-                        )
+    def _nfe_send_for_authorization(self):
+        """
+        Serialize and send a NFe for authorizaion
+        """
+        serialized_nfe = self.serialize()[0]
+        nfe_manager = self._processador()
+        authorization_response = None
+        for service_response in nfe_manager.processar_documento(serialized_nfe):
+            if service_response.webservice not in [
+                "nfeAutorizacaoLote",
+                "nfeRetAutorizacaoLote",
+            ]:
+                continue
+            if service_response.webservice == "nfeAutorizacaoLote":
+                if (
+                    service_response.resposta.cStat in SERVICO_PARALIZADO
+                    and self.document_type == MODELO_FISCAL_NFCE
+                ):
+                    # Offline contingency is only allowed for NFC-e (65)
+                    self._update_nfce_for_offline_contingency()
+                    return
+                if service_response.resposta.infRec:
+                    # Only ASYNC: The receipt is only applicable for asynchronous
+                    # transmission.
+                    self._nfe_process_send_asynchronous(service_response)
+                    # Commit to secure receipt info for future queries.
+                    in_testing = getattr(threading.current_thread(), "testing", False)
+                    if not in_testing:
+                        self.env.cr.commit()
 
-            if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
-                record.atualiza_status_nfe(processo)
+                    # Check if 'nfe_separate_async_process' is set in the company
+                    # settings. If True, skip the receipt consultation in this
+                    # transaction. The user will need to manually trigger the
+                    # consultation later to obtain the usage protocol.
+                    skip_consult_receipt = self.env.company.nfe_separate_async_process
+                    if skip_consult_receipt:
+                        break
+                    else:
+                        continue
+            authorization_response = service_response
+        if authorization_response:
+            self._nfe_process_authorization(authorization_response)
 
-            elif processo.resposta.cStat in DENEGADO:
-                record._change_state(SITUACAO_EDOC_DENEGADA)
-                record.write(
-                    {
-                        "status_code": processo.resposta.cStat,
-                        "status_name": processo.resposta.xMotivo,
-                    }
-                )
+    def _nfe_process_send_asynchronous(self, send_process):
+        self.authorization_event_id._save_event_file(
+            send_process.envio_xml.decode("utf-8"), "xml"
+        )
+        self.authorization_event_id.lot_receipt_number = (
+            send_process.resposta.infRec.nRec
+        )
+        self.state_edoc = "enviada"
 
-            elif processo.resposta.cStat in CONTINGENCIA:
-                record._process_document_in_contingency()
+    def _nfe_process_authorization(self, authorization_process):
+        """
+        Processes the response to the authorization request (batch processing).
+        This can be called the transmission result or the processing result
+        of the NF-e batch submission message.
 
-            else:
-                record._change_state(SITUACAO_EDOC_REJEITADA)
-                record.write(
-                    {
-                        "status_code": processo.resposta.cStat,
-                        "status_name": processo.resposta.xMotivo,
-                    }
-                )
+        The responses can be in two formats:
+        - 'retEnviNFe' for synchronous.
+        - 'retConsReciNFe' for asynchronous.
+        """
+        self.ensure_one()
+        if authorization_process.resposta.cStat in LOTE_PROCESSADO:
+            # Processes the individual result of each NF-e (protNFe).
+            self._nfe_update_status_and_save_data(authorization_process)
+        else:
+            # Batch processing failure.
+            self._change_state(SITUACAO_EDOC_REJEITADA)
+            self.write(
+                {
+                    "status_code": authorization_process.resposta.cStat,
+                    "status_name": authorization_process.resposta.xMotivo,
+                }
+            )
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
@@ -1279,21 +1475,20 @@ class NFe(spec_models.StackedModel):
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
 
-    def _process_document_in_contingency(self):
+    def _update_nfce_for_offline_contingency(self):
         self.write(
             {
-                "nfe_transmission": "9",
+                "nfe_transmission": "9",  # 9: contingência off-line (tpEmis)
                 "nfe40_dhCont": fields.Datetime.now().strftime(
                     DEFAULT_SERVER_DATETIME_FORMAT
                 ),
-                "nfe40_xJust": "Sem comunicacao com o servidor da Sefaz.",
+                "nfe40_xJust": "Sem comunicação com o servidor da Sefaz.",
             }
         )
 
     def get_nfce_qrcode(self):
         if self.document_type != MODELO_FISCAL_NFCE:
             return
-
         processador = self._processador()
         if self.nfe_transmission == "1":
             return processador.monta_qrcode(self.document_key)
