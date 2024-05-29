@@ -120,7 +120,6 @@ msgid "Dados das duplicatas NT 2011/004"
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__display_name
@@ -155,7 +154,6 @@ msgid "Grupo de detalhamento da forma de pagamento."
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__id
@@ -168,12 +166,6 @@ msgid "Indicador da Forma de Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: model:ir.model,name:l10n_br_account_nfe.model_account_move_line
-msgid "Journal Item"
-msgstr "Item de Diário"
-
-#. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag____last_update
@@ -221,3 +213,6 @@ msgstr "Modos de Pagamento"
 #: model:account.payment.term,note:l10n_br_account_nfe.account_payment_term_30_60_90
 msgid "Payment terms: 30/60/90"
 msgstr "Condição de pagamento: 30/60/90"
+
+#~ msgid "Journal Item"
+#~ msgstr "Item de Diário"
