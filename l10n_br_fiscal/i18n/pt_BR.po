@@ -800,6 +800,16 @@ msgid "A enviar"
 msgstr "A enviar"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_product_product__type
+#: model:ir.model.fields,help:l10n_br_fiscal.field_product_template__type
+msgid ""
+"A storable product is a product for which you manage stock. The Inventory "
+"app has to be installed.\n"
+"A consumable product is a product for which stock is not managed.\n"
+"A service is a non-material product you provide."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_AMPOLA
 msgid "AMPOLA"
 msgstr "AMPOLA"
@@ -8183,6 +8193,12 @@ msgid "Product Template"
 msgstr "Modelo de Produto"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__type
+msgid "Product Type"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_uom_uom
 msgid "Product Unit of Measure"
 msgstr "Unidade de Medida do Produto"
@@ -9151,6 +9167,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__stock_move
 msgid "Stock Moves?"
 msgstr "Movimentos de Estoque?"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__product_template__type__product
+msgid "Storable Product"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__withholding_possible
