@@ -42,10 +42,16 @@ class ResPartner(spec_models.SpecModel):
     # nfe.40.tlocal / nfe.40.enderEmit / 'nfe.40.enderDest
     # TODO: may be not store=True -> then override match
     nfe40_CNPJ = fields.Char(
-        compute="_compute_nfe_data", inverse="_inverse_nfe40_CNPJ", store=True
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_CNPJ",
+        store=True,
+        compute_sudo=True,
     )
     nfe40_CPF = fields.Char(
-        compute="_compute_nfe_data", inverse="_inverse_nfe40_CPF", store=True
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_CPF",
+        store=True,
+        compute_sudo=True,
     )
     nfe40_xLgr = fields.Char(
         readonly=True,
@@ -95,6 +101,7 @@ class ResPartner(spec_models.SpecModel):
         selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
         string="CNPJ/CPF do Emitente",
         compute="_compute_nfe_data",
+        compute_sudo=True,
     )
 
     # nfe.40.tendereco
@@ -138,6 +145,7 @@ class ResPartner(spec_models.SpecModel):
         selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
         string="CNPJ/CPF do Parceiro",
         compute="_compute_nfe_data",
+        compute_sudo=True,
     )
 
     nfe40_choice_dest = fields.Selection(
@@ -156,6 +164,7 @@ class ResPartner(spec_models.SpecModel):
         selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
         string="CNPJ/CPF do Parceiro Autorizado",
         compute="_compute_nfe_data",
+        compute_sudo=True,
     )
 
     # nfe.40.transporta
@@ -166,6 +175,7 @@ class ResPartner(spec_models.SpecModel):
         ],
         string="CNPJ or CPF",
         compute="_compute_nfe_data",
+        compute_sudo=True,
     )
 
     is_anonymous_consumer = fields.Boolean(
