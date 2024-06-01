@@ -6,6 +6,7 @@
         <field name="legal_name">Sua Empresa Ltda</field>
         <field name="street_name">Avenida Paulista</field>
         <field name="street_number">1</field>
+        <field name="district">Bela Vista</field>
         <field name="city_id" ref="l10n_br_base.city_3550308" />
         <field name="zip">01311-000</field>
         <field name="country_id" ref="base.br" />
@@ -56,6 +57,7 @@
         <field name="company_name">TESTE - Simples Nacional</field>
         <field name="street_name">Rua Paulo Dias</field>
         <field name="street_number">586</field>
+        <field name="district">Vila Santa Luzia</field>
         <field name="city_id" ref="l10n_br_base.city_3501152" />
         <field name="zip">18125-000</field>
         <field name='country_id' ref='base.br' />
