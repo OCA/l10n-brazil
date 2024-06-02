@@ -11,7 +11,7 @@
     "maintainers": ["rvalyi", "renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "14.0.14.4.0",
+    "version": "14.0.14.5.0",
     "depends": [
         "l10n_br_fiscal",
         "l10n_br_fiscal_certificate",
