@@ -28,6 +28,12 @@
                     attrs="{'invisible': [('provedor_nfse','!=', 'focusnfe')]}"
                 />
             </field>
+            <xpath expr="//field[@name='nfse_ssl_verify']" position="attributes">
+                <attribute name="invisible">0</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('provedor_nfse', '!=', 'focusnfe')]}</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>
