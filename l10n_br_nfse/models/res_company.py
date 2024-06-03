@@ -28,6 +28,10 @@ class ResCompany(models.Model):
     nfse_website = fields.Char(
         string="NFSe Website",
     )
+    nfse_ssl_verify = fields.Boolean(
+        string="NFSe SSL Verify",
+        default=False,
+    )
     city_taxation_code_id = fields.Many2many(
         comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
     )
