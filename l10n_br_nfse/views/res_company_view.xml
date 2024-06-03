@@ -23,6 +23,7 @@
                             <field name="provedor_nfse" />
                             <field name="nfse_city_logo" widget="image" />
                             <field name="nfse_website" />
+                            <field name="nfse_ssl_verify" invisible="1" />
                         </group>
                     </group>
                 </page>
