@@ -131,19 +131,13 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _compute_amounts(self):
         for record in self:
             round_curr = record.currency_id or self.env.ref("base.BRL")
-            # Valor dos produtos
 
-            amount_subtotal = round_curr.round(record.price_unit * record.quantity)
+            # Total value of products or services
+            record.price_gross = round_curr.round(record.price_unit * record.quantity)
 
-            record.price_gross = (
-                amount_subtotal
-                + record.amount_tax_not_included
-                - record.amount_tax_withholding
-            )
+            record.amount_untaxed = record.price_gross - record.discount_value
 
-            record.amount_untaxed = amount_subtotal - record.discount_value
-
-            record.amount_fiscal = amount_subtotal - record.discount_value
+            record.amount_fiscal = record.price_gross - record.discount_value
 
             record.amount_tax = record.amount_tax_not_included
 

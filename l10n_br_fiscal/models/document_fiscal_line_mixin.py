@@ -196,9 +196,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     price_gross = fields.Monetary(
+        string="Gross Product/Service Amount",
+        help=(
+            "Total value of products or services (quantity x unit price)"
+            "before any discounts."
+        ),
         compute="_compute_amounts",
-        string="Amount Gross",
-        help="Amount without discount.",
     )
 
     amount_untaxed = fields.Monetary(
@@ -223,7 +226,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     financial_total_gross = fields.Monetary(
-        string="Amount Financial Gross",
+        string="Financial Gross Amount",
+        help="Total amount before any discounts are applied.",
         compute="_compute_amounts",
     )
 
