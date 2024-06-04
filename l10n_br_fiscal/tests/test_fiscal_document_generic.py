@@ -158,6 +158,9 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 " Básica to COFINS 3% de Venda de Contribuinte Dentro do Estado.",
             )
 
+            product_total = line.price_unit * line.quantity
+            self.assertEqual(line.price_gross, product_total)
+
         self.nfe_same_state.action_document_confirm()
 
         self.assertEqual(
@@ -173,6 +176,9 @@ class TestFiscalDocumentGeneric(TransactionCase):
             SITUACAO_EDOC_AUTORIZADA,
             "Document is not in Authorized state",
         )
+
+        # Total value of the products
+        self.assertEqual(self.nfe_same_state.amount_price_gross, 3965)
 
         result = self.nfe_same_state.action_document_cancel()
         self.assertTrue(result)
