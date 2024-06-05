@@ -25,6 +25,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
         cls.product_a.write(
             {
+                "default_code": "prod_a",
                 "standard_price": 1000.0,
                 "ncm_id": cls.env.ref("l10n_br_fiscal.ncm_94033000").id,
                 "fiscal_genre_id": cls.env.ref("l10n_br_fiscal.product_genre_94").id,
@@ -64,6 +65,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
 
         cls.product_b.write(
             {
+                "default_code": "prod_b",
                 "lst_price": 1000.0,
                 "ncm_id": cls.env.ref("l10n_br_fiscal.ncm_94013090").id,
                 "fiscal_genre_id": cls.env.ref("l10n_br_fiscal.product_genre_94").id,
