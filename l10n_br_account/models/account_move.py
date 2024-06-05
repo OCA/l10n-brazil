@@ -599,7 +599,7 @@ class AccountMove(models.Model):
     def _post(self, soft=True):
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
-        ).action_document_confirm()
+        )._document_confirm_to_send()
         return super()._post(soft=soft)
 
     def view_xml(self):
