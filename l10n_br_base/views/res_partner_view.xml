@@ -51,61 +51,60 @@
                 </attribute>
             </field>
             <xpath expr="//h1" position="after">
-                <group>
-                    <field name="city_id" invisible="1" />
-                    <!-- Allow inject city_id on context above -->
-                    <div class="oe_edit_only">
-                        <label
-                            for="legal_name"
-                            string="Full Name"
-                            attrs="{'invisible': [('is_company','=', True)]}"
-                        />
-                        <label
-                            for="legal_name"
-                            string="Legal Name"
-                            attrs="{'invisible': [('is_company','!=', True)]}"
-                        />
-                    </div>
-                    <field colspan="2" name="legal_name" nolabel="1" />
-                    <div class="oe_edit_only">
-                        <label
-                            for="cnpj_cpf"
-                            string="CPF"
-                            attrs="{'invisible': [('is_company','=', True)]}"
-                        />
-                        <label
-                            for="cnpj_cpf"
-                            string="CNPJ/Vat Number"
-                            attrs="{'invisible': [('is_company','!=', True)]}"
-                        />
-                    </div>
-                    <field colspan="2" name="cnpj_cpf" nolabel="1" />
-                    <div class="oe_edit_only">
-                        <label
-                            for="rg"
-                            string="RG"
-                            attrs="{'invisible': [('is_company','=', True)]}"
-                        />
-                        <label
-                            for="inscr_est"
-                            name="inscr_est"
-                            string="IE"
-                            attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
-                        />
-                    </div>
-                    <field
-                        name="rg"
-                        colspan="2"
-                        nolabel="1"
+                <field name="city_id" invisible="1" />
+                <!-- Allow inject city_id on context above -->
+                <div>
+                    <label
+                        for="legal_name"
+                        string="Full Name"
                         attrs="{'invisible': [('is_company','=', True)]}"
                     />
-                    <field
-                        colspan="2"
+                    <label
+                        for="legal_name"
+                        string="Legal Name"
+                        attrs="{'invisible': [('is_company','!=', True)]}"
+                    />
+                </div>
+                <field name="legal_name" nolabel="1" />
+                <div>
+                    <label
+                        for="cnpj_cpf"
+                        string="CPF"
+                        attrs="{'invisible': [('is_company','=', True)]}"
+                    />
+                    <label
+                        for="cnpj_cpf"
+                        string="CNPJ/Vat Number"
+                        attrs="{'invisible': [('is_company','!=', True)]}"
+                    />
+                </div>
+                <field name="cnpj_cpf" nolabel="1" />
+                <div>
+                    <label
+                        for="rg"
+                        string="RG"
+                        attrs="{'invisible': [('is_company','=', True)]}"
+                    />
+                </div>
+                <field
+                    name="rg"
+                    nolabel="1"
+                    attrs="{'invisible': [('is_company','=', True)]}"
+                />
+                <div name="inscr_est">
+                         <label
+                        for="inscr_est"
                         name="inscr_est"
-                        nolabel="1"
+                        string="IE"
                         attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
                     />
-                </group>
+                </div>
+                     <field
+                    colspan="4"
+                    name="inscr_est"
+                    nolabel="1"
+                    attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
+                />
             </xpath>
             <page position="after" name="sales_purchases">
                 <page string="Fiscal" name="fiscal">
