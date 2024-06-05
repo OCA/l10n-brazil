@@ -23,7 +23,7 @@ DeOlhoNoImposto = namedtuple("Config", "token cnpj uf")
 
 def _request(ws_url, params):
     try:
-        response = requests.get(ws_url, params=params, timeout=15)
+        response = requests.get(ws_url, params=params, timeout=30)
         if response.ok:
             data = response.json()
             return namedtuple("Result", [k.lower() for k in data.keys()])(
