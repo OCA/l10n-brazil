@@ -102,7 +102,7 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
 
     def test_revenda(self):
         product_line_vals_1 = {
-            "name": self.product_a.name,
+            "name": self.product_a.display_name,
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_income_id.id,
             "partner_id": self.partner_a.id,
