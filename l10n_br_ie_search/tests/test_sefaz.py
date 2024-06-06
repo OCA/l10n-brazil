@@ -11,7 +11,7 @@ from erpbrasil.assinatura import misc
 
 from odoo import fields
 from odoo.tests import Form, tagged
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 from odoo.tools.misc import format_date
 
 
@@ -20,7 +20,7 @@ class FakeRetorno(object):
 
 
 @tagged("post_install", "-at_install")
-class TestSefaz(SavepointCase):
+class TestSefaz(TransactionCase):
     def setUp(self):
         super().setUp()
         self.retorno = FakeRetorno()
