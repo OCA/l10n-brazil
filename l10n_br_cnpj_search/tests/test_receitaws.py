@@ -36,7 +36,7 @@ class TestReceitaWS(TestCnpjCommon):
         action_wizard = kilian.action_open_cnpj_search_wizard()
         wizard_context = action_wizard.get("context")
         wizard = (
-            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+            self.env["partner.search.wizard"].with_context(**wizard_context).create({})
         )
         wizard.action_update_partner()
         self.assertEqual(kilian.company_type, "company")
@@ -66,7 +66,7 @@ class TestReceitaWS(TestCnpjCommon):
         with self.assertRaises(ValidationError):
             action_wizard = invalido.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
-            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+            self.env["partner.search.wizard"].with_context(**wizard_context).create({})
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_receitaws_multiplos_telefones.yaml",
@@ -80,7 +80,7 @@ class TestReceitaWS(TestCnpjCommon):
         action_wizard = isla.action_open_cnpj_search_wizard()
         wizard_context = action_wizard.get("context")
         wizard = (
-            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+            self.env["partner.search.wizard"].with_context(**wizard_context).create({})
         )
         wizard.action_update_partner()
         self.assertEqual(isla.name.strip(), "Isla Sementes Ltda.")
