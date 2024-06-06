@@ -7,7 +7,7 @@ import logging
 from unittest.mock import patch
 
 from odoo.tests import Form, tagged
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 _logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class FakeRetorno(object):
 
 
 @tagged("post_install", "-at_install")
-class TestSintegra(SavepointCase):
+class TestSintegra(TransactionCase):
     def setUp(self):
         super().setUp()
         self.retorno = FakeRetorno()
