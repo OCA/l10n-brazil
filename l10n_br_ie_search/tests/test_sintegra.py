@@ -84,7 +84,7 @@ class TestSintegra(SavepointCase):
         action_wizard = dummy.action_open_cnpj_search_wizard()
         wizard_context = action_wizard.get("context")
         wizard = Form(
-            self.env["partner.search.wizard"].with_context(wizard_context).create({})
+            self.env["partner.search.wizard"].with_context(**wizard_context).create({})
         ).save()
         wizard.action_update_partner()
         self.assertEqual(dummy.inscr_est, "149848403115")
