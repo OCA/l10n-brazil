@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2024-03-04 16:10+0000\n"
+"PO-Revision-Date: 2024-06-10 15:34+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -316,7 +316,7 @@ msgstr "Cidade"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__city_id
 msgid "City of Address"
-msgstr "Endereço da Cidade"
+msgstr "Cidade do Endereço"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_civil_certificate_type
