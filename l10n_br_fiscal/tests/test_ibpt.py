@@ -9,6 +9,7 @@ from decorator import decorate
 from erpbrasil.base import misc
 
 from odoo.tests import TransactionCase
+from odoo.tools import config as odooconfig
 
 from odoo.addons.l10n_br_fiscal.models.ibpt import (
     DeOlhoNoImposto,
@@ -109,6 +110,10 @@ class TestIbpt(TransactionCase):
                 company.ibpt_token,
                 misc.punctuation_rm(company.cnpj_cpf),
                 company.state_id.code,
+                odooconfig.get("ibpt_request_timeout")
+                or cls.env["ir.config_parameter"]
+                .sudo()
+                .get_param("ibpt_request_timeout"),
             )
             if ncm_nbs._name == "l10n_br_fiscal.ncm":
                 result = bool(get_ibpt_product(config, ncm_nbs.code_unmasked))
