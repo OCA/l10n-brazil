@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-05-24 22:49+0000\n"
+"PO-Revision-Date: 2024-06-10 12:37+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -6884,7 +6884,7 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_icmsst__nfe40_vICMSSubstituto
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
-msgstr ""
+msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_rettransp__nfe40_vICMSRet
