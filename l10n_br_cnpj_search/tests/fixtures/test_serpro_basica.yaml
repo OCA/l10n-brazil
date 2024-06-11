@@ -1,0 +1,59 @@
+interactions:
+  - request:
+      body: null
+      headers:
+        Accept:
+          - "*/*"
+        Accept-Encoding:
+          - gzip, deflate
+        Authorization:
+          - Bearer 06aef429-a981-3ec5-a1f8-71d38d86481e
+        Connection:
+          - keep-alive
+        User-Agent:
+          - python-requests/2.25.1
+      method: GET
+      uri: https://gateway.apiserpro.serpro.gov.br/consulta-cnpj-df-trial/v2/basica/34238864000168
+    response:
+      body:
+        string:
+          "{\"ni\":\"34238864000168\",\"tipoEstabelecimento\":\"1\",\"nomeEmpresarial\":\"UHIEQKX
+          WHNHIWD NH FIXKHUUWPHMVX NH NWNXU (UHIFIX)\",\"nomeFantasia\":\"UHIFIX
+          UHNH\",\"situacaoCadastral\":{\"codigo\":\"2\",\"data\":\"2019-06-19\",\"motivo\":\"\"},\"naturezaJuridica\":{\"codigo\":\"2011\",\"descricao\":\"Empresa
+          P\xFAblica\"},\"dataAbertura\":\"1967-06-30\",\"cnaePrincipal\":{\"codigo\":\"6204000\",\"descricao\":\"Consultoria
+          em tecnologia da
+          informa\xE7\xE3o\"},\"endereco\":{\"tipoLogradouro\":\"SETOR\",\"logradouro\":\"NH
+          BIWMNH WIHW MXIVH\",\"numero\":\"Q.601\",\"complemento\":\"LOTE
+          V\",\"cep\":\"70836900\",\"bairro\":\"ASA
+          NORTE\",\"municipio\":{\"codigo\":\"9701\",\"descricao\":\"BRASILIA\"},\"uf\":\"DF\",\"pais\":{\"codigo\":\"105\",\"descricao\":\"BRASIL\"}},\"municipioJurisdicao\":{\"codigo\":\"0110100\",\"descricao\":\"BRAS\xCDLIA\"},\"telefones\":[{\"ddd\":\"61\",\"numero\":\"22222222\"},{\"ddd\":\"61\",\"numero\":\"22222222\"}],\"correioEletronico\":\"EMPRESA@XXXXXX.BR\",\"capitalSocial\":0,\"porte\":\"05\",\"situacaoEspecial\":\"\",\"dataSituacaoEspecial\":\"\"}"
+      headers:
+        Access-Control-Allow-Headers:
+          - authorization,Access-Control-Allow-Origin,Content-Type,SOAPAction,apikey,Internal-Key,x-cpf-usuario,signature,x-signature,x-credencial,X-Request-Trace-Id
+        Access-Control-Allow-Methods:
+          - GET
+        Access-Control-Expose-Headers:
+          - ""
+        Connection:
+          - keep-alive
+        Date:
+          - Wed, 28 Jun 2023 13:37:44 GMT
+        Transfer-Encoding:
+          - chunked
+        access-control-allow-origin:
+          - "*"
+        activityid:
+          - 0d84f24f-3e05-4029-aee5-9036ea40245c
+        content-type:
+          - application/json; charset=utf-8
+        etag:
+          - W/"3a3-YEXGdCx92PmjvGvevnmM4uVPzsg"
+        strict-transport-security:
+          - max-age=15768000
+        x-content-type-options:
+          - nosniff
+        x-powered-by:
+          - Express
+      status:
+        code: 200
+        message: OK
+version: 1
