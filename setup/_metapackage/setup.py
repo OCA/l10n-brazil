@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_account_due_list>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_account_withholding>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_base>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_br_cnpj_search>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_coa>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_coa_generic>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_coa_simple>=15.0dev,<15.1dev',
