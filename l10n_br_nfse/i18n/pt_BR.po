@@ -424,6 +424,11 @@ msgid "NFSe Provider"
 msgstr "Provedor de NFSe"
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_ssl_verify
+msgid "NFSe SSL Verify"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_website
 msgid "NFSe Website"
 msgstr "Website NFSe"
