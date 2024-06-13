@@ -868,9 +868,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
     )
 
-    additional_data = fields.Char()
+    additional_data = fields.Text()
 
-    manual_additional_data = fields.Char(
+    manual_additional_data = fields.Text(
         help="Additional data manually entered by user"
     )
 
