@@ -77,13 +77,13 @@ class FiscalDocumentMixinFields(models.AbstractModel):
 
     fiscal_additional_data = fields.Text()
 
-    manual_fiscal_additional_data = fields.Char(
+    manual_fiscal_additional_data = fields.Text(
         help="Fiscal Additional data manually entered by user",
     )
 
     customer_additional_data = fields.Text()
 
-    manual_customer_additional_data = fields.Char(
+    manual_customer_additional_data = fields.Text(
         help="Customer Additional data manually entered by user",
     )
 
