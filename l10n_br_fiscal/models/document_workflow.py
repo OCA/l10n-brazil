@@ -305,10 +305,13 @@ class DocumentWorkflow(models.AbstractModel):
         else:
             self._change_state(SITUACAO_EDOC_AUTORIZADA)
 
-    def action_document_confirm(self):
+    def _document_confirm_to_send(self):
         to_confirm = self.filtered(lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR)
         if to_confirm:
             to_confirm._document_confirm()
+
+    def action_document_confirm(self):
+        self._document_confirm_to_send()
 
     def _no_eletronic_document_send(self):
         self._change_state(SITUACAO_EDOC_AUTORIZADA)
@@ -328,13 +331,16 @@ class DocumentWorkflow(models.AbstractModel):
         if to_send:
             to_send._document_send()
 
-    def action_document_back2draft(self):
+    def document_back2draft(self):
         self.xml_error_message = False
         self.file_report_id = False
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             self._change_state(SITUACAO_EDOC_EM_DIGITACAO)
         else:
             self.state_edoc = SITUACAO_EDOC_EM_DIGITACAO
+
+    def action_document_back2draft(self):
+        self.document_back2draft()
 
     def _document_cancel(self, justificative):
         self.ensure_one()

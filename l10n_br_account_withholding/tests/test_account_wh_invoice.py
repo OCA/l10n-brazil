@@ -85,7 +85,7 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
         Test move with deductible taxes and withholding taxes
         """
         product_line_vals_1 = {
-            "name": self.product_a.name,
+            "name": self.product_a.display_name,
             "product_id": self.product_a.id,
             "account_id": self.product_a.property_account_expense_id.id,
             "partner_id": self.partner_a.id,
