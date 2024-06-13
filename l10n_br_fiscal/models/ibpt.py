@@ -18,12 +18,14 @@ WS_IBPT = {
 }
 
 
-DeOlhoNoImposto = namedtuple("Config", "token cnpj uf")
+DeOlhoNoImposto = namedtuple("Config", "token cnpj uf ibpt_request_timeout")
 
 
-def _request(ws_url, params):
+def _request(ws_url, params, ibpt_request_timeout=30):
     try:
-        response = requests.get(ws_url, params=params, timeout=30)
+        response = requests.get(
+            ws_url, params=params, timeout=int(ibpt_request_timeout)
+        )
         if response.ok:
             data = response.json()
             return namedtuple("Result", [k.lower() for k in data.keys()])(
@@ -62,7 +64,7 @@ def get_ibpt_product(
         "gtin": gtin,
     }
 
-    return _request(WS_IBPT[WS_PRODUTOS], data)
+    return _request(WS_IBPT[WS_PRODUTOS], data, config.ibpt_request_timeout)
 
 
 def get_ibpt_service(config, nbs, description="", uom="", amount="0"):
@@ -76,4 +78,4 @@ def get_ibpt_service(config, nbs, description="", uom="", amount="0"):
         "valor": amount,
     }
 
-    return _request(WS_IBPT[WS_SERVICOS], data)
+    return _request(WS_IBPT[WS_SERVICOS], data, config.ibpt_request_timeout)
