@@ -605,6 +605,21 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__estimate_tax
@@ -1436,6 +1451,11 @@ msgid "Invoices"
 msgstr "Faturas"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee____last_update
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line____last_update
@@ -1779,6 +1799,11 @@ msgstr "Linha de Reparo (peças)"
 #: model:ir.model,name:l10n_br_repair.model_repair_order
 msgid "Repair Order"
 msgstr "Ordem de Reparo"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_serie
+msgid "Serie Number"
+msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__service_type_id
