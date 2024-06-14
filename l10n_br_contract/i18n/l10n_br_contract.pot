@@ -436,6 +436,21 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__estimate_tax
 msgid "Estimate Tax"
 msgstr ""
@@ -1034,6 +1049,11 @@ msgid "Insurance Value"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract____last_update
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company____last_update
@@ -1265,6 +1285,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__line_recurrence
 msgid "Recurrence at line level?"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_serie
+msgid "Serie Number"
 msgstr ""
 
 #. module: l10n_br_contract
