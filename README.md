@@ -61,7 +61,7 @@ addon | version | maintainers | summary
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 14.0.1.0.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 14.0.2.0.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | delivery module Brazilian Localization
 [l10n_br_delivery_nfe](l10n_br_delivery_nfe/) | 14.0.1.1.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Delivery NFe
-[l10n_br_fiscal](l10n_br_fiscal/) | 14.0.21.20.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 14.0.21.21.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_fiscal_certificate](l10n_br_fiscal_certificate/) | 14.0.1.3.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | A1 fiscal certificate management for Brazil
 [l10n_br_fiscal_closing](l10n_br_fiscal_closing/) | 14.0.1.3.0 |  | Fechamento fiscal do periodo
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 14.0.2.3.0 |  | Distribuição de documentos fiscais
@@ -93,7 +93,7 @@ addon | version | maintainers | summary
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 14.0.1.2.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
 [l10n_br_setup_tests](l10n_br_setup_tests/) | 14.0.1.0.1 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) | Modules for Odoo's Brazil-focused usability with integration tests.
 [l10n_br_stock](l10n_br_stock/) | 14.0.2.1.1 |  | Brazilian Localization Warehouse
-[l10n_br_stock_account](l10n_br_stock_account/) | 14.0.3.7.0 |  | Brazilian Localization WMS Accounting
+[l10n_br_stock_account](l10n_br_stock_account/) | 14.0.3.8.0 |  | Brazilian Localization WMS Accounting
 [l10n_br_stock_account_report](l10n_br_stock_account_report/) | 14.0.1.1.3 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | P7 Stock Valuation Report
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.2.0.1 |  | Website sale localização brasileira.
 [l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 14.0.1.0.1 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) [![DiegoParadeda](https://github.com/DiegoParadeda.png?size=30px)](https://github.com/DiegoParadeda) | Implements Brazilian freight values for delivery.
