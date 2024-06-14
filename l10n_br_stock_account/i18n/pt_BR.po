@@ -333,6 +333,12 @@ msgid "CST PIS ST"
 msgstr "CST PIS ST"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
+msgid ""
+"Check this box if you want to generate fiscal document for this operation."
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__city_taxation_code_id
 msgid "City Taxation Code"
 msgstr "Código de Tributação da Cidade"
@@ -439,6 +445,21 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__estimate_tax
 msgid "Estimate Tax"
 msgstr "Estimativa de Imposto"
@@ -495,6 +516,11 @@ msgstr "Dados Adicionais Fiscais"
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Fiscal Document Info"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
@@ -1095,6 +1121,11 @@ msgstr ""
 "fiscal: {} !"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__invoice_wizard
+msgid "Invoice Create Wizard"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
 msgid "Invoice Status"
 msgstr "Status da Fatura"
@@ -1114,6 +1145,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Invoicing"
 msgstr "Faturamento"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_key
+msgid "Key"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_group____last_update
@@ -1166,6 +1202,11 @@ msgstr "Impostos do Simples Nacional"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
 msgstr "Impostos do Simples Nacional sem ICMS"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__none
+msgid "None"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:0
@@ -1325,6 +1366,11 @@ msgid "PIS WH Base Type"
 msgstr "Tipo da Base do PIS WH"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__pack
+msgid "Pack"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_order
 msgid "Partner Order (xPed)"
 msgstr "Pedido de Parceiro (xPed)"
@@ -1350,6 +1396,11 @@ msgid "Product"
 msgstr "Produto"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
+msgid "Pré generate Fiscal Document Number"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_is_public_entity
 msgid "Public Entity"
 msgstr "Entidade Pública"
@@ -1358,6 +1409,11 @@ msgstr "Entidade Pública"
 #: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
 msgid "Return Picking"
 msgstr "Separação de Retorno"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie
+msgid "Serie Number"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__service_type_id
@@ -1599,6 +1655,11 @@ msgstr "UOM"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__price_unit
 msgid "Unit Price"
 msgstr "Preço Unitário"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__validate
+msgid "Validate"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__icms_substitute
