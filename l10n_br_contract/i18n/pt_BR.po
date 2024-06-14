@@ -441,6 +441,21 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__estimate_tax
 msgid "Estimate Tax"
 msgstr "Estimativa de Imposto"
@@ -1043,6 +1058,11 @@ msgid "Insurance Value"
 msgstr "Valor do Seguro"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract____last_update
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company____last_update
@@ -1277,6 +1297,11 @@ msgstr "Recalcular impostos antes do faturamento"
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__line_recurrence
 msgid "Recurrence at line level?"
 msgstr "Recorrência no nível da linha?"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_serie
+msgid "Serie Number"
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__service_type_id
