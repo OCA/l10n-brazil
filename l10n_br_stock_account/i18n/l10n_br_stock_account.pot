@@ -333,6 +333,12 @@ msgid "CST PIS ST"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
+msgid ""
+"Check this box if you want to generate fiscal document for this operation."
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__city_taxation_code_id
 msgid "City Taxation Code"
 msgstr ""
@@ -437,6 +443,21 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__estimate_tax
 msgid "Estimate Tax"
 msgstr ""
@@ -492,6 +513,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Fiscal Document Info"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1081,6 +1107,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__invoice_wizard
+msgid "Invoice Create Wizard"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
 msgid "Invoice Status"
 msgstr ""
@@ -1096,6 +1127,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Invoicing"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_key
+msgid "Key"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1148,6 +1184,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__none
+msgid "None"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1306,6 +1347,11 @@ msgid "PIS WH Base Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__pack
+msgid "Pack"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_order
 msgid "Partner Order (xPed)"
 msgstr ""
@@ -1331,6 +1377,11 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
+msgid "Pré generate Fiscal Document Number"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_is_public_entity
 msgid "Public Entity"
 msgstr ""
@@ -1338,6 +1389,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
 msgid "Return Picking"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie
+msgid "Serie Number"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1573,6 +1629,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__price_unit
 msgid "Unit Price"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__validate
+msgid "Validate"
 msgstr ""
 
 #. module: l10n_br_stock_account
