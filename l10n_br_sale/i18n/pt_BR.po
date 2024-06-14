@@ -518,6 +518,21 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__fiscal_type__02
 #, fuzzy
 msgid "Embalagem"
@@ -1189,6 +1204,11 @@ msgid "Journal Entry"
 msgstr "Lançamento de Diário"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company____last_update
@@ -1530,6 +1550,11 @@ msgstr "Pedido de Vendas"
 #: model:ir.model,name:l10n_br_sale.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Linha do Pedido de Vendas"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_serie
+msgid "Serie Number"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__service_type_id
