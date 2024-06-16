@@ -100,6 +100,12 @@ TFINCTE = [
     ("3", "3"),
 ]
 
+"Tipos Finalidade de CT-e Simplificado"
+TFINCTESIMP = [
+    ("4", "4"),
+    ("5", "5"),
+]
+
 "Tipo Finalidade da GTV-e"
 TFINGTVE = [
     ("4", "4"),
@@ -111,6 +117,13 @@ TMODTRANSPOS = [
     ("02", "02"),
     ("03", "03"),
     ("04", "04"),
+]
+
+"Tipo Modal transporte do CTe Simplificado"
+TMODTRANSPSIMP = [
+    ("01", "01"),
+    ("02", "02"),
+    ("03", "03"),
 ]
 
 "Tipo processo de emissão do CT-e"
@@ -183,6 +196,13 @@ INFCTESUB_INDALTERATOMA = [
     ("1", "1"),
 ]
 
+"""indica se a prestação é total ou parcial em relação as notas do
+    documento anterior"""
+INFDOCANT_TPPREST = [
+    ("1", "Total"),
+    ("2", "Parcial"),
+]
+
 "Tipo da Espécie"
 INFESPECIE_TPESPECIE = [
     ("1", "Numerário"),
@@ -214,6 +234,27 @@ INFQ_CUNID = [
     ("03", "UNIDADE"),
     ("04", "LITROS"),
     ("05", "MMBTU"),
+]
+
+"Tipo da Medida"
+INFQ_TPMED = [
+    ("00", "Cubagem da NF-e"),
+    ("01", "Cubagem Aferida pelo Transportador"),
+    ("02", "Peso Bruto da NF-e"),
+    ("03", "Peso Bruto Aferido pelo Transportador"),
+    ("04", "Peso Cubado"),
+    ("05", "Peso Base do Cálculo do Frete"),
+    ("06", "Peso para uso Operacional"),
+    ("07", "Caixas"),
+    ("08", "Paletes"),
+    ("09", "Sacas"),
+    ("10", "Containers"),
+    ("11", "Rolos"),
+    ("12", "Bombonas"),
+    ("13", "Latas"),
+    ("14", "Litragem"),
+    ("15", "Milhão de BTU (British Thermal Units)"),
+    ("99", "Outros"),
 ]
 
 "Tipo de hora"
@@ -260,10 +301,17 @@ TOMATERCEIRO_TOMA = [
     ("4", "Outros"),
 ]
 
+"Indicador do papel do tomador na prestação do serviço"
+TOMA_INDIETOMA = [
+    ("1", "Contribuinte ICMS"),
+    ("2", "Contribuinte isento de inscrição"),
+    ("9", "Não Contribuinte"),
+]
+
 "Tomador do Serviço"
 TOMA_TOMA = [
     ("0", "Remetente"),
-    ("1", "Destinatário"),
+    ("1", "Expedidor"),
 ]
 
 
@@ -935,6 +983,11 @@ class TunidCarga(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TunidCarga"
 
+    cte40_infUnidCarga_infNFe_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infnfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
     cte40_infUnidCarga_infNF_id = fields.Many2one(
         comodel_name="cte.40.tcte_infnf", xsd_implicit=True, ondelete="cascade"
     )
@@ -1065,6 +1118,7 @@ class TcteOsInfCte(models.AbstractModel):
         comodel_name="cte.40.tcteos_vprest",
         string="Valores da Prestação de Serviço",
         xsd_required=True,
+        xsd_type="TDec_1302",
     )
 
     cte40_imp = fields.Many2one(
@@ -1202,8 +1256,8 @@ class TcteOsIde(models.AbstractModel):
         string="Forma de emissão do CT-e",
         xsd_required=True,
         help=(
-            "Forma de emissão do CT-e\nPreencher com:\n 1 - Normal;\n 5 - "
-            "Contingência FSDA;\n 7 - Autorização pela SVC-RS;\n 8 - "
+            "Forma de emissão do CT-e\nPreencher com:\n1 - Normal;\n 5 - "
+            "Contingência FSDA;\n7 - Autorização pela SVC-RS;\n 8 - "
             "Autorização pela SVC-SP"
         ),
     )
@@ -1617,11 +1671,12 @@ class TcteOsToma(models.AbstractModel):
         xsd_type="TEndereco",
     )
 
-    cte40_email = fields.Char(string="Endereço de email")
+    cte40_email = fields.Char(string="Endereço de email", xsd_type="TEmail")
 
 
 class TcteOsVPrest(models.AbstractModel):
-    "Valores da Prestação de Serviço"
+    """Valorl da Prestação do Serviço
+    Pode conter zeros quando o CT-e for de complemento de ICMS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tcteos_vprest"
@@ -3127,6 +3182,61 @@ class TretCteOs(models.AbstractModel):
     )
 
 
+class TretCteSimp(models.AbstractModel):
+    """Tipo Retorno do Pedido de Autorização de CT-e Simplificado (Modelo
+    57)"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tretctesimp"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TretCteSimp"
+
+    cte40_tpAmb = fields.Selection(
+        TAMB,
+        string="Identificação do Ambiente",
+        xsd_required=True,
+        xsd_type="TAmb",
+        help="Identificação do Ambiente:\n1 - Produção\n2 - Homologação",
+    )
+
+    cte40_cUF = fields.Selection(
+        TCODUFIBGE,
+        string="Identificação da UF",
+        xsd_required=True,
+        xsd_type="TCodUfIBGE",
+    )
+
+    cte40_verAplic = fields.Char(
+        string="Versão do Aplicativo que processou",
+        xsd_required=True,
+        xsd_type="TVerAplic",
+        help="Versão do Aplicativo que processou a CT-e",
+    )
+
+    cte40_cStat = fields.Char(
+        string="código do status do retorno da consulta",
+        xsd_required=True,
+        xsd_type="TStat",
+    )
+
+    cte40_xMotivo = fields.Char(
+        string="Descrição literal do status",
+        xsd_required=True,
+        xsd_type="TMotivo",
+        help="Descrição literal do status do do retorno da consulta.",
+    )
+
+    cte40_protCTe = fields.Many2one(
+        comodel_name="cte.40.tprotcte",
+        string="Reposta ao processamento do CT-e",
+        xsd_type="TProtCTe",
+    )
+
+    cte40_versao = fields.Char(
+        string="versao", xsd_required=True, xsd_type="TVerCTe"
+    )
+
+
 class TretGtve(models.AbstractModel):
     "Tipo Retorno do Pedido de Autorização de GTV-e (Modelo 64)"
 
@@ -3189,6 +3299,11 @@ class TunidadeTransp(models.AbstractModel):
     _inherit = "spec.mixin.cte"
     _binding_type = "TunidadeTransp"
 
+    cte40_infUnidTransp_infNFe_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infnfe",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
     cte40_infUnidTransp_infNF_id = fields.Many2one(
         comodel_name="cte.40.tcte_infnf", xsd_implicit=True, ondelete="cascade"
     )
@@ -3348,6 +3463,7 @@ class TcteInfCte(models.AbstractModel):
         comodel_name="cte.40.tcte_vprest",
         string="Valores da Prestação de Serviço",
         xsd_required=True,
+        xsd_type="TDec_1302",
     )
 
     cte40_imp = fields.Many2one(
@@ -3614,9 +3730,9 @@ class TcteIde(models.AbstractModel):
         string="Tipo do Serviço",
         xsd_required=True,
         help=(
-            "Tipo do Serviço\nPreencher com: \n0 - Normal;1 - "
-            "Subcontratação;\n2 - Redespacho;3 - Redespacho Intermediário; 4 -"
-            " Serviço Vinculado a Multimodal"
+            "Tipo do Serviço\nPreencher com: \n0 - Normal;\n1 - "
+            "Subcontratação;\n2 - Redespacho;\n3 - Redespacho Intermediário; "
+            "\n4 - Serviço Vinculado a Multimodal"
         ),
     )
 
@@ -3851,7 +3967,7 @@ class TcteCompl(models.AbstractModel):
     cte40_xEmi = fields.Char(string="Funcionário emissor do CTe")
 
     cte40_fluxo = fields.Many2one(
-        comodel_name="cte.40.fluxo",
+        comodel_name="cte.40.tcte_fluxo",
         string="Previsão do fluxo da carga",
         help=(
             "Previsão do fluxo da carga\nPreenchimento obrigatório para o "
@@ -3898,12 +4014,12 @@ class TcteCompl(models.AbstractModel):
     )
 
 
-class Fluxo(models.AbstractModel):
+class TcteFluxo(models.AbstractModel):
     """Previsão do fluxo da carga
     Preenchimento obrigatório para o modal aéreo."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.fluxo"
+    _name = "cte.40.tcte_fluxo"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Compl.Fluxo"
 
@@ -3921,7 +4037,7 @@ class Fluxo(models.AbstractModel):
     )
 
     cte40_pass = fields.One2many(
-        "cte.40.pass", "cte40_pass_fluxo_id", string="pass"
+        "cte.40.tcte_pass", "cte40_pass_fluxo_id", string="pass"
     )
 
     cte40_xDest = fields.Char(
@@ -3939,14 +4055,14 @@ class Fluxo(models.AbstractModel):
     cte40_xRota = fields.Char(string="Código da Rota de Entrega")
 
 
-class Pass(models.AbstractModel):
+class TctePass(models.AbstractModel):
     _description = "pass"
-    _name = "cte.40.pass"
+    _name = "cte.40.tcte_pass"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Compl.Fluxo.Pass"
 
     cte40_pass_fluxo_id = fields.Many2one(
-        comodel_name="cte.40.fluxo", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.tcte_fluxo", xsd_implicit=True, ondelete="cascade"
     )
     cte40_xPass = fields.Char(
         string="Sigla ou código interno",
@@ -4505,7 +4621,8 @@ class TcteDest(models.AbstractModel):
 
 
 class TcteVPrest(models.AbstractModel):
-    "Valores da Prestação de Serviço"
+    """Valorl da Prestação do Serviço
+    Pode conter zeros quando o CT-e for de complemento de ICMS"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tcte_vprest"
@@ -4706,7 +4823,7 @@ class TcteInfCteNorm(models.AbstractModel):
     _binding_type = "Tcte.InfCte.InfCteNorm"
 
     cte40_infCarga = fields.Many2one(
-        comodel_name="cte.40.infcarga",
+        comodel_name="cte.40.tcte_infcarga",
         string="Informações da Carga do CT-e",
         xsd_required=True,
     )
@@ -4761,11 +4878,11 @@ class TcteInfCteNorm(models.AbstractModel):
     )
 
 
-class InfCarga(models.AbstractModel):
+class TcteInfCarga(models.AbstractModel):
     "Informações da Carga do CT-e"
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.infcarga"
+    _name = "cte.40.tcte_infcarga"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.InfCarga"
 
@@ -4841,7 +4958,9 @@ class TcteInfQ(models.AbstractModel):
     _binding_type = "Tcte.InfCte.InfCteNorm.InfCarga.InfQ"
 
     cte40_infQ_infCarga_id = fields.Many2one(
-        comodel_name="cte.40.infcarga", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.tcte_infcarga",
+        xsd_implicit=True,
+        ondelete="cascade",
     )
     cte40_cUnid = fields.Selection(
         INFQ_CUNID,
@@ -5590,6 +5709,1334 @@ class TcteInfCteSupl(models.AbstractModel):
     _name = "cte.40.tcte_infctesupl"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCteSupl"
+
+    cte40_qrCodCTe = fields.Char(
+        string="Texto com o QR-Code impresso no DACTE", xsd_required=True
+    )
+
+
+class TcteSimp(models.AbstractModel):
+    """Tipo Conhecimento de Transporte Eletrônico (Modelo 57) - Modelo
+    Simplificado"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp"
+
+    cte40_infCte = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infcte",
+        string="Informações do CT-e",
+        xsd_required=True,
+    )
+
+    cte40_infCTeSupl = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infctesupl",
+        string="Informações suplementares do CT-e",
+    )
+
+
+class TcteSimpInfCte(models.AbstractModel):
+    "Informações do CT-e do tipo GTV-e"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infcte"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte"
+
+    cte40_ide = fields.Many2one(
+        comodel_name="cte.40.tctesimp_ide",
+        string="Identificação do CT-e",
+        xsd_required=True,
+    )
+
+    cte40_compl = fields.Many2one(
+        comodel_name="cte.40.tctesimp_compl",
+        string="Dados complementares do CT-e",
+        help=(
+            "Dados complementares do CT-e para fins operacionais ou comerciais"
+        ),
+    )
+
+    cte40_emit = fields.Many2one(
+        comodel_name="cte.40.tctesimp_emit",
+        string="Identificação do Emitente do CT-e",
+        xsd_required=True,
+    )
+
+    cte40_toma = fields.Many2one(
+        comodel_name="cte.40.tctesimp_toma",
+        string="Identificação do tomador do serviço",
+        xsd_required=True,
+        choice="infcte",
+        xsd_choice_required=True,
+        help="Identificação do tomador do serviço no CT-e",
+    )
+
+    cte40_infCarga = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infcarga",
+        string="Informações da Carga do CT-e",
+        xsd_required=True,
+    )
+
+    cte40_det = fields.One2many(
+        "cte.40.det",
+        "cte40_det_infCte_id",
+        string="Detalhamento das entregas / prestações",
+        help="Detalhamento das entregas / prestações do CTe Simplificado",
+    )
+
+    cte40_infModal = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infmodal",
+        string="Informações do modal",
+        xsd_required=True,
+    )
+
+    cte40_cobr = fields.Many2one(
+        comodel_name="cte.40.tctesimp_cobr", string="Dados da cobrança do CT-e"
+    )
+
+    cte40_infCteSub = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infctesub",
+        string="Informações do CT-e de substituição",
+    )
+
+    cte40_imp = fields.Many2one(
+        comodel_name="cte.40.tctesimp_imp",
+        string="Informações relativas aos Impostos",
+        xsd_required=True,
+    )
+
+    cte40_total = fields.Many2one(
+        comodel_name="cte.40.total",
+        string="Valores Totais do CTe",
+        xsd_required=True,
+    )
+
+    cte40_autXML = fields.One2many(
+        "cte.40.tctesimp_autxml",
+        "cte40_autXML_infCte_id",
+        string="Autorizados para download do XML do DF-e",
+        help=(
+            "Autorizados para download do XML do DF-e\nInformar CNPJ ou CPF. "
+            "Preencher os zeros não significativos."
+        ),
+    )
+
+    cte40_infRespTec = fields.Many2one(
+        comodel_name="cte.40.tresptec",
+        string="Informações do Responsável Técnico",
+        xsd_type="TRespTec",
+        help="Informações do Responsável Técnico pela emissão do DF-e",
+    )
+
+    cte40_infSolicNFF = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infsolicnff",
+        string="Grupo de informações do pedido",
+        help=(
+            "Grupo de informações do pedido de emissão da Nota Fiscal Fácil"
+        ),
+    )
+
+    cte40_infPAA = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infpaa",
+        string="Grupo de Informação do Provedor",
+        help="Grupo de Informação do Provedor de Assinatura e Autorização",
+    )
+
+    cte40_versao = fields.Char(
+        string="Versão do leiaute",
+        xsd_required=True,
+        help="Versão do leiaute\nEx: '4.00'",
+    )
+
+    cte40_Id = fields.Char(
+        string="Identificador da tag a ser assinada",
+        xsd_required=True,
+        help=(
+            "Identificador da tag a ser assinada\nInformar a chave de acesso "
+            "do CT-e e precedida do literal 'CTe'"
+        ),
+    )
+
+
+class TcteSimpIde(models.AbstractModel):
+    "Identificação da GTV-e"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_ide"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Ide"
+
+    cte40_cUF = fields.Selection(
+        TCODUFIBGE,
+        string="Código da UF do emitente do CT-e",
+        xsd_required=True,
+        xsd_type="TCodUfIBGE",
+        help=("Código da UF do emitente do CT-e.\nUtilizar a Tabela do IBGE."),
+    )
+
+    cte40_cCT = fields.Char(
+        string="Código numérico que compõe a Chave",
+        xsd_required=True,
+        help=(
+            "Código numérico que compõe a Chave de Acesso.\nNúmero aleatório "
+            "gerado pelo emitente para cada CT-e, com o objetivo de evitar "
+            "acessos indevidos ao documento."
+        ),
+    )
+
+    cte40_CFOP = fields.Char(
+        string="Código Fiscal de Operações e Prestações",
+        xsd_required=True,
+        xsd_type="TCfop",
+    )
+
+    cte40_natOp = fields.Char(string="Natureza da Operação", xsd_required=True)
+
+    cte40_mod = fields.Selection(
+        TMODCT,
+        string="Modelo do documento fiscal",
+        xsd_required=True,
+        xsd_type="TModGTVe",
+        help=(
+            "Modelo do documento fiscal\nUtilizar o código 57 para "
+            "identificação do CT-e, emitido em substituição aos modelos de "
+            "conhecimentos em papel."
+        ),
+    )
+
+    cte40_serie = fields.Char(
+        string="Série do CT-e",
+        xsd_required=True,
+        help="Série do CT-e\nPreencher com '0' no caso de série única",
+    )
+
+    cte40_nCT = fields.Char(
+        string="Número do CT-e", xsd_required=True, xsd_type="TNF"
+    )
+
+    cte40_dhEmi = fields.Char(
+        string="Data e hora de emissão do CT-e",
+        xsd_required=True,
+        help=(
+            "Data e hora de emissão do CT-e\nFormato AAAA-MM-DDTHH:MM:DD TZD"
+        ),
+    )
+
+    cte40_tpImp = fields.Selection(
+        IDE_TPIMP,
+        string="Formato de impressão do DACTE",
+        xsd_required=True,
+        help=(
+            "Formato de impressão do DACTE\nPreencher com: 1 - Retrato; 2 - "
+            "Paisagem."
+        ),
+    )
+
+    cte40_tpEmis = fields.Selection(
+        IDE_TPEMIS,
+        string="Forma de emissão do CT-e",
+        xsd_required=True,
+        help=(
+            "Forma de emissão do CT-e\nPreencher com:\n1 - Normal;\n3 - Regime"
+            " Especial NFF;  \n4 - EPEC pela SVC; \n7 - Autorização pela SVC-"
+            "RS;\n8 - Autorização pela SVC-SP"
+        ),
+    )
+
+    cte40_cDV = fields.Char(
+        string="Digito Verificador da chave de acesso",
+        xsd_required=True,
+        help=(
+            "Digito Verificador da chave de acesso do CT-e\nInformar o dígito"
+            "  de controle da chave de acesso do CT-e, que deve ser calculado "
+            "com a aplicação do algoritmo módulo 11 (base 2,9) da chave de "
+            "acesso."
+        ),
+    )
+
+    cte40_tpAmb = fields.Selection(
+        TAMB,
+        string="Tipo do Ambiente",
+        xsd_required=True,
+        xsd_type="TAmb",
+        help=(
+            "Tipo do Ambiente\nPreencher com:1 - Produção; 2 - Homologação."
+        ),
+    )
+
+    cte40_tpCTe = fields.Selection(
+        TFINCTESIMP,
+        string="Tipo do CT-e Simplificado",
+        xsd_required=True,
+        help=(
+            "Tipo do CT-e Simplificado\nPreencher com:\n4 - CTe "
+            "Simplificado\n5 - Substituição CTe Simplificado"
+        ),
+    )
+
+    cte40_procEmi = fields.Selection(
+        TPROCEMI,
+        string="Identificador do processo de emissão",
+        xsd_required=True,
+        xsd_type="TProcEmi",
+        help=(
+            "Identificador do processo de emissão do CT-e\nPreencher com: "
+            "\n\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do "
+            "contribuinte;\n\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo "
+            "contribuinte com aplicativo fornecido pelo SEBRAE."
+        ),
+    )
+
+    cte40_verProc = fields.Char(
+        string="Versão do processo de emissão",
+        xsd_required=True,
+        help=(
+            "Versão do processo de emissão\nInformar a versão do aplicativo "
+            "emissor de CT-e."
+        ),
+    )
+
+    cte40_cMunEnv = fields.Char(
+        string="Código do Município de envio do CT-e",
+        xsd_required=True,
+        xsd_type="TCodMunIBGE",
+        help=(
+            "Código do Município de envio do CT-e (de onde o documento foi "
+            "transmitido)\nUtilizar a tabela do IBGE. Informar 9999999 para as"
+            " operações com o exterior."
+        ),
+    )
+
+    cte40_xMunEnv = fields.Char(
+        string="Nome do Município de envio do CT-e",
+        xsd_required=True,
+        help=(
+            "Nome do Município de envio do CT-e (de onde o documento foi "
+            "transmitido)\nInformar PAIS/Municipio para as operações com o "
+            "exterior."
+        ),
+    )
+
+    cte40_UFEnv = fields.Selection(
+        TUF,
+        string="Sigla da UF de envio do CT-e",
+        xsd_required=True,
+        xsd_type="TUf",
+        help=(
+            "Sigla da UF de envio do CT-e (de onde o documento foi "
+            "transmitido)\nInformar 'EX' para operações com o exterior."
+        ),
+    )
+
+    cte40_modal = fields.Selection(
+        TMODTRANSPSIMP,
+        string="Modal",
+        xsd_required=True,
+        help=("Modal\nPreencher com:\n01-Rodoviário\n02-Aéreo\n03-Aquaviário"),
+    )
+
+    cte40_tpServ = fields.Selection(
+        IDE_TPSERV,
+        string="Tipo do Serviço",
+        xsd_required=True,
+        help=(
+            "Tipo do Serviço\nPreencher com: \n0 - Normal;\n1 - "
+            "Subcontratação;\n2 - Redespacho;"
+        ),
+    )
+
+    cte40_UFIni = fields.Selection(
+        TUF,
+        string="UF do início da prestação",
+        xsd_required=True,
+        xsd_type="TUf",
+        help=(
+            "UF do início da prestação\nInformar 'EX' para operações com o "
+            "exterior."
+        ),
+    )
+
+    cte40_UFFim = fields.Selection(
+        TUF,
+        string="UF do término da prestação",
+        xsd_required=True,
+        xsd_type="TUf",
+        help=(
+            "UF do término da prestação\nInformar 'EX' para operações com o "
+            "exterior."
+        ),
+    )
+
+    cte40_retira = fields.Selection(
+        IDE_RETIRA,
+        string="Indicador se o Recebedor retira",
+        xsd_required=True,
+        help=(
+            "Indicador se o Recebedor retira no Aeroporto, Filial, Porto ou "
+            "Estação de Destino?\nPreencher com: 0 - sim; 1 - não"
+        ),
+    )
+
+    cte40_xDetRetira = fields.Char(string="Detalhes do retira")
+
+    cte40_dhCont = fields.Datetime(
+        string="Data e Hora da entrada em contingência",
+        xsd_type="TDateTimeUTC",
+        help=(
+            "Data e Hora da entrada em contingência\nInformar a data e hora no"
+            " formato AAAA-MM-DDTHH:MM:SS"
+        ),
+    )
+
+    cte40_xJust = fields.Char(
+        string="Justificativa da entrada em contingência"
+    )
+
+
+class TcteSimpCompl(models.AbstractModel):
+    "Dados complementares da GTV-e para fins operacionais ou comerciais"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_compl"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Compl"
+
+    cte40_xCaracAd = fields.Char(
+        string="Característica adicional do transporte",
+        help=(
+            "Característica adicional do transporte\nTexto livre:\nREENTREGA; "
+            "DEVOLUÇÃO; REFATURAMENTO; etc"
+        ),
+    )
+
+    cte40_xCaracSer = fields.Char(
+        string="Característica adicional do serviço",
+        help=(
+            "Característica adicional do serviço\nTexto "
+            "livre:\n\t\t\t\t\t\t\t\t\t\t\tENTREGA EXPRESSA; LOGÍSTICA "
+            "REVERSA; CONVENCIONAL; EMERGENCIAL; etc"
+        ),
+    )
+
+    cte40_fluxo = fields.Many2one(
+        comodel_name="cte.40.tctesimp_fluxo",
+        string="Previsão do fluxo da carga",
+        help=(
+            "Previsão do fluxo da carga\nPreenchimento obrigatório para o "
+            "modal aéreo."
+        ),
+    )
+
+    cte40_xObs = fields.Char(string="Observações Gerais")
+
+    cte40_obsCont = fields.One2many(
+        "cte.40.tctesimp_obscont",
+        "cte40_ObsCont_compl_id",
+        string="Campo de uso livre do contribuinte",
+        help=(
+            "Campo de uso livre do contribuinte\nInformar o nome do campo no "
+            "atributo xCampo e o conteúdo do campo no XTexto"
+        ),
+    )
+
+    cte40_obsFisco = fields.One2many(
+        "cte.40.tctesimp_obsfisco",
+        "cte40_ObsFisco_compl_id",
+        string="ObsFisco",
+        help=(
+            "Campo de uso livre do contribuinte\nInformar o nome do campo no "
+            "atributo xCampo e o conteúdo do campo no XTexto"
+        ),
+    )
+
+
+class TcteSimpFluxo(models.AbstractModel):
+    """Previsão do fluxo da carga
+    Preenchimento obrigatório para o modal aéreo."""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_fluxo"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Compl.Fluxo"
+
+    cte40_xOrig = fields.Char(
+        string="Sigla ou código interno",
+        help=(
+            "Sigla ou código interno da Filial/Porto/Estação/ Aeroporto de "
+            "Origem\nObservações para o modal "
+            "aéreo:\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t- Preenchimento obrigatório "
+            "para o modal aéreo.\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t- O código de "
+            "três letras IATA do aeroporto de partida deverá ser incluído como"
+            " primeira anotação. Quando não for possível, utilizar a sigla "
+            "OACI."
+        ),
+    )
+
+    cte40_pass = fields.One2many(
+        "cte.40.tctesimp_pass", "cte40_pass_fluxo_id", string="pass"
+    )
+
+    cte40_xDest = fields.Char(
+        string="Sigla ou código interno (xDest)",
+        help=(
+            "Sigla ou código interno da Filial/Porto/Estação/Aeroporto de "
+            "Destino\nObservações para o modal "
+            "aéreo:\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t- Preenchimento obrigatório "
+            "para o modal aéreo.\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t- Deverá ser "
+            "incluído o código de três letras IATA do aeroporto de destino. "
+            "Quando não for possível, utilizar a sigla OACI."
+        ),
+    )
+
+    cte40_xRota = fields.Char(string="Código da Rota de Entrega")
+
+
+class TcteSimpPass(models.AbstractModel):
+    _description = "pass"
+    _name = "cte.40.tctesimp_pass"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Compl.Fluxo.Pass"
+
+    cte40_pass_fluxo_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_fluxo",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
+    cte40_xPass = fields.Char(
+        string="Sigla ou código interno",
+        help=(
+            "Sigla ou código interno da Filial/Porto/Estação/Aeroporto de "
+            "Passagem\nObservação para o modal "
+            "aéreo:\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t- O código de três "
+            "letras IATA, referente ao aeroporto de transferência, deverá ser "
+            "incluído, quando for o caso. Quando não for possível,  utilizar a"
+            " sigla OACI. Qualquer solicitação de itinerário deverá ser "
+            "incluída."
+        ),
+    )
+
+
+class TcteSimpObsCont(models.AbstractModel):
+    """Campo de uso livre do contribuinte
+    Informar o nome do campo no atributo xCampo e o conteúdo do campo no XTexto"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_obscont"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Compl.ObsCont"
+
+    cte40_ObsCont_compl_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_compl",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
+    cte40_xTexto = fields.Char(string="Conteúdo do campo", xsd_required=True)
+
+    cte40_xCampo = fields.Char(
+        string="Identificação do campo", xsd_required=True
+    )
+
+
+class TcteSimpObsFisco(models.AbstractModel):
+    """Campo de uso livre do contribuinte
+    Informar o nome do campo no atributo xCampo e o conteúdo do campo no XTexto"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_obsfisco"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Compl.ObsFisco"
+
+    cte40_ObsFisco_compl_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_compl",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
+    cte40_xTexto = fields.Char(string="Conteúdo do campo", xsd_required=True)
+
+    cte40_xCampo = fields.Char(
+        string="Identificação do campo", xsd_required=True
+    )
+
+
+class TcteSimpEmit(models.AbstractModel):
+    "Identificação do Emitente da GTV-e"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_emit"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Emit"
+
+    cte40_CNPJ = fields.Char(
+        string="CNPJ do emitente",
+        xsd_type="TCnpj",
+        help="CNPJ do emitente\nInformar zeros não significativos",
+    )
+
+    cte40_CPF = fields.Char(
+        string="CPF do emitente",
+        choice="emit",
+        xsd_choice_required=True,
+        xsd_type="TCpf",
+        help=(
+            "CPF do emitente\nInformar zeros não significativos.\n\nUsar com "
+            "série específica 920-969 para emitente pessoa física com "
+            "inscrição estadual"
+        ),
+    )
+
+    cte40_IE = fields.Char(
+        string="Inscrição Estadual do Emitente",
+        help=(
+            "Inscrição Estadual do Emitente\nA IE do emitente somente ficará "
+            "sem informação para o caso do Regime Especial da NFF (tpEmis=3)"
+        ),
+    )
+
+    cte40_IEST = fields.Char(
+        string="Inscrição Estadual",
+        help="Inscrição Estadual do Substituto Tributário",
+    )
+
+    cte40_xNome = fields.Char(
+        string="Razão social ou Nome do emitente", xsd_required=True
+    )
+
+    cte40_xFant = fields.Char(string="Nome fantasia")
+
+    cte40_enderEmit = fields.Many2one(
+        comodel_name="cte.40.tendeemi",
+        string="Endereço do emitente",
+        xsd_required=True,
+        xsd_type="TEndeEmi",
+    )
+
+    cte40_CRT = fields.Selection(
+        TCRT,
+        string="Código do Regime Tributário",
+        xsd_required=True,
+        xsd_type="TCRT",
+        help=(
+            "Código do Regime Tributário\nInformar: 1=Simples Nacional; "
+            "\n2=Simples Nacional, excesso sublimite de receita "
+            "bruta;\n3=Regime Normal. \n4=Simples Nacional - Microempreendedor"
+            " Individual – MEI."
+        ),
+    )
+
+
+class TcteSimpToma(models.AbstractModel):
+    """Indicador do "papel" do tomador do serviço no GT-e"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_toma"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Toma"
+
+    cte40_toma = fields.Selection(
+        TOMA_TOMA,
+        string="Tomador do Serviço",
+        xsd_required=True,
+        help=(
+            "Tomador do Serviço\nPreencher com:\n\n0-Remetente;\n1-"
+            "Expedidor;\n2-Recebedor;\n3-Destinatário\n4-Terceiro"
+        ),
+    )
+
+    cte40_indIEToma = fields.Selection(
+        TOMA_INDIETOMA,
+        string="Indicador do papel do tomador",
+        xsd_required=True,
+        help=(
+            "Indicador do papel do tomador na prestação do serviço:\n1 – "
+            "Contribuinte ICMS;\n2 – Contribuinte isento de inscrição;\n9 – "
+            "Não Contribuinte\nAplica-se ao tomador que for indicado no toma3 "
+            "ou toma4"
+        ),
+    )
+
+    cte40_CNPJ = fields.Char(
+        string="Número do CNPJ",
+        choice="toma",
+        xsd_choice_required=True,
+        xsd_type="TCnpjOpc",
+        help=(
+            "Número do CNPJ\nEm caso de empresa não estabelecida no Brasil, "
+            "será informado o CNPJ com "
+            "zeros.\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\nInformar os zeros não "
+            "significativos."
+        ),
+    )
+
+    cte40_CPF = fields.Char(
+        string="Número do CPF",
+        choice="toma",
+        xsd_choice_required=True,
+        xsd_type="TCpf",
+        help="Número do CPF\nInformar os zeros não significativos.",
+    )
+
+    cte40_IE = fields.Char(
+        string="Inscrição Estadual",
+        help=(
+            "Inscrição Estadual\nInformar a IE do tomador ou ISENTO se tomador"
+            " é contribuinte do ICMS isento de inscrição no cadastro de "
+            "contribuintes do ICMS. Caso o tomador não seja contribuinte do "
+            "ICMS não informar o conteúdo."
+        ),
+    )
+
+    cte40_xNome = fields.Char(string="Razão Social ou Nome", xsd_required=True)
+
+    cte40_ISUF = fields.Char(
+        string="Inscrição na SUFRAMA",
+        help=(
+            "Inscrição na SUFRAMA\n(Obrigatório nas operações com as áreas com"
+            " benefícios de incentivos fiscais sob controle da SUFRAMA)"
+        ),
+    )
+
+    cte40_fone = fields.Char(string="Telefone", xsd_type="TFone")
+
+    cte40_enderToma = fields.Many2one(
+        comodel_name="cte.40.tendereco",
+        string="Dados do endereço",
+        xsd_required=True,
+        xsd_type="TEndereco",
+    )
+
+    cte40_email = fields.Char(string="Endereço de email", xsd_type="TEmail")
+
+
+class TcteSimpInfCarga(models.AbstractModel):
+    "Informações da Carga do CT-e"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infcarga"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.InfCarga"
+
+    cte40_vCarga = fields.Monetary(
+        string="Valor total da carga",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_proPred = fields.Char(
+        string="Produto predominante",
+        xsd_required=True,
+        help=(
+            "Produto predominante\nInformar a descrição do produto "
+            "predominante"
+        ),
+    )
+
+    cte40_xOutCat = fields.Char(
+        string="Outras características da carga",
+        help=(
+            "Outras características da carga\n'FRIA', 'GRANEL', 'REFRIGERADA',"
+            " 'Medidas: 12X12X12'"
+        ),
+    )
+
+    cte40_infQ = fields.One2many(
+        "cte.40.tctesimp_infq",
+        "cte40_infQ_infCarga_id",
+        string="Informações de quantidades da Carga",
+        help=(
+            "Informações de quantidades da Carga do CT-e\nPara o Aéreo é "
+            "obrigatório o preenchimento desse campo da seguinte forma.\n1 - "
+            "Peso Bruto, sempre em quilogramas (obrigatório);\n2 - Peso "
+            "Cubado; sempre em quilogramas;\n3 - Quantidade de volumes, sempre"
+            " em unidades (obrigatório);\n4 - Cubagem, sempre em metros "
+            "cúbicos (obrigatório apenas quando for impossível preencher as "
+            "dimensões da(s) embalagem(ens) na tag xDime do leiaute do Aéreo)."
+        ),
+    )
+
+    cte40_vCargaAverb = fields.Monetary(
+        string="Valor da Carga para efeito de averbação",
+        xsd_type="TDec_1302Opc",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor da Carga para efeito de averbação\nNormalmente igual ao "
+            "valor declarado da mercadoria, diferente por exemplo, quando a "
+            "mercadoria transportada é isenta de tributos nacionais para "
+            "exportação, onde é preciso averbar um valor maior, pois no caso "
+            "de indenização, o valor a ser pago será maior"
+        ),
+    )
+
+
+class TcteSimpInfQ(models.AbstractModel):
+    """Informações de quantidades da Carga do CT-e
+    Para o Aéreo é obrigatório o preenchimento desse campo da seguinte forma.
+    1 - Peso Bruto, sempre em quilogramas (obrigatório);
+    2 - Peso Cubado; sempre em quilogramas;
+    3 - Quantidade de volumes, sempre em unidades (obrigatório);
+    4 - Cubagem, sempre em metros cúbicos (obrigatório apenas quando for impossível
+    preencher as dimensões da(s) embalagem(ens) na tag xDime do leiaute do
+    Aéreo)."""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infq"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.InfCarga.InfQ"
+
+    cte40_infQ_infCarga_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infcarga",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
+    cte40_cUnid = fields.Selection(
+        INFQ_CUNID,
+        string="Código da Unidade de Medida",
+        xsd_required=True,
+        help=(
+            "Código da Unidade de Medida\nPreencher "
+            "com:\n00-M3;\n01-KG;\n02-TON;\n03-UNIDADE;\n04-LITROS;\n05-MMBTU"
+        ),
+    )
+
+    cte40_tpMed = fields.Selection(
+        INFQ_TPMED,
+        string="Tipo da Medida",
+        xsd_required=True,
+        help=(
+            "Tipo da Medida\nInformar com:\n00-Cubagem da NF-e\n01-Cubagem "
+            "Aferida pelo Transportador\n02-Peso Bruto da NF-e\n03-Peso Bruto "
+            "Aferido pelo Transportador\n04-Peso Cubado\n05-Peso Base do "
+            "Cálculo do Frete\n06-Peso para uso Operacional\n07-Caixas\n08-"
+            "Paletes\n09-Sacas\n10-Containers\n11-Rolos\n12-Bombonas\n13-"
+            "Latas\n14-Litragem\n15-Milhão de BTU (British Thermal "
+            "Units)\n99-Outros"
+        ),
+    )
+
+    cte40_qCarga = fields.Float(
+        string="Quantidade",
+        xsd_required=True,
+        xsd_type="TDec_1104",
+        digits=(
+            11,
+            4,
+        ),
+    )
+
+
+class Det(models.AbstractModel):
+    "Detalhamento das entregas / prestações do CTe Simplificado"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.det"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Det"
+
+    cte40_det_infCte_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infcte",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
+    cte40_cMunIni = fields.Char(
+        string="Código do Município de início",
+        xsd_required=True,
+        xsd_type="TCodMunIBGE",
+        help=(
+            "Código do Município de início da prestação\nUtilizar a tabela do "
+            "IBGE. Informar 9999999 para operações com o exterior."
+        ),
+    )
+
+    cte40_xMunIni = fields.Char(
+        string="Nome do Município do início da prestação",
+        xsd_required=True,
+        help=(
+            "Nome do Município do início da prestação\nInformar 'EXTERIOR' "
+            "para operações com o exterior."
+        ),
+    )
+
+    cte40_cMunFim = fields.Char(
+        string="Código do Município de término",
+        xsd_required=True,
+        xsd_type="TCodMunIBGE",
+        help=(
+            "Código do Município de término da prestação\nUtilizar a tabela do"
+            " IBGE. Informar 9999999 para operações com o exterior."
+        ),
+    )
+
+    cte40_xMunFim = fields.Char(
+        string="Nome do Município do término",
+        xsd_required=True,
+        help=(
+            "Nome do Município do término da prestação\nInformar 'EXTERIOR' "
+            "para operações com o exterior."
+        ),
+    )
+
+    cte40_vPrest = fields.Monetary(
+        string="Valorl da Prestação do Serviço",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valorl da Prestação do Serviço\nPode conter zeros quando o CT-e "
+            "for de complemento de ICMS"
+        ),
+    )
+
+    cte40_vRec = fields.Monetary(
+        string="Valor a Receber",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_comp = fields.One2many(
+        "cte.40.tctesimp_det_comp",
+        "cte40_Comp_det_id",
+        string="Componentes do Valor da Prestação",
+    )
+
+    cte40_infNFe = fields.One2many(
+        "cte.40.tctesimp_infnfe",
+        "cte40_infNFe_det_id",
+        string="Informações das NF-e",
+        choice="det",
+        xsd_choice_required=True,
+    )
+
+    cte40_infDocAnt = fields.One2many(
+        "cte.40.infdocant",
+        "cte40_infDocAnt_det_id",
+        string="Documentos anteriores",
+        choice="det",
+        xsd_choice_required=True,
+    )
+
+    cte40_nItem = fields.Char(
+        string="Número identificador do item agrupador",
+        xsd_required=True,
+        help="Número identificador do item agrupador da prestação",
+    )
+
+
+class TcteSimpDetComp(models.AbstractModel):
+    "Componentes do Valor da Prestação"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_det_comp"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Det.Comp"
+
+    cte40_Comp_det_id = fields.Many2one(
+        comodel_name="cte.40.det", xsd_implicit=True, ondelete="cascade"
+    )
+    cte40_xNome = fields.Char(
+        string="Nome do componente",
+        xsd_required=True,
+        help=(
+            "Nome do componente\nExxemplos: FRETE PESO, FRETE VALOR, SEC/CAT, "
+            "ADEME, AGENDAMENTO, etc"
+        ),
+    )
+
+    cte40_vComp = fields.Monetary(
+        string="Valor do componente",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+
+class TcteSimpInfNfe(models.AbstractModel):
+    "Informações das NF-e"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infnfe"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Det.InfNfe"
+
+    cte40_infNFe_det_id = fields.Many2one(
+        comodel_name="cte.40.det", xsd_implicit=True, ondelete="cascade"
+    )
+    cte40_chNFe = fields.Char(
+        string="Chave de acesso da NF-e", xsd_required=True, xsd_type="TChDFe"
+    )
+
+    cte40_PIN = fields.Char(
+        string="PIN SUFRAMA",
+        help="PIN SUFRAMA\nPIN atribuído pela SUFRAMA para a operação.",
+    )
+
+    cte40_dPrev = fields.Date(
+        string="Data prevista de entrega",
+        xsd_type="TData",
+        help="Data prevista de entrega\nFormato AAAA-MM-DD",
+    )
+
+    cte40_infUnidCarga = fields.One2many(
+        "cte.40.tunidcarga",
+        "cte40_infUnidCarga_infNFe_id",
+        string="Informações das Unidades de Carga",
+        choice="infnfe",
+        xsd_choice_required=True,
+        xsd_type="TUnidCarga",
+        help=(
+            "Informações das Unidades de Carga "
+            "(Containeres/ULD/Outros)\nDispositivo de carga utilizada (Unit "
+            "Load Device - ULD) significa todo tipo de contêiner de carga, "
+            "vagão, contêiner de avião, palete de aeronave com rede ou palete "
+            "de aeronave com rede sobre um iglu."
+        ),
+    )
+
+    cte40_infUnidTransp = fields.One2many(
+        "cte.40.tunidadetransp",
+        "cte40_infUnidTransp_infNFe_id",
+        string="Informações das Unidades de Transporte",
+        choice="infnfe",
+        xsd_choice_required=True,
+        xsd_type="TUnidadeTransp",
+        help=(
+            "Informações das Unidades de Transporte "
+            "(Carreta/Reboque/Vagão)\nDeve ser preenchido com as informações "
+            "das unidades de transporte utilizadas."
+        ),
+    )
+
+
+class InfDocAnt(models.AbstractModel):
+    "Documentos anteriores"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.infdocant"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Det.InfDocAnt"
+
+    cte40_infDocAnt_det_id = fields.Many2one(
+        comodel_name="cte.40.det", xsd_implicit=True, ondelete="cascade"
+    )
+    cte40_chCTe = fields.Char(
+        string="Chave de acesso do CT-e", xsd_required=True, xsd_type="TChDFe"
+    )
+
+    cte40_tpPrest = fields.Selection(
+        INFDOCANT_TPPREST,
+        string="indica se a prestação é total ou parcial",
+        xsd_required=True,
+        help=(
+            "indica se a prestação é total ou parcial em relação as notas do "
+            "documento anterior\nPreencher com:\n\n1 - Total\n2 - Parcial"
+        ),
+    )
+
+    cte40_infNFeTranspParcial = fields.One2many(
+        "cte.40.infnfetranspparcial",
+        "cte40_infNFeTranspParcial_infDocAnt_id",
+        string="infNFeTranspParcial",
+    )
+
+
+class InfNfeTranspParcial(models.AbstractModel):
+    _description = "infNFeTranspParcial"
+    _name = "cte.40.infnfetranspparcial"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Det.InfDocAnt.InfNfeTranspParcial"
+
+    cte40_infNFeTranspParcial_infDocAnt_id = fields.Many2one(
+        comodel_name="cte.40.infdocant", xsd_implicit=True, ondelete="cascade"
+    )
+    cte40_chNFe = fields.Char(
+        string="Chave de acesso da NF-e",
+        xsd_required=True,
+        xsd_type="TChDFe",
+        help=(
+            "Chave de acesso da NF-e\nInformando o tpPrest com “2 – Parcial” "
+            "deve-se informar as chaves de acesso das NF-e que acobertam a "
+            "carga transportada."
+        ),
+    )
+
+
+class TcteSimpInfModal(models.AbstractModel):
+    "Informações do modal"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infmodal"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.InfModal"
+
+    cte40_versaoModal = fields.Char(
+        string="Versão do leiaute específico",
+        xsd_required=True,
+        help="Versão do leiaute específico para o Modal",
+    )
+
+
+class TcteSimpCobr(models.AbstractModel):
+    "Dados da cobrança do CT-e"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_cobr"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Cobr"
+
+    cte40_fat = fields.Many2one(
+        comodel_name="cte.40.tctesimp_fat", string="Dados da fatura"
+    )
+
+    cte40_dup = fields.One2many(
+        "cte.40.tctesimp_dup",
+        "cte40_dup_cobr_id",
+        string="Dados das duplicatas",
+    )
+
+
+class TcteSimpFat(models.AbstractModel):
+    "Dados da fatura"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_fat"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Cobr.Fat"
+
+    cte40_nFat = fields.Char(string="Número da fatura")
+
+    cte40_vOrig = fields.Monetary(
+        string="Valor original da fatura",
+        xsd_type="TDec_1302Opc",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_vDesc = fields.Monetary(
+        string="Valor do desconto da fatura",
+        xsd_type="TDec_1302Opc",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_vLiq = fields.Monetary(
+        string="Valor líquido da fatura",
+        xsd_type="TDec_1302Opc",
+        currency_field="brl_currency_id",
+    )
+
+
+class TcteSimpDup(models.AbstractModel):
+    "Dados das duplicatas"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_dup"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Cobr.Dup"
+
+    cte40_dup_cobr_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_cobr",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
+    cte40_nDup = fields.Char(string="Número da duplicata")
+
+    cte40_dVenc = fields.Date(
+        string="Data de vencimento da duplicata",
+        xsd_type="TData",
+        help="Data de vencimento da duplicata (AAAA-MM-DD)",
+    )
+
+    cte40_vDup = fields.Monetary(
+        string="Valor da duplicata",
+        xsd_type="TDec_1302Opc",
+        currency_field="brl_currency_id",
+    )
+
+
+class TcteSimpInfCteSub(models.AbstractModel):
+    "Informações do CT-e de substituição"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infctesub"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.InfCteSub"
+
+    cte40_chCte = fields.Char(
+        string="Chave de acesso do CT-e",
+        xsd_required=True,
+        help="Chave de acesso do CT-e a ser substituído (original)",
+    )
+
+    cte40_indAlteraToma = fields.Selection(
+        INFCTESUB_INDALTERATOMA,
+        string="Indicador de CT-e Alteração de Tomador",
+    )
+
+
+class TcteSimpImp(models.AbstractModel):
+    "Informações relativas aos Impostos"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_imp"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Imp"
+
+    cte40_ICMS = fields.Many2one(
+        comodel_name="cte.40.timp",
+        string="Informações relativas ao ICMS",
+        xsd_required=True,
+        xsd_type="TImp",
+    )
+
+    cte40_vTotTrib = fields.Monetary(
+        string="Valor Total dos Tributos",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_infAdFisco = fields.Char(
+        string="Informações adicionais de interesse",
+        help=(
+            "Informações adicionais de interesse do Fisco\nNorma referenciada,"
+            " informações complementares, etc"
+        ),
+    )
+
+
+class Total(models.AbstractModel):
+    "Valores Totais do CTe"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.total"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Total"
+
+    cte40_vTPrest = fields.Monetary(
+        string="Valor Total da Prestação do Serviço",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor Total da Prestação do Serviço\nPode conter zeros quando o "
+            "CT-e for de complemento de ICMS"
+        ),
+    )
+
+    cte40_vTRec = fields.Monetary(
+        string="Valor total a Receber",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+
+class TcteSimpAutXml(models.AbstractModel):
+    """Autorizados para download do XML do DF-e
+    Informar CNPJ ou CPF. Preencher os zeros não significativos."""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_autxml"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.AutXml"
+
+    cte40_autXML_infCte_id = fields.Many2one(
+        comodel_name="cte.40.tctesimp_infcte",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
+    cte40_CNPJ = fields.Char(
+        string="CNPJ do autorizado",
+        choice="autxml",
+        xsd_choice_required=True,
+        xsd_type="TCnpj",
+        help="CNPJ do autorizado\nInformar zeros não significativos",
+    )
+
+    cte40_CPF = fields.Char(
+        string="CPF do autorizado",
+        choice="autxml",
+        xsd_choice_required=True,
+        xsd_type="TCpf",
+        help="CPF do autorizado\nInformar zeros não significativos",
+    )
+
+
+class TcteSimpInfSolicNff(models.AbstractModel):
+    "Grupo de informações do pedido de emissão da Nota Fiscal Fácil"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infsolicnff"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.InfSolicNff"
+
+    cte40_xSolic = fields.Char(
+        string="Solicitação do pedido de emissão da NFF",
+        xsd_required=True,
+        help=(
+            "Solicitação do pedido de emissão da NFF.\nSerá preenchido com a "
+            "totalidade de campos informados no aplicativo emissor "
+            "serializado."
+        ),
+    )
+
+
+class TcteSimpInfPaa(models.AbstractModel):
+    "Grupo de Informação do Provedor de Assinatura e Autorização"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infpaa"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.InfPaa"
+
+    cte40_CNPJPAA = fields.Char(
+        string="CNPJ do Provedor de Assinatura",
+        xsd_required=True,
+        xsd_type="TCnpj",
+        help="CNPJ do Provedor de Assinatura e Autorização",
+    )
+
+    cte40_PAASignature = fields.Many2one(
+        comodel_name="cte.40.tctesimp_paasignature",
+        string="Assinatura RSA do Emitente",
+        xsd_required=True,
+        help="Assinatura RSA do Emitente para DFe gerados por PAA",
+    )
+
+
+class TcteSimpPaasignature(models.AbstractModel):
+    "Assinatura RSA do Emitente para DFe gerados por PAA"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_paasignature"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.InfPaa.Paasignature"
+
+    cte40_signatureValue = fields.Char(
+        string="Assinatura digital padrão RSA",
+        xsd_required=True,
+        xsd_type="xs:base64Binary",
+        help=(
+            "Assinatura digital padrão RSA\nConverter o atributo Id do DFe "
+            "para array de bytes e assinar com a chave privada do RSA com "
+            "algoritmo SHA1 gerando um valor no formato base64."
+        ),
+    )
+
+    cte40_RSAKeyValue = fields.Many2one(
+        comodel_name="cte.40.trsakeyvaluetype",
+        string="Chave Publica no padrão XML RSA Key",
+        xsd_required=True,
+        xsd_type="TRSAKeyValueType",
+    )
+
+
+class TcteSimpInfCteSupl(models.AbstractModel):
+    "Informações suplementares da GTV-e"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_infctesupl"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCteSupl"
 
     cte40_qrCodCTe = fields.Char(
         string="Texto com o QR-Code impresso no DACTE", xsd_required=True
