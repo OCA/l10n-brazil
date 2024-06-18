@@ -72,6 +72,8 @@ class DocumentWorkflow(models.AbstractModel):
         :return:
         """
         self.ensure_one()
+        if self.env.context.get("force_fiscal_workflow_transition", False):
+            return True
         if self.document_electronic:
             return (old_state, new_state) in WORKFLOW_EDOC
         else:
