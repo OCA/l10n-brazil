@@ -107,6 +107,9 @@ class Document(models.Model):
             ),
         )
 
+    def _prepare_product_adicional_info(self):
+        return self.fiscal_additional_data or ""
+
     def _serialize_lote_rps(self, dados_lote_rps, dados_servico):
         dados_tomador = self._prepare_dados_tomador()
         return tpRPS(
@@ -211,11 +214,7 @@ class Document(models.Model):
                 "Discriminacao",
                 unidecode(
                     dados_servico["discriminacao"]
-                    + (
-                        "|%s|" % self.fiscal_additional_data.replace("\n", "|")
-                        if self.fiscal_additional_data
-                        else ""
-                    )
+                    + self._prepare_product_adicional_info()
                 ),
             ),
             ValorCargaTributaria=self.convert_type_nfselib(
