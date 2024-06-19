@@ -24,6 +24,7 @@ AQUAV_TPNAV = [
 
 class Aquav(models.AbstractModel):
     "Informações do modal Aquaviário"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.aquav"
     _inherit = "spec.mixin.cte"
@@ -45,10 +46,14 @@ class Aquav(models.AbstractModel):
         help=("AFRMM (Adicional de Frete para Renovação da Marinha Mercante)"),
     )
 
-    cte40_xNavio = fields.Char(string="Identificação do Navio", xsd_required=True)
+    cte40_xNavio = fields.Char(
+        string="Identificação do Navio", xsd_required=True
+    )
 
     cte40_balsa = fields.One2many(
-        "cte.40.balsa", "cte40_balsa_aquav_id", string="Grupo de informações das balsas"
+        "cte.40.balsa",
+        "cte40_balsa_aquav_id",
+        string="Grupo de informações das balsas",
     )
 
     cte40_nViag = fields.Char(string="Número da Viagem")
@@ -88,6 +93,7 @@ class Aquav(models.AbstractModel):
 
 class Balsa(models.AbstractModel):
     "Grupo de informações das balsas"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.balsa"
     _inherit = "spec.mixin.cte"
@@ -96,7 +102,9 @@ class Balsa(models.AbstractModel):
     cte40_balsa_aquav_id = fields.Many2one(
         comodel_name="cte.40.aquav", xsd_implicit=True, ondelete="cascade"
     )
-    cte40_xBalsa = fields.Char(string="Identificador da Balsa", xsd_required=True)
+    cte40_xBalsa = fields.Char(
+        string="Identificador da Balsa", xsd_required=True
+    )
 
 
 class DetCont(models.AbstractModel):
@@ -112,14 +120,18 @@ class DetCont(models.AbstractModel):
         comodel_name="cte.40.aquav", xsd_implicit=True, ondelete="cascade"
     )
     cte40_nCont = fields.Char(
-        string="Identificação do Container", xsd_required=True, xsd_type="TContainer"
+        string="Identificação do Container",
+        xsd_required=True,
+        xsd_type="TContainer",
     )
 
     cte40_lacre = fields.One2many(
         "cte.40.lacre",
         "cte40_lacre_detCont_id",
         string="Grupo de informações dos lacres",
-        help=("Grupo de informações dos lacres dos cointainers da qtde da carga"),
+        help=(
+            "Grupo de informações dos lacres dos cointainers da qtde da carga"
+        ),
     )
 
     cte40_infDoc = fields.Many2one(
@@ -131,6 +143,7 @@ class DetCont(models.AbstractModel):
 
 class Lacre(models.AbstractModel):
     "Grupo de informações dos lacres dos cointainers da qtde da carga"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.lacre"
     _inherit = "spec.mixin.cte"
@@ -144,6 +157,7 @@ class Lacre(models.AbstractModel):
 
 class AquavInfDoc(models.AbstractModel):
     "Informações dos documentos dos conteiners"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.aquav_infdoc"
     _inherit = "spec.mixin.cte"
@@ -168,13 +182,16 @@ class AquavInfDoc(models.AbstractModel):
 
 class AquavInfNf(models.AbstractModel):
     "Informações das NF"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.aquav_infnf"
     _inherit = "spec.mixin.cte"
     _binding_type = "Aquav.DetCont.InfDoc.InfNf"
 
     cte40_infNF_infDoc_id = fields.Many2one(
-        comodel_name="cte.40.aquav_infdoc", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.aquav_infdoc",
+        xsd_implicit=True,
+        ondelete="cascade",
     )
     cte40_serie = fields.Char(string="Série", xsd_required=True)
 
@@ -190,13 +207,16 @@ class AquavInfNf(models.AbstractModel):
 
 class AquavInfNfe(models.AbstractModel):
     "Informações das NFe"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.aquav_infnfe"
     _inherit = "spec.mixin.cte"
     _binding_type = "Aquav.DetCont.InfDoc.InfNfe"
 
     cte40_infNFe_infDoc_id = fields.Many2one(
-        comodel_name="cte.40.aquav_infdoc", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.aquav_infdoc",
+        xsd_implicit=True,
+        ondelete="cascade",
     )
     cte40_chave = fields.Char(
         string="Chave de acesso da NF-e", xsd_required=True, xsd_type="TChDFe"

@@ -30,7 +30,10 @@ NATCARGA_CINFMANU = [
         "06",
         "gelo seco para refrigeração (especificar no campo observações a quantidade)",
     ),
-    ("07", "não restrito (especificar a Disposição Especial no campo observações)"),
+    (
+        "07",
+        "não restrito (especificar a Disposição Especial no campo observações)",
+    ),
     (
         "08",
         "artigo perigoso em carga consolidada (especificar a quantidade no campo observações)",
@@ -39,10 +42,22 @@ NATCARGA_CINFMANU = [
         "09",
         "autorização da autoridade governamental anexa (especificar no campo observações)",
     ),
-    ("10", "baterias de íons de lítio em conformidade com a Seção II da PI965 – CAO"),
-    ("11", "baterias de íons de lítio em conformidade com a Seção II da PI966"),
-    ("12", "baterias de íons de lítio em conformidade com a Seção II da PI967"),
-    ("13", "baterias de metal lítio em conformidade com a Seção II da PI968 — CAO"),
+    (
+        "10",
+        "baterias de íons de lítio em conformidade com a Seção II da PI965 – CAO",
+    ),
+    (
+        "11",
+        "baterias de íons de lítio em conformidade com a Seção II da PI966",
+    ),
+    (
+        "12",
+        "baterias de íons de lítio em conformidade com a Seção II da PI967",
+    ),
+    (
+        "13",
+        "baterias de metal lítio em conformidade com a Seção II da PI968 — CAO",
+    ),
     ("14", "baterias de metal lítio em conformidade com a Seção II da PI969"),
     ("15", "baterias de metal lítio em conformidade com a Seção II da PI970"),
     ("99", "outro (especificar no campo observações)"),
@@ -51,6 +66,7 @@ NATCARGA_CINFMANU = [
 
 class Aereo(models.AbstractModel):
     "Informações do modal Aéreo"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.aereo"
     _inherit = "spec.mixin.cte"
@@ -87,11 +103,15 @@ class Aereo(models.AbstractModel):
     )
 
     cte40_natCarga = fields.Many2one(
-        comodel_name="cte.40.natcarga", string="Natureza da carga", xsd_required=True
+        comodel_name="cte.40.natcarga",
+        string="Natureza da carga",
+        xsd_required=True,
     )
 
     cte40_tarifa = fields.Many2one(
-        comodel_name="cte.40.tarifa", string="Informações de tarifa", xsd_required=True
+        comodel_name="cte.40.tarifa",
+        string="Informações de tarifa",
+        xsd_required=True,
     )
 
     cte40_peri = fields.One2many(
@@ -109,6 +129,7 @@ class Aereo(models.AbstractModel):
 
 class NatCarga(models.AbstractModel):
     "Natureza da carga"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.natcarga"
     _inherit = "spec.mixin.cte"
@@ -126,9 +147,9 @@ class NatCarga(models.AbstractModel):
     )
 
 
-
 class Tarifa(models.AbstractModel):
     "Informações de tarifa"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tarifa"
     _inherit = "spec.mixin.cte"
