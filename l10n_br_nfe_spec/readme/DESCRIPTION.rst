@@ -18,7 +18,7 @@ o codigo dentro da pasta:
     git clone https://github.com/akretion/nfelib
     cd nfelib
     export XSDATA_SCHEMA=nfe; export XSDATA_VERSION=40; export XSDATA_SKIP="^ICMS.ICMS\d+|^ICMS.ICMSSN\d+"
-    xsdata generate nfelib/nfe/schemas/v4_0  --package nfelib.odoo.nfe.v4_0 --output=odoo
+    xsdata generate nfelib/nfe/schemas/v4_0  --package nfelib.nfe.odoo.v4_0 --output=odoo
     mv nfelib/odoo/nfe/v4_0 <caminho_do_odoo>/l10n_br_nfe_spec/models/v4_0
 
 
