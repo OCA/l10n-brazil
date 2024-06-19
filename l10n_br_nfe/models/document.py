@@ -868,11 +868,10 @@ class NFe(spec_models.StackedModel):
         if self.document_type not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
             return super()._processador()
 
-        certificate = False
         if self.company_id.sudo().certificate_nfe_id:
-            certificate = self.company_id.sudo().certificate_nfe_id
+            self.company_id.sudo().certificate_nfe_id
         elif self.company_id.sudo().certificate_ecnpj_id:
-            certificate = self.company_id.sudo().certificate_ecnpj_id
+            self.company_id.sudo().certificate_ecnpj_id
         self._check_nfe_environment()
         certificado = self.env.company._get_br_ecertificate()
         session = Session()
