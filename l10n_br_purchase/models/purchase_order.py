@@ -22,11 +22,7 @@ class PurchaseOrder(models.Model):
         ]
         return domain
 
-    active_company_country_id = fields.Many2one(
-        comodel_name="res.country",
-        string="Company",
-        default=lambda self: self.env.company.country_id,
-    )
+    company_country_id = fields.Many2one(related="company_id.country_id")
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
