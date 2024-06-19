@@ -12,6 +12,7 @@ __NAMESPACE__ = "http://www.portalfiscal.inf.br/cte"
 
 class Rodo(models.AbstractModel):
     "Informações do modal Rodoviário"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.rodo"
     _inherit = "spec.mixin.cte"
@@ -35,6 +36,7 @@ class Rodo(models.AbstractModel):
 
 class Occ(models.AbstractModel):
     "Ordens de Coleta associados"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.occ"
     _inherit = "spec.mixin.cte"
@@ -45,7 +47,9 @@ class Occ(models.AbstractModel):
     )
     cte40_serie = fields.Char(string="Série da OCC")
 
-    cte40_nOcc = fields.Char(string="Número da Ordem de coleta", xsd_required=True)
+    cte40_nOcc = fields.Char(
+        string="Número da Ordem de coleta", xsd_required=True
+    )
 
     cte40_dEmi = fields.Date(
         string="Data de emissão da ordem de coleta",
