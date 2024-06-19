@@ -54,7 +54,9 @@ class AccountPaymentLine(models.Model):
 
         linhas_pagamentos["numero"] = doc_number
 
-    def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
+    def _prepare_cod_primeira_instrucao_protest(
+        self, payment_mode_id, linhas_pagamentos
+    ):
         if (
             self.mov_instruction_code_id.code
             == payment_mode_id.cnab_sending_code_id.code
@@ -62,6 +64,15 @@ class AccountPaymentLine(models.Model):
             linhas_pagamentos["cod_primeira_instrucao"] = (
                 payment_mode_id.boleto_protest_code or "00"
             )
+
+    def _prepare_bank_line_itau(self, payment_mode_id, linhas_pagamentos):
+        if payment_mode_id.payment_method_code == "400":
+            self._prepare_cod_primeira_instrucao_protest(
+                payment_mode_id, linhas_pagamentos
+            )
+
+    def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
+        self._prepare_cod_primeira_instrucao_protest(payment_mode_id, linhas_pagamentos)
 
     # Caso Santander 400 precisa enviar o Nosso Numero com DV isso não acontece no
     # 240, por enquanto é o único caso mapeado.
