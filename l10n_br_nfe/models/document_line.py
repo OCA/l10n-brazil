@@ -82,6 +82,7 @@ class NFeLine(spec_models.StackedModel):
     DET_TREE = """
 > <det>
     > <prod>
+        ≡ <gCred>
         ≡ <DI>
         ≡ <detExport>
         ≡ <rastro>
