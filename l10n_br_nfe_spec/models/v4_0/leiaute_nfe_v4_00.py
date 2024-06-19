@@ -313,10 +313,9 @@ ICMS40_MOTDESICMS = [
     ("90", "Solicitado pelo Fisco"),
 ]
 
-"""Tributção pelo ICMS
-    20 - Com redução de base de cálculo"""
+"Tributação pelo ICMS"
 ICMS51_CST = [
-    ("51", "51"),
+    ("51", "Tributação com Diferimento"),
 ]
 
 "Modalidade de determinação da BC do ICMS"
@@ -784,6 +783,7 @@ EMIT_CRT = [
     ("1", "Simples Nacional"),
     ("2", "Simples Nacional – excesso de sublimite de receita bruta"),
     ("3", "Regime Normal."),
+    ("4", "Simples Nacional - Microempreendedor individual - MEI"),
 ]
 
 "Identificador de Local de destino da operação"
@@ -2213,7 +2213,8 @@ class Emit(models.AbstractModel):
         help=(
             "Código de Regime Tributário. \nEste campo será obrigatoriamente "
             "preenchido com:\n1 – Simples Nacional;\n2 – Simples Nacional – "
-            "excesso de sublimite de receita bruta;\n3 – Regime Normal."
+            "excesso de sublimite de receita bruta;\n3 – Regime Normal.\n4 - "
+            "Simples Nacional - Microempreendedor individual - MEI"
         ),
     )
 
@@ -2500,27 +2501,11 @@ class Prod(models.AbstractModel):
 
     nfe40_cBenef = fields.Char(string="cBenef")
 
-    nfe40_cCredPresumido = fields.Char(
-        string="Código de Benefício Fiscal",
-        help=(
-            "Código de Benefício Fiscal de Crédito Presumido na UF aplicado ao"
-            " item"
-        ),
-    )
-
-    nfe40_pCredPresumido = fields.Float(
-        string="Percentual do Crédito Presumido",
-        xsd_type="TDec_0302a04",
-        digits=(
-            3,
-            2,
-        ),
-    )
-
-    nfe40_vCredPresumido = fields.Monetary(
-        string="Valor do Crédito Presumido",
-        xsd_type="TDec_1302",
-        currency_field="brl_currency_id",
+    nfe40_gCred = fields.One2many(
+        "nfe.40.gcred",
+        "nfe40_gCred_prod_id",
+        string="Grupo de informações sobre",
+        help="Grupo de informações sobre o CréditoPresumido",
     )
 
     nfe40_EXTIPI = fields.Char(string="Código EX TIPI (3 posições)")
@@ -2722,6 +2707,44 @@ class Prod(models.AbstractModel):
     )
 
     nfe40_nRECOPI = fields.Char(string="Número do RECOPI", choice="prod")
+
+
+class GCred(models.AbstractModel):
+    "Grupo de informações sobre o CréditoPresumido"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "nfe.40.gcred"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Det.Prod.GCred"
+
+    nfe40_gCred_prod_id = fields.Many2one(
+        comodel_name="nfe.40.prod", xsd_implicit=True, ondelete="cascade"
+    )
+    nfe40_cCredPresumido = fields.Char(
+        string="Código de Benefício Fiscal",
+        xsd_required=True,
+        help=(
+            "Código de Benefício Fiscal de Crédito Presumido na UF aplicado ao"
+            " item"
+        ),
+    )
+
+    nfe40_pCredPresumido = fields.Float(
+        string="Percentual do Crédito Presumido",
+        xsd_required=True,
+        xsd_type="TDec_0302a04",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    nfe40_vCredPresumido = fields.Monetary(
+        string="Valor do Crédito Presumido",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
 
 
 class Di(models.AbstractModel):
