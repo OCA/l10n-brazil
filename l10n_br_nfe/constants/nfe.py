@@ -13,6 +13,12 @@ DANFE_LIBRARY = [
 
 DANFE_LIBRARY_DEFAULT = "brazil_fiscal_report"
 
+DANFE_INVOICE_DISPLAY = [
+    ("full_details", "Full Details"),
+    ("duplicates_only", "Duplicates Only"),
+]
+
+DANFE_INVOICE_DISPLAY_DEFAULT = "full_details"
 
 NFE_ENVIRONMENTS = [("1", "Produção"), ("2", "Homologação")]
 
