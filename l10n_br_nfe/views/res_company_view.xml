@@ -33,7 +33,6 @@
                             />
                           <field name="nfe_authorize_accountant_download_xml" />
                           <field name="nfe_authorize_technical_download_xml" />
-                          <field name="danfe_library" />
                       </group>
                   </group>
 
@@ -42,6 +41,22 @@
                         <field name="nfce_qrcode_version" />
                         <field name="nfce_csc_token" />
                         <field name="nfce_csc_code" />
+                    </group>
+                  </group>
+
+                  <group name="danfe_settings" string="DANFE Settings">
+                    <group>
+                        <field name="danfe_library" />
+                        <field
+                                name="danfe_invoice_display"
+                                string="Invoice Display"
+                                attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
+                            />
+                        <field
+                                name="danfe_display_pis_cofins"
+                                string="PIS/COFINS Display"
+                                attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
+                            />
                     </group>
                   </group>
               </page>
