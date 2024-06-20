@@ -21,10 +21,10 @@
           <field name="priority">100</field>
           <field name="arch" type="xml">
               <xpath expr="//field[@name='partner_ref']" position="after">
-                  <field name="active_company_country_id" invisible="True" />
+                  <field name="company_country_id" invisible="True" />
                   <field
                     name="fiscal_operation_id"
-                    attrs="{'invisible': [('active_company_country_id', '!=', %(base.br)d)]}"
+                    attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}"
                 />
                   <field
                     name="ind_final"
