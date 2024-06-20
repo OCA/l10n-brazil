@@ -267,7 +267,7 @@ class Document(models.Model):
             "codigo_obra": self.civil_construction_code or "",
             "art": self.civil_construction_art or "",
             "carga_tributaria": self.amount_tax,
-            "total_recebido": self.amount_total,
+            "total_recebido": self.amount_price_gross,
             "carga_tributaria_estimada": self.amount_estimate_tax,
         }
 
