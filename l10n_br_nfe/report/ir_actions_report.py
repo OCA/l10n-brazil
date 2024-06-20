@@ -4,7 +4,7 @@ import base64
 import logging
 from io import BytesIO
 
-from brazilfiscalreport.danfe import Danfe, DanfeConfig, Margins
+from brazilfiscalreport.danfe import Danfe, DanfeConfig, InvoiceDisplay, Margins
 from erpbrasil.edoc.pdf import base
 from lxml import etree
 
@@ -84,7 +84,11 @@ class IrActionsReport(models.Model):
         else:
             tmpLogo = False
 
-        config = self._get_danfe_config(tmpLogo)
+        danfe_invoice_display = nfe.company_id.danfe_invoice_display
+        config = self._get_danfe_config(tmpLogo, danfe_invoice_display)
+        if nfe.company_id.danfe_display_pis_cofins:
+            config.display_pis_cofins = True
+
         danfe = Danfe(xml=nfe_xml, config=config)
 
         tmpDanfe = BytesIO()
@@ -94,11 +98,16 @@ class IrActionsReport(models.Model):
 
         return danfe_file, "pdf"
 
-    def _get_danfe_config(self, tmpLogo):
-        return DanfeConfig(
-            logo=tmpLogo,
-            margins=Margins(top=5, right=5, bottom=5, left=5),
-        )
+    def _get_danfe_config(self, tmpLogo, danfe_invoice_display):
+        danfe_config = {
+            "logo": tmpLogo,
+            "margins": Margins(top=2, right=2, bottom=2, left=2),
+        }
+
+        if danfe_invoice_display == "duplicates_only":
+            danfe_config["invoice_display"] = InvoiceDisplay.DUPLICATES_ONLY
+
+        return DanfeConfig(**danfe_config)
 
     def render_danfe_erpbrasil(self, nfe_xml):
         pdf = base.ImprimirXml.imprimir(
