@@ -7,6 +7,8 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
+    DANFE_INVOICE_DISPLAY,
+    DANFE_INVOICE_DISPLAY_DEFAULT,
     DANFE_LIBRARY,
     DANFE_LIBRARY_DEFAULT,
     NFCE_DANFE_LAYOUT_DEFAULT,
@@ -172,6 +174,17 @@ class ResCompany(spec_models.SpecModel):
         Options include 'erpbrasil.edoc.pdf' and 'brazil_fiscal_report'.
         The default library is set to 'erpbrasil.edoc.pdf'.
         """,
+    )
+
+    danfe_invoice_display = fields.Selection(
+        selection=DANFE_INVOICE_DISPLAY,
+        default=DANFE_INVOICE_DISPLAY_DEFAULT,
+        help="Choose to generate a full or incomplete invoice frame in the DANFE.",
+    )
+
+    danfe_display_pis_cofins = fields.Boolean(
+        default=False,
+        help="Select whether PIS and COFINS should be displayed in DANFE.",
     )
 
     def _compute_nfe_data(self):
