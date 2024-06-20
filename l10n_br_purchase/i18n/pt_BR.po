@@ -355,7 +355,6 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_id
 msgid "Company"
 msgstr "Empresa"
@@ -364,6 +363,11 @@ msgstr "Empresa"
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_company_type
 msgid "Company Type"
 msgstr "Tipo de Empresa"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_country_id
+msgid "Country"
+msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__currency_id
