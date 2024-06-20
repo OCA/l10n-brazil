@@ -639,7 +639,8 @@ msgid ""
 "Este campo será obrigatoriamente preenchido com:\n"
 "1 – Simples Nacional;\n"
 "2 – Simples Nacional – excesso de sublimite de receita bruta;\n"
-"3 – Regime Normal."
+"3 – Regime Normal.\n"
+"4 - Simples Nacional - Microempreendedor individual - MEI"
 msgstr ""
 
 #. module: l10n_br_nfe
