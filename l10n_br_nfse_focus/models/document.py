@@ -503,9 +503,15 @@ class Document(models.Model):
                     )
                     status_json = status_rps.json()
                     pdf_content = (
-                        requests.get(status_json["url"], timeout=TIMEOUT).content
+                        requests.get(
+                            status_json["url"],
+                            timeout=TIMEOUT,
+                            verify=record.company_id.nfse_ssl_verify,
+                        ).content
                         or requests.get(
-                            status_json["url_danfse"], timeout=TIMEOUT
+                            status_json["url_danfse"],
+                            timeout=TIMEOUT,
+                            verify=record.company_id.nfse_ssl_verify,
                         ).content
                     )
                     record.make_focus_nfse_pdf(pdf_content)
