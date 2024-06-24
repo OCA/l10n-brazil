@@ -5,7 +5,7 @@
     "name": "NFS-e",
     "summary": """
         NFS-e""",
-    "version": "14.0.1.17.0",
+    "version": "14.0.1.18.1",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "maintainers": ["gabrielcardoso21", "mileo", "luismalta", "marcelsavegnago"],

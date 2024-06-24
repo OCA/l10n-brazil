@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-19 17:35+0000\n"
+"PO-Revision-Date: 2024-06-10 12:37+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -294,7 +294,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__cnpj_cpf
 msgid "CNPJ/CPF"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice_emit
@@ -399,7 +399,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_CFOP
 msgid "Cfop"
-msgstr ""
+msgstr "CFOP"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__new_cfop_id
@@ -427,7 +427,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_city
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
@@ -669,7 +669,8 @@ msgid ""
 "Este campo será obrigatoriamente preenchido com:\n"
 "1 – Simples Nacional;\n"
 "2 – Simples Nacional – excesso de sublimite de receita bruta;\n"
-"3 – Regime Normal."
+"3 – Regime Normal.\n"
+"4 - Simples Nacional - Microempreendedor individual - MEI"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1171,7 +1172,7 @@ msgstr "Tipo de Operação Fiscal"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__price_unit_trib
 msgid "Fiscal Price Unit"
-msgstr ""
+msgstr "Preço Unitário Fiscal"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__quantity_trib
@@ -1325,7 +1326,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__icms_value
 msgid "ICMS Value"
-msgstr ""
+msgstr "Valor do ICMS"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_imposto
@@ -1457,7 +1458,7 @@ msgstr "Enquadramentos do IPI"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__ipi_value
 msgid "IPI Value"
-msgstr ""
+msgstr "Valor do IPI"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_tipi__nfe40_ipint
@@ -2053,7 +2054,7 @@ msgstr "NCM"
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "NF-e"
-msgstr ""
+msgstr "NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_default_serie_id
@@ -2434,7 +2435,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__processador_edoc
 msgid "Processador documentos eletrônicos"
-msgstr ""
+msgstr "Processador documentos eletrônicos"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_procEmi
@@ -2747,7 +2748,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__total
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_transmission

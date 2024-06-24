@@ -9,6 +9,7 @@ from erpbrasil.base import misc
 from lxml import etree
 
 from odoo import _, api, fields, models
+from odoo.tools import config as odooconfig
 
 from .ibpt import DeOlhoNoImposto
 
@@ -90,6 +91,10 @@ class DataNcmNbsAbstract(models.AbstractModel):
                     company.ibpt_token,
                     misc.punctuation_rm(company.cnpj_cpf),
                     company.state_id.code,
+                    odooconfig.get("ibpt_request_timeout")
+                    or self.env["ir.config_parameter"]
+                    .sudo()
+                    .get_param("ibpt_request_timeout"),
                 )
 
                 result = self._get_ibpt(config, record.code_unmasked)

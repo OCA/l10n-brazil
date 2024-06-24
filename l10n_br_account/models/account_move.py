@@ -562,7 +562,7 @@ class AccountMove(models.Model):
                     )
             move.fiscal_document_ids.filtered(
                 lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
-            ).action_document_back2draft()
+            ).document_back2draft()
         return super().button_draft()
 
     def action_document_send(self):
@@ -599,7 +599,7 @@ class AccountMove(models.Model):
     def _post(self, soft=True):
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
-        ).action_document_confirm()
+        )._document_confirm_to_send()
         return super()._post(soft=soft)
 
     def view_xml(self):

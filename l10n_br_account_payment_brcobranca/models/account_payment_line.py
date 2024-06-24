@@ -14,14 +14,6 @@ _logger = logging.getLogger(__name__)
 class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
-    def _prepare_bank_line_ailos(self, payment_mode_id, linhas_pagamentos):
-        if self.discount_value:
-            # Código adotado pela FEBRABAN para identificação do desconto.
-            # Domínio:
-            # 0 = Isento
-            # 1 = Valor Fixo
-            linhas_pagamentos["cod_desconto"] = "1"
-
     def _prepare_bank_line_unicred(self, payment_mode_id, linhas_pagamentos):
         # TODO - Valores padrões ?
         #  Estou preenchendo valores que se forem vazios geram erro
@@ -62,10 +54,9 @@ class AccountPaymentLine(models.Model):
 
         linhas_pagamentos["numero"] = doc_number
 
-        if self.discount_value:
-            linhas_pagamentos["cod_desconto"] = "1"
-
-    def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
+    def _prepare_cod_primeira_instrucao_protest(
+        self, payment_mode_id, linhas_pagamentos
+    ):
         if (
             self.mov_instruction_code_id.code
             == payment_mode_id.cnab_sending_code_id.code
@@ -73,6 +64,15 @@ class AccountPaymentLine(models.Model):
             linhas_pagamentos["cod_primeira_instrucao"] = (
                 payment_mode_id.boleto_protest_code or "00"
             )
+
+    def _prepare_bank_line_itau(self, payment_mode_id, linhas_pagamentos):
+        if payment_mode_id.payment_method_code == "400":
+            self._prepare_cod_primeira_instrucao_protest(
+                payment_mode_id, linhas_pagamentos
+            )
+
+    def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
+        self._prepare_cod_primeira_instrucao_protest(payment_mode_id, linhas_pagamentos)
 
     # Caso Santander 400 precisa enviar o Nosso Numero com DV isso não acontece no
     # 240, por enquanto é o único caso mapeado.
@@ -179,5 +179,12 @@ class AccountPaymentLine(models.Model):
                     linhas_pagamentos[
                         "dias_protesto"
                     ] = payment_mode_id.boleto_days_protest
+
+            # Desconto
+            # Código adotado pela FEBRABAN para identificação do desconto.
+            # Domínio: 0 = Isento | 1 = Valor Fixo
+            if payment_mode_id.payment_method_code == "240":
+                if self.discount_value:
+                    linhas_pagamentos["cod_desconto"] = "1"
 
         return linhas_pagamentos

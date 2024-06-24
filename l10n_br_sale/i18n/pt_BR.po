@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2024-04-19 22:41+0000\n"
+"PO-Revision-Date: 2024-06-10 12:37+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -70,7 +70,7 @@ msgstr "Permite o Desconto de Montante em Pedidos de Venda"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__allow_csll_irpj
 msgid "Allow Csll Irpj"
-msgstr ""
+msgstr "Permitir CSLL IRPJ"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_discount_value
@@ -238,7 +238,7 @@ msgstr "% Redução de RETENÇÃO de COFINS"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr "Base para COFINS RET"
+msgstr "Base para RET COFINS"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_wh_value
@@ -494,7 +494,7 @@ msgstr "Desconto"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__discount
 msgid "Discount (%)"
-msgstr ""
+msgstr "Desconto (%)"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__discount_value
@@ -516,6 +516,21 @@ msgstr "Desconto no Pedido de Vendas por Valor"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_type_id
+msgid "Document Type"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__fiscal_type__02
@@ -740,12 +755,12 @@ msgstr "Base para ICMS FCP"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_percent
 msgid "ICMS FCP ST %"
-msgstr ""
+msgstr "% ICMS FCP ST"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_base
 msgid "ICMS FCP ST Base"
-msgstr ""
+msgstr "Base para ICMS FCP ST"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_icmsfcpst_value
@@ -1033,7 +1048,7 @@ msgstr "% Redução do IRPJ RET"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__irpj_wh_base
 msgid "IRPJ RET Base"
-msgstr ""
+msgstr "Base do IRPJ RET"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__irpj_wh_value
@@ -1189,6 +1204,11 @@ msgid "Journal Entry"
 msgstr "Lançamento de Diário"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company____last_update
@@ -1317,7 +1337,7 @@ msgstr "Operação presencial, fora do estabelecimento"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_other_value
 msgid "Other Costs"
-msgstr "Outro Custos"
+msgstr "Outros Custos"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__other_value
@@ -1468,7 +1488,7 @@ msgstr "Linha de Pedido do Parceiro (nItemPed)"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_tax
 msgid "Price Tax"
-msgstr ""
+msgstr "Imposto sobre Preço"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__product_id
@@ -1484,7 +1504,7 @@ msgstr "Tipo Fiscal do Produto"
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__quantity
 msgid "Product Uom Quantity"
-msgstr "Quantidade do Produto"
+msgstr "Quantidade do Produto (UOM)"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__fiscal_type__04
@@ -1530,6 +1550,11 @@ msgstr "Pedido de Vendas"
 #: model:ir.model,name:l10n_br_sale.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Linha do Pedido de Vendas"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_serie
+msgid "Serie Number"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__service_type_id
@@ -1695,7 +1720,7 @@ msgstr "UoM Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_withholding
 msgid "Tax Withholding"
-msgstr ""
+msgstr "Imposto Retido"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax
@@ -1761,7 +1786,7 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
-msgstr ""
+msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor Retido na Fonte"

@@ -148,14 +148,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         for record in self:
             round_curr = record.currency_id or self.env.ref("base.BRL")
             # Valor dos produtos
-            record.price_gross = round_curr.round(record.price_unit * record.quantity)
 
-            record.amount_untaxed = record.price_gross - record.discount_value
+            amount_subtotal = round_curr.round(record.price_unit * record.quantity)
 
-            record.amount_fiscal = (
-                round_curr.round(record.fiscal_price * record.fiscal_quantity)
-                - record.discount_value
+            record.price_gross = (
+                amount_subtotal
+                + record.amount_tax_not_included
+                - record.amount_tax_withholding
             )
+
+            record.amount_untaxed = amount_subtotal - record.discount_value
+
+            record.amount_fiscal = amount_subtotal - record.discount_value
 
             record.amount_tax = record.amount_tax_not_included
 
@@ -169,6 +173,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
             record.amount_taxed = record.amount_total - record.amount_tax_withholding
+
+            # Valor do documento (NF) - RETENÇÕES
+            record.amount_total = record.amount_taxed
 
             # Valor financeiro
             if (
@@ -213,6 +220,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
             ind_final=self.ind_final,
+            icms_relief_id=self.icms_relief_id,
         )
 
     @api.depends("tax_icms_or_issqn", "partner_is_public_entity")
@@ -787,6 +795,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "icmsst_tax_id",
         "icmsfcp_tax_id",
         "icmsfcpst_tax_id",
+        "icms_relief_id",
+        "icms_relief_value",
         "ipi_tax_id",
         "ii_tax_id",
         "pis_tax_id",

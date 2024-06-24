@@ -140,3 +140,43 @@ class FiscalDocument(models.Model):
             return super().create(filtered_vals_list)
         else:
             return super().create(vals_list)
+
+    @api.returns("mail.message", lambda value: value.id)
+    def message_post(self, **kwargs):
+        """
+        broadcast message_post to all related account.move so
+        messages in a fiscal document chatter are visible in the
+        related account moves.
+        """
+        for doc in self:
+            doc.move_ids.message_post(**kwargs)
+
+    def cancel_move_ids(self):
+        for record in self:
+            if record.move_ids:
+                self.move_ids.button_cancel()
+
+    def _document_cancel(self, justificative):
+        result = super()._document_cancel(justificative)
+        msg = "Cancelamento: {}".format(justificative)
+        self.cancel_move_ids()
+        self.message_post(body=msg)
+        return result
+
+    def _document_correction(self, justificative):
+        result = super()._document_correction(justificative)
+        msg = "Carta de correção: {}".format(justificative)
+        self.message_post(body=msg)
+        return result
+
+    def action_document_confirm(self):
+        result = super().action_document_confirm()
+        move_ids = self.move_ids.filtered(lambda move: move.state == "draft")
+        move_ids._post()
+        return result
+
+    def action_document_back2draft(self):
+        result = super().action_document_back2draft()
+        if self.move_ids:
+            self.move_ids.button_draft()
+        return result

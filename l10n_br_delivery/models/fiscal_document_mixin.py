@@ -9,7 +9,7 @@ class FiscalDocumentMixin(models.AbstractModel):
     _inherit = "l10n_br_fiscal.document.mixin.fields"
 
     def _get_default_incoterm(self):
-        return self.env.user.company_id.incoterm_id
+        return self.env.company.incoterm_id
 
     # Esta sendo implementado aqui para existir nos objetos herdados
     incoterm_id = fields.Many2one(

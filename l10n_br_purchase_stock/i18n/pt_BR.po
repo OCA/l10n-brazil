@@ -7,8 +7,9 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:25+0000\n"
-"PO-Revision-Date: 2024-02-22 13:39+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-05-20 22:42+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +25,14 @@ msgid ""
 "specific.\" aria-label=\"Values set here are company-specific.\" groups="
 "\"base.group_multi_company\" role=\"img\"/>"
 msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Os valores definidos aqui são "
+"específicos da empresa.\" aria-label=\"Os valores definidos aqui são "
+"específicos da empresa.\" groups=\"base.group_multi_company\" role=\"img\"/>"
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__button_create_invoice_invisible
 msgid "Button Create Invoice Invisible"
-msgstr ""
+msgstr "Botão Criar fatura invisível"
 
 #. module: l10n_br_purchase_stock
 #: model:ir.model,name:l10n_br_purchase_stock.model_res_company

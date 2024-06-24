@@ -1,5 +1,7 @@
 [run]
 omit =
-    l10n_br_currency_rate_update/tests/test_currency_rate_update_bcb.py
+    l10n_br_currency_rate_update/tests/test_currency_rate_update_bcb.ry
+    l10n_br_currency_rate_update/models/res_currency_rate_provider_bcb.py
     l10n_br_fiscal/tests/test_ibpt_service.py
     l10n_br_fiscal/tests/test_ibpt_product.py
+    l10n_br_fiscal/models/ibpt.py

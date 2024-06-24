@@ -6,8 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-03-26 18:39+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-05-20 19:36+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -72,6 +73,8 @@ msgid ""
 "All Certificate by\n"
 "              Brazilian Fiscal modulo for Odoo."
 msgstr ""
+"Todos certificados por\n"
+"               Módulo Fiscal Brasileiro para Odoo."
 
 #. module: l10n_br_fiscal_certificate
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_form
@@ -92,7 +95,7 @@ msgstr "CNPJ/CPF"
 #: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
 #, python-format
 msgid "Cannot load Certificate !"
-msgstr ""
+msgstr "Não é possível carregar o certificado!"
 
 #. module: l10n_br_fiscal_certificate
 #: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
@@ -102,6 +105,9 @@ msgid ""
 "\n"
 " {}"
 msgstr ""
+"Não é possível carregar o certificado!\n"
+"\n"
+" {}"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.actions.act_window,name:l10n_br_fiscal_certificate.certificate_action
@@ -136,6 +142,8 @@ msgid ""
 "Certificate not found, you need to inform your e-CNPJ or e-NFe certificate "
 "in the Company."
 msgstr ""
+"Certificado não encontrado, é necessário informar seu e-CNPJ ou certificado "
+"e-NFe na Empresa."
 
 #. module: l10n_br_fiscal_certificate
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.fiscal_res_company_form
@@ -369,7 +377,7 @@ msgstr "Número de mensagens não lidas"
 #: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
 #, python-format
 msgid "Only e-CNPJ Certicate can be used for this case."
-msgstr ""
+msgstr "Somente o Certificado e-CNPJ pode ser utilizado para este caso."
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__owner_name
@@ -390,6 +398,9 @@ msgid ""
 "with: pip install erpbrasil.assinatura.Demo companies fake A1 certificates "
 "were not created."
 msgstr ""
+"Biblioteca Python erpbrasil.assinatura não instalada!Você pode instalá-la "
+"posteriormente com: pip install erpbrasil.assinatura.Empresas demo "
+"certificados A1 falsos não foram criados."
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_user_id

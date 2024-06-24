@@ -51,6 +51,7 @@ class Document(models.Model):
         "l10n_br_fiscal.document.mixin.fields",
         "l10n_br_fiscal.document.electronic",
         "l10n_br_fiscal.document.move.mixin",
+        "mail.thread",
     ]
     _description = "Fiscal Document"
     _check_company_auto = True
@@ -71,19 +72,8 @@ class Document(models.Model):
         store=True,
     )
 
-    document_number = fields.Char(
-        copy=False,
-        index=True,
-    )
-
     rps_number = fields.Char(
         string="RPS Number",
-        copy=False,
-        index=True,
-    )
-
-    document_key = fields.Char(
-        string="Key",
         copy=False,
         index=True,
     )
@@ -99,10 +89,6 @@ class Document(models.Model):
         default=lambda self: self.env.user,
     )
 
-    document_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.type",
-    )
-
     operation_name = fields.Char(
         copy=False,
     )
@@ -116,15 +102,6 @@ class Document(models.Model):
     date_in_out = fields.Datetime(
         string="Date IN/OUT",
         copy=False,
-    )
-
-    document_serie_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.serie",
-        domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
-    )
-
-    document_serie = fields.Char(
-        string="Serie Number",
     )
 
     document_related_ids = fields.One2many(
