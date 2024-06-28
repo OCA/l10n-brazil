@@ -23,8 +23,6 @@ class TestBrPickingInvoicingCommon(TransactionCase):
 
         # Stock Move
         record._onchange_product_id_fiscal()
-        record._onchange_fiscal_operation_id()
-        record._onchange_fiscal_operation_line_id()
         record._onchange_fiscal_taxes()
         record._onchange_product_quantity()
 
