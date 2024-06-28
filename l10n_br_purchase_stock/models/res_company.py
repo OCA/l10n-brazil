@@ -13,7 +13,7 @@ class Company(models.Model):
         domain=[("state", "=", "approved"), ("fiscal_type", "=", "purchase")],
     )
 
-    purchase_create_invoice_policy = fields.Selection(
+    purchase_invoicing_policy = fields.Selection(
         selection=[
             ("purchase_order", _("Purchase Order")),
             ("stock_picking", _("Stock Picking")),
