@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
             <field name="purchase_fiscal_operation_id" position="before">
-                <field name="purchase_create_invoice_policy" />
+                <field name="purchase_invoicing_policy" />
             </field>
         </field>
     </record>
