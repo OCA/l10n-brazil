@@ -19,7 +19,7 @@
                 >
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
-                        <label for="purchase_create_invoice_policy" />
+                        <label for="purchase_invoicing_policy" />
                         <span
                             class="fa fa-lg fa-building-o"
                             title="Values set here are company-specific."
@@ -33,7 +33,7 @@
                         <div class="content-group">
                             <div class="mt16">
                                 <field
-                                    name="purchase_create_invoice_policy"
+                                    name="purchase_invoicing_policy"
                                     class="o_light_label"
                                     widget="radio"
                                 />

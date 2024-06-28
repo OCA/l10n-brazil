@@ -3,15 +3,15 @@
 
     <!-- Criação da Invoice baseada no Picking.
      Com isso os Picking são criados com o invoice_state 2binvoiced -->
-    <record id="purchase_create_invoice_policy_settings" model="res.config.settings">
-        <field name="purchase_create_invoice_policy">stock_picking</field>
+    <record id="purchase_invoicing_policy_settings" model="res.config.settings">
+        <field name="purchase_invoicing_policy">stock_picking</field>
     </record>
 
     <function model="res.config.settings" name="execute">
         <value
             model="res.config.settings"
             search="[('id', '=',
-                ref('purchase_create_invoice_policy_settings'))]"
+                ref('purchase_invoicing_policy_settings'))]"
         />
     </function>
 

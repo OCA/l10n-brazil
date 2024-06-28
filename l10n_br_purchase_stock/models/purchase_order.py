@@ -8,8 +8,8 @@ from odoo import api, fields, models
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    purchase_create_invoice_policy = fields.Selection(
-        related="company_id.purchase_create_invoice_policy",
+    purchase_invoicing_policy = fields.Selection(
+        related="company_id.purchase_invoicing_policy",
     )
 
     # Make Invisible Invoice Button
@@ -30,7 +30,7 @@ class PurchaseOrder(models.Model):
             ):
                 button_create_invoice_invisible = True
             else:
-                if record.purchase_create_invoice_policy == "stock_picking":
+                if record.purchase_invoicing_policy == "stock_picking":
                     # A criação de Fatura de Serviços deve ser possível via Pedido
                     if not any(
                         line.product_id.type == "service" for line in record.order_line
@@ -44,7 +44,7 @@ class PurchaseOrder(models.Model):
         values = super()._prepare_picking()
         if self.fiscal_operation_id:
             values.update(self._prepare_br_fiscal_dict())
-        if self.company_id.purchase_create_invoice_policy == "stock_picking":
+        if self.company_id.purchase_invoicing_policy == "stock_picking":
             values["invoice_state"] = "2binvoiced"
 
         return values
