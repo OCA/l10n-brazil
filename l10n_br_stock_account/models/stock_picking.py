@@ -11,15 +11,35 @@ class StockPicking(models.Model):
     @api.model
     def _default_fiscal_operation(self):
         company = self.env.company
-        fiscal_operation = company.stock_fiscal_operation_id
-        picking_type_id = self.env.context.get("default_picking_type_id")
-        if picking_type_id:
-            picking_type = self.env["stock.picking.type"].browse(picking_type_id)
-            fiscal_operation = picking_type.fiscal_operation_id or (
-                company.stock_in_fiscal_operation_id
-                if picking_type.code == "incoming"
-                else company.stock_out_fiscal_operation_id
-            )
+        fiscal_operation = False
+        if self.env.company.country_id == self.env.ref("base.br"):
+            fiscal_operation = company.stock_fiscal_operation_id
+            picking_type_id = self.env.context.get("default_picking_type_id")
+            if picking_type_id:
+                picking_type = self.env["stock.picking.type"].browse(picking_type_id)
+                fiscal_operation = picking_type.fiscal_operation_id or (
+                    company.stock_in_fiscal_operation_id
+                    if picking_type.code == "incoming"
+                    else company.stock_out_fiscal_operation_id
+                )
+
+            # Casos onde o usuário definiu o Pedido de Compra/Venda como
+            # 'Sem Operação Fiscal'
+            if hasattr(self, "purchase_id"):
+                if not self.purchase_id.fiscal_operation_id:
+                    fiscal_operation = False
+            if hasattr(self, "sale_id"):
+                # Necessário para evitar o erro quando o l10n_br_purchase_stock
+                # é instalado:
+                # /l10n_br_stock_account/models/stock_picking.py", line 34,
+                # in _default_fiscal_operation
+                # if not self.sale_id.fiscal_operation_id:
+                # AttributeError: 'sale.order' object has no attribute
+                # 'fiscal_operation_id'
+                if hasattr(self.sale_id, "fiscal_operation_id"):
+                    if not self.sale_id.fiscal_operation_id:
+                        fiscal_operation = False
+
         return fiscal_operation
 
     @api.model
