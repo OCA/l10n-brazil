@@ -111,15 +111,16 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
         if hasattr(base_class, "_stacked"):
             node = SpecModel._odoo_name_to_class(base_class._stacked, spec_module)
 
-            env = api.Environment(cr, SUPERUSER_ID, {})
-            for (
-                _kind,
-                klass,
-                _path,
-                _field_path,
-                _child_concrete,
-            ) in base_class._visit_stack(env, node):
-                injected_classes.add(klass)
+            if node:
+                env = api.Environment(cr, SUPERUSER_ID, {})
+                for (
+                    _kind,
+                    klass,
+                    _path,
+                    _field_path,
+                    _child_concrete,
+                ) in base_class._visit_stack(env, node):
+                    injected_classes.add(klass)
 
     all_spec_models = {
         c._name
