@@ -33,7 +33,6 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
     estimate_tax_national = fields.Float(
         string="Estimate Tax Nacional Percent",
-        store=True,
         readonly=True,
         digits="Fiscal Tax Percent",
         compute="_compute_amount",
@@ -41,7 +40,6 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
     estimate_tax_imported = fields.Float(
         string="Estimate Tax Imported Percent",
-        store=True,
         readonly=True,
         digits="Fiscal Tax Percent",
         compute="_compute_amount",
