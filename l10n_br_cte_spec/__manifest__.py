@@ -11,4 +11,7 @@
     "development_status": "Alpha",
     "maintainers": ["rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
+    "data": [
+        "security/ir.model.access.csv",
+    ],
 }
