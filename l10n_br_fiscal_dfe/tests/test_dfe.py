@@ -6,7 +6,7 @@ from unittest import mock
 
 from erpbrasil.edoc.resposta import analisar_retorno_raw
 from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
-from nfelib.v4_00 import retDistDFeInt
+from nfelib.nfe_dist_dfe.bindings.v1_0.ret_dist_dfe_int_v1_01 import RetDistDfeInt
 
 from odoo.tests.common import SavepointCase
 
@@ -36,7 +36,7 @@ def mocked_post_success_multiple(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_sucesso_multiplos),
-        retDistDFeInt,
+        RetDistDfeInt,
     )
 
 
@@ -46,7 +46,7 @@ def mocked_post_success_single(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_sucesso_individual),
-        retDistDFeInt,
+        RetDistDfeInt,
     )
 
 
@@ -56,7 +56,7 @@ def mocked_post_error_rejection(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_rejeicao),
-        retDistDFeInt,
+        RetDistDfeInt,
     )
 
 
@@ -66,7 +66,7 @@ def mocked_post_error_status_code(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_rejeicao, status_code=500),
-        retDistDFeInt,
+        RetDistDfeInt,
     )
 
 
