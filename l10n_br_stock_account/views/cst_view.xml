@@ -1,0 +1,14 @@
+<odoo>
+
+    <record id="cst_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.cst.form</field>
+        <field name="model">l10n_br_fiscal.cst</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.cst_form" />
+        <field name="arch" type="xml">
+            <field name="tax_group_id" position="after">
+                <field name="default_creditable_tax" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

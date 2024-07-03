@@ -6,7 +6,11 @@ from odoo import api, models
 
 
 class PurchaseOrderLine(models.Model):
-    _inherit = "purchase.order.line"
+    _name = "purchase.order.line"
+    _inherit = [
+        _name,
+        "l10n_br_stock_account.stock.price.mixin",
+    ]
 
     def _prepare_stock_moves(self, picking):
         """Prepare the stock moves data for one order line.
