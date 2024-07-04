@@ -33,43 +33,36 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
     estimate_tax_national = fields.Float(
         string="Estimate Tax Nacional Percent",
-        readonly=True,
+        company_dependent=True,
+        store=True,
         digits="Fiscal Tax Percent",
-        compute="_compute_amount",
     )
 
     estimate_tax_imported = fields.Float(
         string="Estimate Tax Imported Percent",
-        readonly=True,
+        company_dependent=True,
+        store=True,
         digits="Fiscal Tax Percent",
-        compute="_compute_amount",
     )
 
-    @api.depends("tax_estimate_ids")
-    def _compute_amount(self):
-        for record in self:
-            object_field = OBJECT_FIELDS.get(record._name)
-            last_estimated = record.env["l10n_br_fiscal.tax.estimate"].search(
-                [
-                    (object_field, "=", record.id),
-                    ("company_id", "=", record.env.company.id),
-                ],
-                order="create_date DESC",
-                limit=1,
-            )
-
-            if last_estimated:
-                record.estimate_tax_imported = (
-                    last_estimated.federal_taxes_import
-                    + last_estimated.state_taxes
-                    + last_estimated.municipal_taxes
-                )
-
-                record.estimate_tax_national = (
-                    last_estimated.federal_taxes_national
-                    + last_estimated.state_taxes
-                    + last_estimated.municipal_taxes
-                )
+    def update_estimated_taxes(self, last_estimated):
+        self.ensure_one()
+        estimate_tax_imported = (
+            last_estimated.federal_taxes_import
+            + last_estimated.state_taxes
+            + last_estimated.municipal_taxes
+        )
+        estimate_tax_national = (
+            last_estimated.federal_taxes_national
+            + last_estimated.state_taxes
+            + last_estimated.municipal_taxes
+        )
+        self.write(
+            {
+                "estimate_tax_national": estimate_tax_national,
+                "estimate_tax_imported": estimate_tax_imported,
+            }
+        )
 
     def _get_ibpt(self, config, code_unmasked):
         return False
@@ -108,8 +101,10 @@ class DataNcmNbsAbstract(models.AbstractModel):
                         "federal_taxes_import": result.importado,
                     }
 
-                    self.env["l10n_br_fiscal.tax.estimate"].create(values)
-
+                    last_estimated = self.env["l10n_br_fiscal.tax.estimate"].create(
+                        values
+                    )
+                    record.with_company(company).update_estimated_taxes(last_estimated)
                     record.message_post(
                         body=_("{} Tax Estimate Updated").format(object_name),
                         subject=_("{} Tax Estimate Updated").format(object_name),
