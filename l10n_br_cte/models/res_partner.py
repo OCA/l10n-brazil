@@ -69,6 +69,10 @@ class ResPartner(spec_models.SpecModel):
         comodel_name="res.partner", compute="_compute_cte40_ender"
     )
 
+    cte40_enderReceb = fields.Many2one(
+        comodel_name="res.partner", compute="_compute_cte40_ender"
+    )
+
     cte40_enderFerro = fields.Many2one(
         comodel_name="res.partner", compute="_compute_cte40_ender"
     )
@@ -85,7 +89,6 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_cep",
         inverse="_inverse_cte40_CEP",
         compute_sudo=True,
-        store=True,
     )
     cte40_cPais = fields.Char(
         related="country_id.bc_code",
@@ -98,6 +101,14 @@ class ResPartner(spec_models.SpecModel):
 
     cte40_xNome = fields.Char(related="legal_name")
 
+    cte40_xContato = fields.Char(related="legal_name")
+
+    cte40_email = fields.Char(related="email")
+
+    cte40_fone = fields.Char(
+        compute="_compute_cte_data", inverse="_inverse_cte40_fone", compute_sudo=True
+    )
+
     def _compute_cte40_IE(self):
         for rec in self:
             rec.cte40_IE = str(rec.inscr_est).replace(".", "")
@@ -108,6 +119,7 @@ class ResPartner(spec_models.SpecModel):
             rec.cte40_enderReme = rec.id
             rec.cte40_enderDest = rec.id
             rec.cte40_enderExped = rec.id
+            rec.cte40_enderReceb = rec.id
             rec.cte40_enderFerro = rec.id
 
     @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
@@ -121,6 +133,7 @@ class ResPartner(spec_models.SpecModel):
                 else:
                     rec.cte40_CNPJ = None
                     rec.cte40_CPF = cnpj_cpf
+            rec.cte40_fone = punctuation_rm(rec.phone or "").replace(" ", "")
 
     def _inverse_cte40_CEP(self):
         for rec in self:
@@ -128,11 +141,24 @@ class ResPartner(spec_models.SpecModel):
                 country_code = rec.country_id.code if rec.country_id else "BR"
                 rec.zip = format_zipcode(rec.cte40_CEP, country_code)
 
+    def _inverse_cte40_fone(self):
+        for rec in self:
+            if rec.cte40_fone:
+                rec.phone = rec.nfe40_fone
+
     def _compute_cep(self):
         for rec in self:
             rec.cte40_CEP = punctuation_rm(rec.zip)
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+        if (
+            xsd_field == "cte40_xNome"
+            and class_obj._name
+            in ["cte.40.tcte_rem", "cte.40.tcte_dest", "cte.40.exped", "cte.40.receb"]
+            and self.env.context.get("tpAmb") == "2"
+        ):
+            return "CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
+
         if not self.cnpj_cpf and self.parent_id:
             cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
         else:

@@ -11,7 +11,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
     "depends": [
-        "l10n_br_fiscal",
+        "l10n_br_fiscal_edi",
         "l10n_br_cte_spec",
         "l10n_br_fiscal_certificate",
         "spec_driven_model",
@@ -27,13 +27,14 @@
         "modal/modal_aereo.xml",
         "views/res_company.xml",
         "views/cte_document.xml",
+        "wizards/document_correction_wizard.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib>=2.0.0",
+            "nfelib<=2.0.7",
             "erpbrasil.assinatura>=1.7.0",
             "erpbrasil.transmissao>=1.1.0",
             "erpbrasil.edoc>=2.5.2",

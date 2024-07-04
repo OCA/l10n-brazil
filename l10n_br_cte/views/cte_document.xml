@@ -21,6 +21,17 @@
             </xpath>
             <field name="document_serie_id" position="after">
                 <field name="service_provider" />
+                <field name="cte40_tpServ" />
+                <field name="cte40_tpPer" />
+                <field name="cte40_dProg" />
+                <field name="cte40_tpHor" />
+            </field>
+            <field name="partner_shipping_id" position="before">
+                <field name="cte40_rem" />
+                <field name="cte40_exped" />
+            </field>
+            <field name="partner_shipping_id" position="after">
+                <field name="cte40_receb" />
             </field>
             <page name="delivery" position="inside">
                 <separator name="cargo_infos_sep" string="Cargo Infos" />
@@ -97,7 +108,7 @@
                     </group>
                     <group attrs="{'invisible': [('transport_modal', '!=', '03')]}">
                             <group>
-                                <field name="cte40_vPrest" />
+                                <field name="cte40_vTPrest" />
                                 <field name="cte40_vAFRMM" />
                                 <field name="cte40_xNavio" />
                                 <field name="cte40_nViag" />

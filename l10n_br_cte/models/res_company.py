@@ -1,48 +1,13 @@
 # Copyright 2023 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields
-
-from odoo.addons.spec_driven_model.models import spec_models
+from odoo import fields, models
 
 
-class ResCompany(spec_models.SpecModel):
+class ResCompany(models.Model):
 
     _name = "res.company"
-    _inherit = ["res.company", "cte.40.tcte_emit", "cte.40.tendeemi", "cte.40.ferroenv"]
-    _cte_search_keys = ["cte40_CNPJ", "cte40_xNome", "cte40_xFant"]
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
-    _field_prefix = "cte40_"
-
-    ##########################
-    # CT-e spec fields
-    ##########################
-
-    cte40_CNPJ = fields.Char(
-        related="partner_id.cte40_CNPJ",
-    )
-    cte40_CPF = fields.Char(
-        related="partner_id.cte40_CPF",
-    )
-    cte40_IE = fields.Char(
-        related="partner_id.cte40_IE",
-    )
-    cte40_xNome = fields.Char(
-        related="partner_id.legal_name",
-    )
-    cte40_xFant = fields.Char(
-        related="partner_id.name",
-    )
-    cte40_CRT = fields.Selection(
-        related="tax_framework",
-    )
-
-    cte40_enderEmit = fields.Many2one(
-        comodel_name="res.partner",
-        related="partner_id",
-    )
-
-    cte40_enderToma = fields.Many2one(comodel_name="res.partner", related="partner_id")
+    _inherit = ["res.company"]
 
     ##########################
     # CT-e models fields

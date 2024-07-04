@@ -4132,7 +4132,6 @@ class TcteEmit(models.AbstractModel):
     cte40_enderEmit = fields.Many2one(
         comodel_name="cte.40.tendeemi",
         string="Endereço do emitente",
-        xsd_required=True,
         xsd_type="TEndeEmi",
     )
 
