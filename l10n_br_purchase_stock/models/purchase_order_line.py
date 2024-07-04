@@ -9,7 +9,7 @@ class PurchaseOrderLine(models.Model):
     _name = "purchase.order.line"
     _inherit = [
         _name,
-        "l10n_br_stock_account.stock.price.mixin",
+        "l10n_br_fiscal.stock.price.mixin",
     ]
 
     def _prepare_stock_moves(self, picking):

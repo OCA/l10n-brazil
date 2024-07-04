@@ -16,6 +16,7 @@ from . import invalidate_number
 from . import comment
 from . import ibpt
 from . import cfop
+from . import stock_price_mixin
 from . import cst
 from . import cnae
 from . import nbs

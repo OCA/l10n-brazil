@@ -25,8 +25,6 @@
         "views/stock_rule_view.xml",
         "views/stock_picking_type_view.xml",
         "views/res_company_view.xml",
-        "views/cst_view.xml",
-        "views/tax_view.xml",
         # Wizards
         "wizards/stock_invoice_onshipping_view.xml",
     ],

@@ -18,7 +18,7 @@ class StockMove(models.Model):
     _inherit = [
         _name,
         "l10n_br_fiscal.document.line.mixin",
-        "l10n_br_stock_account.stock.price.mixin",
+        "l10n_br_fiscal.stock.price.mixin",
     ]
 
     @api.model

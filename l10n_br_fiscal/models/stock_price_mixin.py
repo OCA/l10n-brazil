@@ -6,7 +6,7 @@ from odoo.tools.float_utils import float_round
 
 
 class StockPriceMixin(models.AbstractModel):
-    _name = "l10n_br_stock_account.stock.price.mixin"
+    _name = "l10n_br_fiscal.stock.price.mixin"
     _description = "Stock Price Mixin"
 
     def _default_valuation_stock_price(self):
