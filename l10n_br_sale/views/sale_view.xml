@@ -110,6 +110,7 @@
                         name="manual_fiscal_additional_data"
                         style="min-width: 590px;"
                     />
+                    <field name="comment_ids" widget="many2many_tags" />
                 </group>
             </field>
             <xpath expr="//field[@name='order_line']" position="attributes">
