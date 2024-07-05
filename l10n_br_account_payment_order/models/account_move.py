@@ -88,8 +88,8 @@ class AccountMove(models.Model):
             return self.document_number
         return self.name
 
-    def action_post(self):
-        result = super().action_post()
+    def _post(self, soft=True):
+        result = super()._post(soft)
         self.load_cnab_info()
         return result
 
