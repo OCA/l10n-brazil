@@ -163,9 +163,18 @@ row {
                     Local da Prestação
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.company_id.city_id" /> - <span
-                        t-field="doc.company_id.state_id.code"
-                    />
+                    <t t-if="doc.fiscal_line_ids[0].issqn_fg_city_id">
+                        <span
+                            t-field="doc.fiscal_line_ids[0].issqn_fg_city_id"
+                        /> - <span
+                            t-field="doc.fiscal_line_ids[0].issqn_fg_city_id.state_id.code"
+                        />
+                    </t>
+                    <t t-else="">
+                        <span t-field="doc.company_id.city_id" /> - <span
+                            t-field="doc.company_id.state_id.code"
+                        />
+                    </t>
                 </div>
             </div>
 
