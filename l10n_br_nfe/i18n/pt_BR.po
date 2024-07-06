@@ -75,53 +75,53 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">DANFE Print Layout</span>\n"
-"                                <span class=\"fa fa-lg fa-building-o\" title="
-"\"Values set here are company-specific.\" aria-label=\"Values set here are "
-"company-specific.\" role=\"img\"/>"
+"                                <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Values set here are company-specific.\" aria-label=\"Values set here "
+"are company-specific.\" role=\"img\"/>"
 msgstr ""
 "<span class=\"o_form_label\">Layout de Impressão de DANFE</span>\n"
-"                                <span class=\"fa fa-lg fa-building-o\" title="
-"\"Valores definidor aqui são específicos da empresa.\" aria-label=\"Valores "
-"definidor aqui são específicos da empresa.\" role=\"img\"/>"
+"                                <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Valores definidor aqui são específicos da empresa.\" aria-"
+"label=\"Valores definidor aqui são específicos da empresa.\" role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">NF-e Default Environment</span>\n"
-"                            <span class=\"fa fa-lg fa-building-o\" title="
-"\"Values set here are company-specific.\" aria-label=\"Values set here are "
-"company-specific.\" role=\"img\"/>"
+"                            <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Values set here are company-specific.\" aria-label=\"Values set here "
+"are company-specific.\" role=\"img\"/>"
 msgstr ""
 "<span class=\"o_form_label\">Ambiente padrão NF-e</span>\n"
-"                            <span class=\"fa fa-lg fa-building-o\" title="
-"\"Valores definidor aqui são específicos da empresa.\" aria-label=\"Valores "
-"definidor aqui são específicos da empresa.\" role=\"img\"/>"
+"                            <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Valores definidor aqui são específicos da empresa.\" aria-"
+"label=\"Valores definidor aqui são específicos da empresa.\" role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">NF-e Default Transmission</span>\n"
-"                              <span class=\"fa fa-lg fa-building-o\" title="
-"\"Values set here are company-specific.\" aria-label=\"Values set here are "
-"company-specific.\" role=\"img\"/>"
+"                              <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Values set here are company-specific.\" aria-label=\"Values set here "
+"are company-specific.\" role=\"img\"/>"
 msgstr ""
 "<span class=\"o_form_label\">Transmissão padrão NF-e </span>\n"
-"                              <span class=\"fa fa-lg fa-building-o\" title="
-"\"Valores definidor aqui são específicos da empresa.\" aria-label=\"Valores "
-"definidor aqui são específicos da empresa.\" role=\"img\"/>"
+"                              <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Valores definidor aqui são específicos da empresa.\" aria-"
+"label=\"Valores definidor aqui são específicos da empresa.\" role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">NF-e Default Version</span>\n"
-"                            <span class=\"fa fa-lg fa-building-o\" title="
-"\"Values set here are company-specific.\" aria-label=\"Values set here are "
-"company-specific.\" role=\"img\"/>"
+"                            <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Values set here are company-specific.\" aria-label=\"Values set here "
+"are company-specific.\" role=\"img\"/>"
 msgstr ""
 "<span class=\"o_form_label\">Versão padrão NF-e</span>\n"
-"                            <span class=\"fa fa-lg fa-building-o\" title="
-"\"Valores definidor aqui são específicos da empresa.\" aria-label=\"Valores "
-"definidor aqui são específicos da empresa.\" role=\"img\"/>"
+"                            <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Valores definidor aqui são específicos da empresa.\" aria-"
+"label=\"Valores definidor aqui são específicos da empresa.\" role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__key
@@ -2199,11 +2199,6 @@ msgid "Nfe40 Nfref Ide"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pFCPUFDest
-msgid "Nfe40 Pfcpufdest"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pICMSInterPart
 msgid "Nfe40 Picmsinterpart"
 msgstr ""
@@ -2416,6 +2411,18 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
 msgid "Pending"
 msgstr "Pendente"
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pFCPUFDest
+msgid "Percentual adicional inserido"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pFCPUFDest
+msgid ""
+"Percentual adicional inserido na alíquota interna da UF de destino, relativo "
+"ao Fundo de Combate à Pobreza (FCP) naquela UF."
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pMVAST
