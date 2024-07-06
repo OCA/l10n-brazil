@@ -92,7 +92,7 @@ addon | version | maintainers | summary
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.2.0.2 |  | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 12.0.3.1.0 |  | This module changes the delivery model strategy to match brazilian standards.
 [l10n_br_delivery_nfe](l10n_br_delivery_nfe/) | 12.0.1.0.0 |  | Brazilian Localization Delivery NFe
-[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.35.6.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.35.7.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_fiscal_closing](l10n_br_fiscal_closing/) | 12.0.1.0.0 |  | Fechamento fiscal do periodo
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 |  | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.1.0 |  | Brazilian Localization HR Contract
