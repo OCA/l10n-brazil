@@ -81,6 +81,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 ),
                 # these will only collect (invisible) fields for onchanges:
                 (
+                    ".//control[@name='fiscal_fields']...",
+                    "//group[@name='fiscal_fields']//field",
+                ),
+                (
                     ".//control[@name='fiscal_taxes_fields']...",
                     "//page[@name='fiscal_taxes']//field",
                 ),
@@ -90,8 +94,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 ),
             )
         for placeholder_xpath, fiscal_xpath in xpath_mappings:
+            placeholder_nodes = doc.findall(placeholder_xpath)
+            if not placeholder_nodes:
+                continue
             fiscal_nodes = fsc_doc.xpath(fiscal_xpath)
-            for target_node in doc.findall(placeholder_xpath):
+            for target_node in placeholder_nodes:
                 if len(fiscal_nodes) == 1:
                     # replace unique placeholder
                     # (deepcopy is required to inject fiscal nodes in possible
@@ -100,10 +107,16 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     target_node.getparent().replace(target_node, replace_node)
                 else:
                     # append multiple fields to placeholder container
+                    existing_fields = [
+                        e.attrib["name"] for e in target_node if e.tag == "field"
+                    ]
                     for fiscal_node in fiscal_nodes:
+                        if fiscal_node.attrib["name"] in existing_fields:
+                            continue
                         field = deepcopy(fiscal_node)
                         if not field.attrib.get("optional"):
-                            field.attrib["invisible"] = "1"
+                            field.attrib["invisible"] = "0"
+                            field.attrib["optional"] = "hide"
                         target_node.append(field)
         return doc
 

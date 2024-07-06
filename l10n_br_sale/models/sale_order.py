@@ -114,20 +114,39 @@ class SaleOrder(models.Model):
         if view_type == "form":
             view = self.env["ir.ui.view"]
 
-            sub_form_view = order_view["fields"]["order_line"]["views"]["form"]["arch"]
-
-            sub_form_node = self.env["sale.order.line"].inject_fiscal_fields(
-                sub_form_view
+            sub_tree_view = order_view["fields"]["order_line"]["views"]["tree"]["arch"]
+            sub_tree_node = self.env["sale.order.line"].inject_fiscal_fields(
+                sub_tree_view
             )
 
-            sub_arch, sub_fields = view.postprocess_and_fields(
-                sub_form_node, "sale.order.line", False
+            if self.user_has_groups("l10n_br_sale.group_so_line_fiscal_detail"):
+                # switch to popup form mode for order line edition
+                # so you can deal with all the fiscal parameters.
+                sub_tree_node.attrib["editable"] = ""
+
+            sub_tree_arch, sub_tree_fields = view.postprocess_and_fields(
+                sub_tree_node, "sale.order.line", False
             )
 
-            order_view["fields"]["order_line"]["views"]["form"] = {
-                "fields": sub_fields,
-                "arch": sub_arch,
+            order_view["fields"]["order_line"]["views"]["tree"] = {
+                "fields": sub_tree_fields,
+                "arch": sub_tree_arch,
             }
+
+            if self.user_has_groups("l10n_br_sale.group_so_line_fiscal_detail"):
+                sub_form_view = order_view["fields"]["order_line"]["views"]["form"][
+                    "arch"
+                ]
+                sub_form_node = self.env["sale.order.line"].inject_fiscal_fields(
+                    sub_form_view
+                )
+                sub_form_arch, sub_form_fields = view.postprocess_and_fields(
+                    sub_form_node, "sale.order.line", False
+                )
+                order_view["fields"]["order_line"]["views"]["form"] = {
+                    "fields": sub_form_fields,
+                    "arch": sub_form_arch,
+                }
 
         return order_view
 
