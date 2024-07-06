@@ -7,6 +7,10 @@ from enum import Enum
 
 from odoo import api, fields
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    CFOP_DESTINATION_EXTERNAL,
+    FINAL_CUSTOMER_NO,
+)
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
@@ -450,9 +454,6 @@ class NFeLine(spec_models.StackedModel):
             "vBCSTRet": str("%.02f" % self.icmsst_wh_base),
             "pST": str("%.04f" % (self.icmsst_wh_percent + self.icmsfcp_wh_percent)),
             "vICMSSTRet": str("%.02f" % self.icmsst_wh_value),
-            "vBCFCPSTRet": str("%.02f" % self.icmsfcp_base_wh),
-            "pFCPSTRet": str("%.04f" % self.icmsfcp_wh_percent),
-            "vFCPSTRet": str("%.02f" % self.icmsfcp_value_wh),
             "pRedBCEfet": str("%.04f" % self.icms_effective_reduction),
             "vBCEfet": str("%.02f" % self.icms_effective_base),
             "pICMSEfet": str("%.04f" % self.icms_effective_percent),
@@ -462,7 +463,20 @@ class NFeLine(spec_models.StackedModel):
             "pCredSN": str("%.04f" % self.icmssn_percent),
             "vCredICMSSN": str("%.02f" % self.icmssn_credit_value),
         }
-        if self.icmsfcp_percent:
+        if self.icmsfcp_wh_percent:
+            icms.update(
+                {
+                    # FUNDO DE COMBATE À POBREZA RETIDO
+                    "vBCFCPSTRet": str("%.02f" % self.icmsfcp_base_wh),
+                    "pFCPSTRet": str("%.04f" % self.icmsfcp_wh_percent),
+                    "vFCPSTRet": str("%.02f" % self.icmsfcp_value_wh),
+                }
+            )
+        if (
+            self.icmsfcp_percent
+            and self.ind_final == FINAL_CUSTOMER_NO
+            and self.cfop_destination != CFOP_DESTINATION_EXTERNAL
+        ):
             icms.update(
                 {
                     # FUNDO DE COMBATE À POBREZA
@@ -543,8 +557,11 @@ class NFeLine(spec_models.StackedModel):
     #####################################
 
     nfe40_vBCUFDest = fields.Monetary(related="icms_destination_base")
+
     nfe40_vBCFCPUFDest = fields.Monetary(related="icmsfcp_base")
-    nfe40_pFCPUFDest = fields.Monetary(compute="_compute_nfe40_ICMSUFDest")
+    nfe40_vFCPUFDest = fields.Monetary(related="icmsfcp_value")
+    nfe40_pFCPUFDest = fields.Float(related="icmsfcp_percent")
+
     nfe40_pICMSUFDest = fields.Monetary(compute="_compute_nfe40_ICMSUFDest")
     nfe40_pICMSInter = fields.Selection(compute="_compute_nfe40_ICMSUFDest")
     nfe40_pICMSInterPart = fields.Monetary(compute="_compute_nfe40_ICMSUFDest")
@@ -556,11 +573,9 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_pICMSInter = False
 
-            record.nfe40_pFCPUFDest = record.icmsfcp_percent
             record.nfe40_pICMSUFDest = record.icms_destination_percent
             record.nfe40_pICMSInterPart = record.icms_sharing_percent
 
-    nfe40_vFCPUFDest = fields.Monetary(related="icmsfcp_value")
     nfe40_vICMSUFDest = fields.Monetary(related="icms_destination_value")
     nfe40_vICMSUFRemet = fields.Monetary(related="icms_origin_value")
 
