@@ -2160,11 +2160,6 @@ msgid "Nfe40 Nfref Ide"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pFCPUFDest
-msgid "Nfe40 Pfcpufdest"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pICMSInterPart
 msgid "Nfe40 Picmsinterpart"
 msgstr ""
@@ -2376,6 +2371,18 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
 msgid "Pending"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pFCPUFDest
+msgid "Percentual adicional inserido"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pFCPUFDest
+msgid ""
+"Percentual adicional inserido na alíquota interna da UF de destino, relativo"
+" ao Fundo de Combate à Pobreza (FCP) naquela UF."
 msgstr ""
 
 #. module: l10n_br_nfe
