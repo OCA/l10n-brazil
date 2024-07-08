@@ -145,6 +145,19 @@
                                 <field name="stock_price_br" readonly="1" />
                                 <field name="valuation_via_stock_price" />
                             </group>
+                            <group name="tax_credits" string="Tax Credits">
+                                <group>
+                                    <field name="icms_tax_is_creditable" />
+                                    <field name="ipi_tax_is_creditable" />
+                                    <field name="cofins_tax_is_creditable" />
+                                    <field name="pis_tax_is_creditable" />
+                                </group>
+                                <group>
+                                    <field name="icmsst_tax_is_creditable" />
+                                    <field name="issqn_tax_is_creditable" />
+                                    <field name="irpj_tax_is_creditable" />
+                                </group>
+                            </group>
                         </page>
                         <page name="fiscal_line_extra_info" string="Extra Info" />
                         <page name="accounting" string="Accounting">

@@ -39,6 +39,23 @@
                     name="stock_price_br"
                     attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
                 />
+
+            </xpath>
+
+            <xpath expr="//page[@name='others']" position="inside">
+                <group name="tax_credits" string="Tax Credits">
+                    <group>
+                        <field name="icms_tax_is_creditable" />
+                        <field name="ipi_tax_is_creditable" />
+                        <field name="cofins_tax_is_creditable" />
+                        <field name="pis_tax_is_creditable" />
+                    </group>
+                    <group>
+                        <field name="icmsst_tax_is_creditable" />
+                        <field name="issqn_tax_is_creditable" />
+                        <field name="irpj_tax_is_creditable" />
+                    </group>
+                </group>
             </xpath>
 
         </field>

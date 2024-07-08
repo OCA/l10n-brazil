@@ -35,7 +35,6 @@
                 <field name="tax_group_id" />
                 <field name="cst_in_id" />
                 <field name="cst_out_id" />
-                <field name="creditable_tax" />
             </tree>
         </field>
     </record>

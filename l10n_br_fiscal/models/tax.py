@@ -171,19 +171,6 @@ class Tax(models.Model):
         ("fiscal_tax_code_uniq", "unique (name)", "Tax already exists with this name !")
     ]
 
-    # Stock Price
-    creditable_tax = fields.Boolean(
-        string="Creditable Tax?",
-        default=lambda self: (
-            self.cst_in_id.default_creditable_tax if self.cst_in_id else False
-        ),
-    )
-
-    @api.onchange("cst_in_id")
-    def _onchange_cst_in_id(self):
-        if self.cst_in_id:
-            self.creditable_tax = self.cst_in_id.default_creditable_tax
-
     @api.model
     def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):
         self.ensure_one()
