@@ -11,6 +11,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..utils.lista_declaracoes import ListaDeclaracoes
+from datetime import datetime
 
 READONLY_STATES = {
     "open": [("readonly", True)],
@@ -21,6 +22,8 @@ READONLY_STATES = {
 
 class ImportDeclaration(models.Model):
     _name = "l10n_br_trade_import.declaration"
+
+
     _description = "Import Declaration"
     _rec_name = "document_number"
     _order = "document_date desc, document_number desc, id desc"
@@ -144,6 +147,11 @@ class ImportDeclaration(models.Model):
         tracking=True,
     )
 
+
+
+    additional_information = fields.Text()
+
+
     @api.constrains("intermediary_type", "third_party_partner_id")
     def _check_third_party_partner_id(self):
         for di in self:
@@ -170,7 +178,7 @@ class ImportDeclaration(models.Model):
                 )
 
     def action_confirm(self):
-        self.write({"state": "done"})
+        self.write({"state": "open"})
 
     def action_generate_invoice(self):
         self.ensure_one()
@@ -214,6 +222,7 @@ class ImportDeclaration(models.Model):
         # Parse XML data into data class
         declaration_list = parser.from_string(xml_data, ListaDeclaracoes)
         vals = self._parse_declaration(declaration_list)
+        vals['declaration_file'] = declaration_file
         return self.create(vals)
 
         # except Exception:
@@ -224,6 +233,22 @@ class ImportDeclaration(models.Model):
             lista_mercadorias = []
 
             for adicao in declaracoes.declaracao_importacao.adicao:
+                if adicao.fabricante_nome:
+
+                    manufacturer_id = self.env['res.partner'].search(
+                        [("name", "=", adicao.fabricante_nome)]
+                    )
+                    if not manufacturer_id:
+                        manufacturer_id = self.env['res.partner'].create(
+                            {
+                                "name": adicao.fabricante_nome,
+                                "legal_name": adicao.fabricante_nome,
+                                "street_number": adicao.fabricante_numero,
+                                "street": adicao.fabricante_logradouro,
+                                "city": adicao.fabricante_cidade,
+                            }
+                        )
+
                 for mercadoria in adicao.mercadoria:
                     lista_mercadorias.append(
                         {
@@ -231,17 +256,25 @@ class ImportDeclaration(models.Model):
                             "addition_number": adicao.numero_adicao,
                             "addtion_sequence": int(mercadoria.numero_sequencial_item),
                             "product_description": mercadoria.descricao_mercadoria,
-                            "product_qty": mercadoria.quantidade,
+                            "product_qty": int(mercadoria.quantidade) / 100,
                             "product_uom": mercadoria.unidade_medida,
-                            "product_price_unit": mercadoria.valor_unitario,
+                            "product_price_unit": int(mercadoria.valor_unitario) / 100,
+                            "manufacturer_id": manufacturer_id.id
                         }
                     )
 
+            document_date = datetime.strptime(str(
+                declaracoes.declaracao_importacao.data_registro
+                ), "%Y%m%d").date()
+
             vals = {
                 "document_number": declaracoes.declaracao_importacao.numero_di,
-                # "document_date": declaracoes.declaracao_importacao.data_registro,
+                "document_date": document_date,
                 "is_imported": True,
                 "addition_ids": [(0, 0, x) for x in lista_mercadorias],
+                "additional_information":
+                    declaracoes.declaracao_importacao.informacao_complementar,
+
                 # "customs_clearance_location":
                 #   declaracoes.declaracao_importacao.local_desembaraco,
                 # "customs_clearance_state_id":
@@ -258,4 +291,24 @@ class ImportDeclaration(models.Model):
                 # "exporting_partner_id":
                 #   declaracoes.declaracao_importacao.exportador,
             }
+
+            if adicao.fornecedor_nome:
+                exporting_partner_id = self.env['res.partner'].search(
+                    [("name", "=", adicao.fornecedor_nome)]
+                )
+                if not exporting_partner_id:
+                    exporting_partner_id = self.env['res.partner'].create(
+                        {
+                            "name": adicao.fornecedor_nome,
+                            "legal_name": adicao.fornecedor_nome,
+                            "street_number": adicao.fornecedor_numero,
+                            "street": adicao.fornecedor_logradouro,
+                            "street2": adicao.fornecedor_complemento,
+                            "city": adicao.fornecedor_cidade,
+                        }
+                    )
+                vals['exporting_partner_id'] = exporting_partner_id.id
+            if declaracoes.declaracao_importacao.via_transporte_nome == "RODOVIÁRIA":
+                vals['transportation_type'] = "road"
+
             return vals

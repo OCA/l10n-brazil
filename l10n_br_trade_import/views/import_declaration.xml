@@ -39,17 +39,23 @@
                 <header>
                     <button
                         name="action_confirm"
-                        string="Confirm"
+                        string="Confirmar"
                         type="object"
                         class="oe_highlight"
-                        state="draft,cancel"
+                        states="draft"
                     />
                     <button
                         name="action_generate_invoice"
-                        string="Generate Invoice"
+                        string="Gerar Fatura"
                         type="object"
                         class="oe_highlight"
-                        state="done"
+                        states="open"
+                    />
+                    <button
+                        name="action_back2draft"
+                        string="Retornar para Rascunho"
+                        type="object"
+                        states="open"
                     />
                     <field name="state" widget="statusbar" />
                 </header>
@@ -76,11 +82,29 @@
                         <group name="other_info">
                             <field name="document_date" />
                             <field name="account_move_id" />
-                            <field name="declaration_file" />
-                            <field name="is_imported" />
+                            <field name="fiscal_operation_id" />
                         </group>
                     </group>
                     <notebook>
+                        <page name="additions" string="Additions">
+                            <field name="addition_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="addition_number" string="nº" />
+                                    <field name="addtion_sequence" string="Item" />
+                                    <field name="product_id" width="300px" />
+                                    <field
+                                        name="product_description"
+                                        string="Descrição"
+                                    />
+                                    <field name="product_qty" string="Qty" />
+                                    <field name="product_uom" string="Uom" />
+                                    <field name="product_price_unit" string="Price" />
+                                    <field name="manufacturer_id" />
+                                    <!-- <field name="discount_value" /> -->
+                                    <!-- <field name="drawback" /> -->
+                                </tree>
+                            </field>
+                        </page>
                         <page name="customs_clearance" string="Other Info">
                             <group>
                                 <group
@@ -100,21 +124,25 @@
                                         string="Date"
                                     />
                                 </group>
+                                <group>
+                                    <field name="declaration_file" />
+                                    <field name="is_imported" />
+                                </group>
                             </group>
                         </page>
-                        <page name="additions" string="Additions">
-                            <field name="addition_ids" nolabel="1">
-                                <tree editable="bottom">
-                                    <field name="addition_number" />
-                                    <field name="addtion_sequence" />
-                                    <field name="manufacturer_id" />
-                                    <field name="discount_value" />
-                                    <field name="drawback" />
-                                </tree>
-                            </field>
+                        <page name="notes" string="Notes">
+                            <field name="additional_information" />
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field
+                        name="message_follower_ids"
+                        widget="mail_followers"
+                        groups="base.group_user"
+                    />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
             </form>
         </field>
     </record>

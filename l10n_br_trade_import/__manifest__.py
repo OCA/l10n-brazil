@@ -10,7 +10,7 @@
     "author": "Engenere, KMEE, Odoo Community Association (OCA)",
     "maintainers": ["antoniospneto", "felipemotter", "mileo"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "14.0.0.0.0",
+    "version": "14.0.1.0.0",
     "development_status": "Beta",
     "depends": [
         "l10n_br_nfe",
