@@ -26,6 +26,7 @@
                 <field name="intermediary_type" />
                 <field name="third_party_partner_id" />
                 <field name="afrmm_value" />
+                <field name="state" widget="badge" />
             </tree>
         </field>
     </record>
@@ -35,47 +36,84 @@
         <field name="model">l10n_br_trade_import.declaration</field>
         <field name="arch" type="xml">
             <form string="Import Declaration">
+                <header>
+                    <button
+                        name="action_confirm"
+                        string="Confirm"
+                        type="object"
+                        class="oe_highlight"
+                        state="draft,cancel"
+                    />
+                    <button
+                        name="action_generate_invoice"
+                        string="Generate Invoice"
+                        type="object"
+                        class="oe_highlight"
+                        state="done"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
                 <sheet>
                     <group col="2">
                         <group name="main">
                             <field name="document_number" />
-                            <field name="document_date" />
                             <field name="intermediary_type" />
                             <field
-                name="third_party_partner_id"
-                attrs="{
+                                name="third_party_partner_id"
+                                attrs="{
                                     'required': [('intermediary_type','in',('conta_ordem','encomenda'))],
                                     'invisible': [('intermediary_type','not in',('conta_ordem','encomenda'))]}"
-              />
+                            />
                             <field name="transportation_type" />
                             <field
-                name="afrmm_value"
-                attrs="{
+                                name="afrmm_value"
+                                attrs="{
                                     'required': [('transportation_type','=','maritime')],
                                     'invisible': [('transportation_type','!=','maritime')]}"
-              />
+                            />
                             <field name="exporting_partner_id" />
                         </group>
-                        <group name="customs_clearance" string="Customs Clearance">
-                            <field
-                name="customs_clearance_location"
-                string="Location"
-              />
-                            <field name="customs_clearance_state_id" string="State" />
-                            <field name="customs_clearance_date" string="Date" />
+                        <group name="other_info">
+                            <field name="document_date" />
+                            <field name="account_move_id" />
+                            <field name="declaration_file" />
+                            <field name="is_imported" />
                         </group>
                     </group>
-                    <group name="additions" string="Additions">
-                        <field name="addition_ids" nolabel="1">
-                            <tree editable="bottom">
-                                <field name="addition_number" />
-                                <field name="addtion_sequence" />
-                                <field name="manufacturer_id" />
-                                <field name="discount_value" />
-                                <field name="drawback" />
-                            </tree>
-                        </field>
-                    </group>
+                    <notebook>
+                        <page name="customs_clearance" string="Other Info">
+                            <group>
+                                <group
+                                    name="customs_clearance"
+                                    string="Customs Clearance"
+                                >
+                                    <field
+                                        name="customs_clearance_location"
+                                        string="Location"
+                                    />
+                                    <field
+                                        name="customs_clearance_state_id"
+                                        string="State"
+                                    />
+                                    <field
+                                        name="customs_clearance_date"
+                                        string="Date"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="additions" string="Additions">
+                            <field name="addition_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="addition_number" />
+                                    <field name="addtion_sequence" />
+                                    <field name="manufacturer_id" />
+                                    <field name="discount_value" />
+                                    <field name="drawback" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

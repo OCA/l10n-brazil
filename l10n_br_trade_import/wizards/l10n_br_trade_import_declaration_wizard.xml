@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_trade_import_declaration_wizard_form_view">
+        <field name="model">l10n_br_trade_import.declaration.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="declaration_file" />
+                </group>
+                <footer>
+                    <button name="doit" string="OK" class="btn-primary" type="object" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record
+        model="ir.actions.act_window"
+        id="l10n_br_trade_import_declaration_wizard_act_window"
+    >
+        <field name="name">Import Declaration Wizard</field>
+        <field name="res_model">l10n_br_trade_import.declaration.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="l10n_br_trade_import_declaration_wizard_menu"
+        name="Import Declaration File"
+        action="l10n_br_trade_import_declaration_wizard_act_window"
+        parent="account.menu_finance_payables"
+        sequence="99"
+    />
+</odoo>

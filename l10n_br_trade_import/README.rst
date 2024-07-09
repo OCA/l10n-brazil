@@ -59,6 +59,7 @@ Authors
 ~~~~~~~
 
 * Engenere
+* KMEE
 
 Contributors
 ~~~~~~~~~~~~
@@ -86,10 +87,13 @@ promote its widespread use.
 .. |maintainer-felipemotter| image:: https://github.com/felipemotter.png?size=40px
     :target: https://github.com/felipemotter
     :alt: felipemotter
+.. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
+    :target: https://github.com/mileo
+    :alt: mileo
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-antoniospneto| |maintainer-felipemotter| 
+|maintainer-antoniospneto| |maintainer-felipemotter| |maintainer-mileo| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_trade_import>`_ project on GitHub.
 
