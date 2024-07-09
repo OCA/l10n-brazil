@@ -4,14 +4,15 @@
 # @author Luis Felipe Miléo <mileo@kmee.com.br>
 
 import base64
+from datetime import datetime
 
 from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tests.common import Form
 
 from ..utils.lista_declaracoes import ListaDeclaracoes
-from datetime import datetime
 
 READONLY_STATES = {
     "open": [("readonly", True)],
@@ -23,12 +24,29 @@ READONLY_STATES = {
 class ImportDeclaration(models.Model):
     _name = "l10n_br_trade_import.declaration"
 
-
     _description = "Import Declaration"
     _rec_name = "document_number"
     _order = "document_date desc, document_number desc, id desc"
 
     _inherit = ["mail.thread", "mail.activity.mixin"]
+
+    @api.model
+    def _default_fiscal_operation(self):
+        # return self.env.company.import_declaration_fiscal_operation_id
+        return self.env.ref("l10n_br_fiscal.fo_compras")
+
+    @api.model
+    def _fiscal_operation_domain(self):
+        domain = [("state", "=", "approved")]
+        return domain
+
+    fiscal_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain(),
+    )
 
     document_number = fields.Char(
         states=READONLY_STATES, help="Number of Import Document"
@@ -147,10 +165,7 @@ class ImportDeclaration(models.Model):
         tracking=True,
     )
 
-
-
     additional_information = fields.Text()
-
 
     @api.constrains("intermediary_type", "third_party_partner_id")
     def _check_third_party_partner_id(self):
@@ -182,29 +197,34 @@ class ImportDeclaration(models.Model):
 
     def action_generate_invoice(self):
         self.ensure_one()
-        if self.state != "done":
-            raise UserError(_("Only done declarations can generate invoices."))
-        self.account_move_id = self.env["account.move"].create(
-            {
-                "type": "in_invoice",
-                "partner_id": self.exporting_partner_id.id,
-                "invoice_date": self.document_date,
-                "invoice_origin": self.document_number,
-                "invoice_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "name": "Import Declaration",
-                            "quantity": 1,
-                            "price_unit": sum(
-                                addition.value for addition in self.addition_ids
-                            ),
-                        },
-                    )
-                ],
-            }
+        if self.state != "open":
+            raise UserError(_("Only open declarations can generate invoices."))
+
+        move_form = Form(
+            self.env["account.move"].with_context(
+                default_move_type="in_invoice",
+                account_predictive_bills_disable_prediction=True,
+            )
         )
+        move_form.invoice_date = fields.Date.today()
+        move_form.date = move_form.invoice_date
+        move_form.partner_id = self.exporting_partner_id
+        # move_form.currency_id =
+
+        # extra BR fiscal params:
+        move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        move_form.document_serie_id = self.env.ref("l10n_br_fiscal.document_55_serie_1")
+        move_form.issuer = "company"
+        move_form.fiscal_operation_id = self.fiscal_operation_id
+
+        for addition in self.addition_ids:
+            with move_form.invoice_line_ids.new() as line_form:
+                line_form.product_id = addition.product_id
+                line_form.quantity = addition.product_qty
+                line_form.import_addition_ids.add(addition)
+
+        invoice = move_form.save()
+        self.write({"account_move_id": invoice.id, "state": "locked"})
 
     def action_back2draft(self):
         self.write({"state": "draft"})
@@ -222,7 +242,7 @@ class ImportDeclaration(models.Model):
         # Parse XML data into data class
         declaration_list = parser.from_string(xml_data, ListaDeclaracoes)
         vals = self._parse_declaration(declaration_list)
-        vals['declaration_file'] = declaration_file
+        vals["declaration_file"] = declaration_file
         return self.create(vals)
 
         # except Exception:
@@ -235,11 +255,11 @@ class ImportDeclaration(models.Model):
             for adicao in declaracoes.declaracao_importacao.adicao:
                 if adicao.fabricante_nome:
 
-                    manufacturer_id = self.env['res.partner'].search(
+                    manufacturer_id = self.env["res.partner"].search(
                         [("name", "=", adicao.fabricante_nome)]
                     )
                     if not manufacturer_id:
-                        manufacturer_id = self.env['res.partner'].create(
+                        manufacturer_id = self.env["res.partner"].create(
                             {
                                 "name": adicao.fabricante_nome,
                                 "legal_name": adicao.fabricante_nome,
@@ -259,22 +279,22 @@ class ImportDeclaration(models.Model):
                             "product_qty": int(mercadoria.quantidade) / 100,
                             "product_uom": mercadoria.unidade_medida,
                             "product_price_unit": int(mercadoria.valor_unitario) / 100,
-                            "manufacturer_id": manufacturer_id.id
+                            "manufacturer_id": manufacturer_id.id,
                         }
                     )
 
-            document_date = datetime.strptime(str(
-                declaracoes.declaracao_importacao.data_registro
-                ), "%Y%m%d").date()
+            document_date = datetime.strptime(
+                str(declaracoes.declaracao_importacao.data_registro), "%Y%m%d"
+            ).date()
 
             vals = {
                 "document_number": declaracoes.declaracao_importacao.numero_di,
                 "document_date": document_date,
                 "is_imported": True,
                 "addition_ids": [(0, 0, x) for x in lista_mercadorias],
-                "additional_information":
-                    declaracoes.declaracao_importacao.informacao_complementar,
-
+                "additional_information": (
+                    declaracoes.declaracao_importacao.informacao_complementar
+                ),
                 # "customs_clearance_location":
                 #   declaracoes.declaracao_importacao.local_desembaraco,
                 # "customs_clearance_state_id":
@@ -293,11 +313,11 @@ class ImportDeclaration(models.Model):
             }
 
             if adicao.fornecedor_nome:
-                exporting_partner_id = self.env['res.partner'].search(
+                exporting_partner_id = self.env["res.partner"].search(
                     [("name", "=", adicao.fornecedor_nome)]
                 )
                 if not exporting_partner_id:
-                    exporting_partner_id = self.env['res.partner'].create(
+                    exporting_partner_id = self.env["res.partner"].create(
                         {
                             "name": adicao.fornecedor_nome,
                             "legal_name": adicao.fornecedor_nome,
@@ -307,8 +327,8 @@ class ImportDeclaration(models.Model):
                             "city": adicao.fornecedor_cidade,
                         }
                     )
-                vals['exporting_partner_id'] = exporting_partner_id.id
+                vals["exporting_partner_id"] = exporting_partner_id.id
             if declaracoes.declaracao_importacao.via_transporte_nome == "RODOVIÁRIA":
-                vals['transportation_type'] = "road"
+                vals["transportation_type"] = "road"
 
             return vals
