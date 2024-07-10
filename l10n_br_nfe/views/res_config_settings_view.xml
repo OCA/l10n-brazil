@@ -100,6 +100,20 @@
                           </div>
                         </div>
                         <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="nfe_enable_sync_transmission" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label
+                                    for="nfe_enable_sync_transmission"
+                                    string="Synchronous Processing"
+                                />
+                                <div class="text-muted">
+                                    Enables synchronous processing in the transmission of the NFe.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
                             <div class="o_setting_right_pane">
                                 <span class="o_form_label">DANFE Print Layout</span>
                                 <span
