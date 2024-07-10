@@ -17,10 +17,9 @@ class ResConfigSettings(models.TransientModel):
         selection=[
             ("apicep", "API CEP"),
             ("viacep", "VIA CEP"),
-            ("correios", "Correios"),
         ],
         string="ZIP Search Provider",
         required=True,
-        default="correios",
+        default="viacep",
         config_parameter="l10n_zip.cep_ws_provider",
     )
