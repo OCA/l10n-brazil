@@ -979,6 +979,21 @@ msgid "Emitter"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "Enable Sync Transmission"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "Enable contingency web services"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
+msgid "Enables synchronous processing in the transmission of the NFe."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xEnder
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
@@ -1511,6 +1526,14 @@ msgstr ""
 msgid ""
 "Identificação do Local de Retirada (informar apenas quando for diferente do "
 "endereço do remetente)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe_separate_async_process
+msgid ""
+"If enabled, the system will send the NF-e and store the receipt without "
+"immediately consulting it. The user must manually consult the receipt later."
+" This option is valid only in asynchronous mode."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2135,6 +2158,17 @@ msgid "Nfe Dhcont"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_enable_contingency_ws
+msgid "Nfe Enable Contingency Ws"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_enable_sync_transmission
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_enable_sync_transmission
+msgid "Nfe Enable Sync Transmission"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_xJust
 msgid "Nfe Xjust"
 msgstr ""
@@ -2563,6 +2597,12 @@ msgid "Sem geração de DANFE;"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_separate_async_process
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "Separate NF-e Send and Consult"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__serie
 msgid "Serie"
 msgstr ""
@@ -2614,6 +2654,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_product_supplierinfo
 msgid "Supplier Pricelist"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
+msgid "Synchronous Processing"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3143,6 +3188,29 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_veicprod
 msgid "Veículo"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe_enable_contingency_ws
+msgid ""
+"When enabled, all NFe-related services will be accessed using the "
+"contingencyweb services. This ensures that operations such as issuing, "
+"canceling, and consulting NFe will use the contingency web services instead "
+"of the primary web services."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe_enable_sync_transmission
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_config_settings__nfe_enable_sync_transmission
+msgid ""
+"When enabled, this option configures the system to transmit the NFe "
+"(Electronic Invoice) using a synchronous method instead of an asynchronous "
+"one. This means that the system will wait for an immediate response from the"
+" tax authority's system (SEFAZ) upon submission of the NFe, providing "
+"quicker feedback on the submission status. Before activating this option, "
+"please ensure that the SEFAZ in your state supports synchronous processing "
+"for NFe submissions. Failure to verify compatibility may result in "
+"transmission errors or rejections."
 msgstr ""
 
 #. module: l10n_br_nfe
