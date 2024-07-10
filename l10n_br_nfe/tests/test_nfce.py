@@ -44,7 +44,7 @@ class TestNFCe(TestNFeExport):
             }
         )
         self.document_id.company_id.certificate_nfe_id = certificate_id
-        self.document_id.company_id.nfce_csc_token = "DUMMY"
+        self.document_id.company_id.nfce_csc_token = "2"
         self.document_id.company_id.nfce_csc_code = "DUMMY"
 
         self.prepare_test_nfe(self.document_id)
@@ -153,6 +153,12 @@ class TestNFCe(TestNFeExport):
         qr_code_url = self.document_id.get_nfce_qrcode_url()
         self.assertIsNotNone(qr_code)
         self.assertIsNotNone(qr_code_url)
+
+    def test_processor(self):
+        self.document_id.document_type_id = False
+
+        processador = self.document_id._processador()
+        self.assertIsNone(processador)
 
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
     def test_prepare_nfce_payment(self):
