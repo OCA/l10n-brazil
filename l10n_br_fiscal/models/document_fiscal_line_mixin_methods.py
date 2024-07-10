@@ -356,17 +356,20 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
 
             self.cfop_id = mapping_result["cfop"]
-            self.ipi_guideline_id = mapping_result["ipi_guideline"]
-            self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
-            taxes = self.env["l10n_br_fiscal.tax"]
-            for tax in mapping_result["taxes"].values():
-                taxes |= tax
-            self.fiscal_tax_ids = taxes
-            self._update_fiscal_taxes()
-            self.comment_ids = self.fiscal_operation_line_id.comment_ids
+            self._process_fiscal_mapping(mapping_result)
 
         if not self.fiscal_operation_line_id:
             self.cfop_id = False
+
+    def _process_fiscal_mapping(self, mapping_result):
+        self.ipi_guideline_id = mapping_result["ipi_guideline"]
+        self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
+        taxes = self.env["l10n_br_fiscal.tax"]
+        for tax in mapping_result["taxes"].values():
+            taxes |= tax
+        self.fiscal_tax_ids = taxes
+        self._update_fiscal_taxes()
+        self.comment_ids = self.fiscal_operation_line_id.comment_ids
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
