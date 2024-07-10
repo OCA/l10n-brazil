@@ -1242,6 +1242,11 @@ msgid "Autorizados"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__type__0
+msgid "Autorização de Uso"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_BALDE
 msgid "BALDE"
 msgstr ""
@@ -1921,16 +1926,16 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Cancelation"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid ""
 "Canceling the document is not allowed: one or more associated documents have"
 " already been authorized."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Cancellation"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2319,6 +2324,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__type__5
 msgid "Consulta Situação"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Consultar Recibo"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3139,11 +3149,6 @@ msgid "Enviar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__type__0
-msgid "Envio Lote"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_event__environment
 msgid "Environment"
 msgstr ""
@@ -3197,9 +3202,13 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__event_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__event_ids
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.invalidate_number_form
 msgid "Events"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Events and Services"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5757,6 +5766,13 @@ msgid "In"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_event__lot_receipt_number
+msgid ""
+"In asynchronous processing, a lot receipt number is generated, which is used"
+" for later consultation."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_in_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_in_menu
 msgid "Incomming Document"
@@ -6316,6 +6332,11 @@ msgstr ""
 #, python-format
 msgid ""
 "Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_event__lot_receipt_number
+msgid "Lot Receipt Number"
 msgstr ""
 
 #. module: l10n_br_fiscal
