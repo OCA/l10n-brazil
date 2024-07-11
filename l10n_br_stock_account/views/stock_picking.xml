@@ -129,22 +129,63 @@
                         <page name="fiscal_taxes" string="Taxes" />
                         <page name="others" string="Others">
                             <group>
+                                <field name="stock_price_br" readonly="1" />
+                            </group>
+
+                            <group>
                                 <field name="delivery_costs" invisible="1" />
+                            </group>
+
+                            <group col="4">
                                 <field
                                     name="freight_value"
                                     attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
                                 />
+                                <div class="o_row">
+                                    <field name="freight_value_to_stock" nolabel="1" />
+                                    <span
+                                        attrs="{'invisible': [('freight_value_to_stock', '=', True)]}"
+                                        class="text-muted"
+                                    >Frete é custo de estoque?</span>
+                                    <span
+                                        attrs="{'invisible': [('freight_value_to_stock', '=', False)]}"
+                                    >Frete é custo de estoque?</span>
+                                </div>
+
                                 <field
                                     name="insurance_value"
                                     attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
                                 />
+                                <div class="o_row">
+                                    <field
+                                        name="insurance_value_to_stock"
+                                        nolabel="1"
+                                    />
+                                    <span
+                                        attrs="{'invisible': [('insurance_value_to_stock', '=', True)]}"
+                                        class="text-muted"
+                                    >Seguro é custo de estoque?</span>
+                                    <span
+                                        attrs="{'invisible': [('insurance_value_to_stock', '=', False)]}"
+                                    >Seguro é custo de estoque?</span>
+                                </div>
+
                                 <field
                                     name="other_value"
                                     attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
                                 />
-                                <field name="stock_price_br" readonly="1" />
-                                <field name="valuation_via_stock_price" />
+                                <div class="o_row">
+                                    <field name="other_value_to_stock" nolabel="1" />
+                                    <span
+                                        attrs="{'invisible': [('other_value_to_stock', '=', True)]}"
+                                        class="text-muted"
+                                    >Outras.Desp. é custo de estoque?</span>
+                                    <span
+                                        attrs="{'invisible': [('other_value_to_stock', '=', False)]}"
+                                    >Outras.Desp. é custo de estoque?</span>
+                                </div>
                             </group>
+
                             <group name="tax_credits" string="Tax Credits">
                                 <group>
                                     <field name="icms_tax_is_creditable" />
@@ -210,26 +251,25 @@
                     <field name="invoice_line_ids" readonly="1" nolabel="1" />
                 </group>
 
-
             </xpath>
             <xpath expr="//page[@name='extra']/group" position="inside">
                 <group name="delivery_costs" string="Delivery Costs">
                     <field name="delivery_costs" invisible="1" />
                     <field
                         name="amount_freight_value"
-                        widget='monetary'
+                        widget="monetary"
                         options="{'currency_field': 'currency_id'}"
                         attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                     />
                     <field
                         name="amount_insurance_value"
-                        widget='monetary'
+                        widget="monetary"
                         options="{'currency_field': 'currency_id'}"
                         attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                     />
                     <field
                         name="amount_other_value"
-                        widget='monetary'
+                        widget="monetary"
                         options="{'currency_field': 'currency_id'}"
                         attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                     />
