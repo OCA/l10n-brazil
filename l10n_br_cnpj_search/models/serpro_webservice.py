@@ -71,9 +71,12 @@ class SerproWebservice(models.AbstractModel):
             "equity_capital": self.get_data(data, "capitalSocial"),
             "cnae_main_id": self._serpro_get_cnae(data),
         }
+        if not self._check_l10n_br_fiscal_module_installed():
+            remove_keys = ["cnae_main_id"]
+            for key in remove_keys:
+                res.pop(key, None)
 
         res.update(self._import_additional_info(data, schema))
-
         return res
 
     @api.model

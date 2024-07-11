@@ -11,15 +11,6 @@ class ResPartner(models.Model):
         string="Equity Capital", currency_field="company_currency_id"
     )
 
-    cnae_secondary_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.cnae",
-        relation="res_partner_fiscal_cnae_rel",
-        column1="company_id",
-        column2="cnae_id",
-        domain="[('internal_type', '=', 'normal'), " "('id', '!=', cnae_main_id)]",
-        string="Secondary CNAE",
-    )
-
     legal_nature = fields.Char(string="Legal Nature")
 
     company_currency_id = fields.Many2one(

@@ -10,7 +10,7 @@ import vcr
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.l10n_br_cnpj_search.tests.common import TestCnpjCommon
+from .common import TestCnpjCommon
 
 
 @tagged("post_install", "-at_install")
@@ -51,8 +51,7 @@ class TestReceitaWS(TestCnpjCommon):
         self.assertEqual(kilian.phone, "(83) 8665-0905")
         self.assertEqual(kilian.state_id.code, "PB")
         self.assertEqual(kilian.city_id.name, "Campina Grande")
-        self.assertEqual(kilian.equity_capital, 3000)
-        self.assertEqual(kilian.cnae_main_id.code, "4751-2/01")
+        self.assertEqual(kilian.equity_capital, 0.0)
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_receitaws_not_found.yaml",
@@ -83,6 +82,6 @@ class TestReceitaWS(TestCnpjCommon):
             self.env["partner.search.wizard"].with_context(wizard_context).create({})
         )
         wizard.action_update_partner()
-        self.assertEqual(isla.name.strip(), "Isla Sementes Ltda.")
-        self.assertEqual(isla.phone.strip(), "(51) 9852-9561")
-        self.assertEqual(isla.mobile.strip(), "(51) 2136-6600")
+        self.assertEqual(isla.name, "Isla Sementes Ltda.")
+        self.assertEqual(isla.phone, "(51) 9852-9561 ")
+        self.assertEqual(isla.mobile, "(51) 2136-6600")

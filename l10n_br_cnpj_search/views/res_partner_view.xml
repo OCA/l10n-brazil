@@ -3,14 +3,13 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
 
-     <record id="l10n_br_cnpj_search_fiscal_partner_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.partner.form (in l10n_br_cnpj_search)</field>
+     <record id="l10n_br_cnpj_search_partner_form" model="ir.ui.view">
+        <field name="name">l10n_br_base.partner.form (in l10n_br_cnpj_search)</field>
         <field name="model">res.partner</field>
         <field name="priority">99</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.partner_form" />
+        <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <field name="cnae_main_id" position="after">
-                <field name="cnae_secondary_ids" widget="many2many_tags" />
+            <field name="cnpj_cpf" position="after">
                 <field name="equity_capital" widget="monetary" />
                 <field name="legal_nature" />
             </field>
@@ -22,13 +21,14 @@
                         name="action_open_cnpj_search_wizard"
                         type="object"
                         attrs="{'invisible':
-                                [
+                                [   '|', '|',
+                                    ('company_type', '!=', 'company'),
                                     ('country_id', '!=', %(base.br)d),
-                                    ('is_company','!=', True),
+                                    ('is_company','!=', True)
                                 ]}"
                         class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
-                        aria-label="Pesquisar CNPJ"
-                        title="Pesquisar CNPJ"
+                        aria-label="Search CNPJ"
+                        title="Search CNPJ"
                     />
                     </div>
                 </field>
