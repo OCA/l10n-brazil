@@ -104,7 +104,6 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__company_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__company_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__company_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__company_currency_id
@@ -152,12 +151,7 @@ msgid "Currency"
 msgstr "Moeda"
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_cnpj_search_webservice_abstract__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -177,7 +171,6 @@ msgid "Empresa"
 msgstr "Empresa"
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__equity_capital
@@ -186,12 +179,7 @@ msgid "Equity Capital"
 msgstr "Capital Social"
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_cnpj_search_webservice_abstract__id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__id
 msgid "ID"
 msgstr "ID"
 
@@ -211,6 +199,7 @@ msgid "Inscr Est"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#. odoo-python
 #: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
 #, python-format
 msgid ""
@@ -221,12 +210,7 @@ msgstr ""
 "utilizar essa funcionalidade."
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_cnpj_search_webservice_abstract____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
 
@@ -246,7 +230,6 @@ msgid "Legal Name"
 msgstr "Razão Social"
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__legal_nature
@@ -292,6 +275,7 @@ msgid "Phone"
 msgstr "Telefone"
 
 #. module: l10n_br_cnpj_search
+#. odoo-python
 #: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
 #, python-format
 msgid "Please enter your CNPJ"
@@ -328,7 +312,6 @@ msgid "SERPRO Token"
 msgstr "Token SERPRO"
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__cnae_secondary_ids
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__cnae_secondary_ids
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__cnae_secondary_ids
 msgid "Secondary CNAE"
