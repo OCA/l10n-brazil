@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -101,7 +101,6 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__company_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__company_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__company_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__company_currency_id
@@ -169,7 +168,6 @@ msgid "Empresa"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__equity_capital
@@ -198,6 +196,7 @@ msgid "Inscr Est"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#. odoo-python
 #: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
 #, python-format
 msgid ""
@@ -226,7 +225,6 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__legal_nature
@@ -272,6 +270,7 @@ msgid "Phone"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#. odoo-python
 #: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
 #, python-format
 msgid "Please enter your CNPJ"
@@ -308,7 +307,6 @@ msgid "SERPRO Token"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_hr_employee_dependent__cnae_secondary_ids
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__cnae_secondary_ids
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__cnae_secondary_ids
 msgid "Secondary CNAE"
