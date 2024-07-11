@@ -51,6 +51,7 @@ class TestReceitaWS(TestCnpjCommon):
         self.assertEqual(kilian.phone, "(83) 8665-0905")
         self.assertEqual(kilian.state_id.code, "PB")
         self.assertEqual(kilian.city_id.name, "Campina Grande")
+        self.assertEqual(kilian.city, "Campina Grande")
         self.assertEqual(kilian.equity_capital, 3000)
         self.assertEqual(kilian.cnae_main_id.code, "4751-2/01")
 
