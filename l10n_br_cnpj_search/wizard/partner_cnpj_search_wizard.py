@@ -1,11 +1,15 @@
 # Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
 # @author Cristiano Mafra Junior
+import logging
+
+import requests
 from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import punctuation_rm
-from requests import get
 
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class PartnerCnpjSearchWizard(models.TransientModel):
@@ -63,9 +67,14 @@ class PartnerCnpjSearchWizard(models.TransientModel):
     def _get_partner_values(self, cnpj_cpf):
         webservice = self.env["l10n_br_cnpj_search.webservice.abstract"]
         provider_name = webservice.get_provider()
-        response = get(
-            webservice.get_api_url(cnpj_cpf), headers=webservice.get_headers()
-        )
+        try:
+            response = requests.get(
+                webservice.get_api_url(cnpj_cpf),
+                headers=webservice.get_headers(),
+                timeout=5,
+            )
+        except response.exceptions.Timeout:
+            _logger.debug("Request timed out!")
         data = webservice.validate(response)
         values = webservice.import_data(data)
         values["provider_name"] = provider_name
@@ -74,7 +83,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
 
     def default_get(self, fields):
         res = super().default_get(fields)
-        partner_id = self._context.get("default_partner_id")
+        partner_id = self.env.context.get("default_partner_id")
         partner_model = self.env["res.partner"]
         partner = partner_model.browse(partner_id)
         cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
