@@ -1,1 +1,3 @@
 nfelib<=2.0.7
+vcrpy  # Needed by payment_pagseguro
+xsdata
