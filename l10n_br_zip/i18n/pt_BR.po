@@ -61,11 +61,6 @@ msgid "Config Settings"
 msgstr "Ajuste de Configurações"
 
 #. module: l10n_br_zip
-#: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__correios
-msgid "Correios"
-msgstr "Correios"
-
-#. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__country_id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__country_id
 msgid "Country"
@@ -244,6 +239,9 @@ msgstr "init"
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__state
 msgid "state"
 msgstr "estado"
+
+#~ msgid "Correios"
+#~ msgstr "Correios"
 
 #, python-format
 #~ msgid "Error in PyCEP-Correios: "
