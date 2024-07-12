@@ -27,6 +27,14 @@
                     name="focusnfe_nfse_cnae_code_value"
                     attrs="{'invisible': [('provedor_nfse','!=', 'focusnfe')]}"
                 />
+                <field
+                    name="focusnfe_nfse_update_authorized_document_status"
+                    attrs="{'invisible': [('provedor_nfse','!=', 'focusnfe')]}"
+                />
+                <field
+                    name="focusnfe_nfse_force_odoo_danfse"
+                    attrs="{'invisible': [('provedor_nfse','!=', 'focusnfe')]}"
+                />
             </field>
             <xpath expr="//field[@name='nfse_ssl_verify']" position="attributes">
                 <attribute name="invisible">0</attribute>

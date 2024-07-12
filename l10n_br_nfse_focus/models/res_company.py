@@ -40,6 +40,22 @@ class ResCompany(models.Model):
         default="codigo_cnae",
     )
 
+    focusnfe_nfse_update_authorized_document_status = fields.Boolean(
+        string="Include Authorized Documents in Status Check",
+        help="If checked, authorized documents will be included in the status check "
+        "wizard. The system will verify the status of the documents with Focus NFE, "
+        "and if there are discrepancies with the status in Odoo, it will automatically "
+        "update the status in the system.",
+        default=False,
+    )
+
+    focusnfe_nfse_force_odoo_danfse = fields.Boolean(
+        string="Force Odoo DANFSE",
+        help="If checked, the system will always use the Odoo DANFSE instead of the "
+        "Focus DANFSE.",
+        default=False,
+    )
+
     def get_focusnfe_token(self):
         """
         Retrieve the appropriate FocusNFe API token based on the current NFSe
