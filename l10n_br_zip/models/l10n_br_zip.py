@@ -117,7 +117,7 @@ class L10nBrZip(models.Model):
             cep_ws_provide = str(
                 self.env["ir.config_parameter"]
                 .sudo()
-                .get_param("l10n_zip.cep_ws_provider", default="correios")
+                .get_param("l10n_zip.cep_ws_provider", default="viacep")
             )
             cep = get_address_from_cep(
                 zip_str, webservice=cep_ws_providers.get(cep_ws_provide)
