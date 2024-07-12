@@ -97,7 +97,7 @@ addon | version | maintainers | summary
 [l10n_br_stock_account_report](l10n_br_stock_account_report/) | 14.0.1.1.3 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | P7 Stock Valuation Report
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.2.0.1 |  | Website sale localização brasileira.
 [l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 14.0.1.0.1 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) [![DiegoParadeda](https://github.com/DiegoParadeda.png?size=30px)](https://github.com/DiegoParadeda) | Implements Brazilian freight values for delivery.
-[l10n_br_zip](l10n_br_zip/) | 14.0.2.1.2 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
+[l10n_br_zip](l10n_br_zip/) | 14.0.2.3.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 [payment_bacen_pix](payment_bacen_pix/) | 14.0.1.1.0 |  | Payment PIX with bacen
 [payment_pagseguro](payment_pagseguro/) | 14.0.1.0.9 |  | Payment Acquirer: PagSeguro Implementation
 [spec_driven_model](spec_driven_model/) | 14.0.5.2.2 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
