@@ -131,7 +131,8 @@ class FocusnfeNfse(models.AbstractModel):
         service_info = service.get("service")
         recipient_info = recipient.get("recipient")
         recipient_identification = self._identify_service_recipient(recipient_info)
-        return {
+
+        vals = {
             "prestador": self._prepare_provider_data(rps_info, company),
             "servico": self._prepare_service_data(service_info, company),
             "tomador": self._prepare_recipient_data(
@@ -143,9 +144,17 @@ class FocusnfeNfse(models.AbstractModel):
             "natureza_operacao": rps_info.get("natureza_operacao"),
             "optante_simples_nacional": rps_info.get("optante_simples_nacional", False),
             "status": rps_info.get("status"),
-            "codigo_obra": rps_info.get("codigo_obra", ""),
-            "art": rps_info.get("art", ""),
         }
+        codigo_obra = rps_info.get("codigo_obra", False)
+        art = rps_info.get("art", False)
+
+        if codigo_obra:
+            vals["codigo_obra"] = codigo_obra
+
+        if art:
+            vals["art"] = art
+
+        return vals
 
     def _prepare_provider_data(self, rps, company):
         """Construct the provider section of the payload.
@@ -386,20 +395,6 @@ class Document(models.Model):
                             + json["caminho_xml_nota_fiscal"],
                             timeout=TIMEOUT,
                         ).content.decode("utf-8")
-                        pdf_content = (
-                            requests.get(
-                                json["url"],
-                                timeout=TIMEOUT,
-                                verify=record.company_id.nfse_ssl_verify,
-                            ).content
-                            or requests.get(
-                                json["url_danfse"],
-                                timeout=TIMEOUT,
-                                verify=record.company_id.nfse_ssl_verify,
-                            ).content
-                        )
-
-                        record.make_focus_nfse_pdf(pdf_content)
 
                         if not record.authorization_event_id:
                             record._document_export()
@@ -413,6 +408,23 @@ class Document(models.Model):
                                 file_response_xml=xml,
                             )
                             record._change_state(SITUACAO_EDOC_AUTORIZADA)
+                            pdf_content = requests.get(
+                                json["url"],
+                                timeout=TIMEOUT,
+                                verify=record.company_id.nfse_ssl_verify,
+                            ).content
+                            if not pdf_content.startswith(
+                                b"%PDF-"
+                            ) and not pdf_content.strip().endswith(b"%%EOF"):
+                                pdf_content = requests.get(
+                                    json["url_danfse"],
+                                    timeout=TIMEOUT,
+                                    verify=record.company_id.nfse_ssl_verify,
+                                ).content
+                            if pdf_content.startswith(
+                                b"%PDF-"
+                            ) and pdf_content.strip().endswith(b"%%EOF"):
+                                record.make_focus_nfse_pdf(pdf_content)
 
                     elif json["status"] == "erro_autorizacao":
                         record.write(
@@ -489,7 +501,7 @@ class Document(models.Model):
                         xml_file="",
                         document_id=record,
                     )
-
+                    self.state_edoc = SITUACAO_EDOC_CANCELADA
                     record.cancel_event_id.set_done(
                         status_code=4,
                         response=_("Processado com Sucesso"),
@@ -502,19 +514,24 @@ class Document(models.Model):
                         ref, 0, record.company_id, record.nfse_environment
                     )
                     status_json = status_rps.json()
-                    pdf_content = (
-                        requests.get(
-                            status_json["url"],
-                            timeout=TIMEOUT,
-                            verify=record.company_id.nfse_ssl_verify,
-                        ).content
-                        or requests.get(
+
+                    pdf_content = requests.get(
+                        status_json["url"],
+                        timeout=TIMEOUT,
+                        verify=record.company_id.nfse_ssl_verify,
+                    ).content
+                    if not pdf_content.startswith(
+                        b"%PDF-"
+                    ) and not pdf_content.strip().endswith(b"%%EOF"):
+                        pdf_content = requests.get(
                             status_json["url_danfse"],
                             timeout=TIMEOUT,
                             verify=record.company_id.nfse_ssl_verify,
                         ).content
-                    )
-                    record.make_focus_nfse_pdf(pdf_content)
+                    if pdf_content.startswith(
+                        b"%PDF-"
+                    ) and pdf_content.strip().endswith(b"%%EOF"):
+                        record.make_focus_nfse_pdf(pdf_content)
 
                     return response
 
