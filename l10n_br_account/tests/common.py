@@ -145,28 +145,129 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
             }
         )
 
+        cls.fo_sale_with_icms_reduction = cls.env[
+            "l10n_br_fiscal.operation.line"
+        ].create(
+            {
+                "name": "Venda com ICMS 12 e Redução de 26,57",
+                "ind_ie_dest": "1",
+                "cfop_internal_id": cls.env.ref("l10n_br_fiscal.cfop_5101").id,
+                "cfop_external_id": cls.env.ref("l10n_br_fiscal.cfop_6101").id,
+                "cfop_export_id": cls.env.ref("l10n_br_fiscal.cfop_7101").id,
+                "state": "approved",
+                "product_type": "04",
+                "fiscal_operation_id": cls.env.ref("l10n_br_fiscal.fo_venda").id,
+            }
+        )
+
     @classmethod
     def setup_company_data(cls, company_name, chart_template=None, **kwargs):
         """
         You might want to override it to force a single chart_template.
         The default behavior here is to load one for the SN and another for the LC.
         """
+        cnpj_cpf = kwargs.get("cnpj_cpf", "")
         if company_name == "company_2_data":
             company_name = "empresa 2 Simples Nacional"
             chart_template = cls.env.ref(
                 "l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
             )
+            cnpj_cpf = "30.360.463/0001-25"
         elif company_name == "company_1_data":
             company_name = "empresa 1 Lucro Presumido"
             chart_template = cls.env.ref(
                 "l10n_br_coa_generic.l10n_br_coa_generic_template"
             )
-        return super().setup_company_data(
-            company_name,
-            chart_template,
-            country_id=cls.env.ref("base.br").id,
-            currency_id=cls.env.ref("base.BRL").id,
-            **kwargs
+            cnpj_cpf = "18.751.708/0001-40"
+
+        kwargs.update(
+            {
+                "country_id": cls.env.ref("base.br").id,
+                "currency_id": cls.env.ref("base.BRL").id,
+                "is_industry": True,
+                "cnpj_cpf": cnpj_cpf,
+                "state_id": cls.env.ref("base.state_br_sp").id,
+            }
+        )
+        return super().setup_company_data(company_name, chart_template, **kwargs)
+
+    @classmethod
+    def configure_normal_company_taxes(cls):
+        # Tax configuration for normal company
+        tax_def_model = cls.env["l10n_br_fiscal.tax.definition"]
+        doc_serie_model = cls.env["l10n_br_fiscal.document.serie"]
+        cls.pis_tax_definition_empresa_lc = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_pis").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_pis_0_65").id,
+                "cst_id": cls.env.ref("l10n_br_fiscal.cst_pis_01").id,
+                "state": "approved",
+            }
+        )
+
+        cls.cofins_tax_definition_empresa_lc = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_cofins").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_cofins_3").id,
+                "cst_id": cls.env.ref("l10n_br_fiscal.cst_cofins_01").id,
+                "state": "approved",
+            }
+        )
+
+        cls.icms_tax_definition_empresa_lc_icms_reduction = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_icms").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_icms_12_red_26_57").id,
+                "cst_id": cls.env.ref("l10n_br_fiscal.cst_icms_20").id,
+                "state": "approved",
+                "fiscal_operation_line_id": cls.fo_sale_with_icms_reduction.id,
+            }
+        )
+
+        # Tax Definition for PIS and COFINS Withholding
+        cls.pis_wh_tax_definition_empresa_lc = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_pis_wh").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_pis_wh_0_65").id,
+                "state": "expired",
+            }
+        )
+
+        cls.cofins_wh_tax_definition_empresa_lc = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_cofins_wh").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_cofins_wh_3").id,
+                "state": "expired",
+            }
+        )
+
+        cls.empresa_lc_document_55_serie_1 = doc_serie_model.create(
+            {
+                "code": "1",
+                "name": "Série 1",
+                "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+                "active": True,
+            }
         )
 
     @classmethod
