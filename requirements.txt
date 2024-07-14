@@ -5,7 +5,7 @@ erpbrasil.edoc
 erpbrasil.edoc.pdf
 erpbrasil.transmissao
 febraban
-nfelib
+nfelib<=2.0.7
 nfselib.ginfes
 nfselib.issnet
 nfselib.paulistana
