@@ -51,6 +51,15 @@ class AccountInvoiceReport(models.Model):
         string="Valor ICMS ST", digits=dp.get_precision("Account")
     )
 
+    icms_origin_value = fields.Float(string="Valor Difal Origem", digits=dp.get_precision("Account"))
+
+    icms_destination_value = fields.Float(
+        string="Valor Difal Destino",
+        digits=dp.get_precision("Account"),
+    )
+
+    icmsfcp_value = fields.Float(string="Valor Difal FCP", digits=dp.get_precision("Account"))
+
     ipi_value = fields.Float(string="Valor IPI", digits=dp.get_precision("Account"))
 
     pis_value = fields.Float(string="Valor PIS", digits=dp.get_precision("Account"))
@@ -84,6 +93,9 @@ class AccountInvoiceReport(models.Model):
             , sub.cest_id
             , sub.fiscal_type
             , sub.icms_value
+            , sub.icms_origin_value
+            , sub.icms_destination_value
+            , sub.icmsfcp_value
             , sub.icmsst_value
             , sub.ipi_value
             , sub.pis_value
@@ -107,6 +119,9 @@ class AccountInvoiceReport(models.Model):
             , fdl.cest_id
             , fdl.fiscal_type
             , SUM(fdl.icms_value) as icms_value
+            , SUM(fdl.icms_origin_value) as icms_origin_value
+            , SUM(fdl.icms_destination_value) as icms_destination_value
+            , SUM(fdl.icmsfcp_value) as icmsfcp_value
             , SUM(fdl.icmsst_value) as icmsst_value
             , SUM(fdl.ipi_value) as ipi_value
             , SUM(fdl.pis_value) as pis_value
