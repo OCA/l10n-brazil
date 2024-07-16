@@ -95,6 +95,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "district": self.district,
             "state_id": self.state_id.id,
             "city_id": self.city_id.id,
+            "city": self.city_id.name,
             "country_id": self.country_id.id,
             "phone": self.phone,
             "mobile": self.mobile,
