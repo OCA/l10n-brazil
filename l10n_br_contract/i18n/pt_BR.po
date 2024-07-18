@@ -49,7 +49,6 @@ msgstr "Total Financeiro"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_financial_total_gross
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_total_gross
 msgid "Amount Financial Gross"
 msgstr "Total Financeiro Bruto"
 
@@ -60,7 +59,6 @@ msgstr "Total Fiscal"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_price_gross
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__price_gross
 msgid "Amount Gross"
 msgstr "Total Bruto"
 
@@ -99,7 +97,6 @@ msgstr "Total sem Impostos"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__amount_price_gross
-#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__price_gross
 msgid "Amount without discount."
 msgstr "Total sem desconto."
 
@@ -493,6 +490,11 @@ msgid "Financial Discount Value"
 msgstr "Valor do Desconto Financeiro"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_additional_data
 msgid "Fiscal Additional Data"
 msgstr "Dados Adicionais Fiscais"
@@ -552,6 +554,11 @@ msgstr "Forçar Cálculo de Custos de Entrega por Total"
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__freight_value
 msgid "Freight Value"
 msgstr "Valor do Frete"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__price_gross
+msgid "Gross Product/Service Amount"
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_percent
@@ -1455,6 +1462,18 @@ msgid "Taxes"
 msgstr "Impostos"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
 msgid "Type"
 msgstr "Tipo"
@@ -1489,8 +1508,8 @@ msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 #~ msgstr "Total de Impostos Não Incluídos no Preço"
 
 #~ msgid ""
-#~ "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
-#~ "\"%s\">Invoice</a>"
+#~ "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-"
+#~ "id=\"%s\">Invoice</a>"
 #~ msgstr ""
 #~ "Contrato faturado manualmente: <a href=\"#\" data-oe-model=\"%s\" data-oe-"
 #~ "id=\"%s\">Fatura</a>"
