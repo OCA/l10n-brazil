@@ -171,9 +171,7 @@ msgid "Amount Financial"
 msgstr "Total Financeiro"
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_financial_total_gross
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__financial_total_gross
 msgid "Amount Financial Gross"
 msgstr "Total Financeiro Bruto"
 
@@ -184,9 +182,7 @@ msgid "Amount Fiscal"
 msgstr "Total Fiscal"
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_price_gross
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_gross
 msgid "Amount Gross"
 msgstr "Total Bruto"
 
@@ -228,9 +224,7 @@ msgid "Amount Untaxed"
 msgstr "Total sem Impostos"
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__amount_price_gross
-#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__price_gross
 msgid "Amount without discount."
 msgstr "Total sem desconto."
 
@@ -1036,6 +1030,12 @@ msgid "Financial Discount Value"
 msgstr "Valor do Desconto Financeiro"
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total_gross
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_additional_data
 msgid "Fiscal Additional Data"
 msgstr "Dados Adicionais Fiscais"
@@ -1151,6 +1151,12 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__edoc_purpose__4
 msgid "Goods return"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_gross
+msgid "Gross Product/Service Amount"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2711,6 +2717,20 @@ msgstr "Impostos"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_total
 msgid "Total"
 msgstr "Total"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total_gross
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_stock_picking
