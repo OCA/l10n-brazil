@@ -5,6 +5,7 @@
 from nfselib.bindings.betha.servico_enviar_lote_rps_envio_v01 import EnviarLoteRpsEnvio
 from nfselib.bindings.betha.tipos_nfe_v01 import (
     TcCpfCnpj,
+    TcDadosConstrucaoCivil,
     TcDadosServico,
     TcDadosTomador,
     TcEndereco,
@@ -123,9 +124,17 @@ class Document(models.Model):
                 ),
                 Tomador=self._serialize_betha_dados_tomador(),
                 IntermediarioServico=dados["intermediario_servico"],
-                ConstrucaoCivil=dados["construcao_civil"],
+                ConstrucaoCivil=self._serialize_construcao_civil(
+                    dados["codigo_obra"], dados["art"]
+                ),
             )
         )
+
+    def _serialize_construcao_civil(self, codigo_obra, art):
+        if codigo_obra or art:
+            return TcDadosConstrucaoCivil(CodigoObra=codigo_obra, Art=art)
+        else:
+            return None
 
     def _serialize_betha_lote_rps(self):
         dados = self._prepare_lote_rps()
