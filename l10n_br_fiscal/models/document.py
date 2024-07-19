@@ -373,7 +373,7 @@ class Document(models.Model):
             raise ValidationError(
                 _(
                     "You cannot delete fiscal document number %(number)s with "
-                    "the status: %(state)!",
+                    "the status: %(state)s!",
                     number=record.document_number,
                     state=record.state_edoc,
                 )
