@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-08 02:39+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-07-19 04:58+0000\n"
+"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__01
@@ -116,8 +116,9 @@ msgstr "Boleto"
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_dup
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_dup
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_dup
+#, fuzzy
 msgid "Dados das duplicatas NT 2011/004"
-msgstr ""
+msgstr "Dados das duplicatas NT 2011/004"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__display_name
@@ -133,16 +134,18 @@ msgstr "Documento Fiscal"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+#, fuzzy
 msgid "Forma de Pagamento"
-msgstr ""
+msgstr "Forma de Pagamento"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
+#, fuzzy
 msgid "Grupo de detalhamento da forma"
-msgstr ""
+msgstr "Grupo de detalhamento da forma"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_nfe_40_detpag
@@ -150,8 +153,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_account_move__nfe40_detPag
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_account_payment__nfe40_detPag
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
+#, fuzzy
 msgid "Grupo de detalhamento da forma de pagamento."
-msgstr ""
+msgstr "Grupo de detalhamento da forma de pagamento."
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__id
@@ -162,8 +166,9 @@ msgstr "ID"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+#, fuzzy
 msgid "Indicador da Forma de Pagamento"
-msgstr ""
+msgstr "Indicador da Forma de Pagamento"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode____last_update
@@ -190,13 +195,15 @@ msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__1
+#, fuzzy
 msgid "Pagamento à Prazo"
-msgstr ""
+msgstr "Pagamento à Prazo"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__0
+#, fuzzy
 msgid "Pagamento à Vista"
-msgstr ""
+msgstr "Pagamento à Vista"
 
 #. module: l10n_br_account_nfe
 #: code:addons/l10n_br_account_nfe/models/document.py:0
