@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 09:02+0000\n"
-"PO-Revision-Date: 2024-05-23 13:37+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-07-19 04:58+0000\n"
+"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
@@ -554,7 +554,7 @@ msgstr "Identifica o destino da operação."
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Import Fiscal Document"
-msgstr ""
+msgstr "Importar Documento Fiscal"
 
 #. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__in
@@ -571,6 +571,10 @@ msgid ""
 "move.lines.\n"
 "        "
 msgstr ""
+"Em alguns casos raros (NFS-e, CT-e...) um único account.move\n"
+"pode ter vários documentos fiscais diferentes relacionados às suas account."
+"move.lines.\n"
+"        "
 
 #. module: l10n_br_account
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_in_action
@@ -672,6 +676,10 @@ msgid ""
 "                            Please force one! \n"
 "%(name)s"
 msgstr ""
+"Linha sem Operação Fiscal de Retorno\n"
+"\n"
+"Por favor, force uma!\n"
+"%(name)s"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
@@ -681,7 +689,7 @@ msgstr "CNAE Principal"
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_ir_model_data
 msgid "Model Data"
-msgstr ""
+msgstr "Dados do Modelo"
 
 #. module: l10n_br_account
 #: code:addons/l10n_br_account/models/account_move.py:0
@@ -690,6 +698,8 @@ msgid ""
 "More than 1 fiscal document!You should open the fiscal viewand perform the "
 "action on each document!"
 msgstr ""
+"Mais de um documento fiscal! Você deve abrir a visualização fiscal e "
+"realizar a ação em cada documento!"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_mun
@@ -710,7 +720,7 @@ msgstr "NFS-e"
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "No new Fiscal Document Line to import!"
-msgstr ""
+msgstr "Nenhuma nova linha de documento fiscal para importar!"
 
 #. module: l10n_br_account
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_all_action
