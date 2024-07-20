@@ -200,6 +200,12 @@ class SaleOrder(models.Model):
         if self.fiscal_operation_id:
             result.update(self._prepare_br_fiscal_dict())
 
+            # By default, the value of the partner_id field should be the same
+            # as the partner_invoice_id field. The _prepare_br_fiscal_dict()
+            # method changes the partner_id value in the super result to the
+            # value of the partner_id field from the sale.order model.
+            result["partner_id"] = self.partner_invoice_id.id
+
             document_type_id = self._context.get("document_type_id")
 
             if not document_type_id:
