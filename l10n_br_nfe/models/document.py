@@ -654,6 +654,10 @@ class NFe(spec_models.StackedModel):
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
+        """
+        Overriden to avoid creating inner tag for m2o if none of the
+        denormalized inner attribute has been set.
+        """
         self.ensure_one()
         if field_name in self._stacking_points.keys():
             if field_name == "nfe40_ISSQNtot" and not any(
@@ -667,7 +671,11 @@ class NFe(spec_models.StackedModel):
                 fields = [
                     f
                     for f in comodel._fields
-                    if f.startswith(self._field_prefix) and f in self._fields.keys()
+                    if f.startswith(self._field_prefix)
+                    and f in self._fields.keys()
+                    and f
+                    # don't try to nfe40_fat id when reading nfe40_cobr for instance
+                    not in self._stacking_points.keys()
                 ]
                 sub_tag_read = self.read(fields)[0]
                 if not any(
@@ -1226,7 +1234,7 @@ class NFe(spec_models.StackedModel):
                     # Commit to secure receipt info for future queries.
                     in_testing = getattr(threading.current_thread(), "testing", False)
                     if not in_testing:
-                        self.env.cr.commit()
+                        self.env.cr.commit()  # pylint: disable=invalid-commit
 
                     # Check if 'nfe_separate_async_process' is set in the company
                     # settings. If True, skip the receipt consultation in this
