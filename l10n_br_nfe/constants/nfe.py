@@ -6,6 +6,19 @@ NFE_VERSIONS = [("1.10", "1.10"), ("2.00", "2.00"), ("3.10", "3.10"), ("4.00", "
 
 NFE_VERSION_DEFAULT = "4.00"
 
+DANFE_LIBRARY = [
+    ("brazil_fiscal_report", "Brazil Fiscal Report"),
+    ("erpbrasil.edoc.pdf", "ERPBrasil"),
+]
+
+DANFE_LIBRARY_DEFAULT = "brazil_fiscal_report"
+
+DANFE_INVOICE_DISPLAY = [
+    ("full_details", "Full Details"),
+    ("duplicates_only", "Duplicates Only"),
+]
+
+DANFE_INVOICE_DISPLAY_DEFAULT = "full_details"
 
 NFE_ENVIRONMENTS = [("1", "Produção"), ("2", "Homologação")]
 
