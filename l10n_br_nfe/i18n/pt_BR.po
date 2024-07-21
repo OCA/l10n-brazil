@@ -17,9 +17,25 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_library
+msgid ""
+"\n"
+"        Choose the library used for generating the DANFE\n"
+"        (Document Auxiliary for Nota Fiscal Eletrônica).\n"
+"        Options include 'erpbrasil.edoc.pdf' and 'brazil_fiscal_report'.\n"
+"        The default library is set to 'erpbrasil.edoc.pdf'.\n"
+"        "
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "# | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL"
 msgstr "# | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL"
+
+#. module: l10n_br_nfe
+#: model:ir.actions.report,print_report_name:l10n_br_nfe.report_danfe
+msgid "'%s' % (object.document_key)"
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_qrcode_version__1
@@ -54,8 +70,8 @@ msgstr ""
 "1=Emissão normal (não em contingência);\n"
 "2=Contingência FS-IA, com impressão do DANFE em Formulário de Segurança - "
 "Impressor Autônomo;\n"
-"3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional); *"
-"Desativado * NT 2015/002\n"
+"3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional); "
+"*Desativado * NT 2015/002\n"
 "4=Contingência EPEC (Evento Prévio da Emissão em Contingência);\n"
 "5=Contingência FS-DA, com impressão do DANFE em Formulário de Segurança - "
 "Documento Auxiliar;\n"
@@ -262,6 +278,11 @@ msgid "Base vBC/pIPI/qUnid/vUnid"
 msgstr "Base vBC/pIPI/qUnid/vUnid"
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__danfe_library__brazil_fiscal_report
+msgid "Brazil Fiscal Report"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_CEP
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CEP
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CEP
@@ -439,6 +460,11 @@ msgstr ""
 "Chave de acesso das NF-e referenciadas. Chave de acesso compostas por Código "
 "da UF (tabela do IBGE) + AAMM da emissão + CNPJ do Emitente + modelo, série "
 "e número da NF-e Referenciada + Código Numérico + DV."
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_invoice_display
+msgid "Choose to generate a full or incomplete invoice frame in the DANFE."
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__state__ciente
@@ -757,6 +783,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.actions.report,name:l10n_br_nfe.report_danfe
+msgid "DANFE"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.actions.report,name:l10n_br_nfe.action_print_danfe_nfce
 msgid "DANFE NFC-e"
 msgstr ""
@@ -771,6 +802,11 @@ msgstr "DANFE NFC-e por email"
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__4
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_danfe_layout__4
 msgid "DANFE NFC-e;"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "DANFE Settings"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -849,9 +885,24 @@ msgid "Dados dos transportes da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_display_pis_cofins
+msgid "Danfe Display Pis Cofins"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_invoice_display
+msgid "Danfe Invoice Display"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__danfe_layout
 msgid "Danfe Layout"
 msgstr "Layout do Danfe"
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_library
+msgid "Danfe Library"
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dhSaiEnt
@@ -913,6 +964,7 @@ msgid "Digest Value"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__display_name
@@ -999,8 +1051,18 @@ msgid "Download XML"
 msgstr "Baixar XML"
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__danfe_invoice_display__duplicates_only
+msgid "Duplicates Only"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__danfe_library__erpbrasil_edoc_pdf
+msgid "ERPBrasil"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1282,6 +1344,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__danfe_invoice_display__full_details
+msgid "Full Details"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cEAN
 msgid "GTIN"
 msgstr ""
@@ -1489,6 +1556,7 @@ msgid "ICMSST"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__id
@@ -1940,6 +2008,11 @@ msgid "Invalidate Number"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "Invoice Display"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__is_anonymous_consumer
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__is_anonymous_consumer
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__is_anonymous_consumer
@@ -1962,6 +2035,7 @@ msgid "Justification"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_ir_actions_report____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result____last_update
@@ -2310,6 +2384,12 @@ msgid "Nfe40 Uf"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
+#, python-format
+msgid "No xml file was found."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__name
 msgid "Nome"
@@ -2433,6 +2513,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOutro
 msgid "Outros Custos"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "PIS/COFINS Display"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2670,6 +2755,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__rps_number
 msgid "Rps Number"
 msgstr "Número do RPS"
@@ -2688,6 +2778,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__schema
 msgid "Schema"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_display_pis_cofins
+msgid "Select whether PIS and COFINS should be displayed in DANFE."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3352,6 +3447,12 @@ msgstr "Código NCM no XML"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_code
 msgid "XML Product Code"
 msgstr "Código do Produto no XML"
+
+#. module: l10n_br_nfe
+#: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
+#, python-format
+msgid "You can only print a DANFE of a NFe(55)."
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cBenef
