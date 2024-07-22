@@ -16,7 +16,7 @@ _logger = logging.getLogger(__name__)
 
 
 class SpecViewMixin(models.AbstractModel):
-    _inherit = "spec.mixin"
+    _name = "spec.mixin_view"
 
     @api.model
     def fields_view_get(
