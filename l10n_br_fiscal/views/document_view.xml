@@ -329,7 +329,7 @@
                 </group>
               </group>
             </page>
-            <page name="recipient" string="Recipient">
+            <page name="partners" string="Partners">
               <group name="partner">
                 <field name="partner_id" />
               </group>
