@@ -69,7 +69,7 @@ class Event(models.Model):
     type = fields.Selection(
         selection=[
             ("-1", "Exception"),
-            ("0", "Envio Lote"),
+            ("0", "Autorização de Uso"),
             ("1", "Consulta Recibo"),
             ("2", "Cancelamento"),
             ("3", "Inutilização"),
@@ -184,6 +184,13 @@ class Event(models.Model):
     )
 
     protocol_number = fields.Char()
+
+    lot_receipt_number = fields.Char(
+        help=(
+            "In asynchronous processing, a lot receipt number is generated, "
+            "which is used for later consultation."
+        ),
+    )
 
     state = fields.Selection(
         selection=[
@@ -300,7 +307,7 @@ class Event(models.Model):
         )
 
         if authorization:
-            # Nâo deletamos um aquivo de autorização já
+            # Não deletamos um aquivo de autorização já
             # Existente por segurança
             self.file_response_id = False
             self.file_response_id = attachment_id
@@ -312,7 +319,8 @@ class Event(models.Model):
     def set_done(
         self, status_code, response, protocol_date, protocol_number, file_response_xml
     ):
-        self._save_event_file(file_response_xml, "xml", authorization=True)
+        if file_response_xml:
+            self._save_event_file(file_response_xml, "xml", authorization=True)
         self.write(
             {
                 "state": "done",
