@@ -8,6 +8,9 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <field name="picking_policy" position="before">
+                <field name="partner_sendering_id" />
+                <field name="partner_shippering_id" />
+                <field name="partner_receivering_id" />
                 <field name="amount_gross_weight" />
                 <field name="amount_volume" />
             </field>
