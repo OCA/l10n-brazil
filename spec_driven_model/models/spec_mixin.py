@@ -11,6 +11,7 @@ class SpecMixin(models.AbstractModel):
 
     _description = "root abstract model meant for xsd generated fiscal models"
     _name = "spec.mixin"
+    _inherit = ["spec.mixin_export", "spec.mixin_import"]
     _stacking_points = {}
     # _spec_module = 'override.with.your.python.module'
     # _binding_module = 'your.pyhthon.binding.module'

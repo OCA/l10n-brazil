@@ -19,15 +19,14 @@ _logger = logging.getLogger(__name__)
 tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
 
 
-class AbstractSpecMixin(models.AbstractModel):
-    """
+class SpecMixinImport(models.AbstractModel):
+    _name = "spec.mixin_import"
+    _description = """
     A recursive Odoo object builder that works along with the
     GenerateDS object builder from the parsed XML.
     Here we take into account the concrete Odoo objects where the schema
     mixins where injected and possible matcher or builder overrides.
     """
-
-    _inherit = "spec.mixin"
 
     @api.model
     def build_from_binding(self, node, dry_run=False):
@@ -139,24 +138,26 @@ class AbstractSpecMixin(models.AbstractModel):
                 vals[key] = lines
             else:
                 # m2o
-                new_value = comodel.build_attrs(value, path=child_path)
+                comodel_vals = comodel.build_attrs(value, path=child_path)
                 child_defaults = self._extract_related_values(vals, key)
 
-                new_value.update(child_defaults)
+                comodel_vals.update(child_defaults)
                 # FIXME comodel._build_many2one
-                self._build_many2one(comodel, vals, new_value, key, value, child_path)
+                self._build_many2one(
+                    comodel, vals, comodel_vals, key, value, child_path
+                )
 
     @api.model
     def _build_string_not_simple_type(self, key, vals, value, node):
         vals[key] = value
 
     @api.model
-    def _build_many2one(self, comodel, vals, new_value, key, value, path):
+    def _build_many2one(self, comodel, vals, comodel_vals, key, value, path):
         if comodel._name == self._name:
             # stacked m2o
-            vals.update(new_value)
+            vals.update(comodel_vals)
         else:
-            vals[key] = comodel.match_or_create_m2o(new_value, vals)
+            vals[key] = comodel.match_or_create_m2o(comodel_vals, vals)
 
     @api.model
     def get_concrete_model(self, comodel_name):
