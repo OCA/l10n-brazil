@@ -1579,12 +1579,12 @@ msgid "Código da operação selecionada na NFF e relacionada ao item"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_cCredPresumido
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcred__nfe40_cCredPresumido
 msgid "Código de Benefício Fiscal"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_cCredPresumido
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_gcred__nfe40_cCredPresumido
 msgid "Código de Benefício Fiscal de Crédito Presumido na UF aplicado ao item"
 msgstr ""
 
@@ -1617,7 +1617,8 @@ msgid ""
 "Este campo será obrigatoriamente preenchido com:\n"
 "1 – Simples Nacional;\n"
 "2 – Simples Nacional – excesso de sublimite de receita bruta;\n"
-"3 – Regime Normal."
+"3 – Regime Normal.\n"
+"4 - Simples Nacional - Microempreendedor individual - MEI"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -3017,6 +3018,17 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_gCred
+msgid "Grupo de informações sobre"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model,name:l10n_br_nfe_spec.model_nfe_40_gcred
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_gCred
+msgid "Grupo de informações sobre o CréditoPresumido"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model,name:l10n_br_nfe_spec.model_nfe_40_nfref
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ide__nfe40_NFref
 msgid "Grupo de infromações da NF referenciada"
@@ -3867,6 +3879,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_exportind__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_fat__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_fordia__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcred__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icms__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmspart__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmsst__brl_currency_id
@@ -4012,6 +4025,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_fordia__nfe40_forDia_cana_id
 msgid "Nfe40 Fordia Cana"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcred__nfe40_gCred_prod_id
+msgid "Nfe40 Gcred Prod"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4928,7 +4946,7 @@ msgid "Percentual de redução da base de cálculo efetiva."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_pCredPresumido
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcred__nfe40_pCredPresumido
 msgid "Percentual do Crédito Presumido"
 msgstr ""
 
@@ -5591,6 +5609,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_emit__nfe40_CRT__1
 msgid "Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_emit__nfe40_CRT__4
+msgid "Simples Nacional - Microempreendedor individual - MEI"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -6385,7 +6408,7 @@ msgid "Valor do COFINS sobre serviços"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_vCredPresumido
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcred__nfe40_vCredPresumido
 msgid "Valor do Crédito Presumido"
 msgstr ""
 
