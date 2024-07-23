@@ -412,6 +412,21 @@ msgid "Discount Value"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__02
 msgid "Embalagem"
 msgstr ""
@@ -1036,6 +1051,11 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__legal_name
 msgid "Legal Name"
 msgstr ""
@@ -1334,6 +1354,11 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
 msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie
+msgid "Serie Number"
 msgstr ""
 
 #. module: l10n_br_purchase
