@@ -115,7 +115,7 @@ class Partner(models.Model):
                 record.country_id,
             )
 
-    @api.constrains("inscr_est", "state_id")
+    @api.constrains("inscr_est", "state_id", "is_company")
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
@@ -123,7 +123,10 @@ class Partner(models.Model):
         :Return: True or False.
         """
         for record in self:
-            check_ie(record.env, record.inscr_est, record.state_id, record.country_id)
+            if record.is_company:
+                check_ie(
+                    record.env, record.inscr_est, record.state_id, record.country_id
+                )
 
     @api.constrains("state_tax_number_ids")
     def _check_state_tax_number_ids(self):
