@@ -9264,7 +9264,7 @@ msgstr ""
 #, python-format
 msgid ""
 "You cannot delete fiscal document number %(number)s with the status: "
-"%(state)!"
+"%(state)s!"
 msgstr ""
 
 #. module: l10n_br_fiscal
