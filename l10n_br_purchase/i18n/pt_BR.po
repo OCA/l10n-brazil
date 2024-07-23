@@ -418,6 +418,21 @@ msgid "Discount Value"
 msgstr "Valor do Desconto"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__02
 msgid "Embalagem"
 msgstr ""
@@ -1042,6 +1057,11 @@ msgid "Journal Entry"
 msgstr "Lançamento de Diário"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__legal_name
 msgid "Legal Name"
 msgstr "Razão Social"
@@ -1341,6 +1361,11 @@ msgstr "Compras"
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
 msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie
+msgid "Serie Number"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1721,15 +1746,15 @@ msgstr ""
 #~ msgid ""
 #~ "<span class=\"o_form_label\" attrs=\"{'invisible': [('state','not in',"
 #~ "('draft','sent'))]}\">Request for Quotation </span>\n"
-#~ "                        <span class=\"o_form_label\" attrs="
-#~ "\"{'invisible': [('state','in',('draft','sent'))]}\">Purchase Order </"
-#~ "span>"
+#~ "                        <span class=\"o_form_label\" "
+#~ "attrs=\"{'invisible': [('state','in',('draft','sent'))]}\">Purchase Order "
+#~ "</span>"
 #~ msgstr ""
 #~ "<span class=\"o_form_label\" attrs=\"{'invisible': [('state','not in',"
 #~ "('draft','sent'))]}\">Pedido de Cotação</span>\n"
-#~ "                        <span class=\"o_form_label\" attrs="
-#~ "\"{'invisible': [('state','in',('draft','sent'))]}\">Ordem de compra </"
-#~ "span>"
+#~ "                        <span class=\"o_form_label\" "
+#~ "attrs=\"{'invisible': [('state','in',('draft','sent'))]}\">Ordem de "
+#~ "compra </span>"
 
 #~ msgid "<span class=\"o_stat_text\">Purchased</span>"
 #~ msgstr "<span class=\"o_stat_text\">Comprado</span>"
