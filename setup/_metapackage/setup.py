@@ -32,6 +32,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_setup_tests>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_stock>=15.0dev,<15.1dev',
         'odoo-addon-l10n_br_zip>=15.0dev,<15.1dev',
+        'odoo-addon-spec_driven_model>=15.0dev,<15.1dev',
     ],
     classifiers=[
         'Programming Language :: Python',
