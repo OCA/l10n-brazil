@@ -17,6 +17,17 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: spec_driven_model
+#: model:ir.model,name:spec_driven_model.model_spec_mixin_import
+msgid ""
+"\n"
+"    A recursive Odoo object builder that works along with the\n"
+"    GenerateDS object builder from the parsed XML.\n"
+"    Here we take into account the concrete Odoo objects where the schema\n"
+"    mixins where injected and possible matcher or builder overrides.\n"
+"    "
+msgstr ""
+
+#. module: spec_driven_model
 #: code:addons/spec_driven_model/models/spec_models.py:0
 #, python-format
 msgid "Abrir..."
@@ -24,18 +35,29 @@ msgstr "Abrir..."
 
 #. module: spec_driven_model
 #: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin__display_name
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin_export__display_name
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin_import__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: spec_driven_model
 #: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin__id
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin_export__id
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin_import__id
 msgid "ID"
 msgstr "ID"
 
 #. module: spec_driven_model
 #: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin____last_update
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin_export____last_update
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin_import____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
+
+#. module: spec_driven_model
+#: model:ir.model,name:spec_driven_model.model_spec_mixin_export
+msgid "a mixin providing serialization features"
+msgstr ""
 
 #. module: spec_driven_model
 #: model:ir.model,name:spec_driven_model.model_spec_mixin
