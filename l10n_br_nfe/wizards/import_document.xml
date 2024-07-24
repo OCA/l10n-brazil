@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="l10n_br_nfe_import_xml_form" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.import_xml.form</field>
+        <field name="model">l10n_br_nfe.import_xml</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_fiscal.l10n_br_fiscal_document_import_wizard_mixin_form"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='document_serie']" position="after">
+                <field name="nat_op" readonly="1" />
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="xml_partner_cpf_cnpj" readonly="1" />
+                <field name="xml_partner_name" readonly="1" />
+            </xpath>
+
+            <xpath expr="//group[@id='document_info']" position="after">
+                <group
+                    id="existing_document"
+                    attrs="{'invisible': [('document_id', '=', False)]}"
+                >
+                    <field name="document_id" readonly="1" string="Existing Document" />
+                </group>
+
+                <group
+                    id='xml_product_lines'
+                    col="4"
+                    attrs="{
+                    'invisible': [
+                        '|',
+                        ('file', '=', False),
+                        ('document_id', '!=', False),
+                    ]
+                }"
+                >
+                    <separator string="NFe XML Products" colspan="4" />
+                    <group
+                        colspan="4"
+                        id="imported_products"
+                        attrs="{'invisible': [('file', '=', False)]}"
+                    >
+                        <field name="imported_products_ids" nolabel="1" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="l10n_br_nfe_import_xml_products_tree" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.import_xml.products.tree</field>
+        <field name="model">l10n_br_nfe.import_xml.products</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field
+                    name="product_id"
+                    options="{'no_quick_create': True, 'no_create': True}"
+                    domain="[('purchase_ok', '=', True)]"
+                />
+                <field name="product_name" readonly="1" />
+                <field name="product_code" readonly="1" />
+                <field name="uom_internal" />
+                <field name="uom_conversion_factor" />
+                <field name="ncm_xml" readonly="1" />
+                <field name="ncm_internal" readonly="1" />
+                <field name="cfop_xml" readonly="1" />
+                <field name="new_cfop_id" />
+                <field name="icms_percent" readonly="1" />
+                <field name="icms_value" readonly="1" />
+                <field name="ipi_percent" readonly="1" />
+                <field name="ipi_value" readonly="1" />
+                <field name="quantity_com" readonly="1" />
+                <field name="uom_com" readonly="1" />
+                <field name="price_unit_com" readonly="1" />
+                <field name="total" readonly="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_nfe_import_xml_action" model="ir.actions.act_window">
+        <field name="name">Importar NF-e XML</field>
+        <field name="res_model">l10n_br_nfe.import_xml</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

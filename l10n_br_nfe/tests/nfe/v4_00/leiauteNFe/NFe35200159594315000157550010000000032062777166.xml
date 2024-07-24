@@ -1,0 +1,154 @@
+<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+    <infNFe versao="4.00" Id="NFe35200159594315000157550010000000032062777166">
+        <ide>
+            <cUF>35</cUF>
+            <cNF>06277716</cNF>
+            <natOp>Venda</natOp>
+            <mod>55</mod>
+            <serie>1</serie>
+            <nNF>3</nNF>
+            <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+            <dhSaiEnt>2020-01-01T12:00:00+01:00</dhSaiEnt>
+            <tpNF>1</tpNF>
+            <idDest>2</idDest>
+            <cMunFG>3550308</cMunFG>
+            <tpImp>1</tpImp>
+            <tpEmis>1</tpEmis>
+            <cDV>6</cDV>
+            <tpAmb>2</tpAmb>
+            <finNFe>1</finNFe>
+            <indFinal>1</indFinal>
+            <indPres>0</indPres>
+            <procEmi>0</procEmi>
+            <verProc>Odoo Brasil OCA v14</verProc>
+        </ide>
+        <emit>
+            <CNPJ>81583054000129</CNPJ>
+            <xNome>Empresa Lucro Presumido Ltda</xNome>
+            <xFant>Empresa Lucro Presumido</xFant>
+            <enderEmit>
+                <xLgr>Avenida Paulista</xLgr>
+                <nro>1</nro>
+                <xBairro>Bela Vista</xBairro>
+                <cMun>3550308</cMun>
+                <xMun>São Paulo</xMun>
+                <UF>SP</UF>
+                <CEP>01311000</CEP>
+                <cPais>1058</cPais>
+                <xPais>Brasil</xPais>
+                <fone>551199999999</fone>
+            </enderEmit>
+            <IE>078016350838</IE>
+            <CRT>3</CRT>
+        </emit>
+        <dest>
+            <CNPJ>84148732000113</CNPJ>
+            <xNome>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+            <enderDest>
+                <xLgr>Avenida Javari</xLgr>
+                <nro>s/n</nro>
+                <xCpl>Lote 9.45/15E</xCpl>
+                <xBairro>Distrito Industrial</xBairro>
+                <cMun>1302603</cMun>
+                <xMun>Manaus</xMun>
+                <UF>AM</UF>
+                <CEP>69075110</CEP>
+                <cPais>1058</cPais>
+                <xPais>Brasil</xPais>
+                <fone>9221458888</fone>
+            </enderDest>
+            <indIEDest>1</indIEDest>
+            <IE>095693211</IE>
+            <ISUF>100695108</ISUF>
+            <email>cliente4@cliente4.com.br</email>
+        </dest>
+        <det nItem="1">
+            <prod>
+                <cProd>E-COM10</cProd>
+                <cEAN>SEM GTIN</cEAN>
+                <xProd>Pedal Bin</xProd>
+                <NCM>73239900</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>UN</uCom>
+                <qCom>2.0000</qCom>
+                <vUnCom>47.0000000000</vUnCom>
+                <vProd>94.00</vProd>
+                <cEANTrib>SEM GTIN</cEANTrib>
+                <uTrib>UN</uTrib>
+                <qTrib>2.0000</qTrib>
+                <vUnTrib>47.0000000000</vUnTrib>
+                <indTot>1</indTot>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>2</orig>
+                        <CST>00</CST>
+                        <modBC>0</modBC>
+                        <vBC>94.00</vBC>
+                        <pICMS>4.0000</pICMS>
+                        <vICMS>3.76</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPINT>
+                        <CST>53</CST>
+                    </IPINT>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>94.00</vBC>
+                        <pPIS>0.6500</pPIS>
+                        <vPIS>0.61</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>94.00</vBC>
+                        <pCOFINS>3.0000</pCOFINS>
+                        <vCOFINS>2.82</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <total>
+            <ICMSTot>
+                <vBC>94.00</vBC>
+                <vICMS>3.76</vICMS>
+                <vICMSDeson>0.00</vICMSDeson>
+                <vFCP>0.00</vFCP>
+                <vBCST>0.00</vBCST>
+                <vST>0.00</vST>
+                <vFCPST>0.00</vFCPST>
+                <vFCPSTRet>0.00</vFCPSTRet>
+                <vProd>94.00</vProd>
+                <vFrete>0.00</vFrete>
+                <vSeg>0.00</vSeg>
+                <vDesc>0.00</vDesc>
+                <vII>0.00</vII>
+                <vIPI>0.00</vIPI>
+                <vIPIDevol>0.00</vIPIDevol>
+                <vPIS>0.61</vPIS>
+                <vCOFINS>2.82</vCOFINS>
+                <vOutro>0.00</vOutro>
+                <vNF>94.00</vNF>
+            </ICMSTot>
+        </total>
+        <transp>
+            <modFrete>9</modFrete>
+        </transp>
+        <pag>
+            <detPag>
+                <indPag>0</indPag>
+                <tPag>01</tPag>
+                <vPag>94.00</vPag>
+            </detPag>
+        </pag>
+        <infAdic>
+            <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
+        </infAdic>
+    </infNFe>
+</NFe>

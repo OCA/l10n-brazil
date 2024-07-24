@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- NFe Test - Empresa Contribuinte - Mesmo Estado -->
+    <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="company_number">3</field>
+        <field name="document_serie">1</field>
+        <field name="nfe_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_same_state" />
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
+    </function>
+
+    <function
+        model="l10n_br_fiscal.document.line"
+        name="_onchange_fiscal_operation_line_id"
+    >
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
+    </function>
+
+    <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_same_state" />
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
+    </function>
+
+    <function
+        model="l10n_br_fiscal.document.line"
+        name="_onchange_fiscal_operation_line_id"
+    >
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
+    </function>
+
+    <!-- NFe Test - Pessoa Física - Same State - Simples Nacional -->
+    <record id="demo_nfe_national_sale_for_same_state" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_55_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="document_number">1</field>
+        <field name="document_key">35200159594315000157550010000000012062777161</field>
+        <field name="document_date">2020-01-01 11:00:00</field>
+        <field name="date_in_out">2020-01-01 11:00:00</field>
+        <field name="document_serie">1</field>
+        <field name="nfe_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record
+        id="demo_nfe_national_sale_for_same_state-1"
+        model="l10n_br_fiscal.document.line"
+    >
+        <field name="document_id" ref="demo_nfe_national_sale_for_same_state" />
+        <field name="name">Test Invoice for Sale</field>
+        <field name="product_id" ref="product.product_product_10" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
+    </function>
+
+    <function
+        model="l10n_br_fiscal.document.line"
+        name="_onchange_fiscal_operation_line_id"
+    >
+        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
+    </function>
+
+    <!-- NFe Test - Pessoa Física - ICMS 18% with a reduction of 51.11% -->
+    <record id="demo_nfe_natural_icms_18_red_51_11" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">2</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35200159594315000157550010000000022062777169</field>
+        <field name="document_date">2020-01-01 11:00:00</field>
+        <field name="date_in_out">2020-01-01 11:00:00</field>
+        <field name="nfe_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente11_sp" />
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record
+        id="demo_nfe_natural_icms_18_red_51_11-1"
+        model="l10n_br_fiscal.document.line"
+    >
+        <field name="document_id" ref="demo_nfe_natural_icms_18_red_51_11" />
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_20" />
+        <field name="uom_id" ref="uom.product_uom_kgm" />
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
+    </function>
+
+    <function
+        model="l10n_br_fiscal.document.line"
+        name="_onchange_fiscal_operation_line_id"
+    >
+        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
+    </function>
+
+    <!-- NFe Test - Pessoa Física - ICMS 4% Imported for Resale -->
+    <record id="demo_nfe_natural_icms_7_resale" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">3</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35200159594315000157550010000000032062777166</field>
+        <field name="document_date">2020-01-01 11:00:00</field>
+        <field name="date_in_out">2020-01-01 11:00:00</field>
+        <field name="nfe_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente4_am" />
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_nfe_natural_icms_7_resale-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_natural_icms_7_resale" />
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_kgm" />
+        <field name="quantity">2</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
+    </function>
+
+    <function
+        model="l10n_br_fiscal.document.line"
+        name="_onchange_fiscal_operation_line_id"
+    >
+        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
+    </function>
+
+    <!-- NFCe Test - Empresa Contribuinte - Mesmo Estado -->
+    <record id="demo_nfce_same_state" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_65" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_65_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="company_number">3</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">33230807984267003800650040000000321935136447</field>
+        <field name="document_date">2023-08-01 11:00:00</field>
+        <field name="date_in_out">2023-08-01 11:00:00</field>
+        <field name="nfe_environment">2</field>
+        <field name="nfe_version">4.00</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_nfce_line_same_state_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfce_same_state" />
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_nfe.demo_nfce_line_same_state_1-1')]" />
+    </function>
+
+    <function
+        model="l10n_br_fiscal.document.line"
+        name="_onchange_fiscal_operation_line_id"
+    >
+        <value eval="[ref('l10n_br_nfe.demo_nfce_line_same_state_1-1')]" />
+    </function>
+
+</odoo>

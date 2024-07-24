@@ -1,0 +1,212 @@
+<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+  <infNFe versao="4.00" Id="NFe35200681583054000129550010000000012760018057">
+    <ide>
+      <cUF>35</cUF>
+      <cNF>76001805</cNF>
+      <natOp>Venda</natOp>
+      <mod>55</mod>
+      <serie>1</serie>
+      <nNF>1</nNF>
+      <dhEmi>2020-06-04T13:58:46+02:00</dhEmi>
+      <dhSaiEnt>2020-06-04T13:58:46+02:00</dhSaiEnt>
+      <tpNF>1</tpNF>
+      <idDest>1</idDest>
+      <cMunFG>3550308</cMunFG>
+      <tpImp>1</tpImp>
+      <tpEmis>1</tpEmis>
+      <cDV>7</cDV>
+      <tpAmb>2</tpAmb>
+      <finNFe>1</finNFe>
+      <indFinal>1</indFinal>
+      <indPres>0</indPres>
+      <procEmi>0</procEmi>
+      <verProc>Odoo Brasil OCA v14</verProc>
+    </ide>
+    <emit>
+      <CNPJ>81583054000129</CNPJ>
+      <xNome>Empresa Lucro Presumido Ltda</xNome>
+      <xFant>Empresa Lucro Presumido</xFant>
+      <enderEmit>
+        <xLgr>Avenida Paulista</xLgr>
+        <nro>3</nro>
+        <xBairro>Bela Vista</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>São Paulo</xMun>
+        <UF>SP</UF>
+        <CEP>01311000</CEP>
+        <cPais>1058</cPais>
+        <xPais>Brasil</xPais>
+        <fone>551199999999</fone>
+      </enderEmit>
+      <IE>078016350838</IE>
+      <CRT>3</CRT>
+    </emit>
+    <dest>
+      <CNPJ>81493979000189</CNPJ>
+      <xNome>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <enderDest>
+        <xLgr>Rua Samuel Morse</xLgr>
+        <nro>135</nro>
+        <xCpl>20º andar - Conjunto 151</xCpl>
+        <xBairro>Brooklin</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>São Paulo</xMun>
+        <UF>SP</UF>
+        <CEP>04576060</CEP>
+        <cPais>1058</cPais>
+        <xPais>Brasil</xPais>
+        <fone>551134782150</fone>
+      </enderDest>
+      <indIEDest>1</indIEDest>
+      <IE>460429771334</IE>
+      <email>cliente1@cliente1.com.br</email>
+    </dest>
+    <det nItem="1">
+      <prod>
+        <cProd>E-COM07</cProd>
+        <cEAN>SEM GTIN</cEAN>
+        <xProd>[E-COM07] Large Cabinet</xProd>
+        <NCM>94033000</NCM>
+        <CFOP>5102</CFOP>
+        <uCom>UN</uCom>
+        <qCom>1.0000</qCom>
+        <vUnCom>320.0000000000</vUnCom>
+        <vProd>320.00</vProd>
+        <cEANTrib>SEM GTIN</cEANTrib>
+        <uTrib>UN</uTrib>
+        <qTrib>1.0000</qTrib>
+        <vUnTrib>320.0000000000</vUnTrib>
+        <indTot>1</indTot>
+      </prod>
+      <imposto>
+        <vTotTrib>0.00</vTotTrib>
+        <ICMS>
+          <ICMS00>
+            <orig>5</orig>
+            <CST>00</CST>
+            <modBC>0</modBC>
+            <vBC>320.00</vBC>
+            <pICMS>12.0000</pICMS>
+            <vICMS>38.40</vICMS>
+          </ICMS00>
+        </ICMS>
+        <IPI>
+          <cEnq>999</cEnq>
+          <IPINT>
+            <CST>53</CST>
+          </IPINT>
+        </IPI>
+        <PIS>
+          <PISAliq>
+            <CST>01</CST>
+            <vBC>320.00</vBC>
+            <pPIS>0.6500</pPIS>
+            <vPIS>2.08</vPIS>
+          </PISAliq>
+        </PIS>
+        <COFINS>
+          <COFINSAliq>
+            <CST>01</CST>
+            <vBC>320.00</vBC>
+            <pCOFINS>3.0000</pCOFINS>
+            <vCOFINS>9.60</vCOFINS>
+          </COFINSAliq>
+        </COFINS>
+      </imposto>
+    </det>
+    <det nItem="2">
+      <prod>
+        <cProd>FURN_8855</cProd>
+        <cEAN>SEM GTIN</cEAN>
+        <xProd>[FURN_8855] Drawer</xProd>
+        <NCM>94033000</NCM>
+        <CFOP>5101</CFOP>
+        <uCom>UN</uCom>
+        <qCom>1.0000</qCom>
+        <vUnCom>3645.0000000000</vUnCom>
+        <vProd>3645.00</vProd>
+        <cEANTrib>SEM GTIN</cEANTrib>
+        <uTrib>UN</uTrib>
+        <qTrib>1.0000</qTrib>
+        <vUnTrib>3645.0000000000</vUnTrib>
+        <indTot>1</indTot>
+      </prod>
+      <imposto>
+        <vTotTrib>0.00</vTotTrib>
+        <ICMS>
+          <ICMS00>
+            <orig>5</orig>
+            <CST>00</CST>
+            <modBC>0</modBC>
+            <vBC>3827.25</vBC>
+            <pICMS>12.0000</pICMS>
+            <vICMS>459.27</vICMS>
+          </ICMS00>
+        </ICMS>
+        <IPI>
+          <cEnq>999</cEnq>
+          <IPITrib>
+            <CST>50</CST>
+            <vBC>3645.00</vBC>
+            <pIPI>5.0000</pIPI>
+            <vIPI>182.25</vIPI>
+          </IPITrib>
+        </IPI>
+        <PIS>
+          <PISAliq>
+            <CST>01</CST>
+            <vBC>3645.00</vBC>
+            <pPIS>0.6500</pPIS>
+            <vPIS>23.69</vPIS>
+          </PISAliq>
+        </PIS>
+        <COFINS>
+          <COFINSAliq>
+            <CST>01</CST>
+            <vBC>3645.00</vBC>
+            <pCOFINS>3.0000</pCOFINS>
+            <vCOFINS>109.35</vCOFINS>
+          </COFINSAliq>
+        </COFINS>
+      </imposto>
+      <infAdProd>Valor Aprox. dos Tributos: R$ 182.25</infAdProd>
+    </det>
+    <total>
+      <ICMSTot>
+        <vBC>4147.25</vBC>
+        <vICMS>497.67</vICMS>
+        <vICMSDeson>0.00</vICMSDeson>
+        <vFCP>0.00</vFCP>
+        <vBCST>0.00</vBCST>
+        <vST>0.00</vST>
+        <vFCPST>0.00</vFCPST>
+        <vFCPSTRet>0.00</vFCPSTRet>
+        <vProd>3965.00</vProd>
+        <vFrete>0.00</vFrete>
+        <vSeg>0.00</vSeg>
+        <vDesc>0.00</vDesc>
+        <vII>0.00</vII>
+        <vIPI>182.25</vIPI>
+        <vIPIDevol>0.00</vIPIDevol>
+        <vPIS>25.77</vPIS>
+        <vCOFINS>118.95</vCOFINS>
+        <vOutro>0.00</vOutro>
+        <vNF>4147.25</vNF>
+      </ICMSTot>
+    </total>
+    <transp>
+      <modFrete>9</modFrete>
+    </transp>
+    <pag>
+      <detPag>
+        <indPag>0</indPag>
+        <tPag>01</tPag>
+        <vPag>4147.25</vPag>
+      </detPag>
+      <vTroco>0.00</vTroco>
+    </pag>
+    <infAdic>
+      <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
+    </infAdic>
+  </infNFe>
+</NFe>

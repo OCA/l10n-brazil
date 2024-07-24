@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+    <soap:Body>
+        <nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeInutilizacao4">
+            <retInutNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+                <infInut>
+                    <tpAmb>2</tpAmb>
+                    <verAplic>sefaz_mocked</verAplic>
+                    <cStat>102</cStat>
+                    <xMotivo>Inutilizacao de numero homologado</xMotivo>
+                    <cUF>33</cUF>
+                    <ano>23</ano>
+                    <CNPJ>07984267003800</CNPJ>
+                    <mod>65</mod>
+                    <serie>4</serie>
+                    <nNFIni>35</nNFIni>
+                    <nNFFin>35</nNFFin>
+                    <dhRecbto>2023-08-07T11:23:22-03:00</dhRecbto>
+                    <nProt>333230000396102</nProt>
+                </infInut>
+            </retInutNFe>
+        </nfeResultMsg>
+    </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+    <soap:Body>
+        <nfeResultMsg
+            xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeRetAutorizacao4"
+        >
+            <retConsReciNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+                <tpAmb>2</tpAmb>
+                <verAplic>sefaz_mocked</verAplic>
+                <nRec>423002202113232</nRec>
+                <cStat>104</cStat>
+                <xMotivo>Lote processado</xMotivo>
+                <cUF>42</cUF>
+                <dhRecbto>2023-06-11T01:18:19-03:00</dhRecbto>
+                <protNFe versao="4.00">
+                    <infProt>
+                        <tpAmb>2</tpAmb>
+                        <verAplic>sefaz_mocked</verAplic>
+                        <chNFe>35200159594315000157550010000000022062777169</chNFe>
+                        <dhRecbto>2023-06-02T10:47:21-03:00</dhRecbto>
+                        <nProt>423002202113232</nProt>
+                        <digVal>IoYUWXt2fIiRXb7UYRgl77c6Zlk=</digVal>
+                        <cStat>100</cStat>
+                        <xMotivo>Autorizado o uso da NF-e</xMotivo>
+                    </infProt>
+                </protNFe>
+            </retConsReciNFe>
+        </nfeResultMsg>
+    </soap:Body>
+</soap:Envelope>

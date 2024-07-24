@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2023 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record model="ir.ui.view" id="view_l10n_br_nfe_mde_form">
+        <field name="name">l10n_br_nfe_mde.form</field>
+        <field name="model">l10n_br_nfe.mde</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Manifestation">
+                <header>
+                    <button
+                        name="action_ciencia_emissao"
+                        string="Ciência da Emissão"
+                        type="object"
+                        attrs="{'invisible':[['state','not in',['pendente']]]}"
+                    />
+                    <button
+                        name="action_confirmar_operacacao"
+                        string="Confirmar Operação"
+                        type="object"
+                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                    />
+                    <button
+                        name="action_operacao_desconhecida"
+                        string="Desconhecer Operação"
+                        type="object"
+                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                    />
+                    <button
+                        name="action_negar_operacao"
+                        string="Operação não Realizada"
+                        type="object"
+                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                    />
+                    <button
+                        name="action_download_xml"
+                        string="Download XML"
+                        type="object"
+                        attrs="{'invisible':[['state','not in',['ciente','confirmado','desconhecido','nao_realizado']]]}"
+                    />
+                    <button
+                        name="import_document"
+                        string="Importar Documento"
+                        type="object"
+                        attrs="{'invisible':[['state','not in',['ciente','pendente']]]}"
+                    />
+                    <field
+                        name="state"
+                        statusbar_visible="pendente,ciente,confirmado"
+                        readonly="1"
+                        statusbar_colors='{"confirmado":"blue","desconhecido":"red","nao_realizado":"red"}'
+                        widget="statusbar"
+                        nolabel="1"
+                    />
+                </header>
+
+                <separator string="Access Key" />
+                <field name="key" select="1" required="1" />
+
+                <separator string="Document Info" />
+                <group>
+                    <group>
+                        <field name="number" />
+                        <field name="nsu" />
+                        <field name="cnpj_cpf" />
+                        <field name="ie" />
+                        <field name="document_value" widget="monetary" />
+                        <field name="document_state" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="company_id" required="1" />
+                        <field name="document_id" />
+                        <field name="operation_type" readonly="1" />
+                        <field name="inclusion_mode" />
+                        <field name="inclusion_datetime" />
+                        <field name="emission_datetime" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_nfe_mde_filter" model="ir.ui.view">
+        <field name="name">l10n_br_nfe_mde.select</field>
+        <field name="model">l10n_br_nfe.mde</field>
+        <field name="arch" type="xml">
+            <search string="Filter">
+                <field name="company_id" string="Razão Social" />
+                <field name="cnpj_cpf" string="Cnpj supplier" />
+                <field name="state" string="State" />
+                <filter
+                    name="situacao_pendente"
+                    string="Pending"
+                    domain="[('state','=','pendente')]"
+                />
+                <filter
+                    name="situacao_confirmado"
+                    string="Confirmed"
+                    domain="[('state','=','confirmado')]"
+                />
+                <filter
+                    name="situacao_ciente"
+                    string="Aware"
+                    domain="[('state','=','ciente')]"
+                />
+                <filter
+                    name="situacao_desconhecido"
+                    string="Unknown"
+                    domain="[('state','=','desconhecido')]"
+                />
+                <filter
+                    name="situacao_nao_realizado"
+                    string="Unrealized"
+                    domain="[('state','=','nao_realizado')]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_l10n_br_nfe_mde_tree">
+        <field name="name">l10n_br_nfe_mde.tree</field>
+        <field name="model">l10n_br_nfe.mde</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree create="false" limit="5">
+                <field name="nsu" />
+                <field name="cnpj_cpf" />
+                <field name="company_id" required="1" />
+                <field name="emission_datetime" />
+                <field name="state" readonly="1" />
+                <field name="document_value" />
+                <button
+                    string="Download XML"
+                    name="action_download_xml"
+                    type="object"
+                />
+                <button
+                    name="import_document"
+                    string="Importar Documento"
+                    type="object"
+                    attrs="{'invisible':[['state','not in',['ciente','pendente']]]}"
+                />
+                <field name="document_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_nfe_mde_action">
+        <field name="name">Manifestation</field>
+        <field name="res_model">l10n_br_nfe.mde</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
