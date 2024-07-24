@@ -1105,6 +1105,12 @@ msgid "Annual Revenue"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__is_anonymous_consumer
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__is_anonymous_consumer
+msgid "Anonymous Consumer"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__anonymous_partner_id
 msgid "Anonymous Partner"
 msgstr ""
@@ -5950,12 +5956,6 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #, python-format
 msgid "Invoices owed to you"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__is_anonymous_consumer
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__is_anonymous_consumer
-msgid "Is Anonymous Consumer"
 msgstr ""
 
 #. module: l10n_br_fiscal
