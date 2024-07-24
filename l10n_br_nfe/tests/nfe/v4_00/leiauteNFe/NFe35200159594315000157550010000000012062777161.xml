@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+  <infNFe versao="4.00" Id="NFe35200159594315000157550010000000012062777161">
+    <ide>
+      <cUF>35</cUF>
+      <cNF>06277716</cNF>
+      <natOp>Venda</natOp>
+      <mod>55</mod>
+      <serie>1</serie>
+      <nNF>1</nNF>
+      <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+      <dhSaiEnt>2020-01-01T12:00:00+01:00</dhSaiEnt>
+      <tpNF>1</tpNF>
+      <idDest>1</idDest>
+      <cMunFG>3501152</cMunFG>
+      <tpImp>1</tpImp>
+      <tpEmis>1</tpEmis>
+      <cDV>1</cDV>
+      <tpAmb>2</tpAmb>
+      <finNFe>1</finNFe>
+      <indFinal>1</indFinal>
+      <indPres>0</indPres>
+      <procEmi>0</procEmi>
+      <verProc>Odoo Brasil OCA v14</verProc>
+    </ide>
+    <emit>
+      <CNPJ>59594315000157</CNPJ>
+      <xNome>TESTE - Simples Nacional</xNome>
+      <xFant>TESTE - Simples Nacional</xFant>
+      <enderEmit>
+        <xLgr>Rua Paulo Dias</xLgr>
+        <nro>586</nro>
+        <xBairro>Vila Santa Luzia</xBairro>
+        <cMun>3501152</cMun>
+        <xMun>Alumínio</xMun>
+        <UF>SP</UF>
+        <CEP>18125000</CEP>
+        <cPais>1058</cPais>
+        <xPais>Brasil</xPais>
+        <fone>2130109965</fone>
+      </enderEmit>
+      <IE>755338250133</IE>
+      <CRT>1</CRT>
+    </emit>
+    <dest>
+      <CNPJ>81493979000189</CNPJ>
+      <xNome>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <enderDest>
+        <xLgr>Rua Samuel Morse</xLgr>
+        <nro>135</nro>
+        <xCpl>20º andar - Conjunto 151</xCpl>
+        <xBairro>Brooklin</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>São Paulo</xMun>
+        <UF>SP</UF>
+        <CEP>04576060</CEP>
+        <cPais>1058</cPais>
+        <xPais>Brasil</xPais>
+        <fone>551134782150</fone>
+      </enderDest>
+      <indIEDest>1</indIEDest>
+      <IE>460429771334</IE>
+      <email>cliente1@cliente1.com.br</email>
+    </dest>
+    <det nItem="1">
+      <prod>
+        <cProd>E-COM11</cProd>
+        <cEAN>SEM GTIN</cEAN>
+        <xProd>Cabinet with Doors</xProd>
+        <NCM>94033000</NCM>
+        <CFOP>5102</CFOP>
+        <uCom>UN</uCom>
+        <qCom>1.0000</qCom>
+        <vUnCom>140.0000000000</vUnCom>
+        <vProd>140.00</vProd>
+        <cEANTrib>SEM GTIN</cEANTrib>
+        <uTrib>UN</uTrib>
+        <qTrib>1.0000</qTrib>
+        <vUnTrib>140.0000000000</vUnTrib>
+        <indTot>1</indTot>
+      </prod>
+      <imposto>
+        <ICMS>
+          <ICMSSN101>
+            <orig>0</orig>
+            <CSOSN>101</CSOSN>
+            <pCredSN>2.7000</pCredSN>
+            <vCredICMSSN>3.78</vCredICMSSN>
+          </ICMSSN101>
+        </ICMS>
+        <IPI>
+          <cEnq>999</cEnq>
+          <IPINT>
+            <CST>53</CST>
+          </IPINT>
+        </IPI>
+        <PIS>
+          <PISOutr>
+            <CST>49</CST>
+            <vBC>0.00</vBC>
+            <pPIS>0.0000</pPIS>
+            <vPIS>0.00</vPIS>
+          </PISOutr>
+        </PIS>
+        <COFINS>
+          <COFINSOutr>
+            <CST>49</CST>
+            <vBC>0.00</vBC>
+            <pCOFINS>0.0000</pCOFINS>
+            <vCOFINS>0.00</vCOFINS>
+          </COFINSOutr>
+        </COFINS>
+      </imposto>
+    </det>
+    <total>
+      <ICMSTot>
+        <vBC>0.00</vBC>
+        <vICMS>0.00</vICMS>
+        <vICMSDeson>0.00</vICMSDeson>
+        <vFCP>0.00</vFCP>
+        <vBCST>0.00</vBCST>
+        <vST>0.00</vST>
+        <vFCPST>0.00</vFCPST>
+        <vFCPSTRet>0.00</vFCPSTRet>
+        <vProd>140.00</vProd>
+        <vFrete>0.00</vFrete>
+        <vSeg>0.00</vSeg>
+        <vDesc>0.00</vDesc>
+        <vII>0.00</vII>
+        <vIPI>0.00</vIPI>
+        <vIPIDevol>0.00</vIPIDevol>
+        <vPIS>0.00</vPIS>
+        <vCOFINS>0.00</vCOFINS>
+        <vOutro>0.00</vOutro>
+        <vNF>140.00</vNF>
+      </ICMSTot>
+    </total>
+    <transp>
+      <modFrete>9</modFrete>
+    </transp>
+    <pag>
+      <detPag>
+        <indPag>0</indPag>
+        <tPag>01</tPag>
+        <vPag>140.00</vPag>
+      </detPag>
+    </pag>
+    <infAdic>
+      <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
+    </infAdic>
+  </infNFe>
+</NFe>
