@@ -1308,6 +1308,12 @@ msgid "Annual Revenue"
 msgstr "Receita Anual"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__is_anonymous_consumer
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__is_anonymous_consumer
+msgid "Anonymous Consumer"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__anonymous_partner_id
 msgid "Anonymous Partner"
 msgstr ""
@@ -6168,12 +6174,6 @@ msgstr "Operação Inversa"
 #, python-format
 msgid "Invoices owed to you"
 msgstr "Faturas devidas a você"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__is_anonymous_consumer
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__is_anonymous_consumer
-msgid "Is Anonymous Consumer"
-msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__is_company
