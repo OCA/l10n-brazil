@@ -104,8 +104,8 @@ class CNABFileParser(FileParser):
     def _get_date_format(self, bank_name_brcobranca):
         # TODO: Idealmente o JSON de Retorno do BRCobranca deveria vir
         #  padronizado para não ser necessário ser feito esse tratamento aqui
-        if bank_name_brcobranca == "ailos":
-            # No Banco AILOS o formato da Data é completo com os 4 digitos.
+        if bank_name_brcobranca in ("ailos", "santander"):
+            # No Banco AILOS e Santander o formato da Data é completo com os 4 digitos.
             zeros_date = "00000000"
             date_format = "%d%m%Y"
         else:
@@ -182,8 +182,8 @@ class CNABFileParser(FileParser):
 
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
 
-        if bank_name_brcobranca == "ailos":
-            # No AILOS o código de registro onde ficam as linhas CNAB é o 3.
+        if bank_name_brcobranca in ("ailos", "santander"):
+            # No AILOS e Santander o código de registro onde ficam as linhas CNAB é o 3.
             registration_code_allowed = 3
         elif bank_name_brcobranca == "banco_brasil":
             # No Banco do Brasil o código do registro principal é o 7.
