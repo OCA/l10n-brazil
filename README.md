@@ -33,6 +33,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal_certificate](l10n_br_fiscal_certificate/) | 16.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | A1 fiscal certificate management for Brazil
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 16.0.1.0.1 |  | Distribuição de documentos fiscais
 [l10n_br_hr](l10n_br_hr/) | 16.0.1.0.1 |  | Brazilian Localization HR
+[l10n_br_nfe](l10n_br_nfe/) | 16.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Eletronic Invoice NF-e
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 16.0.1.1.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 16.0.1.1.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e
 [l10n_br_nfse_focus](l10n_br_nfse_focus/) | 16.0.1.1.1 | [![AndreMarcos](https://github.com/AndreMarcos.png?size=30px)](https://github.com/AndreMarcos) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![ygcarvalh](https://github.com/ygcarvalh.png?size=30px)](https://github.com/ygcarvalh) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e (FocusNFE)
@@ -40,7 +41,7 @@ addon | version | maintainers | summary
 [l10n_br_setup_tests](l10n_br_setup_tests/) | 16.0.1.0.0 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) | Modules for Odoo's Brazil-focused usability with integration tests.
 [l10n_br_stock](l10n_br_stock/) | 16.0.1.0.1 |  | Brazilian Localization Warehouse
 [l10n_br_zip](l10n_br_zip/) | 16.0.2.3.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
-[spec_driven_model](spec_driven_model/) | 16.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
+[spec_driven_model](spec_driven_model/) | 16.0.1.1.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
 
