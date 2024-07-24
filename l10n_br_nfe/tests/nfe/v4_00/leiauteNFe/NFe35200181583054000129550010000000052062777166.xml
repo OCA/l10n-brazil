@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+        <infNFe versao="4.00" Id="NFe35200181583054000129550010000000052062777166">
+            <ide>
+                <cUF>35</cUF>
+                <cNF>06277716</cNF>
+                <natOp>Venda</natOp>
+                <mod>55</mod>
+                <serie>1</serie>
+                <nNF>5</nNF>
+                <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+                <dhSaiEnt>2020-01-01T12:00:00+01:00</dhSaiEnt>
+                <tpNF>1</tpNF>
+                <idDest>1</idDest>
+                <cMunFG>3501152</cMunFG>
+                <tpImp>1</tpImp>
+                <tpEmis>1</tpEmis>
+                <cDV>1</cDV>
+                <tpAmb>2</tpAmb>
+                <finNFe>1</finNFe>
+                <indFinal>1</indFinal>
+                <indPres>0</indPres>
+                <procEmi>0</procEmi>
+                <verProc>Odoo Brasil OCA 12.0</verProc>
+            </ide>
+            <emit>
+                <CNPJ>81583054000129</CNPJ>
+                <xNome>Empresa Lucro Presumido Ltda</xNome>
+                <xFant>Empresa Lucro Presumido</xFant>
+                <enderEmit>
+                    <xLgr>Avenida Paulista</xLgr>
+                    <nro>1</nro>
+                    <xBairro>Bela Vista</xBairro>
+                    <cMun>3550308</cMun>
+                    <xMun>São Paulo</xMun>
+                    <UF>SP</UF>
+                    <CEP>01311000</CEP>
+                    <cPais>1058</cPais>
+                    <xPais>Brasil</xPais>
+                    <fone>551199999999</fone>
+                </enderEmit>
+                <IE>078016350838</IE>
+                <CRT>3</CRT>
+            </emit>
+            <dest>
+                <CNPJ>81493979000189</CNPJ>
+                <xNome
+                >NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+                <enderDest>
+                    <xLgr>Rua Samuel Morse</xLgr>
+                    <nro>135</nro>
+                    <xCpl>20º andar - Conjunto 151</xCpl>
+                    <xBairro>Brooklin</xBairro>
+                    <cMun>3550308</cMun>
+                    <xMun>São Paulo</xMun>
+                    <UF>SP</UF>
+                    <CEP>04576060</CEP>
+                    <cPais>1058</cPais>
+                    <xPais>Brasil</xPais>
+                    <fone>551134782150</fone>
+                </enderDest>
+                <indIEDest>1</indIEDest>
+                <IE>460429771334</IE>
+                <email>cliente1@cliente1.com.br</email>
+            </dest>
+            <det nItem="1">
+                <prod>
+                    <cProd>E-COM11</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Cabinet with Doors</xProd>
+                    <NCM>94033000</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UNID</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>14.0000000000</vUnCom>
+                    <vProd>14.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UNID</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>14.0000000000</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <vTotTrib>0.00</vTotTrib>
+                    <ICMS>
+                        <ICMSSN101>
+                            <orig>0</orig>
+                            <CSOSN>101</CSOSN>
+                            <pCredSN>2.7000</pCredSN>
+                            <vCredICMSSN>0.38</vCredICMSSN>
+                        </ICMSSN101>
+                    </ICMS>
+                    <IPI>
+                        <cEnq>999</cEnq>
+                        <IPINT>
+                            <CST>53</CST>
+                        </IPINT>
+                    </IPI>
+                    <PIS>
+                        <PISOutr>
+                            <CST>49</CST>
+                            <vBC>0.00</vBC>
+                            <pPIS>0.0000</pPIS>
+                            <vPIS>0.00</vPIS>
+                        </PISOutr>
+                    </PIS>
+                    <COFINS>
+                        <COFINSOutr>
+                            <CST>49</CST>
+                            <vBC>0.00</vBC>
+                            <pCOFINS>0.0000</pCOFINS>
+                            <vCOFINS>0.00</vCOFINS>
+                        </COFINSOutr>
+                    </COFINS>
+                </imposto>
+            </det>
+            <total>
+                <ICMSTot>
+                    <vBC>0.00</vBC>
+                    <vICMS>0.00</vICMS>
+                    <vICMSDeson>0.00</vICMSDeson>
+                    <vFCPUFDest>0.00</vFCPUFDest>
+                    <vICMSUFDest>0.00</vICMSUFDest>
+                    <vICMSUFRemet>0.00</vICMSUFRemet>
+                    <vFCP>0.00</vFCP>
+                    <vBCST>0.00</vBCST>
+                    <vST>0.00</vST>
+                    <vFCPST>0.00</vFCPST>
+                    <vFCPSTRet>0.00</vFCPSTRet>
+                    <vProd>14.00</vProd>
+                    <vFrete>0.00</vFrete>
+                    <vSeg>0.00</vSeg>
+                    <vDesc>0.00</vDesc>
+                    <vII>0.00</vII>
+                    <vIPI>0.00</vIPI>
+                    <vIPIDevol>0.00</vIPIDevol>
+                    <vPIS>0.00</vPIS>
+                    <vCOFINS>0.00</vCOFINS>
+                    <vOutro>0.00</vOutro>
+                    <vNF>14.00</vNF>
+                    <vTotTrib>0.00</vTotTrib>
+                </ICMSTot>
+            </total>
+            <transp>
+                <modFrete>9</modFrete>
+            </transp>
+            <pag>
+                <detPag>
+                    <indPag>0</indPag>
+                    <tPag>01</tPag>
+                    <vPag>14.00</vPag>
+                </detPag>
+                <vTroco>0.00</vTroco>
+            </pag>
+            <infAdic>
+                <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
+            </infAdic>
+        </infNFe>
+    </NFe>
+</nfeProc>

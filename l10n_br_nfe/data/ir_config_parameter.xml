@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="nfe_version_name" model="ir.config_parameter" forcecreate="True">
+        <field name="key">l10n_br_nfe.version.name</field>
+        <field name="value">Odoo Brasil OCA v14</field>
+      </record>
+
+</odoo>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <record id="nfe_document_form_inherit" model="ir.ui.view">
+      <field name="name">l10n_br_nfe.document.form.inherit</field>
+      <field name="model">l10n_br_fiscal.document</field>
+      <field name="priority">5</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//sheet" position="before">
+            <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('nfe_environment','!=','2')]}"
+                >
+            Nf-e Environment: <strong><field name="nfe_environment" /></strong>
+            </div>
+        </xpath>
+
+          <page name="delivery" position="inside">
+              <group
+                    name="nfe_transport"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                  <field name="nfe40_modFrete" />
+                  <field name="nfe40_transporta" />
+              </group>
+              <group attrs="{'invisible': [('nfe40_idDest', '!=', '3')]}">
+                  <field name="nfe40_idDest" invisible="1" />
+                  <field name="nfe40_UFSaidaPais" />
+                  <field name="nfe40_xLocExporta" />
+                  <field name="nfe40_xLocDespacho" />
+              </group>
+              <group
+                    name="nfe_vol"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                  <field name="nfe40_vol" />
+              </group>
+          </page>
+          <page name="finance" position="inside">
+            <field name="brl_currency_id" invisible="1" />
+              <group
+                    name="nfe_finance"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                    col="1"
+                >
+                    <group
+                        name="nfe40_cobr_group"
+                        string="Grupo Y. Dados da Cobrança"
+                        col="1"
+                    >
+                        <group name="nfe40_fat_group" string="Fatura">
+                            <field name="nfe40_nFat" string="Número" />
+                            <field name="nfe40_vOrig" string="Valor Original" />
+                            <field name="nfe40_vLiq" string="Valor Líquido" />
+                        </group>
+                        <group name="nfe40_dup_group" string="Parcelas">
+                            <field name="nfe40_dup">
+                                <tree>
+                                    <field name="brl_currency_id" invisible="1" />
+                                    <field name="nfe40_nDup" string="Número" />
+                                    <field name="nfe40_dVenc" string="Vencimento" />
+                                    <field name="nfe40_vDup" string="Valor" />
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                    <group
+                        name="nfe_40_pag_group"
+                        string="Grupo YA. Informações de Pagamento"
+                    >
+                            <field name="nfe40_detPag">
+                                <tree>
+                                    <field name="brl_currency_id" invisible="1" />
+                                    <field
+                                    name="nfe40_indPag"
+                                    string="Forma de Pagamento"
+                                />
+                                    <field
+                                    name="nfe40_tPag"
+                                    string="Meio de Pagamento"
+                                />
+                                    <field
+                                    name="nfe40_vPag"
+                                    string="Valor do Pagamento"
+                                />
+                                </tree>
+                            </field>
+                            <field name="nfe40_vTroco" string="Valor do Troco" />
+                    </group>
+            </group>
+          </page>
+
+            <!-- Hide confirm button for imported documents -->
+            <xpath expr="//form/field[@name='document_type']" position="after">
+                <field name="imported_document" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//header/button[@name='action_document_confirm']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('state_edoc', '!=', 'em_digitacao'), ('imported_document', '=', True)]}</attribute>
+            </xpath>
+
+            <!-- Hide buttons for imported documents -->
+            <xpath
+                expr="//header/button[@name='action_document_correction']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//header/button[@name='action_create_return']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//header/button[@name='action_document_cancel']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', '|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False), ('imported_document', '=', True)]}</attribute>
+            </xpath>
+
+          <page name="others" position="inside">
+              <group
+                    name="nfe_autxml"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                <field name="nfe40_autXML" widget="many2many" />
+              </group>
+          </page>
+            <xpath
+                expr="//page[@name='others']//group//field[@name='status_description']"
+                position="after"
+            >
+                <field name="nfe_environment" />
+                <field name="nfe_transmission" />
+            </xpath>
+      </field>
+  </record>
+
+  <record id="nfe_40_infadic_form" model="ir.ui.view">
+      <field name="name">nfe.40.infadic.form</field>
+      <field name="model">nfe.40.infadic</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_infCpl" />
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <record id="nfe_40_vol_form" model="ir.ui.view">
+      <field name="name">nfe.40.vol.form</field>
+      <field name="model">nfe.40.vol</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_qVol" />
+                  <field name="nfe40_pesoL" />
+                  <field name="nfe40_pesoB" />
+                  <field name="nfe40_esp" />
+                  <field name="nfe40_marca" />
+                  <field name="nfe40_nVol" />
+                  <field name="nfe40_lacres" />
+              </group>
+          </form>
+      </field>
+  </record>
+
+</odoo>
