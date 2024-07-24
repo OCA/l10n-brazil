@@ -30,3 +30,53 @@ class SpecMixin(models.AbstractModel):
             return True
         else:
             return super()._valid_field_parameter(field, name)
+
+    @classmethod
+    def _auto_fill_access_data(cls, env, module_name: str, access_data: list):
+        """
+        Fill access_data with a default user and a default manager access.
+        """
+
+        underline_name = cls._name.replace(".", "_")
+        model_id = "%s_spec.model_%s" % (
+            module_name,
+            underline_name,
+        )
+        user_access_name = f"access_{underline_name}_user"
+        if not env["ir.model.access"].search(
+            [
+                ("name", "in", [underline_name, user_access_name]),
+                ("model_id", "=", model_id),
+            ]
+        ):
+            access_data.append(
+                [
+                    user_access_name,
+                    user_access_name,
+                    model_id,
+                    "%s.group_user" % (module_name,),
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                ]
+            )
+        manager_access_name = f"access_{underline_name}_manager"
+        if not env["ir.model.access"].search(
+            [
+                ("name", "in", [underline_name, manager_access_name]),
+                ("model_id", "=", model_id),
+            ]
+        ):
+            access_data.append(
+                [
+                    manager_access_name,
+                    manager_access_name,
+                    model_id,
+                    "%s.group_manager" % (module_name,),
+                    "1",
+                    "1",
+                    "1",
+                    "1",
+                ]
+            )
