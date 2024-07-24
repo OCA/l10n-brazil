@@ -204,6 +204,13 @@ msgid "Amount without discount."
 msgstr "Total sem desconto."
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__is_anonymous_consumer
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__is_anonymous_consumer
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__is_anonymous_consumer
+msgid "Anonymous Consumer"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_arma
 msgid "Arma"
 msgstr "Arma"
@@ -232,8 +239,8 @@ msgstr "Data da Autorização"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__authorization_protocol
-msgid "Authorization protocol"
-msgstr "Protocolo de Autorização"
+msgid "Authorization Protocol"
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -431,8 +438,8 @@ msgstr "Data de Cancelamento"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__cancellation_protocol
-msgid "Cancellation protocol"
-msgstr "Protocolo do Cancelamento"
+msgid "Cancellation Protocol"
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_CFOP
@@ -1165,17 +1172,14 @@ msgstr ""
 msgid ""
 "Error importing document: \n"
 "\n"
-" %s"
+" %(error)s"
 msgstr ""
-"Erro ao importar o documento: \n"
-"\n"
-" %s"
 
 #. module: l10n_br_nfe
 #: code:addons/l10n_br_nfe/models/mde.py:0
 #, python-format
-msgid "Error on validating event: %s - %s"
-msgstr "Erro ao validar o evento: %s - %s"
+msgid "Error on validating event: %(code)s - %(msg)s"
+msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_indTot
@@ -1300,11 +1304,6 @@ msgstr "Tipo de Operação Fiscal"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__price_unit_trib
 msgid "Fiscal Price Unit"
 msgstr "Preço Unitário Fiscal"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__quantity_trib
-msgid "Fiscal Quantity"
-msgstr "Quantidade Fiscal"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
@@ -2013,13 +2012,6 @@ msgid "Invoice Display"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__is_anonymous_consumer
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__is_anonymous_consumer
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__is_anonymous_consumer
-msgid "Is Anonymous Consumer"
-msgstr "É Consumidor Anônimo"
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cListServ
 msgid "Item da lista de serviços da LC 116/03"
 msgstr ""
@@ -2710,6 +2702,11 @@ msgstr ""
 msgid ""
 "Quantidade Tributável - alterado para aceitar de 0 a 4 casas decimais e 11 "
 "inteiros"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__quantity_trib
+msgid "Quantity Trib"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3718,6 +3715,32 @@ msgid ""
 "versão do aplicativo utilizado no processo de\n"
 "emissão"
 msgstr ""
+
+#~ msgid "Authorization protocol"
+#~ msgstr "Protocolo de Autorização"
+
+#~ msgid "Cancellation protocol"
+#~ msgstr "Protocolo do Cancelamento"
+
+#, python-format
+#~ msgid ""
+#~ "Error importing document: \n"
+#~ "\n"
+#~ " %s"
+#~ msgstr ""
+#~ "Erro ao importar o documento: \n"
+#~ "\n"
+#~ " %s"
+
+#, python-format
+#~ msgid "Error on validating event: %s - %s"
+#~ msgstr "Erro ao validar o evento: %s - %s"
+
+#~ msgid "Fiscal Quantity"
+#~ msgstr "Quantidade Fiscal"
+
+#~ msgid "Is Anonymous Consumer"
+#~ msgstr "É Consumidor Anônimo"
 
 #~ msgid "Cancel"
 #~ msgstr "Cancelar"
