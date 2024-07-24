@@ -126,6 +126,11 @@ msgid "Alternate Phone"
 msgstr "Telefone Alternativo"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_anonymous_consumer
+msgid "Anonymous Consumer"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inc_trab_inss_file
 msgid "Atestado de incapacidade INSS"
 msgstr "Atestado de incapacidade INSS"
@@ -1046,11 +1051,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_ids
 msgid "Invoices"
 msgstr "Faturas"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_anonymous_consumer
-msgid "Is Anonymous Consumer"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_is_follower
