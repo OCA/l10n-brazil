@@ -76,9 +76,14 @@ class SpecModel(models.Model):
             item[0] if isinstance(item, list) else item for item in list(cls._inherit)
         ]
         for parent in parents:
+            cls._map_concrete(parent, cls._name)
             super_parents = list(pool[parent]._inherit)
             for super_parent in super_parents:
-                if not super_parent.startswith("spec.mixin."):
+                if (
+                    not super_parent.startswith("spec.mixin.")
+                    or not hasattr(pool[super_parent], "_odoo_module")
+                    or "spec.mixin" in [c._name for c in pool[super_parent].__bases__]
+                ):
                     continue
 
                 cr.execute(
@@ -94,16 +99,15 @@ class SpecModel(models.Model):
                         True,
                     )
 
-                cls._map_concrete(parent, cls._name)
-                if "spec.mixin" not in [
-                    c._name for c in pool[parent]._BaseModel__base_classes
-                ]:
-                    pool[parent]._inherit = super_parents + ["spec.mixin"]
-                    pool[parent]._BaseModel__base_classes = tuple(
-                        [pool["spec.mixin"]]
-                        + list(pool[parent]._BaseModel__base_classes)
-                    )
-                    pool[parent].__bases__ = pool[parent]._BaseModel__base_classes
+                pool[super_parent]._inherit = list(pool[super_parent]._inherit) + [
+                    "spec.mixin"
+                ]
+                pool[super_parent]._BaseModel__base_classes = (
+                    pool["spec.mixin"],
+                ) + pool[super_parent]._BaseModel__base_classes
+                pool[super_parent].__bases__ = (pool["spec.mixin"],) + pool[
+                    super_parent
+                ].__bases__
 
         return super()._build_model(pool, cr)
 
