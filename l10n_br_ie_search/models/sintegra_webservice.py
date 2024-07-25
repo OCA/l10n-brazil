@@ -53,7 +53,7 @@ class SintegraWebservice(models.AbstractModel):
     @api.model
     def get_data(self, data, name, title=False, lower=False):
         value = False
-        if data.get(name) != "":
+        if data.get(name):
             value = data[name]
             if lower:
                 value = value.lower()
