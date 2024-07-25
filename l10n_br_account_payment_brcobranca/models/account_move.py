@@ -71,7 +71,9 @@ class AccountMove(models.Model):
             brcobranca_service_url,
             self.name,
         )
-        res = requests.post(brcobranca_service_url, data={"type": "pdf"}, files=files)
+        res = requests.post(
+            brcobranca_service_url, data={"type": "pdf"}, files=files, timeout=60
+        )
 
         if str(res.status_code)[0] == "2":
             pdf_string = res.content
