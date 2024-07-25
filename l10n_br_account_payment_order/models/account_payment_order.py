@@ -136,16 +136,14 @@ class AccountPaymentOrder(models.Model):
                 ):
                     raise UserError(
                         _(
-                            "The payment mode '%s' has the option "
-                            "'Disallow Debit Before Maturity Date'. The "
-                            "payment line %s has a maturity date %s "
-                            "which is after the computed payment date %s."
-                        )
-                        % (
-                            order.payment_mode_id.name,
-                            payline.name,
-                            payline.ml_maturity_date,
-                            requested_date,
+                            "The payment mode '%(payment_mode)s' has the option "
+                            "'Disallow Debit Before Maturity Date'. The payment line "
+                            "'%(payline)s' has a maturity date %(maturity_date)s which "
+                            "is after the computed payment date %(requested_date)s.",
+                            payment_mode=order.payment_mode_id.name,
+                            payline=payline.name,
+                            maturity_date=payline.ml_maturity_date,
+                            requested_date=requested_date,
                         )
                     )
                 # Write requested_date on 'date' field of payment line
@@ -176,8 +174,13 @@ class AccountPaymentOrder(models.Model):
                 # Block if a bank payment line is <= 0
                 if paydict["total"] <= 0:
                     raise UserError(
-                        _("The amount for Partner '%s' is negative " "or null (%.2f) !")
-                        % (paydict["paylines"][0].partner_id.name, paydict["total"])
+                        _(
+                            "The amount for Partner '%(name)s' "
+                            "is negative "
+                            "or null (%(total).2f) !",
+                            name=paydict["paylines"][0].partner_id.name,
+                            total=paydict["total"],
+                        )
                     )
                 payment_vals.append(paydict["paylines"]._prepare_account_payment_vals())
             # TODO: Por enquanto evitando a criação do account.payment no caso CNAB

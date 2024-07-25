@@ -103,14 +103,13 @@ class L10nBrCNABChangeMethods(models.Model):
         if payment_line_to_be_send:
             raise UserError(
                 _(
-                    "There is a CNAB Payment Order {} in status {}"
-                    " related to invoice {} created, the CNAB file"
-                    " should be sent to bank, because only after"
-                    " that it is possible make another CNAB Instruction."
-                ).format(
-                    payment_line_to_be_send.order_id.name,
-                    payment_line_to_be_send.order_id.state,
-                    self.move_id.name,
+                    "There is a CNAB Payment Order %(order_name)s in status "
+                    "%(order_state)s related to invoice %(invoice_name)s created, "
+                    "the CNAB file should be sent to bank, because only after "
+                    "that it is possible make another CNAB Instruction.",
+                    order_name=payment_line_to_be_send.order_id.name,
+                    order_state=payment_line_to_be_send.order_id.state,
+                    invoice_name=self.move_id.name,
                 )
             )
 
@@ -131,18 +130,26 @@ class L10nBrCNABChangeMethods(models.Model):
             self.move_id.message_post(
                 body=_(
                     "Payment line added to the the new draft payment "
-                    "order {} which has been automatically created,"
-                    " to send CNAB Instruction {} for OWN NUMBER {}.\n"
-                    "Justification: {}"
-                ).format(payorder.name, cnab_instruction, self.own_number, reason)
+                    "order %(order_name)s which has been automatically created,"
+                    " to send CNAB Instruction %(instruction)s for OWN NUMBER "
+                    "%(own_number)s.\nJustification: %(reason)s",
+                    order_name=payorder.name,
+                    instruction=cnab_instruction,
+                    own_number=self.own_number,
+                    reason=reason,
+                )
             )
         else:
             self.move_id.message_post(
                 body=_(
                     "Payment line added to the existing draft "
-                    "order {} to send CNAB Instruction {} for OWN NUMBER {}.\n"
-                    "Justification: {}"
-                ).format(payorder.name, cnab_instruction, self.own_number, reason)
+                    "order %(order_name)s to send CNAB Instruction %(instruction)s "
+                    "for OWN NUMBER %(own_number)s.\nJustification: %(reason)s",
+                    order_name=payorder.name,
+                    instruction=cnab_instruction,
+                    own_number=self.own_number,
+                    reason=reason,
+                )
             )
 
     def _msg_error_cnab_missing(self, payment_mode_name, missing):
@@ -154,9 +161,11 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         raise UserError(
             _(
-                "Payment Mode {} don't has {} for making CNAB change,"
-                " check if should have."
-            ).format(payment_mode_name, missing)
+                "Payment Mode %(payment_mode_name)s don't has %(missing)s for making CNAB"
+                "change, check if should have.",
+                payment_mode_name=payment_mode_name,
+                missing=missing,
+            )
         )
 
     def _cnab_already_start(self):
@@ -175,8 +184,8 @@ class L10nBrCNABChangeMethods(models.Model):
         if cnab_already_start:
             reason_write_off = (
                 "Movement Instruction Code Updated for Request to Write Off,"
-                " because Invoice %s was Cancel."
-            ) % self.move_id.name
+                f" because Invoice {self.move_id.name} was Cancel."
+            )
             payment_situation = "fatura_cancelada"
             self.create_cnab_write_off(reason_write_off, payment_situation)
         else:
@@ -193,8 +202,11 @@ class L10nBrCNABChangeMethods(models.Model):
 
         if new_date == self.date_maturity:
             raise UserError(
-                _("New Date Maturity {} is equal to actual Date Maturity {}").format(
-                    new_date, self.date_maturity
+                _(
+                    "New Date Maturity %(new_date)s is equal to actual Date "
+                    "Maturity %(date_maturity)s",
+                    new_date=new_date,
+                    date_maturity=self.date_maturity,
                 )
             )
 
