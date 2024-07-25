@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_cnab_mov_instruction_code_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.mov.instruction.code.tree</field>
+        <field name="model">l10n_br_cnab.mov.instruction.code</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="bank_ids" widget="many2many_tags" />
+                <field name="payment_method_ids" widget="many2many_tags" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_mov_instruction_code_search_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.mov.instruction.code.search</field>
+        <field name="model">l10n_br_cnab.mov.instruction.code</field>
+        <field name="arch" type="xml">
+            <search string="CNAB Movement Instruction Code">
+                <field name="code" />
+                <field name="name" />
+                <field name="bank_ids" />
+                <field name="payment_method_ids" />
+                <!-- TODO: Não é possivel fazer Group By em campos many2many,
+                 a solução são os campos compute abaixo, parece ser possivel na
+                 v15 validar na migração -->
+                <field name="bank_id" />
+                <field name="payment_method_id" />
+                <group expand='0' string='Group By...'>
+                    <filter
+                        string='Bank'
+                        name="bank_id"
+                        domain="[]"
+                        context="{'group_by' : 'bank_id'}"
+                    />
+                    <filter
+                        string='CNAB Type'
+                        name="payment_method_id"
+                        domain="[]"
+                        context="{'group_by' : 'payment_method_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_mov_instruction_code_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.mov.instruction.code.form.view</field>
+        <field name="model">l10n_br_cnab.mov.instruction.code</field>
+        <field name="arch" type="xml">
+            <form string="CNAB Movement Instruction Code">
+                <sheet>
+                    <group>
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="bank_ids" widget="many2many_tags" />
+                        <field name="payment_method_ids" widget="many2many_tags" />
+                        <field name="comment" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_mov_instruction_code_action" model="ir.actions.act_window">
+        <field name="name">CNAB Movement Instruction Code</field>
+        <field name="res_model">l10n_br_cnab.mov.instruction.code</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by':['bank_id', 'payment_method_id']}</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_br_cnab_mov_instruction_code"
+        parent="account.account_management_menu"
+        name="CNAB Movement Instruction Code"
+        sequence="999"
+        action="l10n_br_cnab_mov_instruction_code_action"
+    />
+
+</odoo>
