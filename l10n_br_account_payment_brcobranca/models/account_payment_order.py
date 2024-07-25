@@ -121,9 +121,11 @@ class PaymentOrder(models.Model):
             # Informa se o CNAB especifico de um Banco não está implementado
             # no BRCobranca, evitando a mensagem de erro mais extensa da lib
             raise ValidationError(
-                _("The CNAB {} for Bank {} are not implemented in BRCobranca.").format(
-                    cnab_type,
-                    bank_account_id.bank_id.name,
+                _(
+                    "The CNAB %(cnab_type)s for Bank %(bank_name)s are not implemented "
+                    "in BRCobranca.",
+                    cnab_type=cnab_type,
+                    bank_name=bank_account_id.bank_id.name,
                 )
             )
 
@@ -145,13 +147,15 @@ class PaymentOrder(models.Model):
         }
 
         try:
-            bank_method = getattr(
-                self, "_prepare_remessa_{}".format(bank_brcobranca.name)
-            )
+            bank_method = getattr(self, f"_prepare_remessa_{bank_brcobranca.name}")
             if bank_method:
                 bank_method(remessa_values, cnab_type)
         except Exception:
-            pass
+            _logger.warning(
+                f"Error executing method _prepare_remessa_{bank_brcobranca.name}."
+                "Check the bank name and provided parameters.",
+                exc_info=True,
+            )
 
         remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
