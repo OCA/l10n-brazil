@@ -9,7 +9,7 @@
         <field name="priority">99</field>
         <field
             name="inherit_id"
-            ref="payment.view_account_payment_form_inherit_payment"
+            ref="account_payment.view_account_payment_form_inherit_payment"
         />
         <field name="arch" type="xml">
 

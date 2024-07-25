@@ -167,7 +167,7 @@ class AccountPaymentOrder(models.Model):
                         "paylines": payline,
                         "total": payline.amount_currency,
                     }
-            order.recompute()
+            order.env.flush_all()
             # Create account payments
             payment_vals = []
             for paydict in list(group_paylines.values()):
