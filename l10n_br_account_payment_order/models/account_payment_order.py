@@ -10,7 +10,7 @@
 
 import logging
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants import (
@@ -188,16 +188,14 @@ class AccountPaymentOrder(models.Model):
         self.write({"state": "open"})
         return True
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_cnab_order(self):
         for order in self:
-            # TODO: Existe o caso de se apagar uma Ordem de Pagto
-            #  no caso CNAB ? O que deveria ser feito nesse caso ?
             if (
                 order.payment_method_code in BR_CODES_PAYMENT_ORDER
                 and order.payment_mode_id.payment_method_id.payment_type == "inbound"
             ):
                 raise UserError(_("You cannot delete CNAB order."))
-        return super().unlink()
 
     def action_done_cancel(self):
         for order in self:

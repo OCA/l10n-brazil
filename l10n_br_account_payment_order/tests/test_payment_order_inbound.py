@@ -39,9 +39,6 @@ class TestPaymentOrderInbound(TransactionCase):
         cls.journal_cash = cls.env["account.journal"].search(
             [("type", "=", "cash"), ("company_id", "=", cls.main_company.id)], limit=1
         )
-        cls.payment_method_manual_in = cls.env.ref(
-            "account.account_payment_method_manual_in"
-        )
         cls.partner_akretion = cls.env.ref("l10n_br_base.res_partner_akretion")
 
     def test_create_payment_order(self):
@@ -146,7 +143,11 @@ class TestPaymentOrderInbound(TransactionCase):
             {
                 "payment_date": Date.context_today(self.env.user),
                 "journal_id": self.journal_cash.id,
-                "payment_method_id": self.payment_method_manual_in.id,
+                "payment_method_line_id": self.journal_cash._get_available_payment_method_lines(
+                    "inbound"
+                )
+                .filtered(lambda x: x.code == "manual")
+                .id,
             }
         )
 
@@ -184,7 +185,11 @@ class TestPaymentOrderInbound(TransactionCase):
             {
                 "payment_date": Date.context_today(self.env.user),
                 "journal_id": self.journal_cash.id,
-                "payment_method_id": self.payment_method_manual_in.id,
+                "payment_method_line_id": self.journal_cash._get_available_payment_method_lines(
+                    "inbound"
+                )
+                .filtered(lambda x: x.code == "manual")
+                .id,
             }
         )
 
@@ -239,9 +244,11 @@ class TestPaymentOrderInbound(TransactionCase):
         payment = self.env["account.payment"].create(
             {
                 "payment_type": "inbound",
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
+                "payment_method_line_id": self.journal_cash._get_available_payment_method_lines(
+                    "inbound"
+                )
+                .filtered(lambda x: x.code == "manual")
+                .id,
                 "partner_type": "customer",
                 "partner_id": self.partner_akretion.id,
                 "amount": 100,
@@ -294,7 +301,11 @@ class TestPaymentOrderInbound(TransactionCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
 
         # Perform the partial payment by setting the amount at 300 instead of 500
         payment_register.amount = open_amount
@@ -360,7 +371,11 @@ class TestPaymentOrderInbound(TransactionCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
 
         # Perform the partial payment by setting the amount at 300 instead of 1000
         payment_register.amount = 300
@@ -383,8 +398,11 @@ class TestPaymentOrderInbound(TransactionCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
-
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
         # Perform the partial payment by setting the amount at 700 instead of 500
         payment_register.amount = 700
 

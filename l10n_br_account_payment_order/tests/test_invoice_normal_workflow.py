@@ -15,9 +15,6 @@ class TestPaymentOrder(TransactionCase):
         cls.invoice_customer_without_paymeny_mode = cls.env.ref(
             "l10n_br_account_payment_order." "demo_invoice_no_payment_mode"
         )
-        cls.payment_method_manual_in = cls.env.ref(
-            "account.account_payment_method_manual_in"
-        )
         cls.main_company = cls.env.ref("base.main_company")
         cls.journal_cash = cls.env["account.journal"].search(
             [("type", "=", "cash"), ("company_id", "=", cls.main_company.id)], limit=1
@@ -38,7 +35,11 @@ class TestPaymentOrder(TransactionCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
 
         # Perform the partial payment by setting the amount at 300 instead of 500
         payment_register.amount = open_amount
