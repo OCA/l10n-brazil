@@ -44,7 +44,10 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
                     code_already_exist.code + " - " + code_already_exist.name
                 )
                 raise ValidationError(
-                    _("The Code {} already exist {} for Bank and CNAB type.").format(
-                        record.code, code_name_exist
+                    _(
+                        "The Code %(code)s already exist %(code_name_exist)s for Bank "
+                        "and CNAB type.",
+                        code=record.code,
+                        code_name_exist=code_name_exist,
                     )
                 )
