@@ -11,6 +11,7 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
+# pylint: disable=consider-merging-classes-inherited
 class SintegraWebservice(models.AbstractModel):
     _inherit = "l10n_br_cnpj_search.webservice.abstract"
 
