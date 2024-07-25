@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+
+    <!-- Sequencia dos Arquivos CNAB -->
+    <!-- Devem ser únicas por Modo de Pagto para evitar inconsistencias
+         de numeração fora da ordem -->
+
+    <record id="sequence_manual_test_main_company" model="ir.sequence">
+        <field name="name">Sequencia Manual Test - Main Company</field>
+        <field name="code">Sequencia Manual Test - Main Company</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_automatic_test_main_company" model="ir.sequence">
+        <field name="name">Sequencia Manual Test - Main Company</field>
+        <field name="code">Sequencia Manual Test - Main Company</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_bradesco_400" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Bradesco 400</field>
+        <field name="code">Sequencia Arquivo CNAB - Bradesco 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_bradesco_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Bradesco 240</field>
+        <field name="code">Sequencia Arquivo CNAB - Bradesco 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_unicred_400" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Unicred 400</field>
+        <field name="code">Sequencia Arquivo CNAB - Unicred 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_unicred_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Unicred 240</field>
+        <field name="code">Sequencia Arquivo CNAB - Unicred 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_itau_400" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Itau 400</field>
+        <field name="code">Sequencia Arquivo CNAB - Itau 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_itau_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Itau 240</field>
+        <field name="code">Sequencia Arquivo CNAB - Itau 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_cef_400" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - CEF 400</field>
+        <field name="code">Sequencia Arquivo CNAB - CEF 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_cef_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - CEF 240</field>
+        <field name="code">Sequencia Arquivo CNAB - CEF 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_bb_400" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - BB 400</field>
+        <field name="code">Sequencia Arquivo CNAB - BB 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <!-- O campo do convenio varia de acordo com o tamanho da sequencia -->
+        <field eval="7" name="padding" />
+    </record>
+
+    <record id="sequence_cnab_number_bb_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - BB 240</field>
+        <field name="code">Sequencia Arquivo CNAB - BB 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_sicredi_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - SICREDI 240</field>
+        <field name="code">Sequencia Arquivo CNAB - SICREDI 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_ailos_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - AILOS 240</field>
+        <field name="code">Sequencia Arquivo CNAB - AILOS 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_main_company" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Main Company</field>
+        <field name="code">Sequencia Arquivo CNAB - Main Company</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_empresa_simples_nacional" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Empresa Simples Nacional</field>
+        <field name="code">Sequencia Arquivo CNAB - Empresa Simples Nacional</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_empresa_lucro_presumido" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Empresa Lucro Presumido</field>
+        <field name="code">Sequencia Arquivo CNAB - Empresa Lucro Presumido</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <!-- Sequencia Nosso Numero -  por Carteira para testes com Multiplos CNAB -->
+    <record id="sequence_own_number_automatic_test" model="ir.sequence">
+        <field name="name">Nosso número - Manual Test</field>
+        <field name="code">nosso.numero - Manual Test</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_manual_test" model="ir.sequence">
+        <field name="name">Nosso número - Manual Test</field>
+        <field name="code">nosso.numero - Manual Test</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_bradesco_400" model="ir.sequence">
+        <field name="name">Nosso número - Bradesco 400</field>
+        <field name="code">nosso.numero - Bradesco 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_bradesco_240" model="ir.sequence">
+        <field name="name">Nosso número - Bradesco 240</field>
+        <field name="code">nosso.numero - Bradesco 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_unicred_400" model="ir.sequence">
+        <field name="name">Nosso número - Unicred 400</field>
+        <field name="code">nosso.numero - Unicred 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_unicred_240" model="ir.sequence">
+        <field name="name">Nosso número - Unicred 240</field>
+        <field name="code">nosso.numero - Unicred 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_itau_400" model="ir.sequence">
+        <field name="name">Nosso número - Itau 400</field>
+        <field name="code">nosso.numero - Itau 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_itau_240" model="ir.sequence">
+        <field name="name">Nosso número - Itau 240</field>
+        <field name="code">nosso.numero - Itau 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_cef_400" model="ir.sequence">
+        <field name="name">Nosso número - CEF 400</field>
+        <field name="code">nosso.numero - CEF 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_cef_240" model="ir.sequence">
+        <field name="name">Nosso número - CEF 240</field>
+        <field name="code">nosso.numero - CEF 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_bb_400" model="ir.sequence">
+        <field name="name">Nosso número - BB 400</field>
+        <field name="code">nosso.numero - BB 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_bb_240" model="ir.sequence">
+        <field name="name">Nosso número - BB 240</field>
+        <field name="code">nosso.numero - BB 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_sicredi_240" model="ir.sequence">
+        <field name="name">Nosso número - SICREDI 240</field>
+        <field name="code">nosso.numero - SICREDI 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_ailos_240" model="ir.sequence">
+        <field name="name">Nosso número - AILOS 240</field>
+        <field name="code">nosso.numero - AILOS 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="9" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_santander_400" model="ir.sequence">
+        <field name="name">Nosso Número - Santander 400</field>
+        <field name="code">nosso.numero - Santander 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <!-- Campo tamanho maximo 7 -->
+        <field eval="7" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_santander_240" model="ir.sequence">
+        <field name="name">Nosso Número - Santander 240</field>
+        <field name="code">nosso.numero - Santander 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="12" name="padding" />
+    </record>
+
+    <record id="sequence_cnab_number_santander_400" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Santander 400</field>
+        <field name="code">Sequencia Arquivo CNAB - Santander 400</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_cnab_number_santander_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - Santander 240</field>
+        <field name="code">Sequencia Arquivo CNAB - Santander 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+    <record id="sequence_own_number_main_company" model="ir.sequence">
+        <field name="name">Nosso número - Main Company</field>
+        <field name="code">nosso.numero - Main Company</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_empresa_simples_nacional" model="ir.sequence">
+        <field name="name">Nosso número - Empresa Simples Nacional</field>
+        <field name="code">nosso.numero - Empresa Simples Nacional</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_empresa_lucro_presumido" model="ir.sequence">
+        <field name="name">Nosso número - Empresa Lucro Presumido</field>
+        <field name="code">nosso.numero - Empresa Lucro Presumido</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+</odoo>
