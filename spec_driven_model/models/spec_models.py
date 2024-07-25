@@ -3,13 +3,13 @@
 
 import logging
 import sys
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from inspect import getmembers, isclass
 
 from odoo import SUPERUSER_ID, _, api, models
 from odoo.tools import mute_logger
 
-from .spec_mixin import SPEC_MIXIN_MAPPINGS
+SPEC_MIXIN_MAPPINGS = defaultdict(dict)  # by db
 
 _logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ class SpecModel(models.Model):
         """
         xsd generated spec mixins do not need to depend on this opinionated
         module. That's why the spec.mixin is dynamically injected as a parent
-        class as long as generated class inherit from some
+        class as long as the generated spec mixins inherit from some
         spec.mixin.<schema_name> mixin.
         """
         parents = cls._inherit
@@ -90,20 +90,6 @@ class SpecModel(models.Model):
                     or "spec.mixin" in [c._name for c in pool[super_parent].__bases__]
                 ):
                     continue
-
-                cr.execute(
-                    "SELECT name FROM ir_module_module "
-                    "WHERE name=%s "
-                    "AND state in ('to install', 'to upgrade', 'to remove')",
-                    (pool[super_parent]._odoo_module,),
-                )
-                if cr.fetchall():
-                    setattr(
-                        pool,
-                        "_%s_need_hook" % (pool[super_parent]._odoo_module,),
-                        True,
-                    )
-
                 pool[super_parent]._inherit = list(pool[super_parent]._inherit) + [
                     "spec.mixin"
                 ]
@@ -217,13 +203,6 @@ class SpecModel(models.Model):
             if base_class._name == odoo_name:
                 return base_class
         return None
-
-    def _register_hook(self):
-        res = super()._register_hook()
-        from .. import hooks  # importing here avoids loop
-
-        hooks.register_hook(self.env, self._odoo_module, self._spec_module)
-        return res
 
 
 class StackedModel(SpecModel):
