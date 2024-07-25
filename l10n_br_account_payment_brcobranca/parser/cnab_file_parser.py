@@ -91,6 +91,7 @@ class CNABFileParser(FileParser):
                 "bank": bank_name_brcobranca,
             },
             files=files,
+            timeout=60,
         )
 
         if res.status_code != 201:
