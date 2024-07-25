@@ -11,7 +11,6 @@ from odoo.tests.common import TransactionCase
 from odoo.tools import config
 
 from odoo.addons import l10n_br_nfe
-from odoo.addons.spec_driven_model import hooks
 
 _logger = logging.getLogger(__name__)
 
@@ -19,11 +18,7 @@ _logger = logging.getLogger(__name__)
 class TestNFeExport(TransactionCase):
     def setUp(self, nfe_list):
         super().setUp()
-        hooks.register_hook(
-            self.env,
-            "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-        )
+        self.env["spec.mixin.nfe"]._register_hook()
         self.nfe_list = nfe_list
         for nfe_data in self.nfe_list:
             nfe = self.env.ref(nfe_data["record_ref"])
