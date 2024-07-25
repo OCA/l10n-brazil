@@ -16,7 +16,6 @@ from odoo.exceptions import Warning as ValidationError
 
 from ..constants.br_cobranca import (
     DICT_BRCOBRANCA_CNAB_TYPE,
-    TIMEOUT,
     get_brcobranca_api_url,
     get_brcobranca_bank,
 )
@@ -27,79 +26,69 @@ _logger = logging.getLogger(__name__)
 class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    def _prepare_remessa_banco_brasil(self, remessa_values, cnab_config):
+    def _prepare_remessa_banco_brasil(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "convenio": int(cnab_config.cnab_company_bank_code),
-                "carteira": str(cnab_config.boleto_wallet).zfill(2),
+                "convenio": int(self.payment_mode_id.cnab_company_bank_code),
+                "variacao_carteira": self.payment_mode_id.boleto_variation.zfill(3),
+                "convenio_lider": self.payment_mode_id.convention_code.zfill(7),
+                "carteira": str(self.payment_mode_id.boleto_wallet).zfill(2),
             }
         )
 
-        if cnab_config.payment_method_code == "240":
-            remessa_values.update(
-                {
-                    "variacao": cnab_config.boleto_variation.zfill(3),
-                }
-            )
-
-        if cnab_config.payment_method_code == "400":
-            remessa_values.update(
-                {
-                    "variacao_carteira": cnab_config.boleto_variation.zfill(3),
-                    "convenio_lider": cnab_config.convention_code.zfill(7),
-                }
-            )
-
-    def _prepare_remessa_santander(self, remessa_values, cnab_config):
+    def _prepare_remessa_santander(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "codigo_carteira": cnab_config.wallet_code_id.code,
-                "codigo_transmissao": cnab_config.cnab_company_bank_code,
+                "codigo_carteira": self.payment_mode_id.boleto_wallet_code_id.code,
+                "codigo_transmissao": self.payment_mode_id.cnab_company_bank_code,
                 "conta_corrente": misc.punctuation_rm(
                     self.journal_id.bank_account_id.acc_number
                 ),
             }
         )
 
-    def _prepare_remessa_caixa(self, remessa_values, cnab_config):
+    def _prepare_remessa_caixa(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "convenio": int(cnab_config.cnab_company_bank_code),
+                "convenio": int(self.payment_mode_id.cnab_company_bank_code),
                 "digito_agencia": self.journal_id.bank_account_id.bra_number_dig,
             }
         )
 
-    def _prepare_remessa_ailos(self, remessa_values, cnab_config):
+    def _prepare_remessa_ailos(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "convenio": int(cnab_config.cnab_company_bank_code),
+                "convenio": int(self.payment_mode_id.cnab_company_bank_code),
                 "digito_agencia": self.journal_id.bank_account_id.bra_number_dig,
             }
         )
 
-    def _prepare_remessa_unicred(self, remessa_values, cnab_config):
-        remessa_values["codigo_beneficiario"] = int(cnab_config.cnab_company_bank_code)
+    def _prepare_remessa_unicred(self, remessa_values, cnab_type):
+        remessa_values["codigo_beneficiario"] = int(
+            self.payment_mode_id.cnab_company_bank_code
+        )
 
-    def _prepare_remessa_sicredi(self, remessa_values, cnab_config):
+    def _prepare_remessa_sicredi(self, remessa_values, cnab_type):
         bank_account_id = self.journal_id.bank_account_id
         remessa_values.update(
             {
                 # Aparentemente a validação do BRCobranca nesse caso gera erro
                 # quando é feito o int(misc.punctuation_rm(bank_account_id.acc_number))
                 "conta_corrente": misc.punctuation_rm(bank_account_id.acc_number),
-                "posto": cnab_config.boleto_post,
-                "byte_idt": cnab_config.boleto_byte_idt,
+                "posto": self.payment_mode_id.boleto_post,
+                "byte_idt": self.payment_mode_id.boleto_byte_idt,
             }
         )
 
-    def _prepare_remessa_bradesco(self, remessa_values, cnab_config):
-        remessa_values["codigo_empresa"] = int(cnab_config.cnab_company_bank_code)
+    def _prepare_remessa_bradesco(self, remessa_values, cnab_type):
+        remessa_values["codigo_empresa"] = int(
+            self.payment_mode_id.cnab_company_bank_code
+        )
 
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
-        cnab_config = self.payment_mode_id.cnab_config_id
-        self.file_number = cnab_config.cnab_sequence_id.next_by_id()
+        self.file_number = self.payment_mode_id.cnab_sequence_id.next_by_id()
 
         # see remessa fields here:
         # https://github.com/kivanio/brcobranca/blob/master/lib/brcobranca/remessa/base.rb
@@ -109,22 +98,24 @@ class PaymentOrder(models.Model):
         # https://github.com/kivanio/brcobranca/blob/master/spec/
         # brcobranca/remessa/cnab400/itau_spec.rb
 
-        cnab_type = cnab_config.payment_method_id.code
+        cnab_type = self.payment_mode_id.payment_method_code
 
         # Se não for um caso CNAB deve chamar o super
         if (
             cnab_type not in ("240", "400", "500")
-            or cnab_config.cnab_processor != "brcobranca"
+            or self.payment_mode_id.cnab_processor != "brcobranca"
         ):
             return super().generate_payment_file()
 
         bank_account_id = self.journal_id.bank_account_id
-        bank_brcobranca = get_brcobranca_bank(bank_account_id, cnab_type)
+        bank_brcobranca = get_brcobranca_bank(
+            bank_account_id, self.payment_mode_id.payment_method_code
+        )
 
         # Verificar campos que não podem ser usados no CNAB, já é
         # feito ao criar um Modo de Pagamento, porém para evitar
         # erros devido alterações e re-validado aqui
-        cnab_config._check_cnab_restriction()
+        self.payment_mode_id._check_cnab_restriction()
 
         if cnab_type not in bank_brcobranca.remessa:
             # Informa se o CNAB especifico de um Banco não está implementado
@@ -143,7 +134,7 @@ class PaymentOrder(models.Model):
             pagamentos.append(line.prepare_bank_payment_line(bank_brcobranca))
 
         remessa_values = {
-            "carteira": str(cnab_config.boleto_wallet),
+            "carteira": str(self.payment_mode_id.boleto_wallet),
             "agencia": bank_account_id.bra_number,
             "conta_corrente": int(misc.punctuation_rm(bank_account_id.acc_number)),
             "digito_conta": bank_account_id.acc_number_dig[0],
@@ -155,13 +146,16 @@ class PaymentOrder(models.Model):
             "sequencial_remessa": self.file_number,
         }
 
-        # Casos onde o Banco além dos principais campos possui campos
-        # específicos, dos casos por enquanto mapeados, se estiver vendo
-        # um caso que está faltando por favor considere fazer um
-        # PR para ajudar
-        if hasattr(self, f"_prepare_remessa_{bank_brcobranca.name}"):
+        try:
             bank_method = getattr(self, f"_prepare_remessa_{bank_brcobranca.name}")
-            bank_method(remessa_values, cnab_config)
+            if bank_method:
+                bank_method(remessa_values, cnab_type)
+        except Exception:
+            _logger.warning(
+                f"Error executing method _prepare_remessa_{bank_brcobranca.name}."
+                "Check the bank name and provided parameters.",
+                exc_info=True,
+            )
 
         remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
@@ -191,7 +185,7 @@ class PaymentOrder(models.Model):
                 "bank": bank_brcobranca.name,
             },
             files=files,
-            timeout=TIMEOUT,
+            timeout=60,
         )
 
         if cnab_type == "240" and "R01" in res.text[242:254]:

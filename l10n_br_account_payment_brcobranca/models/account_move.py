@@ -12,7 +12,7 @@ import requests
 from odoo import _, models
 from odoo.exceptions import UserError
 
-from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
+from ..constants.br_cobranca import get_brcobranca_api_url
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def generate_boleto_pdf(self):
-        if self.payment_mode_id.cnab_config_id.cnab_processor != "brcobranca":
+        if self.payment_mode_id.cnab_processor != "brcobranca":
             return super().generate_boleto_pdf()
 
         file_pdf = self.file_boleto_pdf_id
@@ -72,10 +72,7 @@ class AccountMove(models.Model):
             self.name,
         )
         res = requests.post(
-            brcobranca_service_url,
-            data={"type": "pdf"},
-            files=files,
-            timeout=TIMEOUT,
+            brcobranca_service_url, data={"type": "pdf"}, files=files, timeout=60
         )
 
         if str(res.status_code)[0] == "2":
@@ -110,19 +107,6 @@ class AccountMove(models.Model):
 
                 # Conciliação Automatica entre a Linha da Fatura e a Linha criada
                 if self.journal_id.return_auto_reconcile:
-                    if line_to_reconcile.reconciled:
-                        raise UserError(
-                            _(
-                                "The invoice line %(name)s is already reconciled.\n\n"
-                                "Invoice: %(invoice)s\n"
-                                "Account: %(account)s\n"
-                                "Detailed line ID: %(aml)s\n",
-                                name=line_to_reconcile.name,
-                                invoice=line_to_reconcile.move_id.name,
-                                aml=line_to_reconcile,
-                                account=line_to_reconcile.account_id.name,
-                            ),
-                        )
                     if line_to_reconcile:
                         (line + line_to_reconcile).reconcile()
                         line_to_reconcile.cnab_state = "done"
