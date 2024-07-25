@@ -11,6 +11,7 @@ from requests import Session
 from odoo import api, models
 
 SINTEGRA_URL = "https://www.sintegraws.com.br/api/v1/execute-api.php"
+SINTEGRA_TIMEOUT = 60
 
 
 class ExtendPartnerCnpjSearchWizard(models.TransientModel):
@@ -29,6 +30,7 @@ class ExtendPartnerCnpjSearchWizard(models.TransientModel):
                 SINTEGRA_URL,
                 data="",
                 params=webservice._get_query(cnpj, webservice._get_token()),
+                timeout=SINTEGRA_TIMEOUT,
             )
             data = webservice.sintegra_validate(response)
             values = webservice._sintegra_import_data(data)
