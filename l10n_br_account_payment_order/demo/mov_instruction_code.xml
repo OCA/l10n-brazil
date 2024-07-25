@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+
+    <record
+        id="manual_test_mov_instruction_code_01"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Entrada de Título</field>
+        <field name="code">01</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_02"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Pedido de Baixa</field>
+        <field name="code">02</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_04"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Concessão de Abatimento</field>
+        <field name="code">04</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_05"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Cancelamento de Abatimento</field>
+        <field name="code">05</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_06"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Vencimento</field>
+        <field name="code">06</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_07"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Concessão de Desconto</field>
+        <field name="code">07</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_08"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Cancelamento de Desconto</field>
+        <field name="code">08</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_09"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Protestar (transferir de Devolução para Protesto)</field>
+        <field name="code">09</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_10"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Sustar Protesto e Baixar Título</field>
+        <field name="code">10</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_11"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Sustar Protesto e Manter em Carteira</field>
+        <field name="code">11</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_31"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Outros Dados</field>
+        <field name="code">31</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_33"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração dos Dados do Rateio de Crédito</field>
+        <field name="code">33</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_36"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Inclusão no Banco de Pagadores</field>
+        <field name="code">36</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_37"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração no Banco de Pagadores</field>
+        <field name="code">37</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_38"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Exclusão no Banco de Pagadores</field>
+        <field name="code">38</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_40"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Serviços</field>
+        <field name="code">40</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_47"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração do Valor Nominal do Título</field>
+        <field name="code">47</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+    <record
+        id="manual_test_mov_instruction_code_48"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração valor/percentual mínimo/máximo</field>
+        <field name="code">48</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_manual_test')])]"
+        />
+    </record>
+
+</odoo>
