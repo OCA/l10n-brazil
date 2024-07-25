@@ -75,32 +75,40 @@ class SpecModel(models.Model):
         parents = cls._inherit
         parents = [parents] if isinstance(parents, str) else (parents or [])
         for parent in parents:
+            cls._map_concrete(parent, cls._name)
             super_parents = pool[parent]._inherit
             if isinstance(super_parents, str):
                 super_parents = [super_parents]
             else:
                 super_parents = super_parents or []
             for super_parent in super_parents:
-                if super_parent.startswith("spec.mixin."):
-                    cr.execute(
-                        "SELECT name FROM ir_module_module "
-                        "WHERE name=%s "
-                        "AND state in ('to install', 'to upgrade', 'to remove')",
-                        (pool[super_parent]._odoo_module,),
-                    )
-                    if cr.fetchall():
-                        setattr(
-                            pool,
-                            "_%s_need_hook" % (pool[super_parent]._odoo_module,),
-                            True,
-                        )
+                if (
+                    not super_parent.startswith("spec.mixin.")
+                    or not hasattr(pool[super_parent], "_odoo_module")
+                    or "spec.mixin" in [c._name for c in pool[super_parent].__bases__]
+                ):
+                    continue
 
-                    cls._map_concrete(parent, cls._name)
-                    if not hasattr(pool[parent], "build_from_binding"):
-                        pool[parent]._inherit = super_parents + ["spec.mixin"]
-                        pool[parent].__bases__ = (pool["spec.mixin"],) + pool[
-                            parent
-                        ].__bases__
+                cr.execute(
+                    "SELECT name FROM ir_module_module "
+                    "WHERE name=%s "
+                    "AND state in ('to install', 'to upgrade', 'to remove')",
+                    (pool[super_parent]._odoo_module,),
+                )
+                if cr.fetchall():
+                    setattr(
+                        pool,
+                        "_%s_need_hook" % (pool[super_parent]._odoo_module,),
+                        True,
+                    )
+
+                pool[super_parent]._inherit = list(pool[super_parent]._inherit) + [
+                    "spec.mixin"
+                ]
+                pool[super_parent].__bases__ = (pool["spec.mixin"],) + pool[
+                    super_parent
+                ].__bases__
+
         return super()._build_model(pool, cr)
 
     @api.model
