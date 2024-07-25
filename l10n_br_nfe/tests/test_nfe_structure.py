@@ -5,7 +5,6 @@ from io import StringIO
 
 from odoo.tests import TransactionCase
 
-from odoo.addons.spec_driven_model import hooks
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 
 from ..models.document import NFe
@@ -17,11 +16,7 @@ class NFeStructure(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        hooks.register_hook(
-            cls.env,
-            "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-        )
+        cls.env["spec.mixin.nfe"]._register_hook()
 
     @classmethod
     def get_stacked_tree(cls, klass):
