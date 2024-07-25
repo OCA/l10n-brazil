@@ -9,17 +9,12 @@ from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from odoo import SUPERUSER_ID, api
 from odoo.exceptions import ValidationError
 
-from odoo.addons.spec_driven_model import hooks
-
 _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(cr, registry):
     env = api.Environment(cr, SUPERUSER_ID, {})
-    hooks.register_hook(
-        env, "l10n_br_nfe", "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-    )
-
+    env["nfe.40.infnfe"]._register_hook()
     cr.execute("select demo from ir_module_module where name='l10n_br_nfe';")
     is_demo = cr.fetchone()[0]
     if is_demo:
