@@ -185,6 +185,7 @@ class PaymentOrder(models.Model):
                 "bank": bank_brcobranca.name,
             },
             files=files,
+            timeout=60,
         )
 
         if cnab_type == "240" and "R01" in res.text[242:254]:
