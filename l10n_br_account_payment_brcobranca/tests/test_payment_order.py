@@ -8,7 +8,7 @@ from unittest import mock
 
 from odoo.exceptions import UserError
 from odoo.modules import get_resource_path
-from odoo.tests import Form, SavepointCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 _module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
 _provider_class_pay_order = (
@@ -18,7 +18,7 @@ _provider_class_acc_invoice = _module_ns + ".models.account_move" + ".AccountMov
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrder(SavepointCase):
+class TestPaymentOrder(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -299,9 +299,11 @@ class TestPaymentOrder(SavepointCase):
             .create(
                 {
                     "payment_type": "inbound",
-                    "payment_method_id": self.env.ref(
-                        "account.account_payment_method_manual_in"
-                    ).id,
+                    "payment_method_line_id": (
+                        self.journal_cash._get_available_payment_method_lines("inbound")
+                        .filtered(lambda x: x.code == "manual")
+                        .id
+                    ),
                     "partner_type": "customer",
                     "partner_id": self.partner_akretion.id,
                     "amount": 600,
@@ -796,7 +798,11 @@ class TestPaymentOrder(SavepointCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
 
         # Perform the partial payment by setting the amount at 300 instead of 500
         payment_register.amount = 100
@@ -851,7 +857,11 @@ class TestPaymentOrder(SavepointCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
 
         # Perform the partial payment by setting the amount at 300 instead of 500
         payment_register.amount = 50
@@ -907,9 +917,11 @@ class TestPaymentOrder(SavepointCase):
             .create(
                 {
                     "payment_type": "inbound",
-                    "payment_method_id": self.env.ref(
-                        "account.account_payment_method_manual_in"
-                    ).id,
+                    "payment_method_line_id": (
+                        self.journal_cash._get_available_payment_method_lines("inbound")
+                        .filtered(lambda x: x.code == "manual")
+                        .id
+                    ),
                     "partner_type": "customer",
                     "partner_id": self.partner_akretion.id,
                     "amount": 150,
