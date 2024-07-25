@@ -2,11 +2,11 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrder(SavepointCase):
+class TestPaymentOrder(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

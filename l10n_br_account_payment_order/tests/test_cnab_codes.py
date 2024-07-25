@@ -3,11 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.exceptions import ValidationError
-from odoo.tests import Form, SavepointCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrder(SavepointCase):
+class TestPaymentOrder(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

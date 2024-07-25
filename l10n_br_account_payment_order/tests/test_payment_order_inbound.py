@@ -6,12 +6,12 @@
 
 from odoo.exceptions import UserError
 from odoo.fields import Date
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import TransactionCase, tagged
 from odoo.tests.common import Form
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrderInbound(SavepointCase):
+class TestPaymentOrderInbound(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
