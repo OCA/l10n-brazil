@@ -24,7 +24,7 @@
                   na tela.
                   Testar na migração.
             -->
-            <field name="payment_method_id" position="attributes">
+            <field name="payment_method_line_id" position="attributes">
                 <attribute
                     name="domain"
                 >[('code', 'not in', ('400','240','500'))]</attribute>
