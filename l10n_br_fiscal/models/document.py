@@ -492,7 +492,15 @@ class Document(models.Model):
             partner_ids = self.partner_id.filtered("edoc_send_email")
             partner_ids |= self.partner_id.child_ids.filtered("edoc_send_email")
             self.message_subscribe(partner_ids=partner_ids.ids)
-            self.message_post_with_template(template_id=email_template_id.id)
+            attachment_ids = []
+            if self.authorization_file_id:
+                attachment_ids.append(self.authorization_file_id.id)
+            if self.file_report_id:
+                attachment_ids.append(self.file_report_id.id)
+
+            self.message_post_with_template(
+                template_id=email_template_id.id, attachment_ids=attachment_ids
+            )
 
     def _after_change_state(self, old_state, new_state):
         self.ensure_one()
