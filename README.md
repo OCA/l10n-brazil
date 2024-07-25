@@ -69,7 +69,7 @@ addon | version | maintainers | summary
 [l10n_br_ie_search](l10n_br_ie_search/) | 14.0.1.2.0 |  | Integração com a API SintegraWS e SEFAZ
 [l10n_br_mdfe_spec](l10n_br_mdfe_spec/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | CT-e spec
 [l10n_br_mis_report](l10n_br_mis_report/) | 14.0.1.0.1 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
-[l10n_br_nfe](l10n_br_nfe/) | 14.0.16.0.2 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Eletronic Invoice NF-e
+[l10n_br_nfe](l10n_br_nfe/) | 14.0.16.1.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Eletronic Invoice NF-e
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 14.0.6.2.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 14.0.1.20.0 | [![gabrielcardoso21](https://github.com/gabrielcardoso21.png?size=30px)](https://github.com/gabrielcardoso21) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e
 [l10n_br_nfse_barueri](l10n_br_nfse_barueri/) | 14.0.1.0.1 | [![AndreMarcos](https://github.com/AndreMarcos.png?size=30px)](https://github.com/AndreMarcos) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![ygcarvalh](https://github.com/ygcarvalh.png?size=30px)](https://github.com/ygcarvalh) | NFS-e (Barueri)
@@ -100,7 +100,7 @@ addon | version | maintainers | summary
 [l10n_br_zip](l10n_br_zip/) | 14.0.2.3.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 [payment_bacen_pix](payment_bacen_pix/) | 14.0.1.1.0 |  | Payment PIX with bacen
 [payment_pagseguro](payment_pagseguro/) | 14.0.1.0.9 |  | Payment Acquirer: PagSeguro Implementation
-[spec_driven_model](spec_driven_model/) | 14.0.5.3.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
+[spec_driven_model](spec_driven_model/) | 14.0.5.4.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
 
