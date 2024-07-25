@@ -97,11 +97,6 @@ msgid "Address Type"
 msgstr "Tipo de Endereço"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_ids
-msgid "Agents"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__lang
 msgid ""
 "All the emails and documents sent to this contact will be translated in this "
@@ -156,14 +151,34 @@ msgid "Autônomos"
 msgstr "Autônomos"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__avatar_1920
+msgid "Avatar"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__avatar_1024
+msgid "Avatar 1024"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__avatar_128
+msgid "Avatar 128"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__avatar_256
+msgid "Avatar 256"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__avatar_512
+msgid "Avatar 512"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_account_count
 msgid "Bank"
 msgstr "Banco"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
-msgid "Bank Statement Label"
-msgstr "Etiqueta de Extrato Bancário"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
@@ -265,11 +280,6 @@ msgid "CTPS series"
 msgstr "Série CTPS"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__can_publish
-msgid "Can Publish"
-msgstr "Pode Publicar"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__relative_file
 msgid "Certidão de Nascimento / Casamento / etc"
 msgstr "Certidão de Nascimento / Casamento / etc"
@@ -302,11 +312,6 @@ msgid ""
 msgstr ""
 "Marque essa caixa para garantir que todo endereço criado para aquele país "
 "possui uma 'Cidade' selecionada na lista de cidades daquele país."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__agent
-msgid "Check this field if the partner is a creditor or an agent."
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__city
@@ -362,11 +367,6 @@ msgid "Commercial Entity"
 msgstr "Entidade Comercial"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__commission_id
-msgid "Commission"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__common_law_marriage
 msgid "Common law marriage"
 msgstr "União estável"
@@ -413,19 +413,9 @@ msgid "Contact"
 msgstr "Contato"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contract_ids
-msgid "Contracts"
-msgstr "Contratos"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_ie_dest
 msgid "Contribuinte do ICMS"
 msgstr "Contribuinte do ICMS"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_count
-msgid "Count Payment Token"
-msgstr "Contagem de Tokens de Pagamento"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_bounce
@@ -436,6 +426,11 @@ msgstr "Contador do número de emails devolvidos para este contato"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__country_id
 msgid "Country"
 msgstr "País"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__country_code
+msgid "Country Code"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__create_uid
@@ -465,11 +460,6 @@ msgstr "Criado em"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__credit_limit
 msgid "Credit Limit"
 msgstr "Limite de Crédito"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent
-msgid "Creditor/Agent"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__currency_id
@@ -527,11 +517,6 @@ msgid "Days Before Receipt"
 msgstr "Dias antes do recebimento"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
-msgid "Default delivery method used in sales orders."
-msgstr "Método de entrega padrão usado nos pedidos de venda."
-
-#. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_deficiency
 msgid "Deficiencies"
 msgstr "Deficiência"
@@ -552,11 +537,6 @@ msgstr "Descrição da Deficiência"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__trust
 msgid "Degree of trust you have in this debtor"
 msgstr "Grau de confiança que você tem neste devedor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
-msgid "Delivery Method"
-msgstr "Método de Entrega"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
@@ -583,15 +563,10 @@ msgstr "Órgão despachante"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -695,27 +670,20 @@ msgid "Employee's Dependents"
 msgstr "Dependentes dos funcionários"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__employee_ids
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__employee_ids
 msgid "Employees"
 msgstr "Funcionários"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__employees_count
+msgid "Employees Count"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__country_enforce_cities
 msgid "Enforce Cities"
 msgstr "Impor cidades"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
-msgid ""
-"Enter the various label found on your bank statement separated by a ; If one "
-"of this label is include in the bank statement line, the partner will be "
-"automatically filled (as long as you use this method/rules in your statement "
-"profile)."
-msgstr ""
-"Digite os vários rótulos encontrados em seu extrato bancário separados por ; "
-"Se uma desses rótulos for incluída na linha do extrato bancário, o parceiro "
-"será preenchido automaticamente (desde que você use este método/regras em "
-"seu perfil de extrato)."
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_educational_attainment_form
@@ -775,11 +743,6 @@ msgid "Followers"
 msgstr "Seguidores"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguidores (Canais)"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Parceiros)"
@@ -830,6 +793,11 @@ msgid "HR Data Abstract"
 msgstr "Resumo de Dados do RH"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__has_unreconciled_entries
 msgid "Has Unreconciled Entries"
 msgstr "Têm Entradas Não Reconciliadas"
@@ -859,15 +827,10 @@ msgstr "Casa"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__id
 msgid "ID"
 msgstr "ID"
 
@@ -1048,11 +1011,6 @@ msgid "Is Follower"
 msgstr "É um seguidor"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_published
-msgid "Is Published"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_company
 msgid "Is a Company"
 msgstr "É uma Empresa"
@@ -1100,22 +1058,12 @@ msgstr "Idioma"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_website_so_id
-msgid "Last Online Sales Order"
-msgstr "Último Pedido de Vendas Online"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_uid
@@ -1281,6 +1229,11 @@ msgid "Naturalidade"
 msgstr "Naturalidade"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Prazo final para Próxima Atividade"
@@ -1405,6 +1358,11 @@ msgid "Partner"
 msgstr "Parceiro"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contract_ids
+msgid "Partner Contracts"
+msgstr "Contratos de Parceiro"
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__same_vat_partner_id
 msgid "Partner with same Tax ID"
 msgstr "Parceiro com o mesmo CNPJ/CPF"
@@ -1420,6 +1378,11 @@ msgid "Payment Method"
 msgstr "Método de Pagamento"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_count
+msgid "Payment Token Count"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_ids
 msgid "Payment Tokens"
 msgstr "Token de Pagamento"
@@ -1433,16 +1396,6 @@ msgstr "Telefone"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
 msgid "Pix Keys"
 msgstr "Chaves PIX"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_ids
-msgid "Pos Order"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_count
-msgid "Pos Order Count"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_payment_method_id
@@ -1461,11 +1414,6 @@ msgstr "Lista de Preços"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_public_entity
 msgid "Public Entity"
 msgstr "Entidade Pública"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_contract_count
-msgid "Purchase Contracts"
-msgstr "Contratos de Compra"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_line_ids
@@ -1520,6 +1468,11 @@ msgid "Related Company"
 msgstr "Empresa Relacionada"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__employee_ids
+msgid "Related employees based on their private address"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_dependent_type
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_type_id
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_dependent_type
@@ -1540,16 +1493,6 @@ msgstr "Reservista"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_user_id
 msgid "Responsible User"
 msgstr "Usuário Responsável"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_id
-msgid "Restrict publishing to this website."
-msgstr "Restrinja a publicação a este site."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_contract_count
-msgid "Sale Contracts"
-msgstr "Contratos de Venda"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_count
@@ -1619,16 +1562,6 @@ msgstr "Mesmo"
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__separated
 msgid "Separated"
 msgstr "Separado"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement_ids
-msgid "Settlement"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement
-msgid "Settlement period"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_share
@@ -1765,6 +1698,13 @@ msgid "Terceirizados"
 msgstr "Terceirizados"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__vat
 msgid ""
 "The Tax Identification Number. Complete it if the contact is subjected to "
@@ -1781,19 +1721,9 @@ msgstr ""
 "A posição fiscal determina os impostos / contas usados para esse contato."
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_url
-msgid "The full URL to access the document through the website."
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__user_id
 msgid "The internal user in charge of this contact."
 msgstr "O usuário interno responsável por este contato."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pos_order_count
-msgid "The number of point of sales orders related to this customer"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__has_unreconciled_entries
@@ -1852,13 +1782,6 @@ msgstr ""
 msgid ""
 "This field is used to search on email address as the primary email field can "
 "contain more than strictly an email address."
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__commission_id
-msgid ""
-"This is the default commission used in the sales where this agent is "
-"assigned. It can be changed on each operation if needed."
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1934,11 +1857,6 @@ msgid "Total amount you have to pay to this vendor."
 msgstr "Valor total que você deve pagar a este fornecedor."
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_type
-msgid "Type"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
@@ -1989,16 +1907,6 @@ msgid "Vendor Payment Terms"
 msgstr "Condições de Pagamento do Fornecedor"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_published
-msgid "Visible on current website"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__visitor_ids
-msgid "Visitors"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Voter Registration"
 msgstr "Registro de Eleitor"
@@ -2019,11 +1927,6 @@ msgid "Voter Zone"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
-msgid "Website"
-msgstr "Site"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website
 msgid "Website Link"
 msgstr ""
@@ -2032,11 +1935,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_message_ids
 msgid "Website Messages"
 msgstr "Mensagens do Site"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_url
-msgid "Website URL"
-msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_message_ids
@@ -2062,6 +1960,53 @@ msgstr "XXX.XXXXX.XX-X"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
 msgid "Zip"
 msgstr "CEP"
+
+#~ msgid "Bank Statement Label"
+#~ msgstr "Etiqueta de Extrato Bancário"
+
+#~ msgid "Can Publish"
+#~ msgstr "Pode Publicar"
+
+#~ msgid "Contracts"
+#~ msgstr "Contratos"
+
+#~ msgid "Count Payment Token"
+#~ msgstr "Contagem de Tokens de Pagamento"
+
+#~ msgid "Default delivery method used in sales orders."
+#~ msgstr "Método de entrega padrão usado nos pedidos de venda."
+
+#~ msgid "Delivery Method"
+#~ msgstr "Método de Entrega"
+
+#~ msgid ""
+#~ "Enter the various label found on your bank statement separated by a ; If "
+#~ "one of this label is include in the bank statement line, the partner will "
+#~ "be automatically filled (as long as you use this method/rules in your "
+#~ "statement profile)."
+#~ msgstr ""
+#~ "Digite os vários rótulos encontrados em seu extrato bancário separados "
+#~ "por ; Se uma desses rótulos for incluída na linha do extrato bancário, o "
+#~ "parceiro será preenchido automaticamente (desde que você use este método/"
+#~ "regras em seu perfil de extrato)."
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canais)"
+
+#~ msgid "Last Online Sales Order"
+#~ msgstr "Último Pedido de Vendas Online"
+
+#~ msgid "Purchase Contracts"
+#~ msgstr "Contratos de Compra"
+
+#~ msgid "Restrict publishing to this website."
+#~ msgstr "Restrinja a publicação a este site."
+
+#~ msgid "Sale Contracts"
+#~ msgstr "Contratos de Venda"
+
+#~ msgid "Website"
+#~ msgstr "Site"
 
 #~ msgid "Additional info"
 #~ msgstr "Informações Adicionais"
@@ -2130,9 +2075,6 @@ msgstr "CEP"
 
 #~ msgid "Voter zone"
 #~ msgstr "Zona do eleitor"
-
-#~ msgid "Partner Contracts"
-#~ msgstr "Contratos de Parceiro"
 
 #~ msgid ""
 #~ "Check this box if this contact is a customer. It can be selected in sales "
