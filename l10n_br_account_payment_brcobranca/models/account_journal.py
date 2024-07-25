@@ -199,12 +199,15 @@ class AccountJournal(models.Model):
                     parser_vals = parser.get_move_line_vals(line)
                     values = self.prepare_move_line_vals(parser_vals, move)
                     move_store.append(values)
-                move_line_obj.with_context(check_move_validity=False).create(move_store)
-                self._write_extra_move_lines(parser, move)
+                move_store += self._get_extra_move_line_vals_list(parser, move)
                 if self.create_counterpart:
-                    self._create_counterpart(parser, move)
+                    move_store += self._get_counterpart_vals_list(
+                        parser, move, move_store
+                    )
                 # Check if move is balanced
-                move._check_balanced()
+                container = {"records": move}
+                with move._check_balanced(container):
+                    move_line_obj.create(move_store)
                 # Computed total amount of the move
                 # move._amount_compute()
                 # No caso do CNAB o arquivo usado está sendo armazenado no

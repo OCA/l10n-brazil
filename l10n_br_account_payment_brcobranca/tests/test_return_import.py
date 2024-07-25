@@ -9,7 +9,7 @@ import os
 from unittest import mock
 
 from odoo.modules import get_resource_path
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import TransactionCase, tagged
 
 _module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
 _provider_class_pay_order = (
@@ -19,7 +19,7 @@ _provider_class = _module_ns + ".parser.cnab_file_parser" + ".CNABFileParser"
 
 
 @tagged("post_install", "-at_install")
-class TestReturnImport(SavepointCase):
+class TestReturnImport(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -35,7 +35,7 @@ class TestReturnImport(SavepointCase):
             {
                 "code": "X1014",
                 "name": "Bank Current Account - (test)",
-                "user_type_id": cls.env.ref("account.data_account_type_liquidity").id,
+                "account_type": "asset_cash",
             }
         )
         cls.import_wizard_obj = cls.env["credit.statement.import"]
