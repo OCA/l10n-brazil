@@ -156,7 +156,7 @@ class TestPaymentOrderInbound(SavepointCase):
 
         self.assertAlmostEqual(payment.amount, 1000)
         self.assertEqual(payment.state, "posted")
-        self.assertEqual(self.invoice_unicred.payment_state, "paid")
+        self.assertEqual(self.invoice_unicred.payment_state, "in_payment")
         # Linhas Apagadas
         self.assertEqual(len(payment_order.payment_line_ids), 0)
 
@@ -305,7 +305,7 @@ class TestPaymentOrderInbound(SavepointCase):
         # I verify that invoice is now in Paid state
         self.assertEqual(
             self.demo_invoice_auto.payment_state,
-            "paid",
+            "in_payment",
             "Invoice is not in Paid state",
         )
 
@@ -394,7 +394,7 @@ class TestPaymentOrderInbound(SavepointCase):
         # I verify that invoice is now in Paid state
         self.assertEqual(
             self.demo_invoice_auto.payment_state,
-            "paid",
+            "in_payment",
             "Invoice is not in Paid state",
         )
 
