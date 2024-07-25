@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="account_payment_line_create_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_payment_boleto.res.company.form
+        </field>
+        <field name="model">account.payment.line.create</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_create_form"
+        />
+        <field name="arch" type="xml">
+            <field name="allow_blocked" position="after">
+                <field name="allow_error" />
+                <field name="allow_rejected" />
+            </field>
+        </field>
+    </record>
+</odoo>

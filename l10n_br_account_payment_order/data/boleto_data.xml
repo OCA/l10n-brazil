@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="sequence_boleto_own_number" model="ir.sequence">
+        <field name="name">Nosso número</field>
+        <field name="code">nosso.numero</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+</odoo>
