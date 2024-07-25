@@ -7,18 +7,16 @@ from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from odoo.models import NewId
 from odoo.tests import TransactionCase
 
-from odoo.addons.spec_driven_model import hooks
-
 _logger = logging.getLogger(__name__)
 
 
 class NFeImportTest(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env["spec.mixin.nfe"]._register_hook()
+
     def test_import_in_nfe_dry_run(self):
-        hooks.register_hook(
-            self.env,
-            "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-        )
         res_items = (
             "nfe",
             "samples",
@@ -40,11 +38,6 @@ class NFeImportTest(TransactionCase):
         self._check_nfe(nfe)
 
     def test_import_in_nfe(self):
-        hooks.register_hook(
-            self.env,
-            "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-        )
         res_items = (
             "nfe",
             "samples",
