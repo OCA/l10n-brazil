@@ -2330,7 +2330,9 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
-msgid "New Date Maturity {} is equal to actual Date Maturity {}"
+msgid ""
+"New Date Maturity %(new_date)s is equal to actual Date Maturity "
+"%(date_maturity)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2544,11 +2546,6 @@ msgid "Partial Reconcile"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.view_account_invoice_filter_inherit
-msgid "Partner"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_line
 msgid "Payment Lines"
 msgstr ""
@@ -2583,16 +2580,17 @@ msgid "Payment Mode"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__payment_mode_domain
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__payment_mode_domain
-msgid "Payment Mode Domain"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment Mode {} don't has {} for making CNAB change, check if should have."
+"Payment Mode %(payment_mode_name)s don't has %(missing)s for making "
+"CNABchange, check if should have."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__payment_mode_domain
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__payment_mode_domain
+msgid "Payment Mode Domain"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2609,16 +2607,16 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment line added to the existing draft order {} to send CNAB Instruction {} for OWN NUMBER {}.\n"
-"Justification: {}"
+"Payment line added to the existing draft order %(order_name)s to send CNAB Instruction %(instruction)s for OWN NUMBER %(own_number)s.\n"
+"Justification: %(reason)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment line added to the the new draft payment order {} which has been automatically created, to send CNAB Instruction {} for OWN NUMBER {}.\n"
-"Justification: {}"
+"Payment line added to the the new draft payment order %(order_name)s which has been automatically created, to send CNAB Instruction %(instruction)s for OWN NUMBER %(own_number)s.\n"
+"Justification: %(reason)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2767,13 +2765,13 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #, python-format
-msgid "Sequence CNAB Sequence already in use by {}!"
+msgid "Sequence CNAB Sequence already in use by %(payment_mode)s!"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #, python-format
-msgid "Sequence Own Number already in use by {}!"
+msgid "Sequence Own Number already in use by %(payment_mode)s!"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2860,7 +2858,8 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:0
 #, python-format
-msgid "The Code {} already exist {} for Bank and CNAB type."
+msgid ""
+"The Code %(code)s already exist %(code_name_exist)s for Bank and CNAB type."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2874,7 +2873,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "The amount for Partner '%s' is negative or null (%.2f) !"
+msgid "The amount for Partner '%(name)s' is negative or null (%(total).2f) !"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2888,9 +2887,10 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. "
-"The payment line %s has a maturity date %s which is after the computed "
-"payment date %s."
+"The payment mode '%(payment_mode)s' has the option 'Disallow Debit Before "
+"Maturity Date'. The payment line '%(payline)s' has a maturity date "
+"%(maturity_date)s which is after the computed payment date "
+"%(requested_date)s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2903,9 +2903,9 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"There is a CNAB Payment Order {} in status {} related to invoice {} created,"
-" the CNAB file should be sent to bank, because only after that it is "
-"possible make another CNAB Instruction."
+"There is a CNAB Payment Order %(order_name)s in status %(order_state)s "
+"related to invoice %(invoice_name)s created, the CNAB file should be sent to"
+" bank, because only after that it is possible make another CNAB Instruction."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
