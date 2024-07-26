@@ -18,6 +18,9 @@
         <field name="cnpj_cpf">97.231.608/0001-69</field>
         <field name="inscr_est">454.504.604.553</field>
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('base.main_partner')]" />
+    </function>
 
     <record id="base.main_company" model="res.company">
         <field name="name">Sua Empresa</field>
@@ -43,6 +46,9 @@
         <field name="cnpj_cpf">81.583.054/0001-29</field>
         <field name="inscr_est">078.016.350.838</field>
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('lucro_presumido_partner')]" />
+    </function>
 
     <record id="empresa_lucro_presumido" model="res.company">
         <field name="name">Empresa Lucro Presumido</field>
@@ -69,6 +75,9 @@
         <field name="cnpj_cpf">59.594.315/0001-57</field>
         <field name="inscr_est">755.338.250.133</field>
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('simples_nacional_partner')]" />
+    </function>
 
     <record id="empresa_simples_nacional" model="res.company">
         <field name="name">TESTE - Simples Nacional</field>
