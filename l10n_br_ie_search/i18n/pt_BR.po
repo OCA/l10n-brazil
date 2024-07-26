@@ -1,0 +1,98 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_ie_search
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-04-27 01:24+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: l10n_br_ie_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
+msgid ""
+"<span class=\"o_form_label\">Brazilian State Subscription service API</span>"
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
+msgid ""
+"Brazilian State Subscription service API to search partner state "
+"subscription using cnpj code."
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model:ir.model,name:l10n_br_ie_search.model_l10n_br_cnpj_search_webservice_abstract
+msgid "CNPJ Webservice"
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model:ir.model,name:l10n_br_ie_search.model_partner_search_wizard
+msgid "CNPJ based search wizard allowing to update partner data."
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
+msgid "Choose the provider for state subscription search"
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model:ir.model,name:l10n_br_ie_search.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de Configurações"
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_l10n_br_cnpj_search_webservice_abstract__display_name
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_partner_search_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_l10n_br_cnpj_search_webservice_abstract__id
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_partner_search_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_l10n_br_cnpj_search_webservice_abstract____last_update
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_partner_search_wizard____last_update
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields.selection,name:l10n_br_ie_search.selection__res_config_settings__ie_search__sefaz
+msgid "SEFAZ"
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__sintegra_token
+msgid "SINTEGRA Token"
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields.selection,name:l10n_br_ie_search.selection__res_config_settings__ie_search__sintegraws
+msgid "SINTEGRAWS"
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__ie_search
+msgid "Select IE search provider"
+msgstr ""
+
+#. module: l10n_br_ie_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
+msgid ""
+"Select to choose the provider for state subscription search when searching "
+"for cnpj"
+msgstr ""
