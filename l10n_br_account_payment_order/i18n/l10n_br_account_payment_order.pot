@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -819,6 +819,7 @@ msgid "Barcode"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__boleto
 #, python-format
@@ -1004,6 +1005,7 @@ msgid "CNAB Movement Instruction Code for Suspend Protest and Writte Off."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment.py:0
 #, python-format
 msgid ""
@@ -1203,6 +1205,7 @@ msgid "Carteira"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #, python-format
 msgid "Carteira no banco Itaú é obrigatória"
@@ -1221,6 +1224,7 @@ msgid "Change Title Value Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__checking
 #, python-format
@@ -1228,6 +1232,7 @@ msgid "Checking Account (Conta Corrente)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cheque
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__cheque
@@ -1690,6 +1695,7 @@ msgid "DIVERSOS"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__doc
 #, python-format
@@ -1748,6 +1754,7 @@ msgid "Desconto de pontualidade"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__dinheiro
 #, python-format
@@ -1755,23 +1762,11 @@ msgid "Dinheiro"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_journal__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_partial_reconcile__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line_create__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_ir_attachment__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__display_name
@@ -1840,17 +1835,6 @@ msgid "Followers"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_channel_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_channel_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_channel_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_channel_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_channel_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_channel_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_partner_ids
@@ -1909,28 +1893,27 @@ msgid "Group By..."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__has_message
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__has_message
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__has_message
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__has_message
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__has_message
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__has_message
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.module.category,description:l10n_br_account_payment_order.module_category_cnab
 msgid "Helps you handle your CNAB needs."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_journal__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_partial_reconcile__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line_create__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_ir_attachment__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__id
@@ -1961,19 +1944,12 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_unread
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_unread
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_unread
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_unread
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_unread
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_unread
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -2006,6 +1982,7 @@ msgid "Inicial"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__pix_key
 #, python-format
@@ -2112,23 +2089,11 @@ msgid "LETRA DE CÂMBIO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_journal____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_partial_reconcile____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line_create____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_ir_attachment____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot____last_update
@@ -2238,12 +2203,14 @@ msgid "Methods used to make changes in CNAB Movement."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Missing Bank Journal on payment order %s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "Missing bank account on bank journal '%s'."
@@ -2328,9 +2295,17 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
-msgid "New Date Maturity {} is equal to actual Date Maturity {}"
+msgid ""
+"New Date Maturity %(new_date)s is equal to actual Date Maturity "
+"%(date_maturity)s"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2394,7 +2369,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2406,17 +2381,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_unread_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_unread_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_unread_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_unread_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_unread_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_unread_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_unread_counter
-msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2471,6 +2435,7 @@ msgid "Número sequencial do arquivo"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #, python-format
 msgid "O percentual deve ser um valor entre 0 a 100."
@@ -2502,6 +2467,7 @@ msgid "Own Number Without Zfill"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__pix_transfer
 #, python-format
@@ -2544,11 +2510,6 @@ msgid "Partial Reconcile"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.view_account_invoice_filter_inherit
-msgid "Partner"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_line
 msgid "Payment Lines"
 msgstr ""
@@ -2583,16 +2544,18 @@ msgid "Payment Mode"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__payment_mode_domain
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__payment_mode_domain
-msgid "Payment Mode Domain"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment Mode {} don't has {} for making CNAB change, check if should have."
+"Payment Mode %(payment_mode_name)s don't has %(missing)s for making "
+"CNABchange, check if should have."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__payment_mode_domain
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__payment_mode_domain
+msgid "Payment Mode Domain"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2606,19 +2569,21 @@ msgid "Payment Order"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment line added to the existing draft order {} to send CNAB Instruction {} for OWN NUMBER {}.\n"
-"Justification: {}"
+"Payment line added to the existing draft order %(order_name)s to send CNAB Instruction %(instruction)s for OWN NUMBER %(own_number)s.\n"
+"Justification: %(reason)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment line added to the the new draft payment order {} which has been automatically created, to send CNAB Instruction {} for OWN NUMBER {}.\n"
-"Justification: {}"
+"Payment line added to the the new draft payment order %(order_name)s which has been automatically created, to send CNAB Instruction %(instruction)s for OWN NUMBER %(own_number)s.\n"
+"Justification: %(reason)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2687,6 +2652,7 @@ msgid "Posto da Cooperativa de Crédito"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__payment
 #, python-format
@@ -2731,6 +2697,7 @@ msgid "Retornos CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__saving
 #, python-format
@@ -2765,15 +2732,17 @@ msgid "Sending Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #, python-format
-msgid "Sequence CNAB Sequence already in use by {}!"
+msgid "Sequence CNAB Sequence already in use by %(payment_mode)s!"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #, python-format
-msgid "Sequence Own Number already in use by {}!"
+msgid "Sequence Own Number already in use by %(payment_mode)s!"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2809,6 +2778,7 @@ msgid "Situação do Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/ir_attachment.py:0
 #, python-format
 msgid "Sorry, you are not allowed to delete the attachment."
@@ -2841,6 +2811,7 @@ msgid "Sustar Protesto e Manter em Carteira"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__ted
 #, python-format
@@ -2858,12 +2829,15 @@ msgid "Tarifa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:0
 #, python-format
-msgid "The Code {} already exist {} for Bank and CNAB type."
+msgid ""
+"The Code %(code)s already exist %(code_name_exist)s for Bank and CNAB type."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #, python-format
 msgid ""
@@ -2872,12 +2846,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
-msgid "The amount for Partner '%s' is negative or null (%.2f) !"
+msgid "The amount for Partner '%(name)s' is negative or null (%(total).2f) !"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_mov_intruction_code.py:0
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_return_move_code.py:0
 #, python-format
@@ -2885,27 +2861,31 @@ msgid "The field Code should have two characters."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
-"The payment mode '%s' has the option 'Disallow Debit Before Maturity Date'. "
-"The payment line %s has a maturity date %s which is after the computed "
-"payment date %s."
+"The payment mode '%(payment_mode)s' has the option 'Disallow Debit Before "
+"Maturity Date'. The payment line '%(payline)s' has a maturity date "
+"%(maturity_date)s which is after the computed payment date "
+"%(requested_date)s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "There are no transactions on payment order %s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"There is a CNAB Payment Order {} in status {} related to invoice {} created,"
-" the CNAB file should be sent to bank, because only after that it is "
-"possible make another CNAB Instruction."
+"There is a CNAB Payment Order %(order_name)s in status %(order_state)s "
+"related to invoice %(invoice_name)s created, the CNAB file should be sent to"
+" bank, because only after that it is possible make another CNAB Instruction."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2970,28 +2950,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_unread
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_unread
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_unread
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_unread
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_unread
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_unread
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_unread_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_unread_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_unread_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_unread_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_unread_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_unread_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_unread_counter
-msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -3143,12 +3101,14 @@ msgid "Write Off Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "You cannot Cancel CNAB order."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "You cannot delete CNAB order."
