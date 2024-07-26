@@ -77,7 +77,7 @@
                         <field name="sequence" />
                     </group>
                     <field name="current_view" invisible="True" />
-                    <field name="cnab_structure_id" invisible="True" />
+                    <field name="cnab_structure_id" />
                     <field name="content_source_model_id" invisible="True" />
                     <field name="resource_ref" invisible="True" />
                     <field name="cnab_format" invisible="True" />

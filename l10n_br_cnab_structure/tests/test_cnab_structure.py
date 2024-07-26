@@ -196,20 +196,29 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         )
         cnab_structure_form.name = "Test CNAB Structure"
         cnab_structure_form.bank_id = self.bank_341
-        # FILE HEADER
-        with cnab_structure_form.line_ids.new() as line_form:
-            line_form.type = "header"
-            line_form.communication_flow = "both"
-            with line_form.field_ids.new() as field_form:
-                field_form.start_pos = 1
-                field_form.end_pos = 240
         # BATCH
         with cnab_structure_form.batch_ids.new() as batch_form:
             batch_form.name = "Test Batch 1"
         cnab_structure = cnab_structure_form.save()
 
+        # FILE HEADER
+        line_form = Form(
+            self.env["l10n_br_cnab.line"],
+            view="l10n_br_cnab_structure.cnab_line_form_view",
+        )
+        line_form.cnab_structure_id = cnab_structure
+        line_form.type = "header"
+        line_form.communication_flow = "both"
+        with line_form.field_ids.new() as field_form:
+            field_form.start_pos = 1
+            field_form.end_pos = 240
+        line_form.save()
+
         # BATCH HEADER
-        line_form = Form(self.env["l10n_br_cnab.line"])
+        line_form = Form(
+            self.env["l10n_br_cnab.line"],
+            view="l10n_br_cnab_structure.cnab_line_form_view",
+        )
         line_form.cnab_structure_id = cnab_structure
         line_form.batch_id = cnab_structure.batch_ids[0]
         line_form.type = "header"
@@ -220,7 +229,10 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         line_form.save()
 
         # BATCH SEGMENT
-        line_form = Form(self.env["l10n_br_cnab.line"])
+        line_form = Form(
+            self.env["l10n_br_cnab.line"],
+            view="l10n_br_cnab_structure.cnab_line_form_view",
+        )
         line_form.cnab_structure_id = cnab_structure
         line_form.batch_id = cnab_structure.batch_ids[0]
         line_form.type = "segment"
@@ -232,7 +244,10 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         line_form.save()
 
         # BATCH TRAILER
-        line_form = Form(self.env["l10n_br_cnab.line"])
+        line_form = Form(
+            self.env["l10n_br_cnab.line"],
+            view="l10n_br_cnab_structure.cnab_line_form_view",
+        )
         line_form.cnab_structure_id = cnab_structure
         line_form.batch_id = cnab_structure.batch_ids[0]
         line_form.type = "trailer"
@@ -243,7 +258,10 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         line_form.save()
 
         # FILE TRAILER
-        line_form = Form(self.env["l10n_br_cnab.line"])
+        line_form = Form(
+            self.env["l10n_br_cnab.line"],
+            view="l10n_br_cnab_structure.cnab_line_form_view",
+        )
         line_form.cnab_structure_id = cnab_structure
         line_form.type = "trailer"
         line_form.communication_flow = "both"
