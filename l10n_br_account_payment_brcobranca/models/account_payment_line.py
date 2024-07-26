@@ -124,12 +124,16 @@ class AccountPaymentLine(models.Model):
         linhas_pagamentos = self._prepare_boleto_line_vals()
         try:
             bank_method = getattr(
-                self, "_prepare_bank_line_{}".format(bank_name_brcobranca.name)
+                self, f"_prepare_bank_line_{bank_name_brcobranca.name}"
             )
             if bank_method:
                 bank_method(payment_mode_id, linhas_pagamentos)
         except Exception:
-            pass
+            _logger.warning(
+                f"Error executing method _prepare_bank_line_{bank_name_brcobranca.name}."
+                "Check the bank name and provided parameters.",
+                exc_info=True,
+            )
 
         # Cada Banco pode possuir seus Codigos de Instrução
         if (
