@@ -21,7 +21,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
 )
-from odoo.addons.l10n_br_fiscal.models.document import Document as FiscalDocument
 from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
 NFSE_URL = {
@@ -326,10 +325,7 @@ class Document(models.Model):
         Returns:
             The result of the document export operation.
         """
-        if self.filtered(filter_processador_edoc_nfse).filtered(filter_focusnfe):
-            result = super(FiscalDocument, self)._document_export()
-        else:
-            result = super()._document_export()
+        result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfse).filtered(
             filter_focusnfe
         ):
@@ -354,7 +350,7 @@ class Document(models.Model):
         Returns:
             A string indicating the current status of the document.
         """
-        result = super(FiscalDocument, self)._document_status()
+        result = super()._document_status()
         for record in self.filtered(filter_processador_edoc_nfse).filtered(
             filter_focusnfe
         ):
