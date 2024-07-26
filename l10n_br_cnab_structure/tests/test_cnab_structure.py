@@ -342,7 +342,7 @@ class TestCNABStructure(AccountTestInvoicingCommon):
 
         field_select_wizard = (
             self.env[wiz_action["res_model"]]
-            .with_context(wiz_action["context"])
+            .with_context(**wiz_action["context"])
             .create({})
         )
 
