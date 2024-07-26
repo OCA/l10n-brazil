@@ -29,6 +29,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_intel')]" />
+    </function>
+
     <record id="res_partner_amd" model="res.partner">
         <field name="name">AMD do Brasil</field>
         <field name="legal_name">AMD South America Ltda</field>
@@ -48,6 +52,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_amd')]" />
+    </function>
+
     <record id="res_partner_lg" model="res.partner">
         <field name="name">LG do Brasil</field>
         <field name="legal_name">LG ELECTRONICS DA AMAZÔNIA LTDA</field>
@@ -68,6 +76,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_lg')]" />
+    </function>
+
     <record id="res_partner_samsungpe" model="res.partner">
         <field name="name">Samsung Recife</field>
         <field name="legal_name">Samsung Recife LTDA</field>
@@ -88,6 +100,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_samsungpe')]" />
+    </function>
+
     <record id="res_partner_positivo" model="res.partner">
         <field name="name">Positivo Informatica</field>
         <field name="legal_name">Positivo Informatica S/A</field>
@@ -108,6 +124,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_positivo')]" />
+    </function>
+
     <record id="res_partner_dell" model="res.partner">
         <field name="name">Dell Computadores do Brasil</field>
         <field name="legal_name">Dell Computadores do Brasil LTDA</field>
@@ -128,6 +148,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_dell')]" />
+    </function>
+
     <record id="res_partner_infobahia" model="res.partner">
         <field name="name">Info Bahia</field>
         <field name="legal_name">Informatica Bahia LTDA</field>
@@ -148,6 +172,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_infobahia')]" />
+    </function>
+
     <record id="res_partner_infomanaus" model="res.partner">
         <field name="name">Informatica Manaus</field>
         <field name="legal_name">Informatica Manaus</field>
@@ -168,6 +196,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_infomanaus')]" />
+    </function>
+
     <record id="res_partner_cliente1_sp" model="res.partner">
         <field name="name">Cliente 1 SP Contribuinte</field>
         <field name="legal_name">Cliente 1 SP</field>
@@ -187,6 +219,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente1_sp')]" />
+    </function>
+
     <record id="res_partner_cliente2_sp" model="res.partner">
         <field name="name">Cliente 2 -SP - Simples Nacional</field>
         <field name="legal_name">Cliente 2 - SP</field>
@@ -206,6 +242,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente2_sp')]" />
+    </function>
+
     <record id="res_partner_cliente2_sp_end_entrega" model="res.partner">
         <field name="name">Cliente 2 - SP - Endereço Entrega</field>
         <field name="legal_name">Cliente 2 - SP - Endereço Entrega</field>
@@ -234,6 +274,10 @@
         <field name="parent_id" ref="l10n_br_base.res_partner_cliente2_sp" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente2_sp_end_entrega')]" />
+    </function>
+
     <record id="res_partner_cliente3_am" model="res.partner">
         <field name="name">Cliente 3 - Z/F Manaus - Contribuinte</field>
         <field name="legal_name">Cliente 3 - Manaus</field>
@@ -254,6 +298,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente3_am')]" />
+    </function>
+
     <record id="res_partner_cliente4_am" model="res.partner">
         <field name="name">Cliente 4 - Z/F Manaus - Simples Nacional</field>
         <field name="legal_name">Cliente 4 - Manaus</field>
@@ -274,6 +322,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente4_am')]" />
+    </function>
+
     <record id="res_partner_cliente5_pe" model="res.partner">
         <field name="name">Cliente 5 - Contribuinte - PE</field>
         <field name="legal_name">Cliente 5 PE</field>
@@ -294,6 +346,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente5_pe')]" />
+    </function>
+
     <record id="res_partner_cliente6_pe" model="res.partner">
         <field name="name">Cliente 6 - Simples Nacional- PE</field>
         <field name="legal_name">Cliente 6 Recife LTDA</field>
@@ -314,6 +370,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente6_pe')]" />
+    </function>
+
     <record id="res_partner_cliente7_rs" model="res.partner">
         <field name="name">Cliente 7 RS - Contribuinte</field>
         <field name="legal_name">Cliente 7 - RS</field>
@@ -334,6 +394,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente7_rs')]" />
+    </function>
+
     <record id="res_partner_cliente7_rs_end_cobranca" model="res.partner">
         <field name="name">Cliente 7 - RS - Endereço Cobrança</field>
         <field name="legal_name">Cliente 7 - RS - Endereço Cobranca</field>
@@ -362,6 +426,10 @@
         <field name="parent_id" ref="l10n_br_base.res_partner_cliente7_rs" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente7_rs_end_cobranca')]" />
+    </function>
+
     <record id="res_partner_cliente8_rs" model="res.partner">
         <field name="name">Cliente 8 RS - Simples Nacional</field>
         <field name="legal_name">Cliente 7 - RS</field>
@@ -382,6 +450,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente8_rs')]" />
+    </function>
+
     <record id="res_partner_akretion" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="cnpj_cpf">11.034.414/0001-58</field>
@@ -405,6 +477,10 @@
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_akretion')]" />
+    </function>
+
     <record id="res_partner_address_ak2" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field eval="0" name="employee" />
@@ -430,6 +506,10 @@
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_address_ak2')]" />
+    </function>
+
     <record id="res_partner_address_ak3" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="cnpj_cpf">11.034.414/0003-10</field>
@@ -456,6 +536,10 @@
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_address_ak3')]" />
+    </function>
+
     <record id="res_partner_cliente9_mg" model="res.partner">
         <field name="name">Cliente 9 MG - PJ Não Contribuinte</field>
         <field name="legal_name">Cliente 9 MG</field>
@@ -475,6 +559,10 @@
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente9_mg')]" />
+    </function>
+
     <record id="res_partner_cliente10_mg" model="res.partner">
         <field name="name">Cliente 10 MG - PF Não Contribuinte</field>
         <field name="legal_name">Cliente 10 PF</field>
@@ -494,6 +582,10 @@
         <field name="is_company" eval="0" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente10_mg')]" />
+    </function>
+
     <record id="res_partner_kmee" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="cnpj_cpf">23.130.935/0001-98</field>
@@ -516,6 +608,10 @@
             file="l10n_br_base/static/img/res_partner_kmee.png"
         />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_kmee')]" />
+    </function>
+
     <record id="res_partner_exterior" model="res.partner">
         <field name="name">Cliente Exterior</field>
         <field name="is_company">1</field>
@@ -532,6 +628,7 @@
         <field name="email">exteior@example.com</field>
         <field name="website">http://www.exterior.com</field>
     </record>
+
     <record id="res_partner_cliente11_sp" model="res.partner">
         <field name="name">Cliente 11 SP - PF Não Contribuinte</field>
         <field name="legal_name">Cliente 11 PF</field>
@@ -551,4 +648,7 @@
         <field name="is_company" eval="0" />
         <field name="active" eval="1" />
     </record>
+    <function model="res.partner" name="_onchange_city_id">
+        <value eval="[ref('res_partner_cliente11_sp')]" />
+    </function>
 </odoo>
