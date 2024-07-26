@@ -50,27 +50,6 @@ msgid "Config Settings"
 msgstr "Ajustes de Configurações"
 
 #. module: l10n_br_ie_search
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_l10n_br_cnpj_search_webservice_abstract__display_name
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_partner_search_wizard__display_name
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_ie_search
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_l10n_br_cnpj_search_webservice_abstract__id
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_partner_search_wizard__id
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__id
-msgid "ID"
-msgstr "ID"
-
-#. module: l10n_br_ie_search
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_l10n_br_cnpj_search_webservice_abstract____last_update
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_partner_search_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_ie_search
 #: model:ir.model.fields.selection,name:l10n_br_ie_search.selection__res_config_settings__ie_search__sefaz
 msgid "SEFAZ"
 msgstr ""
@@ -96,3 +75,12 @@ msgid ""
 "Select to choose the provider for state subscription search when searching "
 "for cnpj"
 msgstr ""
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
