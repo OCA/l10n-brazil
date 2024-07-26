@@ -16,22 +16,23 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 
 class TestFiscalClosing(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.nfe_export = self.env.ref("l10n_br_fiscal.demo_nfe_export")
-        self.nfe_export.date_in_out = fields.Datetime.now()
-        self.closing_all = self.env["l10n_br_fiscal.closing"].create(
+        cls.nfe_export = cls.env.ref("l10n_br_fiscal.demo_nfe_export")
+        cls.nfe_export.date_in_out = fields.Datetime.now()
+        cls.closing_all = cls.env["l10n_br_fiscal.closing"].create(
             {
                 "export_type": "all",
             }
         )
 
-        self.closing_period = self.env["l10n_br_fiscal.closing"].create(
+        cls.closing_period = cls.env["l10n_br_fiscal.closing"].create(
             {
                 "export_type": "period",
-                "year": str(self.nfe_export.date_in_out.year),
-                "month": str(self.nfe_export.date_in_out.month),
+                "year": str(cls.nfe_export.date_in_out.year),
+                "month": str(cls.nfe_export.date_in_out.month),
             }
         )
 
