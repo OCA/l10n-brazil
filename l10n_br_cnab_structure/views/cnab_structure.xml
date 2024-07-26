@@ -80,7 +80,7 @@
                             <field name="payment_method_id" />
                             <field name="cnab_format" invisible="True" />
                             <field name="payment_type" invisible="True" />
-                            <field name="batch_ids" invisible="True" />
+                            <field name="batch_ids" />
                             <field name="content_source_model_id" invisible="True" />
                         </group>
                     </group>
@@ -103,7 +103,7 @@
                                         name="batch_id"
                                         attrs="{'column_invisible': [('parent.cnab_format', '!=', '240')]}"
                                     />
-                                    <field name="cnab_structure_id" invisible="1" />
+                                    <field name="cnab_structure_id" />
                                 </tree>
                             </field>
                         </page>
