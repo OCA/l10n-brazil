@@ -135,8 +135,10 @@ def register_hook(env, module_name, spec_module, force=False):
         env[name]._setup_base()
         env[name]._setup_fields()
         env[name]._setup_complete()
+        model._auto_fill_access_data(env, module_name, access_data)
 
-        access_fields = [
+    env["ir.model.access"].load(
+        [
             "id",
             "name",
             "model_id/id",
@@ -145,10 +147,9 @@ def register_hook(env, module_name, spec_module, force=False):
             "perm_write",
             "perm_create",
             "perm_unlink",
-        ]
-        model._auto_fill_access_data(env, module_name, access_data)
-
-    env["ir.model.access"].load(access_fields, access_data)
+        ],
+        access_data,
+    )
     hook_key = "_%s_need_hook" % (module_name,)
     if hasattr(env.registry, hook_key) and getattr(env.registry, hook_key):
         env.registry.init_models(env.cr, remaining_models, {"module": module_name})
