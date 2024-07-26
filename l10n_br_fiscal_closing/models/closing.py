@@ -70,7 +70,6 @@ class FiscalClosing(models.Model):
 
     state = fields.Selection(
         selection=[("draft", "Draft"), ("open", "Open"), ("closed", "Closed")],
-        string="State",
         default="draft",
         readonly=True,
     )
