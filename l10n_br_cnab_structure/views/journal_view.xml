@@ -11,13 +11,13 @@
         <field name="model">account.journal</field>
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='journal_entries']/group" position="after">
+            <xpath expr="//page[@name='bank_account']/group" position="after">
                 <separator string="Import CNAB" />
                 <group>
                     <field name="used_to_import_cnab" />
                 </group>
             </xpath>
-            <xpath expr="//page[@name='journal_entries']" position="after">
+            <xpath expr="//page[@name='bank_account']" position="after">
                 <page name="cnab_configuration" string="CNAB Configuration">
                         <group name="outbound" string="Outgoing Payments">
                             <div
@@ -28,8 +28,6 @@
                             <field name="default_outbound_cnab_structure_id" />
                     </group>
                 </page>
-            </xpath>
-            <xpath expr="//page[@name='journal_entries']" position="after">
                 <page
                     name="cnab_accounts"
                     string="CNAB Accounts"
