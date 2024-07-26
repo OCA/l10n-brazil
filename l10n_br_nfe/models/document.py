@@ -1372,30 +1372,28 @@ class NFe(spec_models.StackedModel):
         )
 
         for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key:
-                continue
-
             if retevento.infEvento.cStat not in CANCELADO:
                 mensagem = "Erro no cancelamento"
                 mensagem += "\nCódigo: " + retevento.infEvento.cStat
                 mensagem += "\nMotivo: " + retevento.infEvento.xMotivo
                 raise UserError(mensagem)
 
-            if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
-                self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-            elif retevento.infEvento.cStat == CANCELADO_DENTRO_PRAZO:
-                self.state_fiscal = SITUACAO_FISCAL_CANCELADO
+            if retevento.infEvento.chNFe == self.document_key:
+                if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
+                    self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+                elif retevento.infEvento.cStat == CANCELADO_DENTRO_PRAZO:
+                    self.state_fiscal = SITUACAO_FISCAL_CANCELADO
 
-            self.state_edoc = SITUACAO_EDOC_CANCELADA
-            self.cancel_event_id.set_done(
-                status_code=retevento.infEvento.cStat,
-                response=retevento.infEvento.xMotivo,
-                protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
-                ),
-                protocol_number=retevento.infEvento.nProt,
-                file_response_xml=processo.retorno.content.decode("utf-8"),
-            )
+                self.state_edoc = SITUACAO_EDOC_CANCELADA
+                self.cancel_event_id.set_done(
+                    status_code=retevento.infEvento.cStat,
+                    response=retevento.infEvento.xMotivo,
+                    protocol_date=fields.Datetime.to_string(
+                        datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                    ),
+                    protocol_number=retevento.infEvento.nProt,
+                    file_response_xml=processo.retorno.content.decode("utf-8"),
+                )
 
     def _document_correction(self, justificative):
         result = super()._document_correction(justificative)
