@@ -688,6 +688,13 @@ msgid "Civil Construction Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__close_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__close_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__close_id
+msgid "Close ID"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_cBarra
 msgid "Codigo de barras diferente"
 msgstr ""
