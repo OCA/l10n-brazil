@@ -10,4 +10,6 @@ erpbrasil.transmissao>=1.1.0
 nfelib<=2.0.7
 num2words
 phonenumbers
+pyyaml
+unidecode
 workalendar
