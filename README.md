@@ -32,6 +32,7 @@ addon | version | maintainers | summary
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 16.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
 [l10n_br_fiscal](l10n_br_fiscal/) | 16.0.1.17.3 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_fiscal_certificate](l10n_br_fiscal_certificate/) | 16.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | A1 fiscal certificate management for Brazil
+[l10n_br_fiscal_closing](l10n_br_fiscal_closing/) | 16.0.1.0.0 |  | Fechamento fiscal do periodo
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 16.0.1.0.1 |  | Distribuição de documentos fiscais
 [l10n_br_hr](l10n_br_hr/) | 16.0.1.0.2 |  | Brazilian Localization HR
 [l10n_br_ie_search](l10n_br_ie_search/) | 16.0.1.0.0 |  | Integração com a API SintegraWS e SEFAZ
