@@ -41,12 +41,12 @@ msgstr ""
 "\n"
 "  Defina o URL usando um destes métodos:\n"
 "\n"
-"1. Defina a variável de ambiente: BRCOBRANCA_API_URL=http://boleto_cnab_api:"
-"9292\n"
+"1. Defina a variável de ambiente: BRCOBRANCA_API_URL=http://"
+"boleto_cnab_api:9292\n"
 "2. Configure a URL no arquivo de configuração do Odoo: "
 "brcobranca_api_url=http://boleto_cnab_api:9292\n"
-"3. Defina a URL nos Parâmetros do Sistema: "
-"brcobranca_api_url=http://boleto_cnab_api:9292\n"
+"3. Defina a URL nos Parâmetros do Sistema: brcobranca_api_url=http://"
+"boleto_cnab_api:9292\n"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_journal__import_type__cnab240
@@ -185,19 +185,29 @@ msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
 #, python-format
-msgid "The Bank {} CNAB {} is not implemented in BRCobranca."
-msgstr "O banco {} CNAB {} não está implantado no BRCobranca."
+msgid "The Bank %(bank)s CNAB %(cnab_code)s is not implemented in BRCobranca."
+msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:0
 #, python-format
-msgid "The CNAB {} for Bank {} are not implemented in BRCobranca."
-msgstr "O CNAB {} para o banco {} não está implementado no BRCobranca."
+msgid ""
+"The CNAB %(cnab_type)s for Bank %(bank_name)s are not implemented in "
+"BRCobranca."
+msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr "Tipo de importação"
+
+#, python-format
+#~ msgid "The Bank {} CNAB {} is not implemented in BRCobranca."
+#~ msgstr "O banco {} CNAB {} não está implantado no BRCobranca."
+
+#, python-format
+#~ msgid "The CNAB {} for Bank {} are not implemented in BRCobranca."
+#~ msgstr "O CNAB {} para o banco {} não está implementado no BRCobranca."
 
 #, python-format
 #~ msgid ""
