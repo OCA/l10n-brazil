@@ -258,10 +258,14 @@ class CNABReturnEvent(models.Model):
     def _create_counterpart_move_line(self, move_id, partner_id):
         if self.move_line_ids[0].balance < 0:
             debit_or_credit = "credit"
-            account_id = self.journal_id.payment_credit_account_id
+            account_id = (
+                self.journal_id.company_id.account_journal_payment_credit_account_id
+            )
         else:
             debit_or_credit = "debit"
-            account_id = self.journal_id.payment_debit_account_id
+            account_id = (
+                self.journal_id.company_id.account_journal_payment_debit_account_id
+            )
         move_line_obj = self.env["account.move.line"]
         counterpart_vals = {
             "move_id": move_id.id,
@@ -282,7 +286,9 @@ class CNABReturnEvent(models.Model):
                 {
                     "name": "Bank Tariff: " + self.your_number,
                     "credit": self.tariff_charge,
-                    "account_id": self.journal_id.payment_credit_account_id.id,
+                    "account_id": (
+                        self.journal_id.company_id.account_journal_payment_credit_account_id.id
+                    ),
                     "partner_id": self.move_line_ids[0].partner_id.id,
                     "move_id": move_id.id,
                 }
@@ -341,7 +347,9 @@ class CNABReturnEvent(models.Model):
             if self.cnab_return_log_id.type == "inbound":
                 credit_move_line[
                     "account_id"
-                ] = self.journal_id.payment_credit_account_id.id
+                ] = (
+                    self.journal_id.company_id.account_journal_payment_credit_account_id.id
+                )
                 debit_move_line[
                     "account_id"
                 ] = self.journal_id.inbound_rebate_account_id.id
@@ -351,7 +359,7 @@ class CNABReturnEvent(models.Model):
                 ] = self.journal_id.outbound_rebate_account_id.id
                 debit_move_line[
                     "account_id"
-                ] = self.journal_id.payment_debit_account_id.id
+                ] = self.journal_id.company_id.account_journal_payment_debit_account_id
 
             move_line_obj.with_context(check_move_validity=False).create(
                 [credit_move_line, debit_move_line]
@@ -375,7 +383,9 @@ class CNABReturnEvent(models.Model):
             if self.cnab_return_log_id.type == "inbound":
                 credit_move_line[
                     "account_id"
-                ] = self.journal_id.payment_credit_account_id.id
+                ] = (
+                    self.journal_id.company_id.account_journal_payment_credit_account_id.id
+                )
                 debit_move_line[
                     "account_id"
                 ] = self.journal_id.inbound_discount_account_id.id
@@ -385,7 +395,7 @@ class CNABReturnEvent(models.Model):
                 ] = self.journal_id.outbound_discount_account_id.id
                 debit_move_line[
                     "account_id"
-                ] = self.journal_id.payment_debit_account_id.id
+                ] = self.journal_id.company_id.account_journal_payment_debit_account_id
 
             move_line_obj.with_context(check_move_validity=False).create(
                 [credit_move_line, debit_move_line]
@@ -412,11 +422,13 @@ class CNABReturnEvent(models.Model):
                 ] = self.journal_id.inbound_interest_fee_account_id.id
                 debit_move_line[
                     "account_id"
-                ] = self.journal_id.payment_debit_account_id.id
+                ] = self.journal_id.company_id.account_journal_payment_debit_account_id
             else:
                 credit_move_line[
                     "account_id"
-                ] = self.journal_id.payment_credit_account_id.id
+                ] = (
+                    self.journal_id.company_id.account_journal_payment_credit_account_id.id
+                )
                 debit_move_line[
                     "account_id"
                 ] = self.journal_id.outbound_interest_fee_account_id.id

@@ -73,10 +73,12 @@ class CNABImportWizard(models.TransientModel):
     def _compute_payment_method_ids(self):
         for record in self:
             if record.type == "inbound":
-                record.payment_method_ids = record.journal_id.inbound_payment_method_ids
+                record.payment_method_ids = (
+                    record.journal_id.inbound_payment_method_line_ids.payment_method_id
+                )
             elif record.type == "outbound":
                 record.payment_method_ids = (
-                    record.journal_id.outbound_payment_method_ids
+                    record.journal_id.outbound_payment_method_line_ids.payment_method_id
                 )
             else:
                 record.payment_method_ids = [(5, 0, 0)]

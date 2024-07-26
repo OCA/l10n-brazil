@@ -8,10 +8,6 @@
 <odoo noupdate="1">
     <!-- Diario Itau -->
     <record id="l10n_br_account_payment_order.itau_journal" model="account.journal">
-        <field
-            name="outbound_payment_method_ids"
-            eval="[(6,0,[ref('l10n_br_account_payment_order.payment_mode_type_cnab240_out')])]"
-        />
         <field name="used_to_import_cnab">True</field>
         <field name="default_outbound_cnab_processor">oca_processor</field>
         <field
@@ -46,5 +42,16 @@
             name="tariff_charge_account_id"
             ref="l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error"
         />
+    </record>
+    <record
+        id="itau_journal_payment_method_cnab240_out"
+        model="account.payment.method.line"
+    >
+        <field name="name">ITAU CNAB 240</field>
+        <field
+            name="payment_method_id"
+            ref="l10n_br_account_payment_order.payment_mode_type_cnab240_out"
+        />
+        <field name="journal_id" ref="l10n_br_account_payment_order.itau_journal" />
     </record>
 </odoo>
