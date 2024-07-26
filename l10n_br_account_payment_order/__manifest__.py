@@ -39,6 +39,7 @@
         # Wizards
         "wizards/account_payment_line_create_view.xml",
         "wizards/account_move_line_change.xml",
+        "wizards/account_move_payment_mode.xml",
         # Views
         "views/account_journal.xml",
         "views/account_payment_order.xml",

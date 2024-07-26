@@ -18,6 +18,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         cls.invoice_auto = cls.env.ref(
             "l10n_br_account_payment_order." "demo_invoice_automatic_test"
         )
+        cls.wizard_payment_mode_cnab = cls.env["account.move.payment.mode.cnab.change"]
         if cls.invoice_auto.state == "draft":
             cls.invoice_auto.action_post()
 
@@ -318,3 +319,20 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "mov_instruction_code_id"
             ).ids
         ), "Payment Order with wrong mov_instruction_code_id"
+
+    def test_payment_mode_cnab_change(self):
+        invoice = self.env.ref(
+            "l10n_br_account_payment_order.demo_invoice_payment_order_manual"
+        )
+        self.assertEqual(invoice.state, "posted")
+        payment_mode_id = self.env.ref(
+            "l10n_br_account_payment_order.payment_mode_cobranca_santander_400"
+        )
+        with Form(
+            self.wizard_payment_mode_cnab.with_context(active_id=invoice.id)
+        ) as f:
+            f.payment_mode_id = payment_mode_id
+        wizard = f.save()
+        wizard.set_payment_mode()
+
+        self.assertEqual(invoice.payment_mode_id, payment_mode_id)
