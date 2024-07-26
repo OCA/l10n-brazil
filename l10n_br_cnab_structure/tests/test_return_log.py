@@ -127,8 +127,8 @@ class TestReturnLog(AccountTestInvoicingCommon):
             lambda line: line.account_id
             in (
                 self.bank_journal_itau.default_account_id,
-                self.bank_journal_itau.payment_debit_account_id,
-                self.bank_journal_itau.payment_credit_account_id,
+                self.bank_journal_itau.company_id.account_journal_payment_debit_account_id,
+                self.bank_journal_itau.company_id.account_journal_payment_credit_account_id,
             )
         )
         rebate_moves = event.generated_move_id.line_ids.filtered(
