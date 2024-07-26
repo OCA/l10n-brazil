@@ -7,7 +7,7 @@
     "category": "Localization",
     "author": "KMEE, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "16.0.1.0.1",
+    "version": "16.0.1.0.2",
     "depends": ["hr", "l10n_br_base", "hr_employee_relative"],
     "data": [
         "data/l10n_br_hr.cbo.csv",
