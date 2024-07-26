@@ -112,6 +112,7 @@ msgid "CSLL"
 msgstr "CSLL"
 
 #. module: l10n_br_fiscal_closing
+#. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #, python-format
 msgid "Check write permissions in your system temp folder"
@@ -149,7 +150,6 @@ msgstr "Criado em"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_document__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -164,6 +164,7 @@ msgid "Draft"
 msgstr "Rascunho"
 
 #. module: l10n_br_fiscal_closing
+#. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #, python-format
 msgid "Error!"
@@ -212,11 +213,6 @@ msgid "Followers"
 msgstr "Seguidores"
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguidores (Canais)"
-
-#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (Parceiros)"
@@ -232,6 +228,12 @@ msgid "Group documents"
 msgstr "Grupo de Documentos"
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
+#. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #, python-format
 msgid "I/O Error"
@@ -249,7 +251,6 @@ msgstr "ICMS ST"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_document__id
 msgid "ID"
 msgstr "ID"
 
@@ -280,7 +281,6 @@ msgstr "Ícone para indicar uma atividade excepcional."
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_needaction
-#: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 
@@ -301,7 +301,6 @@ msgstr "É um seguidor"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_document____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
 
@@ -376,6 +375,11 @@ msgid "National Simple Taxes"
 msgstr "Impostos Simples Nacional"
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Prazo Final da Próxima Atividade"
@@ -402,18 +406,13 @@ msgstr "Número de erros"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Número de mensagens que requerem uma ação"
+msgid "Number of messages requiring action"
+msgstr ""
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Número de mensagens com erro de entrega"
-
-#. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Número de mensagens não lidas"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__state__open
@@ -451,6 +450,7 @@ msgid "RL Documents"
 msgstr "Documentos RL"
 
 #. module: l10n_br_fiscal_closing
+#. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #, python-format
 msgid ""
@@ -499,16 +499,6 @@ msgid "Type of the exception activity on record."
 msgstr "Tipo da atividade de exceção no registro."
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_unread
-msgid "Unread Messages"
-msgstr "Mensagens Não Lidas"
-
-#. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Contador de Mensagens Não Lidas"
-
-#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__website_message_ids
 msgid "Website Messages"
 msgstr "Mensagens do Website"
@@ -527,6 +517,21 @@ msgstr "Ano"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__zip_file
 msgid "Zip File"
 msgstr "Arquivo ZIP"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canais)"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Número de mensagens que requerem uma ação"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Número de mensagens não lidas"
+
+#~ msgid "Unread Messages"
+#~ msgstr "Mensagens Não Lidas"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Contador de Mensagens Não Lidas"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Erro de Entrega de SMS"
