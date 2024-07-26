@@ -32,7 +32,7 @@ addon | version | maintainers | summary
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 15.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
 [l10n_br_crm](l10n_br_crm/) | 15.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 15.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
-[l10n_br_fiscal](l10n_br_fiscal/) | 15.0.1.20.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 15.0.1.20.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_fiscal_certificate](l10n_br_fiscal_certificate/) | 15.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | A1 fiscal certificate management for Brazil
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 15.0.1.1.1 |  | Distribuição de documentos fiscais
 [l10n_br_hr](l10n_br_hr/) | 15.0.1.0.0 |  | Brazilian Localization HR
