@@ -29,7 +29,7 @@ class TestReturnLog(AccountTestInvoicingCommon):
                 "company_id": cls.company.id,
                 "code": "TEST1",
                 "name": "Rebate Account",
-                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
+                "account_type": "expense",
                 "reconcile": False,
             }
         )
@@ -38,7 +38,7 @@ class TestReturnLog(AccountTestInvoicingCommon):
                 "company_id": cls.company.id,
                 "code": "TEST2",
                 "name": "Discount Account",
-                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
+                "account_type": "expense",
                 "reconcile": False,
             }
         )
@@ -47,7 +47,7 @@ class TestReturnLog(AccountTestInvoicingCommon):
                 "company_id": cls.company.id,
                 "code": "TEST3",
                 "name": "Tariff Account",
-                "user_type_id": cls.env.ref("account.data_account_type_expenses").id,
+                "account_type": "expense",
                 "reconcile": False,
             }
         )
@@ -104,7 +104,7 @@ class TestReturnLog(AccountTestInvoicingCommon):
             }
         )
         move_line_ids = self.invoice.line_ids.filtered(
-            lambda line: line.account_internal_type == "receivable"
+            lambda line: line.account_type == "asset_receivable"
         )
         event = self.event_obj.create(
             {
@@ -121,7 +121,7 @@ class TestReturnLog(AccountTestInvoicingCommon):
         )
         event.confirm_event()
         receivable_moves = event.generated_move_id.line_ids.filtered(
-            lambda line: line.account_internal_type == "receivable"
+            lambda line: line.account_type == "asset_receivable"
         )
         bank_moves = event.generated_move_id.line_ids.filtered(
             lambda line: line.account_id
