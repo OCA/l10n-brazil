@@ -8,17 +8,17 @@
 <odoo noupdate="True">
 
     <record model="account.account" id="1_account_template_511601_avoid_travis_error">
-        <field name="code">5.1.1.6.01-*</field>
-        <field name="name">Juros Passivos - AVOID_TRAVIS_ERROR</field>
-        <field name="user_type_id" ref="account.data_account_type_expenses" />
+        <field name="code">511601</field>
+        <field name="name">Juros Passivos</field>
+        <field name="account_type">expense</field>
         <field name="company_id" ref="base.main_company" />
         <field name="reconcile" eval="True" />
     </record>
 
     <record model="account.account" id="1_account_template_616102_avoid_travis_error">
-        <field name="code">6.1.6.1.02-*</field>
-        <field name="name">Outras Receitas - AVOID_TRAVIS_ERROR</field>
-        <field name="user_type_id" ref="account.data_account_type_revenue" />
+        <field name="code">616102</field>
+        <field name="name">Outras Receitas</field>
+        <field name="account_type">income</field>
         <field name="company_id" ref="base.main_company" />
         <field name="reconcile" eval="True" />
     </record>
