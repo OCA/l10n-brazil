@@ -108,6 +108,12 @@ class AccountMoveLine(models.Model):
         store=True,
     )
 
+    payment_term_number = fields.Char(
+        help="Stores the installment number in the format 'current-total'. For example, "
+        "'1-3' for the first of three installments, '2-3' for the second, and '3-3'"
+        " for the last installment.",
+    )
+
     @api.depends(
         "quantity",
         "price_unit",
@@ -118,6 +124,27 @@ class AccountMoveLine(models.Model):
             line.discount = (line.discount_value * 100) / (
                 line.quantity * line.price_unit or 1
             )
+
+    @api.depends("product_id", "payment_term_number")
+    def _compute_name(self):
+        """
+        Override to set 'name' with 'document_number/payment_term_number' for
+        payment term lines. For other lines, it calls the superclass method.
+        """
+        payment_term_lines = self.filtered(
+            lambda line: line.display_type == "payment_term"
+            and line.document_type_id
+            and line.move_id.document_number
+            and line.payment_term_number
+        )
+        for line in payment_term_lines:
+            # set label for payment term lines. Ex: '0001/1-3'
+            line.name = f"{line.move_id.document_number}/{line.payment_term_number}"
+
+        other_lines = self - payment_term_lines
+        if other_lines:
+            return super()._compute_name()
+        return True
 
     @api.model
     def _inherits_check(self):
