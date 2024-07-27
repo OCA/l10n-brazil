@@ -7,6 +7,19 @@ from odoo import models
 class AccountChartTemplate(models.Model):
     _inherit = "account.chart.template"
 
+    def _load(self, company):
+        """
+        Avoid to populate account_sale/purchase_tax_id
+        with tax that cannot be applied in Brazil and confuses the users.
+        """
+        res = super()._load(company)
+        if self.parent_id and self.parent_id == self.env.ref(
+            "l10n_br_coa.l10n_br_coa_template"
+        ):
+            company.account_sale_tax_id = None
+            company.account_purchase_tax_id = None
+        return res
+
     def _load_template(
         self, company, code_digits=None, account_ref=None, taxes_ref=None
     ):
