@@ -69,46 +69,30 @@ class SpecModel(models.Model):
         """
         xsd generated spec mixins do not need to depend on this opinionated
         module. That's why the spec.mixin is dynamically injected as a parent
-        class as long as generated class inherit from some
+        class as long as the generated spec mixins inherit from some
         spec.mixin.<schema_name> mixin.
         """
+        schema = None
+        if hasattr(cls, "_schema_name"):
+            schema = cls._schema_name
+        elif pool.get(cls._name) and hasattr(pool[cls._name], "_schema_name"):
+            schema = pool[cls._name]._schema_name
+        if schema and "spec.mixin" not in [
+            c._name for c in pool[f"spec.mixin.{schema}"].__bases__
+        ]:
+            spec_mixin = pool[f"spec.mixin.{schema}"]
+            spec_mixin._inherit = list(spec_mixin._inherit) + ["spec.mixin"]
+            spec_mixin._BaseModel__base_classes = (
+                pool["spec.mixin"],
+            ) + spec_mixin._BaseModel__base_classes
+            spec_mixin.__bases__ = (pool["spec.mixin"],) + spec_mixin.__bases__
+
         parents = [
             item[0] if isinstance(item, list) else item for item in list(cls._inherit)
         ]
         for parent in parents:
+            # this will register that the spec mixins where injected in this class
             cls._map_concrete(parent, cls._name)
-            super_parents = list(pool[parent]._inherit)
-            for super_parent in super_parents:
-                if (
-                    not super_parent.startswith("spec.mixin.")
-                    or not hasattr(pool[super_parent], "_odoo_module")
-                    or "spec.mixin" in [c._name for c in pool[super_parent].__bases__]
-                ):
-                    continue
-
-                cr.execute(
-                    "SELECT name FROM ir_module_module "
-                    "WHERE name=%s "
-                    "AND state in ('to install', 'to upgrade', 'to remove')",
-                    (pool[super_parent]._odoo_module,),
-                )
-                if cr.fetchall():
-                    setattr(
-                        pool,
-                        "_%s_need_hook" % (pool[super_parent]._odoo_module,),
-                        True,
-                    )
-
-                pool[super_parent]._inherit = list(pool[super_parent]._inherit) + [
-                    "spec.mixin"
-                ]
-                pool[super_parent]._BaseModel__base_classes = (
-                    pool["spec.mixin"],
-                ) + pool[super_parent]._BaseModel__base_classes
-                pool[super_parent].__bases__ = (pool["spec.mixin"],) + pool[
-                    super_parent
-                ].__bases__
-
         return super()._build_model(pool, cr)
 
     @api.model
@@ -220,13 +204,6 @@ class SpecModel(models.Model):
             if base_class._name == odoo_name:
                 return base_class
         return None
-
-    def _register_hook(self):
-        res = super()._register_hook()
-        from .. import hooks  # importing here avoids loop
-
-        hooks.register_hook(self.env, self._odoo_module, self._spec_module)
-        return res
 
 
 class StackedModel(SpecModel):
