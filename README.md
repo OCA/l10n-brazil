@@ -49,7 +49,7 @@ addon | version | maintainers | summary
 [l10n_br_setup_tests](l10n_br_setup_tests/) | 15.0.1.0.0 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) | Modules for Odoo's Brazil-focused usability with integration tests.
 [l10n_br_stock](l10n_br_stock/) | 15.0.1.0.1 |  | Brazilian Localization Warehouse
 [l10n_br_zip](l10n_br_zip/) | 15.0.1.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
-[spec_driven_model](spec_driven_model/) | 15.0.1.1.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
+[spec_driven_model](spec_driven_model/) | 15.0.1.2.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
 
