@@ -4,6 +4,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
+from contextlib import contextmanager
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tests.common import Form
@@ -331,6 +333,30 @@ class AccountMove(models.Model):
 
         return new_vals_list
 
+    @contextmanager
+    def _sync_dynamic_lines(self, container):
+        with self._disable_recursion(container, "skip_invoice_sync") as disabled:
+            if disabled:
+                yield
+                return
+        with super()._sync_dynamic_lines(container):
+            yield
+        self.update_payment_term_number()
+
+    def update_payment_term_number(self):
+        payment_term_lines = self.line_ids.filtered(
+            lambda l: l.display_type == "payment_term"
+        )
+        payment_term_lines_sorted = payment_term_lines.sorted(
+            key=lambda l: l.date_maturity
+        )
+        for idx, line in enumerate(payment_term_lines_sorted, start=1):
+            line.with_context(skip_invoice_sync=True).write(
+                {
+                    "payment_term_number": f"{idx}-{len(payment_term_lines_sorted)}",
+                }
+            )
+
     # TODO MIGRATE v16: no such method in v16
     def _move_autocomplete_invoice_lines_values(self):
         self.ensure_one()
@@ -457,33 +483,6 @@ class AccountMove(models.Model):
                     )
 
         return taxes_mapped
-
-    # TODO MIGRATE v16: no such method in v16
-    def _recompute_payment_terms_lines(self):
-        """Compute the dynamic payment term lines of the journal entry.
-        overwritten this method to change aml's field name.
-        """
-
-        # TODO - esse método é executado em um onchange, na emissão de um novo
-        # documento fiscal o numero do documento pode estar em branco
-        # atualizar esse dado ao validar a fatura, ou atribuir o número da NFe
-        # antes de salva-la.
-        result = super()._recompute_payment_terms_lines()
-        if self.document_number:
-            terms_lines = self.line_ids.filtered(
-                lambda line: line.account_id.user_type_id.type
-                in ("receivable", "payable")
-                and line.move_id.document_type_id
-            )
-            terms_lines.sorted(lambda line: line.date_maturity)
-            for idx, terms_line in enumerate(terms_lines):
-                # TODO TODO pegar o método do self.fiscal_document_id.with_context(
-                # fiscal_document_no_company=True
-                # )._compute_document_name()
-                terms_line.name = "{}/{}-{}".format(
-                    self.document_number, idx + 1, len(terms_lines)
-                )
-        return result
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
