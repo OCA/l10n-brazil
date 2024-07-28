@@ -562,7 +562,7 @@ class AccountMove(models.Model):
                     )
             move.fiscal_document_ids.filtered(
                 lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
-            ).action_document_back2draft()
+            ).document_back2draft()
         return super().button_draft()
 
     def action_document_send(self):
