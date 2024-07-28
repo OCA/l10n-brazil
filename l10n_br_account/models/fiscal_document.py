@@ -184,3 +184,9 @@ class FiscalDocument(models.Model):
         move_ids = self.move_ids.filtered(lambda move: move.state == "draft")
         move_ids._post()
         return result
+
+    def action_document_back2draft(self):
+        result = super().action_document_back2draft()
+        if self.move_ids:
+            self.move_ids.button_draft()
+        return result
