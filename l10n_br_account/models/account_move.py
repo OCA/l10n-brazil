@@ -601,7 +601,7 @@ class AccountMove(models.Model):
 
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
-        ).action_document_confirm()
+        )._document_confirm_to_send()
 
         # TODO FIXME
         # Deixar a migração das funcionalidades do refund por último.
