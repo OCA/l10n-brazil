@@ -81,7 +81,7 @@ class StockPicking(models.Model):
             sub_form_node = self.env["stock.move"].inject_fiscal_fields(sub_form_view)
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                sub_form_node, "stock.move", None
+                sub_form_node, "stock.move"
             )
 
             order_view["fields"]["move_ids_without_package"]["views"]["form"] = {
