@@ -49,7 +49,16 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_same_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_same_state.fiscal_line_ids:
+            # Save the original price_unit value of the line as defined in
+            # the NFe demo data.
+            original_price_unit = line.price_unit
+
             line._onchange_product_id_fiscal()
+
+            # Restore the original price_unit value,
+            # as the product change might have altered it.
+            line.price_unit = original_price_unit
+
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_fiscal_operation_id()
@@ -178,7 +187,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         )
 
         # Total value of the products
-        self.assertEqual(self.nfe_same_state.amount_price_gross, 3965)
+        self.assertEqual(self.nfe_same_state.amount_price_gross, 200)
 
         result = self.nfe_same_state.action_document_cancel()
         self.assertTrue(result)
