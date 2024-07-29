@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-28 01:20+0000\n"
-"PO-Revision-Date: 2024-05-28 22:42+0000\n"
+"PO-Revision-Date: 2024-07-29 17:58+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
@@ -601,17 +601,17 @@ msgstr "Nome Exibido"
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_number
 msgid "Document Number"
-msgstr ""
+msgstr "Número do Documento"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_serie_id
 msgid "Document Serie"
-msgstr ""
+msgstr "Série do Documento"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_type_id
 msgid "Document Type"
-msgstr ""
+msgstr "Tipo de Documento"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__estimate_tax
