@@ -24,15 +24,6 @@ class StockInvoiceOnshipping(models.TransientModel):
             # Caso Brasileiro
             return True
 
-    @api.onchange("group")
-    def onchange_group(self):
-        super().onchange_group()
-        pickings = self._load_pickings()
-        has_fiscal_operation = False
-        if pickings.mapped("fiscal_operation_id"):
-            has_fiscal_operation = True
-        self.has_fiscal_operation = has_fiscal_operation
-
     has_fiscal_operation = fields.Boolean()
 
     fiscal_operation_journal = fields.Boolean(
@@ -44,6 +35,16 @@ class StockInvoiceOnshipping(models.TransientModel):
         selection_add=[("fiscal_operation", "Fiscal Operation")],
         ondelete={"fiscal_operation": "set default"},
     )
+
+    @api.onchange("group")
+    def onchange_group(self):
+        res = super().onchange_group()
+        pickings = self._load_pickings()
+        has_fiscal_operation = False
+        if pickings.mapped("fiscal_operation_id"):
+            has_fiscal_operation = True
+        self.has_fiscal_operation = has_fiscal_operation
+        return res
 
     def _get_journal(self):
         """
@@ -59,8 +60,10 @@ class StockInvoiceOnshipping(models.TransientModel):
                 raise UserError(
                     _(
                         "Invalid Journal! There is not journal defined"
-                        " for this company: {} in fiscal operation: {} !"
-                    ).format(picking.company_id.name, picking.fiscal_operation_id.name)
+                        " for this company: %(company)s in fiscal operation: %(operation)s!",
+                        company=picking.company_id.name,
+                        operation=picking.fiscal_operation_id.name,
+                    )
                 )
         else:
             journal = super()._get_journal()
