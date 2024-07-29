@@ -56,7 +56,6 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_financial_total_gross
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__financial_total_gross
 msgid "Amount Financial Gross"
 msgstr ""
 
@@ -102,7 +101,6 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__amount_price_gross
-#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__price_gross
 msgid "Amount without discount."
 msgstr ""
 
@@ -516,6 +514,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_financial_discount_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__financial_discount_value
 msgid "Financial Discount Value"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__financial_total_gross
+msgid "Financial Gross Amount"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1637,6 +1640,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_total
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_total
 msgid "Total"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
 msgstr ""
 
 #. module: l10n_br_sale
