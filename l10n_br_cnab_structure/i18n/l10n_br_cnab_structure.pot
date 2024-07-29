@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -73,6 +73,7 @@ msgid "Allowed in CNAB (OCA Processor)"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__type__alpha
 #, python-format
@@ -381,6 +382,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
 #, python-format
 msgid "Change Dot Notation Field"
@@ -665,10 +667,6 @@ msgid "Discount Account for CNAB outbound payments."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__display_name
@@ -681,9 +679,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_lot__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__display_name
 msgid "Display Name"
 msgstr ""
@@ -802,6 +797,7 @@ msgid "Filename"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/wizard/field_select_wizard.py:0
 #, python-format
 msgid ""
@@ -840,10 +836,6 @@ msgid "Header File"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__id
@@ -856,9 +848,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_lot__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__id
 msgid "ID"
 msgstr ""
@@ -972,10 +961,6 @@ msgid "Journal used for import CNAB"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition____last_update
@@ -988,9 +973,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_lot____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -1059,12 +1041,14 @@ msgid "Lines that make up the CNAB."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_cnab_structure data files."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_cnab_structure demo files."
@@ -1086,6 +1070,7 @@ msgid "Map Sending"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/account_payment_line.py:0
 #, python-format
 msgid "Mapping for batch template not found"
@@ -1167,6 +1152,7 @@ msgid "Notes.."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_line_field__type__num
 #, python-format
@@ -1724,30 +1710,35 @@ msgid "What`s the identification for trailer of file type?"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/l10n_br_cnab_return_log.py:0
 #, python-format
 msgid "You cannot delete Return Log in confirmed state."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_batch.py:0
 #, python-format
 msgid "You cannot delete an CNAB Batch which is not draft !"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_line_field.py:0
 #, python-format
 msgid "You cannot delete an CNAB Field which is not draft !"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_line.py:0
 #, python-format
 msgid "You cannot delete an CNAB Line which is not draft !"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#. odoo-python
 #: code:addons/l10n_br_cnab_structure/models/cnab_structure.py:0
 #, python-format
 msgid "You cannot delete an CNAB Structure which is not draft !"
