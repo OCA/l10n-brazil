@@ -152,7 +152,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_financial_total_gross
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_financial_total_gross
 msgid "Amount Financial Gross"
 msgstr ""
@@ -165,7 +164,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_price_gross
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_price_gross
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_gross
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_price_gross
 msgid "Amount Gross"
 msgstr ""
@@ -205,8 +203,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_vProd
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__amount_price_gross
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_vProd
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_vProd
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__price_gross
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__amount_price_gross
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_vProd
 msgid "Amount without discount."
@@ -1495,6 +1491,11 @@ msgid "Financial Discount Value"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_additional_data
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_additional_data
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_additional_data
@@ -1764,6 +1765,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_cEANTrib
 msgid "GTIN (cEANTrib)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_gross
+msgid "Gross Product/Service Amount"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3866,6 +3872,19 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_tpNF
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_tpNF
 msgid "Tipo do Documento Fiscal (0 - entrada; 1 - saída)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_vProd
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
 msgstr ""
 
 #. module: l10n_br_account
