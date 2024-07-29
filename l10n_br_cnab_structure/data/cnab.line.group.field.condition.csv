@@ -1,0 +1,7 @@
+"id","cnab_group_id/id","field_id/id","operator","json_value"
+"l10n_br_cnab_structure.cnab_line_group_field_condition_1","l10n_br_cnab_structure.cnab_line_field_group_1","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_21_23","in","[""341"",""409""]"
+"l10n_br_cnab_structure.cnab_line_group_field_condition_6","l10n_br_cnab_structure.cnab_line_field_group_1","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_113_114","not in","[""04""]"
+"l10n_br_cnab_structure.cnab_line_group_field_condition_2","l10n_br_cnab_structure.cnab_line_field_group_2","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_21_23","not in","[""341"", ""409""]"
+"l10n_br_cnab_structure.cnab_line_group_field_condition_5","l10n_br_cnab_structure.cnab_line_field_group_2","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_113_114","not in","[""04""]"
+"l10n_br_cnab_structure.cnab_line_group_field_condition_3","l10n_br_cnab_structure.cnab_line_field_group_3","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_113_114","in","[""PG""]"
+"l10n_br_cnab_structure.cnab_line_group_field_condition_4","l10n_br_cnab_structure.cnab_line_field_group_4","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a_113_114","in","[""04""]"
