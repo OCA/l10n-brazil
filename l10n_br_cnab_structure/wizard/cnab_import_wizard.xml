@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="cnab_import_wizard" model="ir.ui.view">
+        <field name="name">cnab.import.wizard.form</field>
+        <field name="model">cnab.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import CNAB">
+                <group name="main">
+                    <field name="bank_id" invisible="1" />
+                    <field
+                        name="journal_id"
+                        domain="[('used_to_import_cnab', '=', True)]"
+                    />
+                    <field name="payment_method_ids" invisible="1" />
+                    <field
+                        name="cnab_structure_id"
+                        required="1"
+                        options="{'no_create': True}"
+                    />
+                    <field name="company_id" options="{'no_create': True}" />
+                    <field name="return_file" filename="filename" required="1" />
+                    <field name="filename" invisible="1" />
+                    <field name="type" invisible="1" />
+                </group>
+                <group string="Import Parameters Summary" name="params">
+                    <field name="bank_account_cnab_id" />
+                </group>
+                <footer>
+                    <button
+                        name="import_cnab"
+                        string="Import CNAB"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button special="cancel" string="Cancel" class="oe_link" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_br_inbound_cnab_import_action" model="ir.actions.act_window">
+        <field name="name">Import Inbound Payment CNAB Return</field>
+        <field name="res_model">cnab.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_type':'inbound'}</field>
+    </record>
+    <record id="l10n_br_outbound_cnab_import_action" model="ir.actions.act_window">
+        <field name="name">Import Outbound Payment CNAB Return</field>
+        <field name="res_model">cnab.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_type':'outbound'}</field>
+    </record>
+</odoo>

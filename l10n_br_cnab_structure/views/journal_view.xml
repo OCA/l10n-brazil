@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+    <record id="journal_cnab_import_view_form" model="ir.ui.view">
+        <field name="name">journal.cnab.import.view.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='bank_account']/group" position="after">
+                <separator string="Import CNAB" />
+                <group>
+                    <field name="used_to_import_cnab" />
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='bank_account']" position="after">
+                <page name="cnab_configuration" string="CNAB Configuration">
+                        <group name="outbound" string="Outgoing Payments">
+                            <div
+                            class="text-muted"
+                            colspan="2"
+                        >Default setting when used in payment order, when not informed in payment mode.</div>
+                            <field name="default_outbound_cnab_processor" />
+                            <field name="default_outbound_cnab_structure_id" />
+                    </group>
+                </page>
+                <page
+                    name="cnab_accounts"
+                    string="CNAB Accounts"
+                    attrs="{'invisible': [('used_to_import_cnab', '=', False)]}"
+                >
+                    <group>
+                        <field name="tariff_charge_account_id" />
+                    </group>
+                    <group>
+                        <group string="Inbound Payments">
+                            <field name="inbound_interest_fee_account_id" />
+                            <field name="inbound_discount_account_id" />
+                            <field name="inbound_rebate_account_id" />
+                        </group>
+                        <group string="Outbound Payments">
+                            <field name="outbound_interest_fee_account_id" />
+                            <field name="outbound_discount_account_id" />
+                            <field name="outbound_rebate_account_id" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

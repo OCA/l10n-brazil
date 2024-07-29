@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+
+    <record id="line_cnab_preview_action" model="ir.actions.act_window">
+        <field name="name">CNAB Preview</field>
+        <field name="res_model">cnab.preview.wizard</field>
+        <field name="binding_model_id" eval="False" />
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="cnab_preview_wizard_form" />
+        <field name="target">new</field>
+        <field name="context">{'default_cnab_structure_id': cnab_structure_id}</field>
+    </record>
+
+    <record model="ir.ui.view" id="cnab_line_tree_view">
+        <field name="model">l10n_br_cnab.line</field>
+        <field name="arch" type="xml">
+            <tree default_order='cnab_structure_id, sequence ASC' create="false">
+                <field name="state" invisible="True" />
+                <field name="cnab_format" invisible="True" />
+                <field name="sequence" />
+                <field name="name" />
+                <field name="type" />
+                <field
+                    name="batch_id"
+                    attrs="{'invisible': [('cnab_format', '!=', '240')]}"
+                    context="{'default_cnab_structure_id': cnab_structure_id}"
+                />
+                <field name="cnab_structure_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cnab_line_form_view">
+        <field name="model">l10n_br_cnab.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        class="oe_highlight"
+                        name="%(line_cnab_preview_action)d"
+                        icon="fa-search-plus"
+                        string="CNAB Preview"
+                        type="action"
+                        target="new"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                </div>
+                <group>
+                    <group>
+
+                        <field name="type" />
+                        <field
+                            name="segment_code"
+                            attrs="{'invisible': [('type', '!=', 'segment')], 'required': [('type', '=', 'segment')]}"
+                        />
+                        <field
+                            name="batch_id"
+                            attrs="{'invisible': [('cnab_format', '!=', '240')]}"
+                            context="{'default_cnab_structure_id': cnab_structure_id}"
+                        />
+                    </group>
+                    <group>
+                        <field name="communication_flow" />
+                        <field name="requerid" />
+                        <field name="sequence" />
+                    </group>
+                    <field name="current_view" invisible="True" />
+                    <field name="cnab_structure_id" invisible="True" />
+                    <field name="content_source_model_id" invisible="True" />
+                    <field name="resource_ref" invisible="True" />
+                    <field name="cnab_format" invisible="True" />
+                </group>
+
+                <notebook>
+                    <page name="fields_info" string="Fields">
+                        <button
+                            name="action_general_view"
+                            type="object"
+                            string="Structure"
+                            class="oe_highlight mx-1"
+                            attrs="{'invisible': [('current_view', '=', 'general')]}"
+                        />
+                        <button
+                            name="action_sending_view"
+                            type="object"
+                            string="Map Sending"
+                            class="oe_highlight mx-1"
+                            attrs="{'invisible': ['|',('current_view', '=', 'sending'),('communication_flow', '=', 'return')]}"
+                        />
+                        <button
+                            name="action_return_view"
+                            type="object"
+                            string="Map Return"
+                            class="oe_highlight mx-1"
+                            attrs="{'invisible': ['|',('current_view', '=', 'return'),('communication_flow', '=', 'sending')]}"
+                        />
+
+                        <separator
+                            name="general_infos"
+                            string="Structure"
+                            attrs="{'invisible': [('current_view', '!=', 'general')]}"
+                        />
+                        <separator
+                            name="sending_infos"
+                            string="Map Sending"
+                            attrs="{'invisible': [('current_view', '!=', 'sending')]}"
+                        />
+                        <separator
+                            name="return_infos"
+                            string="Map Return"
+                            attrs="{'invisible': [('current_view', '!=', 'return')]}"
+                        />
+                        <field
+                            name="field_ids"
+                            mode='tree'
+                            widget='one2many'
+                            context="{'default_cnab_line_id': id}"
+                        >
+                            <tree default_order="start_pos" editable="bottom">
+                                <field name="state" invisible="True" />
+                                <field name="ref_name" invisible="True" />
+                                <field
+                                    name="computed_name"
+                                    attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}"
+                                />
+                                <field
+                                    name="name"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                />
+                                <field
+                                    name="meaning"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                />
+                                <field
+                                    name="start_pos"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                />
+                                <field
+                                    name="end_pos"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                />
+                                <field
+                                    name="assumed_comma"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                />
+                                <field
+                                    name="type"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'general')]}"
+                                />
+                                <field
+                                    name="content_source_model_id"
+                                    invisible="True"
+                                />
+                                <field
+                                    name="default_value"
+                                    attrs="{'column_invisible': [('parent.current_view', '==', 'return')]}"
+                                />
+                                <field
+                                    name="content_source_field"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'sending')]}"
+                                />
+                                <button
+                                    name="action_change_field"
+                                    type="object"
+                                    string="Change Field"
+                                    class="oe_highlight oe_edit_only"
+                                    attrs="{'column_invisible': [('parent.current_view', '=', 'general')]}"
+                                />
+                                <field
+                                    name="sending_dynamic_content"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'sending')]}"
+                                />
+                                <field
+                                    name="preview_field"
+                                    attrs="{'column_invisible': [('parent.resource_ref', '=', False)]}"
+                                />
+                                <field
+                                    name="content_dest_field"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'return')]}"
+                                />
+                                <field
+                                    name="return_dynamic_content"
+                                    attrs="{'column_invisible': [('parent.current_view', '!=', 'return')]}"
+                                />
+                                <field name="content_dest_model_id" invisible="True" />
+                                <field name="notes" />
+                                <field name="cnab_group_id" />
+                                <field name="cnab_line_id" invisible="True" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page
+                        name="optional_rules"
+                        string="Optional Rules"
+                        attrs="{'invisible': [('requerid', '==', True)]}"
+                    >
+                        <span class="o_form_label" modifiers="{}">
+                            Payment Ways
+                        </span>
+                        <div class="text-muted" modifiers="{}">
+                            Choose the payment ways that are required to inform this line.
+                        </div>
+                        <field
+                            name="cnab_payment_way_ids"
+                            widget="many2many"
+                            options="{'no_create': True}"
+                        />
+                    </page>
+                    <page name="fields_groups" string="Field Groups">
+                        <field
+                            name="group_ids"
+                            mode='tree'
+                            widget='one2many'
+                            context="{'default_cnab_line_id': id}"
+                        >
+                            <tree>
+                                <field name="state" invisible="True" />
+                                <field name="name" />
+                                <field name="field_ids" />
+                                <field name="cnab_line_id" invisible="True" />
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cnab_line">
+        <field name="name">CNAB Lines</field>
+        <field name="res_model">l10n_br_cnab.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

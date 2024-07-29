@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+
+    <record id="l10n_br_cnab_return_log_tree_view_structure" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.log.tree</field>
+        <field name="model">l10n_br_cnab.return.log</field>
+        <field name="arch" type="xml">
+            <tree import="false" create="false">
+                <field name="name" />
+                <field name="filename" />
+                <field name="sequential_file" />
+                <field name="cnab_date_file" />
+                <field name="bank_account_id" />
+                <field name="cnab_date_import" widget="datetime" />
+                <field name="number_lots" />
+                <field name="number_events" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_return_log_form_view_structure" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.log.form.view.structure</field>
+        <field name="model">l10n_br_cnab.return.log</field>
+        <field name="arch" type="xml">
+            <form edit="false">
+                <header>
+                    <button
+                        name="action_confirm_return_log"
+                        id="confirm_return_log_btn"
+                        type="object"
+                        class="oe_highlight"
+                        string="Confirm"
+                        attrs="{'invisible': [('state', '=', 'confirmed')]}"
+                        groups="l10n_br_account_payment_order.group_cnab_manager"
+                    />
+                    <field name="state" widget="statusbar" readonly="1" />
+                </header>
+                <sheet>
+                <h1>
+                    <field name="name" readonly="1" />
+                </h1>
+                    <group>
+                        <group>
+                            <field name="return_file" filename="filename" />
+                            <field name="filename" invisible="1" />
+                            <field name="cnab_date_file" />
+                            <field name="bank_id" />
+                            <field name="bank_account_id" />
+                            <field name="bank_acc_number" invisible="1" />
+                            <field name="cnab_date_import" />
+                        </group>
+                        <group>
+                            <field name="type" />
+                            <field name="journal_id" />
+                            <field name="company_id" />
+                            <field name="bank_account_cnab_id" />
+                            <field name="cnab_structure_id" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="log_tab" string="Events">
+                            <field name="event_ids" readonly="1">
+                                <tree
+                                    decoration-danger="state=='error'"
+                                    decoration-primary="state=='ready'"
+                                    decoration-muted="state=='ignored'"
+                                >
+                                    <field name="lot_id" optional="hide" />
+                                    <field name="segment" optional="hide" />
+                                    <field
+                                        name="payment_line_ids"
+                                        optional="hide"
+                                        widget="many2many_tags"
+                                    />
+                                    <field name="partner_name" optional="show" />
+                                    <field name="due_date" optional="hide" />
+                                    <field
+                                        name="expected_payment_date"
+                                        optional="show"
+                                    />
+                                    <field name="real_payment_date" optional="show" />
+                                    <field name="own_number" optional="hide" />
+                                    <field name="your_number" optional="show" />
+                                    <field
+                                        name="company_title_identification"
+                                        optional="show"
+                                    />
+                                    <field name="currency_type" optional="hide" />
+                                    <field name="title_value" optional="show" />
+                                    <field name="payment_value" optional="show" />
+                                    <field name="discount_value" optional="hide" />
+                                    <field name="rebate_value" optional="hide" />
+                                    <field name="interest_fee_value" optional="hide" />
+                                    <field name="tariff_charge" optional="hide" />
+                                    <field name="balance" optional="hide" />
+                                    <field name="state" optional="show" />
+                                    <field name="occurrences" optional="show" />
+                                </tree>
+                            </field>
+
+                            <group
+                                class="oe_subtotal_footer oe_left"
+                                colspan="2"
+                                name="qts_cnab"
+                            >
+                                <field name="number_lots" />
+                                <field name="number_events" />
+                            </group>
+                            <group
+                                class="oe_subtotal_footer oe_right"
+                                colspan="2"
+                                name="cnab_total"
+                            >
+                                <field
+                                    name="amount_total_title"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <field
+                                    name="amount_total_tariff_charge"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <field
+                                    name="amount_total_discount"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <field
+                                    name="amount_total_rebate"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <field
+                                    name="amount_total_interest_fee"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <div
+                                    class="oe_subtotal_footer_separator oe_inline o_td_label"
+                                >
+                                <label for="amount_total_received" />
+                                </div>
+                                <field
+                                    name="amount_total_received"
+                                    nolabel="1"
+                                    class="oe_subtotal_footer_separator"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_inbound_cnab_return_log_action">
+        <field name="name">Inbound Payment CNAB Returns</field>
+        <field name="res_model">l10n_br_cnab.return.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record
+        model="ir.actions.act_window.view"
+        id="l10n_br_inbound_cnab_return_log_action_tree"
+    >
+        <field name="sequence" eval="1" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="l10n_br_cnab_return_log_tree_view_structure" />
+        <field name="act_window_id" ref="l10n_br_inbound_cnab_return_log_action" />
+    </record>
+
+    <record
+        model="ir.actions.act_window.view"
+        id="l10n_br_inbound_cnab_return_log_action_form"
+    >
+        <field name="sequence" eval="2" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="l10n_br_cnab_return_log_form_view_structure" />
+        <field name="act_window_id" ref="l10n_br_inbound_cnab_return_log_action" />
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_outbound_cnab_return_log_action">
+        <field name="name">Outbound Payment CNAB Returns</field>
+        <field name="res_model">l10n_br_cnab.return.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record
+        model="ir.actions.act_window.view"
+        id="l10n_br_outbound_cnab_return_log_action_tree"
+    >
+        <field name="sequence" eval="1" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="l10n_br_cnab_return_log_tree_view_structure" />
+        <field name="act_window_id" ref="l10n_br_outbound_cnab_return_log_action" />
+    </record>
+
+    <record
+        model="ir.actions.act_window.view"
+        id="l10n_br_outbound_cnab_return_log_action_form"
+    >
+        <field name="sequence" eval="2" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="l10n_br_cnab_return_log_form_view_structure" />
+        <field name="act_window_id" ref="l10n_br_outbound_cnab_return_log_action" />
+    </record>
+</odoo>

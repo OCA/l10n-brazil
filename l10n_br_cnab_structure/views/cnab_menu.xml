@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+    @author Antônio S. Pereira Neto <neto@engenere.one>
+    @author Felipe Motter Pereira <felipe@engenere.one>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+    <menuitem
+        name="CNAB Structure"
+        id="cnab_structure"
+        parent="account.menu_finance_configuration"
+        groups="l10n_br_cnab_structure.group_cnab_constructor,l10n_br_account_payment_order.group_cnab_manager"
+        sequence="255"
+    >
+        <menuitem
+            id="menu_cnab_structure"
+            name="CNAB Structures"
+            action="action_cnab_structure"
+            sequence="10"
+        />
+        <menuitem
+            id="menu_cnab_batch"
+            name="CNAB Batches"
+            action="action_cnab_batch"
+            sequence="20"
+        />
+        <menuitem
+            id="menu_cnab_line"
+            name="CNAB Lines"
+            action="action_cnab_line"
+            sequence="30"
+        />
+        <menuitem
+            id="menu_cnab_line_fields"
+            name="CNAB Fields"
+            action="action_cnab_line_field"
+            sequence="40"
+        />
+        <menuitem
+            id="menu_cnab_line_fields_group"
+            name="CNAB Fields Group"
+            action="action_cnab_line_fields_group"
+            sequence="50"
+        />
+        <menuitem
+            id="menu_cnab_line_fields_group_condition"
+            name="CNAB Fields Group Condition"
+            action="action_cnab_line_fields_group_condition"
+            sequence="60"
+        />
+    </menuitem>
+
+    <!-- TODO Por enquanto não há a implementação para cobrança, então está comentado -->
+    <!-- <menuitem
+        name="CNAB"
+        id="cnab_receivables"
+        parent="account.menu_finance_receivables"
+        groups="l10n_br_account_payment_order.group_cnab_user,l10n_br_account_payment_order.group_cnab_manager"
+        sequence="255">
+        <menuitem
+        id="l10n_br_inbound_cnab_return_log_menu"
+        name="CNAB Returns"
+        action="l10n_br_inbound_cnab_return_log_action"
+        />
+        <menuitem
+        id="l10n_br_inbound_cnab_import_menu"
+        name="Import CNAB Returns"
+        action="l10n_br_inbound_cnab_import_action"
+        />
+    </menuitem> -->
+
+    <menuitem
+        name="CNAB"
+        id="cnab_payables"
+        parent="account.menu_finance_payables"
+        groups="l10n_br_account_payment_order.group_cnab_user,l10n_br_account_payment_order.group_cnab_manager"
+        sequence="255"
+    >
+        <menuitem
+            id="l10n_br_outbound_cnab_return_log_menu"
+            name="CNAB Returns"
+            action="l10n_br_outbound_cnab_return_log_action"
+        />
+        <menuitem
+            id="l10n_br_outbound_cnab_import_menu"
+            name="Import CNAB Returns"
+            action="l10n_br_outbound_cnab_import_action"
+        />
+    </menuitem>
+
+</odoo>

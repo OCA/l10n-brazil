@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="cnab_preview_wizard_form" model="ir.ui.view">
+        <field name="name">cnab.preview.wizard.form</field>
+        <field name="model">cnab.preview.wizard</field>
+        <field name="arch" type="xml">
+        <form string="CNAB Preview">
+            <group name="preview">
+                <field name="cnab_structure_id" readonly="1" />
+                <field name="payment_order_id" />
+                <field name="cnab_file" invisible="True" />
+            </group>
+            <notebook>
+                <page name="output" string="CNAB">
+                    <field name="output" widget="ace" nolabel="1" />
+                </page>
+                <page name="output_yaml" string="CNAB YAML">
+                    <field name="output_yaml" widget="ace" nolabel="1" />
+                </page>
+            </notebook>
+            <footer>
+                <button
+                        name="load_file"
+                        string="Download File"
+                        type="object"
+                        class="btn btn-primary"
+                        attrs="{'invisible':[('payment_order_id','=',False)]}"
+                    />
+                <button string="Cancel" class="btn btn-secondary" special="cancel" />
+            </footer>
+        </form>
+        </field>
+    </record>
+</odoo>

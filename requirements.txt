@@ -11,4 +11,6 @@ nfelib>=2.0.0
 num2words
 phonenumbers
 pycep_correios
+pyyaml
+unidecode
 workalendar
