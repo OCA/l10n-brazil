@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-11-27 11:54+0000\n"
+"PO-Revision-Date: 2024-07-29 17:58+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: payment_bacen_pix
 #: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacenpix_api_key
@@ -120,7 +120,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__display_name
 #: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_transaction__display_name
 msgid "Display Name"
-msgstr "Nome de Exibição"
+msgstr "Nome Exibido"
 
 #. module: payment_bacen_pix
 #: model:ir.model.fields,field_description:payment_bacen_pix.field_payment_acquirer__bacenpix_email_account
