@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-02-19 14:22+0000\n"
+"PO-Revision-Date: 2024-07-29 17:58+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_infresp__mdfe30_respSeg__1
@@ -2295,7 +2295,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veictracao_prop____last_update
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_spec_mixin_mdfe____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocalcarrega__mdfe30_latitude
