@@ -181,3 +181,8 @@ class FiscalDocument(models.Model):
         if self.move_ids:
             self.move_ids.button_draft()
         return result
+
+    def _edoc_subscribe(self):
+        if self.move_ids:
+            self.move_ids._edoc_subscribe()
+        return

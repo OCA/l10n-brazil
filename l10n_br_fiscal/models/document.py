@@ -489,12 +489,7 @@ class Document(models.Model):
 
         email_template_id = self._get_email_template()
         if email_template_id:
-            partner_ids = self.partner_id.filtered("edoc_send_email")
-            partner_child_ids = self.partner_id.child_ids.filtered("edoc_send_email")
-            all_partner_ids = partner_ids | partner_child_ids
-
-            self.message_subscribe(partner_ids=all_partner_ids.ids)
-
+            self._edoc_subscribe()
             attachment_ids = []
             if self.authorization_file_id:
                 attachment_ids.append(self.authorization_file_id.id)
