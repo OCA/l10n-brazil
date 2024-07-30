@@ -691,10 +691,6 @@ msgid "Discount Account for CNAB outbound payments."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__display_name
@@ -707,9 +703,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__display_name
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_lot__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__display_name
 msgid "Display Name"
 msgstr "Nome de Exibição"
@@ -868,10 +861,6 @@ msgid "Header File"
 msgstr "Arquivo de Cabeçalho"
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition__id
@@ -884,9 +873,6 @@ msgstr "Arquivo de Cabeçalho"
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__id
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_lot__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__id
 msgid "ID"
 msgstr ""
@@ -999,10 +985,6 @@ msgid "Journal used for import CNAB"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_import_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_field_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_line_group_field_condition____last_update
@@ -1015,9 +997,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log____last_update
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_lot____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure____last_update
 msgid "Last Modified on"
 msgstr ""
