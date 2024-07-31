@@ -37,18 +37,17 @@ class IrActionsReport(models.Model):
         new_root.append(protNFe_node)
         return etree.tostring(new_root)
 
-    def _render_qweb_html(self, res_ids, data=None):
-        if self.report_name == "main_template_danfe":
+    def _render_qweb_html(self, report_ref, res_ids, data=None):
+        if report_ref == "l10n_br_nfe.main_template_danfe":
             return
 
-        return super()._render_qweb_html(res_ids, data=data)
+        return super()._render_qweb_html(report_ref, res_ids, data=data)
 
-    def _render_qweb_pdf(self, res_ids, data=None):
-        if self.report_name not in ["main_template_danfe"]:
-            return super()._render_qweb_pdf(res_ids, data=data)
+    def _render_qweb_pdf(self, report_ref, res_ids, data=None):
+        if report_ref not in ["l10n_br_nfe.main_template_danfe"]:
+            return super()._render_qweb_pdf(report_ref, res_ids, data=data)
 
         nfe = self.env["l10n_br_fiscal.document"].search([("id", "in", res_ids)])
-
         return self._render_danfe(nfe)
 
     def _render_danfe(self, nfe):
