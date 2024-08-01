@@ -180,3 +180,10 @@ class FiscalDocument(models.Model):
         if self.move_ids:
             self.move_ids.button_draft()
         return result
+
+    def open_account_moves(self):
+        """"""
+        self.ensure_one()
+        action = self.env.ref('account.action_move_out_invoice_type').read()[0]
+        action["domain"] = [("id", "in", self.move_ids.ids)]
+        return action
