@@ -102,7 +102,7 @@ def register_hook(env, module_name, spec_module, force=False):
     for name in remaining_models:
         spec_class = StackedModel._odoo_name_to_class(name, spec_module)
         spec_class._module = "fiscal"  # TODO use python_module ?
-        fields = env[spec_class._name].fields_get_keys()
+        fields = env[spec_class._name]._fields.keys()
         rec_name = next(
             filter(
                 lambda x: (
