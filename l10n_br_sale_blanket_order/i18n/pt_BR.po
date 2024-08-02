@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-07-29 17:58+0000\n"
+"PO-Revision-Date: 2024-12-21 15:52+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -437,6 +437,16 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr "Dígito de Verificação da Chave do Documento"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__key_random_code
+msgid "Document Key Random Code"
+msgstr "Código Aleatório da Chave do Documento"
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__document_number
 msgid "Document Number"
 msgstr "Número do Documento"
@@ -491,7 +501,7 @@ msgstr "Valor do Desconto Financeiro"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__financial_total_gross
 msgid "Financial Gross Amount"
-msgstr ""
+msgstr "Valor Financeiro Bruto"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_additional_data
@@ -536,6 +546,7 @@ msgstr "Impostos Fiscais"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr "Tipo Fiscal"
 
@@ -1059,6 +1070,21 @@ msgstr ""
 "organizações controladas pelo governo."
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__insurance_endorsement
+msgid "Insurance Endorsement"
+msgstr "Averbação do Seguro"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__insurance_policy
+msgid "Insurance Policy"
+msgstr "Apólice de Seguro"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_insurance_id
+msgid "Insurance Provider"
+msgstr "Provedor do Seguro"
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__insurance_value
 msgid "Insurance Value"
@@ -1067,7 +1093,7 @@ msgstr "Valor do Seguro"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__document_key
 msgid "Key"
-msgstr ""
+msgstr "Chave"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order____last_update
@@ -1273,6 +1299,11 @@ msgid "Partner Order Line (nItemPed)"
 msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__price_unit
 msgid "Price"
 msgstr "Preço"
@@ -1298,14 +1329,29 @@ msgid "Public Entity"
 msgstr "Entidade Pública"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_receivering_id
+msgid "Receiver Address"
+msgstr "Endereço do Recebedor"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_sendering_id
+msgid "Sender Address"
+msgstr "Endereço do Remetente"
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__document_serie
 msgid "Serie Number"
-msgstr ""
+msgstr "Número de Série"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__service_type_id
 msgid "Service Type LC 166"
 msgstr "Tipo de Serviço LC 166"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_shippering_id
+msgid "Shipper Address"
+msgstr "Endereço do Expedidor"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icmssn_range_id
@@ -1469,15 +1515,80 @@ msgstr ""
 "no menu Configuração)"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__insurance_endorsement
+msgid ""
+"The endorsement number associated with the insurance policy, indicating any "
+"modifications or adjustments to the coverage. This field is primarily used "
+"when issuing the CT-e."
+msgstr ""
+"O número da averbação associado à apólice de seguro, indicando quaisquer "
+"modificações ou ajustes na cobertura. Este campo é usado principalmente ao "
+"emitir o CT-e."
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__insurance_policy
+msgid ""
+"The insurance policy number covering the transported goods. This field is "
+"primarily used when issuing the CT-e."
+msgstr ""
+"O número da apólice de seguro que cobre as mercadorias transportadas. Este "
+"campo é usado principalmente ao emitir o CT-e."
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_receivering_id
+msgid ""
+"The intermediary partner who receives the goods before they reach the final "
+"recipient, often involved in verification, temporary storage, or further "
+"distribution. This field is primarily used when issuing the CT-e."
+msgstr ""
+"O parceiro intermediário que recebe as mercadorias antes que elas cheguem ao "
+"destinatário final, frequentemente envolvido em verificação, armazenamento "
+"temporário ou distribuição posterior. Este campo é usado principalmente ao "
+"emitir o CT-e."
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_insurance_id
+msgid ""
+"The partner providing insurance coverage for the transported goods. This "
+"field is primarily used when issuing the CT-e."
+msgstr ""
+"O parceiro que fornece cobertura de seguro para as mercadorias "
+"transportadas. Este campo é usado principalmente ao emitir o CT-e."
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_shippering_id
+msgid ""
+"The partner responsible for delivering the cargo to the carrier, if not done "
+"directly by the sender. This field is primarily used when issuing the CT-e."
+msgstr ""
+"O parceiro responsável pela entrega da carga ao transportador, caso não seja "
+"feita diretamente pelo remetente. Este campo é usado principalmente na "
+"emissão do CT-e."
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_sendering_id
+msgid ""
+"The partner responsible for sending the goods, typically the issuer of the "
+"document. This field is primarily used when issuing the CT-e."
+msgstr ""
+"O parceiro responsável pelo envio das mercadorias, normalmente o emissor do "
+"documento. Este campo é usado principalmente ao emitir o CT-e."
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_total
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__price_total
 msgid "Total"
 msgstr "Total"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__total_weight
+msgid "Total Weight"
+msgstr "Peso Total"
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__financial_total_gross
 msgid "Total amount before any discounts are applied."
-msgstr ""
+msgstr "Valor total antes de quaisquer descontos serem aplicados."
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__price_gross
@@ -1485,6 +1596,8 @@ msgid ""
 "Total value of products or services (quantity x unit price)before any "
 "discounts."
 msgstr ""
+"Valor total dos produtos ou serviços (quantidade x preço unitário) antes de "
+"quaisquer descontos."
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_operation_type
@@ -1510,6 +1623,18 @@ msgstr "Usado em documentos fiscais"
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
+msgstr ""
+
+#~ msgid ""
+#~ "Actor who receives the goods. He is considered an "
+#~ "intermediary             between the issuer and the final recipient."
+#~ msgstr ""
+#~ "Ator que recebe a mercadoria. Ele é considerado um "
+#~ "intermediário             entre o emissor e o destinatário final."
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor da Retenção de Imposto na Fonte"
