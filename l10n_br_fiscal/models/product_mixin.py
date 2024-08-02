@@ -24,10 +24,17 @@ class ProductMixin(models.AbstractModel):
             else:
                 r.tax_icms_or_issqn = TAX_DOMAIN_ICMS
 
-    @api.onchange("ncm_id", "fiscal_genre_id")
+    @api.onchange("ncm_id")
     def _onchange_ncm_id(self):
         for r in self:
             if r.ncm_id:
                 r.fiscal_genre_id = self.env["l10n_br_fiscal.product.genre"].search(
                     [("code", "=", r.ncm_id.code[0:2])]
                 )
+
+    @api.onchange("fiscal_genre_id")
+    def _onchange_fiscal_genre_id(self):
+        for r in self:
+            if r. fiscal_genre_id and r.ncm_id:
+                if r.fiscal_genre_id.code != r.ncm_id.code[0:2]:
+                    r.ncm_id = False
