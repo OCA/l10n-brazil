@@ -126,7 +126,7 @@ class SaleBlanketOrderLine(models.Model):
         result = super()._compute_amount()
         for line in self:
             # Update taxes fields
-            line._update_taxes()
+            line._update_fiscal_taxes()
             # Call mixin compute method
             line._compute_amounts()
             # Update record
