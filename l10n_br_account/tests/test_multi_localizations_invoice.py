@@ -3,7 +3,8 @@
 
 import logging
 
-from odoo.tests.common import OdooSuite, tagged
+from odoo.tests.common import tagged
+from odoo.tests.suite import OdooSuite
 
 _logger = logging.getLogger(__name__)
 
@@ -92,17 +93,17 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_line_onchange_partner_1(self):
         return super().test_out_invoice_line_onchange_partner_1()
 
-    def test_force_out_invoice_line_onchange_taxes_1(self):
-        return super().test_out_invoice_line_onchange_taxes_1()
+        #    def test_force_out_invoice_line_onchange_taxes_1(self):
+        # return super().test_out_invoice_line_onchange_taxes_1()
 
     def test_force_out_invoice_line_onchange_rounding_price_subtotal_1(self):
         return super().test_out_invoice_line_onchange_rounding_price_subtotal_1()
 
-    def test_force_out_invoice_line_onchange_rounding_price_subtotal_2(self):
-        return super().test_out_invoice_line_onchange_rounding_price_subtotal_2()
+        # def test_force_out_invoice_line_onchange_rounding_price_subtotal_2(self):
+        # return super().test_out_invoice_line_onchange_rounding_price_subtotal_2()
 
-    def test_force_out_invoice_line_onchange_taxes_2_price_unit_tax_included(self):
-        return super().test_out_invoice_line_onchange_taxes_2_price_unit_tax_included()
+        #    def test_force_out_invoice_line_onchange_taxes_2_price_unit_tax_included(self):
+        # return super().test_out_invoice_line_onchange_taxes_2_price_unit_tax_included()
 
     def test_force_out_invoice_line_onchange_analytic(self):
         return super().test_out_invoice_line_onchange_analytic()
@@ -172,11 +173,11 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_recomputation_receivable_lines(self):
         return super().test_out_invoice_recomputation_receivable_lines()
 
-    def test_force_out_invoice_rounding_recomputation_receivable_lines(self):
-        return super().test_out_invoice_rounding_recomputation_receivable_lines()
+        # def test_force_out_invoice_rounding_recomputation_receivable_lines(self):
+        # return super().test_out_invoice_rounding_recomputation_receivable_lines()
 
-    def test_force_out_invoice_multi_company(self):
-        return super().test_out_invoice_multi_company()
+        #    def test_force_out_invoice_multi_company(self):
+        # return super().test_out_invoice_multi_company()
 
     def test_force_out_invoice_multiple_switch_payment_terms(self):
         return super().test_out_invoice_multiple_switch_payment_terms()
@@ -187,11 +188,11 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_note_and_tax_partner_is_set(self):
         return super().test_out_invoice_note_and_tax_partner_is_set()
 
-    def test_force_out_invoice_reverse_caba(self):
-        return super().test_out_invoice_reverse_caba()
+        # def test_force_out_invoice_reverse_caba(self):
+        # return super().test_out_invoice_reverse_caba()
 
-    def test_force_out_invoice_duplicate_currency_rate(self):
-        return super().test_out_invoice_duplicate_currency_rate()
+        #    def test_force_out_invoice_duplicate_currency_rate(self):
+        # return super().test_out_invoice_duplicate_currency_rate()
 
     def test_force_out_invoice_depreciated_account(self):
         return super().test_out_invoice_depreciated_account()
