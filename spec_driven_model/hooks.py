@@ -12,56 +12,6 @@ from .models.spec_models import SpecModel, StackedModel
 _logger = logging.getLogger(__name__)
 
 
-def post_init_hook(cr, registry, module_name, spec_module):
-    """
-    Automatically generate access rules for spec models
-    """
-    env = api.Environment(cr, SUPERUSER_ID, {})
-    remaining_models = get_remaining_spec_models(cr, registry, module_name, spec_module)
-    fields = [
-        "id",
-        "name",
-        "model_id/id",
-        "group_id/id",
-        "perm_read",
-        "perm_write",
-        "perm_create",
-        "perm_unlink",
-    ]
-    access_data = []
-    for model in remaining_models:
-        underline_name = model.replace(".", "_")
-        model_id = "%s_spec.model_%s" % (
-            module_name,
-            underline_name,
-        )
-        access_data.append(
-            [
-                "access_%s_user" % (underline_name,),
-                underline_name,
-                model_id,
-                "%s.group_user" % (module_name,),
-                "1",
-                "0",
-                "0",
-                "0",
-            ]
-        )
-        access_data.append(
-            [
-                "access_%s_manager" % (underline_name,),
-                underline_name,
-                model_id,
-                "%s.group_manager" % (module_name,),
-                "1",
-                "1",
-                "1",
-                "1",
-            ]
-        )
-    env["ir.model.access"].load(fields, access_data)
-
-
 def get_remaining_spec_models(cr, registry, module_name, spec_module):
     """
     Figure out the list of spec models not injected into existing
@@ -144,6 +94,7 @@ def register_hook(env, module_name, spec_module, force=False):
         return
     setattr(env.registry, load_key, True)
 
+    access_data = []
     remaining_models = get_remaining_spec_models(
         env.cr, env.registry, module_name, spec_module
     )
@@ -160,29 +111,44 @@ def register_hook(env, module_name, spec_module, force=False):
                 fields,
             )
         )
-        c = type(
+        model_type = type(
             name,
             (SpecModel, spec_class),
             {
                 "_name": name,
-                "_inherit": [spec_class._inherit, "spec.mixin"],
+                "_inherit": spec_class._inherit,
                 "_original_module": "fiscal",
                 "_odoo_module": module_name,
                 "_spec_module": spec_module,
                 "_rec_name": rec_name,
+                "_module": module_name,
             },
         )
-        models.MetaModel.module_to_models[module_name] += [c]
+        models.MetaModel.module_to_models[module_name] += [model_type]
 
         # now we init these models properly
         # a bit like odoo.modules.loading#load_module_graph would do.
-        c._build_model(env.registry, env.cr)
+        model = model_type._build_model(env.registry, env.cr)
 
         env[name]._prepare_setup()
         env[name]._setup_base()
         env[name]._setup_fields()
         env[name]._setup_complete()
+        model._auto_fill_access_data(env, module_name, access_data)
 
+    env["ir.model.access"].load(
+        [
+            "id",
+            "name",
+            "model_id/id",
+            "group_id/id",
+            "perm_read",
+            "perm_write",
+            "perm_create",
+            "perm_unlink",
+        ],
+        access_data,
+    )
     hook_key = "_%s_need_hook" % (module_name,)
     if hasattr(env.registry, hook_key) and getattr(env.registry, hook_key):
         env.registry.init_models(env.cr, remaining_models, {"module": module_name})

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:23+0000\n"
-"PO-Revision-Date: 2024-06-10 12:37+0000\n"
+"PO-Revision-Date: 2024-07-29 17:58+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
@@ -55,7 +55,6 @@ msgstr "Total Financeiro"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_financial_total_gross
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__financial_total_gross
 msgid "Amount Financial Gross"
 msgstr "Total Financeiro Bruto"
 
@@ -66,7 +65,6 @@ msgstr "Total Fiscal"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_price_gross
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__price_gross
 msgid "Amount Gross"
 msgstr "Total Bruto"
 
@@ -102,7 +100,6 @@ msgstr "Total sem Impostos"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__amount_price_gross
-#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__price_gross
 msgid "Amount without discount."
 msgstr "Total sem desconto."
 
@@ -438,17 +435,17 @@ msgstr "Nome Exibido"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_number
 msgid "Document Number"
-msgstr ""
+msgstr "Número do Documento"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie_id
 msgid "Document Serie"
-msgstr ""
+msgstr "Série do Documento"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_type_id
 msgid "Document Type"
-msgstr ""
+msgstr "Tipo de Documento"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__02
@@ -491,6 +488,11 @@ msgstr "Operação de Consumo Final"
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__financial_discount_value
 msgid "Financial Discount Value"
 msgstr "Valor do Desconto Financeiro"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_additional_data
@@ -569,6 +571,11 @@ msgstr "Valor do Frete"
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
 msgid "Gross"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__price_gross
+msgid "Gross Product/Service Amount"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1602,6 +1609,18 @@ msgid "Total With Taxes"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
 msgid "Type"
 msgstr "Tipo"
@@ -1787,15 +1806,15 @@ msgstr ""
 #~ msgid ""
 #~ "<span class=\"o_form_label\" attrs=\"{'invisible': [('state','not in',"
 #~ "('draft','sent'))]}\">Request for Quotation </span>\n"
-#~ "                        <span class=\"o_form_label\" attrs="
-#~ "\"{'invisible': [('state','in',('draft','sent'))]}\">Purchase Order </"
-#~ "span>"
+#~ "                        <span class=\"o_form_label\" "
+#~ "attrs=\"{'invisible': [('state','in',('draft','sent'))]}\">Purchase Order "
+#~ "</span>"
 #~ msgstr ""
 #~ "<span class=\"o_form_label\" attrs=\"{'invisible': [('state','not in',"
 #~ "('draft','sent'))]}\">Pedido de Cotação</span>\n"
-#~ "                        <span class=\"o_form_label\" attrs="
-#~ "\"{'invisible': [('state','in',('draft','sent'))]}\">Ordem de compra </"
-#~ "span>"
+#~ "                        <span class=\"o_form_label\" "
+#~ "attrs=\"{'invisible': [('state','in',('draft','sent'))]}\">Ordem de "
+#~ "compra </span>"
 
 #~ msgid "<span class=\"o_stat_text\">Purchased</span>"
 #~ msgstr "<span class=\"o_stat_text\">Comprado</span>"

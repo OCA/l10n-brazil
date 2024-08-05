@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2024-06-10 12:37+0000\n"
+"PO-Revision-Date: 2024-07-29 17:58+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__fiscal_operation_journal
@@ -56,7 +56,6 @@ msgid "Amount Financial"
 msgstr "Total Financeiro"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_financial_total_gross
 msgid "Amount Financial Gross"
 msgstr "Total Financeiro Bruto"
@@ -67,7 +66,6 @@ msgid "Amount Fiscal"
 msgstr "Total Fiscal"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__price_gross
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_price_gross
 msgid "Amount Gross"
 msgstr "Total Bruto"
@@ -106,7 +104,6 @@ msgid "Amount Untaxed"
 msgstr "Total sem Impostos"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__price_gross
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__amount_price_gross
 msgid "Amount without discount."
 msgstr "Total sem desconto."
@@ -337,6 +334,8 @@ msgstr "CST PIS ST"
 msgid ""
 "Check this box if you want to generate fiscal document for this operation."
 msgstr ""
+"Marque esta caixa se você deseja gerar um documento fiscal para esta "
+"operação."
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__city_taxation_code_id
@@ -447,17 +446,17 @@ msgstr "Nome Exibido"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
 msgid "Document Number"
-msgstr ""
+msgstr "Número do Documento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie_id
 msgid "Document Serie"
-msgstr ""
+msgstr "Série do Documento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_type_id
 msgid "Document Type"
-msgstr ""
+msgstr "Tipo de Documento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__estimate_tax
@@ -501,6 +500,11 @@ msgstr "Operação de Consumo Final"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_financial_discount_value
 msgid "Financial Discount Value"
 msgstr "Valor do Desconto Financeiro"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
@@ -575,6 +579,11 @@ msgstr "Forçar Cálculo de Custos de Entrega por Total"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_freight_value
 msgid "Freight Value"
 msgstr "Valor do Frete"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__price_gross
+msgid "Gross Product/Service Amount"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__group
@@ -1635,6 +1644,18 @@ msgstr ""
 #, python-format
 msgid "To Be Invoiced"
 msgstr "Para ser Faturado"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_picking

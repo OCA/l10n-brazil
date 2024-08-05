@@ -61,7 +61,7 @@ class ReceitawsWebservice(models.AbstractModel):
         If there is more than one phone, the second is assigned to mobile."""
         phone = False
         mobile = False
-        if data.get("telefone") != "":
+        if data.get("telefone"):
             phones = data["telefone"].split("/")
             phone = phones[0]
             if len(phones) > 1:
@@ -73,7 +73,7 @@ class ReceitawsWebservice(models.AbstractModel):
     def _get_state_city(self, data):
         state_id = False
         city_id = False
-        if data.get("uf") != "":
+        if data.get("uf"):
             state = self.env["res.country.state"].search(
                 [
                     ("code", "=", data["uf"]),
@@ -84,7 +84,7 @@ class ReceitawsWebservice(models.AbstractModel):
             if state.id:
                 state_id = state.id
 
-            if data.get("municipio") != "":
+            if data.get("municipio"):
                 city = self.env["res.city"].search(
                     [
                         ("name", "=ilike", data["municipio"].title()),
@@ -98,15 +98,16 @@ class ReceitawsWebservice(models.AbstractModel):
 
     @api.model
     def _receitaws_get_cnae(self, data):
-        cnae_main = data.get("atividade_principal")[0]
-        cnae_code = self.get_data(cnae_main, "code")
-
-        return self._get_cnae(cnae_code)
+        if data.get("atividade_principal"):
+            cnae_main = data.get("atividade_principal")[0]
+            cnae_code = self.get_data(cnae_main, "code")
+            return self._get_cnae(cnae_code)
+        return False
 
     @api.model
     def _receitaws_get_secondary_cnae(self, data):
         cnae_secondary = []
-        for atividade in data.get("atividades_secundarias"):
+        for atividade in data.get("atividades_secundarias", []):
             unformated = self.get_data(atividade, "code").split(".")
             formatted = ""
             for nums in unformated:

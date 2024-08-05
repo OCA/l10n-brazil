@@ -13,6 +13,18 @@
                           <field name="nfe_version" required="1" />
                           <field name="nfe_environment" required="1" />
                           <field name="nfe_transmission" required="1" />
+                            <field
+                                name="nfe_enable_sync_transmission"
+                                string="Enable Sync Transmission"
+                            />
+                            <field
+                                name="nfe_separate_async_process"
+                                string="Separate NF-e Send and Consult"
+                            />
+                            <field
+                                name="nfe_enable_contingency_ws"
+                                string="Enable contingency web services"
+                            />
                           <field name="nfe_danfe_layout" required="1" />
                           <field name="nfce_danfe_layout" required="1" />
                           <field
@@ -29,6 +41,22 @@
                         <field name="nfce_qrcode_version" />
                         <field name="nfce_csc_token" />
                         <field name="nfce_csc_code" />
+                    </group>
+                  </group>
+
+                  <group name="danfe_settings" string="DANFE Settings">
+                    <group>
+                        <field name="danfe_library" />
+                        <field
+                                name="danfe_invoice_display"
+                                string="Invoice Display"
+                                attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
+                            />
+                        <field
+                                name="danfe_display_pis_cofins"
+                                string="PIS/COFINS Display"
+                                attrs="{'invisible': [('danfe_library', '!=', 'brazil_fiscal_report')]}"
+                            />
                     </group>
                   </group>
               </page>

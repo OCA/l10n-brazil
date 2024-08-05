@@ -7,6 +7,10 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
+    DANFE_INVOICE_DISPLAY,
+    DANFE_INVOICE_DISPLAY_DEFAULT,
+    DANFE_LIBRARY,
+    DANFE_LIBRARY_DEFAULT,
     NFCE_DANFE_LAYOUT_DEFAULT,
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUT_DEFAULT,
@@ -62,6 +66,37 @@ class ResCompany(spec_models.SpecModel):
         selection=NFE_ENVIRONMENTS,
         string="NFe Environment",
         default=NFE_ENVIRONMENT_DEFAULT,
+    )
+
+    nfe_enable_sync_transmission = fields.Boolean(
+        help=(
+            "When enabled, this option configures the system to transmit the "
+            "NFe (Electronic Invoice) using a synchronous method instead of an "
+            "asynchronous one. This means that the system will wait for an immediate "
+            "response from the tax authority's system (SEFAZ) upon submission of the "
+            "NFe, providing quicker feedback on the submission status. Before "
+            "activating this option, please ensure that the SEFAZ in your state "
+            "supports synchronous processing for NFe submissions. Failure to verify "
+            "compatibility may result in transmission errors or rejections."
+        ),
+    )
+
+    nfe_separate_async_process = fields.Boolean(
+        string="Separate NF-e Send and Consult",
+        help=(
+            "If enabled, the system will send the NF-e and store the receipt without "
+            "immediately consulting it. The user must manually consult the receipt "
+            "later. This option is valid only in asynchronous mode."
+        ),
+    )
+
+    nfe_enable_contingency_ws = fields.Boolean(
+        help=(
+            "When enabled, all NFe-related services will be accessed using the "
+            "contingencyweb services. This ensures that operations such as issuing, "
+            "canceling, and consulting NFe will use the contingency web services "
+            "instead of the primary web services."
+        ),
     )
 
     nfe_transmission = fields.Selection(
@@ -129,6 +164,27 @@ class ResCompany(spec_models.SpecModel):
         string="CSC Code",
         help="Código CSC (Código de Segurança do Contribuinte) "
         "fornecido pela SEFAZ para a NFC-e",
+    )
+    danfe_library = fields.Selection(
+        selection=DANFE_LIBRARY,
+        default=DANFE_LIBRARY_DEFAULT,
+        help="""
+        Choose the library used for generating the DANFE
+        (Document Auxiliary for Nota Fiscal Eletrônica).
+        Options include 'erpbrasil.edoc.pdf' and 'brazil_fiscal_report'.
+        The default library is set to 'erpbrasil.edoc.pdf'.
+        """,
+    )
+
+    danfe_invoice_display = fields.Selection(
+        selection=DANFE_INVOICE_DISPLAY,
+        default=DANFE_INVOICE_DISPLAY_DEFAULT,
+        help="Choose to generate a full or incomplete invoice frame in the DANFE.",
+    )
+
+    danfe_display_pis_cofins = fields.Boolean(
+        default=False,
+        help="Select whether PIS and COFINS should be displayed in DANFE.",
     )
 
     def _compute_nfe_data(self):

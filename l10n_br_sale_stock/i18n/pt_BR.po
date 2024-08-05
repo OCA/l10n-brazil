@@ -7,16 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-27 22:00+0000\n"
-"PO-Revision-Date: 2024-05-20 19:36+0000\n"
-"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
-"translation.odoo-community.org>\n"
+"PO-Revision-Date: 2024-07-29 17:58+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order__button_create_invoice_invisible
@@ -37,6 +36,8 @@ msgstr "Ajustes de Configurações"
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_stock.l10n_br_sale_stock_res_config_settings_form
 msgid "Define if Invoice should be create from Sale Order or Stock Picking"
 msgstr ""
+"Define se a fatura deve ser criada a partir do Pedido de Venda ou da "
+"Expedição de Estoque"
 
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,help:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
@@ -45,6 +46,8 @@ msgid ""
 "Define, when Product Type are not service, if Invoice should be create from "
 "Sale Order or Stock Picking."
 msgstr ""
+"Define, quando o tipo de produto não for serviço, se a fatura deve ser "
+"criada a partir do Pedido de Venda ou da Expedição de Estoque."
 
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_company__display_name
@@ -83,7 +86,7 @@ msgstr "Última Modificação em"
 #: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
 #: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_config_settings__sale_create_invoice_policy
 msgid "Sale Create Invoice Policy"
-msgstr ""
+msgstr "Política de Criação de Faturas de Venda"
 
 #. module: l10n_br_sale_stock
 #: code:addons/l10n_br_sale_stock/models/res_company.py:0
@@ -95,7 +98,7 @@ msgstr "Pedido de Venda"
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Pedido de Vendas"
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_sale_order_line
@@ -122,7 +125,7 @@ msgstr "Separação de Estoque"
 #. module: l10n_br_sale_stock
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_stock.l10n_br_sale_stock_res_config_settings_form
 msgid "This default value is applied to creation of Invoice."
-msgstr ""
+msgstr "Este valor padrão é aplicado à criação de faturas."
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_stock_picking

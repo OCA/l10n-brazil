@@ -9,8 +9,9 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class AbstractSpecMixin(models.AbstractModel):
-    _inherit = "spec.mixin"
+class SpecMixinExport(models.AbstractModel):
+    _name = "spec.mixin_export"
+    _description = "a mixin providing serialization features"
 
     @api.model
     def _get_binding_class(self, class_obj):
