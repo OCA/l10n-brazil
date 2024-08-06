@@ -67,7 +67,7 @@ class SaleOrderLine(models.Model):
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        related="order_id.partner_id",
+        related="order_id.partner_invoice_id",
         string="Partner",
     )
 
