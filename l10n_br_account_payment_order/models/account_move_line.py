@@ -163,7 +163,8 @@ class AccountMoveLine(models.Model):
             # Se for uma solicitação de baixa do título é preciso informar o
             # campo debit o codigo original coloca o amount_residual
             if (
-                self.mov_instruction_code_id.id
+                self.payment_mode_id.cnab_write_off_code_id
+                and self.mov_instruction_code_id.id
                 == self.payment_mode_id.cnab_write_off_code_id.id
             ):
                 vals["amount_currency"] = self.credit or self.debit
