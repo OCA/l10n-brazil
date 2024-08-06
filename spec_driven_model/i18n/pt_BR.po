@@ -6,15 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-01-02 20:00+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-08-07 01:58+0000\n"
+"Last-Translator: Rodrigo Sottomaior Macedo "
+"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: spec_driven_model
 #: model:ir.model,name:spec_driven_model.model_spec_mixin_import
@@ -26,6 +27,13 @@ msgid ""
 "    mixins where injected and possible matcher or builder overrides.\n"
 "    "
 msgstr ""
+"\n"
+"    Um construtor de objetos Odoo recursivo que funciona junto com o\n"
+"    Construtor de objetos GenerateDS a partir do XML analisado.\n"
+"    Aqui levamos em consideração os objetos Odoo concretos onde o esquema\n"
+"    mixins onde injetados e possíveis substituições de matcher ou construtor."
+"\n"
+"    "
 
 #. module: spec_driven_model
 #. odoo-python
@@ -37,7 +45,7 @@ msgstr "Abrir..."
 #. module: spec_driven_model
 #: model:ir.model,name:spec_driven_model.model_spec_mixin_export
 msgid "a mixin providing serialization features"
-msgstr ""
+msgstr "um mixin que fornece recursos de serialização"
 
 #. module: spec_driven_model
 #: model:ir.model,name:spec_driven_model.model_spec_mixin
