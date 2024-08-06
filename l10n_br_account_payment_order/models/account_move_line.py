@@ -75,15 +75,11 @@ class AccountMoveLine(models.Model):
         copy=False,
     )
 
-    cnab_config_id = fields.Many2one(
-        related="payment_mode_id.cnab_config_id",
-    )
-
     boleto_discount_perc = fields.Float(
         string="Desconto de pontualidade",
         digits="Account",
         help="Percentual de Desconto até a Data de Vencimento",
-        related="cnab_config_id.boleto_discount_perc",
+        related="payment_mode_id.boleto_discount_perc",
     )
 
     instructions = fields.Text(
@@ -102,8 +98,8 @@ class AccountMoveLine(models.Model):
         copy=False,
     )
 
-    instruction_move_code_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.code",
+    mov_instruction_code_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Código da Instrução para Movimento",
         help="Campo G061 do CNAB",
         copy=False,
@@ -148,7 +144,7 @@ class AccountMoveLine(models.Model):
                     "document_number": self.document_number,
                     "company_title_identification": self.company_title_identification,
                     # Codigo de Instrução do Movimento
-                    "instruction_move_code_id": self.instruction_move_code_id.id,
+                    "mov_instruction_code_id": self.mov_instruction_code_id.id,
                     "communication_type": "cnab",
                     # Campos abaixo estão sendo adicionados devido ao problema de
                     # Ordens de Pagto vinculadas devido o ondelete=restrict no
@@ -167,9 +163,9 @@ class AccountMoveLine(models.Model):
             # Se for uma solicitação de baixa do título é preciso informar o
             # campo debit o codigo original coloca o amount_residual
             if (
-                self.cnab_config_id.write_off_code_id
-                and self.instruction_move_code_id
-                == self.cnab_config_id.write_off_code_id
+                self.payment_mode_id.cnab_write_off_code_id
+                and self.mov_instruction_code_id.id
+                == self.payment_mode_id.cnab_write_off_code_id.id
             ):
                 vals["amount_currency"] = self.credit or self.debit
 
