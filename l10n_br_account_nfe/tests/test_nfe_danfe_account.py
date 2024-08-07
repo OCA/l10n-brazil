@@ -2,11 +2,11 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from unittest.mock import patch
 
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestDanfe(SavepointCase):
+class TestDanfe(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
