@@ -7,67 +7,69 @@ from odoo.addons.spec_driven_model import hooks
 
 
 class TestAccountNFCeContingency(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         # this hook is required to test l10n_br_account_nfe alone:
         hooks.register_hook(
-            self.env,
+            cls.env,
             "l10n_br_nfe",
             "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
         )
-        self.document_id = self.env.ref("l10n_br_nfe.demo_nfce_same_state")
-        self.prepare_account_move_nfce()
+        cls.document_id = cls.env.ref("l10n_br_nfe.demo_nfce_same_state")
+        cls.prepare_account_move_nfce()
 
-    def prepare_account_move_nfce(self):
-        receivable_account_id = self.env["account.account"].create(
+    @classmethod
+    def prepare_account_move_nfce(cls):
+        receivable_account_id = cls.env["account.account"].create(
             {
                 "name": "TEST ACCOUNT",
-                "code": "1.1.1.2.2",
+                "code": "01.1.1.2.2",
                 "reconcile": 1,
-                "company_id": self.env.ref("base.main_company").id,
-                "user_type_id": self.env.ref("account.data_account_type_receivable").id,
+                "company_id": cls.env.ref("base.main_company").id,
+                "user_type_id": cls.env.ref("account.data_account_type_receivable").id,
             }
         )
-        payable_account_id = self.env["account.account"].create(
+        payable_account_id = cls.env["account.account"].create(
             {
                 "name": "TEST ACCOUNT 2",
-                "code": "1.1.1.2.3",
+                "code": "01.1.1.2.3",
                 "reconcile": 1,
-                "company_id": self.env.ref("base.main_company").id,
-                "user_type_id": self.env.ref("account.data_account_type_payable").id,
+                "company_id": cls.env.ref("base.main_company").id,
+                "user_type_id": cls.env.ref("account.data_account_type_payable").id,
             }
         )
-        payment_method = self.env.ref("account.account_payment_method_manual_in").id
-        journal_id = self.env["account.journal"].create(
+        payment_method = cls.env.ref("account.account_payment_method_manual_in").id
+        journal_id = cls.env["account.journal"].create(
             {
                 "name": "JOURNAL TEST",
                 "code": "TEST",
                 "type": "bank",
-                "company_id": self.env.ref("base.main_company").id,
+                "company_id": cls.env.ref("base.main_company").id,
             }
         )
-        payment_mode = self.env["account.payment.mode"].create(
+        payment_mode = cls.env["account.payment.mode"].create(
             {
                 "name": "PAYMENT MODE TEST",
-                "company_id": self.env.ref("base.main_company").id,
+                "company_id": cls.env.ref("base.main_company").id,
                 "payment_method_id": payment_method,
                 "fiscal_payment_mode": "15",
                 "bank_account_link": "fixed",
                 "fixed_journal_id": journal_id.id,
             }
         )
-        self.document_move_id = self.env["account.move"].create(
+        cls.document_move_id = cls.env["account.move"].create(
             {
                 "name": "MOVE TEST",
                 "payment_mode_id": payment_mode.id,
-                "company_id": self.env.ref("base.main_company").id,
+                "company_id": cls.env.ref("base.main_company").id,
                 "line_ids": [
                     (0, 0, {"account_id": receivable_account_id.id, "credit": 10}),
                     (0, 0, {"account_id": payable_account_id.id, "debit": 10}),
                 ],
             }
         )
-        self.document_move_id.fiscal_document_id = self.document_id.id
+        cls.document_move_id.fiscal_document_id = cls.document_id.id
 
     def test_nfce_contingencia(self):
         self.document_id._update_nfce_for_offline_contingency()
