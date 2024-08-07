@@ -37,7 +37,7 @@ class TestGeneratePaymentInfo(TransactionCase):
         cls.invoice_account_id = cls.env["account.account"].create(
             {
                 "company_id": cls.company.id,
-                "user_type_id": cls.env.ref("account.data_account_type_receivable").id,
+                "account_type": "asset_receivable",
                 "code": "RECTEST",
                 "name": "Test receivable account",
                 "reconcile": True,
@@ -63,7 +63,6 @@ class TestGeneratePaymentInfo(TransactionCase):
                         {
                             "value": "balance",
                             "days": 30,
-                            "option": "day_after_invoice_date",
                         },
                     )
                 ],
@@ -73,7 +72,7 @@ class TestGeneratePaymentInfo(TransactionCase):
         cls.invoice_line_account_id = cls.env["account.account"].create(
             {
                 "company_id": cls.company.id,
-                "user_type_id": cls.env.ref("account.data_account_type_revenue").id,
+                "account_type": "income",
                 "code": "705070",
                 "name": "Product revenue account (test)",
             }
@@ -126,7 +125,6 @@ class TestGeneratePaymentInfo(TransactionCase):
         )
 
         invoice_vals["invoice_line_ids"].append((0, 0, invoice_line_vals))
-        del invoice_vals["line_ids"]
         cls.invoice = cls.env["account.move"].create(invoice_vals)
         cls.invoice.invoice_line_ids._onchange_fiscal_tax_ids()
         cls.invoice.invoice_line_ids._onchange_fiscal_operation_line_id()
