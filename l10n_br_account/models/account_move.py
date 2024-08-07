@@ -261,7 +261,7 @@ class AccountMove(models.Model):
             else:
                 sign = 1
             inv_line_ids = move.line_ids.filtered(
-                lambda line: not line.exclude_from_invoice_tab
+                lambda line: line.display_type == "product"
             )
             move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
             move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
