@@ -142,7 +142,6 @@ class TestGeneratePaymentInfo(SavepointCase):
                 check_move_validity=False
             )._onchange_fiscal_operation_line_id()
             line.with_context(check_move_validity=False)._onchange_fiscal_tax_ids()
-        cls.invoice_demo_data.action_post()
 
     def test_nfe_generate_tag_pag(self):
         """Test NFe generate TAG PAG."""
@@ -192,8 +191,15 @@ class TestGeneratePaymentInfo(SavepointCase):
             }
         )
         self.invoice_demo_data.payment_mode_id = self.pay_mode.id
-        with self.assertRaises(UserError):
+        with self.assertRaises(UserError) as captured_exception:
             self.invoice_demo_data.action_post()
+        self.assertEqual(
+            captured_exception.exception.args[0],
+            (
+                "Payment Mode Sem Meio Fiscal should have a "
+                "Fiscal Payment Mode filled to be used in the Fiscal Document!"
+            ),
+        )
 
     def test_invoice_without_payment_mode(self):
         """Test Invoice without Payment Mode."""
