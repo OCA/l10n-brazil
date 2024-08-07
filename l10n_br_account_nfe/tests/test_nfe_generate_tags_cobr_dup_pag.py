@@ -6,11 +6,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.exceptions import UserError
-from odoo.tests import Form, SavepointCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestGeneratePaymentInfo(SavepointCase):
+class TestGeneratePaymentInfo(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
