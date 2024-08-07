@@ -17,26 +17,28 @@ Account NFe/NFC-e Integration
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_nfe
+    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account_nfe
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_account_nfe
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_account_nfe
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-**Português**
-Este módulo integra os módulos l10n_br_account e l10n_br_nfe.
+**Português** Este módulo integra os módulos l10n_br_account e
+l10n_br_nfe.
 
-* Adicionando as informações de Pagamento e Duplicatas da Fatura, TAGs cobr, pag e dup da NF-e/NFC-e.
+-  Adicionando as informações de Pagamento e Duplicatas da Fatura, TAGs
+   cobr, pag e dup da NF-e/NFC-e.
 
-**English**
-This module integrates the l10n_br_account and l10n_br_nfe modules.
+**English** This module integrates the l10n_br_account and l10n_br_nfe
+modules.
 
-* Adding Payment Information and Invoice Duplicates, TAGs cobr, pag and dup of NF-e/NFC-e.
+-  Adding Payment Information and Invoice Duplicates, TAGs cobr, pag and
+   dup of NF-e/NFC-e.
 
 **Table of contents**
 
@@ -46,35 +48,36 @@ This module integrates the l10n_br_account and l10n_br_nfe modules.
 Configuration
 =============
 
-**Português**
-Crie o Modo de Pagamento e informe o campo Meio de Pagamento da NF:
-Faturamento > Configuração > Administração > Modos de Pagamento
+**Português** Crie o Modo de Pagamento e informe o campo Meio de
+Pagamento da NF: Faturamento > Configuração > Administração > Modos de
+Pagamento
 
-**English**
-Create the Payment Mode and inform the field Meio de Pagamento da NF:
-Invoicing > Configuration > Management > Payment Modes
+**English** Create the Payment Mode and inform the field Meio de
+Pagamento da NF: Invoicing > Configuration > Management > Payment Modes
 
 Usage
 =====
 
-**Português**
-Ao Confirmar um Documento Fiscal do tipo NFe ou NFCe, os dados das Tags de Pagamento e Duplicatas serão criados automaticamente.
+**Português** Ao Confirmar um Documento Fiscal do tipo NFe ou NFCe, os
+dados das Tags de Pagamento e Duplicatas serão criados automaticamente.
 
-**English**
-When Confirming a NFe or NFCe Fiscal Document, the Payment Tags and Duplicates data will be created automatically.
+**English** When Confirming a NFe or NFCe Fiscal Document, the Payment
+Tags and Duplicates data will be created automatically.
 
 Known issues / Roadmap
 ======================
 
-* Existe a possibilidade de criar uma Nota Fiscal com múltiplos Modos/Meio de Pagamentos RFC https://github.com/OCA/l10n-brazil/issues/1850
+-  Existe a possibilidade de criar uma Nota Fiscal com múltiplos
+   Modos/Meio de Pagamentos RFC
+   https://github.com/OCA/l10n-brazil/issues/1850
 
 Changelog
 =========
 
 12.0.1.0.0 (2022-03-30)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* [NEW] Primeira versão
+-  [NEW] Primeira versão
 
 Bug Tracker
 ===========
@@ -82,7 +85,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account_nfe%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account_nfe%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -90,25 +93,25 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Engenere
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Engenere <https://engenere.one>`_:
+-  `Engenere <https://engenere.one>`__:
 
-  * Felipe Motter Pereira <felipe@engenere.one>
-  * Antônio S. Pereira Neto <neto@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
 
-* `Akretion <https://akretion.com/pt-BR>`_:
+-  `Akretion <https://akretion.com/pt-BR>`__:
 
-  * Magno Barcelo da Costa <magno.costa@akretion.com.br>
+   -  Magno Barcelo da Costa <magno.costa@akretion.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -134,6 +137,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-antoniospneto| |maintainer-felipemotter| |maintainer-mbcosta| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_nfe>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account_nfe>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
