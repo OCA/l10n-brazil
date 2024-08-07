@@ -6,7 +6,7 @@ from odoo.tests import SavepointCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestGeneratePaymentInfo(SavepointCase):
+class TestDanfe(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
