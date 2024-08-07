@@ -272,14 +272,6 @@ class AccountMove(models.Model):
 
         return result
 
-    # @api.onchange("ind_final")
-    # def _onchange_ind_final(self):
-    #     """Trigger the recompute of the taxes when the ind_final is changed"""
-    #     for line in self.invoice_line_ids:
-    #         line._onchange_fiscal_operation_id()
-    #     return self._recompute_dynamic_lines(recompute_all_taxes=True)
-    # FIXME no _recompute_dynamic_lines in v16!
-
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
@@ -291,47 +283,6 @@ class AccountMove(models.Model):
             else:
                 defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
         return defaults
-
-    # TODO MIGRATE v16: no such meth in v16
-    @api.model
-    def _move_autocomplete_invoice_lines_create(self, vals_list):
-        fiscal_document_line_ids = {}
-        for idx1, move_val in enumerate(vals_list):
-            if "invoice_line_ids" in move_val:
-                fiscal_document_line_ids[idx1] = {}
-                for idx2, line_val in enumerate(move_val["invoice_line_ids"]):
-                    if (
-                        line_val[0] == 0
-                        and line_val[1] == 0
-                        and isinstance(line_val[2], dict)
-                    ):
-                        fiscal_document_line_ids[idx1][idx2] = line_val[2].get(
-                            "fiscal_document_line_id", False
-                        )
-
-        new_vals_list = super(
-            AccountMove, self.with_context(lines_compute_amounts=True)
-        )._move_autocomplete_invoice_lines_create(vals_list)
-        for vals in new_vals_list:
-            if not vals.get("document_type_id"):
-                vals["fiscal_document_id"] = False
-
-        for idx1, move_val in enumerate(new_vals_list):
-            if "line_ids" in move_val:
-                if fiscal_document_line_ids.get(idx1):
-                    idx2 = 0
-                    for line_val in move_val["line_ids"]:
-                        if (
-                            line_val[0] == 0
-                            and line_val[1] == 0
-                            and isinstance(line_val[2], dict)
-                        ):
-                            line_val[2]["fiscal_document_line_id"] = (
-                                fiscal_document_line_ids[idx1].get(idx2)
-                            )
-                            idx2 += 1
-
-        return new_vals_list
 
     @contextmanager
     def _sync_dynamic_lines(self, container):
@@ -356,13 +307,6 @@ class AccountMove(models.Model):
                     "payment_term_number": f"{idx}-{len(payment_term_lines_sorted)}",
                 }
             )
-
-    # TODO MIGRATE v16: no such method in v16
-    def _move_autocomplete_invoice_lines_values(self):
-        self.ensure_one()
-        if self._context.get("lines_compute_amounts"):
-            self.line_ids._compute_amounts()
-        return super()._move_autocomplete_invoice_lines_values()
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -391,98 +335,6 @@ class AccountMove(models.Model):
         unlink_documents.unlink()
         self.clear_caches()
         return result
-
-    # TODO MIGRATE v16: no such method in v16
-    @api.model
-    def _serialize_tax_grouping_key(self, grouping_dict):
-        return "-".join(str(v) for v in grouping_dict.values())
-
-    # TODO MIGRATE v16: no such method in v16
-    @api.model
-    def _compute_taxes_mapped(self, base_line):
-        move = base_line.move_id
-
-        if move.is_invoice(include_receipts=True):
-            handle_price_include = True
-            sign = -1 if move.is_inbound() else 1
-            quantity = base_line.quantity
-            is_refund = move.move_type in ("out_refund", "in_refund")
-            price_unit_wo_discount = (
-                sign * base_line.price_unit * (1 - (base_line.discount / 100.0))
-            )
-        else:
-            handle_price_include = False
-            quantity = 1.0
-            tax_type = base_line.tax_ids[0].type_tax_use if base_line.tax_ids else None
-            is_refund = (tax_type == "sale" and base_line.debit) or (
-                tax_type == "purchase" and base_line.credit
-            )
-            price_unit_wo_discount = base_line.amount_currency
-
-        balance_taxes_res = base_line.tax_ids._origin.with_context(
-            force_sign=move._get_tax_force_sign()
-        ).compute_all(
-            price_unit_wo_discount,
-            currency=base_line.currency_id,
-            quantity=quantity,
-            product=base_line.product_id,
-            partner=base_line.partner_id,
-            is_refund=is_refund,
-            handle_price_include=handle_price_include,
-            fiscal_taxes=base_line.fiscal_tax_ids,
-            operation_line=base_line.fiscal_operation_line_id,
-            ncm=base_line.ncm_id,
-            nbs=base_line.nbs_id,
-            nbm=base_line.nbm_id,
-            cest=base_line.cest_id,
-            discount_value=base_line.discount_value,
-            insurance_value=base_line.insurance_value,
-            other_value=base_line.other_value,
-            ii_customhouse_charges=base_line.ii_customhouse_charges,
-            cfop=base_line.cfop_id,
-            freight_value=base_line.freight_value,
-            fiscal_price=base_line.fiscal_price,
-            fiscal_quantity=base_line.fiscal_quantity,
-            uot_id=base_line.uot_id,
-            icmssn_range=base_line.icmssn_range_id,
-            icms_origin=base_line.icms_origin,
-            ind_final=base_line.ind_final,
-        )
-        return balance_taxes_res
-
-    # TODO MIGRATE v16: no such method in v16
-    def _preprocess_taxes_map(self, taxes_map):
-        """Compute taxes base and amount for Brazil"""
-
-        taxes_mapped = super()._preprocess_taxes_map(taxes_map=taxes_map)
-
-        for line in self.line_ids.filtered(
-            lambda line: not line.tax_repartition_line_id
-        ):
-            if not line.tax_ids or not line.fiscal_tax_ids:
-                continue
-
-            compute_all_vals = self._compute_taxes_mapped(line)
-
-            for tax_vals in compute_all_vals["taxes"]:
-                grouping_dict = self._get_tax_grouping_key_from_base_line(
-                    line, tax_vals
-                )
-                grouping_key = self._serialize_tax_grouping_key(grouping_dict)
-
-                tax_repartition_line = self.env["account.tax.repartition.line"].browse(
-                    tax_vals["tax_repartition_line_id"]
-                )
-
-                if taxes_mapped[grouping_key]:
-                    taxes_mapped[grouping_key]["amount"] += tax_vals["amount"]
-                    taxes_mapped[grouping_key][
-                        "tax_base_amount"
-                    ] += self._get_base_amount_to_display(
-                        tax_vals["base"], tax_repartition_line, tax_vals["group"]
-                    )
-
-        return taxes_mapped
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
