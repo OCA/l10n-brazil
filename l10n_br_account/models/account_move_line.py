@@ -187,7 +187,7 @@ class AccountMoveLine(models.Model):
                         values[k] = v
                 continue
 
-            if values.get("exclude_from_invoice_tab"):
+            if values.get("exclude_from_invoice_tab"):  # FIXME MIGRATE
                 continue
 
             move_id = self.env["account.move"].browse(values["move_id"])
@@ -389,14 +389,37 @@ class AccountMoveLine(models.Model):
         yield
         after = existing()
         for line in after:
-            if (
-                line.move_id.company_id.country_id.code != "BR"  # LINE ADDED!
-                and line.display_type == "product"
-                and (not changed("amount_currency") or line not in before)
+            if line.display_type == "product" and (
+                not changed("amount_currency") or line not in before
             ):
-                amount_currency = line.move_id.direction_sign * line.currency_id.round(
-                    line.price_subtotal
-                )
+                if line.move_id.company_id.country_id.code != "BR":  # LINE ADDED!
+                    amount_currency = (
+                        line.move_id.direction_sign
+                        * line.currency_id.round(line.price_subtotal)
+                    )
+                else:  # BRAZIL CASE:
+                    if line.cfop_id and not line.cfop_id.finance_move:
+                        amount_currency = 0
+                    else:
+                        if line.move_id.fiscal_operation_id.deductible_taxes:
+                            amount_currency = (
+                                line.amount_total + line.amount_tax_withholding
+                            )
+                        else:
+                            amount_total = (
+                                line.amount_total + line.amount_tax_withholding
+                            )
+                            amount_currency = (
+                                line.move_id.direction_sign
+                                * line.currency_id.round(
+                                    amount_total
+                                    - (
+                                        line.amount_tax_included
+                                        - line.amount_tax_withholding
+                                    )
+                                    - line.amount_tax_not_included
+                                )
+                            )
                 if line.amount_currency != amount_currency or line not in before:
                     line.amount_currency = amount_currency
                 if line.currency_id == line.company_id.currency_id:
