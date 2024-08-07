@@ -4,7 +4,7 @@ from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
 
 
 @tagged("post_install", "-at_install")
-class TestAccountAccount(AccountMoveBRCommon):
+class TestNFeWithIPI(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref)
@@ -35,7 +35,7 @@ class TestAccountAccount(AccountMoveBRCommon):
             post=False,
         )
         cls.move_out_venda.payment_mode_id = cls.payment_mode
-        cls.move_out_venda.post()
+        cls.move_out_venda.action_post()
 
     def test_nfe_with_ipi(self):
         """

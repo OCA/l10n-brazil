@@ -152,14 +152,15 @@ class DocumentNfe(models.Model):
             if not rec.move_ids.payment_mode_id.fiscal_payment_mode:
                 raise UserError(
                     _(
-                        f"Payment Mode {rec.move_ids.payment_mode_id.name} should has "
-                        "has Fiscal Payment Mode filled to be used in Fiscal Document!"
+                        "Payment Mode %(mode)s should have "
+                        "a Fiscal Payment Mode filled to be used in the Fiscal Document!",
+                        mode=rec.move_ids.payment_mode_id.name,
                     )
                 )
 
     def _update_nfce_for_offline_contingency(self):
-        super()._update_nfce_for_offline_contingency()
-
+        res = super()._update_nfce_for_offline_contingency()
         if self.move_ids:
             copy_invoice = self.move_ids[0].copy()
             copy_invoice.action_post()
+        return res
