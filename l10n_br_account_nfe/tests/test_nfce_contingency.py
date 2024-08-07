@@ -27,7 +27,7 @@ class TestAccountNFCeContingency(TransactionCase):
                 "code": "01.1.1.2.2",
                 "reconcile": 1,
                 "company_id": cls.env.ref("base.main_company").id,
-                "user_type_id": cls.env.ref("account.data_account_type_receivable").id,
+                "account_type": "asset_receivable",
             }
         )
         payable_account_id = cls.env["account.account"].create(
@@ -36,7 +36,7 @@ class TestAccountNFCeContingency(TransactionCase):
                 "code": "01.1.1.2.3",
                 "reconcile": 1,
                 "company_id": cls.env.ref("base.main_company").id,
-                "user_type_id": cls.env.ref("account.data_account_type_payable").id,
+                "account_type": "liability_payable",
             }
         )
         payment_method = cls.env.ref("account.account_payment_method_manual_in").id
