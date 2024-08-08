@@ -25,7 +25,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         # Verificar os Valores de Preço pois isso é usado na Valorização do
         # Estoque, o metodo do core é chamado pelo botão Validate
 
-        for line in picking.move_lines:
+        for line in picking.move_ids:
             # No Brasil o caso de Ordens de Entrega que não tem ligação com
             # Pedido de Venda por padrão deve trazer o valor o Preço de Custo
             # e não o de Venda, ex.: Simples Remessa, Remessa p/
@@ -96,7 +96,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.assertTrue(
             picking_devolution.fiscal_operation_id, "Missing Fiscal Operation."
         )
-        for line in picking_devolution.move_lines:
+        for line in picking_devolution.move_ids:
             self.assertEqual(line.invoice_state, "2binvoiced")
             # Valida presença dos campos principais para o mapeamento Fiscal
             self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
@@ -140,7 +140,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             # qty = 4 because 2 for each stock.move
             self.assertEqual(inv_line.quantity, 4)
             # Price Unit e Fiscal Price devem ser positivos
-            price_unit_mv_line = picking.move_lines.filtered(
+            price_unit_mv_line = picking.move_ids.filtered(
                 lambda mv: mv.product_id == inv_line.product_id
             ).mapped("price_unit")[0]
             self.assertEqual(
@@ -236,7 +236,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
         self._run_fiscal_onchanges(picking2)
 
-        for line in picking2.move_lines:
+        for line in picking2.move_ids:
             self._run_fiscal_line_onchanges(line)
 
         picking2.action_confirm()
@@ -251,7 +251,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.assertEqual(backorder.invoice_state, "2binvoiced")
         self.assertTrue(backorder.fiscal_operation_id)
 
-        for line in backorder.move_lines:
+        for line in backorder.move_ids:
             self.assertTrue(line.fiscal_operation_id)
             self.assertTrue(line.fiscal_operation_line_id)
             self.assertEqual(line.invoice_state, "2binvoiced")
@@ -272,7 +272,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         # Verificar os Valores de Preço pois isso é usado na Valorização do
         # Estoque, o metodo do core é chamado pelo botão Validate
 
-        for line in picking.move_lines:
+        for line in picking.move_ids:
             # O Campo fiscal_price precisa ser um espelho do price_unit,
             # apesar do onchange p/ preenche-lo sem incluir o compute no campo
             # ele traz o valor do lst_price e falha no teste abaixo
@@ -318,7 +318,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             )
             assert line.ind_final, "Error field ind_final in Invoice Line not None"
             # Verifica se o campo tax_ids da Fatura esta igual ao da Separação
-            mv_line = picking.move_lines.filtered(
+            mv_line = picking.move_ids.filtered(
                 lambda ln: ln.product_id == line.product_id
                 and ln.fiscal_operation_id == line.fiscal_operation_id
             )
@@ -342,7 +342,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.assertTrue(
             picking_devolution.fiscal_operation_id, "Missing Fiscal Operation."
         )
-        for line in picking_devolution.move_lines:
+        for line in picking_devolution.move_ids:
             self.assertEqual(line.invoice_state, "2binvoiced")
             # Valida presença dos campos principais para o mapeamento Fiscal
             self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
@@ -410,7 +410,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.amount_insurance_value = 9.0
         picking.amount_other_value = 9.0
 
-        for line in picking.move_lines:
+        for line in picking.move_ids:
             self.assertEqual(
                 line.freight_value,
                 3.0,
@@ -428,7 +428,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             )
 
         # Caso que os Campos na Linha não tem valor
-        for line in picking.move_lines:
+        for line in picking.move_ids:
             line.price_unit = 100.0
             line.freight_value = 0.0
             line.insurance_value = 0.0
@@ -440,7 +440,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.amount_insurance_value = 30.0
         picking.amount_other_value = 30.0
 
-        for line in picking.move_lines:
+        for line in picking.move_ids:
             self.assertEqual(
                 line.freight_value,
                 10.0,
@@ -482,7 +482,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.assertEqual(backorder.invoice_state, "2binvoiced")
         self.assertFalse(backorder.fiscal_operation_id)
 
-        for line in backorder.move_lines:
+        for line in backorder.move_ids:
             self.assertFalse(line.fiscal_operation_id)
             self.assertFalse(line.fiscal_operation_line_id)
             self.assertEqual(line.invoice_state, "2binvoiced")
@@ -511,7 +511,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
         self._run_fiscal_onchanges(picking)
 
-        for line in picking.move_lines:
+        for line in picking.move_ids:
             self._run_fiscal_line_onchanges(line)
             # Force Split
             line.quantity_done = 10
@@ -537,7 +537,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         """Test case of Simples Nacional"""
         self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
         picking = self.env.ref("l10n_br_stock_account.simples_nacional-picking_1")
-        for line in picking.move_lines:
+        for line in picking.move_ids:
             # Testa _get_price_unit
             line.price_unit = 0.0
         self.picking_move_state(picking)

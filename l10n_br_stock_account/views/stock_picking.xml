@@ -232,7 +232,7 @@
                 pickings de entrada com relação com documentos fiscais ainda não
                 importados no sistema.
             -->
-                <group name="document_info" string="Fiscal Document Info">
+                <!--group name="document_info" string="Fiscal Document Info">
                     <field name="document_key" readonly="1" />
                 </group>
                 <group>
@@ -244,7 +244,7 @@
                         <field name="document_serie" readonly="1" />
                         <field name="document_number" readonly="1" />
                     </group>
-                </group>
+                </group-->
             </xpath>
         </field>
     </record>

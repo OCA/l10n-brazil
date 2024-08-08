@@ -37,7 +37,7 @@ class StockReturnPicking(models.TransientModel):
             else:
                 picking.fiscal_operation_id = refund_fiscal_operation.id
                 move_obj = self.env["stock.move"]
-                for move in picking.move_lines:
+                for move in picking.move_ids:
                     ret_move = move.origin_returned_move_id
                     fiscal_op = ret_move.fiscal_operation_id.return_fiscal_operation_id
                     fiscal_op_line = ret_move.fiscal_operation_line_id.line_refund_id

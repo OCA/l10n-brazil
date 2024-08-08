@@ -52,14 +52,14 @@ class StockPicking(models.Model):
     )
 
     def _get_amount_lines(self):
-        """Get object lines instaces used to compute fields"""
-        return self.mapped("move_lines")
+        """Get object lines instances used to compute fields"""
+        return self.mapped("move_ids")
 
-    @api.depends("move_lines")
+    @api.depends("move_ids")
     def _compute_amount(self):
         return super()._compute_amount()
 
-    @api.depends("move_lines.price_unit")
+    @api.depends("move_ids.price_unit")
     def _amount_all(self):
         """Compute the total amounts of the Picking."""
         for picking in self:
