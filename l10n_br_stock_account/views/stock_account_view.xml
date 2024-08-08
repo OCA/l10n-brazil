@@ -12,6 +12,7 @@
         <field name="inherit_id" ref="stock_picking_invoicing.view_move_tree" />
         <field name="arch" type="xml">
             <field name="invoice_state" position="after">
+                <field name="invoice_state" invisible="1" />
                 <field
                     name="fiscal_operation_id"
                     attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"

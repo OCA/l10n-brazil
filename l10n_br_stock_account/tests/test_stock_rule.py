@@ -15,7 +15,7 @@ class StockRuleTest(TransactionCase):
 
         # Create a product route containing a stock rule that will
         # generate a move from Stock for every procurement created in Output
-        cls.product_route = cls.env["stock.location.route"].create(
+        cls.product_route = cls.env["stock.route"].create(
             {
                 "name": "Stock -> output route",
                 "product_selectable": True,
@@ -32,7 +32,7 @@ class StockRuleTest(TransactionCase):
                             "location_src_id": cls.env.ref(
                                 "stock.stock_location_stock"
                             ).id,
-                            "location_id": cls.env.ref(
+                            "location_dest_id": cls.env.ref(
                                 "stock.stock_location_output"
                             ).id,
                             "invoice_state": "2binvoiced",
@@ -61,7 +61,7 @@ class StockRuleTest(TransactionCase):
             "picking_type_id": self.ref("stock.picking_type_out"),
             "location_id": self.ref("stock.stock_location_output"),
             "location_dest_id": self.ref("stock.stock_location_customers"),
-            "move_lines": [
+            "move_ids": [
                 (
                     0,
                     0,
@@ -97,7 +97,7 @@ class StockRuleTest(TransactionCase):
                 ("product_id", "=", self.ref("product.product_product_3")),
                 ("location_id", "=", self.ref("stock.stock_location_stock")),
                 ("location_dest_id", "=", self.ref("stock.stock_location_output")),
-                ("move_dest_ids", "in", [pick_output.move_lines[0].id]),
+                ("move_dest_ids", "in", [pick_output.move_ids[0].id]),
             ]
         )
         self.assertEqual(
@@ -133,7 +133,7 @@ class StockRuleTest(TransactionCase):
         stock_rule_form = Form(self.env["stock.rule"])
         stock_rule_form.name = "Looping Rule"
         stock_rule_form.route_id = reception_route
-        stock_rule_form.location_id = warehouse.lot_stock_id
+        stock_rule_form.location_dest_id = warehouse.lot_stock_id
         stock_rule_form.location_src_id = warehouse.lot_stock_id
         stock_rule_form.action = "pull_push"
         stock_rule_form.procure_method = "make_to_order"
