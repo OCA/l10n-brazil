@@ -14,7 +14,7 @@ class StockInvoiceOnshipping(models.TransientModel):
             active_ids = active_ids[0]
         pick_obj = self.env["stock.picking"]
         picking = pick_obj.browse(active_ids)
-        if not picking or not picking.move_lines:
+        if not picking or not picking.move_ids:
             # Caso sem dados, apenas para evitar erro
             return False
         if not picking.fiscal_operation_id:
@@ -108,7 +108,8 @@ class StockInvoiceOnshipping(models.TransientModel):
             # quando esse é o mesmo Endereço, esta sendo removido.
             # TODO: Deveria ser informado mesmo quando é o mesmo? Isso não
             #  acontecia na v12.
-            del values["partner_shipping_id"]
+            pass
+            # del values["partner_shipping_id"]
 
         # Ser for feito o update como abaixo o campo
         # fiscal_operation_id vai vazio
