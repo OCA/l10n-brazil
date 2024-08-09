@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!--
+        ** Attention **
+        This file is loaded by hooks with defualt user company "Simples Nacional"
+        This is important to maintain multi-company data consistency.
+        Do not include data from another company here,
+        if necessary, do it in a separate file.
+    -->
+    <!-- Payment Terms -->
+    <record id="account_payment_term_30_60_90" model="account.payment.term">
+        <field name="name">30/60/90</field>
+        <field name="note">Payment terms: 30/60/90</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field
+            name="line_ids"
+            eval="[(5, 0),
+               (0, 0, {'value': 'percent', 'value_amount': 33, 'sequence': 500, 'days': 30, 'option': 'day_after_invoice_date'}),
+               (0, 0, {'value': 'percent', 'value_amount': 33, 'sequence': 500, 'days': 60, 'option': 'day_after_invoice_date'}),
+               (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 90, 'option': 'day_after_invoice_date'})
+               ]"
+        />
+    </record>
+
+    <!-- Account Journal for Simples Nacional -->
+    <record id="demo_simples_nacional_bank_journal" model="account.journal">
+        <field name="name">Diário de Boleto - Simples Nacional</field>
+        <field name="code">TPO</field>
+        <field name="type">bank</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <!-- Payment Mode -->
+    <record id="demo_payment_mode_boleto" model="account.payment.mode">
+        <field name="name">Boleto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+        <field name="fiscal_payment_mode">15</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="demo_simples_nacional_bank_journal" />
+    </record>
+
+    <!-- Faturas/Invoices de Teste deve gerar TAG Cobrança -->
+    <record id="demo_nfe_dados_de_cobranca" model="account.move">
+        <field name="name">Teste NFe Dados de Cobrança</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="invoice_payment_term_id" ref="account_payment_term_30_60_90" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_admin" />
+        <field name="payment_mode_id" ref="demo_payment_mode_boleto" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_55_serie_1"
+        />
+        <field name="document_serie">1</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+        (0, 0, {
+            'product_id': ref('product.product_product_5'),
+            'quantity': 1,
+            'price_unit': 1000,
+            'company_id': ref('l10n_br_base.empresa_simples_nacional'),
+            'partner_id': ref('l10n_br_base.res_partner_akretion'),
+            'uom_id': ref('uom.product_uom_unit'),
+            'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+            'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_revenda_nao_contribuinte'),
+            'cfop_id': ref('l10n_br_fiscal.cfop_5102'),
+            'ncm_id': ref('l10n_br_fiscal.ncm_84714900'),
+        })]"
+        />
+    </record>
+
+    <!-- Faturas/Invoices de Teste não deve gerar TAG Cobrança -->
+    <record id="demo_nfe_sem_dados_de_cobranca" model="account.move">
+        <field name="name">Teste NFe Sem Dados de Cobrança</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="user_id" ref="base.user_admin" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_55_serie_1"
+        />
+        <field name="document_serie">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+        (0, 0, {
+            'product_id': ref('product.product_product_5'),
+            'quantity': 1,
+            'price_unit': 1000,
+            'company_id': ref('l10n_br_base.empresa_simples_nacional'),
+            'partner_id': ref('l10n_br_base.res_partner_akretion'),
+            'uom_id': ref('uom.product_uom_unit'),
+            'fiscal_operation_id': ref('l10n_br_fiscal.fo_bonificacao'),
+            'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_bonificacao_bonificacao'),
+            'cfop_id': ref('l10n_br_fiscal.cfop_5910'),
+            'ncm_id': ref('l10n_br_fiscal.ncm_84714900'),
+        })]"
+        />
+    </record>
+
+</odoo>

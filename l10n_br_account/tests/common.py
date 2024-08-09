@@ -72,6 +72,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 "taxes_id": False,
                 "tax_icms_or_issqn": "icms",
                 "uoe_id": cls.env.ref("uom.product_uom_kgm").id,
+                "default_code": "PRODUCT_B",
             }
         )
         cls.fiscal_type_product_product_b = cls.env["ir.property"].create(
