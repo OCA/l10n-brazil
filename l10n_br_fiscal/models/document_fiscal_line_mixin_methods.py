@@ -238,32 +238,38 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _remove_all_fiscal_tax_ids(self):
         for line in self:
-            line.fiscal_tax_ids = False
-
+            to_update = {"fiscal_tax_ids": False}
             for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
-                line[fiscal_tax_field] = False
-
-            self._set_fields_issqn(TAX_DICT_VALUES)
-            self._set_fields_csll(TAX_DICT_VALUES)
-            self._set_fields_irpj(TAX_DICT_VALUES)
-            self._set_fields_inss(TAX_DICT_VALUES)
-            self._set_fields_icms(TAX_DICT_VALUES)
-            self._set_fields_icmsfcp(TAX_DICT_VALUES)
-            self._set_fields_icmsfcpst(TAX_DICT_VALUES)
-            self._set_fields_icmsst(TAX_DICT_VALUES)
-            self._set_fields_icmssn(TAX_DICT_VALUES)
-            self._set_fields_ipi(TAX_DICT_VALUES)
-            self._set_fields_ii(TAX_DICT_VALUES)
-            self._set_fields_pis(TAX_DICT_VALUES)
-            self._set_fields_pisst(TAX_DICT_VALUES)
-            self._set_fields_cofins(TAX_DICT_VALUES)
-            self._set_fields_cofinsst(TAX_DICT_VALUES)
-            self._set_fields_issqn_wh(TAX_DICT_VALUES)
-            self._set_fields_pis_wh(TAX_DICT_VALUES)
-            self._set_fields_cofins_wh(TAX_DICT_VALUES)
-            self._set_fields_csll_wh(TAX_DICT_VALUES)
-            self._set_fields_irpj_wh(TAX_DICT_VALUES)
-            self._set_fields_inss_wh(TAX_DICT_VALUES)
+                to_update[fiscal_tax_field] = False
+            tax_methods = [
+                self._prepare_fields_issqn,
+                self._prepare_fields_csll,
+                self._prepare_fields_irpj,
+                self._prepare_fields_inss,
+                self._prepare_fields_icms,
+                self._prepare_fields_icmsfcp,
+                self._prepare_fields_icmsfcpst,
+                self._prepare_fields_icmsst,
+                self._prepare_fields_icmssn,
+                self._prepare_fields_ipi,
+                self._prepare_fields_ii,
+                self._prepare_fields_pis,
+                self._prepare_fields_pisst,
+                self._prepare_fields_cofins,
+                self._prepare_fields_cofinsst,
+                self._prepare_fields_issqn_wh,
+                self._prepare_fields_pis_wh,
+                self._prepare_fields_cofins_wh,
+                self._prepare_fields_csll_wh,
+                self._prepare_fields_irpj_wh,
+                self._prepare_fields_inss_wh,
+            ]
+            for method in tax_methods:
+                prepared_fields = method(TAX_DICT_VALUES)
+                if prepared_fields:
+                    to_update.update(prepared_fields)
+            # Update all fields at once
+            line.update(to_update)
 
     def _update_fiscal_tax_ids(self, taxes):
         for line in self:
@@ -276,24 +282,37 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _update_fiscal_taxes(self):
         for line in self:
             compute_result = self._compute_taxes(line.fiscal_tax_ids)
-            computed_taxes = compute_result.get("taxes", {})
-            line.amount_tax_included = compute_result.get("amount_included", 0.0)
-            line.amount_tax_not_included = compute_result.get(
-                "amount_not_included", 0.0
-            )
-            line.amount_tax_withholding = compute_result.get("amount_withholding", 0.0)
-            line.estimate_tax = compute_result.get("estimate_tax", 0.0)
-            for tax in line.fiscal_tax_ids:
-                computed_tax = computed_taxes.get(tax.tax_domain, {})
-                if hasattr(line, "%s_tax_id" % (tax.tax_domain,)):
-                    # since v13, when line is a new record,
-                    # line.fiscal_tax_ids recordset is made of
-                    # NewId records with an origin pointing back to the original
-                    # tax. tax.ids[0] is a way to the the single original tax back.
-                    setattr(line, "%s_tax_id" % (tax.tax_domain,), tax.ids[0])
-                    method = getattr(self, "_set_fields_%s" % (tax.tax_domain,))
-                    if method:
-                        method(computed_tax)
+            to_update = {
+                "amount_tax_included": compute_result.get("amount_included", 0.0),
+                "amount_tax_not_included": compute_result.get(
+                    "amount_not_included", 0.0
+                ),
+                "amount_tax_withholding": compute_result.get("amount_withholding", 0.0),
+                "estimate_tax": compute_result.get("estimate_tax", 0.0),
+            }
+            to_update.update(line._prepare_tax_fields(compute_result))
+
+            in_draft_mode = self != self._origin
+            if in_draft_mode:
+                line.update(to_update)
+            else:
+                line.write(to_update)
+
+    def _prepare_tax_fields(self, compute_result):
+        self.ensure_one()
+        computed_taxes = compute_result.get("taxes", {})
+        tax_values = {}
+        for tax in self.fiscal_tax_ids:
+            computed_tax = computed_taxes.get(tax.tax_domain, {})
+            tax_field_name = f"{tax.tax_domain}_tax_id"
+            if hasattr(self, tax_field_name):
+                tax_values[tax_field_name] = tax.ids[0]
+                method = getattr(self, f"_prepare_fields_{tax.tax_domain}", None)
+                if method and computed_tax:
+                    prepared_fields = method(computed_tax)
+                    if prepared_fields:
+                        tax_values.update(prepared_fields)
+        return tax_values
 
     def _get_product_price(self):
         self.ensure_one()
@@ -408,25 +427,27 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self._get_product_price()
         self._onchange_fiscal_operation_id()
 
-    def _set_fields_issqn(self, tax_dict):
+    def _prepare_fields_issqn(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.issqn_base = tax_dict.get("base")
-            self.issqn_percent = tax_dict.get("percent_amount")
-            self.issqn_reduction = tax_dict.get("percent_reduction")
-            self.issqn_value = tax_dict.get("tax_value")
+        return {
+            "issqn_base": tax_dict.get("base"),
+            "issqn_percent": tax_dict.get("percent_amount"),
+            "issqn_reduction": tax_dict.get("percent_reduction"),
+            "issqn_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange("issqn_base", "issqn_percent", "issqn_reduction", "issqn_value")
     def _onchange_issqn_fields(self):
         pass
 
-    def _set_fields_issqn_wh(self, tax_dict):
+    def _prepare_fields_issqn_wh(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.issqn_wh_base = tax_dict.get("base")
-            self.issqn_wh_percent = tax_dict.get("percent_amount")
-            self.issqn_wh_reduction = tax_dict.get("percent_reduction")
-            self.issqn_wh_value = tax_dict.get("tax_value")
+        return {
+            "issqn_wh_base": tax_dict.get("base"),
+            "issqn_wh_percent": tax_dict.get("percent_amount"),
+            "issqn_wh_reduction": tax_dict.get("percent_reduction"),
+            "issqn_wh_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange(
         "issqn_wh_base", "issqn_wh_percent", "issqn_wh_reduction", "issqn_wh_value"
@@ -434,25 +455,27 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_issqn_wh_fields(self):
         pass
 
-    def _set_fields_csll(self, tax_dict):
+    def _prepare_fields_csll(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.csll_base = tax_dict.get("base")
-            self.csll_percent = tax_dict.get("percent_amount")
-            self.csll_reduction = tax_dict.get("percent_reduction")
-            self.csll_value = tax_dict.get("tax_value")
+        return {
+            "csll_base": tax_dict.get("base"),
+            "csll_percent": tax_dict.get("percent_amount"),
+            "csll_reduction": tax_dict.get("percent_reduction"),
+            "csll_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange("csll_base", "csll_percent", "csll_reduction", "csll_value")
     def _onchange_csll_fields(self):
         pass
 
-    def _set_fields_csll_wh(self, tax_dict):
+    def _prepare_fields_csll_wh(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.csll_wh_base = tax_dict.get("base")
-            self.csll_wh_percent = tax_dict.get("percent_amount")
-            self.csll_wh_reduction = tax_dict.get("percent_reduction")
-            self.csll_wh_value = tax_dict.get("tax_value")
+        return {
+            "csll_wh_base": tax_dict.get("base"),
+            "csll_wh_percent": tax_dict.get("percent_amount"),
+            "csll_wh_reduction": tax_dict.get("percent_reduction"),
+            "csll_wh_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange(
         "csll_wh_base", "csll_wh_percent", "csll_wh_reduction", "csll_wh_value"
@@ -460,25 +483,27 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_csll_wh_fields(self):
         pass
 
-    def _set_fields_irpj(self, tax_dict):
+    def _prepare_fields_irpj(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.irpj_base = tax_dict.get("base")
-            self.irpj_percent = tax_dict.get("percent_amount")
-            self.irpj_reduction = tax_dict.get("percent_reduction")
-            self.irpj_value = tax_dict.get("tax_value")
+        return {
+            "irpj_base": tax_dict.get("base"),
+            "irpj_percent": tax_dict.get("percent_amount"),
+            "irpj_reduction": tax_dict.get("percent_reduction"),
+            "irpj_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange("irpj_base", "irpj_percent", "irpj_reduction", "irpj_value")
     def _onchange_irpj_fields(self):
         pass
 
-    def _set_fields_irpj_wh(self, tax_dict):
+    def _prepare_fields_irpj_wh(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.irpj_wh_base = tax_dict.get("base")
-            self.irpj_wh_percent = tax_dict.get("percent_amount")
-            self.irpj_wh_reduction = tax_dict.get("percent_reduction")
-            self.irpj_wh_value = tax_dict.get("tax_value")
+        return {
+            "irpj_wh_base": tax_dict.get("base"),
+            "irpj_wh_percent": tax_dict.get("percent_amount"),
+            "irpj_wh_reduction": tax_dict.get("percent_reduction"),
+            "irpj_wh_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange(
         "irpj_wh_base", "irpj_wh_percent", "irpj_wh_reduction", "irpj_wh_value"
@@ -486,25 +511,27 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_irpj_wh_fields(self):
         pass
 
-    def _set_fields_inss(self, tax_dict):
+    def _prepare_fields_inss(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.inss_base = tax_dict.get("base")
-            self.inss_percent = tax_dict.get("percent_amount")
-            self.inss_reduction = tax_dict.get("percent_reduction")
-            self.inss_value = tax_dict.get("tax_value")
+        return {
+            "inss_base": tax_dict.get("base"),
+            "inss_percent": tax_dict.get("percent_amount"),
+            "inss_reduction": tax_dict.get("percent_reduction"),
+            "inss_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange("inss_base", "inss_percent", "inss_reduction", "inss_value")
     def _onchange_inss_fields(self):
         pass
 
-    def _set_fields_inss_wh(self, tax_dict):
+    def _prepare_fields_inss_wh(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.inss_wh_base = tax_dict.get("base")
-            self.inss_wh_percent = tax_dict.get("percent_amount")
-            self.inss_wh_reduction = tax_dict.get("percent_reduction")
-            self.inss_wh_value = tax_dict.get("tax_value")
+        return {
+            "inss_wh_base": tax_dict.get("base"),
+            "inss_wh_percent": tax_dict.get("percent_amount"),
+            "inss_wh_reduction": tax_dict.get("percent_reduction"),
+            "inss_wh_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange(
         "inss_wh_base", "inss_wh_percent", "inss_wh_reduction", "inss_wh_value"
@@ -512,42 +539,24 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_inss_wh_fields(self):
         pass
 
-    def _set_fields_icms(self, tax_dict):
+    def _prepare_fields_icms(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.icms_cst_id = tax_dict.get("cst_id")
-            self.icms_base_type = tax_dict.get("icms_base_type", ICMS_BASE_TYPE_DEFAULT)
-            self.icms_base = tax_dict.get("base")
-            self.icms_percent = tax_dict.get("percent_amount")
-            self.icms_reduction = tax_dict.get("percent_reduction")
-            self.icms_value = tax_dict.get("tax_value")
-
-            # vBCUFDest - Valor da BC do ICMS na UF de destino
-            if tax_dict.get("icms_dest_base") is not None:
-                self.icms_destination_base = tax_dict.get("icms_dest_base")
-
-            # pICMSUFDest - Alíquota interna da UF de destino
-            self.icms_origin_percent = tax_dict.get("icms_origin_perc")
-
-            # pICMSInter - Alíquota interestadual das UF envolvidas
-            self.icms_destination_percent = tax_dict.get("icms_dest_perc")
-
-            # pICMSInterPart - Percentual provisório de partilha
-            # do ICMS Interestadual
-            self.icms_sharing_percent = tax_dict.get("icms_sharing_percent")
-
-            # vICMSUFRemet - Valor do ICMS Interestadual
-            # para a UF do remetente
-            if tax_dict.get("icms_origin_value") is not None:
-                self.icms_origin_value = tax_dict.get("icms_origin_value")
-
-            # vICMSUFDest - Valor do ICMS Interestadual para a UF de destino
-            if tax_dict.get("icms_dest_value") is not None:
-                self.icms_destination_value = tax_dict.get("icms_dest_value")
-
-            # Valor da desoneração do ICMS
-            if tax_dict.get("icms_relief") is not None:
-                self.icms_relief_value = tax_dict.get("icms_relief")
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        return {
+            "icms_cst_id": cst_id,
+            "icms_base_type": tax_dict.get("icms_base_type", ICMS_BASE_TYPE_DEFAULT),
+            "icms_base": tax_dict.get("base", 0.0),
+            "icms_percent": tax_dict.get("percent_amount", 0.0),
+            "icms_reduction": tax_dict.get("percent_reduction", 0.0),
+            "icms_value": tax_dict.get("tax_value", 0.0),
+            "icms_origin_percent": tax_dict.get("icms_origin_perc", 0.0),
+            "icms_destination_percent": tax_dict.get("icms_dest_perc", 0.0),
+            "icms_sharing_percent": tax_dict.get("icms_sharing_percent", 0.0),
+            "icms_destination_base": tax_dict.get("icms_dest_base", 0.0),
+            "icms_origin_value": tax_dict.get("icms_origin_value", 0.0),
+            "icms_destination_value": tax_dict.get("icms_dest_value", 0.0),
+            "icms_relief_value": tax_dict.get("icms_relief", 0.0),
+        }
 
     @api.onchange(
         "icms_base",
@@ -565,15 +574,22 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self.icms_tax_benefit_id:
             self.icms_tax_id = self.icms_tax_benefit_id.tax_id
 
-    def _set_fields_icmssn(self, tax_dict):
+    def _prepare_fields_icmssn(self, tax_dict):
         self.ensure_one()
-        self.icms_cst_id = tax_dict.get("cst_id")
-        self.icmssn_base = tax_dict.get("base")
-        self.icmssn_percent = tax_dict.get("percent_amount")
-        self.icmssn_reduction = tax_dict.get("percent_reduction")
-        self.icmssn_credit_value = tax_dict.get("tax_value")
-        self.simple_value = self.icmssn_base * self.icmssn_range_id.total_tax_percent
-        self.simple_without_icms_value = self.simple_value - self.icmssn_credit_value
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        icmssn_base = tax_dict.get("base", 0.0)
+        icmssn_credit_value = tax_dict.get("tax_value", 0.0)
+        simple_value = icmssn_base * self.icmssn_range_id.total_tax_percent
+        simple_without_icms_value = simple_value - icmssn_credit_value
+        return {
+            "icms_cst_id": cst_id,
+            "icmssn_base": icmssn_base,
+            "icmssn_percent": tax_dict.get("percent_amount"),
+            "icmssn_reduction": tax_dict.get("percent_reduction"),
+            "icmssn_credit_value": icmssn_credit_value,
+            "simple_value": simple_value,
+            "simple_without_icms_value": simple_without_icms_value,
+        }
 
     @api.onchange(
         "icmssn_base", "icmssn_percent", "icmssn_reduction", "icmssn_credit_value"
@@ -581,20 +597,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_icmssn_fields(self):
         pass
 
-    def _set_fields_icmsst(self, tax_dict):
+    def _prepare_fields_icmsst(self, tax_dict):
         self.ensure_one()
-        self.icmsst_base_type = tax_dict.get(
-            "icmsst_base_type", ICMS_ST_BASE_TYPE_DEFAULT
-        )
-        self.icmsst_mva_percent = tax_dict.get("icmsst_mva_percent")
-        self.icmsst_percent = tax_dict.get("percent_amount")
-        self.icmsst_reduction = tax_dict.get("percent_reduction")
-        self.icmsst_base = tax_dict.get("base")
-        self.icmsst_value = tax_dict.get("tax_value")
-
-        # TODO - OTHER TAX icmsst_wh_tax_id
-        # self.icmsst_wh_base
-        # self.icmsst_wh_value
+        return {
+            "icmsst_base_type": tax_dict.get(
+                "icmsst_base_type", ICMS_ST_BASE_TYPE_DEFAULT
+            ),
+            "icmsst_mva_percent": tax_dict.get("icmsst_mva_percent"),
+            "icmsst_percent": tax_dict.get("percent_amount"),
+            "icmsst_reduction": tax_dict.get("percent_reduction"),
+            "icmsst_base": tax_dict.get("base"),
+            "icmsst_value": tax_dict.get("tax_value"),
+        }
 
     @api.onchange(
         "icmsst_base_type",
@@ -609,56 +623,65 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_icmsst_fields(self):
         pass
 
-    def _set_fields_icmsfcp(self, tax_dict):
+    def _prepare_fields_icmsfcp(self, tax_dict):
         self.ensure_one()
-        self.icmsfcp_base = tax_dict.get("base", 0.0)
-        self.icmsfcp_percent = tax_dict.get("percent_amount", 0.0)
-        self.icmsfcp_value = tax_dict.get("tax_value", 0.0)
+        return {
+            "icmsfcp_base": tax_dict.get("base", 0.0),
+            "icmsfcp_percent": tax_dict.get("percent_amount", 0.0),
+            "icmsfcp_value": tax_dict.get("tax_value", 0.0),
+        }
 
-    def _set_fields_icmsfcpst(self, tax_dict):
+    def _prepare_fields_icmsfcpst(self, tax_dict):
         self.ensure_one()
-        self.icmsfcpst_base = self.icmsst_base
-        self.icmsfcpst_percent = tax_dict.get("percent_amount", 0.0)
-        self.icmsfcpst_value = tax_dict.get("tax_value", 0.0)
+        return {
+            "icmsfcpst_base": self.icmsst_base,
+            "icmsfcpst_percent": tax_dict.get("percent_amount", 0.0),
+            "icmsfcpst_value": tax_dict.get("tax_value", 0.0),
+        }
 
     @api.onchange("icmsfcp_percent", "icmsfcp_value")
     def _onchange_icmsfcp_fields(self):
         pass
 
-    def _set_fields_ipi(self, tax_dict):
+    def _prepare_fields_ipi(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.ipi_cst_id = tax_dict.get("cst_id")
-            self.ipi_base_type = tax_dict.get("base_type", False)
-            self.ipi_base = tax_dict.get("base", 0.00)
-            self.ipi_percent = tax_dict.get("percent_amount", 0.00)
-            self.ipi_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.ipi_value = tax_dict.get("tax_value", 0.00)
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        return {
+            "ipi_cst_id": cst_id,
+            "ipi_base_type": tax_dict.get("base_type", False),
+            "ipi_base": tax_dict.get("base", 0.00),
+            "ipi_percent": tax_dict.get("percent_amount", 0.00),
+            "ipi_reduction": tax_dict.get("percent_reduction", 0.00),
+            "ipi_value": tax_dict.get("tax_value", 0.00),
+        }
 
     @api.onchange("ipi_base", "ipi_percent", "ipi_reduction", "ipi_value")
     def _onchange_ipi_fields(self):
         pass
 
-    def _set_fields_ii(self, tax_dict):
+    def _prepare_fields_ii(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.ii_base = tax_dict.get("base", 0.00)
-            self.ii_percent = tax_dict.get("percent_amount", 0.00)
-            self.ii_value = tax_dict.get("tax_value", 0.00)
+        return {
+            "ii_base": tax_dict.get("base", 0.00),
+            "ii_percent": tax_dict.get("percent_amount", 0.00),
+            "ii_value": tax_dict.get("tax_value", 0.00),
+        }
 
     @api.onchange("ii_base", "ii_percent", "ii_value")
     def _onchange_ii_fields(self):
         pass
 
-    def _set_fields_pis(self, tax_dict):
+    def _prepare_fields_pis(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.pis_cst_id = tax_dict.get("cst_id")
-            self.pis_base_type = tax_dict.get("base_type")
-            self.pis_base = tax_dict.get("base", 0.00)
-            self.pis_percent = tax_dict.get("percent_amount", 0.00)
-            self.pis_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.pis_value = tax_dict.get("tax_value", 0.00)
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        return {
+            "pis_cst_id": cst_id,
+            "pis_base_type": tax_dict.get("base_type"),
+            "pis_base": tax_dict.get("base", 0.00),
+            "pis_percent": tax_dict.get("percent_amount", 0.00),
+            "pis_reduction": tax_dict.get("percent_reduction", 0.00),
+            "pis_value": tax_dict.get("tax_value", 0.00),
+        }
 
     @api.onchange(
         "pis_base_type", "pis_base", "pis_percent", "pis_reduction", "pis_value"
@@ -666,14 +689,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_pis_fields(self):
         pass
 
-    def _set_fields_pis_wh(self, tax_dict):
+    def _prepare_fields_pis_wh(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.pis_wh_base_type = tax_dict.get("base_type")
-            self.pis_wh_base = tax_dict.get("base", 0.00)
-            self.pis_wh_percent = tax_dict.get("percent_amount", 0.00)
-            self.pis_wh_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.pis_wh_value = tax_dict.get("tax_value", 0.00)
+        return {
+            "pis_wh_base_type": tax_dict.get("base_type"),
+            "pis_wh_base": tax_dict.get("base", 0.00),
+            "pis_wh_percent": tax_dict.get("percent_amount", 0.00),
+            "pis_wh_reduction": tax_dict.get("percent_reduction", 0.00),
+            "pis_wh_value": tax_dict.get("tax_value", 0.00),
+        }
 
     @api.onchange(
         "pis_wh_base_type",
@@ -685,15 +709,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_pis_wh_fields(self):
         pass
 
-    def _set_fields_pisst(self, tax_dict):
+    def _prepare_fields_pisst(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.pisst_cst_id = tax_dict.get("cst_id")
-            self.pisst_base_type = tax_dict.get("base_type")
-            self.pisst_base = tax_dict.get("base", 0.00)
-            self.pisst_percent = tax_dict.get("percent_amount", 0.00)
-            self.pisst_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.pisst_value = tax_dict.get("tax_value", 0.00)
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        return {
+            "pisst_cst_id": cst_id,
+            "pisst_base_type": tax_dict.get("base_type"),
+            "pisst_base": tax_dict.get("base", 0.00),
+            "pisst_percent": tax_dict.get("percent_amount", 0.00),
+            "pisst_reduction": tax_dict.get("percent_reduction", 0.00),
+            "pisst_value": tax_dict.get("tax_value", 0.00),
+        }
 
     @api.onchange(
         "pisst_base_type",
@@ -705,15 +731,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_pisst_fields(self):
         pass
 
-    def _set_fields_cofins(self, tax_dict):
+    def _prepare_fields_cofins(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.cofins_cst_id = tax_dict.get("cst_id")
-            self.cofins_base_type = tax_dict.get("base_type")
-            self.cofins_base = tax_dict.get("base", 0.00)
-            self.cofins_percent = tax_dict.get("percent_amount", 0.00)
-            self.cofins_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.cofins_value = tax_dict.get("tax_value", 0.00)
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        return {
+            "cofins_cst_id": cst_id,
+            "cofins_base_type": tax_dict.get("base_type"),
+            "cofins_base": tax_dict.get("base", 0.00),
+            "cofins_percent": tax_dict.get("percent_amount", 0.00),
+            "cofins_reduction": tax_dict.get("percent_reduction", 0.00),
+            "cofins_value": tax_dict.get("tax_value", 0.00),
+        }
 
     @api.onchange(
         "cofins_base_type",
@@ -725,14 +753,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_cofins_fields(self):
         pass
 
-    def _set_fields_cofins_wh(self, tax_dict):
+    def _prepare_fields_cofins_wh(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.cofins_wh_base_type = tax_dict.get("base_type")
-            self.cofins_wh_base = tax_dict.get("base", 0.00)
-            self.cofins_wh_percent = tax_dict.get("percent_amount", 0.00)
-            self.cofins_wh_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.cofins_wh_value = tax_dict.get("tax_value", 0.00)
+        return {
+            "cofins_wh_base_type": tax_dict.get("base_type"),
+            "cofins_wh_base": tax_dict.get("base", 0.00),
+            "cofins_wh_percent": tax_dict.get("percent_amount", 0.00),
+            "cofins_wh_reduction": tax_dict.get("percent_reduction", 0.00),
+            "cofins_wh_value": tax_dict.get("tax_value", 0.00),
+        }
 
     @api.onchange(
         "cofins_wh_base_type",
@@ -744,15 +773,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_cofins_wh_fields(self):
         pass
 
-    def _set_fields_cofinsst(self, tax_dict):
+    def _prepare_fields_cofinsst(self, tax_dict):
         self.ensure_one()
-        if tax_dict:
-            self.cofinsst_cst_id = tax_dict.get("cst_id")
-            self.cofinsst_base_type = tax_dict.get("base_type")
-            self.cofinsst_base = tax_dict.get("base", 0.00)
-            self.cofinsst_percent = tax_dict.get("percent_amount", 0.00)
-            self.cofinsst_reduction = tax_dict.get("percent_reduction", 0.00)
-            self.cofinsst_value = tax_dict.get("tax_value", 0.00)
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        return {
+            "cofinsst_cst_id": cst_id,
+            "cofinsst_base_type": tax_dict.get("base_type"),
+            "cofinsst_base": tax_dict.get("base", 0.00),
+            "cofinsst_percent": tax_dict.get("percent_amount", 0.00),
+            "cofinsst_reduction": tax_dict.get("percent_reduction", 0.00),
+            "cofinsst_value": tax_dict.get("tax_value", 0.00),
+        }
 
     @api.onchange(
         "cofinsst_base_type",
