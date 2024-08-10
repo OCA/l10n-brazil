@@ -1109,8 +1109,8 @@ msgstr ""
 #: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:0
 #, python-format
 msgid ""
-"Invalid Journal! There is not journal defined for this company: {} in fiscal"
-" operation: {} !"
+"Invalid Journal! There is not journal defined for this company: %(company)s "
+"in fiscal operation: %(operation)s!"
 msgstr ""
 
 #. module: l10n_br_stock_account

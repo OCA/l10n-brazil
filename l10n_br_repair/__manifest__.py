@@ -5,7 +5,7 @@
     "name": "Brazilian Localization Repair",
     "summary": """
         Brazilian Localization Repair""",
-    "version": "14.0.1.1.6",
+    "version": "14.0.1.2.0",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Escodoo, " "Odoo Community Association (OCA)",
