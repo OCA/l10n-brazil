@@ -1,7 +1,6 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-# pylint: disable=api-one-deprecated
 
 from contextlib import contextmanager
 
