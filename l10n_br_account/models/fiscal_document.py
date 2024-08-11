@@ -187,8 +187,9 @@ class FiscalDocument(models.Model):
 
     def action_document_confirm(self):
         result = super().action_document_confirm()
-        move_ids = self.move_ids.filtered(lambda move: move.state == "draft")
-        move_ids._post()
+        if not self._context.get("skip_post"):
+            move_ids = self.move_ids.filtered(lambda move: move.state == "draft")
+            move_ids._post()
         return result
 
     def action_document_back2draft(self):

@@ -555,9 +555,10 @@ class AccountMove(models.Model):
             move.button_draft()
 
     def _post(self, soft=True):
-        self.mapped("fiscal_document_id").filtered(
-            lambda d: d.document_type_id
-        )._document_confirm_to_send()
+        for move in self.with_context(skip_post=True):
+            move.fiscal_document_ids.filtered(
+                lambda d: d.document_type_id
+            ).action_document_confirm()
         return super()._post(soft=soft)
 
     def view_xml(self):
