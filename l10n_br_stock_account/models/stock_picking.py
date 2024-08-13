@@ -121,3 +121,21 @@ class StockPicking(models.Model):
             )
             self.document_serie = self.document_serie_id.code
             self.document_number = self.document_serie_id.next_seq_number()
+
+    def _get_fiscal_partner(self):
+        """
+        Adjust the partner, both for an invoice from picking with
+        no related SO or PO,
+        https://github.com/OCA/account-invoicing/blob/14.0/
+        stock_picking_invoicing/models/stock_picking.py#L38
+        and also in the case of a picking originating from a PO:
+        https://github.com/OCA/OCB/blob/14.0/addons/purchase/
+        models/purchase.py#L556
+        """
+        self.ensure_one()
+        partner = super()._get_fiscal_partner()
+        if partner.id != partner.address_get(["invoice"]).get("invoice"):
+            partner = self.env["res.partner"].browse(
+                partner.address_get(["invoice"]).get("invoice")
+            )
+        return partner
