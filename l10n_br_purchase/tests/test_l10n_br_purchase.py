@@ -596,3 +596,140 @@ class L10nBrPurchaseBaseTest(TransactionCase):
                 invoice.fiscal_document_id,
                 "International case should not has Fiscal Document.",
             )
+
+    def test_purchase_with_partner_to_invoice(self):
+        """
+        Test Purchase Order with different Partner to Invoice.
+        """
+        # Caso do Pedido criado com um Partner que possui um Partner to Invoice
+        purchase = self.env.ref("l10n_br_purchase.main_company-purchase_2")
+        self._run_purchase_order_onchanges(purchase)
+        for line in purchase.order_line:
+            self._run_purchase_line_onchanges(line)
+        purchase.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(purchase.state, "purchase", "Error to confirm Purchase Order.")
+        purchase.action_create_invoice()
+        for invoice in purchase.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase.",
+            )
+            partner_invoice = self.env["res.partner"].browse(
+                purchase.partner_id.address_get(["invoice"]).get("invoice")
+            )
+            self.assertEqual(
+                invoice.partner_id,
+                partner_invoice,
+                "The Invoice should be created with the Partner to Invoice",
+            )
+            self.assertNotEqual(
+                invoice.partner_id,
+                purchase.partner_id,
+                "The Invoice should not be created with the Partner of Purchase.",
+            )
+
+            # TODO: Deveria criar a Fatura com o Endereço de Entrega
+            #  partner_shipping_id preenchido com o Partner do Pedido
+            #  de Compra? Quando criado pelo Picking o campo é preenchido.
+
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    purchase.partner_id,
+            #    "The Invoice should be created with Partner to Shipping.",
+            # )
+
+        purchase_2 = self.env.ref("l10n_br_purchase.main_company-purchase_3")
+        self._run_purchase_order_onchanges(purchase_2)
+        for line in purchase_2.order_line:
+            self._run_purchase_line_onchanges(line)
+        purchase_2.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            purchase_2.state, "purchase", "Error to confirm Purchase Order."
+        )
+        purchase_2.action_create_invoice()
+        for invoice in purchase_2.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase.",
+            )
+            self.assertEqual(
+                invoice.partner_id,
+                purchase_2.partner_id,
+                "The Partner in Purchase and Invoice should be the same.",
+            )
+            # O partner_shipping_id aqui também é vazio, deveria ser preenchido?
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    purchase_2.partner_id,
+            #    "The Invoice should be created with Partner to Shipping.",
+            # )
+
+    def test_purchase_with_partner_to_shipping(self):
+        """Test brazilian Purchase Order with Partner to Shipping."""
+
+        # Caso do Pedido criado com o Contato de Entrega/Partner to Delivery
+        purchase = self.env.ref("l10n_br_purchase.main_company-purchase_4")
+        self._run_purchase_order_onchanges(purchase)
+        for line in purchase.order_line:
+            self._run_purchase_line_onchanges(line)
+        purchase.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(purchase.state, "purchase", "Error to confirm Purchase Order.")
+        purchase.action_create_invoice()
+        for invoice in purchase.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase.",
+            )
+            # TODO: Campo partner_shipping_id está vazio
+            #  deveria estar preenchido?
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    purchase.partner_id,
+            #    "The Invoice should be created with the Partner to Shipping",
+            # )
+            self.assertNotEqual(
+                invoice.partner_id,
+                purchase.partner_id,
+                "The Invoice should not be created with the Partner of Purchase.",
+            )
+            # TODO: Deveria criar a Fatura com o Endereço de Entrega
+            #  partner_shipping_id preenchido com o Partner do Pedido
+            #  de Compra? Quando criado pelo Picking o campo é preenchido.
+
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    purchase.partner_id,
+            #    "The Invoice should be created with Partner to Shipping.",
+            # )
+
+        # Caso do Pedido criado com o Partner que tem um Contato de Entrega
+        purchase_2 = self.env.ref("l10n_br_purchase.main_company-purchase_5")
+        self._run_purchase_order_onchanges(purchase_2)
+        for line in purchase_2.order_line:
+            self._run_purchase_line_onchanges(line)
+        purchase_2.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            purchase_2.state, "purchase", "Error to confirm Purchase Order."
+        )
+        purchase_2.action_create_invoice()
+
+        for invoice in purchase_2.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase.",
+            )
+            self.assertEqual(
+                invoice.partner_id,
+                purchase_2.partner_id,
+                "The Partner in Purchase and Invoice should be the same.",
+            )
+            # TODO: O partner_shipping_id aqui também é vazio,
+            #  deveria ser preenchido?
+            # partner_delivery = self.env["res.partner"].browse(
+            #   purchase.partner_id.address_get(["delivery"]).get("delivery")
+            # )
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    partner_delivery,
+            #    "The Invoice should be created with Partner to Shipping.",
+            # )
