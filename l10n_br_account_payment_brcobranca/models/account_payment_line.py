@@ -61,9 +61,10 @@ class AccountPaymentLine(models.Model):
             self.mov_instruction_code_id.code
             == payment_mode_id.cnab_sending_code_id.code
         ):
-            linhas_pagamentos["cod_primeira_instrucao"] = (
-                payment_mode_id.boleto_protest_code or "00"
-            )
+            instruction = "00"
+            if payment_mode_id.boleto_protest_code:
+                instruction = payment_mode_id.boleto_protest_code.zfill(2)
+            linhas_pagamentos["cod_primeira_instrucao"] = instruction
 
     def _prepare_bank_line_itau(self, payment_mode_id, linhas_pagamentos):
         if payment_mode_id.payment_method_code == "400":
