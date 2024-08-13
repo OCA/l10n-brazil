@@ -6,7 +6,7 @@ from unittest import mock
 
 import odoo
 
-from odoo.addons.l10n_br_fiscal.models.document_workflow import DocumentWorkflow
+from odoo.addons.l10n_br_fiscal.models.document import Document
 from odoo.addons.l10n_br_nfe.models.document import NFe
 
 from .common import TestNFCePosOrderCommon
@@ -53,7 +53,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         order_data["data"]["cnpj_cpf"] = "42820627030"
 
-        with mock.patch.object(DocumentWorkflow, "action_document_confirm"):
+        with mock.patch.object(Document, "action_document_confirm"):
             # nothing will happen
             res = self.env["pos.order"].create_from_ui([order_data])
 
