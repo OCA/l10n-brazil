@@ -194,13 +194,15 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         invoice_pick_1 = invoicies.filtered(
             lambda t: t.partner_id == picking.partner_id
         )
-        # TODO - está trazendo o mesmo Partner apesar de ser um endereço do
-        #  de outro principal, o metodo address_get chamado pelo
-        #  get_invoice_partner está trazendo o primeiro is_company. Isso
-        #  significa que no caso de uso de ter um Picking para ser Faturado
-        #  sem relação com um Pedido de Venda/Compras a opção de ter um
-        #  Endereço de Entrega diferente do de Faturamento precirá ser
-        #  feita manualmente na Fatura/Doc Fiscal criados.
+        #  Nesse caso está trazendo o mesmo Partner apesar de ser um endereço
+        #  de outro principal, isso acontece porque o metodo address_get chamado
+        #  pelo get_invoice_partner traz o primeiro res.partner que tem o campo
+        #  company_type definido como Company/empresa então para funcionar o caso
+        #  de Endereço de Entrega diferente do Faturamento o res.partner do
+        #  Endereço de Cobrança precisa estar com o campo company_type com
+        #  Person/Pessoa e não Company/Empresa.
+        #  TODO: A localização BR deveria sobreescrever o metodo address_get
+        #   para ignorar o company_type?
         self.assertEqual(invoice_pick_1.partner_id, picking.partner_id)
         self.assertIn(invoice_pick_1, picking.invoice_ids)
         self.assertIn(picking, invoice_pick_1.picking_ids)
@@ -229,6 +231,41 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         nb_invoice_after = self.env["account.move"].search_count([])
         # Should be equals because we delete the invoice
         self.assertEqual(nb_invoice_before, nb_invoice_after)
+
+        # Caso onde por ter no partner do Endereço de Faturamento o campo
+        # company_type com Person o address_get retorna esse partner e
+        # permite esse caso do Endereço de Entrega diferente de Faturamento
+        # TODO: avaliar se a localização deveria sobreescrever o metodo
+        #  address_get para ignorar o campo company_type?
+
+        # Caso onde o Partner tem o Endereço de Entrega definido com o
+        # company_type person, um Picking é criado com o Endereço de Entrega e
+        # outro com o Endereço Pincipal, hoje são criadas 2 Faturas as duas estão
+        # com o partner o Endereço Principal e o partner_shipping_id o
+        # Endereço de Entrega
+        # TODO: Nesse caso os Pickings deveriam ser agrupados e criado apenas uma
+        #  Fatura?
+        #  O Picking definido com um partner diferente do Endereço de entrega
+        #  ( contato com o campo Type definido como delivery) deve criar a
+        #  Fatura com o mesmo partner do Picking?
+        #  Isso acontece porque o metodo _get_picking_key considera o partner
+        #  do picking https://github.com/OCA/account-invoicing/blob/14.0/
+        #  stock_picking_invoicing/wizards/stock_invoice_onshipping.py#L316
+        #  é preciso avaliar se deve ser alterado na localização ou mesmo
+        #  no modulo stock_picking_invoicing
+        picking_3 = self.env.ref("l10n_br_stock_account.main_company-picking_5")
+        self.picking_move_state(picking_3)
+        picking_4 = self.env.ref("l10n_br_stock_account.main_company-picking_6")
+        self.picking_move_state(picking_4)
+        pickings = picking_3 | picking_4
+        invoices = self.create_invoice_wizard(pickings)
+        self.assertEqual(len(invoices), 2)
+        self.assertEqual(picking_3.invoice_state, "invoiced")
+        self.assertEqual(picking_4.invoice_state, "invoiced")
+
+        # Caso Endereço de Fatura diferente do de Entrega
+        self.assertIn(picking_3.invoice_ids, invoices)
+        self.assertIn(picking_4.invoice_ids, invoices)
 
     def test_picking_split(self):
         """Test Picking Split created with Fiscal Values."""
