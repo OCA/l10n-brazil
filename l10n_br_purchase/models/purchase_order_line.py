@@ -151,3 +151,12 @@ class PurchaseOrderLine(models.Model):
                 values.update(fiscal_values)
 
         return values
+
+    def _get_fiscal_partner(self):
+        self.ensure_one()
+        partner = super()._get_fiscal_partner()
+        if partner.id != partner.address_get(["invoice"]).get("invoice"):
+            partner = self.env["res.partner"].browse(
+                partner.address_get(["invoice"]).get("invoice")
+            )
+        return partner
