@@ -11,6 +11,8 @@ from odoo import _
 from odoo.exceptions import UserError
 from odoo.tools import config
 
+TIMEOUT = 300  # seconds
+
 DICT_BRCOBRANCA_CNAB_TYPE = {
     "240": "cnab240",
     "400": "cnab400",
