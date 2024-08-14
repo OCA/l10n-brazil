@@ -16,6 +16,7 @@ from odoo.exceptions import Warning as ValidationError
 
 from ..constants.br_cobranca import (
     DICT_BRCOBRANCA_CNAB_TYPE,
+    TIMEOUT,
     get_brcobranca_api_url,
     get_brcobranca_bank,
 )
@@ -182,7 +183,7 @@ class PaymentOrder(models.Model):
                 "bank": bank_brcobranca.name,
             },
             files=files,
-            timeout=60,
+            timeout=TIMEOUT,
         )
 
         if cnab_type == "240" and "R01" in res.text[242:254]:
