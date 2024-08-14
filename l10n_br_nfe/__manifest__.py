@@ -13,7 +13,7 @@
     "development_status": "Beta",
     "version": "14.0.16.2.0",
     "depends": [
-        "l10n_br_fiscal",
+        "l10n_br_fiscal_edi",
         "l10n_br_fiscal_certificate",
         "l10n_br_nfe_spec",
         "spec_driven_model",
