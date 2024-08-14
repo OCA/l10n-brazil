@@ -10,7 +10,7 @@
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
-        "l10n_br_fiscal",
+        "l10n_br_fiscal_edi",
     ],
     "data": [
         "security/ir.model.access.csv",
