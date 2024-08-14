@@ -146,16 +146,13 @@ class PaymentOrder(models.Model):
             "sequencial_remessa": self.file_number,
         }
 
-        try:
+        # Casos onde o Banco além dos principais campos possui campos
+        # específicos, dos casos por enquanto mapeados, se estiver vendo
+        # um caso que está faltando por favor considere fazer um
+        # PR para ajudar
+        if hasattr(self, f"_prepare_remessa_{bank_brcobranca.name}"):
             bank_method = getattr(self, f"_prepare_remessa_{bank_brcobranca.name}")
-            if bank_method:
-                bank_method(remessa_values, cnab_type)
-        except Exception:
-            _logger.warning(
-                f"Error executing method _prepare_remessa_{bank_brcobranca.name}."
-                "Check the bank name and provided parameters.",
-                exc_info=True,
-            )
+            bank_method(remessa_values, cnab_type)
 
         remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
