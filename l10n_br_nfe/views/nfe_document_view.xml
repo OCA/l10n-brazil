@@ -130,7 +130,15 @@
                     name="attrs"
                 >{'invisible': ['|', '|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False), ('imported_document', '=', True)]}</attribute>
             </xpath>
+      </field>
+  </record>
 
+  <record id="nfe_document_edi_form_inherit" model="ir.ui.view">
+      <field name="name">l10n_br_nfe_edi.document.form.inherit</field>
+      <field name="model">l10n_br_fiscal.document</field>
+      <field name="priority">5</field>
+      <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
+      <field name="arch" type="xml">
           <page name="others" position="inside">
               <group
                     name="nfe_autxml"
@@ -139,13 +147,13 @@
                 <field name="nfe40_autXML" widget="many2many" />
               </group>
           </page>
-            <xpath
+          <xpath
                 expr="//page[@name='others']//group//field[@name='status_description']"
                 position="after"
             >
-                <field name="nfe_environment" />
-                <field name="nfe_transmission" />
-            </xpath>
+              <field name="nfe_environment" />
+              <field name="nfe_transmission" />
+          </xpath>
       </field>
   </record>
 
