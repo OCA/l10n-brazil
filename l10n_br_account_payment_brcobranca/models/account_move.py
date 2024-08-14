@@ -12,7 +12,7 @@ import requests
 from odoo import _, models
 from odoo.exceptions import UserError
 
-from ..constants.br_cobranca import get_brcobranca_api_url
+from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +72,10 @@ class AccountMove(models.Model):
             self.name,
         )
         res = requests.post(
-            brcobranca_service_url, data={"type": "pdf"}, files=files, timeout=60
+            brcobranca_service_url,
+            data={"type": "pdf"},
+            files=files,
+            timeout=TIMEOUT,
         )
 
         if str(res.status_code)[0] == "2":
