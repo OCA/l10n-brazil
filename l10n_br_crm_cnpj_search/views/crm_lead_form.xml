@@ -27,4 +27,26 @@
            </field>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="crm_lead_fiscal_page_view_form">
+        <field name="name">Add fiscal page</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <page name="extra" position="after">
+                    <page name="fiscal" string="Fiscal">
+                        <group string="Fiscal">
+                            <field name="legal_nature" string="Natureza jurídica" />
+                            <field name="equity_capital" string="Capital social" />
+                            <field name="cnae_main_id" string="CNAE Principal" />
+                            <field
+                            name="cnae_secondary_ids"
+                            string="CNAE Secundário"
+                            widget="many2many_tags"
+                        />
+                        </group>
+                    </page>
+            </page>
+        </field>
+    </record>
 </odoo>
