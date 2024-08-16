@@ -25,11 +25,6 @@ class StockPicking(models.Model):
 
             # Casos onde o usuário definiu o Pedido de Compra/Venda como
             # 'Sem Operação Fiscal'
-            if hasattr(self, "purchase_id") and hasattr(
-                self.purchase_id, "fiscal_operation_id"
-            ):
-                if not self.purchase_id.fiscal_operation_id:
-                    fiscal_operation = False
             if hasattr(self, "sale_id") and hasattr(
                 self.sale_id, "fiscal_operation_id"
             ):
