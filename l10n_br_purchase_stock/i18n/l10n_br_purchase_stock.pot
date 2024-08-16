@@ -82,16 +82,16 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_purchase_stock
-#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__purchase_create_invoice_policy
-#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__purchase_create_invoice_policy
-#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__purchase_create_invoice_policy
-msgid "Purchase Create Invoice Policy"
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_purchase_order__purchase_invoicing_policy
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_company__purchase_invoicing_policy
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__purchase_invoicing_policy
+msgid "Purchase Invoicing Policy"
 msgstr ""
 
 #. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/res_company.py:0
 #: model:ir.model,name:l10n_br_purchase_stock.model_purchase_order
-#: model:ir.model.fields.selection,name:l10n_br_purchase_stock.selection__res_company__purchase_create_invoice_policy__purchase_order
+#: model:ir.model.fields.selection,name:l10n_br_purchase_stock.selection__res_company__purchase_invoicing_policy__purchase_order
 #, python-format
 msgid "Purchase Order"
 msgstr ""
@@ -118,7 +118,7 @@ msgstr ""
 
 #. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/res_company.py:0
-#: model:ir.model.fields.selection,name:l10n_br_purchase_stock.selection__res_company__purchase_create_invoice_policy__stock_picking
+#: model:ir.model.fields.selection,name:l10n_br_purchase_stock.selection__res_company__purchase_invoicing_policy__stock_picking
 #, python-format
 msgid "Stock Picking"
 msgstr ""
