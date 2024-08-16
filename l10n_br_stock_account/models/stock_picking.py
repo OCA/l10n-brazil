@@ -23,21 +23,6 @@ class StockPicking(models.Model):
                     else company.stock_out_fiscal_operation_id
                 )
 
-            # Casos onde o usuário definiu o Pedido de Compra/Venda como
-            # 'Sem Operação Fiscal'
-            if hasattr(self, "sale_id") and hasattr(
-                self.sale_id, "fiscal_operation_id"
-            ):
-                # Necessário para evitar o erro quando o l10n_br_purchase_stock
-                # é instalado:
-                # /l10n_br_stock_account/models/stock_picking.py", line 34,
-                # in _default_fiscal_operation
-                # if not self.sale_id.fiscal_operation_id:
-                # AttributeError: 'sale.order' object has no attribute
-                # 'fiscal_operation_id'
-                if not self.sale_id.fiscal_operation_id:
-                    fiscal_operation = False
-
         return fiscal_operation
 
     @api.model
