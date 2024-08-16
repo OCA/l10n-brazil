@@ -7,7 +7,7 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    purchase_create_invoice_policy = fields.Selection(
-        related="company_id.purchase_create_invoice_policy",
+    purchase_invoicing_policy = fields.Selection(
+        related="company_id.purchase_invoicing_policy",
         readonly=False,
     )
