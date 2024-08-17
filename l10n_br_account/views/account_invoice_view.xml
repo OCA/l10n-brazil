@@ -319,10 +319,6 @@
                 <field name="tax_tag_ids" invisible="1" />
                 <field name="tax_base_amount" invisible="1" />
                 <field name="company_currency_id" invisible="1" />
-                <!--field name="recompute_tax_line" invisible="1" force_save="1" /-->
-                <!--field name="is_rounding_line" invisible="1" /-->
-                <!--field name="exclude_from_invoice_tab" invisible="1" /-->
-                <!--field name="account_internal_type" invisible="1" /-->
                 <field name="account_internal_group" invisible="1" />
                 <field name="ind_final" invisible="1" />
                 <field name="partner_company_type" force_save="1" invisible="1" />
@@ -352,36 +348,6 @@
                     name="domain"
                 >context.get('default_move_type') in ('out_invoice', 'out_refund', 'out_receipt') and [('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)] or [('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
             </xpath>
-            <!--xpath
-                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='account_id']"
-                position="attributes"
-            >
-                <attribute name="readonly">0</attribute>
-                <attribute name="groups">account.group_account_readonly</attribute>
-                <attribute
-                    name="domain"
-                >[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id), ('is_off_balance', '=', False)]</attribute>
-                <attribute
-                    name="attrs"
-                >{'required': [('display_type', '=', False)]}</attribute>
-            </xpath-->
-            <!--xpath
-                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_account_id']"
-                position="attributes"
-            >
-                <attribute
-                    name="domain"
-                >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
-            </xpath-->
-            <!--xpath
-                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_tag_ids']"
-                position="attributes"
-            >
-                <attribute
-                    name="domain"
-                >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
-            </xpath-->
-
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='discount']"
                 position="attributes"
