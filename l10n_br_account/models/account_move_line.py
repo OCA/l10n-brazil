@@ -305,7 +305,7 @@ class AccountMoveLine(models.Model):
             if line.display_type == "product" and (
                 not changed("amount_currency") or line not in before
             ):
-                if line.move_id.company_id.country_id.code != "BR":  # LINE ADDED!
+                if not line.move_id.fiscal_operation_id:
                     amount_currency = (
                         line.move_id.direction_sign
                         * line.currency_id.round(line.price_subtotal)
@@ -331,6 +331,7 @@ class AccountMoveLine(models.Model):
                                         - line.amount_tax_withholding
                                     )
                                     - line.amount_tax_not_included
+                                    - line.icms_relief_value
                                 )
                             )
                 if line.amount_currency != amount_currency or line not in before:
@@ -349,13 +350,6 @@ class AccountMoveLine(models.Model):
                     line.amount_currency / line.currency_rate
                 )
                 line.balance = balance
-        # Since this method is called during the sync, inside of `create`/`write`,
-        # these fields
-        # already have been computed and marked as so. But this method should
-        # re-trigger it since
-        # it changes the dependencies.
-        self.env.add_to_compute(self._fields["debit"], container["records"])
-        self.env.add_to_compute(self._fields["credit"], container["records"])
 
     @api.depends(
         "quantity", "discount", "price_unit", "tax_ids", "currency_id", "discount"
