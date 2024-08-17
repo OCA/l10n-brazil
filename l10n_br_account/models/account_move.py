@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tests.common import Form
-from odoo.tools import mute_logger
+from odoo.tools import frozendict, mute_logger
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -190,6 +190,18 @@ class AccountMove(models.Model):
             )
 
     @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        move_type = self.env.context.get("default_move_type", "out_invoice")
+        if not move_type == "entry":
+            defaults["fiscal_operation_type"] = MOVE_TO_OPERATION[move_type]
+            if defaults["fiscal_operation_type"] == FISCAL_OUT:
+                defaults["issuer"] = DOCUMENT_ISSUER_COMPANY
+            else:
+                defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
+        return defaults
+
+    @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR":
@@ -246,7 +258,7 @@ class AccountMove(models.Model):
         "ind_final",
     )
     def _compute_amount(self):
-        for move in self.filtered(lambda m: m.company_id.country_id.code == "BR"):
+        for move in self.filtered(lambda m: m.fiscal_operation_id):
             for line in move.line_ids:
                 if (
                     move.is_invoice(include_receipts=True)
@@ -255,7 +267,7 @@ class AccountMove(models.Model):
                     line._update_fiscal_taxes()
 
         result = super()._compute_amount()
-        for move in self.filtered(lambda m: m.company_id.country_id.code == "BR"):
+        for move in self.filtered(lambda m: m.fiscal_operation_id):
             if move.move_type == "entry" or move.is_outbound():
                 sign = -1
             else:
@@ -272,17 +284,109 @@ class AccountMove(models.Model):
 
         return result
 
-    @api.model
-    def default_get(self, fields_list):
-        defaults = super().default_get(fields_list)
-        move_type = self.env.context.get("default_move_type", "out_invoice")
-        if not move_type == "entry":
-            defaults["fiscal_operation_type"] = MOVE_TO_OPERATION[move_type]
-            if defaults["fiscal_operation_type"] == FISCAL_OUT:
-                defaults["issuer"] = DOCUMENT_ISSUER_COMPANY
-            else:
-                defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
-        return defaults
+    @api.depends(
+        "invoice_payment_term_id",
+        "invoice_date",
+        "currency_id",
+        "amount_total_in_currency_signed",
+        "invoice_date_due",
+    )
+    def _compute_needed_terms(self):
+        for invoice in self:
+            is_draft = invoice.id != invoice._origin.id
+            invoice.needed_terms = {}
+            invoice.needed_terms_dirty = True
+            sign = 1 if invoice.is_inbound(include_receipts=True) else -1
+            if invoice.is_invoice(True) and invoice.invoice_line_ids:
+                if invoice.invoice_payment_term_id:
+                    if is_draft:
+                        tax_amount_currency = 0.0
+                        untaxed_amount_currency = 0.0
+                        for line in invoice.invoice_line_ids:
+                            if line.cfop_id and not line.cfop_id.finance_move:
+                                pass
+                            else:
+                                untaxed_amount_currency += line.price_subtotal
+                            for tax_result in (line.compute_all_tax or {}).values():
+                                tax_amount_currency += -sign * tax_result.get(
+                                    "amount_currency", 0.0
+                                )
+                        untaxed_amount = untaxed_amount_currency
+                        tax_amount = tax_amount_currency
+                    else:
+                        tax_amount_currency = invoice.amount_tax * sign
+                        tax_amount = invoice.amount_tax_signed
+                        if invoice.fiscal_operation_id:
+                            if invoice.fiscal_operation_id.deductible_taxes:
+                                amount_currency = (
+                                    invoice.amount_total
+                                    + invoice.amount_tax_withholding
+                                )
+                            else:
+                                amount_currency = (
+                                    invoice.amount_total - invoice.amount_ipi_value
+                                ) * sign
+                            untaxed_amount_currency = amount_currency * sign
+                            untaxed_amount = amount_currency * sign
+
+                        else:
+                            untaxed_amount_currency = invoice.amount_untaxed * sign
+                            untaxed_amount = invoice.amount_untaxed_signed
+                    invoice_payment_terms = (
+                        invoice.invoice_payment_term_id._compute_terms(
+                            date_ref=invoice.invoice_date
+                            or invoice.date
+                            or fields.Date.context_today(invoice),
+                            currency=invoice.currency_id,
+                            tax_amount_currency=tax_amount_currency,
+                            tax_amount=tax_amount,
+                            untaxed_amount_currency=untaxed_amount_currency,
+                            untaxed_amount=untaxed_amount,
+                            company=invoice.company_id,
+                            sign=sign,
+                        )
+                    )
+                    for term in invoice_payment_terms:
+                        key = frozendict(
+                            {
+                                "move_id": invoice.id,
+                                "date_maturity": fields.Date.to_date(term.get("date")),
+                                "discount_date": term.get("discount_date"),
+                                "discount_percentage": term.get("discount_percentage"),
+                            }
+                        )
+                        values = {
+                            "balance": term["company_amount"],
+                            "amount_currency": term["foreign_amount"],
+                            "discount_amount_currency": term["discount_amount_currency"]
+                            or 0.0,
+                            "discount_balance": term["discount_balance"] or 0.0,
+                            "discount_date": term["discount_date"],
+                            "discount_percentage": term["discount_percentage"],
+                        }
+                        if key not in invoice.needed_terms:
+                            invoice.needed_terms[key] = values
+                        else:
+                            invoice.needed_terms[key]["balance"] += values["balance"]
+                            invoice.needed_terms[key]["amount_currency"] += values[
+                                "amount_currency"
+                            ]
+                else:
+                    invoice.needed_terms[
+                        frozendict(
+                            {
+                                "move_id": invoice.id,
+                                "date_maturity": fields.Date.to_date(
+                                    invoice.invoice_date_due
+                                ),
+                                "discount_date": False,
+                                "discount_percentage": 0,
+                            }
+                        )
+                    ] = {
+                        "balance": invoice.amount_total_signed,
+                        "amount_currency": invoice.amount_total_in_currency_signed,
+                    }
 
     @contextmanager
     def _sync_dynamic_lines(self, container):
