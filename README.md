@@ -83,7 +83,7 @@ addon | version | maintainers | summary
 [l10n_br_product_contract](l10n_br_product_contract/) | 14.0.1.1.1 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Criação de contratos através dos Pedidos de Vendas
 [l10n_br_purchase](l10n_br_purchase/) | 14.0.3.10.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Purchase
 [l10n_br_purchase_request](l10n_br_purchase_request/) | 14.0.1.0.4 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Purchase Request Brazilian Localization Purchase Request
-[l10n_br_purchase_stock](l10n_br_purchase_stock/) | 14.0.2.0.0 |  | Brazilian Localization Purchase Stock
+[l10n_br_purchase_stock](l10n_br_purchase_stock/) | 14.0.2.0.1 |  | Brazilian Localization Purchase Stock
 [l10n_br_repair](l10n_br_repair/) | 14.0.1.3.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Repair
 [l10n_br_resource](l10n_br_resource/) | 14.0.1.0.4 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![hendixcosta](https://github.com/hendixcosta.png?size=30px)](https://github.com/hendixcosta) [![lfdivino](https://github.com/lfdivino.png?size=30px)](https://github.com/lfdivino) | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_sale](l10n_br_sale/) | 14.0.3.12.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
@@ -93,7 +93,7 @@ addon | version | maintainers | summary
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 14.0.1.2.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
 [l10n_br_setup_tests](l10n_br_setup_tests/) | 14.0.1.0.1 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) | Modules for Odoo's Brazil-focused usability with integration tests.
 [l10n_br_stock](l10n_br_stock/) | 14.0.2.1.1 |  | Brazilian Localization Warehouse
-[l10n_br_stock_account](l10n_br_stock_account/) | 14.0.3.9.0 |  | Brazilian Localization WMS Accounting
+[l10n_br_stock_account](l10n_br_stock_account/) | 14.0.3.9.1 |  | Brazilian Localization WMS Accounting
 [l10n_br_stock_account_report](l10n_br_stock_account_report/) | 14.0.1.1.3 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | P7 Stock Valuation Report
 [l10n_br_website_sale](l10n_br_website_sale/) | 14.0.2.0.1 |  | Website sale localização brasileira.
 [l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 14.0.1.0.1 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) [![DiegoParadeda](https://github.com/DiegoParadeda.png?size=30px)](https://github.com/DiegoParadeda) | Implements Brazilian freight values for delivery.
