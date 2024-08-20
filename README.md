@@ -66,6 +66,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal_closing](l10n_br_fiscal_closing/) | 14.0.1.3.0 |  | Fechamento fiscal do periodo
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 14.0.2.3.1 |  | Distribuição de documentos fiscais
 [l10n_br_hr](l10n_br_hr/) | 14.0.1.5.0 |  | Brazilian Localization HR
+[l10n_br_hr_expense_invoice](l10n_br_hr_expense_invoice/) | 14.0.1.0.0 |  | Customization of HR Expense Invoice module for implementations in Brazil.
 [l10n_br_ie_search](l10n_br_ie_search/) | 14.0.1.2.1 |  | Integração com a API SintegraWS e SEFAZ
 [l10n_br_mdfe_spec](l10n_br_mdfe_spec/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | CT-e spec
 [l10n_br_mis_report](l10n_br_mis_report/) | 14.0.1.0.1 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
