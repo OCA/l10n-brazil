@@ -8,6 +8,7 @@ class TestAccountTaxes(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.l10n_br_company = cls.env["res.company"].create(
             {"name": "Empresa Teste do Plano de Contas Simplificado"}
         )
