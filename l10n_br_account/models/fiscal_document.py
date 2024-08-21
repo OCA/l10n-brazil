@@ -71,6 +71,11 @@ class FiscalDocument(models.Model):
         compute="_compute_date_in_out", inverse="_inverse_date_in_out", store=True
     )
 
+    document_type_id = fields.Many2one(inverse="_inverse_document_type_id")
+
+    def _inverse_document_type_id(self):
+        pass  # (meant to be overriden in account.move)
+
     @api.depends("move_ids", "move_ids.invoice_date")
     def _compute_document_date(self):
         for record in self:
