@@ -14,6 +14,8 @@ class TestCustomerInvoice(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
         cls.sale_account = cls.env["account.account"].create(
             dict(
                 code="X1020",
