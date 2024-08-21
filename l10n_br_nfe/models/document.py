@@ -455,6 +455,9 @@ class NFe(spec_models.StackedModel):
                 and rec.partner_shipping_id.is_anonymous_consumer
             ):
                 rec.nfe40_entrega = None
+            elif rec.partner_id == rec.partner_shipping_id:
+                # local de entrega: informar apenas se diferente do destinatário
+                rec.nfe40_entrega = None
             else:
                 rec.nfe40_entrega = rec.partner_shipping_id
 
