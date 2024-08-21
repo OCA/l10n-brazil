@@ -15,6 +15,7 @@ class TestPaymentOrderInbound(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.register_payments_model = cls.env["account.payment.register"].with_context(
             active_model="account.move"
