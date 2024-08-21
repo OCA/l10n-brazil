@@ -12,7 +12,7 @@ class TestL10nBrAccountPaymentOder(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.move_line_change_id = cls.env["account.move.line.cnab.change"]
 
         cls.chance_view_id = (
