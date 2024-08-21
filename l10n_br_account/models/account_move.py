@@ -100,6 +100,8 @@ class AccountMove(models.Model):
         string="Fiscal Document",
         copy=False,
         ondelete="cascade",
+        store=True,
+        compute="_compute_fiscal_document_id",
     )
 
     fiscal_document_ids = fields.One2many(
@@ -116,6 +118,27 @@ class AccountMove(models.Model):
         related=None,
         compute="_compute_fiscal_operation_type",
     )
+
+    @api.onchange("document_type_id")
+    def _inverse_document_type_id(self):
+        if (self.document_type_id and not self.fiscal_document_id) or (
+            not self.document_type_id and self.fiscal_document_id
+        ):
+            self.env.add_to_compute(self._fields["fiscal_document_id"], self)
+
+    def _compute_fiscal_document_id(self):
+        for move in self:
+            if move.document_type_id and not move.fiscal_document_id:
+                fiscal_doc_vals = {}
+                for field in self._shadowed_fields():
+                    fiscal_doc_vals[f"fiscal_{field}"] = getattr(move, field)
+                move.fiscal_document_id = (
+                    self.env["l10n_br_fiscal.document"].create(fiscal_doc_vals).id
+                )
+            elif not move.document_type_id and move.fiscal_document_id:
+                bad_fiscal_doc = move.fiscal_document_id
+                move.fiscal_document_id = False
+                bad_fiscal_doc.action_document_cancel()
 
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
