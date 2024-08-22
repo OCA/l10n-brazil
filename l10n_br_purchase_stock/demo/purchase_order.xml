@@ -97,6 +97,46 @@
         <value eval="[ref('main_pl_only_products_1_2')]" />
     </function>
 
+    <!-- Section -->
+    <record id="main_pl_only_products_1_3" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_1" />
+        <field name="name">TEST SECTION 1</field>
+        <field name="display_type">line_section</field>
+        <field name="product_qty">0</field>
+    </record>
+
+    <!-- Note -->
+    <record id="main_pl_only_products_1_4" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_1" />
+        <field name="name">TEST NOTE 1</field>
+        <field name="display_type">line_note</field>
+        <field name="product_qty">0</field>
+    </record>
+
+    <record id="main_pl_only_products_1_5" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_1" />
+        <field name="product_id" ref="product.product_product_8" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">999999</field>
+        <field name="partner_order_line">003</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_1_5')]" />
+    </function>
+
     <!-- Purchase Order with only products test 2 - Teste Agrupamento -->
     <record id="main_po_only_products_2" model="purchase.order">
         <field name="name">Main l10n_br_purchase_stock - teste agrupamento</field>
@@ -168,6 +208,46 @@
 
     <function model="purchase.order.line" name="_onchange_product_id_fiscal">
         <value eval="[ref('main_pl_only_products_2_2')]" />
+    </function>
+
+    <!-- Section -->
+    <record id="main_pl_only_products_2_3" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_2" />
+        <field name="name">TEST SECTION 2</field>
+        <field name="display_type">line_section</field>
+        <field name="product_qty">0</field>
+    </record>
+
+    <!-- Note -->
+    <record id="main_pl_only_products_2_4" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_2" />
+        <field name="name">TEST NOTE 2</field>
+        <field name="display_type">line_note</field>
+        <field name="product_qty">0</field>
+    </record>
+
+    <record id="main_pl_only_products_2_5" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products_2" />
+        <field name="product_id" ref="product.product_product_8" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">999999</field>
+        <field name="partner_order_line">003</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_2_5')]" />
     </function>
 
     <!-- Lucro Presumido -->

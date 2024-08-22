@@ -52,7 +52,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         self.assertIn(picking_2, invoice.picking_ids)
 
         # Validar o price_unit usado
-        for inv_line in invoice.invoice_line_ids:
+        for inv_line in invoice.invoice_line_ids.filtered(lambda ln: ln.product_id):
             # TODO: A forma de instalação dos modulos feita no CI
             #  falha o browse aqui
             #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
@@ -71,6 +71,17 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
             self.assertTrue(
                 inv_line.fiscal_operation_line_id, "Missing Fiscal Operation Line."
             )
+
+        # Section Lines
+        section_lines = invoice.invoice_line_ids.filtered(
+            lambda ln: ln.display_type == "line_section"
+        )
+        self.assertEqual(len(section_lines), 2)
+        # Note Lines
+        note_lines = invoice.invoice_line_ids.filtered(
+            lambda ln: ln.display_type == "line_note"
+        )
+        self.assertEqual(len(note_lines), 2)
 
         if hasattr(invoice, "document_serie"):
             invoice.document_serie = "1"
@@ -150,7 +161,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         invoice = self.create_invoice_wizard(picking)
 
         # Validar o price_unit usado
-        for inv_line in invoice.invoice_line_ids:
+        for inv_line in invoice.invoice_line_ids.filtered(lambda ln: ln.product_id):
             # TODO: A forma de instalação dos modulos feita no CI
             #  falha o browse aqui
             #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105

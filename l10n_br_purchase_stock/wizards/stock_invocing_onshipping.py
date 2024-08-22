@@ -158,3 +158,67 @@ class StockInvoiceOnshipping(models.TransientModel):
                 values.update(purchase_line_values_rm)
 
         return values
+
+    def _create_invoice(self, invoice_values):
+        """Override this method if you need to change any values of the
+        invoice and the lines before the invoice creation
+        :param invoice_values: dict with the invoice and its lines
+        :return: invoice
+        """
+        purchase = self.env["purchase.order"].browse(invoice_values.get("purchase_id"))
+        pickings = self._load_pickings()
+        purchase_pickings = pickings.filtered(lambda pk: pk.purchase_id)
+        if not purchase_pickings or self._get_invoice_type() == "in_refund":
+            return super()._create_invoice(invoice_values)
+
+        # Check Other Purchase Lines
+        section_note_lines = self.env["purchase.order.line"]
+        # Resequencing
+        invoice_item_sequence = 10
+        invoice_item_seq_dict = {}
+        for picking in purchase_pickings.sorted(key=lambda p: p.name):
+            purchase = picking.purchase_id
+            # Resequencing
+            for line in purchase.order_line:
+                invoice_item_seq_dict[line.id] = invoice_item_sequence
+                invoice_item_sequence += 1
+
+            # Section and Note Lines
+            section_note_lines |= purchase.order_line.filtered(
+                lambda ln: ln.display_type in ("line_section", "line_note")
+            )
+
+        for line in section_note_lines:
+            line_vals = line._prepare_account_move_line()
+            invoice_values["invoice_line_ids"].append((0, 0, line_vals))
+
+        # Resequence
+        for ln in invoice_values["invoice_line_ids"]:
+            if ln[0] != 5:
+                if ln[2] and ln[2].get("purchase_line_id"):
+                    ln[2].update(
+                        {
+                            "sequence": invoice_item_seq_dict.get(
+                                ln[2].get("purchase_line_id")
+                            )
+                        }
+                    )
+
+        # 3) Create invoices.
+        moves = self.env["account.move"]
+        AccountMove = self.env["account.move"].with_context(
+            default_move_type="in_invoice"
+        )
+        # for vals in invoice_vals_list:
+        moves |= AccountMove.with_company(self.env.company).create(invoice_values)
+
+        # 4) Some moves might actually be refunds: convert them if the
+        # total amount is negative
+        # We do this after the moves have been created since we need taxes,
+        # etc. to know if the total
+        # is actually negative or not
+        moves.filtered(
+            lambda m: m.currency_id.round(m.amount_total) < 0
+        ).action_switch_invoice_into_refund_credit_note()
+
+        return moves
