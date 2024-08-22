@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,6 +19,7 @@ msgid "Automatic Reconcile payment returns"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
 #, python-format
 msgid ""
@@ -54,30 +55,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
 msgid "Enable automatic payment return reconciliation."
-msgstr ""
-
-#. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__id
-msgid "ID"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
@@ -91,6 +70,7 @@ msgid "Import Batch File wizard"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_move.py:0
 #, python-format
 msgid ""
@@ -114,17 +94,7 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
 msgid ""
@@ -132,6 +102,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
 msgid "Nothing to import: The file is empty"
@@ -153,21 +124,26 @@ msgid "Payment Order"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
 msgid "Statement import error The statement cannot be created: %s"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
 #, python-format
-msgid "The Bank {} CNAB {} is not implemented in BRCobranca."
+msgid "The Bank %(bank)s CNAB %(cnab_code)s is not implemented in BRCobranca."
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:0
 #, python-format
-msgid "The CNAB {} for Bank {} are not implemented in BRCobranca."
+msgid ""
+"The CNAB %(cnab_type)s for Bank %(bank_name)s are not implemented in "
+"BRCobranca."
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
