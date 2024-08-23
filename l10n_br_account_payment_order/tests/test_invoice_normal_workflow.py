@@ -11,6 +11,7 @@ class TestPaymentOrder(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         # Get Invoice for test
         cls.invoice_customer_without_paymeny_mode = cls.env.ref(
             "l10n_br_account_payment_order." "demo_invoice_no_payment_mode"
