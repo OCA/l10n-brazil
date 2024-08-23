@@ -96,7 +96,8 @@ class SaleReport(models.Model):
         digits="Account",
     )
 
-    def _query(self, with_clause="", fields=None, groupby="", from_clause=""):
+    # TODO MIGRATE TO v16! (see _query method in sale module)
+    def TODO_query(self, with_clause="", fields=None, groupby="", from_clause=""):
         if fields is None:
             fields = {}
 
