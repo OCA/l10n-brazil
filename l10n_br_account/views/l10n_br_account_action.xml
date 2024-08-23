@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <!-- NF-e Documents -->
+    <record id="fiscal_invoice_nfe_action" model="ir.actions.act_window">
+        <field name="name">NF-e</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+        <field eval="False" name="view_id" />
+        <field
+            name="domain"
+            eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_55'))]"
+        />
+        <field
+            name="context"
+            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_55')}"
+        />
+        <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new NF-e
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
+    <record id="fiscal_invoice_nfe_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fiscal_invoice_tree" />
+        <field name="act_window_id" ref="fiscal_invoice_nfe_action" />
+    </record>
+
+    <record id="fiscal_invoice_nfe_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fiscal_invoice_form" />
+        <field name="act_window_id" ref="fiscal_invoice_nfe_action" />
+    </record>
+
+    <!-- NFS-e Documents -->
+    <record id="fiscal_invoice_nfse_action" model="ir.actions.act_window">
+        <field name="name">NFS-e</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+        <field eval="False" name="view_id" />
+        <field
+            name="domain"
+            eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_SE'))]"
+        />
+        <field
+            name="context"
+            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_SE')}"
+        />
+        <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new NFS-e
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
+    <record id="fiscal_invoice_nfse_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fiscal_invoice_tree" />
+        <field name="act_window_id" ref="fiscal_invoice_nfse_action" />
+    </record>
+
+    <record id="fiscal_invoice_nfse_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fiscal_invoice_form" />
+        <field name="act_window_id" ref="fiscal_invoice_nfse_action" />
+    </record>
+
+    <!-- Incomming Documents -->
+    <record id="fiscal_invoice_in_action" model="ir.actions.act_window">
+        <field name="name">Incomming Document</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+        <field eval="False" name="view_id" />
+        <field
+            name="domain"
+        >[('move_type', 'in', ('in_invoice', 'in_receipt', 'out_refund')), ('fiscal_operation_type', '=', 'in')]</field>
+        <field
+            name="context"
+        >{'move_type':'in_invoice', 'journal_type': 'purchase'}</field>
+        <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Document
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
+    <record id="fiscal_invoice_in_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fiscal_invoice_tree" />
+        <field name="act_window_id" ref="fiscal_invoice_in_action" />
+    </record>
+
+    <record id="fiscal_invoice_in_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fiscal_invoice_form" />
+        <field name="act_window_id" ref="fiscal_invoice_in_action" />
+    </record>
+
+    <!-- Outgoing Documents -->
+    <record id="fiscal_invoice_out_action" model="ir.actions.act_window">
+        <field name="name">Outgoing Document</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+        <field eval="False" name="view_id" />
+        <field
+            name="domain"
+        >[('move_type', 'in', ('out_invoice', 'out_receipt', 'in_refund')), ('fiscal_operation_type', '=', 'out')]</field>
+        <field
+            name="context"
+        >{'move_type':'out_invoice', 'journal_type': 'sale', 'default_fiscal_operation_type': 'out'}</field>
+        <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Document
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
+    <!--record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
+        <field
+            name="context"
+        >{'type':'out_invoice', 'journal_type': 'sale', 'default_fiscal_operation_type': 'out'}</field>
+    </record>
+
+    <record id="account.action_move_out_refund_type" model="ir.actions.act_window">
+        <field
+            name="context"
+        >{'default_type': 'out_refund', 'type': 'out_refund', 'journal_type': 'sale', 'default_fiscal_operation_type':'in'}</field>
+    </record-->
+
+    <record id="fiscal_invoice_out_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fiscal_invoice_tree" />
+        <field name="act_window_id" ref="fiscal_invoice_out_action" />
+    </record>
+
+    <record id="fiscal_invoice_out_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fiscal_invoice_form" />
+        <field name="act_window_id" ref="fiscal_invoice_out_action" />
+    </record>
+
+    <!-- All Documents -->
+    <record id="fiscal_invoice_all_action" model="ir.actions.act_window">
+        <field name="name">All Documents</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+        <field eval="False" name="view_id" />
+        <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Document
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
+    <record id="fiscal_invoice_all_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fiscal_invoice_tree" />
+        <field name="act_window_id" ref="fiscal_invoice_all_action" />
+    </record>
+
+    <record id="fiscal_invoice_all_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fiscal_invoice_form" />
+        <field name="act_window_id" ref="fiscal_invoice_all_action" />
+    </record>
+
+</odoo>

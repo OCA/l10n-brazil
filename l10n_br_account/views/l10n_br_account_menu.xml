@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <!-- Incomming Documents -->
+    <record id="l10n_br_fiscal.document_nfe_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_nfe_action" />
+    </record>
+
+        <!-- Incomming Documents -->
+    <record id="l10n_br_fiscal.document_nfse_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_nfse_action" />
+    </record>
+
+    <!-- Incomming Documents -->
+    <record id="l10n_br_fiscal.document_in_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_in_action" />
+    </record>
+
+    <!-- Outgoing Documents -->
+    <record id="l10n_br_fiscal.document_out_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_out_action" />
+    </record>
+
+    <!-- All Documents -->
+    <!-- (we keep l10n_br_fiscal.document_all_menu
+    with l10n_br_fiscal.document object for low level fiscal detail)-->
+    <menuitem
+        id="document_all_menu"
+        action="fiscal_invoice_all_action"
+        name="All Documents"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.document_sub_menu"
+        sequence="25"
+    />
+
+</odoo>

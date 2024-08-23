@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="fiscal_operation_line_form" model="ir.ui.view">
+        <field name="name">fiscal.operation.line.form</field>
+        <field name="model">l10n_br_fiscal.operation.line</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_line_form" />
+        <field name="arch" type="xml">
+            <field name="ind_ie_dest" position="after">
+                <field
+                    name="fiscal_position_id"
+                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>

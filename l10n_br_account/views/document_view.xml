@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+  <record id="nfe_document_form_inherit" model="ir.ui.view">
+      <field name="name">l10n_br_nfe.document.form.inherit</field>
+      <field name="model">l10n_br_fiscal.document</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+      <field name="arch" type="xml">
+          <field name="state_fiscal" position="after">
+              <field name="move_ids" invisible="1" />
+          </field>
+      </field>
+  </record>
+
+</odoo>
