@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Products -->
+    <record id="product.product_product_27" model="product.product">
+        <field name="invoice_policy">order</field>
+    </record>
+
+    <record id="product.product_product_12" model="product.product">
+        <field name="invoice_policy">order</field>
+    </record>
+
+    <!-- Services -->
+    <record id="sale.advance_product_0" model="product.product">
+        <field name="invoice_policy">order</field>
+        <field name="fiscal_type">09</field>
+    </record>
+
+    <record id="l10n_br_fiscal.customized_development_sale" model="product.product">
+        <field name="invoice_policy">order</field>
+    </record>
+
+</odoo>

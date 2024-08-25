@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_sale_report" model="ir.ui.view">
+        <field name="name">l10n_br_sale.report</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search" />
+        <field name="arch" type="xml">
+            <filter name="Sales" position="after">
+                <filter
+                    string="Fiscal Operation"
+                    icon="terp-stock_symbol-selection"
+                    name="fiscal_operation_id"
+                    context="{'group_by':'fiscal_operation_id'}"
+                />
+                <filter
+                    string="Fiscal Operation Line"
+                    icon="terp-stock_symbol-selection"
+                    name="fiscal_operation_line_id"
+                    context="{'group_by':'fiscal_operation_line_id'}"
+                />
+                <filter
+                    string="CFOP"
+                    icon="terp-stock_symbol-selection"
+                    name="cfop_id"
+                    context="{'group_by':'cfop_id'}"
+                />
+                <filter
+                    string="Product Fiscal Type"
+                    icon="terp-stock_symbol-selection"
+                    name="fiscal_type"
+                    context="{'group_by':'fiscal_type'}"
+                />
+                <filter
+                    string="NCM"
+                    icon="terp-stock_symbol-selection"
+                    name="ncm"
+                    context="{'group_by':'ncm_id'}"
+                />
+                <filter
+                    string="NBM"
+                    icon="terp-stock_symbol-selection"
+                    name="nbm"
+                    context="{'group_by':'nbm_id'}"
+                />
+                <filter
+                    string="CEST"
+                    icon="terp-stock_symbol-selection"
+                    name="cest"
+                    context="{'group_by':'cest_id'}"
+                />
+            </filter>
+        </field>
+    </record>
+
+</odoo>

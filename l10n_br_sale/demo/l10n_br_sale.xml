@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Main Company Simples Nacional -->
+    <!-- Sale Order with only products test -->
+    <record id="main_so_only_products" model="sale.order">
+        <field name="name">Main l10n_br_sale - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_sl_only_products_1_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_only_products" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_products_1_2')]" />
+    </function>
+
+    <record id="main_sl_only_products_2_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_only_products" />
+        <field name="name">Mouse, Wireless</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+        <field name="discount_fixed">True</field>
+        <field name="discount_value">50.0</field>
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_products_2_2')]" />
+    </function>
+
+    <!-- Sale Order with only services test -->
+    <record id="main_so_only_services" model="sale.order">
+        <field name="name">Main l10n_br_sale - Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_sl_only_services_1_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_only_services" />
+        <field name="name">Virtual Interior Design</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_services_1_2')]" />
+    </function>
+
+    <record id="main_sl_only_services_2_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_only_services" />
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_services_2_2')]" />
+    </function>
+
+    <!-- Sale Order with product and service test -->
+    <record id="main_so_product_service" model="sale.order">
+        <field name="name">Main l10n_br_sale - Produtos e Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_sl_product_service_1_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_product_service" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_product_service_1_2')]" />
+    </function>
+
+    <record id="main_sl_product_service_2_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_product_service" />
+        <field name="name">Customized Odoo Development</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">10</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">100</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_venda_servico_ind"
+        />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_product_service_2_2')]" />
+    </function>
+
+    <!-- Empresa Simples Nacional -->
+    <!-- Sale Order with only products test -->
+    <record id="sn_so_only_products" model="sale.order">
+        <field name="name">SN l10n_br_sale - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="l10n_br_base.user_demo_simples" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="sn_sl_only_products_1_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_only_products" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_products_1_2')]" />
+    </function>
+
+    <record id="sn_sl_only_products_2_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_only_products" />
+        <field name="name">Mouse, Wireless</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_products_2_2')]" />
+    </function>
+
+    <!-- Sale Order with only services test -->
+    <record id="sn_so_only_services" model="sale.order">
+        <field name="name">SN l10n_br_sale - Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="l10n_br_base.user_demo_simples" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="sn_sl_only_services_1_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_only_services" />
+        <field name="name">Virtual Interior Design</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_services_1_2')]" />
+    </function>
+
+    <record id="sn_sl_only_services_2_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_only_services" />
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_services_2_2')]" />
+    </function>
+
+    <!-- Sale Order with product and service test -->
+    <record id="sn_so_product_service" model="sale.order">
+        <field name="name">SN l10n_br_sale - Produtos e Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="l10n_br_base.user_demo_simples" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="sn_sl_product_service_1_4" model="sale.order.line">
+        <field name="order_id" ref="sn_so_product_service" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_product_service_1_4')]" />
+    </function>
+
+    <!-- Section -->
+    <record id="sn_sl_product_service_2_4" model="sale.order.line">
+        <field name="order_id" ref="sn_so_product_service" />
+        <field name="name">Services</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="sn_sl_product_service_3_4" model="sale.order.line">
+        <field name="order_id" ref="sn_so_product_service" />
+        <field name="name">Customized Odoo Development</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">10</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">100</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_venda_servico_ind"
+        />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_product_service_3_4')]" />
+    </function>
+
+    <!-- Note -->
+    <record id="sn_sl_product_service_4_4" model="sale.order.line">
+        <field name="order_id" ref="sn_so_product_service" />
+        <field
+            name="name"
+        >The hours described are only an estimate and are subject to change.</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+
+
+    <!-- Empresa Lucro Presumido -->
+    <!-- Sale Order with only products test -->
+    <record id="lc_so_only_products" model="sale.order">
+        <field name="name">LC l10n_br_sale - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="l10n_br_base.user_demo_presumido" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="lc_sl_only_products_1_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_only_products" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_products_1_2')]" />
+    </function>
+
+    <record id="lc_sl_only_products_2_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_only_products" />
+        <field name="name">Mouse, Wireless</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_products_2_2')]" />
+    </function>
+
+    <!-- Sale Order with only services test -->
+    <record id="lc_so_only_services" model="sale.order">
+        <field name="name">LC l10n_br_sale - Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="l10n_br_base.user_demo_presumido" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="lc_sl_only_services_1_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_only_services" />
+        <field name="name">Customized Odoo Development</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_services_1_2')]" />
+    </function>
+
+    <record id="lc_sl_only_services_2_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_only_services" />
+        <field name="name">Customized Odoo Development</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_services_2_2')]" />
+    </function>
+
+    <!-- Sale Order with product and service test -->
+    <record id="lc_so_product_service" model="sale.order">
+        <field name="name">LC l10n_br_sale - Produtos e Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="l10n_br_base.user_demo_presumido" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="lc_sl_product_service_1_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_product_service" />
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_product_service_1_2')]" />
+    </function>
+
+    <record id="lc_sl_product_service_2_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_product_service" />
+        <field name="name">Customized Odoo Development</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">10</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">100</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_venda_servico_ind"
+        />
+    </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_product_service_2_2')]" />
+    </function>
+
+</odoo>
