@@ -18,41 +18,6 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_withholding
-msgid "(-) Amount Tax Withholding"
-msgstr "(-) Valor Retido na Fonte"
-
-#. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
-msgid "<strong>Amount Gross</strong>"
-msgstr "<strong>Total Bruto</strong>"
-
-#. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
-msgid "<strong>Amount Untaxed</strong>"
-msgstr "<strong>Total Sem Impostos</strong>"
-
-#. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
-msgid "<strong>Freight</strong>"
-msgstr "<strong>Frete</strong>"
-
-#. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
-msgid "<strong>Insurance</strong>"
-msgstr "<strong>Seguro</strong>"
-
-#. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
-msgid "<strong>Other Costs</strong>"
-msgstr "<strong>Outros Custos</strong>"
-
-#. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
-msgid "<strong>Taxes</strong>"
-msgstr "<strong>Impostos</strong>"
-
-#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Accounting"
 msgstr "Contabilidade"
@@ -95,7 +60,6 @@ msgstr "Total Financeiro"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_financial_total_gross
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__financial_total_gross
 msgid "Amount Financial Gross"
 msgstr "Total Financeiro Bruto"
 
@@ -125,11 +89,6 @@ msgid "Amount Tax Not Included"
 msgstr "Total Não incluído Impostos"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
-msgid "Amount Tax Withholding"
-msgstr "Total de Imposto Retido na Fonte"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_taxed
 msgid "Amount Taxed"
 msgstr "Total Tributado"
@@ -146,7 +105,6 @@ msgstr "Total sem Impostos"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__amount_price_gross
-#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__price_gross
 msgid "Amount without discount."
 msgstr "Total sem desconto."
 
@@ -445,7 +403,7 @@ msgid "Copy sale order notes in fiscal document"
 msgstr "Copiar observações do pedido de vendas no documento fiscal"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__country_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__company_country_id
 msgid "Country"
 msgstr "País"
 
@@ -517,15 +475,6 @@ msgid "Discount in Sales Orders per Value"
 msgstr "Desconto no Pedido de Vendas por Valor"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__fiscal_type__02
 #, fuzzy
 msgid "Embalagem"
@@ -568,6 +517,11 @@ msgstr "Operação de Consumo Final"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__financial_discount_value
 msgid "Financial Discount Value"
 msgstr "Valor do Desconto Financeiro"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_additional_data
@@ -733,6 +687,17 @@ msgid "ICMS FCP Base"
 msgstr "Base para ICMS FCP"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_icmsfcpst_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_value
 msgid "ICMS FCP ST Value"
 msgstr "Valor ICMS FCP ST"
@@ -863,15 +828,6 @@ msgstr "Imposto sobre ICMS ou ISSQN"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
 msgstr "Valor do Crédito de ICMSSN"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__id
-msgid "ID"
-msgstr "ID"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ii_percent
@@ -1160,15 +1116,6 @@ msgstr "Valor do Seguro"
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Invoice Lines"
 msgstr "Linhas da Fatura"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__legal_name
@@ -1588,6 +1535,11 @@ msgid "Tax ICMS FCP"
 msgstr "Imposto ICMS FCP"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmssn_tax_id
 msgid "Tax ICMS SN"
 msgstr "Imposto ICMS SN"
@@ -1658,6 +1610,12 @@ msgid "Tax UoM"
 msgstr "UoM Fiscal"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_withholding
+msgid "Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Taxes"
@@ -1674,9 +1632,20 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_total
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_total
 msgid "Total"
 msgstr "Total"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__total_with_taxes
@@ -1722,6 +1691,39 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
+
+#~ msgid "(-) Amount Tax Withholding"
+#~ msgstr "(-) Valor Retido na Fonte"
+
+#~ msgid "<strong>Amount Gross</strong>"
+#~ msgstr "<strong>Total Bruto</strong>"
+
+#~ msgid "<strong>Amount Untaxed</strong>"
+#~ msgstr "<strong>Total Sem Impostos</strong>"
+
+#~ msgid "<strong>Freight</strong>"
+#~ msgstr "<strong>Frete</strong>"
+
+#~ msgid "<strong>Insurance</strong>"
+#~ msgstr "<strong>Seguro</strong>"
+
+#~ msgid "<strong>Other Costs</strong>"
+#~ msgstr "<strong>Outros Custos</strong>"
+
+#~ msgid "<strong>Taxes</strong>"
+#~ msgstr "<strong>Impostos</strong>"
+
+#~ msgid "Amount Tax Withholding"
+#~ msgstr "Total de Imposto Retido na Fonte"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
 
 #~ msgid "Amount Tax not Included"
 #~ msgstr "Total de Impostos Não Incluídos no Preço"
