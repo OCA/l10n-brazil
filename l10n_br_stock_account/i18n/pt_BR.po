@@ -430,18 +430,6 @@ msgid "Discount Value"
 msgstr "Valor do Desconto"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_group__display_name
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__display_name
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__display_name
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__display_name
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__display_name
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking__display_name
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
 msgid "Document Number"
 msgstr ""
@@ -518,11 +506,6 @@ msgstr "Dados Adicionais Fiscais"
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
-
-#. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
-msgid "Fiscal Document Info"
-msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
@@ -827,18 +810,6 @@ msgid "ICMSSN Credit Value"
 msgstr "Valor do Crédito de ICMSSN"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_group__id
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__id
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__id
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__id
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__id
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking__id
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__id
-msgid "ID"
-msgstr "ID"
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_percent
 msgid "II %"
 msgstr "% II"
@@ -1118,14 +1089,13 @@ msgid "Insurance Value"
 msgstr "Valor do Seguro"
 
 #. module: l10n_br_stock_account
+#. odoo-python
 #: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:0
 #, python-format
 msgid ""
-"Invalid Journal! There is not journal defined for this company: {} in fiscal "
-"operation: {} !"
+"Invalid Journal! There is not journal defined for this company: %(company)s "
+"in fiscal operation: %(operation)s!"
 msgstr ""
-"Diário inválido! Não há diário definido para esta empresa: {} na operação "
-"fiscal: {} !"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__invoice_wizard
@@ -1157,18 +1127,6 @@ msgstr "Faturamento"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_key
 msgid "Key"
 msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_procurement_group____last_update
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping____last_update
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move____last_update
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking____last_update
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking____last_update
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__manual_additional_data
@@ -1216,6 +1174,7 @@ msgid "None"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#. odoo-python
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:0
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__none
 #, python-format
@@ -1606,14 +1565,7 @@ msgid "Taxes that apply on the base amount"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__price_unit
-msgid ""
-"Technical field used to record the product cost set by the user during a "
-"picking confirmation (when costing method used is 'average price' or "
-"'real'). Value given in company currency and in product uom."
-msgstr ""
-
-#. module: l10n_br_stock_account
+#. odoo-python
 #: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:0
 #, python-format
 msgid "This Fiscal Operation has no Fiscal Operation for Returns defined!"
@@ -1637,6 +1589,7 @@ msgstr ""
 "do produto e deve ser feito com cuidado."
 
 #. module: l10n_br_stock_account
+#. odoo-python
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:0
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__2binvoiced
 #, python-format
@@ -1684,6 +1637,23 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#, python-format
+#~ msgid ""
+#~ "Invalid Journal! There is not journal defined for this company: {} in "
+#~ "fiscal operation: {} !"
+#~ msgstr ""
+#~ "Diário inválido! Não há diário definido para esta empresa: {} na operação "
+#~ "fiscal: {} !"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor Retido na Fonte"
