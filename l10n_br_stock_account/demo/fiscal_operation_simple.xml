@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- pylint:disable=file-not-used -->
+<odoo>
+
+    <!-- Outras Emtradas -->
+    <record
+        forcecreate="True"
+        id="property_fo_entrada_remessa_journal_main_company"
+        model="ir.property"
+    >
+        <field name="name">fiscal_operation_journal_id</field>
+        <field
+            name="fields_id"
+            search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"
+        />
+        <field
+            eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_entrada_remessa'))"
+            name="res_id"
+        />
+        <field
+            eval="'account.journal,'+str(ref('l10n_br_stock_account.entrada_remessa_journal_main_company'))"
+            name="value"
+        />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record
+        forcecreate="True"
+        id="property_fo_entrada_remessa_journal_empresa_sn"
+        model="ir.property"
+    >
+        <field name="name">fiscal_operation_journal_id</field>
+        <field
+            name="fields_id"
+            search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"
+        />
+        <field
+            eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_entrada_remessa'))"
+            name="res_id"
+        />
+        <field
+            eval="'account.journal,'+str(ref('l10n_br_stock_account.entrada_remessa_journal_simples_nacional'))"
+            name="value"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <!-- Outras Saidas -->
+    <record
+        forcecreate="True"
+        id="property_fo_simples_remessa_journal_main_company"
+        model="ir.property"
+    >
+        <field name="name">fiscal_operation_journal_id</field>
+        <field
+            name="fields_id"
+            search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"
+        />
+        <field
+            eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_simples_remessa'))"
+            name="res_id"
+        />
+        <field
+            eval="'account.journal,'+str(ref('l10n_br_stock_account.simples_remessa_journal_main_company'))"
+            name="value"
+        />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record
+        forcecreate="True"
+        id="property_fo_simples_remessa_journal_empresa_sn"
+        model="ir.property"
+    >
+        <field name="name">fiscal_operation_journal_id</field>
+        <field
+            name="fields_id"
+            search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"
+        />
+        <field
+            eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_simples_remessa'))"
+            name="res_id"
+        />
+        <field
+            eval="'account.journal,'+str(ref('l10n_br_stock_account.simples_remessa_journal_simples_nacional'))"
+            name="value"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+</odoo>

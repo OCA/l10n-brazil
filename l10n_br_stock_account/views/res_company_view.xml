@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2011-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="l10n_br_stock_account_res_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="l10n_br_stock_account" string="Estoque">
+                    <group>
+                        <group>
+                            <field name="stock_fiscal_operation_id" />
+                            <field name="stock_in_fiscal_operation_id" />
+                            <field name="stock_out_fiscal_operation_id" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

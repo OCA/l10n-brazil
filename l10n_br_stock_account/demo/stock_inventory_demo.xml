@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Empresa Principal - Main Company -->
+    <record id="stock_account_inventory_1" model="stock.quant">
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="inventory_quantity">100.0</field>
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"
+        />
+    </record>
+
+    <record id="stock_account_inventory_2" model="stock.quant">
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="inventory_quantity">100.0</field>
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"
+        />
+    </record>
+
+    <!-- Simples Nacional -->
+    <record id="stock_account_inventory_sn_1" model="stock.quant">
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="inventory_quantity">100.0</field>
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_br_stock.wh_empresa_simples_nacional').lot_stock_id.id"
+        />
+    </record>
+    <record id="stock_account_inventory_sn_2" model="stock.quant">
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="inventory_quantity">100.0</field>
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_br_stock.wh_empresa_simples_nacional').lot_stock_id.id"
+        />
+    </record>
+
+    <!-- Lucro Presumido -->
+    <record id="stock_inventory_lp_1" model="stock.quant">
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="inventory_quantity">100.0</field>
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_br_stock.wh_empresa_lucro_presumido').lot_stock_id.id"
+        />
+    </record>
+    <record id="stock_inventory_lp_2" model="stock.quant">
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="inventory_quantity">100.0</field>
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_br_stock.wh_empresa_lucro_presumido').lot_stock_id.id"
+        />
+    </record>
+</odoo>

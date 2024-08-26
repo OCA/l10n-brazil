@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2010-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="stock_picking_form" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock_picking_invoicing.view_picking_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="picking_type_id" position="after">
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+                <field
+                    name="ind_final"
+                    attrs="{'invisible': ['|', ('invoice_state', '=', 'none'), ('fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+            </field>
+            <field name="invoice_state" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </field>
+            <field name="move_ids_without_package" position="attributes">
+                <attribute name="context">
+                    {'default_invoice_state': invoice_state,
+                    'address_in_id': partner_id,
+                    'default_picking_type_id': picking_type_id,
+                    'default_picking_id': id,
+                    'default_location_id': location_id,
+                    'default_location_dest_id': location_dest_id,
+                    'default_fiscal_operation_id': fiscal_operation_id,
+                    'default_company_id': company_id,
+                    'default_partner_id': partner_id,
+                    'picking_type_code': picking_type_code}</attribute>
+            </field>
+            <xpath
+                expr="//field[@name='move_ids_without_package']//tree"
+                position="attributes"
+            >
+                <attribute name="editable" />
+            </xpath>
+            <xpath
+                expr="//field[@name='move_ids_without_package']//tree/field[@name='invoice_state']"
+                position="after"
+            >
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'column_invisible': ['|', ('parent.invoice_state', '=', 'none'), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'column_invisible': ['|', ('parent.invoice_state', '=', 'none'), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='move_ids_without_package']//form"
+                position="inside"
+            >
+                <group
+                    name="fiscal"
+                    string="Fiscal"
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
+                    colspan="4"
+                >
+                    <field name="invoice_state" readonly="1" force_save="1" />
+                    <field name="fiscal_operation_type" invisible="1" />
+                    <field
+                        name="fiscal_type"
+                        force_save="1"
+                        invisible="1"
+                        readonly="1"
+                    />
+                    <field name="price_unit" />
+                    <label for="fiscal_quantity" string="Fiscal Quantity" />
+                    <div>
+                        <field
+                            context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                            name="fiscal_quantity"
+                            class="oe_inline"
+                        />
+                        <field name="uot_id" class="oe_inline oe_no_button" />
+                    </div>
+                    <field name="fiscal_price" />
+                    <field
+                        name="fiscal_operation_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    />
+                    <field
+                        name="fiscal_operation_line_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    />
+                    <field
+                        name="cfop_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    />
+                    <field
+                        name="ncm_id"
+                        aattrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    />
+                    <field
+                        name="fiscal_genre_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
+                    />
+                    <field
+                        name="nbm_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
+                    />
+                    <field
+                        name="cest_id"
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
+                    />
+                    <field name="partner_id" invisible="1" />
+                    <field name="company_id" invisible="1" />
+                </group>
+                <group colspan="4">
+                    <notebook
+                        attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                    >
+                        <group name="fiscal_fields" invisible="1">
+                            <field
+                                name="fiscal_operation_type"
+                                invisible="1"
+                                readonly="1"
+                            />
+                            <field name="fiscal_genre_code" invisible="1" />
+                            <field name="tax_framework" invisible="1" />
+                        </group>
+                        <page name="fiscal_taxes" string="Taxes" />
+                        <page name="others" string="Others">
+                            <group>
+                                <field name="delivery_costs" invisible="1" />
+                                <field
+                                    name="freight_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                />
+                                <field
+                                    name="insurance_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                />
+                                <field
+                                    name="other_value"
+                                    attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                />
+                            </group>
+                        </page>
+                        <page name="fiscal_line_extra_info" string="Extra Info" />
+                        <page name="accounting" string="Accounting">
+                            <group string="Taxes">
+                                <field
+                                    name="tax_ids"
+                                    widget="many2many_tags"
+                                    options="{'no_create': True}"
+                                />
+                            </group>
+                            <group
+                                name="invoice_lines"
+                                string="Invoicing"
+                                colspan="4"
+                                groups="base.group_no_one"
+                                attrs="{'invisible': [('invoice_state', 'in', [False, 'none'])]}"
+                            >
+                                <field
+                                    name="invoice_line_ids"
+                                    readonly="1"
+                                    nolabel="1"
+                                />
+                            </group>
+                        </page>
+                        <page name="amounts" string="Amounts">
+                            <group>
+                                <group>
+                                    <field name="amount_untaxed" />
+                                    <field name="amount_fiscal" />
+                                    <field name="amount_tax" />
+                                    <field name="estimate_tax" />
+                                </group>
+                                <group>
+                                    <field name="amount_total" />
+                                    <field name="amount_tax_withholding" />
+                                    <field name="amount_taxed" />
+                                    <field name="amount_tax_included" invisible="1" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </group>
+                <group
+                    name="invoice_lines"
+                    string="Invoicing"
+                    colspan="4"
+                    groups="base.group_no_one"
+                    attrs="{'invisible': ['|', ('fiscal_operation_line_id', '!=', False), ('invoice_state', 'in', [False, 'none'])]}"
+                >
+                    <field name="invoice_line_ids" readonly="1" nolabel="1" />
+                </group>
+
+
+            </xpath>
+            <xpath expr="//page[@name='extra']/group" position="inside">
+                <group name="delivery_costs" string="Delivery Costs">
+                    <field name="delivery_costs" invisible="1" />
+                    <field
+                        name="amount_freight_value"
+                        widget='monetary'
+                        options="{'currency_field': 'currency_id'}"
+                        attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                    />
+                    <field
+                        name="amount_insurance_value"
+                        widget='monetary'
+                        options="{'currency_field': 'currency_id'}"
+                        attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                    />
+                    <field
+                        name="amount_other_value"
+                        widget='monetary'
+                        options="{'currency_field': 'currency_id'}"
+                        attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
+                    />
+
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='page_invoicing']" position="inside">
+                <!-- Estes campos são read only momentaneamente, pode ser que em
+                um segundo momento essas informações também sejam relevantes para
+                pickings de entrada com relação com documentos fiscais ainda não
+                importados no sistema.
+            -->
+                <!--group name="document_info" string="Fiscal Document Info">
+                    <field name="document_key" readonly="1" />
+                </group>
+                <group>
+                    <group>
+                        <field name="document_type_id" readonly="1" />
+                        <field name="document_serie_id" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="document_serie" readonly="1" />
+                        <field name="document_number" readonly="1" />
+                    </group>
+                </group-->
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
