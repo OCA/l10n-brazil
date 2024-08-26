@@ -201,8 +201,12 @@ class AccountTax(models.Model):
         early_pay_discount_computation=None,
         early_pay_discount_percentage=None,
     ):
-        # TODO FIXME call super if possible
-        # TODO is this override really useful?
+        """
+        Similar to the _compute_taxes_for_single_line super method in the account module
+        but overriden to pass extra parameters to the account.tax compule_all method
+        to compute taxes properly in Brazil.
+        WARNING: it seems we might not be able to call the super method here...
+        """
         orig_price_unit_after_discount = base_line["price_unit"] * (
             1 - (base_line["discount"] / 100.0)
         )
