@@ -315,6 +315,11 @@ class AccountMove(models.Model):
         "invoice_date_due",
     )
     def _compute_needed_terms(self):
+        """
+        Similar to the _compute_needed_terms super method in the account module,
+        but ensure moves are balanced in Brazil when there is a fiscal_operation_id.
+        WARNING: it seems we might not be able to call the super method here....
+        """
         for invoice in self:
             is_draft = invoice.id != invoice._origin.id
             invoice.needed_terms = {}
@@ -667,18 +672,6 @@ class AccountMove(models.Model):
         for doc in self.filtered(lambda d: d.document_type_id):
             doc.fiscal_document_id.action_document_cancel()
         return super().button_cancel()
-
-    # TODO: Por ora esta solução contorna o problema
-    #  AttributeError: 'Boolean' object has no attribute 'depends_context'
-    #  Este erro está relacionado com o campo active implementado via localização
-    #  nos modelos account.move.line e l10n_br_fiscal.document.line
-    #  Este problema começou após este commit:
-    #  https://github.com/oca/ocb/commit/1dcd071b27779e7d6d8f536c7dce7002d27212ba
-    def _get_integrity_hash_fields_and_subfields(self):
-        return self._get_integrity_hash_fields() + [
-            f"line_ids.{subfield}"
-            for subfield in self.env["account.move.line"]._get_integrity_hash_fields()
-        ]
 
     def button_import_fiscal_document(self):
         """

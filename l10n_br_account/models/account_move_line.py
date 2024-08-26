@@ -247,14 +247,6 @@ class AccountMoveLine(models.Model):
         sorted_result = self.env["account.move.line"]
         for idx in inverted_index:
             sorted_result |= result[idx]
-
-        # TODO MIGRATE, see https://github.com/OCA/l10n-brazil/pull/3037
-        # for line in sorted_result:
-        # Forces the recalculation of price_total and price_subtotal fields which are
-        # recalculated by super
-        # if line.move_id.company_id.country_id.code == "BR":
-        #    line.update(line._get_price_total_and_subtotal())
-
         return sorted_result
 
     def unlink(self):
@@ -273,7 +265,8 @@ class AccountMoveLine(models.Model):
     def _sync_invoice(self, container):
         """
         Almost the same as the super method from the account module.
-        Overriden only to change one line where country_id.code is compared with "BR"
+        The changes are after the comment "# BRAZIL CASE:"
+        WARNING: sadly it seems we may not be able to call the super method...
         """
         if container["records"].env.context.get("skip_invoice_line_sync"):
             yield
@@ -353,7 +346,7 @@ class AccountMoveLine(models.Model):
 
     @api.depends(
         "quantity", "discount", "price_unit", "tax_ids", "currency_id", "discount"
-    )  # TODO complete!
+    )
     def _compute_totals(self):
         """
         Overriden to pass all the Brazilian parameters we need
@@ -551,9 +544,3 @@ class AccountMoveLine(models.Model):
         )
 
         return result
-
-    # These fields are already inherited by _inherits, but there is some limitation of
-    # the ORM that the values of these fields are zeroed when called by onchange. This
-    # limitation directly affects the _get_amount_credit_debit method.
-    amount_untaxed = fields.Monetary(compute="_compute_amounts")
-    amount_total = fields.Monetary(compute="_compute_amounts")
