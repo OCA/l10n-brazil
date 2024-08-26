@@ -26,6 +26,7 @@ msgstr ""
 #. module: l10n_br_account
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move_line.py:0
+#: code:addons/l10n_br_account/models/account_move_line.py:0
 #, python-format
 msgid "(Discount)"
 msgstr ""
@@ -659,6 +660,7 @@ msgstr ""
 #. module: l10n_br_account
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "Cannot import in non draft Account Move!"
 msgstr ""
@@ -827,6 +829,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "Company mismatch!"
@@ -1358,6 +1361,7 @@ msgstr ""
 #. module: l10n_br_account
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "Document without Return Fiscal Operation! \n"
@@ -1617,6 +1621,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "Fiscal Operation Type mismatch!"
@@ -2833,6 +2838,7 @@ msgstr ""
 #. module: l10n_br_account
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "Line without Return Fiscal Operation! \n"
@@ -2951,6 +2957,7 @@ msgstr ""
 #. module: l10n_br_account
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "More than 1 fiscal document!You should open the fiscal viewand perform the "
@@ -3058,6 +3065,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "No new Fiscal Document Line to import!"
@@ -3417,6 +3425,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "Partner mismatch!"
@@ -4579,6 +4588,7 @@ msgstr ""
 #. module: l10n_br_account
 #. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
+#: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid ""
 "You can't set this document number: {} to draft because this document is "
@@ -4588,12 +4598,14 @@ msgstr ""
 #. module: l10n_br_account
 #. odoo-python
 #: code:addons/l10n_br_account/models/fiscal_document.py:0
+#: code:addons/l10n_br_account/models/fiscal_document.py:0
 #, python-format
 msgid "You cannot delete a fiscal document which is not draft state."
 msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "You cannot set a document type when the move has no Fiscal Document!"
