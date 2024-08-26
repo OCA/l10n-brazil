@@ -475,6 +475,21 @@ msgid "Discount in Sales Orders per Value"
 msgstr "Desconto no Pedido de Vendas por Valor"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__fiscal_type__02
 #, fuzzy
 msgid "Embalagem"
@@ -1118,6 +1133,11 @@ msgid "Invoice Lines"
 msgstr "Linhas da Fatura"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__legal_name
 msgid "Legal Name"
 msgstr "Razão Social"
@@ -1448,6 +1468,11 @@ msgstr "Pedido de Vendas"
 #: model:ir.model,name:l10n_br_sale.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Linha do Pedido de Vendas"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_serie
+msgid "Serie Number"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__service_type_id
