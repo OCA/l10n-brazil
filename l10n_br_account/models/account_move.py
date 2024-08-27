@@ -131,7 +131,7 @@ class AccountMove(models.Model):
             if move.document_type_id and not move.fiscal_document_id:
                 fiscal_doc_vals = {}
                 for field in self._shadowed_fields():
-                    fiscal_doc_vals[f"fiscal_{field}"] = getattr(move, field)
+                    fiscal_doc_vals[f"fiscal_proxy_{field}"] = getattr(move, field)
                 move.fiscal_document_id = (
                     self.env["l10n_br_fiscal.document"].create(fiscal_doc_vals).id
                 )
@@ -200,7 +200,7 @@ class AccountMove(models.Model):
         for vals in vals_list:
             for field in self._shadowed_fields():
                 if field in vals:
-                    vals[f"fiscal_{field}"] = vals[field]
+                    vals[f"fiscal_proxy_{field}"] = vals[field]
 
     def ensure_one_doc(self):
         self.ensure_one()
