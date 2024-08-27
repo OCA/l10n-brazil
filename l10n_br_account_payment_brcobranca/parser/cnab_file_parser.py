@@ -13,7 +13,7 @@ from odoo.exceptions import UserError
 
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
-from ..constants.br_cobranca import get_brcobranca_api_url
+from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
 
 logger = logging.getLogger(__name__)
 
@@ -91,6 +91,7 @@ class CNABFileParser(FileParser):
                 "bank": bank_name_brcobranca,
             },
             files=files,
+            timeout=TIMEOUT,
         )
 
         if res.status_code != 201:
