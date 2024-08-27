@@ -10,7 +10,7 @@ class FiscalDocument(models.Model):
     # proxy field used to handle partner_shipping_id
     # in l10n_br_fiscal.document while the sale module
     # also brings a partner_shipping_id field to account.move.
-    fiscal_partner_shipping_id = fields.Many2one(
+    fiscal_proxy_partner_shipping_id = fields.Many2one(
         string="Fiscal Partner Shipping",
         related="partner_shipping_id",
         readonly=False,
