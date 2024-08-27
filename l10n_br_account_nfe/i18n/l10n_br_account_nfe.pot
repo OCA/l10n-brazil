@@ -208,6 +208,14 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #: code:addons/l10n_br_account_nfe/models/document.py:0
 #, python-format
+msgid ""
+"Payment Mode %(mode)s should have a Fiscal Payment Mode filled to be used in"
+" the Fiscal Document!"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: code:addons/l10n_br_account_nfe/models/document.py:0
+#, python-format
 msgid "Payment Mode cannot be empty for this NF-e/NFC-e"
 msgstr ""
 

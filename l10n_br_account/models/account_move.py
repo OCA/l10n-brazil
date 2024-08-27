@@ -285,7 +285,7 @@ class AccountMove(models.Model):
                     move.is_invoice(include_receipts=True)
                     and not line.exclude_from_invoice_tab
                 ):
-                    line._update_taxes()
+                    line._update_fiscal_taxes()
 
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.company_id.country_id.code == "BR"):

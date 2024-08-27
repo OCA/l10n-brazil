@@ -1123,11 +1123,9 @@ msgstr "Valor do Seguro"
 #: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:0
 #, python-format
 msgid ""
-"Invalid Journal! There is not journal defined for this company: {} in fiscal "
-"operation: {} !"
+"Invalid Journal! There is not journal defined for this company: %(company)s "
+"in fiscal operation: %(operation)s!"
 msgstr ""
-"Diário inválido! Não há diário definido para esta empresa: {} na operação "
-"fiscal: {} !"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__invoice_wizard
@@ -1686,6 +1684,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+
+#, python-format
+#~ msgid ""
+#~ "Invalid Journal! There is not journal defined for this company: {} in "
+#~ "fiscal operation: {} !"
+#~ msgstr ""
+#~ "Diário inválido! Não há diário definido para esta empresa: {} na operação "
+#~ "fiscal: {} !"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor Retido na Fonte"

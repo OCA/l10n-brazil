@@ -2072,6 +2072,7 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         operation_line=None,
+        ind_final=None,
     ):
         self.ensure_one()
         tax_group_icmsst = self.env.ref("l10n_br_fiscal.tax_group_icmsst")
@@ -2081,7 +2082,9 @@ class ICMSRegulation(models.Model):
             company, partner, tax_group_icmsst, ncm, nbm, cest
         )
 
-        tax_definitions = self._tax_definition_search(domain, ncm, nbm, cest, product)
+        tax_definitions = self._tax_definition_search(
+            domain, ncm, nbm, cest, product, ind_final
+        )
         return tax_definitions
 
     def map_tax_def_icms_difal(
@@ -2124,6 +2127,7 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         operation_line=None,
+        ind_final=None,
     ):
         self.ensure_one()
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
@@ -2142,7 +2146,7 @@ class ICMSRegulation(models.Model):
             )
 
             tax_definitions = self._tax_definition_search(
-                domain, ncm, nbm, cest, product
+                domain, ncm, nbm, cest, product, ind_final
             )
 
         return tax_definitions
@@ -2156,6 +2160,7 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         operation_line=None,
+        ind_final=None,
     ):
         self.ensure_one()
         tax_definitions = self.env["l10n_br_fiscal.tax.definition"]
@@ -2166,7 +2171,9 @@ class ICMSRegulation(models.Model):
             company, partner, tax_group_icmsfcpst, ncm, nbm, cest
         )
 
-        tax_definitions = self._tax_definition_search(domain, ncm, nbm, cest, product)
+        tax_definitions = self._tax_definition_search(
+            domain, ncm, nbm, cest, product, ind_final
+        )
 
         return tax_definitions
 
@@ -2197,15 +2204,15 @@ class ICMSRegulation(models.Model):
         )
 
         icms_def_taxes |= self._map_tax_def_icmsst(
-            company, partner, product, ncm, nbm, cest, operation_line
+            company, partner, product, ncm, nbm, cest, operation_line, ind_final
         )
 
         icms_def_taxes |= self._map_tax_def_icmsfcp(
-            company, partner, product, ncm, nbm, cest, operation_line
+            company, partner, product, ncm, nbm, cest, operation_line, ind_final
         )
 
         icms_def_taxes |= self._map_tax_def_icmsfcpst(
-            company, partner, product, ncm, nbm, cest, operation_line
+            company, partner, product, ncm, nbm, cest, operation_line, ind_final
         )
 
         icms_taxes |= icms_def_taxes.mapped("tax_id")
