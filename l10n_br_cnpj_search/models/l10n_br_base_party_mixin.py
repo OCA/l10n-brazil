@@ -10,19 +10,15 @@ from odoo.exceptions import UserError
 class PartyMixin(models.AbstractModel):
     _inherit = "l10n_br_base.party.mixin"
 
-    equity_capital = fields.Monetary(currency_field="company_currency_id")
+    equity_capital = fields.Monetary(currency_field="br_currency_id")
 
     cnae_main_id = fields.Many2one(comodel_name="l10n_br_fiscal.cnae")
 
     legal_nature = fields.Char()
 
-    company_id = fields.Many2one(
-        "res.company", required=True, default=lambda self: self.env.company
-    )
-
-    company_currency_id = fields.Many2one(
+    br_currency_id = fields.Many2one(
         comodel_name="res.currency",
-        related="company_id.currency_id",
+        default=lambda self: self.env.ref("base.BRL"),
         string="Company Currency",
         readonly=True,
     )
