@@ -3910,6 +3910,22 @@ msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf_stripped
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf_stripped
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf_stripped
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cnpj_cpf_stripped
+msgid "CNPJ/CPF Stripped"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf_stripped
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__cnpj_cpf_stripped
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__cnpj_cpf_stripped
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__cnpj_cpf_stripped
+msgid "CNPJ/CPF without special characters"
+msgstr ""
+
+#. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "CNPJ/Vat Number"
 msgstr "CNPJ/Id Estrangeiro"
