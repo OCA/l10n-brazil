@@ -34,6 +34,16 @@ msgid "City of Address"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnae_main_id
+msgid "Cnae Main"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__br_currency_id
+msgid "Company Currency"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
 msgid "Country"
 msgstr ""
@@ -41,6 +51,11 @@ msgstr ""
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__district
 msgid "District"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__equity_capital
+msgid "Equity Capital"
 msgstr ""
 
 #. module: l10n_br_crm
@@ -56,6 +71,11 @@ msgstr ""
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_name
 msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_nature
+msgid "Legal Nature"
 msgstr ""
 
 #. module: l10n_br_crm
