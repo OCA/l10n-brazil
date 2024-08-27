@@ -33,6 +33,16 @@ msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
+msgid "CNPJ/CPF Stripped"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
+msgid "CNPJ/CPF without special characters"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "CNPJ/VAT"
 msgstr "CNPJ/VAT"
