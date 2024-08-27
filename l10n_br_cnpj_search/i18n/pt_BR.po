@@ -89,6 +89,7 @@ msgid "Close"
 msgstr "Fechar"
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__cnae_main_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_main_id
 msgid "Cnae Main"
 msgstr "Cnae Principal"
@@ -109,9 +110,11 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__br_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__br_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__company_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__company_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__company_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__br_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__br_currency_id
 msgid "Company Currency"
 msgstr "Moeda da Empresa"
 
@@ -176,6 +179,7 @@ msgid "Empresa"
 msgstr "Empresa"
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__equity_capital
@@ -235,6 +239,7 @@ msgid "Legal Name"
 msgstr "Razão Social"
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__legal_nature
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__legal_nature
@@ -243,6 +248,9 @@ msgid "Legal Nature"
 msgstr "Natureza Jurídica"
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__cnae_main_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__cnae_main_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__cnae_main_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Main CNAE"
 msgstr "CNAE Principal"
