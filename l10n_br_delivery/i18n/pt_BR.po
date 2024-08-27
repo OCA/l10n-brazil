@@ -171,13 +171,13 @@ msgstr ""
 "Preencha este campo se você planeja faturar a entrega baseada no picking."
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
 msgid "Fiscal Inconterm"
 msgstr "Inconterm Fiscal"
@@ -201,23 +201,23 @@ msgid "ID"
 msgstr "ID"
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_pos_order__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_repair_order__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_blanket_order__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__fiscal_incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__incoterm_id
 #, fuzzy
 msgid "Incoterm"
@@ -236,31 +236,31 @@ msgid "Informação usada na emissão de Documentos Fiscais"
 msgstr "Informação usada na emissão de Documentos Fiscais"
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_bank_statement_line__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_bank_statement_line__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_account_bank_statement_line__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_move__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_move__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_account_move__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_account_payment__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_account_payment__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_account_payment__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_contract_contract__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_contract_contract__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_contract_contract__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_pos_order__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_pos_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_pos_order__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_repair_order__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_repair_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_repair_order__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_sale_blanket_order__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_blanket_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_sale_blanket_order__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_stock_picking__fiscal_incoterm_id
+#: model:ir.model.fields,help:l10n_br_delivery.field_stock_picking__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_stock_picking__incoterm_id
 msgid ""
 "International Commercial Terms are a series of predefined commercial terms "
