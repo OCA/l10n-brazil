@@ -26,22 +26,22 @@ class FiscalDocument(models.Model):
     # proxy fields to enable writing the related (shadowed) fields
     # to the fiscal document from the account.move through the _inherits system
     # despite they have the same names.
-    fiscal_partner_id = fields.Many2one(
+    fiscal_proxy_partner_id = fields.Many2one(
         string="Fiscal Partner",
         related="partner_id",
         readonly=False,
     )
-    fiscal_company_id = fields.Many2one(
+    fiscal_proxy_company_id = fields.Many2one(
         string="Fiscal Company",
         related="company_id",
         readonly=False,
     )
-    fiscal_currency_id = fields.Many2one(
+    fiscal_proxy_currency_id = fields.Many2one(
         string="Fiscal Currency",
         related="currency_id",
         readonly=False,
     )
-    fiscal_user_id = fields.Many2one(
+    fiscal_proxy_user_id = fields.Many2one(
         string="Fiscal User",
         related="user_id",
         readonly=False,
