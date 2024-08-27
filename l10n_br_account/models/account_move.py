@@ -174,7 +174,7 @@ class AccountMove(models.Model):
         for vals in vals_list:
             for field in self._shadowed_fields():
                 if field in vals:
-                    vals["fiscal_%s" % (field,)] = vals[field]
+                    vals["fiscal_proxy_%s" % (field,)] = vals[field]
 
     def ensure_one_doc(self):
         self.ensure_one()
