@@ -588,16 +588,6 @@ class AccountMove(models.Model):
         self.ensure_one_doc()
         return self.fiscal_document_id.action_send_email()
 
-    @api.onchange("document_type_id")
-    def _onchange_document_type_id(self):
-        # We need to ensure that invoices without a fiscal document have the
-        # document_number blank, as all invoices without a fiscal document share this
-        # same field, they are linked to the same dummy fiscal document.
-        # Otherwise, in the tree view, this field will be displayed with the same value
-        # for all these invoices.
-        if not self.document_type_id:
-            self.document_number = ""
-
     def _reverse_moves(self, default_values_list=None, cancel=False):
         new_moves = super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
