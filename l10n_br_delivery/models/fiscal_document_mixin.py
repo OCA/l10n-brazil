@@ -23,7 +23,9 @@ class FiscalDocumentMixin(models.AbstractModel):
     # proxy fields to enable writing the related (shadowed) fields
     # to the fiscal doc line from the aml through the _inherits system
     # despite they have the same names.
-    fiscal_proxy_incoterm_id = fields.Many2one(related="incoterm_id")
+    fiscal_proxy_incoterm_id = fields.Many2one(
+        string="Fiscal Proxy Incoterm", related="incoterm_id"
+    )
 
     carrier_id = fields.Many2one(
         comodel_name="delivery.carrier",
