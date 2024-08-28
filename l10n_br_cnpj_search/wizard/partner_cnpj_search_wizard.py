@@ -73,7 +73,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
                 headers=webservice.get_headers(),
                 timeout=5,
             )
-        except response.exceptions.Timeout:
+        except requests.exceptions.Timeout:
             _logger.debug("Request timed out!")
         data = webservice.validate(response)
         values = webservice.import_data(data)
