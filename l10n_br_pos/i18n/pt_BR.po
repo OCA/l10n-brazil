@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2024-08-28 16:06+0000\n"
+"PO-Revision-Date: 2024-08-28 19:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1033,7 +1033,7 @@ msgstr "Valor do Desconto Financeiro"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__financial_total_gross
 msgid "Financial Gross Amount"
-msgstr ""
+msgstr "Valor Financeiro Bruto"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_additional_data
@@ -2770,9 +2770,8 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_unit
-#, fuzzy
 msgid "Unit Price"
-msgstr "Preço Fiscal"
+msgstr "Preço Unitário"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_code
