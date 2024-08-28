@@ -315,6 +315,11 @@ class AccountMove(models.Model):
         "invoice_date_due",
     )
     def _compute_needed_terms(self):
+        """
+        Similar to the _compute_needed_terms super method in the account module,
+        but ensure moves are balanced in Brazil when there is a fiscal_operation_id.
+        WARNING: it seems we might not be able to call the super method here....
+        """
         for invoice in self:
             is_draft = invoice.id != invoice._origin.id
             invoice.needed_terms = {}
@@ -588,16 +593,6 @@ class AccountMove(models.Model):
         self.ensure_one_doc()
         return self.fiscal_document_id.action_send_email()
 
-    @api.onchange("document_type_id")
-    def _onchange_document_type_id(self):
-        # We need to ensure that invoices without a fiscal document have the
-        # document_number blank, as all invoices without a fiscal document share this
-        # same field, they are linked to the same dummy fiscal document.
-        # Otherwise, in the tree view, this field will be displayed with the same value
-        # for all these invoices.
-        if not self.document_type_id:
-            self.document_number = ""
-
     def _reverse_moves(self, default_values_list=None, cancel=False):
         new_moves = super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
@@ -677,18 +672,6 @@ class AccountMove(models.Model):
         for doc in self.filtered(lambda d: d.document_type_id):
             doc.fiscal_document_id.action_document_cancel()
         return super().button_cancel()
-
-    # TODO: Por ora esta solução contorna o problema
-    #  AttributeError: 'Boolean' object has no attribute 'depends_context'
-    #  Este erro está relacionado com o campo active implementado via localização
-    #  nos modelos account.move.line e l10n_br_fiscal.document.line
-    #  Este problema começou após este commit:
-    #  https://github.com/oca/ocb/commit/1dcd071b27779e7d6d8f536c7dce7002d27212ba
-    def _get_integrity_hash_fields_and_subfields(self):
-        return self._get_integrity_hash_fields() + [
-            f"line_ids.{subfield}"
-            for subfield in self.env["account.move.line"]._get_integrity_hash_fields()
-        ]
 
     def button_import_fiscal_document(self):
         """
