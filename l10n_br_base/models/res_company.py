@@ -149,7 +149,7 @@ class Company(models.Model):
     ):
         res = super()._fields_view_get(view_id, view_type, toolbar, submenu)
         if view_type == "form":
-            res["arch"] = self._fields_view_get_address(res["arch"])
+            res["arch"] = self._view_get_address(res["arch"])
         return res
 
     def write(self, values):
