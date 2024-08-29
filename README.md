@@ -39,7 +39,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 16.0.1.0.1 |  | Distribuição de documentos fiscais
 [l10n_br_hr](l10n_br_hr/) | 16.0.1.0.2 |  | Brazilian Localization HR
 [l10n_br_ie_search](l10n_br_ie_search/) | 16.0.1.0.0 |  | Integração com a API SintegraWS e SEFAZ
-[l10n_br_nfe](l10n_br_nfe/) | 16.0.1.1.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Eletronic Invoice NF-e
+[l10n_br_nfe](l10n_br_nfe/) | 16.0.1.2.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Eletronic Invoice NF-e
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 16.0.1.1.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 16.0.1.2.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e
 [l10n_br_nfse_focus](l10n_br_nfse_focus/) | 16.0.1.1.1 | [![AndreMarcos](https://github.com/AndreMarcos.png?size=30px)](https://github.com/AndreMarcos) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![ygcarvalh](https://github.com/ygcarvalh.png?size=30px)](https://github.com/ygcarvalh) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e (FocusNFE)
