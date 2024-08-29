@@ -1331,6 +1331,13 @@ class NFe(spec_models.StackedModel):
         return document
 
     def _document_cancel(self, justificative):
+        if self.document_type_id.code in [MODELO_FISCAL_NFE]:
+            if not justificative or len(justificative) < 15:
+                raise ValidationError(
+                    _(
+                        "Please enter a justification that is at least 15 characters long."
+                    )
+                )
         result = super()._document_cancel(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
