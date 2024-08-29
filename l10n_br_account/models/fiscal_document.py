@@ -32,17 +32,17 @@ class FiscalDocument(models.Model):
         readonly=False,
     )
     fiscal_proxy_company_id = fields.Many2one(
-        string="Fiscal Company",
+        string="Fiscal Proxy Company",
         related="company_id",
         readonly=False,
     )
     fiscal_proxy_currency_id = fields.Many2one(
-        string="Fiscal Currency",
+        string="Fiscal Proxy Currency",
         related="currency_id",
         readonly=False,
     )
     fiscal_proxy_user_id = fields.Many2one(
-        string="Fiscal User",
+        string="Fiscal Proxy User",
         related="user_id",
         readonly=False,
     )
