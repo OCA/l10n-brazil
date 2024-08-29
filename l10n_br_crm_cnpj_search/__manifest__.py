@@ -9,6 +9,7 @@
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
+    "maintainers": ["corredato", "mileo"],
     "depends": [
         "l10n_br_cnpj_search",
         "l10n_br_crm",
