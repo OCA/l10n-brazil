@@ -595,14 +595,6 @@ msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__fiscal_proxy_partner_shipping_id
-msgid "Fiscal Partner Shipping"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_price
 msgid "Fiscal Price"
 msgstr ""
@@ -615,6 +607,14 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_genre_code
 msgid "Fiscal Product Genre Code"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__fiscal_proxy_partner_shipping_id
+msgid "Fiscal Proxy Partner Shipping"
 msgstr ""
 
 #. module: l10n_br_sale
