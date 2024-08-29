@@ -8,9 +8,7 @@
         <field name="arch" type="xml">
             <form>
                 <div class="o_address_format">
-                    <div>
-                        <field name="street" class="oe_read_only" invisible="1" />
-                    </div>
+                    <field name="street" class="oe_read_only" invisible="1" />
                     <field
                         name="zip"
                         placeholder="Zip code..."
@@ -71,5 +69,4 @@
             </form>
         </field>
     </record>
-
 </odoo>
