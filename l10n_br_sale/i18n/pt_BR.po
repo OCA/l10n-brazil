@@ -612,14 +612,6 @@ msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__fiscal_proxy_partner_shipping_id
-msgid "Fiscal Partner Shipping"
-msgstr "Parceiro Fiscal de Envio"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_price
 msgid "Fiscal Price"
 msgstr "Preço Fiscal"
@@ -633,6 +625,14 @@ msgstr "Gênero Fiscal do Produto"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_genre_code
 msgid "Fiscal Product Genre Code"
 msgstr "Código do Gênero Fiscal do Produto"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__fiscal_proxy_partner_shipping_id
+msgid "Fiscal Proxy Partner Shipping"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_quantity
@@ -1804,6 +1804,9 @@ msgstr "Desconto Total do Usuário"
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+
+#~ msgid "Fiscal Partner Shipping"
+#~ msgstr "Parceiro Fiscal de Envio"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor Retido na Fonte"
