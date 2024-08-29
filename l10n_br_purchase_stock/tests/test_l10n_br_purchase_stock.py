@@ -3,6 +3,8 @@
 #   Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo.tests import Form
+
 from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
 
 
@@ -446,3 +448,22 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
             invoice.partner_id,
             "The Invoice Partner and Partner to Shipping should be the same.",
         )
+
+    def test_form_stock_picking(self):
+        """Test Stock Picking with Form"""
+        purchase = self.env.ref("l10n_br_purchase_stock.main_po_only_products_1")
+        purchase.button_confirm()
+        picking = purchase.picking_ids
+        self.picking_move_state(picking)
+        picking_form = Form(picking)
+
+        # Alterando a OP Fiscal apenas para forçar a diferença
+        picking.company_id.stock_in_fiscal_operation_id = False
+
+        # Apesar do metodo onchange retornar uma OP Fiscal padrão,
+        # quando existe um Pedido de Venda associado deve usar retornar
+        # a mesma OP Fiscal do Pedido.
+        picking_form.invoice_state = "none"
+        picking_form.invoice_state = "2binvoiced"
+        self.assertEqual(purchase.fiscal_operation_id, picking.fiscal_operation_id)
+        picking_form.save()
