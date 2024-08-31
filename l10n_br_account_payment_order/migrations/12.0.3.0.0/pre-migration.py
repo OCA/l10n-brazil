@@ -18,5 +18,6 @@ _model_renames = [
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    openupgrade.rename_tables(env.cr, _table_renames)
+    if openupgrade.table_exists(env.cr, "cnab_return_move_code"):
+        openupgrade.rename_tables(env.cr, _table_renames)
     openupgrade.rename_models(env.cr, _model_renames)
