@@ -6,9 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-08-07 01:58+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2024-09-02 23:06+0000\n"
+"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -31,13 +30,13 @@ msgid ""
 "Brazilian State Subscription service API to search partner state "
 "subscription using cnpj code."
 msgstr ""
-"API do serviço de Assinatura Estadual Brasileira para busca de assinatura "
-"estadual parceira usando código cnpj."
+"API do serviço de Inscrição Estadual brasileira para buscar a inscrição "
+"estadual do parceiro usando o código CNPJ."
 
 #. module: l10n_br_ie_search
 #: model:ir.model,name:l10n_br_ie_search.model_l10n_br_cnpj_search_webservice_abstract
 msgid "CNPJ Webservice"
-msgstr "Webservice CNPJ"
+msgstr "CNPJ Webservice"
 
 #. module: l10n_br_ie_search
 #: model:ir.model,name:l10n_br_ie_search.model_partner_search_wizard
@@ -49,7 +48,7 @@ msgstr ""
 #. module: l10n_br_ie_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
 msgid "Choose the provider for state subscription search"
-msgstr "Escolha o provedor para pesquisa de assinatura estadual"
+msgstr "Escolha o provedor para busca de Inscrição Estadual"
 
 #. module: l10n_br_ie_search
 #: model:ir.model,name:l10n_br_ie_search.model_res_config_settings
@@ -82,8 +81,8 @@ msgid ""
 "Select to choose the provider for state subscription search when searching "
 "for cnpj"
 msgstr ""
-"Selecione para escolher o provedor de pesquisa de assinatura estadual ao "
-"pesquisar por cnpj"
+"Selecione para escolher o provedor para a busca de Inscrição Estadual ao "
+"pesquisar pelo CNPJ"
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
