@@ -3,19 +3,13 @@
 
 from odoo.tests import TransactionCase
 
-from odoo.addons.spec_driven_model import hooks
-
 
 class TestAccountNFCeContingency(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         # this hook is required to test l10n_br_account_nfe alone:
-        hooks.register_hook(
-            cls.env,
-            "l10n_br_nfe",
-            "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-        )
+        cls.env["spec.mixin.nfe"]._register_hook()
         cls.document_id = cls.env.ref("l10n_br_nfe.demo_nfce_same_state")
         cls.prepare_account_move_nfce()
 
