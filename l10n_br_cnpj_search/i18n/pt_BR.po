@@ -6,9 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-07-16 23:58+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2024-09-02 23:06+0000\n"
+"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +75,7 @@ msgstr "Os dados do CNPJ foram obtidos através do webservice:"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__child_ids
 msgid "Child"
-msgstr "Criança"
+msgstr "Filhos"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__city_id
