@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2024-07-06 20:58+0000\n"
+"PO-Revision-Date: 2024-09-03 18:06+0000\n"
 "Last-Translator: Rodrigo Sottomaior Macedo "
 "<sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: \n"
@@ -1959,7 +1959,7 @@ msgstr "Atibaia"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3200706
 msgid "Atílio Vivácqua"
-msgstr ""
+msgstr "Atílio Vivácqua"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1702554
@@ -23097,7 +23097,7 @@ msgstr "Nome curto"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__show_l10n_br
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__show_l10n_br
 msgid "Show L10N Br"
-msgstr ""
+msgstr "Exibir L10N Br"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4217600
