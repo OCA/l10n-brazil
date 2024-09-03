@@ -12,7 +12,6 @@
                       <group>
                           <field name="nfe_version" required="1" />
                           <field name="nfe_environment" required="1" />
-                          <field name="nfe_transmission" required="1" />
                             <field
                                 name="nfe_enable_sync_transmission"
                                 string="Enable Sync Transmission"

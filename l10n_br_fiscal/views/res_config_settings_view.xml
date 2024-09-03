@@ -144,6 +144,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="content-group">
+                            <div class="mt16 row">
+                                <label
+                                    for="edoc_transmission"
+                                    class="col-4 col-lg-4 o_light_label"
+                                />
+                                <field
+                                    name="edoc_transmission"
+                                    class="oe_inline"
+                                    required="1"
+                                />
+                                <div class="text-muted">
+                                    Define the transmission type for Brazilian eletronic invoice.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </xpath>
