@@ -134,7 +134,7 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_cEAN = fields.Char(related="product_id.barcode")
 
-    # nfe40_xProd = fields.Char(related="name") TODO
+    nfe40_xProd = fields.Char(computed="_compute_nfe40_xProd")
 
     nfe40_NCM = fields.Char(related="ncm_id.code_unmasked")
 

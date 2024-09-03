@@ -77,39 +77,52 @@
                 <field name="rebate_value" readonly="1" />
                 <field name="discount_value" readonly="1" />
             </xpath>
-            <xpath expr="//group[@name='right']" position="after">
-                <group name="cnab" string="Informações do CNAB">
-                    <field name="own_number" readonly="1" />
-                    <field name="document_number" readonly="1" />
-                    <field name="payment_mode_domain" invisible="1" />
-                    <field
-                        name="barcode"
-                        attrs="{'required': [('payment_type', '=', 'outbound'),('payment_mode_domain', '=', 'boleto')]}"
-                    />
-                    <field name="company_title_identification" readonly="1" />
-                    <field
-                        name="movement_type"
-                        attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
-                    />
-                    <field name="mov_instruction_code_id" readonly="1" />
-                    <field
-                        name="doc_finality_code"
-                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
-                    />
-                    <field
-                        name="ted_finality_code"
-                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
-                    />
-                    <field
-                        name="complementary_finality_code"
-                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
-                    />
-                    <field name="favored_warning" />
-                    <field name="service_type" />
-                    <field name="payment_method_code" invisible="1" />
+            <xpath expr="//group[@name='main']" position="after">
+                <group name="l10n_br_fields">
+                    <group name="cnab" string="Informações do CNAB">
+                        <field name="own_number" readonly="1" />
+                        <field name="document_number" readonly="1" />
+                        <field name="payment_mode_domain" invisible="1" />
+                        <field
+                            name="barcode"
+                            attrs="{'required': [('payment_type', '=', 'outbound'),('payment_mode_domain', '=', 'boleto')]}"
+                        />
+                        <field name="company_title_identification" readonly="1" />
+                        <field
+                            name="movement_type"
+                            attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
+                        />
+                        <field name="mov_instruction_code_id" readonly="1" />
+                        <field
+                            name="doc_finality_code"
+                            attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                        />
+                        <field
+                            name="ted_finality_code"
+                            attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                        />
+                        <field
+                            name="complementary_finality_code"
+                            attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                        />
+                        <field name="favored_warning" />
+                        <field name="service_type" />
+                        <field name="payment_method_code" invisible="1" />
+                    </group>
+                    <!-- QR Code Pix -->
+                    <group
+                        name="pix_qrcode"
+                        string="QR Code Pix"
+                        attrs="{'invisible': [('payment_mode_domain', '!=', 'pix_qrcode')]}"
+                    >
+                        <field
+                            name="pix_qrcode_key"
+                            attrs="{'required': [('payment_type', '=', 'outbound'),('payment_mode_domain', '=', 'pix_qrcode')]}"
+                        />
+                        <field name="pix_qrcode_txid" />
+                    </group>
                 </group>
             </xpath>
-
         </field>
     </record>
 
