@@ -3,10 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "L10n Br Account Payment BRCobranca",
-    "version": "16.0.1.0.2",
+    "name": "Boletos e CNAB de cobrança",
+    "summary": "receivable Boletos and CNAB using the brcobranca lib",
+    "version": "16.0.2.0.0",
     "license": "AGPL-3",
-    "author": "Akretion, " "Odoo Community Association (OCA)",
+    "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["rvalyi", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [

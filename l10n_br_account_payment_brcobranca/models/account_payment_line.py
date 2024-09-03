@@ -66,10 +66,7 @@ class AccountPaymentLine(models.Model):
             linhas_pagamentos["cod_desconto"] = "1"
 
     def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
-        if (
-            self.mov_instruction_code_id.code
-            == payment_mode_id.cnab_sending_code_id.code
-        ):
+        if self.instruction_move_code_id.code == payment_mode_id.sending_code_id.code:
             linhas_pagamentos["cod_primeira_instrucao"] = (
                 payment_mode_id.boleto_protest_code or "00"
             )
@@ -134,10 +131,7 @@ class AccountPaymentLine(models.Model):
             bank_method(payment_mode_id, linhas_pagamentos)
 
         # Cada Banco pode possuir seus Codigos de Instrução
-        if (
-            self.mov_instruction_code_id.code
-            == payment_mode_id.cnab_sending_code_id.code
-        ):
+        if self.instruction_move_code_id.code == payment_mode_id.sending_code_id.code:
             if payment_mode_id.boleto_fee_perc:
                 linhas_pagamentos["codigo_multa"] = payment_mode_id.boleto_fee_code
                 linhas_pagamentos["percentual_multa"] = payment_mode_id.boleto_fee_perc
