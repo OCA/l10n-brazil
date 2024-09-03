@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2024-09-03 15:06+0000\n"
+"PO-Revision-Date: 2024-09-03 18:06+0000\n"
 "Last-Translator: Rodrigo Sottomaior Macedo "
 "<sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: \n"
@@ -1447,12 +1447,12 @@ msgstr "Chaves PIX"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_ids
 msgid "Pos Order"
-msgstr ""
+msgstr "Pedidos de pós-venda"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_count
 msgid "Pos Order Count"
-msgstr ""
+msgstr "Contagem de pedidos de pós-venda"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_payment_method_id
@@ -1461,6 +1461,10 @@ msgid ""
 "vendor bills by preferred payment method to register payments in mass. Use "
 "cases: create bank files for batch wires, check runs."
 msgstr ""
+"Método de pagamento preferido ao pagar este fornecedor. Isto é usado para "
+"filtrar contas de fornecedores por método de pagamento preferido para "
+"registrar pagamentos em massa. Casos de uso: criar arquivos bancários para "
+"transferências em lote, execuções de cheques."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_product_pricelist
@@ -1480,7 +1484,7 @@ msgstr "Contratos de Compra"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_line_ids
 msgid "Purchase Lines"
-msgstr ""
+msgstr "Linhas de Compra"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn
@@ -1512,12 +1516,12 @@ msgstr "Raça / Cor"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__receipt_reminder_email
 msgid "Receipt Reminder"
-msgstr ""
+msgstr "Lembrete de recebimento"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ref
 msgid "Reference"
-msgstr ""
+msgstr "Referência"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__registration
@@ -1633,12 +1637,12 @@ msgstr "Separado"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement_ids
 msgid "Settlement"
-msgstr ""
+msgstr "Liquidação"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement
 msgid "Settlement period"
-msgstr ""
+msgstr "Período de liquidação"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_share
@@ -1648,7 +1652,7 @@ msgstr "Partilhar Parceiro"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
 msgid "Show L10N Br"
-msgstr ""
+msgstr "Exibir L10N Br"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__signup_expiration
@@ -1688,7 +1692,7 @@ msgstr "Estado"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_est
 msgid "State Tax Number"
-msgstr ""
+msgstr "Número da Inscrição Estadual"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_state
@@ -1731,7 +1735,7 @@ msgstr "Suframa"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_purchase_currency_id
 msgid "Supplier Currency"
-msgstr ""
+msgstr "Moeda do Fornecedor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
@@ -1741,7 +1745,7 @@ msgstr "Modo de Pagamento do Fornecedor"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_rank
 msgid "Supplier Rank"
-msgstr ""
+msgstr "Classificação do Fornecedor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__category_id
@@ -1793,7 +1797,7 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_url
 msgid "The full URL to access the document through the website."
-msgstr ""
+msgstr "URL completa para acessar o documento através do site."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__user_id
@@ -1803,7 +1807,7 @@ msgstr "O usuário interno responsável por este contato."
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pos_order_count
 msgid "The number of point of sales orders related to this customer"
-msgstr ""
+msgstr "O número de pedidos de ponto de venda relacionados a este cliente"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__has_unreconciled_entries
@@ -1856,6 +1860,7 @@ msgid ""
 "This currency will be used, instead of the default one, for purchases from "
 "the current partner"
 msgstr ""
+"Esta moeda será usada, em vez da moeda padrão, para compras do parceiro atual"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__email_normalized
@@ -1863,6 +1868,8 @@ msgid ""
 "This field is used to search on email address as the primary email field can "
 "contain more than strictly an email address."
 msgstr ""
+"Este campo é usado para pesquisar por endereço de e-mail, pois o campo de e-"
+"mail principal pode conter mais do que apenas um endereço de e-mail."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__commission_id
@@ -1870,6 +1877,8 @@ msgid ""
 "This is the default commission used in the sales where this agent is "
 "assigned. It can be changed on each operation if needed."
 msgstr ""
+"Esta é a comissão padrão usada nas vendas onde este agente é designado. Ela "
+"pode ser alterada em cada operação, se necessário."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_supplier_payment_term_id
@@ -1946,12 +1955,12 @@ msgstr "Valor total que você deve pagar a este fornecedor."
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_type
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Tipo de atividade de exceção registrada."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__union_entity_code
@@ -1971,7 +1980,7 @@ msgstr "Contador de Mensagens Não Lidas"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__barcode
 msgid "Use a barcode to identify this contact."
-msgstr ""
+msgstr "Use um código de barras para identificar este contato."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__legal_name
@@ -2001,12 +2010,12 @@ msgstr "Condições de Pagamento do Fornecedor"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_published
 msgid "Visible on current website"
-msgstr ""
+msgstr "Visível no site atual"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__visitor_ids
 msgid "Visitors"
-msgstr ""
+msgstr "Visitantes"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -2016,17 +2025,17 @@ msgstr "Registro de Eleitor"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_section
 msgid "Voter Section"
-msgstr ""
+msgstr "Seção Eleitoral"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_title
 msgid "Voter Title"
-msgstr ""
+msgstr "Título Eleitoral"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_zone
 msgid "Voter Zone"
-msgstr ""
+msgstr "Zona Eleitoral"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
@@ -2036,7 +2045,7 @@ msgstr "Site"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website
 msgid "Website Link"
-msgstr ""
+msgstr "Link do site"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_message_ids
@@ -2046,7 +2055,7 @@ msgstr "Mensagens do Site"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_url
 msgid "Website URL"
-msgstr ""
+msgstr "URL do site"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_message_ids
