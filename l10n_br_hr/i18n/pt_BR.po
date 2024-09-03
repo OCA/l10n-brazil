@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2024-06-10 15:34+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2024-09-03 15:06+0000\n"
+"Last-Translator: Rodrigo Sottomaior Macedo "
+"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__meeting_count
@@ -99,7 +100,7 @@ msgstr "Tipo de Endereço"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_ids
 msgid "Agents"
-msgstr ""
+msgstr "Agentes"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__lang
@@ -306,7 +307,7 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__agent
 msgid "Check this field if the partner is a creditor or an agent."
-msgstr ""
+msgstr "Marque este campo se o parceiro for um credor ou um agente."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__city
@@ -364,7 +365,7 @@ msgstr "Entidade Comercial"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__commission_id
 msgid "Commission"
-msgstr ""
+msgstr "Comissão"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__common_law_marriage
@@ -469,7 +470,7 @@ msgstr "Limite de Crédito"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent
 msgid "Creditor/Agent"
-msgstr ""
+msgstr "Credor/Agente"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__currency_id
@@ -940,6 +941,8 @@ msgid ""
 "If set, this Sales Team will be used for sales and assignments related to "
 "this partner"
 msgstr ""
+"Se definido, esta Equipe de Vendas será usada para vendas e atribuições "
+"relacionadas a este parceiro"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_blacklisted
@@ -958,22 +961,22 @@ msgstr "Imagem"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_1024
 msgid "Image 1024"
-msgstr ""
+msgstr "Imagem 1024"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_128
 msgid "Image 128"
-msgstr ""
+msgstr "Imagem 128"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_256
 msgid "Image 256"
-msgstr ""
+msgstr "Imagem 256"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_512
 msgid "Image 512"
-msgstr ""
+msgstr "Imagem 512"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inc_trab
@@ -983,7 +986,7 @@ msgstr "Incapacidade física ou mental?"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
 msgid "Indicates if Brazilian localization fields should be displayed."
-msgstr ""
+msgstr "Indica se os campos de localização brasileira devem ser exibidos."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_public_entity
@@ -1036,6 +1039,8 @@ msgid ""
 "Invoice & Delivery addresses are used in sales orders. Private addresses are "
 "only visible by authorized users."
 msgstr ""
+"Endereços de fatura e entrega são usados em pedidos de vendas. Endereços "
+"privados são visíveis apenas por usuários autorizados."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_ids
@@ -1050,7 +1055,7 @@ msgstr "É um seguidor"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_published
 msgid "Is Published"
-msgstr ""
+msgstr "Está publicado"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_company
@@ -1088,7 +1093,7 @@ msgstr "Itens de Diário"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
 msgid "Keys for Brazilian instant payment (pix)"
-msgstr ""
+msgstr "Chaves para pagamento instantâneo brasileiro (pix)"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__lang
@@ -1319,6 +1324,8 @@ msgstr "Número de ações"
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__reminder_date_before_receipt
 msgid "Number of days to send reminder email before the promised receipt date"
 msgstr ""
+"Número de dias para enviar e-mail de lembrete antes da data de recebimento "
+"prometida"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_error_counter
@@ -1372,6 +1379,9 @@ msgid ""
 "number of ordered products.x is either the System Parameter purchase_stock."
 "on_time_delivery_days or the default 365"
 msgstr ""
+"Nos últimos x dias; o número de produtos recebidos no prazo dividido pelo "
+"número de produtos pedidos.x é o parâmetro do sistema "
+"purchase_stock.on_time_delivery_days ou o padrão 365"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep
@@ -2052,6 +2062,12 @@ msgid ""
 "Anywhere else, time values are computed according to the time offset of your "
 "web client."
 msgstr ""
+"Ao imprimir documentos e exportar/importar dados, os valores de tempo são "
+"computados de acordo com este fuso horário.\n"
+"Se o fuso horário não estiver definido, UTC (Tempo Universal Coordenado) é "
+"usado.\n"
+"Em qualquer outro lugar, os valores de tempo são computados de acordo com o "
+"deslocamento de tempo do seu cliente web."
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
