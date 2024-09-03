@@ -39,11 +39,12 @@ class TestPaymentOrder(SavepointCase):
 
         # Testa o caso do Codigo Duplicado
         instruction_code_new_form = Form(
-            self.env["l10n_br_cnab.mov.instruction.code"],
-            "l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_form_view",
+            self.env["l10n_br_cnab.code"],
+            "l10n_br_account_payment_order.l10n_br_cnab_code_form_view",
         )
 
-        instruction_code_new_form.code = "01"
+        instruction_code_new_form.code = "02"
+        instruction_code_new_form.code_type = "instruction_move_code"
         instruction_code_new_form.name = "Remessa*"
         instruction_code_new_form.bank_ids.add(
             self.env.ref("l10n_br_base.res_bank_136")
@@ -77,11 +78,12 @@ class TestPaymentOrder(SavepointCase):
 
         # Caso Codigo Duplicado
         return_move_code_new_form = Form(
-            self.env["l10n_br_cnab.return.move.code"],
-            "l10n_br_account_payment_order.l10n_br_cnab_return_move_code_form_view",
+            self.env["l10n_br_cnab.code"],
+            "l10n_br_account_payment_order.l10n_br_cnab_code_form_view",
         )
 
-        return_move_code_new_form.code = "01"
+        return_move_code_new_form.code = "02"
+        return_move_code_new_form.code_type = "return_move_code"
         return_move_code_new_form.name = "Pago (Título protestado pago em cartório)"
         return_move_code_new_form.bank_ids.add(
             self.env.ref("l10n_br_base.res_bank_136")
@@ -109,11 +111,12 @@ class TestPaymentOrder(SavepointCase):
 
         # Caso Codigo Duplicado
         boleto_wallet_code_new_form = Form(
-            self.env["l10n_br_cnab.boleto.wallet.code"],
-            "l10n_br_account_payment_order.l10n_br_cnab_boleto_wallet_code_form_view",
+            self.env["l10n_br_cnab.code"],
+            "l10n_br_account_payment_order.l10n_br_cnab_code_form_view",
         )
 
         boleto_wallet_code_new_form.code = "1"
+        boleto_wallet_code_new_form.code_type = "wallet_code"
         boleto_wallet_code_new_form.name = (
             "Cobrança Simples (Sem Registro e Eletrônica com Registro)"
         )
