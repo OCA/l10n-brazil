@@ -60,9 +60,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_06"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_change_date_maturity_one(self):
         """Test Creation of a Payment Order an change ONE due date"""
@@ -101,9 +101,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_06"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     # def test_change_payment_mode(self):
     #     invoice = self.invoice_auto
@@ -145,9 +145,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_change_protest_tittle(self):
         """Test Creation of a Payment Order an change protest_tittle"""
@@ -173,9 +173,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_09"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_change_suspend_protest_keep_wallet(self):
         """Test Creation of a Payment Order an change suspend_protest_keep_wallet"""
@@ -201,9 +201,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_11"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_change_suspend_grant_rebate(self):
         """Test Creation of a Payment Order an change grant_rebate"""
@@ -230,9 +230,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_04"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_change_suspend_grant_discount(self):
         """Test Creation of a Payment Order an change grant_discount"""
@@ -259,9 +259,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_07"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_change_suspend_cancel_rebate(self):
         """Test Creation of a Payment Order an change cancel_rebate"""
@@ -287,9 +287,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_05"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_change_suspend_cancel_discount(self):
         """Test Creation of a Payment Order an change cancel_discount"""
@@ -315,6 +315,6 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_08"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
