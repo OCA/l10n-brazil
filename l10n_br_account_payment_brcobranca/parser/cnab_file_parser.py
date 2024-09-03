@@ -320,9 +320,7 @@ class CNABFileParser(FileParser):
 
             # Codigos de Movimento de Retorno - Liquidação
             cnab_liq_move_code = []
-            for (
-                move_code
-            ) in account_move_line.payment_mode_id.cnab_liq_return_move_code_ids:
+            for move_code in account_move_line.payment_mode_id.liq_return_move_code_ids:
                 cnab_liq_move_code.append(move_code.code)
 
             favored_bank_account = (
@@ -388,11 +386,12 @@ class CNABFileParser(FileParser):
         return result_row_list
 
     def _get_description_occurrence(self, payment_method_cnab, cod_ocorrencia):
-        cnab_return_move_code = self.env["l10n_br_cnab.return.move.code"].search(
+        cnab_return_move_code = self.env["l10n_br_cnab.code"].search(
             [
                 ("bank_ids", "in", self.bank.id),
                 ("payment_method_ids", "in", payment_method_cnab.id),
                 ("code", "=", cod_ocorrencia),
+                ("code_type", "=", "return_move_code"),
             ]
         )
         if cnab_return_move_code:
