@@ -45,11 +45,9 @@ class L10nBrCNABCode(models.Model):
             ("boleto_wallet", "Boleto Wallet"),
             ("boleto_modality", "Boleto Modality"),
             ("boleto_variation", "Boleto Variation"),
-            ("boleto_write_off_devolution", "Boleto Write Off Devolution"),
         ],
     )
 
-    # TODO: a ordem das colunas estão trocadas
     bank_ids = fields.Many2many(
         string="Banks",
         comodel_name="res.bank",
@@ -60,7 +58,6 @@ class L10nBrCNABCode(models.Model):
         required=True,
     )
 
-    # TODO: a ordem das colunas estão trocadas
     payment_method_ids = fields.Many2many(
         comodel_name="account.payment.method",
         string="Payment Methods",
@@ -127,11 +124,12 @@ class L10nBrCNABCode(models.Model):
                 )
                 raise ValidationError(
                     _(
-                        "The Code %s already exist %s for Bank %s and CNAB %s type.",
-                        record.code,
-                        code_name_exist,
-                        code_already_exist.bank_id.name,
-                        code_already_exist.payment_method_id.code,
+                        "The Code %(code)s %(name)s already exists for Bank %(bank)s "
+                        "and CNAB %(type_code)s type.",
+                        code=record.code,
+                        name=code_name_exist,
+                        bank=code_already_exist.bank_id.name,
+                        type_code=code_already_exist.payment_method_id.code,
                     )
                 )
 

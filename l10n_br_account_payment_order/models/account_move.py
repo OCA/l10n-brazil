@@ -21,15 +21,11 @@ class AccountMove(models.Model):
     # relacionado ao CNAB na visao
     is_cnab = fields.Boolean(string="Is CNAB?")
 
-    cnab_config_id = fields.Many2one(
-        related="payment_mode_id.cnab_config_id",
-    )
-
     eval_payment_mode_instructions = fields.Text(
         string="Instruções de Cobrança do Modo de Pagamento",
-        related="cnab_config_id.instructions",
+        related="payment_mode_id.instructions",
         readonly=True,
-        help="Instruções Ordem de Pagamento configuradas na Configuração do CNAB",
+        help="Instruções Ordem de Pagamento configuradas" " no Modo de pagamento",
     )
 
     instructions = fields.Text(
@@ -90,8 +86,8 @@ class AccountMove(models.Model):
             return self.document_number
         return self.name
 
-    def _post(self, soft=True):
-        result = super()._post(soft)
+    def action_post(self):
+        result = super().action_post()
         self.load_cnab_info()
         return result
 
@@ -118,10 +114,12 @@ class AccountMove(models.Model):
         for index, interval in enumerate(self.financial_move_line_ids):
             inv_number = self.get_invoice_fiscal_number().split("/")[-1]
             numero_documento = inv_number + "/" + str(index + 1).zfill(2)
-            cnab_config = interval.payment_mode_id.cnab_config_id
-            sequence = cnab_config.own_number_sequence_id.next_by_id()
 
-            interval.own_number = sequence if cnab_config.generate_own_number else "0"
+            sequence = self.payment_mode_id.own_number_sequence_id.next_by_id()
+
+            interval.own_number = (
+                sequence if interval.payment_mode_id.generate_own_number else "0"
+            )
             interval.document_number = numero_documento
             interval.company_title_identification = hex(interval.id).upper()
             instructions = ""
@@ -132,7 +130,7 @@ class AccountMove(models.Model):
             interval.instructions = instructions
             # Codigo de Instrução do Movimento pode variar,
             # mesmo no CNAB 240
-            interval.instruction_move_code_id = cnab_config.sending_code_id
+            interval.instruction_move_code_id = self.payment_mode_id.sending_code_id
         filtered_invoice_ids = self.filtered(
             lambda s: (
                 s.payment_mode_id and s.payment_mode_id.auto_create_payment_order
