@@ -137,20 +137,35 @@
                                     attrs="{'invisible': [('bank_code_bc', '!=', '033')]}"
                                 >
                                     <field name="convention_code" />
+                                    <!-- TODO: Remover o campo na próxima versão,
+                                          usando apenas para migração do
+                                          l10n_br_cnab.code
                                     <field
                                         name="boleto_wallet_code_id"
                                         string="Tipo de Cobrança ou Código da Carteira"
                                         domain="[('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id)]"
+                                    />-->
+                                    <field
+                                        name="wallet_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'wallet_code')]"
                                     />
                                  </group>
                                  <group
                                     name="bradesco"
                                     string="Banco Bradesco"
-                                    attrs="{'invisible': ['&amp;', ('bank_code_bc', '!=', '237'), ('payment_method_code', '!=', '240')]}"
+                                    attrs="{'invisible': [('bank_code_bc', '!=', '237')]}"
                                 >
+                                    <!-- TODO: Remover o campo na próxima versão,
+                                          usando apenas para migração do
+                                          l10n_br_cnab.code
                                     <field
                                         name="boleto_wallet_code_id"
                                         domain="[('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id)]"
+                                    />
+                                    -->
+                                    <field
+                                        name="wallet_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'wallet_code')]"
                                     />
                                  </group>
                             </group>
@@ -186,71 +201,174 @@
                                 name="return_move_code"
                                 string="Códigos de Retorno do Movimento"
                             >
-                                <field
+                               <!-- TODO: Remover o campo na próxima versão,
+                                     usando apenas para migração do
+                                     l10n_br_cnab.code
+                               <field
                                     name="cnab_liq_return_move_code_ids"
                                     widget="many2many_tags"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
+                                />-->
+                                <field
+                                    name="liq_return_move_code_ids"
+                                    widget="many2many_tags"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'return_move_code')]"
                                 />
                             </group>
                             <group
                                 name="move_instruction_code"
                                 string="Códigos de Instrução do Movimento"
                             >
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
                                 <field
                                     name="cnab_sending_code_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
                                 />
+                                -->
                                 <field
+                                    name="sending_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
+                               <field
                                     name="cnab_write_off_code_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
                                 />
+                                -->
+                                <field
+                                    name="write_off_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                          usando apenas para migração do
+                                          l10n_br_cnab.code
                                 <field
                                     name="cnab_code_change_title_value_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
                                 />
+                                -->
+                                <field
+                                    name="change_title_value_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                          usando apenas para migração do
+                                          l10n_br_cnab.code
                                 <field
                                     name="cnab_code_change_maturity_date_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
                                 />
+                                -->
+                                <field
+                                    name="change_maturity_date_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
                                 <field
                                     name="cnab_code_protest_title_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
                                 />
+                                -->
+                                <field
+                                    name="protest_title_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
                                 <field
                                     name="cnab_code_suspend_protest_keep_wallet_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
                                 />
+                                -->
+                                <field
+                                    name="suspend_protest_keep_wallet_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
                                 <field
                                     name="cnab_code_suspend_protest_write_off_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
+                                />-->
+                                <field
+                                    name="suspend_protest_write_off_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
                                 />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
                                 <field
                                     name="cnab_code_grant_rebate_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
+                                />-->
+                                <field
+                                    name="grant_rebate_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
                                 />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
                                 <field
                                     name="cnab_code_cancel_rebate_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
+                                />-->
+                                <field
+                                    name="cancel_rebate_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
                                 />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
                                 <field
                                     name="cnab_code_grant_discount_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
+                                />-->
+                                <field
+                                    name="grant_discount_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
                                 />
+                                <!-- TODO: Remover o campo na próxima versão,
+                                      usando apenas para migração do
+                                      l10n_br_cnab.code
                                 <field
                                     name="cnab_code_cancel_discount_id"
                                     domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"
+                                />-->
+                                <field
+                                    name="cancel_discount_code_id"
+                                    domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
                                 />
                             </group>
                         </page>
