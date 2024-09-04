@@ -29,9 +29,9 @@ class FiscalDocumentMixinFields(models.AbstractModel):
         domain = (
             "[('state', '=', 'approved'),"
             "'|',"
-            "('company_id', '=', %s),"
+            f"('company_id', '=', {self.env.company.id}),"
             "('company_id', '=', False),"
-        ) % (self.env.company.id,)
+        )
         return domain
 
     fiscal_operation_id = fields.Many2one(

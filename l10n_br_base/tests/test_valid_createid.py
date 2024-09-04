@@ -119,9 +119,7 @@ class ValidCreateIdTest(TransactionCase):
                 .create(self.company_valid)
             )
         except Exception:
-            assert (
-                company
-            ), "Error when using .create() even with valid \
+            assert company, "Error when using .create() even with valid \
                              and Inscricao Estadual"
 
     def test_comp_invalid_cnpj(self):
@@ -151,9 +149,7 @@ class ValidCreateIdTest(TransactionCase):
                 .create(self.partner_valid)
             )
         except Exception:
-            assert (
-                partner
-            ), "Error when using .create() even with valid CPF \
+            assert partner, "Error when using .create() even with valid CPF \
                          and Inscricao Estadual"
 
     def test_part_invalid_cpf(self):

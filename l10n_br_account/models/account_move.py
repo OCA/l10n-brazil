@@ -146,7 +146,8 @@ class AccountMove(models.Model):
             if rec.document_type_id and not rec.fiscal_document_id:
                 raise UserError(
                     _(
-                        "You cannot set a document type when the move has no Fiscal Document!"
+                        "You cannot set a document type when the move has no"
+                        " Fiscal Document!"
                     )
                 )
 
@@ -199,7 +200,7 @@ class AccountMove(models.Model):
         for vals in vals_list:
             for field in self._shadowed_fields():
                 if field in vals:
-                    vals["fiscal_%s" % (field,)] = vals[field]
+                    vals[f"fiscal_{field}"] = vals[field]
 
     def ensure_one_doc(self):
         self.ensure_one()
@@ -257,8 +258,10 @@ class AccountMove(models.Model):
                 for sub_form_node in arch.xpath("//field[@name='line_ids']/tree"):
                     self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
                     # TODO kanban??
-        #                for sub_form_node in arch.xpath("//field[@name='line_ids']/kanban"):
-        #                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+        #                for sub_form_node in arch.xpath(
+        #                   "//field[@name='line_ids']/kanban"):
+        #                    self.env["account.move.line"].inject_fiscal_fields(
+        #                       sub_form_node)
         #
 
         return arch, view
@@ -428,10 +431,10 @@ class AccountMove(models.Model):
 
     def update_payment_term_number(self):
         payment_term_lines = self.line_ids.filtered(
-            lambda l: l.display_type == "payment_term"
+            lambda line: line.display_type == "payment_term"
         )
         payment_term_lines_sorted = payment_term_lines.sorted(
-            key=lambda l: l.date_maturity
+            key=lambda line: line.date_maturity
         )
         for idx, line in enumerate(payment_term_lines_sorted, start=1):
             line.with_context(skip_invoice_sync=True).write(

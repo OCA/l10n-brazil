@@ -161,8 +161,8 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         raise UserError(
             _(
-                "Payment Mode %(payment_mode_name)s don't has %(missing)s for making CNAB"
-                "change, check if should have.",
+                "Payment Mode %(payment_mode_name)s don't has %(missing)s for making "
+                "CNAB change, check if should have.",
                 payment_mode_name=payment_mode_name,
                 missing=missing,
             )

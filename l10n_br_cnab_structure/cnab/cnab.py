@@ -4,7 +4,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from enum import Enum
-from typing import List
 
 
 class RecordType(Enum):
@@ -26,7 +25,7 @@ class CnabField:
 
 class CnabLine:
     type: RecordType
-    fields: List[CnabField]
+    fields: list[CnabField]
 
     def __init__(self, record_type) -> None:
         self.type = record_type
@@ -56,13 +55,13 @@ class CnabLine:
 
 
 class CnabDetailRecord:
-    segments: List[CnabLine]
+    segments: list[CnabLine]
 
     def __init__(self, name: str) -> None:
         self.name = name
         self.segments = []
 
-    def lines(self) -> List[CnabLine]:
+    def lines(self) -> list[CnabLine]:
         lines = []
         for segment in self.segments:
             lines.append(segment)
@@ -77,19 +76,19 @@ class CnabDetailRecord:
 
 class CnabBatch:
     header: CnabLine
-    detail_records: List[CnabDetailRecord]
+    detail_records: list[CnabDetailRecord]
     trailer: CnabLine
 
     def __init__(self) -> None:
         self.detail_records = []
 
-    def detail_lines(self) -> List[CnabLine]:
+    def detail_lines(self) -> list[CnabLine]:
         lines = []
         for detail in self.detail_records:
             lines.extend(detail.lines())
         return lines
 
-    def lines(self) -> List[CnabLine]:
+    def lines(self) -> list[CnabLine]:
         lines = []
         lines.append(self.header)
         lines.extend(self.detail_lines())
@@ -112,7 +111,7 @@ class CnabBatch:
 
 class Cnab:
     header: CnabLine
-    batches: List[CnabBatch]
+    batches: list[CnabBatch]
     trailer: CnabLine
 
     def __init__(self) -> None:
@@ -120,7 +119,7 @@ class Cnab:
         self.batches = []
         self.trailer = CnabLine(RecordType.TRAILER)
 
-    def lines(self) -> List[CnabLine]:
+    def lines(self) -> list[CnabLine]:
         lines = []
         lines.append(self.header)
         for batch in self.batches:

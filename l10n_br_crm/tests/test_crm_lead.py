@@ -9,7 +9,7 @@ class CrmLeadTest(TransactionCase):
     """Test basic operations on Lead"""
 
     def setUp(self):
-        super(CrmLeadTest, self).setUp()
+        super().setUp()
 
         # Create lead with simple details
         self.crm_lead_company = self.env["crm.lead"].create(
