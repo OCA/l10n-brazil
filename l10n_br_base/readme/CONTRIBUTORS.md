@@ -1,0 +1,8 @@
+- [Akretion](https://www.akretion.com/pt-BR):
+  - Renato Lima \<<renato.lima@akretion.com.br>\>
+  - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>
+- [KMEE](https://www.kmee.com.br):
+  - Luis Felipe Mileo \<<mileo@kmee.com.br>\>
+  - Michell Stuttgart \<<michell.stuttgart@kmee.com.br>\>
+- [Engenere](https://engenere.one):
+  - Antônio S. Pereira Neto \<<neto@engenere.one>\>
