@@ -432,6 +432,19 @@ class NFe(spec_models.StackedModel):
                 doc.nfe40_dest = None
             else:
                 doc.nfe40_dest = doc.partner_id
+            doc._set_nfe40_IEST()
+
+    def _set_nfe40_IEST(self):
+        self.ensure_one()
+        iest = ""
+        if self.partner_id:
+            dest_state_id = self.partner_id.state_id
+            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
+                stn_id = self.company_id.state_tax_number_ids.filtered(
+                    lambda stn: stn.state_id == dest_state_id
+                )
+                iest = stn_id.inscr_est
+        self.company_inscr_est_st = iest
 
     ##########################
     # NF-e tag: entrega
