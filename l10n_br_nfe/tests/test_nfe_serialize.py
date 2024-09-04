@@ -77,6 +77,6 @@ class TestNFeExport(TransactionCase):
             self.cr.dbname,
             nfe.send_file_id.store_fname,
         )
-        _logger.info("XML file saved at %s" % (output,))
+        _logger.info(f"XML file saved at {output}")
         diff = main.diff_files(output, xml_path)
         return diff

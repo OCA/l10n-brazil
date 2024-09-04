@@ -112,9 +112,7 @@ class MDe(models.Model):
         return [
             (
                 rec.id,
-                "NFº: {} ({}): {}".format(
-                    rec.number, rec.cnpj_cpf, rec.company_id.legal_name
-                ),
+                f"NFº: {rec.number} ({rec.cnpj_cpf}): {rec.company_id.legal_name}",
             )
             for rec in self
         ]
@@ -244,8 +242,9 @@ class MDe(models.Model):
     def download_attachment(self, attachment_id):
         return {
             "type": "ir.actions.act_url",
-            "url": "/web/content/{id}/{nome}?download=true".format(
-                id=attachment_id.id, nome=attachment_id.name
+            "url": (
+                f"/web/content/{attachment_id.id}"
+                f"/{attachment_id.name}?download=true"
             ),
             "target": "self",
         }

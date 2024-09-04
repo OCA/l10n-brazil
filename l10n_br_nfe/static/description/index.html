@@ -371,42 +371,64 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfe"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_nfe"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>Este módulo permite a emissão de NF-e.</p>
-<dl class="docutils">
-<dt>Mais especificamente ele:</dt>
-<dd><ul class="first last simple">
-<li>mapea os campos de NF-e do módulo <tt class="docutils literal">l10n_br_nfe_spec</tt> com os campos Odoo em especial os campos dos módulos <tt class="docutils literal">l10n_br_base</tt> e <tt class="docutils literal">l10n_br_fiscal</tt></li>
-<li>usa a logica do módulo <tt class="docutils literal">spec_driven_model</tt> para realizar esse mapeamento de forma dinâmica, em especial ele usa o sistema de modelos com várias camadas, ou <tt class="docutils literal">StackedModel</tt>, com os modelos <tt class="docutils literal">l10n_br_fiscal.document</tt>, <tt class="docutils literal">l10n_br_fiscal.document.line</tt> e <tt class="docutils literal">l10n_br_fiscal.document.related</tt> que tem varios niveis hierarquicos de elementos XML que estão sendo denormalizados dentro desses modelos Odoo</li>
+<p>Mais especificamente ele:</p>
+<ul class="simple">
+<li>mapea os campos de NF-e do módulo <tt class="docutils literal">l10n_br_nfe_spec</tt> com os campos
+Odoo em especial os campos dos módulos <tt class="docutils literal">l10n_br_base</tt> e
+<tt class="docutils literal">l10n_br_fiscal</tt></li>
+<li>usa a logica do módulo <tt class="docutils literal">spec_driven_model</tt> para realizar esse
+mapeamento de forma dinâmica, em especial ele usa o sistema de
+modelos com várias camadas, ou <tt class="docutils literal">StackedModel</tt>, com os modelos
+<tt class="docutils literal">l10n_br_fiscal.document</tt>, <tt class="docutils literal">l10n_br_fiscal.document.line</tt> e
+<tt class="docutils literal">l10n_br_fiscal.document.related</tt> que tem varios niveis
+hierarquicos de elementos XML que estão sendo denormalizados dentro
+desses modelos Odoo</li>
 <li>permite a exportação e importação de XML de NF-e</li>
-<li>tem wizards para implementar a comunicação SOAP de NF-e com a SEFAZ (Autorização, Cancelamento, Inutilização…)</li>
-<li>implementa a autorização, inutilização e contingência de documentos NFC-e</li>
+<li>tem wizards para implementar a comunicação SOAP de NF-e com a SEFAZ
+(Autorização, Cancelamento, Inutilização…)</li>
+<li>implementa a autorização, inutilização e contingência de documentos
+NFC-e</li>
 </ul>
-</dd>
-<dt>Módulos relacionados:</dt>
-<dd><ul class="first last simple">
-<li>este módulo não depende do módulo <tt class="docutils literal">account</tt> do Odoo. A integração com o financeiro do módulo <tt class="docutils literal">account</tt> é realizada no módulo <tt class="docutils literal">l10n_br_account_nfe</tt> (tags dup e pag em especial)</li>
-<li>existe também o módulo <tt class="docutils literal">l10n_br_delivery_nfe</tt> que faz a integração do módulo <tt class="docutils literal">l10n_br_nfe</tt> com o módulo <tt class="docutils literal">delivery</tt> do Odoo (tags de transportadora e de frete em especial)</li>
+<p>Módulos relacionados:</p>
+<ul class="simple">
+<li>este módulo não depende do módulo <tt class="docutils literal">account</tt> do Odoo. A integração
+com o financeiro do módulo <tt class="docutils literal">account</tt> é realizada no módulo
+<tt class="docutils literal">l10n_br_account_nfe</tt> (tags dup e pag em especial)</li>
+<li>existe também o módulo <tt class="docutils literal">l10n_br_delivery_nfe</tt> que faz a integração
+do módulo <tt class="docutils literal">l10n_br_nfe</tt> com o módulo <tt class="docutils literal">delivery</tt> do Odoo (tags de
+transportadora e de frete em especial)</li>
 </ul>
-</dd>
-</dl>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-4">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-5">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-6">Maintainers</a></li>
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-6">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-7">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-8">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-9">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="installation">
+<h1><a class="toc-backref" href="#toc-entry-1">Installation</a></h1>
+</div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
+</div>
 <div class="section" id="usage">
-<h1><a class="toc-backref" href="#toc-entry-1">Usage</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
 <p>O menu de NF-e se encontra dentro do menu fiscal.</p>
 </div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-5">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -414,16 +436,16 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-3">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-6">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-4">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-7">Authors</a></h2>
 <ul class="simple">
 <li>Akretion</li>
 <li>KMEE</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-5">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-8">Contributors</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="https://akretion.com/pt-BR/">AKRETION</a>:<ul>
 <li>Raphaël Valyi &lt;<a class="reference external" href="mailto:raphael.valyi&#64;akretion.com.br">raphael.valyi&#64;akretion.com.br</a>&gt;</li>
@@ -448,7 +470,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-6">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-9">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
