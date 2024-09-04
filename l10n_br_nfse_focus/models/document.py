@@ -56,8 +56,10 @@ class FocusnfeNfse(models.AbstractModel):
             method (str): The HTTP method to use (e.g., 'GET', 'POST').
             url (str): The URL to which the request is sent.
             token (str): The authentication token for the service.
-            data (dict, optional): The payload to send in the request body. Defaults to None.
-            params (dict, optional): The URL parameters to append to the URL. Defaults to None.
+            data (dict, optional): The payload to send in the request body.
+                Defaults to None.
+            params (dict, optional): The URL parameters to append to the URL.
+                Defaults to None.
 
         Returns:
             requests.Response: The response object from the requests library.
@@ -586,7 +588,8 @@ class Document(models.Model):
             None.
 
         Returns:
-            None. Updates the status of each document based on the NFSe provider's response.
+            None. Updates the status of each document based on the NFSe provider's
+            response.
         """
         records = (
             self.search([("state", "in", ["enviada"])], limit=25)
