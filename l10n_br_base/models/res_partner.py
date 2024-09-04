@@ -19,7 +19,7 @@ class Partner(models.Model):
     def _inverse_street_data(self):
         """In Brazil the address format is street_name, street_number
         (comma instead of space)"""
-        br_partner_ids = self.filtered(lambda l: l._is_br_partner())
+        br_partner_ids = self.filtered(lambda line: line._is_br_partner())
         not_br_partner = self - br_partner_ids
         for partner in br_partner_ids:
             street = (
