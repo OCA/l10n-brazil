@@ -93,8 +93,8 @@ class CNABReturnEvent(models.Model):
         """Override Create Method"""
         event = super().create(vals)
         if not event.cnab_return_log_id.cnab_structure_id:
-            # if there is no cnab_structure_id it is because the return file is not being
-            # processed by this module, so there is nothing to do here.
+            # if there is no cnab_structure_id it is because the return file is not
+            # being processed by this module, so there is nothing to do here.
             return event
         event.load_description_occurrences()
         event.load_bank_payment_line()
@@ -202,7 +202,8 @@ class CNABReturnEvent(models.Model):
     def _get_liq_move_vals(self):
         return {
             "name": f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - "
-            f"{self.cnab_return_log_id.bank_account_id.acc_number} - REF: {self.your_number}",
+            f"{self.cnab_return_log_id.bank_account_id.acc_number} - "
+            f"REF: {self.your_number}",
             "ref": self.your_number,
             "is_cnab": True,
             "journal_id": self.journal_id.id,
@@ -223,7 +224,8 @@ class CNABReturnEvent(models.Model):
         move_lines = self.move_line_ids.sorted(key=lambda line: line.date_maturity)
         for index, move_line in enumerate(move_lines):
             line_balance = abs(move_line.balance)
-            # the total value of counterpart move lines must be equal to balance in return event
+            # the total value of counterpart move lines must be equal to balance
+            # in return event
             if index != len(self.move_line_ids) - 1:
                 if balance > line_balance:
                     value = line_balance
@@ -345,11 +347,9 @@ class CNABReturnEvent(models.Model):
                 "move_id": move_id.id,
             }
             if self.cnab_return_log_id.type == "inbound":
-                credit_move_line[
-                    "account_id"
-                ] = (
-                    self.journal_id.company_id.account_journal_payment_credit_account_id.id
-                )
+                company_id = self.journal_id.company_id
+                account_id = company_id.account_journal_payment_credit_account_id
+                credit_move_line["account_id"] = account_id.id
                 debit_move_line[
                     "account_id"
                 ] = self.journal_id.inbound_rebate_account_id.id
@@ -381,11 +381,9 @@ class CNABReturnEvent(models.Model):
                 "move_id": move_id.id,
             }
             if self.cnab_return_log_id.type == "inbound":
-                credit_move_line[
-                    "account_id"
-                ] = (
-                    self.journal_id.company_id.account_journal_payment_credit_account_id.id
-                )
+                company_id = self.journal_id.company_id
+                account_id = company_id.account_journal_payment_credit_account_id
+                credit_move_line["account_id"] = account_id.id
                 debit_move_line[
                     "account_id"
                 ] = self.journal_id.inbound_discount_account_id.id
@@ -402,40 +400,40 @@ class CNABReturnEvent(models.Model):
             )
 
     def _create_fees_move_lines(self, move_id):
-        if self.interest_fee_value > 0:
-            move_line_obj = self.env["account.move.line"]
-            credit_move_line = {
-                "name": "Interest and Fees: " + self.your_number,
-                "credit": self.interest_fee_value,
-                "partner_id": self.move_line_ids[0].partner_id.id,
-                "move_id": move_id.id,
-            }
-            debit_move_line = {
-                "name": "Interest and Fees: " + self.your_number,
-                "debit": self.interest_fee_value,
-                "partner_id": self.move_line_ids[0].partner_id.id,
-                "move_id": move_id.id,
-            }
-            if self.cnab_return_log_id.type == "inbound":
-                credit_move_line[
-                    "account_id"
-                ] = self.journal_id.inbound_interest_fee_account_id.id
-                debit_move_line[
-                    "account_id"
-                ] = self.journal_id.company_id.account_journal_payment_debit_account_id
-            else:
-                credit_move_line[
-                    "account_id"
-                ] = (
-                    self.journal_id.company_id.account_journal_payment_credit_account_id.id
-                )
-                debit_move_line[
-                    "account_id"
-                ] = self.journal_id.outbound_interest_fee_account_id.id
+        if self.interest_fee_value <= 0:
+            return  # skip
 
-            move_line_obj.with_context(check_move_validity=False).create(
-                [credit_move_line, debit_move_line]
-            )
+        move_line_obj = self.env["account.move.line"]
+        credit_move_line = {
+            "name": "Interest and Fees: " + self.your_number,
+            "credit": self.interest_fee_value,
+            "partner_id": self.move_line_ids[0].partner_id.id,
+            "move_id": move_id.id,
+        }
+        debit_move_line = {
+            "name": "Interest and Fees: " + self.your_number,
+            "debit": self.interest_fee_value,
+            "partner_id": self.move_line_ids[0].partner_id.id,
+            "move_id": move_id.id,
+        }
+        if self.cnab_return_log_id.type == "inbound":
+            credit_move_line[
+                "account_id"
+            ] = self.journal_id.inbound_interest_fee_account_id.id
+            debit_move_line[
+                "account_id"
+            ] = self.journal_id.company_id.account_journal_payment_debit_account_id
+        else:
+            credit_move_line[
+                "account_id"
+            ] = self.journal_id.company_id.account_journal_payment_credit_account_id.id
+            debit_move_line[
+                "account_id"
+            ] = self.journal_id.outbound_interest_fee_account_id.id
+
+        move_line_obj.with_context(check_move_validity=False).create(
+            [credit_move_line, debit_move_line]
+        )
 
     def create_liq_move(self):
         move_obj = self.env["account.move"]
