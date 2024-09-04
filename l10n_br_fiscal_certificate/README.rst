@@ -28,7 +28,8 @@ A1 fiscal certificate management for Brazil
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Permite gerenciar seus certificados A1 para a assinar e transmitir seus documentos eletrônicos.
+Permite gerenciar seus certificados A1 para a assinar e transmitir seus
+documentos eletrônicos.
 
 **Table of contents**
 
@@ -38,18 +39,18 @@ Permite gerenciar seus certificados A1 para a assinar e transmitir seus document
 Usage
 =====
 
-Abra o menu Configurações>Empresas. Dentro da aba fiscal tem uma nova página "certificados"
-onde você pode fazer o upload dos certificados A1.
+Abra o menu Configurações>Empresas. Dentro da aba fiscal tem uma nova
+página "certificados" onde você pode fazer o upload dos certificados A1.
 
 Changelog
 =========
 
 14.0.1.0.0 (2023)
-~~~~~~~~~~~~~~~~~
+-----------------
 
-Primeira versão do módulo: o código vinha sendo desenvolvido desde a versão 8 mas
-estava integrado dentro módulo l10n_br_fiscal. O código foi extraído para deixar
-o módulo l10n_br_fiscal mais leve.
+Primeira versão do módulo: o código vinha sendo desenvolvido desde a
+versão 8 mas estava integrado dentro módulo l10n_br_fiscal. O código foi
+extraído para deixar o módulo l10n_br_fiscal mais leve.
 
 Bug Tracker
 ===========
@@ -65,24 +66,24 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Akretion <https://www.akretion.com/pt-BR>`_:
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  * Renato Lima <renato.lima@akretion.com.br>
-  * Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
