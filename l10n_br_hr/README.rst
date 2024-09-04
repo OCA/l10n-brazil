@@ -28,22 +28,24 @@ Brazilian Localization HR
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este é o módulo base dos recursos humanos brasileiro e implementa adaptações nos modelos básicos do cadastro de Empregados e suas dependências:
+Este é o módulo base dos recursos humanos brasileiro e implementa
+adaptações nos modelos básicos do cadastro de Empregados e suas
+dependências:
 
-* Campo CPF com formatação e validação desto memso;
-* CPTS com validação;
-* PIS/PASEF;
-* Certificado de serviço militar;
-* Naturalidade;
-* Escolaridade - usar hr_skills;
-* Dependentes - Usar hr_employee_relative;
-* RG;
-* Título de eleitor;
-* Paternidade;
-* Etinia;
-* Tipo sanguíneo;
-* Incapacidade física;
-* Tipo: Funcionário / Autônomo / Terceirizado / Cedido;
+-  Campo CPF com formatação e validação desto memso;
+-  CPTS com validação;
+-  PIS/PASEF;
+-  Certificado de serviço militar;
+-  Naturalidade;
+-  Escolaridade - usar hr_skills;
+-  Dependentes - Usar hr_employee_relative;
+-  RG;
+-  Título de eleitor;
+-  Paternidade;
+-  Etinia;
+-  Tipo sanguíneo;
+-  Incapacidade física;
+-  Tipo: Funcionário / Autônomo / Terceirizado / Cedido;
 
 **Table of contents**
 
@@ -60,6 +62,16 @@ Configuration
 
 Este módulo não requer nenhuma configuração especial.
 
+Usage
+=====
+
+
+
+Known issues / Roadmap
+======================
+
+
+
 Bug Tracker
 ===========
 
@@ -74,24 +86,24 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Rafael Lima
-* Matheus Felix
-* Luis Felipe Mileo <mileo@kmee.com.br>
-* Daniel Sadamo Hirayama <daniel.sadamo@kmee.com.br>
-* Bianca Bartolomei <bianca.bartolomei@kmee.com.br>
-* Hendrix Costa
-* Luis Felipe do Divino
-* Luis Otávio Malta <luis.malta@kmee.com.br>
+-  Rafael Lima
+-  Matheus Felix
+-  Luis Felipe Mileo <mileo@kmee.com.br>
+-  Daniel Sadamo Hirayama <daniel.sadamo@kmee.com.br>
+-  Bianca Bartolomei <bianca.bartolomei@kmee.com.br>
+-  Hendrix Costa
+-  Luis Felipe do Divino
+-  Luis Otávio Malta <luis.malta@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
