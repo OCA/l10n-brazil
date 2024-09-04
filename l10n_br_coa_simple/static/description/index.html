@@ -8,10 +8,11 @@
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
 
 See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
@@ -274,7 +275,7 @@ pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
 
-pre.code .ln { color: grey; } /* line numbers */
+pre.code .ln { color: gray; } /* line numbers */
 pre.code, code { background-color: #eeeeee }
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
@@ -300,7 +301,7 @@ span.option {
 span.pre {
   white-space: pre }
 
-span.problematic {
+span.problematic, pre.problematic {
   color: red }
 
 span.section-subtitle {
@@ -371,20 +372,43 @@ ul.auto-toc {
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_coa_simple"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_coa_simple"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <div class="section" id="plano-de-contas-simplificado-itg-1000">
 <h1>Plano de Contas Simplificado - ITG 1000</h1>
-<p>Este módulo implementa o plano de Contas Simplificado baseado na ITG 1000.</p>
-<p>O Conselho Federal de Contabilidade aprovou, através da Resolução
-CFC nº 1.418/2012, a ITG (Interpretação Técnica Geral) 1000, que institui um Modelo
-Contábil para as Microempresas e Empresas de Pequeno Porte, para escrituração
-contábil simplificada dos seus atos e fatos administrativos</p>
-<p>ITG 1000 Permite Adotar modelo contábil para microempresa e empresa de pequeno porte,
-inclusive optante do simples nacional.</p>
-<p>O Plano de Contas, mesmo que simplificado, deve ser elaborado considerando-se as
-especificidades e natureza das operações realizadas, bem como deve contemplar as
-necessidades de controle de informações no que se refere aos aspectos fiscais e gerenciais.</p>
+<p>Este módulo implementa o plano de Contas Simplificado baseado na ITG
+1000.</p>
+<p>O Conselho Federal de Contabilidade aprovou, através da Resolução CFC nº
+1.418/2012, a ITG (Interpretação Técnica Geral) 1000, que institui um
+Modelo Contábil para as Microempresas e Empresas de Pequeno Porte, para
+escrituração contábil simplificada dos seus atos e fatos administrativos</p>
+<p>ITG 1000 Permite Adotar modelo contábil para microempresa e empresa de
+pequeno porte, inclusive optante do simples nacional.</p>
+<p>O Plano de Contas, mesmo que simplificado, deve ser elaborado
+considerando-se as especificidades e natureza das operações realizadas,
+bem como deve contemplar as necessidades de controle de informações no
+que se refere aos aspectos fiscais e gerenciais.</p>
 <p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-6">Credits</a></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
+</div>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-2">Configuration</a></h2>
+</div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#toc-entry-3">Usage</a></h2>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h2><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h2>
 </div>
 <div class="section" id="bug-tracker">
-<h1>Bug Tracker</h1>
+<h2><a class="toc-backref" href="#toc-entry-5">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -392,24 +416,28 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1>Credits</h1>
+<h2><a class="toc-backref" href="#toc-entry-6">Credits</a></h2>
+</div>
+</div>
 <div class="section" id="authors">
-<h2>Authors</h2>
+<h1>Authors</h1>
 <ul class="simple">
 <li>Akretion</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2>Contributors</h2>
+<h1>Contributors</h1>
 <ul class="simple">
 <li>Renato Lima &lt;<a class="reference external" href="mailto:renato.lima&#64;akretion.com.br">renato.lima&#64;akretion.com.br</a>&gt;</li>
 <li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2>Maintainers</h2>
+<h1>Maintainers</h1>
 <p>This module is maintained by the OCA.</p>
-<a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
@@ -417,7 +445,6 @@ promote its widespread use.</p>
 <p><a class="reference external image-reference" href="https://github.com/renatonlima"><img alt="renatonlima" src="https://github.com/renatonlima.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_coa_simple">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
-</div>
 </div>
 </div>
 </body>
