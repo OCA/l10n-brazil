@@ -28,14 +28,14 @@ Currency Rate Update BR
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este módulo implementa a consulta de cotação de moedas consultando o Banco
-Central do Brasil. Ele estende o currency_rate_update do
+Este módulo implementa a consulta de cotação de moedas consultando o
+Banco Central do Brasil. Ele estende o currency_rate_update do
 repositório OCA/currency e adiciona o provedor BCB:
 
- * **Banco Central do Brasil** (portado por Renato Lima - Akretion):
-   Implementa a consulta diária da cotação do moedas disponibilizada via
-   API pelo banco central, para saber mais acesse o
-   https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios
+   -  **Banco Central do Brasil** (portado por Renato Lima - Akretion):
+      Implementa a consulta diária da cotação do moedas disponibilizada
+      via API pelo banco central, para saber mais acesse o
+      https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios
 
 **Table of contents**
 
@@ -47,24 +47,23 @@ Configuration
 
 Para ativar o agendador para atualizar as cotações de moedas:
 
-# Vá em *Faturamento > Configuração > Configurações*
-# Verifique se a opção *Automatic Currency Rates (OCA)* esta selecionada
+# Vá em *Faturamento > Configuração > Configurações* # Verifique se a
+opção *Automatic Currency Rates (OCA)* esta selecionada
 
 Para configurar os provedores de cotações de moedas:
 
-# Vá em *Faturamento > Configuração > Currency Rates Providers*
-# Crie e configure o provedor BCB (Banco Central do Brasil)
-# Selecione as moedas que deseja atualizar as cotações
+# Vá em *Faturamento > Configuração > Currency Rates Providers* # Crie e
+configure o provedor BCB (Banco Central do Brasil) # Selecione as moedas
+que deseja atualizar as cotações
 
 Usage
 =====
 
 To update historical currency rates:
 
-# Go to *Invoicing > Configuration > Currency Rates Providers*
-# Select specific providers
-# Launch *Actions > Update Rates Wizard*
-# Configure date interval and click *Update*
+# Go to *Invoicing > Configuration > Currency Rates Providers* # Select
+specific providers # Launch *Actions > Update Rates Wizard* # Configure
+date interval and click *Update*
 
 Bug Tracker
 ===========
@@ -80,17 +79,17 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Renato Lima <renato.lima@akretion.com.br>
+-  Renato Lima <renato.lima@akretion.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
