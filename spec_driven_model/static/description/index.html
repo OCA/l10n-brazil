@@ -372,14 +372,29 @@ ul.auto-toc {
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/spec_driven_model"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-spec_driven_model"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <div class="section" id="intro">
 <h1>Intro</h1>
-<p>This module is a databinding framework for Odoo and XML data: it allows to go from XML to Odoo objects back and forth. This module started with the <a class="reference external" href="https://www.davekuhlman.org/generateDS.html">GenerateDS</a>  pure Python databinding framework and is now being migrated to xsdata. So a good starting point is to read <a class="reference external" href="https://xsdata.readthedocs.io/">the xsdata documentation here</a></p>
-<p>But what if instead of only generating Python structures from XML files you could actually generate full blown Odoo objects or serialize Odoo objects back to XML? This is what this module is for!</p>
-<p>First you should generate xsdata Python binding libraries you would generate for your specific XSD grammar, the Brazilian Electronic Invoicing for instance, or UBL.</p>
-<p>Second you should generate Odoo abstract mixins for all these pure Python bindings. This can be achieved using <a class="reference external" href="https://github.com/akretion/xsdata-odoo">xsdata-odoo</a>. An example is OCA/l10n-brazil/l10n_br_nfe_spec for the Brazilian Electronic Invoicing.</p>
+<p>This module is a databinding framework for Odoo and XML data: it allows
+to go from XML to Odoo objects back and forth. This module started with
+the <a class="reference external" href="https://www.davekuhlman.org/generateDS.html">GenerateDS</a> pure
+Python databinding framework and is now being migrated to xsdata. So a
+good starting point is to read <a class="reference external" href="https://xsdata.readthedocs.io/">the xsdata documentation
+here</a></p>
+<p>But what if instead of only generating Python structures from XML files
+you could actually generate full blown Odoo objects or serialize Odoo
+objects back to XML? This is what this module is for!</p>
+<p>First you should generate xsdata Python binding libraries you would
+generate for your specific XSD grammar, the Brazilian Electronic
+Invoicing for instance, or UBL.</p>
+<p>Second you should generate Odoo abstract mixins for all these pure
+Python bindings. This can be achieved using
+<a class="reference external" href="https://github.com/akretion/xsdata-odoo">xsdata-odoo</a>. An example is
+OCA/l10n-brazil/l10n_br_nfe_spec for the Brazilian Electronic Invoicing.</p>
 </div>
 <div class="section" id="specmodel">
 <h1>SpecModel</h1>
-<p>Now that you have generated these Odoo abstract bindings you should tell Odoo how to use them. For instance you may want that your electronic invoice abstract model matches the Odoo <cite>res.partner</cite> object. This is fairly easy, you mostly need to define an override like:</p>
+<p>Now that you have generated these Odoo abstract bindings you should tell
+Odoo how to use them. For instance you may want that your electronic
+invoice abstract model matches the Odoo res.partner object. This is
+fairly easy, you mostly need to define an override like:</p>
 <pre class="literal-block">
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -390,14 +405,39 @@ class ResPartner(spec_models.SpecModel):
         'partner.binding.mixin',
     ]
 </pre>
-<p>Notice you should inherit from <cite>spec_models.SpecModel</cite> and not the usual <cite>models.Model</cite>.</p>
-<p><strong>Field mapping</strong>: You can then define two ways mapping between fields by overriding fields from Odoo or from the binding and using <cite>_compute=</cite> , <cite>_inverse=</cite> or simply <cite>related=</cite>.</p>
-<p><strong>Relational fields</strong>: simple fields are easily mapped this way. However what about relational fields? In your XSD schema, your electronic invoice is related to the <cite>partner.binding.mixin</cite> not to an Odoo <cite>res.partner</cite>. Don’t worry, when <cite>SpecModel</cite> classes are instanciated for all relational fields, we look if their comodel have been injected into some existing Odoo model and if so we remap them to the proper Odoo model.</p>
-<p><strong>Field prefixes</strong>: to avoid field collision between the Odoo fields and the XSD fields, the XSD fields are prefixed with the name of the schema and a few digits representing the schema version (typically 2 digits). So if your schema get a minor version upgrade, the same fields and classes are used. For a major upgrade however new fields and classes may be used so data of several major versions could co-exist inside your Odoo database.</p>
+<p>Notice you should inherit from spec_models.SpecModel and not the usual
+models.Model.</p>
+<p><strong>Field mapping</strong>: You can then define two ways mapping between fields
+by overriding fields from Odoo or from the binding and using _compute=
+, _inverse= or simply related=.</p>
+<p><strong>Relational fields</strong>: simple fields are easily mapped this way. However
+what about relational fields? In your XSD schema, your electronic
+invoice is related to the partner.binding.mixin not to an Odoo
+res.partner. Don’t worry, when SpecModel classes are instanciated for
+all relational fields, we look if their comodel have been injected into
+some existing Odoo model and if so we remap them to the proper Odoo
+model.</p>
+<p><strong>Field prefixes</strong>: to avoid field collision between the Odoo fields and
+the XSD fields, the XSD fields are prefixed with the name of the schema
+and a few digits representing the schema version (typically 2 digits).
+So if your schema get a minor version upgrade, the same fields and
+classes are used. For a major upgrade however new fields and classes may
+be used so data of several major versions could co-exist inside your
+Odoo database.</p>
 </div>
 <div class="section" id="stackedmodel">
 <h1>StackedModel</h1>
-<p>Sadly real life XML is a bit more complex than that. Often XML structures are deeply nested just because it makes it easier for XSD schemas to validate them! for instance an electronic invoice line can be a nested structure with lots of tax details and product details. In a relational model like Odoo however you often want flatter data structures. This is where <cite>StackedModel</cite> comes to the rescue! It inherits from <cite>SpecModel</cite> and when you inherit from <cite>StackedModel</cite> you can inherit from all the generated mixins corresponding to the nested XML tags below some tag (here <cite>invoice.line.binding.mixin</cite>). All the fields corresponding to these XML tag attributes will be collected in your model and the XML parsing and serialization will happen as expected:</p>
+<p>Sadly real life XML is a bit more complex than that. Often XML
+structures are deeply nested just because it makes it easier for XSD
+schemas to validate them! for instance an electronic invoice line can be
+a nested structure with lots of tax details and product details. In a
+relational model like Odoo however you often want flatter data
+structures. This is where StackedModel comes to the rescue! It inherits
+from SpecModel and when you inherit from StackedModel you can inherit
+from all the generated mixins corresponding to the nested XML tags below
+some tag (here invoice.line.binding.mixin). All the fields corresponding
+to these XML tag attributes will be collected in your model and the XML
+parsing and serialization will happen as expected:</p>
 <pre class="literal-block">
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -409,32 +449,54 @@ class InvoiceLine(spec_models.StackedModel):
     ]
     _stacked = 'invoice.line.binding.mixin'
 </pre>
-<p>All many2one fields that are required in the XSD (xsd_required=True) will get their model stacked automatically and recursively. You can force non required many2one fields to be stacked using the <cite>_force_stack_paths</cite> attribute. On the contrary, you can avoid some required many2one fields to be stacked using the <cite>stack_skip</cite> attribute.</p>
+<p>All many2one fields that are required in the XSD (xsd_required=True)
+will get their model stacked automatically and recursively. You can
+force non required many2one fields to be stacked using the
+_force_stack_paths attribute. On the contrary, you can avoid some
+required many2one fields to be stacked using the stack_skip attribute.</p>
 </div>
 <div class="section" id="hooks">
 <h1>Hooks</h1>
-<p>Because XSD schemas can define lot’s of different models, spec_driven_model comes with handy hooks that will automatically make all XSD mixins turn into concrete Odoo model (eg with a table) if you didn’t inject them into existing Odoo models.</p>
+<p>Because XSD schemas can define lot’s of different models,
+spec_driven_model comes with handy hooks that will automatically make
+all XSD mixins turn into concrete Odoo model (eg with a table) if you
+didn’t inject them into existing Odoo models.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a></li>
-<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-2">Known issues / Roadmap</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-3">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-4">Credits</a></li>
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-6">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-7">Credits</a></li>
 </ul>
 </div>
+<div class="section" id="installation">
+<h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
+</div>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-2">Configuration</a></h2>
+</div>
 <div class="section" id="usage">
-<h2><a class="toc-backref" href="#toc-entry-1">Usage</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-3">Usage</a></h2>
 <p>See my detailed OCA Days explanations here:
 <a class="reference external" href="https://www.youtube.com/watch?v=6gFOe7Wh8uA">https://www.youtube.com/watch?v=6gFOe7Wh8uA</a></p>
-<p>You are also encouraged to look at the tests directory which features a full blown example from the famous PurchaseOrder.xsd from Microsoft tutorials.</p>
+<p>You are also encouraged to look at the tests directory which features a
+full blown example from the famous PurchaseOrder.xsd from Microsoft
+tutorials.</p>
 </div>
 <div class="section" id="known-issues-roadmap">
-<h2><a class="toc-backref" href="#toc-entry-2">Known issues / Roadmap</a></h2>
-<p>Migrate from generateDS to xsdata; see the xsdata Pull Requests in the repo.</p>
+<h2><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h2>
+<p>Migrate from generateDS to xsdata; see the xsdata Pull Requests in the
+repo.</p>
+</div>
+<div class="section" id="changelog">
+<h2><a class="toc-backref" href="#toc-entry-5">Changelog</a></h2>
 </div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -442,7 +504,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-4">Credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-7">Credits</a></h2>
 </div>
 </div>
 <div class="section" id="authors">
