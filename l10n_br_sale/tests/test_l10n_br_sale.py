@@ -287,7 +287,7 @@ class L10nBrSaleBaseTest(TransactionCase):
             self.assertEqual(
                 line.cfop_id.code,
                 cfop.code,
-                "Error to mapping CFOP {} for {}.".format(cfop.code, cfop.name),
+                f"Error to mapping CFOP {cfop.code} for {cfop.name}.",
             )
 
             if line.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
@@ -614,7 +614,9 @@ class L10nBrSaleBaseTest(TransactionCase):
                 )
 
     def test_compatible_with_international_case(self):
-        """Test of compatible with international case, create Invoice but not for Brazil."""
+        """
+        Test of compatible with international case, create Invoice but not for Brazil.
+        """
         so_international = self.env.ref("sale.sale_order_2")
         self._run_sale_order_onchanges(so_international)
         for line in so_international.order_line:
