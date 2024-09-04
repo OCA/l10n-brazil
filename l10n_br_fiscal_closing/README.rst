@@ -35,12 +35,34 @@ Este módulo permite a exportação dos documentos fiscais por período.
 .. contents::
    :local:
 
+Installation
+============
+
+
+
+Configuration
+=============
+
+
+
 Usage
 =====
 
-Abra o menu Fiscal>Contador>Fechamento Fiscal e defina as exportações de documentos fiscais por período.
+Abra o menu Fiscal>Contador>Fechamento Fiscal e defina as exportações de
+documentos fiscais por período.
 
-Obs. No caso de documentos emitidos pelos parceiros, os arquivos exportados serão aqueles que estão como anexo do documento fiscal.
+Obs. No caso de documentos emitidos pelos parceiros, os arquivos
+exportados serão aqueles que estão como anexo do documento fiscal.
+
+Known issues / Roadmap
+======================
+
+
+
+Changelog
+=========
+
+
 
 Bug Tracker
 ===========
@@ -56,28 +78,33 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Luis Felipe Mileo <mileo@kmee.com.br>
-  * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
 
-* `Akretion <https://www.akretion.com/pt-BR>`_:
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  * Renato Lima <renato.lima@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
 
-* `Escodoo <https://www.escodoo.com.br>`_:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+
+Other credits
+-------------
+
+
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
