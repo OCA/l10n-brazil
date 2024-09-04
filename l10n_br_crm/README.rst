@@ -28,7 +28,10 @@ Brazilian Localization CRM
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este módulo implementa campos utilizados na localização brasileira como CNPJ, CPF, Inscrição Estadual e campos de endereço no objeto Prospecto e também localiza estes campos na criação de parceiro a partir de um prospecto.
+Este módulo implementa campos utilizados na localização brasileira como
+CNPJ, CPF, Inscrição Estadual e campos de endereço no objeto Prospecto e
+também localiza estes campos na criação de parceiro a partir de um
+prospecto.
 
 **Table of contents**
 
@@ -43,17 +46,22 @@ Este módulo depende do módulo l10n_br_base e crm.
 Configuration
 =============
 
-Após a instalação deste módulo deve ser configurado o endereço da empresa para que os campos de endereço tenha o formato utilizado no brasil.
+Após a instalação deste módulo deve ser configurado o endereço da
+empresa para que os campos de endereço tenha o formato utilizado no
+brasil.
 
 Usage
 =====
 
-Ao acessar um prospecto sera visualizado campos, formatações e validações nos campos CNPJ, CPF, e IE, e a formatação do endereço utilizados no brasil.
+Ao acessar um prospecto sera visualizado campos, formatações e
+validações nos campos CNPJ, CPF, e IE, e a formatação do endereço
+utilizados no brasil.
 
 Known issues / Roadmap
 ======================
 
-* Implementar a formatação do campo de inscrição estadual para cada UF no prospecto.
+-  Implementar a formatação do campo de inscrição estadual para cada UF
+   no prospecto.
 
 Bug Tracker
 ===========
@@ -69,21 +77,20 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-Renato Lima <renato.lima@akretion.com.br>
-Raphaël Valyi <raphael.valyi@akretion.com.br>
-Luis Felipe Mileo <mileo@kmee.com.br>
-Michell Stuttgart <michell.stuttgart@kmee.com.br>
-Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+Renato Lima <renato.lima@akretion.com.br> Raphaël Valyi
+<raphael.valyi@akretion.com.br> Luis Felipe Mileo <mileo@kmee.com.br>
+Michell Stuttgart <michell.stuttgart@kmee.com.br> Marcel Savegnago
+<marcel.savegnago@escodoo.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
