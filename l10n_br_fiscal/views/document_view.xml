@@ -310,6 +310,7 @@
                   <field name="company_name" readonly="1" />
                   <field name="company_cnpj_cpf" readonly="1" />
                   <field name="company_inscr_est" readonly="1" />
+                  <field name="company_inscr_est_st" readonly="1" />
                   <field name="company_street" readonly="1" />
                   <field name="company_number" readonly="1" />
                   <field name="company_street2" readonly="1" />
