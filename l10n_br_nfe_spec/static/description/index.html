@@ -370,14 +370,16 @@ ul.auto-toc {
 !! source digest: sha256:1aa830bbda9f189f81b9943d7cf6a78bde1e0221f463f9649b1e38d549823dd1
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfe_spec"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_nfe_spec"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Este módulo contem a estrutura de dados da Nota Fiscal Electrônica (NF-e).
-Um módulo que usa ele é o módulo <cite>l10n_br_nfe</cite> que permite transmitir as NF-e’s.</p>
+<p>Este módulo contem a estrutura de dados da Nota Fiscal Electrônica
+(NF-e). Um módulo que usa ele é o módulo l10n_br_nfe que permite
+transmitir as NF-e’s.</p>
 <div class="section" id="geracao">
 <h1>Geração</h1>
-<p>O código dos mixins Odoo desse módulo é 100% gerado a partir dos últimos esquemas xsd da Fazenda usando xsdata e essa extensão dele:</p>
+<p>O código dos mixins Odoo desse módulo é 100% gerado a partir dos últimos
+esquemas xsd da Fazenda usando xsdata e essa extensão dele:</p>
 <p><a class="reference external" href="https://github.com/akretion/xsdata-odoo">https://github.com/akretion/xsdata-odoo</a></p>
-<p>Para accessar aos schemas xsd, pode ser mais facil fazer um clone da lib nfelib e gerar
-o codigo dentro da pasta:</p>
+<p>Para accessar aos schemas xsd, pode ser mais facil fazer um clone da lib
+nfelib e gerar o codigo dentro da pasta:</p>
 <pre class="code bash literal-block">
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/akretion/nfelib<span class="w">
 </span><span class="nb">cd</span><span class="w"> </span>nfelib<span class="w">
@@ -388,32 +390,56 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/akret
 </div>
 <div class="section" id="prefixo-dos-campos-e-versao">
 <h1>Prefixo dos campos e versão</h1>
-<p>Com até uns 800 campos fiscais apenas na NF-e, com uma meia dúzia de documentos fiscais complexos,
-com 3000 módulos OCA, existiria um risco real de conflito com os nomes de campos vindo dos esquemas.
-Além disso, temos várias versões da NFe, a 3.1, a 4.0 etc…</p>
-<p>Nisso foi decidido que cada campo tem um prefixo composto do nome do schema
-e de alguns dígitos da versão do esquema. No caso <cite>nfe40_</cite>. A escolha de 2 dígitos permite
-que uma atualização menor do esquema use os mesmos campos (e dados no banco então) e que um simples
-update Odoo (–update=…) consiga resolver a migração. Enquanto que para uma mudança maior
-como de 3.1 para 4.0, seria assumido de usar novos campos e novas tabelas (para os objetos não Odoo)
-e que a lib nfelib iria trabalhar com os campos da versão maior do documento fiscal considerado.</p>
+<p>Com até uns 800 campos fiscais apenas na NF-e, com uma meia dúzia de
+documentos fiscais complexos, com 3000 módulos OCA, existiria um risco
+real de conflito com os nomes de campos vindo dos esquemas. Além disso,
+temos várias versões da NFe, a 3.1, a 4.0 etc…</p>
+<p>Nisso foi decidido que cada campo tem um prefixo composto do nome do
+schema e de alguns dígitos da versão do esquema. No caso nfe40_. A
+escolha de 2 dígitos permite que uma atualização menor do esquema use os
+mesmos campos (e dados no banco então) e que um simples update Odoo
+(–update=…) consiga resolver a migração. Enquanto que para uma
+mudança maior como de 3.1 para 4.0, seria assumido de usar novos campos
+e novas tabelas (para os objetos não Odoo) e que a lib nfelib iria
+trabalhar com os campos da versão maior do documento fiscal considerado.</p>
 </div>
 <div class="section" id="casos-das-tags-de-icms-e-icmssn">
 <h1>Casos das tags de ICMS e ICMSSN</h1>
-<p>Para facilitar a validação das tags de ICMS e ICMSSN, o esquema contem tags especificas para cada tipo desses impostos.
-Porem, Depois no Odoo o modelo é diferente com uma class apenas. Se a gente injectasse todos esses mixins de ICMS e ICMSSN na mesma class Odoo
-a gente teria colisão de campos, com campos com o mesmo nome e seleções diferentes… Para evitar esses problemas, filtramos as classes
-desses tags (usando o export XSDATA_SKIP antes de chamar xsdata generate). De qualquer forma, já que o Odoo e o módulo l10n_br_fiscal tem modelos proprios para os impostos
-temos que assumir que o mapping das tags de impostos nao pode ser tão automatizada.</p>
+<p>Para facilitar a validação das tags de ICMS e ICMSSN, o esquema contem
+tags especificas para cada tipo desses impostos. Porem, Depois no Odoo o
+modelo é diferente com uma class apenas. Se a gente injectasse todos
+esses mixins de ICMS e ICMSSN na mesma class Odoo a gente teria colisão
+de campos, com campos com o mesmo nome e seleções diferentes… Para
+evitar esses problemas, filtramos as classes desses tags (usando o
+export XSDATA_SKIP antes de chamar xsdata generate). De qualquer forma,
+já que o Odoo e o módulo l10n_br_fiscal tem modelos proprios para os
+impostos temos que assumir que o mapping das tags de impostos nao pode
+ser tão automatizada.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a></li>
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-6">Credits</a></li>
 </ul>
 </div>
+<div class="section" id="installation">
+<h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
+</div>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-2">Configuration</a></h2>
+</div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#toc-entry-3">Usage</a></h2>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h2><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h2>
+</div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-5">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -421,7 +447,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-2">Credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">Credits</a></h2>
 </div>
 </div>
 <div class="section" id="authors">
