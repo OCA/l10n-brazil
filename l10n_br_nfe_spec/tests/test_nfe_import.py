@@ -38,7 +38,7 @@ def build_attrs_fake(self, node, create_m2o=False):
         value = getattr(node, fname)
         if value is None:
             continue
-        key = "%s%s" % (
+        key = "{}{}".format(
             self._field_prefix,
             fspec.metadata.get("name", fname),
         )
@@ -67,7 +67,7 @@ def build_attrs_fake(self, node, create_m2o=False):
                 comodel_name = fields[key]["relation"]
             else:
                 clean_type = binding_type.lower()  # TODO double check
-                comodel_name = "%s.%s.%s" % (
+                comodel_name = "{}.{}.{}".format(
                     self._schema_name,
                     self._schema_version.replace(".", "")[0:2],
                     clean_type.split(".")[-1],
@@ -143,27 +143,29 @@ def fields_convert_to_cache(self, value, record, validate=True):
     # cache format: tuple(ids)
     if isinstance(value, BaseModel):
         if validate and value._name != self.comodel_name:
-            raise ValueError("Wrong value for %s: %s" % (self, value))
+            raise ValueError(f"Wrong value for {self}: {value}")
         ids = value._ids
         if record and not record.id:
             # x2many field value of new record is new records
             ids = tuple(it and NewId(it) for it in ids)
         return ids
 
-    elif isinstance(value, (list, tuple)):
+    elif isinstance(value, list | tuple):
         # value is a list/tuple of commands, dicts or record ids
         comodel = record.env[self.comodel_name]
         # if record is new, the field's value is new records
         # THE NEXT LINE WAS PATCHED:
         if record and hasattr(record, "id") and not record.id:
-            browse = lambda it: comodel.browse((it and NewId(it),))
+
+            def browse(it):
+                return comodel.browse((it and NewId(it),))
         else:
             browse = comodel.browse
         # determine the value ids
         ids = OrderedSet(record[self.name]._ids if validate else ())
         # modify ids with the commands
         for command in value:
-            if isinstance(command, (tuple, list)):
+            if isinstance(command, tuple | list):
                 if command[0] == Command.CREATE:
                     # THE NEXT 4 LINES WERE PATCHED:
                     if hasattr(comodel.new(command[2], ref=command[1]), "id"):
@@ -195,7 +197,7 @@ def fields_convert_to_cache(self, value, record, validate=True):
     elif not value:
         return ()
 
-    raise ValueError("Wrong value for %s: %s" % (self, value))
+    raise ValueError(f"Wrong value for {self}: {value}")
 
 
 fields_convert_to_cache._original_method = fields._RelationalMulti.convert_to_cache
@@ -215,7 +217,7 @@ def models_update_cache(self, values, validate=True):
     try:
         field_values = [(fields[name], value) for name, value in values.items()]
     except KeyError as e:
-        raise ValueError("Invalid field %r on model %r" % (e.args[0], self._name))
+        raise ValueError(f"Invalid field {e.args[0]} on model {self._name}") from e
 
     # convert monetary fields after other columns for correct value rounding
     for field, value in sorted(field_values, key=lambda item: item[0].write_sequence):
@@ -232,8 +234,10 @@ def models_update_cache(self, values, validate=True):
                 continue
             for invf in self.pool.field_inverses[field]:
                 # DLE P98: `test_40_new_fields`
-                # /home/dle/src/odoo/master-nochange-fp/odoo/addons/test_new_api/tests/test_new_fields.py
-                # Be careful to not break `test_onchange_taxes_1`, `test_onchange_taxes_2`, `test_onchange_taxes_3`
+                # /home/dle/src/odoo/master-nochange-fp/odoo/addons
+                # /test_new_api/tests/test_new_fields.py
+                # Be careful to not break `test_onchange_taxes_1`,
+                # `test_onchange_taxes_2`, `test_onchange_taxes_3`
                 # If you attempt to find a better solution
                 for inv_rec in inv_recs:
                     if not cache.contains(inv_rec, invf):
