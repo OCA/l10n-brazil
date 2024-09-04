@@ -28,7 +28,8 @@ Brazilian Account Due List
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module creates the financial_move_line_ids field to list the payable or receivable account move line on invoices.
+This module creates the financial_move_line_ids field to list the
+payable or receivable account move line on invoices.
 
 **Table of contents**
 
@@ -40,7 +41,7 @@ Installation
 
 To install this module, you need to:
 
-* do this ...
+-  do this ...
 
 Configuration
 =============
@@ -52,13 +53,27 @@ Usage
 
 In the invoice form view, there will be two tabs:
 
-* Receivable in the case of customer invoices and payable in the case of supplier invoices:
+-  Receivable in the case of customer invoices and payable in the case
+   of supplier invoices:
 
-  .. image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_account_due_list/static/img/l10n_br_account_due_list_receivable.png
+   |image|
 
-* Payments with list of invoice payments:
+-  Payments with list of invoice payments:
 
-  .. image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_account_due_list/static/img/l10n_br_account_due_list_payable.png
+   |image1|
+
+.. |image| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_account_due_list/static/img/l10n_br_account_due_list_receivable.png
+.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_account_due_list/static/img/l10n_br_account_due_list_payable.png
+
+Known issues / Roadmap
+======================
+
+
+
+Changelog
+=========
+
+
 
 Bug Tracker
 ===========
@@ -74,22 +89,22 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `AKRETION <https://akretion.com/pt-BR/>`_:
+-  `AKRETION <https://akretion.com/pt-BR/>`__:
 
-  * Renato Lima <renato.lima@akretion.com.br>
-  * Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-* Antonio Neto <netosjb@yahoo.com.br>
+-  Antonio Neto <netosjb@yahoo.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
