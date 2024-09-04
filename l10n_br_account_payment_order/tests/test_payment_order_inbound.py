@@ -6,12 +6,12 @@
 
 from odoo.exceptions import UserError
 from odoo.fields import Date
-from odoo.tests import SavepointCase, tagged
+from odoo.tests import TransactionCase, tagged
 from odoo.tests.common import Form
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrderInbound(SavepointCase):
+class TestPaymentOrderInbound(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -39,9 +39,6 @@ class TestPaymentOrderInbound(SavepointCase):
         cls.main_company = cls.env.ref("base.main_company")
         cls.journal_cash = cls.env["account.journal"].search(
             [("type", "=", "cash"), ("company_id", "=", cls.main_company.id)], limit=1
-        )
-        cls.payment_method_manual_in = cls.env.ref(
-            "account.account_payment_method_manual_in"
         )
         cls.partner_akretion = cls.env.ref("l10n_br_base.res_partner_akretion")
 
@@ -77,8 +74,8 @@ class TestPaymentOrderInbound(SavepointCase):
             assert (
                 line.own_number
             ), "own_number field is not filled in created Move Line."
-            assert line.instruction_move_code_id, (
-                "instruction_move_code_id field is not filled" " in created Move Line."
+            assert line.mov_instruction_code_id, (
+                "mov_instruction_code_id field is not filled" " in created Move Line."
             )
             # testar com a parcela 700
             if line.debit == 700.0:
@@ -94,8 +91,8 @@ class TestPaymentOrderInbound(SavepointCase):
         for line in payment_order.payment_line_ids:
             assert line.own_number, "own_number field is not filled in Payment Line."
             assert (
-                line.instruction_move_code_id
-            ), "instruction_move_code_id field are not filled in Payment Line."
+                line.mov_instruction_code_id
+            ), "mov_instruction_code_id field are not filled in Payment Line."
 
         # Ordem de Pagto CNAB não pode ser apagada
         with self.assertRaises(UserError):
@@ -116,8 +113,8 @@ class TestPaymentOrderInbound(SavepointCase):
         for line in payment_order.payment_line_ids:
             assert line.own_number, "own_number field is not filled in Payment Line."
             assert (
-                line.instruction_move_code_id
-            ), "instruction_move_code_id field are not filled in Payment Line."
+                line.mov_instruction_code_id
+            ), "mov_instruction_code_id field are not filled in Payment Line."
 
         # Ordem de Pagto CNAB não pode ser Cancelada
         with self.assertRaises(UserError):
@@ -147,7 +144,11 @@ class TestPaymentOrderInbound(SavepointCase):
             {
                 "payment_date": Date.context_today(self.env.user),
                 "journal_id": self.journal_cash.id,
-                "payment_method_id": self.payment_method_manual_in.id,
+                "payment_method_line_id": (
+                    self.journal_cash._get_available_payment_method_lines("inbound")
+                )
+                .filtered(lambda x: x.code == "manual")
+                .id,
             }
         )
 
@@ -185,7 +186,11 @@ class TestPaymentOrderInbound(SavepointCase):
             {
                 "payment_date": Date.context_today(self.env.user),
                 "journal_id": self.journal_cash.id,
-                "payment_method_id": self.payment_method_manual_in.id,
+                "payment_method_line_id": (
+                    self.journal_cash._get_available_payment_method_lines("inbound")
+                    .filtered(lambda x: x.code == "manual")
+                    .id
+                ),
             }
         )
 
@@ -240,9 +245,11 @@ class TestPaymentOrderInbound(SavepointCase):
         payment = self.env["account.payment"].create(
             {
                 "payment_type": "inbound",
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
+                "payment_method_line_id": (
+                    self.journal_cash._get_available_payment_method_lines("inbound")
+                    .filtered(lambda x: x.code == "manual")
+                    .id
+                ),
                 "partner_type": "customer",
                 "partner_id": self.partner_akretion.id,
                 "amount": 100,
@@ -295,7 +302,11 @@ class TestPaymentOrderInbound(SavepointCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
 
         # Perform the partial payment by setting the amount at 300 instead of 500
         payment_register.amount = open_amount
@@ -323,9 +334,9 @@ class TestPaymentOrderInbound(SavepointCase):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "instruction_move_code_id"
+                "mov_instruction_code_id"
             ).ids
-        ), "Payment Order with wrong instruction_move_code_id"
+        ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_payment_inbound_payment_in_cash_twice(self):
         """Pay a invoice in cash, with a payment already registred to in the bank.
@@ -361,7 +372,11 @@ class TestPaymentOrderInbound(SavepointCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
 
         # Perform the partial payment by setting the amount at 300 instead of 1000
         payment_register.amount = 300
@@ -384,8 +399,11 @@ class TestPaymentOrderInbound(SavepointCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
-
+        payment_register.payment_method_line_id = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
         # Perform the partial payment by setting the amount at 700 instead of 500
         payment_register.amount = 700
 
@@ -412,9 +430,9 @@ class TestPaymentOrderInbound(SavepointCase):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "instruction_move_code_id"
+                "mov_instruction_code_id"
             ).ids
-        ), "Payment Order with wrong instruction_move_code_id"
+        ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_payment_inbound_cancel_invoice_alread_registred(self):
         """Cancel the invoice with a payment that is already registred at the bank.
@@ -460,6 +478,6 @@ class TestPaymentOrderInbound(SavepointCase):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "instruction_move_code_id"
+                "mov_instruction_code_id"
             ).ids
-        ), "Payment Order with wrong instruction_move_code_id"
+        ), "Payment Order with wrong mov_instruction_code_id"
