@@ -28,8 +28,9 @@ NFS-e
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este módulo permite a criação da base de Notas Fiscais de Serviço Eletrônicas (NFS-e).
-O documento criado é genérico por isso necessita do módulo do serviço específico de transmissão.
+Este módulo permite a criação da base de Notas Fiscais de Serviço
+Eletrônicas (NFS-e). O documento criado é genérico por isso necessita do
+módulo do serviço específico de transmissão.
 
 **Table of contents**
 
@@ -39,23 +40,33 @@ O documento criado é genérico por isso necessita do módulo do serviço espec�
 Installation
 ============
 
-* Este módulo tem uma depedencia do pacote python erpbrasil.edoc
-* Este módulo tem uma depedencia do pacote python erpbrasil.assinatura
-* Este módulo tem uma depedencia do pacote python erpbrasil.transmissao
-* Este módulo tem uma depedencia do pacote python erpbrasil.base
+-  Este módulo tem uma depedencia do pacote python erpbrasil.edoc
+-  Este módulo tem uma depedencia do pacote python erpbrasil.assinatura
+-  Este módulo tem uma depedencia do pacote python erpbrasil.transmissao
+-  Este módulo tem uma depedencia do pacote python erpbrasil.base
 
 Configuration
 =============
 
-Após a instalação do módulo, deve ser configurado a empresa nos seguintes pontos:
+Após a instalação do módulo, deve ser configurado a empresa nos
+seguintes pontos:
 
-* Na aba Fiscal -> Documentos Eletrônicos: Selecionar no campo Processador de Documentos Eletrônicos o registro erpbrasil.edoc.
-* Na aba Fiscal -> Certificados: Atribuir um certificado correspondente.
+-  Na aba Fiscal -> Documentos Eletrônicos: Selecionar no campo
+   Processador de Documentos Eletrônicos o registro erpbrasil.edoc.
+-  Na aba Fiscal -> Certificados: Atribuir um certificado
+   correspondente.
 
 Usage
 =====
 
-Após o módulo do serviço de transmissão necessário ser instalado, crie um documento do tipo Notas Fiscais de Serviço Eletrônicas (NFS-e) para ser possível confirmá-lo e transmiti-lo.
+Após o módulo do serviço de transmissão necessário ser instalado, crie
+um documento do tipo Notas Fiscais de Serviço Eletrônicas (NFS-e) para
+ser possível confirmá-lo e transmiti-lo.
+
+Known issues / Roadmap
+======================
+
+
 
 Bug Tracker
 ===========
@@ -71,20 +82,20 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Luis Felipe Mileo <mileo@kmee.com.br>
-* Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
-* Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
-* Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+-  Luis Felipe Mileo <mileo@kmee.com.br>
+-  Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+-  Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+-  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
