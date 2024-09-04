@@ -88,14 +88,14 @@ class SpecModel(models.Model):
 
                 cr.execute(
                     "SELECT name FROM ir_module_module "
-                    "WHERE name=%s "
+                    "WHERE name=%(name)s "
                     "AND state in ('to install', 'to upgrade', 'to remove')",
-                    (pool[super_parent]._odoo_module,),
+                    {"name": pool[super_parent]._odoo_module},
                 )
                 if cr.fetchall():
                     setattr(
                         pool,
-                        "_%s_need_hook" % (pool[super_parent]._odoo_module,),
+                        f"_{pool[super_parent]._odoo_module}_need_hook",
                         True,
                     )
 
@@ -192,7 +192,7 @@ class SpecModel(models.Model):
         if not hasattr(models.MetaModel, "mixin_mappings"):
             models.MetaModel.mixin_mappings = {}
         if not quiet:
-            _logger.debug("%s ---> %s" % (key, target))
+            _logger.debug(f"{key} ---> {target}")
         models.MetaModel.mixin_mappings[key] = target
 
     @classmethod
@@ -207,7 +207,8 @@ class SpecModel(models.Model):
         Cache the list of spec_module classes to save calls to
         slow reflection API.
         """
-        spec_module_attr = "_spec_cache_%s" % (spec_module.replace(".", "_"),)
+
+        spec_module_attr = f"_spec_cache_{spec_module.replace('.', '_')}"
         if not hasattr(cls, spec_module_attr):
             setattr(
                 cls, spec_module_attr, getmembers(sys.modules[spec_module], isclass)
@@ -265,7 +266,7 @@ class StackedModel(SpecModel):
     def _build_model(cls, pool, cr):
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            _logger.info("building StackedModel %s %s" % (cls._name, cls))
+            _logger.info(f"building StackedModel {cls._name} {cls}")
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             env = api.Environment(cr, SUPERUSER_ID, {})
             for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
@@ -344,7 +345,7 @@ class StackedModel(SpecModel):
             ):
                 # then we will STACK the child in the current class
                 child._stack_path = path
-                child_path = "%s.%s" % (path, field_path)
+                child_path = f"{path}.{field_path}"
                 cls._stacking_points[name] = env[node._name]._fields.get(name)
                 yield from cls._visit_stack(env, child, child_path)
             else:

@@ -72,11 +72,11 @@ class SpecMixinImport(models.AbstractModel):
         value = getattr(node, attr[0])
         if value is None or value == []:
             return False
-        key = "%s%s" % (
+        key = "{}{}".format(
             self._field_prefix,
             attr[1].metadata.get("name", attr[0]),
         )
-        child_path = "%s.%s" % (path, key)
+        child_path = f"{path}.{key}"
 
         # Is attr a xsd SimpleType or a ComplexType?
         # with xsdata a ComplexType can have a type like:
@@ -121,7 +121,7 @@ class SpecMixinImport(models.AbstractModel):
                 comodel_name = fields[key].comodel_name
             else:
                 clean_type = binding_type.lower()
-                comodel_name = "%s.%s.%s" % (
+                comodel_name = "{}.{}.{}".format(
                     self._schema_name,
                     self._schema_version.replace(".", "")[0:2],
                     clean_type.split(".")[-1],
@@ -210,7 +210,7 @@ class SpecMixinImport(models.AbstractModel):
         fields = model._fields
         for k, v in fields.items():
             # select schema choices for a friendly UI:
-            if k.startswith("%schoice" % (self._field_prefix,)):
+            if k.startswith(f"{self._field_prefix}choice"):
                 for item in v.selection or []:
                     if vals.get(item[0]) not in [None, []]:
                         vals[k] = item[0]
@@ -291,8 +291,8 @@ class SpecMixinImport(models.AbstractModel):
                 if match_ids:
                     if len(match_ids) > 1:
                         _logger.warning(
-                            "!! WARNING more than 1 record found!! model: %s, domain: %s"
-                            % (model, domain)
+                            f"!! WARNING more than 1 record found!! model: {model},"
+                            f" domain:{domain}"
                         )
                     return match_ids[0].id
         return False
