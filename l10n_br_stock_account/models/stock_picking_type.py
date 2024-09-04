@@ -22,5 +22,6 @@ class StockPickingType(models.Model):
         ],
         default="none",
         string="Pré generate Fiscal Document Number",
-        help="Check this box if you want to generate fiscal document for this operation.",
+        help="Check this box if you want to generate fiscal document for this "
+        "operation.",
     )

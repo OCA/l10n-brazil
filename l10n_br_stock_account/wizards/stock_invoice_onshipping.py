@@ -60,7 +60,8 @@ class StockInvoiceOnshipping(models.TransientModel):
                 raise UserError(
                     _(
                         "Invalid Journal! There is not journal defined"
-                        " for this company: %(company)s in fiscal operation: %(operation)s!",
+                        " for this company: %(company)s in fiscal operation:"
+                        " %(operation)s!",
                         company=picking.company_id.name,
                         operation=picking.fiscal_operation_id.name,
                     )
