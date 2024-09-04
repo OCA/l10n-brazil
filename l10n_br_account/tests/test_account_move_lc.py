@@ -125,7 +125,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             icms_regulation_id=cls.env.ref("l10n_br_fiscal.tax_icms_regulation").id,
             cnae_main_id=cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
             document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
-            **kwargs
+            **kwargs,
         )
         res["company"].partner_id.state_id = cls.env.ref("base.state_br_sp").id
         res["company"].partner_id.cnpj_cpf = cnpj
