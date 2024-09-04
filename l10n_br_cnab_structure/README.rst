@@ -28,24 +28,39 @@ CNAB Structure
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds functionality for implementing brazilian banking automation by CNAB file exchange.
+This module adds functionality for implementing brazilian banking
+automation by CNAB file exchange.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Installation
+============
+
+
+
+Configuration
+=============
+
+
+
 Usage
 =====
 
-Configuration and usability:
-https://youtu.be/ljommELunlA
+Configuration and usability: https://youtu.be/ljommELunlA
+
+Known issues / Roadmap
+======================
+
+
 
 Changelog
 =========
 
 14.0.0.0.1 (2022)
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Module creation.
 
@@ -63,30 +78,29 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Engenere
 * Escodoo
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Engenere <https://engenere.one>`_:
+-  `Engenere <https://engenere.one>`__:
 
-  * Antônio S. Pereira Neto <neto@engenere.one>
-  * Felipe Motter Pereira <felipe@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
 The development of this module has been financially supported by:
 
-* Escodoo - https://www.escodoo.com.br
-
-* Engenere - https://engenere.one/
+-  Escodoo - https://www.escodoo.com.br
+-  Engenere - https://engenere.one/
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
