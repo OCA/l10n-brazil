@@ -2,8 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
-from __future__ import division, print_function, unicode_literals
-
 from odoo import fields, models
 
 from ..constants.fiscal import SITUACAO_EDOC

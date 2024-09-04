@@ -26,8 +26,8 @@ class ProductTemplate(models.Model):
     # demo products of type 'product' (this type is added to product.template
     # in the stock module).
     # For some reason when running the tests, some inverse method fields then fail when
-    # reading 'product' value for the product type. It seems it is because l10n_br_fiscal
-    # doesn't depend on stock. But we don't want such a dependency.
+    # reading 'product' value for the product type. It seems it is because
+    # l10n_br_fiscal doesn't depend on stock. But we don't want such a dependency.
     # So a workaround to avoid the bug we add the 'product' value to the selection.
     type = fields.Selection(
         selection_add=[("product", "Storable Product")],

@@ -79,7 +79,7 @@ class DocumentSerie(models.Model):
         return super().create(vals_list)
 
     def name_get(self):
-        return [(r.id, "{}".format(r.name)) for r in self]
+        return [(r.id, f"{r.name}") for r in self]
 
     def _is_invalid_number(self, document_number):
         self.ensure_one()

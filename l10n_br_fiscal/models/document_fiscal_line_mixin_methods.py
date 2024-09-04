@@ -207,7 +207,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         for line in self:
             # Determine if 'CSLL' and 'IRPJ' taxes may apply:
             # 1. When providing services (tax_icms_or_issqn == "issqn")
-            # 2. When supplying products to public entities (partner_is_public_entity is True)
+            # 2. When supplying products to public entities (partner_is_public_entity
+            #  is True)
             if line.tax_icms_or_issqn == "issqn" or line.partner_is_public_entity:
                 line.allow_csll_irpj = True  # Tax charges may apply
             else:
@@ -224,7 +225,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         vals.pop("id", None)
 
         if default:  # in case you want to use new rather than write later
-            return {"default_%s" % (k,): vals[k] for k in vals.keys()}
+            return {f"default_{k}": vals[k] for k in vals.keys()}
         return vals
 
     def _get_all_tax_id_fields(self):
@@ -275,7 +276,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         for line in self:
             taxes_groups = line.fiscal_tax_ids.mapped("tax_domain")
             fiscal_taxes = line.fiscal_tax_ids.filtered(
-                lambda ft: ft.tax_domain not in taxes_groups
+                lambda ft, taxes_groups=taxes_groups: ft.tax_domain not in taxes_groups
             )
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
