@@ -23,7 +23,7 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
     def name_get(self):
         result = []
         for record in self:
-            result.append((record.id, "%s - %s" % (record.code, record.name)))
+            result.append((record.id, f"{record.code} - {record.name}"))
         return result
 
     @api.constrains("code")
