@@ -299,34 +299,31 @@ class AccountMoveLine(models.Model):
                 not changed("amount_currency") or line not in before
             ):
                 if not line.move_id.fiscal_operation_id:
-                    amount_currency = (
-                        line.move_id.direction_sign
-                        * line.currency_id.round(line.price_subtotal)
+                    unsigned_amount_currency = line.currency_id.round(
+                        line.price_subtotal
                     )
                 else:  # BRAZIL CASE:
                     if line.cfop_id and not line.cfop_id.finance_move:
-                        amount_currency = 0
+                        unsigned_amount_currency = 0
                     else:
                         if line.move_id.fiscal_operation_id.deductible_taxes:
-                            amount_currency = (
+                            unsigned_amount_currency = (
                                 line.amount_total + line.amount_tax_withholding
                             )
                         else:
                             amount_total = (
                                 line.amount_total + line.amount_tax_withholding
                             )
-                            amount_currency = (
-                                line.move_id.direction_sign
-                                * line.currency_id.round(
-                                    amount_total
-                                    - (
-                                        line.amount_tax_included
-                                        - line.amount_tax_withholding
-                                    )
-                                    - line.amount_tax_not_included
-                                    - line.icms_relief_value
+                            unsigned_amount_currency = line.currency_id.round(
+                                amount_total
+                                - (
+                                    line.amount_tax_included
+                                    - line.amount_tax_withholding
                                 )
+                                - line.amount_tax_not_included
+                                - line.icms_relief_value
                             )
+                amount_currency = unsigned_amount_currency * line.move_id.direction_sign
                 if line.amount_currency != amount_currency or line not in before:
                     line.amount_currency = amount_currency
                 if line.currency_id == line.company_id.currency_id:
