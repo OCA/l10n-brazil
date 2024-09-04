@@ -370,24 +370,29 @@ ul.auto-toc {
 !! source digest: sha256:f5121a1a0b4d1fbf7e64a3d3b9a192f247dd957ae9bea6523419efc9b1c20a9f
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_sale"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_sale"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Este módulo estende o módulo sale do Odoo para adaptá-lo as necessidades brasileira, com este módulo você tem dados fiscal para faturamento e geração dos documentos fiscais (NF-e, NFS-e, CF-e, NFC-e e etc.), cálculo dos impostos e contribuições brasileiros (municipais, estaduais e federal).</p>
+<p>Este módulo estende o módulo sale do Odoo para adaptá-lo as necessidades
+brasileira, com este módulo você tem dados fiscal para faturamento e
+geração dos documentos fiscais (NF-e, NFS-e, CF-e, NFC-e e etc.),
+cálculo dos impostos e contribuições brasileiros (municipais, estaduais
+e federal).</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
 <li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
 <li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
-<li><a class="reference internal" href="#changelog" id="toc-entry-4">Changelog</a><ul>
-<li><a class="reference internal" href="#section-1" id="toc-entry-5">14.0.1.0.0 (2022-06-03)</a></li>
-<li><a class="reference internal" href="#section-2" id="toc-entry-6">13.0.1.0.0 (2022-01-13)</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-6">14.0.1.0.0 (2022-06-03)</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-7">13.0.1.0.0 (2022-01-13)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-7">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-8">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-9">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-10">Contributors</a></li>
-<li><a class="reference internal" href="#other-credits" id="toc-entry-11">Other credits</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-12">Maintainers</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-8">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-9">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-10">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-11">Contributors</a></li>
+<li><a class="reference internal" href="#other-credits" id="toc-entry-12">Other credits</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-13">Maintainers</a></li>
 </ul>
 </li>
 </ul>
@@ -403,36 +408,40 @@ ul.auto-toc {
 </div>
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
-<p>Este módulo depende do módulo l10n_br_fiscal e l10n_br_account e para funcionar corretamente deve ser previamente configurado parâmetros fiscais e contábeis.</p>
+<p>Este módulo depende do módulo l10n_br_fiscal e l10n_br_account e para
+funcionar corretamente deve ser previamente configurado parâmetros
+fiscais e contábeis.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
-<p>Após configurar a empresa, os dados contábeis e fiscais, ao criar um pedido de venda será, será possível visualizar os dados fiscais e contábeis:</p>
-<div class="figure">
-<img alt="Pedido de Venda" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_sale/static/description/sale_order_1.png" style="width: 600px;" />
+<p>Após configurar a empresa, os dados contábeis e fiscais, ao criar um
+pedido de venda será, será possível visualizar os dados fiscais e
+contábeis:</p>
+<p><img alt="image1" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_sale/static/description/sale_order_1.png" /></p>
+<p>Ao adicionar um produto ou serviço será exibido os detalhes dos
+impostos:</p>
+<p><img alt="image2" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_sale/static/description/sale_order_2.png" /></p>
 </div>
-<p>Ao adicionar um produto ou serviço será exibido os detalhes dos impostos:</p>
-<div class="figure">
-<img alt="Adicionando um produto ou serviço no pedido de venda" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_sale/static/description/sale_order_2.png" style="width: 600px;" />
-</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
 </div>
 <div class="section" id="changelog">
-<h1><a class="toc-backref" href="#toc-entry-4">Changelog</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-5">Changelog</a></h1>
 <div class="section" id="section-1">
-<h2><a class="toc-backref" href="#toc-entry-5">14.0.1.0.0 (2022-06-03)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">14.0.1.0.0 (2022-06-03)</a></h2>
 <ul class="simple">
 <li>[MIG] Migração para a versão 14.</li>
 </ul>
 </div>
 <div class="section" id="section-2">
-<h2><a class="toc-backref" href="#toc-entry-6">13.0.1.0.0 (2022-01-13)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-7">13.0.1.0.0 (2022-01-13)</a></h2>
 <ul class="simple">
 <li>[MIG] Migração para a versão 13.</li>
 </ul>
 </div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-7">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-8">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -440,15 +449,15 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-8">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-9">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-9">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-10">Authors</a></h2>
 <ul class="simple">
 <li>Akretion</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-10">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-11">Contributors</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="https://akretion.com/pt-BR/">AKRETION</a>:<ul>
 <li>Raphaël Valyi &lt;<a class="reference external" href="mailto:raphael.valyi&#64;akretion.com.br">raphael.valyi&#64;akretion.com.br</a>&gt;</li>
@@ -472,14 +481,14 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="other-credits">
-<h2><a class="toc-backref" href="#toc-entry-11">Other credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-12">Other credits</a></h2>
 <p>The development of this module has been financially supported by:</p>
 <ul class="simple">
-<li>AKRETION LTDA - www.akretion.com</li>
+<li>AKRETION LTDA - <a class="reference external" href="http://www.akretion.com">www.akretion.com</a></li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-12">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-13">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
