@@ -141,7 +141,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             self.assertEqual(inv_line.quantity, 4)
             # Price Unit e Fiscal Price devem ser positivos
             price_unit_mv_line = picking.move_ids.filtered(
-                lambda mv: mv.product_id == inv_line.product_id
+                lambda mv, inv_line=inv_line: mv.product_id == inv_line.product_id
             ).mapped("price_unit")[0]
             self.assertEqual(
                 inv_line.price_unit,
@@ -157,7 +157,8 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             #  isso não acontece no caso da empresa de Lucro Presumido
             #  ou quando é feito o teste apenas instalando os modulos
             #  l10n_br_account e em seguida o l10n_br_stock_account
-            # self.assertTrue(inv_line.tax_ids, "Error to map Sale Tax in invoice.line.")
+            # self.assertTrue(inv_line.tax_ids,
+            # "Error to map Sale Tax in invoice.line.")
 
         # Now test behaviour if the invoice is delete
         invoice.unlink()
@@ -319,7 +320,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             assert line.ind_final, "Error field ind_final in Invoice Line not None"
             # Verifica se o campo tax_ids da Fatura esta igual ao da Separação
             mv_line = picking.move_ids.filtered(
-                lambda ln: ln.product_id == line.product_id
+                lambda ln, line=line: ln.product_id == line.product_id
                 and ln.fiscal_operation_id == line.fiscal_operation_id
             )
             self.assertEqual(
@@ -467,7 +468,9 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         )
 
     def test_compatible_with_international_case(self):
-        """Test of compatible with international case, create Invoice but not for Brazil."""
+        """
+        Test of compatible with international case, create Invoice but not for Brazil.
+        """
         picking = self.env.ref("stock_picking_invoicing.stock_picking_invoicing_2")
         self._run_fiscal_onchanges(picking)
         # Force product availability
