@@ -128,10 +128,10 @@ class FiscalDocument(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         """
-        It's not allowed to create a fiscal document line without a document_type_id anyway.
-        But instead of letting Odoo crash in this case we simply avoid creating the
-        record. This makes it possible to create an account.move without
-        a fiscal_document_id despite the _inherits system:
+        It's not allowed to create a fiscal document line without a document_type_id
+        anyway. But instead of letting Odoo crash in this case we simply avoid creating
+        the record. This makes it possible to create an account.move without a
+        fiscal_document_id despite the _inherits system:
         Odoo will write NULL as the value in this case.
         """
         if self._context.get("create_from_move"):
@@ -174,14 +174,14 @@ class FiscalDocument(models.Model):
 
     def _document_cancel(self, justificative):
         result = super()._document_cancel(justificative)
-        msg = "Cancelamento: {}".format(justificative)
+        msg = f"Cancelamento: {justificative}"
         self.cancel_move_ids()
         self.message_post(body=msg)
         return result
 
     def _document_correction(self, justificative):
         result = super()._document_correction(justificative)
-        msg = "Carta de correção: {}".format(justificative)
+        msg = f"Carta de correção: {justificative}"
         self.message_post(body=msg)
         return result
 

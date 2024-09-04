@@ -28,8 +28,8 @@ Brazilian Localization Account
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module was written to extend the functionality of ... to support ...
-and allow you to ...
+This module was written to extend the functionality of ... to support
+... and allow you to ...
 
 **Table of contents**
 
@@ -41,21 +41,31 @@ Installation
 
 To install this module, you need to:
 
-* do this ...
+-  do this ...
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-* go to ...
+-  go to ...
 
 Usage
 =====
 
 To use this module, you need to:
 
-* go to ...
+-  go to ...
+
+Known issues / Roadmap
+======================
+
+
+
+Changelog
+=========
+
+
 
 Bug Tracker
 ===========
@@ -71,33 +81,33 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Akretion <https://akretion.com/pt-BR>`_:
+-  `Akretion <https://akretion.com/pt-BR>`__:
 
-  * Renato Lima <renato.lima@akretion.com.br>
-  * Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
 
-* `Escodoo <https://www.escodoo.com.br>`_:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-* `Engenere <https://engenere.one>`_:
+-  `Engenere <https://engenere.one>`__:
 
-  * Antônio S. Pereira Neto <neto@engenere.one>
-  * Felipe Motter Pereira <felipe@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
