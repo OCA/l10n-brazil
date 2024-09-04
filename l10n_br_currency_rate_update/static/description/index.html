@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -9,10 +8,11 @@
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
 
 See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
@@ -275,7 +275,7 @@ pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
 
-pre.code .ln { color: grey; } /* line numbers */
+pre.code .ln { color: gray; } /* line numbers */
 pre.code, code { background-color: #eeeeee }
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
@@ -301,7 +301,7 @@ span.option {
 span.pre {
   white-space: pre }
 
-span.problematic {
+span.problematic, pre.problematic {
   color: red }
 
 span.section-subtitle {
@@ -370,14 +370,14 @@ ul.auto-toc {
 !! source digest: sha256:32b0245a2a6c18357bb53d121f39ce63c6d887bc1ec22a891f39d2c8b5c592aa
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_currency_rate_update"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_currency_rate_update"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Este módulo implementa a consulta de cotação de moedas consultando o Banco
-Central do Brasil. Ele estende o currency_rate_update do
+<p>Este módulo implementa a consulta de cotação de moedas consultando o
+Banco Central do Brasil. Ele estende o currency_rate_update do
 repositório OCA/currency e adiciona o provedor BCB:</p>
 <blockquote>
 <ul class="simple">
 <li><strong>Banco Central do Brasil</strong> (portado por Renato Lima - Akretion):
-Implementa a consulta diária da cotação do moedas disponibilizada via
-API pelo banco central, para saber mais acesse o
+Implementa a consulta diária da cotação do moedas disponibilizada
+via API pelo banco central, para saber mais acesse o
 <a class="reference external" href="https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios">https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios</a></li>
 </ul>
 </blockquote>
@@ -398,20 +398,19 @@ API pelo banco central, para saber mais acesse o
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
 <p>Para ativar o agendador para atualizar as cotações de moedas:</p>
-<p># Vá em <em>Faturamento &gt; Configuração &gt; Configurações</em>
-# Verifique se a opção <em>Automatic Currency Rates (OCA)</em> esta selecionada</p>
+<p># Vá em <em>Faturamento &gt; Configuração &gt; Configurações</em> # Verifique se a
+opção <em>Automatic Currency Rates (OCA)</em> esta selecionada</p>
 <p>Para configurar os provedores de cotações de moedas:</p>
-<p># Vá em <em>Faturamento &gt; Configuração &gt; Currency Rates Providers</em>
-# Crie e configure o provedor BCB (Banco Central do Brasil)
-# Selecione as moedas que deseja atualizar as cotações</p>
+<p># Vá em <em>Faturamento &gt; Configuração &gt; Currency Rates Providers</em> # Crie e
+configure o provedor BCB (Banco Central do Brasil) # Selecione as moedas
+que deseja atualizar as cotações</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
 <p>To update historical currency rates:</p>
-<p># Go to <em>Invoicing &gt; Configuration &gt; Currency Rates Providers</em>
-# Select specific providers
-# Launch <em>Actions &gt; Update Rates Wizard</em>
-# Configure date interval and click <em>Update</em></p>
+<p># Go to <em>Invoicing &gt; Configuration &gt; Currency Rates Providers</em> # Select
+specific providers # Launch <em>Actions &gt; Update Rates Wizard</em> # Configure
+date interval and click <em>Update</em></p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h1>
@@ -438,7 +437,9 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <div class="section" id="maintainers">
 <h2><a class="toc-backref" href="#toc-entry-7">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
-<a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
