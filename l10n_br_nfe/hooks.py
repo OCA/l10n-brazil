@@ -46,4 +46,4 @@ def post_init_hook(cr, registry):
             )
             _logger.info(nfe.nfe40_emit.nfe40_CNPJ)
         except ValidationError:
-            _logger.info("NF-e already %s imported by hooks" % (document_number,))
+            _logger.info(f"NF-e already {document_number} imported by hooks")

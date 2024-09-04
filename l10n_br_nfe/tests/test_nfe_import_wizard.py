@@ -13,7 +13,7 @@ from ..wizards.import_document import NfeImport
 
 class NFeImportWizardTest(TransactionCase):
     def setUp(self):
-        super(NFeImportWizardTest, self).setUp()
+        super().setUp()
 
         def test_xml_path(filename):
             return os.path.join(
