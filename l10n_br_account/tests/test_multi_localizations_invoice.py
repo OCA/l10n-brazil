@@ -9,7 +9,7 @@ from odoo.tests.suite import OdooSuite
 _logger = logging.getLogger(__name__)
 
 
-# flake8: noqa: B950  - line too long
+# ruff: noqa: E501 - line too long
 def addTest(self, test):
     """
     This monkey patch is required to avoid triggering all the tests from
@@ -93,17 +93,19 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_line_onchange_partner_1(self):
         return super().test_out_invoice_line_onchange_partner_1()
 
+        # FIXME
         #    def test_force_out_invoice_line_onchange_taxes_1(self):
         # return super().test_out_invoice_line_onchange_taxes_1()
 
     def test_force_out_invoice_line_onchange_rounding_price_subtotal_1(self):
         return super().test_out_invoice_line_onchange_rounding_price_subtotal_1()
 
-        # def test_force_out_invoice_line_onchange_rounding_price_subtotal_2(self):
-        # return super().test_out_invoice_line_onchange_rounding_price_subtotal_2()
-
-        #    def test_force_out_invoice_line_onchange_taxes_2_price_unit_tax_included(self):
-        # return super().test_out_invoice_line_onchange_taxes_2_price_unit_tax_included()
+    # FIXME
+    # def test_force_out_invoice_line_onchange_rounding_price_subtotal_2(self):
+    # return super().test_out_invoice_line_onchange_rounding_price_subtotal_2()
+    # FIXME
+    # def test_force_out_invoice_line_onchange_taxes_2_price_unit_tax_included(self):
+    # return super().test_out_invoice_line_onchange_taxes_2_price_unit_tax_included()
 
     def test_force_out_invoice_line_onchange_analytic(self):
         return super().test_out_invoice_line_onchange_analytic()
@@ -117,13 +119,13 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_line_onchange_currency_1(self):
         return super().test_out_invoice_line_onchange_currency_1()
 
-    #    def test_force_out_invoice_line_tax_fixed_price_include_free_product(self):
-    #        FIXME
-    #        return super().test_out_invoice_line_tax_fixed_price_include_free_product()
+    # def test_force_out_invoice_line_tax_fixed_price_include_free_product(self):
+    # FIXME
+    # return super().test_out_invoice_line_tax_fixed_price_include_free_product()
 
-    #    def test_force_out_invoice_line_taxes_fixed_price_include_free_product(self):
-    #        FIXME
-    #        return super().test_out_invoice_line_taxes_fixed_price_include_free_product()
+    # def test_force_out_invoice_line_taxes_fixed_price_include_free_product(self):
+    # FIXME
+    # return super().test_out_invoice_line_taxes_fixed_price_include_free_product()
 
     def test_force_out_invoice_create_refund(self):
         return super().test_out_invoice_create_refund()

@@ -289,7 +289,8 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         document_number=None,
     ):
         """
-        We could not override the super one because we need to inject extra BR fiscal fields.
+        We could not override the super one because we need to inject extra BR fiscal
+        fields.
         """
         products = [] if products is None else products
         amounts = [] if amounts is None else amounts
@@ -364,11 +365,8 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         Utility method to help debugging
         """
         lines = cls.sort_lines(lines.sorted())
-        log = "LINE %s %s %s %s %s" % (
-            index,
-            lines[index].name,
-            lines[index].debit,
-            lines[index].credit,
-            lines[index].account_id.name,
+        log = (
+            f"LINE {index} {lines[index].name} {lines[index].debit}"
+            f" {lines[index].credit} {lines[index].account_id.name}"
         )
         return log
