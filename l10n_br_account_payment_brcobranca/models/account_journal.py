@@ -232,14 +232,17 @@ class AccountJournal(models.Model):
                 raise
             except Exception as e:
                 error_type, error_value, trbk = sys.exc_info()
-                st = "Error: %s\nDescription: %s\nTraceback:" % (
-                    error_type.__name__,
-                    error_value,
+                st = (
+                    f"Error: {error_type.__name__}\n"
+                    f"Description: {error_value}\nTraceback:"
                 )
                 st += "".join(traceback.format_tb(trbk, 30))
                 raise ValidationError(
-                    _("Statement import error " "The statement cannot be created: %s")
-                    % st
+                    _(
+                        "Statement import error "
+                        "The statement cannot be created: %(st)s",
+                        st=st,
+                    )
                 ) from e
 
         return moves
