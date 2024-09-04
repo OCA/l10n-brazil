@@ -33,7 +33,7 @@ class SpecMixinExport(models.AbstractModel):
         for c in set(classes):
             if c is None:
                 continue
-            if not c.startswith("%s." % (self._schema_name,)):
+            if not c.startswith(f"{self._schema_name}."):
                 continue
             # the following filter to fields to show
             # when several XSD class are injected in the same object
@@ -150,7 +150,7 @@ class SpecMixinExport(models.AbstractModel):
             return self._export_float_monetary(
                 xsd_field, xsd_type, class_obj, xsd_required, export_value
             )
-        elif type(self[xsd_field]) is str:
+        elif isinstance(self[xsd_field], str):
             return self[xsd_field].strip()
         else:
             return self[xsd_field]
@@ -188,7 +188,7 @@ class SpecMixinExport(models.AbstractModel):
             tdec = "".join(filter(lambda x: x.isdigit(), xsd_type))[-2:]
         else:
             tdec = ""
-        my_format = "%.{}f".format(tdec)
+        my_format = f"%.{tdec}f"
         return str(my_format % field_data)
 
     def _export_date(self, field_name):
