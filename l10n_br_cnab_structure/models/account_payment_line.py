@@ -23,7 +23,8 @@ class AccountPaymentLine(models.Model):
 
     cnab_beneficiary_name = fields.Char(
         compute="_compute_cnab_beneficiary_name",
-        help="Name of the beneficiary (Nome do Favorecido) that will be informed in the CNAB.",
+        help="Name of the beneficiary (Nome do Favorecido) that will be informed"
+        " in the CNAB.",
     )
 
     cnab_pix_transfer_type_id = fields.Many2one(
@@ -85,7 +86,8 @@ class AccountPaymentLine(models.Model):
             mode = bline.order_id.payment_mode_id
             cnab_structure = bline.order_id.cnab_structure_id
             result = mode.cnab_payment_way_ids.filtered(
-                lambda a: a.cnab_structure_id == cnab_structure
+                lambda a, cnab_structure=cnab_structure: a.cnab_structure_id
+                == cnab_structure
             )
             if not result:
                 raise UserError(

@@ -60,7 +60,7 @@ class CNABPreviewWizard(models.TransientModel):
         return {
             "name": "CNAB",
             "type": "ir.actions.act_url",
-            "url": f"/web/content/?model=cnab.preview.wizard&id={self.id}&field=cnab_file"
-            "&filename_field=cnab_file_name&download=true",
+            "url": f"/web/content/?model=cnab.preview.wizard&id={self.id}"
+            "&field=cnab_file&filename_field=cnab_file_name&download=true",
             "target": "self",
         }

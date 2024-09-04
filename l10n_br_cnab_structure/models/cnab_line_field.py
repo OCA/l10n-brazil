@@ -85,7 +85,8 @@ class CNABField(models.Model):
         comodel_name="ir.model", related="cnab_line_id.content_source_model_id"
     )
     content_source_field = fields.Char(
-        help="Inform the field with the origin of the content, expressed with dot notation.",
+        help="Inform the field with the origin of the content, expressed with"
+        " dot notation.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -99,17 +100,18 @@ class CNABField(models.Model):
 
     sending_dynamic_content = fields.Char(
         help="Expression in Python to define the final value of the content,"
-        "you can use the following predefined words: \n\n"
-        "'content' returns the value of the mapped content source field. \n"
-        "'time' class to handle date. \n"
-        "'seq_batch' returns the batch sequence. \n"
-        "'seq_record_detail' returns the sequence for detail record in the batch. \n"
-        "'payment_way_code' return the batch payment way \n"
-        "'patment_type_code' return the batch payment type \n"
-        "'qty_batches' returns the number of batches \n"
-        "'qty_records' returns the number of records \n"
+        "you can use the following predefined words:\n\n"
+        "'content' returns the value of the mapped content source field.\n"
+        "'time' class to handle date.\n"
+        "'seq_batch' returns the batch sequence.\n"
+        "'seq_record_detail' returns the sequence for detail record in the batch.\n"
+        "'payment_way_code' return the batch payment way\n"
+        "'patment_type_code' return the batch payment type\n"
+        "'qty_batches' returns the number of batches\n"
+        "'qty_records' returns the number of records\n"
         "'batch_detail_lines' returns a list of batch detail records."
-        "'segment_code' returns the code of the segment defined in the header of the line.",
+        "'segment_code' returns the code of the segment defined in the header"
+        " of the line.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -119,7 +121,8 @@ class CNABField(models.Model):
     )
     content_dest_field = fields.Char(
         string="Content Destination Field",
-        help="Inform the field with the origin of the content, expressed with dot notation.",
+        help="Inform the field with the origin of the content, expressed with"
+        " dot notation.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -266,7 +269,7 @@ class CNABField(models.Model):
         if self.start_pos > self.end_pos:
             raise UserError(
                 _(
-                    f"{self.name} in {self.cnab_line_id}: Start position is greater than end"
-                    " position."
+                    f"{self.name} in {self.cnab_line_id}: Start position is greater"
+                    " than end position."
                 )
             )
