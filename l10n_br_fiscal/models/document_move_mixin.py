@@ -145,6 +145,10 @@ class DocumentMoveMixin(models.AbstractModel):
         related="company_id.inscr_est",
     )
 
+    company_inscr_est_st = fields.Char(
+        string="Company ST State Tax Number",
+    )
+
     company_inscr_mun = fields.Char(
         string="Company Municipal Tax Number",
         related="company_id.inscr_mun",
