@@ -242,7 +242,7 @@ class Event(models.Model):
             if not os.path.exists(save_dir):
                 os.makedirs(save_dir)
             f = open(file_path, "w")
-        except IOError as e:
+        except OSError as e:
             raise UserError(
                 _("Erro!"),
                 _(

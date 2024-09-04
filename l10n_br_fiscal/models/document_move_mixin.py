@@ -247,7 +247,9 @@ class DocumentMoveMixin(models.AbstractModel):
                         {
                             "source_document_id": self.id,
                             "subsequent_operation_id": subsequent_id.id,
-                            "fiscal_operation_id": subsequent_id.subsequent_operation_id.id,
+                            "fiscal_operation_id": (
+                                subsequent_id.subsequent_operation_id.id
+                            ),
                         },
                     )
                 )

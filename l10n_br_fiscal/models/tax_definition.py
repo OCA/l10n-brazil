@@ -20,11 +20,7 @@ class TaxDefinition(models.Model):
     _description = "Tax Definition"
 
     def _get_complete_name(self):
-        return "{tax_group}-{tax}-{cst_code}".format(
-            tax_group=self.tax_group_id.name,
-            tax=self.tax_id.name,
-            cst_code=self.cst_code,
-        )
+        return f"{self.tax_group_id.name}-{self.tax_id.name}-{self.cst_code}"
 
     @api.depends("tax_group_id", "tax_id", "cst_code")
     def _compute_display_name(self):
