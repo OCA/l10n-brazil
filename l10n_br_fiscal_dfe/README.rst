@@ -49,21 +49,21 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Luis Felipe Miléo <mileo@kmee.com.br>
-  * Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
-  * Felipe Zago <felipe.zago@kmee.com.br>
+   -  Luis Felipe Miléo <mileo@kmee.com.br>
+   -  Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
+   -  Felipe Zago <felipe.zago@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
