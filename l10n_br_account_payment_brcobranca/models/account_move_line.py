@@ -101,15 +101,15 @@ class AccountMoveLine(models.Model):
                     move_line.debit
                     * ((move_line.payment_mode_id.boleto_interest_perc / 100) / 30),
                 )
-                instrucao_juros = (
-                    "APÓS VENCIMENTO COBRAR PERCENTUAL"
-                    + " DE %s %% AO MÊS ( R$ %s AO DIA )"
-                    % (
-                        (
-                            "%.2f" % move_line.payment_mode_id.boleto_interest_perc
-                        ).replace(".", ","),
-                        ("%.2f" % valor_juros).replace(".", ","),
+                percentual_formatado = (
+                    f"{move_line.payment_mode_id.boleto_interest_perc:.2f}".replace(
+                        ".", ","
                     )
+                )
+                juros_formatado = f"{valor_juros:.2f}".replace(".", ",")
+                instrucao_juros = (
+                    f"APÓS VENCIMENTO COBRAR PERCENTUAL DE {percentual_formatado}%"
+                    f" AO MÊS (R${juros_formatado} AO DIA)"
                 )
                 boleto_cnab_api_data.update(
                     {
@@ -122,15 +122,13 @@ class AccountMoveLine(models.Model):
                 valor_multa = move_line.currency_id.round(
                     move_line.debit * (move_line.payment_mode_id.boleto_fee_perc / 100),
                 )
+                percentual_formatado = (
+                    f"{move_line.payment_mode_id.boleto_fee_perc:.2f}".replace(".", ",")
+                )
+                multa_formatado = f"{valor_multa:.2f}".replace(".", ",")
                 instrucao_multa = (
-                    "APÓS VENCIMENTO COBRAR MULTA"
-                    + " DE %s %% ( R$ %s )"
-                    % (
-                        ("%.2f" % move_line.payment_mode_id.boleto_fee_perc).replace(
-                            ".", ","
-                        ),
-                        ("%.2f" % valor_multa).replace(".", ","),
-                    )
+                    f"APÓS VENCIMENTO COBRAR MULTA DE {percentual_formatado}%"
+                    f" (R${multa_formatado})"
                 )
                 boleto_cnab_api_data.update(
                     {
@@ -143,14 +141,15 @@ class AccountMoveLine(models.Model):
                 valor_desconto = move_line.currency_id.round(
                     move_line.debit * (move_line.boleto_discount_perc / 100),
                 )
+                percentual_formatado = f"{move_line.boleto_discount_perc:.2f}".replace(
+                    ".", ","
+                )
+                desconto_formatado = f"{valor_desconto:.2f}".replace(".", ",")
+                vencimento_formatado = move_line.date_maturity.strftime("%d/%m/%Y")
                 instrucao_desconto_vencimento = (
-                    "CONCEDER DESCONTO DE" + " %s %% "
-                    "ATÉ O VENCIMENTO EM %s ( R$ %s )"
-                    % (
-                        ("%.2f" % move_line.boleto_discount_perc).replace(".", ","),
-                        move_line.date_maturity.strftime("%d/%m/%Y"),
-                        ("%.2f" % valor_desconto).replace(".", ","),
-                    )
+                    f"CONCEDER DESCONTO DE {percentual_formatado}% "
+                    f"ATÉ O VENCIMENTO EM {vencimento_formatado} "
+                    f"(R${desconto_formatado})"
                 )
                 boleto_cnab_api_data.update(
                     {
