@@ -16,64 +16,62 @@ def set_stock_warehouse_external_ids(env, company_external_id):
 
     data_list = [
         {
-            "xml_id": "l10n_br_stock.wh_{}".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}",
             "record": warehouse,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_loc_stock_id".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_loc_stock_id",
             "record": warehouse.lot_stock_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_view_location".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_view_location",
             "record": warehouse.view_location_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_input_location".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_input_location",
             "record": warehouse.wh_input_stock_loc_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_quality_control_location".format(
-                external_id
-            ),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_quality_control_location",
             "record": warehouse.wh_qc_stock_loc_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_pack_location".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_pack_location",
             "record": warehouse.wh_pack_stock_loc_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_output_location".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_output_location",
             "record": warehouse.wh_pack_stock_loc_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_picking_type_in".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_picking_type_in",
             "record": warehouse.in_type_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_picking_type_internal".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_picking_type_internal",
             "record": warehouse.int_type_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_pick_type_internal".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_pick_type_internal",
             "record": warehouse.pick_type_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_pack_type_internal".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_pack_type_internal",
             "record": warehouse.pack_type_id,
             "noupdate": True,
         },
         {
-            "xml_id": "l10n_br_stock.wh_{}_picking_type_out".format(external_id),
+            "xml_id": f"l10n_br_stock.wh_{external_id}_picking_type_out",
             "record": warehouse.out_type_id,
             "noupdate": True,
         },
