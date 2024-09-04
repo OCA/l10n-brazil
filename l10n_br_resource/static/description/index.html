@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -9,10 +8,11 @@
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
 
 See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
@@ -275,7 +275,7 @@ pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
 
-pre.code .ln { color: grey; } /* line numbers */
+pre.code .ln { color: gray; } /* line numbers */
 pre.code, code { background-color: #eeeeee }
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
@@ -301,7 +301,7 @@ span.option {
 span.pre {
   white-space: pre }
 
-span.problematic {
+span.problematic, pre.problematic {
   color: red }
 
 span.section-subtitle {
@@ -370,7 +370,9 @@ ul.auto-toc {
 !! source digest: sha256:706327dd04628413bd3c5e66212ff2a8d9c8ecea8b786628d55529e888a6c283
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_resource"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_resource"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>This module extends the core resource module to add data for Brazil. It defines a Brazilian calendar and some tools to compute dates used in financial and payroll modules.</p>
+<p>This module extends the core resource module to add data for Brazil. It
+defines a Brazilian calendar and some tools to compute dates used in
+financial and payroll modules.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -401,7 +403,9 @@ ul.auto-toc {
 </div>
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
-<p>Após a instalação do módulo acesse Configurações &gt; Técnico &gt; Recursos &gt; Importar calendário brasileiro. Definir um intervalo, selecionando o seu tipo e intervalo para que o calendário seja carregado.</p>
+<p>Após a instalação do módulo acesse Configurações &gt; Técnico &gt; Recursos &gt;
+Importar calendário brasileiro. Definir um intervalo, selecionando o seu
+tipo e intervalo para que o calendário seja carregado.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
@@ -413,14 +417,15 @@ ul.auto-toc {
 </div>
 <div class="section" id="known-issues-roadmap">
 <h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
-<dl class="docutils">
-<dt>[ Enumerate known caveats and future potential improvements.</dt>
-<dd>It is mostly intended for end-users, and can also help
-potential new contributors discovering new features to implement. ]</dd>
-</dl>
+<div class="line-block">
+<div class="line">[ Enumerate known caveats and future potential improvements.</div>
+<div class="line">It is mostly intended for end-users, and can also help potential new
+contributors discovering new features to implement. ]</div>
+</div>
 <ol class="arabic simple">
 <li>Remove pybrasil from dependencies;</li>
-<li>Review parent_id many2one field to handle better relation with Odoo core;</li>
+<li>Review parent_id many2one field to handle better relation with Odoo
+core;</li>
 </ol>
 </div>
 <div class="section" id="changelog">
@@ -467,7 +472,9 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <div class="section" id="maintainers">
 <h2><a class="toc-backref" href="#toc-entry-12">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
-<a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
