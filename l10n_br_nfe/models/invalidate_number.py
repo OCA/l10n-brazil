@@ -5,7 +5,8 @@ from datetime import datetime
 
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
+from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
+from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 
 from odoo import fields, models

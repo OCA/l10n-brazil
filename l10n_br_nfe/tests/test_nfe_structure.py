@@ -41,15 +41,17 @@ class NFeStructure(TransactionCase):
             path_items = path.split(".")
             indent = "    ".join(["" for i in range(0, len(path_items))])
             if kind == "stacked":
-                line = "\n%s> <%s>" % (indent, path.split(".")[-1])
+                line = "\n{}> <{}>".format(indent, path.split(".")[-1])
             elif kind == "one2many":
-                line = "\n%s    \u2261 <%s> %s" % (
+                line = "\n{}    \u2261 <{}> {}".format(
                     indent,
                     field_path,
                     child_concrete or "",
                 )
             elif kind == "many2one":
-                line = "\n%s    - <%s> %s" % (indent, field_path, child_concrete or "")
+                line = "\n{}    - <{}> {}".format(
+                    indent, field_path, child_concrete or ""
+                )
             tree.write(line.rstrip())
         tree_txt = tree.getvalue()
         # print(tree_txt)
