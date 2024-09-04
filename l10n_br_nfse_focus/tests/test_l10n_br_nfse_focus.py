@@ -176,7 +176,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertEqual(result, True)  # Asserting filter result is True
 
         record.processador_edoc = None  # Resetting document processor
-        record.document_type_id.code = MODELO_FISCAL_NFE  # Setting document type to NFe
+        # Setting document type to NFe
+        record.document_type_id.code = MODELO_FISCAL_NFE
 
         result = filter_processador_edoc_nfse(record)  # Applying filter again
 
@@ -216,7 +217,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
     @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.request")
     def test_make_focus_nfse_http_request_generic(self, mock_request):
-        """Tests generic HTTP request for Focus NFSe operations with mocked responses."""
+        """
+        Tests generic HTTP request for Focus NFSe operations with mocked responses.
+        """
         # Configuring mock to simulate different HTTP responses based on the method
         mock_request.side_effect = (
             lambda method, url, data, params, auth: mock_response_based_on_method(
@@ -334,7 +337,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertEqual(
             record.file_report_id.res_model, record._name
         )  # Asserting model name
-        self.assertEqual(record.file_report_id.res_id, record.id)  # Asserting record ID
+        # Asserting record ID
+        self.assertEqual(record.file_report_id.res_id, record.id)
         self.assertEqual(
             record.file_report_id.mimetype, "application/pdf"
         )  # Asserting MIME type
@@ -351,7 +355,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         # Testing with non-filtered conditions
         record.processador_edoc = ""
-        record.document_type_id.code = MODELO_FISCAL_NFE  # Setting document type to NFe
+        # Setting document type to NFe
+        record.document_type_id.code = MODELO_FISCAL_NFE
 
         with open(pdf_path, "rb") as file:
             content = file.read()  # Reading PDF content again
@@ -361,7 +366,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         ) as mock_super_make_pdf:
             record.make_focus_nfse_pdf(content)  # Attempting to generate PDF
 
-        mock_super_make_pdf.assert_called_once()  # Asserting superclass method called once
+        # Asserting superclass method called once
+        mock_super_make_pdf.assert_called_once()
 
     def test_serialize(self):
         """Tests serialization of document data."""
@@ -437,7 +443,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
     )
     def test_cancel_document_focus_with_error(self, mock_request):
         """Tests document cancellation with simulated error."""
-        # Configuring mock to raise a UserError in response to a simulated HTTP 400 error
+        # Configuring mock to raise a UserError in response to a simulated
+        # HTTP 400 error
         mock_request.side_effect = UserError(
             "Error communicating with NFSe service: 400 Bad Request"
         )
@@ -531,7 +538,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             "after processing with status 500",
         )
 
-        # Checking if the processing method was called three times, once for each test scenario
+        # Checking if the processing method was called three times,
+        # once for each test scenario
         self.assertEqual(
             mock_process_focus_nfse_document.call_count,
             3,
@@ -550,7 +558,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
                 "odoo.addons.l10n_br_nfse_focus.models.document.Document.filtered"
             ) as mock_filtered:
                 with patch(
-                    "odoo.addons.l10n_br_nfse_focus.models.document.Document._document_status"
+                    "odoo.addons.l10n_br_nfse_focus.models.document."
+                    "Document._document_status"
                 ) as mock_document_status:
                     mock_search.return_value = record  # Mocking search return
                     mock_filtered.return_value = record  # Mocking filtered return
@@ -561,7 +570,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
                     mock_search.assert_called_once_with(
                         [("state", "in", ["enviada"])], limit=25
                     )  # Asserting search criteria
-                    mock_document_status.assert_called_once()  # Asserting document status check
+                    # Asserting document status check
+                    mock_document_status.assert_called_once()
 
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.document.Document.cancel_document_focus"
@@ -575,7 +585,8 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         result = record._exec_before_SITUACAO_EDOC_CANCELADA(
             SITUACAO_EDOC_EM_DIGITACAO, SITUACAO_EDOC_A_ENVIAR
         )  # Executing before status change
-        mock_cancel_document_focus.assert_called_once()  # Asserting cancellation was attempted
+        # Asserting cancellation was attempted
+        mock_cancel_document_focus.assert_called_once()
         self.assertEqual(
             result, mock_cancel_document_focus.return_value
         )  # Asserting expected result
