@@ -233,7 +233,7 @@ class NfeImport(models.TransientModel):
     def _attach_original_nfe_xml_to_document(self, edoc):
         return self.env["ir.attachment"].create(
             {
-                "name": "NFe-Importada-{}.xml".format(edoc.document_key),
+                "name": f"NFe-Importada-{edoc.document_key}.xml",
                 "datas": base64.b64decode(self.file),
                 "description": "XML NFe - Importada por XML",
                 "res_model": "l10n_br_fiscal.document",

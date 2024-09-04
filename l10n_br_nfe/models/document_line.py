@@ -38,7 +38,7 @@ ICMS_SUB_TAGS = [
     "ICMSSN900",
 ]
 
-ICMS_SELECTION = list(map(lambda tag: ("nfe40_%s" % (tag,), tag), ICMS_SUB_TAGS))
+ICMS_SELECTION = list(map(lambda tag: (f"nfe40_{tag}", tag), ICMS_SUB_TAGS))
 
 PIS_SUB_TAGS = [
     "PISAliq",
@@ -47,7 +47,7 @@ PIS_SUB_TAGS = [
     "PISOutr",
 ]
 
-PIS_SELECTION = list(map(lambda tag: ("nfe40_%s" % (tag,), tag), PIS_SUB_TAGS))
+PIS_SELECTION = list(map(lambda tag: (f"nfe40_{tag}", tag), PIS_SUB_TAGS))
 
 COFINS_SUB_TAGS = [
     "COFINSAliq",
@@ -56,7 +56,7 @@ COFINS_SUB_TAGS = [
     "COFINSOutr",
 ]
 
-COFINS_SELECTION = list(map(lambda tag: ("nfe40_%s" % (tag,), tag), COFINS_SUB_TAGS))
+COFINS_SELECTION = list(map(lambda tag: (f"nfe40_{tag}", tag), COFINS_SUB_TAGS))
 
 
 class NFeLine(spec_models.StackedModel):
@@ -1200,27 +1200,21 @@ class NFeLine(spec_models.StackedModel):
         # common attributes CST, VBC, p*, v*:
         cst = map_binding_attr("CST")
         if cst:
-            cst_id = self.env.ref(
-                "l10n_br_fiscal.cst_%s_%s"
-                % (
-                    kind,
-                    cst,
-                )
-            ).id
-            odoo_attrs["%s_cst_id" % (kind,)] = cst_id
+            cst_id = self.env.ref(f"l10n_br_fiscal.cst_{kind}_{cst}").id
+            odoo_attrs[f"{kind}_cst_id"] = cst_id
         else:
             cst_id = None
 
-        map_binding_attr("vBC", "%s_base" % (kind,))
+        map_binding_attr("vBC", f"{kind}_base")
 
         percent = map_binding_attr(
-            "p%s" % (kind.upper().replace("ST", ""),), "%s_percent" % (kind,)
+            f"p{kind.upper().replace('ST', '')}", f"{kind}_percent"
         )
         if kind in ("icms", "icmsufdest"):
             map_binding_attr("modBC", "icms_base_type")
             icms_percent_red = map_binding_attr("pRedBC", "icms_reduction")
         else:
-            map_binding_attr("modBC", "%s_base_type" % (kind,))
+            map_binding_attr("modBC", f"{kind}_base_type")
             icms_percent_red = None
 
         if "ICMSSN" in key:
@@ -1231,15 +1225,13 @@ class NFeLine(spec_models.StackedModel):
             tax_group_kind = "icms"
         else:
             tax_group_kind = kind
-        tax_group_id = self.env.ref(
-            "l10n_br_fiscal.tax_group_%s" % (tax_group_kind,)
-        ).id
+        tax_group_id = self.env.ref(f"l10n_br_fiscal.tax_group_{tax_group_kind}").id
         tax_domain = [("tax_group_id", "=", tax_group_id)]
         if percent:
             tax_domain.append(("percent_amount", "=", percent))
         tax_domain_with_cst = None
         if cst_id:
-            cst_kind = "cst_%s_id" % (self.env.context.get("edoc_type", "in"),)
+            cst_kind = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
             tax_domain_with_cst = tax_domain + [(cst_kind, "=", cst_id)]
 
         fiscal_tax_id = None
@@ -1267,24 +1259,24 @@ class NFeLine(spec_models.StackedModel):
                 )
 
         if fiscal_tax_id:
-            odoo_attrs["%s_tax_id" % (kind,)] = fiscal_tax_id.id
+            odoo_attrs[f"{kind}_tax_id"] = fiscal_tax_id.id
             if not odoo_attrs.get("fiscal_tax_ids"):
                 odoo_attrs["fiscal_tax_ids"] = []
             odoo_attrs["fiscal_tax_ids"].append(fiscal_tax_id.id)
-        elif not odoo_attrs.get("%s_tax_id" % (kind,)):
-            nt_tax_ref = "l10n_br_fiscal.tax_%s_nt" % (kind,)
+        elif not odoo_attrs.get(f"{kind}_tax_id"):
+            nt_tax_ref = f"l10n_br_fiscal.tax_{kind}_nt"
             nt_tax = self.env.ref(nt_tax_ref, raise_if_not_found=False)
             if nt_tax:  # NOTE, can it be isento or something else?
-                odoo_attrs["%s_tax_id" % (kind,)] = nt_tax.id
+                odoo_attrs[f"{kind}_tax_id"] = nt_tax.id
 
-        map_binding_attr("v%s" % (kind.upper(),), "%s_value" % (kind,))
+        map_binding_attr(f"v{kind.upper()}", f"{kind}_value")
 
         if kind in ("icms", "icmsufdest"):
             map_binding_attr("orig", "icms_origin")
             mot_des_icms = map_binding_attr("motDesICMS")
             if mot_des_icms:
                 odoo_attrs["icms_relief_id"] = self.env.ref(
-                    "l10n_br_fiscal.icms_relief_%s" % (mot_des_icms,)
+                    f"l10n_br_fiscal.icms_relief_{mot_des_icms}"
                 ).id
             map_binding_attr("vICMSDeson", "icms_relief_value")
             map_binding_attr("vICMSSubstituto", "icms_substitute")
@@ -1325,7 +1317,7 @@ class NFeLine(spec_models.StackedModel):
             csosn = map_binding_attr("CSOSN")
             if csosn:
                 odoo_attrs["icms_cst_id"] = self.env.ref(
-                    "l10n_br_fiscal.cst_icmssn_%s" % (csosn,)
+                    f"l10n_br_fiscal.cst_icmssn_{csosn}"
                 ).id
             map_binding_attr("pCredSN", "icmssn_percent")
             map_binding_attr("vCredICMSSN", "icmssn_credit_value")
