@@ -89,16 +89,16 @@ class Comment(models.Model):
     def name_get(self):
         def truncate_name(name):
             if len(name) > 60:
-                name = "{}...".format(name[:60])
+                name = f"{name[:60]}..."
             return name
 
-        return [(r.id, "{}".format(truncate_name(r.name))) for r in self]
+        return [(r.id, f"{truncate_name(r.name)}") for r in self]
 
     # format_amount function for fiscal observation
     # This way we can format numbers in currency template on fiscal observation
     # msg We'll call this function when setting the variables env below
     def format_amount(self, env, amount, currency):
-        fmt = "%.{}f".format(currency.decimal_places)
+        fmt = f"%.{currency.decimal_places}f"
         lang = env.ref("base.lang_pt_BR")
 
         formatted_amount = (
@@ -113,7 +113,7 @@ class Comment(models.Model):
         else:
             post = "\N{NO-BREAK SPACE}" + "{}".format(currency.symbol or "")
 
-        return "{pre}{0}{post}".format(formatted_amount, pre=pre, post=post)
+        return f"{pre}{formatted_amount}{post}"
 
     def compute_message(self, vals, manual_comment=None):
         if not self.ids and not manual_comment:
