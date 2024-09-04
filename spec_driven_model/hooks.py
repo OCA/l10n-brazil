@@ -90,7 +90,7 @@ def register_hook(env, module_name, spec_module, force=False):
     Odoo models and we make them concrete automatically with
     their _auto_init method that will create their SQL DDL structure.
     """
-    load_key = "_%s_loaded" % (spec_module,)
+    load_key = f"_{spec_module}_loaded"
     if hasattr(env.registry, load_key) and not force:  # already done for registry
         return
     setattr(env.registry, load_key, True)
@@ -150,7 +150,7 @@ def register_hook(env, module_name, spec_module, force=False):
         ],
         access_data,
     )
-    hook_key = "_%s_need_hook" % (module_name,)
+    hook_key = f"_{module_name}_need_hook"
     if hasattr(env.registry, hook_key) and getattr(env.registry, hook_key):
         env.registry.init_models(env.cr, remaining_models, {"module": module_name})
         setattr(env.registry, hook_key, False)
