@@ -5,7 +5,7 @@ from odoo.tests import common
 
 class TestResourceCalendar(common.TransactionCase):
     def setUp(self):
-        super(TestResourceCalendar, self).setUp()
+        super().setUp()
         self.calendar = self.env["resource.calendar"].create({"name": "Test Calendar"})
 
         self.env["resource.calendar.leaves"].create(
@@ -19,7 +19,6 @@ class TestResourceCalendar(common.TransactionCase):
         )
 
     def test_data_eh_feriado(self):
-
         holiday_date = datetime(2023, 12, 25)
         result = self.calendar.data_eh_feriado(holiday_date)
         expected_result = True
@@ -78,7 +77,6 @@ class TestResourceCalendar(common.TransactionCase):
         self.calendar.data_eh_feriado_bancario(False)
 
     def test_data_eh_feriado_emendado(self):
-
         reference_data = datetime(2023, 9, 7, 15, 0, 0)
         expected_result = False
 
