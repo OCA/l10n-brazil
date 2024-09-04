@@ -43,7 +43,6 @@ class AccountChartTemplate(models.Model):
         if self.parent_id and self.parent_id == self.env.ref(
             "l10n_br_coa.l10n_br_coa_template"
         ):
-
             # for some reason, account_ref keys can be either account ids
             # either account records. In order to match them later we ensure
             # here keys are ids:

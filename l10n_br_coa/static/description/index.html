@@ -8,10 +8,11 @@
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
 
 See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
@@ -274,7 +275,7 @@ pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
 
-pre.code .ln { color: grey; } /* line numbers */
+pre.code .ln { color: gray; } /* line numbers */
 pre.code, code { background-color: #eeeeee }
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
@@ -300,7 +301,7 @@ span.option {
 span.pre {
   white-space: pre }
 
-span.problematic {
+span.problematic, pre.problematic {
   color: red }
 
 span.section-subtitle {
@@ -372,35 +373,83 @@ ul.auto-toc {
 <p>Este módulo é comum entre os planos de contas da localização brasileira.</p>
 <div class="section" id="heranca">
 <h1>Herança</h1>
-<p>Assim como na localização espanhola (<a class="reference external" href="https://github.com/OCA/l10n-spain">https://github.com/OCA/l10n-spain</a>) que já permitia carregar vários planos de contas, este módulo define um plano de conta básico que é depois estendido pelos planos de contas específicos (ITG 1000, empresas do regime normais de determinados setores…). Isso permite mutualizar um pouco a configuração entre os planos, especialmente para carregar o plano customizado de uma determinada empresa. Por exemplo, no repositório da localização este&nbsp;módulo é herdado por 2 módulos:</p>
+<p>Assim como na localização espanhola (<a class="reference external" href="https://github.com/OCA/l10n-spain">https://github.com/OCA/l10n-spain</a>)
+que já permitia carregar vários planos de contas, este módulo define um
+plano de conta básico que é depois estendido pelos planos de contas
+específicos (ITG 1000, empresas do regime normais de determinados
+setores…). Isso permite mutualizar um pouco a configuração entre os
+planos, especialmente para carregar o plano customizado de uma
+determinada empresa. Por exemplo, no repositório da localização
+este&nbsp;módulo é herdado por 2 módulos:</p>
 <pre class="code text literal-block">
-                l10n_br_coa
-                /         \
+l10n_br_coa
+/         \
 l10n_br_coa_simples     l10n_br_coa_generic
 </pre>
-<p>Em particular, definir aqui os tipos de contas usados na DRE e no Balanço Patrimonial (módulo ´´l10n_br_mis_report´´) facilita a adaptação desses relatorios para esses diversos planos de contas.</p>
+<p>Em particular, definir aqui os tipos de contas usados na DRE e no
+Balanço Patrimonial (módulo ´´l10n_br_mis_report´´) facilita a adaptação
+desses relatorios para esses diversos planos de contas.</p>
 </div>
 <div class="section" id="contas-contabeis">
 <h1>Contas contábeis</h1>
-<p>Uma outra característica é que ao contrário do que acontece na Europa, o primeiro mercado que foi alvejado pelo Odoo, no Brasil tem muitas alíquotas, pelo menos para as empresas do regime normal. Sendo assim, não é bem viável ter um objeto <tt class="docutils literal">account.tax</tt> para cada alíquota como o Odoo nativo espera (fazíamos isso até a versão 10.0 mas era muito trabalhoso para manter). Em vez disso temos tabelas específicas para armazenar todas as alíquotas no módulo <tt class="docutils literal">l10n_br_fiscal</tt> e temos registros <tt class="docutils literal">account.tax</tt> apenas para alíquotas de cada família. O módulo <tt class="docutils literal">l10n_br_account</tt> faz a ligação entre o <tt class="docutils literal">account.tax</tt> do Odoo e os registros <tt class="docutils literal">l10n_br_fiscal.tax</tt> para cada alíquota da localização. Vale a pena notar que nos EUA o Odoo também não usa um registro <tt class="docutils literal">account.tax</tt> por alíquota, em vez disso eles geralmente usam conectores e serviços (como AvaTax) para pegar as alíquotas de uma determinada operação.</p>
-<p>Neste caso a configuração contábil não podia ser carregada nem pelo <tt class="docutils literal">account.tax</tt> nem pelo <tt class="docutils literal">l10n_br_fiscal.tax</tt> (já que o módulo <tt class="docutils literal">l10n_br_fiscal</tt> não depende do módulo <tt class="docutils literal">account</tt>). Então estendemos o objeto <tt class="docutils literal">account.tax.group</tt> para carregar as informações&nbsp;contábeis, inclusive das taxas dedutíveis.</p>
+<p>Uma outra característica é que ao contrário do que acontece na Europa, o
+primeiro mercado que foi alvejado pelo Odoo, no Brasil tem muitas
+alíquotas, pelo menos para as empresas do regime normal. Sendo assim,
+não é bem viável ter um objeto <tt class="docutils literal">account.tax</tt> para cada alíquota como o
+Odoo nativo espera (fazíamos isso até a versão 10.0 mas era muito
+trabalhoso para manter). Em vez disso temos tabelas específicas para
+armazenar todas as alíquotas no módulo <tt class="docutils literal">l10n_br_fiscal</tt> e temos
+registros <tt class="docutils literal">account.tax</tt> apenas para alíquotas de cada família. O
+módulo <tt class="docutils literal">l10n_br_account</tt> faz a ligação entre o <tt class="docutils literal">account.tax</tt> do Odoo
+e os registros <tt class="docutils literal">l10n_br_fiscal.tax</tt> para cada alíquota da localização.
+Vale a pena notar que nos EUA o Odoo também não usa um registro
+<tt class="docutils literal">account.tax</tt> por alíquota, em vez disso eles geralmente usam
+conectores e serviços (como AvaTax) para pegar as alíquotas de uma
+determinada operação.</p>
+<p>Neste caso a configuração contábil não podia ser carregada nem pelo
+<tt class="docutils literal">account.tax</tt> nem pelo <tt class="docutils literal">l10n_br_fiscal.tax</tt> (já que o módulo
+<tt class="docutils literal">l10n_br_fiscal</tt> não depende do módulo <tt class="docutils literal">account</tt>). Então estendemos
+o objeto <tt class="docutils literal">account.tax.group</tt> para carregar as informações&nbsp;contábeis,
+inclusive das taxas dedutíveis.</p>
 </div>
 <div class="section" id="taxas-dedutiveis">
 <h1>Taxas dedutíveis</h1>
-<p>No Odoo nativo, uma taxa é considerada dedutível (como por exemplo uma compra em outro outro país Europeu) se o registro <tt class="docutils literal">account.tax</tt> tem uma alíquota negativa. Porém já que como falamos aqui é preferível de não gerenciar um <tt class="docutils literal">account.tax</tt> por alíquota. Por isso temos um flag adicional no <tt class="docutils literal">account.tax</tt> e <tt class="docutils literal">account.tax.template</tt> através do <tt class="docutils literal">account.tax.mixin</tt> para saber se é uma taxa dedutível.</p>
+<p>No Odoo nativo, uma taxa é considerada dedutível (como por exemplo uma
+compra em outro outro país Europeu) se o registro <tt class="docutils literal">account.tax</tt> tem
+uma alíquota negativa. Porém já que como falamos aqui é preferível de
+não gerenciar um <tt class="docutils literal">account.tax</tt> por alíquota. Por isso temos um flag
+adicional no <tt class="docutils literal">account.tax</tt> e <tt class="docutils literal">account.tax.template</tt> através do
+<tt class="docutils literal">account.tax.mixin</tt> para saber se é uma taxa dedutível.</p>
 </div>
 <div class="section" id="template">
 <h1>Template</h1>
-<p>Foi ainda necessário sobrescrever a função que instancia um plano de contas a partir de um template para propagar essas informações.</p>
+<p>Foi ainda necessário sobrescrever a função que instancia um plano de
+contas a partir de um template para propagar essas informações.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a></li>
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-6">Credits</a></li>
 </ul>
 </div>
+<div class="section" id="installation">
+<h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
+</div>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-2">Configuration</a></h2>
+</div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#toc-entry-3">Usage</a></h2>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h2><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h2>
+</div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-5">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -408,7 +457,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-2">Credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">Credits</a></h2>
 </div>
 </div>
 <div class="section" id="authors">
@@ -428,7 +477,9 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <div class="section" id="maintainers">
 <h1>Maintainers</h1>
 <p>This module is maintained by the OCA.</p>
-<a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
