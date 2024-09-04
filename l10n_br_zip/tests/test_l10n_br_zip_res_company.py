@@ -12,7 +12,7 @@ _provider_class = _module_ns + ".models.l10n_br_zip" + ".L10nBrZip"
 
 class L10nBRZipTest(TransactionCase):
     def setUp(self):
-        super(L10nBRZipTest, self).setUp()
+        super().setUp()
 
         self.zip_obj = self.env["l10n_br.zip"]
         self.zip_1 = self.zip_obj.create(

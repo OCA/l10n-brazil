@@ -28,13 +28,18 @@ Brazilian Localisation ZIP Codes
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Permite consultar o endereço através do CEP e preencher o campos do endereço com as informações consultadas, esse módulo também permite utilizar os seguintes serviços para consulta de CEP:
+Permite consultar o endereço através do CEP e preencher o campos do
+endereço com as informações consultadas, esse módulo também permite
+utilizar os seguintes serviços para consulta de CEP:
 
-* [API CEP](https://apicep.com/api-de-consulta/)
-* [Via CEP](https://viacep.com.br/)
-* [Correios](http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCepEndereco.cfm)
+-  [API CEP](https://apicep.com/api-de-consulta/)
+-  [Via CEP](https://viacep.com.br/)
+-  [Correios](http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCepEndereco.cfm)
 
-Para otimizar as buscas este módulo salva o resultado das consultas de cep na tabela l10n_br_zip, por padrão a cada 365 dias o registro de cep na tabela é atualizado em uma nova consulta de cep nos cadastros do Odoo.
+Para otimizar as buscas este módulo salva o resultado das consultas de
+cep na tabela l10n_br_zip, por padrão a cada 365 dias o registro de cep
+na tabela é atualizado em uma nova consulta de cep nos cadastros do
+Odoo.
 
 **Table of contents**
 
@@ -44,64 +49,71 @@ Para otimizar as buscas este módulo salva o resultado das consultas de cep na t
 Installation
 ============
 
-Este módulo depende do l10n_br_base e da biblioteca BrazilCEP ( https://github.com/mstuttgart/brazilcep  ).
+Este módulo depende do l10n_br_base e da biblioteca BrazilCEP (
+https://github.com/mstuttgart/brazilcep ).
 
 Configuration
 =============
 
-Nas configurações gerais no grupo de  **Localização Brasileira** pode ser habilitada ou desabilitada a busca de CEP
+Nas configurações gerais no grupo de **Localização Brasileira** pode ser
+habilitada ou desabilitada a busca de CEP
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_zip/static/description/l10n_br_zip_1.png
-    :alt: Configuração de busca de CEP
-    :width: 600 px
+|image1|
 
 Ao habilitar a busca de CEP existe as configurações:
 
-* Provedor de Busca de CEP;
-* Periodo para um registro na l10n_br_zip ser atualizado em uma nova consulta.
+-  Provedor de Busca de CEP;
+-  Periodo para um registro na l10n_br_zip ser atualizado em uma nova
+   consulta.
+
+.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_zip/static/description/l10n_br_zip_1.png
 
 Usage
 =====
 
-Nos endereços de parceiro, empresa e prospectos será exibido ao lado do campo CEP um botão para pesquisa de CEP.
+Nos endereços de parceiro, empresa e prospectos será exibido ao lado do
+campo CEP um botão para pesquisa de CEP.
+
+Known issues / Roadmap
+======================
+
+
 
 Changelog
 =========
 
 16.0.2.0.0 (2023-06-29)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-  * Biblioteca PyCEP-Correios foi renomeada para BrazilCEP.
-
+   -  Biblioteca PyCEP-Correios foi renomeada para BrazilCEP.
 
 16.0.1.0.0 (2022-10-25)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-  * Migração para 16.0
-
+   -  Migração para 16.0
 
 15.0.1.0.0 (2022-10-25)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-  * Migração para 15.0
-
+   -  Migração para 15.0
 
 14.0.1.0.0 (2022-10-25)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-  * Migração para 14.0
+   -  Migração para 14.0
 
 12.0.3.0.0 (2021-01-08)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-  * Atualizada a biblioteca pycep-correios para a versão 5.0.0
-  * [ADD] Adicionado a opção para selecionar o provedor do serviço de busca de CEP.
-
+   -  Atualizada a biblioteca pycep-correios para a versão 5.0.0
+   -  [ADD] Adicionado a opção para selecionar o provedor do serviço de
+      busca de CEP.
 
 12.0.2.0.0 (2019-06-17)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
- * [REF] Incluida pesquisa e dependência da biblioteca PyCEP-Correios.
+   -  [REF] Incluida pesquisa e dependência da biblioteca
+      PyCEP-Correios.
 
 Bug Tracker
 ===========
@@ -117,19 +129,19 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Renato Lima <rento.lima@akretion.com.br>
-* Magno Costa <magno.costa@akretion.com.br>
-* Hendrix Costa <hendrix.costa@kmee.com.br>
+-  Renato Lima <rento.lima@akretion.com.br>
+-  Magno Costa <magno.costa@akretion.com.br>
+-  Hendrix Costa <hendrix.costa@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
