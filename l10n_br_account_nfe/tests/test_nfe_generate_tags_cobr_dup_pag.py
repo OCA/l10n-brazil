@@ -82,53 +82,18 @@ class TestGeneratePaymentInfo(TransactionCase):
         cls.fiscal_operation_id.deductible_taxes = True
 
         move_form = Form(
-            cls.env["account.move"]
-            .with_company(cls.company)
-            .with_context(default_move_type="out_invoice")
+            cls.env["account.move"].with_context(default_move_type="out_invoice")
         )
         move_form.partner_id = cls.env.ref("l10n_br_base.res_partner_cliente1_sp")
         move_form.document_type_id = cls.env.ref("l10n_br_fiscal.document_55")
         move_form.fiscal_operation_id = cls.fiscal_operation_id
-        invoice_vals = move_form._values_to_save(all_fields=True)
-        invoice_vals.update(
-            {
-                "company_id": cls.company.id,
-                "currency_id": cls.company.currency_id.id,
-                "payment_mode_id": cls.payment_mode.id,
-                "document_serie_id": cls.env.ref(
-                    "l10n_br_fiscal.empresa_lc_document_55_serie_1"
-                ).id,
-                "journal_id": cls.invoice_journal.id,
-                "invoice_payment_term_id": cls.payment_term.id,
-                "invoice_origin": "Teste l10n_br_account_nfe",
-                "invoice_user_id": cls.env.user.id,
-            }
-        )
-
-        line_form = move_form.invoice_line_ids.new()
-        line_form.product_id = cls.env.ref("product.product_product_7")
-        line_form.fiscal_operation_id = cls.fiscal_operation_id
-        invoice_line_vals = line_form._values_to_save(all_fields=True)
-        invoice_line_vals.update(
-            {
-                "account_id": cls.invoice_line_account_id.id,
-                "quantity": 1,
-                "product_uom_id": cls.env.ref("uom.product_uom_unit").id,
-                "price_unit": 450.0,
-                "name": "Product - Invoice Line Test",
-                "fiscal_operation_line_id": cls.env.ref(
-                    "l10n_br_fiscal.fo_venda_revenda"
-                ).id,
-                "company_id": cls.company.id,
-                "partner_id": cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
-            }
-        )
-
-        invoice_vals["invoice_line_ids"].append((0, 0, invoice_line_vals))
-        cls.invoice = cls.env["account.move"].create(invoice_vals)
-        cls.invoice.invoice_line_ids._onchange_fiscal_tax_ids()
-        cls.invoice.invoice_line_ids._onchange_fiscal_operation_line_id()
-        cls.invoice.action_post()
+        move_form.payment_mode_id = cls.payment_mode
+        move_form.invoice_payment_term_id = cls.payment_term
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = cls.env.ref("product.product_product_7")
+            line_form.price_unit = 450.0
+        cls.invoice = move_form.save()
+        cls.invoice._post()
 
         # Dado de Demonstração
         cls.invoice_demo_data = cls.env.ref(
@@ -205,7 +170,8 @@ class TestGeneratePaymentInfo(TransactionCase):
         invoice.action_post()
         self.assertFalse(
             invoice.nfe40_dup,
-            "Error field nfe40_dup should not filled when Fiscal Operation are Bonificação.",
+            "Error field nfe40_dup should not filled when Fiscal Operation "
+            "is Bonificaçã",
         )
         for detPag in invoice.nfe40_detPag:
             self.assertEqual(
