@@ -79,7 +79,7 @@ class SpecViewMixin(models.AbstractModel):
                 if field["type"] in ["one2many", "many2one"]:
                     field["views"] = {}  # no inline views
                 res["fields"][field_name] = field
-                field_nodes = doc.xpath("//field[@name='%s']" % (field_name,))
+                field_nodes = doc.xpath(f"//field[@name='{field_name}']")
                 for field_node in field_nodes:
                     setup_modifiers(field_node, field)
 
@@ -114,7 +114,7 @@ class SpecViewMixin(models.AbstractModel):
             classes = [x._name for x in type(lib_model).mro() if hasattr(x, "_name")]
             # _logger.info("#####", lib_model, classes)
             for c in set(classes):
-                if c is None or not c.startswith("%s." % (self._schema_name,)):
+                if c is None or not c.startswith(f"{self._schema_name}."):
                     continue
                 # the following filter to fields to show
                 # when several XSD class are injected in the same object
@@ -148,7 +148,7 @@ class SpecViewMixin(models.AbstractModel):
             # skip automatic m2 fields, non xsd fields
             # and display choice selector only where it is used
             # (possibly later)
-            choice_prefix = "%schoice" % (self._field_prefix,)
+            choice_prefix = f"{self._field_prefix}choice"
             if (
                 "_id" in field_name
                 or self._field_prefix not in field_name
@@ -164,10 +164,7 @@ class SpecViewMixin(models.AbstractModel):
             # should we create a choice block?
             if hasattr(field, "choice"):
                 choice = field.choice
-                selector_name = "%s%s" % (
-                    choice_prefix,
-                    choice,
-                )
+                selector_name = f"{choice_prefix}{choice}"
                 if choice not in choices:
                     choices.add(choice)
                     fields.append(selector_name)
@@ -190,7 +187,7 @@ class SpecViewMixin(models.AbstractModel):
                 else:  # assume dynamically required via attrs
                     pass
                 if selector_name is not None:
-                    invisible = [("%s" % (selector_name,), "!=", field_name)]
+                    invisible = [(f"{selector_name}", "!=", field_name)]
                     attrs = {"invisible": invisible}
                 else:
                     attrs = False
@@ -233,7 +230,7 @@ class SpecViewMixin(models.AbstractModel):
         # TODO if inside optionaly visible group, required should optional too
         required = False
         if required and attrs:
-            dyn_required = "[('%s','=','%s')]" % (selector_name, field_name)
+            dyn_required = f"[('{selector_name}','=','{field_name}')]"
             attrs["required"] = dyn_required
 
         # TODO the _stack_path assignation doesn't work
@@ -244,12 +241,12 @@ class SpecViewMixin(models.AbstractModel):
         if hasattr(field, "original_comodel_name"):
             spec_class = field.original_comodel_name
             field_tag = E.field(
-                name=field_name, context="{'spec_class': '%s'})" % (spec_class,)
+                name=field_name, context=f"{{'spec_class': {spec_class}}})"
             )
         else:
             field_tag = E.field(name=field_name)
         if attrs:
-            field_tag.set("attrs", "%s" % (attrs,))
+            field_tag.set("attrs", f"{attrs}")
         elif required:
             field_tag.set("required", "True")
 
@@ -292,7 +289,7 @@ class SpecViewMixin(models.AbstractModel):
         if depth == 0:
             view_child = E.group(string=child_string)
             if attrs:
-                view_child.set("attrs", "%s" % (attrs,))
+                view_child.set("attrs", f"{attrs}")
                 setup_modifiers(view_child)
             view_node.append(view_child)
             self.build_arch(lib_child, view_child, fields, depth + 1)
@@ -300,7 +297,7 @@ class SpecViewMixin(models.AbstractModel):
             page = E.page(string=child_string)
             invisible = False
             if attrs:
-                page.set("attrs", "%s" % (attrs,))
+                page.set("attrs", f"{attrs}")
                 setup_modifiers(page)
             if not inside_notebook:
                 # first page
@@ -313,7 +310,7 @@ class SpecViewMixin(models.AbstractModel):
                     # in case the notebook has only one page,
                     # the visibility should be carried by the
                     # notebook itself
-                    wrapper_notebook.set("attrs", "{'invisible':%s}" % (invisible,))
+                    wrapper_notebook.set("attrs", f"{{'invisible':{invisible}}}")
                     setup_modifiers(wrapper_notebook)
             else:
                 # cancel notebook dynamic visbility
