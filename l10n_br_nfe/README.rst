@@ -31,26 +31,56 @@ NF-e
 Este módulo permite a emissão de NF-e.
 
 Mais especificamente ele:
-  * mapea os campos de NF-e do módulo ``l10n_br_nfe_spec`` com os campos Odoo em especial os campos dos módulos ``l10n_br_base`` e ``l10n_br_fiscal``
-  * usa a logica do módulo ``spec_driven_model`` para realizar esse mapeamento de forma dinâmica, em especial ele usa o sistema de modelos com várias camadas, ou ``StackedModel``, com os modelos ``l10n_br_fiscal.document``, ``l10n_br_fiscal.document.line`` e ``l10n_br_fiscal.document.related`` que tem varios niveis hierarquicos de elementos XML que estão sendo denormalizados dentro desses modelos Odoo 
-  * permite a exportação e importação de XML de NF-e
-  * tem wizards para implementar a comunicação SOAP de NF-e com a SEFAZ (Autorização, Cancelamento, Inutilização...)
-  * implementa a autorização, inutilização e contingência de documentos NFC-e
 
+-  mapea os campos de NF-e do módulo ``l10n_br_nfe_spec`` com os campos
+   Odoo em especial os campos dos módulos ``l10n_br_base`` e
+   ``l10n_br_fiscal``
+-  usa a logica do módulo ``spec_driven_model`` para realizar esse
+   mapeamento de forma dinâmica, em especial ele usa o sistema de
+   modelos com várias camadas, ou ``StackedModel``, com os modelos
+   ``l10n_br_fiscal.document``, ``l10n_br_fiscal.document.line`` e
+   ``l10n_br_fiscal.document.related`` que tem varios niveis
+   hierarquicos de elementos XML que estão sendo denormalizados dentro
+   desses modelos Odoo 
+-  permite a exportação e importação de XML de NF-e
+-  tem wizards para implementar a comunicação SOAP de NF-e com a SEFAZ
+   (Autorização, Cancelamento, Inutilização...)
+-  implementa a autorização, inutilização e contingência de documentos
+   NFC-e
 
 Módulos relacionados:
-  * este módulo não depende do módulo ``account`` do Odoo. A integração com o financeiro do módulo ``account`` é realizada no módulo ``l10n_br_account_nfe`` (tags dup e pag em especial)
-  * existe também o módulo ``l10n_br_delivery_nfe`` que faz a integração do módulo ``l10n_br_nfe`` com o módulo ``delivery`` do Odoo (tags de transportadora e de frete em especial)
+
+-  este módulo não depende do módulo ``account`` do Odoo. A integração
+   com o financeiro do módulo ``account`` é realizada no módulo
+   ``l10n_br_account_nfe`` (tags dup e pag em especial)
+-  existe também o módulo ``l10n_br_delivery_nfe`` que faz a integração
+   do módulo ``l10n_br_nfe`` com o módulo ``delivery`` do Odoo (tags de
+   transportadora e de frete em especial)
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Installation
+============
+
+
+
+Configuration
+=============
+
+
+
 Usage
 =====
 
 O menu de NF-e se encontra dentro do menu fiscal.
+
+Known issues / Roadmap
+======================
+
+
 
 Bug Tracker
 ===========
@@ -66,36 +96,36 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `AKRETION <https://akretion.com/pt-BR/>`_:
+-  `AKRETION <https://akretion.com/pt-BR/>`__:
 
-  * Raphaël Valyi <raphael.valyi@akretion.com.br>
-  * Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
 
-* `KMEE <https://kmee.com.br>`_:
+-  `KMEE <https://kmee.com.br>`__:
 
-  * Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
-  * Luis Felipe Mileo <mileo@kmee.com.br>
-  * Renan Hiroki Bastos <hirokibastos@gmail.com>
-  * Felipe Zago Rodrigues <felipe.zago@kmee.com.br>
+   -  Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Renan Hiroki Bastos <hirokibastos@gmail.com>
+   -  Felipe Zago Rodrigues <felipe.zago@kmee.com.br>
 
-* `ESCODOO <https://escodoo.com.br>`_:
+-  `ESCODOO <https://escodoo.com.br>`__:
 
-  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-* `ENGENERE <https://engenere.one>`_:
+-  `ENGENERE <https://engenere.one>`__:
 
-  * Antônio S. Pereira Neto <neto@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
